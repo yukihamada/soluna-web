@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZAMNA HAWAII — 今日の作業まとめ 2026/02/26</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #080808;
+      color: #fff;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.7;
+      padding: 48px 24px 80px;
+    }
+    .container { max-width: 860px; margin: 0 auto; }
+
+    /* Header */
+    .header { margin-bottom: 56px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 40px; }
+    .date { font-size: 11px; letter-spacing: 0.4em; color: rgba(201,169,98,0.7); text-transform: uppercase; margin-bottom: 16px; }
+    h1 { font-family: 'Arial Black', sans-serif; font-size: clamp(2.4rem, 8vw, 4.2rem); line-height: 1.05; letter-spacing: 0.04em; margin-bottom: 16px; }
+    h1 span { color: #C9A962; }
+    .subtitle { color: rgba(255,255,255,0.4); font-size: 15px; }
+
+    /* Stats row */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 56px; }
+    .stat-card {
+      background: rgba(201,169,98,0.06);
+      border: 1px solid rgba(201,169,98,0.2);
+      border-radius: 12px;
+      padding: 20px 18px;
+      text-align: center;
+    }
+    .stat-num { font-family: 'Arial Black', sans-serif; font-size: 2.2rem; color: #C9A962; line-height: 1; margin-bottom: 6px; }
+    .stat-label { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; }
+
+    /* Sections */
+    h2 {
+      font-family: 'Arial Black', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      color: rgba(201,169,98,0.7);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      padding-top: 8px;
+    }
+    .section { margin-bottom: 48px; }
+
+    /* Cards */
+    .cards { display: flex; flex-direction: column; gap: 10px; }
+    .card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 18px 22px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: start;
+    }
+    .card.done { border-color: rgba(74,222,128,0.2); }
+    .card.new  { border-color: rgba(201,169,98,0.25); background: rgba(201,169,98,0.04); }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 3px 9px;
+      border-radius: 99px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge-done { background: rgba(74,222,128,0.12); color: rgba(74,222,128,0.9); border: 1px solid rgba(74,222,128,0.25); }
+    .badge-new  { background: rgba(201,169,98,0.12); color: #C9A962; border: 1px solid rgba(201,169,98,0.3); }
+    .badge-fix  { background: rgba(100,160,255,0.1); color: rgba(100,160,255,0.9); border: 1px solid rgba(100,160,255,0.25); }
+
+    .card-icon { font-size: 18px; padding-top: 1px; }
+    .card-title { font-weight: 600; font-size: 14.5px; color: #fff; margin-bottom: 4px; }
+    .card-desc  { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.65; }
+    .card-desc code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 11.5px;
+      background: rgba(255,255,255,0.07);
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: rgba(201,169,98,0.8);
+    }
+
+    /* File list */
+    .file-list { display: flex; flex-direction: column; gap: 6px; }
+    .file-row {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+    }
+    .file-path { font-family: 'SF Mono', 'Fira Code', monospace; color: rgba(201,169,98,0.8); font-size: 12px; flex: 1; }
+    .file-note { color: rgba(255,255,255,0.3); font-size: 12px; }
+
+    /* Deploy box */
+    .deploy-box {
+      background: rgba(74,222,128,0.05);
+      border: 1px solid rgba(74,222,128,0.2);
+      border-radius: 14px;
+      padding: 28px 28px;
+      margin-bottom: 48px;
+    }
+    .deploy-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .deploy-dot { width: 10px; height: 10px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 12px rgba(74,222,128,0.6); }
+    .deploy-title { font-weight: 700; font-size: 16px; color: #4ade80; }
+    .deploy-url { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; color: rgba(255,255,255,0.5); }
+    .deploy-url a { color: rgba(201,169,98,0.8); text-decoration: none; }
+    .deploy-url a:hover { color: #C9A962; text-decoration: underline; }
+
+    /* Divider */
+    .divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 40px 0; }
+
+    /* Footer */
+    .footer { text-align: center; font-size: 11px; color: rgba(255,255,255,0.15); letter-spacing: 0.1em; margin-top: 60px; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <p class="date">Work Log · 2026年2月26日 (木)</p>
+    <h1>ZAMNA HAWAII<br /><span>今日の作業まとめ</span></h1>
+    <p class="subtitle">solun.art — ZAMNA HAWAII 2026 公式サイト全機能完成 &amp; デプロイ</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-num">16</div>
+      <div class="stat-label">総ページ数</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">9</div>
+      <div class="stat-label">新規・更新ファイル</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">27</div>
+      <div class="stat-label">ミーティング枠</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">✓</div>
+      <div class="stat-label">デプロイ完了</div>
+    </div>
+  </div>
+
+  <!-- Deploy status -->
+  <div class="deploy-box">
+    <div class="deploy-header">
+      <div class="deploy-dot"></div>
+      <div class="deploy-title">Fly.io デプロイ完了</div>
+    </div>
+    <div class="deploy-url">
+      本番URL: <a href="https://solun.art" target="_blank">https://solun.art</a>
+      &nbsp;/&nbsp;
+      <a href="https://zamna-hawaii.fly.dev" target="_blank">https://zamna-hawaii.fly.dev</a>
+    </div>
+    <div style="margin-top:12px; font-size:13px; color:rgba(255,255,255,0.35);">
+      16ページ静的生成 (Next.js Turbopack) → Fly.io (Tokyo / nrt) Rolling Deploy
+    </div>
+  </div>
+
+  <!-- Section 1: 新規作成 -->
+  <div class="section">
+    <h2>新規作成ページ</h2>
+    <div class="cards">
+
+      <div class="card new">
+        <div class="card-icon">🔒</div>
+        <div>
+          <div class="card-title">プライバシーポリシー <code>/privacy</code></div>
+          <div class="card-desc">日英バイリンガル・10セクション。データ管理者、収集情報、利用目的、共有先、保存期間、ユーザー権利、セキュリティ、Cookie、ポリシー変更、問い合わせ。<br />デザインは既存内部ページ（investor/sponsor）と統一。</div>
+        </div>
+        <span class="badge badge-new">NEW</span>
+      </div>
+
+      <div class="card new">
+        <div class="card-icon">📄</div>
+        <div>
+          <div class="card-title">利用規約 <code>/terms</code></div>
+          <div class="card-desc">日英バイリンガル・9セクション。サービス利用、知的財産、パートナー申込、支払い・返金、イベント変更、免責、準拠法、規約変更、問い合わせ。ハワイ州法準拠。</div>
+        </div>
+        <span class="badge badge-new">NEW</span>
+      </div>
+
+      <div class="card new">
+        <div class="card-icon">🗺</div>
+        <div>
+          <div class="card-title">サイトマップ <code>/sitemap.xml</code></div>
+          <div class="card-desc">Next.js <code>sitemap.ts</code> — 6公開ページを自動生成。<code>export const dynamic = "force-static"</code> で static export に対応。</div>
+        </div>
+        <span class="badge badge-new">NEW</span>
+      </div>
+
+      <div class="card new">
+        <div class="card-icon">⬡</div>
+        <div>
+          <div class="card-title">ファビコン <code>/favicon.svg</code></div>
+          <div class="card-desc">金色「Z」文字の SVG ファビコン。背景 <code>#080808</code>、文字色 <code>#C9A962</code>。<code>layout.tsx</code> に <code>&lt;link rel="icon"&gt;</code> 追加。</div>
+        </div>
+        <span class="badge badge-new">NEW</span>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Section 2: 更新 -->
+  <div class="section">
+    <h2>既存ファイルの更新</h2>
+    <div class="cards">
+
+      <div class="card done">
+        <div class="card-icon">🖥</div>
+        <div>
+          <div class="card-title">server.js — Resend メール通知 &amp; customRoutes 追加</div>
+          <div class="card-desc">
+            ① <code>sendAdminEmail()</code> ヘルパー関数を追加。Resend API 経由で <code>info@solun.art</code> に通知。<br />
+            ② 契約申込（<code>POST /api/submit</code>）・ミーティング予約（<code>POST /api/meeting</code>）時に自動メール送信。<br />
+            ③ <code>customRoutes</code> に <code>/privacy</code> <code>/terms</code> を追加。
+          </div>
+        </div>
+        <span class="badge badge-done">DONE</span>
+      </div>
+
+      <div class="card done">
+        <div class="card-icon">📅</div>
+        <div>
+          <div class="card-title">schedule/page.tsx — 予約可能日を3〜5月に拡張</div>
+          <div class="card-desc">
+            3月のみ（12日）→ 3〜5月（27日）に拡張。<br />
+            表示ラベルも「3月 / March 2026」→「3〜5月 / Mar–May 2026」に更新。
+          </div>
+        </div>
+        <span class="badge badge-done">DONE</span>
+      </div>
+
+      <div class="card done">
+        <div class="card-icon">✅</div>
+        <div>
+          <div class="card-title">admin/page.tsx — タスクステータス更新</div>
+          <div class="card-desc">
+            「個人情報保護ポリシー・利用規約の整備」を <code>pending</code> → <code>done</code> に更新。<br />
+            備考: 「solun.art/privacy および /terms で公開済み」を追加。
+          </div>
+        </div>
+        <span class="badge badge-done">DONE</span>
+      </div>
+
+      <div class="card done">
+        <div class="card-icon">🏠</div>
+        <div>
+          <div class="card-title">page.tsx — フッターにプライバシー・利用規約リンク追加</div>
+          <div class="card-desc">
+            ホームページフッターのナビゲーションに <code>/privacy</code>（プライバシー）と <code>/terms</code>（利用規約）リンクを追加。
+          </div>
+        </div>
+        <span class="badge badge-done">DONE</span>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Section 3: 更新ファイル一覧 -->
+  <div class="section">
+    <h2>変更ファイル一覧</h2>
+    <div class="file-list">
+      <div class="file-row"><span class="file-path">app/privacy/page.tsx</span><span class="file-note">新規作成 · 138行</span></div>
+      <div class="file-row"><span class="file-path">app/terms/page.tsx</span><span class="file-note">新規作成 · 121行</span></div>
+      <div class="file-row"><span class="file-path">app/sitemap.ts</span><span class="file-note">新規作成 · 15行</span></div>
+      <div class="file-row"><span class="file-path">public/favicon.svg</span><span class="file-note">新規作成</span></div>
+      <div class="file-row"><span class="file-path">app/layout.tsx</span><span class="file-note">favicon link 追加</span></div>
+      <div class="file-row"><span class="file-path">server.js</span><span class="file-note">Resend 通知 + customRoutes 拡張</span></div>
+      <div class="file-row"><span class="file-path">app/schedule/page.tsx</span><span class="file-note">予約可能日 3〜5月に拡張</span></div>
+      <div class="file-row"><span class="file-path">app/admin/page.tsx</span><span class="file-note">タスクステータス更新</span></div>
+      <div class="file-row"><span class="file-path">app/page.tsx</span><span class="file-note">フッターリンク追加</span></div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Section 4: サイト全体ページ構成 -->
+  <div class="section">
+    <h2>サイト全体ページ構成（現在）</h2>
+    <div class="file-list">
+      <div class="file-row"><span class="file-path">/</span><span class="file-note">トップ — カウントダウン・チケット・パートナーセクション</span></div>
+      <div class="file-row"><span class="file-path">/vip</span><span class="file-note">VIP チケット案内（日英）</span></div>
+      <div class="file-row"><span class="file-path">/lineup</span><span class="file-note">ラインナップ（TBA）</span></div>
+      <div class="file-row"><span class="file-path">/info</span><span class="file-note">アクセス・FAQ（日英）</span></div>
+      <div class="file-row" style="border-color:rgba(201,169,98,0.2)"><span class="file-path" style="color:#C9A962">/privacy</span><span class="file-note">プライバシーポリシー ★ 今日追加</span></div>
+      <div class="file-row" style="border-color:rgba(201,169,98,0.2)"><span class="file-path" style="color:#C9A962">/terms</span><span class="file-note">利用規約 ★ 今日追加</span></div>
+      <div class="file-row"><span class="file-path">/sponsor</span><span class="file-note">スポンサーパッケージ</span></div>
+      <div class="file-row"><span class="file-path">/investor</span><span class="file-note">投資家向け資料</span></div>
+      <div class="file-row"><span class="file-path">/deal</span><span class="file-note">ディールサマリー</span></div>
+      <div class="file-row"><span class="file-path">/contract</span><span class="file-note">契約フォーム（電子署名 + Stripe）</span></div>
+      <div class="file-row"><span class="file-path">/schedule</span><span class="file-note">ミーティング予約（3〜5月）</span></div>
+      <div class="file-row"><span class="file-path">/login</span><span class="file-note">パートナーログイン</span></div>
+      <div class="file-row"><span class="file-path">/admin</span><span class="file-note">管理ダッシュボード（ガントチャート・CSV）</span></div>
+      <div class="file-row" style="border-color:rgba(201,169,98,0.2)"><span class="file-path" style="color:#C9A962">/sitemap.xml</span><span class="file-note">サイトマップ ★ 今日追加</span></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    © 2026 ZAMNA HAWAII · Powered by SOLUNA · Generated 2026-02-26
+  </div>
+
+</div>
+</body>
+</html>
