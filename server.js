@@ -688,6 +688,43 @@ app.get("/api/admin-views", (req, res) => {
   res.json(rows);
 });
 
+// ── API: Admin DB cleanup ────────────────────────────────────────────────────
+app.post("/api/admin/cleanup", (req, res) => {
+  const key = req.headers["x-admin-key"];
+  if (key !== ADMIN_KEY) return res.status(401).json({ error: "Unauthorized" });
+  const { table, where } = req.body;
+  const allowed = ["submissions", "email_signups", "meeting_requests", "vip_inquiries", "nft_passes"];
+  if (!allowed.includes(table)) return res.status(400).json({ error: "Invalid table" });
+  if (!where || typeof where !== "object") return res.status(400).json({ error: "where clause required" });
+
+  const keys = Object.keys(where);
+  const clause = keys.map(k => `${k} = ?`).join(" AND ");
+  const vals = keys.map(k => where[k]);
+  const result = db.prepare(`DELETE FROM ${table} WHERE ${clause}`).run(...vals);
+  res.json({ ok: true, deleted: result.changes });
+});
+
+app.post("/api/admin/reset-nft", (req, res) => {
+  const key = req.headers["x-admin-key"];
+  if (key !== ADMIN_KEY) return res.status(401).json({ error: "Unauthorized" });
+  const { id } = req.body;
+  if (!id) return res.status(400).json({ error: "id required" });
+  db.prepare("UPDATE nft_passes SET claimed_by=NULL, claimed_name=NULL, claimed_at=NULL WHERE id=?").run(id);
+  res.json({ ok: true });
+});
+
+// ── OG image (static export generates extensionless file) ────────────────────
+app.get("/opengraph-image", (_req, res) => {
+  const img = path.join(STATIC_DIR, "opengraph-image");
+  if (fs.existsSync(img)) {
+    res.setHeader("Content-Type", "image/png");
+    res.setHeader("Cache-Control", "public, max-age=86400");
+    res.sendFile(img);
+  } else {
+    res.status(404).send("Not found");
+  }
+});
+
 // ── Static assets ─────────────────────────────────────────────────────────────
 app.use("/_next",  express.static(path.join(STATIC_DIR, "_next"), { maxAge: "365d", immutable: true }));
 app.use("/assets", express.static(path.join(STATIC_DIR, "assets")));
@@ -696,11 +733,17 @@ app.use("/audio",  express.static(path.join(STATIC_DIR, "audio"),  { maxAge: "1d
 
 // ── Custom Next.js pages ──────────────────────────────────────────────────────
 const customRoutes = ["/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/schedule", "/vip", "/lineup", "/info", "/privacy", "/terms", "/guide", "/artist-lounge", "/vip-lounge", "/mint", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press"];
+const pageCache = {};
 customRoutes.forEach((route) => {
-  const html = path.join(STATIC_DIR, `${route}/index.html`);
+  const htmlPath = path.join(STATIC_DIR, `${route}/index.html`);
+  if (fs.existsSync(htmlPath)) pageCache[route] = fs.readFileSync(htmlPath, "utf8");
   app.get([route, `${route}/`], (_req, res) => {
-    if (fs.existsSync(html)) res.sendFile(html);
-    else res.status(404).send("Not found");
+    if (pageCache[route]) {
+      res.setHeader("Content-Type", "text/html; charset=UTF-8");
+      res.send(pageCache[route]);
+    } else {
+      res.status(404).send("Not found");
+    }
   });
 });
 
@@ -710,8 +753,10 @@ app.all("/api/*", (_req, res) => {
 });
 
 // ── Root: SPA fallback (catches everything else) ─────────────────────────────
+const indexHtml = fs.readFileSync(path.join(STATIC_DIR, "index.html"), "utf8");
 app.get("*", (_req, res) => {
-  res.sendFile(path.join(STATIC_DIR, "index.html"));
+  res.setHeader("Content-Type", "text/html; charset=UTF-8");
+  res.send(indexHtml);
 });
 
 app.listen(PORT, () => console.log(`ZAMNA server listening on :${PORT}`));
