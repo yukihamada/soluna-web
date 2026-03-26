@@ -365,11 +365,35 @@ export default function LivePage() {
                 fontWeight: 500,
               }}
             >
-              SOLUNA FEST HAWAII 2026 — Sep 4-6, Oahu
+              {t("SOLUNA FEST HAWAII 2026 — 9月4-6日, オアフ", "SOLUNA FEST HAWAII 2026 — Sep 4-6, Oahu")}
             </p>
           </div>
         )}
       </main>
+
+      {/* Footer */}
+      <footer
+        style={{
+          borderTop: "1px solid rgba(201,169,98,0.1)",
+          padding: "24px 32px",
+          textAlign: "center",
+          color: "rgba(255,255,255,0.3)",
+          fontSize: 12,
+        }}
+      >
+        SOLUNA &copy; 2026 &middot;{" "}
+        <a href="/music" style={{ color: "rgba(201,169,98,0.6)", textDecoration: "none" }}>
+          {t("音楽", "Music")}
+        </a>{" "}
+        &middot;{" "}
+        <a href="/community" style={{ color: "rgba(201,169,98,0.6)", textDecoration: "none" }}>
+          {t("コミュニティ", "Community")}
+        </a>{" "}
+        &middot;{" "}
+        <a href="/artist" style={{ color: "rgba(201,169,98,0.6)", textDecoration: "none" }}>
+          {t("アーティスト", "Artists")}
+        </a>
+      </footer>
 
       <style>{`
         @keyframes pulse {

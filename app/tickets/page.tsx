@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 import GlobalNav from "@/components/GlobalNav";
 
+let _lang = "en";
+const t = (ja: string, en: string) => _lang === "ja" ? ja : en;
+
 interface TicketType {
   id: string;
   name: string;
@@ -20,12 +23,26 @@ interface CartItem {
 }
 
 export default function TicketsPage() {
+  const [lang, setLang] = useState("en");
   const [types, setTypes] = useState<TicketType[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const s = localStorage.getItem("soluna-lang");
+    if (s) setLang(s);
+    else if (navigator.language.startsWith("ja")) setLang("ja");
+  }, []);
+  const toggleLang = () => {
+    const n = lang === "ja" ? "en" : "ja";
+    setLang(n);
+    _lang = n;
+    localStorage.setItem("soluna-lang", n);
+  };
+  _lang = lang;
 
   useEffect(() => {
     fetch("/api/v1/tickets/types")
@@ -62,8 +79,8 @@ export default function TicketsPage() {
   const totalTickets = cart.reduce((sum, c) => sum + c.quantity, 0);
 
   const checkout = async () => {
-    if (!email) return setError("Email is required");
-    if (cart.length === 0) return setError("Add tickets to cart");
+    if (!email) return setError(t("メールアドレスを入力してください", "Email is required"));
+    if (cart.length === 0) return setError(t("チケットをカートに追加してください", "Add tickets to cart"));
     setLoading(true);
     setError("");
 
@@ -82,7 +99,7 @@ export default function TicketsPage() {
     if (data.checkout_url) {
       window.location.href = data.checkout_url;
     } else {
-      setError(data.error || "Checkout failed");
+      setError(data.error || t("チェックアウトに失敗しました", "Checkout failed"));
     }
   };
 
@@ -117,7 +134,7 @@ export default function TicketsPage() {
       }}
     >
       {/* Header */}
-      <GlobalNav />
+      <GlobalNav lang={lang} onToggleLang={toggleLang} />
 
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "48px 24px" }}>
         {/* Hero */}
@@ -157,7 +174,7 @@ export default function TicketsPage() {
                     </h3>
                     {type.sold_out && (
                       <span style={{ fontSize: 10, background: "rgba(255,60,60,0.2)", color: "#ff6666", padding: "2px 8px", borderRadius: 4, letterSpacing: 1 }}>
-                        SOLD OUT
+                        {t("完売", "SOLD OUT")}
                       </span>
                     )}
                   </div>
@@ -165,7 +182,7 @@ export default function TicketsPage() {
                     {type.description}
                   </p>
                   <div style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", marginTop: 8 }}>
-                    {type.available.toLocaleString()} remaining
+                    {type.available.toLocaleString()} {t("残り", "remaining")}
                   </div>
                 </div>
 
@@ -227,7 +244,7 @@ export default function TicketsPage() {
             }}
           >
             <h3 style={{ fontSize: 14, letterSpacing: 2, color: "rgba(255,255,255,0.4)", margin: "0 0 20px" }}>
-              CHECKOUT
+              {t("お支払い", "CHECKOUT")}
             </h3>
 
             {/* Summary */}
@@ -244,7 +261,7 @@ export default function TicketsPage() {
                 fontSize: 18, fontWeight: 700,
               }}
             >
-              <span>Total ({totalTickets} tickets)</span>
+              <span>{t(`合計（${totalTickets}枚）`, `Total (${totalTickets} tickets)`)}</span>
               <span style={{ color: "#C9A962" }}>{formatPrice(total)}</span>
             </div>
 
@@ -252,7 +269,7 @@ export default function TicketsPage() {
             <div style={{ marginTop: 20, display: "grid", gap: 12 }}>
               <input
                 type="email"
-                placeholder="Email address"
+                placeholder={t("メールアドレス", "Email address")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -264,7 +281,7 @@ export default function TicketsPage() {
               />
               <input
                 type="text"
-                placeholder="Full name (for ticket)"
+                placeholder={t("氏名（チケット用）", "Full name (for ticket)")}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 style={{
@@ -286,12 +303,12 @@ export default function TicketsPage() {
                   letterSpacing: 1, opacity: loading ? 0.6 : 1,
                 }}
               >
-                {loading ? "Processing..." : `Pay ${formatPrice(total)}`}
+                {loading ? t("処理中...", "Processing...") : t(`${formatPrice(total)} を支払う`, `Pay ${formatPrice(total)}`)}
               </button>
             </div>
 
             <p style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", marginTop: 12, textAlign: "center" }}>
-              Secure payment powered by Stripe. Tickets are non-refundable but transferable.
+              {t("Stripeによる安全な決済。チケットは譲渡可能ですが、返金不可です。", "Secure payment powered by Stripe. Tickets are non-refundable but transferable.")}
             </p>
           </div>
         )}
@@ -299,13 +316,37 @@ export default function TicketsPage() {
         {/* Lookup */}
         <div style={{ marginTop: 48, textAlign: "center" }}>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)" }}>
-            Already have tickets?{" "}
+            {t("すでにチケットをお持ちですか？", "Already have tickets?")}{" "}
             <a href="/tickets/success" style={{ color: "#C9A962", textDecoration: "none" }}>
-              View my tickets
+              {t("チケットを確認", "View my tickets")}
             </a>
           </p>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer
+        style={{
+          borderTop: "1px solid rgba(201,169,98,0.1)",
+          padding: "24px 32px",
+          textAlign: "center",
+          color: "rgba(255,255,255,0.3)",
+          fontSize: 12,
+        }}
+      >
+        SOLUNA &copy; 2026 &middot;{" "}
+        <a href="/music" style={{ color: "rgba(201,169,98,0.6)", textDecoration: "none" }}>
+          {t("音楽", "Music")}
+        </a>{" "}
+        &middot;{" "}
+        <a href="/festivals" style={{ color: "rgba(201,169,98,0.6)", textDecoration: "none" }}>
+          {t("フェス", "Festival")}
+        </a>{" "}
+        &middot;{" "}
+        <a href="/artist" style={{ color: "rgba(201,169,98,0.6)", textDecoration: "none" }}>
+          {t("アーティスト", "Artists")}
+        </a>
+      </footer>
     </div>
   );
 }

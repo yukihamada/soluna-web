@@ -422,7 +422,7 @@ export default function CommunityPage() {
                             margin: 0,
                           }}
                         >
-                          {t("by", "by")} {pl.creator}
+                          by {pl.creator}
                         </p>
                         {pl.description && (
                           <p

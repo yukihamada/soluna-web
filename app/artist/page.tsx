@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import GlobalNav from "@/components/GlobalNav";
 
 let _lang = "en";
 const t = (ja: string, en: string) => _lang === "ja" ? ja : en;
@@ -427,14 +428,10 @@ export default function ArtistPage() {
       <audio ref={audioRef} onEnded={() => setIsPlaying(false)} />
 
       {/* Header */}
-      <header style={{ padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-        <a href="/" style={{ color: gold, textDecoration: "none", fontSize: 13, letterSpacing: 5, fontWeight: 700 }}>SOLUNA</a>
-        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          <a href="/festivals" style={{ color: "rgba(255,255,255,.4)", textDecoration: "none", fontSize: 11 }}>{t("フェス", "Festival")}</a>
-          <a href="/music" style={{ color: "rgba(255,255,255,.4)", textDecoration: "none", fontSize: 11 }}>{t("音楽", "Music")}</a>
-          <a href="/live" style={{ color: "rgba(255,255,255,.4)", textDecoration: "none", fontSize: 11 }}>LIVE</a>
-          <a href="/tickets" style={{ color: "rgba(255,255,255,.4)", textDecoration: "none", fontSize: 11 }}>{t("チケット", "Tickets")}</a>
-          {user && <span style={{ fontSize: 12, color: "rgba(255,255,255,.3)" }}>{user.name || user.email}</span>}
+      <GlobalNav lang={lang} onToggleLang={toggleLang} />
+      {user && (
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "8px 20px 0", display: "flex", justifyContent: "flex-end", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+          <span style={{ fontSize: 12, color: "rgba(255,255,255,.3)" }}>{user.name || user.email}</span>
           {radioSlug && (
             <>
               <a href={`/artists/${radioSlug}`} target="_blank" style={{ fontSize: 11, color: "rgba(255,255,255,.4)", textDecoration: "none", padding: "4px 10px", borderRadius: 20, border: "1px solid rgba(255,255,255,.08)" }}>
@@ -445,10 +442,9 @@ export default function ArtistPage() {
               </a>
             </>
           )}
-          {user && <button onClick={logout} style={{ background: "transparent", border: "1px solid rgba(255,255,255,.07)", color: "rgba(255,255,255,.3)", fontSize: 11, padding: "4px 10px", borderRadius: 6, cursor: "pointer" }}>{t("ログアウト", "Logout")}</button>}
-          <button onClick={toggleLang} style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.08)", borderRadius: 6, padding: "4px 10px", color: "rgba(255,255,255,.4)", fontSize: 11, cursor: "pointer" }}>{lang === "ja" ? "EN" : "JP"}</button>
+          <button onClick={logout} style={{ background: "transparent", border: "1px solid rgba(255,255,255,.07)", color: "rgba(255,255,255,.3)", fontSize: 11, padding: "4px 10px", borderRadius: 6, cursor: "pointer" }}>{t("ログアウト", "Logout")}</button>
         </div>
-      </header>
+      )}
 
       {/* ══════════ LANDING PAGE (not logged in) ══════════ */}
       {!user && (
@@ -1099,12 +1095,12 @@ function TrackCard({ track, lang, playing, onPlay, onGenerateCover, onSaveMeta }
           {editing ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               <div style={{ display: "flex", gap: 6 }}>
-                <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Title" style={{ flex: 2, padding: "5px 9px", borderRadius: 6, border: "1px solid rgba(255,255,255,.1)", background: "rgba(0,0,0,.4)", color: "#fff", fontSize: 12, outline: "none" }} />
-                <input value={artist} onChange={e => setArtist(e.target.value)} placeholder="Artist" style={{ flex: 1, padding: "5px 9px", borderRadius: 6, border: "1px solid rgba(255,255,255,.1)", background: "rgba(0,0,0,.4)", color: "#fff", fontSize: 12, outline: "none" }} />
+                <input value={title} onChange={e => setTitle(e.target.value)} placeholder={t("タイトル", "Title")} style={{ flex: 2, padding: "5px 9px", borderRadius: 6, border: "1px solid rgba(255,255,255,.1)", background: "rgba(0,0,0,.4)", color: "#fff", fontSize: 12, outline: "none" }} />
+                <input value={artist} onChange={e => setArtist(e.target.value)} placeholder={t("アーティスト", "Artist")} style={{ flex: 1, padding: "5px 9px", borderRadius: 6, border: "1px solid rgba(255,255,255,.1)", background: "rgba(0,0,0,.4)", color: "#fff", fontSize: 12, outline: "none" }} />
               </div>
               <div style={{ display: "flex", gap: 6 }}>
-                <input value={genre} onChange={e => setGenre(e.target.value)} placeholder="Genre" style={{ flex: 1, padding: "5px 9px", borderRadius: 6, border: "1px solid rgba(255,255,255,.1)", background: "rgba(0,0,0,.4)", color: "#fff", fontSize: 12, outline: "none" }} />
-                <input value={album} onChange={e => setAlbum(e.target.value)} placeholder="Album" style={{ flex: 1, padding: "5px 9px", borderRadius: 6, border: "1px solid rgba(255,255,255,.1)", background: "rgba(0,0,0,.4)", color: "#fff", fontSize: 12, outline: "none" }} />
+                <input value={genre} onChange={e => setGenre(e.target.value)} placeholder={t("ジャンル", "Genre")} style={{ flex: 1, padding: "5px 9px", borderRadius: 6, border: "1px solid rgba(255,255,255,.1)", background: "rgba(0,0,0,.4)", color: "#fff", fontSize: 12, outline: "none" }} />
+                <input value={album} onChange={e => setAlbum(e.target.value)} placeholder={t("アルバム", "Album")} style={{ flex: 1, padding: "5px 9px", borderRadius: 6, border: "1px solid rgba(255,255,255,.1)", background: "rgba(0,0,0,.4)", color: "#fff", fontSize: 12, outline: "none" }} />
               </div>
               <div style={{ display: "flex", gap: 6 }}>
                 <button onClick={save} disabled={saving} style={{ flex: 1, padding: "5px", borderRadius: 6, border: "none", background: gold, color: "#000", fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
