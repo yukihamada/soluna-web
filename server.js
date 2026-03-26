@@ -2050,7 +2050,7 @@ function share(){
 </body></html>`);
 });
 
-const customRoutes = ["/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/schedule", "/vip", "/lineup", "/info", "/privacy", "/terms", "/guide", "/artist-lounge", "/vip-lounge", "/mint", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press", "/hotel-plan", "/music", "/tickets", "/tickets/success", "/rights", "/developers", "/artist"];
+const customRoutes = ["/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/schedule", "/vip", "/lineup", "/info", "/privacy", "/terms", "/guide", "/artist-lounge", "/vip-lounge", "/mint", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press", "/hotel-plan", "/music", "/tickets", "/tickets/success", "/rights", "/developers", "/artist", "/contests", "/festivals", "/live", "/community"];
 const pageCache = {};
 customRoutes.forEach((route) => {
   const htmlPath = path.join(STATIC_DIR, `${route}/index.html`);
