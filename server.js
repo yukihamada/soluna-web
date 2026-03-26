@@ -582,7 +582,23 @@ async function initDb() {
       ended_at      TEXT,
       created_at    TEXT DEFAULT (datetime('now'))
     )`,
+    `CREATE TABLE IF NOT EXISTS referrals (
+      id              TEXT PRIMARY KEY,
+      referrer_id     TEXT NOT NULL REFERENCES users(id),
+      referral_code   TEXT NOT NULL,
+      referred_user_id TEXT REFERENCES users(id),
+      status          TEXT DEFAULT 'pending',
+      reward_type     TEXT DEFAULT 'track_bonus',
+      reward_amount   INTEGER DEFAULT 5,
+      created_at      TEXT DEFAULT (datetime('now')),
+      converted_at    TEXT
+    )`,
   ]);
+
+  // Referral system migrations
+  try { await db.execute("ALTER TABLE users ADD COLUMN referral_code TEXT"); } catch {}
+  try { await db.execute("ALTER TABLE users ADD COLUMN referred_by TEXT"); } catch {}
+  try { await db.execute("ALTER TABLE users ADD COLUMN referral_count INTEGER DEFAULT 0"); } catch {}
 
   // Festival platform migrations
   try { await db.execute("ALTER TABLE users ADD COLUMN bio TEXT"); } catch {}
@@ -1729,6 +1745,13 @@ footer{grid-column:1/-1;border-top:1px solid var(--border);padding:20px 28px;dis
     <a href="/rights">Rights</a>
     <a href="/api/v1/radios/${radio.slug}/listen">API</a>
   </div>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <span style="font-size:9px;color:rgba(255,255,255,.15);letter-spacing:1px;margin-right:4px">SHARE</span>
+    <a href="https://x.com/intent/tweet?text=${encodeURIComponent(radio.name + " — Listen on SOLUNA")}&url=${encodeURIComponent("https://soluna-web.fly.dev/radio/" + radio.slug)}" target="_blank" rel="noopener" style="color:rgba(255,255,255,.25);font-size:11px;padding:4px 10px;border-radius:16px;border:1px solid rgba(255,255,255,.06);text-decoration:none;transition:all .15s" onmouseover="this.style.color='rgba(255,255,255,.5)';this.style.borderColor='rgba(255,255,255,.15)'" onmouseout="this.style.color='rgba(255,255,255,.25)';this.style.borderColor='rgba(255,255,255,.06)'">X</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://soluna-web.fly.dev/radio/" + radio.slug)}" target="_blank" rel="noopener" style="color:rgba(255,255,255,.25);font-size:11px;padding:4px 10px;border-radius:16px;border:1px solid rgba(255,255,255,.06);text-decoration:none;transition:all .15s" onmouseover="this.style.color='rgba(255,255,255,.5)';this.style.borderColor='rgba(255,255,255,.15)'" onmouseout="this.style.color='rgba(255,255,255,.25)';this.style.borderColor='rgba(255,255,255,.06)'">FB</a>
+    <a href="https://social-plugins.line.me/lineit/share?url=${encodeURIComponent("https://soluna-web.fly.dev/radio/" + radio.slug)}" target="_blank" rel="noopener" style="color:rgba(255,255,255,.25);font-size:11px;padding:4px 10px;border-radius:16px;border:1px solid rgba(255,255,255,.06);text-decoration:none;transition:all .15s" onmouseover="this.style.color='rgba(255,255,255,.5)';this.style.borderColor='rgba(255,255,255,.15)'" onmouseout="this.style.color='rgba(255,255,255,.25)';this.style.borderColor='rgba(255,255,255,.06)'">LINE</a>
+    <button onclick="copyRadioUrl()" id="copyUrlBtn" style="color:rgba(255,255,255,.25);font-size:11px;padding:4px 10px;border-radius:16px;border:1px solid rgba(255,255,255,.06);background:none;cursor:pointer;transition:all .15s" onmouseover="this.style.color='rgba(255,255,255,.5)';this.style.borderColor='rgba(255,255,255,.15)'" onmouseout="if(!this.classList.contains('copied-link')){this.style.color='rgba(255,255,255,.25)';this.style.borderColor='rgba(255,255,255,.06)'}">Copy URL</button>
+  </div>
   <div class="royalty-badge" title="Beta pricing — artist payouts launching soon">${radio.shuffle ? "Shuffle · " : ""}Royalty <span>¥1.0</span>/play · β · SOLUNA</div>
 </footer>
 <audio id="audio" preload="auto"></audio>
@@ -1897,6 +1920,14 @@ function shareChannel(){
     btn.textContent="COPIED!";btn.classList.add("copied");
     setTimeout(()=>{btn.textContent="SHARE CHANNEL";btn.classList.remove("copied")},2000);
   })}
+}
+
+function copyRadioUrl(){
+  navigator.clipboard.writeText(location.href).then(()=>{
+    const btn=document.getElementById("copyUrlBtn");
+    btn.textContent="Copied!";btn.style.color="#4ade80";btn.style.borderColor="rgba(74,222,128,.3)";btn.classList.add("copied-link");
+    setTimeout(()=>{btn.textContent="Copy URL";btn.style.color="rgba(255,255,255,.25)";btn.style.borderColor="rgba(255,255,255,.06)";btn.classList.remove("copied-link")},2000);
+  });
 }
 
 render();
@@ -2480,7 +2511,7 @@ function requireAuth(handler) {
 // ── Auth: Register ───────────────────────────────────────────────────────────
 app.post("/api/v1/auth/register", async (req, res) => {
   try {
-    const { email, password, name } = req.body;
+    const { email, password, name, referral_code } = req.body;
     if (!email || !password) return res.status(400).json({ error: "email and password required" });
     if (password.length < 8) return res.status(400).json({ error: "password must be >= 8 chars" });
 
@@ -2489,10 +2520,32 @@ app.post("/api/v1/auth/register", async (req, res) => {
 
     const userId = crypto.randomUUID();
     const hash = await bcrypt.hash(password, 10);
+
+    // Check referral code
+    let referrer = null;
+    if (referral_code) {
+      referrer = (await db.execute({
+        sql: "SELECT id, name FROM users WHERE referral_code = ?",
+        args: [referral_code.toUpperCase()],
+      })).rows[0];
+    }
+
     await db.execute({
-      sql: "INSERT INTO users (id, email, password, name) VALUES (?, ?, ?, ?)",
-      args: [userId, email.toLowerCase(), hash, name || null],
+      sql: "INSERT INTO users (id, email, password, name, referred_by) VALUES (?, ?, ?, ?, ?)",
+      args: [userId, email.toLowerCase(), hash, name || null, referrer ? referrer.id : null],
     });
+
+    // Process referral reward
+    if (referrer) {
+      await db.execute({
+        sql: "UPDATE users SET track_limit = track_limit + 5, referral_count = COALESCE(referral_count, 0) + 1 WHERE id = ?",
+        args: [referrer.id],
+      });
+      await db.execute({
+        sql: "INSERT INTO referrals (id, referrer_id, referral_code, referred_user_id, status, converted_at) VALUES (?, ?, ?, ?, 'converted', datetime('now'))",
+        args: [crypto.randomUUID(), referrer.id, referral_code.toUpperCase(), userId],
+      });
+    }
 
     // Auto-generate first API key
     const keyId = crypto.randomBytes(8).toString("hex");
@@ -2504,7 +2557,10 @@ app.post("/api/v1/auth/register", async (req, res) => {
     });
 
     const apiKey = `sk_${keyId}_${keySecret}`;
-    res.json({ ok: true, user_id: userId, api_key: apiKey, plan: "free", track_limit: 30 });
+    res.json({
+      ok: true, user_id: userId, api_key: apiKey, plan: "free", track_limit: 30,
+      referred_by: referrer ? referrer.name : undefined,
+    });
   } catch (e) {
     console.error("register error:", e);
     res.status(500).json({ error: "Registration failed" });
@@ -4962,6 +5018,35 @@ app.get("/api/v1/me/analytics", requireAuth(async (req, res) => {
   })).rows[0]?.c || 0;
 
   res.json({ ok: true, total_plays, total_tracks: tracks.length, follower_count, tracks, recent_plays });
+}));
+
+// ── Referral: Get my referral code + stats ──────────────────────────────────
+app.get("/api/v1/me/referral", requireAuth(async (req, res) => {
+  try {
+    let user = (await db.execute({ sql: "SELECT * FROM users WHERE id = ?", args: [req.user.id] })).rows[0];
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    let referralCode = user.referral_code;
+    if (!referralCode) {
+      // Generate 6-char alphanumeric code
+      referralCode = crypto.randomBytes(4).toString("base64url").slice(0, 6).toUpperCase();
+      await db.execute({ sql: "UPDATE users SET referral_code = ? WHERE id = ?", args: [referralCode, req.user.id] });
+    }
+
+    const referralCount = user.referral_count || 0;
+    const bonusTracks = referralCount * 5;
+
+    res.json({
+      ok: true,
+      referral_code: referralCode,
+      referral_count: referralCount,
+      bonus_tracks: bonusTracks,
+      share_url: `https://soluna-web.fly.dev/artist?ref=${referralCode}`,
+    });
+  } catch (e) {
+    console.error("referral error:", e);
+    res.status(500).json({ error: "Failed to get referral info" });
+  }
 }));
 
 // ── API 404 (prevent catch-all from returning HTML for unknown API routes) ────

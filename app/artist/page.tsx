@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import GlobalNav from "@/components/GlobalNav";
+import ShareButtons from "@/components/ShareButtons";
 
 let _lang = "en";
 const t = (ja: string, en: string) => _lang === "ja" ? ja : en;
@@ -175,10 +176,16 @@ export default function ArtistPage() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [copied, setCopied] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [refCode, setRefCode] = useState<string | null>(null);
+  const [referralData, setReferralData] = useState<{ referral_code: string; referral_count: number; bonus_tracks: number; share_url: string } | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("soluna-token");
     if (saved) setToken(saved);
+    // Read referral code from URL
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+    if (ref) setRefCode(ref);
   }, []);
 
   useEffect(() => {
@@ -186,7 +193,15 @@ export default function ArtistPage() {
     fetch("/api/v1/me", { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(d => {
-        if (d.user) { setUser(d.user); loadTracks(); }
+        if (d.user) {
+          setUser(d.user);
+          loadTracks();
+          // Fetch referral data
+          fetch("/api/v1/me/referral", { headers: { Authorization: `Bearer ${token}` } })
+            .then(r => r.json())
+            .then(rd => { if (rd.ok) setReferralData(rd); })
+            .catch(() => {});
+        }
         else { setToken(null); localStorage.removeItem("soluna-token"); }
       });
   }, [token]); // eslint-disable-line
@@ -209,6 +224,7 @@ export default function ArtistPage() {
     try {
       const body: Record<string, string> = { email: authEmail, password: authPassword };
       if (authMode === "register") body.name = authName;
+      if (authMode === "register" && refCode) body.referral_code = refCode;
       const url = authMode === "register" ? "/api/v1/auth/register" : "/api/v1/auth/login";
       const d = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then(r => r.json());
       if (d.ok && (d.api_key || d.token)) {
@@ -750,6 +766,11 @@ export default function ArtistPage() {
                   </div>
 
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    {authMode === "register" && refCode && (
+                      <div style={{ fontSize: 12, color: gold, padding: "8px 12px", background: "rgba(201,169,98,0.06)", borderRadius: 8, border: "1px solid rgba(201,169,98,0.15)", textAlign: "center" }}>
+                        {t("招待コードが適用されています", "Referral code applied")}: <strong>{refCode}</strong>
+                      </div>
+                    )}
                     {authMode === "register" && (
                       <input type="text" placeholder={t("アーティスト名（例：Shiopixel）", "Artist name (e.g. Shiopixel)")} value={authName} onChange={e => setAuthName(e.target.value)} style={inp} />
                     )}
@@ -899,6 +920,55 @@ export default function ArtistPage() {
           {tracks.length === 0 && items.length === 0 && (
             <div style={{ textAlign: "center", padding: "40px 0", color: "rgba(255,255,255,.12)", fontSize: 13 }}>
               {t("上のゾーンに曲をドロップしてください", "Drop your tracks above to get started")}
+            </div>
+          )}
+
+          {/* ── Invite Friends (Referral) ─────────────────────────── */}
+          {referralData && (
+            <div style={{
+              marginTop: 40, padding: "28px 24px", borderRadius: 20,
+              background: "rgba(201,169,98,0.03)", border: "1px solid rgba(201,169,98,0.12)",
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
+                <div>
+                  <div style={{ fontSize: 10, letterSpacing: 3, color: gold, marginBottom: 6 }}>
+                    {t("友達を招待", "INVITE FRIENDS")}
+                  </div>
+                  <div style={{ fontSize: 14, fontWeight: 600 }}>
+                    {t("紹介で+5曲ボーナス", "Get +5 bonus tracks per referral")}
+                  </div>
+                </div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,.4)", textAlign: "right" }}>
+                  {referralData.referral_count > 0
+                    ? `${referralData.referral_count}${t("人招待", " invited")} · +${referralData.bonus_tracks}${t("曲ボーナス", " bonus tracks")}`
+                    : t("まだ招待していません", "No referrals yet")}
+                </div>
+              </div>
+
+              <div style={{
+                display: "flex", alignItems: "center", gap: 10, marginBottom: 16,
+                padding: "10px 14px", borderRadius: 10,
+                background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.06)",
+              }}>
+                <span style={{ fontSize: 11, color: "rgba(255,255,255,.3)", whiteSpace: "nowrap" }}>
+                  {t("紹介コード:", "Code:")}
+                </span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: gold, letterSpacing: 2, fontFamily: "monospace" }}>
+                  {referralData.referral_code}
+                </span>
+                <span style={{ flex: 1, fontSize: 11, color: "rgba(255,255,255,.2)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "monospace" }}>
+                  {referralData.share_url}
+                </span>
+              </div>
+
+              <ShareButtons
+                url={referralData.share_url}
+                title={t(
+                  "SOLUNAで音楽を公開しよう！無料で30曲アップロードできます。",
+                  "Publish your music on SOLUNA! Upload up to 30 tracks for free."
+                )}
+                lang={lang}
+              />
             </div>
           )}
         </div>
