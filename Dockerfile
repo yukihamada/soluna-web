@@ -1,7 +1,9 @@
-FROM node:22-alpine
+FROM node:22-bookworm-slim
 
-# native deps for better-sqlite3
-RUN apk add --no-cache python3 make g++
+# chromaprint (fpcalc) for audio fingerprinting
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libchromaprint-tools \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
