@@ -103,7 +103,7 @@ async function sendAdminEmail(subject, html) {
     await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
-      body: JSON.stringify({ from: "ZAMNA HAWAII <noreply@solun.art>", to: [ADMIN_EMAIL], subject, html }),
+      body: JSON.stringify({ from: "SOLUNA <noreply@solun.art>", to: [ADMIN_EMAIL], subject, html }),
     });
   } catch (e) {
     console.error("Resend error:", e.message);
@@ -483,6 +483,144 @@ async function initDb() {
     }
   }
 
+  // ── Festival platform tables ──
+  await db.batch([
+    `CREATE TABLE IF NOT EXISTS contests (
+      id          TEXT PRIMARY KEY,
+      title       TEXT NOT NULL,
+      description TEXT,
+      cover_url   TEXT,
+      festival_id TEXT,
+      prize       TEXT,
+      start_at    TEXT NOT NULL,
+      end_at      TEXT NOT NULL,
+      status      TEXT DEFAULT 'upcoming',
+      created_at  TEXT DEFAULT (datetime('now'))
+    )`,
+    `CREATE TABLE IF NOT EXISTS contest_entries (
+      id          TEXT PRIMARY KEY,
+      contest_id  TEXT NOT NULL REFERENCES contests(id),
+      track_id    TEXT NOT NULL REFERENCES tracks(id),
+      user_id     TEXT NOT NULL REFERENCES users(id),
+      status      TEXT DEFAULT 'active',
+      vote_count  INTEGER DEFAULT 0,
+      created_at  TEXT DEFAULT (datetime('now')),
+      UNIQUE(contest_id, track_id)
+    )`,
+    `CREATE TABLE IF NOT EXISTS votes (
+      id              TEXT PRIMARY KEY,
+      contest_id      TEXT NOT NULL REFERENCES contests(id),
+      entry_id        TEXT NOT NULL REFERENCES contest_entries(id),
+      voter_ip_hash   TEXT,
+      voter_user_id   TEXT,
+      weight          INTEGER DEFAULT 1,
+      created_at      TEXT DEFAULT (datetime('now'))
+    )`,
+    `CREATE TABLE IF NOT EXISTS follows (
+      id           INTEGER PRIMARY KEY AUTOINCREMENT,
+      follower_id  TEXT NOT NULL REFERENCES users(id),
+      following_id TEXT NOT NULL REFERENCES users(id),
+      created_at   TEXT DEFAULT (datetime('now')),
+      UNIQUE(follower_id, following_id)
+    )`,
+    `CREATE TABLE IF NOT EXISTS festivals (
+      id          TEXT PRIMARY KEY,
+      title       TEXT NOT NULL,
+      description TEXT,
+      cover_url   TEXT,
+      location    TEXT,
+      date_start  TEXT NOT NULL,
+      date_end    TEXT NOT NULL,
+      status      TEXT DEFAULT 'upcoming',
+      created_at  TEXT DEFAULT (datetime('now'))
+    )`,
+    `CREATE TABLE IF NOT EXISTS festival_lineup (
+      id          TEXT PRIMARY KEY,
+      festival_id TEXT NOT NULL REFERENCES festivals(id),
+      user_id     TEXT NOT NULL REFERENCES users(id),
+      stage       TEXT DEFAULT 'main',
+      time_slot   TEXT,
+      confirmed   INTEGER DEFAULT 0,
+      created_at  TEXT DEFAULT (datetime('now'))
+    )`,
+    `CREATE TABLE IF NOT EXISTS playlists (
+      id          TEXT PRIMARY KEY,
+      user_id     TEXT NOT NULL REFERENCES users(id),
+      title       TEXT NOT NULL,
+      description TEXT,
+      slug        TEXT UNIQUE,
+      cover_url   TEXT,
+      public      INTEGER DEFAULT 1,
+      created_at  TEXT DEFAULT (datetime('now'))
+    )`,
+    `CREATE TABLE IF NOT EXISTS playlist_tracks (
+      id          INTEGER PRIMARY KEY AUTOINCREMENT,
+      playlist_id TEXT NOT NULL REFERENCES playlists(id),
+      track_id    TEXT NOT NULL REFERENCES tracks(id),
+      position    INTEGER DEFAULT 0,
+      UNIQUE(playlist_id, track_id)
+    )`,
+    `CREATE TABLE IF NOT EXISTS chat_messages (
+      id          TEXT PRIMARY KEY,
+      channel_id  TEXT NOT NULL,
+      channel_type TEXT DEFAULT 'radio',
+      user_id     TEXT NOT NULL REFERENCES users(id),
+      user_name   TEXT,
+      content     TEXT NOT NULL,
+      created_at  TEXT DEFAULT (datetime('now'))
+    )`,
+    `CREATE TABLE IF NOT EXISTS live_streams (
+      id            TEXT PRIMARY KEY,
+      user_id       TEXT NOT NULL REFERENCES users(id),
+      title         TEXT NOT NULL,
+      description   TEXT,
+      hls_url       TEXT,
+      status        TEXT DEFAULT 'offline',
+      viewer_count  INTEGER DEFAULT 0,
+      festival_id   TEXT,
+      started_at    TEXT,
+      ended_at      TEXT,
+      created_at    TEXT DEFAULT (datetime('now'))
+    )`,
+  ]);
+
+  // Festival platform migrations
+  try { await db.execute("ALTER TABLE users ADD COLUMN bio TEXT"); } catch {}
+  try { await db.execute("ALTER TABLE users ADD COLUMN avatar_url TEXT"); } catch {}
+  try { await db.execute("ALTER TABLE users ADD COLUMN social_links TEXT"); } catch {}
+  try { await db.execute("ALTER TABLE users ADD COLUMN follower_count INTEGER DEFAULT 0"); } catch {}
+  try { await db.execute("ALTER TABLE radios ADD COLUMN access_type TEXT DEFAULT 'public'"); } catch {}
+  try { await db.execute("ALTER TABLE ticket_types ADD COLUMN festival_id TEXT"); } catch {}
+
+  // Seed initial festival
+  try {
+    const fest = (await db.execute("SELECT id FROM festivals LIMIT 1")).rows[0];
+    if (!fest) {
+      await db.execute({
+        sql: `INSERT INTO festivals (id, title, description, location, date_start, date_end, status, cover_url)
+              VALUES (?, ?, ?, ?, ?, ?, 'upcoming', '/images/hero_bg.jpg')`,
+        args: ["soluna-fest-2026", "SOLUNA FEST HAWAII 2026",
+               "Music, art, and technology converge on Oahu. Three days of live performances, AI-powered art, and blockchain-verified music rights.",
+               "Moanalua Gardens, Oahu, Hawaii", "2026-09-04", "2026-09-06"],
+      });
+    }
+  } catch {}
+
+  // Seed initial contest
+  try {
+    const contest = (await db.execute("SELECT id FROM contests LIMIT 1")).rows[0];
+    if (!contest) {
+      await db.execute({
+        sql: `INSERT INTO contests (id, title, description, prize, start_at, end_at, status, festival_id)
+              VALUES (?, ?, ?, ?, ?, ?, 'active', 'soluna-fest-2026')`,
+        args: ["opening-act-2026", "SOLUNA FEST 2026 Opening Act",
+               "Upload your track and let fans vote. The winner opens the main stage at SOLUNA FEST HAWAII 2026.",
+               "Main stage opening slot + $5,000 + full festival pass",
+               "2026-03-26", "2026-08-01"],
+      });
+    }
+  } catch {}
+
   // Seed ticket types if empty
   const ticketCount = (await db.execute("SELECT COUNT(*) as c FROM ticket_types")).rows[0];
   if (ticketCount.c === 0) {
@@ -534,7 +672,7 @@ app.post("/api/email", async (req, res) => {
           method: "POST",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
           body: JSON.stringify({
-            from: "ZAMNA HAWAII <noreply@solun.art>",
+            from: "SOLUNA <noreply@solun.art>",
             to: [email],
             subject: isJa ? "ZAMNA HAWAII 2026 — ラインナップ通知に登録しました" : "ZAMNA HAWAII 2026 — You're on the list!",
             html: isJa
@@ -569,7 +707,7 @@ app.post("/api/vip-inquiry", async (req, res) => {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
         body: JSON.stringify({
-          from: "ZAMNA HAWAII <noreply@solun.art>",
+          from: "SOLUNA <noreply@solun.art>",
           to: [email],
           subject: isJa ? "ZAMNA HAWAII 2026 — Diamond VIP お問い合わせを受け付けました" : "ZAMNA HAWAII 2026 — Diamond VIP Inquiry Received",
           html: isJa
@@ -610,7 +748,7 @@ app.post("/api/email-blast", async (req, res) => {
       await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
-        body: JSON.stringify({ from: "ZAMNA HAWAII <noreply@solun.art>", to: [test_email], subject: `[TEST] ${subject}`, html }),
+        body: JSON.stringify({ from: "SOLUNA <noreply@solun.art>", to: [test_email], subject: `[TEST] ${subject}`, html }),
       });
       return res.json({ ok: true, sent: 1, mode: "test" });
     } catch (e) {
@@ -629,7 +767,7 @@ app.post("/api/email-blast", async (req, res) => {
       const r = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
-        body: JSON.stringify({ from: "ZAMNA HAWAII <noreply@solun.art>", to: [row.email], subject, html }),
+        body: JSON.stringify({ from: "SOLUNA <noreply@solun.art>", to: [row.email], subject, html }),
       });
       if (r.ok) sent++; else failed++;
     } catch { failed++; }
@@ -759,7 +897,7 @@ app.post("/api/welcome-email", async (req, res) => {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
       body: JSON.stringify({
-        from: "ZAMNA HAWAII <noreply@solun.art>",
+        from: "SOLUNA <noreply@solun.art>",
         to: [email],
         subject: `Welcome to ZAMNA HAWAII Operations — ${member}`,
         html,
@@ -969,7 +1107,7 @@ app.post("/api/submit", async (req, res) => {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
       body: JSON.stringify({
-        from: "ZAMNA HAWAII <noreply@solun.art>",
+        from: "SOLUNA <noreply@solun.art>",
         to: [email],
         subject: isJa
           ? `【ZAMNA HAWAII】${typeLabel.ja} — 受付完了 (#${submissionId})`
@@ -4420,6 +4558,395 @@ app.get("/api/v1/tickets/stats", (req, res) => {
   });
 });
 
+// ══════════════════════════════════════════════════════════════════════════════
+// ── FESTIVAL PLATFORM: Contests, Votes, Follows, Chat, Festivals, Playlists
+// ══════════════════════════════════════════════════════════════════════════════
+
+// ── Contests ─────────────────────────────────────────────────────────────────
+app.get("/api/v1/contests", async (_req, res) => {
+  const contests = (await db.execute(
+    "SELECT c.*, (SELECT COUNT(*) FROM contest_entries WHERE contest_id = c.id AND status = 'active') as entry_count FROM contests c ORDER BY c.start_at DESC"
+  )).rows;
+  res.json({ ok: true, contests });
+});
+
+app.get("/api/v1/contests/:id", async (req, res) => {
+  const contest = (await db.execute({ sql: "SELECT * FROM contests WHERE id = ?", args: [req.params.id] })).rows[0];
+  if (!contest) return res.status(404).json({ error: "Contest not found" });
+
+  const entries = (await db.execute({
+    sql: `SELECT ce.*, t.title, t.artist, t.cover_url, t.genre, t.duration_sec, t.play_count,
+                 u.name as user_name, u.avatar_url,
+                 '/api/v1/tracks/' || t.id || '/stream' as stream_url
+          FROM contest_entries ce
+          JOIN tracks t ON t.id = ce.track_id
+          JOIN users u ON u.id = ce.user_id
+          WHERE ce.contest_id = ? AND ce.status = 'active'
+          ORDER BY ce.vote_count DESC`,
+    args: [req.params.id],
+  })).rows;
+
+  res.json({ ok: true, contest, entries });
+});
+
+app.post("/api/v1/contests/:id/enter", requireAuth(async (req, res) => {
+  const { track_id } = req.body;
+  if (!track_id) return res.status(400).json({ error: "track_id required" });
+
+  const contest = (await db.execute({ sql: "SELECT * FROM contests WHERE id = ?", args: [req.params.id] })).rows[0];
+  if (!contest) return res.status(404).json({ error: "Contest not found" });
+  if (contest.status !== "active") return res.status(400).json({ error: "Contest is not active" });
+
+  const track = (await db.execute({ sql: "SELECT id FROM tracks WHERE id = ? AND user_id = ?", args: [track_id, req.user.id] })).rows[0];
+  if (!track) return res.status(404).json({ error: "Track not found or not yours" });
+
+  const entryId = crypto.randomUUID();
+  try {
+    await db.execute({
+      sql: "INSERT INTO contest_entries (id, contest_id, track_id, user_id) VALUES (?, ?, ?, ?)",
+      args: [entryId, req.params.id, track_id, req.user.id],
+    });
+    res.json({ ok: true, entry_id: entryId });
+  } catch (e) {
+    if (e.message?.includes("UNIQUE")) return res.status(409).json({ error: "Track already entered" });
+    throw e;
+  }
+}));
+
+// ── Votes ────────────────────────────────────────────────────────────────────
+app.post("/api/v1/contests/:id/vote", async (req, res) => {
+  const { entry_id } = req.body;
+  if (!entry_id) return res.status(400).json({ error: "entry_id required" });
+
+  const entry = (await db.execute({
+    sql: "SELECT * FROM contest_entries WHERE id = ? AND contest_id = ? AND status = 'active'",
+    args: [entry_id, req.params.id],
+  })).rows[0];
+  if (!entry) return res.status(404).json({ error: "Entry not found" });
+
+  // Rate limit: 1 vote per IP per entry per day
+  const ip = req.headers["x-forwarded-for"]?.split(",")[0] || req.ip;
+  const ipHash = crypto.createHash("sha256").update(ip + entry_id).digest("hex").slice(0, 16);
+  const recent = (await db.execute({
+    sql: "SELECT id FROM votes WHERE voter_ip_hash = ? AND entry_id = ? AND created_at > datetime('now', '-1 day')",
+    args: [ipHash, entry_id],
+  })).rows[0];
+  if (recent) return res.status(429).json({ error: "Already voted today" });
+
+  const user = await authApiKey(req);
+  const voteId = crypto.randomUUID();
+  await db.execute({
+    sql: "INSERT INTO votes (id, contest_id, entry_id, voter_ip_hash, voter_user_id) VALUES (?, ?, ?, ?, ?)",
+    args: [voteId, req.params.id, entry_id, ipHash, user?.id || null],
+  });
+  await db.execute({
+    sql: "UPDATE contest_entries SET vote_count = vote_count + 1 WHERE id = ?",
+    args: [entry_id],
+  });
+  res.json({ ok: true, vote_id: voteId });
+});
+
+app.get("/api/v1/contests/:id/results", async (req, res) => {
+  const entries = (await db.execute({
+    sql: `SELECT ce.id, ce.vote_count, t.title, t.artist, t.cover_url, u.name as user_name
+          FROM contest_entries ce JOIN tracks t ON t.id = ce.track_id JOIN users u ON u.id = ce.user_id
+          WHERE ce.contest_id = ? AND ce.status = 'active' ORDER BY ce.vote_count DESC LIMIT 50`,
+    args: [req.params.id],
+  })).rows;
+  const total_votes = entries.reduce((s, e) => s + (e.vote_count || 0), 0);
+  res.json({ ok: true, entries, total_votes });
+});
+
+// ── Follows ──────────────────────────────────────────────────────────────────
+app.post("/api/v1/follow/:userId", requireAuth(async (req, res) => {
+  if (req.params.userId === req.user.id) return res.status(400).json({ error: "Cannot follow yourself" });
+  try {
+    await db.execute({
+      sql: "INSERT INTO follows (follower_id, following_id) VALUES (?, ?)",
+      args: [req.user.id, req.params.userId],
+    });
+    await db.execute({ sql: "UPDATE users SET follower_count = follower_count + 1 WHERE id = ?", args: [req.params.userId] });
+    res.json({ ok: true });
+  } catch (e) {
+    if (e.message?.includes("UNIQUE")) return res.json({ ok: true, already: true });
+    throw e;
+  }
+}));
+
+app.delete("/api/v1/follow/:userId", requireAuth(async (req, res) => {
+  const r = await db.execute({ sql: "DELETE FROM follows WHERE follower_id = ? AND following_id = ?", args: [req.user.id, req.params.userId] });
+  if (r.rowsAffected > 0) {
+    await db.execute({ sql: "UPDATE users SET follower_count = MAX(0, follower_count - 1) WHERE id = ?", args: [req.params.userId] });
+  }
+  res.json({ ok: true });
+}));
+
+app.get("/api/v1/me/following", requireAuth(async (req, res) => {
+  const following = (await db.execute({
+    sql: `SELECT u.id, u.name, u.avatar_url, u.follower_count FROM follows f JOIN users u ON u.id = f.following_id WHERE f.follower_id = ?`,
+    args: [req.user.id],
+  })).rows;
+  res.json({ ok: true, following });
+}));
+
+// ── Profile ──────────────────────────────────────────────────────────────────
+app.patch("/api/v1/me/profile", requireAuth(async (req, res) => {
+  const fields = []; const args = [];
+  for (const key of ["name", "bio", "avatar_url", "social_links"]) {
+    if (req.body[key] !== undefined) {
+      fields.push(`${key} = ?`);
+      args.push(key === "social_links" ? JSON.stringify(req.body[key]) : req.body[key]);
+    }
+  }
+  if (fields.length === 0) return res.status(400).json({ error: "No fields to update" });
+  args.push(req.user.id);
+  await db.execute({ sql: `UPDATE users SET ${fields.join(", ")} WHERE id = ?`, args });
+  res.json({ ok: true });
+}));
+
+app.get("/api/v1/artists/:slug", async (req, res) => {
+  const user = (await db.execute({
+    sql: "SELECT id, name, bio, avatar_url, social_links, follower_count, created_at FROM users WHERE LOWER(REPLACE(name, ' ', '-')) = LOWER(?)",
+    args: [req.params.slug],
+  })).rows[0];
+  if (!user) return res.status(404).json({ error: "Artist not found" });
+
+  const tracks = (await db.execute({
+    sql: "SELECT id, title, artist, genre, cover_url, play_count, duration_sec FROM tracks WHERE user_id = ? AND public = 1 ORDER BY play_count DESC",
+    args: [user.id],
+  })).rows;
+
+  const reqUser = await authApiKey(req);
+  const is_following = reqUser ? (await db.execute({
+    sql: "SELECT id FROM follows WHERE follower_id = ? AND following_id = ?", args: [reqUser.id, user.id],
+  })).rows.length > 0 : false;
+
+  res.json({ ok: true, artist: { ...user, social_links: user.social_links ? JSON.parse(user.social_links) : null }, tracks, is_following });
+});
+
+// ── Festivals ────────────────────────────────────────────────────────────────
+app.get("/api/v1/festivals", async (_req, res) => {
+  const festivals = (await db.execute(
+    `SELECT f.*, (SELECT COUNT(*) FROM festival_lineup WHERE festival_id = f.id) as artist_count FROM festivals f ORDER BY f.date_start`
+  )).rows;
+  res.json({ ok: true, festivals });
+});
+
+app.get("/api/v1/festivals/:id", async (req, res) => {
+  const festival = (await db.execute({ sql: "SELECT * FROM festivals WHERE id = ?", args: [req.params.id] })).rows[0];
+  if (!festival) return res.status(404).json({ error: "Festival not found" });
+
+  const lineup = (await db.execute({
+    sql: `SELECT fl.*, u.name as artist_name, u.avatar_url, u.bio,
+                 (SELECT COUNT(*) FROM tracks WHERE user_id = u.id AND public = 1) as track_count
+          FROM festival_lineup fl JOIN users u ON u.id = fl.user_id
+          WHERE fl.festival_id = ? ORDER BY fl.time_slot`,
+    args: [req.params.id],
+  })).rows;
+
+  const contests = (await db.execute({
+    sql: "SELECT * FROM contests WHERE festival_id = ? ORDER BY start_at", args: [req.params.id],
+  })).rows;
+
+  const ticket_types = (await db.execute({
+    sql: "SELECT id, name, description, price, currency, quantity_total, quantity_sold, active FROM ticket_types WHERE festival_id = ? OR festival_id IS NULL ORDER BY price",
+    args: [req.params.id],
+  })).rows;
+
+  res.json({ ok: true, festival, lineup, contests, ticket_types });
+});
+
+// ── Playlists ────────────────────────────────────────────────────────────────
+app.post("/api/v1/playlists", requireAuth(async (req, res) => {
+  const { title, description } = req.body;
+  if (!title) return res.status(400).json({ error: "title required" });
+  const id = crypto.randomUUID();
+  const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 50);
+  await db.execute({
+    sql: "INSERT INTO playlists (id, user_id, title, description, slug) VALUES (?, ?, ?, ?, ?)",
+    args: [id, req.user.id, title, description || null, slug],
+  });
+  res.json({ ok: true, playlist: { id, slug, title } });
+}));
+
+app.get("/api/v1/playlists/:slug", async (req, res) => {
+  const pl = (await db.execute({ sql: "SELECT * FROM playlists WHERE slug = ?", args: [req.params.slug] })).rows[0];
+  if (!pl) return res.status(404).json({ error: "Playlist not found" });
+
+  const tracks = (await db.execute({
+    sql: `SELECT t.id, t.title, t.artist, t.genre, t.cover_url, t.duration_sec, t.play_count,
+                 '/api/v1/tracks/' || t.id || '/stream' as stream_url
+          FROM playlist_tracks pt JOIN tracks t ON t.id = pt.track_id
+          WHERE pt.playlist_id = ? ORDER BY pt.position`, args: [pl.id],
+  })).rows;
+
+  const creator = (await db.execute({ sql: "SELECT name, avatar_url FROM users WHERE id = ?", args: [pl.user_id] })).rows[0];
+  res.json({ ok: true, playlist: pl, tracks, creator });
+});
+
+app.post("/api/v1/playlists/:id/tracks", requireAuth(async (req, res) => {
+  const { track_id } = req.body;
+  const pl = (await db.execute({ sql: "SELECT id FROM playlists WHERE id = ? AND user_id = ?", args: [req.params.id, req.user.id] })).rows[0];
+  if (!pl) return res.status(404).json({ error: "Playlist not found" });
+  const pos = (await db.execute({ sql: "SELECT MAX(position) as m FROM playlist_tracks WHERE playlist_id = ?", args: [req.params.id] })).rows[0]?.m || 0;
+  try {
+    await db.execute({ sql: "INSERT INTO playlist_tracks (playlist_id, track_id, position) VALUES (?, ?, ?)", args: [req.params.id, track_id, pos + 1] });
+  } catch {}
+  res.json({ ok: true });
+}));
+
+app.get("/api/v1/explore/playlists", async (_req, res) => {
+  const playlists = (await db.execute(
+    `SELECT p.*, u.name as creator_name, (SELECT COUNT(*) FROM playlist_tracks WHERE playlist_id = p.id) as track_count
+     FROM playlists p JOIN users u ON u.id = p.user_id WHERE p.public = 1 ORDER BY p.created_at DESC LIMIT 20`
+  )).rows;
+  res.json({ ok: true, playlists });
+});
+
+// ── Chat ─────────────────────────────────────────────────────────────────────
+app.post("/api/v1/chat/:channelId", requireAuth(async (req, res) => {
+  const { content } = req.body;
+  if (!content || content.length > 500) return res.status(400).json({ error: "Message required (max 500 chars)" });
+  const id = crypto.randomUUID();
+  await db.execute({
+    sql: "INSERT INTO chat_messages (id, channel_id, user_id, user_name, content) VALUES (?, ?, ?, ?, ?)",
+    args: [id, req.params.channelId, req.user.id, req.user.name || req.user.email.split("@")[0], content],
+  });
+  res.json({ ok: true, message: { id, content, user_name: req.user.name, created_at: new Date().toISOString() } });
+}));
+
+app.get("/api/v1/chat/:channelId", async (req, res) => {
+  const since = req.query.since || "2000-01-01";
+  const messages = (await db.execute({
+    sql: "SELECT id, user_name, content, created_at FROM chat_messages WHERE channel_id = ? AND created_at > ? ORDER BY created_at DESC LIMIT 50",
+    args: [req.params.channelId, since],
+  })).rows.reverse();
+  res.json({ ok: true, messages });
+});
+
+// ── Live Streams ─────────────────────────────────────────────────────────────
+app.get("/api/v1/live", async (_req, res) => {
+  const streams = (await db.execute(
+    `SELECT ls.*, u.name as artist_name, u.avatar_url FROM live_streams ls JOIN users u ON u.id = ls.user_id WHERE ls.status = 'live' ORDER BY ls.viewer_count DESC`
+  )).rows;
+  res.json({ ok: true, streams });
+});
+
+app.post("/api/v1/live", requireAuth(async (req, res) => {
+  const { title, description, hls_url } = req.body;
+  if (!title) return res.status(400).json({ error: "title required" });
+  const id = crypto.randomUUID();
+  await db.execute({
+    sql: "INSERT INTO live_streams (id, user_id, title, description, hls_url, status, started_at) VALUES (?, ?, ?, ?, ?, 'live', datetime('now'))",
+    args: [id, req.user.id, title, description || null, hls_url || null],
+  });
+  res.json({ ok: true, stream: { id, title, status: "live" } });
+}));
+
+app.patch("/api/v1/live/:id", requireAuth(async (req, res) => {
+  const { status, hls_url } = req.body;
+  const fields = []; const args = [];
+  if (status) { fields.push("status = ?"); args.push(status); if (status === "ended") { fields.push("ended_at = datetime('now')"); } }
+  if (hls_url) { fields.push("hls_url = ?"); args.push(hls_url); }
+  if (fields.length === 0) return res.status(400).json({ error: "No fields" });
+  args.push(req.params.id, req.user.id);
+  await db.execute({ sql: `UPDATE live_streams SET ${fields.join(", ")} WHERE id = ? AND user_id = ?`, args });
+  res.json({ ok: true });
+}));
+
+// ── Embed Player ─────────────────────────────────────────────────────────────
+app.get("/embed/:slug", async (req, res) => {
+  const radio = (await db.execute({ sql: "SELECT * FROM radios WHERE slug = ?", args: [req.params.slug] })).rows[0];
+  if (!radio) return res.status(404).send("Not found");
+
+  const tracks = (await db.execute({
+    sql: `SELECT t.id, t.title, t.artist, t.cover_url, t.duration_sec
+          FROM radio_tracks rt JOIN tracks t ON t.id = rt.track_id WHERE rt.radio_id = ? ORDER BY rt.position LIMIT 20`,
+    args: [radio.id],
+  })).rows;
+
+  const gold = "#C9A962";
+  res.setHeader("Content-Type", "text/html; charset=UTF-8");
+  res.send(`<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${radio.name} — SOLUNA</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0b0f;color:#fff;font-family:Inter,-apple-system,sans-serif;overflow:hidden}
+.embed{display:flex;align-items:center;gap:12px;padding:12px 16px;height:80px}
+.cover{width:56px;height:56px;border-radius:10px;object-fit:cover;background:#111;flex-shrink:0}
+.info{flex:1;min-width:0}
+.title{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.artist{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px}
+.btn{width:40px;height:40px;border-radius:50%;border:none;background:${gold};cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.btn svg{fill:#000;width:16px;height:16px}
+.logo{font-size:9px;letter-spacing:3px;color:${gold};text-decoration:none;opacity:.6}
+.logo:hover{opacity:1}
+.eq{display:flex;gap:2px;align-items:flex-end;height:16px}
+.eq span{width:3px;border-radius:1px;background:${gold};animation:eq .5s ease-in-out infinite alternate}
+.eq span:nth-child(2){animation-delay:.1s}.eq span:nth-child(3){animation-delay:.2s}.eq span:nth-child(4){animation-delay:.3s}
+@keyframes eq{0%{height:4px}100%{height:16px}}
+</style></head><body>
+<div class="embed">
+  <img id="cover" class="cover" src="${tracks[0]?.cover_url || ''}" alt="">
+  <div class="info">
+    <div class="title" id="trackTitle">${tracks[0]?.title || radio.name}</div>
+    <div class="artist" id="trackArtist">${tracks[0]?.artist || ''}</div>
+  </div>
+  <div id="eqVis" class="eq" style="display:none"><span></span><span></span><span></span><span></span></div>
+  <button class="btn" id="playBtn" onclick="toggle()"><svg viewBox="0 0 24 24"><polygon id="playIcon" points="6,3 20,12 6,21"/></svg></button>
+  <a href="/radio/${radio.slug}" target="_blank" class="logo">SOLUNA</a>
+</div>
+<audio id="audio"></audio>
+<script>
+const tracks=${JSON.stringify(tracks.map(t=>({id:t.id,title:t.title,artist:t.artist,cover:t.cover_url})))};
+let idx=0,playing=false;const a=document.getElementById('audio');
+function load(i){idx=i;const t=tracks[i];a.src='/api/v1/tracks/'+t.id+'/stream';
+document.getElementById('trackTitle').textContent=t.title;
+document.getElementById('trackArtist').textContent=t.artist;
+document.getElementById('cover').src=t.cover||'/api/v1/tracks/'+t.id+'/cover';}
+function toggle(){if(playing){a.pause();playing=false;document.getElementById('eqVis').style.display='none';document.getElementById('playIcon').setAttribute('points','6,3 20,12 6,21');}
+else{a.play().then(()=>{playing=true;document.getElementById('eqVis').style.display='flex';document.getElementById('playIcon').setAttribute('points','6,4 10,4 10,20 6,20');}).catch(()=>{});}}
+a.onended=()=>{idx=(idx+1)%tracks.length;load(idx);a.play().then(()=>{playing=true;}).catch(()=>{});};
+if(tracks.length)load(0);
+</script></body></html>`);
+});
+
+app.get("/api/v1/oembed", (req, res) => {
+  const url = req.query.url;
+  if (!url) return res.status(400).json({ error: "url required" });
+  const match = url.match(/\/radio\/([^\/\?]+)/);
+  if (!match) return res.status(404).json({ error: "Unsupported URL" });
+  res.json({
+    version: "1.0", type: "rich", provider_name: "SOLUNA", provider_url: "https://solun.art",
+    title: `SOLUNA Radio — ${match[1]}`,
+    html: `<iframe src="https://solun.art/embed/${match[1]}" width="100%" height="80" frameborder="0" allow="autoplay"></iframe>`,
+    width: 400, height: 80,
+  });
+});
+
+// ── Analytics (artist dashboard) ─────────────────────────────────────────────
+app.get("/api/v1/me/analytics", requireAuth(async (req, res) => {
+  const tracks = (await db.execute({
+    sql: "SELECT id, title, play_count, created_at FROM tracks WHERE user_id = ? ORDER BY play_count DESC",
+    args: [req.user.id],
+  })).rows;
+
+  const total_plays = tracks.reduce((s, t) => s + (t.play_count || 0), 0);
+
+  const recent_plays = (await db.execute({
+    sql: `SELECT re.track_id, t.title, re.event_type, re.created_at
+          FROM royalty_events re JOIN tracks t ON t.id = re.track_id
+          WHERE t.user_id = ? ORDER BY re.created_at DESC LIMIT 50`,
+    args: [req.user.id],
+  })).rows;
+
+  const follower_count = (await db.execute({
+    sql: "SELECT COUNT(*) as c FROM follows WHERE following_id = ?", args: [req.user.id],
+  })).rows[0]?.c || 0;
+
+  res.json({ ok: true, total_plays, total_tracks: tracks.length, follower_count, tracks, recent_plays });
+}));
+
 // ── API 404 (prevent catch-all from returning HTML for unknown API routes) ────
 app.all("/api/*", (_req, res) => {
   res.status(404).json({ error: "Not found" });
@@ -4433,7 +4960,7 @@ app.get("*", (_req, res) => {
 });
 
 initDb().then(() => {
-  app.listen(PORT, () => console.log(`ZAMNA server listening on :${PORT}`));
+  app.listen(PORT, () => console.log(`SOLUNA server listening on :${PORT}`));
 }).catch(err => {
   console.error("DB init failed:", err);
   process.exit(1);

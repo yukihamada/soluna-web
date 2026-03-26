@@ -904,13 +904,16 @@ export default function ArtistPage() {
         </div>
       )}
 
-      <footer style={{ borderTop: "1px solid rgba(255,255,255,.04)", padding: "20px", textAlign: "center" }}>
-        <div style={{ display: "flex", justifyContent: "center", gap: 20, marginBottom: 8 }}>
-          <a href="/music" style={{ color: "rgba(255,255,255,.12)", fontSize: 11, textDecoration: "none" }}>{t("音楽", "Music")}</a>
-          <a href="/rights" style={{ color: "rgba(255,255,255,.12)", fontSize: 11, textDecoration: "none" }}>{t("権利", "Rights")}</a>
-          <a href="/developers" style={{ color: "rgba(255,255,255,.12)", fontSize: 11, textDecoration: "none" }}>API</a>
+      <footer style={{ borderTop: "1px solid rgba(255,255,255,.04)", padding: "24px 20px", textAlign: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: 20, marginBottom: 10, flexWrap: "wrap" }}>
+          <a href="/festivals" style={{ color: "rgba(255,255,255,.25)", fontSize: 11, textDecoration: "none" }}>{t("フェス", "Festival")}</a>
+          <a href="/contests" style={{ color: "rgba(255,255,255,.25)", fontSize: 11, textDecoration: "none" }}>{t("コンテスト", "Contest")}</a>
+          <a href="/community" style={{ color: "rgba(255,255,255,.25)", fontSize: 11, textDecoration: "none" }}>{t("コミュニティ", "Community")}</a>
+          <a href="/live" style={{ color: "rgba(255,255,255,.25)", fontSize: 11, textDecoration: "none" }}>LIVE</a>
+          <a href="/music" style={{ color: "rgba(255,255,255,.25)", fontSize: 11, textDecoration: "none" }}>{t("音楽", "Music")}</a>
+          <a href="/developers" style={{ color: "rgba(255,255,255,.25)", fontSize: 11, textDecoration: "none" }}>API</a>
         </div>
-        <div style={{ fontSize: 10, color: "rgba(255,255,255,.06)", letterSpacing: 2 }}>SOLUNA FEST HAWAII 2026</div>
+        <div style={{ fontSize: 10, color: "rgba(255,255,255,.08)", letterSpacing: 3 }}>SOLUNA FEST HAWAII 2026</div>
       </footer>
     </div>
   );

@@ -10,23 +10,23 @@ export const viewport: Viewport = {
 const GA_MEASUREMENT_ID = "G-XWZTCMLK4M";
 
 export const metadata: Metadata = {
-  title: "ZAMNA HAWAII 2026 — Sep 4–5, Oahu | Powered by SOLUNA",
+  title: "SOLUNA — Festival Experience Platform | SOLUNA FEST HAWAII 2026",
   description:
-    "ZAMNA HAWAII — World-class underground electronic music comes to Hawaii. September 4–5, 2026, Oahu. Tickets from $120.",
+    "Drop a track, get a radio channel. Vote for the next headliner. SOLUNA FEST HAWAII — Sep 4–6, 2026, Oahu.",
   metadataBase: new URL("https://solun.art"),
   openGraph: {
-    title: "ZAMNA HAWAII 2026 — Sep 4–5, Oahu",
-    description: "World-class underground electronic music comes to Hawaii. Sep 4–5, 2026 · Tickets from $120 · VIP from $1,000",
+    title: "SOLUNA — Festival Experience Platform",
+    description: "Drop a track, get a radio channel. Vote for the next headliner. SOLUNA FEST HAWAII Sep 4–6, 2026.",
     type: "website",
     url: "https://solun.art",
-    siteName: "ZAMNA HAWAII",
+    siteName: "SOLUNA",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ZAMNA HAWAII 2026 — Sep 4–5, Oahu",
-    description: "World-class underground electronic music comes to Hawaii. Sep 4–5, 2026 · Tickets from $120",
-    site: "@zamnaofficial",
+    title: "SOLUNA — Festival Experience Platform",
+    description: "Drop a track, get a radio channel. Vote for the next headliner. SOLUNA FEST HAWAII Sep 4–6, 2026.",
+    site: "@solaborig",
   },
   robots: { index: true, follow: true },
 };
