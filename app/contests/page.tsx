@@ -237,7 +237,7 @@ export default function ContestsPage() {
             padding: "10px 24px", borderRadius: 32, background: "rgba(201,169,98,0.08)", border: "1px solid rgba(201,169,98,0.15)",
           }}>
             <span style={{ fontSize: 18 }}>&#9734;</span>
-            <span style={{ fontSize: 13, color: gold, fontWeight: 600 }}>Opening Act Contest</span>
+            <span style={{ fontSize: 13, color: gold, fontWeight: 600 }}>{t("オープニングアクトコンテスト", "Opening Act Contest")}</span>
             <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)" }}>|</span>
             <span style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{t("開催中", "Live Now")}</span>
           </div>

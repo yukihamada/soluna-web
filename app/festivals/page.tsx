@@ -398,7 +398,7 @@ export default function FestivalsPage() {
                                 </div>
                                 <span style={{ fontSize: 14, fontWeight: a.headliner ? 700 : 500, color: a.headliner ? "#fff" : "rgba(255,255,255,0.7)" }}>
                                   {a.name}
-                                  {a.headliner && <span style={{ color: GOLD, marginLeft: 6, fontSize: 10 }}>HEADLINER</span>}
+                                  {a.headliner && <span style={{ color: GOLD, marginLeft: 6, fontSize: 10 }}>{t("ヘッドライナー", "HEADLINER")}</span>}
                                 </span>
                               </div>
                             ))}
@@ -451,7 +451,7 @@ export default function FestivalsPage() {
                             background: "rgba(255,60,60,0.8)", color: "#fff", fontSize: 9, fontWeight: 700,
                             padding: "4px 36px", letterSpacing: "0.1em",
                           }}>
-                            SOLD OUT
+                            {t("完売", "SOLD OUT")}
                           </div>
                         )}
                         <h4 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>{tk.name}</h4>
