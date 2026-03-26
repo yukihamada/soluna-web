@@ -23,11 +23,11 @@ function useCountdown(target: Date) {
   };
 }
 
-// ── ZAMNA 公式映像 — YouTube video IDs（差し替え可能）──────────────────────────
+// ── SOLUNA 公式映像 — YouTube video IDs（差し替え可能）──────────────────────────
 const VIDEOS = [
-  { id: "KQeBtpFkEtQ", ja: "ZAMNA Tulum 2024 Aftermovie", en: "ZAMNA Tulum 2024 Aftermovie" },
-  { id: "UjmIcfLLYnM", ja: "ZAMNA Dubai 2024", en: "ZAMNA Dubai 2024" },
-  { id: "Dh0SljIxmrU", ja: "ZAMNA Nosara 2023", en: "ZAMNA Nosara 2023" },
+  { id: "KQeBtpFkEtQ", ja: "SOLUNA Tulum 2024 Aftermovie", en: "SOLUNA Tulum 2024 Aftermovie" },
+  { id: "UjmIcfLLYnM", ja: "SOLUNA Dubai 2024", en: "SOLUNA Dubai 2024" },
+  { id: "Dh0SljIxmrU", ja: "SOLUNA Nosara 2023", en: "SOLUNA Nosara 2023" },
 ];
 
 const CLUES = [
@@ -74,7 +74,7 @@ export default function LineupPage() {
       {/* Nav */}
       <nav className="top-nav no-print">
         <Link href="/" className="font-display" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.2em", textDecoration: "none" }}>
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           <Link href="/vip" className="nav-pill">VIP</Link>
@@ -92,7 +92,7 @@ export default function LineupPage() {
         {/* Hero */}
         <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} style={{ marginBottom: 72, textAlign: "center" }}>
           <p style={{ fontSize: 10, letterSpacing: "0.4em", color: "rgba(201,169,98,0.7)", marginBottom: 28, textTransform: "uppercase" }}>
-            ZAMNA HAWAII 2026 · {ja ? "ラインナップ" : "Lineup"}
+            SOLUNA FEST HAWAII 2026 · {ja ? "ラインナップ" : "Lineup"}
           </p>
           <h1 className="font-display" style={{ fontSize: "clamp(3rem,14vw,7rem)", lineHeight: 0.9, marginBottom: 32, color: "#fff", letterSpacing: "0.05em" }}>
             COMING<br />SOON
@@ -182,7 +182,7 @@ export default function LineupPage() {
         {/* Past events */}
         <motion.section {...fade} style={{ marginBottom: 60 }}>
           <h2 className="font-display" style={{ fontSize: "clamp(1.4rem,4vw,1.8rem)", color: "#fff", marginBottom: 20 }}>
-            {ja ? "ZAMNAの実績" : "ZAMNA's Track Record"}
+            {ja ? "SOLUNAの実績" : "SOLUNA's Track Record"}
           </h2>
           <div className="data-table">
             {PAST.map((p, i) => (
@@ -200,7 +200,7 @@ export default function LineupPage() {
         {/* YouTube — Past events */}
         <motion.section {...fade} style={{ marginBottom: 60 }}>
           <h2 className="font-display" style={{ fontSize: "clamp(1.4rem,4vw,1.8rem)", color: "#fff", marginBottom: 8 }}>
-            {ja ? "ZAMNAの世界を体感する" : "Feel the ZAMNA Experience"}
+            {ja ? "SOLUNAの世界を体感する" : "Feel the SOLUNA Experience"}
           </h2>
           <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 13, marginBottom: 24, letterSpacing: "0.04em" }}>
             {ja ? "過去の公演映像 — ハワイでもこの瞬間が生まれる" : "Past event footage — this moment comes to Hawaii"}

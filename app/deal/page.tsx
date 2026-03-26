@@ -26,14 +26,14 @@ export default function DealPage() {
       {/* Print header */}
       <div className="print-header">
         <p className="font-display" style={{ color: "#111", fontSize: 18, letterSpacing: "0.1em" }}>
-          ZAMNA HAWAII 2026 · {ja ? "ディールサマリー · 機密" : "Deal Summary · Confidential"}
+          SOLUNA FEST HAWAII 2026 · {ja ? "ディールサマリー · 機密" : "Deal Summary · Confidential"}
         </p>
       </div>
 
       {/* Nav */}
       <nav className="top-nav no-print">
         <Link href="/" className="font-display text-sm" style={{ color: "rgba(255,255,255,0.4)", letterSpacing: "0.2em", textDecoration: "none" }}>
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           <Link href="/sponsor" className="nav-pill">{ja ? "スポンサー" : "Sponsor"}</Link>
@@ -67,7 +67,7 @@ export default function DealPage() {
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }}
           style={{ marginBottom: 72 }}>
           <p style={{ fontSize: 10, letterSpacing: "0.4em", color: "rgba(201,169,98,0.7)", marginBottom: 20, textTransform: "uppercase" }}>
-            ZAMNA HAWAII 2026
+            SOLUNA FEST HAWAII 2026
           </p>
           <h1 className="font-display" style={{ fontSize: "clamp(2.8rem,10vw,5.5rem)", lineHeight: 1, marginBottom: 20, color: "#fff" }}>
             {ja ? "ディールの全体像" : "The Deal, Simply Explained"}
@@ -370,8 +370,8 @@ export default function DealPage() {
       <footer style={{ borderTop: "1px solid rgba(255,255,255,0.07)", padding: "24px 0", textAlign: "center" }}>
         <p style={{ fontSize: 11, color: "rgba(255,255,255,0.12)", letterSpacing: "0.1em" }}>
           {ja
-            ? "© 2026 ZAMNA HAWAII · Powered by SOLUNA · 機密情報 · 無断転用禁止"
-            : "© 2026 ZAMNA HAWAII · Powered by SOLUNA · Confidential · All rights reserved"}
+            ? "© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · 機密情報 · 無断転用禁止"
+            : "© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · Confidential · All rights reserved"}
         </p>
       </footer>
     </main>

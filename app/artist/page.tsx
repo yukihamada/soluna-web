@@ -430,6 +430,10 @@ export default function ArtistPage() {
       <header style={{ padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
         <a href="/" style={{ color: gold, textDecoration: "none", fontSize: 13, letterSpacing: 5, fontWeight: 700 }}>SOLUNA</a>
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+          <a href="/festivals" style={{ color: "rgba(255,255,255,.4)", textDecoration: "none", fontSize: 11 }}>{t("フェス", "Festival")}</a>
+          <a href="/music" style={{ color: "rgba(255,255,255,.4)", textDecoration: "none", fontSize: 11 }}>{t("音楽", "Music")}</a>
+          <a href="/live" style={{ color: "rgba(255,255,255,.4)", textDecoration: "none", fontSize: 11 }}>LIVE</a>
+          <a href="/tickets" style={{ color: "rgba(255,255,255,.4)", textDecoration: "none", fontSize: 11 }}>{t("チケット", "Tickets")}</a>
           {user && <span style={{ fontSize: 12, color: "rgba(255,255,255,.3)" }}>{user.name || user.email}</span>}
           {radioSlug && (
             <>

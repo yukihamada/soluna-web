@@ -11,8 +11,8 @@ const SECTIONS = [
   {
     ja: "1. データ管理者",
     en: "1. Data Controller",
-    ja_body: "SOLUNA LLC（ハワイ州設立）が、ZAMNA HAWAII 2026 イベントに関連する個人情報の管理者です。\nお問い合わせ：info@solun.art",
-    en_body: "SOLUNA LLC (incorporated in Hawaii) is the data controller for personal information related to ZAMNA HAWAII 2026.\nContact: info@solun.art",
+    ja_body: "SOLUNA LLC（ハワイ州設立）が、SOLUNA FEST HAWAII 2026 イベントに関連する個人情報の管理者です。\nお問い合わせ：info@solun.art",
+    en_body: "SOLUNA LLC (incorporated in Hawaii) is the data controller for personal information related to SOLUNA FEST HAWAII 2026.\nContact: info@solun.art",
   },
   {
     ja: "2. 収集する情報",
@@ -65,8 +65,8 @@ const SECTIONS = [
   {
     ja: "10. お問い合わせ",
     en: "10. Contact",
-    ja_body: "プライバシーに関するご質問・ご要望：\ninfo@solun.art\nZAMNA HAWAII 2026 / SOLUNA LLC, Hawaii, USA",
-    en_body: "For privacy inquiries or requests:\ninfo@solun.art\nZAMNA HAWAII 2026 / SOLUNA LLC, Hawaii, USA",
+    ja_body: "プライバシーに関するご質問・ご要望：\ninfo@solun.art\nSOLUNA FEST HAWAII 2026 / SOLUNA LLC, Hawaii, USA",
+    en_body: "For privacy inquiries or requests:\ninfo@solun.art\nSOLUNA FEST HAWAII 2026 / SOLUNA LLC, Hawaii, USA",
   },
 ];
 
@@ -82,7 +82,7 @@ export default function PrivacyPage() {
 
       <nav className="top-nav no-print">
         <Link href="/" className="font-display" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.2em", textDecoration: "none" }}>
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           <Link href="/info" className="nav-pill">{ja ? "アクセス" : "Info"}</Link>
@@ -106,8 +106,8 @@ export default function PrivacyPage() {
           <div style={{ width: 36, height: 2, background: "rgba(201,169,98,0.6)", marginBottom: 20 }} />
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14, lineHeight: 1.8 }}>
             {ja
-              ? "ZAMNA HAWAII 2026 をご利用いただくにあたり、お客様の個人情報の取り扱いについてご説明します。"
-              : "This policy explains how ZAMNA HAWAII 2026 handles your personal information."}
+              ? "SOLUNA FEST HAWAII 2026 をご利用いただくにあたり、お客様の個人情報の取り扱いについてご説明します。"
+              : "This policy explains how SOLUNA FEST HAWAII 2026 handles your personal information."}
           </p>
         </motion.div>
 

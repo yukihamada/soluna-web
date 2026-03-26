@@ -179,7 +179,7 @@ export default function SchedulePage() {
           className="font-display text-sm"
           style={{ color: "rgba(255,255,255,0.4)", letterSpacing: "0.2em", textDecoration: "none" }}
         >
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center", flexWrap: "wrap" }}>
           <Link href="/sponsor" className="nav-pill">
@@ -227,7 +227,7 @@ export default function SchedulePage() {
           style={{ marginBottom: 64 }}
         >
           <p style={{ fontSize: 10, letterSpacing: "0.4em", color: "rgba(201,169,98,0.7)", marginBottom: 20, textTransform: "uppercase" }}>
-            SCHEDULE A CALL · ZAMNA HAWAII 2026
+            SCHEDULE A CALL · SOLUNA FEST HAWAII 2026
           </p>
           <h1 className="font-display" style={{ fontSize: "clamp(2.8rem,10vw,5rem)", lineHeight: 1, marginBottom: 20, color: "#fff" }}>
             {lang === "ja" ? (
@@ -674,8 +674,8 @@ export default function SchedulePage() {
       <footer style={{ borderTop: "1px solid rgba(255,255,255,0.07)", padding: "24px 0", textAlign: "center" }}>
         <p style={{ fontSize: 11, color: "rgba(255,255,255,0.12)", letterSpacing: "0.1em" }}>
           {lang === "ja"
-            ? "© 2026 ZAMNA HAWAII · Powered by SOLUNA · 本資料は機密情報です · 無断転用禁止"
-            : "© 2026 ZAMNA HAWAII · Powered by SOLUNA · Confidential · All rights reserved"}
+            ? "© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · 本資料は機密情報です · 無断転用禁止"
+            : "© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · Confidential · All rights reserved"}
         </p>
       </footer>
     </main>

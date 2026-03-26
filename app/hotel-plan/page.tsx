@@ -13,7 +13,7 @@ const fade = {
   viewport: { once: true },
 };
 
-const HOTEL_KEY = "ZAMNA2026";
+const HOTEL_KEY = "SOLUNA2026";
 
 export default function HotelPlanPage() {
   const [lang, setLang] = useState<Lang>(() => getSavedLang());
@@ -59,7 +59,7 @@ export default function HotelPlanPage() {
         </div>
         <div style={{ width: "100%", maxWidth: 360, position: "relative", zIndex: 1 }}>
           <div style={{ textAlign: "center", marginBottom: 40 }}>
-            <p className="font-display" style={{ fontSize: 24, letterSpacing: "0.3em", color: "#fff" }}>ZAMNA HAWAII</p>
+            <p className="font-display" style={{ fontSize: 24, letterSpacing: "0.3em", color: "#fff" }}>SOLUNA FEST HAWAII</p>
             <p style={{ fontSize: 10, letterSpacing: "0.3em", color: "rgba(201,169,98,0.6)", textTransform: "uppercase", marginTop: 4 }}>{ja ? "ホテルパッケージ企画書 · 機密" : "Hotel Package Proposal · Confidential"}</p>
           </div>
           <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 18, padding: "36px 32px" }}>
@@ -79,12 +79,12 @@ export default function HotelPlanPage() {
     <main id="pdf-content" style={{ background: "#080808", position: "relative", overflowX: "hidden" }}>
       <div className="atmo" />
       <div className="print-header">
-        <p className="font-display" style={{ color: "#111", fontSize: 18, letterSpacing: "0.2em" }}>ZAMNA HAWAII 2026</p>
+        <p className="font-display" style={{ color: "#111", fontSize: 18, letterSpacing: "0.2em" }}>SOLUNA FEST HAWAII 2026</p>
         <p style={{ color: "#666", fontSize: 12, marginTop: 4 }}>{ja ? "ホテルパッケージ企画書 · 令和トラベル(NEWT)向け · 機密" : "Hotel Package Proposal · For NEWT (Reiwa Travel) · Confidential"}</p>
       </div>
 
       <nav className="top-nav no-print">
-        <Link href="/" className="font-display" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.2em", textDecoration: "none" }}>ZAMNA HAWAII</Link>
+        <Link href="/" className="font-display" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.2em", textDecoration: "none" }}>SOLUNA FEST HAWAII</Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           <Link href="/investor" className="nav-pill">{ja ? "投資家" : "Investor"}</Link>
           <Link href="/sponsor" className="nav-pill">{ja ? "スポンサー" : "Sponsor"}</Link>
@@ -99,18 +99,18 @@ export default function HotelPlanPage() {
         {/* ══════ HERO ══════ */}
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} style={{ marginBottom: 56 }}>
           <p style={{ fontSize: 10, letterSpacing: "0.4em", color: "rgba(201,169,98,0.7)", marginBottom: 16, textTransform: "uppercase" }}>
-            {ja ? "令和トラベル（NEWT）× ZAMNA HAWAII · パートナーシップ提案" : "NEWT (Reiwa Travel) × ZAMNA HAWAII · Partnership Proposal"}
+            {ja ? "令和トラベル（NEWT）× SOLUNA FEST HAWAII · パートナーシップ提案" : "NEWT (Reiwa Travel) × SOLUNA FEST HAWAII · Partnership Proposal"}
           </p>
           <h1 className="font-display" style={{ fontSize: "clamp(2rem,8vw,3.8rem)", lineHeight: 1.05, color: "#fff", marginBottom: 16 }}>
             {ja ? "ホテルパッケージ企画書" : "Hotel Package Proposal"}
           </h1>
           <p style={{ fontSize: 16, color: "rgba(255,255,255,0.55)", lineHeight: 1.8, marginBottom: 12 }}>
             {ja
-              ? "2026年9月4-5日、ハワイ・オアフ島で開催される世界最大級のエレクトロニックミュージックフェスティバル「ZAMNA HAWAII」。日本・アジアからの観光客向けホテルパッケージの共同企画・販売パートナーとしてのご提案です。"
-              : "ZAMNA HAWAII — one of the world's premier electronic music festivals — comes to Oahu, Hawaii on September 4-5, 2026. This is a partnership proposal for co-creating and distributing hotel packages for Japan & Asia tourists."}
+              ? "2026年9月4-6日、ハワイ・オアフ島で開催される世界最大級のエレクトロニックミュージックフェスティバル「SOLUNA FEST HAWAII」。日本・アジアからの観光客向けホテルパッケージの共同企画・販売パートナーとしてのご提案です。"
+              : "SOLUNA FEST HAWAII — one of the world's premier electronic music festivals — comes to Oahu, Hawaii on September 4-5, 2026. This is a partnership proposal for co-creating and distributing hotel packages for Japan & Asia tourists."}
           </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <span style={{ padding: "6px 14px", borderRadius: 999, background: "rgba(201,169,98,0.1)", border: "1px solid rgba(201,169,98,0.25)", color: "rgba(201,169,98,0.8)", fontSize: 12 }}>Sep 4-5, 2026</span>
+            <span style={{ padding: "6px 14px", borderRadius: 999, background: "rgba(201,169,98,0.1)", border: "1px solid rgba(201,169,98,0.25)", color: "rgba(201,169,98,0.8)", fontSize: 12 }}>Sep 4-6, 2026</span>
             <span style={{ padding: "6px 14px", borderRadius: 999, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.5)", fontSize: 12 }}>{ja ? `開催まで${daysLeft}日` : `${daysLeft} days left`}</span>
             <span style={{ padding: "6px 14px", borderRadius: 999, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.5)", fontSize: 12 }}>{ja ? "キャパ 9,000人/日" : "9,000/day capacity"}</span>
           </div>
@@ -118,10 +118,10 @@ export default function HotelPlanPage() {
 
         <div className="gdivider" />
 
-        {/* ══════ なぜNEWT × ZAMNAか ══════ */}
+        {/* ══════ なぜNEWT × SOLUNAか ══════ */}
         <motion.section {...fade}>
           <h2 className="font-display" style={{ fontSize: "clamp(1.4rem,5vw,2.2rem)", color: "#fff", marginBottom: 8 }}>
-            {ja ? "なぜ NEWT × ZAMNA か" : "Why NEWT × ZAMNA"}
+            {ja ? "なぜ NEWT × SOLUNA か" : "Why NEWT × SOLUNA"}
           </h2>
           <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, marginBottom: 24 }}>
             {ja ? "双方にとって大きなビジネスチャンスです。" : "A significant business opportunity for both sides."}
@@ -131,7 +131,7 @@ export default function HotelPlanPage() {
             <div className="card" style={{ padding: "20px 22px" }}>
               <p style={{ color: "rgba(201,169,98,0.8)", fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", marginBottom: 10 }}>{ja ? "NEWT にとってのメリット" : "Benefits for NEWT"}</p>
               <ul style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, lineHeight: 2, paddingLeft: 16, margin: 0 }}>
-                <li>{ja ? "ZAMNAグローバルDB 50万人への露出" : "Exposure to ZAMNA's 500K global database"}</li>
+                <li>{ja ? "SOLUNAグローバルDB 50万人への露出" : "Exposure to SOLUNA's 500K global database"}</li>
                 <li>{ja ? "SNS 125万フォロワーでの共同プロモーション" : "Co-promotion via 1.25M social followers"}</li>
                 <li>{ja ? "Labor Day は年間最大の旅行需要期" : "Labor Day = peak travel demand period"}</li>
                 <li>{ja ? "音楽フェス×旅行の高単価パッケージ市場" : "High-value music festival × travel package market"}</li>
@@ -139,7 +139,7 @@ export default function HotelPlanPage() {
               </ul>
             </div>
             <div className="card-gold" style={{ padding: "20px 22px" }}>
-              <p style={{ color: "rgba(201,169,98,0.9)", fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", marginBottom: 10 }}>{ja ? "ZAMNA にとってのメリット" : "Benefits for ZAMNA"}</p>
+              <p style={{ color: "rgba(201,169,98,0.9)", fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", marginBottom: 10 }}>{ja ? "SOLUNA にとってのメリット" : "Benefits for SOLUNA"}</p>
               <ul style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, lineHeight: 2, paddingLeft: 16, margin: 0 }}>
                 <li>{ja ? "NEWTの日本・アジア販売チャネル活用" : "Leverage NEWT's Japan/Asia sales channels"}</li>
                 <li>{ja ? "パッケージ販売で客単価UP（チケット+ホテル+送迎）" : "Higher ARPU via bundled packages (ticket+hotel+transfer)"}</li>
@@ -177,7 +177,7 @@ export default function HotelPlanPage() {
               { v: "9,000", l: ja ? "1日キャパ" : "Daily cap" },
               { v: "12min", l: ja ? "ワイキキから" : "From Waikiki" },
               { v: "100+年", l: ja ? "日立の樹の歴史" : "Hitachi Tree age" },
-              { v: "2日間", l: ja ? "Sep 4-5" : "Sep 4-5" },
+              { v: "3日間", l: ja ? "Sep 4-6" : "Sep 4-6" },
             ].map(k => (
               <div key={k.l} className="card" style={{ textAlign: "center", padding: "14px 10px" }}>
                 <p style={{ color: "#fff", fontSize: 18, fontWeight: 700, marginBottom: 4 }}>{k.v}</p>
@@ -448,7 +448,7 @@ export default function HotelPlanPage() {
               <span style={{ textAlign: "center" }}>{ja ? "キャパ" : "Capacity"}</span>
             </div>
             {[
-              { name: "ZAMNA HAWAII", loc: ja ? "ハワイ・オアフ島" : "Oahu, Hawaii", price: "$800~$5,000", days: "2", cap: ja ? "9,000/日" : "9,000/day", highlight: true },
+              { name: "SOLUNA FEST HAWAII", loc: ja ? "ハワイ・オアフ島" : "Oahu, Hawaii", price: "$800~$5,000", days: "2", cap: ja ? "9,000/日" : "9,000/day", highlight: true },
               { name: "Coachella", loc: ja ? "カリフォルニア" : "California", price: "$2,500~$10,000", days: "3", cap: "125,000", highlight: false },
               { name: "Tomorrowland", loc: ja ? "ベルギー" : "Belgium", price: "$1,800~$8,000", days: "3", cap: "70,000", highlight: false },
               { name: "Ultra Music", loc: ja ? "マイアミ" : "Miami", price: "$1,500~$6,000", days: "3", cap: "55,000", highlight: false },
@@ -467,21 +467,21 @@ export default function HotelPlanPage() {
           <div className="card" style={{ padding: "16px 20px", borderColor: "rgba(201,169,98,0.2)", background: "rgba(201,169,98,0.03)" }}>
             <p style={{ color: "rgba(201,169,98,0.8)", fontSize: 13, lineHeight: 1.8 }}>
               {ja
-                ? "ZAMNAハワイは他の大型フェスと比較して、ハワイというロケーション、小規模ならではの高密度な体験、そして競争力のある価格が強みです。"
-                : "ZAMNA Hawaii offers a competitive price, an unbeatable Hawaiian location, and an intimate high-density experience compared to mega-festivals."}
+                ? "SOLUNAハワイは他の大型フェスと比較して、ハワイというロケーション、小規模ならではの高密度な体験、そして競争力のある価格が強みです。"
+                : "SOLUNA Hawaii offers a competitive price, an unbeatable Hawaiian location, and an intimate high-density experience compared to mega-festivals."}
             </p>
           </div>
         </motion.section>
 
         <div className="gdivider" />
 
-        {/* ══════ ZAMNAグローバル実績 ══════ */}
+        {/* ══════ SOLUNAグローバル実績 ══════ */}
         <motion.section {...fade}>
           <h2 className="font-display" style={{ fontSize: "clamp(1.4rem,5vw,2.2rem)", color: "#fff", marginBottom: 8 }}>
-            {ja ? "ZAMNAグローバル実績" : "ZAMNA Global Track Record"}
+            {ja ? "SOLUNAグローバル実績" : "SOLUNA Global Track Record"}
           </h2>
           <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, marginBottom: 24 }}>
-            {ja ? "世界各地で開催実績を持つZAMNAブランドの信頼性。" : "ZAMNA's credibility through events held worldwide."}
+            {ja ? "世界各地で開催実績を持つSOLUNAブランドの信頼性。" : "SOLUNA's credibility through events held worldwide."}
           </p>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 10 }}>
@@ -520,7 +520,7 @@ export default function HotelPlanPage() {
               { date: ja ? "5-6月" : "May-Jun", item: ja ? "ラインナップ発表 → パッケージ販売開始" : "Lineup announced → Package sales start", now: false },
               { date: ja ? "6-8月" : "Jun-Aug", item: ja ? "プロモーション展開・予約受付" : "Promotion & booking", now: false },
               { date: "Sep 3", item: ja ? "ゲスト到着・ウェルカムレセプション" : "Guest arrival & welcome reception", now: false },
-              { date: "Sep 4-5", item: ja ? "🎉 ZAMNA HAWAII 開催" : "🎉 ZAMNA HAWAII", event: true },
+              { date: "Sep 4-6", item: ja ? "🎉 SOLUNA FEST HAWAII 開催" : "🎉 SOLUNA FEST HAWAII", event: true },
               { date: "Sep 6", item: ja ? "チェックアウト・空港送迎" : "Checkout & airport transfer", now: false },
               { date: ja ? "10月" : "Oct", item: ja ? "精算・2027年計画開始" : "Settlement & 2027 planning", now: false },
             ].map((s, i) => (
@@ -650,7 +650,7 @@ export default function HotelPlanPage() {
 
       <footer style={{ borderTop: "1px solid rgba(255,255,255,0.07)", padding: "24px 0", textAlign: "center" }}>
         <p style={{ fontSize: 11, color: "rgba(255,255,255,0.12)", letterSpacing: "0.1em" }}>
-          {ja ? "© 2026 ZAMNA HAWAII · Powered by SOLUNA · 本資料は機密情報です" : "© 2026 ZAMNA HAWAII · Powered by SOLUNA · Confidential"}
+          {ja ? "© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · 本資料は機密情報です" : "© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · Confidential"}
         </p>
       </footer>
     </main>

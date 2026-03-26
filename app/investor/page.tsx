@@ -26,13 +26,13 @@ export default function InvestorPage() {
     <main id="pdf-content" style={{ background: "#080808", position: "relative", overflowX: "hidden" }}>
       <div className="atmo" />
       <div className="print-header">
-        <p className="font-display" style={{ color: "#111", fontSize: 18, letterSpacing: "0.2em" }}>ZAMNA HAWAII 2026</p>
+        <p className="font-display" style={{ color: "#111", fontSize: 18, letterSpacing: "0.2em" }}>SOLUNA FEST HAWAII 2026</p>
         <p style={{ color: "#666", fontSize: 12, marginTop: 4 }}>{ja ? "投資家資料 · 機密" : "Investor Deck · Confidential"}</p>
       </div>
 
       {/* Nav */}
       <nav className="top-nav no-print">
-        <Link href="/" className="font-display" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.2em", textDecoration: "none" }}>ZAMNA HAWAII</Link>
+        <Link href="/" className="font-display" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.2em", textDecoration: "none" }}>SOLUNA FEST HAWAII</Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           <span className="nav-pill-active">{ja ? "投資家" : "Investor"}</span>
           <Link href="/deal" className="nav-pill">{ja ? "ディール" : "Deal"}</Link>
@@ -47,26 +47,26 @@ export default function InvestorPage() {
         {/* ══════ HERO ══════ */}
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} style={{ marginBottom: 64 }}>
           <p style={{ fontSize: 10, letterSpacing: "0.4em", color: "rgba(201,169,98,0.7)", marginBottom: 20, textTransform: "uppercase" }}>Founding Partner · Confidential · 2026</p>
-          <h1 className="font-display" style={{ fontSize: "clamp(2.4rem,9vw,4.5rem)", lineHeight: 1, color: "#fff", marginBottom: 16 }}>ZAMNA HAWAII</h1>
+          <h1 className="font-display" style={{ fontSize: "clamp(2.4rem,9vw,4.5rem)", lineHeight: 1, color: "#fff", marginBottom: 16 }}>SOLUNA FEST HAWAII</h1>
           <p style={{ fontSize: "clamp(1.2rem,4vw,1.8rem)", color: "var(--gold)", fontWeight: 700, marginBottom: 20 }}>
             {ja ? "創設パートナー募集 — $200,000" : "Founding Partner — $200,000"}
           </p>
           <p style={{ fontSize: 16, color: "rgba(255,255,255,0.6)", lineHeight: 1.8, marginBottom: 12 }}>
             {ja
-              ? "世界最大級のアンダーグラウンド・エレクトロニックミュージックフェスティバル「ZAMNA」が、2026年9月、ハワイ・オアフ島に初上陸。その創設パートナーとして参加しませんか？"
-              : "ZAMNA — one of the world's premier underground electronic music festivals — lands in Oahu, Hawaii for the first time in September 2026. Join as a founding partner."}
+              ? "世界最大級のアンダーグラウンド・エレクトロニックミュージックフェスティバル「SOLUNA」が、2026年9月、ハワイ・オアフ島に初上陸。その創設パートナーとして参加しませんか？"
+              : "SOLUNA — one of the world's premier underground electronic music festivals — lands in Oahu, Hawaii for the first time in September 2026. Join as a founding partner."}
           </p>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)" }}>
-            {ja ? `開催まであと${daysLeft}日 · 2026年9月4-5日 · オアフ島` : `${daysLeft} days to event · Sep 4-5, 2026 · Oahu, HI`}
+            {ja ? `開催まであと${daysLeft}日 · 2026年9月4-6日 · オアフ島` : `${daysLeft} days to event · Sep 4-6, 2026 · Oahu, HI`}
           </p>
         </motion.div>
 
         <div className="gdivider" />
 
-        {/* ══════ ZAMNAとは ══════ */}
+        {/* ══════ SOLUNAとは ══════ */}
         <motion.section {...fade} style={{ marginBottom: 0 }}>
           <h2 className="font-display" style={{ fontSize: "clamp(1.4rem,5vw,2.2rem)", color: "#fff", marginBottom: 8 }}>
-            {ja ? "ZAMNAとは？" : "What is ZAMNA?"}
+            {ja ? "SOLUNAとは？" : "What is SOLUNA?"}
           </h2>
           <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, marginBottom: 24 }}>
             {ja ? "数字が信頼性を証明します。" : "The numbers speak for themselves."}
@@ -89,8 +89,8 @@ export default function InvestorPage() {
           <div className="card" style={{ padding: "20px 22px", marginBottom: 12 }}>
             <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, lineHeight: 1.8 }}>
               {ja
-                ? "ZAMNAはスペイン・トゥルム（メキシコ）を拠点に、アルゼンチン、ブラジル、コロンビア、エジプト、ギリシャ、ドバイなど世界各地で開催されてきた実績あるフェスティバルブランドです。自然の中で行われる圧倒的な演出と、世界トップクラスのDJラインナップが特徴です。"
-                : "ZAMNA is an established festival brand based in Tulum, Mexico, with events across Argentina, Brazil, Colombia, Egypt, Greece, Dubai, and more. Known for stunning natural venues and world-class DJ lineups."}
+                ? "SOLUNAはスペイン・トゥルム（メキシコ）を拠点に、アルゼンチン、ブラジル、コロンビア、エジプト、ギリシャ、ドバイなど世界各地で開催されてきた実績あるフェスティバルブランドです。自然の中で行われる圧倒的な演出と、世界トップクラスのDJラインナップが特徴です。"
+                : "SOLUNA is an established festival brand based in Tulum, Mexico, with events across Argentina, Brazil, Colombia, Egypt, Greece, Dubai, and more. Known for stunning natural venues and world-class DJ lineups."}
             </p>
           </div>
 
@@ -98,7 +98,7 @@ export default function InvestorPage() {
             <p style={{ color: "rgba(201,169,98,0.7)", fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", marginBottom: 8 }}>{ja ? "ハワイ開催の強み" : "WHY HAWAII"}</p>
             <ul style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, lineHeight: 2, paddingLeft: 18 }}>
               <li>{ja ? "北米・アジア両方からアクセスしやすい太平洋の中心" : "Pacific hub — accessible from both North America and Asia"}</li>
-              <li>{ja ? "Labor Day週末（9月4-5日）= 米国全土から集客可能" : "Labor Day weekend (Sep 4-5) = nationwide US draw"}</li>
+              <li>{ja ? "Labor Day週末（9月4-6日）= 米国全土から集客可能" : "Labor Day weekend (Sep 4-6) = nationwide US draw"}</li>
               <li>{ja ? "ハワイには大規模EDMフェスが存在しない = 市場空白" : "No major EDM festival exists in Hawaii = untapped market"}</li>
               <li>{ja ? "日本・韓国・オーストラリアからの観光需要が高い" : "Strong tourism demand from Japan, Korea, Australia"}</li>
             </ul>
@@ -221,7 +221,7 @@ export default function InvestorPage() {
                 <span style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.5)", padding: "3px 10px", borderRadius: 999, fontSize: 11, fontWeight: 700 }}>{ja ? "ブランド型" : "BRAND"}</span>
               </div>
               <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 13, lineHeight: 1.7 }}>
-                {ja ? "全額返済に加え、会場でのブランド露出（ステージ看板・VIPエリア冠名など）と、2027年開催への優先参加権を付与。法人・ブランドオーナー向け。" : "Full repayment plus on-site brand exposure (stage signage, VIP area naming) and first-right to invest in ZAMNA HAWAII 2027. For companies and brand owners."}
+                {ja ? "全額返済に加え、会場でのブランド露出（ステージ看板・VIPエリア冠名など）と、2027年開催への優先参加権を付与。法人・ブランドオーナー向け。" : "Full repayment plus on-site brand exposure (stage signage, VIP area naming) and first-right to invest in SOLUNA FEST HAWAII 2027. For companies and brand owners."}
               </p>
             </div>
           </div>
@@ -256,7 +256,7 @@ export default function InvestorPage() {
               { l: ja ? "スポンサー + F&B収益" : "Sponsor + F&B revenue", v: ["$100K", "$250K", "$500K"] },
               { l: ja ? "総収益" : "Total revenue", v: ["$650K", "$1.28M", "$2.54M"], bold: true },
               { l: ja ? "制作・運営コスト" : "Production & ops costs", v: ["$530K", "$530K", "$530K"] },
-              { l: ja ? "ZAMNA手数料（ブッキング15%+利益7%）" : "ZAMNA fees (15% booking + 7% profit)", v: ["$42K", "$65K", "$120K"] },
+              { l: ja ? "SOLUNA手数料（ブッキング15%+利益7%）" : "SOLUNA fees (15% booking + 7% profit)", v: ["$42K", "$65K", "$120K"] },
               { l: ja ? "総コスト" : "Total costs", v: ["$572K", "$595K", "$650K"] },
               { l: ja ? "純利益" : "Net profit", v: ["$78K", "$685K", "$1.89M"], color: "rgba(74,222,128,0.9)" },
               { l: ja ? "あなたへの返済" : "Your repayment", v: ["✓ $200K", "✓ $200K", "✓ $200K"], color: "rgba(74,222,128,0.9)" },
@@ -275,8 +275,8 @@ export default function InvestorPage() {
           <div className="card" style={{ padding: "16px 20px", borderColor: "rgba(74,222,128,0.15)", background: "rgba(74,222,128,0.03)" }}>
             <p style={{ color: "rgba(74,222,128,0.8)", fontSize: 13, lineHeight: 1.8 }}>
               {ja
-                ? "💡 最悪のケース（チケット50%）でも、総収益$650Kに対しコスト$572K（ZAMNA手数料含む）で黒字。元本$200Kの返済は確保されます。*追加リターンは余剰次第。基本ケースではプランBで合計$297K回収。"
-                : "💡 Even worst case (50% tickets), revenue $650K vs costs $572K (incl. ZAMNA fees) = profitable. $200K principal repayment secured. *Extra return depends on surplus. Base case with Plan B: $297K total."}
+                ? "💡 最悪のケース（チケット50%）でも、総収益$650Kに対しコスト$572K（SOLUNA手数料含む）で黒字。元本$200Kの返済は確保されます。*追加リターンは余剰次第。基本ケースではプランBで合計$297K回収。"
+                : "💡 Even worst case (50% tickets), revenue $650K vs costs $572K (incl. SOLUNA fees) = profitable. $200K principal repayment secured. *Extra return depends on surplus. Base case with Plan B: $297K total."}
             </p>
           </div>
         </motion.section>
@@ -351,7 +351,7 @@ export default function InvestorPage() {
 
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {[
-              { q: ja ? "チケットが売れなかったら？" : "What if tickets don't sell?", a: ja ? "50%しか売れなくても収益$650Kで返済可能。さらにZAMNAのグローバルDB（50万人）とSNS（125万フォロワー）を活用した集客を実施。" : "Even at 50%, revenue is $650K — sufficient for repayment. ZAMNA's global DB (500K) and social (1.25M followers) drive sales.", risk: "low" },
+              { q: ja ? "チケットが売れなかったら？" : "What if tickets don't sell?", a: ja ? "50%しか売れなくても収益$650Kで返済可能。さらにSOLUNAのグローバルDB（50万人）とSNS（125万フォロワー）を活用した集客を実施。" : "Even at 50%, revenue is $650K — sufficient for repayment. SOLUNA's global DB (500K) and social (1.25M followers) drive sales.", risk: "low" },
               { q: ja ? "イベントが中止になったら？" : "What if the event is cancelled?", a: ja ? "イベントキャンセル保険に加入。保険金から最優先で返済。天候・自然災害・パンデミック等をカバー。" : "Event cancellation insurance covers weather, natural disasters, pandemics. You're repaid first from insurance proceeds.", risk: "mid" },
               { q: ja ? "お金が他の用途に使われない？" : "What if funds are misused?", a: ja ? "全額を専用エスクロー口座で管理。アーティスト出演料以外には使用不可。口座の動きは報告します。" : "All funds held in dedicated escrow. Only used for artist fees. Account activity reported to you.", risk: "low" },
               { q: ja ? "会場の許可が取れなかったら？" : "What if venue permits are denied?", a: ja ? "市議会メンバーとの1:1ミーティングを既にアレンジ中。ステージ照明業者のKuhio Lewisが市議会メンバーでもあり、承認ルートを確保済み。" : "1:1 council meetings already being arranged. Stage vendor Kuhio Lewis is also a council member, securing approval route.", risk: "low" },
@@ -383,7 +383,7 @@ export default function InvestorPage() {
               { icon: "💼", name: "Dr. Vakas Sial", role: ja ? "投資・財務・アーティスト関係" : "Investment / Finance / Artist Relations", desc: ja ? "医師・起業家。San Diego Hair & Skin Institute創設者。Vegas Music Conference投資関係ディレクター、San Diego Music & Technology Conference CEO経験。" : "Physician & entrepreneur. Founded San Diego Hair & Skin Institute. Former Investment Relations Director at Vegas Music Conference, CEO of San Diego Music & Tech Conference." },
               { icon: "📋", name: "Keyanna", role: ja ? "オペレーション・連絡調整" : "Operations / Coordination", desc: ja ? "チーム全体の調整役。チケット販売管理、パートナー連絡、予算管理を統括。" : "Team coordination hub. Manages ticket sales tracking, partner communications, and budget." },
               { icon: "⚡", name: "Yuki", role: ja ? "テクノロジー・サイト" : "Technology / Website", desc: ja ? "管理ダッシュボード・パートナーポータル・契約システムを構築。solun.artで本番稼働中。" : "Built admin dashboard, partner portal, and contract system. Live at solun.art." },
-              { icon: "🌍", name: "JC / Enzo / Victor (ZAMNA)", role: ja ? "ZAMNAライセンス・タレントブッキング" : "ZAMNA License / Talent Booking", desc: ja ? "ZAMNAブランド本部。グローバルアーティストネットワークを活用したブッキングを担当。3/29にアーティストオプション提示予定。" : "ZAMNA HQ. Leveraging global artist network for bookings. Artist options to be presented 3/29." },
+              { icon: "🌍", name: "JC / Enzo / Victor (SOLUNA)", role: ja ? "SOLUNAライセンス・タレントブッキング" : "SOLUNA License / Talent Booking", desc: ja ? "SOLUNAブランド本部。グローバルアーティストネットワークを活用したブッキングを担当。3/29にアーティストオプション提示予定。" : "SOLUNA HQ. Leveraging global artist network for bookings. Artist options to be presented 3/29." },
             ].map(m => (
               <div key={m.name} className="card" style={{ padding: "16px 18px", display: "flex", gap: 14, alignItems: "start" }}>
                 <span style={{ fontSize: 24, flexShrink: 0 }}>{m.icon}</span>
@@ -411,12 +411,12 @@ export default function InvestorPage() {
             {[
               { date: ja ? "2026年2月" : "Feb 2026", item: ja ? "チケット販売開始（Ticketblox）" : "Ticket sales launched (Ticketblox)", done: true },
               { date: ja ? "3月" : "Mar", item: ja ? "会場LOI送付・市議会承認着手" : "Venue LOI sent · City council process begins", done: true },
-              { date: ja ? "3月末" : "Late Mar", item: ja ? "⚠ 投資金入金・ZAMNAライセンス締結" : "⚠ Investment funded · ZAMNA license signed", now: true },
-              { date: ja ? "3/29" : "Mar 29", item: ja ? "ZAMNAからアーティストオプション提示" : "ZAMNA presents artist options", now: true },
+              { date: ja ? "3月末" : "Late Mar", item: ja ? "⚠ 投資金入金・SOLUNAライセンス締結" : "⚠ Investment funded · SOLUNA license signed", now: true },
+              { date: ja ? "3/29" : "Mar 29", item: ja ? "SOLUNAからアーティストオプション提示" : "SOLUNA presents artist options", now: true },
               { date: ja ? "4〜5月" : "Apr-May", item: ja ? "ヘッドライナー確定・ラインナップ発表" : "Headliner confirmed · Lineup announced", done: false },
               { date: ja ? "5〜6月" : "May-Jun", item: ja ? "スポンサー確定・ホテルパッケージ販売" : "Sponsors confirmed · Hotel packages on sale", done: false },
               { date: ja ? "7〜8月" : "Jul-Aug", item: ja ? "スタッフ採用・リハーサル" : "Staff hired · Rehearsals", done: false },
-              { date: "Sep 4-5", item: ja ? "🎉 ZAMNA HAWAII 開催！" : "🎉 ZAMNA HAWAII!", done: false, event: true },
+              { date: "Sep 4-6", item: ja ? "🎉 SOLUNA FEST HAWAII 開催！" : "🎉 SOLUNA FEST HAWAII!", done: false, event: true },
               { date: ja ? "9月末" : "Late Sep", item: ja ? "💰 投資家への最優先返済実行" : "💰 Investor first-out repayment", done: false },
             ].map((s, i) => (
               <div key={i} style={{ display: "flex", gap: 14, padding: "12px 0", borderLeft: `2px solid ${s.event ? "var(--gold)" : s.now ? "rgba(255,80,80,0.6)" : s.done ? "rgba(74,222,128,0.5)" : "rgba(255,255,255,0.1)"}`, paddingLeft: 18, marginLeft: 8 }}>
@@ -489,7 +489,7 @@ export default function InvestorPage() {
 
       <footer style={{ borderTop: "1px solid rgba(255,255,255,0.07)", padding: "24px 0", textAlign: "center" }}>
         <p style={{ fontSize: 11, color: "rgba(255,255,255,0.12)", letterSpacing: "0.1em" }}>
-          {ja ? "© 2026 ZAMNA HAWAII · Powered by SOLUNA · 本資料は機密情報です" : "© 2026 ZAMNA HAWAII · Powered by SOLUNA · Confidential"}
+          {ja ? "© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · 本資料は機密情報です" : "© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · Confidential"}
         </p>
       </footer>
     </main>

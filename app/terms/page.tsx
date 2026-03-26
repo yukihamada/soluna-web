@@ -11,14 +11,14 @@ const SECTIONS = [
   {
     ja: "1. サービスの利用",
     en: "1. Use of Service",
-    ja_body: "本サービス（solun.art）は、ZAMNA HAWAII 2026 イベントに関する情報提供、パートナー申込、およびチケット関連情報を提供することを目的としています。\n\n本サイトは SOLUNA LLC（ハワイ州設立）が運営しています。サービスをご利用いただくことで、本利用規約に同意したものとみなします。",
-    en_body: "This service (solun.art) is intended to provide information about the ZAMNA HAWAII 2026 event, facilitate partner applications, and share ticket-related information.\n\nThis site is operated by SOLUNA LLC (incorporated in Hawaii). By using this service, you agree to these Terms of Service.",
+    ja_body: "本サービス（solun.art）は、SOLUNA FEST HAWAII 2026 イベントに関する情報提供、パートナー申込、およびチケット関連情報を提供することを目的としています。\n\n本サイトは SOLUNA LLC（ハワイ州設立）が運営しています。サービスをご利用いただくことで、本利用規約に同意したものとみなします。",
+    en_body: "This service (solun.art) is intended to provide information about the SOLUNA FEST HAWAII 2026 event, facilitate partner applications, and share ticket-related information.\n\nThis site is operated by SOLUNA LLC (incorporated in Hawaii). By using this service, you agree to these Terms of Service.",
   },
   {
     ja: "2. 知的財産権",
     en: "2. Intellectual Property",
-    ja_body: "本サイト上のすべてのコンテンツ（テキスト、画像、デザイン、ロゴ等）は、SOLUNA LLC または ZAMNA（JC ZAMNA）の所有物です。事前の書面による許可なく、これらを複製・配布・改変することを禁止します。\n\nZAMNA ブランドおよびロゴは JC ZAMNA の商標であり、ライセンス契約のもと使用されています。",
-    en_body: "All content on this site (text, images, design, logos, etc.) is the property of SOLUNA LLC or ZAMNA (JC ZAMNA). Reproduction, distribution, or modification without prior written permission is prohibited.\n\nThe ZAMNA brand and logo are trademarks of JC ZAMNA and are used under license.",
+    ja_body: "本サイト上のすべてのコンテンツ（テキスト、画像、デザイン、ロゴ等）は、SOLUNA LLC または SOLUNA（JC SOLUNA）の所有物です。事前の書面による許可なく、これらを複製・配布・改変することを禁止します。\n\nSOLUNA ブランドおよびロゴは JC SOLUNA の商標であり、ライセンス契約のもと使用されています。",
+    en_body: "All content on this site (text, images, design, logos, etc.) is the property of SOLUNA LLC or SOLUNA (JC SOLUNA). Reproduction, distribution, or modification without prior written permission is prohibited.\n\nThe SOLUNA brand and logo are trademarks of JC SOLUNA and are used under license.",
   },
   {
     ja: "3. パートナー申込・契約",
@@ -59,8 +59,8 @@ const SECTIONS = [
   {
     ja: "9. お問い合わせ",
     en: "9. Contact",
-    ja_body: "本利用規約に関するご質問：\ninfo@solun.art\nZAMNA HAWAII 2026 / SOLUNA LLC, Hawaii, USA",
-    en_body: "For questions about these Terms:\ninfo@solun.art\nZAMNA HAWAII 2026 / SOLUNA LLC, Hawaii, USA",
+    ja_body: "本利用規約に関するご質問：\ninfo@solun.art\nSOLUNA FEST HAWAII 2026 / SOLUNA LLC, Hawaii, USA",
+    en_body: "For questions about these Terms:\ninfo@solun.art\nSOLUNA FEST HAWAII 2026 / SOLUNA LLC, Hawaii, USA",
   },
 ];
 
@@ -76,7 +76,7 @@ export default function TermsPage() {
 
       <nav className="top-nav no-print">
         <Link href="/" className="font-display" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.2em", textDecoration: "none" }}>
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           <Link href="/info" className="nav-pill">{ja ? "アクセス" : "Info"}</Link>
@@ -100,8 +100,8 @@ export default function TermsPage() {
           <div style={{ width: 36, height: 2, background: "rgba(201,169,98,0.6)", marginBottom: 20 }} />
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14, lineHeight: 1.8 }}>
             {ja
-              ? "ZAMNA HAWAII 2026 のサービスをご利用いただく前に、以下の利用規約をお読みください。"
-              : "Please read the following Terms of Service before using ZAMNA HAWAII 2026 services."}
+              ? "SOLUNA FEST HAWAII 2026 のサービスをご利用いただく前に、以下の利用規約をお読みください。"
+              : "Please read the following Terms of Service before using SOLUNA FEST HAWAII 2026 services."}
           </p>
         </motion.div>
 

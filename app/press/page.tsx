@@ -9,7 +9,7 @@ import { downloadPDF } from "@/lib/pdf";
 const fade = { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, transition: { duration: 0.7 }, viewport: { once: true } };
 
 const KEY_FACTS = [
-  { ja_l: "イベント名", en_l: "Event Name", v: "ZAMNA HAWAII 2026" },
+  { ja_l: "イベント名", en_l: "Event Name", v: "SOLUNA FEST HAWAII 2026" },
   { ja_l: "日程", en_l: "Dates", ja_v: "2026年9月4日（金）〜5日（土）", en_v: "September 4 (Fri) – 5 (Sat), 2026" },
   { ja_l: "会場", en_l: "Venue", ja_v: "モアナルアガーデン（Moanalua Gardens）, オアフ島", en_v: "Moanalua Gardens, Oahu, HI" },
   { ja_l: "ジャンル", en_l: "Genre", ja_v: "アンダーグラウンド・エレクトロニック", en_v: "Underground Electronic Music" },
@@ -21,28 +21,28 @@ const KEY_FACTS = [
   { ja_l: "公式サイト", en_l: "Website", v: "https://solun.art" },
 ];
 
-const ABOUT_JA = `ZAMNA HAWAIIは、メキシコ・トゥルムで生まれた世界最高峰のアンダーグラウンド・エレクトロニック・ミュージックフェスティバル「ZAMNA」の、初のアメリカ本土開催です。
+const ABOUT_JA = `SOLUNA FEST HAWAIIは、メキシコ・トゥルムで生まれた世界最高峰のアンダーグラウンド・エレクトロニック・ミュージックフェスティバル「SOLUNA」の、初のアメリカ本土開催です。
 
-オアフ島のモアナルアガーデン（JP Damon Estate）を舞台に、日立の樹で知られる圧倒的な自然景観と最先端のサウンド・照明演出が融合する2日間のイミーシブ体験を提供します。Waikikiから車15分という抜群のアクセスも魅力です。
+オアフ島のモアナルアガーデン（JP Damon Estate）を舞台に、日立の樹で知られる圧倒的な自然景観と最先端のサウンド・照明演出が融合する3日間のイミーシブ体験を提供します。Waikikiから車15分という抜群のアクセスも魅力です。
 
-ZAMNAはこれまでにトゥルム、ドバイ、コスタリカ・ノサラなどで開催され、累計85万人以上の来場者を動員。アジア太平洋地域からの集客も見込み、日本・韓国・オーストラリアからの来場者が全体の約25%を占める見込みです。`;
+SOLUNAはこれまでにトゥルム、ドバイ、コスタリカ・ノサラなどで開催され、累計85万人以上の来場者を動員。アジア太平洋地域からの集客も見込み、日本・韓国・オーストラリアからの来場者が全体の約25%を占める見込みです。`;
 
-const ABOUT_EN = `ZAMNA HAWAII marks the first-ever United States edition of ZAMNA — the world's most premium underground electronic music festival, born in Tulum, Mexico.
+const ABOUT_EN = `SOLUNA FEST HAWAII marks the first-ever United States edition of SOLUNA — the world's most premium underground electronic music festival, born in Tulum, Mexico.
 
 Set against the stunning backdrop of Moanalua Gardens (JP Damon Estate) on Oahu — home to the iconic Hitachi tree — the two-day immersive experience blends Hawaii's natural beauty with cutting-edge sound and lighting production. Just 15 minutes from Waikiki, the venue offers unparalleled accessibility for international guests.
 
-ZAMNA has previously been held in Tulum, Dubai, and Nosara (Costa Rica), drawing over 850,000 cumulative attendees worldwide. The Hawaii edition is expected to attract a significant Asia-Pacific audience, with approximately 25% of attendees from Japan, Korea, and Australia.`;
+SOLUNA has previously been held in Tulum, Dubai, and Nosara (Costa Rica), drawing over 850,000 cumulative attendees worldwide. The Hawaii edition is expected to attract a significant Asia-Pacific audience, with approximately 25% of attendees from Japan, Korea, and Australia.`;
 
 const BRAND_GUIDELINES = {
   ja: [
-    "「ZAMNA HAWAII」はすべて大文字で表記してください",
+    "「SOLUNA FEST HAWAII」はすべて大文字で表記してください",
     "ロゴの周囲には最低でもロゴの高さの50%のクリアスペースを確保してください",
     "ブランドカラー: ゴールド #C9A962 / ブラック #080808 / ホワイト #FFFFFF",
     "ロゴの変形・色変更は禁止です。提供されたアセットをそのまま使用してください",
     "「Powered by SOLUNA」のクレジットを必ず付記してください",
   ],
   en: [
-    "Always write \"ZAMNA HAWAII\" in all caps",
+    "Always write \"SOLUNA FEST HAWAII\" in all caps",
     "Maintain clear space of at least 50% of logo height around the logo",
     "Brand colors: Gold #C9A962 / Black #080808 / White #FFFFFF",
     "Do not distort, recolor, or modify the logo. Use provided assets only",
@@ -51,11 +51,11 @@ const BRAND_GUIDELINES = {
 };
 
 const HISTORY = [
-  { year: "2019", event: "ZAMNA Tulum", ja_d: "初開催。トゥルムのセノーテで開催", en_d: "Inaugural edition at Tulum cenote" },
-  { year: "2022", event: "ZAMNA Dubai", ja_d: "中東初進出。砂漠の特設会場", en_d: "Middle East debut. Desert venue" },
-  { year: "2023", event: "ZAMNA Nosara", ja_d: "コスタリカ開催", en_d: "Costa Rica edition" },
-  { year: "2024", event: "ZAMNA Tulum / Dubai", ja_d: "過去最大規模で両拠点開催", en_d: "Largest editions at both venues" },
-  { year: "2026", event: "ZAMNA HAWAII", ja_d: "初の米国開催。オアフ島モアナルアガーデン", en_d: "First US edition. Moanalua Gardens, Oahu" },
+  { year: "2019", event: "SOLUNA Tulum", ja_d: "初開催。トゥルムのセノーテで開催", en_d: "Inaugural edition at Tulum cenote" },
+  { year: "2022", event: "SOLUNA Dubai", ja_d: "中東初進出。砂漠の特設会場", en_d: "Middle East debut. Desert venue" },
+  { year: "2023", event: "SOLUNA Nosara", ja_d: "コスタリカ開催", en_d: "Costa Rica edition" },
+  { year: "2024", event: "SOLUNA Tulum / Dubai", ja_d: "過去最大規模で両拠点開催", en_d: "Largest editions at both venues" },
+  { year: "2026", event: "SOLUNA FEST HAWAII", ja_d: "初の米国開催。オアフ島モアナルアガーデン", en_d: "First US edition. Moanalua Gardens, Oahu" },
 ];
 
 export default function PressPage() {
@@ -70,13 +70,13 @@ export default function PressPage() {
 
       <nav className="top-nav no-print">
         <Link href="/" className="font-display" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.2em", textDecoration: "none" }}>
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           <Link href="/info" className="nav-pill">Info</Link>
           <Link href="/sponsor" className="nav-pill">{ja ? "スポンサー" : "Sponsor"}</Link>
           <span className="nav-pill-active">{ja ? "プレスキット" : "Press Kit"}</span>
-          <button onClick={() => downloadPDF("pdf-content", "ZAMNA-Press-Kit.pdf")} className="nav-pill" style={{ cursor: "pointer" }}>PDF</button>
+          <button onClick={() => downloadPDF("pdf-content", "SOLUNA-Press-Kit.pdf")} className="nav-pill" style={{ cursor: "pointer" }}>PDF</button>
           <button onClick={toggleLang} style={{ marginLeft: 8, padding: "5px 10px", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 999, fontSize: 10, cursor: "pointer", background: "transparent", color: "rgba(255,255,255,0.4)", fontWeight: 600 }}>
             {ja ? "EN" : "JA"}
           </button>
@@ -129,7 +129,7 @@ export default function PressPage() {
         {/* History */}
         <motion.section {...fade} style={{ marginBottom: 60 }}>
           <h2 className="font-display" style={{ fontSize: "clamp(1.6rem,5vw,2.2rem)", color: "#fff", marginBottom: 24 }}>
-            {ja ? "ZAMNAの歩み" : "ZAMNA History"}
+            {ja ? "SOLUNAの歩み" : "SOLUNA History"}
           </h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
             {HISTORY.map((h, i) => (
@@ -223,8 +223,8 @@ export default function PressPage() {
           <div className="card" style={{ padding: "24px 28px" }}>
             <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, lineHeight: 1.8, fontStyle: "italic" }}>
               {ja
-                ? "ZAMNA HAWAIIは、世界最高峰のアンダーグラウンド・エレクトロニック・ミュージックフェスティバル「ZAMNA」の初の米国開催です。2026年9月4〜5日、オアフ島モアナルアガーデンにて開催。SOLUNAがプロデュース。詳細: solun.art"
-                : "ZAMNA HAWAII is the first-ever US edition of ZAMNA, the world's most premium underground electronic music festival. September 4–5, 2026 at Moanalua Gardens, Oahu. Produced by SOLUNA. More info: solun.art"}
+                ? "SOLUNA FEST HAWAIIは、世界最高峰のアンダーグラウンド・エレクトロニック・ミュージックフェスティバル「SOLUNA」の初の米国開催です。2026年9月4〜5日、オアフ島モアナルアガーデンにて開催。SOLUNAがプロデュース。詳細: solun.art"
+                : "SOLUNA FEST HAWAII is the first-ever US edition of SOLUNA, the world's most premium underground electronic music festival. September 4–6, 2026 at Moanalua Gardens, Oahu. Produced by SOLUNA. More info: solun.art"}
             </p>
           </div>
         </motion.section>

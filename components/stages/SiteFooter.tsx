@@ -61,7 +61,7 @@ export default function SiteFooter() {
 
         {/* Instagram */}
         <a
-          href="https://instagram.com/zamnaofficial"
+          href="https://instagram.com/solunamusic"
           target="_blank"
           rel="noopener noreferrer"
           className="text-white/60 hover:text-gold transition-colors"

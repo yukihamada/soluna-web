@@ -6,7 +6,7 @@ const VIP_COLLECTION = process.env.NEXT_PUBLIC_VIP_COLLECTION || "";
 
 export default function VipLoungePage() {
   return (
-    <WalletGate collectionAddress={VIP_COLLECTION} passName="ZAMNA VIP Pass">
+    <WalletGate collectionAddress={VIP_COLLECTION} passName="SOLUNA VIP Pass">
       <div style={{ minHeight: "100vh", background: "#080808" }}>
         <div style={{ position: "fixed", inset: 0, background: "radial-gradient(ellipse at 50% 0%, rgba(201,169,98,0.05) 0%, transparent 60%)", pointerEvents: "none" }} />
 
@@ -18,7 +18,7 @@ export default function VipLoungePage() {
           background: "rgba(8,8,8,0.92)", backdropFilter: "blur(12px)",
         }}>
           <Link href="/" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 15, letterSpacing: "0.25em", color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>
-            ZAMNA HAWAII
+            SOLUNA FEST HAWAII
           </Link>
           <span style={{ fontSize: 10, color: "rgba(201,169,98,0.7)", letterSpacing: "0.2em", border: "1px solid rgba(201,169,98,0.3)", borderRadius: 999, padding: "4px 12px" }}>
             VIP PASS
@@ -107,7 +107,7 @@ export default function VipLoungePage() {
 
         <footer style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "20px 0", textAlign: "center" }}>
           <p style={{ fontSize: 11, color: "rgba(255,255,255,0.1)", letterSpacing: "0.1em" }}>
-            ZAMNA HAWAII 2026 · VIP Lounge · NFT-Gated
+            SOLUNA FEST HAWAII 2026 · VIP Lounge · NFT-Gated
           </p>
         </footer>
       </div>

@@ -15,8 +15,8 @@ const PKG = [
     jpy: "約1,500万円〜 / approx. ¥15M+",
     gold: true,
     bullets: {
-      ja: ["イベント名に御社名が入る（例：〇〇 presents ZAMNA HAWAII）", "全会場・全宣材に御社ロゴ", "VIPチケット30枚 + バックステージ5枚", "公式SNS（50万フォロワー）で御社フィーチャー"],
-      en: ["Your name in the event title (e.g. ○○ presents ZAMNA HAWAII)", "Logo everywhere: venue, all marketing materials", "30 VIP tickets + 5 backstage passes", "Featured on official social (500K followers)"],
+      ja: ["イベント名に御社名が入る（例：〇〇 presents SOLUNA FEST HAWAII）", "全会場・全宣材に御社ロゴ", "VIPチケット30枚 + バックステージ5枚", "公式SNS（50万フォロワー）で御社フィーチャー"],
+      en: ["Your name in the event title (e.g. ○○ presents SOLUNA FEST HAWAII)", "Logo everywhere: venue, all marketing materials", "30 VIP tickets + 5 backstage passes", "Featured on official social (500K followers)"],
     },
   },
   {
@@ -74,7 +74,7 @@ export default function SponsorPage() {
 
       {/* Print header */}
       <div className="print-header px-0">
-        <p className="font-display text-2xl tracking-wider" style={{ color: "#111" }}>ZAMNA HAWAII 2026</p>
+        <p className="font-display text-2xl tracking-wider" style={{ color: "#111" }}>SOLUNA FEST HAWAII 2026</p>
         <p className="text-sm mt-1" style={{ color: "#666" }}>
           {ja ? "スポンサーシップ資料 · 機密" : "Sponsorship Deck · Confidential"}
         </p>
@@ -83,7 +83,7 @@ export default function SponsorPage() {
       {/* Nav */}
       <nav className="top-nav no-print">
         <Link href="/" className="font-display text-sm tracking-widest" style={{ color: "rgba(255,255,255,0.4)", letterSpacing: "0.2em", textDecoration: "none" }}>
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           <span className="nav-pill-active">{ja ? "スポンサー" : "Sponsor"}</span>
@@ -110,7 +110,7 @@ export default function SponsorPage() {
             スポンサーシップ資料 · Confidential · 2026
           </p>
           <h1 className="font-display" style={{ fontSize: "clamp(3.8rem,14vw,7.5rem)", lineHeight: 0.95, marginBottom: 28, color: "#fff" }}>
-            ZAMNA<br />HAWAII<br />2026
+            SOLUNA<br />HAWAII<br />2026
           </h1>
           <div style={{ width: 36, height: 2, background: "rgba(201,169,98,0.6)", marginBottom: 22 }} />
           <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 22, lineHeight: 1.5, marginBottom: 12 }}>
@@ -123,10 +123,10 @@ export default function SponsorPage() {
           </p>
         </motion.div>
 
-        {/* SECTION 1: What is ZAMNA? */}
+        {/* SECTION 1: What is SOLUNA? */}
         <motion.section {...fade}>
           <h2 className="font-display" style={{ fontSize: "clamp(1.6rem,5vw,2.4rem)", marginBottom: 28, color: "#fff" }}>
-            {ja ? "ZAMNA HAWAIIって何？" : "What is ZAMNA HAWAII?"}
+            {ja ? "SOLUNA FEST HAWAIIって何？" : "What is SOLUNA FEST HAWAII?"}
           </h2>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10, marginBottom: 24 }}>
@@ -274,8 +274,8 @@ export default function SponsorPage() {
       <footer style={{ borderTop: "1px solid rgba(255,255,255,0.07)", padding: "24px 0", textAlign: "center" }}>
         <p style={{ fontSize: 11, color: "rgba(255,255,255,0.12)", letterSpacing: "0.1em" }}>
           {ja
-            ? "© 2026 ZAMNA HAWAII · Powered by SOLUNA · 本資料は機密情報です · 無断転用禁止"
-            : "© 2026 ZAMNA HAWAII · Powered by SOLUNA · Confidential · All rights reserved"}
+            ? "© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · 本資料は機密情報です · 無断転用禁止"
+            : "© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · Confidential · All rights reserved"}
         </p>
       </footer>
     </main>

@@ -56,7 +56,7 @@ export default function LoginPage() {
         {/* ロゴ */}
         <motion.a href="/" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}
           style={{ display: "block", textAlign: "center", textDecoration: "none", marginBottom: 48 }}>
-          <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 28, letterSpacing: "0.3em", color: "#fff" }}>ZAMNA HAWAII</p>
+          <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 28, letterSpacing: "0.3em", color: "#fff" }}>SOLUNA FEST HAWAII</p>
           <p style={{ fontSize: 10, letterSpacing: "0.3em", color: "rgba(201,169,98,0.6)", textTransform: "uppercase", marginTop: 4 }}>Partner Access</p>
         </motion.a>
 

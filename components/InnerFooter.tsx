@@ -34,7 +34,7 @@ export default function InnerFooter({ lang }: { lang: Lang }) {
         <a href="mailto:info@solun.art" className="inner-footer-link">info@solun.art</a>
       </div>
       <p style={{ textAlign: "center", fontSize: 11, color: "rgba(255,255,255,0.1)", letterSpacing: "0.1em" }}>
-        © 2026 ZAMNA HAWAII · Powered by SOLUNA
+        © 2026 SOLUNA FEST HAWAII · Powered by SOLUNA
       </p>
     </footer>
   );

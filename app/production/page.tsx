@@ -80,14 +80,14 @@ export default function ProductionPage() {
 
       <nav className="top-nav no-print">
         <Link href="/" className="font-display" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.2em", textDecoration: "none" }}>
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           <Link href="/admin" className="nav-pill">Admin</Link>
           <Link href="/safety" className="nav-pill">{ja ? "安全計画" : "Safety"}</Link>
           <Link href="/staff" className="nav-pill">{ja ? "スタッフ" : "Staff"}</Link>
           <span className="nav-pill-active">{ja ? "制作計画" : "Production"}</span>
-          <button onClick={() => downloadPDF("pdf-content", "ZAMNA-Production-Plan.pdf")} className="nav-pill" style={{ cursor: "pointer" }}>PDF</button>
+          <button onClick={() => downloadPDF("pdf-content", "SOLUNA-Production-Plan.pdf")} className="nav-pill" style={{ cursor: "pointer" }}>PDF</button>
           <button onClick={toggleLang} style={{ marginLeft: 8, padding: "5px 10px", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 999, fontSize: 10, cursor: "pointer", background: "transparent", color: "rgba(255,255,255,0.4)", fontWeight: 600 }}>
             {ja ? "EN" : "JA"}
           </button>
@@ -105,7 +105,7 @@ export default function ProductionPage() {
           </h1>
           <div style={{ width: 36, height: 2, background: "rgba(201,169,98,0.6)", marginBottom: 20 }} />
           <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 15 }}>
-            {ja ? "ZAMNA HAWAII 2026 — 当日運営・技術仕様" : "ZAMNA HAWAII 2026 — Operations & Technical Specifications"}
+            {ja ? "SOLUNA FEST HAWAII 2026 — 当日運営・技術仕様" : "SOLUNA FEST HAWAII 2026 — Operations & Technical Specifications"}
           </p>
         </motion.div>
 

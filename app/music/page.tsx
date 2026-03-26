@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import GlobalNav from "@/components/GlobalNav";
 
 let _lang = "en";
 const t = (ja: string, en: string, lang?: string) => ((lang || _lang) === "ja" ? ja : en);
@@ -148,18 +149,7 @@ export default function MusicPage() {
       <audio ref={audioRef} preload="auto" />
 
       {/* Header */}
-      <header style={{ padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0,0,0,0.3)", backdropFilter: "blur(20px)", position: "sticky", top: 0, zIndex: 100, borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <a href="/" style={{ color: gold, textDecoration: "none", fontSize: 13, letterSpacing: 5, fontWeight: 700 }}>SOLUNA</a>
-          <span style={{ color: "rgba(255,255,255,0.15)", fontSize: 10, letterSpacing: 3 }}>RADIO</span>
-        </div>
-        <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-          <a href="/rights" style={{ color: "rgba(255,255,255,0.3)", textDecoration: "none", fontSize: 11 }}>{t("権利管理", "Rights")}</a>
-          <a href="/developers" style={{ color: "rgba(255,255,255,0.3)", textDecoration: "none", fontSize: 11 }}>API</a>
-          <a href="/tickets" style={{ color: "rgba(255,255,255,0.3)", textDecoration: "none", fontSize: 11 }}>{t("チケット", "Tickets")}</a>
-          <button onClick={toggleLang} style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 6, padding: "3px 8px", color: "rgba(255,255,255,0.4)", fontSize: 10, cursor: "pointer" }}>{lang === "ja" ? "EN" : "JP"}</button>
-        </div>
-      </header>
+      <GlobalNav lang={lang} onToggleLang={toggleLang} />
 
       <div style={{ display: "flex", flexDirection: "column", minHeight: "calc(100vh - 52px - 96px)" }}>
         {/* Main area */}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import GlobalNav from "@/components/GlobalNav";
 
 let _lang = "en";
 const t = (ja: string, en: string, lang?: string) => ((lang || _lang) === "ja" ? ja : en);
@@ -91,14 +92,7 @@ export default function DevelopersPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "linear-gradient(160deg, #05060a 0%, #0a0d14 30%, #111827 100%)", color: "#fff", fontFamily: "'Inter', -apple-system, sans-serif" }}>
-      <header style={{ padding: "20px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${border}` }}>
-        <a href="/" style={{ color: gold, textDecoration: "none", fontSize: 13, letterSpacing: 5, fontWeight: 700 }}>SOLUNA</a>
-        <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-          <a href="/music" style={{ color: dim, textDecoration: "none", fontSize: 11, letterSpacing: 2 }}>{t("音楽", "MUSIC", lang)}</a>
-          <a href="/rights" style={{ color: dim, textDecoration: "none", fontSize: 11, letterSpacing: 2 }}>{t("権利管理", "RIGHTS", lang)}</a>
-          <button onClick={toggleLang} style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 6, padding: "4px 10px", color: "rgba(255,255,255,0.5)", fontSize: 11, cursor: "pointer", letterSpacing: 1 }}>{lang === "ja" ? "EN" : "JP"}</button>
-        </div>
-      </header>
+      <GlobalNav lang={lang} onToggleLang={toggleLang} />
 
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "64px 24px 80px" }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>

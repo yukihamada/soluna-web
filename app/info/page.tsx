@@ -50,8 +50,8 @@ const FAQ = [
   {
     ja_q: "飲食物の持ち込みは？",
     en_q: "Can I bring food or drinks?",
-    ja_a: "外部からの飲食物の持ち込みはできません。会場内に飲食ブースがあります。ZAMNAはサステナブルなイベントを目指し、使い捨てプラスチック不使用です。",
-    en_a: "Outside food and beverages are not permitted. Food and drink vendors will be available inside. ZAMNA is committed to sustainability — single-use plastics are banned.",
+    ja_a: "外部からの飲食物の持ち込みはできません。会場内に飲食ブースがあります。SOLUNAはサステナブルなイベントを目指し、使い捨てプラスチック不使用です。",
+    en_a: "Outside food and beverages are not permitted. Food and drink vendors will be available inside. SOLUNA is committed to sustainability — single-use plastics are banned.",
   },
   {
     ja_q: "雨天時はどうなりますか？",
@@ -88,7 +88,7 @@ export default function InfoPage() {
       {/* Nav */}
       <nav className="top-nav no-print">
         <Link href="/" className="font-display" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.2em", textDecoration: "none" }}>
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           <Link href="/vip" className="nav-pill">VIP</Link>
@@ -110,7 +110,7 @@ export default function InfoPage() {
             Event Info · 2026
           </p>
           <h1 className="font-display" style={{ fontSize: "clamp(3rem,12vw,5.5rem)", lineHeight: 0.95, marginBottom: 20, color: "#fff" }}>
-            ZAMNA<br />HAWAII
+            SOLUNA<br />HAWAII
           </h1>
           <div style={{ width: 36, height: 2, background: "rgba(201,169,98,0.6)", marginBottom: 20 }} />
           <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 15 }}>

@@ -17,7 +17,7 @@ export default function NotFound() {
         style={{ textAlign: "center", padding: "40px 24px", position: "relative", zIndex: 1 }}
       >
         <p style={{ fontSize: 10, letterSpacing: "0.4em", color: "rgba(201,169,98,0.6)", textTransform: "uppercase", marginBottom: 24 }}>
-          ZAMNA HAWAII 2026
+          SOLUNA FEST HAWAII 2026
         </p>
 
         <div className="font-display" style={{
@@ -60,7 +60,7 @@ export default function NotFound() {
 
       <footer style={{ position: "absolute", bottom: 24, left: 0, right: 0, textAlign: "center" }}>
         <p style={{ fontSize: 11, color: "rgba(255,255,255,0.1)", letterSpacing: "0.1em" }}>
-          © 2026 ZAMNA HAWAII · Powered by SOLUNA
+          © 2026 SOLUNA FEST HAWAII · Powered by SOLUNA
         </p>
       </footer>
     </main>

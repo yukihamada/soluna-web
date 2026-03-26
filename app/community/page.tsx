@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import GlobalNav from "@/components/GlobalNav";
 
 let _lang = "en";
 const t = (ja: string, en: string, lang?: string) =>
@@ -116,73 +117,7 @@ export default function CommunityPage() {
       }}
     >
       {/* Header */}
-      <header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "20px 32px",
-          borderBottom: "1px solid rgba(201,169,98,0.15)",
-        }}
-      >
-        <a
-          href="/"
-          style={{
-            fontFamily: "'Anton', sans-serif",
-            fontSize: 22,
-            color: "#C9A962",
-            textDecoration: "none",
-            letterSpacing: 2,
-          }}
-        >
-          SOLUNA
-        </a>
-        <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-          <a
-            href="/live"
-            style={{
-              color: "rgba(255,255,255,0.6)",
-              textDecoration: "none",
-              fontSize: 13,
-              fontWeight: 500,
-              padding: "6px 14px",
-              borderRadius: 8,
-              background: "rgba(255,255,255,0.05)",
-              transition: "color 0.2s",
-            }}
-          >
-            {t("ライブ", "Live")}
-          </a>
-          <a
-            href="/music"
-            style={{
-              color: "rgba(255,255,255,0.6)",
-              textDecoration: "none",
-              fontSize: 13,
-              fontWeight: 500,
-              padding: "6px 14px",
-              borderRadius: 8,
-              background: "rgba(255,255,255,0.05)",
-            }}
-          >
-            {t("音楽", "Music")}
-          </a>
-          <button
-            onClick={toggleLang}
-            style={{
-              background: "rgba(255,255,255,0.08)",
-              border: "1px solid rgba(255,255,255,0.12)",
-              color: "#aaa",
-              padding: "4px 12px",
-              borderRadius: 6,
-              cursor: "pointer",
-              fontSize: 13,
-            }}
-          >
-            {lang === "ja" ? "EN" : "JP"}
-          </button>
-        </div>
-      </header>
+      <GlobalNav lang={lang} onToggleLang={toggleLang} />
 
       <main style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 24px" }}>
         {/* Page title */}

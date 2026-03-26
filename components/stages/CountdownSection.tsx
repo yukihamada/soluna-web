@@ -57,8 +57,8 @@ export default function CountdownSection() {
             }}
           >
             {locale === "ja"
-              ? "ZAMNA HAWAII 2026 \u00B7 開幕まで"
-              : "ZAMNA HAWAII 2026 \u00B7 OPENS IN"}
+              ? "SOLUNA FEST HAWAII 2026 \u00B7 開幕まで"
+              : "SOLUNA FEST HAWAII 2026 \u00B7 OPENS IN"}
           </p>
 
           <div
@@ -140,7 +140,7 @@ export default function CountdownSection() {
               textTransform: "uppercase",
             }}
           >
-            SEP 4–5, 2026 · MOANALUA GARDENS · OAHU
+            SEP 4–6, 2026 · MOANALUA GARDENS · OAHU
           </p>
 
           {/* Ticket CTA — Stage 3+ */}
@@ -224,12 +224,12 @@ export default function CountdownSection() {
                 stat: locale === "ja" ? "125万" : "1.25M",
                 label:
                   locale === "ja" ? "SNSフォロワー" : "Social Followers",
-                sub: "@zamnaofficial",
+                sub: "@solunamusic",
               },
               {
                 stat: "2026",
                 label: locale === "ja" ? "ハワイ初上陸" : "Hawaii Debut",
-                sub: "Sep 4–5 · Oahu",
+                sub: "Sep 4–6 · Oahu",
               },
             ].map((card) => (
               <div

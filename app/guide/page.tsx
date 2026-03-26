@@ -71,7 +71,7 @@ export default function GuidePage() {
 
       <nav className="top-nav no-print">
         <Link href="/" className="font-display" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.2em", textDecoration: "none" }}>
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           <Link href="/info" className="nav-pill">{ja ? "アクセス" : "Info"}</Link>
@@ -91,7 +91,7 @@ export default function GuidePage() {
         {/* Hero */}
         <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} style={{ marginBottom: 64 }}>
           <p style={{ fontSize: 10, letterSpacing: "0.4em", color: "rgba(201,169,98,0.7)", marginBottom: 20, textTransform: "uppercase" }}>
-            {ja ? "当日ガイド · ZAMNA HAWAII 2026" : "Attendee Guide · ZAMNA HAWAII 2026"}
+            {ja ? "当日ガイド · SOLUNA FEST HAWAII 2026" : "Attendee Guide · SOLUNA FEST HAWAII 2026"}
           </p>
           <h1 className="font-display" style={{ fontSize: "clamp(2.4rem,9vw,4.5rem)", lineHeight: 1, color: "#fff", marginBottom: 20 }}>
             {ja ? "当日を\n楽しむために" : "Your\nEvent Guide"}
@@ -99,8 +99,8 @@ export default function GuidePage() {
           <div style={{ width: 36, height: 2, background: "rgba(201,169,98,0.6)", marginBottom: 20 }} />
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14, lineHeight: 1.8 }}>
             {ja
-              ? "ZAMNA HAWAII 2026 を最高の体験にするための完全ガイドです。当日の流れ・アクセス・持ち物をご確認ください。"
-              : "Everything you need for the best experience at ZAMNA HAWAII 2026. Day-of schedule, transport, and what to bring."}
+              ? "SOLUNA FEST HAWAII 2026 を最高の体験にするための完全ガイドです。当日の流れ・アクセス・持ち物をご確認ください。"
+              : "Everything you need for the best experience at SOLUNA FEST HAWAII 2026. Day-of schedule, transport, and what to bring."}
           </p>
         </motion.div>
 
@@ -238,12 +238,12 @@ export default function GuidePage() {
           </h2>
           <div className="card-gold" style={{ padding: "24px 26px" }}>
             <p style={{ fontSize: 10, letterSpacing: "0.25em", color: "rgba(201,169,98,0.7)", textTransform: "uppercase", marginBottom: 14 }}>
-              ZAMNA GREEN PLEDGE
+              SOLUNA GREEN PLEDGE
             </p>
             <p style={{ color: "rgba(255,255,255,0.65)", fontSize: 14, lineHeight: 1.8, marginBottom: 16 }}>
               {ja
-                ? "ZAMNAは地球環境への責任を真剣に考えるイベントブランドです。ZAMNA HAWAIIでも以下のポリシーを厳守します。"
-                : "ZAMNA is committed to environmental responsibility. The following green policies apply at ZAMNA HAWAII."}
+                ? "SOLUNAは地球環境への責任を真剣に考えるイベントブランドです。SOLUNA FEST HAWAIIでも以下のポリシーを厳守します。"
+                : "SOLUNA is committed to environmental responsibility. The following green policies apply at SOLUNA FEST HAWAII."}
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[

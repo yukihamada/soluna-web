@@ -18,7 +18,7 @@ const CLAUSES_JA = [
   {
     title: "第2条 — 使用目的",
     body: `甲は、以下のイベント開催のために乙の施設を使用する。
-イベント名: ZAMNA HAWAII 2026
+イベント名: SOLUNA FEST HAWAII 2026
 日程: 2026年9月3日（水）設営 〜 9月6日（日）撤収完了
 本番: 9月4日（金）18:00〜03:00、9月5日（土）18:00〜03:00
 想定来場者数: 2,000〜5,000名`,
@@ -94,7 +94,7 @@ Venue Owner ("Party B"): Moanalua Gardens Management`,
   {
     title: "Article 2 — Purpose of Use",
     body: `Party A shall use Party B's facility for the following event:
-Event Name: ZAMNA HAWAII 2026
+Event Name: SOLUNA FEST HAWAII 2026
 Dates: September 3, 2026 (setup) – September 6, 2026 (teardown complete)
 Event: Sep 4 (Fri) 18:00–03:00, Sep 5 (Sat) 18:00–03:00
 Expected Attendance: 2,000–5,000`,
@@ -173,13 +173,13 @@ export default function VenueAgreementPage() {
 
       <nav className="top-nav no-print">
         <Link href="/" className="font-display" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.2em", textDecoration: "none" }}>
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           <Link href="/admin" className="nav-pill">Admin</Link>
           <Link href="/contract" className="nav-pill">{ja ? "契約" : "Contract"}</Link>
           <span className="nav-pill-active">{ja ? "会場契約" : "Venue Agreement"}</span>
-          <button onClick={() => downloadPDF("pdf-content", "ZAMNA-Venue-Agreement.pdf")} className="nav-pill" style={{ cursor: "pointer" }}>PDF</button>
+          <button onClick={() => downloadPDF("pdf-content", "SOLUNA-Venue-Agreement.pdf")} className="nav-pill" style={{ cursor: "pointer" }}>PDF</button>
           <button onClick={toggleLang} style={{ marginLeft: 8, padding: "5px 10px", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 999, fontSize: 10, cursor: "pointer", background: "transparent", color: "rgba(255,255,255,0.4)", fontWeight: 600 }}>
             {ja ? "EN" : "JA"}
           </button>

@@ -63,7 +63,7 @@ export default function MintPage() {
         background: "rgba(8,8,8,0.92)", backdropFilter: "blur(12px)",
       }}>
         <Link href="/" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 15, letterSpacing: "0.25em", color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <span style={{ fontSize: 10, color: "rgba(201,169,98,0.7)", letterSpacing: "0.2em" }}>DEVNET</span>
       </nav>
@@ -76,7 +76,7 @@ export default function MintPage() {
           Mint Your Pass
         </h1>
         <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14, lineHeight: 1.6, marginBottom: 40 }}>
-          Mint a ZAMNA NFT pass on Solana devnet to access exclusive content. Switch your Phantom wallet to devnet first.
+          Mint a SOLUNA NFT pass on Solana devnet to access exclusive content. Switch your Phantom wallet to devnet first.
         </p>
 
         {/* Pass selection */}

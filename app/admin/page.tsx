@@ -49,7 +49,7 @@ const SECTIONS: Section[] = [
     en: "Funding",
     tasks: [
       { ja: "Vakas Investmentとの出資契約",              en: "Investment agreement with Vakas",             status: "done" },
-      { ja: "創設パートナー $200,000 調達",               en: "Founding partner $200K raise",                status: "urgent",     note: { ja: "⚠ 3/29にZAMNAがアーティストオプション提示。$200Kを口座に必要。Vakasは「LOI確認+他者の入金確認後に追加投資する」と明言。JCにproof of fundsを求められる可能性大", en: "⚠ ZAMNA presents artist options 3/29. Need $200K in account. Vakas: 'will invest more once I see LOI + others contributing'. JC may request proof of funds" } },
+      { ja: "創設パートナー $200,000 調達",               en: "Founding partner $200K raise",                status: "urgent",     note: { ja: "⚠ 3/29にSOLUNAがアーティストオプション提示。$200Kを口座に必要。Vakasは「LOI確認+他者の入金確認後に追加投資する」と明言。JCにproof of fundsを求められる可能性大", en: "⚠ SOLUNA presents artist options 3/29. Need $200K in account. Vakas: 'will invest more once I see LOI + others contributing'. JC may request proof of funds" } },
       { ja: "エスクロー口座の開設",                       en: "Open dedicated escrow account",               status: "in_progress",note: { ja: "Sean: 銀行口座準備済みと報告。デポジット用に即座に入金が必要", en: "Sean reported bank account ready. Need immediate deposit for artist bookings" } },
       { ja: "イベントキャンセル保険の締結",               en: "Event cancellation insurance",                status: "in_progress",note: { ja: "ハワイのイベント保険会社リスト入手済み（Vakas作成）。市議会向けにも必要", en: "Hawaii event insurance company list obtained (by Vakas). Also needed for city council" } },
       { ja: "チケット売上収益の入金管理（Ticketblox）",   en: "Ticket revenue tracking via Ticketblox",      status: "urgent",     note: { ja: "⚠ David排除決定。消費者に~12%課金しDavidが手数料を取っていた事が発覚。契約再発行・Davidのアクセス/メール削除・AnupにNDA要求。114枚分のコミッションはDavidに支払い、以後カット", en: "⚠ David removed. He was charging ~12% to consumers and taking commission. Reissue contract, remove David's access/email, require NDA from Anup. Pay David commission on 114 tickets sold, then cut off" } },
@@ -66,7 +66,7 @@ const SECTIONS: Section[] = [
       { ja: "ハワイ州 LLC / Corp の設立",                en: "Incorporate LLC / Corp in Hawaii",             status: "done",       note: { ja: "設立済み", en: "Incorporated" } },
       { ja: "事業用米国銀行口座の開設",                  en: "Open US business bank account",               status: "done",       note: { ja: "口座開設済み", en: "Account opened" } },
       { ja: "会計・経理担当者のアサイン",                en: "Assign accountant / bookkeeper",              status: "pending" },
-      { ja: "詳細収支予算（P&L）の確定",                 en: "Finalize detailed P&L budget",                status: "in_progress",note: { ja: "✅ Sid が1日分の予算を7時間かけて完成。2日目で制作費50%分散、3日目で33%。VIPテーブル($10K/$25K)の詳細設計とアルコール管理($100K+仕入れ必要)の追加が必要。ZAMNA手数料(ブッキング15%+利益7%)の反映も", en: "✅ Sid completed 1-day budget (7 hours). Day 2 spreads production 50%, Day 3 to 33%. Need VIP table ($10K/$25K) details + alcohol management ($100K+ inventory). ZAMNA fees (15% booking + 7% profit) to add" } },
+      { ja: "詳細収支予算（P&L）の確定",                 en: "Finalize detailed P&L budget",                status: "in_progress",note: { ja: "✅ Sid が1日分の予算を7時間かけて完成。2日目で制作費50%分散、3日目で33%。VIPテーブル($10K/$25K)の詳細設計とアルコール管理($100K+仕入れ必要)の追加が必要。SOLUNA手数料(ブッキング15%+利益7%)の反映も", en: "✅ Sid completed 1-day budget (7 hours). Day 2 spreads production 50%, Day 3 to 33%. Need VIP table ($10K/$25K) details + alcohol management ($100K+ inventory). SOLUNA fees (15% booking + 7% profit) to add" } },
       { ja: "Proof of Funds（残高証明）の準備",           en: "Proof of Funds documentation",                status: "urgent",     note: { ja: "⚠ JC/エージェンシーが口座残高証明を求める可能性。$200Kを口座に入れるか、会社の資金証明を用意。3/29のアーティストオプション提示前に必須", en: "⚠ JC/agencies may request proof of funds. Need $200K in account or company fund certification. Required before 3/29 artist options" } },
       { ja: "経費承認フローの確立",                      en: "Expense approval workflow",                   status: "pending",    note: { ja: "全メンバーがレシートを提出し、全員の承認後に支出。Seanの善意を利用されないよう相互チェック", en: "All members submit receipts, approved by all before spending. Cross-check to prevent exploitation of Sean's generosity" } },
       { ja: "ハワイ州・連邦税申告の準備",                en: "Hawaii state & federal tax filing prep",      status: "pending" },
@@ -82,7 +82,7 @@ const SECTIONS: Section[] = [
       { ja: "NDA テンプレートの整備",                    en: "NDA templates finalized",                     status: "done" },
       { ja: "投資契約書ドラフトの弁護士レビュー",        en: "Investment contract attorney review",         status: "urgent",     note: { ja: "Vakas の署名済み投資レターをSeanが送付予定", en: "Sean to send Vakas signed investment letter" } },
       { ja: "スポンサー契約書の整備",                    en: "Sponsor contracts finalized",                 status: "in_progress" },
-      { ja: "ZAMNA ブランドライセンス契約の締結（JC ZAMNA）",en: "ZAMNA brand license signed with JC ZAMNA", status: "urgent",     note: { ja: "⚠ 3月末期限。ブッキング手数料15%+利益7%の条件。2日目・3日目をZAMNAライセンス外で開催する場合の条件も要確認", en: "⚠ March deadline. Booking fee 15% + profit 7%. Also clarify terms if Day 2-3 held outside ZAMNA license" } },
+      { ja: "SOLUNA ブランドライセンス契約の締結（JC SOLUNA）",en: "SOLUNA brand license signed with JC SOLUNA", status: "urgent",     note: { ja: "⚠ 3月末期限。ブッキング手数料15%+利益7%の条件。2日目・3日目をSOLUNAライセンス外で開催する場合の条件も要確認", en: "⚠ March deadline. Booking fee 15% + profit 7%. Also clarify terms if Day 2-3 held outside SOLUNA license" } },
       { ja: "アーティスト出演契約テンプレートの準備",    en: "Artist performance contract template",        status: "pending" },
       { ja: "会場利用契約の法務レビュー",                en: "Venue contract legal review",                 status: "in_progress",note: { ja: "JP DamonがLOIを会社名変更のみで承認。3/18署名予定。独占契約の条項を含めるべき", en: "JP Damon approved LOI with company name change only. Signing 3/18. Should include exclusivity clause" } },
       { ja: "Taylor/Electric Palms 提携契約",           en: "Taylor/Electric Palms partnership contract",  status: "pending",    note: { ja: "Davidの教訓: 見積価格の裏取り必須。アーティスト価格を独立検証してからMOU締結", en: "Lesson from David: must verify quoted prices independently before signing MOU" } },
@@ -98,10 +98,10 @@ const SECTIONS: Section[] = [
       { ja: "Moanalua Gardens (JP Damon) 会場契約の締結",              en: "Moanalua Gardens (JP Damon) venue contract signed",          status: "in_progress", note: { ja: "✅ JP DamonがLOIレビュー中。会社名変更のみで署名予定(3/18)。前向きに進行中！3/18にHI Japan Fair + 計測ローラーで現地計測。独占契約獲得できれば島のトップポジション確保", en: "✅ JP Damon reviewing LOI — only company name changes needed, signing expected 3/18. Very positive! On-site measurement 3/18 with HI Japan Fair + roller. Exclusivity = top position on island" } },
       { ja: "ハワイ州イベント営業許可の取得",            en: "Hawaii state special event permit",           status: "in_progress" },
       { ja: "アルコール提供ライセンス（Liquor License）",en: "Liquor license for the event",                status: "pending" },
-      { ja: "ステージ設計・レイアウト確定",              en: "Stage design & venue layout finalized",       status: "in_progress",note: { ja: "ZAMNAスタイル多段バックステージ設計。ステージ高4ft、VIP 2ft、GA地面レベル。左右+背後3段のテーブル配置。Hawaii Stage & Lightingの技術ディレクターと共同設計中", en: "ZAMNA-style tiered backstage. Stage 4ft, VIP 2ft, GA ground level. Side + 3-tier behind tables. Co-designing with Hawaii Stage & Lighting technical director" } },
+      { ja: "ステージ設計・レイアウト確定",              en: "Stage design & venue layout finalized",       status: "in_progress",note: { ja: "SOLUNAスタイル多段バックステージ設計。ステージ高4ft、VIP 2ft、GA地面レベル。左右+背後3段のテーブル配置。Hawaii Stage & Lightingの技術ディレクターと共同設計中", en: "SOLUNA-style tiered backstage. Stage 4ft, VIP 2ft, GA ground level. Side + 3-tier behind tables. Co-designing with Hawaii Stage & Lighting technical director" } },
       { ja: "Hawaii Stage & Lighting との打ち合わせ・契約",en: "Hawaii Stage & Lighting meeting & contract",  status: "in_progress", note: { ja: "制作パートナー。機材倉庫視察済み。技術ディレクターとフットプリント設計中。Bruno Mars機材所有。Kuhioが市議会メンバーでもある", en: "Production partner. Warehouse visited. Designing footprint with tech director. Owns Bruno Mars gear. Kuhio also on city council" } },
       { ja: "会場フットプリント計測（3/18）",            en: "Venue footprint measurement (3/18)",          status: "in_progress",note: { ja: "3/18にHI Japan Fair担当者+計測ローラーで現地計測。JP Damonと会合。フードベンダーエリア配置も確定", en: "3/18 on-site with HI Japan Fair rep + measuring roller. Meeting JP Damon. Food vendor area layout to be finalized" } },
-      { ja: "2日目・3日目の開催検討",                    en: "Day 2-3 event planning",                      status: "pending",    note: { ja: "ZAMNAライセンスが1日のみの場合、土日はTaylor/Electric Palmsと別名義で共催。2日目で制作費50%分散、3日目で33%", en: "If ZAMNA license is 1 day only, Sat/Sun collab with Taylor/Electric Palms under different name. Day 2: 50% production split, Day 3: 33%" } },
+      { ja: "2日目・3日目の開催検討",                    en: "Day 2-3 event planning",                      status: "pending",    note: { ja: "SOLUNAライセンスが1日のみの場合、土日はTaylor/Electric Palmsと別名義で共催。2日目で制作費50%分散、3日目で33%", en: "If SOLUNA license is 1 day only, Sat/Sun collab with Taylor/Electric Palms under different name. Day 2: 50% production split, Day 3: 33%" } },
       { ja: "発電機・電気設備の手配",                    en: "Generator & power infrastructure",            status: "pending" },
       { ja: "仮設トイレ・水道設備の手配",                en: "Restrooms & water infrastructure",            status: "pending" },
       { ja: "Wi-Fi・通信インフラの整備",                 en: "On-site Wi-Fi & communications",              status: "pending" },
@@ -130,17 +130,17 @@ const SECTIONS: Section[] = [
     ja: "アーティスト",
     en: "Artists",
     tasks: [
-      { ja: "ヘッドライナー交渉・契約",                  en: "Headliner negotiation & contract",            status: "urgent",     note: { ja: "⚠ ZAMNAが3アーティストパッケージ$250K提示(Above&Beyond, Chris Lake, Galantis候補)。CamelFat不可。3/29にオプション提示。シカゴラインナップからの移動も検討中。ZAMNA手数料: ブッキング15% + 利益7%", en: "⚠ ZAMNA offered 3-artist package ~$250K (Above&Beyond, Chris Lake, Galantis candidates). CamelFat can't. Options on 3/29. Also exploring Chicago lineup flyovers. ZAMNA fees: 15% booking + 7% profit" } },
+      { ja: "ヘッドライナー交渉・契約",                  en: "Headliner negotiation & contract",            status: "urgent",     note: { ja: "⚠ SOLUNAが3アーティストパッケージ$250K提示(Above&Beyond, Chris Lake, Galantis候補)。CamelFat不可。3/29にオプション提示。シカゴラインナップからの移動も検討中。SOLUNA手数料: ブッキング15% + 利益7%", en: "⚠ SOLUNA offered 3-artist package ~$250K (Above&Beyond, Chris Lake, Galantis candidates). CamelFat can't. Options on 3/29. Also exploring Chicago lineup flyovers. SOLUNA fees: 15% booking + 7% profit" } },
       { ja: "サポートアクト 3〜5組の確定",               en: "Supporting acts (3–5) confirmed",             status: "in_progress",note: { ja: "チームにシカゴラインナップからトップ4-5 DJ選定を依頼済み。シカゴ→ハワイ移動で土日月に配置検討", en: "Team asked to pick top 4-5 DJs from Chicago lineup. Considering Sat/Sun/Mon scheduling via Chicago→Hawaii route" } },
-      { ja: "Taylor/Electric Palms パートナーシップ検討", en: "Taylor/Electric Palms partnership evaluation", status: "in_progress",note: { ja: "⚠ 島で最も有力なEDMプロモーター。LA面談済み。$100K以下のアーティスト確保可能と主張。ただしDavidの教訓から価格の裏取りが必須。ZAMNAライセンス外の土日開催で協業の可能性", en: "⚠ Most prominent EDM promoter on island. Met in LA. Claims artists under $100K. Must verify pricing (learned from David). Potential Sat/Sun collab outside ZAMNA license" } },
+      { ja: "Taylor/Electric Palms パートナーシップ検討", en: "Taylor/Electric Palms partnership evaluation", status: "in_progress",note: { ja: "⚠ 島で最も有力なEDMプロモーター。LA面談済み。$100K以下のアーティスト確保可能と主張。ただしDavidの教訓から価格の裏取りが必須。SOLUNAライセンス外の土日開催で協業の可能性", en: "⚠ Most prominent EDM promoter on island. Met in LA. Claims artists under $100K. Must verify pricing (learned from David). Potential Sat/Sun collab outside SOLUNA license" } },
       { ja: "ローカル DJ / アーティストの選定（ハワイ）",en: "Local Hawaii DJ / artist selection",          status: "in_progress",note: { ja: "Sean のローカルチームが活動中。Baby Zamnaイベント実施済み", en: "Sean's local team active. Baby Zamna event executed" } },
       { ja: "全アーティストの出演ライダー確認",          en: "All artist riders confirmed",                 status: "pending" },
       { ja: "外国人アーティストのビザ申請（O-1 / P-1）", en: "Artist visa applications (O-1 / P-1)",        status: "urgent",     note: { ja: "⚠ 申請〜取得に3〜6ヶ月。9月開催まで6ヶ月。今すぐ着手しないと間に合わない", en: "⚠ 3–6 months lead time. 6 months to event. Must start NOW or risk missing deadline" } },
       { ja: "フライト・ホテル comp rooms の手配",        en: "Artist comp flights & hotel rooms",           status: "in_progress",note: { ja: "航空会社・ホテルにスポンサー型comp交渉中（Sean）", en: "Negotiating comp rooms via sponsor deals (Sean)" } },
       { ja: "バックステージライダー・ケータリング手配",  en: "Backstage catering & rider fulfillment",      status: "pending",    note: { ja: "専属シェフ+フードベンダーからのフードチケット提供。海外アーティストにハワイアン料理体験", en: "Dedicated chef + food tickets from vendors. Give international artists Hawaiian food experience" } },
       { ja: "シカゴラインナップからのアーティスト移動",  en: "Chicago lineup → Hawaii artist routing",      status: "in_progress",note: { ja: "シカゴ公演後ハワイへ直行。土日月に配置。コスト効率の良いルーティング", en: "Direct from Chicago shows to Hawaii. Schedule for Sat/Sun/Mon. Cost-efficient routing" } },
-      { ja: "ZAMNA vs Taylor アーティスト価格比較",       en: "ZAMNA vs Taylor artist price comparison",     status: "in_progress",note: { ja: "ZAMNAのブッキング手数料15%+利益7% vs Taylorの$100K以下アーティスト。独立検証必須", en: "ZAMNA booking 15% + profit 7% vs Taylor's sub-$100K artists. Independent verification required" } },
-      { ja: "2-3日間タイムテーブルの確定",               en: "2-3 day timetable finalized",                 status: "pending",    note: { ja: "Day1=ZAMNA(Sep4) / Day2-3=Taylor協業の可能性(Sep5-6)。3PM-10PM+アフターパーティー", en: "Day1=ZAMNA(Sep4) / Day2-3=Taylor collab(Sep5-6). 3PM-10PM + after party" } },
+      { ja: "SOLUNA vs Taylor アーティスト価格比較",       en: "SOLUNA vs Taylor artist price comparison",     status: "in_progress",note: { ja: "SOLUNAのブッキング手数料15%+利益7% vs Taylorの$100K以下アーティスト。独立検証必須", en: "SOLUNA booking 15% + profit 7% vs Taylor's sub-$100K artists. Independent verification required" } },
+      { ja: "2-3日間タイムテーブルの確定",               en: "2-3 day timetable finalized",                 status: "pending",    note: { ja: "Day1=SOLUNA(Sep4) / Day2-3=Taylor協業の可能性(Sep5-6)。3PM-10PM+アフターパーティー", en: "Day1=SOLUNA(Sep4) / Day2-3=Taylor collab(Sep5-6). 3PM-10PM + after party" } },
     ],
   },
 
@@ -158,7 +158,7 @@ const SECTIONS: Section[] = [
       { ja: "当日キャッシュレス決済システム（RFIDリストバンド）",en: "On-site cashless payment (RFID wristbands)",status: "in_progress",note: { ja: "Coachella方式のRFIDバンド採用予定。Ticketbloxが対応可能。Sidにもソースあり", en: "Coachella-style RFID wristbands. Ticketblox can set up. Sid also has a source" } },
       { ja: "入場 QR コードシステムの構築",              en: "QR code check-in system",                     status: "in_progress",note: { ja: "Ticketblox QRと連携。入場スキャン・VIPアクセス管理", en: "Integrated with Ticketblox QR. Entry scan & VIP access control" } },
       { ja: "転売防止・本人確認ポリシーの策定",          en: "Anti-scalping / ID verification policy",      status: "pending" },
-      { ja: "VIPテーブル販売構造の確定",                 en: "VIP table package structure finalized",       status: "in_progress",note: { ja: "$25Kテーブル: 12-15 VIPチケット+$4-5Kアルコール+専属ウェイトスタッフ4名。$10Kテーブル: 6 VIPチケット+$3Kアルコール+$1K場所代。ZAMNAスタイル多段バックステージ(ステージ左右+背後3段)。Ticketbloxでテーブル選択・決済対応可能", en: "$25K table: 12-15 VIP tix + $4-5K alcohol + 4 dedicated staff. $10K table: 6 VIP tix + $3K alcohol + $1K real estate. ZAMNA-style tiered backstage (sides + 3 levels behind). Ticketblox can handle table selection & payment" } },
+      { ja: "VIPテーブル販売構造の確定",                 en: "VIP table package structure finalized",       status: "in_progress",note: { ja: "$25Kテーブル: 12-15 VIPチケット+$4-5Kアルコール+専属ウェイトスタッフ4名。$10Kテーブル: 6 VIPチケット+$3Kアルコール+$1K場所代。SOLUNAスタイル多段バックステージ(ステージ左右+背後3段)。Ticketbloxでテーブル選択・決済対応可能", en: "$25K table: 12-15 VIP tix + $4-5K alcohol + 4 dedicated staff. $10K table: 6 VIP tix + $3K alcohol + $1K real estate. SOLUNA-style tiered backstage (sides + 3 levels behind). Ticketblox can handle table selection & payment" } },
       { ja: "アルコール仕入れ・管理体制の構築",           en: "Alcohol procurement & management setup",      status: "pending",    note: { ja: "$100K+の仕入れが必要。外部委託で85/15%分配想定。Dougの推薦(コリナウェディング/フォーシーズン担当業者)。2-3日開催なら不人気銘柄を翌日カット可能", en: "$100K+ procurement needed. Outsource at 85/15% split. Doug's referral (Kolina wedding/Four Seasons vendor). Multi-day: cut unpopular brands next day" } },
       { ja: "ローカル店舗でのハードチケット販売（20店舗）",en: "Hard ticket sales at 20 local shops",        status: "pending",    note: { ja: "Locals-only手数料なし。店舗に$1-$2/枚コミッション。ポスター掲示。候補: Harley Davidson、レコード店、ABC Store、7-Eleven", en: "Locals-only, no service fee. $1-$2/ticket commission. Poster display. Candidates: Harley Davidson, record shops, ABC Store, 7-Eleven" } },
     ],
@@ -172,7 +172,7 @@ const SECTIONS: Section[] = [
       { ja: "ブランドビジュアル・キービジュアルの確定",  en: "Brand visual & key artwork finalized",        status: "in_progress",note: { ja: "グラフィックデザイナー必要。Steph候補。Electric Palmsチームも検討中。会社カラー: 黄+黒", en: "Graphic designer needed. Steph candidate. Electric Palms team also being considered. Brand colors: yellow + black" } },
       { ja: "SNS ハワイローカルチームによる運用開始",    en: "SNS managed by Sean's local Hawaii team",     status: "done",       note: { ja: "ローカルパートナー(Centered, Lindy On, AudioFile等)全員ラインナップ待ち。確定後にポップアップ撮影・動画・マーチ・ブランディング展開開始。TMR(レゲエDB10万人)はEDM向きではないが補助チャネルとして活用", en: "Local partners (Centered, Lindy On, AudioFile etc) all waiting for lineup. Post-confirmation: popup shoots, videos, merch, branding. TMR (100K reggae DB) as supplementary channel" } },
       { ja: "ラインナップ発表（アーティスト確定後）",    en: "Lineup announcement (post-booking)",          status: "pending",    note: { ja: "最大の集客スイッチ。アーティスト確定が最優先", en: "Biggest attendance driver — artist booking is #1 priority" } },
-      { ja: "日本・アジア向けプロモーション（ゆみこ）",  en: "Japan & Asia promotion (Yumiko team)",        status: "pending",    note: { ja: "ZAMNA DB 50万人 / SNS 125万フォロワーに向けアジア配信", en: "Target ZAMNA DB 500K users / 1.25M followers for Asia" } },
+      { ja: "日本・アジア向けプロモーション（ゆみこ）",  en: "Japan & Asia promotion (Yumiko team)",        status: "pending",    note: { ja: "SOLUNA DB 50万人 / SNS 125万フォロワーに向けアジア配信", en: "Target SOLUNA DB 500K users / 1.25M followers for Asia" } },
       { ja: "インフルエンサー・メディアリストの作成",    en: "Influencer & media list compiled",            status: "pending" },
       { ja: "有料 SNS 広告キャンペーンの実施",           en: "Paid social ad campaigns",                    status: "pending" },
       { ja: "プレスリリースの配信（英語・日本語）",      en: "Press releases (EN & JA)",                    status: "pending" },
@@ -186,7 +186,7 @@ const SECTIONS: Section[] = [
     ja: "スポンサー",
     en: "Sponsors",
     tasks: [
-      { ja: "スポンサーデックの配布",                    en: "Sponsor deck distributed",                    status: "done",       note: { ja: "solun.art/sponsor で公開中。ZAMNA実績：来場85万人・SNS125万人", en: "Live at solun.art/sponsor. ZAMNA track record: 850K attendees, 1.25M followers" } },
+      { ja: "スポンサーデックの配布",                    en: "Sponsor deck distributed",                    status: "done",       note: { ja: "solun.art/sponsor で公開中。SOLUNA実績：来場85万人・SNS125万人", en: "Live at solun.art/sponsor. SOLUNA track record: 850K attendees, 1.25M followers" } },
       { ja: "Roberts Hawaii（シャトル・スポンサー）交渉",en: "Roberts Hawaii: shuttle sponsor negotiation", status: "in_progress",note: { ja: "Sean が交渉中。スポンサー兼シャトル業者として検討", en: "Sean in talks. Exploring as sponsor + shuttle provider" } },
       { ja: "航空会社への comp 交渉（アーティスト用）",  en: "Airline comp rooms negotiation (for artists)", status: "in_progress",note: { ja: "Sean が航空会社・ホテルに接触中", en: "Sean reaching out to airlines & hotels" } },
       { ja: "Presenting Partner 候補へのアプローチ",     en: "Presenting partner ($100K+) outreach",        status: "in_progress" },
@@ -225,7 +225,7 @@ const SECTIONS: Section[] = [
       { ja: "全スタッフ向けオペレーションマニュアル",    en: "Operations manual for all staff",             status: "pending" },
       { ja: "リハーサル・スタッフブリーフィング",        en: "Production rehearsal & staff briefing",       status: "pending" },
       { ja: "アフターパーティー会場の確定",              en: "After-party venue confirmed",                 status: "in_progress",note: { ja: "候補: Kala Waikiki (5PM-2AM, Tropic Bamba/Jack) + Anura (12AM-dawn, Miko担当)。ハワイPD運営のアフターアワーズ会場も候補", en: "Candidates: Kala Waikiki (5PM-2AM, Tropic Bamba/Jack) + Anura (12AM-dawn, Miko contact). HPD-operated after-hours venue also candidate" } },
-      { ja: "内部コミュニケーション体制の一元化",        en: "Unified internal communications",             status: "urgent",     note: { ja: "⚠ Sid: カレンダー同期に苦労(Coachella6グループ+ZAMNA)。WhatsApp中心に統一を試みるが、深夜のSean/Sid/Vakas間テキストがグループに共有されない問題。全員のカレンダー統合が急務", en: "⚠ Sid struggling to sync calendars (Coachella 6 groups + ZAMNA). Trying to centralize on WhatsApp but late-night Sean/Sid/Vakas texts not shared with group. Calendar integration urgent" } },
+      { ja: "内部コミュニケーション体制の一元化",        en: "Unified internal communications",             status: "urgent",     note: { ja: "⚠ Sid: カレンダー同期に苦労(Coachella6グループ+SOLUNA)。WhatsApp中心に統一を試みるが、深夜のSean/Sid/Vakas間テキストがグループに共有されない問題。全員のカレンダー統合が急務", en: "⚠ Sid struggling to sync calendars (Coachella 6 groups + SOLUNA). Trying to centralize on WhatsApp but late-night Sean/Sid/Vakas texts not shared with group. Calendar integration urgent" } },
     ],
   },
 
@@ -266,7 +266,7 @@ const SECTIONS: Section[] = [
       { ja: "solun.art カスタムドメインの DNS 設定",     en: "solun.art custom domain DNS setup",           status: "done",       note: { ja: "Fly.io証明書発行済み。solun.art で本番稼働中", en: "Fly.io cert issued. Production live at solun.art" } },
       { ja: "メール配信システムの構築",                  en: "Email marketing system setup",                status: "done",       note: { ja: "管理画面からメール一斉送信可能（/admin → メール登録タブ）。Resend API統合済み", en: "Blast emails from admin panel (Emails tab). Resend API integrated" } },
       { ja: "来場者向け Web ガイド / アプリの制作",      en: "Attendee web guide / app",                    status: "done",       note: { ja: "solun.art/guide で公開済み（タイムライン・アクセス・持ち物）", en: "Live at solun.art/guide — timeline, transport, packing list" } },
-      { ja: "ライブ配信 / ストリーミングの検討",         en: "Live stream / broadcasting plan",             status: "pending",    note: { ja: "YouTube Live / Twitch での2日間配信を検討。アフタームービー制作と連携", en: "Considering YouTube Live / Twitch for 2-day broadcast. Coordinate with after-movie team" } },
+      { ja: "ライブ配信 / ストリーミングの検討",         en: "Live stream / broadcasting plan",             status: "pending",    note: { ja: "YouTube Live / Twitch での3日間配信を検討。アフタームービー制作と連携", en: "Considering YouTube Live / Twitch for 2-day broadcast. Coordinate with after-movie team" } },
       { ja: "当日チェックインアプリ（QR対応）",          en: "Day-of check-in app (QR support)",            status: "in_progress",note: { ja: "Ticketblox QRコードとの連携。入場ゲート用タブレットUI開発中", en: "Integration with Ticketblox QR codes. Developing tablet UI for entry gates" } },
     ],
   },
@@ -291,11 +291,11 @@ const SECTIONS: Section[] = [
     ja: "サステナビリティ",
     en: "Sustainability",
     tasks: [
-      { ja: "環境方針・グリーン宣言の策定",              en: "Environmental policy & green pledge",         status: "done",       note: { ja: "サイト掲載済み（/guide — ZAMNA GREEN PLEDGE）", en: "Published on site (/guide — ZAMNA GREEN PLEDGE)" } },
+      { ja: "環境方針・グリーン宣言の策定",              en: "Environmental policy & green pledge",         status: "done",       note: { ja: "サイト掲載済み（/guide — SOLUNA GREEN PLEDGE）", en: "Published on site (/guide — SOLUNA GREEN PLEDGE)" } },
       { ja: "使い捨てプラスチックゼロの実施計画",        en: "Single-use plastic-free plan",                status: "in_progress",note: { ja: "方針掲載済み・現地運営チームと詳細詰め中", en: "Policy published — coordinating with on-site ops team" } },
       { ja: "カーボンオフセット計画",                    en: "Carbon offset program",                       status: "pending",    note: { ja: "航空・発電機・輸送のCO2を算出し、ハワイの森林保全プロジェクトに投資", en: "Calculate CO2 from flights, generators, transport. Invest in Hawaii forest conservation" } },
       { ja: "地域コミュニティ・環境保護への貢献策",      en: "Local community & environmental contribution", status: "pending",   note: { ja: "Moanalua Gardens 近隣住民への還元策。地元学校・NPOとの連携", en: "Give-back plan for Moanalua Gardens neighbors. Partner with local schools & NPOs" } },
-      { ja: "リユーザブルカップ・ZAMNA限定グッズ",       en: "Reusable cups & ZAMNA merch",                 status: "pending",    note: { ja: "デポジット制カップ＋限定デザインで物販収益も獲得", en: "Deposit-based cups + limited edition design for merch revenue" } },
+      { ja: "リユーザブルカップ・SOLUNA限定グッズ",       en: "Reusable cups & SOLUNA merch",                 status: "pending",    note: { ja: "デポジット制カップ＋限定デザインで物販収益も獲得", en: "Deposit-based cups + limited edition design for merch revenue" } },
     ],
   },
 
@@ -309,19 +309,19 @@ const SECTIONS: Section[] = [
       { ja: "アフタームービーの公開",                    en: "After-movie release",                         status: "pending",    note: { ja: "Rare Day / Keppra チームに依頼。イベント後2週間以内にティザー公開", en: "Coordinate with Rare Day / Keppra. Release teaser within 2 weeks post-event" } },
       { ja: "来場者アンケートの実施・集計",              en: "Attendee survey & analysis",                  status: "pending" },
       { ja: "収支最終報告・精算",                        en: "Final financial report & settlement",         status: "pending" },
-      { ja: "ZAMNA HAWAII 2027 の検討開始",              en: "ZAMNA HAWAII 2027 planning begins",           status: "pending",    note: { ja: "初年度実績をもとに2027年計画を10月開始目標", en: "Based on year-1 results, start 2027 planning by October" } },
+      { ja: "SOLUNA FEST HAWAII 2027 の検討開始",              en: "SOLUNA FEST HAWAII 2027 planning begins",           status: "pending",    note: { ja: "初年度実績をもとに2027年計画を10月開始目標", en: "Based on year-1 results, start 2027 planning by October" } },
     ],
   },
 ];
 
 const KPI = [
-  { value: "Sep 4–5, 2026", label: { ja: "開催日（Labor Day週末）", en: "Event dates (Labor Day wknd)" } },
+  { value: "Sep 4–6, 2026", label: { ja: "開催日（Labor Day週末）", en: "Event dates (Labor Day wknd)" } },
   { value: `${Math.ceil((new Date("2026-09-04").getTime() - Date.now()) / 86400000)}d`, label: { ja: "開催まで残り", en: "Days until event" } },
   { value: "9,000/day",     label: { ja: "想定来場者数（/日）",     en: "Expected attendance (per day)" } },
   { value: "$200,000",      label: { ja: "調達目標",               en: "Fundraise target" } },
   { value: "VIP $1,000+",   label: { ja: "VIPチケット最低価格",    en: "VIP ticket starting price" } },
-  { value: "+850,000",      label: { ja: "ZAMNAグローバル来場実績", en: "ZAMNA global attendance" } },
-  { value: "1.25M",         label: { ja: "ZAMNAグローバルSNS",     en: "ZAMNA global social followers" } },
+  { value: "+850,000",      label: { ja: "SOLUNAグローバル来場実績", en: "SOLUNA global attendance" } },
+  { value: "1.25M",         label: { ja: "SOLUNAグローバルSNS",     en: "SOLUNA global social followers" } },
   { value: "82KB",          label: { ja: "サイトバイナリサイズ",    en: "Site binary size (WASM)" } },
 ];
 
@@ -443,7 +443,7 @@ const GM = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct"];
 type GStatus = Status | "event";
 const GANTT: { ja: string; en: string; start: string; end: string; s: GStatus }[] = [
   { ja: "出資金 $200K 調達",         en: "Investment Raise $200K",  start: "2026-02-01", end: "2026-04-15", s: "urgent" },
-  { ja: "ZAMNAライセンス締結",       en: "ZAMNA Brand License",     start: "2026-02-01", end: "2026-03-31", s: "urgent" },
+  { ja: "SOLUNAライセンス締結",       en: "SOLUNA Brand License",     start: "2026-02-01", end: "2026-03-31", s: "urgent" },
   { ja: "会場契約 (Moanalua Gardens)", en: "Venue Contract",          start: "2026-02-01", end: "2026-03-31", s: "urgent" },
   { ja: "ホテル在庫確保 500室",      en: "Hotel Block (500 rooms)", start: "2026-02-15", end: "2026-04-15", s: "urgent" },
   { ja: "チケット販売 (Ticketblox)", en: "Ticket Sales Live",       start: "2026-02-08", end: "2026-09-05", s: "done" },
@@ -452,7 +452,7 @@ const GANTT: { ja: string; en: string; start: string; end: string; s: GStatus }[
   { ja: "会場承認 (行政・近隣)",     en: "Venue Approval (City)",    start: "2026-03-01", end: "2026-04-30", s: "urgent" },
   { ja: "ヘッドライナー契約",        en: "Headliner Booking",       start: "2026-03-01", end: "2026-04-30", s: "urgent" },
   { ja: "アーティストビザ申請",      en: "Artist Visa (O-1/P-1)",   start: "2026-03-01", end: "2026-07-31", s: "urgent" },
-  { ja: "ZAMNA アーティストオプション", en: "ZAMNA Artist Options",   start: "2026-03-29", end: "2026-04-15", s: "urgent" },
+  { ja: "SOLUNA アーティストオプション", en: "SOLUNA Artist Options",   start: "2026-03-29", end: "2026-04-15", s: "urgent" },
   { ja: "近隣住民署名50名",          en: "Neighbor Signatures (50)",start: "2026-03-15", end: "2026-04-30", s: "in_progress" },
   { ja: "市議会1:1ミーティング",     en: "City Council 1:1 Meetings",start: "2026-03-17", end: "2026-05-15", s: "in_progress" },
   { ja: "F&B・物販ブース計画",       en: "F&B & Vendor Planning",   start: "2026-03-17", end: "2026-06-30", s: "in_progress" },
@@ -478,7 +478,7 @@ const GANTT: { ja: string; en: string; start: string; end: string; s: GStatus }[
   { ja: "アルコール仕入れ ($100K+)",en: "Alcohol Procurement ($100K+)",start: "2026-06-01", end: "2026-08-15", s: "pending" },
   { ja: "アフタームービー制作",     en: "After-movie Production",   start: "2026-09-06", end: "2026-09-30", s: "pending" },
   { ja: "投資家返済",               en: "Investor Repayment",       start: "2026-09-15", end: "2026-10-15", s: "pending" },
-  { ja: "ZAMNA HAWAII 開催",         en: "EVENT DAY",               start: "2026-09-04", end: "2026-09-05", s: "event" },
+  { ja: "SOLUNA FEST HAWAII 開催",         en: "EVENT DAY",               start: "2026-09-04", end: "2026-09-05", s: "event" },
 ];
 
 type Submission = {
@@ -1026,7 +1026,7 @@ export default function AdminPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
           style={{ width: "100%", maxWidth: 360, position: "relative", zIndex: 1 }}>
           <a href="/" style={{ display: "block", textAlign: "center", textDecoration: "none", marginBottom: 40 }}>
-            <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 24, letterSpacing: "0.3em", color: "#fff" }}>ZAMNA HAWAII</p>
+            <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 24, letterSpacing: "0.3em", color: "#fff" }}>SOLUNA FEST HAWAII</p>
             <p style={{ fontSize: 10, letterSpacing: "0.3em", color: "rgba(201,169,98,0.6)", textTransform: "uppercase", marginTop: 4 }}>
               {ja ? "運営 · 内部限定" : "Operations · Internal"}
             </p>
@@ -1074,7 +1074,7 @@ export default function AdminPage() {
       {showMemberModal && (
         <div style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.8)", backdropFilter: "blur(8px)" }}>
           <div style={{ background: "#111", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 18, padding: "32px 28px", maxWidth: 360, width: "100%" }}>
-            <p style={{ color: "rgba(201,169,98,0.8)", fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: 8 }}>ZAMNA HAWAII</p>
+            <p style={{ color: "rgba(201,169,98,0.8)", fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: 8 }}>SOLUNA FEST HAWAII</p>
 
             {!showEmailStep ? (
               <>
@@ -1161,7 +1161,7 @@ export default function AdminPage() {
         {/* Top bar */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", gap: 4, overflow: "hidden" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6, minWidth: 0, overflow: "hidden" }}>
-            <a href="/" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 13, letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)", textDecoration: "none", flexShrink: 0 }}>ZAMNA</a>
+            <a href="/" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 13, letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)", textDecoration: "none", flexShrink: 0 }}>SOLUNA</a>
             {member && (
               <button onClick={() => setShowMemberModal(true)} style={{ display: "flex", alignItems: "center", gap: 4, padding: "3px 8px", border: "1px solid rgba(201,169,98,0.25)", borderRadius: 999, fontSize: 10, cursor: "pointer", background: "rgba(201,169,98,0.08)", color: "rgba(201,169,98,0.8)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 120 }}>
                 <span>{persona?.icon || "👤"}</span>{member.split(" ")[0]}
@@ -1198,7 +1198,7 @@ export default function AdminPage() {
           {/* Persona greeting */}
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ marginBottom: 28 }}>
             <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(1.6rem,5vw,2.4rem)", color: "#fff", marginBottom: 6 }}>
-              {persona?.icon} {member ? (ja ? `${member} のダッシュボード` : `${member}'s Dashboard`) : (ja ? "ZAMNA HAWAII 運営" : "ZAMNA HAWAII Ops")}
+              {persona?.icon} {member ? (ja ? `${member} のダッシュボード` : `${member}'s Dashboard`) : (ja ? "SOLUNA FEST HAWAII 運営" : "SOLUNA FEST HAWAII Ops")}
             </h1>
             {/* View history */}
             {viewHistory.length > 0 && (
@@ -2209,8 +2209,8 @@ export default function AdminPage() {
       <footer style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "20px 0", textAlign: "center" }}>
         <p style={{ fontSize: 11, color: "rgba(255,255,255,0.1)", letterSpacing: "0.1em" }}>
           {ja
-            ? "ZAMNA HAWAII 2026 · 運営資料 · 社外秘"
-            : "ZAMNA HAWAII 2026 · Operations · Internal Use Only"}
+            ? "SOLUNA FEST HAWAII 2026 · 運営資料 · 社外秘"
+            : "SOLUNA FEST HAWAII 2026 · Operations · Internal Use Only"}
         </p>
       </footer>
 
@@ -2238,7 +2238,7 @@ export default function AdminPage() {
         }}>
           {/* Header */}
           <div style={{ padding: "14px 18px", borderBottom: "1px solid rgba(255,255,255,0.08)", flexShrink: 0 }}>
-            <p style={{ color: "rgba(201,169,98,0.8)", fontSize: 10, letterSpacing: "0.2em", marginBottom: 2 }}>ZAMNA AI AGENT</p>
+            <p style={{ color: "rgba(201,169,98,0.8)", fontSize: 10, letterSpacing: "0.2em", marginBottom: 2 }}>SOLUNA AI AGENT</p>
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 11 }}>
               {ja ? "DB照会・更新・フェス運営サポート" : "Query DB, update data, festival ops support"}
             </p>

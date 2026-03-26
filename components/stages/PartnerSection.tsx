@@ -210,8 +210,8 @@ export default function PartnerSection() {
           }}
         >
           {locale === "ja"
-            ? "SOLUNAはZAMNA HAWAIIを主催するだけでなく、音楽・テクノロジーの融合を探求し続けています。"
-            : "SOLUNA produces ZAMNA HAWAII and explores the intersection of music and technology."}
+            ? "SOLUNAはフェス体験プラットフォームとして、音楽・テクノロジーの融合を探求し続けています。"
+            : "SOLUNA is a festival experience platform exploring the intersection of music and technology."}
         </p>
         <div
           style={{
@@ -220,7 +220,7 @@ export default function PartnerSection() {
             gap: 12,
           }}
         >
-          {/* ZAMNA HAWAII */}
+          {/* SOLUNA FEST HAWAII */}
           <div
             style={{
               padding: "20px 22px",
@@ -230,7 +230,7 @@ export default function PartnerSection() {
             }}
           >
             <p style={{ fontSize: 9, letterSpacing: "0.25em", color: "rgba(201,169,98,0.6)", textTransform: "uppercase", marginBottom: 8 }}>EVENT PRODUCTION</p>
-            <p style={{ color: "#fff", fontWeight: 700, fontSize: 15, marginBottom: 6 }}>ZAMNA HAWAII</p>
+            <p style={{ color: "#fff", fontWeight: 700, fontSize: 15, marginBottom: 6 }}>SOLUNA FEST HAWAII</p>
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 12, lineHeight: 1.6 }}>
               {locale === "ja"
                 ? "世界最高峰のアンダーグラウンド・エレクトロニックミュージック・フェスティバル。2026年9月、オアフ島初上陸。"

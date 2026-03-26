@@ -12,7 +12,7 @@ const TIERS = [
     id: "gold",
     name: "GOLD VIP",
     price: "$1,000",
-    tag_ja: "2日間通し券",
+    tag_ja: "3日間通し券",
     tag_en: "2-Day Pass",
     gold: false,
     ticketblox: true,
@@ -35,7 +35,7 @@ const TIERS = [
     id: "platinum",
     name: "PLATINUM VIP",
     price: "$2,000",
-    tag_ja: "2日間通し券 + ラウンジ",
+    tag_ja: "3日間通し券 + ラウンジ",
     tag_en: "2-Day Pass + Lounge",
     gold: true,
     ticketblox: true,
@@ -45,14 +45,14 @@ const TIERS = [
         "VIPラウンジ（空調完備）へのアクセス",
         "テーブルサービス（ボトル1本込み）",
         "アーティスト写真撮影の機会",
-        "ZAMNA限定グッズセット",
+        "SOLUNA限定グッズセット",
       ],
       en: [
         "All Gold VIP benefits +",
         "Air-conditioned VIP lounge access",
         "Table service (1 bottle included)",
         "Photo opportunity with artists",
-        "Exclusive ZAMNA merch set",
+        "Exclusive SOLUNA merch set",
       ],
     },
   },
@@ -71,7 +71,7 @@ const TIERS = [
         "アーティスト・ミートアンドグリート",
         "ホテル専用送迎（Waikiki ↔ 会場）",
         "アフターパーティー招待（翌日）",
-        "ZAMNA創設パートナー認定",
+        "SOLUNA創設パートナー認定",
       ],
       en: [
         "All Platinum VIP benefits +",
@@ -79,7 +79,7 @@ const TIERS = [
         "Artist meet & greet",
         "Private transfer (Waikiki ↔ venue)",
         "After-party invitation (next day)",
-        "ZAMNA Founding Attendee recognition",
+        "SOLUNA Founding Attendee recognition",
       ],
     },
   },
@@ -132,7 +132,7 @@ export default function VIPPage() {
       {/* Nav */}
       <nav className="top-nav no-print">
         <Link href="/" className="font-display" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.2em", textDecoration: "none" }}>
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           <span className="nav-pill-active">VIP</span>
@@ -154,7 +154,7 @@ export default function VIPPage() {
             VIP Experience · 2026
           </p>
           <h1 className="font-display" style={{ fontSize: "clamp(3.2rem,12vw,6rem)", lineHeight: 0.95, marginBottom: 24, color: "#fff" }}>
-            ZAMNA<br />VIP
+            SOLUNA<br />VIP
           </h1>
           <div style={{ width: 36, height: 2, background: "rgba(201,169,98,0.6)", marginBottom: 20 }} />
           <p style={{ color: "rgba(255,255,255,0.65)", fontSize: 18, lineHeight: 1.6 }}>

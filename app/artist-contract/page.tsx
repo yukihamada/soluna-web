@@ -17,7 +17,7 @@ const CLAUSES_JA = [
   },
   {
     title: "第2条 — 出演概要",
-    body: `イベント名: ZAMNA HAWAII 2026
+    body: `イベント名: SOLUNA FEST HAWAII 2026
 会場: モアナルアガーデン（Moanalua Gardens）, オアフ島, ハワイ州
 出演日時: 2026年9月____日 ____:____ 〜 ____:____（HST）
 セット時間: ____分
@@ -117,7 +117,7 @@ Management: _______________`,
   },
   {
     title: "Article 2 — Performance Details",
-    body: `Event: ZAMNA HAWAII 2026
+    body: `Event: SOLUNA FEST HAWAII 2026
 Venue: Moanalua Gardens, Oahu, Hawaii
 Performance Date & Time: September ___, 2026, ___:___ – ___:___ (HST)
 Set Length: ___ minutes
@@ -231,13 +231,13 @@ export default function ArtistContractPage() {
 
       <nav className="top-nav no-print">
         <Link href="/" className="font-display" style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.2em", textDecoration: "none" }}>
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           <Link href="/admin" className="nav-pill">Admin</Link>
           <Link href="/contract" className="nav-pill">{ja ? "契約" : "Contract"}</Link>
           <span className="nav-pill-active">{ja ? "アーティスト契約" : "Artist Contract"}</span>
-          <button onClick={() => downloadPDF("pdf-content", "ZAMNA-Artist-Contract.pdf")} className="nav-pill" style={{ cursor: "pointer" }}>PDF</button>
+          <button onClick={() => downloadPDF("pdf-content", "SOLUNA-Artist-Contract.pdf")} className="nav-pill" style={{ cursor: "pointer" }}>PDF</button>
           <button onClick={toggleLang} style={{ marginLeft: 8, padding: "5px 10px", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 999, fontSize: 10, cursor: "pointer", background: "transparent", color: "rgba(255,255,255,0.4)", fontWeight: 600 }}>
             {ja ? "EN" : "JA"}
           </button>

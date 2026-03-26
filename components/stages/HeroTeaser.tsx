@@ -68,9 +68,9 @@ export default function HeroTeaser() {
             marginBottom: 0,
           }}
         >
-          ZAMNA
+          SOLUNA
           <br />
-          <span style={{ color: "#C9A962" }}>HAWAII</span>
+          <span style={{ color: "#C9A962" }}>FEST HAWAII</span>
         </motion.h1>
 
         {/* Gold line */}
@@ -101,7 +101,7 @@ export default function HeroTeaser() {
               marginBottom: 6,
             }}
           >
-            SEP 4–5, 2026
+            SEP 4–6, 2026
           </p>
           <p
             style={{

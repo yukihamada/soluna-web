@@ -44,7 +44,7 @@ const radioCardStyle = (active: boolean): React.CSSProperties => ({
 });
 
 const NDA_TEXT_JA = `第1条（目的）
-甲および乙は、ZAMNA HAWAII 2026プロジェクトに関する機密情報の取り扱いについて、相互に合意する。
+甲および乙は、SOLUNA FEST HAWAII 2026プロジェクトに関する機密情報の取り扱いについて、相互に合意する。
 
 第2条（機密情報の定義）
 本契約において「機密情報」とは、事業計画、財務情報、投資条件、アーティスト情報、その他一方当事者が開示した非公開情報をいう。
@@ -56,7 +56,7 @@ const NDA_TEXT_JA = `第1条（目的）
 本契約は署名日より2年間有効とする。`;
 
 const NDA_TEXT_EN = `Article 1 (Purpose)
-Both parties agree on the handling of confidential information relating to the ZAMNA HAWAII 2026 project.
+Both parties agree on the handling of confidential information relating to the SOLUNA FEST HAWAII 2026 project.
 
 Article 2 (Confidential Information)
 "Confidential Information" means business plans, financials, investment terms, artist information, and any other non-public information disclosed by either party.
@@ -71,7 +71,7 @@ const INVESTMENT_TEXT_JA = `第1条（投資条件）
 乙は甲に対し、本タームシートに記載の条件に従い投資を実行することに合意する。
 
 第2条（資金使途）
-調達資金は100%、ZAMNA HAWAII 2026におけるアーティストギャランティーの支払いに充当する。
+調達資金は100%、SOLUNA FEST HAWAII 2026におけるアーティストギャランティーの支払いに充当する。
 
 第3条（返済優先度）
 乙への返済はチケット売上収益からFirst-out（最優先）で実施する。チケット売上累計が投資額に達した時点で即時全額返済を行う。
@@ -86,7 +86,7 @@ const INVESTMENT_TEXT_EN = `Article 1 (Investment Terms)
 Party B agrees to make the investment in Party A under the terms set forth in this Term Sheet.
 
 Article 2 (Use of Funds)
-100% of the raised capital will be allocated to artist guarantee payments for ZAMNA HAWAII 2026.
+100% of the raised capital will be allocated to artist guarantee payments for SOLUNA FEST HAWAII 2026.
 
 Article 3 (Repayment Priority)
 Repayment to Party B will be made on a First-out (highest priority) basis from ticket revenue. Full repayment occurs when cumulative ticket revenue reaches the investment amount.
@@ -98,7 +98,7 @@ Article 5 (Governing Law)
 This agreement is governed by the laws of the State of Hawaii and Japan.`;
 
 const SPONSOR_TEXT_JA = `第1条（スポンサーシップの範囲）
-乙は甲に対し、ZAMNA HAWAII 2026イベントのスポンサーとして合意したパッケージに基づくサービスと露出を提供することに同意する。
+乙は甲に対し、SOLUNA FEST HAWAII 2026イベントのスポンサーとして合意したパッケージに基づくサービスと露出を提供することに同意する。
 
 第2条（スポンサー料の支払い）
 乙は合意したスポンサー料を、契約締結後30日以内に甲指定の口座に送金する。
@@ -110,7 +110,7 @@ const SPONSOR_TEXT_JA = `第1条（スポンサーシップの範囲）
 不可抗力によりイベントが中止となった場合、スポンサー料の全額または一部を返金する。`;
 
 const SPONSOR_TEXT_EN = `Article 1 (Sponsorship Scope)
-Party B agrees to provide agreed package services and exposure as a sponsor of the ZAMNA HAWAII 2026 event.
+Party B agrees to provide agreed package services and exposure as a sponsor of the SOLUNA FEST HAWAII 2026 event.
 
 Article 2 (Payment)
 Party B shall remit the agreed sponsorship fee to Party A's designated account within 30 days of signing.
@@ -186,7 +186,7 @@ export default function ContractPage() {
     navSchedule: ja ? "スケジュール" : "Schedule",
     navContract: ja ? "契約" : "Contract",
     heroLabel: ja ? "契約・署名 · 機密 · 2026" : "Contract & Signing · Confidential · 2026",
-    heroTitle: ja ? "ZAMNA HAWAII 2026\n契約・署名ポータル" : "ZAMNA HAWAII 2026\nContract & Signing Portal",
+    heroTitle: ja ? "SOLUNA FEST HAWAII 2026\n契約・署名ポータル" : "SOLUNA FEST HAWAII 2026\nContract & Signing Portal",
     heroSub: ja
       ? "NDA、投資契約、スポンサー契約をデジタルで締結できます。\nすべての契約は法的拘束力を持ちます。"
       : "Digitally execute NDAs, investment term sheets, and sponsorship agreements.\nAll contracts carry legal binding force.",
@@ -278,8 +278,8 @@ export default function ContractPage() {
       ? "ご署名ありがとうございます。担当者よりご連絡いたします。"
       : "Thank you for signing. Our team will be in touch shortly.",
     footer: ja
-      ? "© 2026 ZAMNA HAWAII · Powered by SOLUNA · Confidential · All rights reserved"
-      : "© 2026 ZAMNA HAWAII · Powered by SOLUNA · Confidential · All rights reserved",
+      ? "© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · Confidential · All rights reserved"
+      : "© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · Confidential · All rights reserved",
     requiredError: ja ? "必須項目を入力してください" : "Please fill in all required fields",
     sigDigital: ja ? "デジタル署名" : "DIGITAL SIGNATURE",
   };
@@ -326,7 +326,7 @@ export default function ContractPage() {
     pdf.addImage(imgData, "JPEG", 0, pos, pageW, imgH);
     left -= pageH;
     while (left > 0) { pos -= pageH; pdf.addPage(); pdf.addImage(imgData, "JPEG", 0, pos, pageW, imgH); left -= pageH; }
-    const fileName = contractType === "nda" ? "ZAMNA-NDA.pdf" : contractType === "investment" ? "ZAMNA-TermSheet.pdf" : "ZAMNA-Sponsorship.pdf";
+    const fileName = contractType === "nda" ? "SOLUNA-NDA.pdf" : contractType === "investment" ? "SOLUNA-TermSheet.pdf" : "SOLUNA-Sponsorship.pdf";
     pdf.save(fileName);
   };
 
@@ -365,7 +365,7 @@ export default function ContractPage() {
         ? "Investment Term Sheet"
         : "Sponsorship Agreement";
 
-    let body = `ZAMNA HAWAII 2026 — ${typeLabel}\n\n`;
+    let body = `SOLUNA FEST HAWAII 2026 — ${typeLabel}\n\n`;
     body += `Date / 日付: ${new Date().toLocaleDateString()}\n`;
     body += `Party A / 甲: SOLUNA\n`;
 
@@ -388,7 +388,7 @@ export default function ContractPage() {
       body += `Signature / 署名: ${signature}\n`;
     }
 
-    const subject = encodeURIComponent(`[ZAMNA HAWAII 2026] ${typeLabel} — ${signature}`);
+    const subject = encodeURIComponent(`[SOLUNA FEST HAWAII 2026] ${typeLabel} — ${signature}`);
     const bodyEncoded = encodeURIComponent(body);
     window.location.href = `mailto:invest@solun.art?subject=${subject}&body=${bodyEncoded}`;
     setSubmitted(true);
@@ -1085,7 +1085,7 @@ export default function ContractPage() {
               className="font-display"
               style={{ fontSize: 16, color: "var(--gold)", letterSpacing: "0.12em", marginBottom: 4 }}
             >
-              ZAMNA HAWAII 2026
+              SOLUNA FEST HAWAII 2026
             </p>
             <p style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", marginBottom: 0 }}>
               {contractTypeName()}
@@ -1276,7 +1276,7 @@ export default function ContractPage() {
             fontSize: 12,
           }}
         >
-          ZAMNA HAWAII
+          SOLUNA FEST HAWAII
         </Link>
         <div style={{ display: "flex", gap: 4, alignItems: "center", flexWrap: "wrap" }}>
           <Link href="/sponsor" className="nav-pill">{T.navSponsor}</Link>
@@ -1306,7 +1306,7 @@ export default function ContractPage() {
       {/* Print header */}
       <div className="print-header px-0">
         <p className="font-display text-2xl tracking-wider" style={{ color: "#111" }}>
-          ZAMNA HAWAII 2026
+          SOLUNA FEST HAWAII 2026
         </p>
         <p className="text-sm mt-1" style={{ color: "#666" }}>
           {contractTypeName() || "Contract & Signing"} · Confidential · Powered by SOLUNA

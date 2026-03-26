@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 import { getSavedLang, saveLang, type Lang } from "@/lib/lang";
 import InnerFooter from "@/components/InnerFooter";
+import GlobalNav from "@/components/GlobalNav";
 
 /* ── animation presets ─────────────────────────────────────── */
 const fade = {
@@ -183,25 +184,7 @@ export default function FestivalsPage() {
       <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0, background: `radial-gradient(ellipse 60% 40% at 50% 0%, ${GOLD}08, transparent 70%)` }} />
 
       {/* nav */}
-      <nav style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        padding: "16px 24px",
-        background: "rgba(5,6,10,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
-      }}>
-        <Link href="/" style={{ color: "rgba(255,255,255,0.4)", fontSize: 11, letterSpacing: "0.25em", textDecoration: "none", fontWeight: 600 }}>
-          SOLUNA
-        </Link>
-        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-          <Link href="/lineup" style={{ ...pillStyle, textDecoration: "none" }}>{t("ラインナップ", "Lineup")}</Link>
-          <Link href="/tickets" style={{ ...pillStyle, textDecoration: "none" }}>{t("チケット", "Tickets")}</Link>
-          <span style={{ ...pillStyle, color: GOLD, borderColor: `${GOLD}40` }}>{t("フェスティバル", "Festivals")}</span>
-          <button onClick={toggleLang} style={{ ...pillStyle, background: "transparent", cursor: "pointer", fontFamily: "inherit" }}>
-            {lang === "ja" ? "EN" : "JA"}
-          </button>
-        </div>
-      </nav>
+      <GlobalNav lang={lang} onToggleLang={toggleLang} />
 
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "96px 24px 48px", position: "relative", zIndex: 1 }}>
 

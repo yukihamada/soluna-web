@@ -663,7 +663,7 @@ app.post("/api/email", async (req, res) => {
     if (result.rowsAffected > 0) {
       const isJa = (locale || "en") === "ja";
       sendAdminEmail(
-        `[ZAMNA] 新規メール登録 — ${email}`,
+        `[SOLUNA] 新規メール登録 — ${email}`,
         `<p>新しいメール登録がありました。</p><ul><li>メール: ${email}</li><li>言語: ${locale || "en"}</li></ul>`
       );
       // Confirmation to subscriber
@@ -674,10 +674,10 @@ app.post("/api/email", async (req, res) => {
           body: JSON.stringify({
             from: "SOLUNA <noreply@solun.art>",
             to: [email],
-            subject: isJa ? "ZAMNA HAWAII 2026 — ラインナップ通知に登録しました" : "ZAMNA HAWAII 2026 — You're on the list!",
+            subject: isJa ? "SOLUNA FEST HAWAII 2026 — ラインナップ通知に登録しました" : "SOLUNA FEST HAWAII 2026 — You're on the list!",
             html: isJa
-              ? `<div style="background:#080808;color:#fff;font-family:sans-serif;padding:40px;max-width:480px;margin:0 auto"><p style="color:#C9A962;letter-spacing:0.3em;font-size:11px">ZAMNA HAWAII 2026</p><h1 style="font-size:28px;margin:16px 0">ラインナップ通知に<br/>登録しました</h1><p style="color:rgba(255,255,255,0.5);line-height:1.7">アーティストラインナップが発表され次第、最初にお知らせします。<br/><br/>日程: 2026年9月4〜5日<br/>会場: モアナルアガーデン（Moanalua Gardens）, Oahu</p><a href="https://solun.art" style="display:inline-block;margin-top:28px;padding:12px 28px;background:#C9A962;color:#000;text-decoration:none;font-weight:700;border-radius:999px">公式サイトを見る</a><p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:32px">© 2026 ZAMNA HAWAII · Powered by SOLUNA</p></div>`
-              : `<div style="background:#080808;color:#fff;font-family:sans-serif;padding:40px;max-width:480px;margin:0 auto"><p style="color:#C9A962;letter-spacing:0.3em;font-size:11px">ZAMNA HAWAII 2026</p><h1 style="font-size:28px;margin:16px 0">You're on the list!</h1><p style="color:rgba(255,255,255,0.5);line-height:1.7">You'll be the first to know when the lineup drops.<br/><br/>Date: September 4–5, 2026<br/>Venue: Moanalua Gardens, Oahu, HI</p><a href="https://solun.art" style="display:inline-block;margin-top:28px;padding:12px 28px;background:#C9A962;color:#000;text-decoration:none;font-weight:700;border-radius:999px">Visit Official Site</a><p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:32px">© 2026 ZAMNA HAWAII · Powered by SOLUNA</p></div>`,
+              ? `<div style="background:#080808;color:#fff;font-family:sans-serif;padding:40px;max-width:480px;margin:0 auto"><p style="color:#C9A962;letter-spacing:0.3em;font-size:11px">SOLUNA FEST HAWAII 2026</p><h1 style="font-size:28px;margin:16px 0">ラインナップ通知に<br/>登録しました</h1><p style="color:rgba(255,255,255,0.5);line-height:1.7">アーティストラインナップが発表され次第、最初にお知らせします。<br/><br/>日程: 2026年9月4〜6日<br/>会場: モアナルアガーデン（Moanalua Gardens）, Oahu</p><a href="https://solun.art" style="display:inline-block;margin-top:28px;padding:12px 28px;background:#C9A962;color:#000;text-decoration:none;font-weight:700;border-radius:999px">公式サイトを見る</a><p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:32px">© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA</p></div>`
+              : `<div style="background:#080808;color:#fff;font-family:sans-serif;padding:40px;max-width:480px;margin:0 auto"><p style="color:#C9A962;letter-spacing:0.3em;font-size:11px">SOLUNA FEST HAWAII 2026</p><h1 style="font-size:28px;margin:16px 0">You're on the list!</h1><p style="color:rgba(255,255,255,0.5);line-height:1.7">You'll be the first to know when the lineup drops.<br/><br/>Date: September 4–6, 2026<br/>Venue: Moanalua Gardens, Oahu, HI</p><a href="https://solun.art" style="display:inline-block;margin-top:28px;padding:12px 28px;background:#C9A962;color:#000;text-decoration:none;font-weight:700;border-radius:999px">Visit Official Site</a><p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:32px">© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA</p></div>`,
           }),
         }).catch(() => {});
       }
@@ -699,7 +699,7 @@ app.post("/api/vip-inquiry", async (req, res) => {
     });
     const isJa = (lang || "ja") === "ja";
     sendAdminEmail(
-      `[ZAMNA] Diamond VIP お問い合わせ — ${name || email}`,
+      `[SOLUNA] Diamond VIP お問い合わせ — ${name || email}`,
       `<p>Diamond VIP のお問い合わせが届きました。</p><ul><li>名前: ${name || "-"}</li><li>メール: ${email}</li><li>電話: ${phone || "-"}</li><li>メッセージ: ${message || "-"}</li></ul><p>管理画面: https://solun.art/admin</p>`
     );
     if (RESEND_API_KEY) {
@@ -709,10 +709,10 @@ app.post("/api/vip-inquiry", async (req, res) => {
         body: JSON.stringify({
           from: "SOLUNA <noreply@solun.art>",
           to: [email],
-          subject: isJa ? "ZAMNA HAWAII 2026 — Diamond VIP お問い合わせを受け付けました" : "ZAMNA HAWAII 2026 — Diamond VIP Inquiry Received",
+          subject: isJa ? "SOLUNA FEST HAWAII 2026 — Diamond VIP お問い合わせを受け付けました" : "SOLUNA FEST HAWAII 2026 — Diamond VIP Inquiry Received",
           html: isJa
-            ? `<div style="background:#080808;color:#fff;font-family:sans-serif;padding:40px;max-width:480px;margin:0 auto"><p style="color:#C9A962;letter-spacing:0.3em;font-size:11px">ZAMNA HAWAII 2026</p><h1 style="font-size:26px;margin:16px 0">Diamond VIP<br/>お問い合わせ受付</h1><p style="color:rgba(255,255,255,0.5);line-height:1.7">お問い合わせありがとうございます。<br/>24時間以内に担当者よりご連絡いたします。<br/><br/>Diamond VIPは限定10名様のプレミアムパッケージです。</p><p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:32px">© 2026 ZAMNA HAWAII · Powered by SOLUNA</p></div>`
-            : `<div style="background:#080808;color:#fff;font-family:sans-serif;padding:40px;max-width:480px;margin:0 auto"><p style="color:#C9A962;letter-spacing:0.3em;font-size:11px">ZAMNA HAWAII 2026</p><h1 style="font-size:26px;margin:16px 0">Diamond VIP<br/>Inquiry Received</h1><p style="color:rgba(255,255,255,0.5);line-height:1.7">Thank you for your interest in Diamond VIP.<br/>Our team will be in touch within 24 hours.<br/><br/>Diamond VIP is limited to 10 guests only.</p><p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:32px">© 2026 ZAMNA HAWAII · Powered by SOLUNA</p></div>`,
+            ? `<div style="background:#080808;color:#fff;font-family:sans-serif;padding:40px;max-width:480px;margin:0 auto"><p style="color:#C9A962;letter-spacing:0.3em;font-size:11px">SOLUNA FEST HAWAII 2026</p><h1 style="font-size:26px;margin:16px 0">Diamond VIP<br/>お問い合わせ受付</h1><p style="color:rgba(255,255,255,0.5);line-height:1.7">お問い合わせありがとうございます。<br/>24時間以内に担当者よりご連絡いたします。<br/><br/>Diamond VIPは限定10名様のプレミアムパッケージです。</p><p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:32px">© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA</p></div>`
+            : `<div style="background:#080808;color:#fff;font-family:sans-serif;padding:40px;max-width:480px;margin:0 auto"><p style="color:#C9A962;letter-spacing:0.3em;font-size:11px">SOLUNA FEST HAWAII 2026</p><h1 style="font-size:26px;margin:16px 0">Diamond VIP<br/>Inquiry Received</h1><p style="color:rgba(255,255,255,0.5);line-height:1.7">Thank you for your interest in Diamond VIP.<br/>Our team will be in touch within 24 hours.<br/><br/>Diamond VIP is limited to 10 guests only.</p><p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:32px">© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA</p></div>`,
         }),
       }).catch(() => {});
     }
@@ -779,7 +779,7 @@ app.post("/api/email-blast", async (req, res) => {
 
 function makeBlastHtml(subject, body, bodyEn) {
   return `<div style="background:#080808;color:#fff;font-family:sans-serif;padding:40px 32px;max-width:520px;margin:0 auto">
-  <p style="color:rgba(201,169,98,0.8);letter-spacing:0.3em;font-size:10px;text-transform:uppercase;margin-bottom:20px">ZAMNA HAWAII 2026</p>
+  <p style="color:rgba(201,169,98,0.8);letter-spacing:0.3em;font-size:10px;text-transform:uppercase;margin-bottom:20px">SOLUNA FEST HAWAII 2026</p>
   <h1 style="font-size:22px;font-weight:700;margin:0 0 24px;line-height:1.3;color:#fff">${subject}</h1>
   <div style="color:rgba(255,255,255,0.65);font-size:15px;line-height:1.8;white-space:pre-line">${body}</div>
   ${bodyEn ? `<hr style="border:none;border-top:1px solid rgba(255,255,255,0.08);margin:28px 0"/>
@@ -787,7 +787,7 @@ function makeBlastHtml(subject, body, bodyEn) {
   <div style="margin-top:36px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.07)">
     <a href="https://zamnahawaii.ticketblox.com" style="display:inline-block;padding:12px 28px;background:rgba(201,169,98,0.9);color:#000;font-weight:700;text-decoration:none;border-radius:999px;font-size:13px;letter-spacing:0.06em">チケットを取る / Get Tickets →</a>
   </div>
-  <p style="color:rgba(255,255,255,0.12);font-size:10px;margin-top:28px;letter-spacing:0.06em">© 2026 ZAMNA HAWAII · Powered by SOLUNA · solun.art</p>
+  <p style="color:rgba(255,255,255,0.12);font-size:10px;margin-top:28px;letter-spacing:0.06em">© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · solun.art</p>
 </div>`;
 }
 
@@ -805,8 +805,8 @@ app.post("/api/welcome-email", async (req, res) => {
   const MESSAGES = {
     "Sean Tsai": {
       greeting: "Sean, aloha!",
-      message: "As the local lead and production manager, you're the backbone of ZAMNA HAWAII on the ground. From venue scouting with Sid to building political connections and managing Hawaii Stage & Lighting — your network is making this happen. Keep driving the production forward!",
-      message_ja: "Seanさん、現地統括としてZAMNA HAWAIIの地上作戦の要です。Sidとの会場視察、政治ネットワークの構築、Hawaii Stage & Lightingとの交渉 — あなたのネットワークがこのイベントを実現させています。引き続きプロダクションを推進してください！",
+      message: "As the local lead and production manager, you're the backbone of SOLUNA FEST HAWAII on the ground. From venue scouting with Sid to building political connections and managing Hawaii Stage & Lighting — your network is making this happen. Keep driving the production forward!",
+      message_ja: "Seanさん、現地統括としてSOLUNA FEST HAWAIIの地上作戦の要です。Sidとの会場視察、政治ネットワークの構築、Hawaii Stage & Lightingとの交渉 — あなたのネットワークがこのイベントを実現させています。引き続きプロダクションを推進してください！",
     },
     "Sid": {
       greeting: "Sid, welcome aboard!",
@@ -815,8 +815,8 @@ app.post("/api/welcome-email", async (req, res) => {
     },
     "Vakas": {
       greeting: "Dr. Sial, welcome!",
-      message: "Your investment and medical expertise bring a unique dimension to ZAMNA HAWAII. With your background spanning medicine, music conferences, and strategic partnerships — you're the perfect bridge between our business vision and execution. Your new role in artist relations will be key as we move into booking phase.",
-      message_ja: "Vakasさん、あなたの投資と医療の専門知識はZAMNA HAWAIIにユニークな価値をもたらします。医学、音楽カンファレンス、戦略パートナーシップにまたがる経歴 — ビジネスビジョンと実行の橋渡し役として最適です。ブッキングフェーズに入るにあたり、アーティスト関係の新しい役割が鍵になります。",
+      message: "Your investment and medical expertise bring a unique dimension to SOLUNA FEST HAWAII. With your background spanning medicine, music conferences, and strategic partnerships — you're the perfect bridge between our business vision and execution. Your new role in artist relations will be key as we move into booking phase.",
+      message_ja: "Vakasさん、あなたの投資と医療の専門知識はSOLUNA FEST HAWAIIにユニークな価値をもたらします。医学、音楽カンファレンス、戦略パートナーシップにまたがる経歴 — ビジネスビジョンと実行の橋渡し役として最適です。ブッキングフェーズに入るにあたり、アーティスト関係の新しい役割が鍵になります。",
     },
     "Keyanna": {
       greeting: "Keyanna, hey!",
@@ -832,12 +832,12 @@ app.post("/api/welcome-email", async (req, res) => {
 
   const m = MESSAGES[member] || {
     greeting: `Hey ${member}!`,
-    message: `Welcome to the ZAMNA HAWAII team! We're building something incredible — a world-class electronic music festival in Oahu, September 4-5, 2026. Check out the admin dashboard to see the full project status.`,
-    message_ja: `${member}さん、ZAMNA HAWAIIチームへようこそ！2026年9月4-5日、オアフ島で世界クラスのエレクトロニックミュージックフェスティバルを作り上げています。管理ダッシュボードでプロジェクトの全体状況をご確認ください。`,
+    message: `Welcome to the SOLUNA FEST HAWAII team! We're building something incredible — a world-class electronic music festival in Oahu, September 4-6, 2026. Check out the admin dashboard to see the full project status.`,
+    message_ja: `${member}さん、SOLUNA FEST HAWAIIチームへようこそ！2026年9月4-6日、オアフ島で世界クラスのエレクトロニックミュージックフェスティバルを作り上げています。管理ダッシュボードでプロジェクトの全体状況をご確認ください。`,
   };
 
   const html = `<div style="background:#080808;color:#fff;font-family:'Helvetica Neue',Arial,sans-serif;padding:48px 32px;max-width:540px;margin:0 auto">
-  <p style="color:rgba(201,169,98,0.8);letter-spacing:0.35em;font-size:10px;text-transform:uppercase;margin-bottom:28px">ZAMNA HAWAII 2026 · OPERATIONS</p>
+  <p style="color:rgba(201,169,98,0.8);letter-spacing:0.35em;font-size:10px;text-transform:uppercase;margin-bottom:28px">SOLUNA FEST HAWAII 2026 · OPERATIONS</p>
 
   <h1 style="font-size:26px;font-weight:700;margin:0 0 24px;line-height:1.3;color:#fff">${m.greeting}</h1>
 
@@ -848,7 +848,7 @@ app.post("/api/welcome-email", async (req, res) => {
 
   <h2 style="font-size:16px;color:rgba(201,169,98,0.9);margin-bottom:16px">🐕 Solunadog からのご挨拶</h2>
   <p style="color:rgba(255,255,255,0.6);font-size:14px;line-height:1.8;margin-bottom:20px">
-    Hi ${member}! I'm <strong style="color:rgba(201,169,98,0.9)">Solunadog</strong>, the AI assistant for ZAMNA HAWAII — part of the <a href="https://github.com/yukihamada/rustydog" style="color:rgba(201,169,98,0.8)">rustydog</a> AI dog pack. Here's what I can help with:
+    Hi ${member}! I'm <strong style="color:rgba(201,169,98,0.9)">Solunadog</strong>, the AI assistant for SOLUNA FEST HAWAII — part of the <a href="https://github.com/yukihamada/rustydog" style="color:rgba(201,169,98,0.8)">rustydog</a> AI dog pack. Here's what I can help with:
   </p>
 
   <div style="background:rgba(74,222,128,0.05);border:1px solid rgba(74,222,128,0.15);border-radius:12px;padding:18px 20px;margin-bottom:12px">
@@ -868,7 +868,7 @@ app.post("/api/welcome-email", async (req, res) => {
     <p style="color:rgba(255,80,80,0.85);font-size:12px;font-weight:700;letter-spacing:0.15em;margin-bottom:10px">⚠ WHAT I CAN'T DO (YET)</p>
     <ul style="color:rgba(255,255,255,0.6);font-size:13px;line-height:2;margin:0;padding-left:18px">
       <li>Process payments directly (Stripe checkout links only)</li>
-      <li>Manage artist bookings or send offers (handled by JC ZAMNA)</li>
+      <li>Manage artist bookings or send offers (handled by JC SOLUNA)</li>
       <li>Access external systems (Ticketblox sales data, hotel inventory)</li>
       <li>Make phone calls or send SMS</li>
       <li>Manage social media accounts</li>
@@ -886,7 +886,7 @@ app.post("/api/welcome-email", async (req, res) => {
       <a href="https://solun.art/budget" style="color:rgba(201,169,98,0.5)">Budget</a>
     </p>
     <p style="color:rgba(255,255,255,0.12);font-size:10px;margin-top:16px;letter-spacing:0.06em">
-      © 2026 ZAMNA HAWAII · Powered by SOLUNA · solun.art<br/>
+      © 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · solun.art<br/>
       🐕 Sent by Solunadog (rustydog AI pack)
     </p>
   </div>
@@ -899,13 +899,13 @@ app.post("/api/welcome-email", async (req, res) => {
       body: JSON.stringify({
         from: "SOLUNA <noreply@solun.art>",
         to: [email],
-        subject: `Welcome to ZAMNA HAWAII Operations — ${member}`,
+        subject: `Welcome to SOLUNA FEST HAWAII Operations — ${member}`,
         html,
       }),
     });
     if (r.ok) {
       sendAdminEmail(
-        `[ZAMNA] チームメンバー初回ログイン — ${member}`,
+        `[SOLUNA] チームメンバー初回ログイン — ${member}`,
         `<p><strong>${member}</strong> が管理画面に初回ログインし、ウェルカムメールを送信しました。</p><ul><li>メール: ${email}</li></ul>`
       );
       res.json({ ok: true });
@@ -954,7 +954,7 @@ app.post("/api/nft-passes/:id/claim", async (req, res) => {
   });
 
   sendAdminEmail(
-    `[ZAMNA] NFT Pass Claimed — ${pass.name}`,
+    `[SOLUNA] NFT Pass Claimed — ${pass.name}`,
     `<p><strong>${member || "Unknown"}</strong> claimed <strong>${pass.name}</strong></p><ul><li>Wallet: ${wallet}</li><li>Type: ${pass.pass_type}</li></ul>`
   );
 
@@ -974,10 +974,10 @@ app.get("/api/nft-image/:type/:num", (req, res) => {
   <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0a0a0a"/><stop offset="100%" stop-color="#1a1a2e"/></linearGradient></defs>
   <rect width="400" height="400" fill="url(#bg)"/>
   <rect x="20" y="20" width="360" height="360" rx="24" fill="none" stroke="${color}" stroke-width="1" opacity="0.3"/>
-  <text x="200" y="100" text-anchor="middle" fill="${color}" font-family="sans-serif" font-size="11" letter-spacing="8" opacity="0.6">ZAMNA HAWAII</text>
+  <text x="200" y="100" text-anchor="middle" fill="${color}" font-family="sans-serif" font-size="11" letter-spacing="8" opacity="0.6">SOLUNA FEST HAWAII</text>
   <text x="200" y="170" text-anchor="middle" fill="#fff" font-family="sans-serif" font-size="36" font-weight="700" letter-spacing="4">${title}</text>
   <text x="200" y="210" text-anchor="middle" fill="${color}" font-family="monospace" font-size="48" font-weight="700">#${num}</text>
-  <text x="200" y="260" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-family="sans-serif" font-size="12" letter-spacing="3">${symbol} · SEP 4-5, 2026</text>
+  <text x="200" y="260" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-family="sans-serif" font-size="12" letter-spacing="3">${symbol} · SEP 4-6, 2026</text>
   <text x="200" y="290" text-anchor="middle" fill="rgba(255,255,255,0.2)" font-family="sans-serif" font-size="10" letter-spacing="2">MOANALUA GARDENS · OAHU</text>
   <text x="200" y="350" text-anchor="middle" fill="rgba(255,255,255,0.15)" font-family="sans-serif" font-size="9" letter-spacing="4">SOLANA · DEVNET</text>
 </svg>`);
@@ -995,7 +995,7 @@ app.post("/api/meeting", async (req, res) => {
       args: [meetingType, name || null, company || null, email, phone || null, date || null, timeSlot || null, message || null, lang || "ja"],
     });
     sendAdminEmail(
-      `[ZAMNA] ミーティング予約 — ${meetingType}`,
+      `[SOLUNA] ミーティング予約 — ${meetingType}`,
       `<p>新しいミーティングリクエストが届きました。</p><ul><li>種別: ${meetingType}</li><li>名前: ${name || "-"}</li><li>会社: ${company || "-"}</li><li>メール: ${email}</li><li>日付: ${date || "-"} ${timeSlot || ""}</li></ul><p>管理画面: https://solun.art/admin</p>`
     );
     res.json({ ok: true, id: Number(result.lastInsertRowid) });
@@ -1049,7 +1049,7 @@ app.post("/api/submit", async (req, res) => {
 
   // Admin notification
   sendAdminEmail(
-    `[ZAMNA] 新しい契約申込 — ${contractType}`,
+    `[SOLUNA] 新しい契約申込 — ${contractType}`,
     `<p>新しい契約申込が届きました。</p><ul><li>種別: ${contractType}</li><li>会社: ${company || "-"}</li><li>名前: ${name || "-"}</li><li>メール: ${email || "-"}</li><li>金額: ${amount || "-"}</li><li>署名: ${signature}</li><li>日時: ${now}</li><li>ID: #${submissionId}</li></ul><p>管理画面: <a href="https://solun.art/admin">solun.art/admin</a></p>`
   );
 
@@ -1074,7 +1074,7 @@ app.post("/api/submit", async (req, res) => {
     ).join("");
 
     const confirmHtml = `<div style="background:#080808;color:#fff;font-family:'Helvetica Neue',Arial,sans-serif;padding:48px 28px;max-width:540px;margin:0 auto">
-  <p style="color:rgba(201,169,98,0.8);letter-spacing:0.35em;font-size:10px;text-transform:uppercase;margin-bottom:24px">ZAMNA HAWAII 2026</p>
+  <p style="color:rgba(201,169,98,0.8);letter-spacing:0.35em;font-size:10px;text-transform:uppercase;margin-bottom:24px">SOLUNA FEST HAWAII 2026</p>
   <h1 style="font-size:24px;font-weight:700;margin:0 0 8px;color:#fff">${isJa ? "契約受付完了" : "Contract Received"}</h1>
   <p style="color:rgba(255,255,255,0.5);font-size:14px;margin-bottom:28px">${isJa ? "以下の内容で契約を受け付けました。本メールが正式な受付証明となります。" : "Your contract has been received. This email serves as your official confirmation."}</p>
 
@@ -1099,7 +1099,7 @@ app.post("/api/submit", async (req, res) => {
   <a href="https://solun.art/investor" style="display:inline-block;padding:12px 28px;background:rgba(201,169,98,0.9);color:#000;text-decoration:none;font-weight:700;border-radius:999px;font-size:13px">${isJa ? "投資家ページを見る" : "View Investor Page"} →</a>
 
   <div style="margin-top:32px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06)">
-    <p style="color:rgba(255,255,255,0.12);font-size:10px;letter-spacing:0.06em">© 2026 ZAMNA HAWAII · Powered by SOLUNA · solun.art</p>
+    <p style="color:rgba(255,255,255,0.12);font-size:10px;letter-spacing:0.06em">© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA · solun.art</p>
   </div>
 </div>`;
 
@@ -1110,8 +1110,8 @@ app.post("/api/submit", async (req, res) => {
         from: "SOLUNA <noreply@solun.art>",
         to: [email],
         subject: isJa
-          ? `【ZAMNA HAWAII】${typeLabel.ja} — 受付完了 (#${submissionId})`
-          : `ZAMNA HAWAII — ${typeLabel.en} Confirmation (#${submissionId})`,
+          ? `【SOLUNA FEST HAWAII】${typeLabel.ja} — 受付完了 (#${submissionId})`
+          : `SOLUNA FEST HAWAII — ${typeLabel.en} Confirmation (#${submissionId})`,
         html: confirmHtml,
       }),
     }).catch(() => {});
@@ -1136,10 +1136,10 @@ app.post("/api/checkout", async (req, res) => {
     sponsor_vip:        2000000, // $20,000
   };
   const NAMES = {
-    investment:        "ZAMNA HAWAII 2026 — Investment Partner",
-    sponsor_presenting: "ZAMNA HAWAII 2026 — Presenting Partner ($100K+)",
-    sponsor_artist:    "ZAMNA HAWAII 2026 — Artist Stage Partner ($50K)",
-    sponsor_vip:       "ZAMNA HAWAII 2026 — VIP Lounge Partner ($20K)",
+    investment:        "SOLUNA FEST HAWAII 2026 — Investment Partner",
+    sponsor_presenting: "SOLUNA FEST HAWAII 2026 — Presenting Partner ($100K+)",
+    sponsor_artist:    "SOLUNA FEST HAWAII 2026 — Artist Stage Partner ($50K)",
+    sponsor_vip:       "SOLUNA FEST HAWAII 2026 — VIP Lounge Partner ($20K)",
   };
 
   const key = contractType === "investment" ? "investment" : `sponsor_${sponsorPackage}`;
@@ -1478,10 +1478,10 @@ app.post("/api/agent/chat", async (req, res) => {
     }
   }
 
-  const systemPrompt = `You are the ZAMNA HAWAII 2026 AI assistant (Solunadog). You help the operations team manage the festival.
-Event: ZAMNA HAWAII, Sep 4-5 2026, Moanalua Gardens, Oahu. Capacity 9,000/day.
+  const systemPrompt = `You are the SOLUNA FEST HAWAII 2026 AI assistant (Solunadog). You help the operations team manage the festival.
+Event: SOLUNA FEST HAWAII, Sep 4-6 2026, Moanalua Gardens, Oahu. Capacity 9,000/day.
 Team: Sean Tsai (local lead), Sid (venue/gov), Dr. Vakas Sial (finance/artists), Keyanna (ops), Yuki (tech).
-Key partners: JP Damon (venue owner), JC/Enzo/Victor (ZAMNA talent), Gabe (F&B), Ticketblox/Anup (tickets), Kuhio Lewis (stage/lighting/council).
+Key partners: JP Damon (venue owner), JC/Enzo/Victor (SOLUNA talent), Gabe (F&B), Ticketblox/Anup (tickets), Kuhio Lewis (stage/lighting/council).
 Respond concisely in the same language as the user (Japanese or English). Use the DB data below to answer questions accurately.
 ${dbContext}
 ${sqlResults ? "\n### SQL Query Result:\n" + sqlResults : ""}`;
@@ -1586,6 +1586,7 @@ app.get(["/radio/:slug", "/radio/:slug/"], async (req, res) => {
 <meta property="og:title" content="${radio.name} — SOLUNA">
 <meta property="og:description" content="${radio.description || "Listen on SOLUNA"}">
 <meta property="og:type" content="music.radio_station">
+<link rel="alternate" type="application/json+oembed" href="https://solun.art/api/v1/oembed?url=https://solun.art/radio/${radio.slug}" title="${radio.name}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -1656,8 +1657,16 @@ footer{grid-column:1/-1;border-top:1px solid var(--border);padding:20px 28px;dis
 </head>
 <body>
 <header>
-  <a href="/">SOLUNA</a>
-  <button class="share-btn" id="shareBtn" onclick="shareChannel()">SHARE CHANNEL</button>
+  <a href="/" style="color:#C9A962;text-decoration:none;font-size:13px;letter-spacing:5px;font-weight:700">SOLUNA</a>
+  <nav style="display:flex;gap:14px;align-items:center">
+    <a href="/festivals" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">Festival</a>
+    <a href="/contests" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">Contest</a>
+    <a href="/music" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">Music</a>
+    <a href="/live" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">Live</a>
+    <a href="/artist" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">Artist Portal</a>
+    <a href="/tickets" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">Tickets</a>
+    <button class="share-btn" id="shareBtn" onclick="shareChannel()">SHARE CHANNEL</button>
+  </nav>
 </header>
 <main>
   <div class="now-playing">
@@ -1978,7 +1987,15 @@ a{text-decoration:none;color:inherit}
 </head><body>
 <header class="hdr">
   <a href="/" class="logo">SOLUNA</a>
-  <a href="/radio/${radio.slug}" class="btn btn-secondary" style="font-size:11px;padding:6px 14px">▶ Play Channel</a>
+  <nav style="display:flex;gap:14px;align-items:center">
+    <a href="/festivals" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">Festival</a>
+    <a href="/contests" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">Contest</a>
+    <a href="/music" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">Music</a>
+    <a href="/live" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">Live</a>
+    <a href="/artist" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">Artist Portal</a>
+    <a href="/tickets" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:12px">Tickets</a>
+    <a href="/radio/${radio.slug}" class="btn btn-secondary" style="font-size:11px;padding:6px 14px">▶ Play Channel</a>
+  </nav>
 </header>
 
 <div class="hero">

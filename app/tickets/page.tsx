@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import GlobalNav from "@/components/GlobalNav";
 
 interface TicketType {
   id: string;
@@ -116,20 +117,7 @@ export default function TicketsPage() {
       }}
     >
       {/* Header */}
-      <header
-        style={{
-          padding: "24px 32px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
-        }}
-      >
-        <a href="/" style={{ color: "#C9A962", textDecoration: "none", fontSize: 14, letterSpacing: 4, fontWeight: 600 }}>
-          SOLUNA
-        </a>
-        <span style={{ color: "rgba(255,255,255,0.3)", fontSize: 12, letterSpacing: 2 }}>TICKETS</span>
-      </header>
+      <GlobalNav />
 
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "48px 24px" }}>
         {/* Hero */}
@@ -138,7 +126,7 @@ export default function TicketsPage() {
             SOLUNA FEST HAWAII 2026
           </h1>
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14, letterSpacing: 2, marginTop: 12 }}>
-            SEP 4-5 &middot; OAHU, HAWAII
+            SEP 4-6 &middot; OAHU, HAWAII
           </p>
         </div>
 
