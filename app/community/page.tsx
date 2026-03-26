@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import GlobalNav from "@/components/GlobalNav";
+import ShareButtons from "@/components/ShareButtons";
 
 let _lang = "en";
 const t = (ja: string, en: string, lang?: string) =>
@@ -634,6 +635,22 @@ export default function CommunityPage() {
         )}
       </main>
 
+      {/* Share */}
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "24px 32px 0" }}>
+        <div style={{ fontSize: 10, letterSpacing: 3, color: "rgba(255,255,255,.2)", marginBottom: 10 }}>
+          {t("コミュニティをシェア", "SHARE COMMUNITY")}
+        </div>
+        <ShareButtons
+          url="https://soluna-web.fly.dev/community"
+          title={t(
+            "SOLUNAコミュニティ — アーティストチャンネルやライブ配信を発見しよう",
+            "SOLUNA Community — Discover artist channels and live streams"
+          )}
+          lang={lang}
+          compact
+        />
+      </div>
+
       {/* Footer */}
       <footer
         style={{
@@ -642,6 +659,7 @@ export default function CommunityPage() {
           textAlign: "center",
           color: "rgba(255,255,255,0.3)",
           fontSize: 12,
+          marginTop: 24,
         }}
       >
         SOLUNA &copy; 2026 &middot;{" "}

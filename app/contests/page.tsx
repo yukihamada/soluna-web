@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import GlobalNav from "@/components/GlobalNav";
+import ShareButtons from "@/components/ShareButtons";
 
 let _lang = "en";
 const t = (ja: string, en: string) => _lang === "ja" ? ja : en;
@@ -618,10 +619,26 @@ export default function ContestsPage() {
         </div>
       )}
 
+      {/* ── Share ── */}
+      <div style={{ maxWidth: 720, margin: "0 auto", padding: "24px 24px 0" }}>
+        <div style={{ fontSize: 10, letterSpacing: 3, color: "rgba(255,255,255,.2)", marginBottom: 10 }}>
+          {t("シェア", "SHARE THIS CONTEST")}
+        </div>
+        <ShareButtons
+          url="https://soluna-web.fly.dev/contests"
+          title={t(
+            "SOLUNA FEST 2026 Opening Act Contest — お気に入りに投票しよう！",
+            "SOLUNA FEST 2026 Opening Act Contest — Vote for your favorite!"
+          )}
+          lang={lang}
+          compact
+        />
+      </div>
+
       {/* ── Footer ── */}
       <footer style={{
         padding: "32px 24px", textAlign: "center", borderTop: "1px solid rgba(255,255,255,0.04)",
-        color: "rgba(255,255,255,0.2)", fontSize: 11,
+        color: "rgba(255,255,255,0.2)", fontSize: 11, marginTop: 24,
       }}>
         <div style={{ display: "flex", justifyContent: "center", gap: 24, marginBottom: 12 }}>
           <a href="/artist" style={{ color: gold, textDecoration: "none", fontSize: 11 }}>{t("アーティストポータル", "Artist Portal")}</a>
