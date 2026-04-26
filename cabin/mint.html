@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA NFT — Ownership On-chain">SOLUNA NFT — 所有権をオンチェーンへ</title>
+<meta content="弟子屈・熱海・北海道のSOLUNA会員権（利用権）をSolanaブロックチェーン上のNFTとして発行。SOLUNA NFTコレクション管理ページ。" data-en-content="Real estate fractional ownership in Teshikaga, Atami, and Hokkaido issued as NFTs on the Solana blockchain. SOLUNA NFT Collection Management Page." name="description"/>
+<meta content="SOLUNA NFT — 所有権をオンチェーンへ" property="og:title"/>
+<meta content="弟子屈・熱海・北海道のSOLUNA会員権（利用権）を、Solanaブロックチェーン上のNFTとして発行します。購入後、オーナー証明NFTがあなたのウォレットに届きます。" property="og:description"/>
+<meta content="https://solun.art/img/kumaushi_aerial_dawn.webp" property="og:image"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.45);
+  --gold-soft:rgba(200,164,85,.08);
+  --gold-border:rgba(200,164,85,.2);
+  --bg:#050505;
+  --bg1:#080808;
+  --bg2:#0c0c0c;
+  --line:#131313;
+  --line-soft:#0e0e0e;
+  --text:#f0ece4;
+  --text-dim:#666;
+  --text-soft:#333;
+  --green:#9bc46d;
+  --green-dim:rgba(155,196,109,.25);
+  --purple:#9945ff;
+  --purple-dim:rgba(153,69,255,.3);
+  --purple-soft:rgba(153,69,255,.07);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-feature-settings:'palt';display:block}
+::selection{background:var(--gold);color:#000}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 20px;background:rgba(5,5,5,.8);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.04)}
+.nav-inner{max-width:680px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.nav-logo{font-size:13px;font-weight:800;letter-spacing:.15em;color:var(--gold)}
+.nav-links{display:flex;gap:18px;font-size:11px;align-items:center}
+.nav-links a{color:var(--text-dim);transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+@media(max-width:520px){.nav-links a:not(:last-child):not(:first-child){display:none}}
+
+/* Layout */
+.w{max-width:680px;margin:0 auto;padding:0 20px}
+
+/* Hero */
+.hero{position:relative;width:100%;overflow:hidden;text-align:center}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.18) saturate(.6)}
+.hero-grd{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,5,5,.2) 0%,rgba(5,5,5,.7) 60%,rgba(5,5,5,1) 100%)}
+.hero-inner{position:relative;z-index:1;padding:110px 20px 80px;max-width:680px;margin:0 auto}
+.chip{display:inline-block;font-size:9.5px;letter-spacing:.25em;font-weight:700;background:rgba(200,164,85,.12);color:var(--gold);border:1px solid var(--gold-border);padding:5px 14px;border-radius:100px;margin-bottom:20px;text-transform:uppercase}
+.hero h1{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:16px}
+.hero .sub{color:#888;font-size:13.5px;line-height:1.9;max-width:520px;margin:0 auto 28px}
+.coming-badge{display:inline-flex;align-items:center;gap:8px;background:#0c0c0c;border:1px solid #1e1e1e;border-radius:100px;padding:10px 20px;font-size:11px;color:#555;font-weight:600;letter-spacing:.08em}
+.coming-badge .dot{width:7px;height:7px;border-radius:50%;background:#2a2a2a}
+
+/* Section */
+.s{padding:64px 0}
+.s-sm{padding:40px 0}
+@media(max-width:520px){.s{padding:48px 0}}
+.label{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-soft);margin-bottom:10px;font-weight:700}
+h2{font-size:clamp(1.2rem,3.5vw,1.7rem);font-weight:800;letter-spacing:-.025em;margin-bottom:14px;line-height:1.25}
+p.sub{color:#666;font-size:13px;line-height:1.95;margin-bottom:20px}
+
+/* Cards */
+.cd{border:1px solid var(--line);border-radius:14px;padding:24px;margin:10px 0;background:var(--bg1);transition:border-color .3s}
+.cd:hover{border-color:#1e1e1e}
+.cd.hl{border-color:var(--gold);background:linear-gradient(180deg,var(--gold-soft),var(--bg1))}
+.sp{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+.sp:last-child{border-bottom:none}
+.sp .k{color:#555}
+.sp .v{font-weight:600;text-align:right}
+
+/* Spec card */
+.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+@media(max-width:480px){.spec-grid{grid-template-columns:1fr}}
+.spec-item{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:16px}
+.spec-item .sk{font-size:9px;color:var(--text-soft);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;font-weight:700}
+.spec-item .sv{font-size:13px;font-weight:700;color:var(--text);line-height:1.4}
+.spec-item .sv.gold{color:var(--gold)}
+.spec-item .sv.green{color:var(--green)}
+
+/* Wallet section */
+.wallet-section{background:var(--bg1);border:1px solid var(--line);border-radius:16px;padding:24px;margin:18px 0}
+.wallet-connect-btn{width:100%;padding:15px;background:linear-gradient(135deg,#7c3aed,#9945ff);color:#fff;font-weight:800;font-size:14px;border:none;border-radius:12px;cursor:pointer;letter-spacing:.02em;transition:opacity .2s,transform .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.wallet-connect-btn:hover{opacity:.9;transform:scale(1.01)}
+.wallet-connect-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.wallet-connect-btn svg{width:18px;height:18px;opacity:.8}
+.wallet-opts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+@media(max-width:480px){.wallet-opts{grid-template-columns:1fr}}
+.wallet-opt{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:13px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color .2s;font-size:12px}
+.wallet-opt:hover{border-color:var(--gold-dim)}
+.wallet-opt .wi{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.wi-phantom{background:linear-gradient(135deg,#4e44ce,#9945ff)}
+.wi-backpack{background:linear-gradient(135deg,#1a1a2e,#3d3d5c)}
+.wi-solflare{background:linear-gradient(135deg,#fc7227,#f9a11c)}
+.wallet-opt .wn{font-weight:700;flex:1}
+.wallet-opt .wa{font-size:10px;color:var(--text-dim);margin-top:1px}
+.connected-bar{background:linear-gradient(135deg,rgba(153,69,255,.08),rgba(200,164,85,.04));border:1px solid var(--purple-dim);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.connected-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);flex-shrink:0}
+.connected-addr{font-family:'SF Mono','Courier New',monospace;font-size:11px;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.connected-network{font-size:9px;color:var(--text-dim);margin-top:2px}
+.disconnect-link{font-size:10px;color:var(--text-soft);cursor:pointer;flex-shrink:0}
+.disconnect-link:hover{color:var(--gold)}
+.nft-result{margin-top:14px;border-radius:10px;padding:16px;font-size:13px}
+.nft-result.found{background:rgba(155,196,109,.06);border:1px solid rgba(155,196,109,.2);color:var(--green)}
+.nft-result.none{background:var(--bg2);border:1px solid var(--line);color:var(--text-dim)}
+.nft-result .nft-count{font-size:22px;font-weight:800;color:var(--green);margin-bottom:4px}
+.nft-result .nft-label{font-size:10px;letter-spacing:.1em;opacity:.7}
+.nft-list{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.nft-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(200,164,85,.1);border:1px solid var(--gold-border);border-radius:6px;padding:5px 10px;font-size:11px;color:var(--gold);font-weight:600}
+.nft-cta-link{display:inline-block;margin-top:12px;font-size:11px;color:var(--gold);border-bottom:1px solid var(--gold-border);padding-bottom:1px}
+
+/* Collection cards */
+.coll-grid{display:flex;flex-direction:column;gap:12px;margin:18px 0}
+.coll-card{background:var(--bg1);border:1px solid var(--gold-border);border-radius:14px;padding:20px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start;transition:border-color .3s}
+.coll-card:hover{border-color:rgba(200,164,85,.4)}
+.coll-name{font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px}
+.coll-id-range{font-family:'SF Mono','Courier New',monospace;font-size:9.5px;color:var(--text-soft);margin-bottom:8px;letter-spacing:.05em}
+.coll-count{font-size:11px;color:#666}
+.coll-count span{color:var(--gold);font-weight:700}
+.coll-status{flex-shrink:0;align-self:flex-start}
+.status-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.1em;padding:4px 10px;border-radius:100px;text-transform:uppercase}
+.status-locked{background:#111;color:#333;border:1px solid #1a1a1a}
+.status-available{background:rgba(155,196,109,.12);color:var(--green);border:1px solid rgba(155,196,109,.25)}
+.coll-meta{margin-top:8px;font-size:10px;color:var(--text-soft);display:flex;gap:12px;flex-wrap:wrap}
+.coll-meta span{display:flex;align-items:center;gap:3px}
+
+/* Admin section */
+.admin-section{margin-top:24px;border:1px solid rgba(200,164,85,.25);border-radius:14px;background:linear-gradient(180deg,rgba(200,164,85,.04),var(--bg1));overflow:hidden}
+.admin-header{padding:18px 20px 14px;border-bottom:1px solid rgba(200,164,85,.12);display:flex;align-items:center;gap:10px}
+.admin-header h2{font-size:15px;font-weight:800;color:var(--gold);margin:0}
+.admin-badge{font-size:8.5px;font-weight:700;letter-spacing:.15em;background:rgba(200,164,85,.15);color:var(--gold);border:1px solid var(--gold-border);padding:2px 8px;border-radius:100px;text-transform:uppercase}
+.admin-body{padding:20px}
+.form-label{display:block;font-size:9.5px;color:#444;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;margin-top:16px;font-weight:700}
+.form-label:first-child{margin-top:0}
+.form-input,.form-select{width:100%;padding:11px 13px;background:#0c0c0c;border:1px solid #1e1e1e;border-radius:8px;color:var(--text);font-size:13px;font-family:inherit;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.form-input:focus,.form-select:focus{border-color:var(--gold-dim)}
+.form-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;background-color:#0c0c0c}
+.mint-btn{margin-top:16px;width:100%;padding:14px;background:var(--gold);color:#050505;font-weight:800;font-size:13px;border:none;border-radius:10px;cursor:pointer;font-family:inherit;letter-spacing:.05em;transition:opacity .2s}
+.mint-btn:hover{opacity:.88}
+.admin-table-wrap{margin-top:24px;overflow-x:auto}
+.admin-table{width:100%;border-collapse:collapse;font-size:11px}
+.admin-table th{text-align:left;padding:9px 10px;font-size:9px;color:var(--text-soft);letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--line);font-weight:700;background:#070707}
+.admin-table td{padding:10px 10px;border-bottom:1px solid var(--line-soft);color:#999;vertical-align:top}
+.admin-table td .addr{font-family:'SF Mono','Courier New',monospace;font-size:9.5px}
+.admin-table tr:hover td{background:#080808}
+.admin-table td .nft-id-cell{color:var(--gold);font-weight:700;font-size:10px}
+.empty-row td{text-align:center;color:var(--text-soft);padding:24px;font-size:12px}
+
+/* FAQ */
+.faq{margin-top:18px}
+.faq details{border-bottom:1px solid var(--line);padding:14px 0}
+.faq summary{font-size:13px;font-weight:600;color:#bbb;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';color:var(--gold);font-size:18px;font-weight:300;transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{font-size:12px;color:#666;line-height:1.95;margin-top:10px}
+
+/* Footer */
+footer{padding:48px 20px 32px;text-align:center;border-top:1px solid var(--line-soft)}
+footer p{font-size:9px;color:#1a1a1a;letter-spacing:.18em}
+
+/* Divider */
+.divider{height:1px;background:var(--line);margin:40px 0}
+
+/* Reveal */
+.r{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.r.in{opacity:1;transform:translateY(0)}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;background:#111;border:1px solid var(--line);border-radius:10px;padding:12px 18px;font-size:12px;color:var(--text);z-index:999;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.success{border-color:rgba(155,196,109,.3);color:var(--green)}
+.toast.error{border-color:rgba(200,80,80,.3);color:#ff6b6b}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner-sm{width:14px;height:14px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;flex-shrink:0}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<!-- NAV -->
+<nav class="nav">
+<div class="nav-inner">
+<div class="nav-logo">SOLUNA</div>
+<div class="nav-links">
+<a data-en="← Back to Top" href="index">← トップへ</a>
+<a href="blog">Journal</a>
+<a href="member">Members</a>
+</div>
+</div>
+</nav>
+<!-- 一括購入リンク -->
+<div style="max-width:680px;margin:72px auto 0;padding:0 20px">
+<div style="background:rgba(200,164,85,.06);border:1px solid rgba(200,164,85,.18);border-radius:10px;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+<div data-en="For those seeking to acquire in full with substantial funds" style="font-size:12px;color:#888;line-height:1.6">まとまった資金で一括取得したい方は</div>
+<a data-en="Purchase All Units Here → buy.html" href="buy" style="font-size:12px;color:#c8a455;font-weight:700;white-space:nowrap;border-bottom:1px solid rgba(200,164,85,.35);padding-bottom:1px">一括購入はこちら → buy.html</a>
+</div>
+</div>
+<!-- HERO -->
+<div class="hero">
+<img alt="" class="hero-bg" loading="eager" src="/img/kumaushi_a_rooftop_stars.webp"/>
+<div class="hero-grd"></div>
+<div class="hero-inner">
+<div class="chip" data-en="SOLUNA NFT · Monthly Accumulation Plan">SOLUNA NFT · 月払い積立</div>
+<h1 data-en="Carve Your Return to Nature.">帰り先を、<br/>刻む。</h1>
+<p class="sub" data-en="We issue fractional real estate ownership in Teshikaga, Atami, and Hokkaido as NFTs on the Solana blockchain. These NFTs may not appreciate in value. But you gain a place to return to. That is true wealth, we believe.">弟子屈・熱海・北海道のSOLUNA会員権（利用権）を、Solanaブロックチェーン上のNFTとして発行します。このNFTは値上がりしない。<br/>でも、あなたにはここに帰れる場所ができる。<br/>それが本当の資産だと、私たちは思っている。</p>
+<div class="coming-badge" data-en="COMING SOON — Collection in Preparation">
+<span class="dot"></span>
+      COMING SOON — コレクション準備中
+    </div>
+</div>
+</div>
+<!-- COLLECTION SPECS -->
+<div class="s" style="padding-top:0">
+<div class="w">
+<div class="r">
+<p class="label">Collection Specs</p>
+<h2 data-en="Collection Specifications">コレクション仕様</h2>
+<div class="spec-grid">
+<div class="spec-item">
+<div class="sk">Network</div>
+<div class="sv">Solana Mainnet</div>
+</div>
+<div class="spec-item">
+<div class="sk">Standard</div>
+<div class="sv">Metaplex Core (cNFT)</div>
+</div>
+<div class="spec-item">
+<div class="sk">Total Supply</div>
+<div class="sv gold" data-en="Maximum 54 NFTs">最大 54 NFT<br/><span data-en="Total Units Across All Properties" style="font-size:10px;font-weight:400;color:#555">全物件合計口数</span></div>
+</div>
+<div class="spec-item">
+<div class="sk" data-en="Floor Price (Secondary Market)">Floor Price（二次流通）</div>
+<div class="sv gold" data-en="¥10,000,000~ / Unit">1,000万円〜 / 口<br/><span data-en="Estimated minimum listing price for NFT (secondary market). Differs from initial acquisition price of ¥4,900,000 and above." style="font-size:9px;font-weight:400;color:#555;line-height:1.5">NFTとしての最低出品価格（二次流通）の想定。<br/>初期取得価格¥490万〜とは異なります。</span></div>
+</div>
+<div class="spec-item">
+<div class="sk">Royalty</div>
+<div class="sv green">0%<br/><span data-en="A place to return to is irreplaceable. A sanctuary you can offer to someone with the words, &quot;You're welcome to come home here.&quot;" style="font-size:10px;font-weight:400;color:#555">帰り先は、譲れる。<br/>誰かに「ここに帰っていい」と渡せる場所。</span></div>
+</div>
+<div class="spec-item">
+<div class="sk">Utility</div>
+<div class="sv" data-en="Member page access · Revenue distribution · Property priority use" style="font-size:11px;line-height:1.6">メンバーページアクセス<br/>収益分配受取<br/>物件優先利用</div>
+</div>
+</div>
+</div>
+<div class="divider"></div>
+<!-- WALLET CONNECT -->
+<div class="r">
+<p class="label">Wallet</p>
+<h2 data-en="Connect Wallet">ウォレットを接続する</h2>
+<p class="sub" data-en="After connection, you can view your SOLUNA NFTs in your wallet.">接続後、あなたのウォレットにあるSOLUNA NFTを確認できます。</p>
+<div class="wallet-section">
+<!-- Not connected state -->
+<div id="wallet-not-connected">
+<div class="wallet-opts">
+<div class="wallet-opt" onclick="connectWallet('phantom')">
+<div class="wi wi-phantom">👻</div>
+<div>
+<div class="wn">Phantom</div>
+<div class="wa" data-en="Most Popular">最も人気</div>
+</div>
+</div>
+<div class="wallet-opt" onclick="connectWallet('backpack')">
+<div class="wi wi-backpack">🎒</div>
+<div>
+<div class="wn">Backpack</div>
+<div class="wa" data-en="Multi-Chain">マルチチェーン</div>
+</div>
+</div>
+<div class="wallet-opt" onclick="connectWallet('solflare')">
+<div class="wi wi-solflare">☀️</div>
+<div>
+<div class="wn">Solflare</div>
+<div class="wa" data-en="Solana Native">Solanaネイティブ</div>
+</div>
+</div>
+</div>
+<div data-en="Wallet extension not detected. Please install the required wallet extension." id="no-wallet-msg" style="display:none;margin-top:12px;font-size:11px;color:var(--text-dim);line-height:1.8">
+            ウォレット拡張機能が検出されませんでした。<br/>
+<a href="https://phantom.app/" rel="noopener" style="color:var(--gold)" target="_blank">Phantom</a>、
+            <a href="https://www.backpack.app/" rel="noopener" style="color:var(--gold)" target="_blank">Backpack</a>、
+            <a href="https://solflare.com/" rel="noopener" style="color:var(--gold)" target="_blank">Solflare</a>
+            をインストールしてください。
+          </div>
+</div>
+<!-- Connected state -->
+<div id="wallet-connected" style="display:none">
+<div class="connected-bar">
+<div class="connected-dot"></div>
+<div style="flex:1;min-width:0">
+<div class="connected-addr" id="wallet-addr-display">—</div>
+<div class="connected-network">Solana Mainnet • <span id="wallet-type-display">Phantom</span></div>
+</div>
+<span class="disconnect-link" data-en="Disconnect" onclick="disconnectWallet()">切断</span>
+</div>
+<!-- NFT check result -->
+<div data-en="Verifying NFT..." id="nft-loading" style="display:none;text-align:center;padding:20px 0;font-size:12px;color:var(--text-dim)">
+<span class="spinner-sm" style="margin-right:8px;vertical-align:middle"></span>NFTを確認中...
+          </div>
+<div id="nft-result" style="display:none"></div>
+</div>
+</div>
+</div>
+<div class="divider"></div>
+<!-- COLLECTION CARDS -->
+<div class="r">
+<p class="label">Collection</p>
+<h2 data-en="Properties Collection">物件コレクション一覧</h2>
+<p class="sub" data-en="NFTs issued by SOLUNA serve as proof of fractional ownership for each property. All properties listed below are eligible.">SOLUNAが発行するNFTは各物件の共有持分証明です。下記の全物件が対象となります。</p>
+<div class="coll-grid">
+<div class="coll-card">
+<div>
+<div class="coll-name">TAPKOP</div>
+<div class="coll-id-range" data-en="SLUNA-001 – 010">SLUNA-001 〜 010</div>
+<div class="coll-count" data-en="Maximum (¥39,000,000 per unit)">最大 <span data-en="10 Units">10口</span>（3,900万円/口）</div>
+<div class="coll-meta">
+<span data-en="🏔️ Teshikaga, Hokkaido">🏔️ 北海道・弟子屈</span>
+<span data-en="Designed by PAN-PROJECTS">PAN-PROJECTS設計</span>
+</div>
+</div>
+<div class="coll-status"><span class="status-badge status-locked">Locked</span></div>
+</div>
+<div class="coll-card">
+<div>
+<div class="coll-name" data-en="WHITE HOUSE Atami">WHITE HOUSE 熱海</div>
+<div class="coll-id-range" data-en="SLUNA-011 ~ 020">SLUNA-011 〜 020</div>
+<div class="coll-count" data-en="Maximum (¥10,000,000 per unit)">最大 <span data-en="10 Units">10口</span>（1,000万円/口）</div>
+<div class="coll-meta">
+<span data-en="🌊 Atami, Shizuoka">🌊 静岡・熱海</span>
+<span data-en="Ocean View">オーシャンビュー</span>
+</div>
+</div>
+<div class="coll-status"><span class="status-badge status-locked">Locked</span></div>
+</div>
+<div class="coll-card" style="border-color:rgba(109,187,136,.25);background:linear-gradient(180deg,rgba(109,187,136,.04),var(--bg1))">
+<div>
+<div class="coll-name">THE LODGE</div>
+<div class="coll-id-range" data-en="SLUNA-021–029">SLUNA-021 〜 029</div>
+<div class="coll-count" data-en="Maximum (· 1/10 Share)">最大 <span data-en="10 Units">10口</span>（<strong data-en="¥4,900,000 per unit" style="color:var(--green)">490万円/口</strong> · 1/10持分）</div>
+<div class="coll-meta">
+<span data-en="🌲 Hokkaido · Teshikaga">🌲 北海道・弟子屈</span>
+<span data-en="Natural Hot Spring &amp; Wood-Burning Stove">天然温泉・薪ストーブ</span>
+<span data-en="2025 Performance: 53% Occupancy" style="background:rgba(109,187,136,.12);color:#6dbb88;border:1px solid rgba(109,187,136,.3);padding:2px 8px;border-radius:100px;font-size:9px;font-weight:700">2025実績53%稼働</span>
+</div>
+</div>
+<div class="coll-status"><span class="status-badge status-available">Mint Now</span></div>
+</div>
+<div class="coll-card" style="border-color:rgba(176,136,221,.2)">
+<div>
+<div class="coll-name">NESTING / VUILD</div>
+<div class="coll-id-range" data-en="SLUNA-030–039">SLUNA-030 〜 039</div>
+<div class="coll-count" data-en="Maximum (· 1/10 Share)">最大 <span data-en="10 Units">10口</span>（<strong data-en="¥8,900,000 / Unit" style="color:#b088dd">890万円/口</strong> · 1/10持分）</div>
+<div class="coll-meta">
+<span data-en="🏡 Teshikaga, Hokkaido">🏡 北海道・弟子屈</span>
+<span data-en="VUILD Design · Digital Fabrication Construction">VUILD設計・デジタルファブ建築</span>
+</div>
+</div>
+<div class="coll-status"><span class="status-badge status-available">Mint Now</span></div>
+</div>
+<div class="coll-card" style="border-color:rgba(200,164,85,.3);background:linear-gradient(180deg,rgba(200,164,85,.05),var(--bg1))">
+<div>
+<div class="coll-name">Instant House A / B</div>
+<div class="coll-id-range" data-en="SLUNA-040–043">SLUNA-040 〜 043</div>
+<div class="coll-count" data-en="Maximum ( · 1/4 Ownership Share)">最大 <span data-en="4 units">4口</span>（<strong data-en="¥1,200,000 per unit" style="color:var(--gold)">120万円/口</strong> · 1/4持分）</div>
+<div class="coll-meta">
+<span data-en="🛖 Within NESTING Premises">🛖 NESTING敷地内</span>
+<span data-en="Prefabricated Compact Cabins × 2 Units">プレハブ小型キャビン×2棟</span>
+<span style="background:rgba(153,69,255,.12);color:#9945ff;border:1px solid rgba(153,69,255,.3);padding:2px 8px;border-radius:100px;font-size:9px;font-weight:700">HAMDAO</span>
+</div>
+</div>
+<div class="coll-status"><span class="status-badge status-available">Mint Now</span></div>
+</div>
+<div class="coll-card">
+<div>
+<div class="coll-name">OFF-GRID CABIN A / B</div>
+<div class="coll-id-range">SLUNA-044 〜 045</div>
+<div class="coll-count" data-en="Maximum (¥50,000,000/Unit)">最大 <span data-en="2 units">2口</span>（5,000万円/棟）</div>
+<div class="coll-meta">
+<span data-en="🌿 Hokkaido · Kumaushi">🌿 北海道・熊牛</span>
+<span data-en="Early Reservation · Scheduled completion summer 2026">先行予約・2026年夏完成予定</span>
+</div>
+</div>
+<div class="coll-status"><span class="status-badge status-available">Available</span></div>
+</div>
+</div>
+</div>
+<div class="divider"></div>
+<!-- INSTANT HOUSE FEATURED -->
+<div class="s" id="instant-house">
+<p class="label">Instant House · インスタントハウス</p>
+<h2 data-en="Starting from ¥1,200,000">¥120万から始める、<br/><span data-en="1/4 Owner." style="color:var(--gold)">1/4オーナー。</span></h2>
+<p class="sub" data-en="Two prefabricated compact cabins on the NESTING grounds, shared equally among four owners at 1/4 share each. The most compact entry point in CABIN CLUB. HAMDAO holders enjoy priority minting rights.">NESTING敷地内のプレハブ小型キャビン2棟を、4名で1/4ずつ共有所有。CABIN CLUBで最もコンパクトなエントリーポイント。HAMDAO保有者は優先ミント権あり。</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0">
+<div class="cd" style="border-color:rgba(200,164,85,.25);background:linear-gradient(180deg,rgba(200,164,85,.05),var(--bg1))">
+<div style="font-size:9px;color:rgba(200,164,85,.5);letter-spacing:.2em;font-weight:700;margin-bottom:8px">INSTANT HOUSE A</div>
+<div data-en="¥1,200,000" style="font-size:2rem;font-weight:800;color:var(--gold);letter-spacing:-.03em;line-height:1;margin-bottom:4px">¥120万</div>
+<div data-en="1 unit · 1/4 ownership · SLUNA-041" style="font-size:10px;color:#3a3a3a;margin-bottom:14px">1口 · 1/4持分 · SLUNA-041</div>
+<div data-en="Prefabricated Compact Cabin (1 unit) within NESTING Premises · From 7 nights per year—Beds24 reservation management integration" style="font-size:11px;color:#555;line-height:1.8">プレハブ小型キャビン（1棟）<br/>NESTING敷地内 · 年7泊〜<br/>Beds24 予約管理連携</div>
+</div>
+<div class="cd" style="border-color:rgba(200,164,85,.25);background:linear-gradient(180deg,rgba(200,164,85,.05),var(--bg1))">
+<div style="font-size:9px;color:rgba(200,164,85,.5);letter-spacing:.2em;font-weight:700;margin-bottom:8px">INSTANT HOUSE B</div>
+<div data-en="¥1,200,000" style="font-size:2rem;font-weight:800;color:var(--gold);letter-spacing:-.03em;line-height:1;margin-bottom:4px">¥120万</div>
+<div data-en="1 Unit · 1/4 Ownership Share · SLUNA-043" style="font-size:10px;color:#3a3a3a;margin-bottom:14px">1口 · 1/4持分 · SLUNA-043</div>
+<div data-en="Prefabricated Compact Cabin (1 unit) within NESTING Premises · From 7 nights per year—Beds24 reservation management integration" style="font-size:11px;color:#555;line-height:1.8">プレハブ小型キャビン（1棟）<br/>NESTING敷地内 · 年7泊〜<br/>Beds24 予約管理連携</div>
+</div>
+</div>
+<!-- HAMDAO section -->
+<div style="border:1px solid rgba(153,69,255,.3);border-radius:14px;padding:22px 24px;background:rgba(153,69,255,.04);margin-bottom:20px">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+<div data-en="HAMDAO · DAO Holder Benefits" style="font-size:9px;font-weight:800;letter-spacing:.2em;color:rgba(153,69,255,.7)">HAMDAO · DAO保有者特典</div>
+<div style="width:6px;height:6px;border-radius:50%;background:#9945ff;animation:glowPulse 2s ease-in-out infinite"></div>
+</div>
+<p data-en="HAMDAO token holders have priority access to Instant House units. Secure your shares before public launch. Yuki Hamada holds 1 unit (SLUNA-041)." style="font-size:12px;color:#555;line-height:1.9;margin-bottom:16px">HAMDAOトークン保有者はInstant Houseの<strong data-en="Priority Minting Rights" style="color:#b088dd">優先ミント権</strong>を持ちます。一般公開前に口数を確保できます。濱田優貴は1口保有済み（SLUNA-041）。</p>
+<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+<div data-en="HAMDAO Holders → Priority Mint" style="padding:10px 16px;background:#060606;border:1px solid rgba(153,69,255,.2);border-radius:8px;font-size:11px;color:#9945ff;font-weight:700">
+            HAMDAO保有 → 優先ミント
+          </div>
+<div data-en="Ownership verification is automatically confirmed via wallet connection" style="padding:10px 16px;background:#060606;border:1px solid #111;border-radius:8px;font-size:11px;color:#444">
+            保有確認はウォレット接続で自動判定
+          </div>
+</div>
+</div>
+<div style="text-align:center">
+<button data-en="◎ Connect Wallet to Mint" onclick="connectWalletForInstantHouse()" style="background:#9945ff;color:#fff;font-weight:800;font-size:13px;padding:16px 36px;border-radius:100px;border:none;cursor:pointer;box-shadow:0 8px 28px rgba(153,69,255,.3);letter-spacing:.04em">
+          ◎ ウォレット接続してミント
+        </button>
+<p data-en="Phantom / Backpack Compatible · Solana Mainnet" style="font-size:10px;color:#2a2a2a;margin-top:10px">Phantom / Backpack 対応 · Solana Mainnet</p>
+</div>
+</div>
+<div class="divider"></div>
+<!-- MONTHLY ACCUMULATION PLAN -->
+<div class="s" id="monthly-plan">
+<p class="label">Monthly Accumulation · 月払い積立プラン</p>
+<h2 data-en="Even if not all at once,">一括じゃなくても、<br/><span data-en="Own while building equity." style="color:var(--gold)">積み立てながら所有できる。</span></h2>
+<p class="sub" data-en="Build your investment monthly by credit card. Once the full amount is reached, your NFT will be automatically delivered to your wallet. During the accumulation period, you receive monthly accommodation revenue (proportional to your ownership share).">毎月クレカで積み立て、満額に達したらNFTが自動でウォレットに届きます。積み立て中も宿泊収益（持分按分）を毎月受け取れます。</p>
+<div data-en="The earlier you secure your sanctuary, the better the value. Today's ¥4,900,000 will become ¥8,000,000 upon 50-unit completion (reference price)." style="background:rgba(200,164,85,.06);border:1px solid rgba(200,164,85,.15);border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:12px;color:#999;line-height:1.9">
+        早く帰り先を作った人ほど、割安になります。<br/>今日の¥490万は、50口完売時には¥800万になります（参考値）。
+      </div>
+<!-- Property selector tabs -->
+<div style="display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap">
+<button data-en="Instant House ¥1,200,000" id="tab-instant" onclick="showPlanTier('instant')" style="padding:8px 16px;background:var(--gold);color:#050505;border:none;border-radius:100px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit">Instant House ¥120万</button>
+<button data-en="THE LODGE ¥4,900,000" id="tab-lodge" onclick="showPlanTier('lodge')" style="padding:8px 16px;background:#111;color:#555;border:1px solid #1e1e1e;border-radius:100px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">THE LODGE ¥490万</button>
+<button data-en="NESTING ¥8,900,000" id="tab-nesting" onclick="showPlanTier('nesting')" style="padding:8px 16px;background:#111;color:#555;border:1px solid #1e1e1e;border-radius:100px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">NESTING ¥890万</button>
+</div>
+<!-- Instant House tiers (default) -->
+<div id="plan-instant">
+<div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap">
+<div style="flex:1;min-width:150px;background:var(--bg1);border:1px solid var(--line);border-radius:14px;padding:20px 16px;text-align:center">
+<div style="font-size:9px;letter-spacing:.2em;color:var(--text-soft);text-transform:uppercase;font-weight:700;margin-bottom:12px">SLOW</div>
+<div data-en="¥50,000" style="font-size:1.9rem;font-weight:900;color:var(--gold);letter-spacing:-.04em;line-height:1">¥5万</div>
+<div data-en="/month" style="font-size:10px;color:var(--text-soft);margin-bottom:12px">/月</div>
+<div data-en="× 24 months" style="font-size:11px;color:#444;line-height:2;margin-bottom:16px">× 24ヶ月<br/><span data-en="≈ Become an Owner in 2 years" style="font-size:10px;color:#333">≈ 2年でオーナーに</span></div>
+<button data-en="Start Accumulating →" onclick="startMintMonthly('instant_slow',50000,'instant')" onmouseout="this.style.background='transparent'" onmouseover="this.style.background=var('--gold-soft')" style="width:100%;padding:10px;background:transparent;border:1px solid var(--gold-border);border-radius:8px;color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s">積み立て開始 →</button>
+</div>
+<div style="flex:1;min-width:150px;background:linear-gradient(180deg,var(--gold-soft),var(--bg1));border:1px solid var(--gold-border);border-radius:14px;padding:20px 16px;text-align:center;position:relative">
+<div data-en="Recommended" style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:#050505;font-size:8px;font-weight:800;letter-spacing:.1em;padding:3px 12px;border-radius:100px;white-space:nowrap">推奨</div>
+<div style="font-size:9px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;font-weight:700;margin-bottom:12px">STANDARD</div>
+<div data-en="¥100,000" style="font-size:1.9rem;font-weight:900;color:var(--gold);letter-spacing:-.04em;line-height:1">¥10万</div>
+<div data-en="/month" style="font-size:10px;color:#555;margin-bottom:12px">/月</div>
+<div data-en="× 12 months" style="font-size:11px;color:#666;line-height:2;margin-bottom:16px">× 12ヶ月<br/><span data-en="≈ Become an Owner in 1 year" style="font-size:10px;color:#555">≈ 1年でオーナーに</span></div>
+<button data-en="Start Accumulating →" onclick="startMintMonthly('instant_standard',100000,'instant')" onmouseout="this.style.opacity='1'" onmouseover="this.style.opacity='.85'" style="width:100%;padding:10px;background:var(--gold);border:none;border-radius:8px;color:#050505;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;transition:opacity .2s">積み立て開始 →</button>
+</div>
+<div style="flex:1;min-width:150px;background:var(--bg1);border:1px solid var(--line);border-radius:14px;padding:20px 16px;text-align:center">
+<div style="font-size:9px;letter-spacing:.2em;color:var(--text-soft);text-transform:uppercase;font-weight:700;margin-bottom:12px">FAST</div>
+<div data-en="¥200,000" style="font-size:1.9rem;font-weight:900;color:#b088dd;letter-spacing:-.04em;line-height:1">¥20万</div>
+<div data-en="/month" style="font-size:10px;color:var(--text-soft);margin-bottom:12px">/月</div>
+<div data-en="× 6 months" style="font-size:11px;color:#444;line-height:2;margin-bottom:16px">× 6ヶ月<br/><span data-en="≈ Become an Owner in 6 months" style="font-size:10px;color:#333">≈ 半年でオーナーに</span></div>
+<button data-en="Start Accumulating →" onclick="startMintMonthly('instant_fast',200000,'instant')" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='rgba(176,136,221,.07)'" style="width:100%;padding:10px;background:transparent;border:1px solid rgba(176,136,221,.2);border-radius:8px;color:#b088dd;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s">積み立て開始 →</button>
+</div>
+</div>
+<!-- Progress bar -->
+<div style="background:var(--bg1);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:16px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+<span data-en="Accumulation Progress Example (¥100,000/month × after 6 months)" style="font-size:11px;color:#666;font-weight:700">積立進捗イメージ（¥10万/月 × 6ヶ月後）</span>
+<span data-en="¥600,000 / ¥1,200,000" style="font-size:12px;color:var(--gold);font-weight:800">¥60万 / ¥120万</span>
+</div>
+<div style="background:#111;border-radius:100px;height:5px;overflow:hidden;margin-bottom:8px">
+<div style="width:50%;height:100%;background:linear-gradient(90deg,var(--gold),#d4b870);border-radius:100px"></div>
+</div>
+<div style="display:flex;justify-content:space-between">
+<span data-en="Begin" style="font-size:9.5px;color:#222">開始</span>
+<span data-en="Become an Owner in 6 months" style="font-size:9.5px;color:#444">あと6ヶ月でオーナーに</span>
+<span data-en="¥1,200,000" style="font-size:9.5px;color:#222">¥120万</span>
+</div>
+</div>
+</div>
+<!-- THE LODGE tiers (hidden by default) -->
+<div id="plan-lodge" style="display:none">
+<div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap">
+<div style="flex:1;min-width:150px;background:var(--bg1);border:1px solid var(--line);border-radius:14px;padding:20px 16px;text-align:center">
+<div style="font-size:9px;letter-spacing:.2em;color:var(--text-soft);text-transform:uppercase;font-weight:700;margin-bottom:12px">SLOW</div>
+<div data-en="¥50,000" style="font-size:1.9rem;font-weight:900;color:var(--green);letter-spacing:-.04em;line-height:1">¥5万</div>
+<div data-en="/month" style="font-size:10px;color:var(--text-soft);margin-bottom:12px">/月</div>
+<div data-en="× 98 Months" style="font-size:11px;color:#444;line-height:2;margin-bottom:16px">× 98ヶ月<br/><span data-en="≈ Become an Owner in 8.2 years" style="font-size:10px;color:#333">≈ 8.2年でオーナーに</span></div>
+<button data-en="Start Accumulating →" onclick="startMintMonthly('lodge_slow',50000,'lodge')" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='rgba(155,196,109,.07)'" style="width:100%;padding:10px;background:transparent;border:1px solid rgba(155,196,109,.2);border-radius:8px;color:var(--green);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s">積み立て開始 →</button>
+</div>
+<div style="flex:1;min-width:150px;background:linear-gradient(180deg,rgba(155,196,109,.06),var(--bg1));border:1px solid rgba(155,196,109,.25);border-radius:14px;padding:20px 16px;text-align:center;position:relative">
+<div data-en="Recommended" style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--green);color:#050505;font-size:8px;font-weight:800;letter-spacing:.1em;padding:3px 12px;border-radius:100px;white-space:nowrap">推奨</div>
+<div style="font-size:9px;letter-spacing:.2em;color:rgba(155,196,109,.45);text-transform:uppercase;font-weight:700;margin-bottom:12px">STANDARD</div>
+<div data-en="¥100,000" style="font-size:1.9rem;font-weight:900;color:var(--green);letter-spacing:-.04em;line-height:1">¥10万</div>
+<div data-en="/month" style="font-size:10px;color:#555;margin-bottom:12px">/月</div>
+<div data-en="× 49 months" style="font-size:11px;color:#666;line-height:2;margin-bottom:16px">× 49ヶ月<br/><span data-en="≈ Become an Owner in 4.1 years" style="font-size:10px;color:#555">≈ 4.1年でオーナーに</span></div>
+<button data-en="Start Accumulating →" onclick="startMintMonthly('lodge_standard',100000,'lodge')" onmouseout="this.style.opacity='1'" onmouseover="this.style.opacity='.85'" style="width:100%;padding:10px;background:var(--green);border:none;border-radius:8px;color:#050505;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;transition:opacity .2s">積み立て開始 →</button>
+</div>
+<div style="flex:1;min-width:150px;background:var(--bg1);border:1px solid var(--line);border-radius:14px;padding:20px 16px;text-align:center">
+<div style="font-size:9px;letter-spacing:.2em;color:var(--text-soft);text-transform:uppercase;font-weight:700;margin-bottom:12px">FAST</div>
+<div data-en="¥250,000" style="font-size:1.9rem;font-weight:900;color:var(--gold);letter-spacing:-.04em;line-height:1">¥25万</div>
+<div data-en="/month" style="font-size:10px;color:var(--text-soft);margin-bottom:12px">/月</div>
+<div data-en="× 20 months" style="font-size:11px;color:#444;line-height:2;margin-bottom:16px">× 20ヶ月<br/><span data-en="≈ Become an Owner in 1.7 years" style="font-size:10px;color:#333">≈ 1.7年でオーナーに</span></div>
+<button data-en="Start Accumulating →" onclick="startMintMonthly('lodge_fast',250000,'lodge')" onmouseout="this.style.background='transparent'" onmouseover="this.style.background=var('--gold-soft')" style="width:100%;padding:10px;background:transparent;border:1px solid var(--gold-border);border-radius:8px;color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s">積み立て開始 →</button>
+</div>
+</div>
+</div>
+<!-- NESTING tiers (hidden by default) -->
+<div id="plan-nesting" style="display:none">
+<div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap">
+<div style="flex:1;min-width:150px;background:var(--bg1);border:1px solid var(--line);border-radius:14px;padding:20px 16px;text-align:center">
+<div style="font-size:9px;letter-spacing:.2em;color:var(--text-soft);text-transform:uppercase;font-weight:700;margin-bottom:12px">SLOW</div>
+<div data-en="¥100,000" style="font-size:1.9rem;font-weight:900;color:#b088dd;letter-spacing:-.04em;line-height:1">¥10万</div>
+<div data-en="/month" style="font-size:10px;color:var(--text-soft);margin-bottom:12px">/月</div>
+<div data-en="× 89 months" style="font-size:11px;color:#444;line-height:2;margin-bottom:16px">× 89ヶ月<br/><span data-en="≈ Become an Owner in 7.4 years" style="font-size:10px;color:#333">≈ 7.4年でオーナーに</span></div>
+<button data-en="Start Accumulating →" onclick="startMintMonthly('nesting_slow',100000,'nesting')" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='rgba(176,136,221,.07)'" style="width:100%;padding:10px;background:transparent;border:1px solid rgba(176,136,221,.2);border-radius:8px;color:#b088dd;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s">積み立て開始 →</button>
+</div>
+<div style="flex:1;min-width:150px;background:linear-gradient(180deg,rgba(176,136,221,.06),var(--bg1));border:1px solid rgba(176,136,221,.28);border-radius:14px;padding:20px 16px;text-align:center;position:relative">
+<div data-en="Recommended" style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#9945ff;color:#fff;font-size:8px;font-weight:800;letter-spacing:.1em;padding:3px 12px;border-radius:100px;white-space:nowrap">推奨</div>
+<div style="font-size:9px;letter-spacing:.2em;color:rgba(176,136,221,.45);text-transform:uppercase;font-weight:700;margin-bottom:12px">STANDARD</div>
+<div data-en="¥250,000" style="font-size:1.9rem;font-weight:900;color:#b088dd;letter-spacing:-.04em;line-height:1">¥25万</div>
+<div data-en="/month" style="font-size:10px;color:#555;margin-bottom:12px">/月</div>
+<div data-en="× 36 months" style="font-size:11px;color:#666;line-height:2;margin-bottom:16px">× 36ヶ月<br/><span data-en="≈ Become an Owner in 3 Years" style="font-size:10px;color:#555">≈ 3年でオーナーに</span></div>
+<button data-en="Start Accumulating →" onclick="startMintMonthly('nesting_standard',250000,'nesting')" onmouseout="this.style.opacity='1'" onmouseover="this.style.opacity='.85'" style="width:100%;padding:10px;background:#9945ff;border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;transition:opacity .2s">積み立て開始 →</button>
+</div>
+<div style="flex:1;min-width:150px;background:var(--bg1);border:1px solid var(--line);border-radius:14px;padding:20px 16px;text-align:center">
+<div style="font-size:9px;letter-spacing:.2em;color:var(--text-soft);text-transform:uppercase;font-weight:700;margin-bottom:12px">FAST</div>
+<div data-en="¥500,000" style="font-size:1.9rem;font-weight:900;color:var(--gold);letter-spacing:-.04em;line-height:1">¥50万</div>
+<div data-en="/month" style="font-size:10px;color:var(--text-soft);margin-bottom:12px">/月</div>
+<div data-en="× 18 months" style="font-size:11px;color:#444;line-height:2;margin-bottom:16px">× 18ヶ月<br/><span data-en="≈ Become an Owner in 1.5 Years" style="font-size:10px;color:#333">≈ 1.5年でオーナーに</span></div>
+<button data-en="Start Accumulating →" onclick="startMintMonthly('nesting_fast',500000,'nesting')" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='rgba(200,164,85,.07)'" style="width:100%;padding:10px;background:transparent;border:1px solid var(--gold-border);border-radius:8px;color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s">積み立て開始 →</button>
+</div>
+</div>
+</div>
+<div style="background:var(--bg1);border:1px solid var(--line);border-radius:12px;padding:14px 18px;text-align:center;margin-top:8px">
+<p data-en="Receive monthly lodging revenue (pro-rata share) during accumulation · Early cancellation refunds remaining balance (3% fee) · Stripe payment · Cancel anytime · Switch to lump-sum payment available · Auto-mint upon NFT reaching full amount" style="font-size:11px;color:#555;line-height:1.9">積み立て中も宿泊収益（持分按分）を毎月受け取れます · 途中解約は積立残高を返金（手数料3%）<br/>Stripe決済 · いつでもキャンセル可 · 一括払いへの切り替えも可能 · NFT満額到達時に自動ミント</p>
+</div>
+</div>
+<div class="divider"></div>
+<!-- ADMIN SECTION (shown only if admin wallet connected) -->
+<div id="admin-section" style="display:none">
+<div class="r">
+<div class="admin-section">
+<div class="admin-header">
+<h2 data-en="Admin Tools">管理者ツール</h2>
+<span class="admin-badge">Admin Only</span>
+</div>
+<div class="admin-body">
+<p data-en="Upon purchase confirmation, an NFT will be minted to your owner wallet. The transaction will be recorded on Solana Mainnet." style="font-size:12px;color:#666;line-height:1.8;margin-bottom:18px">購入確定後、オーナーウォレットにNFTをミントします。トランザクションは Solana Mainnet に記録されます。</p>
+<label class="form-label" data-en="Owner Wallet Address" for="admin-wallet-input">オーナーウォレットアドレス</label>
+<input class="form-input" id="admin-wallet-input" placeholder="Solanaウォレットアドレス (Base58)" type="text"/>
+<label class="form-label" data-en="Property Name" for="admin-property-select">物件名</label>
+<select class="form-select" id="admin-property-select">
+<option data-en="— Select a Property —" value="">— 物件を選択 —</option>
+<option data-en="TAPKOP (SLUNA-001–010)" value="TAPKOP">TAPKOP (SLUNA-001〜010)</option>
+<option data-en="WHITE HOUSE Atami (SLUNA-011–020)" value="WHITE_HOUSE">WHITE HOUSE 熱海 (SLUNA-011〜020)</option>
+<option value="THE_LODGE">THE LODGE (SLUNA-021〜029)</option>
+<option data-en="NESTING / VUILD (SLUNA-030–039)" value="NESTING">NESTING / VUILD (SLUNA-030〜039)</option>
+<option value="INSTANT_HOUSE">Instant House A/B (SLUNA-040〜043)</option>
+<option data-en="OFF-GRID CABIN A/B (SLUNA-044–045)" value="OFFGRID_CABIN">OFF-GRID CABIN A/B (SLUNA-044〜045)</option>
+</select>
+<label class="form-label" data-en="Units" for="admin-lot-input">口数</label>
+<input class="form-input" id="admin-lot-input" max="10" min="1" placeholder="1" type="number" value="1"/>
+<label class="form-label" data-en="Starting NFT ID (property default if omitted)" for="admin-nft-start-input">開始NFT ID（省略時は物件デフォルト）</label>
+<input class="form-input" id="admin-nft-start-input" max="99" min="1" placeholder="自動" type="number"/>
+<label class="form-label" data-en="Administrator Token" for="admin-token-input">管理者トークン</label>
+<input class="form-input" id="admin-token-input" placeholder="ADMIN_TOKEN" type="password"/>
+<button class="mint-btn" data-en="Mint NFT" id="mint-btn" onclick="mintNFT()">NFTをミント</button>
+<p id="mint-status" style="font-size:11px;color:#666;margin-top:8px;display:none"></p>
+<div class="admin-table-wrap">
+<p class="form-label" data-en="Issued NFT List" style="margin-top:24px;margin-bottom:12px">発行済みNFT一覧</p>
+<table class="admin-table" id="mint-table">
+<thead>
+<tr>
+<th>NFT ID</th>
+<th data-en="Properties">物件</th>
+<th data-en="Units">口数</th>
+<th data-en="Destination Address">送付先</th>
+<th data-en="Date &amp; Time">日時</th>
+</tr>
+</thead>
+<tbody id="mint-table-body">
+<tr class="empty-row"><td colspan="5" data-en="No NFTs Issued Yet">まだ発行済みNFTはありません</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="divider"></div>
+</div>
+<!-- FAQ -->
+<div class="r s-sm" style="padding-top:0">
+<p class="label">FAQ</p>
+<h2 data-en="FAQ">よくある質問</h2>
+<div class="faq">
+<details>
+<summary data-en="How to Receive Your NFT?">NFTを受け取るには？</summary>
+<p data-en="Upon purchase confirmation, your NFT will be automatically sent to the Solana wallet address you registered. You can verify receipt using wallets such as Phantom.">購入確定後に、お申し込み時に登録いただいたSolanaウォレットアドレスへ自動でNFTが送付されます。Phantom等のウォレットで受け取りを確認できます。</p>
+</details>
+<details>
+<summary data-en="Which wallets are supported?">ウォレットは何が使えますか？</summary>
+<p data-en="We support three wallet types: Phantom, Backpack, and Solflare. All are available as browser extensions or mobile applications. Install one and connect your wallet on this page.">Phantom、Backpack、Solflare の3種類に対応しています。いずれもブラウザ拡張またはモバイルアプリとして利用できます。いずれかをインストールの上、このページでウォレットを接続してください。</p>
+</details>
+<details>
+<summary data-en="Can I sell the NFT?">NFTを売却できますか？</summary>
+<p data-en="NFTs can be sold simultaneously with the transfer of real estate interests. Secondary market royalties are set at 0%, allowing free trading on marketplaces such as Magic Eden. Please note that separate procedures for real estate interest transfer registration are also required.">不動産会員権の譲渡と同時に売却が可能です。二次流通ロイヤルティは0%に設定されており、Magiceden等のマーケットプレイスで自由に流通させることができます。ただし不動産持分の移転登記手続きも別途必要となります。</p>
+</details>
+<details>
+<summary data-en="What if I lose my NFT?">NFTを紛失した場合は？</summary>
+<p data-en="Store your wallet's secret key (seed phrase) in a secure location. If lost, NFT reissuance cannot be performed. While the NFT serves as proof of ownership, formal property rights are guaranteed by the real estate registration.">ウォレットの秘密鍵（シードフレーズ）を安全な場所に保管してください。秘密鍵を紛失した場合、NFTの再発行は行えません。NFTはオーナー証明として機能しますが、正式な所有権は会員権登録簿によって保証されます。</p>
+</details>
+<details>
+<summary data-en="What is the relationship between NFT and real estate registration?">NFTと会員権登録の関係は？</summary>
+<p data-en="SOLUNA NFT serves as proof of ownership; however, legal property rights are established through co-ownership share transfer registration with the Legal Affairs Bureau. NFT and registration are issued in coordination.">SOLUNA NFTはオーナーシップの証明として機能しますが、法的な不動産所有権は法務局への会員権移転登録によって確定します。NFTと登記は連動して発行されます。</p>
+</details>
+</div>
+</div>
+<div style="text-align:center;padding:24px 0 48px">
+<a class="nft-cta-link" data-en="View Properties →" href="index#properties">物件一覧を見る →</a>
+</div>
+</div>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Birowa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="View All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Join">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Holding Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Earn Units Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Purchase Crypto" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Personal Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><!-- TOAST -->
+<div class="toast" id="toast"></div>
+<script>
+// ═══════════════════════════════════════════════════
+// Admin wallet list
+// ═══════════════════════════════════════════════════
+const ADMIN_WALLETS = new Set([
+  // add admin wallet addresses here
+  // e.g. 'YOUR_ADMIN_WALLET_ADDRESS_HERE'
+]);
+
+// ═══════════════════════════════════════════════════
+// Helius RPC endpoint
+// ═══════════════════════════════════════════════════
+const HELIUS_RPC = 'https://api.mainnet-beta.solana.com';
+const SOLUNA_COLLECTION_PREFIX = 'SLUNA-';
+
+// ═══════════════════════════════════════════════════
+// State
+// ═══════════════════════════════════════════════════
+let state = {
+  walletAddress: null,
+  walletType: null,
+  walletProvider: null,
+  isAdmin: false,
+  mintedNFTs: JSON.parse(sessionStorage.getItem('soluna_minted') || '[]'),
+};
+
+// Property NFT ID ranges
+const PROPERTY_RANGES = {
+  TAPKOP:        { label:'TAPKOP', start:1, end:10, price:39000000, maxLots:10, share:'1/10' },
+  WHITE_HOUSE:   { label:'WHITE HOUSE 熱海', start:11, end:20, price:10000000, maxLots:10, share:'1/10' },
+  THE_LODGE:     { label:'THE LODGE', start:21, end:30, price:4900000, maxLots:10, share:'1/10' },
+  NESTING:       { label:'NESTING / VUILD', start:31, end:40, price:8900000, maxLots:10, share:'1/10' },
+  INSTANT_HOUSE: { label:'Instant House A/B', start:41, end:44, price:1200000, maxLots:4, share:'1/4', hamdao:true },
+  OFFGRID_CABIN: { label:'OFF-GRID CABIN A/B', start:45, end:46, price:50000000, maxLots:2, share:'1棟' },
+};
+
+// ═══════════════════════════════════════════════════
+// Init
+// ═══════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  checkWalletAvailability();
+  initReveal();
+  renderMintTable();
+});
+
+function checkWalletAvailability() {
+  const hasPhantom  = !!(window.solana?.isPhantom);
+  const hasBackpack = !!(window.xnft?.solana);
+  const hasSolflare = !!(window.solflare?.isSolflare);
+  if (!hasPhantom && !hasBackpack && !hasSolflare) {
+    document.getElementById('no-wallet-msg').style.display = 'block';
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// Wallet connect
+// ═══════════════════════════════════════════════════
+async function connectWallet(type) {
+  try {
+    let provider = null;
+    if (type === 'phantom' && window.solana?.isPhantom) {
+      provider = window.solana;
+    } else if (type === 'backpack' && window.xnft?.solana) {
+      provider = window.xnft.solana;
+    } else if (type === 'solflare' && window.solflare?.isSolflare) {
+      provider = window.solflare;
+    }
+
+    if (!provider) {
+      showToast('ウォレットが見つかりません。インストールを確認してください。', 'error');
+      return;
+    }
+
+    const resp = await provider.connect();
+    const address = resp.publicKey ? resp.publicKey.toString() : (provider.publicKey?.toString());
+
+    if (!address) throw new Error('Address not found');
+
+    state.walletAddress  = address;
+    state.walletType     = type;
+    state.walletProvider = provider;
+    state.isAdmin        = ADMIN_WALLETS.has(address);
+
+    onWalletConnected();
+  } catch(e) {
+    console.warn('Wallet connect error:', e);
+    if (e.code === 4001) {
+      showToast('接続をキャンセルしました', 'error');
+    } else {
+      showToast('接続に失敗しました: ' + (e.message || '不明なエラー'), 'error');
+    }
+  }
+}
+
+function onWalletConnected() {
+  const addr = state.walletAddress;
+  const short = addr.slice(0, 6) + '...' + addr.slice(-4);
+
+  document.getElementById('wallet-not-connected').style.display = 'none';
+  document.getElementById('wallet-connected').style.display = 'block';
+  document.getElementById('wallet-addr-display').textContent = short;
+  document.getElementById('wallet-type-display').textContent =
+    state.walletType === 'phantom' ? 'Phantom' :
+    state.walletType === 'backpack' ? 'Backpack' : 'Solflare';
+
+  if (state.isAdmin) {
+    document.getElementById('admin-section').style.display = 'block';
+  }
+
+  checkNFTs(addr);
+  showToast('ウォレットを接続しました', 'success');
+}
+
+function disconnectWallet() {
+  try {
+    if (state.walletProvider?.disconnect) state.walletProvider.disconnect();
+  } catch(e) {}
+
+  state.walletAddress  = null;
+  state.walletType     = null;
+  state.walletProvider = null;
+  state.isAdmin        = false;
+
+  document.getElementById('wallet-not-connected').style.display = 'block';
+  document.getElementById('wallet-connected').style.display = 'none';
+  document.getElementById('nft-result').style.display = 'none';
+  document.getElementById('nft-result').innerHTML = '';
+  document.getElementById('admin-section').style.display = 'none';
+  showToast('ウォレットを切断しました');
+}
+
+// ═══════════════════════════════════════════════════
+// NFT check via Helius getAssetsByOwner
+// ═══════════════════════════════════════════════════
+async function checkNFTs(walletAddr) {
+  document.getElementById('nft-loading').style.display = 'block';
+  document.getElementById('nft-result').style.display = 'none';
+
+  try {
+    const resp = await fetch(HELIUS_RPC, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 'soluna-check',
+        method: 'getAssetsByOwner',
+        params: {
+          ownerAddress: walletAddr,
+          page: 1,
+          limit: 1000,
+          displayOptions: { showFungible: false },
+        },
+      }),
+    });
+
+    const data = await resp.json();
+    const assets = data?.result?.items || [];
+
+    // Filter for SOLUNA NFTs by name prefix
+    const solunaAssets = assets.filter(a => {
+      const name = a?.content?.metadata?.name || '';
+      return name.startsWith(SOLUNA_COLLECTION_PREFIX);
+    });
+
+    renderNFTResult(solunaAssets);
+  } catch(e) {
+    console.warn('NFT check error:', e);
+    renderNFTResult(null);
+  } finally {
+    document.getElementById('nft-loading').style.display = 'none';
+  }
+}
+
+function renderNFTResult(assets) {
+  const el = document.getElementById('nft-result');
+  el.style.display = 'block';
+
+  if (assets === null) {
+    el.className = 'nft-result none';
+    el.innerHTML = '<div style="font-size:12px;color:#555">NFTの確認中にエラーが発生しました。しばらくしてから再試行してください。</div>';
+    return;
+  }
+
+  if (assets.length === 0) {
+    el.className = 'nft-result none';
+    el.innerHTML = `
+      <div class="nft-count" style="color:var(--text-dim)">0</div>
+      <div class="nft-label">SOLUNA NFT 保有なし</div>
+      <div style="font-size:12px;color:#555;margin-top:10px;line-height:1.8">購入するとNFTがこのウォレットに届きます。</div>
+      <a href="index#properties" class="nft-cta-link" style="margin-top:10px">物件を見る →</a>
+    `;
+    return;
+  }
+
+  const tagHtml = assets.map(a => {
+    const name = a?.content?.metadata?.name || '—';
+    return `<div class="nft-tag">🏠 ${name}</div>`;
+  }).join('');
+
+  el.className = 'nft-result found';
+  el.innerHTML = `
+    <div class="nft-count">${assets.length}</div>
+    <div class="nft-label">SOLUNA NFT 保有中</div>
+    <div class="nft-list">${tagHtml}</div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════
+// Admin: mint NFT via soluna-nft server
+// ═══════════════════════════════════════════════════
+const NFT_SERVER = 'https://soluna-nft.fly.dev';
+
+async function mintNFT() {
+  const toWallet    = document.getElementById('admin-wallet-input').value.trim();
+  const propertyKey = document.getElementById('admin-property-select').value;
+  const lots        = parseInt(document.getElementById('admin-lot-input').value, 10) || 1;
+  const startIdRaw  = document.getElementById('admin-nft-start-input').value.trim();
+  const adminToken  = document.getElementById('admin-token-input').value.trim();
+
+  if (!toWallet || toWallet.length < 32) { showToast('有効なウォレットアドレスを入力してください', 'error'); return; }
+  if (!propertyKey)                       { showToast('物件を選択してください', 'error'); return; }
+  if (lots < 1 || lots > 10)             { showToast('口数は1〜10の間で入力してください', 'error'); return; }
+  if (!adminToken)                        { showToast('管理者トークンを入力してください', 'error'); return; }
+
+  const btn    = document.getElementById('mint-btn');
+  const status = document.getElementById('mint-status');
+  btn.disabled = true;
+  btn.textContent = 'ミント中...';
+  status.style.display = 'block';
+  status.textContent = 'Solanaネットワークにトランザクション送信中...';
+
+  const body = { wallet: toWallet, property: propertyKey, lots };
+  if (startIdRaw) body.nftStartId = parseInt(startIdRaw, 10);
+
+  try {
+    const res = await fetch(`${NFT_SERVER}/api/mint`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${adminToken}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      showToast('エラー: ' + (data.error || res.statusText), 'error');
+      status.textContent = 'エラー: ' + (data.error || res.statusText);
+      return;
+    }
+
+    // Success — add to session log with real tx links
+    const range = PROPERTY_RANGES[propertyKey];
+    for (const item of data.minted) {
+      const record = {
+        id:        item.id,
+        property:  range?.label || propertyKey,
+        lots:      1,
+        to:        toWallet,
+        date:      new Date().toLocaleDateString('ja-JP'),
+        signature: item.signature,
+        asset:     item.asset,
+      };
+      state.mintedNFTs.push(record);
+    }
+    sessionStorage.setItem('soluna_minted', JSON.stringify(state.mintedNFTs));
+    renderMintTable();
+
+    const ids = data.minted.map(m => m.id).join(', ');
+    showToast(`✓ ミント完了: ${ids}`);
+    status.textContent = `✓ ${data.minted.length}枚ミント完了`;
+
+    // Clear fields
+    document.getElementById('admin-wallet-input').value = '';
+    document.getElementById('admin-lot-input').value = '1';
+    document.getElementById('admin-nft-start-input').value = '';
+
+  } catch (e) {
+    showToast('通信エラー: ' + e.message, 'error');
+    status.textContent = '通信エラー: ' + e.message;
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = 'NFTをミント';
+  }
+}
+
+function getNextNFTId(propertyKey) {
+  const range = PROPERTY_RANGES[propertyKey];
+  if (!range) return 999;
+  const usedIds = state.mintedNFTs
+    .filter(r => r.property === (range.label || propertyKey))
+    .length;
+  return range.start + usedIds;
+}
+
+function renderMintTable() {
+  const tbody = document.getElementById('mint-table-body');
+  if (!tbody) return;
+  if (state.mintedNFTs.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="5">まだ発行済みNFTはありません</td></tr>';
+    return;
+  }
+  tbody.innerHTML = state.mintedNFTs.map(r => `
+    <tr>
+      <td class="nft-id-cell">${r.signature
+        ? `<a href="https://solscan.io/token/${r.asset}" target="_blank" style="color:var(--gold)">${r.id}</a>`
+        : r.id}</td>
+      <td>${r.property}</td>
+      <td>${r.lots}口</td>
+      <td class="addr">${r.to.slice(0,8)}...${r.to.slice(-4)}</td>
+      <td>${r.signature
+        ? `<a href="https://solscan.io/tx/${r.signature}" target="_blank" style="color:#666;font-size:10px">${r.date}</a>`
+        : r.date}</td>
+    </tr>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════
+// Scroll reveal
+// ═══════════════════════════════════════════════════
+function initReveal() {
+  const els = document.querySelectorAll('.r');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  els.forEach(el => io.observe(el));
+}
+
+// ═══════════════════════════════════════════════════
+// Toast
+// ═══════════════════════════════════════════════════
+let toastTimer = null;
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type !== 'info' ? ' ' + type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.classList.remove('show'); }, 3000);
+}
+
+// Instant House / HAMDAO wallet connect
+function connectWalletForInstantHouse() {
+  if (!window.solana && !window.phantom) {
+    showToast('Phantomウォレットをインストールしてください', 'error');
+    window.open('https://phantom.app/', '_blank');
+    return;
+  }
+  connectWallet('phantom').then(() => {
+    if (state.walletAddress) {
+      document.getElementById('instant-house').scrollIntoView({behavior:'smooth'});
+      showToast('ウォレット接続済み。Instant Houseのミントが可能です', 'success');
+    }
+  }).catch(() => {
+    showToast('ウォレット接続をお試しください', 'error');
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// Monthly accumulation plan
+// ═══════════════════════════════════════════════════
+function showPlanTier(tab) {
+  ['instant','lodge','nesting'].forEach(t => {
+    const plan = document.getElementById('plan-' + t);
+    const btn = document.getElementById('tab-' + t);
+    if (plan) plan.style.display = t === tab ? 'block' : 'none';
+    if (btn) {
+      if (t === tab) {
+        btn.style.background = 'var(--gold)';
+        btn.style.color = '#050505';
+        btn.style.border = 'none';
+      } else {
+        btn.style.background = '#111';
+        btn.style.color = '#555';
+        btn.style.border = '1px solid #1e1e1e';
+      }
+    }
+  });
+}
+
+async function startMintMonthly(product, amount, propertyType) {
+  const email = prompt('メールアドレスを入力してください（積立口座の開設・領収書送付先）：');
+  if (!email || !email.includes('@')) return;
+  const labels = { instant: 'Instant House', lodge: 'THE LODGE', nesting: 'NESTING' };
+  const label = labels[propertyType] || propertyType;
+  try {
+    const res = await fetch('https://kagi-server.fly.dev/api/v1/checkout', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ product, email, amount_jpy: amount, property: propertyType.toUpperCase() })
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      window.location.href = 'mailto:mail@yukihamada.jp?subject=' + encodeURIComponent(label + '月払い積立（¥' + (amount/10000) + '万/月）') + '&body=' + encodeURIComponent('メールアドレス:' + email + '\n希望プラン: ' + label + ' ¥' + (amount/10000) + '万/月\n');
+    }
+  } catch(e) {
+    window.location.href = 'mailto:mail@yukihamada.jp?subject=' + encodeURIComponent(label + '月払い積立（¥' + (amount/10000) + '万/月）') + '&body=' + encodeURIComponent('メールアドレス:' + email + '\n希望プラン: ' + label + ' ¥' + (amount/10000) + '万/月\n');
+  }
+}
+
+// Anchor hash scroll to property
+(function() {
+  const hash = location.hash.replace('#','');
+  if (hash && ['THE_LODGE','NESTING','INSTANT_HOUSE','instant-house','TAPKOP','WHITE_HOUSE'].includes(hash)) {
+    setTimeout(() => {
+      const target = document.getElementById(hash === 'THE_LODGE' ? 'collections' :
+                     hash === 'NESTING' ? 'collections' :
+                     hash === 'INSTANT_HOUSE' ? 'instant-house' : 'collections');
+      if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 600);
+  }
+})();
+</script>
+<script defer="" src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

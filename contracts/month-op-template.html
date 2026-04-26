@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>月次運営権サービス利用契約書 — SOLUNA</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;color:#111;font-family:'Hiragino Mincho ProN','Yu Mincho','Times New Roman',serif;font-size:14px;line-height:2;padding:60px 80px;max-width:860px;margin:0 auto}
+@media print{body{padding:20px 40px}}
+@media(max-width:600px){body{padding:32px 24px}}
+
+.doc-header{text-align:center;margin-bottom:48px;padding-bottom:24px;border-bottom:2px solid #111}
+.doc-title{font-size:20px;font-weight:700;letter-spacing:.1em;margin-bottom:8px}
+.doc-sub{font-size:12px;color:#555;letter-spacing:.05em}
+
+.parties{background:#f8f8f8;border:1px solid #ddd;border-radius:6px;padding:20px 24px;margin-bottom:36px}
+.parties table{width:100%;border-collapse:collapse}
+.parties td{padding:6px 12px;vertical-align:top;font-size:13px}
+.parties td:first-child{color:#555;width:120px;white-space:nowrap}
+.parties tr{border-bottom:1px solid #eee}
+.parties tr:last-child{border-bottom:none}
+.section-label{font-size:10px;letter-spacing:.15em;color:#888;text-transform:uppercase;margin-bottom:8px;margin-top:28px}
+.party-block{margin-bottom:20px}
+.party-block:last-child{margin-bottom:0}
+
+h2{font-size:15px;font-weight:700;margin:32px 0 12px;letter-spacing:.05em}
+h2:first-of-type{margin-top:0}
+p,li{font-size:13px;color:#222;line-height:2.1;margin-bottom:4px}
+ol{padding-left:20px}
+ol li{margin-bottom:4px}
+ul{padding-left:20px}
+
+.important{background:#fff8e8;border-left:3px solid #c8a455;padding:12px 16px;margin:16px 0;font-size:12px;line-height:1.8}
+
+.signatures{margin-top:60px;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.sig-block{border-top:1px solid #333;padding-top:16px}
+.sig-label{font-size:11px;color:#666;margin-bottom:6px;letter-spacing:.08em}
+.sig-name{font-size:14px;font-weight:700;margin-bottom:4px}
+.sig-info{font-size:11px;color:#555;line-height:1.8}
+.sig-date{font-size:12px;color:#333;margin-top:12px}
+.sig-seal{width:60px;height:60px;border:1px solid #999;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:#999;float:right;margin-top:-20px}
+
+.footer-note{margin-top:48px;padding-top:16px;border-top:1px solid #ddd;font-size:11px;color:#888;line-height:1.8}
+
+.highlight{color:#c8a455;font-weight:600}
+
+/* Print button (screen only) */
+.print-btn{position:fixed;bottom:24px;right:24px;background:#111;color:#fff;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;font-size:13px;font-family:sans-serif}
+@media print{.print-btn{display:none}}
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="doc-title">月次運営権サービス利用契約書</div>
+  <div class="doc-sub">SOLUNA Monthly Operation Service Agreement</div>
+</div>
+
+<!-- ── 当事者 ── -->
+<div class="parties">
+  <div class="section-label">サービス提供者</div>
+  <div class="party-block">
+    <table>
+      <tr><td>会社名</td><td>Enabler Inc.</td></tr>
+      <tr><td>住所</td><td>〒108-0073 東京都港区三田2-7-1 THE RESIDENCE三田 1913号室</td></tr>
+      <tr><td>代表者</td><td>濱田 優貴</td></tr>
+      <tr><td>メール</td><td>info@enablerdao.com</td></tr>
+    </table>
+  </div>
+  <div class="section-label" style="margin-top:12px">購入者（利用者）</div>
+  <div class="party-block">
+    <table>
+      <tr><td>氏名</td><td>{{BUYER_NAME}}</td></tr>
+      <tr><td>メール</td><td>{{BUYER_EMAIL}}</td></tr>
+      <tr><td>購入日</td><td>{{PURCHASE_DATE}}</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ── 購入内容 ── -->
+<div class="important">
+  <strong>購入内容</strong><br>
+  施設: {{PROPERTY_NAME}}（北海道 弟子屈町）<br>
+  対象月: {{YEAR}}年{{MONTH}}月（{{MONTH_START}} 〜 {{MONTH_END}}）<br>
+  購入価格: ¥{{PRICE_JPY}}（税込）<br>
+  クレジット付与予定日: {{CREDIT_DATE}}
+</div>
+
+<h2>第1条（定義）</h2>
+<ol>
+  <li>「月次運営権」とは、指定施設の指定月における宿泊売上相当額の宿泊クレジット受取権をいいます。</li>
+  <li>「宿泊クレジット」とは、SOLUNA全施設の宿泊料金に充当できる電子価値をいいます。</li>
+  <li>「対象月」とは、利用者が購入時に指定した暦月（本契約では<strong>{{YEAR}}年{{MONTH}}月</strong>）をいいます。</li>
+  <li>「対象施設」とは、利用者が購入時に指定した施設（本契約では<strong>{{PROPERTY_NAME}}</strong>）をいいます。</li>
+</ol>
+
+<h2>第2条（本契約の性質）</h2>
+<ol>
+  <li>本契約は、宿泊クレジットの前払購入に関するサービス利用契約です。</li>
+  <li>本契約は、不動産の所有権・共有持分・事業への出資・投資収益の分配を約束するものではありません。</li>
+  <li>当社は利用者に対して金銭の返還義務を負いません。クレジットのみを対価として付与します。</li>
+  <li>宿泊クレジットは、資金決済法における前払式支払手段として発行するものではなく、サービスの対価として付与される施設内利用権原です。</li>
+</ol>
+
+<h2>第3条（契約の成立）</h2>
+<ol>
+  <li>利用者が当社の指定する決済手段により購入代金の支払いを完了した時点で、本契約が成立します。</li>
+  <li>各対象月・各対象施設につき購入できる利用者は1名に限られます。購入完了後は他の利用者への販売を行いません。</li>
+</ol>
+
+<h2>第4条（宿泊クレジットの付与）</h2>
+<ol>
+  <li>当社は、対象月翌月10日（土日祝日の場合は翌営業日）を目途に、対象月における対象施設の宿泊売上額（税抜・OTA手数料控除後）を宿泊クレジットとして利用者に付与します。</li>
+  <li>売上額の確定に時間を要する場合、付与時期を延期することがあります。その場合は利用者にメールで通知します。</li>
+  <li>付与するクレジット額は実際の売上に基づくものであり、購入価格・過去実績等を将来にわたって保証するものではありません。</li>
+  <li>売上の計算方法：Airbnb・予約サイト等への掲載売上合計 ÷ 宿泊料のみ（食事・アクティビティ等除く）。</li>
+</ol>
+
+<h2>第5条（不可抗力による休業）</h2>
+<ol>
+  <li>天災地変、行政規制、感染症の拡大、設備の重大な故障その他当社の責に帰すことができない事由により、対象月中に対象施設が全期間または一部期間休業した場合、当社は以下の対応をとります。
+    <ul style="margin-top:8px">
+      <li>全期間休業: 購入価格相当額の宿泊クレジットを付与</li>
+      <li>一部期間休業: 実際の売上に応じたクレジットを付与（最低保証なし）</li>
+    </ul>
+  </li>
+  <li>前項の場合、当社はそれ以上の損害賠償・補償の義務を負いません。</li>
+</ol>
+
+<h2>第6条（キャンセル）</h2>
+<ol>
+  <li>対象月開始の14日前（{{CANCEL_DEADLINE}}）までは、当社への申し出によりキャンセルが可能です。この場合、購入価格から処理手数料（購入価格の10%）を控除した金額相当の宿泊クレジットを付与します（現金返金は行いません）。</li>
+  <li>対象月開始の14日前以降のキャンセルは原則として受け付けません。</li>
+  <li>キャンセルの申し出は info@enablerdao.com への電子メールにより行うものとします。</li>
+</ol>
+
+<h2>第7条（宿泊クレジットの利用条件）</h2>
+<ol>
+  <li>付与された宿泊クレジットは、SOLUNA全施設（弟子屈・熱海等）の宿泊料金に充当できます。</li>
+  <li>有効期限は付与日から<strong>2年間</strong>です。期限経過後のクレジットは消滅します。</li>
+  <li>宿泊クレジットの現金への換金はできません。</li>
+  <li>宿泊クレジットの第三者への譲渡・売却はできません。ただし当社が別途認めた場合を除きます。</li>
+  <li>宿泊クレジットは宿泊料金にのみ使用でき、物品・食事・アクティビティ等には使用できません。</li>
+</ol>
+
+<h2>第8条（個人情報の取扱い）</h2>
+<p>当社は、本契約に関連して取得した利用者の個人情報を、当社プライバシーポリシー（https://solun.art/privacy.html）に従い適切に管理します。</p>
+
+<h2>第9条（免責の上限）</h2>
+<p>本契約に関して当社が負う損害賠償の上限は、購入価格相当の宿泊クレジット付与をもって上限とします。当社は間接損害・逸失利益について責任を負いません。</p>
+
+<h2>第10条（準拠法・管轄）</h2>
+<p>本契約は日本法に準拠します。本契約に関する紛争の第一審の専属的合意管轄裁判所は東京地方裁判所とします。</p>
+
+<h2>第11条（規約との関係）</h2>
+<p>本契約に定めのない事項は、SOLUNA利用規約（https://solun.art/terms.html）が適用されます。本契約と利用規約が矛盾する場合は本契約が優先します。</p>
+
+<!-- ── 署名欄 ── -->
+<div class="signatures">
+  <div class="sig-block">
+    <div class="sig-label">サービス提供者</div>
+    <div class="sig-name">Enabler Inc.</div>
+    <div class="sig-info">
+      代表取締役 濱田 優貴<br>
+      〒108-0073 東京都港区三田2-7-1<br>
+      THE RESIDENCE三田 1913号室
+    </div>
+    <div class="sig-date">署名日: {{SIGN_DATE}}</div>
+    <div class="sig-seal">代表印</div>
+  </div>
+  <div class="sig-block">
+    <div class="sig-label">購入者（利用者）</div>
+    <div class="sig-name">{{BUYER_NAME}}</div>
+    <div class="sig-info">
+      メール: {{BUYER_EMAIL}}<br>
+      購入番号: {{PURCHASE_ID}}<br>
+      電子的同意: Stripe決済完了をもって署名に代える
+    </div>
+    <div class="sig-date">同意日: {{PURCHASE_DATE}}</div>
+  </div>
+</div>
+
+<div class="footer-note">
+  本契約書は電子的に作成・保管されます。利用者はStripe決済完了時に本契約の内容に同意したものとみなされます（電子署名法第2条・第3条）。<br>
+  文書番号: MON-{{PURCHASE_ID}} / 発行: Enabler Inc. / 生成日時: {{GENERATED_AT}}
+</div>
+
+<button class="print-btn" onclick="window.print()">印刷 / PDF保存</button>
+
+</body>
+</html>

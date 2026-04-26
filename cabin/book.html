@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="canonical" href="https://solun.art/book">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLUNA — 宿泊予約・手付金</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050505;color:#f0ece4;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased}
+.w{max-width:520px;margin:0 auto;padding:40px 20px 80px}
+.gold{color:#c8a455}
+h1{font-size:20px;font-weight:700;margin-bottom:4px}
+h2{font-size:15px;font-weight:700;margin:24px 0 8px}
+p.sub{color:#555;font-size:12px;line-height:1.8;margin-bottom:20px}
+
+/* Steps */
+.steps{display:flex;gap:0;margin:24px 0}
+.step-dot{flex:1;text-align:center;position:relative;font-size:10px;color:#333;padding-top:20px}
+.step-dot::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;background:#222;border:2px solid #333}
+.step-dot.active{color:#c8a455}
+.step-dot.active::before{background:#c8a455;border-color:#c8a455}
+.step-dot.done::before{background:#2e7d32;border-color:#2e7d32}
+.step-line{position:absolute;top:5px;left:calc(50% + 8px);right:calc(-50% + 8px);height:2px;background:#222}
+.step-dot:last-child .step-line{display:none}
+
+/* Form */
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11px;color:#666;margin-bottom:4px}
+.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid #1a1a1a;border-radius:8px;background:#0c0c0c;color:#f0ece4;font-size:14px;outline:none;font-family:inherit}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#c8a455}
+.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+
+.btn{width:100%;padding:14px;border:none;border-radius:100px;background:#c8a455;color:#050505;font-weight:700;font-size:14px;cursor:pointer;transition:transform .2s;margin-top:16px}
+.btn:hover{transform:scale(1.02)}
+.btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
+.btn-ghost{background:transparent;color:#888;border:1px solid #222}
+.btn-ghost:hover{border-color:#c8a455;color:#c8a455}
+
+.note{font-size:10px;color:#333;margin-top:12px;text-align:center;line-height:1.7}
+
+.sec{display:none}.sec.active{display:block}
+.status{text-align:center;padding:40px 0}
+.status .icon{font-size:48px;margin-bottom:12px}
+.status h2{margin-bottom:8px}
+
+.back{display:inline-block;color:#555;font-size:12px;margin-bottom:16px;cursor:pointer}
+.back:hover{color:#c8a455}
+
+.sp{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #131313;font-size:12px}
+.sp .k{color:#555}.sp .v{font-weight:600;text-align:right}
+
+/* Calendar */
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin:16px 0 8px}
+.cal-head button{background:#0c0c0c;border:1px solid #1a1a1a;color:#c8a455;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:16px}
+.cal-head button:hover{border-color:#c8a455}
+.cal-head button:disabled{opacity:.3;cursor:not-allowed}
+.cal-title{font-size:13px;font-weight:700}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:12px}
+.cal-dow{text-align:center;font-size:9px;color:#444;padding:6px 0;letter-spacing:.1em}
+.cal-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;border-radius:6px;cursor:pointer;border:1px solid transparent;background:#0a0a0a;color:#666;transition:all .15s;position:relative}
+.cal-cell.avail{background:#0e0e0e;color:#ccc;border-color:#1a1a1a}
+.cal-cell.avail:hover{border-color:#c8a455;color:#c8a455}
+.cal-cell.blocked{background:#0a0a0a;color:#2a2a2a;cursor:not-allowed;text-decoration:line-through}
+.cal-cell.past{background:transparent;color:#1a1a1a;cursor:not-allowed}
+.cal-cell.empty{background:transparent;cursor:default}
+.cal-cell.selected{background:#c8a455;color:#050505;font-weight:700;border-color:#c8a455}
+.cal-cell.range{background:rgba(200,164,85,.2);color:#c8a455;border-color:rgba(200,164,85,.3)}
+.cal-legend{display:flex;gap:12px;font-size:10px;color:#444;margin-top:8px;flex-wrap:wrap}
+.cal-legend span{display:flex;align-items:center;gap:4px}
+.cal-legend i{display:inline-block;width:8px;height:8px;border-radius:2px;background:#0e0e0e;border:1px solid #1a1a1a}
+.cal-legend i.b{background:#0a0a0a;border-color:#0a0a0a}
+.cal-legend i.s{background:#c8a455;border-color:#c8a455}
+.cal-status{font-size:11px;color:#555;padding:8px 0;text-align:center}
+.cal-status.loading::before{content:'◯ ';animation:spin 1s linear infinite;display:inline-block}
+.sel-dates{background:#0c0c0c;border:1px solid #1a1a1a;border-radius:8px;padding:12px;margin:12px 0;font-size:12px}
+.sel-dates .k{color:#666}
+.sel-dates .v{color:#c8a455;font-weight:700}
+.sel-dates .clear{float:right;color:#444;cursor:pointer;font-size:10px}
+.sel-dates .clear:hover{color:#c8a455}
+</style>
+  <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<div class="w">
+
+  <div class="steps">
+    <div class="step-dot active" id="s1">物件<div class="step-line"></div></div>
+    <div class="step-dot" id="s2">日程<div class="step-line"></div></div>
+    <div class="step-dot" id="s3">情報<div class="step-line"></div></div>
+    <div class="step-dot" id="s4">確認<div class="step-line"></div></div>
+    <div class="step-dot" id="s5">完了</div>
+  </div>
+
+  <!-- STEP 1: Select property -->
+  <div class="sec active" id="sec1">
+    <h1>宿泊体験を予約する</h1>
+    <p class="sub">手付金10万円で宿泊体験。気に入ったら購入代金に充当。購入しなくても全額泊まれます（返金不可・2年有効）。</p>
+
+    <h2>体験したい物件</h2>
+    <div class="field">
+      <select id="property" onchange="updateProperty()">
+        <option value="">読み込み中...</option>
+      </select>
+    </div>
+
+    <div id="prop-detail" style="display:none">
+      <div class="sp"><span class="k">宿泊単価（運用時）</span><span class="v gold" id="pd-price">-</span></div>
+      <div class="sp"><span class="k">最大宿泊人数</span><span class="v" id="pd-guests">-</span></div>
+      <div class="sp"><span class="k">手付金</span><span class="v gold">10万円</span></div>
+      <div class="sp"><span class="k">購入決定時</span><span class="v">全額を購入代金に充当</span></div>
+      <div class="sp"><span class="k">購入しない場合</span><span class="v">全額を宿泊に利用可（返金不可）</span></div>
+    </div>
+
+    <button class="btn" id="btn1" disabled onclick="goStep(2)">日程を選ぶ</button>
+  </div>
+
+  <!-- STEP 2: Calendar -->
+  <div class="sec" id="sec2">
+    <span class="back" onclick="goStep(1)">&larr; 物件を変更</span>
+    <h1>日程を選ぶ</h1>
+    <p class="sub" id="cal-prop-name">KAGIと連携した空き状況</p>
+
+    <div class="cal-head">
+      <button id="cal-prev" onclick="calShift(-1)">&lsaquo;</button>
+      <div class="cal-title" id="cal-title">-</div>
+      <button id="cal-next" onclick="calShift(1)">&rsaquo;</button>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+    <div class="cal-legend">
+      <span><i></i>空き</span>
+      <span><i class="b"></i>予約済</span>
+      <span><i class="s"></i>選択中</span>
+    </div>
+    <div class="cal-status" id="cal-status"></div>
+
+    <div class="sel-dates" id="sel-dates" style="display:none">
+      <span class="clear" onclick="clearDates()">クリア</span>
+      <div class="sp" style="border:none;padding:4px 0"><span class="k">チェックイン</span><span class="v" id="sel-ci">-</span></div>
+      <div class="sp" style="border:none;padding:4px 0"><span class="k">チェックアウト</span><span class="v" id="sel-co">-</span></div>
+      <div class="sp" style="border:none;padding:4px 0"><span class="k">泊数</span><span class="v" id="sel-nights">-</span></div>
+    </div>
+
+    <button class="btn" id="btn2" disabled onclick="goStep(3)">次へ</button>
+  </div>
+
+  <!-- STEP 3: Enter info -->
+  <div class="sec" id="sec3">
+    <span class="back" onclick="goStep(2)">&larr; 日程を変更</span>
+    <h1>お客様情報</h1>
+    <p class="sub">契約書と予約確認に使用します。</p>
+
+    <div class="field"><label>お名前 *</label><input type="text" id="name" placeholder="山田太郎" oninput="checkForm()"></div>
+    <div class="field"><label>メールアドレス *</label><input type="email" id="email" placeholder="you@example.com" oninput="checkForm()"></div>
+    <div class="field"><label>電話番号</label><input type="tel" id="phone" placeholder="090-1234-5678"></div>
+    <div class="field"><label>同伴人数</label>
+      <select id="guests">
+        <option selected>選択してください</option><option>1名</option><option>2名</option><option>3名</option><option>4名</option><option>5名</option><option>6名</option><option>7名</option><option>8名</option>
+      </select>
+    </div>
+    <div class="field"><label>ペット同伴</label>
+      <select id="pet"><option>なし</option><option>犬（1頭）</option><option>犬（2頭）</option></select>
+    </div>
+    <div class="field"><label>備考・ご要望</label><textarea id="note" rows="2" placeholder="柔術体験希望 など"></textarea></div>
+
+    <button class="btn" id="btn3" disabled onclick="goStep(4)">確認画面へ</button>
+  </div>
+
+  <!-- STEP 4: Confirm -->
+  <div class="sec" id="sec4">
+    <span class="back" onclick="goStep(3)">&larr; 戻る</span>
+    <h1>内容確認</h1>
+    <p class="sub">以下の内容で予約と手付金契約を同時に作成します。</p>
+
+    <div class="sp"><span class="k">物件</span><span class="v" id="c-prop"></span></div>
+    <div class="sp"><span class="k">チェックイン</span><span class="v" id="c-ci"></span></div>
+    <div class="sp"><span class="k">チェックアウト</span><span class="v" id="c-co"></span></div>
+    <div class="sp"><span class="k">泊数</span><span class="v" id="c-nights"></span></div>
+    <div class="sp"><span class="k">お名前</span><span class="v" id="c-name"></span></div>
+    <div class="sp"><span class="k">メール</span><span class="v" id="c-email"></span></div>
+    <div class="sp"><span class="k">電話</span><span class="v" id="c-phone"></span></div>
+    <div class="sp"><span class="k">人数</span><span class="v" id="c-guests"></span></div>
+    <div class="sp"><span class="k">ペット</span><span class="v" id="c-pet"></span></div>
+    <div class="sp"><span class="k">手付金</span><span class="v gold">10万円（返金不可）</span></div>
+
+    <p style="font-size:11px;color:#666;margin-top:16px;line-height:1.8">
+      「予約と契約を確定する」を押すと、KAGIに予約が登録され、同時にPonで電子契約が作成されます。
+      電子署名法に基づく署名を行います。
+      手付金10万円は宿泊クレジットとして即利用可能で、購入決定時は全額購入代金に充当されます。
+      <strong style="color:#888">手付金は返金不可ですが、全額宿泊に利用できます（2年有効）。</strong>
+    </p>
+
+    <button class="btn" id="btn4" onclick="createBooking()">予約と契約を確定する</button>
+    <p class="note">KAGI予約 + Pon電子契約で安全に処理されます</p>
+  </div>
+
+  <!-- STEP 5: Complete -->
+  <div class="sec" id="sec5">
+    <div class="status" id="status-loading">
+      <div class="icon" style="animation:spin 1s linear infinite">&#9696;</div>
+      <h2>予約を処理中...</h2>
+      <p class="sub" id="loading-msg">KAGIに予約を登録しています...</p>
+    </div>
+
+    <div class="status" id="status-done" style="display:none">
+      <div class="icon">&#10003;</div>
+      <h2 class="gold">予約が確定しました</h2>
+      <p class="sub">KAGIに予約が登録されました。<br>契約書の署名ページへ移動してください。</p>
+      <div class="sel-dates" style="margin:20px 0;text-align:left">
+        <div class="sp" style="border:none;padding:4px 0"><span class="k">予約ID</span><span class="v" id="res-id">-</span></div>
+        <div class="sp" style="border:none;padding:4px 0"><span class="k">物件</span><span class="v" id="res-prop">-</span></div>
+        <div class="sp" style="border:none;padding:4px 0"><span class="k">チェックイン</span><span class="v" id="res-ci">-</span></div>
+        <div class="sp" style="border:none;padding:4px 0"><span class="k">チェックアウト</span><span class="v" id="res-co">-</span></div>
+      </div>
+      <a id="sign-link" href="#" class="btn" style="display:inline-block;width:auto;text-decoration:none">契約書に署名する</a>
+      <p class="note" style="margin-top:16px">契約ID: <span id="contract-id">-</span></p>
+    </div>
+
+    <div class="status" id="status-pending" style="display:none">
+      <div class="icon">&#10003;</div>
+      <h2 class="gold">お申し込みを受け付けました</h2>
+      <p class="sub">担当者より24時間以内にメールでご連絡いたします。<br>契約書の署名リンクをお送りします。</p>
+      <p class="note">お急ぎの場合: <a href="mailto:info@enablerdao.com">info@enablerdao.com</a></p>
+    </div>
+
+    <div class="status" id="status-conflict" style="display:none">
+      <div class="icon">&#9888;</div>
+      <h2>日程が埋まっています</h2>
+      <p class="sub">選択した日程はすでに予約済みです。別の日程をお選びください。</p>
+      <button class="btn" onclick="goStep(2);loadAvailability()" style="width:auto;display:inline-block;padding:12px 32px">日程を選び直す</button>
+    </div>
+
+    <div class="status" id="status-error" style="display:none">
+      <div class="icon">&#9888;</div>
+      <h2>エラーが発生しました</h2>
+      <p class="sub" id="error-msg">もう一度お試しください。</p>
+      <button class="btn" onclick="goStep(4)" style="width:auto;display:inline-block;padding:12px 32px">戻る</button>
+    </div>
+  </div>
+
+</div>
+
+<style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style>
+
+<script>
+var KAGI='https://kagi-server.fly.dev';
+var PON='https://pon.enablerdao.com';
+
+// Fallback properties (in case KAGI is down)
+var FALLBACK_PROPS=[
+  {id:'aoshima',name:'NOT A HOTEL AOSHIMA',location:'宮崎',max_guests:8,price_per_night:450000,group_name:'nah'},
+  {id:'nah_nasu',name:'NOT A HOTEL NASU',location:'栃木・那須',max_guests:8,price_per_night:400000,group_name:'nah'},
+  {id:'nah_kitakaru',name:'NOT A HOTEL KITAKARU',location:'長野・軽井沢',max_guests:8,price_per_night:500000,group_name:'nah'},
+  {id:'nah_ishigaki',name:'NOT A HOTEL ISHIGAKI',location:'沖縄・石垣',max_guests:8,price_per_night:450000,group_name:'nah'},
+  {id:'nah_fuji',name:'NOT A HOTEL FUJI',location:'山梨・富士',max_guests:8,price_per_night:400000,group_name:'nah'},
+  {id:'nah_setouchi',name:'NOT A HOTEL SETOUCHI',location:'愛媛・瀬戸内',max_guests:8,price_per_night:450000,group_name:'nah'},
+  {id:'tapkop',name:'TAPKOP',location:'弟子屈',max_guests:8,price_per_night:340000,group_name:'soluna'},
+  {id:'atami',name:'WHITE HOUSE',location:'熱海',max_guests:6,price_per_night:50000,group_name:'soluna'},
+  {id:'nest',name:'THE NEST',location:'弟子屈',max_guests:8,price_per_night:50000,group_name:'soluna'},
+  {id:'lodge',name:'THE LODGE',location:'弟子屈',max_guests:6,price_per_night:30000,group_name:'soluna'},
+  {id:'village',name:'SOLUNA VILLAGE',location:'弟子屈',max_guests:8,price_per_night:100000,group_name:'soluna'}
+];
+
+var state={
+  properties:[],
+  selected:null,
+  calMonth:new Date(new Date().getFullYear(),new Date().getMonth(),1),
+  blocked:new Set(),
+  checkIn:null,
+  checkOut:null
+};
+
+// Load properties from KAGI
+async function loadProperties(){
+  var sel=document.getElementById('property');
+  try{
+    var res=await fetch(KAGI+'/api/v1/soluna/properties');
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    var data=await res.json();
+    state.properties=data.properties||[];
+  }catch(e){
+    state.properties=FALLBACK_PROPS;
+  }
+  sel.innerHTML='<option value="">選択してください</option>';
+  var groups={nah:[],soluna:[]};
+  state.properties.forEach(function(p){(groups[p.group_name||'soluna']||groups.soluna).push(p)});
+  var groupLabels={nah:'NOT A HOTEL（青島オーナー特典で利用可）',soluna:'SOLUNA 物件'};
+  ['nah','soluna'].forEach(function(g){
+    if(groups[g].length===0)return;
+    var og=document.createElement('optgroup');og.label=groupLabels[g];
+    groups[g].forEach(function(p){
+      var opt=document.createElement('option');
+      opt.value=p.id;
+      var priceStr=(p.price_per_night/10000).toLocaleString()+'万円/泊';
+      opt.textContent=p.name+' — '+p.location+'（'+priceStr+'）';
+      opt.dataset.name=p.name+'（'+p.location+'）';
+      og.appendChild(opt);
+    });
+    sel.appendChild(og);
+  });
+}
+
+function updateProperty(){
+  var sel=document.getElementById('property');
+  var id=sel.value;
+  state.selected=state.properties.find(function(p){return p.id===id})||null;
+  var detail=document.getElementById('prop-detail');
+  if(state.selected){
+    detail.style.display='block';
+    document.getElementById('pd-price').textContent=(state.selected.price_per_night/10000).toLocaleString()+'万円/泊';
+    document.getElementById('pd-guests').textContent=state.selected.max_guests+'名まで';
+    document.getElementById('cal-prop-name').textContent=state.selected.name+'（'+state.selected.location+'）— KAGIと連携した空き状況';
+  }else{
+    detail.style.display='none';
+  }
+  document.getElementById('btn1').disabled=!state.selected;
+}
+
+// Calendar
+function calShift(delta){
+  var d=state.calMonth;
+  state.calMonth=new Date(d.getFullYear(),d.getMonth()+delta,1);
+  renderCalendar();
+  loadAvailability();
+}
+
+async function loadAvailability(){
+  if(!state.selected)return;
+  var st=document.getElementById('cal-status');
+  st.textContent='空き状況を読み込み中...';
+  st.className='cal-status loading';
+
+  var m=state.calMonth;
+  var from=fmtDate(new Date(m.getFullYear(),m.getMonth(),1));
+  var to=fmtDate(new Date(m.getFullYear(),m.getMonth()+1,0));
+
+  try{
+    var res=await fetch(KAGI+'/api/v1/soluna/availability?property='+state.selected.id+'&from='+from+'&to='+to);
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    var data=await res.json();
+    (data.blocked||[]).forEach(function(d){state.blocked.add(d)});
+    st.textContent='';
+    st.className='cal-status';
+  }catch(e){
+    st.textContent='オフラインモード（リアルタイム空き状況は取得できません）';
+    st.className='cal-status';
+  }
+  renderCalendar();
+}
+
+function fmtDate(d){
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')
+}
+
+function renderCalendar(){
+  var m=state.calMonth;
+  var y=m.getFullYear(),mo=m.getMonth();
+  var title=y+'年'+(mo+1)+'月';
+  document.getElementById('cal-title').textContent=title;
+
+  var today=new Date();today.setHours(0,0,0,0);
+  var thisMonth=new Date(today.getFullYear(),today.getMonth(),1);
+  document.getElementById('cal-prev').disabled=m<=thisMonth;
+
+  var grid=document.getElementById('cal-grid');
+  grid.innerHTML='';
+  var dows=['日','月','火','水','木','金','土'];
+  dows.forEach(function(d){
+    var el=document.createElement('div');el.className='cal-dow';el.textContent=d;grid.appendChild(el);
+  });
+
+  var firstDay=new Date(y,mo,1).getDay();
+  var daysInMonth=new Date(y,mo+1,0).getDate();
+
+  for(var i=0;i<firstDay;i++){
+    var e=document.createElement('div');e.className='cal-cell empty';grid.appendChild(e);
+  }
+
+  for(var day=1;day<=daysInMonth;day++){
+    var date=new Date(y,mo,day);
+    var dStr=fmtDate(date);
+    var cell=document.createElement('div');
+    cell.className='cal-cell';
+    cell.textContent=day;
+    cell.dataset.date=dStr;
+
+    if(date<today){
+      cell.className+=' past';
+    }else if(state.blocked.has(dStr)){
+      cell.className+=' blocked';
+    }else{
+      cell.className+=' avail';
+      cell.onclick=(function(d){return function(){selectDate(d)}})(dStr);
+    }
+
+    if(state.checkIn===dStr)cell.className+=' selected';
+    if(state.checkOut===dStr)cell.className+=' selected';
+    if(state.checkIn&&state.checkOut&&dStr>state.checkIn&&dStr<state.checkOut)cell.className+=' range';
+
+    grid.appendChild(cell);
+  }
+}
+
+function selectDate(d){
+  if(!state.checkIn||(state.checkIn&&state.checkOut)){
+    state.checkIn=d;
+    state.checkOut=null;
+  }else if(d<=state.checkIn){
+    state.checkIn=d;
+    state.checkOut=null;
+  }else{
+    // Check no blocked dates in between
+    var start=new Date(state.checkIn);
+    var end=new Date(d);
+    var hasBlocked=false;
+    var cur=new Date(start);
+    cur.setDate(cur.getDate()+1);
+    while(cur<end){
+      if(state.blocked.has(fmtDate(cur))){hasBlocked=true;break}
+      cur.setDate(cur.getDate()+1);
+    }
+    if(hasBlocked){
+      state.checkIn=d;
+      state.checkOut=null;
+    }else{
+      var nights=Math.round((end-start)/86400000);
+      if(nights>30){
+        alert('最長滞在期間は30泊（1ヶ月）です。チェックアウト日を調整してください。');
+        state.checkIn=d;
+        state.checkOut=null;
+      }else{
+        state.checkOut=d;
+      }
+    }
+  }
+  updateSelectedDates();
+  renderCalendar();
+}
+
+function updateSelectedDates(){
+  var box=document.getElementById('sel-dates');
+  if(state.checkIn){
+    box.style.display='block';
+    document.getElementById('sel-ci').textContent=state.checkIn;
+    document.getElementById('sel-co').textContent=state.checkOut||'選択してください';
+    if(state.checkOut){
+      var nights=Math.round((new Date(state.checkOut)-new Date(state.checkIn))/86400000);
+      document.getElementById('sel-nights').textContent=nights+'泊';
+      document.getElementById('btn2').disabled=false;
+    }else{
+      document.getElementById('sel-nights').textContent='-';
+      document.getElementById('btn2').disabled=true;
+    }
+  }else{
+    box.style.display='none';
+    document.getElementById('btn2').disabled=true;
+  }
+}
+
+function clearDates(){
+  state.checkIn=null;
+  state.checkOut=null;
+  updateSelectedDates();
+  renderCalendar();
+}
+
+function checkForm(){
+  var n=document.getElementById('name').value.trim();
+  var e=document.getElementById('email').value.trim();
+  document.getElementById('btn3').disabled=!(n&&e&&e.includes('@'))
+}
+
+function goStep(n){
+  document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('active')});
+  document.getElementById('sec'+n).classList.add('active');
+  document.querySelectorAll('.step-dot').forEach(function(d,i){
+    d.classList.remove('active','done');
+    if(i<n-1)d.classList.add('done');
+    if(i===n-1)d.classList.add('active');
+  });
+  if(n===2&&state.selected&&state.blocked.size===0)loadAvailability();
+  if(n===2)renderCalendar();
+  if(n===4)fillConfirm();
+  window.scrollTo(0,0);
+}
+
+function fillConfirm(){
+  document.getElementById('c-prop').textContent=state.selected.name+'（'+state.selected.location+'）';
+  document.getElementById('c-ci').textContent=state.checkIn;
+  document.getElementById('c-co').textContent=state.checkOut;
+  var nights=Math.round((new Date(state.checkOut)-new Date(state.checkIn))/86400000);
+  document.getElementById('c-nights').textContent=nights+'泊';
+  document.getElementById('c-name').textContent=document.getElementById('name').value;
+  document.getElementById('c-email').textContent=document.getElementById('email').value;
+  document.getElementById('c-phone').textContent=document.getElementById('phone').value||'-';
+  document.getElementById('c-guests').textContent=document.getElementById('guests').value;
+  document.getElementById('c-pet').textContent=document.getElementById('pet').value;
+}
+
+async function createBooking(){
+  goStep(5);
+  document.getElementById('loading-msg').textContent='KAGIに予約を登録しています...';
+
+  var d={
+    name:document.getElementById('name').value.trim(),
+    email:document.getElementById('email').value.trim(),
+    phone:document.getElementById('phone').value.trim(),
+    guests:document.getElementById('guests').value,
+    pet:document.getElementById('pet').value,
+    note:document.getElementById('note').value.trim()
+  };
+
+  var reservationId=null;
+  var kagiOk=false;
+
+  // 1. Create reservation in KAGI
+  try{
+    var res=await fetch(KAGI+'/api/v1/soluna/reservations',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        property:state.selected.id,
+        guest_name:d.name,
+        guest_email:d.email,
+        guest_phone:d.phone,
+        check_in:state.checkIn,
+        check_out:state.checkOut,
+        guests:parseInt(d.guests)||1,
+        pet:d.pet,
+        note:d.note
+      })
+    });
+    if(res.status===409){
+      document.getElementById('status-loading').style.display='none';
+      document.getElementById('status-conflict').style.display='block';
+      return;
+    }
+    if(!res.ok)throw new Error('KAGI HTTP '+res.status);
+    var data=await res.json();
+    reservationId=data.reservation_id;
+    kagiOk=true;
+  }catch(e){
+    // KAGI failed — continue with Pon anyway, fallback path
+  }
+
+  // 2. Create Pon contract
+  document.getElementById('loading-msg').textContent='Pon電子契約を作成しています...';
+  var body='SOLUNA 宿泊予約・手付金契約書\n\n'+
+    '【契約概要】\n本契約は、SOLUNA物件の宿泊予約および購入検討に伴う手付金に関する契約です。\n\n'+
+    '【対象物件】'+state.selected.name+'（'+state.selected.location+'）\n\n'+
+    '【宿泊予約】\nチェックイン: '+state.checkIn+'\nチェックアウト: '+state.checkOut+'\n人数: '+d.guests+'\nペット: '+d.pet+'\n'+
+    (reservationId?'予約ID: '+reservationId+'\n':'')+'\n'+
+    '【契約者情報】\n氏名: '+d.name+'\nメール: '+d.email+'\n電話: '+(d.phone||'未記入')+'\n\n'+
+    '【手付金】\n金額: 100,000円（税込）\n\n'+
+    '【手付金の取扱い】\n'+
+    '1. 手付金は宿泊クレジットとして即時利用可能です。\n'+
+    '2. 対象物件の購入を決定した場合、手付金全額を購入代金に充当します。\n'+
+    '3. 購入しない場合、手付金は宿泊クレジットとしてのみ利用可能です（返金不可）。\n'+
+    '4. 宿泊クレジットの有効期限は契約締結日から2年間です。\n\n'+
+    '【運営】\n物件の運営・管理は株式会社Enabler（東京都港区三田2-7-1）が行います。\n\n'+
+    '【その他】\n本契約は電子署名法（平成12年法律第102号）に基づく電子署名により締結されます。\n'+
+    '手付金は理由の如何を問わず返金いたしません。\n\n'+
+    '以上の内容に同意し、署名します。';
+
+  try{
+    var res2=await fetch(PON+'/api/contracts',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        title:'SOLUNA 予約+手付金 — '+state.selected.name,
+        client_name:d.name,
+        client_email:d.email,
+        creator_email:'info@enablerdao.com',
+        creator_name:'株式会社Enabler',
+        contract_type:'deposit',
+        amount:100000,
+        currency:'JPY',
+        body_text:body
+      })
+    });
+    if(!res2.ok)throw new Error('Pon HTTP '+res2.status);
+    var pdata=await res2.json();
+
+    document.getElementById('status-loading').style.display='none';
+    document.getElementById('status-done').style.display='block';
+    document.getElementById('sign-link').href=pdata.sign_url||PON+'/sign/'+pdata.token;
+    document.getElementById('contract-id').textContent=pdata.id;
+    document.getElementById('res-id').textContent=reservationId||'KAGI未連携（メールで手動対応）';
+    document.getElementById('res-prop').textContent=state.selected.name;
+    document.getElementById('res-ci').textContent=state.checkIn;
+    document.getElementById('res-co').textContent=state.checkOut;
+
+    // Notify via Formspree
+    fetch('https://formspree.io/f/xpznqkaa',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        _subject:'SOLUNA 予約+契約: '+d.name+' ('+state.selected.name+')',
+        name:d.name,email:d.email,phone:d.phone,
+        property:state.selected.name,check_in:state.checkIn,check_out:state.checkOut,
+        guests:d.guests,pet:d.pet,note:d.note,
+        reservation_id:reservationId||'N/A',
+        contract_id:pdata.id,
+        sign_url:pdata.sign_url||PON+'/sign/'+pdata.token,
+        kagi_ok:kagiOk
+      })
+    }).catch(function(){});
+
+  }catch(e){
+    // Pon failed — fallback to Formspree
+    try{
+      await fetch('https://formspree.io/f/xpznqkaa',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          _subject:'[要対応] SOLUNA 予約（契約エラー）: '+d.name+' ('+state.selected.name+')',
+          name:d.name,email:d.email,phone:d.phone,
+          property:state.selected.name,check_in:state.checkIn,check_out:state.checkOut,
+          guests:d.guests,pet:d.pet,note:d.note,
+          reservation_id:reservationId||'N/A',
+          error:e.message,
+          note2:'Pon API接続エラーのため手動対応が必要です'
+        })
+      });
+      document.getElementById('status-loading').style.display='none';
+      document.getElementById('status-pending').style.display='block';
+    }catch(e2){
+      document.getElementById('status-loading').style.display='none';
+      document.getElementById('status-error').style.display='block';
+      document.getElementById('error-msg').textContent='接続エラー。info@enablerdao.com まで直接ご連絡ください。';
+    }
+  }
+}
+
+// Init
+loadProperties();
+if(new URLSearchParams(location.search).get('intent')==='owner'){
+  document.querySelector('h1').textContent='共同オーナーについて相談する';
+}
+</script>
+<script src="/track.js" defer></script>
+</body>
+</html>

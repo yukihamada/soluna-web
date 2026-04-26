@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soluna — アプリ</title>
+<meta name="description" content="Solunaアプリ。音楽をUDPで受信・配信するMac/iPhoneアプリ。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23050505'/><circle cx='32' cy='32' r='20' fill='none' stroke='%23c8a455' stroke-width='2.5'/><circle cx='32' cy='20' r='5' fill='%23c8a455'/><path d='M20 38 Q32 28 44 38' fill='none' stroke='%23c8a455' stroke-width='2' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;700;800&display=swap" rel="stylesheet">
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --gold: #c8a455; --bg: #040404; --text: #cdc8be; --sub: #4a4640; --border: rgba(200,164,85,0.1); }
+body { background: var(--bg); color: var(--text); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 100vh; }
+
+header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 44px; border-bottom: 1px solid var(--border);
+}
+.logo { font-size: 10px; font-weight: 800; letter-spacing: 0.28em; color: var(--gold); text-decoration: none; }
+.back { font-size: 10px; letter-spacing: 0.12em; color: var(--sub); text-decoration: none; transition: color 0.2s; }
+.back:hover { color: var(--text); }
+
+.hero {
+  max-width: 640px; margin: 0 auto;
+  padding: 80px 44px 60px;
+  text-align: center;
+}
+.hero-label {
+  font-size: 9px; letter-spacing: 0.28em; color: var(--gold); text-transform: uppercase;
+  margin-bottom: 20px;
+}
+h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  font-family: 'Shippori Mincho B1', serif;
+  font-weight: 700; letter-spacing: 0.04em;
+  color: #f0ece4; line-height: 1.2;
+  margin-bottom: 16px;
+}
+.hero-sub {
+  font-size: 13px; line-height: 1.8; color: var(--sub); letter-spacing: 0.06em;
+  margin-bottom: 48px;
+}
+
+.dl-cards {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; max-width: 480px; margin: 0 auto 60px;
+}
+.dl-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px 20px;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.3s, background 0.3s;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  cursor: pointer;
+}
+.dl-card:hover { border-color: var(--gold); background: rgba(200,164,85,0.03); }
+.dl-card .platform-icon { font-size: 28px; }
+.dl-card .platform-name {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  color: #f0ece4; text-transform: uppercase;
+}
+.dl-card .platform-version { font-size: 10px; color: var(--sub); letter-spacing: 0.08em; }
+.dl-card .dl-btn {
+  margin-top: 4px; font-size: 9px; letter-spacing: 0.16em;
+  color: var(--gold); text-transform: uppercase;
+  border: 1px solid rgba(200,164,85,0.3); border-radius: 100px;
+  padding: 6px 16px;
+}
+.dl-card:hover .dl-btn { background: var(--gold); color: #040404; }
+
+.coming {
+  opacity: 0.45; cursor: default;
+}
+.coming:hover { border-color: var(--border); background: transparent; }
+.coming .dl-btn { color: var(--sub); border-color: var(--sub); opacity: 0.5; }
+
+.proto-note {
+  text-align: center; padding: 32px 44px;
+  font-size: 10px; color: var(--sub); letter-spacing: 0.12em;
+  line-height: 1.9;
+  border-top: 1px solid var(--border);
+}
+.proto-note a { color: var(--sub); text-decoration: underline; }
+
+@media (max-width: 640px) {
+  header { padding: 18px 20px; }
+  .hero { padding: 48px 20px 40px; }
+  .dl-cards { grid-template-columns: 1fr 1fr; }
+  .proto-note { padding: 24px 20px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">SOLUNA</a>
+  <a href="/" class="back">← ホーム</a>
+</header>
+
+<div class="hero">
+  <div class="hero-label">App</div>
+  <h1>音楽を受け取る</h1>
+  <p class="hero-sub">
+    Solunaは、場所にいる全員が同じ音楽を聴くためのアプリ。<br>
+    UDPで配信される音楽を、Mac・iPhoneで受信する。
+  </p>
+
+  <div class="dl-cards">
+    <a href="/Soluna-mac.pkg" class="dl-card" download>
+      <span class="platform-icon"></span>
+      <span class="platform-name">Mac</span>
+      <span class="platform-version">v0.4.1</span>
+      <span class="dl-btn">ダウンロード</span>
+    </a>
+
+    <div class="dl-card coming">
+      <span class="platform-icon">📱</span>
+      <span class="platform-name">iPhone</span>
+      <span class="platform-version">準備中</span>
+      <span class="dl-btn">近日公開</span>
+    </div>
+  </div>
+</div>
+
+<div class="proto-note">
+  SOLUNA Protocol — UDP multicast 239.42.42.1:4242 で音声を配信、4243 でLED同期。<br>
+  オープンプロトコル。詳細は <a href="https://github.com/yukihamada" target="_blank">GitHub</a> を参照。
+</div>
+
+</body>
+</html>

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/nesting-story" rel="canonical"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title data-en="NESTING — The walls breathe. | SOLUNA">NESTING — 壁が、呼吸している。| SOLUNA</title>
+<meta content="VUILD建築。パラメトリック木造。珪藻土と漆喰。建物そのものが楽器だ。¥1,300万〜/口" data-en-content="VUILD architecture. Parametric timber construction. Diatomaceous earth and lime plaster. The building itself is an instrument. ¥13,000,000~per unit" name="description"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--void:#08080a;--birch:#f0ede8;--bark:#2a2018;--clay:#8a6a4a;--earth:#5a4a3a;--gold:#c9a84c;--text:#e8e4dc;--dim:#6a6258}
+html{scroll-behavior:smooth;background:var(--void)}
+body{padding-top:48px;background:var(--void);color:var(--text);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;overflow-x:hidden;cursor:none}
+#cur{position:fixed;width:6px;height:6px;background:var(--birch);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference}
+#cur-r{position:fixed;width:32px;height:32px;border:1px solid rgba(240,237,232,.25);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .2s}
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:28px 48px;mix-blend-mode:difference}
+.nav-l{font-size:10px;letter-spacing:.4em;color:#fff;text-decoration:none}
+.nav-r{font-size:9px;letter-spacing:.35em;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.2);padding:10px 22px}
+
+/* S0 hero */
+#s0{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+#para-canvas{position:absolute;inset:0}
+.hero-wrap{position:relative;z-index:2;text-align:center;padding:0 40px}
+.hero-ko{font-size:10px;letter-spacing:.5em;color:rgba(240,237,232,.4);margin-bottom:48px}
+.hero-h{font-size:clamp(48px,8vw,116px);font-weight:100;color:var(--birch);line-height:.95;letter-spacing:-.02em;opacity:0;transform:translateY(24px);transition:opacity 2s 1s ease,transform 2s 1s ease}
+.hero-h.show{opacity:1;transform:none}
+.hero-h .ja{display:block;font-size:.48em;color:rgba(240,237,232,.6);letter-spacing:.06em;margin-top:.4em;font-weight:200}
+.hero-sub{margin-top:48px;font-size:11px;letter-spacing:.4em;color:var(--dim);opacity:0;transition:opacity 2s 2.5s ease}
+.hero-sub.show{opacity:1}
+.scroll-c{position:absolute;bottom:48px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:8px;letter-spacing:.5em;color:var(--dim);opacity:0;transition:opacity 1.5s 4s ease}
+.scroll-c.show{opacity:1}
+.sl{width:1px;height:50px;background:linear-gradient(to bottom,transparent,var(--birch));animation:sla 2.5s ease-in-out infinite}
+@keyframes sla{0%,100%{opacity:.15;transform:scaleY(.2)}50%{opacity:.8;transform:scaleY(1)}}
+
+/* S1 */
+#s1{min-height:100vh;padding:160px 80px;position:relative;overflow:hidden;display:flex;align-items:center}
+.s1-bg{position:absolute;inset:0;background:linear-gradient(180deg,var(--void) 0%,rgba(42,32,24,.4) 50%,var(--void) 100%)}
+.s1-in{position:relative;z-index:2;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center}
+.eye{font-size:9px;letter-spacing:.6em;color:var(--gold);margin-bottom:40px}
+.s1-h{font-size:clamp(32px,4.5vw,64px);font-weight:200;color:var(--birch);line-height:1.1;margin-bottom:28px}
+.s1-body{font-size:14px;line-height:2.1;color:rgba(232,228,220,.5)}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
+.sp{padding:20px 24px;border:1px solid rgba(240,237,232,.06);border-top:1px solid var(--clay)}
+.sp-n{font-size:clamp(22px,3vw,36px);font-weight:100;color:var(--birch)}
+.sp-u{font-size:11px;color:var(--clay);margin-left:4px}
+.sp-l{margin-top:6px;font-size:9px;letter-spacing:.3em;color:var(--dim)}
+.s1-diagram{background:rgba(255,255,255,.02);border:1px solid rgba(240,237,232,.06);padding:40px}
+.s1-diagram pre{font-family:'Courier New',monospace;font-size:10px;line-height:2;color:rgba(240,237,232,.35)}
+
+/* S2 materials */
+#s2{background:#000;padding:140px 80px}
+.s2-head{text-align:center;margin-bottom:80px}
+.s2-h{font-size:clamp(32px,5vw,72px);font-weight:100;color:var(--birch);line-height:1.1}
+.s2-h em{font-style:normal;color:var(--gold)}
+.mat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.04);max-width:1000px;margin:0 auto}
+.mat{padding:48px 36px;background:#000;opacity:0;transform:translateY(20px);transition:opacity .8s,transform .8s}
+.mat.show{opacity:1;transform:none}
+.mat-n{font-size:11px;letter-spacing:.35em;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.mat-ico{font-size:20px}
+.mat-desc{font-size:13px;line-height:2;color:var(--dim)}
+.mat-prop{margin-top:20px;font-size:10px;font-family:'Courier New',monospace;color:rgba(201,168,76,.4);line-height:1.8;border-top:1px solid rgba(255,255,255,.04);padding-top:14px}
+
+/* S3 signal */
+#s3{padding:140px 80px;background:var(--void)}
+.s3-head{text-align:center;max-width:700px;margin:0 auto 80px}
+.s3-h{font-size:clamp(28px,4vw,56px);font-weight:200;color:var(--birch);line-height:1.15}
+.sig-g{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.04);max-width:900px;margin:0 auto}
+.sg{padding:48px 36px;background:var(--void);opacity:0;transform:translateY(24px);transition:opacity .9s,transform .9s}
+.sg.show{opacity:1;transform:none}
+.sg-ico{font-size:28px;margin-bottom:20px}
+.sg-n{font-size:11px;letter-spacing:.35em;color:var(--gold);margin-bottom:14px}
+.sg-d{font-size:13px;line-height:2;color:var(--dim)}
+.sg-s{margin-top:20px;font-size:10px;font-family:'Courier New',monospace;color:rgba(201,168,76,.4);line-height:1.8;border-top:1px solid rgba(255,255,255,.04);padding-top:14px}
+
+/* S4 sound */
+#s4{min-height:70vh;background:#050504;display:flex;align-items:center;justify-content:center;padding:120px 40px;position:relative;overflow:hidden}
+#ws-canvas{position:absolute;inset:0;opacity:.5}
+.s4-in{position:relative;z-index:2;text-align:center;max-width:560px}
+.s4-h{font-size:clamp(28px,4.5vw,64px);font-weight:100;color:var(--birch);margin-bottom:20px}
+.s4-sub{font-size:11px;letter-spacing:.35em;color:var(--dim);margin-bottom:48px}
+.s4-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.s4-btn{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(240,237,232,.2);color:var(--birch);padding:14px 28px;font-size:10px;letter-spacing:.3em;background:none;cursor:pointer;transition:background .3s,border-color .3s}
+.s4-btn:hover{background:rgba(240,237,232,.04);border-color:var(--birch)}
+
+/* S5 purchase */
+#s5{padding:160px 80px;background:var(--void)}
+.buy-in{max-width:800px;margin:0 auto}
+.buy-eye{font-size:9px;letter-spacing:.6em;color:var(--gold);margin-bottom:48px}
+.buy-h{font-size:clamp(40px,6vw,88px);font-weight:100;color:var(--birch);line-height:.95;margin-bottom:64px}
+.buy-rows{border:1px solid rgba(240,237,232,.07);margin-bottom:48px}
+.br{display:flex;justify-content:space-between;align-items:baseline;padding:22px 28px;border-bottom:1px solid rgba(240,237,232,.05)}
+.br:last-child{border-bottom:none}
+.br-l{font-size:11px;letter-spacing:.2em;color:var(--dim)}
+.br-v{font-size:14px;color:var(--birch);font-weight:200}
+.br-v.a{color:var(--gold)}
+.buy-note{font-size:12px;line-height:2;color:rgba(232,228,220,.35);margin-bottom:48px;border-left:1px solid rgba(201,168,76,.2);padding-left:24px}
+.btn-b{display:inline-block;background:var(--birch);color:#000;padding:20px 56px;font-size:11px;letter-spacing:.35em;font-weight:600;text-decoration:none;transition:opacity .3s}
+.btn-b:hover{opacity:.85}
+.btn-g{display:inline-block;border:1px solid rgba(255,255,255,.15);color:#fff;padding:20px 36px;font-size:11px;letter-spacing:.35em;text-decoration:none;margin-left:14px}
+
+#grain{position:fixed;inset:0;z-index:700;pointer-events:none;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:gr .1s steps(1) infinite}
+@keyframes gr{0%{background-position:0 0}33%{background-position:-12% 8%}66%{background-position:6% -14%}100%{background-position:0 0}}
+@media(max-width:768px){
+  #nav{padding:20px 24px}
+  .s1-in{grid-template-columns:1fr}
+  .mat-grid{grid-template-columns:1fr}
+  .sig-g{grid-template-columns:1fr}
+  #s1,#s2,#s3,#s4,#s5{padding-left:24px;padding-right:24px}
+  .btn-g{margin-left:0;margin-top:12px}
+}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Construction" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<div id="grain"></div>
+<div id="cur"></div>
+<div id="cur-r"></div>
+<section id="s0">
+<canvas id="para-canvas"></canvas>
+<div class="hero-wrap">
+<div class="hero-ko" data-en="NESTING — Bireiwa — VUILD Parametric Timber Architecture">NESTING — 美留和 — VUILD パラメトリック木造建築</div>
+<h1 class="hero-h" data-en="The Walls Breathe." id="hH">壁が、<br/>呼吸している。<span class="ja">The walls are breathing.</span></h1>
+<p class="hero-sub" data-en="Diatomaceous Earth / Lime Plaster / Hokkaido Larch / ¥13,000,000〜/unit" id="hS">珪藻土 / 漆喰 / 北海道産カラマツ / ¥1,300万〜/口</p>
+</div>
+<div class="scroll-c" id="sc">SCROLL<div class="sl"></div></div>
+</section>
+<section id="s1">
+<div class="s1-bg"></div>
+<div class="s1-in">
+<div>
+<div class="eye">THE PROPERTY</div>
+<h2 class="s1-h" data-en="Architecture as Acoustic Therapy.">建築が、<br/>音響治療を<br/>する。</h2>
+<p class="s1-body" data-en="VUILD's parametric design. CNC-carved timber surfaces control low-frequency diffraction. Diatomaceous earth inner walls absorb moisture, while lime plaster softly scatters mid-to-high frequencies. The building itself becomes a broadband acoustic diffuser.">VUILD社のパラメトリック設計。CNCで刻まれた木材の曲面が、低域の回折を制御する。珪藻土の内壁が湿気を吸い、漆喰が中高域を柔らかく散乱させる。建物自体が、ブロードバンド音響拡散体だ。</p>
+<div class="specs">
+<div class="sp"><div class="sp-n">¥1,300<span class="sp-u" data-en="From ¥10,000,000">万〜</span></div><div class="sp-l" data-en="/ unit">/ 口</div></div>
+<div class="sp"><div class="sp-n" data-en="Annual Stays">年<span class="sp-u" style="font-size:20px">8</span>泊</div><div class="sp-l" data-en="Usage rights included">利用権付き</div></div>
+<div class="sp"><div class="sp-n">0.5<span class="sp-u">s</span></div><div class="sp-l" data-en="Interior RT60">室内 RT60</div></div>
+<div class="sp"><div class="sp-n">≤28<span class="sp-u">dBA</span></div><div class="sp-l" data-en="Background Noise (Nighttime)">背景騒音（夜間）</div></div>
+</div>
+</div>
+<div class="s1-diagram">
+<pre>
+ NESTING 音響断面図
+
+ ┌─────────────────────┐
+ │ ≈≈ 珪藻土 内壁 ≈≈  │ 調湿・中高域吸収
+ │  ╲  パラメトリック  ╱  │ 木曲面→低域回折制御
+ │   ╲  木造曲面    ╱   │
+ │    ╲__________╱    │
+ │  漆喰 仕上げ内壁     │ 高域 柔散乱
+ │                     │
+ │  ■ Forest Console  │ ← 設置位置
+ │                     │
+ └─────────────────────┘
+   カラマツ 外壁（断熱）
+      </pre>
+</div>
+</div>
+</section>
+<section id="s2">
+<div class="s2-head">
+<div class="eye">MATERIALS</div>
+<h2 class="s2-h" data-en="Materials">素材が、<em data-en="Crafting Sound.">音を作る。</em></h2>
+</div>
+<div class="mat-grid">
+<div class="mat" data-delay="0">
+<div class="mat-n" data-en="Diatomaceous Earth"><span class="mat-ico">🪨</span>珪藻土</div>
+<div class="mat-desc" data-en="Fossilized diatom. Countless micropores absorb moisture and fix atmospheric CO₂. Gently absorbs mid-to-high frequencies, refining spatial reverberation. The acoustic 'weight' dissolves.">ケイ藻の化石。無数の微細孔が湿気を吸い、空気中のCO₂を固定する。中高域を穏やかに吸収し、空間の残響を整える。音の「重さ」がなくなる。</div>
+<div class="mat-prop" data-en="Moisture absorption: 70g/m² / Acoustic absorption: mid-high frequencies / CO₂ sequestration: 150g/m²">吸湿: 70g/m²<br/>音吸収: 中高域<br/>CO₂固定: 150g/m²</div>
+</div>
+<div class="mat" data-delay="120">
+<div class="mat-n" data-en="Lime Plaster"><span class="mat-ico">⬜</span>漆喰</div>
+<div class="mat-desc" data-en="Slaked lime + hemp fiber. Microscopic surface irregularities scatter sound. Without specular reflection, creates a uniform acoustic field throughout the space. Opposite acoustic properties to the dome.">消石灰 + 麻繊維。表面の微細な凹凸が音を散乱させる。鏡面反射がなく、空間全体に均一な音場ができる。ドームとは反対の音響特性。</div>
+<div class="mat-prop" data-en="Scattering Coefficient: 0.7–0.9 | Absorption Rate: 0.05–0.1 | Aging: Minimal">散乱係数: 0.7〜0.9<br/>吸音率: 0.05〜0.1<br/>経年変化: ほぼなし</div>
+</div>
+<div class="mat" data-delay="240">
+<div class="mat-n" data-en="Larch"><span class="mat-ico">🪵</span>カラマツ</div>
+<div class="mat-desc" data-en="Hokkaido larch with dense, tight growth rings and hardness closely resembling instrument-grade timber. Beyond its structural role, the entire building becomes a resonant body, absorbing low frequencies with refined acoustic precision.">北海道産落葉松。年輪が密で硬く、振動特性が楽器材に近い。構造材としてだけでなく、建物全体が低周波を適度に吸収する共鳴体になる。</div>
+<div class="mat-prop" data-en="Density: 590 kg/m³ / Low-frequency absorption: Moderate / Origin: Hokkaido (locally sourced)">密度: 590 kg/m³<br/>低域吸収: 適度<br/>産地: 北海道（現地調達）</div>
+</div>
+<div class="mat" data-delay="360">
+<div class="mat-n" data-en="Parametric Surfaces"><span class="mat-ico">📐</span>パラメトリック曲面</div>
+<div class="mat-desc" data-en="VUILD's ShopBot CNC processing. Mathematically-defined surfaces prevent low-frequency standing waves. No frequencies accumulate. Room modes are minimal.">VUILDのShopBot CNC加工。数式で定義された曲面が低域の定在波を防ぐ。どの周波数も「たまり場」がない。ルームモードが極めて少ない。</div>
+<div class="mat-prop" data-en="Design: VUILD Inc. / Fabrication: ShopBot CNC / Effect: Low-frequency standing wave suppression">設計: VUILD Inc.<br/>加工: ShopBot CNC<br/>効果: 低域定在波抑制</div>
+</div>
+<div class="mat" data-delay="480" style="grid-column:span 2">
+<div class="mat-n" data-en="Weather Synth — Environment-responsive synthesizer"><span class="mat-ico">🌿</span>Weather Synth — 環境データ連動シンセサイザー</div>
+<div class="mat-desc" data-en="NESTING's ambient environment (wind speed/temperature/humidity/light intensity) translates in real time into synthesizer parameters. The world outside becomes music within. CEM3340 VCO × 8 + SSI2144 Moog Ladder filter. No two moments produce identical sound.">NESTINGの周辺環境（風速/気温/湿度/光量）をリアルタイムでシンセサイザーに変換。建物の「外」が「内」の音楽になる。CEM3340 VCO × 8 + SSI2144 Moog Ladder フィルター。同じ音は二度と鳴らない。</div>
+<div class="mat-prop" data-en="VCO: CEM3340 × 8 / VCF: SSI2144 × 4 / VCA: THAT2180 × 8 / Sensors: wind speed, temperature, humidity, barometric pressure, light intensity, geomagnetic field / Output: stereo + 4-channel surround">VCO: CEM3340 × 8 / VCF: SSI2144 × 4 / VCA: THAT2180 × 8<br/>センサー: 風速/気温/湿度/気圧/光量/地磁気<br/>出力: ステレオ + 4ch サラウンド</div>
+</div>
+</div>
+</section>
+<section id="s3">
+<div class="s3-head">
+<div class="eye">SOLUNA SIGNAL — NESTING</div>
+<h2 class="s3-h" data-en="Three systems embedded in this structure">この建物に<br/>埋め込まれる<br/>3つのシステム</h2>
+</div>
+<div class="sig-g">
+<div class="sg" data-delay="0"><div class="sg-ico">🌿</div><div class="sg-n">WEATHER SYNTH</div><div class="sg-d" data-en="The external world becomes music itself. Wind speed, temperature, humidity, light intensity → VCO pitch/VCF cutoff. CEM3340 + SSI2144.">外の世界がそのまま音楽になる。風速・気温・湿度・光量→VCOピッチ/VCFカットオフ。CEM3340 + SSI2144。</div><div class="sg-s" data-en="VCO: × 8 / VCF: Moog Ladder × 4 / Sensors: 6 types / Output: Stereo + 4ch">VCO: × 8 / VCF: Moog Ladder × 4<br/>センサー: 6種<br/>出力: ステレオ + 4ch</div></div>
+<div class="sg" data-delay="150"><div class="sg-ico">🛰</div><div class="sg-n">GPS ORACLE</div><div class="sg-d" data-en="Satellite-synchronized master clock. 50-femtosecond jitter. All recording equipment phase-locked.">衛星同期マスタークロック。50フェムト秒ジッター。全録音機器をロック。</div><div class="sg-s" data-en="Jitter: 50 fs / Reference: GPS satellite / Output: WC 16-channel distribution">ジッター: 50 fs / 基準: GPS衛星<br/>出力: WC 16分配</div></div>
+<div class="sg" data-delay="300"><div class="sg-ico">☀️</div><div class="sg-n">SILENT POWER</div><div class="sg-d" data-en="4kW solar + 20kWh storage. Linear power supply. Pure DC delivered to Weather Synth + Forest Console.">太陽光4kW + 20kWh。線形電源。Weather Synth + Forest Consoleに純粋なDCを供給。</div><div class="sg-s" data-en="Noise: -140 dBV / Energy storage: 20 kWh">ノイズ: -140 dBV / 蓄電: 20 kWh</div></div>
+<div class="sg" data-delay="450"><div class="sg-ico">🎛</div><div class="sg-n">FOREST CONSOLE</div><div class="sg-d" data-en="16-channel tube summing. Lundahl + EF86. Larch enclosure. Crafted expressly for this space.">16chチューブサミング。Lundahl + EF86。カラマツ筐体。この空間のために製作。</div><div class="sg-s" data-en="EIN: -132 dBu / Ch: 16 / Enclosure: Japanese larch">EIN: -132 dBu / Ch: 16 / 筐体: カラマツ</div></div>
+</div>
+</section>
+<section id="s4">
+<canvas id="ws-canvas"></canvas>
+<div class="s4-in">
+<h2 class="s4-h" data-en="The forest performs.">森が<br/>演奏する。</h2>
+<p class="s4-sub" data-en="Today's NESTING soundscape, generated by Weather Synth">Weather Synthが生成する、今日のNESTINGの音</p>
+<div class="s4-btns">
+<button class="s4-btn" data-en="🌿 Strong Wind" onclick="playNest('wind')">🌿 強風</button>
+<button class="s4-btn" data-en="☁ Overcast" onclick="playNest('calm')">☁ 曇天</button>
+<button class="s4-btn" data-en="⛈ Pre-Storm" onclick="playNest('storm')">⛈ 嵐前</button>
+<button class="s4-btn" data-en="❄️ Snowfall" onclick="playNest('snow')">❄️ 降雪</button>
+<button class="s4-btn" data-en="■ Stop" onclick="stopNest()" style="opacity:.5">■ 停止</button>
+</div>
+</div>
+</section>
+<section id="s5">
+<div class="buy-in">
+<div class="buy-eye">YOUR STAKE</div>
+<h2 class="buy-h" data-en="Own Architecture.">建築を<br/>所有する。</h2>
+<div class="buy-rows">
+<div class="br"><span class="br-l" data-en="Properties">物件</span><span class="br-v" data-en="NESTING — Miruwa">NESTING — 美留和</span></div>
+<div class="br"><span class="br-l" data-en="Price">価格</span><span class="br-v a" data-en="¥13,000,000–/unit">¥1,300万〜/口</span></div>
+<div class="br"><span class="br-l" data-en="Usage Rights">利用権</span><span class="br-v" data-en="8 nights per year">年8泊</span></div>
+<div class="br"><span class="br-l" data-en="Registration">登記</span><span class="br-v">あなたの名前で</span></div>
+<div class="br"><span class="br-l">SOLUNA SIGNAL</span><span class="br-v a">Weather Synth + GPS Oracle + Silent Power</span></div>
+</div>
+<p class="buy-note" data-en="With purchases of 5 units or more, a dedicated service representative supports you through registration and delivery. After purchase, Weather Synth performs unique music daily, whether you are present or away.">5口以上購入の場合、専任サービスマンが登記・引き渡しまでサポートします。<br/>Weather Synthは購入後も、あなたのいない日も、毎日違う音楽を奏でている。</p>
+<a class="btn-b" data-en="Proceed to Purchase" href="/pay?property=nesting">購入手続きへ</a>
+<a class="btn-g" data-en="FAQ" href="/faq">よくある質問</a>
+</div>
+</section>
+<script defer="" src="/track.js"></script>
+<script>
+(function(){
+const cur=document.getElementById('cur'),cr=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function lc(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(lc)})();
+
+// Parametric canvas
+const pc=document.getElementById('para-canvas');
+const pctx=pc.getContext('2d');
+function resizePC(){pc.width=window.innerWidth;pc.height=window.innerHeight}
+function animPC(){
+  const w=pc.width,h=pc.height,t=Date.now()*.001;
+  pctx.clearRect(0,0,w,h);
+  pctx.fillStyle='#08080a';pctx.fillRect(0,0,w,h);
+  // Parametric wood grain curves
+  for(let i=0;i<20;i++){
+    pctx.beginPath();
+    const oy=h*.3+i*(h*.035);
+    for(let x=0;x<=w;x+=4){
+      const y=oy+Math.sin(x*.006+i*.4+t*.15)*18+Math.cos(x*.004+i*.2+t*.1)*12;
+      x===0?pctx.moveTo(x,y):pctx.lineTo(x,y);
+    }
+    pctx.strokeStyle=`rgba(240,237,232,${.025+i*.003})`;pctx.lineWidth=.8;pctx.stroke();
+  }
+  requestAnimationFrame(animPC);
+}
+resizePC();animPC();window.addEventListener('resize',resizePC);
+
+// Weather synth canvas
+const wc=document.getElementById('ws-canvas');
+const wctx=wc.getContext('2d');
+function resizeWC(){wc.width=wc.parentElement.offsetWidth;wc.height=wc.parentElement.offsetHeight}
+function animWC(){
+  const w=wc.width,h=wc.height,t=Date.now()*.001;
+  wctx.clearRect(0,0,w,h);
+  for(let i=0;i<8;i++){
+    const ph=i*.8+t*.5*(i%2?1:-1);
+    const amp=(Math.sin(ph)*0.4+0.6)*h*.2;
+    const x=(i/7)*w;
+    wctx.beginPath();
+    for(let y=0;y<=h;y+=2){
+      const xx=x+Math.sin(y*.02+ph)*amp*.3;
+      y===0?wctx.moveTo(xx,y):wctx.lineTo(xx,y);
+    }
+    wctx.strokeStyle=`rgba(201,168,76,${.04+i*.008})`;wctx.lineWidth=.8;wctx.stroke();
+  }
+  requestAnimationFrame(animWC);
+}
+resizeWC();animWC();window.addEventListener('resize',resizeWC);
+
+setTimeout(()=>{document.getElementById('hH').classList.add('show');document.getElementById('hS').classList.add('show');document.getElementById('sc').classList.add('show')},600);
+
+const io=new IntersectionObserver(e=>{e.forEach(en=>{if(!en.isIntersecting)return;const el=en.target;if(el.classList.contains('mat')||el.classList.contains('sg')){setTimeout(()=>el.classList.add('show'),parseInt(el.dataset.delay||0));io.unobserve(el)}})},{threshold:.12});
+document.querySelectorAll('.mat,.sg').forEach(el=>io.observe(el));
+
+// Audio — Weather Synth simulation
+let actx=null,anodes=[];
+function mkN(freq,q,gain,type){const buf=actx.createBuffer(1,actx.sampleRate*4,actx.sampleRate);const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;const src=actx.createBufferSource();src.buffer=buf;src.loop=true;const f=actx.createBiquadFilter();f.type=type;f.frequency.value=freq;f.Q.value=q;const g=actx.createGain();g.gain.value=gain;src.connect(f);f.connect(g);g.connect(actx.destination);src.start();anodes.push(src,g)}
+function mkO(freq,type,gain){const o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.value=freq;g.gain.value=gain;o.connect(g);g.connect(actx.destination);o.start();anodes.push(o,g);return{o,g}}
+const SC={
+  wind:()=>{mkN(320,.9,.06,'bandpass');mkN(100,.4,.03,'lowpass');const {o}=mkO(220,'sawtooth',.008);o.frequency.setValueAtTime(220,actx.currentTime);o.frequency.linearRampToValueAtTime(440,actx.currentTime+4)},
+  calm:()=>{mkN(160,.5,.025,'bandpass');mkN(50,.2,.02,'lowpass');mkO(110,'sine',.012);mkO(165,'sine',.008)},
+  storm:()=>{mkN(400,1.2,.07,'bandpass');mkN(80,.6,.04,'lowpass');mkO(55,'sawtooth',.015);mkO(82,'sawtooth',.01)},
+  snow:()=>{mkN(120,.3,.015,'bandpass');mkN(40,.15,.01,'lowpass');mkO(220,'sine',.006);mkO(330,'sine',.004)}
+};
+window.stopNest=function(){anodes.forEach(n=>{try{n.stop?n.stop():n.disconnect()}catch(e){}});anodes=[];if(actx){actx.close();actx=null;}};
+window.playNest=function(n){stopNest();actx=new(window.AudioContext||window.webkitAudioContext)();SC[n]&&SC[n]()};
+})();
+</script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8 structures, 100-person village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Biruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Bireiwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Bireiwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Earn Units Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalogue Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Architectural Plans" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="The Dome Story" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Maintenance Fees" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+</body>
+</html>

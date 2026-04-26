@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/kits" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA KITS — From hardware to chef. A complete package for full vacation rental automation.">SOLUNA KITS — ハードウェアからシェフまで。民泊を完全自動化する全パッケージ。</title>
+<meta content="SOLUNA KITS。AI自動化、音楽、防犯、エネルギー、清掃、シェフ、運用代行。民泊に必要な全てをキット化。¥5,700〜。" data-en-content="SOLUNA KITS. AI automation, music, security, energy, cleaning, chef service, operations management. Everything for short-term rentals, kitted. From ¥5,700." name="description"/>
+<meta content="SOLUNA KITS — 民泊を完全自動化する全パッケージ" property="og:title"/>
+<meta content="https://solun.art/img/neuro_hero_corbusier.jpg" property="og:image"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--bg:#040404;--text:#f0ece4;--cyan:#4aeadc;--orange:#ff6b35;--green:#4adc6a}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--cyan);color:#000}
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold);text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:var(--cyan)}
+.gnav-links a.gnav-cta{color:var(--cyan)!important;font-weight:700;border:1px solid rgba(74,234,220,.3);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:var(--cyan);color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888}
+@media(max-width:680px){.gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}.gnav-links.open{display:flex}.gnav-ham{display:flex}}
+.r{opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease}
+.r.in{opacity:1;transform:translateY(0)}
+.s{padding:100px 0}
+@media(max-width:600px){.s{padding:72px 0}}
+.w{max-width:700px;margin:0 auto;padding:0 24px}
+.ww{max-width:1080px;margin:0 auto;padding:0 24px}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:12px}
+h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+.sub{color:#555;font-size:13px;line-height:2.05;max-width:560px;margin-bottom:24px}
+.pulse-line{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.15}
+
+/* KIT CARDS */
+.kit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:32px 0}
+@media(max-width:768px){.kit-grid{grid-template-columns:1fr}}
+.kit{padding:0;background:#060606;border:1px solid #111;border-radius:16px;overflow:hidden;transition:border-color .3s}
+.kit:hover{border-color:rgba(74,234,220,.2)}
+.kit-img{height:180px;overflow:hidden;position:relative}
+.kit-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.55);transition:filter .3s}
+.kit:hover .kit-img img{filter:brightness(.7)}
+.kit-tag{position:absolute;top:12px;left:12px;font-size:8px;letter-spacing:.15em;font-weight:700;padding:4px 10px;border-radius:100px}
+.kit-body{padding:24px}
+.kit-name{font-size:16px;font-weight:800;color:var(--text);margin-bottom:4px}
+.kit-desc{font-size:11.5px;color:#555;line-height:1.9;margin-bottom:16px}
+.kit-price{font-size:1.4rem;font-weight:800;letter-spacing:-.03em;margin-bottom:4px}
+.kit-unit{font-size:10px;color:#333;margin-bottom:16px}
+.kit-items{font-size:10.5px;color:#444;line-height:2.2;margin-bottom:16px}
+.kit-btn{display:block;padding:12px;text-align:center;border-radius:10px;font-size:11.5px;font-weight:700;text-decoration:none;transition:all .2s}
+
+/* BUNDLE CARDS */
+.bundle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:32px 0}
+@media(max-width:768px){.bundle-grid{grid-template-columns:1fr}}
+.bundle{padding:32px 24px;background:#060606;border:1px solid #111;border-radius:16px;position:relative}
+.bundle.pop{border:2px solid var(--cyan)}
+.bundle-badge{position:absolute;top:16px;right:16px;font-size:8px;color:#040404;background:var(--cyan);padding:4px 10px;border-radius:100px;font-weight:700;letter-spacing:.1em}
+.bundle-tier{font-size:9px;letter-spacing:.2em;font-weight:700;opacity:.5;margin-bottom:16px}
+.bundle-price{font-size:2rem;font-weight:800;letter-spacing:-.04em;margin-bottom:4px}
+.bundle-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:16px}
+.bundle-list{font-size:11.5px;color:#555;line-height:2.4}
+.bundle-list strong{color:var(--text)}
+.bundle-save{font-size:10px;margin-top:12px;padding:8px 12px;border-radius:8px;text-align:center}
+
+/* SERVICE CARDS */
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:32px 0}
+@media(max-width:600px){.svc-grid{grid-template-columns:1fr}}
+.svc{padding:28px 24px;background:#060606;border:1px solid #111;border-radius:16px}
+.svc-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px}
+.svc-price{font-size:1.1rem;font-weight:800;margin-bottom:8px}
+.svc-desc{font-size:11px;color:#444;line-height:2}
+
+footer{padding:60px 24px 36px;max-width:700px;margin:0 auto;text-align:center}
+footer .logo{font-size:10px;font-weight:800;letter-spacing:.2em;color:var(--gold);margin-bottom:16px}
+footer nav a{font-size:10.5px;color:#333;margin:0 10px}
+footer nav a:hover{color:var(--cyan)}
+footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
+</style>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a href="neuro">NEURO</a>
+<a data-en="Kits" href="#kits">キット</a>
+<a data-en="Services" href="#services">サービス</a>
+<a data-en="Sets" href="#bundles">セット</a>
+<a class="gnav-cta" data-en="Consult" href="neuro#contact">相談する</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
+</nav>
+<!-- HERO -->
+<div class="s" style="padding:140px 0 80px;text-align:center">
+<div class="w">
+<p class="label r" style="text-align:center;color:var(--cyan);opacity:.6">SOLUNA KITS &amp; SERVICES</p>
+<h2 class="r" data-en="From Hardware to Chef." style="text-align:center;font-size:clamp(1.8rem,5vw,3rem)">ハードウェアからシェフまで。<br/><span data-en="Everything required for vacation rental success." style="color:var(--cyan)">民泊に必要な全て。</span></h2>
+<p class="r" data-en="Choose a kit and assemble it yourself. Purchase everything bundled together. Outsource operations entirely through our service. Your way." style="text-align:center;color:#555;font-size:13.5px;line-height:2.2;max-width:520px;margin:0 auto">キットを選んで自分で組む。セットで全部まとめて買う。サービスで運用まで丸投げする。好きなやり方で。</p>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- HARDWARE KITS -->
+<div class="s" id="kits" style="padding:80px 0">
+<div class="w" style="text-align:center">
+<p class="label r" data-en="Hardware Kits" style="text-align:center;color:var(--cyan);opacity:.6">Hardware Kits · ハードウェアキット</p>
+<h2 class="r" data-en="Six Kits." style="text-align:center">6つのキット。<span data-en="Simply plug everything in." style="color:var(--cyan)">全部挿すだけ。</span></h2>
+</div>
+<div class="ww">
+<div class="kit-grid r">
+<!-- NEURO -->
+<a class="kit" href="neuro" style="text-decoration:none">
+<div class="kit-img"><img alt="NEURO" loading="lazy" src="img/neuro_bom_brain.jpg"/><div class="kit-tag" style="background:var(--cyan);color:#040404">CORE</div></div>
+<div class="kit-body">
+<div class="kit-name">NEURO KIT</div>
+<div class="kit-desc" data-en="The intelligent core of AI automation. Integrated sensors, autonomous controls, dashboard. The foundation of all other kits.">AI自動化の頭脳。全センサー統合、自律制御、ダッシュボード。他の全キットの基盤。</div>
+<div class="kit-price" style="color:var(--cyan)">¥35,186</div>
+<div class="kit-unit" data-en="Pi 5 + 15 Sensors">Pi 5 + センサー15点</div>
+<div class="kit-items" data-en="Temperature &amp; Humidity / CO2 / Motion / Power / Relay / Water Leak / Smoke / Noise / Outdoor Temperature">温湿度 / CO2 / 人感 / 電力 / リレー / 水漏れ / 煙 / 騒音 / 外気温</div>
+<div class="kit-btn" data-en="View Details →" style="background:rgba(74,234,220,.1);color:var(--cyan)">詳細を見る →</div>
+</div>
+</a>
+<!-- SECURITY -->
+<a class="kit" href="kit-security" style="text-decoration:none">
+<div class="kit-img"><img alt="SECURITY" loading="lazy" src="img/neuro_bom_security.jpg"/><div class="kit-tag" style="background:var(--orange);color:#fff">PROTECT</div></div>
+<div class="kit-body">
+<div class="kit-name">SECURITY KIT</div>
+<div class="kit-desc" data-en="Protect your home while away. 24-hour monitoring for water leaks, fire, intrusion, and freezing. No cameras.">留守の家を守る。水漏れ・火災・侵入・凍結を24時間監視。カメラなし。</div>
+<div class="kit-price" data-en="¥5,700~" style="color:var(--orange)">¥5,700〜</div>
+<div class="kit-unit" data-en="NEURO Add-on / Standalone ¥19,320">NEURO追加 / 単独¥19,320</div>
+<div class="kit-items" data-en="Water Leak ×3 / Smoke / Motion / Door/Window ×5 / Temperature ×2 / Siren">水漏れx3 / 煙 / 人感 / 開閉x5 / 温度x2 / サイレン</div>
+<div class="kit-btn" data-en="View Details →" style="background:rgba(255,107,53,.1);color:var(--orange)">詳細を見る →</div>
+</div>
+</a>
+<!-- MUSIC -->
+<a class="kit" href="kit-music" style="text-decoration:none">
+<div class="kit-img"><img alt="MUSIC" loading="lazy" src="img/k4_dj_booth.webp"/><div class="kit-tag" style="background:var(--gold);color:#040404">SOUND</div></div>
+<div class="kit-body">
+<div class="kit-name">MUSIC KIT</div>
+<div class="kit-desc" data-en="A home where music dwells. Koe speakers, P2P mesh synchronization, ambient sound auto-play.">音楽が住む家。Koeスピーカー、P2Pメッシュ同期、環境音自動再生。</div>
+<div class="kit-price" style="color:var(--gold)">¥32,000</div>
+<div class="kit-unit" data-en="Koe x2 + BT + Waterproof Speaker">Koe x2 + BT + 防水SP</div>
+<div class="kit-items" data-en="Koe Speaker x2 / Bluetooth Receiver / JBL GO 4 / Ambient Sound Presets">Koe Speaker x2 / Bluetoothレシーバー / JBL GO 4 / 環境音プリセット</div>
+<div class="kit-btn" data-en="View Details →" style="background:rgba(200,164,85,.1);color:var(--gold)">詳細を見る →</div>
+</div>
+</a>
+<!-- ENERGY -->
+<div class="kit">
+<div class="kit-img"><img alt="ENERGY" loading="lazy" src="img/offgrid_tesla_v2h.webp"/><div class="kit-tag" style="background:var(--green);color:#040404">ENERGY</div></div>
+<div class="kit-body">
+<div class="kit-name">ENERGY KIT</div>
+<div class="kit-desc" data-en="Zero electricity costs. Solar panels + battery storage + V2H + NEURO optimized control.">電気代ゼロへ。ソーラーパネル+蓄電池+V2H+NEURO最適化制御。</div>
+<div class="kit-price" data-en="¥1,800,000~" style="color:var(--green)">¥180万〜</div>
+<div class="kit-unit" data-en="Solar 3kW + Battery Storage 10kWh">ソーラー3kW + 蓄電池10kWh</div>
+<div class="kit-items" data-en="Solar panels / Nichicon V2H / Battery storage / CT sensor / NEURO control">太陽光パネル / ニチコンV2H / 蓄電池 / CTセンサー / NEURO制御</div>
+<div class="kit-btn" data-en="Individual Quote →" style="background:rgba(74,220,106,.1);color:var(--green)">個別見積もり →</div>
+</div>
+</div>
+<!-- COMFORT -->
+<div class="kit">
+<div class="kit-img"><img alt="COMFORT" loading="lazy" src="img/nesting_living.webp"/><div class="kit-tag" style="background:#e0d0b0;color:#040404">COMFORT</div></div>
+<div class="kit-body">
+<div class="kit-name">COMFORT KIT</div>
+<div class="kit-desc" data-en="Sensory luxury. Aroma diffuser, towel warmer, air purifier.">五感の贅沢。アロマディフューザー、タオルウォーマー、空気清浄機。</div>
+<div class="kit-price" style="color:#e0d0b0">¥48,000</div>
+<div class="kit-unit" data-en="5-Item Complete Set">5アイテム一式</div>
+<div class="kit-items" data-en="Aesop Aromatics / Towel Warmer / Dyson Air Purifier / Ambient Lighting / Premium Linens">Aesopアロマ / タオルウォーマー / Dyson空気清浄機 / 間接照明 / 高級リネン</div>
+<div class="kit-btn" data-en="Order →" style="background:rgba(224,208,176,.1);color:#e0d0b0">注文する →</div>
+</div>
+</div>
+<!-- OUTDOOR -->
+<div class="kit">
+<div class="kit-img"><img alt="OUTDOOR" loading="lazy" src="img/comfort_barrel_sauna.webp"/><div class="kit-tag" style="background:#8bc4ff;color:#040404">OUTDOOR</div></div>
+<div class="kit-body">
+<div class="kit-name">OUTDOOR KIT</div>
+<div class="kit-desc" data-en="Outdoor experiences. Barrel sauna, fire pit, BBQ grill, hammock.">外の体験。バレルサウナ、焚火台、BBQグリル、ハンモック。</div>
+<div class="kit-price" data-en="From ¥850,000" style="color:#8bc4ff">¥85万〜</div>
+<div class="kit-unit" data-en="Installation Included">設置込み</div>
+<div class="kit-items" data-en="Barrel Sauna (Harvia) / Fire Pit / Weber BBQ / Hammock / Deck Chair">バレルサウナ(Harvia) / 焚火台 / Weber BBQ / ハンモック / デッキチェア</div>
+<div class="kit-btn" data-en="Individual Quote →" style="background:rgba(139,196,255,.1);color:#8bc4ff">個別見積もり →</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- BUILD KITS -->
+<div class="s" id="build-kits" style="padding:80px 0;background:#030303">
+<div class="w" style="text-align:center">
+<p class="label r" data-en="Build Kits · Construction Material Kits" style="text-align:center;color:#d4a574;opacity:.6">Build Kits · 建築資材キット</p>
+<h2 class="r" data-en="Building materials become," style="text-align:center">建てる資材が、<span data-en="Becomes furniture." style="color:#d4a574">家具になる。</span></h2>
+<p class="r" data-en="Scaffolding pipes, logs, SIPs scraps—leftover materials from Work Party become instant interiors. Zero waste. No need to purchase furniture." style="text-align:center;color:#555;font-size:13px;line-height:2;max-width:520px;margin:0 auto 8px">足場パイプ、丸太、SIPs端材——Work Partyで使った資材の余りが、そのままインテリアになる。ゴミは出ない。家具を買う必要もない。</p>
+</div>
+<div class="ww">
+<div class="kit-grid r">
+<!-- FURNITURE KIT -->
+<a class="kit" href="workparty" style="text-decoration:none">
+<div class="kit-img"><img alt="FURNITURE KIT" loading="lazy" src="img/lodge_great_room.webp"/><div class="kit-tag" style="background:#d4a574;color:#040404">FURNITURE</div></div>
+<div class="kit-body">
+<div class="kit-name" style="color:#d4a574">FURNITURE KIT</div>
+<div class="kit-desc" data-en="Desks of scaffolding pipes and plywood, log-slice side tables, SIPs offcut shelving—building materials become furnishings. Completed alongside the home on Work Party day.">足場パイプ×合板のデスク、丸太スライスのサイドテーブル、SIPs端材の棚——建築資材が家具になる。Work Party当日に家と一緒に完成する。</div>
+<div class="kit-price" data-en="From ¥380,000" style="color:#d4a574">¥38万〜</div>
+<div class="kit-unit" data-en="7 Items Total · Work Party Assembly">全7アイテム · Work Party組立</div>
+<div class="kit-items" data-en="Scaffolding Pipe Desk / Log Stools ×2 / SIPs Shelving / Slab Dining Table / Corrugated Headboard / H-Beam Bookshelf / Chimney Pipe Pendant">足場パイプデスク / 丸太スツール×2 / SIPs棚板 / スラブダイニングテーブル / コルゲートヘッドボード / H鋼ブックシェルフ / 煙突管ペンダント</div>
+<div class="kit-btn" data-en="Choose Materials →" style="background:rgba(212,165,116,.1);color:#d4a574">素材を選ぶ →</div>
+</div>
+</a>
+<!-- KITCHEN KIT -->
+<div class="kit">
+<div class="kit-img"><img alt="KITCHEN KIT" loading="lazy" src="img/container_kitchen.webp"/><div class="kit-tag" style="background:#8bc4ff;color:#040404">KITCHEN</div></div>
+<div class="kit-body">
+<div class="kit-name" style="color:#8bc4ff">KITCHEN KIT</div>
+<div class="kit-desc" data-en="Induction cooktop + microwave + refrigerator + dishwasher. Concrete countertops and stainless steel work surfaces are molded as one integrated unit during construction.">IH+電子レンジ+冷蔵庫+食洗機。コンクリートカウンターとステンレス天板は建築施工時に一体成型。</div>
+<div class="kit-price" data-en="From ¥850,000" style="color:#8bc4ff">¥85万〜</div>
+<div class="kit-unit" data-en="Bosch/Mitsubishi · Installation Included">Bosch/三菱 · 設置込み</div>
+<div class="kit-items" data-en="Induction cooktop / Convection oven / 460L refrigerator / Dishwasher / Range hood / Monolithic concrete countertop / Stainless steel sink">IHクッキングヒーター / コンベクションオーブン / 冷蔵庫460L / 食洗機 / レンジフード / コンクリートカウンター一体成型 / ステンレスシンク</div>
+<div class="kit-btn" data-en="Individual Quote →" style="background:rgba(139,196,255,.1);color:#8bc4ff">個別見積もり →</div>
+</div>
+</div>
+<!-- BATH KIT -->
+<div class="kit">
+<div class="kit-img"><img alt="BATH KIT" loading="lazy" src="img/container_bathroom.webp"/><div class="kit-tag" style="background:#74c4b8;color:#040404">BATH</div></div>
+<div class="kit-body">
+<div class="kit-name" style="color:#74c4b8">BATH KIT</div>
+<div class="kit-desc" data-en="No prefabricated bathtub units. Raw concrete + hinoki wood slatted floor + wood-fired boiler. Architecture itself becomes luxury spa.">ユニットバスを使わない。コンクリート打ちっぱなし+ヒノキすのこ+薪ボイラー。建築資材そのままが最高級スパになる。</div>
+<div class="kit-price" data-en="¥1,200,000~" style="color:#74c4b8">¥120万〜</div>
+<div class="kit-unit" data-en="Wood-burning boiler included · Installation included">薪ボイラー付き · 設置込み</div>
+<div class="kit-items" data-en="Cast Concrete Bathtub / Hinoki Wood Slats / Wood Boiler (200L) / Rain Shower / Heated Floor Tiles / Towel Warmer / Amenity Set">コンクリートバスタブ成型 / ヒノキすのこ / 薪ボイラー(200L) / レインシャワー / 床暖房タイル / タオルウォーマー / アメニティセット</div>
+<div class="kit-btn" data-en="Individual Quote →" style="background:rgba(116,196,184,.1);color:#74c4b8">個別見積もり →</div>
+</div>
+</div>
+<!-- LIGHTING KIT -->
+<div class="kit">
+<div class="kit-img"><img alt="LIGHTING KIT" loading="lazy" src="img/container_interior_luxury.webp"/><div class="kit-tag" style="background:#f0c060;color:#040404">LIGHTING</div></div>
+<div class="kit-body">
+<div class="kit-name" style="color:#f0c060">LIGHTING KIT</div>
+<div class="kit-desc" data-en="Chimney pipes transformed into pendants, scaffolding pipes as spotlights, SIPs offcuts for indirect lighting. Completed simultaneously with electrical work. Lighting is architecture itself.">煙突管をペンダント化、足場パイプをスポット、SIPs端材で間接照明。電気工事と同時に完成。照明は建築の一部だ。</div>
+<div class="kit-price" data-en="¥180,000~" style="color:#f0c060">¥18万〜</div>
+<div class="kit-unit" data-en="10 Items Total · Installation Included">全10点 · 施工込み</div>
+<div class="kit-items" data-en="Chimney Pipe Pendants ×3 / Scaffolding Spotlights ×6 / SIPs Indirect Lighting / 2m Duct Rail / LED Bulb Set / Dimmer Switch / Outdoor Waterproof Spotlights ×2">煙突管ペンダント×3 / 足場スポット×6 / SIPs間接照明 / ダクトレール2m / LED電球セット / 調光スイッチ / 屋外防水スポット×2</div>
+<div class="kit-btn" data-en="View Details →" style="background:rgba(240,192,96,.1);color:#f0c060">詳細を見る →</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- SERVICES -->
+<div class="s" id="services" style="padding:80px 0;background:#020202">
+<div class="w" style="text-align:center">
+<p class="label r" data-en="Services · Operations Services" style="text-align:center;color:var(--cyan);opacity:.6">Services · 運用サービス</p>
+<h2 class="r" data-en="After Hardware," style="text-align:center">ハードの次は、<span data-en="Human touch." style="color:var(--cyan)">人の手。</span></h2>
+<p class="r" data-en="Kits automate your home. But sheets still need washing. Entrust only what requires human touch to the professionals." style="text-align:center;color:#555;font-size:13px;line-height:2;max-width:500px;margin:0 auto 8px">キットで家は自動化できる。でもシーツは自分で洗えない。人の手が必要な部分だけ、プロに任せる。</p>
+</div>
+<div class="ww">
+<div class="svc-grid r">
+<div class="svc">
+<div class="svc-name" data-en="Housekeeping Service">清掃代行</div>
+<div class="svc-price" data-en="¥8,000~ per session" style="color:var(--cyan)">¥8,000〜/回</div>
+<div class="svc-desc" data-en="Post-checkout cleaning, linen change, amenity replenishment. NEURO detects checkout → automatically notifies cleaning team. Accommodates 1R to 3LDK. Regional partner network.">チェックアウト後の清掃・リネン交換・アメニティ補充。NEUROがチェックアウトを検知→清掃チームに自動通知。1R〜3LDK対応。地域パートナー提携。</div>
+</div>
+<div class="svc">
+<div class="svc-name" data-en="Linen Supply">リネンサプライ</div>
+<div class="svc-price" data-en="¥3,000~/session" style="color:var(--cyan)">¥3,000〜/回</div>
+<div class="svc-desc" data-en="Premium linens rental (sheets, towels, robes) + delivery + collection. No laundry required. Always hotel-quality cleanliness. Direct impact on Airbnb reviews.">高級リネン（シーツ・タオル・バスローブ）のレンタル＋配送＋回収。洗濯不要。常に清潔なホテル品質。Airbnbレビュー直結。</div>
+</div>
+<div class="svc">
+<div class="svc-name" data-en="Private Chef">プライベートシェフ</div>
+<div class="svc-price" style="color:var(--gold)">¥35,000〜/回</div>
+<div class="svc-desc" data-en="Private dining experiences featuring local ingredients. Wakayama: Kumano mountain vegetables, Taiji whale, Katsuura tuna. Hokkaido: Lake Kusharo smelt, Mashu pork, Kumaushi venison. Accommodates 2–8 guests.">地元食材を使った出張ディナー。和歌山: 熊野の山菜・太地の鯨・勝浦のマグロ。北海道: 屈斜路湖のヒメマス・摩周豚・熊牛の鹿肉。2〜8名対応。</div>
+</div>
+<div class="svc">
+<div class="svc-name" data-en="Full Operations Management">運用代行フル</div>
+<div class="svc-price" style="color:var(--gold)">¥50,000/月</div>
+<div class="svc-desc" data-en="Airbnb listing management, booking response, guest messaging, review replies, rate optimization, troubleshooting. Complete turnkey service. NEURO dashboard access included.">Airbnbリスティング管理、予約対応、ゲストメッセージ、レビュー返信、料金最適化、トラブル対応。完全丸投げ。NEUROダッシュボードのアクセス権付き。</div>
+</div>
+<div class="svc">
+<div class="svc-name" data-en="Regular Maintenance">メンテナンス定期</div>
+<div class="svc-price" data-en="¥15,000/month" style="color:var(--cyan)">¥15,000/月</div>
+<div class="svc-desc" data-en="Monthly maintenance visits. Equipment inspections, garden upkeep, snow removal (winter), pest control, consumables replenishment. NEURO alert on-site response included.">月1回の定期巡回。設備点検、庭の手入れ、雪かき(冬季)、害虫対策、消耗品補充。NEUROアラートへの現地対応込み。</div>
+</div>
+<div class="svc">
+<div class="svc-name" data-en="Guest Concierge">ゲストコンシェルジュ</div>
+<div class="svc-price" data-en="¥5,000 per night" style="color:var(--cyan)">¥5,000/泊</div>
+<div class="svc-desc" data-en="Elevate the guest experience. Arrange transfers, book activities (canoeing, hot springs, trekking), reserve restaurants, orchestrate surprises. Multilingual support included.">ゲストの体験を格上げ。送迎手配、アクティビティ予約（カヌー・温泉・トレッキング）、レストラン予約、サプライズ演出。多言語対応。</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- BUNDLES -->
+<div class="s" id="bundles" style="padding:80px 0">
+<div class="w" style="text-align:center">
+<p class="label r" data-en="Bundles · Complete Sets" style="text-align:center;color:var(--cyan);opacity:.6">Bundles · まとめてセット</p>
+<h2 class="r" data-en="If choosing feels overwhelming," style="text-align:center">選ぶのが面倒なら、<span data-en="As a Set." style="color:var(--cyan)">セットで。</span></h2>
+</div>
+<div class="ww">
+<div class="bundle-grid r">
+<!-- STARTER -->
+<div class="bundle">
+<div class="bundle-tier" style="color:var(--cyan)">STARTER</div>
+<div class="bundle-price" style="color:var(--cyan)">¥40,886</div>
+<div class="bundle-name" data-en="Protection first.">まず守る。</div>
+<div class="bundle-list" data-en="¥35,186
+ ¥5,700
+
+          AI automation + Security
+          The difference: ¥1M annually">
+<strong>NEURO KIT</strong> ¥35,186<br/>
+<strong>SECURITY KIT</strong> ¥5,700<br/>
+<span style="color:#333">────</span><br/>
+          AI自動化 + 防犯<br/>
+          これだけで年¥100万の差
+        </div>
+<div class="bundle-save" data-en="¥0 discount from individual items total — Minimal Configuration" style="background:rgba(74,234,220,.06);color:var(--cyan)">単品合計から¥0引き — 最小構成</div>
+<a data-en="Order →" href="/ask?q=SOLUNA+NEURO+について相談したい" onmouseout="this.style.background='transparent';this.style.color='var(--cyan)'" onmouseover="this.style.background='var(--cyan)';this.style.color='#040404'" style="display:block;margin-top:16px;padding:12px;text-align:center;border:1px solid rgba(74,234,220,.3);border-radius:10px;color:var(--cyan);font-size:12px;font-weight:700;text-decoration:none;transition:all .2s">注文 →</a>
+</div>
+<!-- STANDARD -->
+<div class="bundle pop">
+<div class="bundle-badge">BEST VALUE</div>
+<div class="bundle-tier" style="color:var(--cyan)">STANDARD</div>
+<div class="bundle-price" style="color:var(--cyan)">¥148,000</div>
+<div class="bundle-name" data-en="All-inclusive and pre-configured.">全部入り設定済み。</div>
+<div class="bundle-list" data-en="¥98,000
+ ¥5,700
+ ¥32,000
+ ¥48,000
+
+          Pi pre-configured + wired + tested
+          Cleaning service: first session complimentary">
+<strong>NEURO STANDARD</strong> ¥98,000<br/>
+<strong>SECURITY KIT</strong> ¥5,700<br/>
+<strong>MUSIC KIT</strong> ¥32,000<br/>
+<strong>COMFORT KIT</strong> ¥48,000<br/>
+<span style="color:#333">────</span><br/>
+          Pi設定済み+配線済み+動作確認済み<br/>
+          清掃代行 初回1回無料
+        </div>
+<div class="bundle-save" data-en="¥35,700 OFF (Individual total ¥183,700)" style="background:rgba(74,234,220,.1);color:var(--cyan);font-weight:700">¥35,700 OFF（単品合計¥183,700）</div>
+<a data-en="Order →" href="/ask?q=SOLUNA+NEURO+について相談したい" onmouseout="this.style.opacity='1'" onmouseover="this.style.opacity='.85'" style="display:block;margin-top:16px;padding:12px;text-align:center;background:var(--cyan);border-radius:10px;color:#040404;font-size:12px;font-weight:800;text-decoration:none;transition:opacity .2s">注文する →</a>
+</div>
+<!-- COMPLETE -->
+<div class="bundle">
+<div class="bundle-tier" style="color:var(--gold)">COMPLETE</div>
+<div class="bundle-price" style="color:var(--gold)">¥398,000</div>
+<div class="bundle-name" data-en="On-site Installation + Operations Commenced">現地設置+運用開始。</div>
+<div class="bundle-list" data-en="¥248,000
+ All-inclusive
+ In-wall concealed wiring
+ Listing creation
+ 3 complimentary visits in first month
+ First month free
+
+          Complete turnkey service from arrival to launch">
+<strong>NEURO PRO</strong> ¥248,000<br/>
+<strong data-en="Complete Hardware Kit">全ハードウェアKIT</strong> 込み<br/>
+<strong data-en="On-Site Installation">現地訪問設置</strong> 壁内隠蔽配線<br/>
+<strong data-en="Airbnb Launch Support">Airbnb開業支援</strong> リスティング作成<br/>
+<strong data-en="Housekeeping Service">清掃代行</strong> 初月3回無料<br/>
+<strong data-en="Operations Management">運用代行</strong> 初月無料<br/>
+<span style="color:#333">────</span><br/>
+          届いてから開業まで全部おまかせ
+        </div>
+<div class="bundle-save" data-en="Entirely Hassle-Free Until Launch" style="background:rgba(200,164,85,.08);color:var(--gold);font-weight:700">開業まで一切手間なし</div>
+<a data-en="Consult →" href="/ask?q=SOLUNA+NEURO+について相談したい" onmouseout="this.style.background='transparent';this.style.color='var(--gold)'" onmouseover="this.style.background='var(--gold)';this.style.color='#040404'" style="display:block;margin-top:16px;padding:12px;text-align:center;border:1px solid rgba(200,164,85,.3);border-radius:10px;color:var(--gold);font-size:12px;font-weight:700;text-decoration:none;transition:all .2s">相談する →</a>
+</div>
+</div>
+<div class="r" data-en="All included in renovation costs.
+      ENERGY KIT · OUTDOOR KIT are quoted individually based on the property →" style="margin-top:16px;padding:16px 20px;background:rgba(74,234,220,.03);border:1px solid rgba(74,234,220,.1);border-radius:10px;font-size:11.5px;color:#555;line-height:2;text-align:center">
+<strong data-en="SOLUNA property owners receive the STANDARD set complimentary." style="color:var(--text)">SOLUNA物件オーナーはSTANDARDセットが無料。</strong>リノベ費用に全て含まれています。<br/>
+      ENERGY KIT・OUTDOOR KITは物件に応じた個別見積もり → <a data-en="Consult via Email" href="/ask?q=SOLUNA+NEURO+について相談したい" style="border-bottom:1px solid rgba(74,234,220,.3);color:var(--cyan)">メールで相談</a>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- CTA -->
+<div class="s" style="text-align:center;padding:80px 24px;background:#020202">
+<p class="label r" data-en="Summary" style="text-align:center;color:var(--cyan);opacity:.6">まとめ</p>
+<h2 class="r" data-en="What you need," style="text-align:center;margin-bottom:32px">何が必要か、<span data-en="No expertise required." style="color:var(--cyan)">わからなくても大丈夫。</span></h2>
+<div class="r" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+<a data-en="Consult via Chat →" href="/ask?q=SOLUNA+NEURO+について相談したい" onmouseout="this.style.transform=''" onmouseover="this.style.transform='translateY(-2px)'" style="display:inline-block;background:var(--cyan);color:#040404;font-weight:800;font-size:12.5px;padding:16px 40px;border-radius:100px;text-decoration:none;transition:transform .2s;box-shadow:0 8px 28px rgba(74,234,220,.15)">チャットで相談する →</a>
+<a data-en="View NEURO Details" href="neuro" onmouseout="this.style.borderColor='#252525';this.style.color='#666'" onmouseover="this.style.borderColor='rgba(74,234,220,.4)';this.style.color='var(--cyan)'" style="display:inline-block;border:1px solid #252525;color:#666;font-size:12px;padding:15px 28px;border-radius:100px;text-decoration:none;transition:all .2s">NEURO詳細を見る</a>
+</div>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-residence 100-person village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Bireiwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Bireiwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Acquire Units Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Purchase with Crypto" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners Only" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founder's Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+(function(){
+  var els=document.querySelectorAll('.r');
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in')});
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){io.observe(el)});
+})();
+</script>
+<script src="/lang.js"></script>
+</body>
+</html>

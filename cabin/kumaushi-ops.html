@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title data-en="Kumaushi Base Tensoku Dojo — OPS | SOLUNA">熊牛原野 天空の道場 — OPS | SOLUNA</title>
+<meta content="熊牛原野 天空の道場 建設・調達・Work Party 9/20〜21 オペレーションシート。EPSドーム×2棟、設備全リスト。" data-en-content="Kumaushi Base Tensoku Dojo Construction, Procurement &amp; Work Party 9/20–21 Operations Sheet. EPS domes ×2 units, complete equipment roster." name="description"/>
+<style>
+:root{
+  --bg:#030303;--text:#e8e4dc;--gold:#c8a455;--green:#9bc46d;--blue:#6499f5;--orange:#e07840;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'SF Mono','Fira Mono','Courier New',monospace;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:12px;line-height:1.7}
+a{color:var(--gold);text-decoration:none}
+::selection{background:var(--gold);color:#000}
+code{font-size:10px;color:#666;background:#090909;padding:1px 5px;border-radius:2px}
+nav{position:sticky;top:0;z-index:100;padding:10px 20px;background:rgba(3,3,3,.95);border-bottom:1px solid #111;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(12px)}
+.nav-brand{font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--gold)}
+.nav-links{display:flex;gap:16px;font-size:9px;color:#333}
+.nav-links a{color:#333;transition:color .15s}.nav-links a:hover{color:var(--gold)}
+.layout{display:grid;grid-template-columns:200px 1fr;min-height:calc(100vh - 39px)}
+.toc{position:sticky;top:39px;height:calc(100vh - 39px);overflow-y:auto;border-right:1px solid #0e0e0e;padding:20px 0;scrollbar-width:none}
+.toc::-webkit-scrollbar{display:none}
+.toc-section{margin-bottom:20px}
+.toc-head{font-size:8px;letter-spacing:.2em;color:#1e1e1e;font-weight:700;padding:0 16px;margin-bottom:6px;text-transform:uppercase}
+.toc a{display:block;padding:5px 16px;font-size:9.5px;color:#2a2a2a;transition:all .15s;border-left:2px solid transparent;line-height:1.4}
+.toc a:hover{color:var(--gold);border-left-color:var(--gold);background:rgba(200,164,85,.04)}
+.toc a.active{color:var(--gold);border-left-color:var(--gold)}
+@media(max-width:720px){.toc{display:none}}
+.content{padding:40px 48px;max-width:980px}
+.section{margin-bottom:56px;padding-bottom:40px;border-bottom:1px solid #0a0a0a}
+.section:last-child{border-bottom:none}
+.section-label{font-size:8px;letter-spacing:.28em;color:#1e1e1e;font-weight:700;text-transform:uppercase;margin-bottom:8px}
+.section-title{font-size:20px;font-weight:700;color:#ccc;letter-spacing:-.02em;margin-bottom:4px;font-family:-apple-system,'Helvetica Neue',sans-serif}
+.section-sub{font-size:11px;color:#2e2e2e;margin-bottom:24px;font-family:-apple-system,sans-serif;line-height:1.7}
+.tag{display:inline-block;font-size:8px;padding:2px 7px;border-radius:3px;font-weight:700;letter-spacing:.06em;margin-right:4px}
+.tag-live{background:rgba(155,196,109,.12);color:rgba(155,196,109,.7);border:1px solid rgba(155,196,109,.2)}
+.tag-order{background:rgba(200,164,85,.1);color:rgba(200,164,85,.7);border:1px solid rgba(200,164,85,.2)}
+.tag-plan{background:rgba(100,153,245,.08);color:rgba(100,153,245,.6);border:1px solid rgba(100,153,245,.15)}
+.tag-dome{background:rgba(200,164,85,.12);color:rgba(200,164,85,.8);border:1px solid rgba(200,164,85,.25)}
+.proc-table{width:100%;border-collapse:collapse;font-size:10.5px;margin-bottom:20px}
+.proc-table th{text-align:left;font-size:8px;letter-spacing:.18em;color:#1e1e1e;font-weight:700;padding:8px 10px;border-bottom:1px solid #0f0f0f;text-transform:uppercase}
+.proc-table td{padding:10px 10px;border-bottom:1px solid #080808;vertical-align:top;line-height:1.7}
+.proc-table tr:last-child td{border-bottom:none}
+.proc-table .val{color:#777}
+.proc-table .val.green{color:var(--green)}
+.proc-table .val.gold{color:var(--gold)}
+.supply-table{width:100%;border-collapse:collapse;margin-bottom:16px}
+.supply-table th{text-align:left;font-size:8px;letter-spacing:.15em;color:#1a1a1a;font-weight:700;padding:8px 10px;border-bottom:1px solid #0f0f0f;text-transform:uppercase}
+.supply-table td{padding:10px 10px;border-bottom:1px solid #080808;vertical-align:top;font-size:10.5px;line-height:1.65}
+.supply-table tr:last-child td{border-bottom:none}
+.item-name{color:#999;font-weight:600;min-width:140px}
+.status-badge{display:inline-block;font-size:8px;padding:2px 8px;border-radius:3px;font-weight:700;cursor:pointer;transition:all .2s;user-select:none}
+.status-pending{background:rgba(100,100,100,.12);border:1px solid #1e1e1e;color:#333}
+.status-ordered{background:rgba(200,164,85,.1);border:1px solid rgba(200,164,85,.2);color:rgba(200,164,85,.7)}
+.status-transit{background:rgba(100,150,255,.08);border:1px solid rgba(100,150,255,.15);color:rgba(100,150,255,.65)}
+.status-delivered{background:rgba(155,196,109,.1);border:1px solid rgba(155,196,109,.2);color:rgba(155,196,109,.7)}
+.status-cell{cursor:pointer}
+.editable:focus{outline:1px solid rgba(200,164,85,.3);background:rgba(200,164,85,.03)}
+.kv-block{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;margin-bottom:16px}
+@media(max-width:640px){.kv-block{grid-template-columns:1fr}}
+.kv{padding:7px 0;border-bottom:1px solid #080808;display:grid;grid-template-columns:140px 1fr;gap:12px;font-size:10.5px}
+.kk{color:#2a2a2a;font-size:9px;letter-spacing:.06em;padding-top:2px}
+.vv{color:#888}
+.vv.gold{color:var(--gold)}
+
+/* Product Gallery */
+.product-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:10px;margin-bottom:20px}
+.pg-card{background:#090909;border:1px solid #111;border-radius:5px;overflow:hidden;transition:border-color .2s,transform .15s}
+.pg-card:hover{border-color:rgba(200,164,85,.22);transform:translateY(-2px)}
+.pg-img{height:110px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.pg-fallback{position:relative;z-index:1;font-size:42px;line-height:1;filter:drop-shadow(0 2px 10px rgba(0,0,0,.6))}
+.pg-body{padding:8px 10px 10px}
+.pg-cat{font-size:7.5px;letter-spacing:.15em;color:#2a2a2a;text-transform:uppercase;margin-bottom:3px;font-weight:700}
+.pg-name{font-size:10.5px;color:#777;font-weight:600;margin-bottom:4px;line-height:1.35}
+.pg-model{font-size:8.5px;color:#333;margin-bottom:5px;font-family:monospace}
+.pg-price-row{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;margin-bottom:7px}
+.pg-price{font-size:12px;color:var(--green);font-weight:700}
+.pg-price.orange{color:var(--orange)}
+.pg-price.gold{color:var(--gold)}
+.pg-was{font-size:8px;color:#222;text-decoration:line-through}
+.pg-sale{font-size:7px;background:rgba(155,196,109,.12);color:rgba(155,196,109,.65);border:1px solid rgba(155,196,109,.18);border-radius:2px;padding:1px 4px}
+.pg-warn{font-size:7px;background:rgba(224,120,64,.1);color:rgba(224,120,64,.65);border:1px solid rgba(224,120,64,.2);border-radius:2px;padding:1px 4px}
+.pg-btn{display:block;text-align:center;padding:4px 6px;background:rgba(200,164,85,.07);border:1px solid rgba(200,164,85,.12);border-radius:3px;color:rgba(200,164,85,.65);font-size:8.5px;text-decoration:none;transition:all .2s}
+.pg-btn:hover{background:rgba(200,164,85,.14);color:rgba(200,164,85,.9);border-color:rgba(200,164,85,.25)}
+.pg-btn.disabled{pointer-events:none;background:transparent;color:#2a2a2a;border-color:#111}
+.pg-group-label{grid-column:1/-1;font-size:8px;letter-spacing:.2em;color:#1e1e1e;font-weight:700;text-transform:uppercase;padding:8px 0 4px;border-top:1px solid #0e0e0e;margin-top:4px}
+.pg-group-label:first-child{border-top:none;margin-top:0}
+
+/* Checklist */
+.cl-item{display:grid;grid-template-columns:20px 48px 1fr;gap:8px;padding:7px 0;border-bottom:1px solid #060606;align-items:start;font-size:10.5px}
+.cl-check{width:14px;height:14px;border:1px solid #1e1e1e;border-radius:2px;cursor:pointer;transition:all .15s;margin-top:2px}
+.cl-check.done{background:var(--green);border-color:var(--green)}
+.cl-time{color:#1e1e1e;font-size:9px;padding-top:2px}
+.cl-text{color:#777;line-height:1.6}
+.b{font-weight:700;color:#aaa}
+.who{font-size:9px;color:#2a2a2a;margin-left:6px}
+
+/* Step */
+.step{display:grid;grid-template-columns:32px 1fr;gap:0 12px;margin-bottom:12px}
+.step-left{display:flex;flex-direction:column;align-items:center}
+.step-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;background:rgba(200,164,85,.08);color:rgba(200,164,85,.6);border:1px solid rgba(200,164,85,.15)}
+.step-vl{width:1px;flex:1;background:#0d0d0d;margin-top:4px}
+.step-body{padding-bottom:12px}
+.step-title{font-size:11px;font-weight:700;color:#999;margin-bottom:3px}
+.step-desc{font-size:9.5px;color:#2a2a2a;line-height:1.75}
+.step-note{font-size:9px;color:#2a2a2a;margin-top:6px;padding:5px 10px;background:rgba(200,164,85,.03);border-left:2px solid rgba(200,164,85,.15)}
+
+/* Countdown */
+#countdown-ku{font-size:clamp(1.4rem,3vw,2rem);font-weight:900;letter-spacing:.04em;color:var(--gold)}
+
+/* Timeline */
+.tl-item{display:grid;grid-template-columns:100px 1fr;gap:8px 16px;padding:10px 0;border-bottom:1px solid #080808;font-size:10.5px}
+.tl-date{color:#555;font-size:9px;font-weight:700;padding-top:1px}
+.tl-title{font-weight:700;color:#888;margin-bottom:2px}
+.tl-desc{color:#2a2a2a;font-size:9.5px;line-height:1.7}
+
+footer{padding:40px 48px;border-top:1px solid #080808;font-size:10px;color:#1e1e1e;display:flex;gap:20px;flex-wrap:wrap}
+footer a{color:#2a2a2a;transition:color .15s}
+footer a:hover{color:var(--gold)}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav>
+<div class="nav-brand" data-en="SOLUNA / Tensoku Dojo OPS">SOLUNA / 天空の道場 OPS</div>
+<div class="nav-links">
+<a data-en="Shopping" href="#shopping-list">買い物</a>
+<a data-en="Day of 9/20" href="#workparty-ops">9/20当日</a>
+<a data-en="Construction" href="#build">作り方</a>
+<a data-en="Materials" href="#supplies">資材</a>
+<a data-en="← Dojo in the Sky" href="/kumaushi">← 天空の道場</a>
+</div>
+</nav>
+<div class="layout">
+<!-- TOC -->
+<aside class="toc">
+<div class="toc-section">
+<div class="toc-head" data-en="Procurement &amp; Sourcing">発注・調達</div>
+<a data-en="Project Status" href="#status">プロジェクト状況</a>
+<a data-en="Shopping Card" href="#shopping-list">買い物カード</a>
+<a data-en="Order Management" href="#procurement">発注管理</a>
+<a data-en="Materials List" href="#supplies">資材リスト</a>
+</div>
+<div class="toc-section">
+<div class="toc-head" data-en="Event Days (9/20–21)">9/20〜21 当日</div>
+<a data-en="Event Overview" href="#workparty-ops">当日概要</a>
+<a data-en="Day 1 Timeline" href="#day1-ops">Day 1 タイムライン</a>
+<a data-en="Day 2 Timeline" href="#day2-ops">Day 2 タイムライン</a>
+<a data-en="Pre-arrival Inspection" href="#checklist-ops">前日チェック</a>
+</div>
+<div class="toc-section">
+<div class="toc-head" data-en="Construction Guide">施工ガイド</div>
+<a data-en="EPS Dome Installation" href="#build">EPSドーム設置</a>
+<a data-en="Barrel Sauna" href="#build-sauna">バレルサウナ</a>
+<a data-en="Tesla + Solar" href="#build-power">Tesla+ソーラー</a>
+</div>
+<div class="toc-section">
+<div class="toc-head" data-en="Optimization">最適化</div>
+<a data-en="Affordable, Effortless, Safe" href="#optim">安く・楽に・安全に</a>
+</div>
+<div class="toc-section">
+<div class="toc-head" data-en="Crosslink">クロスリンク</div>
+<a data-en="Miruwa Grand Ops →" href="/ops">美留和グランド Ops →</a>
+<a data-en="Miruwa Work Party →" href="/workparty">美留和 Work Party →</a>
+<a data-en="Tenku no Dojo page →" href="/kumaushi">天空の道場ページ →</a>
+</div>
+</aside>
+<!-- MAIN -->
+<main class="content">
+<!-- ══════════════════════════════
+     SECTION 1: プロジェクト状況
+══════════════════════════════ -->
+<div class="section" id="status">
+<div class="section-label">Section 01</div>
+<div class="section-title" data-en="Kumaushi Field Tenku no Dojo — Project Overview">熊牛原野 天空の道場 — プロジェクト概要</div>
+<div class="section-sub" data-en="Ridge at Kumaushi Plateau, Teshikaga, Hokkaido. Two EPS domes set within a 270° panoramic vista.">北海道川上郡弟子屈町 熊牛原野の尾根。270°パノラマに2棟のEPSドームを建てる。</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px">
+<div style="padding:14px;background:#080808;border:1px solid rgba(200,164,85,.12);border-radius:4px">
+<div data-en="Total Project Cost" style="font-size:8px;letter-spacing:.15em;color:rgba(200,164,85,.45);font-weight:700;margin-bottom:6px">総事業費</div>
+<div data-en="¥180M" style="font-size:20px;font-weight:700;color:var(--gold)">¥1.8億</div>
+<div data-en="20 units × ¥9,000,000 per unit = 1/10 ownership stake registration" style="font-size:9px;color:#333;margin-top:4px">20口 × ¥900万<br/>1口 = 1/10持分登記</div>
+</div>
+<div style="padding:14px;background:#080808;border:1px solid rgba(155,196,109,.1);border-radius:4px">
+<div style="font-size:8px;letter-spacing:.15em;color:rgba(155,196,109,.4);font-weight:700;margin-bottom:6px">Work Party</div>
+<div id="countdown-ku" style="font-size:16px">--</div>
+<div data-en="September 20–21, 2026 (Sat–Sun) · Capacity: 8 guests · Complimentary" style="font-size:9px;color:#333;margin-top:4px">2026年9月20日(土)〜21日(日)<br/>定員8名・無料</div>
+</div>
+<div style="padding:14px;background:#080808;border:1px solid rgba(100,153,245,.1);border-radius:4px">
+<div data-en="Recovery Estimation" style="font-size:8px;letter-spacing:.15em;color:rgba(100,153,245,.4);font-weight:700;margin-bottom:6px">回収試算</div>
+<div data-en="2.1–3.8 Years" style="font-size:20px;font-weight:700;color:var(--blue)">2.1〜3.8年</div>
+<div data-en="¥80,000/night · 65% annual occupancy · Annual management fee ¥350,000 additional" style="font-size:9px;color:#333;margin-top:4px">¥80,000/泊・年稼働65%<br/>管理費年¥35万別途</div>
+</div>
+</div>
+<div id="status" style="margin-bottom:24px">
+<table class="proc-table">
+<tr><th data-en="Item">項目</th><th data-en="Contents">内容</th><th data-en="Status">状態</th><th data-en="Schedule">スケジュール</th></tr>
+<tr>
+<td class="item-name" data-en="EPS Domes × 2 Units">EPSドーム × 2棟</td>
+<td><span class="val" data-en="Domestic EPS 6m diameter, 28m² floor area. No heavy machinery required, completed in 72 hours">国産EPS 直径6m・床面積28m²。重機不要・72時間で完成</span></td>
+<td><span class="tag tag-plan" data-en="In planning">計画中</span></td>
+<td><span class="val gold" data-en="Construction begins September 2026">2026年9月着工</span></td>
+</tr>
+<tr>
+<td class="item-name" data-en="Foundation work">基礎工事</td>
+<td><span class="val" data-en="4-point independent foundation (simplified foundation compatible due to EPS lightweight)">独立基礎4点（EPS軽量のため簡易基礎可）</span></td>
+<td><span class="tag tag-plan" data-en="Not yet ordered">未発注</span></td>
+<td><span class="val gold" data-en="August 2026">2026年8月</span></td>
+</tr>
+<tr>
+<td class="item-name" data-en="Tesla Powerwall 3 × 2 units">Tesla Powerwall 3 × 2台</td>
+<td><span class="val" data-en="V2H compatible, 40kWh, low-temperature heating function">V2H対応・40kWh・低温加温機能付き</span></td>
+<td><span class="tag tag-plan" data-en="Not yet ordered">未発注</span></td>
+<td><span class="val gold" data-en="August 2026">2026年8月</span></td>
+</tr>
+<tr>
+<td class="item-name" data-en="Barrel Sauna + Hot Tub + Ice Bath">バレルサウナ + ホットタブ + アイスバス</td>
+<td><span class="val" data-en="3-Piece Set: HARVIA M3 + Kirami + Zensui">3点セット。HARVIA M3 + Kirami + ゼンスイ</span></td>
+<td><span class="tag tag-plan" data-en="Not yet ordered">未発注</span></td>
+<td><span class="val gold" data-en="August 2026">2026年8月</span></td>
+</tr>
+<tr>
+<td class="item-name" data-en="Building Confirmation Application">建築確認申請</td>
+<td><span class="val" data-en="Teshikaga Town Office · EPS structural design review">弟子屈町役場。EPS構造体の設計審査</span></td>
+<td><span class="tag tag-order" data-en="Commences June">6月着手</span></td>
+<td><span class="val gold" data-en="June–July 2026">2026年6〜7月</span></td>
+</tr>
+</table>
+</div>
+<!-- タイムライン -->
+<div data-en="Project Timeline" style="font-size:8px;letter-spacing:.2em;color:#1e1e1e;font-weight:700;margin-bottom:10px;text-transform:uppercase">プロジェクト タイムライン</div>
+<div style="margin-bottom:4px">
+<div class="tl-item"><div class="tl-date" data-en="June 2026">2026年6月</div><div><div class="tl-title" data-en="Building Permit Application &amp; Foundation Design Finalized">建築確認申請・基礎設計確定</div><div class="tl-desc" data-en="Building confirmation application submitted to Teshikaga Town Hall. EPS structural design review and foundation construction design finalized. CABIN Club early enrollment begins.">弟子屈町役場への建築確認申請。EPS構造体の設計審査・基礎工事設計確定。CABINクラブ先行募集開始。</div></div></div>
+<div class="tl-item"><div class="tl-date" data-en="July–August 2026">2026年7〜8月</div><div><div class="tl-title" data-en="Foundation Work &amp; Equipment Procurement">基礎工事・設備発注</div><div class="tl-desc" data-en="Four-point independent foundation installation. Tesla Powerwall, solar panels, and barrel sauna system ordered. Electrical and water supply work.">独立基礎4点施工。Tesla Powerwall・ソーラーパネル・バレルサウナ一式発注。電気工事・給水工事。</div></div></div>
+<div class="tl-item"><div class="tl-date" data-en="Early September 2026">2026年9月初旬</div><div><div class="tl-title" data-en="EPS Dome Structure: Delivery &amp; Installation">EPSドーム本体 搬入・設置</div><div class="tl-desc" data-en="Domestic EPS structural system transported to site. Four-person craftsman team assembles dome structure in 72 hours. Two domes built concurrently.">国産EPS構造体を現地搬入。4名の職人チームが72時間でドーム構造体を組み立て。2棟同時施工。</div></div></div>
+<div class="tl-item"><div class="tl-date" data-en="Mid-September 2026">2026年9月中旬</div><div><div class="tl-title" data-en="Interior &amp; Equipment Installation">内装・設備工事</div><div class="tl-desc" data-en="Plaster finish · Japanese larch flooring · Wood stove installation · Tesla wiring · Sauna equipment connection · Smart home integration.">漆喰仕上げ・カラマツ床・薪ストーブ設置・Tesla配線・サウナ設備接続・スマートホーム設定。</div></div></div>
+<div class="tl-item"><div class="tl-date" data-en="9/20–21" style="color:rgba(200,164,85,.6)">9/20〜21</div><div><div class="tl-title" data-en="Work Party — Finishing &amp; Test Stay" style="color:var(--gold)">Work Party — 仕上げ＆試泊</div><div class="tl-desc" data-en="Collaborate on final preparations, then experience an inaugural overnight stay at TENKUU NO DOJO on the second evening. Capacity 8 guests · Complimentary.">仕上げ作業を分担して、2日目の夜は天空の道場に初泊まり。定員8名・無料。</div></div></div>
+<div class="tl-item"><div class="tl-date" data-en="October 2026">2026年10月</div><div><div class="tl-title" data-en="Grand Opening">正式オープン</div><div class="tl-desc" data-en="General opening following CABIN Club Owner presales. Operations commencing at ¥80,000/night.">CABINクラブオーナー先行予約後、一般公開。¥80,000/泊での運営開始。</div></div></div>
+</div>
+</div>
+<!-- ══════════════════════════════
+     買い物カード
+══════════════════════════════ -->
+<div class="section" id="shopping-list-section">
+<div class="section-label">Section 02</div>
+<div class="section-title" data-en="Shopping Card — All Items">買い物カード — 全品目</div>
+<div class="section-sub" data-en="Complete procurement list exclusive to TENKUU NO DOJO. Partially shared with BIRYU WA GRAND.">天空の道場 専用の全調達リスト。美留和グランドと一部共通。</div>
+<div id="shopping-list" style="margin-bottom:28px">
+<div data-en="🛒 Shopping Card — Complete Inventory (All Items)" style="font-size:9px;letter-spacing:.2em;color:rgba(200,164,85,.5);font-weight:700;margin-bottom:14px;text-transform:uppercase">🛒 買い物カード — 全品目（漏れなし）</div>
+<div class="product-gallery">
+<!-- ══ 建物・基礎 ══ -->
+<div class="pg-group-label" data-en="🏔️ Dome Structure &amp; Foundation">🏔️ ドーム本体・基礎</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#100808,#201818)">
+<div class="pg-fallback">🏠</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Dome Structure">ドーム本体</div>
+<div class="pg-name" data-en="Domestic EPS Dome 6m diameter × 2 units">国産EPSドーム 直径6m × 2棟</div>
+<div class="pg-model" data-en="Floor Area 28m² · Insulation R-value ≥3.5 · No Heavy Equipment Required">床面積28m²・断熱R値≥3.5・重機不要</div>
+<div class="pg-price-row"><span class="pg-price orange" data-en="¥6,000,000~8,000,000 (2 Units)">¥600万〜800万（2棟）</span></div>
+<span class="pg-btn disabled" data-en="Inquire with domestic manufacturer (start June)">国産メーカーに問合せ（6月着手）</span>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#080808,#141414)">
+<div class="pg-fallback">🔩</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Foundation work">基礎工事</div>
+<div class="pg-name" data-en="Independent Foundation (4-Point, Simplified)">独立基礎4点（簡易型）</div>
+<div class="pg-model" data-en="EPS lightweight (≤8 tons) → block foundation compatible">EPS軽量（8t以下）→ ブロック基礎可</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥300K–500K (installation included)">¥30万〜50万（施工込み）</span></div>
+<span class="pg-btn disabled" data-en="Civil engineering contractor, Teshikaga/Kushiro">弟子屈/釧路の土木業者</span>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#080808,#121212)">
+<div class="pg-fallback">🧱</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Interior Wall Finishing">内壁仕上げ</div>
+<div class="pg-name" data-en="Lime plaster finish (professional installation)">漆喰仕上げ（職人施工）</div>
+<div class="pg-model" data-en="Moisture-regulating, odor-neutralizing, −30°C compatible white walls">調湿・消臭・−30℃対応白壁</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥300,000–500,000">¥30万〜50万</span></div>
+<span class="pg-btn disabled" data-en="Commissioned to plastering specialist">左官職人に依頼</span>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#150a00,#2d1600)">
+<div class="pg-fallback">🪵</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Interior Flooring">内装床材</div>
+<div class="pg-name" data-en="Japanese larch solid flooring · 28 m² × 2 domes">カラマツ無垢床 28m² × 2棟</div>
+<div class="pg-model" data-en="Hokkaido-produced, planed finish">北海道産・プレーナー仕上げ</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥300,000–500,000">¥30万〜50万</span></div>
+<span class="pg-btn disabled" data-en="Kushiro Timber Market ☎0154-37-2171">釧路木材市場 ☎0154-37-2171</span>
+</div>
+</div>
+<!-- ══ 電力 ══ -->
+<div class="pg-group-label" data-en="⚡ Power System (Tesla V2H + Off-Grid)">⚡ 電力システム（Tesla V2H + オフグリッド）</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#001a0a,#003018)">
+<div class="pg-fallback">🔋</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Energy storage system">蓄電システム</div>
+<div class="pg-name" data-en="Tesla Powerwall 3 × 2 units">Tesla Powerwall 3 × 2台</div>
+<div class="pg-model" data-en="V2H · 40 kWh Total · Low-Temperature Heating Function">V2H・合計40kWh・低温加温機能</div>
+<div class="pg-price-row"><span class="pg-price orange" data-en="¥1.5M–2M (incl. construction)">¥150万〜200万（工事込み）</span></div>
+<a class="pg-btn" href="https://www.tesla.com/ja_jp/powerwall" target="_blank">Tesla Japan →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#1a1200,#3d2d00)">
+<div class="pg-fallback">☀️</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Solar panels">太陽光パネル</div>
+<div class="pg-name" data-en="400W × 20 units (total 8,000W)">400W × 20枚（計8,000W）</div>
+<div class="pg-model" data-en="Tesla Solar or BougeRV Monocrystalline">Tesla Solar or BougeRV 単結晶</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥600K–800K">¥60万〜80万</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E3%82%BD%E3%83%BC%E3%83%A9%E3%83%BC%E3%83%91%E3%83%8D%E3%83%AB+400W+%E5%8D%98%E7%B5%90%E6%99%B6" target="_blank">Amazon →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#0a0a0a,#151515)">
+<div class="pg-fallback">⚙️</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Power management">電力管理</div>
+<div class="pg-name" data-en="Hybrid Inverter 10 kW">ハイブリッドインバーター 10kW</div>
+<div class="pg-model" data-en="Tesla Gateway integration · Grid-switching capable">Tesla Gateway連携・系統切替対応</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥200,000~350,000">¥20万〜35万</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E3%83%8F%E3%82%A4%E3%83%96%E3%83%AA%E3%83%83%E3%83%89%E3%82%A4%E3%83%B3%E3%83%90%E3%83%BC%E3%82%BF%E3%83%BC+10kW" target="_blank">Amazon →</a>
+</div>
+</div>
+<!-- ══ サウナ・風呂 ══ -->
+<div class="pg-group-label" data-en="🔥 Sauna &amp; Bath Facilities">🔥 サウナ・バス設備</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#1a0500,#4d1400)">
+<div class="pg-fallback">🔥</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Barrel sauna and wood-burning stove">バレルサウナ・薪ストーブ</div>
+<div class="pg-name">HARVIA M3 GL</div>
+<div class="pg-model" data-en="15kW · φ150 · 8–20m³ capacity">15kW・φ150・8〜20m³対応</div>
+<div class="pg-price-row">
+<span class="pg-price">¥218,000</span>
+<span class="pg-was">¥298,000</span>
+<span class="pg-sale" data-en="On Sale">セール中</span>
+</div>
+<a class="pg-btn" data-en="Yamano Chimney Works →" href="https://yamano-entotuya.com/products/harvia-%E3%83%8F%E3%83%AB%E3%83%93%E3%82%A2-%E8%96%AA%E3%82%B5%E3%82%A6%E3%83%8A%E3%82%B9%E3%83%88%E3%83%BC%E3%83%96-m3" target="_blank">山野煙突屋 →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#00101a,#001d33)">
+<div class="pg-fallback">🛁</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Hot Tub (Outdoor Bath)">ホットタブ（露天風呂）</div>
+<div class="pg-name">Kirami BarrelSpa ø1500</div>
+<div class="pg-model" data-en="Spruce, 440L capacity, 45mm panel thickness">スプルース・440L・板厚45mm</div>
+<div class="pg-price-row">
+<span class="pg-price orange" data-en="¥300,000~">¥300,000〜</span>
+<span class="pg-warn" data-en="Direct Import">直輸入</span>
+</div>
+<a class="pg-btn" href="https://www.kirami.com/en/products" target="_blank">kirami.com →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#001520,#003344)">
+<div class="pg-fallback">❄️</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Ice Bath (Chiller)">アイスバス（チラー）</div>
+<div class="pg-name" data-en="Zensui ZC-1000α">ゼンスイ ZC-1000α</div>
+<div class="pg-model" data-en="100V, 1,000W Cooling, Japan-Made">100V・冷却1,000W・日本製</div>
+<div class="pg-price-row"><span class="pg-price">¥174,000</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E3%82%BC%E3%83%B3%E3%82%B9%E3%82%A4+ZC-1000" target="_blank">Amazon →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#111,#1c1c1c)">
+<div class="pg-fallback">🏗️</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Double-Insulated Chimney">二重断熱煙突</div>
+<div class="pg-name" data-en="Honma Manufacturing φ150">ホンマ製作所 φ150</div>
+<div class="pg-model" data-en="SUS304 · Straight pipe + elbow + flashing">SUS304・直管+エルボ+フラッシング</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥80,000–100,000">¥80,000〜100,000</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E3%83%9B%E3%83%B3%E3%83%9E+%E4%BA%8C%E9%87%8D+%E7%85%99%E7%AA%81+150" target="_blank">Amazon →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#000d10,#001820)">
+<div class="pg-fallback">🪣</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Ice Bath Tank">アイスバス槽</div>
+<div class="pg-name" data-en="FRP Tank 700L (Outdoor)">FRPタンク 700L（屋外用）</div>
+<div class="pg-model" data-en="Installed in combination with chiller">チラーと組み合わせ設置</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥30,000–60,000">¥30,000〜60,000</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E3%82%BF%E3%83%B3%E3%82%AF+FRP+700L+%E5%B1%8B%E5%A4%96" target="_blank">Amazon →</a>
+</div>
+</div>
+<!-- ══ ロケットストーブ（室内暖房）══ -->
+<div class="pg-group-label" data-en="🌡️ Heating (Rocket Stove)">🌡️ 暖房（ロケットストーブ）</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#1a0800,#3d1800)">
+<div class="pg-fallback">🚀</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Indoor Heating">室内暖房</div>
+<div class="pg-name" data-en="Rocket Stove (Hokkaido specification)">ロケットストーブ（北海道仕様）</div>
+<div class="pg-model" data-en="Thermal mass equipped · Installed within plaster dome">蓄熱マス付き・漆喰ドーム内設置</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥150,000–300,000 (Production)">¥15万〜30万（製作）</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E3%82%B9%E3%83%88%E3%83%BC%E3%83%96+%E8%96%AA" target="_blank">Amazon →</a>
+</div>
+</div>
+<!-- ══ AV・スマートホーム ══ -->
+<div class="pg-group-label" data-en="🎬 AV &amp; Smart Home">🎬 AV・スマートホーム</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#000510,#000d20)">
+<div class="pg-fallback">📡</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Satellite Internet">衛星インターネット</div>
+<div class="pg-name">Starlink Standard</div>
+<div class="pg-model" data-en="Dish + WiFi router">ディッシュ + WiFiルーター</div>
+<div class="pg-price-row"><span class="pg-price">¥73,000</span></div>
+<a class="pg-btn" href="https://www.starlink.com/jp" target="_blank">starlink.com/jp →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#0d0020,#1a0040)">
+<div class="pg-fallback">💡</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Smart Lighting">スマート照明</div>
+<div class="pg-name" data-en="Philips Hue × 2 sets + KAGI">Philips Hue × 2セット + KAGI</div>
+<div class="pg-model" data-en="White Color Ambiance · 2 Dome units">White Color Ambiance・ドーム2棟分</div>
+<div class="pg-price-row"><span class="pg-price" data-en="¥14,354/set">¥14,354/セット</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=Philips+Hue+White+Ambiance+E26" target="_blank">Amazon →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#0a0010,#180028)">
+<div class="pg-fallback">🎥</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Ceiling projector">天井プロジェクター</div>
+<div class="pg-name" data-en="4K Projector (ceiling-mounted)">4Kプロジェクター（天吊り）</div>
+<div class="pg-model" data-en="Dome Curved Screen · Dolby Atmos Compatible">ドーム曲面スクリーン・Dolby Atmos対応</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥150,000–300,000">¥15万〜30万</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=4K+%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%82%BF%E3%83%BC+%E5%A4%A9%E5%90%8A%E3%82%8A" target="_blank">Amazon →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#08080f,#101018)">
+<div class="pg-fallback">🔊</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Audio System">音響システム</div>
+<div class="pg-name" data-en="Dolby Atmos Speaker System">Dolby Atmos スピーカーセット</div>
+<div class="pg-model" data-en="4× Ceiling-Mounted Speakers + Subwoofer">天井埋込×4 + サブウーファー</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥200K–400K">¥20万〜40万</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E5%A4%A9%E4%BA%95%E5%9F%8B%E8%BE%BC%E3%81%BF%E3%82%B9%E3%83%94%E3%83%BC%E3%82%AB%E3%83%BC+Dolby" target="_blank">Amazon →</a>
+</div>
+</div>
+<!-- ══ 道場設備 ══ -->
+<div class="pg-group-label" data-en="🥋 Dojo &amp; Retreat Facilities">🥋 道場・リトリート設備</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#080a08,#101810)">
+<div class="pg-fallback">🥋</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Brazilian Jiu-Jitsu mat">柔術マット</div>
+<div class="pg-name" data-en="EVA Puzzle Mat 40mm × 30 pieces">EVAパズルマット 40mm × 30枚</div>
+<div class="pg-model" data-en="Brazilian Jiu-Jitsu, Meditation &amp; Fasting Retreat">柔術・瞑想・断食リトリート</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥80K–150K">¥8万〜15万</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E6%9F%94%E9%81%93%E3%83%9E%E3%83%83%E3%83%88+EVA+40mm+%E3%83%91%E3%82%BA%E3%83%AB" target="_blank">Amazon →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#050510,#080818)">
+<div class="pg-fallback">🔭</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Astronomical Telescope">天体望遠鏡</div>
+<div class="pg-name">Celestron NexStar 8SE</div>
+<div class="pg-model" data-en="203mm aperture · GPS auto-tracking · starry skies over Kusharo">口径203mm・GPS自動導入・屈斜路の星空</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥200K–300K">¥20万〜30万</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=Celestron+NexStar+%E5%A4%A9%E4%BD%93%E6%9C%9B%E9%81%A0%E9%8F%A1" target="_blank">Amazon →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#0a0f04,#141e08)">
+<div class="pg-fallback">🌿</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Greenhouse">グリーンハウス</div>
+<div class="pg-name" data-en="Aluminum Greenhouse 3m × 2m (Modular Assembly)">アルミ製温室 3m×2m（組立式）</div>
+<div class="pg-model" data-en="Herbs, vegetables, and fasting retreat provisions">ハーブ・野菜・断食リトリート食材</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥50K–120K">¥5万〜12万</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E6%B8%A9%E5%AE%A4+%E3%82%A2%E3%83%AB%E3%83%9F+%E3%82%AC%E3%83%BC%E3%83%87%E3%83%8B%E3%83%B3%E3%82%B0%E3%83%8F%E3%82%A6%E3%82%B9" target="_blank">Amazon →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#180800,#2e1200)">
+<div class="pg-fallback">🍕</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Stone Oven">石窯</div>
+<div class="pg-name" data-en="Outdoor Stone Oven (Refractory Brick DIY or Pre-fabricated)">屋外石窯（耐火レンガDIY or 既製品）</div>
+<div class="pg-model" data-en="Pizza · Grilled Cuisine · Community Dining">ピザ・焼き料理・コミュニティ料理</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥50,000~200,000">¥5万〜20万</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E7%9F%B3%E7%AA%AF+%E5%B1%8B%E5%A4%96+%E6%97%A2%E8%A3%BD%E5%93%81" target="_blank">Amazon →</a>
+</div>
+</div>
+<!-- ══ 寝具・内装 ══ -->
+<div class="pg-group-label" data-en="🛏️ Interior Finishes &amp; Bedding">🛏️ 内装・寝具</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#100808,#201010)">
+<div class="pg-fallback">🛏️</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Beds (for 2 units)">ベッド（2棟分）</div>
+<div class="pg-name" data-en="Dome Beds (custom or prefabricated) × 4–6 units">ドームベッド（造作 or 既製）× 4〜6台</div>
+<div class="pg-model" data-en="Loft-Style or Floor-Style, Larch Wood">ロフト式 or フロア式・カラマツ材</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥100,000–300,000">¥10万〜30万</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E3%83%ad%E3%83%95%E3%83%88%E3%83%99%E3%83%83%E3%83%89+%E3%82%B7%E3%83%B3%E3%82%B0%E3%83%AB" target="_blank">Amazon →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#0e0808,#1c1010)">
+<div class="pg-fallback">🌙</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Mattress">マットレス</div>
+<div class="pg-name" data-en="High-Resilience Mattresses, Single × 6">高反発マットレス シングル × 6枚</div>
+<div class="pg-model" data-en="10cm thickness · Foldable · Moisture-resistant">厚10cm・折りたたみ可・防湿対応</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥5,000–12,000/piece">¥5,000〜12,000/枚</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E3%83%9E%E3%83%83%E3%83%88%E3%83%AC%E3%82%B9+%E3%82%B7%E3%83%B3%E3%82%B0%E3%83%AB+10cm" target="_blank">Amazon →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#0a0808,#16100e)">
+<div class="pg-fallback">🛋️</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Bedding Set">寝具セット</div>
+<div class="pg-name" data-en="Sheets, Pillows &amp; Down Comforters × 6 Sets">シーツ・枕・羽毛掛布団 × 6セット</div>
+<div class="pg-model" data-en="Hokkaido Cold-Weather Ready: −10°C Rated">北海道の冷え対応・−10°C想定</div>
+<div class="pg-price-row"><span class="pg-price gold" data-en="¥5,000–10,000/set">¥5,000〜10,000/セット</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E5%AF%9D%E5%85%B7%E3%82%BB%E3%83%83%E3%83%88+%E6%8E%9B%E3%81%91%E5%B8%83%E5%9B%A3+%E7%BE%BD%E6%AF%9B" target="_blank">Amazon →</a>
+</div>
+</div>
+<!-- ══ 安全対策 ══ -->
+<div class="pg-group-label" data-en="🛡️ Safety Measures (All Required)">🛡️ 安全対策（全て必須）</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#1a0500,#3d0e00)">
+<div class="pg-fallback">🚨</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="CO Alarm Detector" style="color:rgba(224,120,64,.6)">CO警報器</div>
+<div class="pg-name" data-en="Carbon Monoxide Detector × 2 units">一酸化炭素警報器 × 2台</div>
+<div class="pg-model" data-en="1 Per Dome · Required for Wood Stove Operation">ドーム各1台・薪ストーブ使用時必須</div>
+<div class="pg-price-row"><span class="pg-price orange" data-en="¥3,000–5,000/unit">¥3,000〜5,000/台</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E4%B8%80%E9%85%B8%E5%8C%96%E7%82%AD%E7%B4%A0%E8%AD%A6%E5%A0%B1%E5%99%A8" target="_blank">Amazon →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#1a0000,#330000)">
+<div class="pg-fallback">🧯</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Fire extinguisher">消火器</div>
+<div class="pg-name" data-en="ABC Fire Extinguishers × 3 units">ABC消火器 × 3本</div>
+<div class="pg-model" data-en="1 each: inside dome, outside sauna, beside wood-fired oven">ドーム内・サウナ外・石窯横 各1本</div>
+<div class="pg-price-row"><span class="pg-price orange" data-en="¥3,000–5,000 per unit">¥3,000〜5,000/本</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E6%B6%88%E7%81%AB%E5%99%A8+ABC+%E5%B1%85%E5%AE%A4%E7%94%A8" target="_blank">Amazon →</a>
+</div>
+</div>
+<div class="pg-card">
+<div class="pg-img" style="background:linear-gradient(135deg,#001520,#002b3d)">
+<div class="pg-fallback">❄️</div>
+</div>
+<div class="pg-body">
+<div class="pg-cat" data-en="Frost Prevention">凍結防止</div>
+<div class="pg-name" data-en="Freeze-prevention heat tape × entire pipe run">凍結防止ヒーターテープ × 配管全長</div>
+<div class="pg-model" data-en="Thermostat-Equipped · −30°C Rated">サーモスタット付き・−30°C対応</div>
+<div class="pg-price-row"><span class="pg-price" data-en="¥5,000–15,000">¥5,000〜15,000</span></div>
+<a class="pg-btn" href="https://www.amazon.co.jp/s?k=%E5%87%8D%E7%B5%90%E9%98%B2%E6%AD%A2%E3%83%92%E3%83%BC%E3%82%BF%E3%83%BC%E3%83%86%E3%83%BC%E3%83%97" target="_blank">Amazon →</a>
+</div>
+</div>
+</div><!-- /product-gallery -->
+<div data-en="EPS Domes ×2 ¥7M + Foundation, Plaster &amp; Flooring ¥1.1M + Tesla Powerwall ¥1.75M + Solar Panels ¥700K + Sauna 3-Piece Set ¥700K + Dojo Equipment ¥800K + AV &amp; Lighting ¥800K + Interior &amp; Bedding ¥500K + Safety Measures ¥50K" style="padding:14px 16px;background:#070707;border:1px solid #0e0e0e;border-radius:4px;font-size:9.5px;color:#333;line-height:2.1;margin-top:4px">
+<span data-en="💰 Sky Dojo Shopping List Total Estimate" style="color:var(--gold);font-weight:700;font-size:11px">💰 天空の道場 買い物リスト 合計概算</span><br/>
+      EPSドーム×2棟 ¥700万 ＋ 基礎・漆喰・床 ¥110万 ＋ Tesla Powerwall ¥175万 ＋ ソーラーパネル ¥70万 ＋ サウナ3点セット ¥70万 ＋ 道場設備 ¥80万 ＋ AV・照明 ¥80万 ＋ 内装・寝具 ¥50万 ＋ 安全対策 ¥5万<br/>
+<span data-en="Total equipment and building materials: approximately ¥1.3B–1.5B" style="color:var(--gold);font-weight:700;font-size:12px">設備・建材 合計: 約 ¥1.3億〜1.5億</span>
+<span data-en="(Excluding construction, transportation, and labor. Total with land: ¥180,000,000)" style="color:#333;font-size:9px">（施工費・運搬・工事費別。土地込み総額 ¥1.8億）</span>
+</div>
+</div>
+</div>
+<!-- ══════════════════════════════
+     SECTION 3: 発注管理
+══════════════════════════════ -->
+<div class="section" id="procurement">
+<div class="section-label">Section 03</div>
+<div class="section-title" data-en="Order &amp; Delivery Management Log">発注・納品 管理表</div>
+<div class="section-sub" data-en="Click each cell to update status.">各セルをクリックして状態を更新。</div>
+<div style="overflow-x:auto">
+<table class="proc-table" id="ku-order-table" style="font-size:10px">
+<tr>
+<th data-en="Item" style="min-width:160px">品目</th>
+<th data-en="Project Lead" style="min-width:80px">担当者</th>
+<th data-en="Vendor" style="min-width:100px">発注先</th>
+<th data-en="Order Date" style="min-width:90px">発注日</th>
+<th data-en="Delivery Schedule" style="min-width:90px">納品予定</th>
+<th data-en="Amount" style="min-width:80px">金額</th>
+<th data-en="Status" style="min-width:70px">ステータス</th>
+<th data-en="Notes" style="min-width:140px">メモ</th>
+</tr>
+<tr data-item="ku-dome"><td class="item-name" data-en="EPS Domes × 2 Units">EPSドーム × 2棟</td><td class="editable" contenteditable="true" data-en="Hamada" style="color:#555;outline:none">濱田</td><td class="editable" contenteditable="true" data-en="Domestic manufacturer" style="color:#555;outline:none">国産メーカー</td><td class="editable" contenteditable="true" data-en="June" style="color:#555;outline:none">6月</td><td class="editable" contenteditable="true" data-en="Early September" style="color:#555;outline:none">9月初旬</td><td class="editable" contenteditable="true" data-en="¥7M+" style="color:#555;outline:none">¥700万〜</td><td class="status-cell"><span class="status-badge status-pending" data-en="Not yet ordered">未発注</span></td><td class="editable" contenteditable="true" data-en="Order After Building Permit Approval" style="color:#555;outline:none">建築確認申請後に発注</td></tr>
+<tr data-item="ku-kiso"><td class="item-name" data-en="Foundation Work (4-point independent system)">基礎工事（独立4点）</td><td class="editable" contenteditable="true" data-en="Hamada" style="color:#555;outline:none">濱田</td><td class="editable" contenteditable="true" data-en="Local Civil Engineering Contractor" style="color:#555;outline:none">地元土木業者</td><td class="editable" contenteditable="true" data-en="August" style="color:#555;outline:none">8月</td><td class="editable" contenteditable="true" data-en="Early September" style="color:#555;outline:none">9月初旬</td><td class="editable" contenteditable="true" data-en="¥300,000–500,000" style="color:#555;outline:none">¥30〜50万</td><td class="status-cell"><span class="status-badge status-pending" data-en="Not Yet Requested">未依頼</span></td><td class="editable" contenteditable="true" data-en="EPS lightweight allows for simplified foundation" style="color:#555;outline:none">EPS軽量なので簡易基礎可</td></tr>
+<tr data-item="ku-tesla"><td class="item-name" data-en="Tesla Powerwall 3 × 2 units">Tesla Powerwall 3 × 2台</td><td class="editable" contenteditable="true" data-en="Hamada" style="color:#555;outline:none">濱田</td><td class="editable" contenteditable="true" style="color:#555;outline:none">Tesla Energy</td><td class="editable" contenteditable="true" data-en="August" style="color:#555;outline:none">8月</td><td class="editable" contenteditable="true" data-en="September" style="color:#555;outline:none">9月</td><td class="editable" contenteditable="true" data-en="¥1.5M–2M" style="color:#555;outline:none">¥150〜200万</td><td class="status-cell"><span class="status-badge status-pending" data-en="Not yet ordered">未発注</span></td><td class="editable" contenteditable="true" data-en="Certified installer coordination required" style="color:#555;outline:none">認定設置業者手配必要</td></tr>
+<tr data-item="ku-solar"><td class="item-name" data-en="400 W Solar Panels × 20 units">400Wパネル × 20枚</td><td class="editable" contenteditable="true" data-en="Hamada" style="color:#555;outline:none">濱田</td><td class="editable" contenteditable="true" style="color:#555;outline:none">Amazon</td><td class="editable" contenteditable="true" data-en="August" style="color:#555;outline:none">8月</td><td class="editable" contenteditable="true" data-en="1–2 weeks post-order" style="color:#555;outline:none">発注後1〜2週</td><td class="editable" contenteditable="true" data-en="¥600K–800K" style="color:#555;outline:none">¥60〜80万</td><td class="status-cell"><span class="status-badge status-pending" data-en="Not yet ordered">未発注</span></td><td class="editable" contenteditable="true" data-en="Consider bundled purchase with Tesla" style="color:#555;outline:none">Teslaとセット購入も検討</td></tr>
+<tr data-item="ku-sauna"><td class="item-name">HARVIA M3 GL</td><td class="editable" contenteditable="true" data-en="Hamada" style="color:#555;outline:none">濱田</td><td class="editable" contenteditable="true" data-en="YAMANO Chimney Services" style="color:#555;outline:none">山野煙突屋</td><td class="editable" contenteditable="true" data-en="July" style="color:#555;outline:none">7月</td><td class="editable" contenteditable="true" data-en="1–2 Weeks" style="color:#555;outline:none">1〜2週間</td><td class="editable" contenteditable="true" style="color:#555;outline:none">¥218,000</td><td class="status-cell"><span class="status-badge status-pending" data-en="Not yet ordered">未発注</span></td><td class="editable" contenteditable="true" data-en="Order includes chimney set" style="color:#555;outline:none">煙突セット込みで注文</td></tr>
+<tr data-item="ku-hottub"><td class="item-name">Kirami BarrelSpa ø1500</td><td class="editable" contenteditable="true" data-en="Hamada" style="color:#555;outline:none">濱田</td><td class="editable" contenteditable="true" data-en="Direct Import via kirami.com" style="color:#555;outline:none">kirami.com 直輸入</td><td class="editable" contenteditable="true" data-en="July" style="color:#555;outline:none">7月</td><td class="editable" contenteditable="true" data-en="6–10 weeks" style="color:#555;outline:none">6〜10週</td><td class="editable" contenteditable="true" data-en="¥300,000+" style="color:#555;outline:none">¥30万〜</td><td class="status-cell"><span class="status-badge status-pending" data-en="Not yet ordered">未発注</span></td><td class="editable" contenteditable="true" data-en="Alibaba OEM alternatives available" style="color:#555;outline:none">Alibaba OEM代替も可</td></tr>
+<tr data-item="ku-chiller"><td class="item-name" data-en="Zensui ZC-1000α">ゼンスイ ZC-1000α</td><td class="editable" contenteditable="true" data-en="Hamada" style="color:#555;outline:none">濱田</td><td class="editable" contenteditable="true" style="color:#555;outline:none">Amazon</td><td class="editable" contenteditable="true" data-en="August" style="color:#555;outline:none">8月</td><td class="editable" contenteditable="true" data-en="3–7 Days" style="color:#555;outline:none">3〜7日</td><td class="editable" contenteditable="true" style="color:#555;outline:none">¥174,000</td><td class="status-cell"><span class="status-badge status-pending" data-en="Not yet ordered">未発注</span></td><td class="editable" contenteditable="true" data-en="100V · No electrical work required" style="color:#555;outline:none">100V・電気工事不要</td></tr>
+<tr data-item="ku-projector"><td class="item-name" data-en="4K Projector (ceiling-mounted)">4Kプロジェクター（天吊り）</td><td class="editable" contenteditable="true" data-en="Hamada" style="color:#555;outline:none">濱田</td><td class="editable" contenteditable="true" style="color:#555;outline:none">Amazon</td><td class="editable" contenteditable="true" data-en="August" style="color:#555;outline:none">8月</td><td class="editable" contenteditable="true" data-en="1–2 weeks" style="color:#555;outline:none">1〜2週</td><td class="editable" contenteditable="true" data-en="¥150,000–300,000" style="color:#555;outline:none">¥15〜30万</td><td class="status-cell"><span class="status-badge status-pending" data-en="Not yet ordered">未発注</span></td><td class="editable" contenteditable="true" data-en="Projected on dome curve" style="color:#555;outline:none">ドーム曲面に投影</td></tr>
+<tr data-item="ku-starlink"><td class="item-name">Starlink Standard</td><td class="editable" contenteditable="true" data-en="Hamada" style="color:#555;outline:none">濱田</td><td class="editable" contenteditable="true" style="color:#555;outline:none">starlink.com</td><td class="editable" contenteditable="true" data-en="August" style="color:#555;outline:none">8月</td><td class="editable" contenteditable="true" data-en="1–2 weeks" style="color:#555;outline:none">1〜2週</td><td class="editable" contenteditable="true" style="color:#555;outline:none">¥73,000</td><td class="status-cell"><span class="status-badge status-pending" data-en="Not yet ordered">未発注</span></td><td class="editable" contenteditable="true" data-en="Elevated Location, Unobstructed—Ideal" style="color:#555;outline:none">高台で遮蔽なし・最適</td></tr>
+<tr data-item="ku-mat"><td class="item-name" data-en="Brazilian Jiu-Jitsu Mat EVA 40mm × 30 pieces">柔術マット EVA 40mm × 30枚</td><td class="editable" contenteditable="true" data-en="Hamada" style="color:#555;outline:none">濱田</td><td class="editable" contenteditable="true" style="color:#555;outline:none">Amazon</td><td class="editable" contenteditable="true" data-en="September" style="color:#555;outline:none">9月</td><td class="editable" contenteditable="true" data-en="1–2 weeks" style="color:#555;outline:none">1〜2週</td><td class="editable" contenteditable="true" style="color:#555;outline:none">¥8〜15万</td><td class="status-cell"><span class="status-badge status-pending" data-en="Not yet ordered">未発注</span></td><td class="editable" contenteditable="true" data-en="100 × 100 cm × 4 cm thickness" style="color:#555;outline:none">100×100cm×4cm 厚</td></tr>
+</table>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;font-size:9px">
+<span data-en="← Click to Update" onclick="cycleStatusKu(event)" style="cursor:pointer;padding:2px 8px;background:#1a1a1a;border-radius:3px;color:#2a2a2a">← クリックで更新</span>
+<span data-en="Not yet ordered" style="padding:2px 8px;background:rgba(100,100,100,.12);border:1px solid #1e1e1e;border-radius:3px;color:#333">未発注</span>
+<span data-en="Ordered" style="padding:2px 8px;background:rgba(200,164,85,.1);border:1px solid rgba(200,164,85,.2);border-radius:3px;color:rgba(200,164,85,.7)">発注済</span>
+<span data-en="In Transit" style="padding:2px 8px;background:rgba(100,150,255,.08);border:1px solid rgba(100,150,255,.15);border-radius:3px;color:rgba(100,150,255,.65)">輸送中</span>
+<span data-en="Delivered" style="padding:2px 8px;background:rgba(155,196,109,.1);border:1px solid rgba(155,196,109,.2);border-radius:3px;color:rgba(155,196,109,.7)">納品済</span>
+</div>
+</div>
+<!-- ══════════════════════════════
+     SECTION 4: 9/20〜21 Work Party
+══════════════════════════════ -->
+<div class="section" id="workparty-ops">
+<div class="section-label">Section 04</div>
+<div class="section-title" data-en="9/20–21 Work Party · Day-of Operations">9/20〜21 Work Party 当日オペレーション</div>
+<div class="section-sub" data-en="Upon arrival, dome structure, electrical wiring, and foundational systems are fully completed. Two-day collaborative finishing phase.">到着時点でドーム構造体・電気配線・基礎設備はすべて完了済み。仕上げを分担する2日間。</div>
+<!-- 到着時点の状態 -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px">
+<div style="padding:14px;background:#080808;border:1px solid rgba(155,196,109,.1);border-radius:4px">
+<div data-en="✓ Completed as of 9/20 arrival" style="font-size:8px;letter-spacing:.2em;color:rgba(155,196,109,.45);font-weight:700;text-transform:uppercase;margin-bottom:12px">✓ 9/20到着時点で完了済み</div>
+<div data-en="EPS Dome Structure Assembly Complete
+ Foundation &amp; Securing Complete
+ Tesla Powerwall + Solar Wiring Complete
+ Larch Flooring Installation Complete
+ HARVIA M3 Unit Installed
+ Barrel Bath Delivered &amp; Provisionally Set
+ Starlink Installed &amp; Connected
+ Electrical Wiring (100V/200V) Complete
+ Jiu-Jitsu Mats Delivered" style="font-size:10px;color:#2a2a2a;line-height:2.2">
+<span style="color:rgba(155,196,109,.5)">✓</span> EPSドーム構造体 組み立て完了<br/>
+<span style="color:rgba(155,196,109,.5)">✓</span> 基礎・固定 完了<br/>
+<span style="color:rgba(155,196,109,.5)">✓</span> Tesla Powerwall + ソーラー 配線済み<br/>
+<span style="color:rgba(155,196,109,.5)">✓</span> カラマツ床 施工済み<br/>
+<span style="color:rgba(155,196,109,.5)">✓</span> HARVIA M3 本体 設置済み<br/>
+<span style="color:rgba(155,196,109,.5)">✓</span> バレルバス 搬入・仮設置済み<br/>
+<span style="color:rgba(155,196,109,.5)">✓</span> Starlink 設置・接続済み<br/>
+<span style="color:rgba(155,196,109,.5)">✓</span> 電気配線（100V/200V）完了<br/>
+<span style="color:rgba(155,196,109,.5)">✓</span> 柔術マット 搬入済み
+      </div>
+</div>
+<div style="padding:14px;background:#080808;border:1px solid rgba(200,164,85,.12);border-radius:4px">
+<div data-en="→ Tasks for 9/20–21" style="font-size:8px;letter-spacing:.2em;color:rgba(200,164,85,.45);font-weight:700;text-transform:uppercase;margin-bottom:12px">→ 9/20〜21 でやること</div>
+<div data-en="Plaster finish (2 surfaces remaining) · Chimney final connection &amp; first firing · Barrel bath plumbing &amp; water fill · Ice bath plumbing, electrical &amp; cooling verification · Hue lighting installation &amp; KAGI configuration · Projector ceiling mount · Stone oven final assembly · Full equipment operational check &amp; test stay" style="font-size:10px;color:#2a2a2a;line-height:2.2">
+<span style="color:rgba(200,164,85,.5)">→</span> 漆喰 最終仕上げ（2面残り）<br/>
+<span style="color:rgba(200,164,85,.5)">→</span> 煙突 最終接続・初火入れ<br/>
+<span style="color:rgba(200,164,85,.5)">→</span> バレルバス 配管接続・充水<br/>
+<span style="color:rgba(200,164,85,.5)">→</span> アイスバス 配管・電気・冷却確認<br/>
+<span style="color:rgba(200,164,85,.5)">→</span> Hue照明 取付・KAGI設定<br/>
+<span style="color:rgba(200,164,85,.5)">→</span> プロジェクター 天吊り設置<br/>
+<span style="color:rgba(200,164,85,.5)">→</span> 石窯 最終組み立て<br/>
+<span style="color:rgba(200,164,85,.5)">→</span> 全設備フル稼働確認・試泊
+      </div>
+</div>
+</div>
+<!-- Day 1 -->
+<div id="day1-ops" style="margin-bottom:20px">
+<div data-en="DAY 1 — 9/20 (Sat) Autumn Finishing" style="font-size:9px;letter-spacing:.18em;color:rgba(200,164,85,.5);font-weight:700;margin-bottom:10px">DAY 1 — 9/20（土）秋の仕上げ</div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">07:00</div><div class="cl-text" data-en="— Kumaushi Plain in autumn mist. Bonfire morning &amp; work briefing"><span class="b" data-en="Gathering and breakfast">集合・朝ごはん</span> — 秋霧の熊牛原野。焚き火モーニング・作業ブリーフィング<span class="who" data-en="All Participants">全員</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">08:00</div><div class="cl-text" data-en="— Sauna Team · Bath Team · Lighting Team · Dojo Team"><span class="b" data-en="Team Assignment &amp; Work Commencement">班分け・作業開始</span> — サウナ班・バス班・照明班・道場班<span class="who" data-en="All Participants">全員</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">08:00</div><div class="cl-text" data-en="— Finish remaining 2 sides with trowel. Drying time 6 hours"><span class="b" data-en="Plaster Final Finish">漆喰 最終仕上げ</span> — 残り2面をコテで仕上げ。乾燥時間6時間<span class="who" data-en="Plaster Team">漆喰班</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">09:00</div><div class="cl-text" data-en="— Stove → penetration → outdoor final connection. Air tightness test"><span class="b" data-en="Chimney Final Connection">煙突 最終接続</span> — ストーブ→貫通部→屋外の最終接続。気密テスト<span class="who" data-en="Sauna Team">サウナ班</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">10:00</div><div class="cl-text" data-en="— Hot Water Supply from Heater. 440L capacity, 2–3 hours"><span class="b" data-en="Barrel Bath · Water Fill Commencement">バレルバス 充水スタート</span> — 給湯器から給湯。440L で2〜3時間<span class="who" data-en="Bath Team">バス班</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">10:30</div><div class="cl-text" data-en="— Chiller activation, 700L fill, set to 18°C. Reaches target in 4–6 hours"><span class="b" data-en="Ice bath cooling activated">アイスバス 冷却開始</span> — チラー起動・700L充水・18°C設定。4〜6時間で到達<span class="who" data-en="Bath Team">バス班</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">11:00</div><div class="cl-text" data-en="— Bridge Connection · Scene Configuration · Smart Lock Pairing"><span class="b" data-en="Hue lighting + KAGI settings">Hue照明 + KAGI設定</span> — Bridge接続・シーン設定・スマートロックペアリング<span class="who" data-en="Lighting Team">照明班</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">13:00</div><div class="cl-text" data-en="— Stone oven pizza trial firing. Panoramic views of Kumaushi Plain in autumn"><span class="b" data-en="Lunch">ランチ</span> — 石窯ピザ試し焼き。秋の熊牛原野のパノラマで<span class="who" data-en="All Participants">全員</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">14:00</div><div class="cl-text" data-en="— Fixed to dome apex · Dolby audio testing"><span class="b" data-en="Projector · Ceiling-mounted Installation">プロジェクター 天吊り設置</span> — ドーム天面に固定・Dolby音声テスト<span class="who" data-en="AV Team">AV班</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">15:00</div><div class="cl-text" data-en="— Load wood into HARVIA M3 and ignite. 60–90 minutes to reach 80°C"><span class="b" data-en="Sauna inaugural firing">サウナ 初火入れ</span> — HARVIA M3 に薪を入れ、初点火。80°C到達まで60〜90分<span class="who" data-en="Sauna Team">サウナ班</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">16:30</div><div class="cl-text" data-en="— Barrel Bath 42°C · Ice Bath 18°C · Sauna 85°C. Complete Three-Point Collection"><span class="b" data-en="Sauna &amp; Bath: Full Operation">サウナ・バス フル稼働</span> — バレルバス42°C・アイスバス18°C・サウナ85°C。3点揃え<span class="who" data-en="All Participants">全員</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">19:00</div><div class="cl-text" data-en="— Autumn Genghis Khan barbecue + Bonfire. Telescope setup"><span class="b" data-en="Dinner (Tenku no Dojo inaugural dinner)">夕食（天空の道場 初ディナー）</span> — 秋のジンギスカン + 焚き火。天体望遠鏡セットアップ<span class="who" data-en="All Participants">全員</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">21:00</div><div class="cl-text" data-en="— Starry sky projection on the dome ceiling. An immersive experience enveloped in Dolby Atmos"><span class="b" data-en="Projection · Inaugural Screening">プロジェクション 初上映</span> — ドーム天面に星空映像。Dolby Atmos で包まれる体験<span class="who" data-en="All Participants">全員</span></div></div>
+</div>
+<!-- Day 2 -->
+<div id="day2-ops" style="margin-bottom:20px">
+<div data-en="DAY 2 — 9/21 (Sun) Full Operations &amp; Trial Stay" style="font-size:9px;letter-spacing:.18em;color:rgba(155,196,109,.5);font-weight:700;margin-bottom:10px">DAY 2 — 9/21（日）フル稼働・試泊</div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">06:00</div><div class="cl-text" data-en="— On a crystalline autumn morning, experience sauna → ice bath → open-air bath. Invigorate yourself amid a 270° panoramic view"><span class="b" data-en="Morning sauna">朝サウナ</span> — 空気が澄んだ秋の朝。サウナ→アイスバス→外気浴。270°パノラマで整う<span class="who" data-en="Interested parties">希望者</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">08:00</div><div class="cl-text" data-en="— Greenhouse Installation, Stone Oven Extension, Fine Finishing"><span class="b" data-en="Breakfast + Remaining Tasks">朝ごはん + 残り作業</span> — グリーンハウス仮設・石窯増築・細部仕上げ<span class="who" data-en="All Participants">全員</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">10:00</div><div class="cl-text" data-en="— BJJ Fundamentals in the Dojo. Technique Instruction via 4K Projector"><span class="b" data-en="Brazilian Jiu-Jitsu Experience Session">柔術 体験セッション</span> — 道場でBJJ入門。4Kプロジェクターで技解説<span class="who" data-en="Interested parties">希望者</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">12:00</div><div class="cl-text" data-en="— Hue, KAGI, Tesla, Starlink, and sauna (3 items) fully verified"><span class="b" data-en="Final Inspection of All Equipment">全設備 最終確認</span> — Hue・KAGI・Tesla・Starlink・サウナ3点 全確認<span class="who" data-en="All Participants">全員</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">13:00</div><div class="cl-text" data-en="— 270° panoramic group photography. Drone coverage (if available)"><span class="b" data-en="Lunch · Commemorative Photography">ランチ・記念撮影</span> — 270°パノラマで集合写真。ドローン撮影（可能なら）<span class="who" data-en="All Participants">全員</span></div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time">15:00</div><div class="cl-text" data-en="— Final finishing complete for Tensoku Dojo official opening"><span class="b" data-en="Dissolution">解散</span> — 天空の道場 公式オープンへの最終仕上げ完了<span class="who" data-en="All Participants">全員</span></div></div>
+</div>
+<!-- 前日チェックリスト -->
+<div id="checklist-ops" style="margin-bottom:20px">
+<div data-en="Pre-Event Checklist (9/19)" style="font-size:8px;letter-spacing:.2em;color:#1e1e1e;font-weight:700;margin-bottom:10px;text-transform:uppercase">前日（9/19）チェックリスト</div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time"></div><div class="cl-text" data-en="Wood-Fired Sauna Firewood (Dried Larch) 40kg+ Prepared On-Site">薪サウナ用薪（乾燥カラマツ）40kg以上を現地に準備</div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time"></div><div class="cl-text" data-en="Tesla Powerwall charge level verified at 80% or higher">Tesla Powerwall 充電量 80%以上確認</div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time"></div><div class="cl-text" data-en="Starlink Connection &amp; Speed Test (&gt;50Mbps)">Starlink 接続・速度テスト（&gt;50Mbps）</div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time"></div><div class="cl-text" data-en="CO Detector Battery Check &amp; Operation Test">CO警報器 電池確認・作動テスト</div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time"></div><div class="cl-text" data-en="Fire extinguisher inspection (expiration date, inside and outside dome)">消火器 確認（有効期限・ドーム内+外）</div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time"></div><div class="cl-text" data-en="Ingredients, Beverages &amp; Genghis Khan Lamb Delivered">食材・飲料・ジンギスカン肉 搬入済み</div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time"></div><div class="cl-text" data-en="8 participants notified of meeting point (KUMAUSHI BASE Parking Area)">参加者8名に集合場所（熊牛原野 駐車場）を連絡済み</div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time"></div><div class="cl-text" data-en="First Aid Kit, Oral Rehydration Solution &amp; Insect Repellent — On-Site Verification">救急箱・経口補水液・防虫スプレー 現地確認</div></div>
+<div class="cl-item"><div class="cl-check" onclick="this.classList.toggle('done')"></div><div class="cl-time"></div><div class="cl-text" data-en="Telescope Assembly &amp; Polar Alignment">天体望遠鏡 組み立て・極軸合わせ</div></div>
+</div>
+</div>
+<!-- ══════════════════════════════
+     SECTION 5: 安く・楽に・安全に
+══════════════════════════════ -->
+<div class="section" id="optim">
+<div class="section-label">Section 05</div>
+<div class="section-title" data-en="More Affordable, Easier, Safer">もっと安く・楽に・安全に</div>
+<div class="section-sub" data-en="Optimizing a ¥180 million project. Costs to reduce and essential safety measures.">¥1.8億のプロジェクトを最適化する。削れるコストと必須の安全対策。</div>
+<div data-en="💴 Cost Optimization Ideas" style="font-size:8px;letter-spacing:.2em;color:rgba(155,196,109,.5);font-weight:700;margin-bottom:12px;text-transform:uppercase">💴 コスト削減アイデア</div>
+<table class="supply-table" style="margin-bottom:20px">
+<tr><th data-en="Item">項目</th><th data-en="Current Plan">現計画</th><th data-en="Cost Reduction Plan">削減案</th><th data-en="Cost Reduction">削減額</th><th data-en="Disadvantages">デメリット</th></tr>
+<tr>
+<td class="item-name">Tesla Powerwall</td>
+<td style="color:#2a2a2a">Powerwall 3 × 2台 ¥150〜200万</td>
+<td data-en="14.4kWh. Sufficient without V2H capability. ¥800,000– (Sale through 5/6)" style="color:rgba(155,196,109,.7)"><strong data-en="EcoFlow DELTA Pro × 4 Units">EcoFlow DELTA Pro × 4台</strong><br/>14.4kWh。V2H不要なら十分。¥80万〜（〜5/6セール中）</td>
+<td data-en="▲¥700K–1.2M" style="color:var(--green);font-weight:700">▲¥70〜120万</td>
+<td data-en="No V2H functionality. Low-temperature performance inferior to Tesla (charging/discharging efficiency decreases below −10°C)" style="color:#1e1e1e;font-size:9px">V2H機能なし。低温性能がTeslaより劣る（−10°C以下で充放電効率低下）</td>
+</tr>
+<tr>
+<td class="item-name" data-en="4K Projector + Dolby">4Kプロジェクター + Dolby</td>
+<td data-en="¥350,000–700,000" style="color:#2a2a2a">¥35〜70万</td>
+<td data-en="Practical 4K + 7.1ch audio. Upgradeable in phases." style="color:rgba(155,196,109,.7)"><strong data-en="Epson EH-TW9400 (¥200,000) + JBL Bar 1000 (¥80,000)">Epson EH-TW9400（¥20万）+ JBL Bar 1000（¥8万）</strong><br/>実用的な4K+7.1ch。段階的にアップグレード可。</td>
+<td data-en="▲¥70,000–420,000" style="color:var(--green);font-weight:700">▲¥7〜42万</td>
+<td data-en="Dolby Atmos certification not included. Audio immersion somewhat limited." style="color:#1e1e1e;font-size:9px">Dolby Atmos認証なし。音の没入感はやや低い。</td>
+</tr>
+<tr>
+<td class="item-name" data-en="Barrel Bath">バレルバス</td>
+<td data-en="Kirami direct import from ¥300K" style="color:#2a2a2a">Kirami 直輸入 ¥30万〜</td>
+<td data-en="¥100K–150K. Ordered with minimum board thickness 38mm and stainless steel bands specified." style="color:rgba(155,196,109,.7)"><strong data-en="Alibaba OEM Wooden Barrel Bath">Alibaba OEM 木製バレルバス</strong><br/>¥10〜15万。板厚38mm以上・タガ SUS 指定で発注。</td>
+<td data-en="▲¥150,000–200,000" style="color:var(--green);font-weight:700">▲¥15〜20万</td>
+<td data-en="Quality variation. One-week water-fill testing mandatory." style="color:#1e1e1e;font-size:9px">品質にバラつき。充水テスト1週間必須。</td>
+</tr>
+<tr>
+<td class="item-name" data-en="Stone Oven">石窯</td>
+<td data-en="Ready-made Units ¥50,000–200,000" style="color:#2a2a2a">既製品 ¥5〜20万</td>
+<td data-en="Materials ¥20,000–30,000. Also serves as Work Party content." style="color:rgba(155,196,109,.7)"><strong data-en="Firebrick DIY (Built during Work Party)">耐火レンガDIY（Work Party で作る）</strong><br/>材料費 ¥2〜3万。Work Partyのコンテンツにもなる。</td>
+<td data-en="▲¥30K–170K" style="color:var(--green);font-weight:700">▲¥3〜17万</td>
+<td data-en="Installation requires half day. 3 days curing required for finishing." style="color:#1e1e1e;font-size:9px">施工に半日かかる。仕上げに3日養生必要。</td>
+</tr>
+</table>
+<div data-en="🛡️ Safety Measures (Winter in Hokkaido Requires Special Attention)" style="font-size:8px;letter-spacing:.2em;color:rgba(224,120,64,.6);font-weight:700;margin-bottom:12px;text-transform:uppercase">🛡️ 安全対策（北海道の冬は特に注意）</div>
+<table class="supply-table">
+<tr><th data-en="Essential Items">必須アイテム</th><th data-en="Price">価格</th><th data-en="Why required">なぜ必要か</th></tr>
+<tr><td class="item-name" data-en="🚨 CO Detector × 2 units (1 per dome)" style="color:rgba(224,120,64,.8)">🚨 CO警報器 × 2台（ドーム各1台）</td><td><span data-en="¥3,000–5,000/unit" style="color:var(--orange)">¥3,000〜5,000/台</span></td><td data-en="Fatal in sealed spaces with wood stoves or rocket stoves. Installation is mandatory." style="font-size:9px;color:#444">薪ストーブ・ロケットストーブの密閉空間では致死的。絶対に設置。</td></tr>
+<tr><td class="item-name" data-en="🧯 ABC Fire Extinguishers × 3 units">🧯 ABC消火器 × 3本</td><td><span data-en="¥3,000–5,000 per unit" style="color:var(--green)">¥3,000〜5,000/本</span></td><td data-en="Inside dome, outside sauna, beside stone oven. Dome is fire-resistant plaster, but interior finishes and deck are combustible." style="font-size:9px;color:#444">ドーム内・サウナ外・石窯横。漆喰でドームは難燃性だが内装・デッキは可燃物。</td></tr>
+<tr><td class="item-name" data-en="❄️ Freeze-protection heat tape (all piping)">❄️ 凍結防止ヒーターテープ（全配管）</td><td><span data-en="¥10,000–20,000" style="color:var(--green)">¥10,000〜20,000</span></td><td data-en="Kumaushi Plateau experiences −20 to −30°C temperatures. Pipes burst when frozen; select thermostat-equipped models." style="font-size:9px;color:#444">熊牛原野は−20〜−30°C。配管が凍結すると破裂する。サーモスタット付きを選ぶ。</td></tr>
+<tr><td class="item-name" data-en="🤲 Ice Bath with Handrails + Non-Slip Surface">🤲 アイスバス 手すり + 滑り止め</td><td><span data-en="¥5,000–12,000" style="color:var(--green)">¥5,000〜12,000</span></td><td data-en="Cold immersion may cause rapid heart rate increase &amp; risk of altered consciousness. Designed with handrails for safe entry &amp; support." style="font-size:9px;color:#444">低温浸水で心拍数急上昇・意識障害リスク。手すりで体を支えて入浴する設計に。</td></tr>
+<tr><td class="item-name" data-en="❄️ Tesla low-temperature mode configuration verified">❄️ Tesla 低温モード 設定確認</td><td data-en="Complimentary (Installation Only)" style="color:#2a2a2a">無料（設定のみ）</td><td data-en="Powerwall 3 automatically switches to heating mode below −10°C. Confirm settings in advance." style="font-size:9px;color:#444">Powerwall 3 は−10°C以下で自動加温モードに切替。事前に設定を確認すること。</td></tr>
+<tr><td class="item-name" data-en="🔦 Backup Lighting (Solar LED Lanterns × 4)">🔦 予備照明（ソーラー LEDランタン × 4台）</td><td><span data-en="¥2,000–4,000 per unit" style="color:var(--green)">¥2,000〜4,000/台</span></td><td data-en="KUMAUSHI BASE wilderness offers complete darkness. Essential for emergency use during outages and outdoor safety." style="font-size:9px;color:#444">熊牛原野は完全な暗闇。停電時の非常用と野外の安全確保に。</td></tr>
+</table>
+</div>
+</main>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-unit 100-person village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Biruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participation">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain shares complimentarily" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIP Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Owner: Miruwa" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Maintenance fees" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+// Countdown to 2026-09-20 07:00 JST
+(function(){
+  const target = new Date('2026-09-20T07:00:00+09:00');
+  function tick(){
+    const diff = target - Date.now();
+    if(diff <= 0){ document.getElementById('countdown-ku').textContent='9/20 TODAY!'; return; }
+    const d = Math.floor(diff/86400000);
+    const h = Math.floor(diff%86400000/3600000);
+    const m = Math.floor(diff%3600000/60000);
+    const s = Math.floor(diff%60000/1000);
+    document.getElementById('countdown-ku').textContent = `${d}d ${h}h ${m}m ${s}s`;
+  }
+  tick(); setInterval(tick, 1000);
+})();
+
+// Status cycle for procurement table
+const STATUS_CYCLE_KU = ['status-pending','status-ordered','status-transit','status-delivered'];
+const STATUS_LABELS_KU = ['未発注','発注済','輸送中','納品済'];
+const KU_STATE_KEY = 'ku-order-state';
+
+function saveKuState(){
+  const state = {};
+  document.querySelectorAll('#ku-order-table tr[data-item]').forEach(row => {
+    const key = row.dataset.item;
+    const badge = row.querySelector('.status-badge');
+    if(badge) state[key] = badge.className.replace('status-badge ','');
+    row.querySelectorAll('.editable').forEach((cell,i) => { state[key+'_c'+i] = cell.textContent; });
+  });
+  localStorage.setItem(KU_STATE_KEY, JSON.stringify(state));
+}
+
+function loadKuState(){
+  try {
+    const state = JSON.parse(localStorage.getItem(KU_STATE_KEY)||'{}');
+    document.querySelectorAll('#ku-order-table tr[data-item]').forEach(row => {
+      const key = row.dataset.item;
+      if(!state[key]) return;
+      const badge = row.querySelector('.status-badge');
+      if(badge){ badge.className = 'status-badge ' + state[key]; badge.textContent = STATUS_LABELS_KU[STATUS_CYCLE_KU.indexOf(state[key])]||'未発注'; }
+      row.querySelectorAll('.editable').forEach((cell,i) => { if(state[key+'_c'+i]) cell.textContent = state[key+'_c'+i]; });
+    });
+  } catch(e){}
+}
+
+function cycleStatusKu(e){
+  const badge = e.target.closest('.status-cell')?.querySelector('.status-badge') || e.target.closest('.status-badge');
+  if(!badge) return;
+  const cur = STATUS_CYCLE_KU.findIndex(c => badge.classList.contains(c));
+  const next = (cur + 1) % STATUS_CYCLE_KU.length;
+  badge.className = 'status-badge ' + STATUS_CYCLE_KU[next];
+  badge.textContent = STATUS_LABELS_KU[next];
+  saveKuState();
+}
+
+document.querySelectorAll('#ku-order-table .editable').forEach(cell => {
+  cell.addEventListener('input', saveKuState);
+});
+
+document.addEventListener('DOMContentLoaded', loadKuState);
+
+// TOC active highlighting
+const sections = document.querySelectorAll('.section');
+const tocLinks = document.querySelectorAll('.toc a');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      const id = e.target.id;
+      tocLinks.forEach(l => { l.classList.toggle('active', l.getAttribute('href')==='#'+id); });
+    }
+  });
+}, {threshold:.1, rootMargin:'-20% 0px -60% 0px'});
+sections.forEach(s => io.observe(s));
+</script>
+<script src="cart.js"></script>
+<script defer="" src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

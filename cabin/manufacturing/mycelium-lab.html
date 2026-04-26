@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MYCELIUM LAB — 菌糸体実験棟 2026夏</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--green:#4a9a5a;--dark-green:#2E7D32;--blue:#5b8fd4;--purple:#8b5cf6;
+  --myc:#7cb87a;--bg:#f8faf8;--surface:#fff;--line:#dce8dc;--text:#1a1a1a;--muted:#777;
+}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;line-height:1.7}
+.cover{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:#050a05;color:#f0f4f0;padding:80px;position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 40%,rgba(124,184,122,.08) 0%,transparent 60%),radial-gradient(ellipse at 75% 70%,rgba(74,154,90,.05) 0%,transparent 50%)}
+.cover-badge{font-size:9px;letter-spacing:.3em;color:var(--myc);margin-bottom:28px;text-transform:uppercase;font-weight:700}
+.cover-title{font-size:clamp(3rem,9vw,5.5rem);font-weight:900;line-height:.95;margin-bottom:24px;letter-spacing:-.03em}
+.cover-title em{font-style:normal;color:var(--myc)}
+.cover-desc{font-size:14px;color:#445544;line-height:1.9;max-width:520px;margin-bottom:52px}
+.cover-specs{display:flex;gap:32px;flex-wrap:wrap;padding-top:28px;border-top:1px solid #101a10}
+.cs label{font-size:8px;letter-spacing:.2em;color:#1a2a1a;text-transform:uppercase;display:block;margin-bottom:4px}
+.cs span{font-size:20px;font-weight:800;color:#aac8aa}
+.cs small{font-size:9px;color:#334433;display:block;margin-top:2px}
+
+.nav{background:var(--surface);border-bottom:2px solid var(--line);padding:13px 48px;display:flex;align-items:center;gap:24px;position:sticky;top:0;z-index:100;flex-wrap:wrap}
+.nav-logo{font-size:11px;font-weight:900;letter-spacing:.22em;color:var(--dark-green);margin-right:8px;white-space:nowrap}
+.nav a{font-size:11px;color:var(--muted);text-decoration:none;white-space:nowrap}
+.nav a:hover{color:var(--text)}
+.nav-right{margin-left:auto;display:flex;gap:10px}
+.btn-sm{font-size:10px;padding:6px 14px;border-radius:4px;cursor:pointer;font-weight:700;letter-spacing:.05em;text-decoration:none;border:none}
+.btn-dark{background:#0a180a;color:#aac8aa}
+.btn-outline{background:transparent;border:1px solid var(--line);color:var(--muted)}
+
+.wrap{max-width:960px;margin:0 auto;padding:48px 32px}
+.section{margin-bottom:72px}
+.sec-label{font-size:9px;letter-spacing:.3em;color:var(--muted);margin-bottom:8px;text-transform:uppercase}
+.sh{font-size:24px;font-weight:900;letter-spacing:-.02em;margin-bottom:6px}
+.diagram-wrap{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:white}
+.diagram-title{font-size:9px;letter-spacing:.15em;color:var(--muted);padding:10px 16px;background:#f5faf5;border-bottom:1px solid var(--line);text-transform:uppercase}
+table{width:100%;border-collapse:collapse;font-size:12px}
+table th{background:#f5faf5;padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--muted);border-bottom:1px solid var(--line)}
+table td{padding:9px 12px;border-bottom:1px solid var(--line)}
+table tr:last-child td{border-bottom:none}
+.action-box{border-left:4px solid var(--dark-green);background:#f2faf2;padding:20px 24px;border-radius:0 8px 8px 0;margin:16px 0;font-size:12px;line-height:1.9}
+.warn-box{border-left:4px solid var(--gold);background:#fdfaf0;padding:20px 24px;border-radius:0 8px 8px 0;margin:16px 0;font-size:12px;line-height:1.9}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--dark-green);color:white;font-size:11px;font-weight:900;margin-right:10px;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">SOLUNA × ENABLER INC. — EXPERIMENTAL STRUCTURE</div>
+  <h1 class="cover-title">MYCELIUM<br><em>LAB</em></h1>
+  <p class="cover-desc">廃棄おが粉を培地にキノコ菌糸体を培養し、壁パネルを「育てる」実験棟。弟子屈・美留和ビレッジに建設。建築確認不要（7.2m²）。2026年8月完成目標。</p>
+  <div class="cover-specs">
+    <div class="cs"><label>床面積</label><span>7.2m²</span><small>2,400×3,000mm</small></div>
+    <div class="cs"><label>パネル枚数</label><span>32枚</span><small>600×600×100mm</small></div>
+    <div class="cs"><label>材料費</label><span>¥0</span><small>おが粉は廃棄物</small></div>
+    <div class="cs"><label>総コスト</label><span>¥41万</span><small>在来比▼98%</small></div>
+    <div class="cs"><label>完成目標</label><span>8月</span><small>2026.08</small></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <span class="nav-logo">MYCELIUM LAB</span>
+  <a href="#now">今週やること</a>
+  <a href="#process">製造プロセス</a>
+  <a href="#schedule">スケジュール</a>
+  <a href="#design">実験棟設計</a>
+  <a href="#cost">コスト</a>
+  <a href="#metrics">評価指標</a>
+  <a href="#protocol">試験プロトコル</a>
+  <div class="nav-right no-print">
+    <a href="/manufacturing/house.html" class="btn-sm btn-outline">← S-01設計書</a>
+    <a href="/manufacturing/sekkei.html" class="btn-sm btn-outline">Bio-SIP製造</a>
+    <button class="btn-sm btn-dark" onclick="window.print()">印刷</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ══ 今週やること ══ -->
+<div class="section" id="now">
+  <div class="sec-label">SECTION 01</div>
+  <h2 class="sh">今週やること — 4月28日〜5月2日</h2>
+  <p style="color:var(--muted);margin-bottom:24px">菌糸体培養の律速は「培養時間2〜3週間」。今日種菌を発注しないと夏に間に合わない。</p>
+
+  <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:32px">
+    <div style="display:flex;align-items:flex-start;background:white;border:1px solid var(--line);border-radius:8px;padding:20px">
+      <span class="step-num">1</span>
+      <div>
+        <strong style="font-size:13px">種菌を今日発注</strong>
+        <div style="color:var(--muted);font-size:11px;margin-top:4px">
+          ヒラタケ（Pleurotus ostreatus）菌種 — 成長最速（2週間）、入手しやすい<br>
+          <strong>森産業株式会社</strong>: 0279-52-2215 / 群馬県 — 種菌ブロック¥800〜1,500/個<br>
+          <strong>丸昌きのこ</strong>（北海道）: 地元なので送料安い<br>
+          必要量: 32パネル × 2個/パネル = <strong>64個</strong>（まず20個で試作）
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:flex-start;background:white;border:1px solid var(--line);border-radius:8px;padding:20px">
+      <span class="step-num">2</span>
+      <div>
+        <strong style="font-size:13px">弟子屈周辺の製材所におが粉を打診</strong>
+        <div style="color:var(--muted);font-size:11px;margin-top:4px">
+          処理に困っている廃棄物なので無料〜¥1,000/袋で入手できる<br>
+          必要量: 32パネル × 10kg = <strong>320kg</strong>（スギ・カラマツ系、針葉樹おが粉）<br>
+          釧路・中標津の製材所に電話一本。「廃棄おが粉をもらえますか」だけでいい
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:flex-start;background:white;border:1px solid var(--line);border-radius:8px;padding:20px">
+      <span class="step-num">3</span>
+      <div>
+        <strong style="font-size:13px">型枠をホームセンターで材料調達</strong>
+        <div style="color:var(--muted);font-size:11px;margin-top:4px">
+          合板12mm × 900×1,800mm 3枚（¥3,000）でパネル型10個分<br>
+          型サイズ: 外600×600×100mm、合板蓋付き<br>
+          コーナンPro釧路店 or カインズ中標津
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:flex-start;background:white;border:1px solid var(--line);border-radius:8px;padding:20px">
+      <span class="step-num">4</span>
+      <div>
+        <strong style="font-size:13px">スクリューパイル業者に見積もり依頼</strong>
+        <div style="color:var(--muted);font-size:11px;margin-top:4px">
+          <strong>タカミヤ</strong>（北海道代理店あり）: φ114.3mm L=2,200mm × 4本<br>
+          <strong>マルスギ建設</strong>（北海道）: 施工込みで見積もり<br>
+          美留和ビレッジ土地（501番1）の住所伝えて現地確認の日程調整
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:flex-start;background:white;border:1px solid var(--line);border-radius:8px;padding:20px">
+      <span class="step-num">5</span>
+      <div>
+        <strong style="font-size:13px">試作開始場所を確保</strong>
+        <div style="color:var(--muted);font-size:11px;margin-top:4px">
+          培養は20〜25℃・暗所・湿度85%が必要 = <strong>夏の弟子屈の納屋がベスト</strong><br>
+          THE LODGEの物置・倉庫スペースが使えるか確認<br>
+          最悪、段ボール箱+ポリ袋で密閉環境は作れる（¥0）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-box">
+    <strong>判断基準</strong>: 5月第1週に種菌が手元にあれば8月完成できる。なければ9月にズレる。今日が分岐点。
+  </div>
+</div>
+
+<!-- ══ 製造プロセス ══ -->
+<div class="section" id="process">
+  <div class="sec-label">SECTION 02</div>
+  <h2 class="sh">菌糸体パネル製造プロセス</h2>
+  <p style="color:var(--muted);margin-bottom:32px">特別な設備は不要。圧力鍋、軍手、種菌、おが粉があれば作れる。</p>
+
+  <!-- フロー図 -->
+  <div class="diagram-wrap" style="margin-bottom:32px">
+    <div class="diagram-title">製造フロー（1バッチ = 10パネル, 所要2〜3週間）</div>
+    <svg viewBox="0 0 860 160" style="width:100%;display:block;font-family:inherit;padding:0">
+      <!-- ステップ背景 -->
+      <rect x="10" y="20" width="110" height="120" rx="6" fill="#f5faf5" stroke="#c8e0c8" stroke-width="1.5"/>
+      <rect x="140" y="20" width="110" height="120" rx="6" fill="#f5faf5" stroke="#c8e0c8" stroke-width="1.5"/>
+      <rect x="270" y="20" width="110" height="120" rx="6" fill="#f5faf5" stroke="#c8e0c8" stroke-width="1.5"/>
+      <rect x="400" y="20" width="110" height="120" rx="6" fill="#e8f5e8" stroke="#4a9a5a" stroke-width="2"/>
+      <rect x="530" y="20" width="110" height="120" rx="6" fill="#f5faf5" stroke="#c8e0c8" stroke-width="1.5"/>
+      <rect x="660" y="20" width="110" height="120" rx="6" fill="#f0f5f0" stroke="#2E7D32" stroke-width="2"/>
+      <rect x="790" y="20" width="60" height="120" rx="6" fill="#e8f5e8" stroke="#4a9a5a" stroke-width="2"/>
+
+      <!-- 矢印 -->
+      <path d="M120 80 L140 80" stroke="#aaa" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+      <path d="M250 80 L270 80" stroke="#aaa" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+      <path d="M380 80 L400 80" stroke="#aaa" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+      <path d="M510 80 L530 80" stroke="#aaa" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+      <path d="M640 80 L660 80" stroke="#aaa" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+      <path d="M770 80 L790 80" stroke="#aaa" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+      <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="#aaa"/></marker></defs>
+
+      <!-- ステップテキスト -->
+      <text x="65" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">①培地調製</text>
+      <text x="65" y="68" text-anchor="middle" font-size="9" fill="#555">おが粉70%</text>
+      <text x="65" y="80" text-anchor="middle" font-size="9" fill="#555">米ぬか20%</text>
+      <text x="65" y="92" text-anchor="middle" font-size="9" fill="#555">水10%</text>
+      <text x="65" y="108" text-anchor="middle" font-size="9" fill="#888">含水率55%</text>
+      <text x="65" y="120" text-anchor="middle" font-size="8" fill="#aaa">2〜3時間</text>
+
+      <text x="195" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">②滅菌</text>
+      <text x="195" y="68" text-anchor="middle" font-size="9" fill="#555">圧力鍋</text>
+      <text x="195" y="80" text-anchor="middle" font-size="9" fill="#555">121℃ × 2時間</text>
+      <text x="195" y="94" text-anchor="middle" font-size="9" fill="#555">×3回</text>
+      <text x="195" y="110" text-anchor="middle" font-size="9" fill="#888">雑菌ゼロに</text>
+      <text x="195" y="122" text-anchor="middle" font-size="8" fill="#aaa">1日</text>
+
+      <text x="325" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">③型充填</text>
+      <text x="325" y="68" text-anchor="middle" font-size="9" fill="#555">35℃以下に</text>
+      <text x="325" y="80" text-anchor="middle" font-size="9" fill="#555">冷却後、型へ</text>
+      <text x="325" y="94" text-anchor="middle" font-size="9" fill="#555">押し固める</text>
+      <text x="325" y="108" text-anchor="middle" font-size="9" fill="#555">600×600mm</text>
+      <text x="325" y="122" text-anchor="middle" font-size="8" fill="#aaa">2〜3時間</text>
+
+      <text x="455" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">④種菌植付</text>
+      <text x="455" y="63" text-anchor="middle" font-size="9" fill="#555">ヒラタケ種菌</text>
+      <text x="455" y="75" text-anchor="middle" font-size="9" fill="#555">表面に均等配置</text>
+      <text x="455" y="87" text-anchor="middle" font-size="9" fill="#555">蓋で密閉</text>
+      <text x="455" y="103" text-anchor="middle" font-size="8" fill="#2E7D32;font-weight:700">⭐ 無菌操作重要</text>
+      <text x="455" y="117" text-anchor="middle" font-size="9" fill="#888">軍手+マスク</text>
+      <text x="455" y="130" text-anchor="middle" font-size="8" fill="#aaa">1〜2時間</text>
+
+      <text x="585" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">⑤培養</text>
+      <text x="585" y="63" text-anchor="middle" font-size="9" fill="#555">20〜25℃</text>
+      <text x="585" y="75" text-anchor="middle" font-size="9" fill="#555">湿度85%</text>
+      <text x="585" y="87" text-anchor="middle" font-size="9" fill="#555">暗所・換気</text>
+      <text x="585" y="103" text-anchor="middle" font-size="9" fill="#2E7D32;font-weight:700">白い菌糸が</text>
+      <text x="585" y="115" text-anchor="middle" font-size="9" fill="#2E7D32;font-weight:700">全面を覆う</text>
+      <text x="585" y="130" text-anchor="middle" font-size="8" fill="#aaa">14〜21日 ⭐律速</text>
+
+      <text x="715" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="#1B5E20">⑥熱処理</text>
+      <text x="715" y="63" text-anchor="middle" font-size="9" fill="#555">オーブン65℃</text>
+      <text x="715" y="75" text-anchor="middle" font-size="9" fill="#555">1〜2時間</text>
+      <text x="715" y="89" text-anchor="middle" font-size="9" fill="#555">菌の成長停止</text>
+      <text x="715" y="103" text-anchor="middle" font-size="9" fill="#555">その後乾燥</text>
+      <text x="715" y="115" text-anchor="middle" font-size="9" fill="#555">3〜5日</text>
+      <text x="715" y="130" text-anchor="middle" font-size="8" fill="#aaa">5〜7日</text>
+
+      <text x="820" y="60" text-anchor="middle" font-size="10" font-weight="700" fill="#1B5E20">完成</text>
+      <text x="820" y="76" text-anchor="middle" font-size="9" fill="#2E7D32">λ≈0.04</text>
+      <text x="820" y="90" text-anchor="middle" font-size="8" fill="#888">¥500/枚</text>
+    </svg>
+  </div>
+
+  <!-- 配合仕様 -->
+  <h3 style="font-size:12px;letter-spacing:.15em;color:var(--muted);margin-bottom:12px">培地配合仕様（600×600×100mmパネル 1枚分）</h3>
+  <table style="margin-bottom:32px">
+    <thead><tr><th>材料</th><th>配合比</th><th>重量</th><th>調達先</th><th>コスト</th></tr></thead>
+    <tbody>
+      <tr><td>スギ・カラマツおが粉</td><td>65%</td><td>6.5kg</td><td>近隣製材所（廃棄物）</td><td><strong>¥0</strong></td></tr>
+      <tr><td>米ぬか（or 大麦粉）</td><td>20%</td><td>2.0kg</td><td>精米所・農協</td><td>¥50</td></tr>
+      <tr><td>石灰（pH調整用）</td><td>2%</td><td>0.2kg</td><td>ホームセンター</td><td>¥10</td></tr>
+      <tr><td>水</td><td>13%</td><td>1.3kg</td><td>水道</td><td>¥0</td></tr>
+      <tr><td>ヒラタケ種菌</td><td>—</td><td>100g</td><td>森産業・農業資材店</td><td>¥400</td></tr>
+      <tr style="background:#f5faf5;font-weight:700"><td>合計</td><td>100%</td><td>10.1kg/枚</td><td>—</td><td>¥460/枚</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 成功の見極め方 -->
+  <h3 style="font-size:12px;letter-spacing:.15em;color:var(--muted);margin-bottom:12px">成功・失敗の見極め</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div style="background:#f5faf5;border:1px solid #c8e0c8;border-radius:8px;padding:20px">
+      <div style="color:var(--dark-green);font-weight:700;margin-bottom:12px;font-size:12px">✅ 成功サイン</div>
+      <ul style="list-style:none;font-size:11px;color:#444;line-height:2">
+        <li>• 3〜5日後: 表面に白い毛状の菌糸が現れる</li>
+        <li>• 7〜10日後: 培地全体が白く覆われる</li>
+        <li>• 14日後: 型を外すとブロック状に固まっている</li>
+        <li>• 表面を触るとふわっとした質感</li>
+        <li>• 匂い: きのこの香り（きつくない）</li>
+      </ul>
+    </div>
+    <div style="background:#fdf8f8;border:1px solid #e8c8c8;border-radius:8px;padding:20px">
+      <div style="color:#c0392b;font-weight:700;margin-bottom:12px;font-size:12px">❌ 失敗サイン → 対処</div>
+      <ul style="list-style:none;font-size:11px;color:#444;line-height:2">
+        <li>• <span style="color:#c0392b">緑・黒・オレンジ色</span>: 雑菌汚染 → 廃棄、滅菌強化</li>
+        <li>• 7日後も白くならない: 種菌不活性 → 新しい種菌</li>
+        <li>• ドロドロに溶ける: 過湿 → 含水率55%に</li>
+        <li>• 異臭がする: 嫌気発酵 → 換気穴を開ける</li>
+        <li>• 固まらない: 密度不足 → 強く押し固める</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn-box" style="margin-top:24px">
+    <strong>最重要: 無菌操作</strong><br>
+    種菌植え付け時だけは徹底する。アルコール消毒した容器、使い捨て手袋、マスク着用。培地が熱いうちは絶対に開けない（35℃以下になるまで待つ）。ここさえ守れば成功率90%以上。
+  </div>
+
+  <!-- プロセス写真ストリップ -->
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:3px;background:#e8e4dc;border-radius:4px;overflow:hidden;margin-top:32px">
+    <div style="position:relative;height:160px;background:#1a1a16;overflow:hidden">
+      <img src="../img/myco_lab_substrate.jpg" alt="培地調製" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
+      <div style="position:absolute;bottom:6px;left:8px;font-size:8px;letter-spacing:.1em;color:#7cb87a;font-weight:700;text-shadow:0 1px 4px #000">① 培地調製</div>
+    </div>
+    <div style="position:relative;height:160px;background:#1a1a16;overflow:hidden">
+      <img src="../img/myco_lab_sterilize.jpg" alt="滅菌" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
+      <div style="position:absolute;bottom:6px;left:8px;font-size:8px;letter-spacing:.1em;color:#7cb87a;font-weight:700;text-shadow:0 1px 4px #000">② 滅菌 121℃×2h</div>
+    </div>
+    <div style="position:relative;height:160px;background:#1a1a16;overflow:hidden">
+      <img src="../img/myco_lab_inoculate.jpg" alt="種菌植付" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
+      <div style="position:absolute;bottom:6px;left:8px;font-size:8px;letter-spacing:.1em;color:#7cb87a;font-weight:700;text-shadow:0 1px 4px #000">③ 種菌植付（無菌）</div>
+    </div>
+    <div style="position:relative;height:160px;background:#1a1a16;overflow:hidden">
+      <img src="../img/myco_lab_cultivate.jpg" alt="培養" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
+      <div style="position:absolute;bottom:6px;left:8px;font-size:8px;letter-spacing:.1em;color:#7cb87a;font-weight:700;text-shadow:0 1px 4px #000">④⑤ 培養 14〜21日</div>
+    </div>
+    <div style="position:relative;height:160px;background:#1a1a16;overflow:hidden">
+      <img src="../img/myco_lab_panel_done.jpg" alt="完成パネル" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
+      <div style="position:absolute;bottom:6px;left:8px;font-size:8px;letter-spacing:.1em;color:#7cb87a;font-weight:700;text-shadow:0 1px 4px #000">⑥ 完成 λ≈0.04</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ スケジュール ══ -->
+<div class="section" id="schedule">
+  <div class="sec-label">SECTION 03</div>
+  <h2 class="sh">最短スケジュール — 2026年5月〜8月</h2>
+  <p style="color:var(--muted);margin-bottom:24px">菌糸体培養が律速（14〜21日）。5月第1週に種菌を仕込まないと間に合わない。</p>
+
+  <div class="diagram-wrap" style="margin-bottom:32px">
+    <div class="diagram-title">工程表（週次）</div>
+    <svg viewBox="0 0 860 460" style="width:100%;display:block;font-family:inherit">
+      <!-- ヘッダー -->
+      <rect x="0" y="0" width="860" height="36" fill="#1a2a1a"/>
+      <text x="10" y="22" font-size="10" font-weight="700" fill="#7cb87a">工程</text>
+
+      <!-- 週ヘッダー (W1〜W17) -->
+      <text x="180" y="22" text-anchor="middle" font-size="9" fill="#4a7a4a">5/1</text>
+      <text x="220" y="22" text-anchor="middle" font-size="9" fill="#4a7a4a">5/8</text>
+      <text x="260" y="22" text-anchor="middle" font-size="9" fill="#4a7a4a">5/15</text>
+      <text x="300" y="22" text-anchor="middle" font-size="9" fill="#4a7a4a">5/22</text>
+      <text x="340" y="22" text-anchor="middle" font-size="9" fill="#4a7a4a">5/29</text>
+      <text x="380" y="22" text-anchor="middle" font-size="9" fill="#4a7a4a">6/5</text>
+      <text x="420" y="22" text-anchor="middle" font-size="9" fill="#4a7a4a">6/12</text>
+      <text x="460" y="22" text-anchor="middle" font-size="9" fill="#4a7a4a">6/19</text>
+      <text x="500" y="22" text-anchor="middle" font-size="9" fill="#4a7a4a">6/26</text>
+      <text x="540" y="22" text-anchor="middle" font-size="9" fill="#4a7a4a">7/3</text>
+      <text x="580" y="22" text-anchor="middle" font-size="9" fill="#4a7a4a">7/10</text>
+      <text x="620" y="22" text-anchor="middle" font-size="9" fill="#4a7a4a">7/17</text>
+      <text x="660" y="22" text-anchor="middle" font-size="9" fill="#4a7a4a">7/24</text>
+      <text x="700" y="22" text-anchor="middle" font-size="9" fill="#4a7a4a">7/31</text>
+      <text x="740" y="22" text-anchor="middle" font-size="9" fill="#c8a455">8/7</text>
+      <text x="780" y="22" text-anchor="middle" font-size="9" fill="#c8a455">8/14</text>
+      <text x="820" y="22" text-anchor="middle" font-size="9" fill="#c8a455">8/21</text>
+      <!-- 月区切り -->
+      <line x1="360" y1="0" x2="360" y2="460" stroke="#2a3a2a" stroke-width="1"/>
+      <line x1="520" y1="0" x2="520" y2="460" stroke="#2a3a2a" stroke-width="1"/>
+      <line x1="720" y1="0" x2="720" y2="460" stroke="#2a3a2a" stroke-width="1"/>
+      <text x="268" y="448" text-anchor="middle" font-size="9" fill="#4a7a4a">5月</text>
+      <text x="440" y="448" text-anchor="middle" font-size="9" fill="#4a7a4a">6月</text>
+      <text x="620" y="448" text-anchor="middle" font-size="9" fill="#4a7a4a">7月</text>
+      <text x="772" y="448" text-anchor="middle" font-size="9" fill="#c8a455">8月</text>
+
+      <!-- 行 -->
+      <g>
+        <!-- 行1: 種菌・材料調達 -->
+        <rect x="0" y="36" width="860" height="32" fill="#f5faf5"/>
+        <text x="8" y="56" font-size="10" fill="#333">種菌・おが粉・型枠調達</text>
+        <rect x="162" y="42" width="78" height="20" rx="3" fill="#4a9a5a" opacity=".9"/>
+        <text x="201" y="56" text-anchor="middle" font-size="9" fill="white">発注→入荷</text>
+
+        <!-- 行2: 型枠製作 -->
+        <rect x="0" y="68" width="860" height="32" fill="white"/>
+        <text x="8" y="88" font-size="10" fill="#333">型枠製作（10個）</text>
+        <rect x="202" y="74" width="38" height="20" rx="3" fill="#2E7D32" opacity=".8"/>
+        <text x="221" y="88" text-anchor="middle" font-size="9" fill="white">製作</text>
+
+        <!-- 行3: 第1バッチ培養 (10パネル) -->
+        <rect x="0" y="100" width="860" height="32" fill="#f5faf5"/>
+        <text x="8" y="120" font-size="10" fill="#333">第1バッチ培養（試作10枚）</text>
+        <rect x="202" y="106" width="160" height="20" rx="3" fill="#7cb87a" opacity=".9"/>
+        <text x="282" y="120" text-anchor="middle" font-size="9" fill="white">培養中（14〜21日）</text>
+
+        <!-- 行4: 強度・断熱テスト -->
+        <rect x="0" y="132" width="860" height="32" fill="white"/>
+        <text x="8" y="152" font-size="10" fill="#333">第1バッチ 熱処理・テスト</text>
+        <rect x="362" y="138" width="78" height="20" rx="3" fill="#c8a455" opacity=".9"/>
+        <text x="401" y="152" text-anchor="middle" font-size="9" fill="white">評価</text>
+
+        <!-- 行5: 第2バッチ (22パネル) -->
+        <rect x="0" y="164" width="860" height="32" fill="#f5faf5"/>
+        <text x="8" y="184" font-size="10" fill="#333">第2バッチ培養（本番22枚）</text>
+        <rect x="362" y="170" width="160" height="20" rx="3" fill="#4a9a5a" opacity=".9"/>
+        <text x="442" y="184" text-anchor="middle" font-size="9" fill="white">培養中（14〜21日）</text>
+
+        <!-- 行6: 第2バッチ 熱処理 -->
+        <rect x="0" y="196" width="860" height="32" fill="white"/>
+        <text x="8" y="216" font-size="10" fill="#333">第2バッチ 熱処理・乾燥</text>
+        <rect x="522" y="202" width="58" height="20" rx="3" fill="#c8a455" opacity=".8"/>
+        <text x="551" y="216" text-anchor="middle" font-size="9" fill="white">乾燥</text>
+
+        <!-- 行7: スクリューパイル手配 -->
+        <rect x="0" y="228" width="860" height="32" fill="#f5faf5"/>
+        <text x="8" y="248" font-size="10" fill="#333">スクリューパイル発注・搬入</text>
+        <rect x="282" y="234" width="118" height="20" rx="3" fill="#5b8fd4" opacity=".8"/>
+        <text x="341" y="248" text-anchor="middle" font-size="9" fill="white">発注→搬入</text>
+
+        <!-- 行8: 廃材フレーム調達 -->
+        <rect x="0" y="260" width="860" height="32" fill="white"/>
+        <text x="8" y="280" font-size="10" fill="#333">廃材2×4フレーム調達・加工</text>
+        <rect x="442" y="266" width="78" height="20" rx="3" fill="#888" opacity=".7"/>
+        <text x="481" y="280" text-anchor="middle" font-size="9" fill="white">加工</text>
+
+        <!-- 行9: 基礎工事 -->
+        <rect x="0" y="292" width="860" height="32" fill="#f5faf5"/>
+        <text x="8" y="312" font-size="10" fill="#333">スクリューパイル打設（1日）</text>
+        <rect x="562" y="298" width="38" height="20" rx="3" fill="#2E7D32" opacity=".9"/>
+        <text x="581" y="312" text-anchor="middle" font-size="9" fill="white">1日</text>
+
+        <!-- 行10: フレーム組み立て -->
+        <rect x="0" y="324" width="860" height="32" fill="white"/>
+        <text x="8" y="344" font-size="10" fill="#333">2×4フレーム組み立て</text>
+        <rect x="602" y="330" width="58" height="20" rx="3" fill="#2E7D32" opacity=".8"/>
+        <text x="631" y="344" text-anchor="middle" font-size="9" fill="white">2日</text>
+
+        <!-- 行11: パネル取付・ポリカ -->
+        <rect x="0" y="356" width="860" height="32" fill="#f5faf5"/>
+        <text x="8" y="376" font-size="10" fill="#333">パネル取付・ポリカ外皮張り</text>
+        <rect x="642" y="362" width="78" height="20" rx="3" fill="#4a9a5a" opacity=".9"/>
+        <text x="681" y="376" text-anchor="middle" font-size="9" fill="white">パネル取付</text>
+
+        <!-- 行12: 完成・撮影 -->
+        <rect x="0" y="388" width="860" height="44" fill="white"/>
+        <text x="8" y="412" font-size="10" fill="#333">完成 / 性能測定 / 撮影</text>
+        <rect x="722" y="394" width="118" height="24" rx="3" fill="#c8a455" opacity=".9"/>
+        <text x="781" y="410" text-anchor="middle" font-size="10" font-weight="700" fill="white">🌿 完成</text>
+      </g>
+
+      <!-- 今日ライン -->
+      <line x1="162" y1="36" x2="162" y2="438" stroke="#c0392b" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="162" y="432" text-anchor="middle" font-size="8" fill="#c0392b">今日</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ══ 実験棟設計 ══ -->
+<div class="section" id="design">
+  <div class="sec-label">SECTION 04</div>
+  <h2 class="sh">実験棟設計 — 7.2m²（建築確認不要）</h2>
+  <p style="color:var(--muted);margin-bottom:32px">2,400×3,000mm。建築基準法第6条：10m²以下は確認申請不要（防火地域外）。美留和ビレッジは原野 = 適用外。</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px">
+    <!-- 平面図 -->
+    <div class="diagram-wrap">
+      <div class="diagram-title">平面図 — 1:50（2,400×3,000mm）</div>
+      <svg viewBox="0 0 360 300" style="width:100%;display:block;font-family:inherit">
+        <!-- グリッド 600mm = 12px -->
+        <defs>
+          <pattern id="g600" width="12" height="12" patternUnits="userSpaceOnUse">
+            <path d="M12 0 L0 0 0 12" fill="none" stroke="#e0ece0" stroke-width=".5"/>
+          </pattern>
+        </defs>
+        <rect x="40" y="30" width="200" height="160" fill="url(#g600)"/>
+
+        <!-- 建物外形 (2400×3000mm = 48px × 60px at 1:50 → 48×60 but let's scale: 200×160 means 12000mm × 9600mm, no...) -->
+        <!-- Let me recalculate: viewBox 360×300, building 2400×3000mm
+             Scale: let's make 2400mm = 160px, 3000mm = 200px
+             So 15mm = 1px (approx)
+             x: 40~240 (200px = 3000mm), y: 30~190 (160px = 2400mm) -->
+        <rect x="40" y="30" width="200" height="160" fill="#f5faf5" stroke="#2E7D32" stroke-width="2.5"/>
+
+        <!-- 壁（パネル） hatch pattern on walls -->
+        <!-- 南壁 (外) -->
+        <rect x="40" y="180" width="200" height="10" fill="#c8e0c8" stroke="#4a9a5a" stroke-width="1"/>
+        <!-- 北壁 -->
+        <rect x="40" y="30" width="200" height="10" fill="#c8e0c8" stroke="#4a9a5a" stroke-width="1"/>
+        <!-- 東壁 -->
+        <rect x="230" y="30" width="10" height="160" fill="#c8e0c8" stroke="#4a9a5a" stroke-width="1"/>
+        <!-- 西壁 -->
+        <rect x="40" y="30" width="10" height="160" fill="#c8e0c8" stroke="#4a9a5a" stroke-width="1"/>
+
+        <!-- 南壁の扉開口 (900mm = 60px) -->
+        <rect x="110" y="182" width="60" height="8" fill="#f5faf5"/>
+        <!-- 扉弧 -->
+        <path d="M110 182 Q140 162 170 182" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="140" y1="182" x2="140" y2="166" stroke="#888" stroke-width="1.5"/>
+
+        <!-- 600mmグリッドライン（パネル割り） -->
+        <line x1="80" y1="40" x2="80" y2="180" stroke="#b0d0b0" stroke-width=".8" stroke-dasharray="3,3"/>
+        <line x1="120" y1="40" x2="120" y2="180" stroke="#b0d0b0" stroke-width=".8" stroke-dasharray="3,3"/>
+        <line x1="160" y1="40" x2="160" y2="180" stroke="#b0d0b0" stroke-width=".8" stroke-dasharray="3,3"/>
+        <line x1="200" y1="40" x2="200" y2="180" stroke="#b0d0b0" stroke-width=".8" stroke-dasharray="3,3"/>
+
+        <!-- 南窓 600mm × 2 -->
+        <rect x="58" y="173" width="40" height="7" fill="#d0e8ff" stroke="#5b8fd4" stroke-width="1"/>
+        <rect x="182" y="173" width="40" height="7" fill="#d0e8ff" stroke="#5b8fd4" stroke-width="1"/>
+
+        <!-- 内部: 観察台・棚 -->
+        <rect x="52" y="42" width="188" height="20" fill="#e8f5e8" rx="2"/>
+        <text x="146" y="56" text-anchor="middle" font-size="8" fill="#4a9a5a">パネル観察棚（既製品アイアンラック）</text>
+
+        <!-- スクリューパイル位置 (4コーナー) -->
+        <circle cx="40" cy="30" r="6" fill="#2E7D32" stroke="#1B5E20" stroke-width="1.5"/>
+        <circle cx="240" cy="30" r="6" fill="#2E7D32" stroke="#1B5E20" stroke-width="1.5"/>
+        <circle cx="40" cy="190" r="6" fill="#2E7D32" stroke="#1B5E20" stroke-width="1.5"/>
+        <circle cx="240" cy="190" r="6" fill="#2E7D32" stroke="#1B5E20" stroke-width="1.5"/>
+
+        <!-- 寸法 -->
+        <line x1="40" y1="20" x2="240" y2="20" stroke="#666" stroke-width=".8"/>
+        <line x1="40" y1="16" x2="40" y2="24" stroke="#666" stroke-width=".8"/>
+        <line x1="240" y1="16" x2="240" y2="24" stroke="#666" stroke-width=".8"/>
+        <text x="140" y="15" text-anchor="middle" font-size="8" fill="#666">3,000mm (5パネル)</text>
+
+        <line x1="252" y1="30" x2="252" y2="190" stroke="#666" stroke-width=".8"/>
+        <line x1="248" y1="30" x2="256" y2="30" stroke="#666" stroke-width=".8"/>
+        <line x1="248" y1="190" x2="256" y2="190" stroke="#666" stroke-width=".8"/>
+        <text x="272" y="115" text-anchor="middle" font-size="8" fill="#666" transform="rotate(90,272,115)">2,400mm (4パネル)</text>
+
+        <!-- パネル数注記 -->
+        <text x="50" y="220" font-size="8" fill="#2E7D32">● スクリューパイル(4本)</text>
+        <text x="50" y="234" font-size="8" fill="#5b8fd4">□ 窓（ポリカ）</text>
+        <text x="50" y="248" font-size="8" fill="#b0d0b0">--- 600mmパネル割り</text>
+
+        <text x="140" y="265" text-anchor="middle" font-size="9" font-weight="700" fill="#2E7D32">7.2m² — 建築確認不要</text>
+
+        <!-- 北矢印 -->
+        <text x="300" y="60" text-anchor="middle" font-size="9" fill="#aaa">↑N</text>
+      </svg>
+    </div>
+
+    <!-- 断面図 -->
+    <div class="diagram-wrap">
+      <div class="diagram-title">断面図 A-A（E-W方向）— 1:50</div>
+      <svg viewBox="0 0 360 300" style="width:100%;display:block;font-family:inherit">
+        <!-- GL -->
+        <line x1="10" y1="200" x2="350" y2="200" stroke="#888" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="12" y="196" font-size="8" fill="#888">GL</text>
+
+        <!-- 地面 -->
+        <rect x="10" y="200" width="340" height="30" fill="#e8e4d8" opacity=".5"/>
+
+        <!-- スクリューパイル (2本断面) -->
+        <rect x="68" y="96" width="14" height="120" fill="#388E3C" stroke="#1B5E20" stroke-width="1"/>
+        <rect x="278" y="96" width="14" height="120" fill="#388E3C" stroke="#1B5E20" stroke-width="1"/>
+        <!-- ベースプレート -->
+        <rect x="55" y="92" width="40" height="6" fill="#555" rx="1"/>
+        <rect x="265" y="92" width="40" height="6" fill="#555" rx="1"/>
+
+        <!-- 床 -->
+        <rect x="55" y="82" width="250" height="14" fill="#d2b48c" stroke="#a0856a" stroke-width="1"/>
+        <text x="180" y="92" text-anchor="middle" font-size="8" fill="#7a6050">防腐材土台 105mm + 床合板</text>
+
+        <!-- 西壁：菌糸体パネル + ポリカ外皮 -->
+        <!-- ポリカ外皮 -->
+        <rect x="46" y="20" width="9" height="62" fill="#d0e8ff" stroke="#5b8fd4" stroke-width="1" opacity=".8"/>
+        <!-- 菌糸体パネル -->
+        <rect x="55" y="20" width="24" height="62" fill="#c8e0c8" stroke="#4a9a5a" stroke-width="1.5"/>
+        <!-- 菌糸テクスチャ -->
+        <line x1="60" y1="24" x2="74" y2="78" stroke="#8ab88a" stroke-width=".5" opacity=".6"/>
+        <line x1="65" y1="24" x2="55" y2="78" stroke="#8ab88a" stroke-width=".5" opacity=".6"/>
+        <line x1="73" y1="24" x2="67" y2="78" stroke="#8ab88a" stroke-width=".5" opacity=".6"/>
+
+        <!-- 東壁 -->
+        <rect x="305" y="20" width="9" height="62" fill="#d0e8ff" stroke="#5b8fd4" stroke-width="1" opacity=".8"/>
+        <rect x="281" y="20" width="24" height="62" fill="#c8e0c8" stroke="#4a9a5a" stroke-width="1.5"/>
+        <line x1="286" y1="24" x2="300" y2="78" stroke="#8ab88a" stroke-width=".5" opacity=".6"/>
+
+        <!-- 屋根（フラット、片流れ） -->
+        <polygon points="40,18 320,12 320,22 40,28" fill="#888" stroke="#666" stroke-width="1"/>
+        <text x="180" y="8" text-anchor="middle" font-size="8" fill="#888">ポリカ屋根（南↓傾斜）</text>
+
+        <!-- 内部空間 -->
+        <rect x="79" y="28" width="202" height="54" fill="#f5faf5" opacity=".5"/>
+        <text x="180" y="58" text-anchor="middle" font-size="9" fill="#4a9a5a">内部 2,400mm</text>
+
+        <!-- 高さ寸法 -->
+        <line x1="22" y1="28" x2="22" y2="82" stroke="#666" stroke-width=".8"/>
+        <line x1="18" y1="28" x2="26" y2="28" stroke="#666" stroke-width=".8"/>
+        <line x1="18" y1="82" x2="26" y2="82" stroke="#666" stroke-width=".8"/>
+        <text x="14" y="58" text-anchor="middle" font-size="8" fill="#666" transform="rotate(-90,14,58)">2,400mm</text>
+
+        <!-- 凍結深度 -->
+        <line x1="10" y1="236" x2="350" y2="236" stroke="#5b8fd4" stroke-width=".8" stroke-dasharray="4,3"/>
+        <text x="12" y="244" font-size="7" fill="#5b8fd4">凍結深度 -1,200mm</text>
+        <!-- 杭先端 -->
+        <line x1="10" y1="286" x2="350" y2="286" stroke="#388E3C" stroke-width=".8" stroke-dasharray="3,3"/>
+        <text x="12" y="284" font-size="7" fill="#388E3C">杭先端 -2,200mm</text>
+
+        <!-- 凡例 -->
+        <rect x="200" y="225" width="140" height="60" rx="3" fill="white" stroke="#e8e8e8" stroke-width="1"/>
+        <rect x="208" y="234" width="12" height="8" fill="#c8e0c8" stroke="#4a9a5a" stroke-width="1"/>
+        <text x="226" y="241" font-size="8" fill="#333">菌糸体パネル 100mm</text>
+        <rect x="208" y="248" width="12" height="8" fill="#d0e8ff" stroke="#5b8fd4" stroke-width="1"/>
+        <text x="226" y="255" font-size="8" fill="#333">ポリカ外皮 8mm</text>
+        <circle cx="214" cy="270" r="5" fill="#388E3C"/>
+        <text x="226" y="273" font-size="8" fill="#333">スクリューパイル</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 実験棟レンダー -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#e8e4dc;border-radius:4px;overflow:hidden;margin:24px 0">
+    <div style="height:220px;overflow:hidden;background:#1a1a16">
+      <img src="../img/myco_lab_experiment_hut.jpg" alt="実験棟外観" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
+    </div>
+    <div style="height:220px;overflow:hidden;background:#1a1a16">
+      <img src="../img/myco_lab_panel_done.jpg" alt="完成パネル" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
+    </div>
+  </div>
+
+  <!-- 部材リスト -->
+  <h3 style="font-size:12px;letter-spacing:.15em;color:var(--muted);margin-bottom:12px">部材リスト</h3>
+  <table>
+    <thead><tr><th>部材</th><th>仕様</th><th>数量</th><th>調達</th><th>単価</th><th>合計</th></tr></thead>
+    <tbody>
+      <tr><td>菌糸体パネル（自家製造）</td><td>600×600×100mm</td><td>32枚</td><td>自製</td><td>¥460</td><td>¥14,720</td></tr>
+      <tr><td>ツインウォールポリカ</td><td>10mm厚 3×6尺</td><td>6枚</td><td>ホームセンター</td><td>¥4,500</td><td>¥27,000</td></tr>
+      <tr><td>ポリカ屋根材</td><td>6mm厚 3×6尺</td><td>4枚</td><td>ホームセンター</td><td>¥3,200</td><td>¥12,800</td></tr>
+      <tr><td>スクリューパイル φ114 L=2200</td><td>4本（コーナーのみ）</td><td>4本</td><td>タカミヤ等</td><td>¥25,000</td><td>¥100,000</td></tr>
+      <tr><td>圧入工賃（半日）</td><td>ユニック+オペ</td><td>1式</td><td>地元業者</td><td>¥50,000</td><td>¥50,000</td></tr>
+      <tr><td>2×4廃材フレーム</td><td>38×89mm</td><td>30m</td><td>解体現場・製材所</td><td>¥0〜200</td><td>¥6,000</td></tr>
+      <tr><td>防腐土台材</td><td>105×105mm</td><td>8m</td><td>建材店</td><td>¥1,200</td><td>¥9,600</td></tr>
+      <tr><td>床合板</td><td>12mm 3×6尺</td><td>4枚</td><td>ホームセンター</td><td>¥2,800</td><td>¥11,200</td></tr>
+      <tr><td>アルミHジョイント（ポリカ用）</td><td>2m</td><td>10本</td><td>ホームセンター</td><td>¥1,200</td><td>¥12,000</td></tr>
+      <tr><td>種菌（ヒラタケ）</td><td>100g/袋</td><td>40袋</td><td>農業資材店</td><td>¥400</td><td>¥16,000</td></tr>
+      <tr><td>おが粉（廃棄物）</td><td>スギ・カラマツ</td><td>320kg</td><td>製材所（無料）</td><td>¥0</td><td>¥0</td></tr>
+      <tr><td>米ぬか</td><td>—</td><td>65kg</td><td>精米所・農協</td><td>¥20</td><td>¥1,300</td></tr>
+      <tr><td>型枠用合板 12mm</td><td>900×1800mm</td><td>5枚</td><td>ホームセンター</td><td>¥2,200</td><td>¥11,000</td></tr>
+      <tr><td>圧力鍋（滅菌用）</td><td>20L以上</td><td>2台</td><td>Amazon・中古</td><td>¥8,000</td><td>¥16,000</td></tr>
+      <tr><td>雑材・消耗品</td><td>—</td><td>—</td><td>—</td><td>—</td><td>¥30,000</td></tr>
+      <tr style="background:#f5faf5;font-weight:700"><td>合計</td><td>—</td><td>—</td><td>—</td><td>—</td><td>¥317,620</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══ コスト ══ -->
+<div class="section" id="cost">
+  <div class="sec-label">SECTION 05</div>
+  <h2 class="sh">コスト内訳</h2>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px">
+    <div style="background:white;border:2px solid var(--dark-green);border-radius:8px;padding:20px;text-align:center">
+      <div style="font-size:10px;letter-spacing:.1em;color:var(--muted);margin-bottom:6px">材料費（菌糸体）</div>
+      <div style="font-size:28px;font-weight:900;color:var(--dark-green)">¥5万</div>
+      <div style="font-size:9px;color:var(--muted)">おが粉¥0 + 種菌¥1.6万 + 米ぬか等</div>
+    </div>
+    <div style="background:white;border:1px solid var(--line);border-radius:8px;padding:20px;text-align:center">
+      <div style="font-size:10px;letter-spacing:.1em;color:var(--muted);margin-bottom:6px">基礎（スクリューパイル）</div>
+      <div style="font-size:28px;font-weight:900;color:var(--blue)">¥15万</div>
+      <div style="font-size:9px;color:var(--muted)">4本 + 圧入工賃（半日）</div>
+    </div>
+    <div style="background:white;border:1px solid var(--line);border-radius:8px;padding:20px;text-align:center">
+      <div style="font-size:10px;letter-spacing:.1em;color:var(--muted);margin-bottom:6px">外皮・屋根</div>
+      <div style="font-size:28px;font-weight:900;color:var(--muted)">¥8万</div>
+      <div style="font-size:9px;color:var(--muted)">ポリカ壁+屋根+ジョイント</div>
+    </div>
+    <div style="background:white;border:1px solid var(--line);border-radius:8px;padding:20px;text-align:center">
+      <div style="font-size:10px;letter-spacing:.1em;color:var(--muted);margin-bottom:6px">工具・設備</div>
+      <div style="font-size:28px;font-weight:900;color:var(--muted)">¥5万</div>
+      <div style="font-size:9px;color:var(--muted)">圧力鍋×2、型枠、雑材</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:32px;background:#f5faf5;border-radius:12px;border:2px solid var(--dark-green)">
+    <div style="font-size:11px;letter-spacing:.2em;color:var(--muted);margin-bottom:8px">実験棟 総コスト</div>
+    <div style="font-size:48px;font-weight:900;color:var(--dark-green)">¥41万</div>
+    <div style="color:var(--muted);font-size:11px;margin-top:8px">同規模 在来工法 ¥350〜500万 比 <strong style="color:var(--dark-green)">▼92%</strong></div>
+    <div style="color:var(--muted);font-size:10px;margin-top:4px">※ 圧力鍋・型枠は量産フェーズで転用。実質的な使い捨てコストは¥33万</div>
+  </div>
+</div>
+
+<!-- ══ 評価指標 ══ -->
+<div class="section" id="metrics">
+  <div class="sec-label">SECTION 06</div>
+  <h2 class="sh">評価指標 — 実験棟で測ること</h2>
+  <p style="color:var(--muted);margin-bottom:24px">この実験棟はプロダクトでなく、データ収集装置。この結果で本設計書（house.html）の数値を実証する。</p>
+
+  <table style="margin-bottom:32px">
+    <thead><tr><th>測定項目</th><th>目標値</th><th>測定方法</th><th>判定時期</th></tr></thead>
+    <tbody>
+      <tr><td>熱伝導率 λ</td><td>≤0.05 W/mK</td><td>熱流計法（簡易型 Testo 435）</td><td>パネル完成後</td></tr>
+      <tr><td>圧縮強度</td><td>≥3 MPa</td><td>万能試験機（代理機関委託 or DIY）</td><td>パネル完成後</td></tr>
+      <tr><td>吸水率</td><td>≤5%（24h水没）</td><td>乾燥重量 vs 水没後重量</td><td>パネル完成後</td></tr>
+      <tr><td>気密性能 C値</td><td>≤1.0 cm²/m²</td><td>ブロワードア法（レンタル可）</td><td>棟上げ後</td></tr>
+      <tr><td>内外温度差</td><td>冬期Δ25℃以上保持</td><td>温湿度ロガー設置（10分間隔）</td><td>通年観測</td></tr>
+      <tr><td>耐久性（初年）</td><td>変形・腐朽なし</td><td>目視 + 含水率計</td><td>2027年春点検</td></tr>
+      <tr><td>製造再現性</td><td>成功率≥80%</td><td>バッチごとに記録</td><td>第2バッチ完了後</td></tr>
+    </tbody>
+  </table>
+
+  <div class="action-box">
+    <strong>この実験棟が成功したら次のステップ</strong><br><br>
+    1. 測定データを元に国土交通省「新技術情報提供システム（NETIS）」に登録申請<br>
+    2. 一般財団法人建材試験センターに正式な性能評価依頼（JIS認証ルート）<br>
+    3. 美留和ビレッジ Phase1（10棟）で量産 → コスト¥130万/棟を実証<br>
+    4. 「菌糸体建材」として日本初の建築確認取得事例へ
+  </div>
+</div>
+
+<!-- ══ 試験プロトコル ══ -->
+<div class="section" id="protocol">
+  <div class="sec-label">SECTION 07</div>
+  <h2 class="sh">科学的試験プロトコル — 懸念を潰す順序</h2>
+  <p style="color:var(--muted);margin-bottom:32px">懸念ごとに「何を・どう測るか・合否基準」を明確化。全試験を実験棟建設と並行して実施。外部委託は燃焼試験のみ。</p>
+
+  <!-- TEST 01 -->
+  <div style="border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:24px">
+    <div style="background:#1a2a1a;color:#7cb87a;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-size:18px;font-weight:900">TEST 01</span>
+      <span style="font-size:13px;font-weight:700">吸水率試験 — JIS K 7209準拠</span>
+      <span style="margin-left:auto;font-size:10px;background:#2a4a2a;padding:4px 10px;border-radius:4px">7月 / 自前 / ¥0</span>
+    </div>
+    <div style="padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <div style="font-size:10px;letter-spacing:.12em;color:var(--muted);margin-bottom:10px">目的と合否基準</div>
+        <p style="font-size:12px;line-height:1.8;margin-bottom:12px">疎水化処理3種（蜜蝋・水ガラス・無処理）の防水効果を定量比較する。</p>
+        <div style="background:#f5faf5;padding:12px;border-radius:6px;font-size:12px">
+          吸水率 <strong style="color:var(--dark-green)">&lt; 5%</strong>（24時間水没後）<br>
+          <span style="color:var(--muted);font-size:10px">参考: ウレタンフォーム 3〜4%</span>
+        </div>
+        <div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+          <div style="background:white;border:1px solid var(--line);border-radius:6px;padding:10px;font-size:10px;text-align:center">
+            <div style="color:var(--muted);margin-bottom:4px">A: 無処理（対照）</div>
+            <div style="color:#c0392b">予想 10〜20%</div>
+          </div>
+          <div style="background:white;border:2px solid var(--dark-green);border-radius:6px;padding:10px;font-size:10px;text-align:center">
+            <div style="color:var(--dark-green);font-weight:700;margin-bottom:4px">B: 蜜蝋⭐推奨</div>
+            <div>蜜蝋50g+亜麻仁油50ml</div>
+          </div>
+          <div style="background:white;border:1px solid var(--line);border-radius:6px;padding:10px;font-size:10px;text-align:center">
+            <div style="color:var(--muted);margin-bottom:4px">C: 水ガラス</div>
+            <div>3倍希釈、刷毛2回</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:.12em;color:var(--muted);margin-bottom:10px">手順</div>
+        <ol style="font-size:11px;line-height:2.1;padding-left:16px;color:#444">
+          <li>試験体: 100×100×25mm × 各処理3枚</li>
+          <li>105℃で24時間乾燥 → 乾燥重量 W₀ を記録</li>
+          <li>蒸留水に完全水没（重しで沈める）24時間</li>
+          <li>取り出し後、表面水を拭き取り重量 W₁ を記録</li>
+          <li>吸水率 = (W₁－W₀) / W₀ × 100 (%)</li>
+          <li>3枚平均と標準偏差を記録</li>
+        </ol>
+        <div style="background:#fdfaf0;padding:10px;border-radius:6px;font-size:11px;margin-top:10px;color:#7a6030">
+          💡 失敗した処理は配合変更して再試験（水ガラス濃度 5→10→20%）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEST 02 -->
+  <div style="border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:24px">
+    <div style="background:#1a2a1a;color:#7cb87a;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-size:18px;font-weight:900">TEST 02</span>
+      <span style="font-size:13px;font-weight:700">熱伝導率試験 — JIS A 1412準拠</span>
+      <span style="margin-left:auto;font-size:10px;background:#2a4a2a;padding:4px 10px;border-radius:4px">7月 / 自前orレンタル / ¥1万</span>
+    </div>
+    <div style="padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <div style="font-size:10px;letter-spacing:.12em;color:var(--muted);margin-bottom:10px">目的と合否基準</div>
+        <p style="font-size:12px;line-height:1.8;margin-bottom:12px">設計値「λ≈0.04 W/mK」が実際に達成されているか確認。HEAT20 G2の根拠数値を実証する。</p>
+        <div style="background:#f5faf5;padding:12px;border-radius:6px;font-size:12px">
+          λ <strong style="color:var(--dark-green)">&lt; 0.05 W/mK</strong><br>
+          <span style="color:var(--muted);font-size:10px">グラスウール16K: 0.045 / ウレタン: 0.024</span>
+        </div>
+        <div style="margin-top:16px;font-size:11px;color:#444;line-height:1.9">
+          <strong>必要機材</strong><br>
+          熱流計（Testo 435等） — レンタル¥5,000〜10,000/日<br>
+          温度ロガー × 2 — 購入¥2,000/個<br>
+          または<strong>北大農学部に依頼</strong>（JIS装置あり、論文データとして使える）
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:.12em;color:var(--muted);margin-bottom:10px">手順（熱流計法）</div>
+        <ol style="font-size:11px;line-height:2.1;padding-left:16px;color:#444">
+          <li>試験体: 300×300×100mm</li>
+          <li>一面を加熱板（50℃）、他面を冷却板（10℃）で挟む</li>
+          <li>定常状態（ΔT変化 &lt;0.1℃/h）まで待機 約3〜6h</li>
+          <li>熱流密度 q [W/m²] と温度差 ΔT を記録</li>
+          <li>λ = q × d / ΔT（d=厚さ 0.1m）</li>
+          <li>3回測定して平均値を採用</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEST 03 -->
+  <div style="border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:24px">
+    <div style="background:#1a2a1a;color:#7cb87a;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-size:18px;font-weight:900">TEST 03</span>
+      <span style="font-size:13px;font-weight:700">圧縮強度試験 — JIS A 5908準用</span>
+      <span style="margin-left:auto;font-size:10px;background:#2a4a2a;padding:4px 10px;border-radius:4px">毎バッチ / 自前DIY / ¥1万（初回のみ）</span>
+    </div>
+    <div style="padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <div style="font-size:10px;letter-spacing:.12em;color:var(--muted);margin-bottom:10px">目的と合否基準</div>
+        <p style="font-size:12px;line-height:1.8;margin-bottom:12px">バッチ間の強度ばらつきを定量化し、製造プロセスの安定性を証明する。</p>
+        <div style="background:#f5faf5;padding:12px;border-radius:6px;font-size:12px">
+          圧縮強度 <strong style="color:var(--dark-green)">&gt; 3 MPa</strong><br>
+          バッチ間CV <strong style="color:var(--dark-green)">&lt; 15%</strong><br>
+          <span style="color:var(--muted);font-size:10px">ヘンプクリート 0.2〜1.0 MPa / ALC 4〜6 MPa</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:.12em;color:var(--muted);margin-bottom:10px">DIY試験機の作り方</div>
+        <div style="font-size:11px;line-height:1.9;color:#444">
+          油圧ジャッキ（2t用 ¥3,000）+ ロードセル（¥4,000）+ 鋼板で自作。<br><br>
+          試験体: 50×50×50mm立方体（パネルから切り出し）<br>
+          荷重速度: 1 mm/min でゆっくり加圧<br>
+          破壊荷重 F [N] → 強度 = F / 2,500 [mm²]<br>
+          各バッチから5個採取→平均・SD・CVを記録
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEST 04 -->
+  <div style="border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:24px">
+    <div style="background:#1a2a4a;color:#8bb8d4;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-size:18px;font-weight:900">TEST 04</span>
+      <span style="font-size:13px;font-weight:700">凍結融解試験 — JIS A 1148準用（世界初データ）</span>
+      <span style="margin-left:auto;font-size:10px;background:#1a2a3a;padding:4px 10px;border-radius:4px">2026秋〜2027春 / 北大委託</span>
+    </div>
+    <div style="padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <div style="font-size:10px;letter-spacing:.12em;color:var(--muted);margin-bottom:10px">なぜ世界初か</div>
+        <p style="font-size:12px;line-height:1.8;margin-bottom:12px">菌糸体が−25℃凍結→融解を繰り返した時の劣化データは<strong>世界に存在しない</strong>。このデータを取ること自体が論文になる。</p>
+        <div style="background:#f0f5ff;padding:12px;border-radius:6px;font-size:12px">
+          50サイクル後の強度保持率 <strong style="color:var(--blue)">&gt; 80%</strong><br>
+          重量変化 <strong style="color:var(--blue)">&lt; 3%</strong><br>
+          <span style="color:var(--muted);font-size:10px">参考: コンクリートは300サイクルで80%保持が基準</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:.12em;color:var(--muted);margin-bottom:10px">試験プロトコル</div>
+        <ol style="font-size:11px;line-height:2.1;padding-left:16px;color:#444">
+          <li>試験体: 100×100×25mm × 3種処理×各5枚</li>
+          <li>初期重量・強度を記録（TEST 01/03の結果使用）</li>
+          <li>−25℃×4時間 → 室温融解×4時間 = 1サイクル</li>
+          <li>10サイクルごとに重量・圧縮強度を測定</li>
+          <li>50サイクル完了後に最終評価</li>
+        </ol>
+        <div style="background:#e8f0ff;padding:10px;border-radius:6px;font-size:11px;margin-top:10px;color:#3a5a9a">
+          🏔️ 北大低温科学研究所（札幌）に共同研究申請。「世界初データ」は採択されやすい
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEST 05 -->
+  <div style="border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:24px">
+    <div style="background:#2a1a1a;color:#d4887a;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-size:18px;font-weight:900">TEST 05</span>
+      <span style="font-size:13px;font-weight:700">燃焼試験 — JIS A 1321準拠</span>
+      <span style="margin-left:auto;font-size:10px;background:#3a2a1a;padding:4px 10px;border-radius:4px">2026秋 / 建材試験センター委託 / ¥20万</span>
+    </div>
+    <div style="padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <div style="font-size:10px;letter-spacing:.12em;color:var(--muted);margin-bottom:10px">構法で解決する戦略</div>
+        <p style="font-size:12px;line-height:1.8;margin-bottom:12px">菌糸体単体は燃える。防火性能を材料で解決しようとすると詰まる。<strong>石膏ボード被覆</strong>で構法解決するのが最速。</p>
+        <div style="background:#fdf5f0;border:1px solid #e0c8b0;border-radius:6px;padding:14px;font-size:12px">
+          <strong>採用構法</strong><br>
+          菌糸体パネル 100mm<br>
+          + 石膏ボード 12.5mm（防火被覆）<br>
+          <span style="color:var(--muted);font-size:10px">令129条: 防火被覆内側断熱材は対象外</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:.12em;color:var(--muted);margin-bottom:10px">攻めの試験設計（3種比較）</div>
+        <div style="font-size:11px;line-height:1.9;color:#444">
+          試験体A: 菌糸体単体（対照）<br>
+          試験体B: 菌糸体 + 炭化竹 20%複合<br>
+          試験体C: 菌糸体 + 炭化竹 + 水ガラス含浸<br><br>
+          CがJIS A 1321の<strong>難燃2級</strong>をクリアすれば石膏ボード不要。それだけで設計が大幅に自由になる。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEST 06: SPC -->
+  <div style="border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:32px">
+    <div style="background:#1a2a1a;color:#7cb87a;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-size:18px;font-weight:900">TEST 06</span>
+      <span style="font-size:13px;font-weight:700">製造プロセス管理 — 統計的プロセス制御（SPC）</span>
+      <span style="margin-left:auto;font-size:10px;background:#2a4a2a;padding:4px 10px;border-radius:4px">全バッチ / 自前 / ¥0</span>
+    </div>
+    <div style="padding:24px">
+      <p style="font-size:12px;line-height:1.8;margin-bottom:20px">バッチごとに管理変数を記録し、強度との相関を分析する。量産フェーズで再現性を証明するためのデータベースを今日から構築する。</p>
+      <table>
+        <thead><tr><th>管理変数</th><th>目標値</th><th>許容範囲</th><th>測定器</th><th>重要な理由</th></tr></thead>
+        <tbody>
+          <tr><td>培地含水率</td><td>55%</td><td>±2%</td><td>デジタル水分計 ¥3,000</td><td>低→菌糸広がらない / 高→嫌気発酵</td></tr>
+          <tr><td>培養温度</td><td>22℃</td><td>±1℃</td><td>温度ロガー ¥2,000</td><td>15℃以下で成長停止 / 30℃以上で雑菌優位</td></tr>
+          <tr><td>種菌活性</td><td>3日以内に菌糸拡大</td><td>—</td><td>目視（ペトリ皿で事前確認）</td><td>不活性種菌を使うと全バッチ失敗</td></tr>
+          <tr><td>滅菌温度・時間</td><td>121℃ × 120分</td><td>±5℃ / ±10分</td><td>圧力計・タイマー</td><td>滅菌不足が最多失敗原因</td></tr>
+          <tr><td>培養日数</td><td>16日</td><td>14〜21日</td><td>カレンダー</td><td>短→強度不足 / 長→子実体発生</td></tr>
+          <tr><td>完成パネル密度</td><td>200 kg/m³</td><td>±20 kg/m³</td><td>秤+ノギス</td><td>密度と強度は強相関</td></tr>
+        </tbody>
+      </table>
+      <div class="action-box" style="margin-top:20px">
+        <strong>記録フォーマット（Notionかスプレッドシート）</strong><br>
+        バッチID / 製造日 / 含水率 / 温度ログ（平均・最大・最小）/ 滅菌時間 / 種菌ロット / 培養日数 / 完成密度 / 圧縮強度（平均・SD）/ 吸水率 / 外観評価（1-5）/ 備考<br><br>
+        10バッチ溜まったら回帰分析。どの変数が強度に一番効くかが見える。これが量産設計書の根拠になる。
+      </div>
+    </div>
+  </div>
+
+  <!-- 優先順位まとめ -->
+  <h3 style="font-size:12px;letter-spacing:.15em;color:var(--muted);margin-bottom:16px">試験の実施優先順位</h3>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px">
+    <div style="background:#f5faf5;border:2px solid var(--dark-green);border-radius:8px;padding:20px;text-align:center">
+      <div style="font-size:10px;color:var(--muted);margin-bottom:6px">まず</div>
+      <div style="font-size:20px;font-weight:900;color:var(--dark-green);margin-bottom:8px">TEST 01 + 06</div>
+      <div style="font-size:11px;color:#444">吸水率 + SPC記録開始<br>器材: 秤のみ / ¥0<br>パネル完成次第すぐ</div>
+    </div>
+    <div style="background:white;border:1px solid var(--line);border-radius:8px;padding:20px;text-align:center">
+      <div style="font-size:10px;color:var(--muted);margin-bottom:6px">次に</div>
+      <div style="font-size:20px;font-weight:900;color:var(--blue);margin-bottom:8px">TEST 02 + 03</div>
+      <div style="font-size:11px;color:#444">熱伝導率 + 圧縮強度<br>レンタル機材 / ¥2万<br>7月中</div>
+    </div>
+    <div style="background:white;border:1px solid var(--line);border-radius:8px;padding:20px;text-align:center">
+      <div style="font-size:10px;color:var(--muted);margin-bottom:6px">秋以降</div>
+      <div style="font-size:20px;font-weight:900;color:var(--muted);margin-bottom:8px">TEST 04 + 05</div>
+      <div style="font-size:11px;color:#444">凍結融解 + 燃焼試験<br>外部委託 / ¥20万〜<br>北大・建材試験センター</div>
+    </div>
+  </div>
+
+  <div class="action-box">
+    <strong>全試験クリア後のロードマップ</strong><br><br>
+    ① NETIS（国交省新技術情報システム）登録申請 → 公共建築での採用実績を積む<br>
+    ② 北大との共同論文 → 世界初データで国際誌掲載 → 対外信頼性の確立<br>
+    ③ 建材試験センターに正式性能評価依頼 → JIS認証（2〜3年）<br>
+    ④ 美留和ビレッジ Ph1（10棟）で量産・コスト¥130万/棟を実証<br>
+    ⑤ 日本初の菌糸体建材による建築確認取得事例へ
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+
+<footer style="background:#1a1612;border-top:1px solid #2a2520;padding:48px 32px 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">
+<div style="max-width:960px;margin:0 auto">
+<div style="display:flex;align-items:baseline;gap:14px;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid #2a2520">
+  <a href="/" style="font-size:12px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none">SOLUNA</a>
+  <span style="font-size:9px;color:#3a3028;letter-spacing:.08em">製造設計 · BUILDING MATERIALS · Enabler Inc.</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid #2a2520;border-left:1px solid #2a2520">
+  <div style="padding:20px 24px 28px;border-right:1px solid #2a2520;border-bottom:1px solid #2a2520">
+    <h4 style="font-size:8px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#5a4a38;margin-bottom:14px">製造ページ</h4>
+    <a href="/manufacturing/sekkei.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">Bio-SIP 製造設計書</a>
+    <a href="/manufacturing/cluster.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">CLUSTER ユニット群</a>
+    <a href="/manufacturing/cluster-living.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">CLUSTER LIVING</a>
+    <a href="/manufacturing/kumanoki.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">KUMANOKI V-01</a>
+    <a href="/manufacturing/mycelium-lab.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">菌糸体 Lab</a>
+    <a href="/manufacturing/3d-mold.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">3D Mold（クリップ接合）</a>
+    <a href="/manufacturing/myco-furniture.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">Myco Furniture</a>
+    <a href="/manufacturing/house.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">SOLUNA HOUSE S-01</a>
+  </div>
+  <div style="padding:20px 24px 28px;border-right:1px solid #2a2520;border-bottom:1px solid #2a2520">
+    <h4 style="font-size:8px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#5a4a38;margin-bottom:14px">建材・工法</h4>
+    <a href="/manufacturing/sekkei.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">菌糸体Bio-SIP 断熱パネル</a>
+    <a href="/manufacturing/kumanoki.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">炭化杉外壁（焼杉）</a>
+    <a href="/manufacturing/cluster.html#legal" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">スクリューパイル基礎</a>
+    <a href="/manufacturing/kumanoki.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">コードウッド（丸太積み）</a>
+    <a href="/manufacturing/cluster.html#cnc" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">北海道産カラマツ合板 CNC</a>
+    <a href="/manufacturing/cluster.html#winter" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">冬季性能 -25°C 対応</a>
+    <a href="/manufacturing/3d-mold.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">3Dプリント スナップフィット</a>
+  </div>
+  <div style="padding:20px 24px 28px;border-bottom:1px solid #2a2520">
+    <h4 style="font-size:8px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#5a4a38;margin-bottom:14px">SOLUNA</h4>
+    <a href="/" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">トップページ</a>
+    <a href="/collection" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">物件一覧</a>
+    <a href="/miruwa-grand" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">美留和グランド</a>
+    <a href="/kumaushi" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">KUMAUSHI BASE</a>
+    <a href="/buy" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">オーナーになる</a>
+    <a href="/contact" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">お問い合わせ</a>
+    <a href="mailto:info@solun.art" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">info@solun.art</a>
+  </div>
+</div>
+<div style="padding-top:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:9px;color:#2a2520;letter-spacing:.1em">
+  <span>© 2025 SOLUNA / Enabler Inc. — BUILDING MATERIALS RESEARCH</span>
+  <span>北海道弟子屈 美留和ビレッジ · 2026.09 OPEN TARGET</span>
+</div>
+</div>
+</footer>
+
+<script src="/js/gate.js"></script>
+</body>
+</html>

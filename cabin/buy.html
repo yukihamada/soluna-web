@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA — Become an Owner">SOLUNA — オーナーになる</title>
+<meta content="弟子屈・摩周の森の共同オーナーシップ。メールアドレスを登録するだけで申し込み開始。" name="description"/>
+<link href="https://solun.art/buy" rel="canonical"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'&gt;&lt;rect width='64' height='64' rx='14' fill='%23050505'/&gt;&lt;circle cx='32' cy='32' r='20' fill='none' stroke='%23c8a455' stroke-width='2.5'/&gt;&lt;circle cx='32' cy='20' r='5' fill='%23c8a455'/&gt;&lt;path d='M20 38 Q32 28 44 38' fill='none' stroke='%23c8a455' stroke-width='2' stroke-linecap='round'/&gt;&lt;path d='M24 44 Q32 36 40 44' fill='none' stroke='%23c8a455' stroke-width='1.5' stroke-linecap='round'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0f;
+  --card:#13131a;
+  --border:#2a2a3a;
+  --gold:#c9a84c;
+  --gold2:#f0d080;
+  --text:#e8e8f0;
+  --muted:#8888aa;
+  --green:#4caf7d;
+  --red:#e05555;
+}
+body{background:var(--bg);color:var(--text);font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;min-height:100vh;display:flex;flex-direction:column}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Construction" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+
+<!-- Main -->
+<div style="flex:1;display:flex;align-items:center;justify-content:center;padding:80px 24px 60px">
+<div style="width:100%;max-width:420px">
+
+  <!-- Logo / Title -->
+  <div style="text-align:center;margin-bottom:40px">
+    <div style="font-size:11px;letter-spacing:.22em;color:var(--gold);font-weight:800;margin-bottom:20px">SOLUNA OWNERS</div>
+    <h1 style="font-size:28px;font-weight:300;letter-spacing:.05em;line-height:1.5;margin-bottom:12px" data-en="Enter your email to get started.">メールアドレスを入力して<br/>申し込みをはじめる。</h1>
+    <p style="font-size:13px;color:var(--muted);line-height:1.8" data-en="Log in with your email to get started.">メール認証でログインして、物件詳細・購入プランをご確認いただけます。</p>
+  </div>
+
+  <!-- Step 1: Email -->
+  <div id="step-email">
+    <div style="margin-bottom:16px">
+      <input autocomplete="email" id="email-input" type="email" placeholder="your@email.com"
+        style="width:100%;background:#0d0d14;border:1px solid var(--border);border-radius:12px;padding:16px 20px;color:var(--text);font-size:16px;outline:none;transition:.2s"
+        onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"
+        onkeydown="if(event.key==='Enter')sendOTP()"/>
+    </div>
+    <div id="err1" style="display:none;color:var(--red);font-size:13px;margin-bottom:12px;text-align:center"></div>
+    <button onclick="sendOTP()" id="btn1"
+      style="width:100%;padding:16px;border:none;border-radius:12px;background:linear-gradient(135deg,#c9a84c,#e8c870);color:#000;font-size:16px;font-weight:700;cursor:pointer;transition:.2s"
+      onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">
+      <span id="btn1-text">確認コードを送る →</span>
+    </button>
+  </div>
+
+  <!-- Step 2: OTP -->
+  <div id="step-otp" style="display:none">
+    <p id="sent-msg" style="font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px;line-height:1.8"></p>
+
+    <!-- Mail app links -->
+    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px">
+      <a id="gmail-link" href="https://mail.google.com" target="_blank"
+        style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:12px;text-decoration:none;transition:.2s"
+        onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+        <img src="https://www.google.com/favicon.ico" style="width:14px;height:14px"> Gmail
+      </a>
+      <a href="https://outlook.live.com/mail" target="_blank"
+        style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:12px;text-decoration:none;transition:.2s"
+        onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+        <img src="https://outlook.live.com/favicon.ico" style="width:14px;height:14px"> Outlook
+      </a>
+      <a href="https://mail.yahoo.co.jp" target="_blank"
+        style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:12px;text-decoration:none;transition:.2s"
+        onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+        <img src="https://mail.yahoo.co.jp/favicon.ico" style="width:14px;height:14px"> Yahoo
+      </a>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <input id="otp-input" type="text" inputmode="numeric" maxlength="6" placeholder="123456"
+        style="width:100%;background:#0d0d14;border:1px solid var(--border);border-radius:12px;padding:16px 20px;color:var(--text);font-size:28px;letter-spacing:.3em;text-align:center;outline:none;transition:.2s"
+        onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"
+        oninput="this.value=this.value.replace(/\D/g,'');if(this.value.length===6)verifyOTP()"
+        onkeydown="if(event.key==='Enter')verifyOTP()"/>
+    </div>
+    <div id="err2" style="display:none;color:var(--red);font-size:13px;margin-bottom:12px;text-align:center"></div>
+    <button onclick="verifyOTP()" id="btn2"
+      style="width:100%;padding:16px;border:none;border-radius:12px;background:linear-gradient(135deg,#c9a84c,#e8c870);color:#000;font-size:16px;font-weight:700;cursor:pointer;transition:.2s"
+      onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">
+      <span id="btn2-text">確認してログイン →</span>
+    </button>
+    <button onclick="backToEmail()"
+      style="width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;background:transparent;color:var(--muted);font-size:14px;cursor:pointer;margin-top:10px;transition:.2s"
+      onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">
+      ← メールを変更
+    </button>
+  </div>
+
+  <!-- Step 3: Success -->
+  <div id="step-done" style="display:none;text-align:center">
+    <div style="font-size:48px;margin-bottom:16px">✓</div>
+    <div style="font-size:20px;font-weight:300;color:var(--gold2);margin-bottom:12px">ログイン完了</div>
+    <p style="font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:24px">ログインできました。物件詳細・購入プランをご確認ください。</p>
+    <a href="collection" style="display:inline-block;font-size:13px;color:var(--gold);text-decoration:none">物件を見る →</a>
+  </div>
+
+</div>
+</div>
+
+<!-- Footer -->
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Birowa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Bireiwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Birawa Village" href="village">美留和ビレッジ</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Join">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a href="founders">Founders</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Blog" href="blog">ブログ</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="SCTA" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+
+var _email = '';
+
+async function sendOTP() {
+  var email = document.getElementById('email-input').value.trim();
+  var err = document.getElementById('err1');
+  var btn = document.getElementById('btn1');
+  var btnText = document.getElementById('btn1-text');
+
+  if (!email || !email.includes('@')) {
+    err.textContent = 'メールアドレスを正しく入力してください';
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+  btn.disabled = true;
+  btnText.textContent = '送信中…';
+
+  try {
+    var res = await fetch('/api/soluna/otp', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email: email})
+    });
+    var data = await res.json();
+    if (!res.ok) {
+      err.textContent = data.error || '送信に失敗しました';
+      err.style.display = 'block';
+      btn.disabled = false;
+      btnText.textContent = '確認コードを送る →';
+      return;
+    }
+  } catch(e) {
+    err.textContent = 'サーバーに接続できませんでした';
+    err.style.display = 'block';
+    btn.disabled = false;
+    btnText.textContent = '確認コードを送る →';
+    return;
+  }
+
+  _email = email;
+
+  // Gmail link: search for recent mail from solun.art
+  var domain = email.split('@')[1] || '';
+  var gmailLink = document.getElementById('gmail-link');
+  gmailLink.href = 'https://mail.google.com/mail/u/0/#search/from%3Asolun.art';
+
+  document.getElementById('sent-msg').textContent = email + ' に6桁のコードを送りました。';
+  document.getElementById('step-email').style.display = 'none';
+  document.getElementById('step-otp').style.display = 'block';
+  document.getElementById('otp-input').focus();
+}
+
+async function verifyOTP() {
+  var code = document.getElementById('otp-input').value.trim();
+  var err = document.getElementById('err2');
+  var btn = document.getElementById('btn2');
+  var btnText = document.getElementById('btn2-text');
+
+  if (code.length !== 6) {
+    err.textContent = '6桁のコードを入力してください';
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+  btn.disabled = true;
+  btnText.textContent = '確認中…';
+
+  try {
+    var res = await fetch('/api/soluna/verify', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email: _email, code: code})
+    });
+    var data = await res.json();
+    if (!res.ok) {
+      err.textContent = data.error === 'invalid_code' ? 'コードが正しくありません' : (data.error || '確認に失敗しました');
+      err.style.display = 'block';
+      btn.disabled = false;
+      btnText.textContent = '確認してログイン →';
+      return;
+    }
+    if (data.token) localStorage.setItem('sln_token', data.token);
+  } catch(e) {
+    err.textContent = 'サーバーに接続できませんでした';
+    err.style.display = 'block';
+    btn.disabled = false;
+    btnText.textContent = '確認してログイン →';
+    return;
+  }
+
+  window.location.href = '/app';
+}
+
+function backToEmail() {
+  document.getElementById('step-otp').style.display = 'none';
+  document.getElementById('step-email').style.display = 'block';
+  var btn = document.getElementById('btn1');
+  btn.disabled = false;
+  document.getElementById('btn1-text').textContent = '確認コードを送る →';
+  document.getElementById('otp-input').value = '';
+}
+</script>
+<script src="/lang.js"></script>
+</body>
+</html>

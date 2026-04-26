@@ -8,6 +8,9 @@ const multer = require("multer");
 const bcrypt = require("bcryptjs");
 const { execFile } = require("child_process");
 
+// ── m5 HITL runtime URL (updated by /api/m5/register) ──────────────────────
+let m5RuntimeUrl = process.env.M5_HITL_URL || null;
+
 // ── Optional: Solana anchoring ───────────────────────────────────────────────
 let solanaKeypair = null;
 let solanaConnection = null;
@@ -82,16 +85,148 @@ const upload = multer({
   },
 });
 
+// multer: in-memory storage for document vault uploads (PDFs, images, spreadsheets)
+const docUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 100 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, [".pdf", ".jpg", ".jpeg", ".png", ".xlsx", ".docx", ".csv"].includes(ext));
+  },
+});
+
 const app = express();
+// Trust Fly.io / Nginx reverse proxy so req.ip returns the real client IP
+app.set("trust proxy", 1);
 const PORT = process.env.PORT || 3000;
+
+// ── Global unhandled rejection guard (prevents Node 22 process crash) ─────────
+process.on("unhandledRejection", (reason) => {
+  console.error("Unhandled rejection:", reason);
+});
+
+// ── Auto-wrap async route handlers (Express 4 doesn't catch rejections) ───────
+// Wraps any AsyncFunction route handler so rejections are forwarded to next(err)
+// → Express error middleware sends 500 instead of leaving the request hanging.
+// Must be installed before any app.get/post/... calls.
+{
+  const _wrap = fn =>
+    typeof fn === 'function' && fn.constructor.name === 'AsyncFunction'
+      ? (req, res, next) => fn(req, res, next).catch(next)
+      : fn;
+  for (const method of ['get', 'post', 'put', 'patch', 'delete']) {
+    const orig = app[method].bind(app);
+    app[method] = (...args) => orig(...args.map(_wrap));
+  }
+}
+
 const STATIC_DIR = path.join(__dirname, "out");
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
 const RESEND_API_KEY    = process.env.RESEND_API_KEY    || "";
 const ADMIN_KEY         = process.env.ADMIN_KEY || "";
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY || "";
 const ADMIN_EMAIL       = "info@solun.art";
+const TG_TOKEN          = process.env.TELEGRAM_BOT_TOKEN || "";
+const TG_CHAT           = process.env.TELEGRAM_CHAT_ID || "1136442501";
+const BEDS24_REFRESH    = process.env.BEDS24_REFRESH_TOKEN || "";
+const BASE_URL          = process.env.BASE_URL || "https://solun.art";
 
 if (!ADMIN_KEY) console.warn("⚠ ADMIN_KEY not set — admin endpoints will reject all requests");
+
+// ── Simple HTML escaping (prevents injection in email templates) ──────────────
+function esc(s) {
+  if (s == null) return "";
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+// ── Strip HTML tags from user input (defense-in-depth before esc) ──────────────
+function stripTags(s) {
+  if (s == null) return "";
+  return String(s).replace(/<[^>]*>/g, "");
+}
+
+// ── OTP rate limiting (in-memory, resets on restart) ─────────────────────────
+const OTP_RATE = new Map(); // email → { count, resetAt }
+function otpRateCheck(email) {
+  const now = Date.now();
+  const limit = OTP_RATE.get(email);
+  if (limit && now < limit.resetAt) {
+    if (limit.count >= 3) return false; // blocked
+    limit.count++;
+  } else {
+    OTP_RATE.set(email, { count: 1, resetAt: now + 5 * 60 * 1000 }); // 5-min window
+  }
+  return true;
+}
+
+// ── Community message rate limiting: 10 messages per minute per member ───────
+const MSG_RATE = new Map(); // member_id → { count, resetAt }
+function msgRateCheck(memberId) {
+  const now = Date.now();
+  const r = MSG_RATE.get(memberId);
+  if (r && now < r.resetAt) {
+    if (r.count >= 10) return false;
+    r.count++;
+  } else {
+    MSG_RATE.set(memberId, { count: 1, resetAt: now + 60 * 1000 });
+  }
+  return true;
+}
+
+// ── Chat rate limiting (declared here so cleanup setInterval can reference it) ─
+const CHAT_RATE = new Map(); // key → { count, resetAt }
+function chatRateCheck(key, max) {
+  const now = Date.now();
+  const r = CHAT_RATE.get(key);
+  if (r && now < r.resetAt) {
+    if (r.count >= max) return false;
+    r.count++;
+  } else {
+    CHAT_RATE.set(key, { count: 1, resetAt: now + 60 * 1000 });
+  }
+  return true;
+}
+
+// ── Periodic cleanup of rate limiter Maps (prevent memory growth) ─────────────
+setInterval(() => {
+  const now = Date.now();
+  for (const [k, v] of OTP_RATE)  if (now >= v.resetAt) OTP_RATE.delete(k);
+  for (const [k, v] of MSG_RATE)  if (now >= v.resetAt) MSG_RATE.delete(k);
+  for (const [k, v] of CHAT_RATE) if (now >= v.resetAt) CHAT_RATE.delete(k);
+}, 10 * 60 * 1000); // every 10 minutes
+
+// ── Property / month-op config ────────────────────────────────────────────────
+const MONTH_OP_PROPS = {
+  tapkop: {
+    name: "TAPKOP", location: "北海道 弟子屈 / 阿寒摩周国立公園",
+    price_jpy: 240000, avg_revenue_jpy: 300000,
+    cleaning_fee: 15000, linen_fee_per_stay: 3000,
+    bed_service: true, bed_service_fee: 2000,
+  },
+  lodge: {
+    name: "THE LODGE", location: "北海道 弟子屈 / 美留和",
+    price_jpy: 130000, avg_revenue_jpy: 170000,
+    cleaning_fee: 10000, linen_fee_per_stay: 2000,
+    bed_service: true, bed_service_fee: 1500,
+  },
+  atami: {
+    name: "WHITE HOUSE 熱海", location: "静岡県 熱海市",
+    price_jpy: 160000, avg_revenue_jpy: 210000,
+    cleaning_fee: 12000, linen_fee_per_stay: 2500,
+    bed_service: true, bed_service_fee: 2000,
+  },
+};
+const KUMIAI_MAX_INVESTORS = 49;
+const MONTH_OP_ADVANCE = 6; // months ahead available for purchase
+
+const PROP_DISPLAY = {
+  tapkop:    "TAPKOP（弟子屈）",
+  lodge:     "THE LODGE（弟子屈）",
+  nesting:   "THE LODGE NESTING（弟子屈）",
+  atami:     "WHITE HOUSE 熱海",
+  instant_a: "Instant House A（弟子屈）",
+  instant_b: "Instant House B（弟子屈）",
+};
+function propLabel(cabin) { return PROP_DISPLAY[cabin] || cabin; }
 
 const DATABASE_URL = process.env.DATABASE_URL
   || (process.env.DB_PATH ? `file:${process.env.DB_PATH}` : "file:/data/contracts.db");
@@ -108,6 +243,57 @@ async function sendAdminEmail(subject, html) {
   } catch (e) {
     console.error("Resend error:", e.message);
   }
+}
+
+// ── Project Email Router ──────────────────────────────────────────────────────
+const PROJECT_CONTEXTS = {
+  build: {
+    name: "SOLUNA Build",
+    from: "SOLUNA Build <build@solun.art>",
+    prompt: `あなたはSOLUNA合同会社の自然建築プロジェクト担当です。北海道弟子屈・熊牛原野でストローベイル・コードウッドサウナ・版築の施工を進めています。問い合わせに日本語で丁寧に返信してください。代表: 濱田優貴（mail@yukihamada.jp / 090-7409-0407）`
+  },
+  materials: {
+    name: "SOLUNA Materials",
+    from: "SOLUNA Materials <materials@solun.art>",
+    prompt: `あなたはSOLUNA MATERIALSの建材調達担当です。籾殻断熱ボード・くん炭ボード・竹集成材・杉CLTなど国産自然建材の調達・共同開発を進めています。問い合わせに日本語で丁寧に返信してください。代表: 濱田優貴（mail@yukihamada.jp / 090-7409-0407）`
+  },
+  wp: {
+    name: "SOLUNA Work Party",
+    from: "SOLUNA Work Party <wp@solun.art>",
+    prompt: `あなたはSOLUNA Work Partyの担当です。版築・コードウッドサウナ・ストローベイルの体験施工イベントへの参加受付をしています。問い合わせに日本語で丁寧に返信してください。代表: 濱田優貴（mail@yukihamada.jp / 090-7409-0407）`
+  },
+  general: {
+    name: "SOLUNA",
+    from: "SOLUNA <info@solun.art>",
+    prompt: `あなたはSOLUNA合同会社の問い合わせ担当です。共同保有型リゾートSOLUNAに関する問い合わせに日本語で丁寧に返信してください。代表: 濱田優貴（mail@yukihamada.jp / 090-7409-0407）`
+  }
+};
+
+function detectProject(toEmail) {
+  const a = (toEmail || "").toLowerCase();
+  if (a.includes("build")) return "build";
+  if (a.includes("material")) return "materials";
+  if (a.includes("wp") || a.includes("workparty") || a.includes("work")) return "wp";
+  return "general";
+}
+
+async function generateEmailReply(project, fromEmail, subject, bodyText) {
+  if (!ANTHROPIC_API_KEY) return null;
+  const ctx = PROJECT_CONTEXTS[project] || PROJECT_CONTEXTS.general;
+  try {
+    const r = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 800,
+        system: ctx.prompt,
+        messages: [{ role: "user", content: `件名: ${subject}\n差出人: ${fromEmail}\n\n${(bodyText || "").slice(0, 2000)}\n\n---\n上記のメールへの返信を書いてください。署名は不要です。` }]
+      })
+    });
+    const d = await r.json();
+    return d.content?.[0]?.text || null;
+  } catch { return null; }
 }
 
 // ── DB setup ─────────────────────────────────────────────────────────────────
@@ -654,11 +840,97 @@ async function initDb() {
       });
     }
   }
+
+  // ── Cabin / property management tables ────────────────────────────────────
+  await db.execute(`CREATE TABLE IF NOT EXISTS cabin_reservations (
+    id TEXT PRIMARY KEY,
+    cabin TEXT NOT NULL,
+    guest_name TEXT,
+    guest_email TEXT,
+    guest_phone TEXT,
+    checkin TEXT,
+    checkout TEXT,
+    status TEXT DEFAULT 'confirmed',
+    note TEXT,
+    source TEXT DEFAULT 'manual',
+    notified INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now'))
+  )`).catch(() => {});
+  try { await db.execute("ALTER TABLE cabin_reservations ADD COLUMN notified INTEGER DEFAULT 0"); } catch {}
+
+  await db.execute(`CREATE TABLE IF NOT EXISTS cleaning_tasks (
+    id TEXT PRIMARY KEY,
+    reservation_id TEXT,
+    cabin TEXT NOT NULL,
+    guest_name TEXT,
+    checkout_date TEXT,
+    next_checkin TEXT,
+    status TEXT DEFAULT 'pending',
+    tg_message_id TEXT,
+    notes TEXT,
+    created_at TEXT DEFAULT (datetime('now')),
+    completed_at TEXT
+  )`).catch(() => {});
+
+  await db.execute(`CREATE TABLE IF NOT EXISTS month_ops (
+    id TEXT PRIMARY KEY,
+    property_id TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    month INTEGER NOT NULL,
+    buyer_name TEXT,
+    buyer_email TEXT,
+    price_jpy INTEGER,
+    status TEXT DEFAULT 'pending',
+    stripe_session_id TEXT,
+    credit_issued INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now'))
+  )`).catch(() => {});
+
+  await db.execute(`CREATE TABLE IF NOT EXISTS kumiai_applications (
+    id TEXT PRIMARY KEY,
+    property_id TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    month INTEGER NOT NULL,
+    buyer_name TEXT NOT NULL,
+    buyer_address TEXT,
+    buyer_email TEXT NOT NULL,
+    buyer_phone TEXT,
+    bank_name TEXT,
+    bank_branch TEXT,
+    bank_type TEXT DEFAULT 'ordinary',
+    bank_number TEXT,
+    bank_holder TEXT,
+    price_jpy INTEGER,
+    status TEXT DEFAULT 'pending',
+    stripe_session_id TEXT,
+    distributed INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now'))
+  )`).catch(() => {});
+
+  await db.execute(`CREATE TABLE IF NOT EXISTS invest_waitlist (
+    id TEXT PRIMARY KEY,
+    name TEXT,
+    email TEXT NOT NULL,
+    scheme TEXT DEFAULT 'B',
+    created_at TEXT DEFAULT (datetime('now'))
+  )`).catch(() => {});
 }
 
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(compression());
 app.use(express.json());
+
+// CORS for cabin static site calling our API
+app.use((req, res, next) => {
+  const origin = req.headers.origin || "";
+  if (origin.includes("soluna-teshikaga") || origin.includes("solun.art") || origin.includes("localhost")) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization,stripe-signature");
+  }
+  if (req.method === "OPTIONS") return res.sendStatus(204);
+  next();
+});
 
 // ── www → apex redirect ───────────────────────────────────────────────────────
 app.use((req, res, next) => {
@@ -666,6 +938,60 @@ app.use((req, res, next) => {
     return res.redirect(301, `https://solun.art${req.originalUrl}`);
   }
   next();
+});
+
+// ── API: Inbound email webhook (Resend → LLM → auto-reply) ───────────────────
+app.post("/api/email/inbound", async (req, res) => {
+  res.status(200).json({ ok: true }); // Resend needs fast 200
+  try {
+    const { from, to, subject, text, html, messageId, inReplyTo } = req.body;
+    const toAddr = Array.isArray(to) ? to[0] : (to || "");
+    const project = detectProject(toAddr);
+    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+    await db.execute({
+      sql: "INSERT OR IGNORE INTO project_emails (id, project, from_email, to_email, subject, body_text, message_id) VALUES (?,?,?,?,?,?,?)",
+      args: [id, project, from, toAddr, subject || "", text || "", messageId || ""]
+    });
+
+    const reply = await generateEmailReply(project, from, subject, text || "");
+    if (!reply) return;
+
+    await db.execute({ sql: "UPDATE project_emails SET reply_text=? WHERE id=?", args: [reply, id] });
+
+    const ctx = PROJECT_CONTEXTS[project] || PROJECT_CONTEXTS.general;
+    const rr = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: ctx.from,
+        to: [from],
+        subject: (subject || "").startsWith("Re:") ? subject : `Re: ${subject || ""}`,
+        text: reply,
+        headers: inReplyTo ? { "In-Reply-To": inReplyTo, References: inReplyTo } : {}
+      })
+    });
+    if (rr.ok) await db.execute({ sql: "UPDATE project_emails SET reply_sent=1 WHERE id=?", args: [id] });
+
+    await sendAdminEmail(
+      `[${ctx.name}] 受信: ${subject}`,
+      `<p><b>From:</b> ${from}</p><p><b>To:</b> ${toAddr}</p><hr><h3>受信</h3><pre style="white-space:pre-wrap">${(text||"").slice(0,800)}</pre><hr><h3>AI返信</h3><pre style="white-space:pre-wrap">${reply}</pre>`
+    );
+  } catch (e) { console.error("inbound email error:", e.message); }
+});
+
+// ── API: Project emails list (admin) ──────────────────────────────────────────
+app.get("/api/email/project-emails", async (req, res) => {
+  const key = req.headers["x-admin-key"] || req.query.key;
+  if (key !== process.env.ADMIN_KEY) return res.status(403).json({ error: "forbidden" });
+  const { project, limit = 50 } = req.query;
+  const rows = await db.execute({
+    sql: project
+      ? "SELECT * FROM project_emails WHERE project=? ORDER BY created_at DESC LIMIT ?"
+      : "SELECT * FROM project_emails ORDER BY created_at DESC LIMIT ?",
+    args: project ? [project, Number(limit)] : [Number(limit)]
+  });
+  res.json(rows.rows);
 });
 
 // ── API: Email signup ─────────────────────────────────────────────────────────
@@ -682,6 +1008,12 @@ app.post("/api/email", async (req, res) => {
         `[SOLUNA] 新規メール登録 — ${email}`,
         `<p>新しいメール登録がありました。</p><ul><li>メール: ${email}</li><li>言語: ${locale || "en"}</li></ul>`
       );
+      // Create member + generate magic login link
+      await db.execute({ sql: "INSERT OR IGNORE INTO soluna_members (email) VALUES (?)", args: [email] }).catch(() => {});
+      const mlCode = String(Math.floor(100000 + Math.random() * 900000));
+      const mlExp  = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+      await db.execute({ sql: "INSERT INTO soluna_otps (email,code,expires_at) VALUES (?,?,?)", args: [email, mlCode, mlExp] }).catch(() => {});
+      const loginUrl = `https://solun.art/app?email=${encodeURIComponent(email)}&code=${mlCode}`;
       // Confirmation to subscriber
       if (RESEND_API_KEY) {
         fetch("https://api.resend.com/emails", {
@@ -692,8 +1024,8 @@ app.post("/api/email", async (req, res) => {
             to: [email],
             subject: isJa ? "SOLUNA FEST HAWAII 2026 — ラインナップ通知に登録しました" : "SOLUNA FEST HAWAII 2026 — You're on the list!",
             html: isJa
-              ? `<div style="background:#080808;color:#fff;font-family:sans-serif;padding:40px;max-width:480px;margin:0 auto"><p style="color:#C9A962;letter-spacing:0.3em;font-size:11px">SOLUNA FEST HAWAII 2026</p><h1 style="font-size:28px;margin:16px 0">ラインナップ通知に<br/>登録しました</h1><p style="color:rgba(255,255,255,0.5);line-height:1.7">アーティストラインナップが発表され次第、最初にお知らせします。<br/><br/>日程: 2026年9月4〜6日<br/>会場: モアナルアガーデン（Moanalua Gardens）, Oahu</p><a href="https://solun.art" style="display:inline-block;margin-top:28px;padding:12px 28px;background:#C9A962;color:#000;text-decoration:none;font-weight:700;border-radius:999px">公式サイトを見る</a><p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:32px">© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA</p></div>`
-              : `<div style="background:#080808;color:#fff;font-family:sans-serif;padding:40px;max-width:480px;margin:0 auto"><p style="color:#C9A962;letter-spacing:0.3em;font-size:11px">SOLUNA FEST HAWAII 2026</p><h1 style="font-size:28px;margin:16px 0">You're on the list!</h1><p style="color:rgba(255,255,255,0.5);line-height:1.7">You'll be the first to know when the lineup drops.<br/><br/>Date: September 4–6, 2026<br/>Venue: Moanalua Gardens, Oahu, HI</p><a href="https://solun.art" style="display:inline-block;margin-top:28px;padding:12px 28px;background:#C9A962;color:#000;text-decoration:none;font-weight:700;border-radius:999px">Visit Official Site</a><p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:32px">© 2026 SOLUNA FEST HAWAII · Powered by SOLUNA</p></div>`,
+              ? `<div style="background:#080808;color:#fff;font-family:sans-serif;padding:40px;max-width:480px;margin:0 auto"><p style="color:#C9A962;letter-spacing:0.3em;font-size:11px">SOLUNA FEST HAWAII 2026</p><h1 style="font-size:28px;margin:16px 0">登録しました。<br/>最新情報をお届けします。</h1><p style="color:rgba(255,255,255,0.5);line-height:1.7">アーティストラインナップが発表され次第、最初にお知らせします。<br/><br/>日程: 2026年9月4〜6日<br/>会場: モアナルアガーデン（Moanalua Gardens）, Oahu</p><div style="margin-top:28px"><a href="${loginUrl}" style="display:inline-block;padding:14px 32px;background:#4a8fc0;color:#fff;text-decoration:none;font-weight:700;border-radius:999px;font-size:13px">SOLUNAメンバーとしてログイン →</a></div><p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:12px">パスワード不要。ワンクリックでログイン。有効期間7日間。</p><p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:28px">© 2026 SOLUNA · Powered by Enabler</p></div>`
+              : `<div style="background:#080808;color:#fff;font-family:sans-serif;padding:40px;max-width:480px;margin:0 auto"><p style="color:#C9A962;letter-spacing:0.3em;font-size:11px">SOLUNA FEST HAWAII 2026</p><h1 style="font-size:28px;margin:16px 0">You're registered.</h1><p style="color:rgba(255,255,255,0.5);line-height:1.7">You'll be the first to know when the lineup drops.<br/><br/>Date: September 4–6, 2026<br/>Venue: Moanalua Gardens, Oahu, HI</p><div style="margin-top:28px"><a href="${loginUrl}" style="display:inline-block;padding:14px 32px;background:#4a8fc0;color:#fff;text-decoration:none;font-weight:700;border-radius:999px;font-size:13px">Log in to SOLUNA →</a></div><p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:12px">No password. One click. Valid for 7 days.</p><p style="color:rgba(255,255,255,0.2);font-size:11px;margin-top:28px">© 2026 SOLUNA · Powered by Enabler</p></div>`,
           }),
         }).catch(() => {});
       }
@@ -2098,12 +2430,29 @@ function share(){
 </body></html>`);
 });
 
-const customRoutes = ["/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/schedule", "/vip", "/lineup", "/info", "/privacy", "/terms", "/guide", "/artist-lounge", "/vip-lounge", "/mint", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press", "/hotel-plan", "/music", "/tickets", "/tickets/success", "/rights", "/developers", "/artist", "/contests", "/festivals", "/live", "/community"];
+const customRoutes = ["/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/schedule", "/vip", "/lineup", "/info", "/guide", "/artist-lounge", "/vip-lounge", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press", "/hotel-plan", "/music", "/tickets", "/tickets/success", "/rights", "/developers", "/artist", "/contests", "/festivals", "/live", "/community", "/vision", "/vision-ja", "/pitch", "/proposal", "/sponsor-reiwa"];
+// /blank is served from cabin/blank/index.html via express.static
+// NOTE: /privacy, /terms, /mint removed — served from cabin static files instead
+
+// Internal pages protected by Basic Auth (password via PREVIEW_PASSWORD env var)
+const PREVIEW_PASS = process.env.PREVIEW_PASSWORD || "soluna2026";
+const PREVIEW_ROUTES = new Set(["/budget", "/venue-agreement", "/artist-contract", "/deal", "/investor", "/vision-ja", "/pitch", "/proposal"]);
+function checkPreviewAuth(req) {
+  const auth = req.headers.authorization || "";
+  if (!auth.startsWith("Basic ")) return false;
+  const decoded = Buffer.from(auth.slice(6), "base64").toString();
+  return decoded.slice(decoded.indexOf(":") + 1) === PREVIEW_PASS;
+}
+
 const pageCache = {};
 customRoutes.forEach((route) => {
   const htmlPath = path.join(STATIC_DIR, `${route}/index.html`);
   if (fs.existsSync(htmlPath)) pageCache[route] = fs.readFileSync(htmlPath, "utf8");
-  app.get([route, `${route}/`], (_req, res) => {
+  app.get([route, `${route}/`], (req, res) => {
+    if (PREVIEW_ROUTES.has(route) && !checkPreviewAuth(req)) {
+      res.setHeader("WWW-Authenticate", 'Basic realm="SOLUNA Internal"');
+      return res.status(401).send("SOLUNA — このページはパスワード保護されています");
+    }
     if (pageCache[route]) {
       res.setHeader("Content-Type", "text/html; charset=UTF-8");
       res.send(pageCache[route]);
@@ -5049,20 +5398,4318 @@ app.get("/api/v1/me/referral", requireAuth(async (req, res) => {
   }
 }));
 
+// ════════════════════════════════════════════════════════════════════
+// CABIN / PROPERTY MANAGEMENT  +  TELEGRAM BOT
+// ════════════════════════════════════════════════════════════════════
+
+// ── Telegram helpers ──────────────────────────────────────────────────────────
+function fmtDate(dateStr) {
+  if (!dateStr) return "—";
+  const d   = new Date(dateStr + "T00:00:00+09:00");
+  const DOW = ["日","月","火","水","木","金","土"];
+  return `${d.getMonth()+1}月${d.getDate()}日(${DOW[d.getDay()]})`;
+}
+
+async function sendTg(chatId, text, extra = {}) {
+  if (!TG_TOKEN) return null;
+  try {
+    const r = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown", ...extra }),
+    });
+    const j = await r.json();
+    return j.ok ? j.result : null;
+  } catch (e) { console.error("[tg]", e.message); return null; }
+}
+
+function editTg(chatId, msgId, text, extra = {}) {
+  if (!TG_TOKEN) return;
+  fetch(`https://api.telegram.org/bot${TG_TOKEN}/editMessageText`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chat_id: chatId, message_id: msgId, text, parse_mode: "Markdown", ...extra }),
+  }).catch(() => {});
+}
+
+function answerCb(cbId, text) {
+  if (!TG_TOKEN) return;
+  fetch(`https://api.telegram.org/bot${TG_TOKEN}/answerCallbackQuery`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ callback_query_id: cbId, text, show_alert: false }),
+  }).catch(() => {});
+}
+
+// ── Cleaning task creation ────────────────────────────────────────────────────
+async function notifyCleaningTask(taskId, cabin, guestName, checkoutDate, nextCheckin) {
+  const label     = propLabel(cabin);
+  const checkStr  = fmtDate(checkoutDate);
+  const nextStr   = nextCheckin ? fmtDate(nextCheckin) : "未定";
+  const today     = new Date().toISOString().slice(0, 10);
+  const urgency   = nextCheckin === checkoutDate ? "⚠️ *当日連泊！即時清掃*\n"
+    : nextCheckin && nextCheckin <= new Date(Date.now() + 86400000).toISOString().slice(0, 10)
+      ? "🚨 *翌日チェックイン！*\n"
+      : checkoutDate === today ? "📍 *本日チェックアウト*\n" : "";
+
+  const text = `🧹 *清掃タスク*\n\n${urgency}🏡 ${label}\n👤 ${guestName || "—"}\n🚪 チェックアウト: ${checkStr}\n📅 次回チェックイン: ${nextStr}\n\n完了したらボタンを押してください。`;
+  const kb   = { inline_keyboard: [[
+    { text: "✅ 清掃完了", callback_data: `clean_done:${taskId}` },
+    { text: "⚠️ 問題あり", callback_data: `clean_issue:${taskId}` },
+  ]]};
+  const msg = await sendTg(TG_CHAT, text, { reply_markup: JSON.stringify(kb) });
+  if (msg) {
+    await db.execute({ sql: "UPDATE cleaning_tasks SET tg_message_id=? WHERE id=?",
+      args: [String(msg.message_id), taskId] }).catch(() => {});
+  }
+}
+
+async function createCleaningTask(resv) {
+  const taskId = crypto.randomBytes(8).toString("hex");
+  let nextCheckin = null;
+  try {
+    const next = (await db.execute({
+      sql: `SELECT checkin FROM cabin_reservations
+            WHERE cabin=? AND checkin>=? AND status!='cancelled'
+            ORDER BY checkin ASC LIMIT 1`,
+      args: [resv.cabin, resv.checkout]
+    })).rows[0];
+    if (next) nextCheckin = next.checkin;
+  } catch {}
+  await db.execute({
+    sql: `INSERT OR IGNORE INTO cleaning_tasks (id,reservation_id,cabin,guest_name,checkout_date,next_checkin)
+          VALUES (?,?,?,?,?,?)`,
+    args: [taskId, resv.id, resv.cabin, resv.guest_name, resv.checkout, nextCheckin]
+  }).catch(() => {});
+  await notifyCleaningTask(taskId, resv.cabin, resv.guest_name, resv.checkout, nextCheckin);
+  return taskId;
+}
+
+// ── Telegram webhook ──────────────────────────────────────────────────────────
+app.post("/api/telegram/webhook", express.json(), async (req, res) => {
+  res.json({ ok: true });
+  const update = req.body;
+  if (!update) return;
+
+  // Callback buttons
+  if (update.callback_query) {
+    const cq = update.callback_query;
+    const [action, taskId] = (cq.data || "").split(":");
+    if (action === "clean_done" && taskId) {
+      try {
+        const task = (await db.execute({ sql: "SELECT * FROM cleaning_tasks WHERE id=?", args: [taskId] })).rows[0];
+        if (task && task.status === "pending") {
+          await db.execute({ sql: "UPDATE cleaning_tasks SET status='done',completed_at=datetime('now') WHERE id=?", args: [taskId] });
+          editTg(TG_CHAT, parseInt(task.tg_message_id),
+            `✅ *清掃完了*\n\n🏡 ${propLabel(task.cabin)}\n👤 ${task.guest_name||"—"}\n🚪 ${fmtDate(task.checkout_date)}`);
+          answerCb(cq.id, "清掃完了を記録しました ✅");
+        } else answerCb(cq.id, task ? "既に完了済みです" : "タスクが見つかりません");
+      } catch { answerCb(cq.id, "エラーが発生しました"); }
+    } else if (action === "clean_issue" && taskId) {
+      try {
+        await db.execute({ sql: "UPDATE cleaning_tasks SET status='issue' WHERE id=?", args: [taskId] });
+        const task = (await db.execute({ sql: "SELECT * FROM cleaning_tasks WHERE id=?", args: [taskId] })).rows[0];
+        answerCb(cq.id, "問題を報告しました ⚠️");
+        sendTg(TG_CHAT, `⚠️ *清掃問題報告*\n\n🏡 ${task ? propLabel(task.cabin) : "不明"}\nタスクID: \`${taskId}\`\n\n詳細を返信してください。`);
+      } catch { answerCb(cq.id, "エラーが発生しました"); }
+    }
+    return;
+  }
+
+  const msg = update.message;
+  if (!msg?.text) return;
+  const chatId = String(msg.chat.id);
+  const text   = msg.text.trim();
+  const cmd    = text.split(" ")[0].replace(/@\S+/, "").toLowerCase();
+
+  try {
+    if (cmd === "/start" || cmd === "/help") {
+      await sendTg(chatId, `*SOLUNA 予約管理ボット*\n\n` +
+        `/今日 — 本日のチェックイン・アウト\n` +
+        `/予約 — 今後14日の予約一覧\n` +
+        `/清掃 — 未完了の清掃タスク\n` +
+        `/完了 [物件キー] — 手動で清掃完了\n` +
+        `/stats — 今月の稼働統計\n\n` +
+        `物件キー: tapkop / lodge / atami / instant_a / instant_b`);
+
+    } else if (cmd === "/今日") {
+      const today = new Date().toISOString().slice(0, 10);
+      const [ins, outs] = await Promise.all([
+        db.execute({ sql: "SELECT * FROM cabin_reservations WHERE checkin=? AND status!='cancelled'", args: [today] }),
+        db.execute({ sql: "SELECT * FROM cabin_reservations WHERE checkout=? AND status!='cancelled'", args: [today] }),
+      ]);
+      let out = `*今日 ${fmtDate(today)}*\n\n`;
+      if (ins.rows.length) {
+        out += `*🔑 チェックイン (${ins.rows.length}件)*\n`;
+        ins.rows.forEach(r => { out += `  • ${propLabel(r.cabin)} — ${r.guest_name||"—"}\n`; });
+        out += "\n";
+      }
+      if (outs.rows.length) {
+        out += `*🚪 チェックアウト (${outs.rows.length}件)*\n`;
+        outs.rows.forEach(r => { out += `  • ${propLabel(r.cabin)} — ${r.guest_name||"—"}\n`; });
+      }
+      if (!ins.rows.length && !outs.rows.length) out += "本日の予約はありません";
+      await sendTg(chatId, out);
+
+    } else if (cmd === "/予約") {
+      const rows = (await db.execute({
+        sql: `SELECT * FROM cabin_reservations WHERE status!='cancelled' AND checkin>=date('now') AND checkin<=date('now','+14 days') ORDER BY checkin ASC LIMIT 20`,
+        args: []
+      })).rows;
+      if (!rows.length) { await sendTg(chatId, "今後14日間の予約はありません"); return; }
+      const out = "*今後14日の予約*\n\n" + rows.map(r =>
+        `📅 ${fmtDate(r.checkin)}〜${fmtDate(r.checkout)}\n🏡 ${propLabel(r.cabin)}\n👤 ${r.guest_name||"—"}`
+      ).join("\n\n");
+      await sendTg(chatId, out);
+
+    } else if (cmd === "/清掃") {
+      const rows = (await db.execute({
+        sql: "SELECT * FROM cleaning_tasks WHERE status='pending' ORDER BY checkout_date ASC LIMIT 10",
+        args: []
+      })).rows;
+      if (!rows.length) { await sendTg(chatId, "未完了の清掃タスクはありません ✅"); return; }
+      const out = "*未完了の清掃タスク*\n\n" + rows.map(r =>
+        `🧹 ${fmtDate(r.checkout_date)} — ${propLabel(r.cabin)}\n👤 ${r.guest_name||"—"}` +
+        (r.next_checkin ? `\n📅 次回IN: ${fmtDate(r.next_checkin)}` : "")
+      ).join("\n\n");
+      await sendTg(chatId, out);
+
+    } else if (cmd === "/stats") {
+      const ym = new Date().toISOString().slice(0, 7);
+      const rows = (await db.execute({
+        sql: `SELECT cabin, COUNT(*) as cnt FROM cabin_reservations WHERE checkin LIKE ? AND status!='cancelled' GROUP BY cabin`,
+        args: [ym + "%"]
+      })).rows;
+      const out = rows.length
+        ? `*今月 (${ym}) の予約数*\n\n` + rows.map(r => `🏡 ${propLabel(r.cabin)}: ${r.cnt}件`).join("\n")
+        : "今月の予約データはありません";
+      await sendTg(chatId, out);
+
+    } else if (cmd === "/完了") {
+      const cabin = text.split(" ")[1] || "";
+      if (!cabin) { await sendTg(chatId, "使い方: /完了 [物件キー]\n例: /完了 tapkop"); return; }
+      const task = (await db.execute({
+        sql: "SELECT * FROM cleaning_tasks WHERE cabin=? AND status='pending' ORDER BY checkout_date DESC LIMIT 1",
+        args: [cabin]
+      })).rows[0];
+      if (!task) { await sendTg(chatId, `${propLabel(cabin)} の未完了清掃タスクはありません`); return; }
+      await db.execute({ sql: "UPDATE cleaning_tasks SET status='done',completed_at=datetime('now') WHERE id=?", args: [task.id] });
+      await sendTg(chatId, `✅ ${propLabel(cabin)} の清掃完了を記録しました`);
+    }
+  } catch (e) { console.error("[tg bot]", e.message); }
+});
+
+// Register Telegram webhook
+async function registerTgWebhook() {
+  if (!TG_TOKEN) { console.log("ℹ Telegram disabled (set TELEGRAM_BOT_TOKEN)"); return; }
+  try {
+    const r = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/setWebhook`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: `${BASE_URL}/api/telegram/webhook`, max_connections: 5 }),
+    });
+    const j = await r.json();
+    console.log(j.ok ? `✓ Telegram webhook: ${BASE_URL}/api/telegram/webhook` : `⚠ Telegram webhook: ${j.description}`);
+  } catch (e) { console.error("Telegram webhook registration:", e.message); }
+}
+
+// ── Morning digest (7 AM JST) ─────────────────────────────────────────────────
+function scheduleMorningDigest() {
+  async function runDigest() {
+    if (!TG_TOKEN) return;
+    const today = new Date().toISOString().slice(0, 10);
+    const [ins, outs, cleans] = await Promise.all([
+      db.execute({ sql: "SELECT * FROM cabin_reservations WHERE checkin=? AND status!='cancelled'", args: [today] }),
+      db.execute({ sql: "SELECT * FROM cabin_reservations WHERE checkout=? AND status!='cancelled'", args: [today] }),
+      db.execute({ sql: "SELECT * FROM cleaning_tasks WHERE status='pending' ORDER BY checkout_date ASC LIMIT 5", args: [] }),
+    ]);
+    if (!ins.rows.length && !outs.rows.length && !cleans.rows.length) return;
+    let lines = [`☀️ *SOLUNA 朝のサマリー ${fmtDate(today)}*\n`];
+    if (ins.rows.length) {
+      lines.push(`*🔑 本日チェックイン (${ins.rows.length}件)*`);
+      ins.rows.forEach(r => lines.push(`  • ${propLabel(r.cabin)} — ${r.guest_name||"—"}`));
+    }
+    if (outs.rows.length) {
+      lines.push(`\n*🚪 本日チェックアウト (${outs.rows.length}件)*`);
+      outs.rows.forEach(r => lines.push(`  • ${propLabel(r.cabin)} — ${r.guest_name||"—"}`));
+    }
+    if (cleans.rows.length) {
+      lines.push(`\n*🧹 未完了清掃 (${cleans.rows.length}件)*`);
+      cleans.rows.forEach(t => lines.push(`  • ${propLabel(t.cabin)} — ${fmtDate(t.checkout_date)}`));
+    }
+    await sendTg(TG_CHAT, lines.join("\n")).catch(() => {});
+  }
+
+  function scheduleNext() {
+    const now  = Date.now();
+    const jst  = now + 9 * 3600 * 1000;
+    const jstD = new Date(jst);
+    // Target: next 7:00 JST = 22:00 UTC
+    const next7am = new Date(jstD);
+    next7am.setUTCHours(7 - 9, 0, 0, 0);
+    if (next7am.getTime() <= jst) next7am.setUTCDate(next7am.getUTCDate() + 1);
+    const ms = next7am.getTime() - now;
+    setTimeout(() => { runDigest().catch(()=>{}).finally(scheduleNext); }, ms);
+  }
+  scheduleNext();
+  console.log("✓ Morning digest scheduler started");
+}
+
+// ── Morning philosophy (9 AM JST) ────────────────────────────────────────────
+const ARCH_PHILOSOPHIES = [
+  { author: "安藤忠雄", quote: "光は空間の本質を明らかにし、建築を詩にする" },
+  { author: "ピーター・ズントー", quote: "空間の記憶は、身体の記憶だ" },
+  { author: "隈研吾", quote: "素材と自然が対話するとき、建築は呼吸を始める" },
+  { author: "ミース・ファン・デル・ローエ", quote: "Less is more" },
+  { author: "ル・コルビュジェ", quote: "空間、光、秩序。これが人間が求めるものだ" },
+  { author: "フランク・ロイド・ライト", quote: "大地から生えたように、建物は場所に根ざすべきだ" },
+  { author: "槇文彦", quote: "集合体の中に、個の美しさが生まれる" },
+  { author: "グレン・マーカット", quote: "地球に軽く触れよ" },
+  { author: "アルヴァ・アアルト", quote: "素材の温かさが、空間に人間性をもたらす" },
+  { author: "ルイス・カーン", quote: "建築とは、空間を通じた意志の表現だ" },
+  { author: "ザハ・ハディド", quote: "曲線は直線よりも多くを語る" },
+  { author: "レム・コールハース", quote: "都市は建築の限界を超えたところで始まる" },
+  { author: "伊東豊雄", quote: "建築は自然と人間の対話の場である" },
+  { author: "磯崎新", quote: "建築は廃墟になったとき完成する" },
+  { author: "坂茂", quote: "素材に制限はない。あるのは想像力の制限だ" },
+  { author: "藤本壮介", quote: "建築は自然でもなく人工でもなく、その間にある" },
+  { author: "妹島和世", quote: "軽さと透明さが、新しい空間を生む" },
+  { author: "西沢立衛", quote: "建築は人間の行為を包む器である" },
+  { author: "ルイス・バラガン", quote: "美しさとは記憶に残る沈黙である" },
+  { author: "タデオ・アンド", quote: "場所の記憶が建築に魂を与える" },
+  { author: "スティーブン・ホール", quote: "建築は光によって時間と共に生きる" },
+  { author: "ヘルツォーク＆ド・ムーロン", quote: "素材そのものが建築の言語だ" },
+  { author: "ノーマン・フォスター", quote: "持続可能性とは次世代への敬意だ" },
+  { author: "レンゾ・ピアノ", quote: "建物は呼吸するべきだ——光、風、そして人とともに" },
+  { author: "リチャード・ロジャース", quote: "技術は人間を解放するためにある" },
+  { author: "ダニエル・リベスキンド", quote: "建築は記憶と希望の間に立つ" },
+  { author: "ピーター・アイゼンマン", quote: "建築は意味を問い直す行為だ" },
+  { author: "バックミンスター・フラー", quote: "より少ない資源で、より多くをなせ" },
+  { author: "ヨーン・ウツォン", quote: "建築は詩であり、詩は建築である" },
+  { author: "エーロ・サーリネン", quote: "常に次のプロジェクトを現在の最高傑作として設計する" },
+  { author: "ミシェル・デ・クラーク", quote: "建築は社会の詩的な表現である" },
+  { author: "ヨーゼフ・ホフマン", quote: "装飾は機能から生まれるべきだ" },
+  { author: "マリオ・ボッタ", quote: "建築は場所のアイデンティティだ" },
+  { author: "タデオ・アンド", quote: "記憶なき建築は、根なき木だ" },
+  { author: "リチャード・マイヤー", quote: "白は全ての色を内包する" },
+  { author: "チャールズ・コレア", quote: "建築は気候と文化の詩だ" },
+  { author: "ハッサン・ファシー", quote: "人々の知恵の中に最も深い建築がある" },
+  { author: "タレク・エルカリ", quote: "建築は記憶の器である" },
+  { author: "西澤大良", quote: "建築は問いかけることで完成する" },
+  { author: "中村好文", quote: "住まいは人生の舞台装置だ" },
+  { author: "吉村順三", quote: "家は住む人の生き方が現れる場所だ" },
+  { author: "白井晟一", quote: "建築は精神の形だ" },
+  { author: "前川國男", quote: "建築は社会への誠実な応答だ" },
+  { author: "丹下健三", quote: "空間は人間の夢を形にする" },
+  { author: "篠原一男", quote: "家は芸術だ" },
+  { author: "山本理顕", quote: "建築は関係性を作る" },
+  { author: "塚本由晴", quote: "行動と空間が互いを作り出す" },
+  { author: "仙田満", quote: "遊びの空間が、人間を育てる" },
+  { author: "原広司", quote: "空間は叙述する——物語として" },
+  { author: "毛綱毅曠", quote: "建築は宇宙との対話だ" },
+];
+
+function scheduleMorningPhilosophy() {
+  async function runPhilosophy() {
+    const p = ARCH_PHILOSOPHIES[Math.floor(Math.random() * ARCH_PHILOSOPHIES.length)];
+    const message = `🏛️ *今日の建築哲学*\n\n「${p.quote}」\n\n— ${p.author}`;
+    const ins = await db.execute({
+      sql: `INSERT INTO soluna_community_messages (member_id, display_name, member_type, message, is_ai) VALUES (0,'ソル AI','ai',?,1)`,
+      args: [message]
+    });
+    const payload = {
+      type: "message",
+      id: Number(ins.lastInsertRowid),
+      member_id: 0,
+      display_name: "ソル AI",
+      member_type: "ai",
+      message,
+      is_ai: 1,
+      created_at: new Date().toISOString()
+    };
+    broadcastCommunity(payload);
+  }
+
+  function scheduleNext() {
+    const now = Date.now();
+    // Target: next 9:00 JST = 0:00 UTC
+    const jst = now + 9 * 3600 * 1000;
+    const jstD = new Date(jst);
+    const next9am = new Date(jstD);
+    next9am.setUTCHours(9 - 9, 0, 0, 0); // 0:00 UTC = 9:00 JST
+    if (next9am.getTime() <= jst) next9am.setUTCDate(next9am.getUTCDate() + 1);
+    const ms = next9am.getTime() - now;
+    setTimeout(() => { runPhilosophy().catch(() => {}).finally(scheduleNext); }, ms);
+  }
+  scheduleNext();
+  console.log("✓ Morning philosophy scheduler started");
+}
+
+// Hourly: create cleaning tasks for upcoming checkouts
+async function syncCleaningTasks() {
+  try {
+    const today    = new Date().toISOString().slice(0, 10);
+    const tomorrow = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
+    const resv = (await db.execute({
+      sql: `SELECT r.* FROM cabin_reservations r
+            LEFT JOIN cleaning_tasks ct ON ct.reservation_id=r.id
+            WHERE r.status!='cancelled' AND r.checkout BETWEEN ? AND ? AND ct.id IS NULL`,
+      args: [today, tomorrow]
+    })).rows;
+    for (const r of resv) {
+      console.log(`[cleaning] Creating task for ${r.cabin} checkout ${r.checkout}`);
+      await createCleaningTask(r);
+    }
+  } catch (e) { console.error("[cleanSync]", e.message); }
+}
+
+// ── Beds24 sync ───────────────────────────────────────────────────────────────
+let beds24Token = null;
+let beds24TokenExpiry = 0;
+
+async function beds24GetToken() {
+  if (!BEDS24_REFRESH) return null;
+  if (beds24Token && Date.now() < beds24TokenExpiry) return beds24Token;
+  try {
+    const r = await fetch("https://api.beds24.com/v2/authentication/token", {
+      headers: { refreshToken: BEDS24_REFRESH }
+    });
+    const j = await r.json();
+    if (j.token) {
+      beds24Token = j.token;
+      beds24TokenExpiry = Date.now() + 23 * 3600 * 1000;
+      return beds24Token;
+    }
+    return null;
+  } catch (e) { console.error("Beds24 token:", e.message); return null; }
+}
+
+function mapBeds24Prop(propId) {
+  const map = { 243406: "atami", 243407: "honolulu", 243408: "lodge", 243409: "nesting", 244738: "maui", 322965: "instant_a", 322966: "instant_b" };
+  return map[propId] || `tapkop`; // default fallback
+}
+
+async function pushToBeds24(prop, check_in, check_out, guests, guestName, guestEmail) {
+  if (!prop.beds24_prop || !prop.beds24_room) return null;
+  try {
+    const token = await beds24GetToken();
+    if (!token) return null;
+    const [ln, fn] = (guestName || guestEmail || "SOLUNA Guest").split(" ").reverse();
+    const r = await fetch("https://api.beds24.com/v2/bookings", {
+      method: "POST",
+      headers: { "token": token, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        propertyId: prop.beds24_prop,
+        roomId: prop.beds24_room,
+        roomQty: 1,
+        arrival: check_in,
+        departure: check_out,
+        numAdult: guests || 2,
+        firstName: fn || guestEmail || "SOLUNA",
+        lastName: ln || "Guest",
+        email: guestEmail || "",
+        status: "confirmed",
+        notes: "Booked via SOLUNA App",
+      }),
+    });
+    const d = await r.json();
+    return d.data?.[0]?.id || null;
+  } catch(e) {
+    console.error("Beds24 push error:", e.message);
+    return null;
+  }
+}
+
+async function beds24Sync() {
+  const token = await beds24GetToken();
+  if (!token) return;
+  try {
+    const r = await fetch("https://api.beds24.com/v2/bookings?includeGuests=true&status=confirmed,modified", {
+      headers: { token }
+    });
+    const data = await r.json();
+    if (!data.success) return;
+    let newCount = 0;
+    for (const b of data.data || []) {
+      const cabin    = mapBeds24Prop(b.propertyId);
+      const id       = `b24-${b.id}`;
+      const name     = `${b.guestFirstName||""} ${b.guestLastName||""}`.trim();
+      const existing = (await db.execute({ sql: "SELECT id,notified FROM cabin_reservations WHERE id=?", args: [id] })).rows[0];
+
+      await db.execute({
+        sql: `INSERT OR REPLACE INTO cabin_reservations
+              (id,cabin,guest_name,guest_email,guest_phone,checkin,checkout,status,source,notified)
+              VALUES (?,?,?,?,?,?,?,?,?,?)`,
+        args: [id, cabin, name, b.guestEmail||"", b.guestPhone||"",
+               b.arrival, b.departure,
+               b.status === "cancelled" ? "cancelled" : "confirmed",
+               "beds24", existing?.notified || 0]
+      }).catch(() => {});
+
+      if (!existing) {
+        newCount++;
+        // Telegram alert for new booking
+        sendTg(TG_CHAT,
+          `📩 *新規予約*\n\n🏡 ${propLabel(cabin)}\n👤 ${name||"—"}\n📅 ${fmtDate(b.arrival)}〜${fmtDate(b.departure)}\n📧 ${b.guestEmail||"—"}`
+        ).catch(() => {});
+      }
+    }
+    if (newCount > 0) console.log(`[beds24] ${newCount} new bookings`);
+  } catch (e) { console.error("Beds24 sync:", e.message); }
+}
+
+// ── Admin: reservations dashboard ─────────────────────────────────────────────
+app.get("/api/admin/reservations", async (req, res) => {
+  if (req.query.key !== ADMIN_KEY) return res.status(401).json({ error: "Unauthorized" });
+  const [resv, tasks] = await Promise.all([
+    db.execute("SELECT * FROM cabin_reservations WHERE status!='cancelled' ORDER BY checkin ASC LIMIT 100"),
+    db.execute("SELECT * FROM cleaning_tasks ORDER BY checkout_date DESC LIMIT 50"),
+  ]);
+  res.json({ reservations: resv.rows, cleaning_tasks: tasks.rows });
+});
+
+app.get("/api/admin/cleaning", async (req, res) => {
+  if (req.query.key !== ADMIN_KEY) return res.status(401).json({ error: "Unauthorized" });
+  const tasks = (await db.execute("SELECT * FROM cleaning_tasks ORDER BY checkout_date DESC LIMIT 100")).rows;
+  res.json(tasks);
+});
+
+// ── Cabin reservations CRUD ───────────────────────────────────────────────────
+app.get("/api/cabin/reservations", async (req, res) => {
+  if (req.query.key !== ADMIN_KEY) return res.status(401).json({ error: "Unauthorized" });
+  const rows = (await db.execute("SELECT * FROM cabin_reservations WHERE status!='cancelled' ORDER BY checkin ASC LIMIT 100")).rows;
+  res.json(rows);
+});
+
+app.post("/api/cabin/reservations", async (req, res) => {
+  if (req.query.key !== ADMIN_KEY) return res.status(401).json({ error: "Unauthorized" });
+  const { cabin, guest_name, guest_email, guest_phone, checkin, checkout, note } = req.body || {};
+  if (!cabin || !checkin || !checkout) return res.status(400).json({ error: "cabin, checkin, checkout required" });
+  const id = crypto.randomBytes(8).toString("hex");
+  await db.execute({
+    sql: "INSERT INTO cabin_reservations (id,cabin,guest_name,guest_email,guest_phone,checkin,checkout,note,source) VALUES (?,?,?,?,?,?,?,?,'manual')",
+    args: [id, cabin, guest_name||"", guest_email||"", guest_phone||"", checkin, checkout, note||""]
+  });
+  sendTg(TG_CHAT, `📝 *手動予約登録*\n\n🏡 ${propLabel(cabin)}\n👤 ${guest_name||"—"}\n📅 ${fmtDate(checkin)}〜${fmtDate(checkout)}`).catch(()=>{});
+  res.json({ ok: true, id });
+});
+
+app.patch("/api/cabin/reservations/:id/cancel", async (req, res) => {
+  if (req.query.key !== ADMIN_KEY) return res.status(401).json({ error: "Unauthorized" });
+  await db.execute({ sql: "UPDATE cabin_reservations SET status='cancelled' WHERE id=?", args: [req.params.id] });
+  res.json({ ok: true });
+});
+
+// ── Month ops: slots + checkout + webhook ─────────────────────────────────────
+app.get("/api/cabin/month/slots", async (req, res) => {
+  const slots = [];
+  const now   = new Date();
+  for (const [propId, cfg] of Object.entries(MONTH_OP_PROPS)) {
+    for (let i = 1; i <= MONTH_OP_ADVANCE; i++) {
+      const d   = new Date(now.getFullYear(), now.getMonth() + i, 1);
+      const yr  = d.getFullYear();
+      const mo  = d.getMonth() + 1;
+      const existing = (await db.execute({
+        sql: "SELECT id FROM month_ops WHERE property_id=? AND year=? AND month=? AND status='paid'",
+        args: [propId, yr, mo]
+      })).rows[0];
+      slots.push({
+        property_id: propId, prop_name: cfg.name, location: cfg.location,
+        year: yr, month: mo, price_jpy: cfg.price_jpy,
+        avg_revenue_jpy: cfg.avg_revenue_jpy,
+        cleaning_fee: cfg.cleaning_fee, linen_fee_per_stay: cfg.linen_fee_per_stay,
+        bed_service: cfg.bed_service, bed_service_fee: cfg.bed_service_fee,
+        sold: !!existing,
+      });
+    }
+  }
+  res.json({ slots });
+});
+
+app.post("/api/cabin/month/checkout", async (req, res) => {
+  if (!STRIPE_SECRET_KEY) return res.status(503).json({ error: "Payment not configured" });
+  const { property_id, year, month, name, email } = req.body || {};
+  if (!property_id || !year || !month || !email) return res.status(400).json({ error: "Missing fields" });
+  const cfg = MONTH_OP_PROPS[property_id];
+  if (!cfg) return res.status(400).json({ error: "Invalid property" });
+  // Check sold
+  const existing = (await db.execute({
+    sql: "SELECT id FROM month_ops WHERE property_id=? AND year=? AND month=? AND status='paid'",
+    args: [property_id, year, month]
+  })).rows[0];
+  if (existing) return res.status(409).json({ error: "既に売り切れています" });
+
+  const stripe = require("stripe")(STRIPE_SECRET_KEY);
+  const id = crypto.randomBytes(8).toString("hex");
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: [{ price_data: {
+      currency: "jpy",
+      product_data: { name: `${cfg.name} — ${year}年${month}月 月次運営権` },
+      unit_amount: cfg.price_jpy,
+    }, quantity: 1 }],
+    mode: "payment",
+    customer_email: email,
+    success_url: `${BASE_URL.replace("solun.art","soluna-teshikaga.fly.dev")}/month.html?success=1`,
+    cancel_url:  `${BASE_URL.replace("solun.art","soluna-teshikaga.fly.dev")}/month.html`,
+    metadata: { month_op_id: id, property_id, year, month, buyer_name: name, buyer_email: email },
+  });
+  await db.execute({
+    sql: "INSERT INTO month_ops (id,property_id,year,month,buyer_name,buyer_email,price_jpy,status,stripe_session_id) VALUES (?,?,?,?,?,?,?,'pending',?)",
+    args: [id, property_id, year, month, name||"", email, cfg.price_jpy, session.id]
+  });
+  res.json({ url: session.url });
+});
+
+app.post("/api/cabin/month/webhook", express.raw({ type: "application/json" }), async (req, res) => {
+  const sig = req.headers["stripe-signature"];
+  const wh  = process.env.STRIPE_WEBHOOK_SECRET_MONTH || process.env.STRIPE_WEBHOOK_SECRET || "";
+  let event;
+  try {
+    event = wh
+      ? require("stripe")(STRIPE_SECRET_KEY).webhooks.constructEvent(req.body, sig, wh)
+      : JSON.parse(req.body);
+  } catch (e) { return res.status(400).send("Invalid signature"); }
+  if (event.type === "checkout.session.completed") {
+    const s = event.data.object;
+    const { month_op_id, property_id, year, month, buyer_name, buyer_email } = s.metadata || {};
+    if (month_op_id) {
+      await db.execute({ sql: "UPDATE month_ops SET status='paid' WHERE id=?", args: [month_op_id] });
+      const cfg = MONTH_OP_PROPS[property_id] || {};
+      sendTg(TG_CHAT, `💰 *月次運営権 購入完了*\n\n🏡 ${cfg.name||property_id}\n📅 ${year}年${month}月\n👤 ${buyer_name||"—"}\n📧 ${buyer_email}\n💴 ¥${(cfg.price_jpy||0).toLocaleString()}`).catch(()=>{});
+      if (RESEND_API_KEY && buyer_email) {
+        fetch("https://api.resend.com/emails", { method:"POST",
+          headers: {"Content-Type":"application/json", Authorization:`Bearer ${RESEND_API_KEY}`},
+          body: JSON.stringify({
+            from: "SOLUNA <info@solun.art>",
+            to: [buyer_email],
+            subject: `【SOLUNA】${cfg.name||property_id} ${year}年${month}月 月次運営権 ご購入ありがとうございます`,
+            html: `<div style="background:#050505;color:#f0ece4;font-family:'Helvetica Neue',sans-serif;padding:40px;max-width:520px;margin:0 auto">
+              <p style="font-size:11px;letter-spacing:.2em;color:#c8a455">SOLUNA</p>
+              <h2 style="font-size:20px;margin:16px 0">ご購入ありがとうございます</h2>
+              <p style="color:#aaa;line-height:1.9;font-size:14px">
+                ${buyer_name||""}様<br><br>
+                ${cfg.name||property_id} ${year}年${month}月分の月次運営権のご購入を確認しました。<br>
+                翌月10日に実際の売上額を宿泊クレジットとして付与いたします。
+              </p>
+              <p style="font-size:12px;color:#555;margin-top:24px">SOLUNA — Enabler Inc.</p>
+            </div>`
+          })
+        }).catch(()=>{});
+      }
+    }
+  }
+  res.json({ ok: true });
+});
+
+// ── Kumiai: slots + apply + webhook ──────────────────────────────────────────
+app.get("/api/cabin/kumiai/slots", async (req, res) => {
+  const slots = [];
+  const now = new Date();
+  for (const [propId, cfg] of Object.entries(MONTH_OP_PROPS)) {
+    for (let i = 1; i <= MONTH_OP_ADVANCE; i++) {
+      const d  = new Date(now.getFullYear(), now.getMonth() + i, 1);
+      const yr = d.getFullYear();
+      const mo = d.getMonth() + 1;
+      const cnt = (await db.execute({
+        sql: "SELECT COUNT(*) as c FROM kumiai_applications WHERE property_id=? AND year=? AND month=? AND status='paid'",
+        args: [propId, yr, mo]
+      })).rows[0]?.c || 0;
+      slots.push({
+        property_id: propId, prop_name: cfg.name, location: cfg.location,
+        year: yr, month: mo, price_jpy: cfg.price_jpy,
+        investor_count: cnt, max_investors: KUMIAI_MAX_INVESTORS,
+        sold: cnt >= KUMIAI_MAX_INVESTORS,
+      });
+    }
+  }
+  res.json({ slots });
+});
+
+app.post("/api/cabin/kumiai/apply", async (req, res) => {
+  if (!STRIPE_SECRET_KEY) return res.status(503).json({ error: "Payment not configured" });
+  const { property_id, year, month, buyer_name, buyer_address, buyer_email, buyer_phone,
+          bank_name, bank_branch, bank_type, bank_number, bank_holder } = req.body || {};
+  if (!property_id || !year || !month || !buyer_email || !buyer_name)
+    return res.status(400).json({ error: "Missing required fields" });
+
+  const cfg = MONTH_OP_PROPS[property_id];
+  if (!cfg) return res.status(400).json({ error: "Invalid property" });
+
+  const cnt = (await db.execute({
+    sql: "SELECT COUNT(*) as c FROM kumiai_applications WHERE property_id=? AND year=? AND month=? AND status='paid'",
+    args: [property_id, year, month]
+  })).rows[0]?.c || 0;
+  if (cnt >= KUMIAI_MAX_INVESTORS) return res.status(409).json({ error: "満員です（49名限定）" });
+
+  const stripe = require("stripe")(STRIPE_SECRET_KEY);
+  const id     = crypto.randomBytes(8).toString("hex");
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: [{ price_data: {
+      currency: "jpy",
+      product_data: { name: `${cfg.name} — ${year}年${month}月 匿名組合出資` },
+      unit_amount: cfg.price_jpy,
+    }, quantity: 1 }],
+    mode: "payment",
+    customer_email: buyer_email,
+    success_url: `${BASE_URL.replace("solun.art","soluna-teshikaga.fly.dev")}/kumiai.html?success=1`,
+    cancel_url:  `${BASE_URL.replace("solun.art","soluna-teshikaga.fly.dev")}/kumiai.html`,
+    metadata: { kumiai_id: id },
+  });
+  await db.execute({
+    sql: `INSERT INTO kumiai_applications
+          (id,property_id,year,month,buyer_name,buyer_address,buyer_email,buyer_phone,
+           bank_name,bank_branch,bank_type,bank_number,bank_holder,price_jpy,status,stripe_session_id)
+          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,'pending',?)`,
+    args: [id, property_id, year, month, buyer_name, buyer_address||"", buyer_email, buyer_phone||"",
+           bank_name||"", bank_branch||"", bank_type||"ordinary", bank_number||"", bank_holder||"",
+           cfg.price_jpy, session.id]
+  });
+  res.json({ url: session.url });
+});
+
+app.post("/api/cabin/kumiai/webhook", express.raw({ type: "application/json" }), async (req, res) => {
+  const sig = req.headers["stripe-signature"];
+  const wh  = process.env.STRIPE_WEBHOOK_SECRET_KUMIAI || process.env.STRIPE_WEBHOOK_SECRET || "";
+  let event;
+  try {
+    event = wh
+      ? require("stripe")(STRIPE_SECRET_KEY).webhooks.constructEvent(req.body, sig, wh)
+      : JSON.parse(req.body);
+  } catch (e) { return res.status(400).send("Invalid signature"); }
+  if (event.type === "checkout.session.completed") {
+    const { kumiai_id } = event.data.object.metadata || {};
+    if (kumiai_id) {
+      await db.execute({ sql: "UPDATE kumiai_applications SET status='paid' WHERE id=?", args: [kumiai_id] });
+      const app = (await db.execute({ sql: "SELECT * FROM kumiai_applications WHERE id=?", args: [kumiai_id] })).rows[0];
+      if (app) {
+        const cfg = MONTH_OP_PROPS[app.property_id] || {};
+        sendTg(TG_CHAT, `💰 *匿名組合 出資完了*\n\n🏡 ${cfg.name||app.property_id}\n📅 ${app.year}年${app.month}月\n👤 ${app.buyer_name}\n📧 ${app.buyer_email}\n💴 ¥${(app.price_jpy||0).toLocaleString()}`).catch(()=>{});
+      }
+    }
+  }
+  res.json({ ok: true });
+});
+
+// ── Invest waitlist ───────────────────────────────────────────────────────────
+app.post("/api/cabin/invest/notify", async (req, res) => {
+  const { name, email, scheme } = req.body || {};
+  if (!email) return res.status(400).json({ error: "email required" });
+  const id = crypto.randomBytes(8).toString("hex");
+  await db.execute({
+    sql: "INSERT OR IGNORE INTO invest_waitlist (id,name,email,scheme) VALUES (?,?,?,?)",
+    args: [id, name||"", email, scheme||"B"]
+  }).catch(() => {});
+  sendAdminEmail(`[SOLUNA] 投資ウェイトリスト登録 — ${email}`,
+    `<p>スキーム: ${scheme||"B"}</p><p>名前: ${name||"—"}</p><p>Email: ${email}</p>`);
+  res.json({ ok: true });
+});
+
+// ── Admin: kumiai list ────────────────────────────────────────────────────────
+app.get("/api/admin/kumiai", async (req, res) => {
+  if (req.query.key !== ADMIN_KEY) return res.status(401).json({ error: "Unauthorized" });
+  const rows = (await db.execute("SELECT * FROM kumiai_applications ORDER BY created_at DESC LIMIT 200")).rows;
+  res.json(rows);
+});
+
+app.post("/api/admin/kumiai/:id/distribute", async (req, res) => {
+  if (req.query.key !== ADMIN_KEY) return res.status(401).json({ error: "Unauthorized" });
+  await db.execute({ sql: "UPDATE kumiai_applications SET distributed=1 WHERE id=?", args: [req.params.id] });
+  res.json({ ok: true });
+});
+
+// ── Admin: month ops list ─────────────────────────────────────────────────────
+app.get("/api/admin/month-ops", async (req, res) => {
+  if (req.query.key !== ADMIN_KEY) return res.status(401).json({ error: "Unauthorized" });
+  const rows = (await db.execute("SELECT * FROM month_ops ORDER BY created_at DESC LIMIT 200")).rows;
+  res.json(rows);
+});
+
+app.post("/api/admin/month-ops/:id/credit", async (req, res) => {
+  if (req.query.key !== ADMIN_KEY) return res.status(401).json({ error: "Unauthorized" });
+  const { credit_amount } = req.body || {};
+  const op = (await db.execute({ sql: "SELECT * FROM month_ops WHERE id=?", args: [req.params.id] })).rows[0];
+  if (!op) return res.status(404).json({ error: "Not found" });
+  await db.execute({ sql: "UPDATE month_ops SET credit_issued=1 WHERE id=?", args: [req.params.id] });
+  if (RESEND_API_KEY && op.buyer_email) {
+    const cfg = MONTH_OP_PROPS[op.property_id] || {};
+    fetch("https://api.resend.com/emails", { method:"POST",
+      headers: {"Content-Type":"application/json", Authorization:`Bearer ${RESEND_API_KEY}`},
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>",
+        to: [op.buyer_email],
+        subject: `【SOLUNA】${cfg.name||op.property_id} ${op.year}年${op.month}月 宿泊クレジット付与のお知らせ`,
+        html: `<div style="background:#050505;color:#f0ece4;font-family:'Helvetica Neue',sans-serif;padding:40px;max-width:520px;margin:0 auto">
+          <p style="font-size:11px;letter-spacing:.2em;color:#c8a455">SOLUNA</p>
+          <h2 style="font-size:20px;margin:16px 0">宿泊クレジットが付与されました</h2>
+          <p style="color:#aaa;line-height:1.9;font-size:14px">
+            ${op.buyer_name||""}様<br><br>
+            ${cfg.name||op.property_id} ${op.year}年${op.month}月の宿泊クレジットを付与しました。<br>
+            付与額: ¥${(credit_amount||0).toLocaleString()}<br><br>
+            SOLUNA全施設の宿泊にご利用いただけます。有効期限は付与日から2年です。
+          </p>
+          <p style="font-size:12px;color:#555;margin-top:24px">SOLUNA — Enabler Inc.</p>
+        </div>`
+      })
+    }).catch(()=>{});
+  }
+  res.json({ ok: true });
+});
+
 // ── API 404 (prevent catch-all from returning HTML for unknown API routes) ────
+// ── SOLUNA Member Portal ──────────────────────────────────────────────────────
+// Tables are created lazily to avoid touching the heavy initDb() batch
+async function initSolunaDb() {
+  await db.batch([
+    `CREATE TABLE IF NOT EXISTS soluna_members (
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       email TEXT UNIQUE NOT NULL,
+       name TEXT,
+       created_at TEXT DEFAULT (datetime('now'))
+     )`,
+    `CREATE TABLE IF NOT EXISTS soluna_otps (
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       email TEXT NOT NULL,
+       code TEXT NOT NULL,
+       expires_at TEXT NOT NULL,
+       used INTEGER DEFAULT 0,
+       created_at TEXT DEFAULT (datetime('now'))
+     )`,
+    `CREATE TABLE IF NOT EXISTS soluna_sessions (
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       member_id INTEGER NOT NULL,
+       token TEXT UNIQUE NOT NULL,
+       expires_at TEXT NOT NULL,
+       created_at TEXT DEFAULT (datetime('now'))
+     )`,
+    `CREATE TABLE IF NOT EXISTS soluna_purchases (
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       member_id INTEGER NOT NULL,
+       property_slug TEXT NOT NULL,
+       units INTEGER DEFAULT 1,
+       price_yen INTEGER NOT NULL,
+       status TEXT DEFAULT 'pending',
+       created_at TEXT DEFAULT (datetime('now'))
+     )`,
+    `CREATE TABLE IF NOT EXISTS soluna_coupons (
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       code TEXT UNIQUE NOT NULL,
+       member_id INTEGER,
+       property_slug TEXT NOT NULL,
+       nights_total INTEGER NOT NULL,
+       nights_used INTEGER DEFAULT 0,
+       valid_until TEXT,
+       created_at TEXT DEFAULT (datetime('now'))
+     )`,
+    `CREATE TABLE IF NOT EXISTS soluna_bookings (
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       coupon_id INTEGER NOT NULL,
+       member_id INTEGER,
+       property_slug TEXT NOT NULL,
+       check_in TEXT NOT NULL,
+       check_out TEXT NOT NULL,
+       nights INTEGER NOT NULL,
+       guests INTEGER DEFAULT 1,
+       status TEXT DEFAULT 'confirmed',
+       created_at TEXT DEFAULT (datetime('now'))
+     )`
+    ,`CREATE TABLE IF NOT EXISTS soluna_staff_codes (
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       member_id INTEGER NOT NULL UNIQUE,
+       code TEXT UNIQUE NOT NULL,
+       created_at TEXT DEFAULT (datetime('now'))
+     )`
+    ,`CREATE TABLE IF NOT EXISTS soluna_referrals (
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       code TEXT NOT NULL,
+       staff_member_id INTEGER NOT NULL,
+       purchase_id INTEGER,
+       referred_email TEXT,
+       commission_rate REAL DEFAULT 0.03,
+       commission_yen INTEGER DEFAULT 0,
+       status TEXT DEFAULT 'pending',
+       created_at TEXT DEFAULT (datetime('now'))
+     )`,
+    `CREATE TABLE IF NOT EXISTS soluna_community_messages (
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       member_id INTEGER NOT NULL,
+       display_name TEXT NOT NULL,
+       member_type TEXT DEFAULT 'member',
+       message TEXT NOT NULL,
+       is_ai INTEGER DEFAULT 0,
+       created_at TEXT DEFAULT (datetime('now'))
+     )`,
+    `CREATE TABLE IF NOT EXISTS soluna_community_reactions (
+       message_id INTEGER NOT NULL,
+       member_id  INTEGER NOT NULL,
+       emoji      TEXT NOT NULL,
+       PRIMARY KEY (message_id, member_id, emoji)
+     )`,
+    `CREATE TABLE IF NOT EXISTS soluna_properties (
+       slug        TEXT PRIMARY KEY,
+       name        TEXT NOT NULL,
+       location    TEXT,
+       price       INTEGER,
+       stay_price  INTEGER,
+       nights      INTEGER DEFAULT 30,
+       units       INTEGER DEFAULT 1,
+       mgmt        INTEGER DEFAULT 0,
+       airbnb_price INTEGER,
+       beds24_prop INTEGER DEFAULT 0,
+       beds24_room INTEGER DEFAULT 0,
+       img         TEXT,
+       desc        TEXT,
+       tags        TEXT DEFAULT '[]',
+       page_url    TEXT,
+       status      TEXT DEFAULT 'open',
+       open_from   TEXT,
+       sort_order  INTEGER DEFAULT 99,
+       score       INTEGER DEFAULT 3,
+       region      TEXT DEFAULT '',
+       min_nights  INTEGER DEFAULT 1
+     )`,
+    // KPI event log — lightweight, stores all site events for funnel analysis
+    `CREATE TABLE IF NOT EXISTS soluna_events (
+       id         INTEGER PRIMARY KEY AUTOINCREMENT,
+       event      TEXT NOT NULL,
+       page       TEXT,
+       session_id TEXT,
+       email      TEXT,
+       properties TEXT,
+       ip         TEXT,
+       created_at TEXT DEFAULT (datetime('now'))
+     )`,
+    `CREATE INDEX IF NOT EXISTS idx_events_event ON soluna_events(event, created_at)`,
+  ]);
+}
+initSolunaDb().catch(e => console.error("soluna DB init error:", e));
+
+// Seed soluna_properties (upsert on every boot to stay in sync)
+(async () => {
+  const props = [
+    { slug:"tapkop",        name:"TAPKOP",                 location:"北海道 弟子屈町 · 阿寒摩周国立公園", price:80000000, stay_price:340000, nights:30, units:5,   mgmt:1200000, airbnb_price:null,   beds24_prop:0,      beds24_room:0,      img:"tapkop_lake_mashu_view.webp",       desc:"PAN-PROJECTS設計。9,000坪の森の中、専任シェフ付きの完全プライベートリゾート。",        tags:JSON.stringify(["専任シェフ","バレルバス","サウナ","9,000坪"]),        page_url:"/tapkop",   status:"open",  open_from:null,        sort_order:1,  score:5, region:"hokkaido mountain", min_nights:1,  max_guests:12, area_sqm:300,  land_sqm:29752,  lat:43.5007, lng:144.4649, video:null },
+    { slug:"kumaushi",      name:"KUMAUSHI BASE",          location:"北海道 弟子屈町 · 熊牛原野",         price:4800000,  stay_price:80000,  nights:30, units:20,  mgmt:80000,   airbnb_price:100000, beds24_prop:0,      beds24_room:0,      img:"kumaushi_aerial_dawn.webp",         desc:"プール・サウナ・バー・柔術道場。アクティブなコミュニティリゾート。9月グランドオープン予定。",  tags:JSON.stringify(["プール","サウナ","バー","DJ","柔術"]),                 page_url:"/kumaushi", status:"soon",  open_from:"2026-09-01", sort_order:2,  score:5, region:"hokkaido mountain", min_nights:1,  max_guests:30, area_sqm:500,  land_sqm:10000,  lat:43.3958, lng:144.4012, video:"kumaushi_wide_web.mp4" },
+    { slug:"lodge",         name:"THE LODGE",              location:"北海道 弟子屈町 · 美留和",           price:4900000,  stay_price:35000,  nights:30, units:10,  mgmt:100000,  airbnb_price:52000,  beds24_prop:243408, beds24_room:512693, img:"lodge_exterior_snow.webp",          desc:"天然温泉pH9.2。森に溶け込むログキャビンで、非日常のひとときを。",                       tags:JSON.stringify(["天然温泉 pH9.2","露天風呂","薪ストーブ","BBQ"]),       page_url:"/lodge",    status:"open",  open_from:null,        sort_order:3,  score:4, region:"hokkaido mountain", min_nights:1,  max_guests:8,  area_sqm:120,  land_sqm:2000,   lat:43.5197, lng:144.4621, video:null },
+    { slug:"nesting",       name:"NESTING",                location:"北海道 弟子屈町 · 美留和の森",       price:8900000,  stay_price:38000,  nights:30, units:10,  mgmt:150000,  airbnb_price:44000,  beds24_prop:243409, beds24_room:512694, img:"nesting_wide.webp",                 desc:"VUILD設計のデジタルファブリケーション建築。タワーサウナとジャグジーで体を整える。",         tags:JSON.stringify(["タワーサウナ","ジャグジー","暖炉","デジタルファブ"]),   page_url:"/nesting",  status:"open",  open_from:null,        sort_order:4,  score:4, region:"hokkaido mountain", min_nights:1,  max_guests:6,  area_sqm:85,   land_sqm:500,    lat:43.5197, lng:144.4621, video:null },
+    { slug:"atami",         name:"WHITE HOUSE 熱海",       location:"静岡県 熱海市 · オーシャンビュー",   price:19000000, stay_price:55000,  nights:36, units:6,   mgmt:500000,  airbnb_price:90000,  beds24_prop:243406, beds24_room:512691, img:"atami_sunset_ocean.webp",           desc:"相模湾を一望するガラス張りの白邸。東京から新幹線で45分の近さ。",                         tags:JSON.stringify(["オーシャンビュー","全面ガラス","新幹線45分","温泉"]),   page_url:"/atami",    status:"open",  open_from:null,        sort_order:5,  score:4, region:"mountain",          min_nights:1,  max_guests:10, area_sqm:160,  land_sqm:320,    lat:35.0840, lng:139.0750, video:null },
+    { slug:"instant",       name:"インスタントハウス",     location:"北海道 弟子屈町 · 美留和",           price:1200000,  stay_price:25000,  nights:30, units:5,   mgmt:30000,   airbnb_price:32000,  beds24_prop:322965, beds24_room:671098, img:"instant_dome_snow.webp",            desc:"最小限の物で完全な生活。オフグリッド設計の次世代コンパクトハウス。",                       tags:JSON.stringify(["オフグリッド","コンパクト","即入居可","星空"]),         page_url:"/instant",  status:"open",  open_from:null,        sort_order:6,  score:3, region:"hokkaido mountain", min_nights:1,  max_guests:4,  area_sqm:32,   land_sqm:100,    lat:43.5197, lng:144.4621, video:null },
+    { slug:"village",       name:"美留和ビレッジ",         location:"北海道 弟子屈町 · 美留和",           price:4900000,  stay_price:30000,  nights:30, units:100, mgmt:80000,   airbnb_price:38000,  beds24_prop:0,      beds24_room:0,      img:"village_aerial.webp",               desc:"100区画の広大なコミュニティ。自然農・薪ストーブ・共同サウナ。9月グランドオープン予定。",   tags:JSON.stringify(["100区画","コミュニティ","広大な敷地","自然農"]),       page_url:"/village",  status:"soon",  open_from:"2026-09-01", sort_order:7,  score:3, region:"hokkaido mountain", min_nights:1,  max_guests:4,  area_sqm:50,   land_sqm:330000, lat:43.5197, lng:144.4621, video:null },
+    { slug:"honolulu",      name:"HONOLULU BEACH VILLA",   location:"ハワイ州 ホノルル · 5827 Kalanianaʻole Hwy", price:28000000, stay_price:85000,  nights:30, units:8,   mgmt:400000,  airbnb_price:150000, beds24_prop:243407, beds24_room:0,      img:"property-honolulu.webp",            desc:"ハワイカイのビーチハウス。ハナウマ湾まで5分、ワイキキまで20分。複数オーナーでシェアしながら、年間30泊の優先滞在権を享受。", tags:JSON.stringify(["オーシャンビュー","プール","ラナイ","1ヶ月単位"]),    page_url:"/honolulu", status:"soon",  open_from:"2026-11-01", sort_order:8,  score:4, region:"sea",               min_nights:30, max_guests:12, area_sqm:260,  land_sqm:650,    lat:21.2822, lng:-157.7321,video:null },
+    { slug:"maui",          name:"HAWAII KAI HOUSE",       location:"ハワイ州 ホノルル · ハワイカイ",     price:38000000, stay_price:120000, nights:30, units:6,   mgmt:600000,  airbnb_price:175000, beds24_prop:244738, beds24_room:0,      img:"pro_hawaii_hero.webp",              desc:"ハワイカイのビーチフロント平屋。波音が聞こえる絶景ロケーション。",                         tags:JSON.stringify(["ビーチフロント","オーシャンビュー","プライベート","1ヶ月単位"]), page_url:"/maui", status:"soon", open_from:"2026-11-01", sort_order:9, score:4, region:"sea", min_nights:30,  max_guests:10, area_sqm:210,  land_sqm:520,    lat:21.2890, lng:-157.6940,video:null },
+    { slug:"hakuba-chalet", name:"白馬岩岳シャレー",       location:"長野県 白馬村 · 岩岳エリア",         price:19800000, stay_price:60000,  nights:40, units:6,   mgmt:300000,  airbnb_price:null,   beds24_prop:0,      beds24_room:0,      img:"kumaushi_sips_exterior_winter.webp", desc:"外国人比率46%。「宿が断るしかない」と地元紙が報道したエリアに、1億円以下の高品質シャレー。",tags:JSON.stringify(["スキー","通年稼働","外国人◎","宿泊不足エリア"]),       page_url:"/hakuba-chalet",   status:"plan",  open_from:"2027-12-01", sort_order:10, score:5, region:"mountain",          min_nights:1,  max_guests:8,  area_sqm:130,  land_sqm:400,    lat:36.7025, lng:137.8716, video:null },
+    { slug:"hakuba-kominka",name:"白馬八方古民家",         location:"長野県 白馬村 · 八方エリア",         price:9800000,  stay_price:50000,  nights:35, units:6,   mgmt:200000,  airbnb_price:null,   beds24_prop:0,      beds24_room:0,      img:"hokkaido_akan_after.jpg",           desc:"スキーリゾート×日本伝統建築は世界で2〜3軒。八方尾根の冬季稼働率は既存ヴィラで9割超。",   tags:JSON.stringify(["スキー×古民家","八方尾根","外国人人気","伝統建築"]),   page_url:"/hakuba-kominka",  status:"plan",  open_from:"2028-01-01", sort_order:11, score:5, region:"mountain",          min_nights:1,  max_guests:10, area_sqm:160,  land_sqm:650,    lat:36.6992, lng:137.8635, video:null },
+    { slug:"goto-beach",    name:"福江島高浜ビーチコテージ",location:"長崎県 五島市 · 福江島",            price:4900000,  stay_price:40000,  nights:30, units:5,   mgmt:80000,   airbnb_price:null,   beds24_prop:0,      beds24_room:0,      img:"kussharo_sup.jpg",                  desc:"日本の渚百選1位・高浜ビーチに隣接。五島市観光客2年連続過去最高。高品質一棟貸しは皆無。",  tags:JSON.stringify(["渚百選1位","世界遺産","離島","最安値"]),               page_url:"/goto-beach",      status:"plan",  open_from:"2026-10-01", sort_order:12, score:4, region:"sea",               min_nights:1,  max_guests:8,  area_sqm:100,  land_sqm:300,    lat:32.6517, lng:128.7530, video:null },
+    { slug:"tsugaike",      name:"栂池高原ガラス山荘",     location:"長野県 白馬村 · 栂池エリア",         price:14800000, stay_price:55000,  nights:40, units:5,   mgmt:250000,  airbnb_price:null,   beds24_prop:0,      beds24_room:0,      img:"cabin_morning.webp",                desc:"来場者36万人・高品質宿ゼロの穴場エリア。高原植生とブナ林の絶景ガラス山荘。",             tags:JSON.stringify(["高原植生","ブナ林","スキー","白馬より割安"]),          page_url:"/tsugaike",        status:"plan",  open_from:"2027-12-01", sort_order:13, score:4, region:"mountain",          min_nights:1,  max_guests:8,  area_sqm:140,  land_sqm:450,    lat:36.7592, lng:137.8721, video:null },
+    { slug:"nakadori",      name:"中通島 世界遺産古民家",  location:"長崎県 新上五島町 · 中通島",         price:5800000,  stay_price:35000,  nights:30, units:4,   mgmt:80000,   airbnb_price:null,   beds24_prop:0,      beds24_room:0,      img:"wakayama_akiya_exterior.webp",      desc:"ユネスコ世界遺産・頭ヶ島天主堂至近。潜伏キリシタンの歴史と古民家の組み合わせは世界唯一。",tags:JSON.stringify(["世界遺産","潜伏キリシタン","古民家","超希少"]),         page_url:"/nakadori",        status:"plan",  open_from:"2027-06-01", sort_order:14, score:3, region:"sea",               min_nights:1,  max_guests:8,  area_sqm:130,  land_sqm:550,    lat:32.9927, lng:129.1140, video:null },
+    { slug:"naru",          name:"奈留島プライベートヴィラ",location:"長崎県 五島市 · 奈留島",            price:4200000,  stay_price:30000,  nights:30, units:3,   mgmt:60000,   airbnb_price:null,   beds24_prop:0,      beds24_room:0,      img:"kussharo_sup_morning.jpg",          desc:"競合施設ゼロの秘境島。「テレビにも雑誌にも出ない島」で過ごす、本物の孤島体験。",         tags:JSON.stringify(["競合ゼロ","秘境","離島","最安値候補"]),               page_url:"/naru",            status:"plan",  open_from:"2027-06-01", sort_order:15, score:3, region:"sea",               min_nights:1,  max_guests:6,  area_sqm:90,   land_sqm:310,    lat:32.7099, lng:128.8545, video:null },
+  ];
+  for (const p of props) {
+    await db.execute({
+      sql: `INSERT OR REPLACE INTO soluna_properties
+            (slug,name,location,price,stay_price,nights,units,mgmt,airbnb_price,beds24_prop,beds24_room,img,desc,tags,page_url,status,open_from,sort_order,score,region,min_nights,max_guests,area_sqm,land_sqm,lat,lng,video)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      args: [p.slug,p.name,p.location,p.price,p.stay_price,p.nights,p.units,p.mgmt,p.airbnb_price,p.beds24_prop,p.beds24_room,p.img,p.desc,p.tags,p.page_url,p.status,p.open_from,p.sort_order,p.score,p.region,p.min_nights,p.max_guests,p.area_sqm,p.land_sqm,p.lat,p.lng,p.video],
+    }).catch(() => {});
+  }
+  console.log("✓ soluna_properties seeded");
+})();
+// Indexes (idempotent — safe to run on every boot)
+db.batch([
+  "CREATE INDEX IF NOT EXISTS idx_sessions_token      ON soluna_sessions(token)",
+  "CREATE INDEX IF NOT EXISTS idx_sessions_expires    ON soluna_sessions(expires_at)",
+  "CREATE INDEX IF NOT EXISTS idx_otps_email          ON soluna_otps(email, expires_at)",
+  "CREATE INDEX IF NOT EXISTS idx_bookings_prop_dates ON soluna_bookings(property_slug, check_in, check_out)",
+  "CREATE INDEX IF NOT EXISTS idx_purchases_member    ON soluna_purchases(member_id)",
+  "CREATE INDEX IF NOT EXISTS idx_chat_logs_member    ON soluna_chat_logs(member_id)",
+]).catch(e => console.error("index creation error:", e));
+// Migration: add nah_access column if not exists
+// Page view logs for manufacturing pages
+db.execute(`CREATE TABLE IF NOT EXISTS soluna_page_views (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  member_id INTEGER,
+  email TEXT,
+  page TEXT NOT NULL,
+  ip TEXT,
+  ua TEXT,
+  viewed_at TEXT DEFAULT (datetime('now'))
+)`).catch(() => {});
+db.execute("ALTER TABLE soluna_members ADD COLUMN nah_access INTEGER DEFAULT 0").catch(() => {});
+db.execute("ALTER TABLE soluna_members ADD COLUMN member_type TEXT DEFAULT 'member'").catch(() => {});
+db.execute("ALTER TABLE soluna_purchases ADD COLUMN ref_code TEXT").catch(() => {});
+db.execute("ALTER TABLE soluna_members ADD COLUMN line_user_id TEXT").catch(() => {});
+db.execute(`CREATE TABLE IF NOT EXISTS soluna_community_messages (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  member_id INTEGER NOT NULL,
+  display_name TEXT NOT NULL,
+  member_type TEXT DEFAULT 'member',
+  message TEXT NOT NULL,
+  is_ai INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT (datetime('now'))
+)`).catch(() => {});
+db.execute(`CREATE TABLE IF NOT EXISTS soluna_chat_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  member_id INTEGER,
+  email TEXT,
+  question TEXT NOT NULL,
+  answer TEXT NOT NULL,
+  created_at TEXT DEFAULT (datetime('now'))
+)`).catch(() => {});
+db.execute("ALTER TABLE soluna_community_messages ADD COLUMN reply_to_id INTEGER").catch(() => {});
+db.execute("ALTER TABLE soluna_community_messages ADD COLUMN reply_preview TEXT").catch(() => {});
+db.execute("ALTER TABLE soluna_community_messages ADD COLUMN image_url TEXT").catch(() => {});
+db.execute("ALTER TABLE soluna_community_messages ADD COLUMN deleted INTEGER DEFAULT 0").catch(() => {});
+db.execute("ALTER TABLE soluna_properties ADD COLUMN max_guests INTEGER DEFAULT 8").catch(() => {});
+db.execute("ALTER TABLE soluna_properties ADD COLUMN area_sqm REAL").catch(() => {});
+db.execute("ALTER TABLE soluna_properties ADD COLUMN land_sqm REAL").catch(() => {});
+db.execute("ALTER TABLE soluna_properties ADD COLUMN lat REAL").catch(() => {});
+db.execute("ALTER TABLE soluna_properties ADD COLUMN lng REAL").catch(() => {});
+db.execute("ALTER TABLE soluna_properties ADD COLUMN video TEXT").catch(() => {});
+// Seed: ensure admin email is a member and has NAH owner access
+(async () => {
+  const OWNER_EMAIL = "mail@yukihamada.jp";
+  await db.execute({ sql: "INSERT OR IGNORE INTO soluna_members (email) VALUES (?)", args: [OWNER_EMAIL] }).catch(() => {});
+  await db.execute({ sql: "UPDATE soluna_members SET nah_access=1 WHERE email=?", args: [OWNER_EMAIL] }).catch(() => {});
+  await db.execute({ sql: "UPDATE soluna_members SET member_type='admin' WHERE email=?", args: [OWNER_EMAIL] });
+})();
+
+// ── Property documents vault ──────────────────────────────────────────────────
+db.execute(`CREATE TABLE IF NOT EXISTS property_documents (
+  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  slug         TEXT NOT NULL,
+  title        TEXT NOT NULL,
+  doc_type     TEXT NOT NULL DEFAULT 'contract',
+  s3_key       TEXT NOT NULL,
+  filename     TEXT NOT NULL,
+  content_type TEXT DEFAULT 'application/pdf',
+  file_size    INTEGER DEFAULT 0,
+  uploaded_by  TEXT,
+  is_listed    INTEGER DEFAULT 1,
+  created_at   TEXT DEFAULT (datetime('now'))
+)`).catch(() => {});
+db.execute(`CREATE TABLE IF NOT EXISTS document_disclosures (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  doc_id     INTEGER NOT NULL,
+  email      TEXT NOT NULL,
+  granted_by TEXT NOT NULL,
+  granted_at TEXT DEFAULT (datetime('now')),
+  UNIQUE(doc_id, email)
+)`).catch(() => {});
+
+db.execute(`CREATE TABLE IF NOT EXISTS project_emails (
+  id           TEXT PRIMARY KEY,
+  project      TEXT NOT NULL,
+  from_email   TEXT NOT NULL,
+  to_email     TEXT NOT NULL,
+  subject      TEXT,
+  body_text    TEXT,
+  message_id   TEXT,
+  reply_text   TEXT,
+  reply_sent   INTEGER DEFAULT 0,
+  created_at   TEXT DEFAULT (datetime('now'))
+)`).catch(() => {});
+
+const SOLUNA_PROPERTIES = {
+  tapkop:  { name: "TAPKOP",              slug: "tapkop",   nights: 30, units:  5, price: 80000000, mgmt: 1200000, stay_price: 340000, book_via_inquiry: true, beds24_prop: 0,      beds24_room: 0,      page_url: "/tapkop",   location: "北海道 弟子屈町 · 阿寒摩周国立公園", tags: ["専任シェフ","バレルバス","サウナ","9,000坪"],        img: "tapkop_real1.webp",                  desc: "PAN-PROJECTS設計。9,000坪の森の中、専任シェフ付きの完全プライベートリゾート。" },
+  lodge:   { name: "THE LODGE",           slug: "lodge",    nights: 30, units: 10, price:  4900000, mgmt:  100000, stay_price:  35000, airbnb_price:  52000, beds24_prop: 243408, beds24_room: 512693, page_url: "/lodge",    location: "北海道 弟子屈町 · 美留和",             tags: ["天然温泉 pH9.2","露天風呂","薪ストーブ","BBQ"],      img: "property-teshikaga.webp",            desc: "天然温泉pH9.2。森に溶け込むログキャビンで、非日常のひとときを。" },
+  nesting: { name: "NESTING",             slug: "nesting",  nights: 30, units: 10, price:  8900000, mgmt:  150000, stay_price:  38000, airbnb_price:  44000, beds24_prop: 243409, beds24_room: 512694, page_url: "/nesting",  location: "北海道 弟子屈町 · 美留和の森",         tags: ["タワーサウナ","ジャグジー","暖炉","デジタルファブ"],  img: "nesting_exterior.webp",                 desc: "VUILD設計のデジタルファブリケーション建築。タワーサウナとジャグジーで体を整える。" },
+  instant: { name: "インスタントハウス",   slug: "instant",  nights: 30, units:  5, price:  1200000, mgmt:   30000, stay_price:  25000, airbnb_price:  32000, beds24_prop: 322965, beds24_room: 671098, page_url: "/instant",  location: "北海道 弟子屈町 · 美留和",             tags: ["オフグリッド","コンパクト","即入居可","星空"],        img: "instant_dome_snow.webp",    desc: "最小限の物で完全な生活。オフグリッド設計の次世代コンパクトハウス。" },
+  atami:   { name: "WHITE HOUSE 熱海",    slug: "atami",    nights: 36, units:  6, price: 19000000, mgmt:  500000, stay_price:  55000, airbnb_price:  90000, beds24_prop: 243406, beds24_room: 512691, page_url: "/atami",    location: "静岡県 熱海市 · オーシャンビュー",      tags: ["オーシャンビュー","全面ガラス","新幹線45分","温泉"],  img: "property-atami.webp",                desc: "相模湾を一望するガラス張りの白邸。東京から新幹線で45分の近さ。" },
+  kumaushi:{ name: "KUMAUSHI BASE",       slug: "kumaushi", nights: 30, units: 20, price:  4800000, mgmt:   80000, stay_price:  80000, airbnb_price: 100000, beds24_prop: 0,      beds24_room: 0,      page_url: "/kumaushi", open_from: "2026-09-01", location: "北海道 弟子屈町 · 熊牛原野",          tags: ["プール","サウナ","バー","DJ","柔術"],                img: "kumaushi_aerial_dawn.webp",           desc: "プール・サウナ・バー・柔術道場。アクティブなコミュニティリゾート。9月グランドオープン予定。" },
+  village: { name: "美留和ビレッジ",      slug: "village",  nights: 30, units:100, price:  4900000, mgmt:   80000, stay_price:  30000, airbnb_price:  38000, beds24_prop: 0,      beds24_room: 0,      page_url: "/village",  open_from: "2026-09-01", location: "北海道 弟子屈町 · 美留和",            tags: ["100区画","コミュニティ","広大な敷地","自然農"],       img: "village_aerial.webp",                desc: "100区画の広大なコミュニティ。自然農・薪ストーブ・共同サウナ。9月グランドオープン予定。" },
+  honolulu:{ name: "HONOLULU BEACH VILLA", slug: "honolulu", nights: 30, units:  8, price: 28000000, mgmt:  400000, stay_price:  90000, airbnb_price: 150000, cleaning_fee: 150000, beds24_prop: 243407, beds24_room: 0,      page_url: "/honolulu", min_nights: 30, open_from: "2026-11-01", location: "ハワイ州 ホノルル · 5827 Kalanianaʻole Hwy", tags: ["オーシャンビュー","プール","ラナイ","共同所有","1ヶ月単位"],      img: "property-honolulu.webp",             desc: "ハワイカイのビーチハウス。ハナウマ湾まで5分、ワイキキまで20分。チェックイン15:00〜22:00、チェックアウト11:00。" },
+  maui:    { name: "HAWAII KAI HOUSE",   slug: "maui",     nights: 30, units:  6, price: 38000000, mgmt:  600000, stay_price:  60000, airbnb_price: 175000, cleaning_fee: 150000, beds24_prop: 244738, beds24_room: 0,      page_url: null, min_nights: 30, open_from: "2026-11-01", location: "ハワイ州 ホノルル · ハワイカイ",       tags: ["ビーチフロント","オーシャンビュー","プライベート","1ヶ月単位"],   img: "pro_hawaii_hero.webp",               desc: "ハワイカイのビーチフロント平屋。波音が聞こえる絶景ロケーション。共同所有で持つ、世界最高クラスのヴァケーション体験。11月グランドオープン予定。" },
+};
+
+// GET /api/soluna/properties — active/soon properties from DB (fallback to SOLUNA_PROPERTIES)
+app.get("/api/soluna/properties", async (req, res) => {
+  try {
+    const rows = await db.execute(`
+      SELECT p.*,
+        (p.units - COALESCE(sold.cnt,0)) AS remaining_units
+      FROM soluna_properties p
+      LEFT JOIN (
+        SELECT property_slug, COUNT(*) AS cnt
+        FROM soluna_purchases WHERE status='confirmed'
+        GROUP BY property_slug
+      ) sold ON sold.property_slug = p.slug
+      WHERE p.status IN ('open','soon')
+      ORDER BY p.sort_order
+    `);
+    return res.json(rows.rows.map(r => ({ ...r, tags: JSON.parse(r.tags||"[]") })));
+  } catch (e) {
+    console.error("properties DB error:", e);
+    res.json(Object.values(SOLUNA_PROPERTIES));
+  }
+});
+
+// GET /api/soluna/properties/all — all properties including plan/candidate from DB
+app.get("/api/soluna/properties/all", async (req, res) => {
+  try {
+    const rows = await db.execute(`
+      SELECT p.*,
+        (p.units - COALESCE(sold.cnt,0)) AS remaining_units
+      FROM soluna_properties p
+      LEFT JOIN (
+        SELECT property_slug, COUNT(*) AS cnt
+        FROM soluna_purchases WHERE status='confirmed'
+        GROUP BY property_slug
+      ) sold ON sold.property_slug = p.slug
+      ORDER BY p.sort_order
+    `);
+    return res.json(rows.rows.map(r => ({ ...r, tags: JSON.parse(r.tags||"[]") })));
+  } catch (e) {
+    console.error("properties/all DB error:", e);
+    res.status(500).json({ error: "db error" });
+  }
+});
+
+// POST /api/soluna/stay — direct booking request (status: pending, admin confirms)
+app.post("/api/soluna/stay", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const { slug, check_in, check_out } = req.body;
+  const guests = Math.max(1, Math.min(30, Number(req.body.guests) || 2));
+  const notes = stripTags((req.body.notes || "").trim().slice(0, 500));
+  if (!slug || !check_in || !check_out) return res.status(400).json({ error: "missing fields" });
+  const prop = SOLUNA_PROPERTIES[slug];
+  if (!prop) return res.status(404).json({ error: "property not found" });
+  const dateRe2 = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRe2.test(check_in) || !dateRe2.test(check_out)) return res.status(400).json({ error: "日付の形式が不正です（YYYY-MM-DD）" });
+  const d_in2 = new Date(check_in), d_out2 = new Date(check_out);
+  if (isNaN(d_in2) || isNaN(d_out2)) return res.status(400).json({ error: "日付が不正です" });
+  const nights = Math.round((d_out2 - d_in2) / 86400000);
+  if (nights <= 0 || nights > 90) return res.status(400).json({ error: "invalid dates (max 90 nights)" });
+  // Overlap check
+  const overlap = (await db.execute({
+    sql: `SELECT id FROM soluna_bookings WHERE property_slug=? AND status IN ('confirmed','pending') AND check_in < ? AND check_out > ?`,
+    args: [slug, check_out, check_in],
+  })).rows;
+  if (overlap.length > 0) return res.status(409).json({ error: "その日程は予約済みです" });
+  await db.execute({
+    sql: "INSERT INTO soluna_bookings (coupon_id,member_id,property_slug,check_in,check_out,nights,guests,status) VALUES (0,?,?,?,?,?,?,'pending')",
+    args: [m.member_id, slug, check_in, check_out, nights, guests],
+  });
+  pushToBeds24(prop, check_in, check_out, guests, m.name, m.email).catch(() => {});
+  if (RESEND_API_KEY) {
+    const stayTotal = (prop.stay_price * nights).toLocaleString("ja-JP");
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>",
+        to: ["mail@yukihamada.jp"],
+        subject: `【SOLUNA宿泊申込】${prop.name} ${check_in}〜${check_out}`,
+        html: `<p>新しい宿泊申込が届きました。</p><table><tr><td>メール</td><td>${esc(m.email)}</td></tr><tr><td>物件</td><td>${esc(prop.name)}</td></tr><tr><td>チェックイン</td><td>${esc(check_in)}</td></tr><tr><td>チェックアウト</td><td>${esc(check_out)}</td></tr><tr><td>泊数</td><td>${nights}泊</td></tr><tr><td>人数</td><td>${guests}名</td></tr><tr><td>宿泊料金目安</td><td>¥${stayTotal}</td></tr><tr><td>備考</td><td>${esc(notes)||"なし"}</td></tr></table>`,
+      }),
+    }).catch(() => {});
+    // Confirmation email to guest
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>",
+        to: [m.email],
+        subject: `【SOLUNA】${prop.name} 宿泊申込を受け付けました`,
+        html: `<p>${esc(m.name||m.email)} 様</p><p>以下の宿泊申込を受け付けました。24時間以内にお支払い方法のご案内をお送りします。</p><table><tr><td>物件</td><td>${esc(prop.name)}</td></tr><tr><td>チェックイン</td><td>${esc(check_in)}</td></tr><tr><td>チェックアウト</td><td>${esc(check_out)}</td></tr><tr><td>泊数</td><td>${nights}泊</td></tr><tr><td>人数</td><td>${guests}名</td></tr></table><p>ご不明な点はinfo@solun.artまでお気軽にどうぞ。</p><p>— SOLUNA チーム</p>`,
+      }),
+    }).catch(() => {});
+  }
+  const newBooking = (await db.execute({ sql: "SELECT last_insert_rowid() as id", args: [] })).rows[0];
+  const bookingId = Number(newBooking?.id || 0);
+  res.json({ ok: true, booking_id: bookingId, property: prop.name, check_in, check_out, nights, status: "pending" });
+});
+
+// POST /api/tapkop/inquiry — TAPKOP booking inquiry (no Beds24, email to admin)
+app.post("/api/tapkop/inquiry", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const { check_in, check_out } = req.body;
+  const guests = Math.max(1, Math.min(30, Number(req.body.guests) || 2));
+  const notes = stripTags((req.body.notes || "").trim().slice(0, 500));
+  if (!check_in || !check_out) return res.status(400).json({ error: "missing fields" });
+  const nights = Math.round((new Date(check_out) - new Date(check_in)) / 86400000);
+  if (nights <= 0 || nights > 90) return res.status(400).json({ error: "invalid dates (max 90 nights)" });
+  await db.execute({
+    sql: "INSERT INTO soluna_bookings (coupon_id,member_id,property_slug,check_in,check_out,nights,guests,status) VALUES (0,?,?,?,?,?,?,'pending')",
+    args: [m.member_id, "tapkop", check_in, check_out, nights, guests],
+  });
+  const total = (340000 * nights).toLocaleString("ja-JP");
+  if (RESEND_API_KEY) {
+    fetch("https://api.resend.com/emails", {
+      method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>", to: ["mail@yukihamada.jp"],
+        subject: `【TAPKOP滞在お問い合わせ】${check_in}〜${check_out}`,
+        html: `<p>TAPKOPへの滞在問い合わせ</p><table><tr><td>メール</td><td>${esc(m.email)}</td></tr><tr><td>チェックイン</td><td>${esc(check_in)}</td></tr><tr><td>チェックアウト</td><td>${esc(check_out)}</td></tr><tr><td>泊数</td><td>${nights}泊</td></tr><tr><td>人数</td><td>${guests}名</td></tr><tr><td>料金目安</td><td>¥${total}</td></tr><tr><td>備考</td><td>${esc(notes)||"なし"}</td></tr></table>`,
+      }),
+    }).catch(() => {});
+    fetch("https://api.resend.com/emails", {
+      method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>", to: [m.email],
+        subject: "【TAPKOP】滞在お問い合わせを受け付けました",
+        html: `<p>${esc(m.name||m.email)} 様</p><p>TAPKOPへのお問い合わせありがとうございます。内容確認後48時間以内にご連絡いたします。</p><table><tr><td>チェックイン</td><td>${esc(check_in)}</td></tr><tr><td>チェックアウト</td><td>${esc(check_out)}</td></tr><tr><td>泊数</td><td>${nights}泊</td></tr></table><p>— SOLUNA チーム</p>`,
+      }),
+    }).catch(() => {});
+  }
+  res.json({ ok: true, inquiry: true });
+});
+
+// POST /api/soluna/stay/checkout — Stripe Checkout session for stay payment (JPY)
+app.post("/api/soluna/stay/checkout", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  if (!STRIPE_SECRET_KEY) return res.status(503).json({ error: "Payment not configured" });
+  const { booking_id } = req.body;
+  const booking = (await db.execute({
+    sql: "SELECT * FROM soluna_bookings WHERE id=? AND member_id=? AND status='pending'",
+    args: [booking_id, m.member_id],
+  })).rows[0];
+  if (!booking) return res.status(404).json({ error: "booking not found" });
+  const prop = SOLUNA_PROPERTIES[booking.property_slug];
+  if (!prop || prop.book_via_inquiry) return res.status(400).json({ error: "not payable online" });
+  const stripe = require("stripe")(STRIPE_SECRET_KEY);
+  const nights = booking.nights;
+  const lineItems = [{
+    price_data: { currency: "jpy", product_data: { name: `${prop.name} ${booking.check_in}〜${booking.check_out}` }, unit_amount: prop.stay_price },
+    quantity: nights,
+  }];
+  if (prop.cleaning_fee) {
+    lineItems.push({
+      price_data: { currency: "jpy", product_data: { name: "清掃費" }, unit_amount: prop.cleaning_fee },
+      quantity: 1,
+    });
+  }
+  const origin = `${req.protocol}://${req.headers.host}`;
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: lineItems,
+    mode: "payment",
+    success_url: `${origin}/app?payment=success&booking_id=${booking.id}`,
+    cancel_url: `${origin}/app?payment=cancelled&booking_id=${booking.id}`,
+    customer_email: m.email,
+    metadata: { booking_id: String(booking.id) },
+  });
+  res.json({ url: session.url });
+});
+
+// GET /api/soluna/stay/confirm — confirm booking after Stripe payment
+app.get("/api/soluna/stay/confirm", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const { booking_id } = req.query;
+  if (!booking_id) return res.status(400).json({ error: "missing booking_id" });
+  await db.execute({
+    sql: "UPDATE soluna_bookings SET status='confirmed' WHERE id=? AND member_id=? AND status='pending'",
+    args: [booking_id, m.member_id],
+  });
+  const booking = (await db.execute({
+    sql: "SELECT * FROM soluna_bookings WHERE id=?",
+    args: [booking_id],
+  })).rows[0];
+  if (booking) {
+    const prop = SOLUNA_PROPERTIES[booking.property_slug] || {};
+    if (RESEND_API_KEY) {
+      fetch("https://api.resend.com/emails", {
+        method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+        body: JSON.stringify({
+          from: "SOLUNA <info@solun.art>", to: [m.email],
+          subject: `【SOLUNA】${prop.name||''} 予約確定`,
+          html: `<p>${m.name||m.email} 様</p><p>お支払いが完了し、予約が確定しました。</p><table><tr><td>物件</td><td>${prop.name||booking.property_slug}</td></tr><tr><td>チェックイン</td><td>${booking.check_in}</td></tr><tr><td>チェックアウト</td><td>${booking.check_out}</td></tr><tr><td>泊数</td><td>${booking.nights}泊</td></tr></table><p>チェックイン前日にドアコードをお送りします。— SOLUNA チーム</p>`,
+        }),
+      }).catch(() => {});
+    }
+  }
+  res.json({ ok: true, confirmed: true });
+});
+
+// POST /api/soluna/promo — redeem promo code → issue TAPKOP+NESTING coupons
+const SOLUNA_PROMO_CODES = {
+  "TAPKOP2026":  { tapkop: 3, valid_days: 365 },
+  "NESTING2026": { nesting: 3, valid_days: 365 },
+  "CABIN2026":   { tapkop: 2, nesting: 2, valid_days: 365 },
+};
+app.post("/api/soluna/promo", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const { code } = req.body;
+  if (!code) return res.status(400).json({ error: "missing code" });
+  const promo = SOLUNA_PROMO_CODES[code.trim().toUpperCase()];
+  if (!promo) return res.status(404).json({ error: "無効なコードです" });
+  // Check already redeemed
+  const existing = (await db.execute({
+    sql: "SELECT id FROM soluna_coupons WHERE member_id=? AND code=?",
+    args: [m.member_id, code.trim().toUpperCase()],
+  })).rows;
+  if (existing.length > 0) return res.status(409).json({ error: "このコードは既に使用済みです" });
+  const valid_until = new Date(Date.now() + promo.valid_days * 86400000).toISOString().slice(0, 10);
+  const issued = [];
+  for (const [slug, nights] of Object.entries(promo).filter(([k]) => k !== "valid_days")) {
+    await db.execute({
+      sql: "INSERT INTO soluna_coupons (code, member_id, property_slug, nights_total, nights_used, valid_until) VALUES (?,?,?,?,0,?)",
+      args: [code.trim().toUpperCase(), m.member_id, slug, nights, valid_until],
+    });
+    issued.push({ slug, nights, valid_until });
+  }
+  res.json({ ok: true, issued });
+});
+
+// ── Cookie helper (no external dep needed) ──────────────────────────────────
+function parseCookies(req) {
+  const list = {};
+  const h = req.headers.cookie;
+  if (!h) return list;
+  h.split(";").forEach(c => {
+    const [k, ...v] = c.split("=");
+    const name = (k || "").trim();
+    if (name) list[name] = decodeURIComponent(v.join("=").trim());
+  });
+  return list;
+}
+
+async function solunaAuth(req) {
+  const cookieToken = parseCookies(req).sln_tok || "";
+  const token = (req.headers.authorization || "").replace("Bearer ", "").trim() || cookieToken;
+  if (!token) return null;
+  const r = await db.execute({
+    sql: `SELECT s.member_id, m.email, m.name, m.nah_access, m.member_type FROM soluna_sessions s
+          JOIN soluna_members m ON m.id = s.member_id
+          WHERE s.token = ? AND s.expires_at > datetime('now')`,
+    args: [token],
+  });
+  const row = r.rows[0];
+  if (!row) return null;
+
+  // 特殊ロール（admin/founder/friend/cleaner/construction）はそのまま
+  const SPECIAL = ["admin","founder","friend","cleaner","construction"];
+  if (!SPECIAL.includes(row.member_type)) {
+    try {
+      const purchases = await db.execute({
+        sql: "SELECT 1 FROM soluna_purchases WHERE member_id=? AND status='confirmed' LIMIT 1",
+        args: [row.member_id],
+      });
+      if (purchases.rows.length > 0) {
+        row.member_type = "owner";
+      } else {
+        const coupons = await db.execute({
+          sql: "SELECT 1 FROM soluna_coupons WHERE member_id=? AND nights_used < nights_total LIMIT 1",
+          args: [row.member_id],
+        });
+        if (coupons.rows.length > 0) row.member_type = "guest";
+      }
+    } catch (_) { /* ロール判定失敗時は既存のmember_typeを維持 */ }
+  }
+  return row;
+}
+
+// POST /api/track — lightweight KPI event ingestion (no auth required, beacon-friendly)
+app.post("/api/track", express.json(), async (req, res) => {
+  res.status(204).end(); // respond immediately so sendBeacon doesn't block
+  try {
+    const { e, p, s, m, d } = req.body || {};
+    if (!e || typeof e !== "string") return;
+    await db.execute({
+      sql: "INSERT INTO soluna_events (event, page, session_id, email, properties, ip) VALUES (?,?,?,?,?,?)",
+      args: [e.slice(0,64), (p||"").slice(0,128), (s||null), (m||null), d ? JSON.stringify(d).slice(0,512) : null, req.ip||null],
+    });
+  } catch(_) {}
+});
+
+// GET /api/admin/kpi — funnel summary (admin only)
+app.get("/api/admin/kpi", async (req, res) => {
+  if (req.headers["x-admin-key"] !== ADMIN_KEY) return res.status(401).json({ error: "unauthorized" });
+  const days = Math.min(parseInt(req.query.days||"30"), 365);
+  const since = `-${days}`;
+  try {
+    const [events, emails, members, consults] = await Promise.all([
+      db.execute({ sql: `SELECT event, page, COUNT(*) cnt, COUNT(DISTINCT session_id) uniq FROM soluna_events WHERE created_at > datetime('now', ? || ' days') GROUP BY event, page ORDER BY cnt DESC LIMIT 80`, args: [since] }),
+      db.execute({ sql: `SELECT COUNT(*) cnt FROM email_signups WHERE created_at > datetime('now', ? || ' days')`, args: [since] }),
+      db.execute({ sql: `SELECT COUNT(*) cnt FROM soluna_members WHERE created_at > datetime('now', ? || ' days')`, args: [since] }),
+      db.execute({ sql: `SELECT event, COUNT(*) cnt, COUNT(DISTINCT session_id) uniq FROM soluna_events WHERE event IN ('consultation_click','gate_unlock','purchase_click','app_login','email_signup') AND created_at > datetime('now', ? || ' days') GROUP BY event`, args: [since] }),
+    ]);
+    res.json({ days, events: events.rows, funnel: consults.rows, new_emails: emails.rows[0]?.cnt||0, new_members: members.rows[0]?.cnt||0 });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// GET /api/soluna/admin/dashboard — real-time funnel for app admin screen (session auth + admin type)
+app.get("/api/soluna/admin/dashboard", async (req, res) => {
+  const token = req.headers.authorization?.replace("Bearer ", "") || req.query.token;
+  if (!token) return res.status(401).json({ error: "unauthorized" });
+  try {
+    const sess = await db.execute({ sql: "SELECT member_id FROM soluna_sessions WHERE token=? AND expires_at>datetime('now')", args: [token] });
+    if (!sess.rows.length) return res.status(401).json({ error: "unauthorized" });
+    const memberId = sess.rows[0].member_id;
+    const mem = await db.execute({ sql: "SELECT email, member_type FROM soluna_members WHERE id=?", args: [memberId] });
+    const m = mem.rows[0];
+    if (!m || (m.member_type !== "admin" && m.email !== "mail@yukihamada.jp")) return res.status(403).json({ error: "forbidden" });
+
+    const [funnel, recentMembers, recentConsults, recentPurchases] = await Promise.all([
+      db.execute({ sql: `SELECT event, COUNT(*) cnt, COUNT(DISTINCT session_id) uniq FROM soluna_events WHERE created_at > datetime('now', '-30 days') GROUP BY event ORDER BY cnt DESC LIMIT 30` }),
+      db.execute({ sql: `SELECT id, email, name, member_type, created_at FROM soluna_members ORDER BY created_at DESC LIMIT 30` }),
+      db.execute({ sql: `SELECT email, properties, data, created_at FROM soluna_events WHERE event='consultation_submit' ORDER BY created_at DESC LIMIT 20` }),
+      db.execute({ sql: `SELECT m.email, p.property_slug, p.units, p.price_yen, p.status, p.created_at FROM soluna_purchases p JOIN soluna_members m ON m.id=p.member_id ORDER BY p.created_at DESC LIMIT 20` }),
+    ]);
+
+    // Proxy enabler-analytics PV for solun.art
+    let pv = null;
+    try {
+      const r = await fetch("https://enabler-analytics.fly.dev/api/stats?days=30&site=solun.art");
+      pv = await r.json();
+    } catch(_) {}
+
+    res.json({ funnel: funnel.rows, members: recentMembers.rows, consultations: recentConsults.rows, purchases: recentPurchases.rows, pv });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST /api/soluna/akiya-signup — email gate for akiya pages; auto-creates member + sends magic login link
+app.post("/api/soluna/akiya-signup", express.json(), async (req, res) => {
+  const email = (req.body.email || "").trim().toLowerCase();
+  const source = (req.body.source || "kagawa-akiya").slice(0, 64);
+  if (!email.includes("@") || email.length > 254) return res.status(400).json({ error: "invalid email" });
+  try {
+    await db.execute({ sql: "INSERT OR IGNORE INTO soluna_members (email) VALUES (?)", args: [email] });
+    // 7-day OTP as magic link code (longer than usual)
+    const code = String(Math.floor(100000 + Math.random() * 900000));
+    const exp = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+    await db.execute({ sql: "INSERT INTO soluna_otps (email,code,expires_at) VALUES (?,?,?)", args: [email, code, exp] });
+    // Record in email_signups too
+    await db.execute({ sql: "INSERT OR IGNORE INTO email_signups (email, locale) VALUES (?,?)", args: [email, "ja"] }).catch(() => {});
+    const loginUrl = `https://solun.art/app?email=${encodeURIComponent(email)}&code=${code}&from=${encodeURIComponent(source)}`;
+    if (RESEND_API_KEY) {
+      fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+        body: JSON.stringify({
+          from: "SOLUNA <info@solun.art>",
+          to: [email],
+          subject: "SOLUNA AKIYA CLUB — 登録完了・メンバーログイン",
+          html: `<div style="font-family:sans-serif;background:#040404;color:#f0ece4;padding:40px 32px;max-width:520px;margin:0 auto">
+  <div style="font-size:10px;letter-spacing:.34em;color:#c8a455;font-weight:700;margin-bottom:28px">SOLUNA AKIYA CLUB</div>
+  <h1 style="font-size:24px;font-weight:800;letter-spacing:-.02em;margin:0 0 12px;line-height:1.2">登録しました。<br/>最新情報をお届けします。</h1>
+  <p style="font-size:13px;color:#666;line-height:2;margin:0 0 32px">香川・瀬戸内の空き家リノベ情報、新物件追加、説明会のご案内を<br/>いち早くお届けします。</p>
+  <a href="${loginUrl}" style="display:inline-block;background:#4a8fc0;color:#fff;font-weight:800;font-size:13px;padding:16px 36px;border-radius:100px;text-decoration:none;letter-spacing:.04em">SOLUNAメンバーとしてログイン →</a>
+  <p style="font-size:11px;color:#333;margin-top:16px;line-height:1.8">このボタンを押すと、メールアドレスで自動的にログインします。<br/>パスワード不要。有効期間 7日間。</p>
+  <div style="margin-top:40px;padding-top:24px;border-top:1px solid #111">
+    <div style="font-size:10px;letter-spacing:.2em;color:#333;margin-bottom:10px">CURRENT PROPERTIES</div>
+    <div style="font-size:12px;color:#555;line-height:2">小豆島 RC Villa · 直島 古家 · 豊島 更地 · 三豊 茅葺 · さぬき 遍路古家<br/>高松 商店街 · 観音寺 ビジネス旅館 · 伊吹島 廃墟 · 全18物件</div>
+    <a href="https://solun.art/kagawa-akiya" style="display:inline-block;margin-top:14px;font-size:11px;color:#4a8fc0;text-decoration:none;letter-spacing:.08em">物件ページを見る →</a>
+  </div>
+  <p style="color:#1a1a1a;font-size:10px;margin-top:32px">© 2026 SOLUNA · 株式会社イネブラ</p>
+</div>`,
+        }),
+      }).catch(() => {});
+      sendAdminEmail(`[SOLUNA] AKIYA登録 — ${email} (${source})`,
+        `<p>AKIYAページからメール登録: ${email}<br/>ソース: ${source}</p>`);
+    }
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/soluna/consultation — in-app consultation request (no mailto needed)
+app.post("/api/soluna/consultation", express.json(), async (req, res) => {
+  const { email, name, properties, message, source } = req.body;
+  if (!email || !email.includes("@")) return res.status(400).json({ error: "invalid email" });
+  try {
+    await db.execute({ sql: "INSERT OR IGNORE INTO soluna_members (email) VALUES (?)", args: [email] });
+    const propList = Array.isArray(properties) ? properties.join(", ") : (properties || "");
+    await sendAdminEmail(
+      `[SOLUNA] 個別相談リクエスト — ${name || email} (${source || "unknown"})`,
+      `<p><strong>メール:</strong> ${esc(email)}<br/><strong>名前:</strong> ${esc(name||"-")}<br/><strong>関心物件:</strong> ${esc(propList||"-")}<br/><strong>メッセージ:</strong> ${esc(message||"-")}<br/><strong>ソース:</strong> ${esc(source||"-")}</p><p><a href="mailto:${esc(email)}">返信する</a></p>`
+    );
+    // Confirmation email to the user
+    if (RESEND_API_KEY) {
+      const mlCode = String(Math.floor(100000 + Math.random() * 900000));
+      const mlExp  = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+      await db.execute({ sql: "INSERT INTO soluna_otps (email,code,expires_at) VALUES (?,?,?)", args: [email, mlCode, mlExp] }).catch(()=>{});
+      const loginUrl = `https://solun.art/app?email=${encodeURIComponent(email)}&code=${mlCode}`;
+      fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+        body: JSON.stringify({
+          from: "SOLUNA <info@solun.art>",
+          to: [email],
+          subject: "SOLUNA — 個別相談のリクエストを受け付けました",
+          html: `<div style="font-family:sans-serif;background:#040404;color:#f0ece4;padding:40px 32px;max-width:520px;margin:0 auto">
+  <div style="font-size:10px;letter-spacing:.34em;color:#c8a455;font-weight:700;margin-bottom:28px">SOLUNA</div>
+  <h1 style="font-size:22px;font-weight:800;letter-spacing:-.02em;margin:0 0 12px">個別相談リクエストを<br/>受け付けました。</h1>
+  <p style="font-size:13px;color:#666;line-height:2;margin:0 0 8px">メールを確認して、下のボタンからSOLUNAにログインしてください。物件詳細・空き状況・購入プランをご確認いただけます。</p>
+  ${propList ? `<p style="font-size:12px;color:#444;margin:0 0 28px">関心物件: ${esc(propList)}</p>` : ""}
+  <a href="${loginUrl}" style="display:inline-block;background:#4a8fc0;color:#fff;font-weight:800;font-size:13px;padding:14px 32px;border-radius:100px;text-decoration:none">SOLUNAメンバーとしてログイン →</a>
+  <p style="font-size:10px;color:#333;margin-top:12px">パスワード不要。7日間有効。</p>
+  <p style="color:#1a1a1a;font-size:10px;margin-top:32px">© 2026 SOLUNA · 株式会社イネブラ · mail@yukihamada.jp</p>
+</div>`,
+        }),
+      }).catch(() => {});
+    }
+    // Track event
+    await db.execute({ sql: "INSERT INTO soluna_events (event,page,email,properties) VALUES (?,?,?,?)", args: ["consultation_submit", source||"unknown", email, propList||null] }).catch(()=>{});
+    res.json({ ok: true });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// POST /api/soluna/otp — send OTP
+app.post("/api/soluna/otp", express.json(), async (req, res) => {
+  const email = (req.body.email || "").trim().toLowerCase();
+  if (!email.includes("@") || email.length > 254) return res.status(400).json({ error: "invalid email" });
+  // Rate limit: 3 attempts per 5 minutes
+  if (!otpRateCheck(email)) return res.status(429).json({ error: "しばらく待ってから再度お試しください" });
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  const exp = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+  await db.execute({ sql: "INSERT INTO soluna_otps (email,code,expires_at) VALUES (?,?,?)", args: [email, code, exp] });
+  // ensure member row
+  await db.execute({ sql: "INSERT OR IGNORE INTO soluna_members (email) VALUES (?)", args: [email] });
+  if (RESEND_API_KEY) {
+    try {
+      const r = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+        body: JSON.stringify({
+          from: "SOLUNA <info@solun.art>",
+          to: [email],
+          subject: `${code} — SOLUNAログインコード`,
+          html: (() => {
+            const p = ARCH_PHILOSOPHIES[Math.floor(Math.random() * ARCH_PHILOSOPHIES.length)];
+            return `<div style="font-family:sans-serif;background:#040404;color:#f0ece4;padding:40px;max-width:480px">
+            <div style="font-size:11px;letter-spacing:.3em;color:#c8a455;margin-bottom:24px">SOLUNA CABIN CLUB</div>
+            <div style="font-size:48px;font-weight:800;letter-spacing:.1em;color:#fff;margin-bottom:16px">${code}</div>
+            <div style="font-size:13px;color:#666;line-height:2">ログインコードです。10分以内に入力してください。<br>このメールに心当たりがない場合は無視してください。</div>
+            <div style="margin-top:40px;padding-top:24px;border-top:1px solid #1a1a1a">
+              <div style="font-size:13px;color:#c8a455;line-height:1.8;font-style:italic">&ldquo;${esc(p.quote)}&rdquo;</div>
+              <div style="font-size:11px;color:#555;margin-top:8px;letter-spacing:.1em">— ${esc(p.author)}</div>
+            </div>
+          </div>`;
+          })(),
+        }),
+      });
+      if (!r.ok) throw new Error(`Resend ${r.status}`);
+    } catch(e) {
+      console.error("OTP email error:", e.message);
+      return res.status(502).json({ error: "メール送信に失敗しました。しばらく後に再度お試しください。" });
+    }
+  }
+  res.json({ ok: true });
+});
+
+// POST /api/soluna/verify — verify OTP, return session token
+app.post("/api/soluna/verify", express.json(), async (req, res) => {
+  const email = (req.body.email || "").trim().toLowerCase();
+  const code  = (req.body.code  || "").trim();
+  if (!email || !code) return res.status(400).json({ error: "missing fields" });
+  const r = await db.execute({
+    sql: `SELECT id FROM soluna_otps WHERE email=? AND code=? AND used=0 AND expires_at > datetime('now') ORDER BY id DESC LIMIT 1`,
+    args: [email, code],
+  });
+  if (!r.rows[0]) return res.status(401).json({ error: "コードが正しくないか期限切れです" });
+  await db.execute({ sql: "UPDATE soluna_otps SET used=1 WHERE id=?", args: [r.rows[0].id] });
+  const member = await db.execute({ sql: "SELECT id,email,name,nah_access FROM soluna_members WHERE email=?", args: [email] });
+  const mid = member.rows[0].id;
+  const token = crypto.randomBytes(32).toString("hex");
+  const exp = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+  await db.execute({ sql: "INSERT INTO soluna_sessions (member_id,token,expires_at) VALUES (?,?,?)", args: [mid, token, exp] });
+  // Also set HttpOnly cookie so manufacturing pages can check auth server-side
+  res.cookie("sln_tok", token, {
+    httpOnly: true,
+    sameSite: "Lax",
+    maxAge: 365 * 24 * 60 * 60 * 1000,
+    path: "/",
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.json({ token, email: member.rows[0].email, name: member.rows[0].name });
+});
+
+// GET /api/soluna/me — member info + purchases + coupons + bookings
+app.get("/api/soluna/me", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const [purchases, coupons, bookings] = await Promise.all([
+    db.execute({ sql: "SELECT * FROM soluna_purchases WHERE member_id=? ORDER BY id DESC", args: [m.member_id] }),
+    db.execute({ sql: "SELECT * FROM soluna_coupons WHERE member_id=? ORDER BY id DESC", args: [m.member_id] }),
+    db.execute({ sql: "SELECT * FROM soluna_bookings WHERE member_id=? ORDER BY check_in DESC", args: [m.member_id] }),
+  ]);
+  // normalize coupons: add nights_remaining, property_name, issued_at alias
+  const normalizedCoupons = coupons.rows.map(c => ({
+    ...c,
+    nights_remaining: c.nights_total - (c.nights_used || 0),
+    property_name: (SOLUNA_PROPERTIES[c.property_slug] || {}).name || c.property_slug,
+    issued_at: c.created_at,
+  }));
+  // normalize bookings: rename check_in→checkin, add property_name
+  const normalizedBookings = bookings.rows.map(b => ({
+    ...b,
+    checkin: b.check_in,
+    checkout: b.check_out,
+    property_name: (SOLUNA_PROPERTIES[b.property_slug] || {}).name || b.property_slug,
+  }));
+  // properties as array
+  const propertiesArr = Object.values(SOLUNA_PROPERTIES);
+  res.json({
+    member: { id: m.member_id, email: m.email, name: m.name, nah_access: m.nah_access || 0, member_type: m.member_type || 'member' },
+    purchases: purchases.rows,
+    coupons: normalizedCoupons,
+    bookings: normalizedBookings,
+    properties: propertiesArr,
+  });
+});
+
+// PATCH /api/soluna/me — update name
+app.patch("/api/soluna/me", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const name = (req.body.name || "").trim().slice(0, 80);
+  if (name) await db.execute({ sql: "UPDATE soluna_members SET name=? WHERE id=?", args: [name, m.member_id] });
+  res.json({ ok: true });
+});
+
+// DELETE /api/soluna/me — 退会（soft delete: status='withdrawn'）
+app.delete("/api/soluna/me", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const { reason = "" } = req.body || {};
+
+  // Soft delete: mark member as withdrawn, expire all sessions
+  await db.execute({ sql: "UPDATE soluna_members SET member_type='withdrawn', name=COALESCE(name||' [退会]', '[退会]') WHERE id=?", args: [m.member_id] });
+  await db.execute({ sql: "DELETE FROM soluna_sessions WHERE member_id=?", args: [m.member_id] });
+
+  // Notify admin
+  if (RESEND_API_KEY) {
+    fetch("https://api.resend.com/emails", {
+      method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>", to: ["mail@yukihamada.jp"],
+        subject: `【SOLUNA退会】${m.email}`,
+        html: `<p>${m.email} が退会しました。</p><p>理由: ${reason || "未記入"}</p>`,
+      }),
+    }).catch(() => {});
+  }
+  if (TG_TOKEN && TG_CHAT) sendTg(TG_CHAT, `🚪 *退会* ${m.email}`).catch(() => {});
+  res.json({ ok: true, message: "退会処理が完了しました。またいつでもお待ちしています。" });
+});
+
+// POST /api/soluna/booking/:id/cancel — 予約キャンセル
+app.post("/api/soluna/booking/:id/cancel", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const bookingId = Number(req.params.id);
+  const { reason = "" } = req.body || {};
+
+  const booking = (await db.execute({
+    sql: "SELECT * FROM soluna_bookings WHERE id=? AND member_id=?",
+    args: [bookingId, m.member_id],
+  })).rows[0];
+  if (!booking) return res.status(404).json({ error: "予約が見つかりません" });
+  if (booking.status === "cancelled") return res.status(400).json({ error: "すでにキャンセル済みです" });
+
+  const checkIn = new Date(booking.check_in);
+  const now = new Date();
+  const daysUntil = Math.ceil((checkIn - now) / 86400000);
+
+  // キャンセルポリシー: 7日前まで無料、以降は1泊分のキャンセル料
+  const cancelFee = daysUntil < 7 ? (SOLUNA_PROPERTIES[booking.property_slug]?.stay_price || 0) : 0;
+  const policy = daysUntil >= 7 ? "無料キャンセル" : `キャンセル料: ¥${cancelFee.toLocaleString()}（7日前以内）`;
+
+  await db.execute({ sql: "UPDATE soluna_bookings SET status='cancelled' WHERE id=?", args: [bookingId] });
+
+  // クーポン泊数を戻す
+  if (booking.coupon_id) {
+    await db.execute({
+      sql: "UPDATE soluna_coupons SET nights_used=MAX(0,nights_used-?) WHERE id=?",
+      args: [booking.nights, booking.coupon_id],
+    });
+  }
+
+  // Beds24からもキャンセル（beds24_idがあれば）
+  if (booking.beds24_id) {
+    try {
+      const token = await beds24GetToken();
+      if (token) {
+        await fetch(`https://api.beds24.com/v2/bookings/${booking.beds24_id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json", token },
+          body: JSON.stringify({ status: "cancelled" }),
+        });
+      }
+    } catch {}
+  }
+
+  const prop = SOLUNA_PROPERTIES[booking.property_slug] || {};
+
+  // メール通知
+  if (RESEND_API_KEY) {
+    fetch("https://api.resend.com/emails", {
+      method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>", to: [m.email],
+        subject: `【SOLUNA】${prop.name||''} 予約キャンセル完了`,
+        html: `<p>${m.name||m.email} 様</p>
+               <p>以下の予約をキャンセルしました。</p>
+               <table><tr><td>物件</td><td>${prop.name||booking.property_slug}</td></tr>
+               <tr><td>チェックイン</td><td>${booking.check_in}</td></tr>
+               <tr><td>チェックアウト</td><td>${booking.check_out}</td></tr>
+               <tr><td>${policy}</td></tr></table>
+               <p>またのご利用をお待ちしています。— SOLUNA チーム</p>`,
+      }),
+    }).catch(() => {});
+    // 管理者にも通知
+    fetch("https://api.resend.com/emails", {
+      method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>", to: ["mail@yukihamada.jp"],
+        subject: `【SOLUNA予約キャンセル】${m.email} — ${prop.name||''} ${booking.check_in}`,
+        html: `<p>${m.email} が予約(ID:${bookingId})をキャンセルしました。</p><p>理由: ${reason||"未記入"}</p><p>${policy}</p>`,
+      }),
+    }).catch(() => {});
+  }
+  if (TG_TOKEN && TG_CHAT) sendTg(TG_CHAT, `❌ *予約キャンセル*\n${m.email}\n${prop.name||''} ${booking.check_in}〜${booking.check_out}\n${policy}`).catch(() => {});
+
+  res.json({ ok: true, cancel_fee_yen: cancelFee, policy, message: `キャンセルが完了しました。${cancelFee > 0 ? `キャンセル料 ¥${cancelFee.toLocaleString()} が発生します。` : "無料キャンセルです。"}` });
+});
+
+// POST /api/soluna/purchase/:id/cancel — 購入申込キャンセル (pending のみ)
+app.post("/api/soluna/purchase/:id/cancel", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const purchaseId = Number(req.params.id);
+  const purchase = (await db.execute({
+    sql: "SELECT * FROM soluna_purchases WHERE id=? AND member_id=? AND status='pending'",
+    args: [purchaseId, m.member_id],
+  })).rows[0];
+  if (!purchase) return res.status(404).json({ error: "申込が見つかりません（確定済みはキャンセル不可）" });
+  await db.execute({ sql: "UPDATE soluna_purchases SET status='cancelled' WHERE id=?", args: [purchaseId] });
+  if (RESEND_API_KEY) {
+    fetch("https://api.resend.com/emails", {
+      method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>", to: ["mail@yukihamada.jp"],
+        subject: `【SOLUNA購入申込キャンセル】${m.email}`,
+        html: `<p>${m.email} が購入申込(ID:${purchaseId})をキャンセルしました。</p>`,
+      }),
+    }).catch(() => {});
+  }
+  res.json({ ok: true, message: "購入申込をキャンセルしました。" });
+});
+
+// POST /api/soluna/register — purchase intent (creates pending purchase + notifies admin)
+app.post("/api/soluna/register", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const { property_slug, ref_code } = req.body;
+  const prop = SOLUNA_PROPERTIES[property_slug];
+  if (!prop) return res.status(400).json({ error: "invalid property" });
+  const units = Math.max(1, Math.min(Number(req.body.units) || 1, prop.units || 100));
+  const price = prop.price * units;
+  // Prevent duplicate pending purchases within 24 hours
+  const existing = await db.execute({
+    sql: "SELECT id FROM soluna_purchases WHERE member_id=? AND property_slug=? AND status='pending' AND created_at > datetime('now','-1 day')",
+    args: [m.member_id, property_slug],
+  });
+  if (existing.rows[0]) return res.status(409).json({ error: "申込済みです。担当者からの連絡をお待ちください。", purchase_id: existing.rows[0].id });
+  const r = await db.execute({
+    sql: "INSERT INTO soluna_purchases (member_id,property_slug,units,price_yen,status) VALUES (?,?,?,?,'pending') RETURNING id",
+    args: [m.member_id, property_slug, units, price],
+  });
+  const purchaseId = r.rows[0].id;
+  // Record referral if ref_code provided
+  if (ref_code) {
+    const staffCode = await db.execute({ sql: "SELECT member_id FROM soluna_staff_codes WHERE code=?", args: [ref_code.toUpperCase()] });
+    if (staffCode.rows[0]) {
+      const commissionYen = Math.floor(price * COMMISSION_RATE);
+      await db.execute({
+        sql: "UPDATE soluna_purchases SET ref_code=? WHERE id=?",
+        args: [ref_code.toUpperCase(), purchaseId],
+      });
+      await db.execute({
+        sql: "INSERT INTO soluna_referrals (code,staff_member_id,purchase_id,referred_email,commission_rate,commission_yen,status) VALUES (?,?,?,?,?,?,'pending')",
+        args: [ref_code.toUpperCase(), staffCode.rows[0].member_id, purchaseId, m.email, COMMISSION_RATE, commissionYen],
+      });
+    }
+  }
+  // Notify admin by email
+  if (RESEND_API_KEY) {
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>",
+        to: ["mail@yukihamada.jp"],
+        subject: `【SOLUNA購入申込】${m.email} — ${prop.name} ${units}口${ref_code ? ' (紹介: '+ref_code+')' : ''}`,
+        html: `<p><b>購入申込</b></p>
+               <p>メール: ${esc(m.email)}<br>物件: ${esc(prop.name)}<br>口数: ${units}口<br>金額: ¥${price.toLocaleString()}<br>購入ID: ${purchaseId}</p>
+               <p><a href="${esc(BASE_URL)}/cabin/portal.html">管理: ${esc(BASE_URL)}/cabin/portal.html</a></p>`,
+      }),
+    }).catch(() => {});
+  }
+  // 支払い方法に応じてレスポンスを変える
+  const paymentMethod = req.body.payment_method || "inquiry"; // "stripe" | "bank_transfer" | "inquiry"
+  let stripeUrl = null;
+
+  if (paymentMethod === "stripe" && STRIPE_SECRET_KEY) {
+    try {
+      const stripe = require("stripe")(STRIPE_SECRET_KEY);
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: [{ price_data: { currency: "jpy", product_data: { name: `${prop.name} ${units}口 購入申込` }, unit_amount: price }, quantity: 1 }],
+        mode: "payment",
+        success_url: `${BASE_URL}/app?purchase=success&purchase_id=${purchaseId}`,
+        cancel_url: `${BASE_URL}/app?purchase=cancelled`,
+        customer_email: m.email,
+        metadata: { purchase_id: String(purchaseId), type: "purchase" },
+      });
+      stripeUrl = session.url;
+      await db.execute({ sql: "UPDATE soluna_purchases SET status='payment_pending' WHERE id=?", args: [purchaseId] });
+    } catch(e) { console.error("Stripe purchase error:", e.message); }
+  } else if (paymentMethod === "bank_transfer") {
+    await db.execute({ sql: "UPDATE soluna_purchases SET status='bank_transfer_pending' WHERE id=?", args: [purchaseId] });
+    if (RESEND_API_KEY) {
+      fetch("https://api.resend.com/emails", {
+        method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+        body: JSON.stringify({
+          from: "SOLUNA <info@solun.art>", to: [m.email],
+          subject: `【SOLUNA】${prop.name} 銀行振込のご案内`,
+          html: `<p>${m.name||m.email} 様</p>
+                 <p>以下の口座に${price.toLocaleString()}円をお振込みください。</p>
+                 <table border="1" cellpadding="8" style="border-collapse:collapse">
+                   <tr><td>銀行名</td><td>三井住友銀行</td></tr>
+                   <tr><td>支店名</td><td>渋谷支店（251）</td></tr>
+                   <tr><td>口座種別</td><td>普通</td></tr>
+                   <tr><td>口座番号</td><td>1234567</td></tr>
+                   <tr><td>口座名義</td><td>カ）イネブラ</td></tr>
+                   <tr><td>金額</td><td>¥${price.toLocaleString()}</td></tr>
+                   <tr><td>振込期限</td><td>申込から7日以内</td></tr>
+                 </table>
+                 <p>※振込名義に「${m.name||m.email}」とご入力ください。</p>
+                 <p>入金確認後、担当者よりご連絡いたします。— SOLUNA チーム</p>`,
+        }),
+      }).catch(() => {});
+    }
+  }
+
+  res.json({ ok: true, purchase_id: purchaseId, status: "pending", payment_method: paymentMethod,
+    stripe_url: stripeUrl,
+    bank_info: paymentMethod === "bank_transfer" ? {
+      bank: "三井住友銀行", branch: "渋谷支店（251）", type: "普通", number: "1234567",
+      name: "カ）イネブラ", amount: price, deadline_days: 7
+    } : null,
+    message: paymentMethod === "bank_transfer"
+      ? `銀行振込情報をメール（${m.email}）に送信しました。7日以内にお振込みください。`
+      : "申込を受け付けました。担当者よりご連絡いたします。"
+  });
+});
+
+// ── SOLUNA Staff Referral System ───────────────────────────────────────────────
+const COMMISSION_RATE = 0.03; // 3%
+
+// POST /api/soluna/admin/staff/issue-code — admin issues staff code to member
+app.post("/api/soluna/admin/staff/issue-code", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  const byKey = req.headers["x-admin-key"] === ADMIN_KEY;
+  if (!byKey && !isSolunaAdmin(m)) return res.status(403).json({ error: "forbidden" });
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: "email required" });
+  await db.execute({ sql: "INSERT OR IGNORE INTO soluna_members (email) VALUES (?)", args: [email] });
+  const member = await db.execute({ sql: "SELECT id FROM soluna_members WHERE email=?", args: [email] });
+  const mid = member.rows[0]?.id;
+  if (!mid) return res.status(404).json({ error: "member not found" });
+  // Check existing
+  const existing = await db.execute({ sql: "SELECT code FROM soluna_staff_codes WHERE member_id=?", args: [mid] });
+  if (existing.rows[0]) return res.json({ ok: true, code: existing.rows[0].code, existing: true });
+  // Generate new code: first 4 chars of name + 4 random hex
+  const nameBase = email.split("@")[0].replace(/[^a-zA-Z]/g, "").slice(0, 4).toUpperCase();
+  const suffix = crypto.randomBytes(2).toString("hex").toUpperCase();
+  const code = (nameBase || "REF") + suffix;
+  await db.execute({ sql: "INSERT INTO soluna_staff_codes (member_id,code) VALUES (?,?)", args: [mid, code] });
+  // Set member_type to friend if not already elevated
+  await db.execute({
+    sql: "UPDATE soluna_members SET member_type=CASE WHEN member_type IN ('member') THEN 'friend' ELSE member_type END WHERE id=?",
+    args: [mid]
+  });
+  res.json({ ok: true, code, existing: false });
+});
+
+// GET /api/soluna/staff/dashboard — staff sees their own referral stats
+app.get("/api/soluna/staff/dashboard", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  // Get staff code
+  const codeRow = await db.execute({ sql: "SELECT code FROM soluna_staff_codes WHERE member_id=?", args: [m.member_id] });
+  const code = codeRow.rows[0]?.code || null;
+  if (!code) return res.json({ has_code: false });
+  // Get referrals
+  const refs = await db.execute({
+    sql: `SELECT r.*, p.price_yen, p.property_slug, p.status as purchase_status, p.created_at as purchase_date
+          FROM soluna_referrals r
+          LEFT JOIN soluna_purchases p ON p.id = r.purchase_id
+          WHERE r.code = ? ORDER BY r.created_at DESC`,
+    args: [code],
+  });
+  const referrals = refs.rows;
+  const totalCommission = referrals.reduce((sum, r) => sum + (r.commission_yen || 0), 0);
+  const confirmedCommission = referrals.filter(r => r.status === 'confirmed').reduce((sum, r) => sum + (r.commission_yen || 0), 0);
+  const paidCommission = referrals.filter(r => r.status === 'paid').reduce((sum, r) => sum + (r.commission_yen || 0), 0);
+  res.json({
+    has_code: true,
+    code,
+    referral_url: `https://solun.art/buy?ref=${code}`,
+    stats: {
+      total: referrals.length,
+      pending: referrals.filter(r => r.status === 'pending').length,
+      confirmed: referrals.filter(r => r.status === 'confirmed').length,
+      paid: referrals.filter(r => r.status === 'paid').length,
+      total_commission: totalCommission,
+      confirmed_commission: confirmedCommission,
+      paid_commission: paidCommission,
+    },
+    referrals: referrals.map(r => ({
+      id: r.id,
+      referred_email: r.referred_email ? r.referred_email.replace(/(.{2}).*(@.*)/, '$1***$2') : '—',
+      property_slug: r.property_slug,
+      property_name: (SOLUNA_PROPERTIES[r.property_slug] || {}).name || r.property_slug || '—',
+      commission_yen: r.commission_yen || 0,
+      status: r.status,
+      created_at: r.created_at,
+    })),
+  });
+});
+
+// GET /api/soluna/admin/staff/referrals — admin sees all referrals
+app.get("/api/soluna/admin/staff/referrals", async (req, res) => {
+  const m = await solunaAuth(req);
+  const byKey = req.headers["x-admin-key"] === ADMIN_KEY;
+  if (!byKey && !isSolunaAdmin(m)) return res.status(403).json({ error: "forbidden" });
+  const r = await db.execute(`
+    SELECT sc.code, mem.email as staff_email, mem.name as staff_name,
+           COUNT(ref.id) as total_refs,
+           SUM(CASE WHEN ref.status='confirmed' THEN ref.commission_yen ELSE 0 END) as confirmed_commission,
+           SUM(CASE WHEN ref.status='paid' THEN ref.commission_yen ELSE 0 END) as paid_commission
+    FROM soluna_staff_codes sc
+    JOIN soluna_members mem ON mem.id = sc.member_id
+    LEFT JOIN soluna_referrals ref ON ref.code = sc.code
+    GROUP BY sc.code ORDER BY total_refs DESC
+  `);
+  res.json({ staff: r.rows });
+});
+
+// PATCH /api/soluna/admin/referral/:id — update referral status (confirm/pay)
+app.patch("/api/soluna/admin/referral/:id", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  const byKey = req.headers["x-admin-key"] === ADMIN_KEY;
+  if (!byKey && !isSolunaAdmin(m)) return res.status(403).json({ error: "forbidden" });
+  const { status } = req.body;
+  if (!['pending','confirmed','paid'].includes(status)) return res.status(400).json({ error: "invalid status" });
+  await db.execute({ sql: "UPDATE soluna_referrals SET status=? WHERE id=?", args: [status, req.params.id] });
+  res.json({ ok: true });
+});
+
+// POST /api/soluna/coupon/issue — admin: issue coupon to member
+app.post("/api/soluna/coupon/issue", express.json(), async (req, res) => {
+  if (req.headers["x-admin-key"] !== ADMIN_KEY) return res.status(403).json({ error: "forbidden" });
+  const { email, property_slug, nights_total, valid_until } = req.body;
+  const code = crypto.randomBytes(4).toString("hex").toUpperCase();
+  const member = await db.execute({ sql: "SELECT id FROM soluna_members WHERE email=?", args: [email] });
+  const mid = member.rows[0]?.id || null;
+  await db.execute({
+    sql: "INSERT INTO soluna_coupons (code,member_id,property_slug,nights_total,valid_until) VALUES (?,?,?,?,?)",
+    args: [code, mid, property_slug, nights_total, valid_until || null],
+  });
+  res.json({ ok: true, code });
+});
+
+// POST /api/soluna/coupon/redeem — member redeems coupon by code
+app.post("/api/soluna/coupon/redeem", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const code = (req.body.code || "").trim().toUpperCase();
+  const r = await db.execute({
+    sql: `SELECT * FROM soluna_coupons WHERE code=? AND (member_id IS NULL OR member_id=?)`,
+    args: [code, m.member_id],
+  });
+  const coupon = r.rows[0];
+  if (!coupon) return res.status(404).json({ error: "クーポンが見つかりません" });
+  if (coupon.valid_until && coupon.valid_until < new Date().toISOString()) return res.status(400).json({ error: "クーポンの有効期限が切れています" });
+  const remaining = coupon.nights_total - coupon.nights_used;
+  if (remaining <= 0) return res.status(400).json({ error: "このクーポンの利用可能泊数は使い切っています" });
+  // assign to member if unassigned
+  if (!coupon.member_id) {
+    await db.execute({ sql: "UPDATE soluna_coupons SET member_id=? WHERE id=?", args: [m.member_id, coupon.id] });
+  }
+  const prop = SOLUNA_PROPERTIES[coupon.property_slug] || {};
+  res.json({ ok: true, coupon_id: coupon.id, property_slug: coupon.property_slug,
+    property_name: prop.name || coupon.property_slug, nights_remaining: remaining });
+});
+
+// GET /api/soluna/coupon/:id/availability — blocked dates for a property
+app.get("/api/soluna/coupon/:id/availability", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const coupon = (await db.execute({ sql: "SELECT * FROM soluna_coupons WHERE id=? AND member_id=?", args: [req.params.id, m.member_id] })).rows[0];
+  if (!coupon) return res.status(404).json({ error: "not found" });
+  const bookings = await db.execute({
+    sql: "SELECT check_in, check_out FROM soluna_bookings WHERE property_slug=? AND status='confirmed' AND check_out >= date('now')",
+    args: [coupon.property_slug],
+  });
+  res.json({ booked_ranges: bookings.rows, nights_remaining: coupon.nights_total - coupon.nights_used });
+});
+
+// POST /api/soluna/booking — create booking using coupon
+app.post("/api/soluna/booking", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const { coupon_id } = req.body;
+  const guests = Math.max(1, Math.min(30, Number(req.body.guests) || 1));
+  const check_in  = req.body.check_in  || req.body.checkin;
+  const check_out = req.body.check_out || req.body.checkout;
+  if (!coupon_id || !check_in || !check_out) return res.status(400).json({ error: "missing fields" });
+  // Validate date format YYYY-MM-DD
+  const dateRe = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRe.test(check_in) || !dateRe.test(check_out)) return res.status(400).json({ error: "日付の形式が不正です（YYYY-MM-DD）" });
+  const d_in = new Date(check_in), d_out = new Date(check_out);
+  if (isNaN(d_in) || isNaN(d_out)) return res.status(400).json({ error: "日付が不正です" });
+  const coupon = (await db.execute({ sql: "SELECT * FROM soluna_coupons WHERE id=? AND member_id=?", args: [coupon_id, m.member_id] })).rows[0];
+  if (!coupon) return res.status(404).json({ error: "クーポンが見つかりません" });
+  const nights = Math.round((d_out - d_in) / 86400000);
+  if (nights <= 0 || nights > 90) return res.status(400).json({ error: "日程が不正です（最大90泊）" });
+  const remaining = coupon.nights_total - coupon.nights_used;
+  if (nights > remaining) return res.status(400).json({ error: `残り${remaining}泊しか使えません` });
+  // check overlap
+  const overlap = (await db.execute({
+    sql: `SELECT id FROM soluna_bookings WHERE property_slug=? AND status='confirmed'
+          AND check_in < ? AND check_out > ?`,
+    args: [coupon.property_slug, check_out, check_in],
+  })).rows;
+  if (overlap.length > 0) return res.status(409).json({ error: "その日程はすでに予約が入っています" });
+  await db.execute({
+    sql: "INSERT INTO soluna_bookings (coupon_id,member_id,property_slug,check_in,check_out,nights,guests) VALUES (?,?,?,?,?,?,?)",
+    args: [coupon_id, m.member_id, coupon.property_slug, check_in, check_out, nights, guests],
+  });
+  await db.execute({ sql: "UPDATE soluna_coupons SET nights_used=nights_used+? WHERE id=?", args: [nights, coupon_id] });
+  const propData = SOLUNA_PROPERTIES[coupon.property_slug];
+  if (propData) pushToBeds24(propData, check_in, check_out, guests, m.name, m.email).catch(() => {});
+  // notify admin
+  if (RESEND_API_KEY) {
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>",
+        to: ["mail@yukihamada.jp"],
+        subject: `【SOLUNA予約】${coupon.property_slug} ${check_in}〜${check_out}`,
+        html: `<p><b>予約確定</b></p><p>メール: ${esc(m.email)}<br>物件: ${esc(coupon.property_slug)}<br>チェックイン: ${esc(check_in)}<br>チェックアウト: ${esc(check_out)}<br>泊数: ${nights}泊<br>人数: ${guests}名</p>`,
+      }),
+    }).catch(() => {});
+  }
+  res.json({ ok: true, check_in, check_out, nights, property_slug: coupon.property_slug });
+});
+
+// ── Property Guide ──────────────────────────────────────────────────────────────
+// Static supplement (WiFi, contacts, tips) not stored in Beds24
+const PROPERTY_GUIDE_STATIC = {
+  atami:   { wifi_ssid: "WhiteHouseAtami",     wifi_pass: "室内の書類を参照",         map_url: "https://maps.google.com/?q=35.0840416,139.0750427", notes: "熱海駅から車10分。駐車場あり（無料）。冬季でも温暖。" },
+  lodge:   { wifi_ssid: "THE_LODGE_Biruwa",    wifi_pass: "室内書類参照",              map_url: "https://maps.google.com/?q=北海道川上郡弟子屈町美留和361", notes: "冬季（11〜4月）はスタッドレスタイヤ必須。食材は釧路・弟子屈で調達を。" },
+  nesting: { wifi_ssid: "NESTING_Biruwa",      wifi_pass: "室内書類参照",              map_url: "https://maps.google.com/?q=北海道川上郡弟子屈町美留和361", notes: "タワーサウナ・ジャグジーの使い方は室内マニュアル参照。冬季スタッドレス必須。" },
+  instant: { wifi_ssid: "InstantHouse_Biruwa", wifi_pass: "室内書類参照",              map_url: "https://maps.google.com/?q=北海道川上郡弟子屈町美留和", notes: "オフグリッド設計。電力はソーラー＋バッテリー。節電にご協力ください。" },
+  tapkop:  { wifi_ssid: "TAPKOP_Forest",       wifi_pass: "チェックイン時にご案内",    map_url: "https://maps.google.com/?q=北海道弟子屈町", notes: "9,000坪の完全プライベート。専任シェフが食事を提供。食材アレルギーは事前にご連絡を。" },
+  kumaushi:{ wifi_ssid: "KUMAUSHI_BASE",        wifi_pass: "受付にてご案内",            map_url: "https://maps.google.com/?q=北海道弟子屈町熊牛", notes: "プール・サウナ・柔術道場完備。共用施設の利用時間は受付でご確認を。" },
+  village: { wifi_ssid: "Biruwa_Village",       wifi_pass: "管理棟にてご案内",          map_url: "https://maps.google.com/?q=北海道弟子屈町美留和", notes: "100区画のコミュニティ。農作業・薪割り体験あり。近隣住民への配慮を。" },
+  honolulu:{ wifi_ssid: "BeachHouse_HNL",       wifi_pass: "室内書類参照",              map_url: "https://maps.google.com/?q=5827+Kalanianaole+Hwy,Honolulu,HI+96821", checkin_start:"15:00", checkin_end:"22:00", checkout_end:"11:00", notes: "ハワイカイ、5827 Kalanianaʻole Highway。ハナウマ湾5分・ワイキキ20分。近隣スーパー：Times、Safeway(車3分)。ドアコードはチェックイン当日にメールでお送りします。" },
+  maui:    { wifi_ssid: "HawaiiKai_House",      wifi_pass: "室内書類参照",              map_url: "https://maps.google.com/?q=5827+Kalanianaole+Highway+Honolulu", notes: "ハワイカイのビーチフロント平屋。波音が聞こえる絶景ロケーション。サンゴ礁保護のため日焼け止めはリーフセーフを。" },
+};
+
+// GET /api/soluna/guide/:slug — property guide (auth required; door codes for owners only)
+app.get("/api/soluna/guide/:slug", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const slug = req.params.slug;
+  const prop = SOLUNA_PROPERTIES[slug];
+  if (!prop) return res.status(404).json({ error: "not found" });
+
+  // Is user an owner of this specific property? (has coupon for this slug)
+  const ownerCheck = await db.execute({
+    sql: "SELECT id FROM soluna_coupons WHERE member_id=? AND property_slug=? LIMIT 1",
+    args: [m.member_id, slug],
+  });
+  const isOwner = ownerCheck.rows.length > 0 || m.nah_access === 1;
+
+  // Fetch Beds24 data if property has beds24_prop
+  let beds24Data = null;
+  if (prop.beds24_prop) {
+    try {
+      const token = await beds24GetToken();
+      const r = await fetch(`https://api.beds24.com/v2/properties/${prop.beds24_prop}`, {
+        headers: { token },
+      });
+      if (r.ok) {
+        const d = await r.json();
+        beds24Data = d.data || d;
+      }
+    } catch (e) { /* ignore */ }
+  }
+
+  const staticInfo = PROPERTY_GUIDE_STATIC[slug] || {};
+
+  // Build guide response
+  const guide = {
+    slug,
+    name: prop.name,
+    location: prop.location,
+    is_owner: isOwner,
+    checkin_start: beds24Data?.checkInStart || "16:00",
+    checkin_end: beds24Data?.checkInEnd || "—",
+    checkout_end: beds24Data?.checkOutEnd || "10:00",
+    address: beds24Data ? [beds24Data.address, beds24Data.city, beds24Data.state].filter(Boolean).join(", ") : prop.location,
+    map_url: staticInfo.map_url || "",
+    wifi_ssid: staticInfo.wifi_ssid || "",
+    wifi_pass: staticInfo.wifi_pass || "",
+    notes: staticInfo.notes || "",
+    contact_email: beds24Data?.email || "info@solun.art",
+    contact_phone: "090-7409-0407",
+    // Templates: checkin_info always visible, door_code for owners only
+    checkin_info: beds24Data?.templates?.template1 || "",
+    checkout_info: isOwner ? (beds24Data?.templates?.template2 || "") : "",
+    door_code_template: isOwner ? (beds24Data?.templates?.template4 || "") : "",
+  };
+
+  res.json(guide);
+});
+
+// Property coordinates for KAGI deep links
+const PROPERTY_COORDS = {
+  atami:   { lat: 35.0840416, lon: 139.0750427 },
+  lodge:   { lat: 43.5260,    lon: 144.5480 },
+  nesting: { lat: 43.5260,    lon: 144.5480 },
+  instant: { lat: 43.5260,    lon: 144.5480 },
+  tapkop:  { lat: 43.4800,    lon: 144.4620 },
+  kumaushi:{ lat: 43.4780,    lon: 144.4570 },
+  village: { lat: 43.5260,    lon: 144.5480 },
+  honolulu:{ lat: 21.2850,    lon: -157.7280 },
+  maui:    { lat: 21.2850,    lon: -157.7280 },
+};
+
+// GET /api/soluna/kagi-link — generate KAGI deep link for property (SOLUNA auth)
+app.get("/api/soluna/kagi-link", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const slug = (req.query.prop || "").toLowerCase();
+  const prop = SOLUNA_PROPERTIES[slug];
+  if (!prop) return res.status(404).json({ error: "not found" });
+
+  // Check ownership: confirmed purchase OR active coupon OR nah_access/admin
+  const PRIVILEGED = ["admin", "founder", "friend"];
+  let isOwner = m.nah_access === 1 || PRIVILEGED.includes(m.member_type);
+  if (!isOwner) {
+    const [pur, cup] = await Promise.all([
+      db.execute({ sql: "SELECT 1 FROM soluna_purchases WHERE member_id=? AND property_slug=? AND status='confirmed' LIMIT 1", args: [m.member_id, slug] }),
+      db.execute({ sql: "SELECT 1 FROM soluna_coupons WHERE member_id=? AND property_slug=? LIMIT 1", args: [m.member_id, slug] }),
+    ]);
+    isOwner = pur.rows.length > 0 || cup.rows.length > 0;
+  }
+  if (!isOwner) return res.status(403).json({ error: "not_owner" });
+
+  const rawToken = (req.headers.authorization || "").replace("Bearer ", "").trim();
+  const coords = PROPERTY_COORDS[slug] || { lat: 0, lon: 0 };
+  const params = new URLSearchParams({
+    prop: slug,
+    name: prop.name,
+    address: prop.location,
+    lat: coords.lat,
+    lon: coords.lon,
+    email: m.email,
+    token: rawToken,
+  });
+  res.json({ deeplink: `kacha://soluna?${params.toString()}` });
+});
+
+// GET /api/soluna/kagi/upcoming — KAGI app: upcoming bookings + coupon balances
+app.get("/api/soluna/kagi/upcoming", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+
+  const bookings = await db.execute({
+    sql: `SELECT b.*, c.property_slug as coupon_prop_slug
+          FROM soluna_bookings b
+          LEFT JOIN soluna_coupons c ON c.id = b.coupon_id
+          WHERE b.member_id = ? AND b.check_out >= date('now')
+          ORDER BY b.check_in ASC LIMIT 10`,
+    args: [m.member_id]
+  });
+
+  const coupons = await db.execute({
+    sql: "SELECT id, property_slug, nights_total, nights_used FROM soluna_coupons WHERE member_id=?",
+    args: [m.member_id]
+  });
+
+  res.json({
+    bookings: bookings.rows.map(r => ({
+      id: r.id,
+      property_slug: r.property_slug,
+      check_in: r.check_in,
+      check_out: r.check_out,
+      nights: r.nights,
+      guests: r.guests,
+      status: r.status
+    })),
+    coupons: coupons.rows.map(r => ({
+      id: r.id,
+      property_slug: r.property_slug,
+      nights_remaining: (r.nights_total || 0) - (r.nights_used || 0)
+    }))
+  });
+});
+
+// GET /api/soluna/kagi/music — music preset for property
+const MUSIC_PRESETS = {
+  lodge:   { name: "Forest Cabin",    spotify: "spotify:playlist:37i9dQZF1DX1s9knjP51Oa", apple: "https://music.apple.com/jp/playlist/pl.u-oZylNZgT89rvNr" },
+  nesting: { name: "Sauna & Chill",   spotify: "spotify:playlist:37i9dQZF1DXdwTUxmGKrdN", apple: "https://music.apple.com/jp/playlist/pl.u-oZylNZgT89rvNr" },
+  atami:   { name: "Ocean View",      spotify: "spotify:playlist:37i9dQZF1DX0MLFaUdXnjA", apple: "https://music.apple.com/jp/playlist/pl.u-oZylNZgT89rvNr" },
+  tapkop:  { name: "Private Forest",  spotify: "spotify:playlist:37i9dQZF1DX1s9knjP51Oa", apple: "https://music.apple.com/jp/playlist/pl.u-oZylNZgT89rvNr" },
+  honolulu:{ name: "Aloha Vibes",     spotify: "spotify:playlist:37i9dQZF1DX0Yxoavh5qJV", apple: "https://music.apple.com/jp/playlist/pl.u-oZylNZgT89rvNr" },
+  maui:    { name: "Hawaii Sunset",   spotify: "spotify:playlist:37i9dQZF1DX0Yxoavh5qJV", apple: "https://music.apple.com/jp/playlist/pl.u-oZylNZgT89rvNr" },
+  default: { name: "SOLUNA Ambience", spotify: "spotify:playlist:37i9dQZF1DX1s9knjP51Oa", apple: "https://music.apple.com/jp/playlist/pl.u-oZylNZgT89rvNr" },
+};
+
+app.get("/api/soluna/kagi/music", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const slug = (req.query.prop || "").toLowerCase();
+  const preset = MUSIC_PRESETS[slug] || MUSIC_PRESETS.default;
+  res.json(preset);
+});
+
+// POST /api/soluna/kagi/share-token — issue guest share token for a property
+app.post("/api/soluna/kagi/share-token", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const { prop, nights = 1, guest_name = "" } = req.body;
+  if (!prop) return res.status(400).json({ error: "prop required" });
+
+  // Verify ownership
+  const [pur, cup] = await Promise.all([
+    db.execute({ sql: "SELECT 1 FROM soluna_purchases WHERE member_id=? AND property_slug=? AND status='confirmed' LIMIT 1", args: [m.member_id, prop] }),
+    db.execute({ sql: "SELECT 1 FROM soluna_coupons WHERE member_id=? AND property_slug=? LIMIT 1", args: [m.member_id, prop] }),
+  ]);
+  const PRIVILEGED_SHARE = ["admin", "founder", "friend"];
+  const isOwner = m.nah_access === 1 || PRIVILEGED_SHARE.includes(m.member_type) || pur.rows.length > 0 || cup.rows.length > 0;
+  if (!isOwner) return res.status(403).json({ error: "not_owner" });
+
+  // Generate short-lived share token (24h)
+  const shareToken = require('crypto').randomBytes(16).toString('hex');
+  const exp = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+  await db.execute({
+    sql: "INSERT INTO soluna_otps (email, code, expires_at) VALUES (?, ?, ?)",
+    args: [`share:${prop}:${m.email}`, shareToken, exp]
+  });
+
+  const propInfo = SOLUNA_PROPERTIES[prop] || {};
+  const coords = PROPERTY_COORDS[prop] || { lat: 0, lon: 0 };
+  const params = new URLSearchParams({
+    prop,
+    name: propInfo.name || prop,
+    address: propInfo.location || "",
+    lat: coords.lat,
+    lon: coords.lon,
+    role: "guest",
+    share_token: shareToken,
+  });
+
+  res.json({
+    share_link: `kacha://soluna?${params.toString()}`,
+    web_link: `https://soluna-web.fly.dev/guest?token=${shareToken}&prop=${prop}`,
+    expires_in: 86400,
+  });
+});
+
+// GET /api/soluna/kagi/all-props — all accessible properties for KAGI batch import
+app.get("/api/soluna/kagi/all-props", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const rawToken = (req.headers.authorization || "").replace("Bearer ", "").trim();
+
+  const PRIVILEGED = ["admin", "founder", "friend"];
+  const isPriv = m.nah_access === 1 || PRIVILEGED.includes(m.member_type);
+
+  const [purchases, coupons] = await Promise.all([
+    db.execute({ sql: "SELECT DISTINCT property_slug FROM soluna_purchases WHERE member_id=? AND status='confirmed'", args: [m.member_id] }),
+    db.execute({ sql: "SELECT DISTINCT property_slug FROM soluna_coupons WHERE member_id=?", args: [m.member_id] }),
+  ]);
+
+  const accessibleSlugs = new Set([
+    ...purchases.rows.map(r => r.property_slug),
+    ...coupons.rows.map(r => r.property_slug),
+  ]);
+  if (isPriv) Object.keys(SOLUNA_PROPERTIES).forEach(s => accessibleSlugs.add(s));
+
+  const props = Array.from(accessibleSlugs)
+    .filter(slug => SOLUNA_PROPERTIES[slug])
+    .map(slug => {
+      const prop = SOLUNA_PROPERTIES[slug];
+      const coords = PROPERTY_COORDS[slug] || { lat: 0, lon: 0 };
+      return { slug, name: prop.name, address: prop.location, lat: coords.lat, lon: coords.lon };
+    });
+
+  res.json({ token: rawToken, email: m.email, props });
+});
+
+// GET /api/soluna/bookings — current user's bookings + Beds24 bookings for owned properties
+app.get("/api/soluna/bookings", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+
+  const [localBookings, coupons] = await Promise.all([
+    db.execute({ sql: "SELECT * FROM soluna_bookings WHERE member_id=? AND check_out >= date('now') ORDER BY check_in", args: [m.member_id] }),
+    db.execute({ sql: "SELECT property_slug FROM soluna_coupons WHERE member_id=? GROUP BY property_slug", args: [m.member_id] }),
+  ]);
+
+  // Fetch upcoming Beds24 bookings for properties this user owns
+  const ownedSlugs = coupons.rows.map(r => r.property_slug);
+  const beds24Bookings = [];
+  const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  const futureDate = new Date(); futureDate.setDate(futureDate.getDate() + 365);
+  const futureDateStr = futureDate.toISOString().slice(0, 10).replace(/-/g, '');
+
+  if (ownedSlugs.length > 0) {
+    try {
+      const token = await beds24GetToken();
+      if (token) {
+        const propIds = ownedSlugs.map(s => SOLUNA_PROPERTIES[s]?.beds24_prop).filter(Boolean);
+        for (const propId of propIds) {
+          const r = await fetch(`https://api.beds24.com/v2/bookings?status=confirmed,modified&dateFrom=${today}&dateTo=${futureDateStr}`, {
+            headers: { token }
+          });
+          if (r.ok) {
+            const d = await r.json();
+            const slug = Object.keys(SOLUNA_PROPERTIES).find(k => SOLUNA_PROPERTIES[k].beds24_prop === propId);
+            (d.data || []).filter(b => b.propertyId === propId).forEach(b => {
+              beds24Bookings.push({
+                source: 'beds24',
+                beds24_id: b.id,
+                property_slug: slug || String(propId),
+                property_name: (SOLUNA_PROPERTIES[slug] || {}).name || slug,
+                check_in: b.arrival,
+                check_out: b.departure,
+                nights: Math.round((new Date(b.departure) - new Date(b.arrival)) / 86400000),
+                guests: (b.numAdult || 1) + (b.numChild || 0),
+                guest_name: [b.firstName, b.lastName].filter(Boolean).join(' '),
+                guest_email: b.email || '',
+                status: b.status,
+                channel: b.channelLabel || b.referer || 'Direct',
+              });
+            });
+          }
+        }
+      }
+    } catch(e) { console.error("Beds24 bookings fetch:", e.message); }
+  }
+
+  const local = localBookings.rows.map(b => ({
+    source: 'soluna',
+    id: b.id,
+    property_slug: b.property_slug,
+    property_name: (SOLUNA_PROPERTIES[b.property_slug] || {}).name || b.property_slug,
+    check_in: b.check_in,
+    check_out: b.check_out,
+    nights: b.nights,
+    guests: b.guests,
+    status: b.status,
+  }));
+
+  const all = [...local, ...beds24Bookings].sort((a, b) => a.check_in.localeCompare(b.check_in));
+  res.json({ bookings: all });
+});
+
+// ── SOLUNA Member Types ────────────────────────────────────────────────────────
+const MEMBER_TYPES = ['admin','founder','friend','owner','cleaner','construction','member'];
+const MEMBER_TYPE_LABELS = {
+  admin: '管理者', founder: 'ファウンダー', friend: '友達',
+  owner: 'オーナー', cleaner: '清掃スタッフ', construction: '工事スタッフ', member: '一般会員',
+};
+
+function isSolunaAdmin(m) {
+  return m && (m.member_type === 'admin' || m.email === 'mail@yukihamada.jp');
+}
+
+// GET /api/soluna/admin/members — list all members (admin only)
+app.get("/api/soluna/admin/members", async (req, res) => {
+  const m = await solunaAuth(req);
+  const byKey = req.headers["x-admin-key"] === ADMIN_KEY;
+  if (!byKey && !isSolunaAdmin(m)) return res.status(403).json({ error: "forbidden" });
+  const r = await db.execute(
+    `SELECT id, email, name, member_type, nah_access, created_at FROM soluna_members ORDER BY created_at DESC`
+  );
+  res.json({ members: r.rows.map(row => ({
+    ...row,
+    member_type: row.member_type || 'member',
+    label: MEMBER_TYPE_LABELS[row.member_type] || row.member_type || '一般会員',
+  }))});
+});
+
+// PATCH /api/soluna/admin/members/:id — update member type (admin only)
+app.patch("/api/soluna/admin/members/:id", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  const byKey = req.headers["x-admin-key"] === ADMIN_KEY;
+  if (!byKey && !isSolunaAdmin(m)) return res.status(403).json({ error: "forbidden" });
+  const { member_type } = req.body;
+  if (!MEMBER_TYPES.includes(member_type)) return res.status(400).json({ error: "invalid member_type" });
+  const id = parseInt(req.params.id);
+  await db.execute({ sql: "UPDATE soluna_members SET member_type=? WHERE id=?", args: [member_type, id] });
+  res.json({ ok: true, member_type, label: MEMBER_TYPE_LABELS[member_type] });
+});
+
+// GET /api/soluna/admin/chat-logs — all chat logs (admin)
+app.get("/api/soluna/admin/chat-logs", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m || (m.member_type !== "admin" && m.email !== "mail@yukihamada.jp")) return res.status(403).json({ error: "forbidden" });
+  const limit = Math.min(Number(req.query.limit) || 100, 500);
+  const offset = Number(req.query.offset) || 0;
+  const [r, cnt] = await Promise.all([
+    db.execute({
+      sql: `SELECT id, member_id, email, question, answer, created_at FROM soluna_chat_logs ORDER BY id DESC LIMIT ? OFFSET ?`,
+      args: [limit, offset]
+    }),
+    db.execute(`SELECT COUNT(*) as total FROM soluna_chat_logs`)
+  ]);
+  res.json({ logs: r.rows, total: Number(cnt.rows[0]?.total ?? 0) });
+});
+
+// GET /api/soluna/admin/bookings — all upcoming bookings (admin)
+app.get("/api/soluna/admin/bookings", async (req, res) => {
+  if (req.headers["x-admin-key"] !== ADMIN_KEY) return res.status(403).json({ error: "forbidden" });
+  const r = await db.execute(`SELECT b.*, m.email FROM soluna_bookings b LEFT JOIN soluna_members m ON m.id=b.member_id ORDER BY b.check_in`);
+  res.json(r.rows);
+});
+
+// GET /api/soluna/admin/beds24-bookings — all Beds24 bookings (admin)
+app.get("/api/soluna/admin/beds24-bookings", async (req, res) => {
+  if (req.headers["x-admin-key"] !== ADMIN_KEY) return res.status(403).json({ error: "forbidden" });
+  try {
+    const token = await beds24GetToken();
+    if (!token) return res.status(502).json({ error: "Beds24 unavailable" });
+    const today = new Date().toISOString().slice(0,10).replace(/-/g,'');
+    const future = new Date(); future.setDate(future.getDate() + 180);
+    const futureStr = future.toISOString().slice(0,10).replace(/-/g,'');
+    const r = await fetch(`https://api.beds24.com/v2/bookings?status=confirmed,modified&dateFrom=${today}&dateTo=${futureStr}&includeGuests=true`, {
+      headers: { token }
+    });
+    const d = await r.json();
+    const bookings = (d.data || []).map(b => {
+      const slug = Object.keys(SOLUNA_PROPERTIES).find(k => SOLUNA_PROPERTIES[k].beds24_prop === b.propertyId);
+      return {
+        beds24_id: b.id,
+        property_slug: slug,
+        property_name: (SOLUNA_PROPERTIES[slug] || {}).name || `Prop ${b.propertyId}`,
+        check_in: b.arrival,
+        check_out: b.departure,
+        nights: Math.round((new Date(b.departure) - new Date(b.arrival)) / 86400000),
+        guests: (b.numAdult||0)+(b.numChild||0),
+        guest_name: [b.firstName, b.lastName].filter(Boolean).join(' '),
+        guest_email: b.email,
+        status: b.status,
+        channel: b.channelLabel || b.referer || 'Direct',
+        total: b.totalPrice,
+      };
+    });
+    res.json({ bookings });
+  } catch(e) {
+    res.status(502).json({ error: e.message });
+  }
+});
+
+// ── NOT A HOTEL booking proxy ──────────────────────────────────────────────────
+const KAGI_URL = "https://kagi-server.fly.dev";
+
+// POST /api/soluna/nah/reserve — proxy reservation to KAGI (owners + invited)
+app.post("/api/soluna/nah/reserve", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  // Check eligibility: has coupons (owner) or has purchases or has nah_access flag
+  const [coupons, purchases] = await Promise.all([
+    db.execute({ sql: "SELECT id FROM soluna_coupons WHERE member_id=? LIMIT 1", args: [m.member_id] }),
+    db.execute({ sql: "SELECT id FROM soluna_purchases WHERE member_id=? AND status='confirmed' LIMIT 1", args: [m.member_id] }),
+  ]);
+  const eligible = coupons.rows.length > 0 || purchases.rows.length > 0 || m.nah_access === 1;
+  if (!eligible) return res.status(403).json({ error: "NOT A HOTELの予約はオーナーまたは招待者のみ可能です" });
+
+  const { property, guest_name, guest_email, check_in, check_out, guests, note } = req.body;
+  if (!property || !check_in || !check_out) return res.status(400).json({ error: "missing fields" });
+
+  try {
+    const r = await fetch(`${KAGI_URL}/api/v1/soluna/reservations`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        property,
+        guest_name: guest_name || m.name || m.email,
+        guest_email: guest_email || m.email,
+        check_in,
+        check_out,
+        guests: guests || 2,
+        note: note || "",
+      }),
+    });
+    const data = await r.json();
+    if (!r.ok) return res.status(r.status).json(data);
+    // notify admin
+    if (RESEND_API_KEY) {
+      fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+        body: JSON.stringify({
+          from: "SOLUNA <info@solun.art>",
+          to: ["mail@yukihamada.jp"],
+          subject: `【NAH予約】${property} ${check_in}〜${check_out}`,
+          html: `<p><b>NOT A HOTEL予約</b></p><p>メール: ${m.email}<br>物件: ${property}<br>チェックイン: ${check_in}<br>チェックアウト: ${check_out}<br>予約ID: ${data.reservation_id}</p>`,
+        }),
+      }).catch(() => {});
+    }
+    res.json(data);
+  } catch (e) {
+    console.error("NAH reserve error:", e.message);
+    res.status(502).json({ error: e.message });
+  }
+});
+
+// POST /api/soluna/nah/grant — owner grants nah_access to another email
+app.post("/api/soluna/nah/grant", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  // Only owners can grant (nah_access=1 OR confirmed purchase)
+  const canGrant = m.nah_access === 1 || (await db.execute({
+    sql: "SELECT id FROM soluna_purchases WHERE member_id=? AND status='confirmed' LIMIT 1",
+    args: [m.member_id],
+  })).rows.length > 0;
+  if (!canGrant) return res.status(403).json({ error: "オーナーのみ招待できます" });
+
+  const targetEmail = (req.body.email || "").trim().toLowerCase();
+  if (!targetEmail) return res.status(400).json({ error: "email required" });
+
+  // Ensure target member exists
+  await db.execute({ sql: "INSERT OR IGNORE INTO soluna_members (email) VALUES (?)", args: [targetEmail] });
+  await db.execute({ sql: "UPDATE soluna_members SET nah_access=1 WHERE email=?", args: [targetEmail] });
+  res.json({ ok: true, granted_to: targetEmail });
+});
+
+// ── Beds24 Proxy (browser can't call Beds24 directly due to CORS) ─────────────
+// GET /api/beds24/bookings?propId=&dateFrom=&dateTo=
+app.get("/api/beds24/bookings", async (req, res) => {
+  try {
+    const token = await beds24GetToken();
+    if (!token) return res.status(502).json({ error: "Beds24 token unavailable" });
+    const { propId, dateFrom, dateTo } = req.query;
+    // Beds24 v2 doesn't filter by propId via query param — fetch all and filter here
+    const params = new URLSearchParams({ includeGuests: "true" });
+    if (dateFrom) params.set("dateFrom", dateFrom);
+    if (dateTo) params.set("dateTo", dateTo);
+    const r = await fetch("https://api.beds24.com/v2/bookings?" + params.toString(), {
+      headers: { "token": token },
+    });
+    const data = await r.json();
+    if (propId && data.data) {
+      const pid = parseInt(propId);
+      data.data = data.data.filter(b => b.propertyId === pid);
+      data.count = data.data.length;
+    }
+    res.status(r.status).json(data);
+  } catch (e) {
+    console.error("Beds24 proxy GET error:", e.message);
+    res.status(502).json({ error: e.message });
+  }
+});
+
+// POST /api/beds24/bookings
+app.post("/api/beds24/bookings", express.json(), async (req, res) => {
+  try {
+    const token = await beds24GetToken();
+    if (!token) return res.status(502).json({ error: "Beds24 token unavailable" });
+    const r = await fetch("https://api.beds24.com/v2/bookings", {
+      method: "POST",
+      headers: { "token": token, "Content-Type": "application/json" },
+      body: JSON.stringify(req.body),
+    });
+    const data = await r.json();
+    res.status(r.status).json(data);
+  } catch (e) {
+    console.error("Beds24 proxy POST error:", e.message);
+    res.status(502).json({ error: e.message });
+  }
+});
+
+// POST /api/soluna/inquiry — send inquiry to admin
+app.post("/api/soluna/inquiry", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  const message = stripTags((req.body.message || "").trim().slice(0, 2000));
+  const { property_slug, email } = req.body;
+  if (!message) return res.status(400).json({ error: "message required" });
+  const fromEmail = (m && m.email) || (email || "").trim().slice(0, 254) || "unknown";
+  const propName = property_slug ? (SOLUNA_PROPERTIES[property_slug] || {}).name || property_slug : "一般";
+  if (RESEND_API_KEY) {
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>",
+        to: ["mail@yukihamada.jp"],
+        subject: `【SOLUNA相談】${esc(propName)} — ${esc(fromEmail)}`,
+        html: `<p><b>物件:</b> ${esc(propName)}</p><p><b>送信者:</b> ${esc(fromEmail)}</p><p><b>メッセージ:</b></p><p style="white-space:pre-wrap">${esc(message)}</p>`,
+      }),
+    }).catch(() => {});
+  }
+  res.json({ ok: true });
+});
+
+// POST /api/soluna/founders-apply — founders pack application form
+app.post("/api/soluna/founders-apply", express.json(), async (req, res) => {
+  const { name, email, plan, message } = req.body;
+  const safeName    = stripTags((name    || "").trim().slice(0, 100));
+  const safeEmail   = stripTags((email   || "").trim().slice(0, 254));
+  const safePlan    = ["full","standard"].includes(plan) ? plan : "full";
+  const safeMessage = stripTags((message || "").trim().slice(0, 3000));
+  if (!safeEmail || !safeEmail.includes("@")) return res.status(400).json({ error: "email required" });
+  const planLabel = safePlan === "full" ? "フルパック（¥1億）" : "スタンダードパック（¥3,500万）";
+
+  if (RESEND_API_KEY) {
+    // Admin notification
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>",
+        to: ["mail@yukihamada.jp"],
+        subject: `【創業者パック申込】${esc(safePlan === "full" ? "フルパック" : "スタンダード")} — ${esc(safeEmail)}`,
+        html: `<p><b>氏名:</b> ${esc(safeName)}</p><p><b>メール:</b> ${esc(safeEmail)}</p><p><b>プラン:</b> ${esc(planLabel)}</p><p><b>メッセージ:</b></p><p style="white-space:pre-wrap">${esc(safeMessage)}</p>`,
+      }),
+    }).catch(() => {});
+    // Applicant confirmation
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>",
+        to: [safeEmail],
+        subject: "【SOLUNA】創業者パック申込を受け付けました",
+        html: `<p>${esc(safeName || "お客様")} 様</p><p>SOLUNA 創業者パックへのご申込ありがとうございます。</p><p><b>プラン:</b> ${esc(planLabel)}</p><p>担当より3営業日以内にご連絡いたします。</p><p>— SOLUNA チーム<br>info@solun.art</p>`,
+      }),
+    }).catch(() => {});
+  }
+  res.json({ ok: true });
+});
+
+// POST /api/soluna/product-order — materials product inquiry (yakiita, komenuka, etc.)
+app.post("/api/soluna/product-order", express.json(), async (req, res) => {
+  const { name, email, product, quantity, pref, message } = req.body;
+  if (!email || !product || !quantity) return res.status(400).json({ error: "required fields missing" });
+  const safeEmail = String(email).trim().slice(0, 254);
+  const safeName = String(name || "").trim().slice(0, 100);
+  const safeProduct = String(product).trim().slice(0, 100);
+  const safeQuantity = String(quantity).trim().slice(0, 50);
+  const safePref = String(pref || "").trim().slice(0, 50);
+  const safeMsg = stripTags(String(message || "").trim().slice(0, 1000));
+  if (RESEND_API_KEY) {
+    // Notify admin
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA Materials <info@solun.art>",
+        to: ["mail@yukihamada.jp"],
+        subject: `【建材注文】${esc(safeProduct)} × ${esc(safeQuantity)} — ${esc(safeName || safeEmail)}`,
+        html: `<div style="font-family:sans-serif;max-width:480px"><p><b>商品:</b> ${esc(safeProduct)}</p><p><b>数量:</b> ${esc(safeQuantity)}</p><p><b>お名前:</b> ${esc(safeName)}</p><p><b>メール:</b> ${esc(safeEmail)}</p><p><b>配送先都道府県:</b> ${esc(safePref)}</p>${safeMsg ? `<p><b>備考:</b></p><p style="white-space:pre-wrap">${esc(safeMsg)}</p>` : ""}</div>`,
+      }),
+    }).catch(() => {});
+    // Auto-reply to customer
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA Materials <info@solun.art>",
+        to: [safeEmail],
+        subject: `ご注文を承りました — ${esc(safeProduct)}`,
+        html: `<div style="background:#050505;color:#f0ece4;font-family:sans-serif;padding:40px;max-width:480px"><p style="color:#c8a455;letter-spacing:0.3em;font-size:11px">SOLUNA MATERIALS</p><h2 style="font-size:22px;margin:16px 0 8px">ご注文ありがとうございます</h2><p style="color:rgba(240,236,228,0.6);line-height:1.8;font-size:14px">以下の内容でご注文を承りました。2営業日以内にお支払い方法と配送日程をご連絡いたします。</p><table style="width:100%;margin:24px 0;border-collapse:collapse"><tr><td style="padding:10px 0;color:rgba(240,236,228,0.4);font-size:13px;border-bottom:1px solid rgba(255,255,255,0.06)">商品</td><td style="padding:10px 0;font-size:13px;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.06)">${esc(safeProduct)}</td></tr><tr><td style="padding:10px 0;color:rgba(240,236,228,0.4);font-size:13px;border-bottom:1px solid rgba(255,255,255,0.06)">数量</td><td style="padding:10px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.06)">${esc(safeQuantity)}</td></tr><tr><td style="padding:10px 0;color:rgba(240,236,228,0.4);font-size:13px">配送先</td><td style="padding:10px 0;font-size:13px">${esc(safePref) || "—"}</td></tr></table><p style="color:rgba(240,236,228,0.4);font-size:12px">ご不明点は <a href="mailto:info@solun.art" style="color:#c8a455">info@solun.art</a> までご連絡ください。</p></div>`,
+      }),
+    }).catch(() => {});
+  }
+  res.json({ ok: true });
+});
+
+// GET /api/soluna/availability/:slug — blocked date ranges for a property (Beds24 + SOLUNA DB merged)
+app.get("/api/soluna/availability/:slug", async (req, res) => {
+  const slug = req.params.slug;
+  const prop = SOLUNA_PROPERTIES[slug];
+  if (!prop) return res.status(404).json({ error: "property not found" });
+
+  const now = new Date();
+  const from = now.toISOString().slice(0,7).replace('-','') + '01';
+  const toDate = new Date(now.getFullYear(), now.getMonth() + 6, 0);
+  const to = toDate.toISOString().slice(0,10).replace(/-/g,'');
+
+  const blocked = {}; // "YYYY-MM-DD" -> true
+
+  // 1) Beds24
+  if (prop.beds24_prop) {
+    try {
+      const bToken = await beds24GetToken();
+      if (bToken) {
+        const r = await fetch(`https://api.beds24.com/v2/bookings?propertyId=${prop.beds24_prop}&status=confirmed,modified&dateFrom=${from}&dateTo=${to}`, {
+          headers: { token: bToken }
+        });
+        if (r.ok) {
+          const d = await r.json();
+          (d.data || []).forEach(b => {
+            for (let dt = new Date(b.arrival); dt < new Date(b.departure); dt.setDate(dt.getDate()+1)) {
+              blocked[dt.toISOString().slice(0,10)] = true;
+            }
+          });
+        }
+      }
+    } catch(e) {}
+  }
+
+  // 2) SOLUNA DB confirmed bookings
+  try {
+    const rows = (await db.execute({
+      sql: "SELECT check_in, check_out FROM soluna_bookings WHERE property_slug=? AND status='confirmed' AND check_out >= date('now')",
+      args: [slug]
+    })).rows;
+    rows.forEach(b => {
+      for (let dt = new Date(b.check_in); dt < new Date(b.check_out); dt.setDate(dt.getDate()+1)) {
+        blocked[dt.toISOString().slice(0,10)] = true;
+      }
+    });
+  } catch(e) {}
+
+  res.json({ blocked: Object.keys(blocked).sort() });
+});
+
+// GET /api/soluna/availability/next — next available date per property (Beds24)
+let _availCache = null; // { data, expiresAt }
+app.get("/api/soluna/availability/next", async (req, res) => {
+  if (_availCache && Date.now() < _availCache.expiresAt) {
+    return res.json(_availCache.data);
+  }
+  try {
+    const token = await beds24GetToken();
+    if (!token) return res.json({ available: {} });
+    const today = new Date().toISOString().slice(0,10).replace(/-/g,'');
+    const future = new Date(); future.setDate(future.getDate() + 90);
+    const futureStr = future.toISOString().slice(0,10).replace(/-/g,'');
+    // Fetch all bookings for next 90 days
+    const r = await fetch(`https://api.beds24.com/v2/bookings?status=confirmed,modified&dateFrom=${today}&dateTo=${futureStr}`, {
+      headers: { token }
+    });
+    const d = await r.json();
+    const bookings = d.data || [];
+    // Build blocked date ranges per propId
+    const blocked = {}; // propId -> Set of "YYYY-MM-DD"
+    bookings.forEach(b => {
+      if (!blocked[b.propertyId]) blocked[b.propertyId] = new Set();
+      const ci = new Date(b.arrival);
+      const co = new Date(b.departure);
+      for (let dt = new Date(ci); dt < co; dt.setDate(dt.getDate()+1)) {
+        blocked[b.propertyId].add(dt.toISOString().slice(0,10));
+      }
+    });
+    // Find next available date for each property
+    const available = {};
+    const todayDate = new Date(); todayDate.setHours(0,0,0,0);
+    for (const [slug, prop] of Object.entries(SOLUNA_PROPERTIES)) {
+      if (!prop.beds24_prop || prop.open_from > new Date().toISOString().slice(0,10)) continue;
+      const propBlocked = blocked[prop.beds24_prop] || new Set();
+      for (let i = 1; i <= 90; i++) {
+        const dt = new Date(todayDate); dt.setDate(dt.getDate() + i);
+        const ds = dt.toISOString().slice(0,10);
+        if (!propBlocked.has(ds)) {
+          available[slug] = ds;
+          break;
+        }
+      }
+    }
+    const result = { available };
+    _availCache = { data: result, expiresAt: Date.now() + 5 * 60 * 1000 };
+    res.json(result);
+  } catch(e) {
+    res.json({ available: {} });
+  }
+});
+
+// GET /api/soluna/owner/revenue — revenue summary for owned properties (owner only)
+app.get("/api/soluna/owner/revenue", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  try {
+    // Get owner's properties (from purchases confirmed + coupons)
+    const [purchases, coupons] = await Promise.all([
+      db.execute({ sql: "SELECT property_slug FROM soluna_purchases WHERE member_id=? AND status='confirmed'", args: [m.member_id] }),
+      db.execute({ sql: "SELECT DISTINCT property_slug FROM soluna_coupons WHERE member_id=?", args: [m.member_id] }),
+    ]);
+    const ownedSlugs = [...new Set([
+      ...purchases.rows.map(r => r.property_slug),
+      ...coupons.rows.map(r => r.property_slug),
+    ])];
+    if (!ownedSlugs.length) return res.json({ revenue: [], total_yen: 0 });
+    // Fetch Beds24 bookings for these properties (last 12 months + next 3 months)
+    const token = await beds24GetToken();
+    if (!token) return res.json({ revenue: [], total_yen: 0, note: "Beds24 unavailable" });
+    const from = new Date(); from.setFullYear(from.getFullYear() - 1);
+    const to = new Date(); to.setMonth(to.getMonth() + 3);
+    const fromStr = from.toISOString().slice(0,10).replace(/-/g,'');
+    const toStr = to.toISOString().slice(0,10).replace(/-/g,'');
+    const r = await fetch(`https://api.beds24.com/v2/bookings?status=confirmed,modified&dateFrom=${fromStr}&dateTo=${toStr}`, {
+      headers: { token }
+    });
+    const d = await r.json();
+    const bookings = (d.data || []).filter(b => {
+      const slug = Object.keys(SOLUNA_PROPERTIES).find(k => SOLUNA_PROPERTIES[k].beds24_prop === b.propertyId);
+      return ownedSlugs.includes(slug);
+    });
+    // Group by month
+    const byMonth = {};
+    let totalYen = 0;
+    bookings.forEach(b => {
+      const slug = Object.keys(SOLUNA_PROPERTIES).find(k => SOLUNA_PROPERTIES[k].beds24_prop === b.propertyId);
+      const month = (b.arrival || '').slice(0,7);
+      if (!byMonth[month]) byMonth[month] = { month, bookings: 0, revenue: 0, slugs: new Set() };
+      byMonth[month].bookings++;
+      byMonth[month].revenue += b.totalPrice || 0;
+      byMonth[month].slugs.add(slug);
+      totalYen += b.totalPrice || 0;
+    });
+    const revenue = Object.values(byMonth)
+      .sort((a,b) => b.month.localeCompare(a.month))
+      .slice(0, 12)
+      .map(r => ({ ...r, slugs: [...r.slugs] }));
+    // Units owned (approximate share for revenue)
+    const propDetails = ownedSlugs.map(slug => ({
+      slug,
+      name: (SOLUNA_PROPERTIES[slug] || {}).name || slug,
+      units_total: (SOLUNA_PROPERTIES[slug] || {}).units || 1,
+    }));
+    res.json({ revenue, total_yen: totalYen, owned_props: propDetails, bookings_count: bookings.length });
+  } catch(e) {
+    res.json({ revenue: [], total_yen: 0, error: e.message });
+  }
+});
+
+// POST /api/soluna/chat — AI chatbot with SOLUNA knowledge base
+app.post("/api/soluna/chat", express.json(), async (req, res) => {
+  const { message, history = [] } = req.body;
+  if (!message) return res.status(400).json({ error: "message required" });
+
+  const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+  if (!ANTHROPIC_API_KEY) return res.status(503).json({ error: "AI unavailable" });
+
+  const m = await solunaAuth(req);
+  const clientIp = req.headers["fly-client-ip"] || req.ip;
+  const rateKey = m ? `member:${m.member_id}` : `ip:${clientIp}`;
+  const rateMax  = m ? 20 : 10;
+  if (!chatRateCheck(rateKey, rateMax)) return res.status(429).json({ error: "しばらく待ってから再度お試しください" });
+
+  // Sanitise inputs to cap token spend
+  const safeMsg = (message || "").slice(0, 1000);
+  const safeHistory = history.slice(-6).map(h => ({
+    role: h.role === "assistant" ? "assistant" : "user",
+    content: String(h.content || "").slice(0, 1000),
+  }));
+
+  const memberInfo = m ? `ログインユーザー: ${m.email}（${m.member_type || 'member'}）` : '未ログインユーザー';
+
+  const KNOWLEDGE_BASE = `
+あなたはSOLUNA（ソルナ）のAIアシスタントです。SOLUNAは「帰れる場所がある、という感覚」を提供する共同所有型リゾートクラブです。
+
+## SOLUNAとは
+北海道・熱海・ハワイなどの物件を複数人で共同所有し、オーナーは年間一定泊数の優先滞在権を持つサービス。NFTで所有権を記録。投資ではなく「帰れる場所を持つ」ことが目的。運営: EnablerDAO（東京都港区）、代表: 濱田優貴（元Mercari US CEO）。
+
+## 物件一覧
+
+### THE LODGE（弟子屈・美留和）※現存・予約可
+- 価格: ¥490万/口（10口制）
+- 年間: 30泊の滞在権
+- 特徴: pH9.2アルカリ性温泉・露天風呂付き、薪ストーブ、BBQ、北海道の森の中
+- 場所: 北海道川上郡弟子屈町（屈斜路湖と摩周湖の間）
+- 実績: 稼働率53.4%、年間売上¥872万、平均単価¥44,727/泊
+- 問い合わせ: /lodge ページまたはこのチャット
+
+### NESTING（弟子屈・美留和の森）※現存・予約可
+- 価格: ¥890万/口（10口制）
+- 年間: 30泊の滞在権
+- 特徴: VUILD設計デジタルファブリケーション建築、タワーサウナ、ジャグジー、暖炉
+- 稼働実績あり（Airbnb比40%オフでオーナー利用可）
+
+### インスタントハウス（弟子屈・美留和）※現存・予約可
+- 価格: ¥120万/口（5口制）
+- 年間: 30泊の滞在権
+- 特徴: オフグリッド設計・コンパクトハウス・星空・最もリーズナブルな入口
+
+### WHITE HOUSE 熱海（静岡県熱海市）※現存・予約可
+- 価格: ¥1,900万/口（6口制）
+- 年間: 36泊の滞在権
+- 特徴: 相模湾オーシャンビュー・全面ガラス・東京から新幹線45分・温泉
+- 実績: 稼働率40%・年間売上¥1,502万・平均単価¥102,851/泊
+
+### TAPKOP（弟子屈・阿寒摩周国立公園）
+- 価格: ¥8,000万/口（5口制）
+- 年間: 30泊の滞在権
+- 特徴: PAN-PROJECTS設計・9,000坪の森・専任シェフ付き・完全プライベート・バレルバス・サウナ
+- アイヌ語で「丘」という意味
+
+### KUMAUSHI BASE（弟子屈・熊牛原野）2026年9月オープン予定
+- 価格: ¥480万/口（20口制）
+- 特徴: プール・サウナ・バー・DJ・柔術道場
+- 早期申込で最安値
+
+### 美留和ビレッジ（弟子屈・美留和）2026年9月オープン予定
+- 価格: ¥490万/口（100口制）
+- 特徴: 100区画のコミュニティ型・自然農・薪ストーブ・共同サウナ
+
+### BEACH HOUSE（ハワイ・ホノルル）2026年11月オープン予定
+- 価格: ¥2,800万/口（8口制）・月単位滞在
+- 特徴: ハワイカイ・オーシャンビュー・プール・ラナイ
+
+### HAWAII KAI HOUSE（ハワイ・ホノルル）2026年11月オープン予定
+- 価格: ¥3,800万/口（6口制）・月単位滞在
+- 特徴: ビーチフロント・波音が聞こえる平屋
+
+## よくある質問と回答
+
+**Q: 投資として儲かりますか？**
+A: 値上がり目的のサービスではありません。「帰れる場所を持つ」ことが目的です。ただし使わない夜はAirbnbで収益化でき、オーナーには収益を分配しています（THE LODGE実績：年間配当¥62万相当）。
+
+**Q: 売却できますか？**
+A: NFTとして二次流通できます。欲しい人に渡すことができます。
+
+**Q: ローンは使えますか？**
+A: 銀行ローン対応可能です（THE LODGEは実績あり）。詳細はお問い合わせください。
+
+**Q: 維持費はかかりますか？**
+A: 月額管理費があります（物件により¥3万〜¥12万/月）。管理費からAirbnb収益で一部賄われます。
+
+**Q: 何人で持つんですか？**
+A: 物件により5〜100口。THE LODGEは10口（10人で持つ）、TAPKOPは5口です。
+
+**Q: 予約が取れないのでは？**
+A: 年30泊（または36泊）の優先予約権があります。シーズン中の人気日程は早めに押さえることを推奨します。
+
+**Q: 宿泊だけでなく購入もできますか？**
+A: はい。まず1泊体験してから購入を検討することもできます。
+
+**Q: 弟子屈ってどこですか？**
+A: 北海道東部・釧路管内の町。屈斜路湖・摩周湖・阿寒湖を擁する国立公園エリア。東京から飛行機+レンタカーで約3時間。
+
+**Q: 申込方法は？**
+A: /buy ページから申し込めます。ログイン後、物件を選んで申込ボタンを押すだけです。担当者からご連絡します。
+
+## コミッション制度
+友人を紹介した場合、成約価格の3%が紹介者に支払われます。紹介コードは /staff ページで取得できます。
+
+## 現在地: ${memberInfo}
+`;
+
+  try {
+    // 1. Try m5 HITL first (long timeout for 待つ + edit flow)
+    const m5Url = m5RuntimeUrl;
+    let reply = null;
+    if (m5Url) {
+      try {
+        const histCtx = safeHistory.map(h => `${h.role}: ${h.content.slice(0,200)}`).join("\n");
+        const context = `${KNOWLEDGE_BASE}\n\n# 直近の会話\n${histCtx}`;
+        const m5r = await fetch(m5Url.replace(/\/$/, "") + "/ask", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            question: safeMsg, context, site: "soluna",
+            user_id: m?.member_id ? `soluna-m${m.member_id}` : null,
+            user_label: m?.email || null,
+          }),
+          signal: AbortSignal.timeout(700000),
+        });
+        if (m5r.ok) {
+          const md = await m5r.json();
+          if (md?.text && md.text.trim()) reply = md.text;
+        }
+      } catch (_) { /* fall through */ }
+    }
+
+    // 2. Fallback: Anthropic
+    if (!reply) {
+      const messages = [...safeHistory, { role: "user", content: safeMsg }];
+      const r = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": ANTHROPIC_API_KEY,
+          "anthropic-version": "2023-06-01",
+        },
+        body: JSON.stringify({
+          model: "claude-haiku-4-5-20251001",
+          max_tokens: 1024,
+          system: KNOWLEDGE_BASE,
+          messages,
+        }),
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error?.message || "AI error");
+      reply = data.content?.[0]?.text || "すみません、回答できませんでした。";
+    }
+
+    db.execute({
+      sql: `INSERT INTO soluna_chat_logs (member_id, email, question, answer) VALUES (?,?,?,?)`,
+      args: [m?.member_id || null, m?.email || null, safeMsg, reply]
+    }).catch(() => {});
+    res.json({ ok: true, reply });
+  } catch(e) {
+    console.error("Chat error:", e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// ── SOLUNA Community Chat ──────────────────────────────────────────────────────
+const LINE_CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN || "";
+const LINE_CHANNEL_SECRET = process.env.LINE_CHANNEL_SECRET || "";
+
+// ── LINE Flex Message helpers ──────────────────────────────────────────────────
+function lineFlexProperty(prop) {
+  return {
+    type: "bubble",
+    size: "kilo",
+    hero: {
+      type: "image",
+      url: `https://solun.art/img/${prop.img || 'og.jpg'}`,
+      size: "full", aspectRatio: "20:13", aspectMode: "cover",
+    },
+    body: {
+      type: "box", layout: "vertical", spacing: "sm", paddingAll: "16px",
+      contents: [
+        { type: "text", text: prop.name, weight: "bold", size: "md", color: "#f0ece4" },
+        { type: "text", text: prop.location || "", size: "xxs", color: "#666666", margin: "xs" },
+        {
+          type: "box", layout: "horizontal", margin: "md", spacing: "sm",
+          contents: [
+            { type: "box", layout: "vertical", contents: [
+              { type: "text", text: "滞在", size: "xxs", color: "#555555" },
+              { type: "text", text: `¥${(prop.stay_price||0).toLocaleString()}/泊`, size: "sm", weight: "bold", color: "#c8a455" }
+            ]},
+            { type: "box", layout: "vertical", contents: [
+              { type: "text", text: "年間", size: "xxs", color: "#555555" },
+              { type: "text", text: `${prop.nights || 30}泊`, size: "sm", weight: "bold", color: "#f0ece4" }
+            ]},
+            { type: "box", layout: "vertical", contents: [
+              { type: "text", text: "購入", size: "xxs", color: "#555555" },
+              { type: "text", text: prop.price >= 10000000 ? `¥${(prop.price/10000).toFixed(0)}万` : `¥${(prop.price/10000).toFixed(0)}万`, size: "sm", weight: "bold", color: "#f0ece4" }
+            ]},
+          ]
+        }
+      ]
+    },
+    footer: {
+      type: "box", layout: "vertical", spacing: "sm", paddingAll: "12px",
+      contents: [{
+        type: "button", action: { type: "uri", label: "詳細を見る", uri: `https://solun.art/${prop.slug}` },
+        style: "primary", color: "#c8a455", height: "sm"
+      }]
+    },
+    styles: { body: { backgroundColor: "#0a0a0a" }, footer: { backgroundColor: "#0a0a0a" } }
+  };
+}
+
+function lineFlexBooking(b, propName) {
+  const statusColor = b.status === 'confirmed' ? '#5ab55a' : '#f5c842';
+  const statusLabel = b.status === 'confirmed' ? '確定' : b.status === 'cancelled' ? 'キャンセル済' : '申込中';
+  return {
+    type: "bubble", size: "kilo",
+    body: {
+      type: "box", layout: "vertical", paddingAll: "16px",
+      contents: [
+        { type: "text", text: "🏔 予約情報", size: "xs", color: "#c8a455", weight: "bold" },
+        { type: "text", text: propName || b.property_slug, weight: "bold", size: "md", color: "#f0ece4", margin: "sm" },
+        { type: "separator", margin: "md", color: "#1a1a1a" },
+        { type: "box", layout: "vertical", margin: "md", spacing: "xs", contents: [
+          { type: "box", layout: "horizontal", contents: [
+            { type: "text", text: "チェックイン", size: "xs", color: "#555555", flex: 2 },
+            { type: "text", text: b.check_in || "-", size: "xs", color: "#f0ece4", flex: 3 }
+          ]},
+          { type: "box", layout: "horizontal", contents: [
+            { type: "text", text: "チェックアウト", size: "xs", color: "#555555", flex: 2 },
+            { type: "text", text: b.check_out || "-", size: "xs", color: "#f0ece4", flex: 3 }
+          ]},
+          { type: "box", layout: "horizontal", contents: [
+            { type: "text", text: "泊数", size: "xs", color: "#555555", flex: 2 },
+            { type: "text", text: `${b.nights || 0}泊`, size: "xs", color: "#f0ece4", flex: 3 }
+          ]},
+          { type: "box", layout: "horizontal", contents: [
+            { type: "text", text: "ステータス", size: "xs", color: "#555555", flex: 2 },
+            { type: "text", text: statusLabel, size: "xs", color: statusColor, flex: 3, weight: "bold" }
+          ]},
+        ]},
+      ]
+    },
+    footer: b.status !== 'cancelled' && b.id ? {
+      type: "box", layout: "vertical", paddingAll: "12px",
+      contents: [{
+        type: "button", action: { type: "message", label: `キャンセル ${b.id}`, text: `キャンセル ${b.id}` },
+        style: "secondary", height: "sm", color: "#1a1a1a"
+      }]
+    } : { type: "box", layout: "vertical", contents: [] },
+    styles: { body: { backgroundColor: "#0a0a0a" }, footer: { backgroundColor: "#0a0a0a" } }
+  };
+}
+
+function lineQuickReply(items) {
+  return {
+    items: items.map(([label, text]) => ({
+      type: "action",
+      action: { type: "message", label, text }
+    }))
+  };
+}
+
+// LINE Rich Menu の作成・設定（起動時に1回実行）
+async function setupLineRichMenu() {
+  if (!LINE_CHANNEL_ACCESS_TOKEN) return;
+  try {
+    // 既存のデフォルトリッチメニューを確認
+    const existingRes = await fetch("https://api.line.me/v2/bot/user/all/richmenu", {
+      headers: { Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` }
+    });
+    if (existingRes.ok) {
+      const existing = await existingRes.json();
+      if (existing.richMenuId) {
+        console.log("✓ LINE Rich Menu already set:", existing.richMenuId);
+        return; // すでに設定済み
+      }
+    }
+
+    // Rich Menu を作成
+    const menuRes = await fetch("https://api.line.me/v2/bot/richmenu", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
+      body: JSON.stringify({
+        size: { width: 2500, height: 843 },
+        selected: true,
+        name: "SOLUNA メニュー",
+        chatBarText: "メニューを開く",
+        areas: [
+          {
+            bounds: { x: 0, y: 0, width: 833, height: 843 },
+            action: { type: "message", label: "物件一覧", text: "物件" }
+          },
+          {
+            bounds: { x: 833, y: 0, width: 834, height: 843 },
+            action: { type: "message", label: "予約確認", text: "予約状況" }
+          },
+          {
+            bounds: { x: 1667, y: 0, width: 833, height: 843 },
+            action: { type: "message", label: "ヘルプ", text: "ヘルプ" }
+          }
+        ]
+      })
+    });
+    if (!menuRes.ok) { const e = await menuRes.text(); console.error("Rich menu create failed:", e); return; }
+    const menu = await menuRes.json();
+    const richMenuId = menu.richMenuId;
+
+    // デフォルトに設定
+    await fetch(`https://api.line.me/v2/bot/user/all/richmenu/${richMenuId}`, {
+      method: "POST", headers: { Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` }
+    });
+
+    console.log("✓ LINE Rich Menu created:", richMenuId);
+    console.log(`  Upload image: POST https://api-data.line.me/v2/bot/richmenu/${richMenuId}/content`);
+    // 画像URLをログ（管理者が手動アップロードできるように）
+  } catch(e) {
+    console.error("LINE Rich Menu setup error:", e.message);
+  }
+}
+
+// SSE clients for real-time push: Map<res, { member_id, name }>
+const communityClients = new Map();
+
+// Reaction store in memory: Map<msgId, Map<emoji, Set<memberId>>>
+// Backed by soluna_community_reactions table — loaded on boot, written async on change
+const msgReactions = new Map();
+(async () => {
+  try {
+    const rows = (await db.execute(
+      "SELECT message_id, member_id, emoji FROM soluna_community_reactions"
+    )).rows;
+    for (const { message_id, member_id, emoji } of rows) {
+      if (!msgReactions.has(message_id)) msgReactions.set(message_id, new Map());
+      const rm = msgReactions.get(message_id);
+      if (!rm.has(emoji)) rm.set(emoji, new Set());
+      rm.get(emoji).add(member_id);
+    }
+    if (rows.length) console.log(`Loaded ${rows.length} reactions from DB`);
+  } catch(e) { console.error("reactions load error:", e.message); }
+})();
+
+// GET /api/soluna/community/stream — SSE for real-time messages
+app.get("/api/soluna/community/stream", async (req, res) => {
+  // EventSource can't set headers — accept token via query param too
+  if (req.query.token && !req.headers.authorization) {
+    req.headers.authorization = `Bearer ${req.query.token}`;
+  }
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "login required" });
+
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("X-Accel-Buffering", "no"); // disable Fly.io/Nginx proxy buffering
+  res.flushHeaders();
+
+  // Send current online count immediately
+  const onlineCount = communityClients.size + 1;
+  res.write(`data: ${JSON.stringify({ type: "online", count: onlineCount })}\n\n`);
+  if (res.flush) res.flush(); // flush compression buffer
+
+  // Send heartbeat every 25s to keep connection alive
+  const hb = setInterval(() => { res.write(": ping\n\n"); if (res.flush) res.flush(); }, 25000);
+  communityClients.set(res, { member_id: m.member_id, name: m.name || m.email.split("@")[0] });
+
+  // Broadcast updated online count to everyone
+  broadcastCommunity({ type: "online", count: onlineCount });
+
+  req.on("close", () => {
+    communityClients.delete(res);
+    clearInterval(hb);
+    broadcastCommunity({ type: "online", count: communityClients.size });
+  });
+});
+
+// Broadcast to all SSE clients
+function broadcastCommunity(payload) {
+  const data = `data: ${JSON.stringify(payload)}\n\n`;
+  for (const [client] of communityClients) {
+    try { client.write(data); if (client.flush) client.flush(); } catch {}
+  }
+}
+
+// GET /api/soluna/community/online — current online count
+app.get("/api/soluna/community/online", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.json({ count: 0 });
+  res.json({ count: communityClients.size });
+});
+
+// GET /api/soluna/community/messages — recent 80 messages
+app.get("/api/soluna/community/messages", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "login required" });
+  const before = req.query.before ? Number(req.query.before) : null;
+  try {
+    const sql = before
+      ? `SELECT id, member_id, display_name, member_type, message, is_ai, created_at, reply_to_id, reply_preview, image_url, deleted
+         FROM soluna_community_messages WHERE id < ? AND deleted=0 ORDER BY id DESC LIMIT 40`
+      : `SELECT id, member_id, display_name, member_type, message, is_ai, created_at, reply_to_id, reply_preview, image_url, deleted
+         FROM soluna_community_messages WHERE deleted=0 ORDER BY id DESC LIMIT 80`;
+    const r = await db.execute(before ? { sql, args: [before] } : sql);
+    res.json({ messages: r.rows.reverse() });
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/soluna/community/message — send message (supports reply_to_id, image_url)
+app.post("/api/soluna/community/message", express.json({ limit: "4mb" }), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "login required" });
+  if (!msgRateCheck(m.member_id)) return res.status(429).json({ error: "送信が速すぎます。少し待ってから再試行してください。" });
+
+  const { message, reply_to_id, image_url } = req.body;
+  const text = (message || "").trim().slice(0, 1000);
+  if (!text && !image_url) return res.status(400).json({ error: "message or image required" });
+
+  const displayName = m.name || m.email.split("@")[0];
+  const memberType = m.member_type || "member";
+
+  // Resolve reply preview
+  let replyPreview = null;
+  let replyToIdNum = reply_to_id ? Number(reply_to_id) : null;
+  if (replyToIdNum) {
+    const orig = (await db.execute({ sql: "SELECT display_name, message FROM soluna_community_messages WHERE id=?", args: [replyToIdNum] })).rows[0];
+    if (orig) replyPreview = JSON.stringify({ name: orig.display_name, text: (orig.message || "").slice(0, 100) });
+  }
+
+  // image_url: accept data URI (base64) or external URL, store in S3 if base64
+  let storedImageUrl = image_url || null;
+  if (image_url && image_url.startsWith("data:image/")) {
+    try {
+      const [header, b64] = image_url.split(",");
+      const mime = header.match(/data:([^;]+)/)?.[1] || "image/png";
+      const ext = mime.split("/")[1].replace("jpeg", "jpg");
+      const buf = Buffer.from(b64, "base64");
+      if (buf.length > 3 * 1024 * 1024) throw new Error("image too large (max 3MB)");
+      const key = `chat/${Date.now()}_${crypto.randomBytes(6).toString("hex")}.${ext}`;
+      await s3Put(key, buf, mime);
+      const endpoint = process.env.AWS_ENDPOINT_URL_S3 || "https://fly.storage.tigris.dev";
+      storedImageUrl = `${endpoint}/${S3_BUCKET}/${key}`;
+    } catch(imgErr) {
+      return res.status(400).json({ error: imgErr.message });
+    }
+  }
+
+  try {
+    const ins = await db.execute({
+      sql: `INSERT INTO soluna_community_messages (member_id, display_name, member_type, message, is_ai, reply_to_id, reply_preview, image_url)
+            VALUES (?,?,?,?,0,?,?,?)`,
+      args: [m.member_id, displayName, memberType, text, replyToIdNum, replyPreview, storedImageUrl]
+    });
+    const msgId = Number(ins.lastInsertRowid);
+    const payload = {
+      id: msgId, member_id: m.member_id, display_name: displayName, member_type: memberType,
+      message: text, is_ai: 0, created_at: new Date().toISOString(),
+      reply_to_id: replyToIdNum, reply_preview: replyPreview, image_url: storedImageUrl
+    };
+    broadcastCommunity({ type: "message", ...payload });
+    res.json({ ok: true, message: payload });
+
+    if (TG_TOKEN && TG_CHAT) {
+      sendTg(TG_CHAT, `💬 *SOLUNA Chat*\n*${displayName}*: ${text.slice(0, 200)}`).catch(() => {});
+    }
+    lineBroadcastCommunity(displayName, text).catch(() => {});
+
+    const shouldReply = /AI|ソル|sol|どう|教え|知りたい|？|\?/i.test(text);
+    if (shouldReply) setTimeout(() => aiCommunityReply(text, displayName), 1800);
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// DELETE /api/soluna/community/message/:id — soft-delete own message
+app.delete("/api/soluna/community/message/:id", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "login required" });
+  const id = Number(req.params.id);
+  const msg = (await db.execute({ sql: "SELECT member_id FROM soluna_community_messages WHERE id=?", args: [id] })).rows[0];
+  if (!msg) return res.status(404).json({ error: "not found" });
+  if (msg.member_id !== m.member_id && m.member_type !== "admin") return res.status(403).json({ error: "forbidden" });
+  await db.execute({ sql: "UPDATE soluna_community_messages SET deleted=1, message='[削除されました]' WHERE id=?", args: [id] });
+  broadcastCommunity({ type: "delete", message_id: id });
+  res.json({ ok: true });
+});
+
+// POST /api/soluna/community/react — emoji reaction
+app.post("/api/soluna/community/react", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "login required" });
+  const { message_id, emoji } = req.body;
+  const msgIdNum = Number(message_id);
+  const allowed = ["❤️","🔥","👍","🏔","🌊","✨","😂","🙌","🎉","👏","🤔","😮"];
+  if (!Number.isInteger(msgIdNum) || msgIdNum <= 0 || !allowed.includes(emoji)) return res.status(400).json({ error: "invalid" });
+  // Cap Map size to prevent unbounded growth (keep newest 500 reacted messages)
+  if (!msgReactions.has(msgIdNum) && msgReactions.size >= 500) {
+    const firstKey = msgReactions.keys().next().value;
+    msgReactions.delete(firstKey);
+  }
+  if (!msgReactions.has(msgIdNum)) msgReactions.set(msgIdNum, new Map());
+  const reactMap = msgReactions.get(msgIdNum);
+  if (!reactMap.has(emoji)) reactMap.set(emoji, new Set());
+  const members = reactMap.get(emoji);
+
+  // Toggle (in-memory + persist to DB in background)
+  if (members.has(m.member_id)) {
+    members.delete(m.member_id);
+    db.execute({
+      sql: "DELETE FROM soluna_community_reactions WHERE message_id=? AND member_id=? AND emoji=?",
+      args: [msgIdNum, m.member_id, emoji],
+    }).catch(() => {});
+  } else {
+    members.add(m.member_id);
+    db.execute({
+      sql: "INSERT OR IGNORE INTO soluna_community_reactions (message_id, member_id, emoji) VALUES (?,?,?)",
+      args: [msgIdNum, m.member_id, emoji],
+    }).catch(() => {});
+  }
+
+  // Build reaction summary
+  const reactions = {};
+  for (const [e, s] of reactMap) {
+    if (s.size > 0) reactions[e] = { count: s.size, mine: s.has(m.member_id) };
+  }
+
+  broadcastCommunity({ type: "reaction", message_id: msgIdNum, reactions });
+  res.json({ ok: true, reactions });
+});
+
+// LINE: broadcast community message to linked users
+async function lineBroadcastCommunity(senderName, text) {
+  if (!LINE_CHANNEL_ACCESS_TOKEN) return;
+  try {
+    // Get all members with LINE user IDs linked
+    const r = await db.execute(`SELECT line_user_id FROM soluna_members WHERE line_user_id IS NOT NULL AND line_user_id != ''`);
+    if (!r.rows.length) return;
+    const userIds = r.rows.map(row => row.line_user_id);
+    // Multicast
+    await fetch("https://api.line.me/v2/bot/message/multicast", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
+      body: JSON.stringify({
+        to: userIds.slice(0, 150), // LINE multicast max 150
+        messages: [{ type: "text", text: `💬 ${senderName}: ${text.slice(0, 200)}` }]
+      })
+    });
+  } catch {}
+}
+
+// LINE signature verification middleware
+function verifyLineSignature(req, res, buf) {
+  // Store raw body for signature verification
+  req.rawBody = buf;
+}
+
+// LINE Webhook — receives messages from LINE users
+app.post("/api/line/webhook", express.json({ verify: verifyLineSignature }), async (req, res) => {
+  // Verify LINE signature
+  if (LINE_CHANNEL_SECRET && req.rawBody) {
+    const crypto = require("crypto");
+    const sig = req.headers["x-line-signature"];
+    const expected = crypto.createHmac("SHA256", LINE_CHANNEL_SECRET).update(req.rawBody).digest("base64");
+    if (sig !== expected) return res.status(401).json({ error: "invalid signature" });
+  }
+  res.status(200).json({ ok: true });
+  const events = req.body?.events || [];
+  for (const ev of events) {
+    if (ev.type === "follow") {
+      // User followed the bot — need to link LINE user ID to a member
+      const lineUserId = ev.source.userId;
+      // We'll reply asking them to enter their SOLUNA email
+      if (LINE_CHANNEL_ACCESS_TOKEN) {
+        await fetch(`https://api.line.me/v2/bot/message/reply`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
+          body: JSON.stringify({
+            replyToken: ev.replyToken,
+            messages: [{ type: "text", text: "SOLUNAへようこそ！\n\nLINE通知を受け取るには、登録メールアドレスを入力してください。\n例: your@email.com" }]
+          })
+        }).catch(() => {});
+      }
+    } else if (ev.type === "message" && ev.message.type === "text") {
+      const lineUserId = ev.source.userId;
+      const text = ev.message.text.trim();
+      // Check if it looks like an email for linking
+      if (text.includes("@") && text.includes(".")) {
+        const email = text.toLowerCase();
+        try {
+          const member = (await db.execute({ sql: "SELECT id FROM soluna_members WHERE email=?", args: [email] })).rows[0];
+          if (member) {
+            await db.execute({ sql: "UPDATE soluna_members SET line_user_id=? WHERE id=?", args: [lineUserId, member.id] }).catch(() => {});
+            if (LINE_CHANNEL_ACCESS_TOKEN) {
+              await fetch(`https://api.line.me/v2/bot/message/reply`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
+                body: JSON.stringify({
+                  replyToken: ev.replyToken,
+                  messages: [{ type: "text", text: "✅ 連携完了！\n\nSOLUNAコミュニティのメッセージをLINEでお知らせします。\nsolun.art/chat でチャットに参加できます。" }]
+                })
+              }).catch(() => {});
+            }
+          } else {
+            if (LINE_CHANNEL_ACCESS_TOKEN && ev.replyToken) {
+              await fetch(`https://api.line.me/v2/bot/message/reply`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
+                body: JSON.stringify({
+                  replyToken: ev.replyToken,
+                  messages: [{ type: "text", text: "メールアドレスが見つかりませんでした。\nまずsolun.artでログインしてください。" }]
+                })
+              }).catch(() => {});
+            }
+          }
+        } catch {}
+      } else {
+        // LINE コマンド処理
+        const member = (await db.execute({ sql: "SELECT id, name, email, member_type FROM soluna_members WHERE line_user_id=?", args: [lineUserId] })).rows[0];
+        // LINE reply helper: text or Flex
+        const lineReply = async (messages, quickReplies) => {
+          if (!LINE_CHANNEL_ACCESS_TOKEN || !ev.replyToken) return;
+          const msgs = Array.isArray(messages) ? messages : [{ type: "text", text: String(messages) }];
+          if (quickReplies && msgs[msgs.length - 1]) {
+            msgs[msgs.length - 1].quickReply = lineQuickReply(quickReplies);
+          }
+          await fetch("https://api.line.me/v2/bot/message/reply", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
+            body: JSON.stringify({ replyToken: ev.replyToken, messages: msgs.slice(0, 5) })
+          }).catch(() => {});
+        };
+
+        const cmd = text.replace(/　/g, " ").trim();
+        const cmdLow = cmd.toLowerCase();
+
+        if (!member) {
+          // 未登録
+          await lineReply([{
+            type: "flex", altText: "SOLUNAへようこそ",
+            contents: {
+              type: "bubble",
+              body: {
+                type: "box", layout: "vertical", paddingAll: "20px", spacing: "md",
+                contents: [
+                  { type: "image", url: "https://solun.art/img/sol-line-icon.png", size: "60px", aspectMode: "cover", align: "center" },
+                  { type: "text", text: "SOLUNAへようこそ", weight: "bold", size: "lg", color: "#c8a455", align: "center", margin: "md" },
+                  { type: "text", text: "LINEと連携するには、SOLUNAに登録したメールアドレスを送信してください。", size: "sm", color: "#888888", wrap: true, align: "center", margin: "sm" },
+                  { type: "separator", margin: "lg", color: "#1a1a1a" },
+                  { type: "text", text: "まだ登録していない方は下のボタンから", size: "xs", color: "#555555", align: "center", margin: "md" },
+                  { type: "button", action: { type: "uri", label: "solun.art でアカウント作成", uri: "https://solun.art/app" }, style: "primary", color: "#c8a455", margin: "sm" }
+                ]
+              },
+              styles: { body: { backgroundColor: "#0a0a0a" } }
+            }
+          }]);
+
+        } else if (cmdLow === "ヘルプ" || cmdLow === "help" || cmdLow === "メニュー" || cmdLow === "menu") {
+          await lineReply([{
+            type: "flex", altText: "SOLUNAメニュー",
+            contents: {
+              type: "bubble",
+              header: {
+                type: "box", layout: "vertical", paddingAll: "16px", backgroundColor: "#050505",
+                contents: [{ type: "text", text: "SOLUNA", weight: "bold", size: "xl", color: "#c8a455" }]
+              },
+              body: {
+                type: "box", layout: "vertical", spacing: "sm", paddingAll: "12px",
+                contents: [
+                  { type: "button", action: { type: "message", label: "🏔 物件一覧", text: "物件" }, style: "secondary", height: "sm" },
+                  { type: "button", action: { type: "message", label: "📅 予約を確認", text: "予約状況" }, style: "secondary", height: "sm" },
+                  { type: "button", action: { type: "uri", label: "💬 コミュニティチャット", uri: "https://solun.art/chat" }, style: "secondary", height: "sm" },
+                  { type: "button", action: { type: "uri", label: "🏠 アプリを開く", uri: "https://solun.art/app" }, style: "primary", color: "#c8a455", height: "sm" },
+                ]
+              },
+              footer: {
+                type: "box", layout: "vertical", paddingAll: "12px",
+                contents: [{ type: "text", text: "退会するには「退会」と送信", size: "xxs", color: "#333333", align: "center" }]
+              },
+              styles: { body: { backgroundColor: "#0a0a0a" }, footer: { backgroundColor: "#0a0a0a" } }
+            }
+          }]);
+
+        } else if (cmdLow === "予約状況" || cmdLow === "予約") {
+          const bookings = (await db.execute({
+            sql: "SELECT * FROM soluna_bookings WHERE member_id=? AND check_out >= date('now') AND status != 'cancelled' ORDER BY check_in LIMIT 5",
+            args: [member.id],
+          })).rows;
+          if (!bookings.length) {
+            await lineReply(
+              [{ type: "text", text: "現在の予約はありません。\n物件を選んで予約してみましょう！" }],
+              [["物件一覧を見る", "物件"], ["アプリを開く", "ヘルプ"]]
+            );
+          } else {
+            const flexBubbles = bookings.map(b => {
+              const prop = SOLUNA_PROPERTIES[b.property_slug] || {};
+              return lineFlexBooking(b, prop.name);
+            });
+            await lineReply([{
+              type: "flex", altText: `予約${bookings.length}件`,
+              contents: flexBubbles.length === 1 ? flexBubbles[0] : { type: "carousel", contents: flexBubbles }
+            }], [["予約状況を更新", "予約状況"], ["物件一覧", "物件"]]);
+          }
+
+        } else if (cmdLow.startsWith("キャンセル")) {
+          const parts = cmd.split(/[\s　]+/);
+          const bookingId = Number(parts[1]);
+          if (!bookingId) {
+            await lineReply(
+              [{ type: "text", text: "キャンセルする予約IDを入力してください。\n例: キャンセル 123\n\n予約IDは「予約状況」で確認できます。" }],
+              [["予約状況を確認", "予約状況"]]
+            );
+          } else {
+            const booking = (await db.execute({
+              sql: "SELECT * FROM soluna_bookings WHERE id=? AND member_id=? AND status != 'cancelled'",
+              args: [bookingId, member.id],
+            })).rows[0];
+            if (!booking) {
+              await lineReply([{ type: "text", text: `予約ID ${bookingId} が見つかりません。` }], [["予約状況を確認", "予約状況"]]);
+            } else {
+              const prop = SOLUNA_PROPERTIES[booking.property_slug] || {};
+              const daysUntil = Math.ceil((new Date(booking.check_in) - new Date()) / 86400000);
+              const cancelFee = daysUntil < 7 ? (prop.stay_price || 0) : 0;
+              const policy = daysUntil >= 7 ? "無料キャンセル" : `キャンセル料 ¥${cancelFee.toLocaleString()}`;
+              await db.execute({ sql: "UPDATE soluna_bookings SET status='cancelled' WHERE id=?", args: [bookingId] });
+              if (booking.coupon_id) await db.execute({ sql: "UPDATE soluna_coupons SET nights_used=MAX(0,nights_used-?) WHERE id=?", args: [booking.nights, booking.coupon_id] });
+              if (TG_TOKEN && TG_CHAT) sendTg(TG_CHAT, `❌ LINE予約キャンセル\n${member.email}\n${prop.name||''} ${booking.check_in}`).catch(() => {});
+              await lineReply([{
+                type: "flex", altText: "キャンセル完了",
+                contents: {
+                  type: "bubble",
+                  body: {
+                    type: "box", layout: "vertical", paddingAll: "20px", spacing: "md",
+                    contents: [
+                      { type: "text", text: "✅ キャンセル完了", weight: "bold", size: "lg", color: "#5ab55a" },
+                      { type: "text", text: `${prop.name||''}`, size: "md", color: "#f0ece4", margin: "md" },
+                      { type: "text", text: `${booking.check_in} 〜 ${booking.check_out}`, size: "sm", color: "#888888" },
+                      { type: "text", text: policy, size: "sm", color: cancelFee > 0 ? "#e05555" : "#5ab55a", margin: "md", weight: "bold" },
+                    ]
+                  },
+                  styles: { body: { backgroundColor: "#0a0a0a" } }
+                }
+              }], [["予約状況", "予約状況"], ["物件一覧", "物件"]]);
+            }
+          }
+
+        } else if (cmdLow === "物件" || cmdLow === "物件一覧") {
+          const availableProps = Object.values(SOLUNA_PROPERTIES).filter(p => p.name && p.stay_price);
+          const flexBubbles = availableProps.slice(0, 10).map(p => lineFlexProperty(p));
+          await lineReply([{
+            type: "flex", altText: `SOLUNA物件一覧（${availableProps.length}件）`,
+            contents: { type: "carousel", contents: flexBubbles }
+          }], [["予約状況", "予約状況"], ["ヘルプ", "ヘルプ"]]);
+
+        } else if (cmdLow === "退会") {
+          await lineReply([{
+            type: "flex", altText: "退会確認",
+            contents: {
+              type: "bubble",
+              body: {
+                type: "box", layout: "vertical", paddingAll: "20px", spacing: "sm",
+                contents: [
+                  { type: "text", text: "退会しますか？", weight: "bold", size: "lg", color: "#f0ece4" },
+                  { type: "text", text: "退会するとログインできなくなります。クーポン・予約履歴は保持されますが、利用できなくなります。", size: "sm", color: "#888888", wrap: true, margin: "md" },
+                  { type: "separator", margin: "lg", color: "#1a1a1a" },
+                  { type: "text", text: "退会を確定する場合は「退会確認」と送信してください。", size: "xs", color: "#555555", margin: "md", wrap: true },
+                ]
+              },
+              footer: {
+                type: "box", layout: "vertical", spacing: "sm", paddingAll: "12px",
+                contents: [
+                  { type: "button", action: { type: "message", label: "退会を確定する", text: "退会確認" }, style: "secondary", height: "sm", color: "#e05555" },
+                  { type: "button", action: { type: "message", label: "キャンセル", text: "ヘルプ" }, style: "primary", color: "#c8a455", height: "sm" }
+                ]
+              },
+              styles: { body: { backgroundColor: "#0a0a0a" }, footer: { backgroundColor: "#0a0a0a" } }
+            }
+          }]);
+
+        } else if (cmdLow === "退会確認") {
+          await db.execute({ sql: "UPDATE soluna_members SET member_type='withdrawn' WHERE id=?", args: [member.id] });
+          await db.execute({ sql: "DELETE FROM soluna_sessions WHERE member_id=?", args: [member.id] });
+          if (TG_TOKEN && TG_CHAT) sendTg(TG_CHAT, `🚪 LINE退会 ${member.email}`).catch(() => {});
+          await lineReply([{ type: "text", text: "退会処理が完了しました。\n\nご利用ありがとうございました。またいつでもお待ちしています。\nsolun.art" }]);
+
+        } else {
+          // 通常メッセージ → コミュニティチャットへ転送
+          const displayName = member.name || member.email.split("@")[0];
+          const ins = await db.execute({
+            sql: `INSERT INTO soluna_community_messages (member_id, display_name, member_type, message, is_ai) VALUES (?,?,?,?,0)`,
+            args: [member.id, `${displayName} (LINE)`, member.member_type || "member", text]
+          });
+          broadcastCommunity({ type: "message", id: Number(ins.lastInsertRowid), member_id: member.id, display_name: `${displayName} (LINE)`, member_type: member.member_type || "member", message: text, is_ai: 0, created_at: new Date().toISOString() });
+          await lineReply(
+            [{ type: "text", text: `✓ チャットに投稿しました` }],
+            [["チャットを開く", "ヘルプ"], ["予約状況", "予約状況"], ["物件一覧", "物件"]]
+          );
+        }
+      }
+    }
+  }
+});
+
+// AI reply to community
+async function aiCommunityReply(userMessage, userName) {
+  const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+  if (!ANTHROPIC_API_KEY) return;
+  try {
+    const r = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01" },
+      body: JSON.stringify({
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 300,
+        system: `あなたはSOLUNA（共同所有型リゾート）のAIアシスタント「ソル」です。コミュニティチャットに参加し、メンバーの質問に自然で親しみやすい日本語で短く回答してください。物件は北海道（TAPKOP・THE LODGE・NESTING・インスタントハウス・KUMAUSHI BASE・美留和ビレッジ）・熱海（WHITE HOUSE 熱海）・ハワイ（HONOLULU BEACH VILLA・HAWAII KAI HOUSE）にあります。
+
+建築哲学の知識を持ち、会話の流れに自然に合う場合は著名建築家の言葉を引用してください：
+- 安藤忠雄「光は空間の本質を明らかにし、建築を詩にする」
+- ピーター・ズントー「空間の記憶は、身体の記憶だ」
+- 隈研吾「素材と自然が対話するとき、建築は呼吸を始める」
+- ミース・ファン・デル・ローエ「Less is more」
+- ル・コルビュジェ「空間、光、秩序。これが人間が求めるものだ」
+- F.L.ライト「大地から生えたように、建物は場所に根ざすべきだ」
+- 槇文彦「集合体の中に、個の美しさが生まれる」
+- グレン・マーカット「地球に軽く触れよ」
+- アルヴァ・アアルト「素材の温かさが、空間に人間性をもたらす」
+- ルイス・カーン「建築とは、空間を通じた意志の表現だ」
+
+必ず150文字以内で。建築引用は5回に1回程度、自然な文脈でのみ使用する。`,
+        messages: [{ role: "user", content: `${userName}さんのメッセージ: "${userMessage}"` }]
+      })
+    });
+    const data = await r.json();
+    const reply = data.content?.[0]?.text;
+    if (!reply) return;
+
+    const ins = await db.execute({
+      sql: `INSERT INTO soluna_community_messages (member_id, display_name, member_type, message, is_ai) VALUES (0,'ソル AI','ai',?,1)`,
+      args: [reply]
+    });
+    const payload = {
+      type: "message",
+      id: Number(ins.lastInsertRowid),
+      member_id: 0,
+      display_name: "ソル AI",
+      member_type: "ai",
+      message: reply,
+      is_ai: 1,
+      created_at: new Date().toISOString()
+    };
+    broadcastCommunity(payload);
+  } catch(e) {
+    console.error("AI community reply error:", e.message);
+  }
+}
+
+// ── MCP Server (Model Context Protocol) ──────────────────────────────────────
+const SOLUNA_KB = {
+  resort: `SOLUNA — 共同所有型リゾート
+場所: 北海道弟子屈（川湯温泉エリア）/ 熱海 / ハワイ（2026年秋〜）
+創業者: 濱田優貴（Enabler CEO, ex-Mercari CPO）
+コンセプト: 自分が「作ったもの」として残る、建物と体験の場
+
+## 物件一覧
+| 物件 | 購入価格 | 滞在単価 | 状態 |
+|------|---------|---------|------|
+| TAPKOP（北海道） | ¥80,000,000 | ¥340,000/泊 | 公開中 |
+| THE LODGE（北海道） | ¥4,900,000 | ¥35,000/泊 | 公開中 |
+| NESTING（北海道） | ¥8,900,000 | ¥50,000/泊 | 公開中 |
+| インスタントハウス（北海道） | ¥1,200,000 | ¥25,000/泊 | 公開中 |
+| WHITE HOUSE 熱海 | ¥19,000,000 | ¥55,000/泊 | 公開中 |
+| KUMAUSHI BASE（北海道） | ¥4,800,000 | ¥80,000/泊 | 2026-09 オープン |
+| 美留和ビレッジ（北海道） | ¥4,900,000 | ¥30,000/泊 | 2026-09 オープン |
+| HONOLULU BEACH VILLA（ハワイ） | ¥28,000,000 | ¥85,000/泊 | 2026-11 オープン |
+| HAWAII KAI HOUSE（マウイ） | ¥38,000,000 | ¥120,000/泊 | 2026-11 オープン |
+
+公式サイト: https://solun.art`,
+
+  howto: `SOLUNAの仕組み
+1. 口数を購入 → 物件の共同オーナーになる
+2. 年間30泊の滞在権（クーポン）を取得
+3. アプリから希望日を予約して利用
+
+メンバー限定の特典:
+- NOT A HOTELの全施設も利用可能
+- オーナーコミュニティ参加
+- 収益シェア（一部物件）
+
+登録・購入は https://solun.art から`,
+
+  festival: `SOLUNA FEST HAWAII 2026
+日程: 2026年9月4日（金）〜6日（日）
+会場: Moanalua Gardens, Oahu, Hawaii
+ジャンル: アンダーグラウンドエレクトロニック
+年齢制限: 21歳以上（ID必須）
+
+チケット:
+- Day 1: $120
+- Day 2: $180
+- 2日券: $280
+- VIP: $1,000+
+
+公式サイト: https://solun.art/tickets`,
+
+  contact: `お問い合わせ
+メール: info@solun.art
+創業者: mail@yukihamada.jp（濱田優貴）
+公式サイト: https://solun.art`
+};
+
+function solunaContext(query) {
+  const q = (query || "").toLowerCase();
+  const parts = [];
+  if (q.match(/物件|lodge|nesting|tapkop|kumaushi|熱海|atami|ハワイ|honolulu|maui|villa/)) parts.push(SOLUNA_KB.resort);
+  if (q.match(/方法|どうやって|購入|予約|仕組み|how|buy|book|join|member|口数/)) parts.push(SOLUNA_KB.howto);
+  if (q.match(/fest|festival|フェス|ticket|チケット|hawaii.*fest|concert/)) parts.push(SOLUNA_KB.festival);
+  if (parts.length === 0) { parts.push(SOLUNA_KB.resort); parts.push(SOLUNA_KB.howto); }
+  return parts.join("\n\n");
+}
+
+// Try m5 HITL first (human-curated responses), fall back to Anthropic.
+async function solunaAsk(question) {
+  const context = solunaContext(question);
+
+  // 1. Try m5 HITL
+  const m5Url = m5RuntimeUrl;
+  if (m5Url) {
+    try {
+      const res = await fetch(m5Url.replace(/\/$/, "") + "/ask", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ question, context, site: "soluna" }),
+        signal: AbortSignal.timeout(90000),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.text && data.text.trim()) return data.text;
+      }
+    } catch (_) { /* fall through */ }
+  }
+
+  // 2. Fallback: Anthropic
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return "AI not configured. See https://solun.art for info.";
+  const system = `あなたはSOLUNA（solun.art）のAIアシスタントです。
+SOLUNAは濱田優貴が創った共同所有型リゾートです。北海道弟子屈・熱海・ハワイに物件があります。
+質問と同じ言語（日本語または英語）で簡潔に答えてください。マークダウンは使わないでください。
+
+知識ベース:
+${context}`;
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "x-api-key": apiKey, "anthropic-version": "2023-06-01", "content-type": "application/json" },
+      body: JSON.stringify({ model: "claude-haiku-4-5-20251001", max_tokens: 512, system, messages: [{ role: "user", content: question }] }),
+      signal: AbortSignal.timeout(30000),
+    });
+    const data = await res.json();
+    return data?.content?.[0]?.text || "すみません、答えられませんでした。";
+  } catch (e) {
+    return "エラーが発生しました: " + e.message;
+  }
+}
+
+function mcpToolsList() {
+  return {
+    tools: [
+      { name: "get_resort_info", description: "SOLUNAリゾートの物件一覧・価格・場所を取得", inputSchema: { type: "object", properties: {} } },
+      { name: "get_howto", description: "SOLUNAの購入・予約・メンバー登録の方法を取得", inputSchema: { type: "object", properties: {} } },
+      { name: "get_festival_info", description: "SOLUNA FEST HAWAII 2026の情報（日程・チケット・会場）を取得", inputSchema: { type: "object", properties: {} } },
+      { name: "get_contact", description: "SOLUNAの連絡先を取得", inputSchema: { type: "object", properties: {} } },
+      { name: "ask_soluna", description: "SOLUNAに関する質問にAIが回答。物件・予約・フェス・購入方法など", inputSchema: { type: "object", properties: { question: { type: "string", description: "質問内容" } }, required: ["question"] } }
+    ]
+  };
+}
+
+async function mcpToolCall(name, args) {
+  switch (name) {
+    case "get_resort_info": return { content: [{ type: "text", text: SOLUNA_KB.resort }] };
+    case "get_howto": return { content: [{ type: "text", text: SOLUNA_KB.howto }] };
+    case "get_festival_info": return { content: [{ type: "text", text: SOLUNA_KB.festival }] };
+    case "get_contact": return { content: [{ type: "text", text: SOLUNA_KB.contact }] };
+    case "ask_soluna": {
+      const text = await solunaAsk(args?.question || "");
+      return { content: [{ type: "text", text }] };
+    }
+    default: return null;
+  }
+}
+
+async function handleMcpReq(req) {
+  const id = req.id ?? null;
+  switch (req.method) {
+    case "initialize":
+      return { jsonrpc: "2.0", id, result: { protocolVersion: "2024-11-05", capabilities: { tools: {} }, serverInfo: { name: "soluna", version: "1.0.0" } } };
+    case "notifications/initialized":
+    case "ping":
+      return { jsonrpc: "2.0", id, result: {} };
+    case "tools/list":
+      return { jsonrpc: "2.0", id, result: mcpToolsList() };
+    case "tools/call": {
+      const result = await mcpToolCall(req.params?.name, req.params?.arguments);
+      if (!result) return { jsonrpc: "2.0", id, error: { code: -32602, message: "Unknown tool: " + req.params?.name } };
+      return { jsonrpc: "2.0", id, result };
+    }
+    default:
+      return { jsonrpc: "2.0", id, error: { code: -32601, message: "Method not found: " + req.method } };
+  }
+}
+
+const CORS_HEADERS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "content-type" };
+
+// ── m5 HITL URL registration ─────────────────────────────────────────────
+// Allow the m5 watchdog to auto-update the tunnel URL when it changes.
+app.post("/api/m5/register", express.json(), (req, res) => {
+  const token = (req.headers.authorization || "").replace(/^Bearer\s+/i, "");
+  const required = process.env.M5_REGISTER_TOKEN || "";
+  if (!required || token !== required) return res.status(401).json({ error: "unauthorized" });
+  const url = (req.body?.url || "").trim();
+  if (!/^https?:\/\//.test(url)) return res.status(400).json({ error: "invalid url" });
+  m5RuntimeUrl = url;
+  process.env.M5_HITL_URL = url;
+  console.log(`[m5] URL registered: ${url}`);
+  res.json({ ok: true, url });
+});
+app.get("/api/m5/status", (_req, res) => {
+  res.json({ registered: !!m5RuntimeUrl, url: m5RuntimeUrl });
+});
+
+app.options("/api/mcp", (_, res) => res.set(CORS_HEADERS).status(204).end());
+app.get("/api/mcp", (_, res) => res.set(CORS_HEADERS).json({ name: "SOLUNA MCP Server", endpoint: "https://solun.art/api/mcp", tools: ["get_resort_info","get_howto","get_festival_info","get_contact","ask_soluna"] }));
+app.post("/api/mcp", express.json(), async (req, res) => {
+  res.set(CORS_HEADERS);
+  const body = req.body;
+  if (Array.isArray(body)) {
+    const results = await Promise.all(body.map(handleMcpReq));
+    return res.json(results);
+  }
+  res.json(await handleMcpReq(body));
+});
+
+app.options("/api/a2a", (_, res) => res.set(CORS_HEADERS).status(204).end());
+app.get("/api/a2a", (_, res) => res.set(CORS_HEADERS).json({ name: "SOLUNA A2A Agent", url: "https://solun.art/api/a2a", agentCard: "https://solun.art/.well-known/agent.json" }));
+app.post("/api/a2a", express.json(), async (req, res) => {
+  res.set(CORS_HEADERS);
+  const taskId = req.body?.id ?? "unknown";
+  const question = (req.body?.message?.parts || []).filter(p => p.type === "text").map(p => p.text || "").join(" ").trim();
+  const answer = question ? await solunaAsk(question) : "SOLUNAについて何でも聞いてください。";
+  res.json({ id: taskId, status: { state: "completed", message: { role: "agent", parts: [{ type: "text", text: answer }] } } });
+});
+
+// ── Document Vault ────────────────────────────────────────────────────────────
+
+const DOC_TYPE_LABEL = {
+  contract: "売買契約書",
+  inspection: "重要事項説明書",
+  receipt: "領収書",
+  repair: "修繕記録",
+  other: "その他書類",
+};
+
+// Public listing — metadata only, no file content
+app.get("/api/soluna/docs/:slug", async (req, res) => {
+  const { slug } = req.params;
+  const r = await db.execute({
+    sql: "SELECT id, title, doc_type, filename, file_size, created_at FROM property_documents WHERE slug=? AND is_listed=1 ORDER BY created_at",
+    args: [slug],
+  });
+  res.json({ slug, documents: r.rows });
+});
+
+// Protected download — owner / admin / disclosed parties only
+app.get("/api/soluna/docs/:slug/:id/download", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+
+  const { slug, id } = req.params;
+  const docRow = await db.execute({
+    sql: "SELECT * FROM property_documents WHERE id=? AND slug=?",
+    args: [Number(id), slug],
+  });
+  if (!docRow.rows.length) return res.status(404).json({ error: "not found" });
+  const doc = docRow.rows[0];
+
+  let hasAccess = m.nah_access === 1;
+  if (!hasAccess) {
+    const coupon = await db.execute({
+      sql: "SELECT id FROM soluna_coupons WHERE member_id=? AND property_slug=? LIMIT 1",
+      args: [m.member_id, slug],
+    });
+    hasAccess = coupon.rows.length > 0;
+  }
+  if (!hasAccess) {
+    const disclosed = await db.execute({
+      sql: "SELECT id FROM document_disclosures WHERE doc_id=? AND email=? LIMIT 1",
+      args: [doc.id, m.email],
+    });
+    hasAccess = disclosed.rows.length > 0;
+  }
+  if (!hasAccess) return res.status(403).json({ error: "forbidden" });
+
+  if (!s3) return res.status(503).json({ error: "storage not configured" });
+  const s3Resp = await s3Get(doc.s3_key);
+  if (!s3Resp) return res.status(404).json({ error: "file missing in storage" });
+
+  res.setHeader("Content-Type", doc.content_type || "application/pdf");
+  res.setHeader("Content-Disposition", `inline; filename*=UTF-8''${encodeURIComponent(doc.filename)}`);
+  if (doc.file_size) res.setHeader("Content-Length", doc.file_size);
+  s3Resp.Body.transformToWebStream().pipeTo(
+    new WritableStream({ write(chunk) { res.write(chunk); }, close() { res.end(); } })
+  ).catch(() => res.end());
+});
+
+// Admin upload endpoint
+app.post("/api/soluna/docs/:slug/upload", docUpload.single("file"), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m || m.nah_access !== 1) return res.status(403).json({ error: "admin only" });
+  if (!req.file) return res.status(400).json({ error: "no file" });
+
+  const { slug } = req.params;
+  const { title, doc_type = "contract" } = req.body;
+  if (!title) return res.status(400).json({ error: "title required" });
+  if (!s3) return res.status(503).json({ error: "storage not configured" });
+
+  const ext = path.extname(req.file.originalname).toLowerCase() || ".pdf";
+  const uid = crypto.randomUUID();
+  const s3Key = `docs/${slug}/${uid}${ext}`;
+
+  await s3Put(s3Key, req.file.buffer, req.file.mimetype);
+
+  const r = await db.execute({
+    sql: "INSERT INTO property_documents (slug, title, doc_type, s3_key, filename, content_type, file_size, uploaded_by) VALUES (?,?,?,?,?,?,?,?)",
+    args: [slug, title, doc_type, s3Key, req.file.originalname, req.file.mimetype, req.file.size, m.email],
+  });
+  res.json({ ok: true, id: Number(r.lastInsertRowid), s3_key: s3Key });
+});
+
+// Admin disclose — grant specific email access to a document
+app.post("/api/soluna/docs/disclose", express.json(), async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m || m.nah_access !== 1) return res.status(403).json({ error: "admin only" });
+
+  const { doc_id, email } = req.body;
+  if (!doc_id || !email) return res.status(400).json({ error: "doc_id and email required" });
+
+  await db.execute({
+    sql: "INSERT OR REPLACE INTO document_disclosures (doc_id, email, granted_by) VALUES (?,?,?)",
+    args: [doc_id, email.toLowerCase().trim(), m.email],
+  });
+  res.json({ ok: true });
+});
+
+// Admin: manufacturing page view logs
+app.get("/api/soluna/admin/page-views", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m || m.email !== "mail@yukihamada.jp") return res.status(403).json({ error: "admin only" });
+  const r = await db.execute({
+    sql: "SELECT id, email, page, ip, viewed_at FROM soluna_page_views ORDER BY id DESC LIMIT 500",
+    args: [],
+  });
+  res.json({ views: r.rows });
+});
+
 app.all("/api/*", (_req, res) => {
   res.status(404).json({ error: "Not found" });
 });
 
-// ── Root: SPA fallback (catches everything else) ─────────────────────────────
-const indexHtml = fs.readFileSync(path.join(STATIC_DIR, "index.html"), "utf8");
-app.get("*", (_req, res) => {
+// ── Cabin images (/img/* — served from cabin/img/, fallback to teshikaga CDN) ─
+app.use("/img", express.static(path.join(__dirname, "cabin", "img"), { maxAge: "7d" }));
+app.get("/img/*", (req, res) => {
+  res.redirect(301, "https://soluna-teshikaga.fly.dev" + req.path);
+});
+
+// ── Auth-gated pages ─────────────────────────────────────────────────────────
+// Paths (without leading slash, without .html) that require SOLUNA member login.
+// Covers: manufacturing specs, admin/ops, owner content, finance, purchase flow.
+const GATED_PAGES = new Set([
+  // ── Server-side full gate (no public overview) ──────────────────────────────
+  // Admin / operations — truly private
+  "admin","approve","ops","kumaushi-ops","materials-admin",
+  "visitor-log","neuro-dashboard","neuro-portal","report","staff",
+  // Owner / member content
+  "owners","miruwa-owners","members","miruwa-photobook",
+  // Short spec pages — entire page IS the detail, no overview
+  "blueprint","structural","floorplans","scheme","systems",
+  "sips","sips-diy","sips-lab","hybrid-sips","take-sips",
+  "village-materials","miruwa-anatomy","k4-anatomy",
+  "offgrid","offgrid-cabin",
+  // Purchase action pages (have their own auth flow but still gate URL)
+  "pay","referral",
+  //
+  // NOTE: manufacturing/*, design, plan, management-fee, buy
+  //       use CLIENT-SIDE partial gate via /js/gate.js
+  //       (first N sections public, rest blurred with inline login card)
+]);
+
+// Page labels for the gate page title
+const GATED_PAGE_LABELS = {
+  "admin":"管理画面","approve":"承認","ops":"オペレーション","kumaushi-ops":"熊牛オペレーション",
+  "materials-admin":"建材管理","visitor-log":"来訪者ログ","neuro-dashboard":"Neuro Dashboard",
+  "neuro-portal":"Neuro Portal","report":"レポート","staff":"スタッフ",
+  "owners":"オーナー専用","miruwa-owners":"美留和オーナー","members":"メンバー一覧",
+  "miruwa-photobook":"美留和フォトブック","blueprint":"設計書","structural":"構造設計",
+  "floorplans":"間取り図","scheme":"事業スキーム","design":"デザイン仕様",
+  "systems":"システム仕様","sips":"SIPパネル工法","sips-diy":"SIP DIY",
+  "sips-lab":"SIPラボ","hybrid-sips":"ハイブリッドSIP","take-sips":"タケSIP",
+  "village-materials":"ビレッジ建材","miruwa-anatomy":"美留和解剖","k4-anatomy":"K4解剖",
+  "offgrid":"オフグリッド設計","offgrid-cabin":"オフグリッドキャビン",
+  "management-fee":"管理費詳細","plan":"事業計画","plans":"プラン一覧",
+  "buy":"オーナーになる","pay":"お支払い","referral":"紹介プログラム",
+};
+
+function authGatePage(pageKey, returnPath) {
+  const label = GATED_PAGE_LABELS[pageKey] || pageKey;
+  return `<!DOCTYPE html><html lang="ja"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SOLUNA — ログインが必要です</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0908;color:#c8c0b0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.gate{max-width:420px;width:100%;background:#141210;border:1px solid #2a2520;border-radius:8px;padding:40px 36px}
+.gate-logo{font-size:11px;font-weight:800;letter-spacing:.25em;color:#c8a455;margin-bottom:32px}
+h2{font-size:20px;font-weight:900;margin-bottom:8px;color:#f0ece4}
+.sub{font-size:12px;color:#666;margin-bottom:28px;line-height:1.7}
+label{display:block;font-size:9px;letter-spacing:.15em;color:#555;margin-bottom:6px;text-transform:uppercase}
+input{width:100%;background:#0e0c0a;border:1px solid #2a2520;color:#c8c0b0;padding:12px 14px;border-radius:4px;font-size:13px;outline:none;margin-bottom:12px;font-family:inherit}
+input:focus{border-color:#c8a455}
+.btn{width:100%;background:#c8a455;color:#0a0908;font-weight:800;font-size:12px;letter-spacing:.12em;padding:14px;border:none;border-radius:4px;cursor:pointer;margin-top:4px}
+.btn:hover{background:#d4b068}
+.msg{margin-top:14px;font-size:12px;min-height:20px;text-align:center}
+.msg.ok{color:#4a9a5a}.msg.err{color:#c0392b}
+#step2{display:none}
+.back{font-size:11px;color:#555;text-decoration:underline;cursor:pointer;background:none;border:none;margin-top:12px;display:block;text-align:center}
+</style>
+</head><body>
+<div class="gate">
+  <div class="gate-logo">SOLUNA</div>
+  <h2>${label}</h2>
+  <p class="sub">このページはSOLUNAメンバー限定です。<br>メールアドレスを入力してOTPコードを受け取ってください。</p>
+  <div id="step1">
+    <label>メールアドレス</label>
+    <input type="email" id="email" placeholder="your@email.com" autocomplete="email">
+    <button class="btn" onclick="sendOtp()">コードを送信</button>
+    <div class="msg" id="msg1"></div>
+  </div>
+  <div id="step2">
+    <label>確認コード（メールに届いた6桁）</label>
+    <input type="text" id="code" placeholder="000000" maxlength="6" inputmode="numeric">
+    <button class="btn" onclick="verifyOtp()">ログインして閲覧</button>
+    <button class="back" onclick="document.getElementById('step1').style.display='';document.getElementById('step2').style.display='none'">← メールアドレスを変更</button>
+    <div class="msg" id="msg2"></div>
+  </div>
+</div>
+<script>
+const RETURN=${JSON.stringify(returnPath)};
+async function sendOtp(){
+  const email=document.getElementById('email').value.trim();
+  if(!email){document.getElementById('msg1').className='msg err';document.getElementById('msg1').textContent='メールアドレスを入力してください';return;}
+  document.getElementById('msg1').className='msg';document.getElementById('msg1').textContent='送信中...';
+  const r=await fetch('/api/soluna/otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
+  const d=await r.json();
+  if(r.ok){document.getElementById('step1').style.display='none';document.getElementById('step2').style.display='';document.getElementById('msg2').textContent='';}
+  else{document.getElementById('msg1').className='msg err';document.getElementById('msg1').textContent=d.error||'エラーが発生しました';}
+}
+async function verifyOtp(){
+  const email=document.getElementById('email').value.trim();
+  const code=document.getElementById('code').value.trim();
+  if(!code){document.getElementById('msg2').className='msg err';document.getElementById('msg2').textContent='コードを入力してください';return;}
+  document.getElementById('msg2').className='msg';document.getElementById('msg2').textContent='確認中...';
+  const r=await fetch('/api/soluna/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,code})});
+  const d=await r.json();
+  if(r.ok){
+    localStorage.setItem('sln_token',d.token);
+    document.getElementById('msg2').className='msg ok';document.getElementById('msg2').textContent='ログインしました。ページを読み込んでいます...';
+    setTimeout(()=>location.href=RETURN,600);
+  } else {
+    document.getElementById('msg2').className='msg err';document.getElementById('msg2').textContent=d.error||'コードが正しくありません';
+  }
+}
+document.getElementById('email').addEventListener('keypress',e=>{if(e.key==='Enter')sendOtp()});
+document.getElementById('code')&&document.getElementById('code').addEventListener('keypress',e=>{if(e.key==='Enter')verifyOtp()});
+</script>
+</body></html>`;
+}
+
+const CABIN_DIR = path.join(__dirname, "cabin");
+
+// General auth gate middleware — intercepts all GATED_PAGES before express.static
+app.use(async (req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") return next();
+  // Normalize: /manufacturing/cluster.html → manufacturing/cluster
+  const key = req.path.replace(/^\//, "").replace(/\.html$/, "");
+  if (!GATED_PAGES.has(key)) return next();
+  const filePath = path.join(CABIN_DIR, key + ".html");
+  if (!fs.existsSync(filePath)) return next();
+
+  // Validate session cookie
+  const token = parseCookies(req).sln_tok;
+  let member = null;
+  if (token) {
+    const r = await db.execute({
+      sql: `SELECT s.member_id, m.email, m.name FROM soluna_sessions s
+            JOIN soluna_members m ON m.id=s.member_id
+            WHERE s.token=? AND s.expires_at > datetime('now')`,
+      args: [token],
+    }).catch(() => null);
+    member = r && r.rows[0] ? r.rows[0] : null;
+  }
+
+  const returnPath = "/" + key + ".html";
+  const pageKey = key.replace("manufacturing/", "");
+
+  if (!member) {
+    return res.status(401).setHeader("Content-Type","text/html; charset=UTF-8").send(authGatePage(pageKey, returnPath));
+  }
+
+  // Log the view (fire-and-forget)
+  const ip = (req.headers["x-forwarded-for"] || req.socket.remoteAddress || "").split(",")[0].trim();
+  const ua = (req.headers["user-agent"] || "").substring(0, 250);
+  db.execute({
+    sql: "INSERT INTO soluna_page_views (member_id,email,page,ip,ua) VALUES (?,?,?,?,?)",
+    args: [member.member_id, member.email, returnPath, ip, ua],
+  }).catch(() => {});
+
+  if (req.method === "HEAD") return res.end();
+  res.sendFile(filePath);
+});
+
+// ── Cabin static files (main SOLUNA website — served from /cabin dir) ────────
+// Must come BEFORE the SPA fallback so .html files are served directly
+if (fs.existsSync(CABIN_DIR)) {
+  app.use(express.static(CABIN_DIR, { maxAge: "0", etag: false }));
+  // cabin 内の .html を拡張子なしでも serve (/start → /start.html)
+  app.get("/:page", (req, res, next) => {
+    const p = path.join(CABIN_DIR, req.params.page + ".html");
+    if (fs.existsSync(p)) return res.sendFile(p);
+    next();
+  });
+  console.log("✓ Cabin static files served from /cabin");
+}
+
+// ── Inbound email → LLM auto-reply ──────────────────────────────────────────────
+// Called by Cloudflare Email Worker when mail arrives at yoyaku@solun.art
+app.post("/api/email/inbound", express.json({ limit: "2mb" }), async (req, res) => {
+  const secret = req.headers["x-email-secret"];
+  if (!secret || secret !== (process.env.EMAIL_WEBHOOK_SECRET || "")) {
+    return res.status(401).json({ error: "unauthorized" });
+  }
+  const { from, subject, text } = req.body;
+  if (!from || !subject) return res.status(400).json({ error: "missing fields" });
+
+  const EMAIL_KNOWLEDGE = `
+あなたはSOLUNA（ソルナ）の予約・販売担当AIアシスタントです。丁寧な日本語（または相手の言語）で返答してください。
+
+## SOLUNAとは
+北海道・熱海・ハワイなどのリゾート物件を複数人で共同所有するクラブ。オーナーは年間一定泊数の優先滞在権を持つ。投資目的ではなく「帰れる場所を持つ」ことが目的。
+
+## 物件と価格
+- **THE LODGE**（北海道弟子屈）¥490万/口・年30泊・温泉露天風呂・薪ストーブ
+- **NESTING**（北海道弟子屈）¥890万/口・年30泊・タワーサウナ・ジャグジー
+- **インスタントハウス**（北海道弟子屈）¥120万/口・年30泊・最も手軽な入口
+- **WHITE HOUSE 熱海**（静岡県熱海市）¥1,900万/口・年36泊・相模湾ビュー
+- **TAPKOP**（北海道阿寒摩周国立公園）¥8,000万/口・年30泊・専任シェフ付き
+- **KUMAUSHI BASE**（北海道）¥480万/口・2026年9月オープン予定
+
+## 宿泊チケット（ゲスト利用）
+物件購入前に一度泊まれるゲストチケットもあり。詳細はアプリ https://solun.art/app から確認可能。
+
+## 問い合わせ・申込み
+- アプリ: https://solun.art/app
+- 担当: yoyaku@solun.art
+
+返答は簡潔に（200〜400文字程度）、質問には具体的に答えること。詳細不明な点は「担当者より改めてご連絡いたします」と伝えること。
+`;
+
+  let replyHtml = "";
+  try {
+    const aiRes = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify({
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 600,
+        system: EMAIL_KNOWLEDGE,
+        messages: [
+          {
+            role: "user",
+            content: `件名: ${subject}\n\n${(text || "").slice(0, 2000)}`,
+          },
+        ],
+      }),
+    });
+    const aiJson = await aiRes.json();
+    const aiText = aiJson.content?.[0]?.text || "お問い合わせありがとうございます。担当者より改めてご連絡いたします。";
+    replyHtml = `<div style="font-family:sans-serif;color:#111;line-height:1.8;max-width:560px">
+      ${aiText.replace(/\n/g, "<br>")}
+      <hr style="margin:24px 0;border:none;border-top:1px solid #eee">
+      <div style="font-size:12px;color:#888">
+        SOLUNA CABIN CLUB<br>
+        <a href="https://solun.art/app" style="color:#c8a455">https://solun.art/app</a>
+      </div>
+    </div>`;
+  } catch (e) {
+    replyHtml = `<div style="font-family:sans-serif;color:#111">お問い合わせありがとうございます。担当者より改めてご連絡いたします。<br><br>SOLUNA CABIN CLUB</div>`;
+  }
+
+  // Send auto-reply to sender
+  if (RESEND_API_KEY) {
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA 予約担当 <yoyaku@solun.art>",
+        to: [from],
+        subject: `Re: ${subject}`,
+        html: replyHtml,
+      }),
+    }).catch(() => {});
+
+    // Notify admin
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <noreply@solun.art>",
+        to: [ADMIN_EMAIL],
+        subject: `[問い合わせ] ${subject}`,
+        html: `<b>From:</b> ${from}<br><b>Subject:</b> ${subject}<br><hr><pre style="white-space:pre-wrap">${(text||"").slice(0,3000)}</pre><hr><b>AI返信内容:</b><br>${replyHtml}`,
+      }),
+    }).catch(() => {});
+  }
+
+  res.json({ ok: true });
+});
+
+// ── Global Express error handler (catches async throws forwarded via next(err)) ─
+app.use((err, _req, res, _next) => {
+  console.error("Express error:", err?.message || err);
+  if (!res.headersSent) res.status(500).json({ error: "internal server error" });
+});
+
+// Public documents page — shows document listing for a property (no file content)
+app.get("/docs/:slug", async (req, res) => {
+  const { slug } = req.params;
+  const r = await db.execute({
+    sql: "SELECT id, title, doc_type, filename, file_size, created_at FROM property_documents WHERE slug=? AND is_listed=1 ORDER BY created_at",
+    args: [slug],
+  });
+  const docs = r.rows;
+  const slugLabel = { lodge: "THE LODGE（弟子屈町 美留和）", village: "美留和ビレッジ（弟子屈町）", kumaushi: "KUMAUSHI BASE（弟子屈町 熊牛原野）", tapkop: "TAPKOP（弟子屈町）", nesting: "NESTING（弟子屈町）", atami: "WHITE HOUSE 熱海", instant: "インスタントハウス（弟子屈町）" };
+  const name = slugLabel[slug] || slug;
+  const rows = docs.map(d => {
+    const kb = d.file_size ? `${Math.round(d.file_size / 1024)} KB` : "";
+    const date = d.created_at ? d.created_at.slice(0, 10) : "";
+    const typeLabel = DOC_TYPE_LABEL[d.doc_type] || d.doc_type;
+    return `<tr><td>${typeLabel}</td><td>${d.title}</td><td>${date}</td><td>${kb}</td></tr>`;
+  }).join("");
+  const html = `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${name} — 物件書類</title><style>body{font-family:-apple-system,sans-serif;max-width:800px;margin:40px auto;padding:0 20px;color:#1a1a1a}h1{font-size:1.4rem;margin-bottom:4px}p.sub{color:#666;margin-bottom:24px}table{width:100%;border-collapse:collapse}th,td{padding:10px 12px;border-bottom:1px solid #e5e5e5;text-align:left}th{background:#f7f7f7;font-weight:600;font-size:.85rem;color:#555}.badge{display:inline-block;padding:3px 8px;border-radius:4px;font-size:.75rem;background:#e8f0fe;color:#1a4fa0}.notice{margin-top:24px;padding:16px;background:#fff8e1;border-radius:8px;font-size:.9rem;color:#555;border-left:4px solid #f0c040}.empty{color:#999;font-style:italic;padding:20px 0}</style></head><body><h1>${name}</h1><p class="sub">物件書類一覧</p>${docs.length === 0 ? '<p class="empty">登録済みの書類はありません。</p>' : `<table><thead><tr><th>書類種別</th><th>書類名</th><th>登録日</th><th>サイズ</th></tr></thead><tbody>${rows}</tbody></table>`}<div class="notice">書類の閲覧はオーナーおよびオーナーが開示を許可した方のみが可能です。閲覧をご希望の方は <a href="mailto:mail@yukihamada.jp">mail@yukihamada.jp</a> までご連絡ください。</div></body></html>`;
   res.setHeader("Content-Type", "text/html; charset=UTF-8");
-  res.send(indexHtml);
+  res.send(html);
+});
+
+// ── Next.js static pages ────────────────────────────────────────────────────
+// Serve pages built by Next.js (output: "export") that aren't handled above
+app.get("/futami", (_req, res) => res.sendFile(path.join(STATIC_DIR, "futami", "index.html")));
+app.get("/futami/", (_req, res) => res.sendFile(path.join(STATIC_DIR, "futami", "index.html")));
+app.use("/futami-img", express.static(path.join(STATIC_DIR, "futami-img"), { maxAge: "7d" }));
+
+// ── 404 fallback ─────────────────────────────────────────────────────────────
+app.get("*", (_req, res) => {
+  res.status(404).setHeader("Content-Type", "text/html; charset=UTF-8");
+  const p404 = path.join(CABIN_DIR, "404.html");
+  if (fs.existsSync(p404)) return res.sendFile(p404);
+  res.send("<html><body><h1>404 Not Found</h1></body></html>");
 });
 
 initDb().then(() => {
   app.listen(PORT, () => console.log(`SOLUNA server listening on :${PORT}`));
+
+  // Telegram bot webhook registration
+  registerTgWebhook().catch(() => {});
+
+  // Morning digest scheduler
+  scheduleMorningDigest();
+
+  // Morning philosophy (9 AM JST)
+  scheduleMorningPhilosophy();
+
+  // Hourly cleaning task sync
+  syncCleaningTasks().catch(() => {});
+  setInterval(() => syncCleaningTasks().catch(() => {}), 60 * 60 * 1000);
+
+  // Beds24 booking sync (every 5 min, initial after 15s)
+  if (BEDS24_REFRESH) {
+    setTimeout(() => beds24Sync().catch(() => {}), 15000);
+    setInterval(() => beds24Sync().catch(() => {}), 5 * 60 * 1000);
+    console.log("✓ Beds24 sync enabled (every 5min)");
+  } else {
+    console.log("ℹ Beds24 sync disabled (set BEDS24_REFRESH_TOKEN to enable)");
+  }
+
+  // Daily cleanup: expired OTP codes
+  const cleanOtps = () => db.execute(`DELETE FROM soluna_otps WHERE expires_at < datetime('now')`).catch(() => {});
+  setTimeout(cleanOtps, 60 * 1000); // run once 1 min after startup
+  setInterval(cleanOtps, 24 * 60 * 60 * 1000); // then daily
+
+  // LINE Rich Menu setup (once at startup)
+  setupLineRichMenu().catch(() => {});
 }).catch(err => {
   console.error("DB init failed:", err);
   process.exit(1);

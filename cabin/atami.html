@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/atami" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA Atami — 35 minutes from Tokyo, a sea to return to. Early registration now open">SOLUNA 熱海 — 東京から35分、帰れる海がある。先行登録受付中</title>
+<meta content="静岡県熱海市に土地取得済。東京・品川から新幹線で最短45分。相模湾パノラマ・源泉引湯の熱海温泉・崖上サンデッキ。2028年着工予定。先行登録で最優先の物件選択権と15%割引予定。" data-en-content="Land secured in Atami, Shizuoka Prefecture. Just 45 minutes by bullet train from Tokyo's Shinagawa Station. Sagami Bay panoramic views, natural hot spring waters from the source, and a clifftop sun deck. Construction scheduled for 2028. Early registrants receive priority property selection and an anticipated 15% discount." name="description"/>
+<meta content="SOLUNA 熱海 — 東京から35分、帰れる海がある。先行登録受付中" property="og:title"/>
+<meta content="土地取得済・開発計画策定中。2028年着工（フェーズ4）。波の音が待っている。それだけで月曜日の朝が変わる。先行登録で最優先・最安値でご案内。" property="og:description"/>
+<meta content="/img/atami_cliff_view.webp" property="og:image"/>
+<meta content="https://solun.art/atami" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.4);
+  --gold-soft:rgba(200,164,85,.07);
+  --accent:#66aabb;
+  --accent-dim:rgba(102,170,187,.3);
+  --accent-soft:rgba(102,170,187,.07);
+  --bg:#040404;
+  --text:#f0ece4;
+  --text-dim:#666;
+  --line:#131313;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--accent);color:#000}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 28px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.75);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.03);transition:opacity .3s}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--gold)}
+.nav-links{display:flex;gap:20px;align-items:center;font-size:10.5px}
+.nav-links a{color:#555;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links .cta{color:var(--gold);font-weight:700;border:1px solid rgba(200,164,85,.3);padding:7px 16px;border-radius:100px;transition:all .2s}
+.nav-links .cta:hover{background:var(--gold);color:#040404}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:640px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:slowzoom 12s ease-out forwards;filter:contrast(1.05) saturate(.9) brightness(.6)}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.6) 35%,rgba(4,4,4,.05) 65%,rgba(4,4,4,.5) 100%);z-index:1}
+.hero-body{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:0 32px 72px;max-width:740px;margin:0 auto}
+.hero-eyebrow{font-size:9px;letter-spacing:.38em;color:var(--accent);text-transform:uppercase;font-weight:700;margin-bottom:16px;opacity:.85;animation:fadeUp .8s .2s both}
+.hero h1{font-size:clamp(2.4rem,7vw,4.2rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:20px;animation:fadeUp .9s .4s both}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-badge{display:inline-block;background:rgba(102,170,187,.12);border:1px solid rgba(102,170,187,.4);color:var(--accent);font-size:9px;font-weight:800;letter-spacing:.18em;padding:6px 16px;border-radius:100px;margin-bottom:16px;animation:fadeUp .8s .1s both;text-transform:uppercase}
+.hero-stats{display:flex;align-items:center;gap:0;margin-bottom:22px;animation:fadeUp 1s .55s both;flex-wrap:wrap;row-gap:10px}
+.hero-stat{text-align:left;padding:0 18px}
+.hero-stat:first-child{padding-left:0}
+.hero-stat-v{display:block;font-size:14px;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em}
+.hero-stat-l{display:block;font-size:9px;color:rgba(240,236,228,.35);margin-top:4px;letter-spacing:.06em}
+.hero-stat-div{width:1px;height:26px;background:rgba(255,255,255,.06);flex-shrink:0}
+@media(max-width:600px){.hero-stat{padding:0 10px}.hero-stat-v{font-size:12px}}
+.hero-sub{color:rgba(240,236,228,.55);font-size:13px;line-height:2;max-width:500px;font-weight:300;animation:fadeUp 1s .7s both;margin-bottom:28px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp 1.1s .9s both}
+.hero-scroll{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:8px;color:#333;letter-spacing:.3em;z-index:2;animation:bounce 3s ease infinite}
+
+@keyframes slowzoom{from{transform:scale(1.06)}to{transform:scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-7px)}}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease}
+.r.in{opacity:1;transform:translateY(0)}
+.r2{opacity:0;transition:opacity 1.2s ease}
+.r2.in{opacity:1}
+
+/* SECTION */
+.s{padding:100px 0}
+@media(max-width:600px){.s{padding:72px 0}}
+.w{max-width:700px;margin:0 auto;padding:0 24px}
+.ww{max-width:980px;margin:0 auto;padding:0 24px}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:12px}
+h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+.sub{color:#555;font-size:13px;line-height:2.05;max-width:560px;margin-bottom:24px}
+.gold{color:var(--gold)}
+.accent{color:var(--accent)}
+
+/* PROGRESS BAR */
+.progress-banner{background:#050505;border-top:1px solid #0d0d0d;border-bottom:1px solid #0d0d0d;padding:60px 0}
+.progress-steps{display:flex;align-items:center;max-width:760px;margin:0 auto;padding:0 24px;position:relative}
+.progress-steps::before{content:'';position:absolute;left:calc(24px + 32px);right:calc(24px + 32px);height:1px;background:#1a1a1a;top:50%;transform:translateY(calc(-50% - 18px))}
+.pstep{display:flex;flex-direction:column;align-items:center;flex:1;position:relative;z-index:1}
+.pstep-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-bottom:10px;border:2px solid #1a1a1a;background:#050505;color:#333;transition:all .3s}
+.pstep.done .pstep-circle{background:var(--accent);border-color:var(--accent);color:#040404}
+.pstep.active .pstep-circle{background:var(--accent);border-color:var(--accent);color:#040404;box-shadow:0 0 0 6px rgba(102,170,187,.15)}
+.pstep-label{font-size:9.5px;font-weight:700;color:#2a2a2a;letter-spacing:.05em;text-align:center;line-height:1.5}
+.pstep.done .pstep-label{color:#555}
+.pstep.active .pstep-label{color:var(--accent)}
+.pstep-sub{font-size:8px;color:#222;letter-spacing:.04em;text-align:center;margin-top:2px}
+.pstep.active .pstep-sub{color:rgba(102,170,187,.5)}
+@media(max-width:600px){.pstep-label{font-size:8px}.pstep-sub{display:none}.pstep-circle{width:26px;height:26px;font-size:9px}}
+
+/* FULLWIDTH IMAGE */
+.fi{width:100vw;margin-left:calc(-50vw + 50%);height:65vh;min-height:360px;object-fit:cover;display:block}
+@media(max-width:600px){.fi{height:52vw;min-height:260px}}
+
+/* SPEC TABLE */
+.spec{border:1px solid #111;border-radius:16px;overflow:hidden;margin:18px 0;background:#060606}
+.spec-row{display:grid;grid-template-columns:160px 1fr;border-bottom:1px solid #0e0e0e;font-size:12px}
+.spec-row:last-child{border-bottom:none}
+.spec-row .k{padding:16px 18px;color:#3a3a3a;font-weight:700;letter-spacing:.04em;background:#050505;font-size:10.5px;display:flex;align-items:center}
+.spec-row .v{padding:16px 18px;color:#999;line-height:1.7}
+.spec-row .v strong{color:var(--accent);font-weight:700}
+@media(max-width:600px){.spec-row{grid-template-columns:1fr}.spec-row .k{padding:12px 16px 4px;background:transparent;font-size:9.5px}.spec-row .v{padding:4px 16px 14px}}
+
+/* GALLERY STRIP */
+.gstrip{display:flex;gap:3px;overflow:hidden;height:320px;margin:18px 0}
+.gstrip img{flex:1;object-fit:cover;min-width:0;cursor:pointer;filter:brightness(.85);transition:flex .5s ease,filter .4s}
+.gstrip img:hover{flex:2.5;filter:brightness(1)}
+@media(max-width:600px){.gstrip{height:200px}}
+
+/* CTA BUTTONS */
+.cta-btn{display:inline-block;background:var(--accent);color:#040404;font-weight:800;font-size:12.5px;padding:16px 40px;border-radius:100px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 28px rgba(102,170,187,.2);letter-spacing:.04em}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(102,170,187,.32);color:#040404}
+.cta-ghost{display:inline-block;border:1px solid #252525;color:#666;font-size:12px;padding:15px 28px;border-radius:100px;margin-left:10px;transition:all .2s;font-weight:500}
+.cta-ghost:hover{border-color:rgba(102,170,187,.5);color:var(--accent)}
+
+/* BENEFIT CARD */
+.benefit-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin:20px 0}
+@media(max-width:700px){.benefit-grid{grid-template-columns:1fr}}
+.benefit-card{padding:28px 24px;background:#070707;border:1px solid #0f0f0f;position:relative;overflow:hidden}
+.benefit-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:var(--accent);opacity:.35}
+.benefit-card .bnum{font-size:36px;font-weight:800;color:#111;position:absolute;bottom:14px;right:16px;letter-spacing:-.04em}
+.benefit-card h3{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.benefit-card p{font-size:12.5px;color:#666;line-height:1.95}
+
+/* PROPERTY SCROLL */
+.prop-scroll{display:flex;gap:12px;overflow-x:auto;padding:20px 0 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.prop-scroll::-webkit-scrollbar{display:none}
+.prop-card{flex-shrink:0;width:260px;background:#070707;border:1px solid #111;border-radius:14px;overflow:hidden;transition:border-color .3s}
+.prop-card:hover{border-color:rgba(200,164,85,.3)}
+.prop-card-img{height:160px;object-fit:cover;width:100%;filter:brightness(.8);transition:filter .4s}
+.prop-card:hover .prop-card-img{filter:brightness(.95)}
+.prop-card-body{padding:16px}
+.prop-card-loc{font-size:8.5px;color:#333;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.prop-card-name{font-size:14px;font-weight:800;color:var(--text);margin-bottom:6px;line-height:1.3}
+.prop-card-status{display:inline-block;font-size:8px;font-weight:800;letter-spacing:.1em;padding:3px 10px;border-radius:100px;margin-bottom:8px}
+.status-active{background:rgba(155,196,109,.15);color:#9bc46d;border:1px solid rgba(155,196,109,.3)}
+.status-plan{background:rgba(102,170,187,.12);color:var(--accent);border:1px solid rgba(102,170,187,.3)}
+.prop-card-desc{font-size:11px;color:#444;line-height:1.7}
+
+/* FAQ */
+.faq-item{border-bottom:1px solid #0e0e0e;padding:20px 0;cursor:pointer}
+.faq-item:last-child{border-bottom:none}
+.faq-q{display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:13px;font-weight:600;color:#aaa;transition:color .2s}
+.faq-item:hover .faq-q{color:var(--text)}
+.faq-a{font-size:12.5px;color:#555;line-height:2;max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s;opacity:0;margin-top:0}
+.faq-item.open .faq-a{max-height:400px;opacity:1;margin-top:14px}
+.faq-icon{font-size:18px;color:#333;transition:transform .3s;flex-shrink:0}
+.faq-item.open .faq-icon{transform:rotate(45deg);color:var(--accent)}
+
+/* REGISTER SECTION */
+.register-section{background:radial-gradient(ellipse at center,rgba(102,170,187,.06) 0%,transparent 70%);border-top:1px solid #0d0d0d;padding:120px 0}
+
+/* NUMBERS BAR */
+.numbers{background:#030303;border-top:1px solid #0c0c0c;border-bottom:1px solid #0c0c0c;padding:52px 24px}
+.num-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:820px;margin:0 auto;text-align:center}
+@media(max-width:600px){.num-grid{grid-template-columns:repeat(2,1fr);gap:28px}}
+.num-grid .v{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.04em}
+.num-grid .l{font-size:9px;color:#333;letter-spacing:.14em;text-transform:uppercase;margin-top:8px;line-height:1.6;font-weight:600}
+
+/* TIMELINE */
+.timeline{max-width:600px;margin:24px auto 0;padding:0 24px}
+.tl-item{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid #0c0c0c;position:relative}
+.tl-item:last-child{border-bottom:none}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:#111;border:2px solid #222;flex-shrink:0;margin-top:4px}
+.tl-item.done .tl-dot{background:var(--accent);border-color:var(--accent)}
+.tl-item.active .tl-dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px rgba(102,170,187,.15)}
+.tl-year{font-size:10px;font-weight:800;color:#2a2a2a;letter-spacing:.08em;width:56px;flex-shrink:0;margin-top:2px}
+.tl-item.done .tl-year,.tl-item.active .tl-year{color:var(--accent)}
+.tl-content h4{font-size:13px;font-weight:700;color:#888;margin-bottom:4px;line-height:1.4}
+.tl-item.done .tl-content h4,.tl-item.active .tl-content h4{color:var(--text)}
+.tl-content p{font-size:11.5px;color:#3a3a3a;line-height:1.85}
+.tl-item.active .tl-content p{color:#555}
+
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:999;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(8px)}
+.modal.active{display:flex}
+.modal img{max-width:94vw;max-height:94vh;object-fit:contain;border-radius:4px}
+
+/* FOOTER */
+footer{padding:60px 24px 36px;max-width:700px;margin:0 auto;text-align:center}
+footer .logo{font-size:10px;font-weight:800;letter-spacing:.2em;color:var(--gold);margin-bottom:16px}
+footer nav a{font-size:10.5px;color:#333;margin:0 10px}
+footer nav a:hover{color:var(--gold)}
+footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
+
+/* ATAMI IMAGE GRID */
+.atami-grid{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:3px;height:600px;margin:20px 0}
+@media(max-width:700px){.atami-grid{grid-template-columns:1fr;height:auto}}
+.atami-grid-main{grid-row:1/3;position:relative;overflow:hidden;cursor:pointer}
+.atami-grid-main img{width:100%;height:100%;object-fit:cover;filter:brightness(.85);transition:transform .6s,filter .4s}
+.atami-grid-main:hover img{transform:scale(1.03);filter:brightness(1)}
+.atami-grid-side{position:relative;overflow:hidden;cursor:pointer}
+.atami-grid-side img{width:100%;height:100%;object-fit:cover;filter:brightness(.85);transition:transform .6s,filter .4s}
+.atami-grid-side:hover img{transform:scale(1.04);filter:brightness(1)}
+.atami-grid-cap{position:absolute;bottom:0;left:0;right:0;padding:12px 14px;background:linear-gradient(to top,rgba(4,4,4,.85),transparent);font-size:9.5px;color:#888;letter-spacing:.05em}
+
+@media(max-width:600px){
+  nav .nav-links{display:none}
+  .benefit-grid{grid-template-columns:1fr}
+  .num-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Construction" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- NAV -->
+<!-- HERO -->
+<div class="hero">
+<div class="hero-bg">
+<img alt="SOLUNA 熱海 — 相模湾の水平線を望む崖の上のリゾート" data-en-alt="SOLUNA Atami — A cliffside resort overlooking the horizon of Sagami Bay" loading="eager" src="img/atami_cliff_view.webp"/>
+</div>
+<div class="hero-body">
+<div class="hero-badge" data-en="Land Only · Development Planned">土地のみ・開発計画中</div>
+<div class="hero-eyebrow" data-en="SOLUNA · ATAMI · Atami, Shizuoka · Phase 4">SOLUNA · ATAMI · 熱海 静岡 · フェーズ4</div>
+<h1 data-en="35 minutes from Tokyo.">東京から35分、<br/><em data-en="A sea to return to.">帰れる海がある。</em></h1>
+<div class="hero-stats">
+<div class="hero-stat">
+<span class="hero-stat-v" data-en="Land Acquisition Complete">土地取得済</span>
+<span class="hero-stat-l" data-en="Atami, Shizuoka Prefecture">静岡県熱海市</span>
+</div>
+<div class="hero-stat-div"></div>
+<div class="hero-stat">
+<span class="hero-stat-v" data-en="45 Minutes by Shinkansen">新幹線45分</span>
+<span class="hero-stat-l" data-en="Shortest from Tokyo/Shinagawa">東京・品川から最短</span>
+</div>
+<div class="hero-stat-div"></div>
+<div class="hero-stat">
+<span class="hero-stat-v" data-en="2028">2028年</span>
+<span class="hero-stat-l" data-en="Commencement Scheduled">着工予定</span>
+</div>
+<div class="hero-stat-div"></div>
+<div class="hero-stat">
+<span class="hero-stat-v" data-en="Reserve Your Destination">帰り先を予約</span>
+<span class="hero-stat-l" data-en="Early Registration Open">先行登録受付中</span>
+</div>
+</div>
+<p data-en="The sound of waves awaits. That alone transforms your Monday morning." style="font-size:clamp(1rem,2.5vw,1.3rem);font-weight:300;color:rgba(240,236,228,.75);line-height:1.7;margin-bottom:14px;animation:fadeUp 1s .65s both">波の音が待っている。<br/>それだけで、月曜日の朝が変わる。</p>
+<p class="hero-sub" data-en="An ultimate private resort nestled atop dramatic cliffsides overlooking the sea. Panoramic vistas of Sagami Bay and the Izu Peninsula, authentic hot spring waters drawn directly from Atami's thermal source, and a sun deck perched at the cliff's edge. Simply knowing you have a place to return to transforms how you spend your weekdays.">海を眺める崖の上に建てる一棟貸しの究極リゾート。相模湾と伊豆半島のパノラマ、源泉引湯の熱海温泉、崖縁のサンデッキ。「ここに帰れる」と知っているだけで、平日の過ごし方が変わる。</p>
+<div class="hero-cta">
+<a class="cta-btn" data-en="Decide Your Retreat First →" href="#register">先に帰り先を決める →</a>
+<a class="cta-ghost" data-en="View Details →" href="#overview" style="border-color:rgba(255,255,255,.1);color:#888">詳細を見る →</a>
+</div>
+</div>
+<div class="hero-scroll">SCROLL</div>
+</div>
+<!-- STATUS PROGRESS BANNER -->
+<div class="progress-banner" id="overview">
+<div class="ww">
+<p class="label r" data-en="Current Status" style="text-align:center;color:#2a2a2a;margin-bottom:32px">Current Status · 現在のステータス</p>
+<div class="progress-steps r">
+<div class="pstep done">
+<div class="pstep-circle">1</div>
+<div class="pstep-label" data-en="Land Acquisition Complete">土地取得済</div>
+<div class="pstep-sub" data-en="Completion 2025">2025年完了</div>
+</div>
+<div class="pstep active">
+<div class="pstep-circle">2</div>
+<div class="pstep-label" data-en="Planning Underway">計画策定中</div>
+<div class="pstep-sub" data-en="You are here">現在ここ</div>
+</div>
+<div class="pstep">
+<div class="pstep-circle">3</div>
+<div class="pstep-label" data-en="Construction Commences">着工</div>
+<div class="pstep-sub" data-en="Scheduled for 2028">2028年予定</div>
+</div>
+<div class="pstep">
+<div class="pstep-circle">4</div>
+<div class="pstep-label" data-en="Completion &amp; Operations Commence">完成・運用開始</div>
+<div class="pstep-sub" data-en="Scheduled for 2029">2029年予定</div>
+</div>
+</div>
+<p class="r" data-en="Groundbreaking in 2028. Yet you may secure your sanctuary today. Early registrants will receive detailed plans, pricing, and invitations to exclusive preview events." style="text-align:center;font-size:12px;color:#2a2a2a;max-width:500px;margin:28px auto 0;line-height:2">2028年着工。でも帰り先は今日から決めておける。先行登録いただいた方には、計画の詳細・価格・プレビューイベントへのご招待をご案内します。</p>
+</div>
+</div>
+<!-- STATEMENT -->
+<div style="padding:100px 24px;text-align:center;background:radial-gradient(ellipse at center,rgba(102,170,187,.05) 0%,transparent 70%)">
+<p class="r" data-en="The moment one understands they have a place to return to, the way they spend their weekdays transforms." style="font-size:clamp(1.1rem,3vw,1.7rem);font-weight:300;line-height:1.95;color:#aaa;max-width:620px;margin:0 auto">
+    人は「<strong data-en="A place to return to" style="color:var(--text);font-weight:700">ここに帰れる</strong>」と分かった瞬間、<br/>
+    平日の過ごし方が変わる。<br/><br/>
+<span data-en="Weekend mornings, gazing at Sagami Bay from the clifftop. Minimum 45 minutes from Tokyo/Shinagawa via Shinkansen Kodama. Without access to Nozomi, the journey becomes a voyage of return. That is the beauty." style="color:#555;font-size:.82em">週末の朝、崖の上から相模湾を眺める。<br/>東京・品川から新幹線こだまで最短45分。<br/>のぞみ利用不可のため、帰るための旅になる。それがいい。</span>
+</p>
+<div class="r" data-en="— Yuki Hamada / SOLUNA" style="margin-top:36px;font-size:10px;color:#333;letter-spacing:.2em">— 濱田 優貴 / SOLUNA</div>
+</div>
+<!-- HERO IMAGE GRID -->
+<div class="ww r2" style="max-width:980px;margin:0 auto;padding:0 24px">
+<div class="atami-grid">
+<div class="atami-grid-main" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src='img/property-atami.webp'">
+<img alt="熱海 相模湾パノラマ" data-en-alt="Atami · Sagami Bay Panorama" src="img/property-atami.webp"/>
+<div class="atami-grid-cap" data-en="Clifftop Overlooking Sagami Bay and Izu Peninsula">相模湾 · 伊豆半島を望む崖の上</div>
+</div>
+<div class="atami-grid-side" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src='img/property-atami-2.webp'">
+<img alt="熱海 土地" data-en-alt="Atami Land" src="img/property-atami-2.webp"/>
+<div class="atami-grid-cap" data-en="Land Acquisition Complete">土地取得済</div>
+</div>
+<div class="atami-grid-side" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src='img/property-atami-3.webp'">
+<img alt="熱海 絶景" data-en-alt="Atami Scenic Views" src="img/property-atami-3.webp"/>
+<div class="atami-grid-cap" data-en="Views">眺望</div>
+</div>
+</div>
+</div>
+<!-- LOCATION SECTION -->
+<div class="s" id="location" style="background:#030303;border-top:1px solid #0a0a0a;padding:80px 0">
+<div class="ww">
+<p class="label r" style="text-align:center;color:#2a2a2a">Location · 場所</p>
+<h2 class="r" data-en="Shizuoka Prefecture" style="text-align:center;margin-bottom:8px">静岡県<span class="accent" data-en="Atami">熱海市</span></h2>
+<p class="r" data-en="Just 35 minutes from Tokyo. Perched atop cliffs overlooking the spectacular Sagami Bay and Izu Peninsula. Where Atami hot springs meet whole-property resort living." style="text-align:center;color:#333;font-size:12px;max-width:500px;margin:0 auto 28px">東京から最速35分。相模湾と伊豆半島の絶景が広がる崖の上。熱海温泉と一棟貸しリゾートが融合する。</p>
+<!-- Map -->
+<div class="r" style="position:relative;border-radius:14px;overflow:hidden;max-width:860px;margin:0 auto 24px;border:1px solid #111">
+<iframe allowfullscreen="" height="400" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=35.0965,139.0702&amp;t=k&amp;z=12&amp;ie=UTF8&amp;iwloc=&amp;output=embed" style="border:0;display:block;filter:grayscale(1) invert(0.9) contrast(0.9) brightness(0.3)" width="100%"></iframe>
+<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;text-align:center">
+<div style="width:12px;height:12px;background:var(--accent);border-radius:50%;border:2px solid #040404;box-shadow:0 0 0 6px rgba(102,170,187,.2);margin:0 auto 10px"></div>
+<div style="background:rgba(4,4,4,.88);backdrop-filter:blur(12px);border:1px solid rgba(102,170,187,.3);border-radius:10px;padding:10px 18px">
+<div data-en="SOLUNA Atami" style="font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.06em">SOLUNA 熱海</div>
+<div data-en="Atami, Shizuoka Prefecture — Details disclosed to registered members" style="font-size:9.5px;color:#555;margin-top:3px">静岡県熱海市 — 詳細は登録者に開示</div>
+</div>
+</div>
+</div>
+<!-- Access grid -->
+<div class="r" style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;max-width:860px;margin:0 auto">
+<div style="padding:20px 18px;background:#070707;border:1px solid #0f0f0f;border-radius:12px 0 0 12px">
+<div style="font-size:9px;color:#2a2a2a;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:10px">ACCESS</div>
+<div data-en="45 minutes minimum" style="font-size:20px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:6px">最短45分</div>
+<div data-en="Shinkansen Kodama from Tokyo/Shinagawa (Nozomi unavailable) — a journey that brings you home" style="font-size:11px;color:#3a3a3a;line-height:1.7">東京・品川から新幹線こだま<br/>のぞみ不可 — 帰るための旅になる</div>
+</div>
+<div style="padding:20px 18px;background:#070707;border:1px solid #0f0f0f">
+<div style="font-size:9px;color:#2a2a2a;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:10px">SUNSHINE</div>
+<div data-en="3,300 hours" style="font-size:20px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:6px">3,300時間</div>
+<div data-en="Optimal Resort Climate with 3,300 Annual Sunshine Hours" style="font-size:11px;color:#3a3a3a;line-height:1.7">年間日照時間<br/>リゾート最適気候</div>
+</div>
+<div style="padding:20px 18px;background:#070707;border:1px solid #0f0f0f;border-radius:0 12px 12px 0">
+<div style="font-size:9px;color:#2a2a2a;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:10px">ONSEN</div>
+<div data-en="Direct Spring Source" style="font-size:20px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:6px">源泉引湯</div>
+<div data-en="Sodium-Calcium Chloride Hot Spring" style="font-size:11px;color:#3a3a3a;line-height:1.7">ナトリウム・カルシウム<br/>塩化物泉</div>
+</div>
+</div>
+</div>
+</div>
+<!-- LOCATION HIGHLIGHTS -->
+<div class="s" style="padding:80px 0">
+<div class="ww">
+<p class="label r" data-en="Why Atami" style="color:#2a2a2a;margin-bottom:8px">Why Atami · 熱海を選ぶ理由</p>
+<h2 class="r" data-en="Closest to Tokyo" style="margin-bottom:28px">東京から最も近い、<span class="accent" data-en="A Place to Return To">帰れる場所</span></h2>
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr;gap:3px;max-width:860px;margin:0 auto">
+<div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f">
+<div data-en="Within reach to return home" style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:10px;letter-spacing:.06em">「帰れる」距離感</div>
+<p data-en="Just 45 minutes via Shinkansen Kodama from Tokyo/Shinagawa. Nozomi is unavailable, making it a true journey home. And that's perfect. Board Friday evening, wake Saturday morning to Sagami Bay's crimson dawn. Simply knowing you can return changes everything about your weekdays." style="font-size:12.5px;color:#555;line-height:2">東京・品川から新幹線こだまで最短45分。のぞみ利用不可のため、帰るための旅になる。それがいい。週末の金曜夜に乗って、土曜の朝に相模湾の朝焼けを眺める。「帰れる」と知っているだけで、平日が変わる。</p>
+</div>
+<div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f">
+<div data-en="Sagami Bay and Izu Peninsula Scenic Beauty" style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:10px;letter-spacing:.06em">相模湾・伊豆半島の絶景</div>
+<p data-en="Sagami Bay stretches below the clifftop vista. The Izu Peninsula ridgeline converges with the horizon. This oceanfront location features full-glass container villas offering 360-degree panoramic seascapes." style="font-size:12.5px;color:#555;line-height:2">崖の上から見下ろす相模湾。伊豆半島の稜線が水平線と交差する。海向き全面ガラスのコンテナヴィラから、360度の水平線が望める立地を選定した。</p>
+</div>
+<div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f">
+<div data-en="Atami Hot Spring (Direct Source Drawing)" style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:10px;letter-spacing:.06em">熱海温泉（源泉引湯）</div>
+<p data-en="Sodium-Calcium Chloride Spring. We are planning private open-air baths and saunas while benefiting from the hot spring district's heritage. We also envision collaboration with Atami SG (the Surfer Community)." style="font-size:12.5px;color:#555;line-height:2">ナトリウム・カルシウム塩化物泉。温泉街の恩恵を受けながら、プライベートな露天風呂・サウナを計画中。熱海SG（サーファーコミュニティ）との連携も視野に。</p>
+</div>
+<div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f">
+<div data-en="3,300 Annual Hours of Sunlight" style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:10px;letter-spacing:.06em">年間3,300時間の日照</div>
+<p data-en="Warm Atami blessed by Pacific-side climate. With 3,300 annual sunshine hours, it offers optimal resort conditions. Surfing, SUP, ocean yoga, hot springs, and fresh seafood BBQ. A destination for year-round activity." style="font-size:12.5px;color:#555;line-height:2">太平洋側気候による温暖な熱海。年間日照3,300時間はリゾート最適環境。サーフィン・SUP・海ヨガ・温泉・海鮮BBQ。一年を通じた活動が可能な場所。</p>
+</div>
+</div>
+<!-- Spec -->
+<div class="spec r" style="max-width:860px;margin:20px auto 0">
+<div class="spec-row">
+<div class="k" data-en="Location">所在地</div>
+<div class="v" data-en="Atami, Shizuoka Prefecture (Details disclosed to early registrants)">静岡県熱海市（詳細は先行登録者に開示）</div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="Land Area">土地面積</div>
+<div class="v" data-en="(Disclosed after registration)"><strong data-en="Private">非公開</strong>（登録後に開示）</div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="Views">眺望</div>
+<div class="v" data-en="Sagami Bay and Izu Peninsula Panorama">相模湾・伊豆半島パノラマ</div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="Access">アクセス</div>
+<div class="v" data-en="Minimum 45 minutes from Tokyo/Shinagawa via Shinkansen Kodama (Nozomi not available) / Taxi from Atami Station">東京・品川から新幹線こだまで最短45分（のぞみ利用不可）/ 熱海駅からタクシー</div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="Hot Spring">温泉</div>
+<div class="v" data-en="Sodium-Calcium Chloride Spring (Direct Source Drawing Planned)">ナトリウム・カルシウム塩化物泉（源泉引湯予定）</div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="Climate">気候</div>
+<div class="v" data-en="3,300 Annual Sunshine Hours / Warm Pacific-Side Climate">年間日照3,300時間 / 温暖な太平洋側気候</div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="Current Status">現状</div>
+<div class="v"><strong data-en="Land Acquired · Development Plan Underway">土地取得済・開発計画策定中</strong></div>
+</div>
+</div>
+</div>
+</div>
+<!-- GALLERY STRIP -->
+<div class="ww r2" style="max-width:980px;margin:0 auto;padding:0 24px">
+<div class="gstrip">
+<img alt="相模湾の夕焼け — 熱海の崖上から" data-en-alt="Sagami Bay Sunset — From Atami's Clifftop" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/atami_sunset_ocean.webp"/>
+<img alt="崖の露天温泉 — 相模湾を望む源泉" data-en-alt="Clifftop Open-Air Spring — Thermal Source Overlooking Sagami Bay" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/atami_onsen_exterior.webp"/>
+<img alt="コンテナヴィラ — 相模湾パノラマ" data-en-alt="Container Villa — Sagami Bay Panorama" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/atami_container_render.webp"/>
+<img alt="崖上BBQデッキ — 夏の夕暮れ" data-en-alt="Cliffside BBQ Deck — Summer Dusk" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/atami_bbq_deck.webp"/>
+</div>
+</div>
+<!-- MARKET PROOF — WHITE HOUSE 熱海 実績 -->
+<div class="s" style="padding:80px 0;border-top:1px solid #0a0a0a">
+<div class="ww">
+<p class="label r" style="text-align:center;color:#2a2a2a">Market Proof · 市場実績</p>
+<h2 class="r" data-en="On nights when you are away, this place becomes someone else's homecoming." style="text-align:center;margin-bottom:6px">あなたが帰っていない夜も、<br/>ここは誰かの帰り先になっている。<span class="accent" data-en="Proven by track record.">実績が証明している。</span></h2>
+<p class="r" data-en="2025 Beds24 performance data from WHITE HOUSE Atami, operating in the same area. Even on nights you're not here, this remains someone's destination. That demand is reflected in these numbers." style="text-align:center;color:#555;font-size:13px;max-width:520px;margin:0 auto 36px;line-height:2">同エリアで稼働中の「WHITE HOUSE 熱海」2025年Beds24実績データ。あなたが帰っていない夜も、ここは誰かの帰り先として稼働し続けている。その需要が数字に表れている。</p>
+<!-- Real data strip -->
+<div class="r" style="background:rgba(102,170,187,.05);border:1px solid rgba(102,170,187,.25);border-radius:14px;padding:28px 32px;max-width:800px;margin:0 auto 36px;display:flex;flex-wrap:wrap;gap:36px;align-items:center;justify-content:center">
+<div style="text-align:center">
+<div data-en="BEDS24 LIVE · WHITE HOUSE Atami · 2025 Performance Data" style="font-size:9px;color:rgba(102,170,187,.5);font-weight:800;letter-spacing:.22em;margin-bottom:12px">BEDS24 LIVE · WHITE HOUSE 熱海 · 2025年実績</div>
+<div style="display:flex;gap:36px;flex-wrap:wrap;justify-content:center">
+<div>
+<div style="font-size:2.4rem;font-weight:800;color:var(--accent);letter-spacing:-.04em;line-height:1">40.0%</div>
+<div data-en="2025 Occupancy Rate" style="font-size:10px;color:#3a3a3a;margin-top:5px;letter-spacing:.1em">2025年稼働率</div>
+</div>
+<div>
+<div data-en="146 nights" style="font-size:2.4rem;font-weight:800;color:var(--accent);letter-spacing:-.04em;line-height:1">146泊</div>
+<div data-en="Annual Occupancy Nights" style="font-size:10px;color:#3a3a3a;margin-top:5px;letter-spacing:.1em">年間稼働泊数</div>
+</div>
+<div>
+<div data-en="¥15.02M" style="font-size:2.4rem;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1">¥1,502万</div>
+<div data-en="Annual Gross Revenue" style="font-size:10px;color:#3a3a3a;margin-top:5px;letter-spacing:.1em">年間総売上</div>
+</div>
+<div>
+<div style="font-size:2.4rem;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1">¥102,851</div>
+<div data-en="Average Rate per Night" style="font-size:10px;color:#3a3a3a;margin-top:5px;letter-spacing:.1em">平均単価/泊</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Comparison with Teshikaga -->
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;max-width:800px;margin:0 auto">
+<div style="padding:22px 20px;background:#060606;border:1px solid #111;border-radius:12px;text-align:center">
+<div data-en="WHITE HOUSE Atami" style="font-size:9px;color:#2a2a2a;letter-spacing:.16em;margin-bottom:10px">WHITE HOUSE 熱海</div>
+<div style="font-size:1.8rem;font-weight:800;color:var(--accent);letter-spacing:-.03em">¥102,851</div>
+<div data-en="Average Rate per Night (Track Record)" style="font-size:10px;color:#3a3a3a;margin-top:4px">平均単価/泊（実績）</div>
+</div>
+<div style="padding:22px 20px;background:rgba(102,170,187,.04);border:1px solid rgba(102,170,187,.2);border-radius:12px;text-align:center">
+<div data-en="Comparison · Teshikaga Lodge" style="font-size:9px;color:rgba(102,170,187,.5);letter-spacing:.16em;margin-bottom:10px">比較 · 弟子屈ロッジ</div>
+<div style="font-size:1.8rem;font-weight:800;color:#555;letter-spacing:-.03em">¥44,727</div>
+<div data-en="Average Rate per Night (Track Record)" style="font-size:10px;color:#3a3a3a;margin-top:4px">平均単価/泊（実績）</div>
+</div>
+<div style="padding:22px 20px;background:rgba(200,164,85,.04);border:1px solid rgba(200,164,85,.2);border-radius:12px;text-align:center">
+<div data-en="Atami Premium" style="font-size:9px;color:rgba(200,164,85,.5);letter-spacing:.16em;margin-bottom:10px">熱海プレミアム</div>
+<div data-en="×2.3x" style="font-size:1.8rem;font-weight:800;color:var(--gold);letter-spacing:-.03em">×2.3倍</div>
+<div data-en="Superior per-unit pricing vs. Teshikaga" style="font-size:10px;color:#3a3a3a;margin-top:4px">弟子屈比　単価優位</div>
+</div>
+</div>
+<p data-en="Atami commands 2.3x the nightly rate of Teshikaga. Even when you're away, your retreat serves others seeking solace. SOLUNA Atami elevates this proven market with exceptionally rare clifftop sanctuaries." style="font-size:11px;color:#2a2a2a;text-align:center;margin-top:20px;line-height:2">熱海は弟子屈比2.3倍の宿泊単価。あなたが帰っていない夜も、誰かの帰り先になり続ける。<br/>SOLUNA 熱海はこの実績エリアで、さらに希少性の高い崖上の帰り先を提供する。</p>
+</div>
+</div>
+<!-- DEVELOPMENT PLAN -->
+<div class="s" id="plan" style="background:#030303;border-top:1px solid #0a0a0a;padding:80px 0">
+<div class="ww">
+<p class="label r" style="text-align:center;color:#2a2a2a">Development Plan · 開発計画</p>
+<h2 class="r" data-en="Planned" style="text-align:center;margin-bottom:6px">計画中の<span class="accent" data-en="Facility Configuration">施設構成</span></h2>
+<p class="r" data-en="Plans are currently being finalized; details may change. Early registrants will receive the latest information as a priority." style="text-align:center;color:#333;font-size:12px;max-width:500px;margin:0 auto 36px;line-height:1.9">現在計画策定中のため、詳細は変更になる可能性があります。先行登録者には最新情報を優先的にお届けします。</p>
+<div class="benefit-grid r">
+<div class="benefit-card">
+<h3 data-en="Container Villa">コンテナヴィラ</h3>
+<p data-en="Two container villas with full glass ocean-facing facades. Designed with direct views of Sagami Bay. Exterior of black iron and Japanese cedar. Planned capacity of up to 8 guests per villa.">海向き全面ガラスのコンテナヴィラ × 2棟。相模湾を正面に望む設計。黒鉄×スギの外装。各棟最大8名収容を計画。</p>
+<div class="bnum">01</div>
+</div>
+<div class="benefit-card">
+<h3 data-en="Natural Hot Spring Source">源泉引湯 温泉</h3>
+<p data-en="Private hot spring fed directly from Atami's thermal source. Immerse yourself in the waters while gazing across Sagami Bay from the clifftop. An ethereal open-air experience.">熱海の源泉を引き込んだプライベート温泉。崖の上から相模湾を望みながら湯に浸かる。天空露天の体験。</p>
+<div class="bnum">02</div>
+</div>
+<div class="benefit-card">
+<h3 data-en="Observation Deck">展望デッキ</h3>
+<p data-en="Observation Deck (Sagami Bay Panorama). Sunrise, sunset, and nighttime fishing lights. A space to awaken alongside the sea—perfect for sunset BBQs and morning yoga.">展望デッキ（相模湾パノラマ）。日の出・夕日・夜の漁火。サンセットBBQや朝ヨガの場として、海とともに目覚める空間。</p>
+<div class="bnum">03</div>
+</div>
+<div class="benefit-card">
+<h3 data-en="Hot Spring Bath">温泉浴槽</h3>
+<p data-en="Direct source hot spring bathing facilities. Indoor and outdoor baths planned. Savor Atami's Sodium-Calcium Chloride hot spring waters in your private sanctuary.">源泉引湯の温泉浴槽。内湯と露天風呂を計画中。熱海温泉のナトリウム・カルシウム塩化物泉を、プライベート空間で堪能。</p>
+<div class="bnum">04</div>
+</div>
+<div class="benefit-card">
+<h3 data-en="BBQ Deck &amp; Sauna">BBQデッキ・サウナ</h3>
+<p data-en="BBQ Deck and seawater sauna. BBQ featuring local seafood. After sauna, outdoor air bathing overlooking Sagami Bay. Collaboration with Atami SG (Surfer Community) under consideration.">BBQデッキと海水サウナ。地元の海鮮を使ったBBQ。サウナ後は相模湾の外気浴。熱海SG（サーファーコミュニティ）との連携も検討中。</p>
+<div class="bnum">05</div>
+</div>
+<div class="benefit-card">
+<h3 data-en="Marine Activities">マリンアクティビティ</h3>
+<p data-en="Curated surfing, SUP, and ocean yoga experiences. Leveraging direct coastal access, integrated outdoor activities will be offered.">サーフィン・SUP・海ヨガのアレンジメント。熱海の海に直接アクセスできる立地を活かし、アウトドアアクティビティを一体提供予定。</p>
+<div class="bnum">06</div>
+</div>
+</div>
+<!-- Timeline -->
+<div class="r" style="max-width:600px;margin:48px auto 0">
+<p class="label" data-en="Timeline · Schedule" style="text-align:center;color:#2a2a2a;margin-bottom:24px">Timeline · スケジュール</p>
+<div class="timeline">
+<div class="tl-item done">
+<div class="tl-dot"></div>
+<div class="tl-year" data-en="2025">2025年</div>
+<div class="tl-content">
+<h4 data-en="Land Acquisition">土地取得</h4>
+<p data-en="Clifftop land in Atami secured. Carefully vetted for panoramic views, hot spring access, and optimal building conditions.">静岡県熱海市内の崖上土地を取得済。眺望・温泉アクセス・建築条件を精査。</p>
+</div>
+</div>
+<div class="tl-item active">
+<div class="tl-dot"></div>
+<div class="tl-year" data-en="2026">2026年</div>
+<div class="tl-content">
+<h4 data-en="Planning &amp; Early Registration">計画策定・先行登録</h4>
+<p data-en="Development plans under detailed formulation. Early registration open to form community. Hot spring drilling permits and architectural design consultation in progress.">開発計画の詳細を策定中。先行登録を受け付け、コミュニティを形成。温泉掘削許可・建築設計の協議。</p>
+</div>
+</div>
+<div class="tl-item">
+<div class="tl-dot"></div>
+<div class="tl-year" data-en="2027">2027年</div>
+<div class="tl-content">
+<h4 data-en="Design Finalized · Building Application Submitted">設計確定・建築申請</h4>
+<p data-en="Atami exclusive preview event for early registrants. Design finalization and building permit application. Hot spring sourcing system design and permitting.">先行登録者への熱海限定プレビューイベント開催。設計確定・建築確認申請。温泉引湯設備の設計・申請。</p>
+</div>
+</div>
+<div class="tl-item">
+<div class="tl-dot"></div>
+<div class="tl-year" data-en="2028">2028年</div>
+<div class="tl-content">
+<h4 data-en="Construction Begins (Phase 4)">着工（フェーズ4）</h4>
+<p data-en="Container villa construction begins. CABIN CLUB formal offering launches. Direct source hot spring and sun deck installation underway.">コンテナヴィラ建設工事開始。CABIN CLUBの正式募集開始。源泉引湯温泉・サンデッキ設備工事。</p>
+</div>
+</div>
+<div class="tl-item">
+<div class="tl-dot"></div>
+<div class="tl-year" data-en="2029">2029年</div>
+<div class="tl-content">
+<h4 data-en="Completion &amp; Operations Commence">完成・運用開始</h4>
+<p data-en="Operations commence as CABIN CLUB. Founding members receive priority access rights.">CABIN CLUBとして運用開始。先行登録者から優先的な利用権を付与。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- NUMBERS -->
+<div class="numbers">
+<div class="num-grid r">
+<div>
+<div class="v" data-en="45 Minutes">45分</div>
+<div class="l" data-en="Shortest via Shinkansen Kodama from Tokyo/Shinagawa">東京・品川から<br/>新幹線こだまで最短</div>
+</div>
+<div>
+<div class="v" data-en="3,300 hours">3,300時間</div>
+<div class="l" data-en="Annual Sunshine Hours">年間<br/>日照時間</div>
+</div>
+<div>
+<div class="v">180°</div>
+<div class="l" data-en="Sagami Bay Panoramic Views">相模湾<br/>パノラマ眺望</div>
+</div>
+<div>
+<div class="v">2028</div>
+<div class="l" data-en="Construction begins 2028. Secure your retreat today.">着工予定年<br/>帰り先は今日から決めておける</div>
+</div>
+</div>
+</div>
+<!-- REGISTER SECTION -->
+<div class="register-section" id="register">
+<div class="w">
+<p class="label r" data-en="Pre-Registration · Decide your retreat in advance" style="text-align:center;color:#2a2a2a">Pre-Registration · 先に帰り先を決める</p>
+<h2 class="r" data-en="From the day you decide on a place to return to," style="text-align:center;margin-bottom:6px">「ここに帰れる」と決めた日から、<br/><span class="accent" data-en="Your life's center of gravity shifts.">人生の重心が変わる。</span></h2>
+<p class="r" data-en="As WHITE HOUSE Atami's track record demonstrates (40% occupancy · ¥15.02M annual revenue · ¥102,851 average nightly rate), demand for Atami accommodations is genuine. Construction begins 2028. Yet you can secure your homecoming destination today. Early registrants receive our most favorable terms." style="text-align:center;color:#555;font-size:13px;max-width:480px;margin:0 auto 24px;line-height:2">WHITE HOUSE 熱海の実績（40%稼働・年間売上¥1,502万・平均単価¥102,851/泊）が証明する通り、熱海の宿泊需要は本物です。2028年着工。でも帰り先は今日から決めておける。先行登録者には最も有利な条件でご案内します。</p>
+<!-- Financing note -->
+<div class="r" style="max-width:600px;margin:0 auto 32px;padding:18px 22px;background:#060606;border:1px solid rgba(102,170,187,.15);border-radius:12px;display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+<div style="flex:1;min-width:180px">
+<div data-en="FINANCING · Loan Options Available" style="font-size:9px;color:rgba(102,170,187,.5);font-weight:800;letter-spacing:.2em;margin-bottom:6px">FINANCING · ローン対応</div>
+<div data-en="Bank Financing Available" style="font-size:13px;font-weight:800;color:var(--accent);margin-bottom:4px">銀行ローン対応予定</div>
+<p data-en="CABIN CLUB units are registered as real property (co-ownership interests), making them eligible for real estate-backed loans. Proof of purchase and property identification information can be presented to financial institutions. Details will be provided preferentially to early registrants." style="font-size:11px;color:#3a3a3a;line-height:1.8">CABIN CLUB口数は会員権登録のため、不動産担保ローンの適用を想定。購入確認書類・登記識別情報を金融機関へ提示可能。詳細は先行登録者に優先的にご案内します。</p>
+</div>
+<div data-en="✦ Real estate ownership registered
+        ✦ Pre-purchase verification completed
+        ✦ Individual financing consultation available" style="font-size:11px;color:#2a2a2a;line-height:2">
+        ✦ 不動産持分登記済<br/>
+        ✦ 購入前確認実施<br/>
+        ✦ 銀行ローン個別相談対応
+      </div>
+</div>
+<!-- Benefits -->
+<div class="r" style="background:#060606;border:1px solid #111;border-radius:20px;padding:36px 32px;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto">
+<div data-en="Early Registration Benefits" style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(102,170,187,.5);font-weight:700;margin-bottom:24px">先行登録特典</div>
+<div style="display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:flex-start;gap:14px">
+<div style="width:20px;height:20px;border-radius:50%;background:rgba(102,170,187,.15);border:1px solid rgba(102,170,187,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+<svg fill="none" height="10" viewbox="0 0 16 16" width="10"><polyline points="3,8 7,12 13,4" stroke="#66aabb" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></polyline></svg>
+</div>
+<div>
+<div data-en="Priority Property Selection Rights" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">最優先の物件選択権</div>
+<div data-en="Upon construction approval, early registrants select properties and units in order of registration. Choose the finest conditions for views, location, and layout." style="font-size:12px;color:#444;line-height:1.7">着工決定時、先行登録順に物件・口数を選択できます。眺望・棟の位置など、最良の条件で選択できます。</div>
+</div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:14px">
+<div style="width:20px;height:20px;border-radius:50%;background:rgba(102,170,187,.15);border:1px solid rgba(102,170,187,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+<svg fill="none" height="10" viewbox="0 0 16 16" width="10"><polyline points="3,8 7,12 13,4" stroke="#66aabb" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></polyline></svg>
+</div>
+<div>
+<div data-en="Invitation to Atami Exclusive Preview Event" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">熱海限定プレビューイベント招待</div>
+<div data-en="Early registrants are invited to experience the Atami site firsthand before final designs are confirmed. Share your vision and influence the architectural realization." style="font-size:12px;color:#444;line-height:1.7">設計確定前に熱海の現地を先行登録者のみにご案内します。実際に立地・眺望を体感し、意見を設計に反映する機会。</div>
+</div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:14px">
+<div style="width:20px;height:20px;border-radius:50%;background:rgba(102,170,187,.15);border:1px solid rgba(102,170,187,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+<svg fill="none" height="10" viewbox="0 0 16 16" width="10"><polyline points="3,8 7,12 13,4" stroke="#66aabb" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></polyline></svg>
+</div>
+<div>
+<div data-en="Priority Reservation of CABIN CLUB Units" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">CABIN CLUB口数の優先確保</div>
+<div data-en="Atami CABIN CLUB shares are limited. Early registrants secure priority allocation ahead of formal public offering." style="font-size:12px;color:#444;line-height:1.7">熱海CABIN CLUBの口数は限定。先行登録者が正式募集に先立ち優先的に確保できます。</div>
+</div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:14px">
+<div style="width:20px;height:20px;border-radius:50%;background:rgba(102,170,187,.15);border:1px solid rgba(102,170,187,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+<svg fill="none" height="10" viewbox="0 0 16 16" width="10"><polyline points="3,8 7,12 13,4" stroke="#66aabb" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></polyline></svg>
+</div>
+<div>
+<div data-en="Early Registration Price (anticipated 15% discount from standard pricing)" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">早期登録価格（通常比15%割引予定）</div>
+<div data-en="Pricing is to be determined; early registrants will receive approximately 15% discount from standard pricing. Acquire rare clifftop properties in Atami at advantageous rates." style="font-size:12px;color:#444;line-height:1.7">価格は未定ですが、先行登録者には通常価格より15%程度の割引価格でご案内する予定です。熱海の希少な崖上物件を有利な価格で。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- CTA Block -->
+<div class="r" style="text-align:center">
+<a class="cta-btn" data-en="Decide Your Retreat First →" href="mailto:mail@yukihamada.jp?subject=【SOLUNA 熱海】先行登録&amp;body=お名前:%0A%0A連絡先（メール）:%0A%0A電話番号（任意）:%0A%0A関心のある点（例：眺望・温泉・アクセス・価格など）:%0A%0A熱海限定プレビューイベント参加希望:□ はい  □ いいえ%0A%0A----%0ASOLUNA 熱海 先行登録フォームより" style="font-size:14px;padding:18px 48px">先に帰り先を決める →</a>
+<p data-en="Registration and consultation are complimentary. Cancellation available at any time. We respond within three business days. Preview event dates will be announced separately." style="font-size:11px;color:#2a2a2a;margin-top:16px;line-height:1.8">登録・相談は完全無料。いつでもキャンセル可能。<br/>返信は通常3営業日以内。プレビューイベントは追って日程をご案内します。</p>
+</div>
+</div>
+</div>
+<!-- OTHER PROPERTIES -->
+<div class="s" style="background:#030303;border-top:1px solid #0a0a0a;padding:72px 0">
+<div class="ww">
+<p class="label r" style="color:#2a2a2a;margin-bottom:8px">Other Properties · 他の物件</p>
+<h2 class="r" data-en="SOLUNA's" style="margin-bottom:6px">SOLUNAの<span class="gold" data-en="All Locations">全拠点</span></h2>
+<p class="r" data-en="From Hokkaido to Wakayama, we build cabins on Japan's finest land." style="color:#333;font-size:12px;margin-bottom:28px;line-height:1.8">北海道から和歌山まで、日本の最良の土地でキャビンを建てていく。</p>
+<div class="prop-scroll r">
+<!-- 弟子屈 (active) -->
+<a class="prop-card" href="offgrid" style="text-decoration:none">
+<img alt="弟子屈" class="prop-card-img" data-en-alt="Teshikaga, Hokkaido" src="img/property-teshikaga.webp"/>
+<div class="prop-card-body">
+<div class="prop-card-loc" data-en="Hokkaido · Teshikaga">北海道 · 弟子屈</div>
+<div class="prop-card-name" data-en="SOLUNA Teshikaga Kumaushi Base">SOLUNA<br/>弟子屈 熊牛原野</div>
+<span class="prop-card-status status-active" data-en="On Sale · Construction begins 2026">販売中 · 2026年着工</span>
+<p class="prop-card-desc" data-en="Lake Mashu and Lake Kussharo. EPS Dome × Tesla V2H. From ¥5.3M per unit, with annual 30-night usage rights.">摩周湖・屈斜路湖。EPSドーム × Tesla V2H。1口¥530万〜、年30泊の権利。</p>
+</div>
+</a>
+<!-- 熱海（自身） -->
+<div class="prop-card" style="border-color:rgba(102,170,187,.35)">
+<img alt="熱海" class="prop-card-img" data-en-alt="Atami" src="img/atami.webp" style="filter:brightness(.9)"/>
+<div class="prop-card-body">
+<div class="prop-card-loc" data-en="Shizuoka · Atami">静岡 · 熱海</div>
+<div class="prop-card-name" data-en="SOLUNA Atami">SOLUNA<br/>熱海 <span data-en="← This Page" style="color:var(--accent)">← このページ</span></div>
+<span class="prop-card-status status-plan" data-en="Land Secured · Early Registration">土地取得済 · 先行登録</span>
+<p class="prop-card-desc" data-en="35 minutes from Tokyo. Sagami Bay panorama and Atami hot springs. Construction begins 2028.">東京35分。相模湾パノラマ・熱海温泉。2028年着工予定。</p>
+</div>
+</div>
+<!-- 和歌山 -->
+<a class="prop-card" href="wakayama" style="text-decoration:none">
+<img alt="和歌山" class="prop-card-img" data-en-alt="Wakayama" src="img/kamiyama.webp"/>
+<div class="prop-card-body">
+<div class="prop-card-loc" data-en="Wakayama · Kumano Kodo">和歌山 · 熊野古道</div>
+<div class="prop-card-name" data-en="SOLUNA Wakayama">SOLUNA<br/>和歌山</div>
+<span class="prop-card-status" data-en="Land Secured · Early Registration" style="background:rgba(221,136,102,.12);color:#dd8866;border:1px solid rgba(221,136,102,.3)">土地取得済 · 先行登録</span>
+<p class="prop-card-desc" data-en="Sacred energy of the Kumano Kodo pilgrimage route meets the luminescence of the sea. A sanctuary retreat. Scheduled groundbreaking in 2028.">熊野古道の霊気と海の光。神域リトリート。2028年着工予定。</p>
+</div>
+</a>
+</div>
+</div>
+</div>
+<!-- FAQ -->
+<div class="s" style="padding:80px 0">
+<div class="w">
+<p class="label r" style="text-align:center;color:#2a2a2a">FAQ</p>
+<h2 class="r" data-en="FAQ" style="text-align:center;margin-bottom:36px">よくある質問</h2>
+<div class="r">
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">
+<span data-en="Has the Atami land already been acquired?">熱海の土地はすでに取得されているのですか？</span>
+<span class="faq-icon">+</span>
+</div>
+<div class="faq-a" data-en="Yes. We have acquired cliffside land in Atami City, Shizuoka Prefecture. Detailed address and coordinates are disclosed exclusively to early registrants. Those wishing to visit the site are welcome to inquire. Preview events include on-site guided visits.">はい。静岡県熱海市内の崖上土地を取得済みです。詳細な住所・座標は先行登録者にのみ開示しております。現地視察ご希望の方はお問い合わせください。プレビューイベントでは現地にご案内します。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">
+<span data-en="Is there a fee to register early?">先行登録に費用はかかりますか？</span>
+<span class="faq-icon">+</span>
+</div>
+<div class="faq-a" data-en="Early registration is completely free. No obligations or contracts arise from registration. Cancellation is possible at any time. Costs are incurred only upon formal application to CABIN CLUB.">先行登録は完全無料です。登録後に義務・契約が生じることはありません。いつでもキャンセル可能です。費用が発生するのは、CABIN CLUBへの正式申込時のみです。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">
+<span data-en="What is the price?">価格はいくらになりますか？</span>
+<span class="faq-icon">+</span>
+</div>
+<div class="faq-a" data-en="Pricing is currently undetermined. Due to Atami's proximity to Tokyo, exceptional vistas, and rare access to hot springs, prices may exceed Teshikaga (from ¥5.3M per unit). Once the development plan is finalized, early registrants will receive preferential notice. Early registrants are expected to receive pricing approximately 15% below standard rates.">現時点では価格は未定です。熱海は東京からのアクセス・眺望・温泉の希少性から、弟子屈（1口¥530万〜）より高い価格帯になる可能性があります。開発計画が確定した段階で先行登録者に優先的にご案内します。先行登録者には通常価格より15%程度割引された価格でのご案内を予定しています。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">
+<span data-en="What is a Preview Event?">プレビューイベントとは何ですか？</span>
+<span class="faq-icon">+</span>
+</div>
+<div class="faq-a" data-en="This exclusive event invites early registrants to experience the Atami site firsthand before designs are finalized. You will explore the actual location, views, and hot spring while offering direct input on the design. The event is scheduled for 2027, with priority invitations extended to early registrants.">設計確定前に、先行登録者のみを現地（熱海）にご招待するイベントです。実際の立地・眺望・温泉を体感いただき、設計への意見を直接お伺いします。開催日程は2027年を予定しており、先行登録者に優先的にご案内します。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">
+<span data-en="How does CABIN CLUB work?">CABIN CLUBとはどのような仕組みですか？</span>
+<span class="faq-icon">+</span>
+</div>
+<div class="faq-a" data-en="CABIN CLUB enables multiple owners to hold fractional ownership of a single cabin. In Teshikaga, from ¥5.3M per share, you receive 30 nights' annual stay rights and dividend entitlements. A similar structure is planned for Atami; details will be provided once confirmed. This is tangible real estate with registered ownership stake, transferable and inheritable.">CABIN CLUBは、複数人でキャビン1棟を分割所有する仕組みです。弟子屈では1口¥530万〜で年30泊の滞在権と配当権利が付帯します。熱海では類似の仕組みを計画中ですが、詳細は確定次第ご案内します。持分登記あり、売却・相続も可能な実物資産です。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">
+<span data-en="Can hot spring water actually be drawn directly to the property?">温泉は本当に引湯できるのですか？</span>
+<span class="faq-icon">+</span>
+</div>
+<div class="faq-a" data-en="Atami is a region rich in hot spring resources. We are currently investigating the feasibility of sourcing natural hot spring water near the acquired land. Plans are being formulated, including obtaining permits for drilling and water sourcing. We will inform early registrants once confirmed. Should natural hot springs prove unfeasible, alternative bathing facilities such as artificial hot springs and saunas will be installed.">熱海は豊富な温泉資源を持つ地域です。取得した土地の近辺で源泉引湯の可能性を調査中です。掘削・引湯の許可取得を含め、計画策定中です。確定した段階で先行登録者にご報告します。温泉が実現できない場合も、代替の温浴施設（人工温泉・サウナなど）を設置予定です。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- FOOTER -->
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Biruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Secure Units at No Cost" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Architectural Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="The Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Act on Specified Commercial Transaction" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><!-- IMAGE MODAL -->
+<div class="modal" onclick="this.classList.remove('active')">
+<img alt="" src=""/>
+</div>
+<script>
+// Intersection Observer reveal
+const obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.r,.r2').forEach(function(el){obs.observe(el)});
+</script>
+<script defer="" src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

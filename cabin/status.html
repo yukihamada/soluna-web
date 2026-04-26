@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>購入ステータス — SOLUNA</title>
+<meta name="description" content="SOLUNAの共同オーナー申込ステータスページ">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23c8a455'/></svg>">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.5);
+  --gold-soft:rgba(200,164,85,.08);
+  --gold-glow:rgba(200,164,85,.18);
+  --green:#9bc46d;
+  --green-soft:rgba(155,196,109,.1);
+  --green-dim:rgba(155,196,109,.4);
+  --bg:#050505;
+  --bg-soft:#080808;
+  --bg-card:#0a0a0a;
+  --line:#131313;
+  --line-soft:#0e0e0e;
+  --text:#f0ece4;
+  --text-dim:#777;
+  --text-soft:#444;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-feature-settings:'palt';min-height:100vh}
+::selection{background:var(--gold);color:#000}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+
+/* Top nav */
+.tn{position:fixed;top:0;left:0;right:0;z-index:50;padding:14px 20px;background:rgba(5,5,5,.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04);transition:opacity .3s}
+.tn-inner{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.tn-logo{font-size:13px;font-weight:800;letter-spacing:.15em;color:var(--gold)}
+.tn-right{display:flex;align-items:center;gap:18px;font-size:11px}
+.tn-right a{color:var(--text-dim);transition:color .2s}
+.tn-right a:hover{color:var(--gold)}
+.tn-badge{font-size:10px;color:var(--text-soft);background:#0d0d0d;border:1px solid #1c1c1c;padding:5px 12px;border-radius:100px;letter-spacing:.04em}
+
+/* Layout */
+.page-wrap{max-width:1000px;margin:0 auto;padding:0 20px;padding-top:80px}
+.main-grid{display:grid;grid-template-columns:1fr 320px;gap:28px;align-items:start;padding:32px 0 80px}
+@media(max-width:760px){.main-grid{grid-template-columns:1fr}}
+
+/* Hero area */
+.hero-area{padding:48px 0 32px;border-bottom:1px solid var(--line)}
+.hero-area .greeting{font-size:11px;color:var(--text-soft);letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:10px}
+.hero-area h1{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:14px}
+.hero-area h1 .name{color:var(--gold)}
+.prop-badge{display:inline-flex;align-items:center;gap:8px;background:#0c0c0c;border:1px solid #1e1e1e;border-radius:8px;padding:7px 14px;font-size:11px;color:#999;margin-bottom:18px}
+.prop-badge .prop-dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.status-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--gold-dim);border-radius:100px;padding:7px 16px;font-size:11px;color:var(--gold);font-weight:600;letter-spacing:.04em;background:var(--gold-soft)}
+.status-chip .pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulseDot 2s ease infinite}
+@keyframes pulseDot{0%,100%{opacity:1;box-shadow:0 0 0 0 var(--gold-glow)}50%{opacity:.7;box-shadow:0 0 0 5px transparent}}
+
+/* Confetti canvas (step 5) */
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:100}
+
+/* Step 5 gold pulse */
+body.completed{background:linear-gradient(160deg,#080600,#050505,#060400)}
+body.completed .tn{background:rgba(8,6,0,.9)}
+
+.completion-banner{display:none;text-align:center;padding:40px 20px 28px;animation:fadeUp .9s ease both}
+body.completed .completion-banner{display:block}
+.completion-banner .emoji{font-size:52px;margin-bottom:16px;animation:popIn .6s .3s both}
+.completion-banner h2{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spacing:-.04em;background:linear-gradient(135deg,#e8c96a,#c8a455,#a8843a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px}
+.completion-banner p{color:#888;font-size:14px;max-width:400px;margin:0 auto}
+@keyframes popIn{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* Timeline */
+.timeline{margin-top:0}
+.tl-step{position:relative;display:grid;grid-template-columns:48px 1fr;gap:0;padding-bottom:0}
+.tl-step:last-child .tl-line{display:none}
+.tl-left{display:flex;flex-direction:column;align-items:center;padding-top:18px}
+.tl-num{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;transition:all .3s;position:relative;z-index:1}
+.tl-num.done{background:var(--green-soft);border:2px solid var(--green-dim);color:var(--green)}
+.tl-num.active{background:var(--gold-soft);border:2px solid var(--gold-dim);color:var(--gold);box-shadow:0 0 0 4px rgba(200,164,85,.08)}
+.tl-num.pending{background:#0c0c0c;border:2px solid #1a1a1a;color:#333}
+.tl-line{flex:1;width:1px;background:var(--line);margin:6px 0;min-height:20px}
+.tl-line.done-line{background:linear-gradient(180deg,var(--green-dim),var(--line))}
+.tl-line.active-line{background:linear-gradient(180deg,var(--gold-dim),var(--line))}
+.tl-body{padding:14px 0 0 12px;padding-bottom:0}
+.tl-inner{padding-bottom:28px}
+.tl-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:4px}
+.tl-title{font-size:14px;font-weight:700;line-height:1.3}
+.tl-amount{font-size:12px;color:var(--gold);font-weight:700;flex-shrink:0}
+.tl-desc{font-size:11.5px;color:#555;line-height:1.75;margin-bottom:6px}
+.tl-timestamp{font-size:10.5px;color:#444;display:flex;align-items:center;gap:5px}
+.tl-timestamp .ts-dot{width:4px;height:4px;border-radius:50%;background:#333;flex-shrink:0}
+.tl-status{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:100px}
+.tl-status.done{background:var(--green-soft);color:var(--green);border:1px solid var(--green-dim)}
+.tl-status.active{background:var(--gold-soft);color:var(--gold);border:1px solid var(--gold-dim)}
+.tl-status.pending{background:#0c0c0c;color:#333;border:1px solid #1a1a1a}
+.tl-step-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+
+/* Active step expanded card */
+.active-card{border:1px solid var(--gold-dim);border-left:3px solid var(--gold);border-radius:12px;background:linear-gradient(135deg,rgba(200,164,85,.04),rgba(200,164,85,.01));padding:20px;margin-top:10px;margin-bottom:4px;animation:fadeUp .5s ease both}
+.active-card .ac-section{margin-bottom:18px}
+.active-card .ac-section:last-child{margin-bottom:0}
+.ac-label{font-size:9px;color:var(--text-soft);letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.ac-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px}
+.ac-row:last-child{border-bottom:none}
+.ac-row .k{color:#555}
+.ac-row .v{font-weight:600;color:#ccc}
+.ac-row .v a{color:var(--gold)}
+.ac-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.ac-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;border:none;font-family:inherit;text-decoration:none}
+.ac-btn-gold{background:var(--gold);color:#050505}
+.ac-btn-gold:hover{opacity:.88;color:#050505}
+.ac-btn-outline{background:transparent;border:1px solid #252525;color:#888}
+.ac-btn-outline:hover{border-color:var(--gold-dim);color:var(--gold)}
+.ac-docs{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.ac-doc{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#0c0c0c;border:1px solid #1a1a1a;border-radius:8px;font-size:11.5px;cursor:pointer;transition:border-color .2s}
+.ac-doc:hover{border-color:#2a2a2a}
+.ac-doc .doc-name{color:#bbb;display:flex;align-items:center;gap:8px}
+.ac-doc .doc-icon{font-size:14px;color:var(--text-soft)}
+.ac-doc .doc-dl{font-size:10px;color:var(--gold)}
+
+/* Bank details card */
+.bank-card{border:1px solid #1e1e1e;border-radius:12px;background:#080808;padding:20px;margin-top:10px}
+.bank-card .bk-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #111;font-size:12.5px}
+.bank-card .bk-row:last-child{border:none}
+.bank-card .bk-row .k{color:#444}
+.bank-card .bk-row .v{font-weight:700;font-feature-settings:'tnum';color:#e0d8c8;letter-spacing:.04em}
+.bank-card .bk-row .v.big{font-size:18px;color:var(--gold)}
+.copy-btn{background:none;border:1px solid #222;color:#666;font-size:10px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:inherit;transition:all .2s}
+.copy-btn:hover{border-color:var(--gold-dim);color:var(--gold)}
+
+/* Sidebar */
+.sidebar{display:flex;flex-direction:column;gap:18px}
+.sidebar-card{border:1px solid #171717;border-radius:14px;padding:22px;background:var(--bg-card)}
+.sidebar-card .sc-label{font-size:9px;color:var(--text-soft);letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+.prop-snap .ps-name{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.prop-snap .ps-sub{font-size:11px;color:#555;margin-bottom:14px}
+.ps-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(155,196,109,.1);border:1px solid rgba(155,196,109,.3);color:var(--green);font-size:9px;font-weight:700;letter-spacing:.1em;padding:3px 9px;border-radius:4px;margin-bottom:14px}
+.ps-stats{display:flex;flex-direction:column;gap:0}
+.ps-stat{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line-soft);font-size:12px}
+.ps-stat:last-child{border-bottom:none}
+.ps-stat .k{color:#444}
+.ps-stat .v{font-weight:700;color:#e0d8c8}
+.ps-stat .v.gold{color:var(--gold)}
+
+.contact-card .cc-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#d4b56a,#a8843a);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#050505;margin-bottom:12px}
+.contact-card .cc-name{font-size:14px;font-weight:700;margin-bottom:2px}
+.contact-card .cc-role{font-size:10.5px;color:#444;margin-bottom:14px;line-height:1.6}
+.cc-contact-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line-soft);font-size:12px;color:#bbb}
+.cc-contact-row:last-child{border-bottom:none}
+.cc-contact-row .icon{font-size:14px;flex-shrink:0}
+.cc-contact-row a{color:#bbb;transition:color .2s}
+.cc-contact-row a:hover{color:var(--gold)}
+
+/* Share / action buttons */
+.share-strip{display:flex;gap:8px;margin-top:18px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;background:#0c0c0c;border:1px solid #1e1e1e;border-radius:8px;font-size:11px;color:#777;cursor:pointer;font-family:inherit;transition:all .2s;text-decoration:none}
+.share-btn:hover{border-color:var(--gold-dim);color:var(--gold)}
+.share-btn.copied{color:var(--green);border-color:var(--green-dim)}
+
+/* Bottom CTA */
+.bottom-cta{padding:28px 0 0;border-top:1px solid var(--line);margin-top:4px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.bottom-cta p{font-size:11.5px;color:#444;line-height:1.75;max-width:360px}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#050505;font-weight:700;font-size:13px;padding:14px 32px;border-radius:100px;transition:transform .2s,box-shadow .2s,opacity .2s;box-shadow:0 6px 24px rgba(200,164,85,.15);border:none;cursor:pointer;font-family:inherit;text-decoration:none;flex-shrink:0}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(200,164,85,.25);color:#050505;opacity:.95}
+.cta-ghost{display:inline-flex;align-items:center;gap:7px;border:1px solid #222;color:#666;font-weight:600;font-size:12px;padding:13px 22px;border-radius:100px;transition:all .2s;text-decoration:none}
+.cta-ghost:hover{border-color:var(--gold-dim);color:var(--gold)}
+
+/* Footer */
+.footer{padding:40px 0;border-top:1px solid var(--line);margin-top:0}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;color:#333;flex-wrap:wrap;gap:10px}
+.footer-inner a{color:#333;transition:color .2s}
+.footer-inner a:hover{color:var(--gold)}
+
+/* Util */
+.gold{color:var(--gold)}
+.green{color:var(--green)}
+.text-dim{color:var(--text-dim)}
+.mono{font-feature-settings:'tnum';letter-spacing:.02em}
+
+/* Toast */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#111;border:1px solid #222;border-radius:10px;padding:12px 22px;font-size:12px;color:#ccc;z-index:200;transition:transform .3s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:520px){
+  .tl-step{grid-template-columns:40px 1fr}
+  .tl-num{width:34px;height:34px;font-size:11px}
+  .bottom-cta{flex-direction:column;align-items:stretch}
+  .cta-btn,.cta-ghost{justify-content:center}
+  .share-strip{flex-direction:column}
+  .share-btn{justify-content:center}
+}
+</style>
+  <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+<div class="toast" id="toast"></div>
+
+<!-- Nav -->
+<nav class="tn">
+  <div class="tn-inner">
+    <span class="tn-logo">SOLUNA</span>
+    <div class="tn-right">
+      <span class="tn-badge" id="nav-badge">マイページ</span>
+      <a href="/">サイトトップ</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- Hero -->
+  <div class="hero-area">
+    <div class="greeting">SOLUNA 共同オーナーシップ</div>
+    <div class="prop-badge">
+      <span class="prop-dot"></span>
+      <span id="prop-badge-text">TAPKOP — 弟子屈</span>
+    </div>
+    <h1 id="hero-name"><span class="name">オーナー様</span></h1>
+    <div class="status-chip">
+      <span class="pulse-dot"></span>
+      <span id="status-chip-label">共同オーナー 申込中</span>
+    </div>
+    <div class="share-strip">
+      <button class="share-btn" onclick="copyLink()">
+        <span>🔗</span> リンクをコピー
+      </button>
+      <a class="share-btn" href="/" target="_blank">
+        <span>↗</span> SOLUNAサイトへ
+      </a>
+    </div>
+  </div>
+
+  <div class="main-grid">
+
+    <!-- Left: Timeline -->
+    <div>
+      <div class="timeline" id="timeline">
+        <!-- Steps injected by JS -->
+      </div>
+
+      <!-- Bottom CTA -->
+      <div class="bottom-cta">
+        <p id="cta-desc">次のステップへ進むには下のボタンをタップしてください。</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a href="#" class="cta-btn" id="main-cta">次のステップへ</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Sidebar -->
+    <div class="sidebar">
+
+      <!-- Property snapshot -->
+      <div class="sidebar-card prop-snap">
+        <div class="sc-label">物件情報</div>
+        <div class="ps-tag"><span>●</span> 稼働中</div>
+        <div class="ps-name" id="sb-prop-name">TAPKOP</div>
+        <div class="ps-sub" id="sb-prop-loc">北海道 弟子屈町</div>
+        <div class="ps-stats">
+          <div class="ps-stat">
+            <span class="k">物件価格</span>
+            <span class="v gold" id="sb-price">3,900万円</span>
+          </div>
+          <div class="ps-stat">
+            <span class="k">お申込み持分</span>
+            <span class="v" id="sb-share">10%</span>
+          </div>
+          <div class="ps-stat">
+            <span class="k">年間分配（目安）</span>
+            <span class="v gold">約110万円</span>
+          </div>
+          <div class="ps-stat">
+            <span class="k">年間利用枠</span>
+            <span class="v">6泊〜</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="sidebar-card contact-card">
+        <div class="sc-label">担当者</div>
+        <div class="cc-avatar">濱</div>
+        <div class="cc-name">濱田 優貴</div>
+        <div class="cc-role">Enabler Inc. 代表取締役<br>Airbnb スーパーホスト / 元 Mercari CPO</div>
+        <div class="cc-contact-row">
+          <span class="icon">📞</span>
+          <a href="#" onclick="typeof scToggle!=='undefined'&&scToggle();return false">チャットで相談</a>
+        </div>
+        <div class="cc-contact-row">
+          <span class="icon">✉</span>
+          <a href="mailto:info@enablerdao.com">info@enablerdao.com</a>
+        </div>
+        <div class="cc-contact-row">
+          <span class="icon">🕐</span>
+          <span style="color:#444;font-size:11px">平日 10:00〜19:00 対応</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-inner">
+      <span>© 2026 Enabler Inc. — SOLUNA</span>
+      <div style="display:flex;gap:18px">
+        <a href="/brochure">物件資料</a>
+        <a href="/">サイトトップ</a>
+        <a href="mailto:info@enablerdao.com">お問い合わせ</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+// ─── URL params ───────────────────────────────────────────
+const params = new URLSearchParams(location.search);
+const step    = parseInt(params.get('step') || '2', 10);
+const prop    = (params.get('property') || 'tapkop').toLowerCase();
+const rawName = params.get('name') || '';
+const email   = params.get('email') || '';
+const amount  = parseInt(params.get('amount') || '3900', 10);
+const dateStr = params.get('date') || '';
+
+// Persist to localStorage
+try {
+  const saved = {step,prop,name:rawName,email,amount,date:dateStr};
+  localStorage.setItem('soluna_status', JSON.stringify(saved));
+} catch(e){}
+
+// Property data
+const PROPS = {
+  tapkop:   {name:'TAPKOP',  loc:'北海道 弟子屈町',   label:'TAPKOP — 弟子屈'},
+  teshikaga:{name:'弟子屈',   loc:'北海道 弟子屈町',   label:'弟子屈 — 北海道'},
+  atami:    {name:'WHITE HOUSE熱海', loc:'静岡県 熱海市', label:'WHITE HOUSE — 熱海'},
+  honolulu: {name:'HONOLULU', loc:'ハワイ州 ホノルル', label:'HONOLULU — ハワイ'},
+};
+const propData = PROPS[prop] || PROPS.tapkop;
+
+// Step definitions
+const STEPS = [
+  {
+    id:1, title:'手付金', amount:'¥100,000',
+    desc:'申込金として手付金をお支払いいただきます。物件の仮押さえが完了します。',
+    doneDesc:'手付金のお支払いを確認しました。',
+  },
+  {
+    id:2, title:'購入前確認 予約・実施', amount:'',
+    desc:'担当者によるビデオ通話での購入前確認を実施します。物件情報・条件・リスクをご説明します。',
+    doneDesc:'購入前確認が完了しました。',
+  },
+  {
+    id:3, title:'電子契約 (Pon)', amount:'',
+    desc:'電子署名サービス「Pon」にてご契約書にご署名いただきます。',
+    doneDesc:'電子契約が締結されました。',
+  },
+  {
+    id:4, title:'残金決済', amount:'',
+    desc:'物件購入残金をご送金いただきます。振込先口座は担当よりご案内します。',
+    doneDesc:'残金決済が確認されました。',
+  },
+  {
+    id:5, title:'登記完了・オーナーへ', amount:'',
+    desc:'法務局への登記申請が完了し、正式に共同オーナーになります。',
+    doneDesc:'登記が完了しました。あなたは正式な共同オーナーです！',
+  },
+];
+
+// Timestamps (demo data)
+function getTimestamps() {
+  const base = dateStr ? new Date(dateStr) : new Date('2026-04-15');
+  const fmt = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const add = (d,days) => { const r=new Date(d); r.setDate(r.getDate()+days); return r; };
+  return [
+    fmt(base),
+    step >= 2 ? '予約済 2026-04-20 14:00' : '─',
+    step >= 3 ? fmt(add(base,10)) : '─',
+    step >= 4 ? fmt(add(base,18)) : '─',
+    step >= 5 ? fmt(add(base,30)) : '─',
+  ];
+}
+
+// ─── Render hero ─────────────────────────────────────────
+document.getElementById('prop-badge-text').textContent = propData.label;
+document.getElementById('sb-prop-name').textContent = propData.name;
+document.getElementById('sb-prop-loc').textContent = propData.loc;
+document.getElementById('nav-badge').textContent = rawName ? rawName + ' 様' : 'マイページ';
+
+const heroName = document.getElementById('hero-name');
+heroName.innerHTML = rawName
+  ? `<span class="name">${escHtml(rawName)} 様</span>`
+  : `<span class="name">オーナー様</span>`;
+
+if (amount) {
+  const fmtAmt = Number(amount).toLocaleString('ja-JP');
+  document.getElementById('sb-price').textContent = fmtAmt + '万円';
+}
+
+if (step === 5) {
+  document.body.classList.add('completed');
+  document.querySelector('.status-chip').style.display = 'none';
+  document.querySelector('.completion-banner') && '';
+  // Insert completion banner before hero
+  const heroArea = document.querySelector('.hero-area');
+  const banner = document.createElement('div');
+  banner.className = 'completion-banner';
+  banner.innerHTML = `
+    <div class="emoji">🎉</div>
+    <h2>オーナーになりました！</h2>
+    <p>登記が完了し、${escHtml(rawName || 'オーナー様')}は正式にSOLUNA ${escHtml(propData.name)} の共同オーナーです。ようこそ！</p>
+  `;
+  banner.style.display = 'block';
+  heroArea.prepend(banner);
+  launchConfetti();
+}
+
+// ─── Render timeline ─────────────────────────────────────
+const ts = getTimestamps();
+const tlEl = document.getElementById('timeline');
+
+STEPS.forEach((s, i) => {
+  const sn = i + 1;
+  let state = sn < step ? 'done' : sn === step ? 'active' : 'pending';
+
+  const lineClass = state === 'done' ? 'done-line' : state === 'active' ? 'active-line' : '';
+  const numClass  = state;
+  const numIcon   = state === 'done' ? '✓' : sn;
+  const statusLabel = state === 'done' ? '完了' : state === 'active' ? '進行中' : '待機中';
+
+  const tlDiv = document.createElement('div');
+  tlDiv.className = 'tl-step';
+  tlDiv.id = `step-${sn}`;
+
+  tlDiv.innerHTML = `
+    <div class="tl-left">
+      <div class="tl-num ${numClass}">${numIcon}</div>
+      ${sn < 5 ? `<div class="tl-line ${lineClass}"></div>` : ''}
+    </div>
+    <div class="tl-body">
+      <div class="tl-inner">
+        <div class="tl-step-row">
+          <span class="tl-status ${state}">${statusLabel}</span>
+          ${s.amount ? `<span style="font-size:11px;color:var(--gold);font-weight:700">${s.amount}</span>` : ''}
+        </div>
+        <div class="tl-header">
+          <div class="tl-title">
+            <span style="font-size:10px;color:#333;margin-right:4px">STEP ${sn}</span>
+            ${escHtml(s.title)}
+          </div>
+        </div>
+        <div class="tl-desc">${state === 'done' ? escHtml(s.doneDesc) : escHtml(s.desc)}</div>
+        <div class="tl-timestamp">
+          <span class="ts-dot"></span>
+          <span>${ts[i]}</span>
+        </div>
+        ${state === 'active' ? renderActiveCard(sn) : ''}
+      </div>
+    </div>
+  `;
+  tlEl.appendChild(tlDiv);
+});
+
+// ─── Active card content per step ────────────────────────
+function renderActiveCard(sn) {
+  if (sn === 1) {
+    return `<div class="active-card">
+      <div class="ac-section">
+        <div class="ac-label">お支払い方法</div>
+        <div class="ac-row"><span class="k">金額</span><span class="v">¥100,000（手付金）</span></div>
+        <div class="ac-row"><span class="k">お支払い方法</span><span class="v">銀行振込</span></div>
+        <div class="ac-row"><span class="k">期限</span><span class="v">${ts[0]}</span></div>
+      </div>
+      <div class="ac-section">
+        <div class="bank-card">
+          <div class="bk-row"><span class="k">銀行</span><span class="v">住信SBIネット銀行</span></div>
+          <div class="bk-row"><span class="k">支店</span><span class="v">法人第一支店（106）</span></div>
+          <div class="bk-row"><span class="k">口座種別</span><span class="v">普通</span></div>
+          <div class="bk-row"><span class="k">口座番号</span>
+            <span class="v mono" id="bank-num">1234567</span>
+            <button class="copy-btn" onclick="copyText('1234567')">コピー</button>
+          </div>
+          <div class="bk-row"><span class="k">口座名義</span><span class="v">エネーブラー（カ</span></div>
+          <div class="bk-row"><span class="k">振込金額</span><span class="v big">¥100,000</span></div>
+        </div>
+      </div>
+    </div>`;
+  }
+  if (sn === 2) {
+    const room = encodeURIComponent('soluna-' + prop + '-' + Date.now().toString(36));
+    const gcalTitle = encodeURIComponent('IT重要事項説明 — SOLUNA ' + propData.name);
+    const gcalDetails = encodeURIComponent('SOLUNAビデオ通話\nhttps://solun.art/call.html\n\n担当: 濱田優貴 (090-7409-0407)');
+    const gcalDate = '20260420T050000Z'; // 14:00 JST
+    const gcalEnd  = '20260420T060000Z';
+    const gcalUrl  = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${gcalTitle}&dates=${gcalDate}/${gcalEnd}&details=${gcalDetails}`;
+    const appleUrl = `data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20260420T050000Z%0ADTEND:20260420T060000Z%0ASUMMARY:購入前確認 ビデオ通話 — SOLUNA%0ADESCRIPTION:SOLUNAビデオ通話%0AEND:VEVENT%0AEND:VCALENDAR`;
+
+    return `<div class="active-card">
+      <div class="ac-section">
+        <div class="ac-label">購入前確認のご予約</div>
+        <div class="ac-row"><span class="k">予約日時</span><span class="v">${params.get('date') ? params.get('date') + ' 14:00' : '2026-04-20 14:00'}</span></div>
+        <div class="ac-row"><span class="k">形式</span><span class="v">SOLUNAビデオ通話</span></div>
+        <div class="ac-row"><span class="k">担当</span><span class="v">濱田 優貴 / Enabler Inc.</span></div>
+        <div class="ac-row"><span class="k">ルームID</span><span class="v"><a href="/call.html?room=${room}" target="_blank">通話に参加 →</a></span></div>
+      </div>
+      <div class="ac-section">
+        <div class="ac-label">カレンダーに追加</div>
+        <div class="ac-btns">
+          <a href="${gcalUrl}" target="_blank" class="ac-btn ac-btn-outline">📅 Google カレンダー</a>
+          <a href="${appleUrl}" download="soluna-it.ics" class="ac-btn ac-btn-outline">🍎 Apple カレンダー</a>
+        </div>
+      </div>
+      <div class="ac-section">
+        <div class="ac-label">事前送付書類</div>
+        <div class="ac-docs">
+          <div class="ac-doc" onclick="showToast('準備中です。担当よりメールでお送りします。')">
+            <span class="doc-name"><span class="doc-icon">📄</span> 購入条件確認書.pdf</span>
+            <span class="doc-dl">DL</span>
+          </div>
+          <div class="ac-doc" onclick="showToast('準備中です。担当よりメールでお送りします。')">
+            <span class="doc-name"><span class="doc-icon">📋</span> 物件概要書.pdf</span>
+            <span class="doc-dl">DL</span>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+  if (sn === 3) {
+    return `<div class="active-card">
+      <div class="ac-section">
+        <div class="ac-label">電子契約の確認</div>
+        <div class="ac-row"><span class="k">プラットフォーム</span><span class="v">Pon（電子署名）</span></div>
+        <div class="ac-row"><span class="k">ステータス</span><span class="v">署名待ち</span></div>
+        <div class="ac-row"><span class="k">送信先</span><span class="v">${escHtml(email || 'ご登録メールアドレス')}</span></div>
+      </div>
+      <div class="ac-section">
+        <div class="ac-label">ご確認事項</div>
+        <div class="ac-row"><span class="k">契約書</span><span class="v">会員権取得契約書</span></div>
+        <div class="ac-row"><span class="k">登記予定持分</span><span class="v" id="sb-share2">10%</span></div>
+      </div>
+    </div>`;
+  }
+  if (sn === 4) {
+    const total = amount ? (amount * 10000 * 0.1 - 100000) : 3800000;
+    const fmtTotal = total.toLocaleString('ja-JP');
+    return `<div class="active-card">
+      <div class="ac-section">
+        <div class="ac-label">残金決済のご案内</div>
+        <div class="bank-card">
+          <div class="bk-row"><span class="k">銀行</span><span class="v">住信SBIネット銀行</span></div>
+          <div class="bk-row"><span class="k">支店</span><span class="v">法人第一支店（106）</span></div>
+          <div class="bk-row"><span class="k">口座種別</span><span class="v">普通</span></div>
+          <div class="bk-row"><span class="k">口座番号</span>
+            <span class="v mono">1234567</span>
+            <button class="copy-btn" onclick="copyText('1234567')">コピー</button>
+          </div>
+          <div class="bk-row"><span class="k">口座名義</span><span class="v">エネーブラー（カ</span></div>
+          <div class="bk-row"><span class="k">振込金額</span><span class="v big">¥${fmtTotal}</span></div>
+        </div>
+        <p style="font-size:10px;color:#333;margin-top:10px;line-height:1.8">※手付金 ¥100,000 を差し引いた残額です。振込期限は担当よりご案内します。</p>
+      </div>
+    </div>`;
+  }
+  if (sn === 5) {
+    return `<div class="active-card">
+      <div class="ac-section">
+        <div class="ac-label">登記完了証</div>
+        <div class="ac-row"><span class="k">ステータス</span><span class="v gold">登記完了</span></div>
+        <div class="ac-row"><span class="k">登記種別</span><span class="v">会員権移転登録</span></div>
+        <div class="ac-row"><span class="k">オーナー</span><span class="v">${escHtml(rawName || 'オーナー様')}</span></div>
+        <div class="ac-row"><span class="k">物件</span><span class="v">${escHtml(propData.name)}</span></div>
+        <div class="ac-row"><span class="k">持分</span><span class="v">10分の1</span></div>
+        <div class="ac-row"><span class="k">完了日</span><span class="v">${ts[4]}</span></div>
+      </div>
+      <div class="ac-btns">
+        <button class="ac-btn ac-btn-gold" onclick="showToast('登記完了証を準備中です。別途郵送します。')">📜 登記完了証を確認</button>
+      </div>
+    </div>`;
+  }
+  return '';
+}
+
+// ─── Bottom CTA per step ─────────────────────────────────
+const ctaConfigs = {
+  1: { desc:'担当者によるビデオ通話での購入前確認のご予約へ進みます。担当よりご連絡することも可能です。', label:'購入前確認を予約する', href:'/call.html' },
+  2: { desc:'予約日時にSOLUNAビデオ通話へご参加ください。事前に書類をご確認ください。', label:'ビデオ通話に参加する', href:'/call.html?room=soluna-' + prop },
+  3: { desc:'Ponよりメールが届いています。電子契約書をご確認・ご署名ください。', label:'電子契約書を確認する', href:'#', onclick:"showToast('Ponからのメールをご確認ください。')" },
+  4: { desc:'残金をご送金いただいた後、担当より登記手続きのご案内をいたします。', label:'残金振込先を確認する', href:'#step-4', onclick:"document.getElementById('step-4').scrollIntoView({behavior:'smooth'})" },
+  5: { desc:'空き日程からオーナー様の宿泊をご予約いただけます。', label:'空き日程を予約する', href:'/calendar.html' },
+};
+
+const cta = ctaConfigs[step] || ctaConfigs[2];
+document.getElementById('cta-desc').textContent = cta.desc;
+const ctaBtn = document.getElementById('main-cta');
+ctaBtn.textContent = cta.label;
+ctaBtn.href = cta.href;
+if (cta.onclick) ctaBtn.setAttribute('onclick', cta.onclick);
+
+// ─── Confetti ─────────────────────────────────────────────
+function launchConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const ctx = canvas.getContext('2d');
+  const COLORS = ['#c8a455','#e8c96a','#f0ece4','#9bc46d','#d4b56a','#ffffff'];
+  const pieces = [];
+  for (let i = 0; i < 180; i++) {
+    pieces.push({
+      x:  Math.random() * canvas.width,
+      y:  Math.random() * -canvas.height,
+      w:  4 + Math.random() * 8,
+      h:  8 + Math.random() * 16,
+      r:  Math.random() * Math.PI * 2,
+      dr: (Math.random() - .5) * .15,
+      vx: (Math.random() - .5) * 2.5,
+      vy: 2 + Math.random() * 4,
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      opacity: .9 + Math.random() * .1,
+    });
+  }
+  let frame = 0;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      p.x  += p.vx;
+      p.y  += p.vy;
+      p.r  += p.dr;
+      p.vy += .04;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.r);
+      ctx.globalAlpha = p.opacity * Math.min(1, (canvas.height - p.y) / 200);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    });
+    frame++;
+    if (frame < 240) requestAnimationFrame(draw);
+    else { ctx.clearRect(0,0,canvas.width,canvas.height); }
+  }
+  draw();
+  window.addEventListener('resize', () => {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+}
+
+// ─── Utilities ───────────────────────────────────────────
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+let toastTimer;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function copyLink() {
+  const btn = event.currentTarget;
+  navigator.clipboard.writeText(location.href).then(() => {
+    btn.classList.add('copied');
+    btn.querySelector('span:last-child') && (btn.lastChild.textContent = ' コピーしました！');
+    showToast('URLをクリップボードにコピーしました');
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.lastChild.textContent = ' リンクをコピー';
+    }, 2500);
+  }).catch(() => showToast('コピーできませんでした'));
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => showToast('コピーしました: ' + text)).catch(() => {});
+}
+
+// ─── Smooth nav opacity ──────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.querySelector('.tn').style.opacity = window.scrollY > 20 ? '1' : '.95';
+}, {passive:true});
+</script>
+  <script src="/chat-widget.js" defer></script>
+<script src="/track.js" defer></script>
+</body>
+</html>

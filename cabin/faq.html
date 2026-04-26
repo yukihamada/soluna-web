@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/faq" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA — FAQ / Q&amp;A">SOLUNA — よくある質問 / Q&amp;A</title>
+<meta content="SOLUNAオーナー制度についての質問・疑問にお答えします。登記、収益分配、Work Party、融資など。" data-en-content="We address questions and concerns about the SOLUNA Ownership Program. Topics include registration, revenue distribution, Work Party, and financing." name="description"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<script defer="" src="track.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.5);
+  --bg:#050505;
+  --bg-soft:#080808;
+  --line:#131313;
+  --text:#f0ece4;
+  --text-dim:#666;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;
+  background:var(--bg);color:var(--text);
+  font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:'palt';
+}
+a{color:var(--gold);text-decoration:none}
+
+/* ── Nav ── */
+.tn{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  padding:14px 20px;
+  background:rgba(5,5,5,.9);backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.tn-inner{max-width:760px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.tn-logo{font-size:13px;font-weight:800;letter-spacing:.15em;color:var(--gold)}
+.tn-back{font-size:11px;color:#444;transition:color .2s}
+.tn-back:hover{color:var(--gold)}
+
+/* ── Page ── */
+.page{max-width:760px;margin:0 auto;padding:96px 20px 80px}
+
+.faq-hero{position:relative;width:100%;height:260px;overflow:hidden;display:flex;align-items:flex-end}
+.faq-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.3) saturate(.7)}
+.faq-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,5,1) 0%,rgba(5,5,5,.5) 50%,transparent 100%)}
+.faq-hero-body{position:relative;z-index:1;padding:28px 24px 36px;max-width:760px;margin:0 auto;width:100%}
+.label{font-size:9px;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+h1{font-size:clamp(24px,5vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.15;margin-bottom:12px}
+.sub{font-size:14px;color:var(--text-dim);line-height:1.9;margin-bottom:48px;max-width:560px}
+
+/* ── FAQ Accordion ── */
+.faq-section{margin-bottom:60px}
+.faq-section h2{
+  font-size:11px;letter-spacing:.2em;color:#333;
+  text-transform:uppercase;margin-bottom:16px;
+  padding-bottom:10px;border-bottom:1px solid #0f0f0f;
+}
+.faq-item{border-bottom:1px solid #0d0d0d}
+.faq-q{
+  width:100%;text-align:left;background:none;border:none;cursor:pointer;
+  padding:18px 0;
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  font-size:14px;font-weight:600;color:var(--text);
+  font-family:inherit;
+  transition:color .2s;
+}
+.faq-q:hover{color:var(--gold)}
+.faq-icon{
+  flex-shrink:0;width:20px;height:20px;border-radius:50%;
+  border:1px solid #222;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:#444;transition:transform .25s,border-color .2s;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);border-color:var(--gold);color:var(--gold)}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height .35s ease,padding .25s ease;
+}
+.faq-item.open .faq-a{max-height:600px;padding-bottom:20px}
+.faq-a p{font-size:13px;color:#777;line-height:2;padding-left:0}
+.faq-a strong{color:#aaa}
+.faq-a a{color:var(--gold)}
+
+/* ── Question Form ── */
+.qform{
+  border:1px solid #131313;border-radius:16px;
+  background:#080808;padding:32px;
+}
+.qform h2{font-size:20px;font-weight:800;margin-bottom:8px}
+.qform p.desc{font-size:12px;color:#555;line-height:1.8;margin-bottom:28px}
+
+label{display:block;font-size:10px;letter-spacing:.1em;color:#444;margin-bottom:6px;text-transform:uppercase}
+input, textarea, select{
+  width:100%;
+  background:#040404;border:1px solid #1a1a1a;
+  border-radius:8px;padding:12px 14px;
+  color:var(--text);font-size:13px;font-family:inherit;
+  outline:none;transition:border-color .2s;
+  margin-bottom:16px;
+}
+input:focus, textarea:focus, select:focus{border-color:var(--gold)}
+textarea{resize:vertical;min-height:100px;line-height:1.7}
+select{appearance:none;-webkit-appearance:none;cursor:pointer}
+
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.fr{grid-template-columns:1fr}}
+
+.sbtn{
+  width:100%;padding:14px;
+  background:var(--gold);color:#040404;
+  border:none;border-radius:10px;
+  font-size:14px;font-weight:800;letter-spacing:.05em;cursor:pointer;
+  transition:opacity .2s;
+}
+.sbtn:hover{opacity:.88}
+.sbtn:disabled{opacity:.5;cursor:not-allowed}
+
+.disc{font-size:10px;color:#2a2a2a;line-height:1.8;margin-top:12px}
+
+/* ── Thanks state ── */
+#thanks{display:none;text-align:center;padding:40px 20px}
+#thanks .icon{font-size:36px;margin-bottom:12px;color:var(--gold)}
+#thanks h3{font-size:15px;margin-bottom:8px}
+#thanks p{font-size:12px;color:#555;line-height:2}
+
+/* ── Footer ── */
+.foot{margin-top:80px;padding-top:24px;border-top:1px solid #0d0d0d;
+  font-size:11px;color:#2a2a2a;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.foot a{color:#333}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties List" href="collection">物件一覧</a>
+<a data-en="Villa Development" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<div class="faq-hero">
+<img alt="" loading="eager" src="/img/kumaushi_b_bonfire_night.webp"/>
+<div class="faq-hero-body">
+<p class="label">Q &amp; A</p>
+<h1 data-en="Frequently Asked">よくある<span data-en="Question" style="color:var(--gold)">質問</span></h1>
+<p class="sub" data-en="Ask us anything before you purchase. If we cannot answer, we will be honest about it." style="margin-bottom:0">購入前に気になること、なんでも聞いてください。<br/>答えられないことは正直に言います。</p>
+</div>
+</div>
+<div class="page" style="padding-top:48px">
+<!-- ── よく見られる質問ベスト3 ── -->
+<div style="background:#080808;border:1px solid rgba(200,164,85,.18);border-radius:14px;padding:28px 28px 20px;margin-bottom:40px">
+<div data-en="Three Frequently Asked Questions" style="font-size:9px;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:18px">よく聞かれる3つの質問</div>
+<div style="display:flex;flex-direction:column;gap:0">
+<div style="padding:14px 0;border-bottom:1px solid #101010;display:flex;gap:12px;align-items:flex-start">
+<div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(200,164,85,.12);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold);font-weight:700;margin-top:1px">Q</div>
+<div>
+<div data-en='"Can I truly use it as a vacation residence?"' style="font-size:13px;font-weight:600;color:#ddd;margin-bottom:4px">「本当に別荘として使えますか?」</div>
+<div data-en="→ Yes (when purchasing one unit). Includes priority reservation rights." style="font-size:12px;color:#888;line-height:1.7">→ <strong data-en="Up to 30 nights annually — unlimited access to all Properties" style="color:#aaa">年間30泊まで、全物件使い放題</strong>です（1口購入の場合）。優先予約権付き。</div>
+</div>
+</div>
+<div style="padding:14px 0;border-bottom:1px solid #101010;display:flex;gap:12px;align-items:flex-start">
+<div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(200,164,85,.12);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold);font-weight:700;margin-top:1px">Q</div>
+<div>
+<div data-en='"Do I need to do anything after Purchase?"' style="font-size:13px;font-weight:600;color:#ddd;margin-bottom:4px">「購入後、何もしなくていいですか?」</div>
+<div data-en="→ Enabler Inc. will handle this on your behalf (annual management fee applies, varies by property)." style="font-size:12px;color:#888;line-height:1.7">→ <strong data-en="Leave all operations and cleaning to us" style="color:#aaa">運営・清掃はすべておまかせ</strong>です。Enabler Inc.が代行します（年間管理費あり・物件別）。</div>
+</div>
+</div>
+<div style="padding:14px 0;display:flex;gap:12px;align-items:flex-start">
+<div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(200,164,85,.12);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold);font-weight:700;margin-top:1px">Q</div>
+<div>
+<div data-en="Can I sell anytime?" style="font-size:13px;font-weight:600;color:#ddd;margin-bottom:4px">「いつでも売れますか?」</div>
+<div data-en="→ (subject to approval process). Enabler is also preparing a service to introduce potential buyers." style="font-size:12px;color:#888;line-height:1.7">→ <strong data-en="Can be transferred to third parties as a membership" style="color:#aaa">会員権として第三者に譲渡できます</strong>（承認フローあり）。Enablerが買取候補者を紹介するサービスも準備中です。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ── まずここだけ読んで ── -->
+<div class="faq-section">
+<div class="faq-item" style="border:1px solid rgba(200,164,85,.2);border-radius:12px;padding:4px 0;margin-bottom:8px;background:rgba(200,164,85,.03)">
+<button class="faq-q" data-en="How much does it cost?" onclick="toggle(this)" style="color:#f0ece4">
+        いくらですか？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="Currently (as of April 2026). (Bonding curve mechanism). The price increases incrementally as units sell, so earlier purchases offer better value. Example: Currently ¥5.3 million at 4 units sold → approximately ¥8 million at 50 units sold → approximately ¥14.8 million at 100 units sold (all reference values; subject to market conditions and demand. Price appreciation is not guaranteed). Each unit grants usage rights to all 8 properties (8 nights per year and up) plus a share of operational revenue.">現在 <strong data-en="¥5,300,000 / 1 unit" style="color:#c8a455;font-size:16px">¥530万 / 1口</strong>（2026年4月時点）。<br/><strong data-en="The price increases with each sale.">売れるたびに価格が上がる仕組みです</strong>（ボンディングカーブ方式）。口数が売れるたびに段階的に価格が上昇するため、早く購入するほど割安になります。<br/><br/>例: 現在4口完売で¥530万 → 50口完売時に約¥800万 → 100口完売時に約¥1,480万（いずれも参考値。市場状況・需要により変動します。値上がりを保証するものではありません）。<br/><br/>1口で全8棟の利用権（年8泊〜）＋稼働収益の分配を得られます。<a data-en="Apply Here →" href="buy" style="color:#c8a455;font-weight:700">申し込みはこちら →</a></p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" data-en="How do I apply? How long does it take?" onclick="toggle(this)">
+        どうやって申し込む？どれくらいかかる？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="You can complete the entire application process online. Select Properties → Confirm Units → Pre-Purchase Consultation (meeting with our team) → Electronic signature on purchase agreement → Payment of remaining balance → Registration takes approximately 1–2 months."><a data-en="Purchase Page" href="buy" style="color:#c8a455">購入ページ</a> からオンライン完結で申し込めます。物件を選択 → 口数確認 → <strong data-en="¥50,000 Reservation Deposit (Stripe)">¥50,000の枠確保金（Stripe）</strong> → 購入前確認（担当者との打合せ）→ 売買契約書に電子署名 → 残代金をお支払い → 登記まで約1〜2ヶ月。</p>
+<p data-en="※ ¥50,000 is a reservation deposit. After contract execution, it is non-refundable but will be fully credited as accommodation credit usable across all Properties. If the contract is not executed, a full refund will be issued." style="margin-top:8px;font-size:13px;color:#888">※ ¥50,000は枠確保金（手付金）です。契約締結後は返金不可ですが、全物件で使える宿泊クレジットとして全額還元します。契約不成立の場合は全額返金します。</p>
+</div>
+</div>
+</div>
+<!-- ── 購入・法律 ── -->
+<div class="faq-section">
+<h2 data-en="Purchase · Legal">購入 · 法律</h2>
+<div class="faq-item">
+<button class="faq-q" data-en="Is it truly registered as real estate?" onclick="toggle(this)">
+        本当に不動産として登記されるの？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="Registration is completed. Based on civil law, after the sales contract, we apply for ownership registration transfer at the Legal Affairs Bureau and deliver the certificate to you. After acquisition, you can also request certificates from the Legal Affairs Bureau online.">されます。民法に基づく<strong data-en="Membership Acquisition">利用権取得</strong>です。契約後、会員権の移転手続きを行い、<strong data-en="Certificate of Registered Matters">登記事項証明書（謄本）</strong>をお渡しします。取得後はネットで法務局から証明書を取り寄せることも可能です。</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" data-en="How is the Important Matter Disclosure conducted?" onclick="toggle(this)">
+        重要事項説明ってどうやってやるの？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="Our representative will send you a confirmation document with digital signature capability. We also offer video call explanations. Documents will be delivered within 72 hours of purchase confirmation.">担当者が電子署名対応の確認書面を送付します。ビデオ通話での説明にも対応しています。書面は購入確定後72時間以内にお送りします。</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" data-en="Can I use financing (loans)?" onclick="toggle(this)">
+        融資（ローン）は使えるの？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="We have a track record of utilizing second home loans. However, as approval criteria vary by financial institution, we cannot guarantee approval. For detailed information regarding our lending history, please inquire directly.">セカンドハウスローンの利用実績があります。ただし銀行によって審査基準が異なるため、保証はできません。これまでの利用実績について詳しく聞きたい場合は<a data-en="form below" href="faq#ask">下のフォーム</a>からご質問ください。</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" data-en="Can I sell it? Anytime?" onclick="toggle(this)">
+        売却できる？いつでも？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="Yes. Your membership can be transferred to third parties. Enabler is also preparing a service to introduce potential buyers (launching in 2026).">できます。会員権は第三者への譲渡が可能です。Enablerが買取候補者を紹介するサービスも準備中です（2026年中）。</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" data-en="Can it be inherited?" onclick="toggle(this)">
+        相続はできる？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="Yes, you can. Since it's registered real estate, it can be inherited using the same procedures as standard real estate succession.">できます。登記された不動産なので、通常の不動産相続と同じ手続きで承継可能です。</p>
+</div>
+</div>
+</div>
+<!-- ── 収益・運用 ── -->
+<div class="faq-section">
+<h2 data-en="Revenue &amp; Operations">収益 · 運用</h2>
+<div class="faq-item">
+<button class="faq-q" data-en="How is revenue distribution calculated?" onclick="toggle(this)">
+        収益分配はどうやって計算されるの？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="Revenues are distributed proportionally by units after deducting operating expenses (cleaning, consumables, and utilities) from each Property. Distributions are made via bank transfer. Monthly reports disclose detailed financial breakdowns.">物件の<strong data-en="Revenue (Accommodations &amp; Activities)">売上（宿泊・アクティビティ）</strong>から運営費（清掃・消耗品・光熱費相当）を差し引いた額を口数按分で分配します。分配は<strong data-en="End of each month">毎月末</strong>に銀行振込。月次レポートで収支内訳も公開します。</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" data-en="Who manages the Properties? Are management fees required?" onclick="toggle(this)">
+        管理は誰がやるの？管理費はかかる？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="Enabler Inc. handles all operations, including cleaning, reservation management, supply replenishment, and minor maintenance. Annual management fees are set per property (THE LODGE/NESTING: ¥250,000/unit/year, KUMAUSHI BASE: ¥350,000/unit/year) and billed each January. Monthly reports provide itemized revenue and expense disclosure.">Enabler Inc.が代行します。清掃・予約管理・消耗品補充・軽微なメンテナンスを含みます。年間管理費は物件ごとに設定されており（THE LODGE/NESTING: ¥25万/口/年、KUMAUSHI BASE: ¥35万/口/年）、毎年1月に請求します。月次レポートで費目別の収支を開示します。<a data-en="View detailed management fee breakdown →" href="management-fee" style="color:#c8a455">管理費の詳細内訳を見る →</a></p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" data-en="What changes when purchasing 5 or more units?" onclick="toggle(this)">
+        5口以上買うと何が変わるの？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="You'll have a dedicated service manager. One person handles operational reports, Work Party coordination, and priority securing of additional lodging slots. Additionally, due to our bonding curve pricing model, acquiring multiple units early helps reduce the acquisition cost per unit.">専属サービスマンが付きます。運用報告・Work Party調整・追加宿泊枠の優先確保を一人で担当します。また、<strong data-en="A pricing model where the price rises with each sale">売れるたびに価格が上がる仕組み</strong>（ボンディングカーブ方式）のため、早期に複数口を取得するほど1口あたりの取得コストを抑えられます。</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" data-en="What is the occupancy rate? Please share the track record." onclick="toggle(this)">
+        稼働率はどのくらい？実績を教えて
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="WHITE HOUSE Atami (2025 performance) generated approximately ¥18,000,000 in revenue. TAPKOP (Teshikaga, Hokkaido) achieved approximately ¥2,800,000 in annual revenue within its first year of operation. For details, please contact us via the form below.">WHITE HOUSE熱海は<strong data-en="Annual Occupancy Rate: Approximately 68%">年間稼働率 約68%</strong>（2025年実績）、売上約1,800万円。タップコップ（弟子屈）は稼働開始1年で年間約280万円の収益。詳細は<a data-en="Revenue Model Page" href="plan">収益モデルページ</a>またはフォームでお問い合わせください。</p>
+</div>
+</div>
+</div>
+<!-- ── 利用 · Work Party ── -->
+<div class="faq-section">
+<h2 data-en="Use · Work Party">利用 · Work Party</h2>
+<div class="faq-item">
+<button class="faq-q" data-en="Can I only use it for 8 nights per year?" onclick="toggle(this)">
+        年8泊しか使えないの？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="The standard arrangement is priority usage rights. Additional stays are available if space permits (paid). Since Birawa Grand allows access to all 8 properties with a single unit, you have substantial flexibility.">基本は<strong data-en="8 nights per year per unit">1口につき年8泊</strong>（優先利用権）です。空き枠があれば追加宿泊も可能（有料）。また美留和グランドは1口で全8棟を利用できるため、実質かなり自由に動けます。</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" data-en="What specifically does a Work Party involve?" onclick="toggle(this)">
+        Work Partyって具体的に何をするの？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="Owners gather to work on the properties together. Painting, furniture crafting, wood splitting, landscaping, DIY construction, and more. Participation is optional, but participating owners receive priority reservation rights and additional lodging discounts. Held 1-2 times yearly for 2-3 nights. We're serious about it. And it's genuinely enjoyable.">オーナーたちが集まって物件を<strong data-en="Retreats where you build and maintain the properties together">自分たちで建てたり整備したりする合宿</strong>です。塗装・家具製作・薪割り・造園・DIY工事など。参加は任意ですが参加したオーナーには優先予約権・追加宿泊割引があります。年1〜2回、2〜3泊。ガチです。楽しいです。</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" data-en="Does off-grid mean no electricity available?" onclick="toggle(this)">
+        オフグリッドって電気使えないの？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="You can use it. Fully electrified. Wi-Fi is available. Showers, kitchen, lighting, charging—all function normally. The only difference is there's no utility company contract, yet inconvenience is minimal. In fact, the risk of power outages is lower than with commercial grid electricity.">使えます。<strong data-en="Solar + Battery Storage">ソーラー＋蓄電池</strong>で全電化。Wi-Fiもあります。シャワー・キッチン・照明・充電、普通に使えます。電力会社との契約がないだけで、不便はほぼありません。停電リスクもむしろ商業電力より低いです。</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" data-en="Can I stay alone, or must it be with a group?" onclick="toggle(this)">
+        一人でも泊まれる？グループじゃないとダメ？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="You can stay alone or with a group. As an owner, you receive priority booking, securing available dates before general users.">一人でも泊まれます。もちろんグループでも。予約はオーナーが優先で、一般利用者より先に空き枠を確保できます。</p>
+</div>
+</div>
+</div>
+<!-- ── コミュニティ ── -->
+<div class="faq-section">
+<h2 data-en="Community">コミュニティ</h2>
+<div class="faq-item">
+<button class="faq-q" data-en="What does the referral system mean? Can't everyone purchase?" onclick="toggle(this)">
+        紹介制ってどういう意味？誰でも買えないの？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="Currently, referral from existing owners or our representative is the standard approach. However, we can accommodate inquiries and purchase applications submitted through this page. This is to preserve the community's atmosphere—the review process is not rigorous.">現在は既存オーナーまたは代表の紹介を基本としています。ただしこのページから質問・購入申込をしていただければ対応可能です。コミュニティの雰囲気を守るためで、審査は厳密なものではありません。</p>
+</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" data-en="What kind of people are the other owners?" onclick="toggle(this)">
+        他のオーナーはどんな人たち？
+        <span class="faq-icon">+</span>
+</button>
+<div class="faq-a">
+<p data-en="Entrepreneurs, engineers, physicians, surfers, martial artists, architects, and others. People who share a common philosophy: they prefer creating experiences themselves over staying at managed resorts. For details, please see.">起業家・エンジニア・医師・サーファー・柔術家・建築家など。「管理されたリゾートよりも自分たちで作る体験が好き」という共通点を持つ人たちです。詳しくは<a data-en="Community Page" href="community">コミュニティページ</a>へ。</p>
+</div>
+</div>
+</div>
+<!-- ── 質問フォーム ── -->
+<div class="qform" id="ask">
+<h2 data-en="Ask a Question">質問を<span data-en="Send" style="color:var(--gold)">送る</span></h2>
+<p class="desc" data-en="If your answer isn't above, please ask anything. We'll respond as quickly as possible, typically same-day.">上に答えがなかった場合、なんでも聞いてください。できるだけ早く（多くは当日）返信します。</p>
+<div id="qform-body">
+<div class="fr">
+<div>
+<label data-en="Name">お名前</label>
+<input id="q-name" placeholder="山田 太郎（任意）" type="text"/>
+</div>
+<div>
+<label data-en="Email Address *">メールアドレス *</label>
+<input id="q-email" placeholder="taro@example.com" required="" type="email"/>
+</div>
+</div>
+<label data-en="Property of Interest (Optional)">ご興味のある物件（任意）</label>
+<select id="q-property">
+<option data-en="— Please Select —" value="">— 選択してください —</option>
+<option data-en="WHITE HOUSE Atami" value="whitehouse">WHITE HOUSE 熱海</option>
+<option data-en="THE LODGE (Biryu-wa)" value="lodge">THE LODGE（美留和）</option>
+<option data-en="NESTING (Birawa)" value="nesting">NESTING（美留和）</option>
+<option data-en="TAPKOP (Teshikaga, Hokkaido)" value="tapkop">TAPKOP（弟子屈）</option>
+<option data-en="SOLUNA VILLAGE (Birawa Grand)" value="village">SOLUNA VILLAGE（美留和グランド）</option>
+<option data-en="Other / Considering Multiple Options" value="other">その他・複数検討中</option>
+</select>
+<label data-en="Question / Message *">質問・メッセージ *</label>
+<textarea id="q-msg" placeholder="例：融資を使いたいが可能か知りたい / 稼働実績の詳細を教えてほしい / まず現地を見てから判断したい" required=""></textarea>
+<button class="sbtn" data-en="Submit a Question →" id="q-btn" onclick="submitQ()">質問を送る →</button>
+<div id="q-err" style="font-size:11px;color:#c0392b;margin-top:8px;min-height:14px"></div>
+<p class="disc" data-en="Your submission will only be reviewed by SOLUNA operations (Enabler Inc.). We do not send spam.">送信内容はSOLUNA運営（Enabler Inc.）のみが確認します。スパムは送りません。</p>
+</div>
+<div id="thanks">
+<div class="icon">✓</div>
+<h3 data-en="Submitted">送信しました</h3>
+<p id="thanks-msg"></p>
+</div>
+</div>
+<div class="foot">
+<span>© 2026 Enabler Inc. · SOLUNA</span>
+<span><a data-en="Home" href="/">ホーム</a> · <a data-en="Revenue Model" href="plan">収益モデル</a> · <a data-en="Construction Specifications" href="construction">施工仕様</a></span>
+</div>
+</div>
+<script>
+var API = 'https://kagi-server.fly.dev/api/v1/soluna';
+
+// ── FAQ accordion ──────────────────────────────────────────────
+function toggle(btn) {
+  var item = btn.closest('.faq-item');
+  var isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(function(el){ el.classList.remove('open'); });
+  if (!isOpen) {
+    item.classList.add('open');
+    if (typeof _sln_track === 'function') {
+      var q = btn.querySelector(':not(.faq-icon)') || btn;
+      _sln_track('faq_open', { question: btn.textContent.trim().slice(0,60) });
+    }
+  }
+}
+
+// ── Question submit ────────────────────────────────────────────
+async function submitQ() {
+  var name  = (document.getElementById('q-name').value || '').trim();
+  var email = (document.getElementById('q-email').value || '').trim();
+  var prop  = document.getElementById('q-property').value;
+  var msg   = (document.getElementById('q-msg').value || '').trim();
+  var err   = document.getElementById('q-err');
+  var btn   = document.getElementById('q-btn');
+
+  err.textContent = '';
+  if (!email || email.indexOf('@') < 0) { err.textContent = 'メールアドレスを入力してください'; return; }
+  if (!msg) { err.textContent = '質問内容を入力してください'; return; }
+
+  btn.disabled = true; btn.textContent = '送信中…';
+
+  // Identify visitor
+  if (typeof solunaIdentify === 'function') solunaIdentify(email, name);
+
+  try {
+    await fetch(API + '/inquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name, email: email, property: prop,
+        message: msg, source: 'faq_page',
+        session_id: window._solunaVid || ''
+      })
+    });
+    if (typeof _sln_track === 'function') _sln_track('question_submit', { property: prop });
+
+    document.getElementById('qform-body').style.display = 'none';
+    document.getElementById('thanks').style.display = 'block';
+    document.getElementById('thanks-msg').innerHTML =
+      '<strong style="color:#aaa">' + email + '</strong> に返信します。<br>通常当日〜翌営業日以内にお答えします。';
+  } catch(e) {
+    err.textContent = '送信エラーが発生しました。しばらく後に再度お試しください。';
+    btn.disabled = false; btn.textContent = '質問を送る →';
+  }
+}
+</script>
+<script defer="" src="/track.js"></script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8 Buildings, 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Birawa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Biryu-wa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Birawa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="View All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Units for Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plans" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Portal" href="owners">オーナー専用</a>
+<a data-en="Birawa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Act on Specified Commercial Transactions" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+</body>
+</html>

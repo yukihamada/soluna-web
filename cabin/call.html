@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/call" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="Pre-Purchase Verification Video Call — SOLUNA">購入前確認 ビデオ通話 — SOLUNA</title>
+<meta content="SOLUNA 購入前確認ビデオ通話 — 担当者が物件・条件・リスクをご説明します" data-en-content="SOLUNA Pre-Purchase Verification Video Call — Our representatives will explain the property, terms, and risks" name="description"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<!-- Daily.co -->
+<script src="https://unpkg.com/@daily-co/daily-js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.45);
+  --gold-soft:rgba(200,164,85,.08);
+  --gold-glow:rgba(200,164,85,.15);
+  --bg:#050505;
+  --bg2:#080808;
+  --bg3:#0d0d0d;
+  --line:rgba(255,255,255,.05);
+  --line2:rgba(255,255,255,.08);
+  --text:#f0ece4;
+  --text-dim:#888;
+  --text-soft:#444;
+  --red:#e84040;
+  --red-dim:rgba(232,64,64,.18);
+  --glass:rgba(8,8,8,.85);
+  --glass2:rgba(12,12,12,.9);
+}
+html,body{padding-top:48px;height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:'palt'}
+::selection{background:var(--gold);color:#000}
+
+/* ═══════════════════════════════════════
+   SHARED NAV
+═══════════════════════════════════════ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:52px;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(5,5,5,.8);backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid var(--line);
+}
+.nav-logo{
+  font-size:12px;font-weight:800;letter-spacing:.18em;color:var(--gold);
+  display:flex;align-items:center;gap:9px;
+}
+.nav-logo-mark{
+  width:22px;height:22px;border-radius:50%;
+  background:conic-gradient(from 180deg,#c8a455,#e8c97a,#c8a455);
+  flex-shrink:0;
+}
+.nav-label{font-size:11px;color:var(--text-dim);letter-spacing:.06em}
+
+/* ═══════════════════════════════════════
+   STATE A: LOBBY
+═══════════════════════════════════════ */
+#lobby{
+  position:fixed;inset:0;z-index:100;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--bg);
+  padding:52px 16px 32px;
+  overflow-y:auto;
+  transition:opacity .5s ease, visibility .5s ease;
+}
+#lobby.hidden{opacity:0;visibility:hidden;pointer-events:none}
+
+.lobby-inner{
+  width:100%;max-width:480px;
+  display:flex;flex-direction:column;align-items:center;
+  gap:0;
+}
+
+/* Logo lockup */
+.lobby-logo{
+  display:flex;flex-direction:column;align-items:center;
+  gap:10px;margin-bottom:28px;
+  animation:fadeUp .7s .1s both;
+}
+.lobby-logo-mark{
+  width:52px;height:52px;border-radius:50%;
+  background:conic-gradient(from 180deg,#c8a455,#e8c97a,#c8a455);
+  box-shadow:0 0 40px rgba(200,164,85,.3);
+}
+.lobby-logo-text{
+  font-size:15px;font-weight:800;letter-spacing:.2em;color:var(--gold);
+}
+.lobby-heading{
+  font-size:clamp(20px,4vw,26px);font-weight:700;letter-spacing:-.02em;
+  text-align:center;margin-bottom:4px;
+  animation:fadeUp .7s .2s both;
+}
+.lobby-sub{
+  font-size:11.5px;color:var(--text-dim);letter-spacing:.04em;
+  margin-bottom:28px;text-align:center;
+  animation:fadeUp .7s .25s both;
+}
+
+/* Room info card */
+.room-card{
+  width:100%;background:var(--bg2);border:1px solid var(--line2);
+  border-radius:16px;padding:20px 22px;margin-bottom:20px;
+  animation:fadeUp .7s .3s both;
+}
+.room-card-title{
+  font-size:9.5px;letter-spacing:.14em;color:var(--gold);
+  text-transform:uppercase;font-weight:700;margin-bottom:14px;
+}
+.room-rows{display:flex;flex-direction:column;gap:10px}
+.room-row{display:flex;gap:12px;align-items:flex-start;font-size:13px}
+.room-row-label{
+  min-width:52px;color:var(--text-dim);font-size:11px;
+  padding-top:1px;flex-shrink:0;
+}
+.room-row-val{color:var(--text);font-weight:500;word-break:break-all}
+.room-id-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:10px;color:var(--gold);
+  border:1px solid var(--gold-dim);border-radius:6px;
+  padding:3px 8px;letter-spacing:.06em;font-family:monospace;
+  background:var(--gold-soft);
+}
+
+/* Preview */
+.preview-wrap{
+  width:100%;display:flex;flex-direction:column;align-items:center;gap:12px;
+  margin-bottom:20px;animation:fadeUp .7s .4s both;
+}
+.preview-label{
+  font-size:10px;letter-spacing:.1em;color:var(--text-dim);
+  text-transform:uppercase;align-self:flex-start;
+}
+.preview-video-wrap{
+  position:relative;width:100%;max-width:220px;
+  border-radius:14px;overflow:hidden;
+  background:#0a0a0a;border:1px solid var(--line2);
+  aspect-ratio:4/3;
+}
+#previewVideo{
+  width:100%;height:100%;object-fit:cover;
+  transform:scaleX(-1);
+}
+.preview-off-overlay{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;background:#080808;color:var(--text-dim);font-size:12px;
+}
+.preview-off-icon{font-size:28px;opacity:.4}
+
+/* Device selectors */
+.device-grid{
+  width:100%;display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  margin-bottom:16px;animation:fadeUp .7s .45s both;
+}
+.device-select-wrap{display:flex;flex-direction:column;gap:5px}
+.device-select-label{font-size:10px;color:var(--text-dim);letter-spacing:.06em}
+.device-select{
+  width:100%;background:var(--bg2);border:1px solid var(--line2);
+  color:var(--text);font-size:12px;border-radius:9px;
+  padding:9px 10px;outline:none;cursor:pointer;
+  font-family:inherit;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;
+  padding-right:28px;
+}
+.device-select:focus{border-color:var(--gold-dim)}
+
+/* Pre-join toggles */
+.pretoggle-row{
+  width:100%;display:flex;gap:10px;margin-bottom:22px;
+  animation:fadeUp .7s .5s both;
+}
+.pretoggle-btn{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 12px;border-radius:10px;border:1px solid var(--line2);
+  background:var(--bg2);color:var(--text);font-size:12px;cursor:pointer;
+  transition:all .2s;font-family:inherit;
+}
+.pretoggle-btn:hover{border-color:var(--gold-dim);color:var(--gold)}
+.pretoggle-btn.off{color:var(--red);border-color:rgba(232,64,64,.25);background:var(--red-dim)}
+.pretoggle-btn .icon{font-size:15px}
+
+/* Join button */
+.join-btn{
+  width:100%;padding:16px 24px;border-radius:12px;
+  background:var(--gold);color:#000;
+  font-size:14px;font-weight:700;letter-spacing:.04em;
+  border:none;cursor:pointer;font-family:inherit;
+  transition:all .25s;animation:fadeUp .7s .55s both;
+  box-shadow:0 4px 30px rgba(200,164,85,.25);
+}
+.join-btn:hover{background:#d4ae5e;box-shadow:0 6px 40px rgba(200,164,85,.4);transform:translateY(-1px)}
+.join-btn:active{transform:translateY(0)}
+
+/* Legal note */
+.legal-note{
+  width:100%;text-align:center;font-size:10px;color:var(--text-dim);
+  line-height:1.7;margin-top:16px;
+  animation:fadeUp .7s .6s both;
+}
+
+/* ═══════════════════════════════════════
+   DEMO BANNER
+═══════════════════════════════════════ */
+.demo-banner{
+  position:fixed;top:52px;left:0;right:0;z-index:150;
+  padding:8px 20px;
+  background:rgba(200,164,85,.12);border-bottom:1px solid var(--gold-dim);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:11px;color:var(--gold);letter-spacing:.04em;
+}
+.demo-banner .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.demo-banner.hidden{display:none}
+
+/* ═══════════════════════════════════════
+   STATE B: ACTIVE CALL
+═══════════════════════════════════════ */
+#callScreen{
+  position:fixed;inset:0;z-index:50;
+  display:flex;flex-direction:column;
+  background:#000;
+  transition:opacity .5s ease, visibility .5s ease;
+}
+#callScreen.hidden{opacity:0;visibility:hidden;pointer-events:none}
+
+/* Remote video area */
+.remote-wrap{
+  flex:1;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  background:#000;
+}
+#remoteVideo{
+  width:100%;height:100%;object-fit:cover;
+}
+.remote-placeholder{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;color:var(--text-dim);
+}
+.remote-placeholder-avatar{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,#1a1a1a,#222);
+  border:2px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;color:var(--text-dim);
+}
+.remote-placeholder-name{font-size:15px;font-weight:600;color:var(--text)}
+.remote-placeholder-status{font-size:12px;display:flex;align-items:center;gap:6px}
+.connecting-dots span{animation:blink 1.4s infinite;opacity:.3}
+.connecting-dots span:nth-child(2){animation-delay:.2s}
+.connecting-dots span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+
+/* Self-view PiP */
+.self-pip{
+  position:absolute;bottom:80px;right:16px;
+  width:160px;height:120px;border-radius:12px;
+  overflow:hidden;background:#0a0a0a;
+  border:2px solid rgba(255,255,255,.12);
+  box-shadow:0 8px 32px rgba(0,0,0,.6);
+  cursor:grab;z-index:10;
+  transition:box-shadow .2s;
+}
+.self-pip:active{cursor:grabbing;box-shadow:0 12px 40px rgba(0,0,0,.8)}
+#selfVideo{
+  width:100%;height:100%;object-fit:cover;
+  transform:scaleX(-1);
+}
+.self-pip-off{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:#0a0a0a;font-size:24px;color:var(--text-dim);
+}
+
+/* Top bar */
+.call-topbar{
+  position:absolute;top:52px;left:0;right:0;z-index:20;
+  height:48px;padding:0 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(to bottom,rgba(5,5,5,.9) 0%,rgba(5,5,5,.0) 100%);
+  backdrop-filter:blur(0px);
+  pointer-events:none;
+}
+.topbar-left{display:flex;align-items:center;gap:14px;pointer-events:auto}
+.topbar-room{
+  font-size:10px;color:var(--text-dim);font-family:monospace;
+  letter-spacing:.05em;background:rgba(255,255,255,.06);
+  padding:4px 9px;border-radius:6px;border:1px solid var(--line);
+}
+.topbar-right{display:flex;align-items:center;gap:14px;pointer-events:auto}
+.call-timer{
+  font-size:13px;font-weight:600;font-family:monospace;
+  letter-spacing:.08em;color:var(--text);
+}
+.rec-indicator{
+  display:flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--red);
+}
+.rec-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--red);
+  animation:recPulse 2s ease infinite;
+}
+@keyframes recPulse{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(232,64,64,.6)}
+  50%{opacity:.8;box-shadow:0 0 0 6px rgba(232,64,64,0)}
+}
+.rec-overlay{
+  position:absolute;top:110px;left:50%;transform:translateX(-50%);
+  font-size:10px;color:rgba(232,64,64,.7);letter-spacing:.1em;
+  background:rgba(232,64,64,.08);border:1px solid rgba(232,64,64,.2);
+  padding:4px 12px;border-radius:100px;white-space:nowrap;
+  pointer-events:none;
+}
+
+/* Bottom controls */
+.call-controls{
+  position:relative;z-index:20;
+  padding:14px 20px 20px;
+  background:linear-gradient(to top,rgba(5,5,5,.95) 0%,rgba(5,5,5,.6) 100%);
+  backdrop-filter:blur(20px);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  flex-wrap:wrap;
+}
+.ctrl-btn{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:10px 14px;border-radius:14px;
+  background:rgba(255,255,255,.06);border:1px solid var(--line2);
+  color:var(--text);cursor:pointer;font-family:inherit;
+  transition:all .2s;min-width:64px;
+}
+.ctrl-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.12)}
+.ctrl-btn.off{
+  background:var(--red-dim);border-color:rgba(232,64,64,.3);color:var(--red);
+}
+.ctrl-btn.active-share{
+  background:rgba(200,164,85,.12);border-color:var(--gold-dim);color:var(--gold);
+}
+.ctrl-btn-icon{font-size:20px;line-height:1}
+.ctrl-btn-label{font-size:9px;letter-spacing:.04em;color:inherit;opacity:.75}
+.ctrl-btn-end{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:10px 20px;border-radius:14px;
+  background:var(--red);border:none;
+  color:#fff;cursor:pointer;font-family:inherit;
+  transition:all .2s;min-width:64px;
+}
+.ctrl-btn-end:hover{background:#f44;transform:scale(1.04)}
+
+/* ═══════════════════════════════════════
+   重要事項説明書 MODAL
+═══════════════════════════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,.7);backdrop-filter:blur(8px);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;visibility:hidden;
+  transition:all .3s ease;
+}
+.modal-overlay.open{opacity:1;visibility:visible}
+.modal-sheet{
+  width:100%;max-width:900px;height:90vh;
+  background:var(--bg2);border-radius:20px 20px 0 0;
+  border:1px solid var(--line2);border-bottom:none;
+  display:flex;flex-direction:column;
+  transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1);
+  overflow:hidden;
+}
+.modal-overlay.open .modal-sheet{transform:translateY(0)}
+.modal-header{
+  padding:20px 24px 0;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.modal-title{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.modal-title-sub{font-size:11px;color:var(--gold);margin-top:2px}
+.modal-close{
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.06);border:1px solid var(--line2);
+  color:var(--text-dim);cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+}
+.modal-close:hover{background:rgba(255,255,255,.1);color:var(--text)}
+
+/* Progress bar */
+.modal-progress-wrap{padding:16px 24px 0;flex-shrink:0}
+.modal-progress-label{
+  display:flex;justify-content:space-between;
+  font-size:10px;color:var(--text-dim);margin-bottom:6px;
+}
+.modal-progress-bar{height:3px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden}
+.modal-progress-fill{
+  height:100%;background:var(--gold);border-radius:100px;
+  transition:width .4s ease;width:0%;
+}
+
+/* Tabs */
+.modal-tabs{
+  display:flex;gap:0;margin:16px 24px 0;
+  border-bottom:1px solid var(--line2);flex-shrink:0;
+}
+.modal-tab{
+  padding:9px 16px;font-size:12px;color:var(--text-dim);cursor:pointer;
+  border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;
+  font-family:inherit;background:none;border-top:none;border-left:none;border-right:none;
+}
+.modal-tab:hover{color:var(--text)}
+.modal-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.modal-tab.confirmed{color:var(--text-dim)}
+.modal-tab.confirmed::after{content:'✓';margin-left:5px;color:#4caf50;font-size:10px}
+
+/* Tab content */
+.modal-content{flex:1;overflow-y:auto;padding:24px}
+.modal-content::-webkit-scrollbar{width:4px}
+.modal-content::-webkit-scrollbar-track{background:transparent}
+.modal-content::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.doc-section{margin-bottom:24px}
+.doc-section-title{
+  font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--gold);
+  text-transform:uppercase;margin-bottom:10px;
+  padding-bottom:6px;border-bottom:1px solid var(--gold-soft);
+}
+.doc-text{font-size:12.5px;color:var(--text-dim);line-height:1.85}
+.doc-text p{margin-bottom:10px}
+.doc-text strong{color:var(--text)}
+.doc-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+.doc-table th{
+  text-align:left;padding:8px 10px;background:rgba(255,255,255,.03);
+  color:var(--text-dim);font-weight:600;font-size:10px;letter-spacing:.05em;
+  border:1px solid var(--line2);
+}
+.doc-table td{
+  padding:9px 10px;border:1px solid var(--line);
+  color:var(--text);vertical-align:top;
+}
+.doc-table tr:hover td{background:rgba(255,255,255,.02)}
+.risk-item{
+  display:flex;gap:12px;padding:12px;margin-bottom:8px;
+  background:rgba(255,255,255,.03);border-radius:10px;
+  border:1px solid var(--line);
+}
+.risk-level{
+  flex-shrink:0;font-size:9px;font-weight:700;letter-spacing:.06em;
+  padding:3px 7px;border-radius:5px;height:fit-content;
+}
+.risk-level.low{background:rgba(76,175,80,.12);color:#4caf50;border:1px solid rgba(76,175,80,.25)}
+.risk-level.mid{background:rgba(255,152,0,.12);color:#ff9800;border:1px solid rgba(255,152,0,.25)}
+.risk-level.high{background:rgba(232,64,64,.12);color:var(--red);border:1px solid rgba(232,64,64,.25)}
+.risk-body{font-size:12px;color:var(--text-dim);line-height:1.7}
+.risk-body strong{color:var(--text);font-size:12.5px}
+
+/* Confirm button */
+.modal-footer{
+  padding:16px 24px 20px;flex-shrink:0;
+  border-top:1px solid var(--line2);
+  display:flex;align-items:center;gap:12px;
+  background:var(--bg2);
+}
+.confirm-btn{
+  flex:1;padding:13px 20px;border-radius:10px;
+  background:var(--gold-soft);border:1px solid var(--gold-dim);
+  color:var(--gold);font-size:13px;font-weight:600;cursor:pointer;
+  font-family:inherit;transition:all .2s;letter-spacing:.03em;
+}
+.confirm-btn:hover{background:rgba(200,164,85,.15);border-color:var(--gold)}
+.confirm-btn.done{
+  background:rgba(76,175,80,.12);border-color:rgba(76,175,80,.3);color:#4caf50;
+  cursor:default;
+}
+.proceed-btn{
+  padding:13px 20px;border-radius:10px;
+  background:var(--gold);border:none;
+  color:#000;font-size:13px;font-weight:700;cursor:pointer;
+  font-family:inherit;transition:all .2s;letter-spacing:.04em;
+  white-space:nowrap;
+}
+.proceed-btn:hover{background:#d4ae5e;transform:translateY(-1px)}
+
+/* ═══════════════════════════════════════
+   CONFIRM DIALOG
+═══════════════════════════════════════ */
+.confirm-dialog{
+  position:fixed;inset:0;z-index:400;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(10px);
+  opacity:0;visibility:hidden;transition:all .25s;
+}
+.confirm-dialog.open{opacity:1;visibility:visible}
+.confirm-box{
+  background:var(--bg2);border:1px solid var(--line2);
+  border-radius:18px;padding:28px;max-width:340px;width:90%;
+  text-align:center;
+  transform:scale(.92);transition:transform .25s;
+}
+.confirm-dialog.open .confirm-box{transform:scale(1)}
+.confirm-box-icon{font-size:32px;margin-bottom:14px}
+.confirm-box-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.confirm-box-text{font-size:12.5px;color:var(--text-dim);line-height:1.7;margin-bottom:22px}
+.confirm-box-btns{display:flex;gap:10px}
+.confirm-box-cancel{
+  flex:1;padding:12px;border-radius:10px;
+  background:rgba(255,255,255,.06);border:1px solid var(--line2);
+  color:var(--text);cursor:pointer;font-family:inherit;font-size:13px;
+  transition:all .2s;
+}
+.confirm-box-cancel:hover{background:rgba(255,255,255,.1)}
+.confirm-box-end{
+  flex:1;padding:12px;border-radius:10px;
+  background:var(--red);border:none;
+  color:#fff;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;
+  transition:all .2s;
+}
+.confirm-box-end:hover{background:#f44}
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+.toast-wrap{
+  position:fixed;top:70px;left:50%;transform:translateX(-50%);
+  z-index:500;display:flex;flex-direction:column;gap:8px;
+  pointer-events:none;
+}
+.toast{
+  padding:10px 18px;border-radius:100px;
+  background:rgba(20,20,20,.95);border:1px solid var(--line2);
+  font-size:12px;color:var(--text);white-space:nowrap;
+  backdrop-filter:blur(20px);
+  animation:toastIn .3s ease,toastOut .3s 2.5s ease forwards;
+}
+@keyframes toastIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes toastOut{from{opacity:1}to{opacity:0;pointer-events:none}}
+
+/* ═══════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* Scrollbar for lobby */
+#lobby::-webkit-scrollbar{width:4px}
+#lobby::-webkit-scrollbar-track{background:transparent}
+#lobby::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:2px}
+
+@media(max-width:480px){
+  .device-grid{grid-template-columns:1fr}
+  .modal-tabs{gap:0;overflow-x:auto}
+  .modal-tab{font-size:11px;padding:8px 12px;white-space:nowrap}
+  .ctrl-btn{min-width:52px;padding:8px 10px}
+  .ctrl-btn-label{display:none}
+}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- ═══ NAV ═══ -->
+<!-- ═══ DEMO BANNER ═══ -->
+<div class="demo-banner" data-en="Demo Mode — Daily.co API key not configured. Connection simulation in progress" id="demoBanner">
+<div class="dot"></div>
+  デモモード — Daily.co APIキー未設定。接続シミュレーション中です
+</div>
+<!-- ═══ TOAST CONTAINER ═══ -->
+<div class="toast-wrap" id="toastWrap"></div>
+<!-- ══════════════════════════════════════════════
+     STATE A: LOBBY
+══════════════════════════════════════════════ -->
+<div id="lobby">
+<div class="lobby-inner">
+<!-- Logo -->
+<div class="lobby-logo">
+<div class="lobby-logo-mark"></div>
+<div class="lobby-logo-text">SOLUNA</div>
+</div>
+<h1 class="lobby-heading" data-en="Pre-Purchase Confirmation Video Call">購入前確認 ビデオ通話</h1>
+<p class="lobby-sub" data-en="Our representatives will explain the property, terms, and associated risks">担当者が物件・条件・リスクをご説明します</p>
+<!-- Room info card -->
+<div class="room-card">
+<div class="room-card-title" data-en="Call Information">通話情報</div>
+<div class="room-rows">
+<div class="room-row">
+<span class="room-row-label" data-en="Counterparty">相手</span>
+<span class="room-row-val" id="lobbyHost">—</span>
+</div>
+<div class="room-row">
+<span class="room-row-label" data-en="Date &amp; Time">日時</span>
+<span class="room-row-val" id="lobbyDate">—</span>
+</div>
+<div class="room-row">
+<span class="room-row-label" data-en="Properties">物件</span>
+<span class="room-row-val" id="lobbyProperty">—</span>
+</div>
+<div class="room-row">
+<span class="room-row-label" data-en="Room ID">ルームID</span>
+<span class="room-row-val">
+<span class="room-id-badge" id="lobbyRoomId">—</span>
+</span>
+</div>
+</div>
+</div>
+<!-- Camera preview -->
+<div class="preview-wrap">
+<div class="preview-label" data-en="Camera Preview">カメラプレビュー</div>
+<div class="preview-video-wrap">
+<video autoplay="" id="previewVideo" muted="" playsinline=""></video>
+<div class="preview-off-overlay" id="previewOff" style="display:none">
+<div class="preview-off-icon">🚫</div>
+<span data-en="Camera Off">カメラオフ</span>
+</div>
+</div>
+</div>
+<!-- Device selectors -->
+<div class="device-grid">
+<div class="device-select-wrap">
+<label class="device-select-label" data-en="📷 Camera">📷 カメラ</label>
+<select class="device-select" id="cameraSelect"></select>
+</div>
+<div class="device-select-wrap">
+<label class="device-select-label" data-en="🎤 Microphone">🎤 マイク</label>
+<select class="device-select" id="micSelect"></select>
+</div>
+</div>
+<!-- Pre-join toggles -->
+<div class="pretoggle-row">
+<button class="pretoggle-btn" id="preVideoToggle" onclick="togglePreCamera()">
+<span class="icon">📷</span>
+<span data-en="Camera On" id="preVideoLabel">カメラオン</span>
+</button>
+<button class="pretoggle-btn" id="preMicToggle" onclick="togglePreMic()">
+<span class="icon">🎤</span>
+<span data-en="Microphone On" id="preMicLabel">マイクオン</span>
+</button>
+</div>
+<!-- Join button -->
+<button class="join-btn" data-en="Join Call" onclick="joinCall()">通話に参加する</button>
+<!-- Legal note -->
+<p class="legal-note" data-en="This is a pre-purchase confirmation video call. Recording may occur. Call content is securely protected.">
+      この通話は購入前確認のためのビデオ通話です。<br/>
+      録音・録画される場合があります。通話内容は安全に保護されます。
+    </p>
+</div>
+</div>
+<!-- ══════════════════════════════════════════════
+     STATE B: ACTIVE CALL
+══════════════════════════════════════════════ -->
+<div class="hidden" id="callScreen">
+<!-- Remote video area -->
+<div class="remote-wrap">
+<video autoplay="" id="remoteVideo" playsinline="" style="display:none"></video>
+<div class="remote-placeholder" id="remotePlaceholder">
+<div class="remote-placeholder-avatar">👤</div>
+<div class="remote-placeholder-name" data-en="Yuki Hamada" id="remoteName">濱田優貴</div>
+<div class="remote-placeholder-status">
+<span data-en="Connecting" id="connectingText">接続中</span>
+<span class="connecting-dots"><span>.</span><span>.</span><span>.</span></span>
+</div>
+</div>
+<!-- Recording overlay -->
+<div class="rec-overlay" data-en="This call is being recorded." id="recOverlay">この通話は記録されています</div>
+</div>
+<!-- Top bar (overlays video) -->
+<div class="call-topbar">
+<div class="topbar-left">
+<div class="topbar-room" id="topbarRoomId">—</div>
+</div>
+<div class="topbar-right">
+<div class="call-timer" id="callTimer">00:00:00</div>
+<div class="rec-indicator">
+<div class="rec-dot"></div>
+        REC
+      </div>
+</div>
+</div>
+<!-- Self-view PiP -->
+<div class="self-pip" id="selfPip">
+<video autoplay="" id="selfVideo" muted="" playsinline=""></video>
+<div class="self-pip-off" id="selfPipOff" style="display:none">🚫</div>
+</div>
+<!-- Bottom controls -->
+<div class="call-controls">
+<button class="ctrl-btn" id="muteBtn" onclick="toggleMute()" title="ミュート切替">
+<span class="ctrl-btn-icon" id="muteIcon">🎤</span>
+<span class="ctrl-btn-label" data-en="Mute" id="muteLabel">ミュート</span>
+</button>
+<button class="ctrl-btn" id="camBtn" onclick="toggleCamera()" title="カメラ切替">
+<span class="ctrl-btn-icon" id="camIcon">📷</span>
+<span class="ctrl-btn-label" data-en="Camera" id="camLabel">カメラ</span>
+</button>
+<button class="ctrl-btn" id="shareBtn" onclick="toggleScreenShare()" title="画面共有">
+<span class="ctrl-btn-icon">🖥</span>
+<span class="ctrl-btn-label" data-en="Co-Ownership">共有</span>
+</button>
+<button class="ctrl-btn" onclick="openDocs()" title="書類を表示">
+<span class="ctrl-btn-icon">📄</span>
+<span class="ctrl-btn-label" data-en="Documents">書類</span>
+</button>
+<button class="ctrl-btn-end" onclick="confirmEndCall()" title="通話を終了">
+<span class="ctrl-btn-icon">📵</span>
+<span class="ctrl-btn-label" data-en="End">終了</span>
+</button>
+</div>
+</div>
+<!-- ══════════════════════════════════════════════
+     重要事項説明書 MODAL
+══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="docsModal">
+<div class="modal-sheet">
+<div class="modal-header">
+<div>
+<div class="modal-title" data-en="Purchase Terms Confirmation">購入条件確認書</div>
+<div class="modal-title-sub" data-en="TAPKOP Teshikaga" id="modalPropertyTitle">TAPKOP 弟子屈</div>
+</div>
+<button class="modal-close" onclick="closeModal('docsModal')">✕</button>
+</div>
+<!-- Progress -->
+<div class="modal-progress-wrap">
+<div class="modal-progress-label">
+<span data-en="Verification Progress">確認の進捗</span>
+<span data-en="0 / 4 Sections" id="progressText">0 / 4 セクション</span>
+</div>
+<div class="modal-progress-bar">
+<div class="modal-progress-fill" id="progressFill"></div>
+</div>
+</div>
+<!-- Tabs -->
+<div class="modal-tabs">
+<button class="modal-tab active" data-en="Overview" id="tab0" onclick="switchTab(0)">概要</button>
+<button class="modal-tab" data-en="Property Details" id="tab1" onclick="switchTab(1)">物件詳細</button>
+<button class="modal-tab" data-en="Risks" id="tab2" onclick="switchTab(2)">リスク</button>
+<button class="modal-tab" data-en="Sign" id="tab3" onclick="switchTab(3)">署名</button>
+</div>
+<!-- Content -->
+<div class="modal-content">
+<!-- Tab 0: 概要 -->
+<div class="tab-panel active" id="panel0">
+<div class="doc-section">
+<div class="doc-section-title" data-en="Transaction Overview">取引の概要</div>
+<div class="doc-text">
+<p data-en="This document serves as a confirmation record wherein our representative explains property information, transaction terms, and risks associated with acquiring a shared interest offered by SOLUNA CABIN CLUB.">本書はSOLUNA CABIN CLUBが提供する共有持分取得にあたり、担当者が物件情報・取引条件・リスクを説明するための確認書面です。</p>
+<p data-en="During this video call, our representatives will explain the property's legal structure, operational performance, management fees, and associated risks. Please feel free to ask any questions you may have."><strong data-en="Regarding Pre-Purchase Verification:">購入前確認について：</strong>このビデオ通話では、物件の法的構造・稼働実績・管理費・リスクについて担当者がご説明します。ご不明点はお気軽にご質問ください。</p>
+</div>
+</div>
+<div class="doc-section">
+<div class="doc-section-title" data-en="Party Information">当事者情報</div>
+<table class="doc-table">
+<tr><th data-en="Items">項目</th><th data-en="Content">内容</th></tr>
+<tr><td data-en="Seller (Developer)">売主（業者）</td><td data-en="Enabler Inc. 2-7-1 Mita, Minato-ku, Tokyo">Enabler Inc.<br/>東京都港区三田2-7-1</td></tr>
+<tr><td data-en="Assigned Representative">説明担当</td><td data-en="Yuki Hamada (Representative Director) info@enablerdao.com">濱田優貴（代表取締役）<br/>info@enablerdao.com</td></tr>
+<tr><td data-en="Prospective Buyer">買主候補者</td><td id="docBuyer">—</td></tr>
+<tr><td data-en="Explanation Method">説明方法</td><td data-en="Video Conference (Pre-Purchase Verification)">ビデオ会議（購入前確認）</td></tr>
+<tr><td data-en="Explanation Date &amp; Time">説明日時</td><td id="docDate">—</td></tr>
+</table>
+</div>
+<div class="doc-section">
+<div class="doc-section-title" data-en="Operator Information">運営者情報</div>
+<div class="doc-text">
+<p data-en="This transaction constitutes the acquisition of a shared ownership interest in SOLUNA CABIN CLUB, operated by Enabler Inc. (Civil Code Article 250). Should you have any questions regarding this transaction, please contact your assigned representative at any time.">本取引はEnablerInc.が運営するSOLUNA CABIN CLUBによる共有持分の取得です（民法250条）。取引に不明点がある場合は、担当者まで随時お問い合わせください。</p>
+</div>
+</div>
+</div>
+<!-- Tab 1: 物件詳細 -->
+<div class="tab-panel" id="panel1">
+<div class="doc-section">
+<div class="doc-section-title" data-en="Property Information">物件基本情報</div>
+<table class="doc-table">
+<tr><th data-en="Items">項目</th><th data-en="Content">内容</th></tr>
+<tr><td data-en="Property Name">物件名称</td><td data-en="TAPKOP Teshikaga">TAPKOP 弟子屈（タップコップ）</td></tr>
+<tr><td data-en="Location">所在地</td><td data-en="9 Atosatogenno, Teshikaga, Kamikoani District, Hokkaido">北海道川上郡弟子屈町字跡佐登原野9番地</td></tr>
+<tr><td data-en="Property Type">種別</td><td data-en="Usage Rights Resort Membership">共同所有型リゾート施設（共有持分）</td></tr>
+<tr><td data-en="Structure &amp; Scale">構造・規模</td><td data-en="Two-story wooden structure | Total floor area: approximately 280㎡">木造2階建　延床面積 約280㎡</td></tr>
+<tr><td data-en="Land Area">土地面積</td><td data-en="6,500 m² (leasehold)">6,500㎡（借地権付き）</td></tr>
+<tr><td data-en="Year of Completion">竣工年</td><td data-en="October 2024">2024年10月</td></tr>
+<tr><td data-en="Capacity">定員</td><td data-en="Up to 12 Guests">最大12名</td></tr>
+<tr><td data-en="Designated Use Areas">利用区域</td><td data-en="Outside agricultural promotion area with no forestry restrictions">農業振興地域外・森林法制限なし</td></tr>
+</table>
+</div>
+<div class="doc-section">
+<div class="doc-section-title" data-en="Membership Details">共有持分の内容</div>
+<table class="doc-table">
+<tr><th data-en="Number of Units Held">持分口数</th><th data-en="Acquisition Price">取得価格</th><th data-en="Annual Usage Allocation">年間利用枠</th><th data-en="Projected Annual Returns">想定年間収益</th></tr>
+<tr><td data-en="1 Unit (10%)">1口（10%）</td><td data-en="¥10,000,000">1,000万円</td><td data-en="36 Nights">36泊</td><td data-en="From ¥1,800,000">180万円〜</td></tr>
+<tr><td data-en="2 Units (20%)">2口（20%）</td><td>2,000万円</td><td data-en="72 nights">72泊</td><td data-en="¥3,600,000~">360万円〜</td></tr>
+<tr><td data-en="3 Units (30%)">3口（30%）</td><td data-en="¥30,000,000">3,000万円</td><td data-en="108 nights">108泊</td><td data-en="From ¥5,400,000">540万円〜</td></tr>
+</table>
+<div class="doc-text" style="margin-top:10px">
+<p data-en="※Revenue is based on actual short-term rental performance via Airbnb and similar platforms (2024 results: WHITE HOUSE Atami ¥18,000,000). This does not guarantee future revenue.">※収益はAirbnb等短期貸出による実績ベース（2024年実績：白い家熱海1,800万円）。将来の収益を保証するものではありません。</p>
+</div>
+</div>
+<div class="doc-section">
+<div class="doc-section-title" data-en="Amenities &amp; Services">付帯設備・サービス</div>
+<div class="doc-text">
+<p data-en="Wood-burning stove, private sauna (with open-air bathing deck), kettle drum, barbecue space, projector &amp; theater room"><strong data-en="Amenities:">設備：</strong>薪ストーブ、プライベートサウナ（外気浴デッキ付き）、ケトルドラム、バーベキュースペース、プロジェクター＆シアタールーム</p>
+<p data-en="Full Management by SOLUNA Operations Team (including cleaning, reservation management, and guest services)"><strong data-en="Operated by:">運営：</strong>SOLUNA運営チームによるフルマネジメント（清掃・予約管理・ゲスト対応含む）</p>
+<p data-en="Priority access to other SOLUNA properties and exclusive member portal"><strong data-en="Member Benefits:">会員特典：</strong>他SOLUNAプロパティへの優先アクセス、会員専用ポータルサイト</p>
+</div>
+</div>
+</div>
+<!-- Tab 2: リスク -->
+<div class="tab-panel" id="panel2">
+<div class="doc-section">
+<div class="doc-section-title" data-en="Risk Disclosure">リスク説明事項</div>
+<div class="risk-item">
+<span class="risk-level mid">中</span>
+<div class="risk-body" data-en="Accommodation revenue fluctuates based on tourism demand, currency exchange rates, natural disasters, and other factors. The revenue projections outlined in the prospectus are estimates based on historical performance and do not guarantee future results.">
+<strong data-en="Revenue Fluctuation Risk">収益変動リスク</strong><br/>
+              観光需要・為替・自然災害等により宿泊収益は変動します。説明書記載の収益予測は過去実績に基づく試算であり、将来を保証するものではありません。
+            </div>
+</div>
+<div class="risk-item">
+<span class="risk-level low">低</span>
+<div class="risk-body" data-en="Sale of co-ownership shares may require consent from other co-owners. Through SOLUNA's proprietary liquidity program, we offer annual buyback opportunities (subject to conditions).">
+<strong data-en="Liquidity Risk">流動性リスク</strong><br/>
+              会員権の譲渡にはSOLUNAの承認が必要です。年1回の買い取りプログラムあり（条件あり）。
+            </div>
+</div>
+<div class="risk-item">
+<span class="risk-level low">低</span>
+<div class="risk-body" data-en="As this is a leasehold property, renewal negotiation will be required upon expiration of the lease term (50 years with automatic renewal). Current agreement with the landowner is in good standing.">
+<strong data-en="Legal Risks">法的リスク</strong><br/>
+              借地権付き物件のため、借地期間（50年・自動更新）終了後は更新交渉が必要です。現在の地主との契約は良好に継続しています。
+            </div>
+</div>
+<div class="risk-item">
+<span class="risk-level mid">中</span>
+<div class="risk-body" data-en="Located in eastern Hokkaido, facility access may be restricted during winter months due to heavy snow and freezing conditions. Snow and frost management measures are included in facility maintenance fees.">
+<strong data-en="Natural &amp; Environmental Risk">自然・環境リスク</strong><br/>
+              北海道東部に位置し、大雪・凍結による施設へのアクセス制限が冬期に発生する場合があります。積雪・凍結対策は施設維持費に含まれます。
+            </div>
+</div>
+<div class="risk-item">
+<span class="risk-level high" data-en="Notice">注意</span>
+<div class="risk-body" data-en="This transaction involves the acquisition of a co-ownership share in real property and is not a security under the Financial Instruments and Exchange Act. Principal is not guaranteed and the acquisition price may decline. We recommend purchasing with surplus funds.">
+<strong data-en="Investment Risk (Important)">投資性リスク（重要）</strong><br/>
+              本取引はSOLUNA会員権（利用権）の取得であり、不動産所有権の移転を伴いません。利用権の価値は変動する可能性があります。
+            </div>
+</div>
+</div>
+<div class="doc-section">
+<div class="doc-section-title" data-en="Hazard Information">ハザード情報</div>
+<div class="doc-text">
+<p data-en="None (Elevation approximately 240m, outside drainage basin)"><strong data-en="Flood Risk:">洪水リスク：</strong>なし（標高約240m、流域外）</p>
+<p data-en="Outside yellow zone"><strong data-en="Landslide Risk:">土砂災害：</strong>イエローゾーン外</p>
+<p data-en="Constructed to seismic rating 2 or higher, as the property is located in the Hokkaido eastern seismic zone"><strong data-en="Earthquake Risk:">地震：</strong>北海道東部地震帯に含まれるため、耐震等級2以上で建設</p>
+<p data-en="Adjacent to Akan-Mashu volcanic zone. Volcanic alert level 1 (normal)"><strong data-en="Volcanic Risk:">火山：</strong>阿寒湖・摩周湖火山帯近接。噴火警戒レベル1（平常）</p>
+</div>
+</div>
+</div>
+<!-- Tab 3: 署名 -->
+<div class="tab-panel" id="panel3">
+<div class="doc-section">
+<div class="doc-section-title" data-en="Pre-Purchase Verification &amp; Electronic Signature">購入前確認・電子署名</div>
+<div class="doc-text">
+<p data-en="I confirm that I have received an explanation from the representative regarding the following matters and understand the contents.">以下の事項について、担当者による説明を受け、内容を理解したことを確認します。</p>
+</div>
+<div style="margin:16px 0">
+<label style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;margin-bottom:12px">
+<input id="chk1" style="margin-top:3px;accent-color:var(--gold)" type="checkbox"/>
+<span data-en="I have received and understood the explanation regarding the purpose of the transaction, the subject property, and the nature of the rights." style="font-size:12.5px;color:var(--text-dim);line-height:1.7">取引の目的・対象物件・権利の内容について説明を受け、理解しました</span>
+</label>
+<label style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;margin-bottom:12px">
+<input id="chk2" style="margin-top:3px;accent-color:var(--gold)" type="checkbox"/>
+<span data-en="I have received and understood explanations regarding property risks including revenue fluctuation, liquidity, and natural disasters" style="font-size:12.5px;color:var(--text-dim);line-height:1.7">物件に関するリスク（収益変動・流動性・自然災害等）について説明を受け、理解しました</span>
+</label>
+<label style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;margin-bottom:12px">
+<input id="chk3" style="margin-top:3px;accent-color:var(--gold)" type="checkbox"/>
+<span data-en="I confirm that the pre-purchase verification via this video call has been properly completed" style="font-size:12.5px;color:var(--text-dim);line-height:1.7">本ビデオ通話による購入前確認が適切に実施されることを確認しました</span>
+</label>
+<label style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;margin-bottom:12px">
+<input id="chk4" style="margin-top:3px;accent-color:var(--gold)" type="checkbox"/>
+<span data-en="I understand that there is no principal guarantee and that investment decisions are made at my own discretion and responsibility." style="font-size:12.5px;color:var(--text-dim);line-height:1.7">元本保証がなく、投資判断は自己責任で行うことを理解しました</span>
+</label>
+</div>
+<div class="doc-text">
+<p style="margin-bottom:6px"><strong data-en="Signature Date &amp; Time:">署名日時：</strong><span id="signDateTime">—</span></p>
+<p data-en="Electronic signatures are authenticated via Touch ID / Face ID or passcode. After signature, documents are issued in PDF format." style="font-size:11px;color:var(--text-dim)">電子署名はTouchID / Face IDまたはパスコードにより本人確認を行います。署名後、PDF形式で発行されます。</p>
+</div>
+</div>
+</div>
+</div><!-- /.modal-content -->
+<!-- Footer -->
+<div class="modal-footer">
+<button class="confirm-btn" data-en="Confirmed ✓" id="confirmBtn" onclick="confirmSection()">確認しました ✓</button>
+<button class="proceed-btn" data-en="Proceed to Electronic Signature →" id="proceedBtn" onclick="proceedSign()" style="display:none">電子署名へ進む →</button>
+</div>
+</div>
+</div>
+<!-- ═══ END CALL CONFIRM DIALOG ═══ -->
+<div class="confirm-dialog" id="endDialog">
+<div class="confirm-box">
+<div class="confirm-box-icon">📵</div>
+<div class="confirm-box-title" data-en="End the call?">通話を終了しますか？</div>
+<div class="confirm-box-text" data-en="We will now conclude the pre-purchase verification call. If signatures remain incomplete, we will reschedule for a later date.">購入前確認の通話を終了します。<br/>署名が未完了の場合は後日改めて実施いただきます。</div>
+<div class="confirm-box-btns">
+<button class="confirm-box-cancel" data-en="Cancel" onclick="closeModal('endDialog')">キャンセル</button>
+<button class="confirm-box-end" data-en="End Call" onclick="endCall()">終了する</button>
+</div>
+</div>
+</div>
+<script>
+// ═══════════════════════════════════════
+//  URL PARAMS
+// ═══════════════════════════════════════
+const params = new URLSearchParams(location.search);
+const ROOM_ID = params.get('room') || ('SOLUNA-' + Math.random().toString(36).slice(2,10).toUpperCase());
+const HOST    = params.get('host') || '濱田優貴';
+const PROP    = params.get('property') || 'tapkop';
+const DATE    = params.get('date') || '—';
+
+// Populate lobby
+document.getElementById('lobbyHost').textContent     = HOST;
+document.getElementById('lobbyDate').textContent     = DATE;
+document.getElementById('lobbyProperty').textContent = PROP;
+document.getElementById('lobbyRoomId').textContent   = ROOM_ID;
+document.getElementById('remoteName').textContent    = HOST;
+document.getElementById('topbarRoomId').textContent  = ROOM_ID;
+document.getElementById('docBuyer').textContent      = HOST;
+document.getElementById('docDate').textContent       = DATE;
+
+// Modal property title
+const propNames = {tapkop:'TAPKOP 弟子屈',atami:'WHITE HOUSE 熱海',hawaii:'HALE SOLUNA ハワイ'};
+document.getElementById('modalPropertyTitle').textContent = propNames[PROP] || PROP.toUpperCase();
+
+// Sign date time
+document.getElementById('signDateTime').textContent = new Date().toLocaleString('ja-JP');
+
+// ═══════════════════════════════════════
+//  MEDIA & DEVICES
+// ═══════════════════════════════════════
+let localStream = null;
+let previewStream = null;
+let screenStream = null;
+let cameraOn = true;
+let micOn    = true;
+let preCamOn = true;
+let preMicOn = true;
+
+async function initPreview() {
+  try {
+    previewStream = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
+    document.getElementById('previewVideo').srcObject = previewStream;
+    await populateDevices();
+  } catch(e) {
+    console.warn('Media access denied', e);
+    document.getElementById('previewOff').style.display = 'flex';
+    showToast('カメラ/マイクへのアクセスが拒否されました');
+  }
+}
+
+async function populateDevices() {
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  const camSel = document.getElementById('cameraSelect');
+  const micSel = document.getElementById('micSelect');
+  camSel.innerHTML = '';
+  micSel.innerHTML = '';
+  devices.forEach(d => {
+    const opt = document.createElement('option');
+    opt.value = d.deviceId;
+    opt.textContent = d.label || (d.kind === 'videoinput' ? 'カメラ' : 'マイク') + ' ' + (camSel.options.length+1);
+    if (d.kind === 'videoinput') camSel.appendChild(opt);
+    if (d.kind === 'audioinput') micSel.appendChild(opt);
+  });
+}
+
+function togglePreCamera() {
+  preCamOn = !preCamOn;
+  const btn = document.getElementById('preVideoToggle');
+  const lbl = document.getElementById('preVideoLabel');
+  btn.classList.toggle('off', !preCamOn);
+  lbl.textContent = preCamOn ? 'カメラオン' : 'カメラオフ';
+  const vid = document.getElementById('previewVideo');
+  const off = document.getElementById('previewOff');
+  if (previewStream) {
+    previewStream.getVideoTracks().forEach(t => t.enabled = preCamOn);
+  }
+  vid.style.display   = preCamOn ? 'block' : 'none';
+  off.style.display   = preCamOn ? 'none' : 'flex';
+}
+
+function togglePreMic() {
+  preMicOn = !preMicOn;
+  const btn = document.getElementById('preMicToggle');
+  const lbl = document.getElementById('preMicLabel');
+  btn.classList.toggle('off', !preMicOn);
+  lbl.textContent = preMicOn ? 'マイクオン' : 'マイクオフ';
+  if (previewStream) {
+    previewStream.getAudioTracks().forEach(t => t.enabled = preMicOn);
+  }
+}
+
+// ═══════════════════════════════════════
+//  JOIN
+// ═══════════════════════════════════════
+let callStartTime = null;
+let timerInterval = null;
+let demoConnectTimeout = null;
+
+async function joinCall() {
+  // GA event
+  gtag('event', 'call_joined', {room_id: ROOM_ID, property: PROP});
+
+  // Transfer stream
+  if (previewStream) {
+    localStream = previewStream;
+    previewStream = null;
+  } else {
+    try {
+      localStream = await navigator.mediaDevices.getUserMedia({video:preCamOn, audio:preMicOn});
+    } catch(e) {
+      showToast('カメラ/マイクにアクセスできません');
+    }
+  }
+
+  // Apply initial state
+  cameraOn = preCamOn;
+  micOn    = preMicOn;
+  if (localStream) {
+    localStream.getVideoTracks().forEach(t => t.enabled = cameraOn);
+    localStream.getAudioTracks().forEach(t => t.enabled = micOn);
+  }
+
+  // Set self-view
+  const selfVid = document.getElementById('selfVideo');
+  if (localStream) {
+    selfVid.srcObject = localStream;
+  }
+  updateSelfPip();
+  updateControls();
+
+  // Save session
+  const session = {
+    room: ROOM_ID,
+    startTime: new Date().toISOString(),
+    property: PROP,
+    participants: [HOST, 'あなた']
+  };
+  try { localStorage.setItem('soluna_session', JSON.stringify(session)); } catch(e) {}
+
+  // Switch states
+  document.getElementById('lobby').classList.add('hidden');
+  document.getElementById('callScreen').classList.remove('hidden');
+
+  // Start timer
+  callStartTime = Date.now();
+  timerInterval = setInterval(updateTimer, 1000);
+
+  // Demo: simulate remote connect after 3s
+  demoConnectTimeout = setTimeout(simulateConnect, 3000);
+
+  // Try Daily.co if API key present (no-op in demo)
+  initDaily();
+
+  // Init PiP drag
+  initDrag();
+}
+
+function simulateConnect() {
+  document.getElementById('connectingText').textContent = '接続しました';
+  document.querySelector('.connecting-dots').style.display = 'none';
+  document.getElementById('remotePlaceholder').querySelector('.remote-placeholder-status').innerHTML =
+    '<span style="color:#4caf50">● 通話中</span>';
+  showToast(`${HOST} が参加しました`);
+}
+
+function updateTimer() {
+  const elapsed = Math.floor((Date.now() - callStartTime) / 1000);
+  const h = String(Math.floor(elapsed / 3600)).padStart(2,'0');
+  const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2,'0');
+  const s = String(elapsed % 60).padStart(2,'0');
+  document.getElementById('callTimer').textContent = `${h}:${m}:${s}`;
+}
+
+// ═══════════════════════════════════════
+//  CALL CONTROLS
+// ═══════════════════════════════════════
+function toggleMute() {
+  micOn = !micOn;
+  if (localStream) localStream.getAudioTracks().forEach(t => t.enabled = micOn);
+  updateControls();
+  showToast(micOn ? 'マイクをオンにしました' : 'ミュートしました');
+}
+
+function toggleCamera() {
+  cameraOn = !cameraOn;
+  if (localStream) localStream.getVideoTracks().forEach(t => t.enabled = cameraOn);
+  updateSelfPip();
+  updateControls();
+  showToast(cameraOn ? 'カメラをオンにしました' : 'カメラをオフにしました');
+}
+
+function updateControls() {
+  const mBtn  = document.getElementById('muteBtn');
+  const mIcon = document.getElementById('muteIcon');
+  const mLbl  = document.getElementById('muteLabel');
+  const cBtn  = document.getElementById('camBtn');
+  const cIcon = document.getElementById('camIcon');
+  const cLbl  = document.getElementById('camLabel');
+
+  mBtn.classList.toggle('off', !micOn);
+  mIcon.textContent = micOn ? '🎤' : '🔇';
+  mLbl.textContent  = micOn ? 'ミュート' : 'ミュート解除';
+
+  cBtn.classList.toggle('off', !cameraOn);
+  cIcon.textContent = cameraOn ? '📷' : '🚫';
+  cLbl.textContent  = cameraOn ? 'カメラ' : 'カメラオフ';
+}
+
+function updateSelfPip() {
+  document.getElementById('selfVideo').style.display  = cameraOn ? 'block' : 'none';
+  document.getElementById('selfPipOff').style.display = cameraOn ? 'none' : 'flex';
+}
+
+async function toggleScreenShare() {
+  const btn = document.getElementById('shareBtn');
+  if (screenStream) {
+    screenStream.getTracks().forEach(t => t.stop());
+    screenStream = null;
+    btn.classList.remove('active-share');
+    showToast('画面共有を終了しました');
+  } else {
+    try {
+      screenStream = await navigator.mediaDevices.getDisplayMedia({video:true, audio:false});
+      btn.classList.add('active-share');
+      showToast('画面共有を開始しました');
+      screenStream.getVideoTracks()[0].onended = () => {
+        screenStream = null;
+        btn.classList.remove('active-share');
+        showToast('画面共有が終了しました');
+      };
+    } catch(e) {
+      showToast('画面共有がキャンセルされました');
+    }
+  }
+}
+
+function confirmEndCall() {
+  openModal('endDialog');
+}
+
+function endCall() {
+  const elapsed = callStartTime ? Math.floor((Date.now() - callStartTime) / 1000) : 0;
+  gtag('event', 'call_ended', {duration: elapsed, room_id: ROOM_ID, property: PROP});
+
+  if (timerInterval) clearInterval(timerInterval);
+  if (demoConnectTimeout) clearTimeout(demoConnectTimeout);
+  if (localStream) localStream.getTracks().forEach(t => t.stop());
+  if (screenStream) screenStream.getTracks().forEach(t => t.stop());
+
+  closeModal('endDialog');
+  // Redirect to status page
+  setTimeout(() => { location.href = '/status.html?step=3&room=' + encodeURIComponent(ROOM_ID); }, 300);
+}
+
+// ═══════════════════════════════════════
+//  PiP DRAG
+// ═══════════════════════════════════════
+function initDrag() {
+  const pip = document.getElementById('selfPip');
+  let isDragging = false;
+  let startX, startY, startRight, startBottom;
+
+  pip.addEventListener('mousedown', e => {
+    isDragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    const rect = pip.getBoundingClientRect();
+    startRight  = window.innerWidth - rect.right;
+    startBottom = window.innerHeight - rect.bottom;
+    pip.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    const newRight  = Math.max(8, Math.min(window.innerWidth - pip.offsetWidth - 8, startRight - dx));
+    const newBottom = Math.max(80, Math.min(window.innerHeight - pip.offsetHeight - 8, startBottom - dy));
+    pip.style.right  = newRight  + 'px';
+    pip.style.bottom = newBottom + 'px';
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    pip.style.cursor = 'grab';
+  });
+
+  // Touch
+  pip.addEventListener('touchstart', e => {
+    isDragging = true;
+    const t = e.touches[0];
+    startX = t.clientX; startY = t.clientY;
+    const rect = pip.getBoundingClientRect();
+    startRight  = window.innerWidth - rect.right;
+    startBottom = window.innerHeight - rect.bottom;
+  }, {passive:true});
+
+  document.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    const t = e.touches[0];
+    const dx = t.clientX - startX;
+    const dy = t.clientY - startY;
+    const newRight  = Math.max(8, Math.min(window.innerWidth - pip.offsetWidth - 8, startRight - dx));
+    const newBottom = Math.max(80, Math.min(window.innerHeight - pip.offsetHeight - 8, startBottom - dy));
+    pip.style.right  = newRight  + 'px';
+    pip.style.bottom = newBottom + 'px';
+  }, {passive:true});
+
+  document.addEventListener('touchend', () => { isDragging = false; });
+}
+
+// ═══════════════════════════════════════
+//  DAILY.CO (STUB)
+// ═══════════════════════════════════════
+function initDaily() {
+  // TODO: Set DAILY_API_KEY and create room via Daily.co API
+  // STUN server for direct P2P fallback: stun:stun.l.google.com:19302
+  //
+  // Example Daily.co embed:
+  // const callFrame = DailyIframe.createFrame(document.getElementById('dailyContainer'), {
+  //   iframeStyle: {width:'100%', height:'100%', border:'none'},
+  //   showLeaveButton: false,
+  //   showFullscreenButton: false,
+  //   iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
+  // });
+  // callFrame.join({ url: 'https://your-domain.daily.co/' + ROOM_ID });
+  //
+  // Fallback: BroadcastChannel signaling (same-browser P2P testing)
+  // const bc = new BroadcastChannel('soluna-' + ROOM_ID);
+  // const pc = new RTCPeerConnection({ iceServers:[{urls:'stun:stun.l.google.com:19302'}] });
+  //
+  // Demo mode is active — no API key set
+  console.log('[SOLUNA] Demo mode: Daily.co not initialized. ROOM_ID:', ROOM_ID);
+  console.log('[SOLUNA] For production: set DAILY_API_KEY, use stun:stun.l.google.com:19302');
+}
+
+// ═══════════════════════════════════════
+//  重要事項説明書 MODAL
+// ═══════════════════════════════════════
+let currentTab  = 0;
+let confirmed   = [false, false, false, false];
+const TOTAL_TABS = 4;
+
+function openDocs() {
+  openModal('docsModal');
+  updateProgress();
+}
+
+function switchTab(idx) {
+  document.querySelectorAll('.tab-panel').forEach((p,i) => p.classList.toggle('active', i===idx));
+  document.querySelectorAll('.modal-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  currentTab = idx;
+  updateConfirmBtn();
+  // Update sign datetime on tab 3
+  if (idx === 3) document.getElementById('signDateTime').textContent = new Date().toLocaleString('ja-JP');
+}
+
+function confirmSection() {
+  if (confirmed[currentTab]) return;
+  confirmed[currentTab] = true;
+  const tab = document.getElementById('tab' + currentTab);
+  tab.classList.add('confirmed');
+  updateProgress();
+  updateConfirmBtn();
+  showToast('セクションを確認しました ✓');
+  // Auto advance
+  if (currentTab < TOTAL_TABS - 1) {
+    setTimeout(() => switchTab(currentTab + 1), 400);
+  }
+}
+
+function updateProgress() {
+  const done = confirmed.filter(Boolean).length;
+  document.getElementById('progressText').textContent = `${done} / ${TOTAL_TABS} セクション`;
+  document.getElementById('progressFill').style.width = (done / TOTAL_TABS * 100) + '%';
+  const allDone = done === TOTAL_TABS;
+  document.getElementById('proceedBtn').style.display = allDone ? 'block' : 'none';
+}
+
+function updateConfirmBtn() {
+  const btn = document.getElementById('confirmBtn');
+  if (confirmed[currentTab]) {
+    btn.textContent = '✓ 確認済み';
+    btn.classList.add('done');
+  } else {
+    btn.textContent = '確認しました ✓';
+    btn.classList.remove('done');
+  }
+}
+
+function proceedSign() {
+  // Check all checkboxes on tab 3
+  const c1 = document.getElementById('chk1').checked;
+  const c2 = document.getElementById('chk2').checked;
+  const c3 = document.getElementById('chk3').checked;
+  const c4 = document.getElementById('chk4').checked;
+  if (!c1 || !c2 || !c3 || !c4) {
+    showToast('全ての確認事項にチェックを入れてください');
+    switchTab(3);
+    return;
+  }
+  gtag('event', 'docs_signed', {room_id: ROOM_ID, property: PROP});
+  location.href = '/status.html?step=3&room=' + encodeURIComponent(ROOM_ID);
+}
+
+// ═══════════════════════════════════════
+//  MODALS
+// ═══════════════════════════════════════
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeModal(overlay.id);
+  });
+});
+
+// ═══════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════
+function showToast(msg) {
+  const wrap = document.getElementById('toastWrap');
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  wrap.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// ═══════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  initPreview();
+  // Update sign datetime
+  document.getElementById('signDateTime').textContent = new Date().toLocaleString('ja-JP');
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (document.getElementById('callScreen').classList.contains('hidden')) return;
+  if (e.key === 'm' || e.key === 'M') toggleMute();
+  if (e.key === 'v' || e.key === 'V') toggleCamera();
+  if (e.key === 'Escape') {
+    closeModal('docsModal');
+    closeModal('endDialog');
+  }
+});
+</script>
+<script defer="" src="/track.js"></script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Mirowa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Mirowa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Biruyuwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Units Free of Charge" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Villages" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Mirowa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Law" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+</body>
+</html>

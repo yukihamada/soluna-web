@@ -1,0 +1,75 @@
+device:
+  id: "neuro-cabin-001"
+  token: ""  # Override with NEURO_DEVICE_TOKEN env var
+
+cloud:
+  api_url: "https://solun.art/api/neuro"
+  ws_url: "wss://solun.art/ws/neuro/live"
+
+rooms:
+  - id: "living"
+    name: "リビング"
+    bme280_addr: 0x76
+    mhz19b_uart: "/dev/ttyS0"
+    ld2410_uart: "/dev/ttyAMA0"
+
+  - id: "bedroom"
+    name: "ベッドルーム"
+    bme280_addr: 0x77
+    ds18b20_id: "28-0000abcdef01"
+
+  - id: "bathroom"
+    name: "浴室"
+    bme280_addr: 0x76
+    # Separate I2C bus via multiplexer — same address OK
+
+thresholds:
+  co2_high_ppm: 1000
+  humidity_high_pct: 75.0
+  humidity_low_pct: 65.0
+  temp_drift_c: 2.0
+  temp_target_c: 24.0
+  no_motion_minutes: 30
+  night_mode_after: "22:00"
+  solar_surplus_kw: 1.5
+  preheat_hours: 2
+  ventilation_minutes: 15
+
+pins:
+  ventilation_fan: 17    # GPIO17 — 換気ファンリレー
+  exhaust_fan: 27        # GPIO27 — 排気ファンリレー
+  hvac_relay: 22         # GPIO22 — HVACリレー
+  lights_main: 23        # GPIO23 — メイン照明リレー
+  lights_dim: 24         # GPIO24 — 減光照明リレー
+  ev_charger: 25         # GPIO25 — EV充電リレー
+  welcome_lights: 5      # GPIO5  — ウェルカムライトリレー
+
+music:
+  koe_urls:
+    - "http://192.168.1.100:8080"  # Koe speaker 1 (リビング)
+    - "http://192.168.1.101:8080"  # Koe speaker 2 (ベッドルーム)
+  default_volume: 40
+
+notify:
+  line_token: ""           # Override with NEURO_LINE_TOKEN env var
+  telegram_bot_token: ""   # Override with NEURO_TELEGRAM_BOT_TOKEN env var
+  telegram_chat_id: ""     # Override with NEURO_TELEGRAM_CHAT_ID env var
+
+kagi:
+  base_url: "http://localhost:3000"
+  api_key: ""              # Override with NEURO_KAGI_API_KEY env var
+
+guest:
+  wifi_ssid: "SOLUNA-GUEST"
+  wifi_password: ""        # Override with NEURO_WIFI_PASSWORD env var
+  checkout_time: "10:00"
+  area_guide:
+    - "コンビニ (ローソン): 徒歩5分 — 県道沿い右手"
+    - "温泉 (まほろばの湯): 車10分 — 割引券フロントにあります"
+    - "レストラン (山のテラス): 徒歩15分 — 予約推奨"
+    - "スーパー (マックスバリュ): 車8分"
+  emergency_phone: "090-0000-0000"
+
+api:
+  port: 8081
+  token: ""                # Override with NEURO_API_TOKEN env var

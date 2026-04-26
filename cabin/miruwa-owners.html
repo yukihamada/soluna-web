@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="Miruwa Grand — Owners Portal | SOLUNA CABIN CLUB">美留和グランド — オーナーズポータル | SOLUNA CABIN CLUB</title>
+<meta content="noindex,nofollow" name="robots"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--gold-dim:rgba(200,164,85,.35);
+  --blue:#6688cc;--bg:#040404;--text:#f0ece4;--line:#131313;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;min-height:100svh}
+a{color:var(--gold);text-decoration:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 28px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.9);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.04)}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--gold)}
+.wallet-badge{font-size:9px;color:#444;font-family:monospace;letter-spacing:.04em;padding:5px 12px;background:#0a0a0a;border:1px solid #1a1a1a;border-radius:100px}
+
+/* GATE */
+#gate{display:flex;align-items:center;justify-content:center;min-height:100svh;padding:80px 24px}
+.gate-box{max-width:440px;width:100%;text-align:center}
+.gate-nft-preview{width:200px;height:200px;border-radius:20px;overflow:hidden;margin:0 auto 32px;border:1px solid rgba(200,164,85,.3);box-shadow:0 0 60px rgba(200,164,85,.08)}
+.gate-nft-preview img{width:100%;height:100%;object-fit:cover}
+.gate-eyebrow{font-size:9px;letter-spacing:.38em;color:var(--blue);text-transform:uppercase;font-weight:700;margin-bottom:16px;opacity:.8}
+.gate-title{font-size:28px;font-weight:800;letter-spacing:-.02em;margin-bottom:12px;line-height:1.2}
+.gate-sub{font-size:13px;color:#444;line-height:1.9;margin-bottom:36px}
+.connect-btn{display:inline-flex;align-items:center;gap:10px;background:#512da8;color:#fff;border:none;border-radius:14px;padding:16px 32px;font-size:14px;font-weight:800;cursor:pointer;transition:all .2s;letter-spacing:.02em}
+.connect-btn:hover{background:#6135c4;transform:translateY(-1px)}
+.connect-btn svg{width:22px;height:22px}
+.gate-note{font-size:10px;color:#2a2a2a;margin-top:20px;line-height:1.8}
+#gateError{font-size:11px;color:#885555;margin-top:16px;display:none}
+
+/* PORTAL */
+#portal{display:none;padding-top:72px}
+.hero-portal{padding:60px 24px 40px;text-align:center;border-bottom:1px solid var(--line)}
+.welcome-name{font-size:12px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;opacity:.7}
+.welcome-title{font-size:32px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.welcome-sub{font-size:13px;color:#444;line-height:1.8}
+.nft-badge{display:inline-flex;align-items:center;gap:8px;background:#0a0a0a;border:1px solid rgba(200,164,85,.3);border-radius:100px;padding:8px 16px;margin-top:16px;font-size:10px;color:var(--gold);font-weight:700;letter-spacing:.08em}
+
+.section{padding:56px 24px;border-bottom:1px solid var(--line);max-width:860px;margin:0 auto}
+.section-label{font-size:9px;letter-spacing:.32em;color:var(--blue);text-transform:uppercase;font-weight:700;margin-bottom:16px;opacity:.7}
+.section-title{font-size:22px;font-weight:800;margin-bottom:24px}
+
+/* Cards */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:20px}
+.card{background:#060606;border:1px solid #111;border-radius:16px;padding:24px;transition:border-color .2s}
+.card:hover{border-color:rgba(200,164,85,.25)}
+.card-icon{font-size:24px;margin-bottom:12px}
+.card-title{font-size:13px;font-weight:800;margin-bottom:6px;color:#ccc}
+.card-body{font-size:11px;color:#444;line-height:1.9}
+.card-link{display:inline-block;margin-top:12px;font-size:10px;color:var(--gold);font-weight:700;letter-spacing:.08em}
+
+/* Access info */
+.access-table{width:100%;border:1px solid #111;border-radius:12px;overflow:hidden;margin-top:20px}
+.access-row{display:grid;grid-template-columns:140px 1fr;border-bottom:1px solid #0a0a0a}
+.access-row:last-child{border-bottom:none}
+.ak{padding:14px 16px;font-size:10px;color:#333;letter-spacing:.08em;background:#040404;font-weight:700;text-transform:uppercase}
+.av{padding:14px 16px;font-size:12px;color:#888;font-family:monospace;letter-spacing:.04em;background:#060606}
+.av.blur-val{filter:blur(5px);transition:filter .3s;cursor:pointer;user-select:none}
+.av.blur-val:hover{filter:blur(0)}
+
+/* Updates feed */
+.update-item{padding:20px 0;border-bottom:1px solid #0a0a0a}
+.update-item:last-child{border-bottom:none}
+.update-date{font-size:9px;color:#333;letter-spacing:.1em;margin-bottom:6px;font-family:monospace}
+.update-text{font-size:12px;color:#666;line-height:1.9}
+.update-tag{display:inline-block;padding:2px 8px;border-radius:100px;font-size:8.5px;font-weight:700;letter-spacing:.1em;margin-right:6px}
+.tag-green{background:rgba(74,154,90,.15);color:#4a9a5a;border:1px solid rgba(74,154,90,.2)}
+.tag-gold{background:rgba(200,164,85,.1);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.tag-blue{background:rgba(102,136,204,.1);color:var(--blue);border:1px solid rgba(102,136,204,.2)}
+
+/* Booking CTA */
+.booking-cta{background:#060606;border:1px solid var(--line);border-radius:20px;padding:36px;text-align:center;margin-top:24px}
+.booking-cta h3{font-size:18px;font-weight:800;margin-bottom:8px}
+.booking-cta p{font-size:12px;color:#444;margin-bottom:24px}
+.booking-cta a{display:inline-block;background:var(--gold);color:#040404;border-radius:100px;padding:14px 36px;font-size:12px;font-weight:800;letter-spacing:.06em;transition:opacity .2s}
+.booking-cta a:hover{opacity:.85}
+
+/* Footer */
+footer{padding:40px 24px;text-align:center;border-top:1px solid var(--line)}
+footer p{font-size:10px;color:#2a2a2a;line-height:1.9}
+
+/* Disconnect btn */
+.disconnect-btn{background:none;border:1px solid #1a1a1a;color:#333;padding:5px 14px;border-radius:100px;font-size:9px;cursor:pointer;transition:all .2s;margin-left:12px;letter-spacing:.08em}
+.disconnect-btn:hover{border-color:#333;color:#666}
+
+/* Spinner */
+.spinner{display:none;width:24px;height:24px;border:2px solid #1a1a1a;border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin:20px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Construction" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- ===================== GATE ===================== -->
+<div id="gate">
+<div class="gate-box">
+<div class="gate-nft-preview">
+<img alt="美留和グランド オーナーズNFT" data-en-alt="Miruwa Grand Owners NFT" src="img/miruwa-nft.svg"/>
+</div>
+<div class="gate-eyebrow">Members Only</div>
+<h1 class="gate-title" data-en="Miruwa Grand Owners Portal">美留和グランド<br/>オーナーズポータル</h1>
+<p class="gate-sub" data-en="This page is exclusively for Miruwa Grand Owners NFT holders. Connect your Phantom wallet to access.">このページは美留和グランド オーナーズNFT 保有者限定です。<br/>Phantom ウォレットを接続してアクセスしてください。</p>
+<button class="connect-btn" id="connectBtn" onclick="connectPhantom()">
+<svg fill="none" viewbox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#AB9FF2" height="128" rx="26" width="128"></rect>
+<path d="M110.584 64.9142H99.142C99.142 41.7651 80.173 23 56.7724 23C33.6612 23 15 41.3527 15 64.1749C15 86.2116 29.3449 100 48.7141 100H58.0387C74.6836 100 91.7862 86.918 96.1874 70.7742H110.584V64.9142Z" fill="white"></path>
+<path d="M58.4093 74.5465C65.6768 74.5465 71.5709 68.6524 71.5709 61.3849C71.5709 54.1174 65.6768 48.2233 58.4093 48.2233C51.1418 48.2233 45.2477 54.1174 45.2477 61.3849C45.2477 68.6524 51.1418 74.5465 58.4093 74.5465Z" fill="#AB9FF2"></path>
+<path d="M83.0597 74.5465C90.3272 74.5465 96.2213 68.6524 96.2213 61.3849C96.2213 54.1174 90.3272 48.2233 83.0597 48.2233C75.7922 48.2233 69.8981 54.1174 69.8981 61.3849C69.8981 68.6524 75.7922 74.5465 83.0597 74.5465Z" fill="white"></path>
+</svg>
+      Phantom で接続する
+    </button>
+<div class="spinner" id="spinner"></div>
+<div id="gateError"></div>
+<p class="gate-note">
+      Phantom をインストールしていない方は <a href="https://phantom.app" target="_blank">phantom.app</a> からダウンロードできます。<br/>
+      ご購入後にNFTが届いていない場合は <a href="mailto:mail@yukihamada.jp">mail@yukihamada.jp</a> までご連絡ください。
+    </p>
+</div>
+</div>
+<!-- ===================== PORTAL ===================== -->
+<div id="portal">
+<div class="hero-portal">
+<div class="welcome-name" id="welcomeName">OWNER</div>
+<h1 class="welcome-title" data-en="Welcome to the Owners Portal">ようこそ、オーナーズポータルへ</h1>
+<p class="welcome-sub" data-en="Access the latest Miruwa Grand information, directions, and reservation management here.">美留和グランドの最新情報・アクセス情報・予約管理はこちらから。</p>
+<div class="nft-badge" data-en="Miruwa Grand Owners NFT Verified">
+<img src="img/miruwa-nft.svg" style="width:20px;height:20px;border-radius:4px"/>
+      美留和グランド オーナーズNFT 認証済
+    </div>
+</div>
+<!-- 最新アップデート -->
+<div class="section">
+<div class="section-label">Owner Updates</div>
+<h2 class="section-title" data-en="Latest News">最新情報</h2>
+<div class="update-item">
+<div class="update-date">2026-04-14</div>
+<div class="update-text" data-en="Land surveying and soil investigation have been completed. Preliminary discussions with Teshikaga's construction department are underway. Architectural firm selection is on track for completion by end of May.">
+<span class="update-tag tag-green" data-en="Progress">進捗</span>
+        土地測量・地盤調査が完了しました。弟子屈町建築担当との事前協議を開始しています。設計事務所の選定は5月末を目処に進めています。
+      </div>
+</div>
+<div class="update-item">
+<div class="update-date">2026-03-20</div>
+<div class="update-text" data-en="We have sent priority reservation slots for all SOLUNA facilities, including TAPKOP and THE LODGE (May–August 2026) via email. Please contact us if you have not received yours.">
+<span class="update-tag tag-gold" data-en="For Owners">オーナー向け</span>
+        タップコップ・THE LODGEを含むSOLUNA全施設の優先予約枠（2026年5〜8月分）をメールにてご案内しました。まだ届いていない方はご連絡ください。
+      </div>
+</div>
+<div class="update-item">
+<div class="update-date">2026-02-15</div>
+<div class="update-text" data-en="We are planning an Owner preview tour in summer 2026 at the Teshikaga site. Please register via the form below if you wish to participate.">
+<span class="update-tag tag-blue" data-en="Events">イベント</span>
+        2026年夏のオーナー内覧ツアー（弟子屈現地）を企画中です。参加希望の方は下記フォームよりご登録ください。
+      </div>
+</div>
+</div>
+<!-- アクセス・施設情報 -->
+<div class="section">
+<div class="section-label">Access Info</div>
+<h2 class="section-title" data-en="Site Access &amp; Facility Information">現地アクセス・施設情報</h2>
+<p data-en="Updates will be provided sequentially after opening in 2027. Currently in pre-construction preparation." style="font-size:12px;color:#444;margin-bottom:8px;line-height:1.9">
+      2027年開業後に順次更新します。現在は着工準備中です。<br/>
+<span data-en="Hover to display information (activated after 2027 opening)" style="font-size:11px;color:#2a2a2a">ホバーすると情報が表示されます（2027年開業後に有効化）</span>
+</p>
+<div class="access-table">
+<div class="access-row">
+<div class="ak" data-en="Address">住所</div>
+<div class="av" data-en="Miruwa, Teshikaga, Kamikawagun, Hokkaido">北海道川上郡弟子屈町美留和</div>
+</div>
+<div class="access-row">
+<div class="ak" data-en="Nearest Airport">最寄り空港</div>
+<div class="av" data-en="Kushiro Airport (KUH) Approx. 50 minutes">釧路空港 (KUH) 約50分</div>
+</div>
+<div class="access-row">
+<div class="ak" data-en="Check-in">チェックイン</div>
+<div class="av blur-val" data-en="15:00 (Updated after opening)" title="2027年開業後に更新">15:00（開業後に更新）</div>
+</div>
+<div class="access-row">
+<div class="ak" data-en="Checkout">チェックアウト</div>
+<div class="av blur-val" data-en="11:00 AM (to be updated after opening)" title="2027年開業後に更新">11:00（開業後に更新）</div>
+</div>
+<div class="access-row">
+<div class="ak" data-en="Door Code">ドアコード</div>
+<div class="av blur-val" data-en="Coming After Opening" title="2027年開業後に更新">開業後にお知らせ</div>
+</div>
+<div class="access-row">
+<div class="ak">Wi-Fi SSID</div>
+<div class="av blur-val" data-en="Coming After Opening" title="2027年開業後に更新">開業後にお知らせ</div>
+</div>
+<div class="access-row">
+<div class="ak">Wi-Fi Pass</div>
+<div class="av blur-val" data-en="Coming After Opening" title="2027年開業後に更新">開業後にお知らせ</div>
+</div>
+<div class="access-row">
+<div class="ak" data-en="Emergency Contact">緊急連絡先</div>
+<div class="av">mail@yukihamada.jp · 090-7409-0407</div>
+</div>
+</div>
+</div>
+<!-- 予約 -->
+<div class="section">
+<div class="section-label">Reservation</div>
+<h2 class="section-title" data-en="Book a Stay">滞在予約</h2>
+<div class="card-grid">
+<div class="card">
+<div class="card-icon">🏠</div>
+<div class="card-title" data-en="Miruwa Grand (2027 onwards)">美留和グランド（2027年〜）</div>
+<div class="card-body" data-en="30 nights per year priority booking. Reservations available 180 days in advance. In case of conflicts with other owners, allocation by lottery.">年30泊の優先枠。チェックイン180日前から予約可能。他オーナーとの競合時は抽選。</div>
+<a class="card-link" data-en="Reservation Request →" href="mailto:mail@yukihamada.jp?subject=美留和グランド 滞在予約希望">予約リクエスト →</a>
+</div>
+<div class="card">
+<div class="card-icon">⛺</div>
+<div class="card-title" data-en="TAPKOP (Instant Booking Available)">タップコップ（即時予約可）</div>
+<div class="card-body" data-en="Teshikaga Eco Village. Available with priority access as a CABIN CLUB member. Please inquire about availability.">弟子屈エコビレッジ。CABIN CLUB会員として優先利用可能。空き状況をお問い合わせください。</div>
+<a class="card-link" data-en="Reservation Request →" href="mailto:mail@yukihamada.jp?subject=タップコップ 滞在予約希望">予約リクエスト →</a>
+</div>
+<div class="card">
+<div class="card-icon">🌊</div>
+<div class="card-title" data-en="Kusharo Sauna Club (Immediate Access)">屈斜路サウナクラブ（即時）</div>
+<div class="card-body" data-en="Lakeside barrel sauna with member discounts available. Particularly popular in summer—early reservations recommended.">湖畔のバレルサウナ。会員割引あり。夏季は特に人気のため早めのご予約を。</div>
+<a class="card-link" data-en="Reservation Request →" href="mailto:mail@yukihamada.jp?subject=屈斜路サウナクラブ 予約希望">予約リクエスト →</a>
+</div>
+</div>
+<div class="booking-cta">
+<h3 data-en="Priority reservations across all facilities as an Owner">オーナーとして全施設を優先予約</h3>
+<p data-en="Confirmation will be provided within 48 hours of sending your request by email.">メールでリクエストを送ると48時間以内に確認します。</p>
+<a data-en="Send a Reservation Request →" href="mailto:mail@yukihamada.jp?subject=[オーナー] SOLUNA 滞在予約リクエスト&amp;body=保有NFT: 美留和グランド オーナーズNFT%0A希望施設:%0Aチェックイン:%0Aチェックアウト:%0A人数:">予約リクエストを送る →</a>
+</div>
+</div>
+<!-- オーナーコミュニティ -->
+<div class="section">
+<div class="section-label">Community</div>
+<h2 class="section-title" data-en="Owner Community">オーナーコミュニティ</h2>
+<div class="card-grid">
+<div class="card">
+<div class="card-icon">💬</div>
+<div class="card-title">Telegram グループ</div>
+<div class="card-body" data-en="SOLUNA Exclusive Owners Group. Site information, local area information, and inter-owner communications.">SOLUNA オーナー専用グループ。現地情報・近隣情報・オーナー間の情報交換。</div>
+<a class="card-link" data-en="Invitation Request →" href="mailto:mail@yukihamada.jp?subject=Telegramグループ招待希望">招待リクエスト →</a>
+</div>
+<div class="card">
+<div class="card-icon">📋</div>
+<div class="card-title" data-en="Financial Report">収支レポート</div>
+<div class="card-body" data-en="We send quarterly reports via email with occupancy rates, revenue, and projected dividends.">四半期ごとに稼働率・収益・配当見込みをメールでお送りします。</div>
+<a class="card-link" data-en="Register →" href="mailto:mail@yukihamada.jp?subject=収支レポート受信登録">登録する →</a>
+</div>
+<div class="card">
+<div class="card-icon">✈</div>
+<div class="card-title" data-en="Owner Tour">オーナーツアー</div>
+<div class="card-body" data-en="Annual on-site preview and design verification tour planned. HondaJet accompaniment option available.">年1回、現地内覧・設計確認ツアーを開催予定。HondaJet同行オプションあり。</div>
+<a class="card-link" data-en="Register →" href="mailto:mail@yukihamada.jp?subject=オーナーツアー参加希望">参加登録 →</a>
+</div>
+<div class="card">
+<div class="card-icon">📄</div>
+<div class="card-title" data-en="Important Documents">重要書類</div>
+<div class="card-body" data-en="Design drawings, building permits, investment agreements, and related documents will be shared sequentially.">設計図・建築確認申請書・投資契約書などを順次共有します。</div>
+<a class="card-link" data-en="Claim →" href="mailto:mail@yukihamada.jp?subject=重要書類の共有依頼">請求する →</a>
+</div>
+</div>
+</div>
+<!-- NFT情報 -->
+<div class="section">
+<div class="section-label">Your NFT</div>
+<h2 class="section-title" data-en="Owned NFTs">保有NFT</h2>
+<div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap">
+<div style="width:180px;border-radius:16px;overflow:hidden;border:1px solid rgba(200,164,85,.3);flex-shrink:0">
+<img src="img/miruwa-nft.svg" style="width:100%;display:block"/>
+</div>
+<div style="flex:1;min-width:220px">
+<div style="font-size:9px;color:#444;letter-spacing:.1em;margin-bottom:6px">COLLECTION</div>
+<div data-en="Miruwa Grand Owners NFT" style="font-size:18px;font-weight:800;margin-bottom:12px">美留和グランド オーナーズNFT</div>
+<div data-en="This NFT certifies your Miruwa Grand Owner rights.
+Please contact us regarding resale or transfer." style="font-size:11px;color:#555;line-height:2;margin-bottom:16px">
+          このNFTはあなたの美留和グランドオーナー権利を証明します。<br/>
+          転売・譲渡の際は <a href="mailto:mail@yukihamada.jp">mail@yukihamada.jp</a> へご連絡ください。
+        </div>
+<div id="nftMintAddr" style="font-size:9px;color:#2a2a2a;font-family:monospace;word-break:break-all;line-height:1.8"></div>
+<a href="#" id="solscanLink" style="display:inline-block;margin-top:12px;font-size:10px;color:var(--gold);font-weight:700;letter-spacing:.06em" target="_blank">Solscan で確認 →</a>
+</div>
+</div>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Join">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Earn Units Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Purchase with Crypto" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners Only" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy Policy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script></div>
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+<script>
+// ─── NFT Collection Mint Address ───────────────────────
+// 未ミント時はnullのまま → ウォレット接続は許可するが保有チェックはスキップ
+// 全8枚のミントアドレス（2026-04-14 mainnet）
+var MIRUWA_MINTS = [
+  'BevyiYzLsnC1MNmhQDgaHcAuQyDkc6qBJ49ZkJGUajdd', // #1
+  '5ZATBMP8Vunccr257QSgfH7NkXd3JzpeaiAZszpcwaCs',  // #2
+  'DhgBPkBVCx928SepJxy5UsAkweBBeXG8UqwhuXZKGoyA',  // #3
+  '2Si8MuBXAFBkEatpypUHQmmmnAFqdx8xKwEo1gJ7oi6x',  // #4
+  'GwUuvHzMkq21V79oXB9DXyUWsAs9uLv4Tdrv2ubDmcyT',  // #5
+  '24aM2KJsXzcRvzpfA64xTAjvyMBu9tryfYFQLNPZBrVE',  // #6
+  'CdNah7XQSRvokxALaD4sEj9vFYRxfKHXafdjPS7kiBBs',  // #7
+  '5XfbbuVwR1xS1FUMmnamBji2nZGJugYh3YdiHjDGRcxJ',  // #8
+];
+var MIRUWA_COLLECTION_MINT = MIRUWA_MINTS[0]; // 保有チェック用代表アドレス
+
+// ─── State ────────────────────────────────────────────
+var connectedWallet = null;
+
+// ─── Phantom 接続 ────────────────────────────────────
+async function connectPhantom() {
+  var btn = document.getElementById('connectBtn');
+  var spinner = document.getElementById('spinner');
+  var errBox = document.getElementById('gateError');
+  errBox.style.display = 'none';
+
+  if (!window.solana || !window.solana.isPhantom) {
+    errBox.textContent = 'Phantom ウォレットが見つかりません。phantom.app からインストールしてください。';
+    errBox.style.display = 'block';
+    return;
+  }
+
+  btn.style.display = 'none';
+  spinner.style.display = 'block';
+
+  try {
+    var resp = await window.solana.connect();
+    connectedWallet = resp.publicKey.toString();
+
+    // NFT保有チェック（全8枚）
+    var nftResult = await checkNftOwnership(connectedWallet);
+    if (!nftResult.found) {
+      throw new Error('このウォレットに美留和グランド オーナーズNFT が見つかりません。\nご購入後にNFTが届いていない場合は mail@yukihamada.jp までご連絡ください。');
+    }
+    window._miruwaFoundMint = nftResult.mint;
+    window._miruwaFoundSlot = nftResult.slot;
+    // 認証成功
+    showPortal(connectedWallet);
+  } catch(e) {
+    spinner.style.display = 'none';
+    btn.style.display = 'inline-flex';
+    errBox.textContent = e.message || '接続に失敗しました。';
+    errBox.style.display = 'block';
+  }
+}
+
+// ─── NFT保有チェック ──────────────────────────────────
+async function checkNftOwnership(walletAddr) {
+  try {
+    var conn = new solanaWeb3.Connection(
+      'https://api.mainnet-beta.solana.com',
+      'confirmed'
+    );
+    var ownerPk = new solanaWeb3.PublicKey(walletAddr);
+
+    // 全8枚のいずれかを保有しているか確認
+    for (var i = 0; i < MIRUWA_MINTS.length; i++) {
+      try {
+        var mintPk = new solanaWeb3.PublicKey(MIRUWA_MINTS[i]);
+        var accounts = await conn.getTokenAccountsByOwner(ownerPk, { mint: mintPk });
+        if (accounts.value.length > 0) {
+          console.log('NFT found: #' + (i+1), MIRUWA_MINTS[i]);
+          return { found: true, mint: MIRUWA_MINTS[i], slot: i+1 };
+        }
+      } catch(e) { /* continue */ }
+    }
+    return { found: false };
+  } catch(e) {
+    console.error('NFT check error:', e);
+    return { found: true, mint: null, slot: null }; // fallback
+  }
+}
+
+// ─── ポータル表示 ─────────────────────────────────────
+function showPortal(wallet) {
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('portal').style.display = 'block';
+
+  // ナビ更新
+  var short = wallet.slice(0, 4) + '...' + wallet.slice(-4);
+  document.getElementById('navWallet').textContent = short;
+  document.getElementById('disconnectBtn').style.display = 'inline-block';
+  document.getElementById('welcomeName').textContent = short;
+
+  // NFT情報更新
+  var foundMint = window._miruwaFoundMint;
+  var foundSlot = window._miruwaFoundSlot;
+  if (foundMint) {
+    document.getElementById('nftMintAddr').textContent =
+      'Slot #' + foundSlot + ' · Mint: ' + foundMint;
+    var link = document.getElementById('solscanLink');
+    link.href = 'https://solscan.io/token/' + foundMint;
+  } else {
+    document.getElementById('nftMintAddr').textContent = 'Mint: 発行準備中 / 確認中';
+    document.getElementById('solscanLink').style.display = 'none';
+  }
+
+  // セッション保存
+  sessionStorage.setItem('miruwa_wallet', wallet);
+}
+
+// ─── 切断 ────────────────────────────────────────────
+function disconnect() {
+  if (window.solana) window.solana.disconnect().catch(function(){});
+  connectedWallet = null;
+  sessionStorage.removeItem('miruwa_wallet');
+  document.getElementById('portal').style.display = 'none';
+  document.getElementById('gate').style.display = 'flex';
+  document.getElementById('disconnectBtn').style.display = 'none';
+  document.getElementById('navWallet').textContent = '未接続';
+  document.getElementById('connectBtn').style.display = 'inline-flex';
+}
+
+// ─── セッション復元 ──────────────────────────────────
+(function() {
+  var saved = sessionStorage.getItem('miruwa_wallet');
+  if (saved && window.solana && window.solana.isPhantom) {
+    window.solana.connect({ onlyIfTrusted: true })
+      .then(function(resp) {
+        if (resp.publicKey.toString() === saved) {
+          showPortal(saved);
+        }
+      })
+      .catch(function(){});
+  }
+})();
+
+// ─── Phantom イベント ─────────────────────────────────
+if (window.solana) {
+  window.solana.on('disconnect', function() { disconnect(); });
+  window.solana.on('accountChanged', function() { disconnect(); });
+}
+</script>
+<script defer="" src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

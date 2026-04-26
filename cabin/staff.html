@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SOLUNA STAFF — 紹介ダッシュボード</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#070707">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SOLUNA STAFF">
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#070707;--bg2:#0d0d0d;--bg3:#141414;
+  --border:#1e1e1e;--text:#f0ece4;--dim:#555;--mid:#888;
+  --gold:#c8a455;--gold-dim:rgba(200,164,85,.12);--gold-border:rgba(200,164,85,.25);
+  --green:#5ab55a;--red:#e05555;
+  --sans:-apple-system,'Helvetica Neue','Noto Sans JP',sans-serif;
+  --radius:14px;
+}
+html,body{min-height:100%;background:var(--bg)}
+body{font-family:var(--sans);color:var(--text);-webkit-font-smoothing:antialiased}
+
+/* ── AUTH GATE ── */
+#gate{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px;transition:opacity .4s}
+#gate.hidden{opacity:0;pointer-events:none}
+.gate-inner{width:100%;max-width:360px}
+.gate-logo{text-align:center;margin-bottom:36px}
+.gate-logo-mark{font-size:11px;font-weight:800;letter-spacing:.28em;color:var(--gold);display:block;margin-bottom:4px}
+.gate-logo-sub{font-size:9px;color:#2a2a2a;letter-spacing:.18em}
+.gate-title{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;text-align:center}
+.gate-sub{font-size:12px;color:var(--dim);text-align:center;line-height:1.7;margin-bottom:28px}
+.gate-note{font-size:11px;color:#2a2a2a;text-align:center;line-height:1.8;margin-top:24px;padding-top:20px;border-top:1px solid #111}
+.gate-input{width:100%;padding:16px;background:#0d0d0d;border:1px solid #1a1a1a;border-radius:12px;color:var(--text);font-size:16px;outline:none;transition:border-color .2s;font-family:var(--sans)}
+.gate-input:focus{border-color:var(--gold-border)}
+.gate-input::placeholder{color:#282828}
+.gate-btn{width:100%;margin-top:12px;padding:16px;background:var(--gold);color:#070707;font-weight:800;font-size:14px;border:none;border-radius:12px;cursor:pointer;transition:opacity .2s;letter-spacing:.02em}
+.gate-btn:hover{opacity:.88}
+.gate-btn:disabled{opacity:.3;cursor:not-allowed}
+.gate-otp{font-size:26px;font-weight:700;letter-spacing:.25em;text-align:center}
+.gate-msg{margin-top:12px;font-size:11px;color:var(--dim);text-align:center;line-height:1.7}
+.gate-err{margin-top:8px;font-size:11px;color:var(--red);text-align:center;min-height:16px}
+.gate-back{margin-top:14px;display:block;font-size:11px;color:#2a2a2a;text-align:center;cursor:pointer;text-decoration:underline}
+.gate-back:hover{color:var(--mid)}
+
+/* ── APP ── */
+#app{display:none;flex-direction:column;min-height:100vh}
+#app.visible{display:flex}
+
+/* Header */
+.app-header{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:52px;background:rgba(7,7,7,.95);border-bottom:1px solid var(--border);flex-shrink:0;backdrop-filter:blur(12px);position:sticky;top:0;z-index:50}
+.app-header-logo{font-size:12px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
+.app-header-right{display:flex;align-items:center;gap:10px}
+.app-header-email{color:var(--mid);font-size:11px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logout-btn{padding:5px 12px;background:transparent;border:1px solid #1a1a1a;border-radius:100px;color:#333;font-size:10px;cursor:pointer;transition:all .2s}
+.logout-btn:hover{border-color:#333;color:var(--mid)}
+
+/* No-code state */
+.no-code-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;text-align:center;flex:1}
+.no-code-icon{width:56px;height:56px;background:rgba(200,164,85,.06);border:1px solid var(--gold-border);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:24px}
+.no-code-title{font-size:18px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.no-code-sub{font-size:12px;color:var(--dim);line-height:1.8}
+.no-code-sub a{color:var(--gold);text-decoration:none}
+
+/* Main content */
+.main{padding:20px 16px 60px;max-width:700px;margin:0 auto;width:100%}
+
+/* Section title */
+.section-title{font-size:9px;font-weight:700;letter-spacing:.18em;color:#2a2a2a;text-transform:uppercase;margin-bottom:10px}
+
+/* Referral card */
+.ref-card{background:var(--bg2);border:1px solid var(--gold-border);border-radius:var(--radius);padding:20px;margin-bottom:24px}
+.ref-code-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ref-code-label{font-size:9px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase}
+.ref-code-val{font-size:22px;font-weight:800;color:var(--gold);letter-spacing:.12em;flex:1}
+.ref-url{font-size:11px;color:var(--mid);background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-bottom:12px;word-break:break-all;line-height:1.6}
+.ref-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.ref-btn{flex:1;min-width:120px;padding:11px 16px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;text-align:center;border:none}
+.ref-btn-copy{background:var(--gold);color:#070707}
+.ref-btn-copy:hover{opacity:.88}
+.ref-btn-line{background:#00b300;color:#fff}
+.ref-btn-line:hover{opacity:.88}
+.ref-info{font-size:11px;color:var(--dim);line-height:1.7;padding-top:12px;border-top:1px solid var(--border)}
+.ref-info strong{color:var(--gold)}
+
+/* KPI grid */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+@media(min-width:480px){.kpi-grid{grid-template-columns:repeat(4,1fr)}}
+.kpi-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 14px}
+.kpi-label{font-size:9px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-bottom:8px}
+.kpi-val{font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.kpi-val.gold{color:var(--gold)}
+
+/* Property links */
+.props-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px}
+@media(min-width:480px){.props-grid{grid-template-columns:repeat(3,1fr)}}
+.prop-link-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;transition:border-color .2s}
+.prop-link-card:hover{border-color:rgba(200,164,85,.2)}
+.prop-link-name{font-size:12px;font-weight:700;margin-bottom:2px;line-height:1.3}
+.prop-link-price{font-size:10px;color:var(--dim);margin-bottom:10px}
+.prop-link-btn{width:100%;padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--mid);font-size:10px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.04em}
+.prop-link-btn:hover{border-color:var(--gold-border);color:var(--gold)}
+
+/* History table */
+.history-wrap{overflow-x:auto;margin-bottom:24px}
+.history-table{width:100%;border-collapse:collapse;font-size:12px;min-width:420px}
+.history-table th{font-size:9px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:700}
+.history-table td{padding:10px 12px;border-bottom:1px solid #0e0e0e;color:var(--mid);vertical-align:middle}
+.history-table tr:last-child td{border:none}
+.history-table td:last-child{text-align:right}
+.status-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.06em;padding:3px 9px;border-radius:100px}
+.status-pending{background:rgba(136,136,136,.1);color:#888;border:1px solid #222}
+.status-confirmed{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-border)}
+.status-paid{background:rgba(90,181,90,.1);color:var(--green);border:1px solid rgba(90,181,90,.2)}
+
+/* Empty state */
+.empty-row td{text-align:center;color:#2a2a2a;font-size:12px;padding:28px !important}
+
+/* Toast */
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg2);border:1px solid var(--border);color:var(--text);font-size:12px;font-weight:600;padding:10px 20px;border-radius:100px;z-index:300;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- AUTH GATE -->
+<div id="gate">
+  <div class="gate-inner">
+    <div class="gate-logo">
+      <span class="gate-logo-mark">SOLUNA</span>
+      <span class="gate-logo-sub">STAFF PORTAL</span>
+    </div>
+    <!-- Step 1: email -->
+    <div id="step-email">
+      <div class="gate-title">スタッフログイン</div>
+      <div class="gate-sub">登録済みのメールアドレスを入力してください。<br>確認コードを送信します。</div>
+      <input id="email-input" class="gate-input" type="email" inputmode="email" autocomplete="email" placeholder="your@email.com">
+      <div class="gate-err" id="email-err"></div>
+      <button class="gate-btn" id="send-otp-btn" onclick="sendOtp()">確認コードを送信</button>
+      <p class="gate-note">このページはSOLUNA紹介スタッフ専用です。<br>スタッフ登録は<a href="mailto:mail@yukihamada.jp" style="color:var(--gold)">mail@yukihamada.jp</a>まで。</p>
+    </div>
+    <!-- Step 2: OTP -->
+    <div id="step-otp" style="display:none">
+      <div class="gate-title">確認コード</div>
+      <div class="gate-msg" id="otp-msg"></div>
+      <input id="otp-input" class="gate-input gate-otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="------" style="margin-top:16px">
+      <div class="gate-err" id="otp-err"></div>
+      <button class="gate-btn" id="verify-btn" onclick="verifyOtp()">ログイン</button>
+      <span class="gate-back" onclick="backToEmail()">← メールアドレスを変更</span>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- Header -->
+  <header class="app-header">
+    <span class="app-header-logo">SOLUNA STAFF</span>
+    <div class="app-header-right">
+      <span class="app-header-email" id="header-email"></span>
+      <button class="logout-btn" onclick="logout()">ログアウト</button>
+    </div>
+  </header>
+
+  <!-- No-code state -->
+  <div id="no-code" style="display:none;flex:1">
+    <div class="no-code-wrap">
+      <div class="no-code-icon">🔑</div>
+      <div class="no-code-title">紹介コード未発行</div>
+      <div class="no-code-sub">
+        紹介コードはまだ発行されていません。<br>
+        <a href="mailto:mail@yukihamada.jp">mail@yukihamada.jp</a> にお問い合わせください。
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" style="display:none">
+    <div class="main">
+
+      <!-- Referral link -->
+      <div class="section-title">あなたの紹介リンク</div>
+      <div class="ref-card">
+        <div class="ref-code-row">
+          <span class="ref-code-label">コード</span>
+          <span class="ref-code-val" id="ref-code">———</span>
+        </div>
+        <div class="ref-url" id="ref-url">https://solun.art/buy?ref=…</div>
+        <div class="ref-actions">
+          <button class="ref-btn ref-btn-copy" onclick="copyRefLink()">リンクをコピー</button>
+          <button class="ref-btn ref-btn-line" onclick="shareViaLine()">LINEで送る</button>
+        </div>
+        <div class="ref-info">
+          このリンク経由でお申し込みいただくと、<br>
+          <strong>成約価格の3%</strong>があなたのコミッションになります。
+        </div>
+      </div>
+
+      <!-- KPI cards -->
+      <div class="section-title">成績サマリー</div>
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">紹介数</div>
+          <div class="kpi-val" id="kpi-total">—</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">確定数</div>
+          <div class="kpi-val" id="kpi-confirmed">—</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">コミッション見込み</div>
+          <div class="kpi-val gold" id="kpi-total-commission">—</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">確定コミッション</div>
+          <div class="kpi-val gold" id="kpi-confirmed-commission">—</div>
+        </div>
+      </div>
+
+      <!-- Property share links -->
+      <div class="section-title">物件別シェアリンク</div>
+      <div class="props-grid" id="props-grid"></div>
+
+      <!-- History table -->
+      <div class="section-title">紹介履歴</div>
+      <div class="history-wrap">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>日付</th>
+              <th>物件</th>
+              <th>状況</th>
+              <th>コミッション</th>
+            </tr>
+          </thead>
+          <tbody id="history-body">
+            <tr class="empty-row"><td colspan="4">データを読み込み中…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const API = window.location.origin;
+const TOKEN_KEY = 'sln_token';
+
+const PROPS = [
+  { slug: 'lodge',    name: 'THE LODGE',        price: '¥490万〜',   page: '/lodge' },
+  { slug: 'nesting',  name: 'NESTING',           price: '¥890万〜',   page: '/nesting' },
+  { slug: 'instant',  name: 'インスタントハウス', price: '¥120万〜',   page: '/instant' },
+  { slug: 'atami',    name: 'WHITE HOUSE 熱海',   price: '¥1,900万〜', page: '/atami' },
+  { slug: 'tapkop',   name: 'TAPKOP',            price: '¥8,000万〜', page: '/tapkop' },
+  { slug: 'kumaushi', name: 'KUMAUSHI BASE',      price: '¥480万〜',   page: '/kumaushi' },
+  { slug: 'village',  name: '美留和ビレッジ',     price: '¥490万〜',   page: '/village' },
+  { slug: 'honolulu', name: 'BEACH HOUSE',        price: '¥2,800万〜', page: '/honolulu' },
+  { slug: 'maui',     name: 'HAWAII KAI HOUSE',   price: '¥3,800万〜', page: '/maui' },
+];
+
+let currentCode = '';
+let currentEmail = '';
+let pendingEmail = '';
+
+// ── Helpers ──
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function fmtYen(val) {
+  if (val == null || val === '') return '—';
+  const n = Number(val);
+  if (isNaN(n)) return '—';
+  return '¥' + n.toLocaleString('ja-JP');
+}
+
+function fmtDate(str) {
+  if (!str) return '—';
+  const d = new Date(str);
+  if (isNaN(d)) return str;
+  return d.toLocaleDateString('ja-JP', { year:'numeric', month:'2-digit', day:'2-digit' });
+}
+
+function statusLabel(s) {
+  if (s === 'confirmed') return '<span class="status-badge status-confirmed">確定</span>';
+  if (s === 'paid')      return '<span class="status-badge status-paid">支払済</span>';
+  return '<span class="status-badge status-pending">申込中</span>';
+}
+
+function propName(slug) {
+  const p = PROPS.find(x => x.slug === slug);
+  return p ? p.name : slug;
+}
+
+// ── Auth gate ──
+
+async function sendOtp() {
+  const email = document.getElementById('email-input').value.trim();
+  if (!email) { document.getElementById('email-err').textContent = 'メールアドレスを入力してください'; return; }
+  const btn = document.getElementById('send-otp-btn');
+  btn.disabled = true;
+  btn.textContent = '送信中…';
+  document.getElementById('email-err').textContent = '';
+  try {
+    const res = await fetch(`${API}/api/soluna/otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    if (!res.ok) {
+      const j = await res.json().catch(() => ({}));
+      throw new Error(j.error || `エラー (${res.status})`);
+    }
+    pendingEmail = email;
+    document.getElementById('otp-msg').textContent = `${email} に確認コードを送信しました`;
+    document.getElementById('step-email').style.display = 'none';
+    document.getElementById('step-otp').style.display = '';
+    document.getElementById('otp-input').focus();
+  } catch(e) {
+    document.getElementById('email-err').textContent = e.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '確認コードを送信';
+  }
+}
+
+async function verifyOtp() {
+  const otp = document.getElementById('otp-input').value.trim();
+  if (otp.length < 4) { document.getElementById('otp-err').textContent = 'コードを入力してください'; return; }
+  const btn = document.getElementById('verify-btn');
+  btn.disabled = true;
+  btn.textContent = '確認中…';
+  document.getElementById('otp-err').textContent = '';
+  try {
+    const res = await fetch(`${API}/api/soluna/verify`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: pendingEmail, otp })
+    });
+    if (!res.ok) {
+      const j = await res.json().catch(() => ({}));
+      throw new Error(j.error || `コードが正しくありません (${res.status})`);
+    }
+    const { token } = await res.json();
+    localStorage.setItem(TOKEN_KEY, token);
+    currentEmail = pendingEmail;
+    await loadDashboard(token);
+    // Fade out gate
+    const gate = document.getElementById('gate');
+    gate.style.opacity = '0';
+    gate.style.pointerEvents = 'none';
+    setTimeout(() => { gate.classList.add('hidden'); }, 400);
+  } catch(e) {
+    document.getElementById('otp-err').textContent = e.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'ログイン';
+  }
+}
+
+function backToEmail() {
+  document.getElementById('step-otp').style.display = 'none';
+  document.getElementById('step-email').style.display = '';
+  document.getElementById('otp-input').value = '';
+  document.getElementById('otp-err').textContent = '';
+}
+
+function logout() {
+  localStorage.removeItem(TOKEN_KEY);
+  location.reload();
+}
+
+// ── Dashboard ──
+
+async function loadDashboard(token) {
+  const app = document.getElementById('app');
+  app.classList.add('visible');
+  document.getElementById('header-email').textContent = currentEmail;
+
+  try {
+    const res = await fetch(`${API}/api/soluna/staff/dashboard`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (res.status === 401 || res.status === 403) {
+      // not a staff
+      document.getElementById('no-code').style.display = 'flex';
+      return;
+    }
+    if (!res.ok) throw new Error(`${res.status}`);
+    const data = await res.json();
+    renderDashboard(data);
+  } catch(e) {
+    // If endpoint doesn't exist yet or network error, check for has_code from /me
+    await fallbackToMe(token);
+  }
+}
+
+async function fallbackToMe(token) {
+  try {
+    const res = await fetch(`${API}/api/soluna/me`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    const code = data.referral_code || data.staff_code || null;
+    if (!code) {
+      document.getElementById('no-code').style.display = 'flex';
+      return;
+    }
+    // Render with basic info
+    renderDashboard({
+      has_code: true,
+      code,
+      referrals: { total: 0, confirmed: 0, total_commission: 0, confirmed_commission: 0 },
+      history: []
+    });
+  } catch(e) {
+    document.getElementById('no-code').style.display = 'flex';
+  }
+}
+
+function renderDashboard(data) {
+  if (!data.has_code) {
+    document.getElementById('no-code').style.display = 'flex';
+    return;
+  }
+
+  currentCode = data.code || '';
+  document.getElementById('dashboard').style.display = '';
+
+  // Referral link
+  const refUrl = `${window.location.origin}/buy?ref=${currentCode}`;
+  document.getElementById('ref-code').textContent = currentCode;
+  document.getElementById('ref-url').textContent = refUrl;
+
+  // KPI
+  const r = data.referrals || {};
+  document.getElementById('kpi-total').textContent = r.total ?? '0';
+  document.getElementById('kpi-confirmed').textContent = r.confirmed ?? '0';
+  document.getElementById('kpi-total-commission').textContent = fmtYen(r.total_commission);
+  document.getElementById('kpi-confirmed-commission').textContent = fmtYen(r.confirmed_commission);
+
+  // Prop cards
+  const grid = document.getElementById('props-grid');
+  grid.innerHTML = PROPS.map(p => {
+    const url = `${window.location.origin}${p.page}?ref=${currentCode}`;
+    return `
+    <div class="prop-link-card">
+      <div class="prop-link-name">${p.name}</div>
+      <div class="prop-link-price">${p.price}</div>
+      <button class="prop-link-btn" onclick="copyPropLink('${encodeURIComponent(url)}','${p.name}')">リンクをコピー</button>
+    </div>`;
+  }).join('');
+
+  // History
+  const tbody = document.getElementById('history-body');
+  const hist = data.history || [];
+  if (hist.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="4">紹介履歴はまだありません</td></tr>';
+  } else {
+    tbody.innerHTML = hist.map(h => `
+      <tr>
+        <td>${fmtDate(h.created_at || h.date)}</td>
+        <td>${propName(h.property_slug || h.slug)}</td>
+        <td>${statusLabel(h.status)}</td>
+        <td>${fmtYen(h.commission)}</td>
+      </tr>`).join('');
+  }
+}
+
+function copyRefLink() {
+  const url = `${window.location.origin}/buy?ref=${currentCode}`;
+  navigator.clipboard.writeText(url).then(() => showToast('コピーしました！')).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = url; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('コピーしました！');
+  });
+}
+
+function copyPropLink(encodedUrl, name) {
+  const url = decodeURIComponent(encodedUrl);
+  navigator.clipboard.writeText(url).then(() => showToast(`${name} のリンクをコピー`)).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = url; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast(`${name} のリンクをコピー`);
+  });
+}
+
+function shareViaLine() {
+  const url = `${window.location.origin}/buy?ref=${currentCode}`;
+  const msg = `SOLUNAの物件、一緒にどう？\n北海道から沖縄、ハワイまで、共同所有型リゾートです。\n${url}`;
+  window.open('https://line.me/R/msg/text/' + encodeURIComponent(msg), '_blank');
+}
+
+// ── Enter key support ──
+document.getElementById('email-input').addEventListener('keydown', e => { if(e.key==='Enter') sendOtp(); });
+document.getElementById('otp-input').addEventListener('keydown', e => { if(e.key==='Enter') verifyOtp(); });
+
+// OTP auto-format: numbers only
+document.getElementById('otp-input').addEventListener('input', function() {
+  this.value = this.value.replace(/\D/g, '').slice(0, 6);
+});
+
+// ── Auto-login ──
+(async function init() {
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) return;
+  // verify token still works via me endpoint
+  try {
+    const res = await fetch(`${API}/api/soluna/me`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (!res.ok) { localStorage.removeItem(TOKEN_KEY); return; }
+    const me = await res.json();
+    currentEmail = me.email || '';
+    // hide gate immediately
+    const gate = document.getElementById('gate');
+    gate.style.display = 'none';
+    await loadDashboard(token);
+  } catch(e) {
+    // network error — keep gate visible
+  }
+})();
+</script>
+</body>
+</html>

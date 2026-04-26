@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/tower-sauna" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA Miruwa Tower Sauna — Elevated Sauna Overlooking Lake Kussharo">SOLUNA 美留和タワーサウナ — 屈斜路湖を望む塔上サウナ</title>
+<meta content="SOLUNA 美留和タワーサウナ — 北海道・弟子屈町美留和。屈斜路湖を一望するタワー型薪サウナ。" data-en-content="SOLUNA Biruwa Tower Sauna — Biruwa, Teshikaga, Hokkaido. A tower-style wood-fired sauna overlooking Lake Kussharo." name="description"/>
+<meta content="SOLUNA 美留和タワーサウナ" property="og:title"/>
+<meta content="img/soluna_hero_wide.webp" property="og:image"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:#080810; --card:#10101a; --border:#22223a;
+    --gold:#c9a84c; --gold2:#f0d080; --text:#e8e8f0; --muted:#7777aa; --sabi:#ffd700;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',sans-serif;min-height:100vh}
+
+  /* Hero band */
+  .hero-band{
+    background:linear-gradient(135deg,#0a0a18 0%,#12100a 100%);
+    border-bottom:1px solid var(--border);
+    padding:40px 20px 28px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-band::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  }
+  .hero-eyebrow{font-size:10px;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
+  .hero-title{font-size:clamp(24px,6vw,42px);font-weight:300;letter-spacing:.08em;color:#fff;margin-bottom:6px}
+  .hero-sub{font-size:12px;color:var(--muted);letter-spacing:.05em}
+
+  /* Player */
+  .player-wrap{
+    position:sticky;top:0;z-index:100;
+    background:rgba(8,8,16,.97);backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border);
+    padding:12px 20px 10px;
+  }
+  .player-inner{max-width:720px;margin:0 auto}
+  .now-playing{font-size:11px;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .now-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+  audio{width:100%;height:32px;outline:none;accent-color:var(--gold);border-radius:6px}
+  audio::-webkit-media-controls-panel{background:rgba(20,20,30,.9)}
+  .prog-bar{height:3px;background:var(--border);border-radius:2px;margin-top:8px;cursor:pointer;position:relative}
+  .prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;width:0%;transition:width .1s linear;pointer-events:none}
+  .prog-times{font-size:10px;color:var(--muted);display:flex;justify-content:space-between;margin-top:4px}
+
+  /* Lyrics */
+  .lyrics-wrap{max-width:720px;margin:0 auto;padding:24px 16px 100px}
+
+  .lyric-block{margin-bottom:28px;border-radius:12px;padding:16px;background:var(--card);border:1px solid var(--border)}
+  .lyric-block.sabi{background:#121008;border-color:#3a3010;}
+  .section-label{font-size:10px;letter-spacing:.25em;color:var(--muted);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  .lyric-block.sabi .section-label{color:var(--gold)}
+
+  .lyric-line{
+    display:flex;align-items:baseline;gap:10px;
+    padding:7px 6px;border-radius:6px;cursor:pointer;transition:.2s;
+  }
+  .lyric-line:hover{background:rgba(255,255,255,.04)}
+  .lyric-line.active{background:rgba(201,168,76,.09)}
+  .lyric-block.sabi .lyric-line.active{background:rgba(255,215,0,.07)}
+
+  .ts{
+    font-size:10px;color:var(--muted);font-family:monospace;
+    min-width:32px;flex-shrink:0;opacity:.4;transition:.2s;
+    cursor:pointer;
+  }
+  .lyric-line:hover .ts,.lyric-line.active .ts{opacity:1;color:var(--gold)}
+
+  .lyric-text{font-size:16px;line-height:1.7;letter-spacing:.02em;transition:.2s}
+  .lyric-line.active .lyric-text{color:var(--gold2);font-weight:700}
+  .lyric-block.sabi .lyric-line.active .lyric-text{
+    color:var(--sabi);
+    text-shadow:0 0 24px rgba(255,215,0,.35);
+  }
+
+  /* Bottom nav */
+  .bottom-nav{
+    position:fixed;bottom:0;left:0;right:0;
+    background:rgba(8,8,16,.96);backdrop-filter:blur(14px);
+    border-top:1px solid var(--border);
+    display:flex;justify-content:center;gap:28px;
+    padding:12px 20px 16px;
+  }
+  .bottom-nav a{color:var(--muted);text-decoration:none;font-size:12px;letter-spacing:.06em;transition:.2s}
+  .bottom-nav a:hover{color:var(--gold)}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<div class="hero-band">
+<div class="hero-eyebrow" data-en="SOLUNA — The Song of Teshikaga, Hokkaido">SOLUNA — 弟子屈の歌</div>
+<div data-en="SOLUNA Miruwa Tower Sauna" style="font-size:9px;letter-spacing:.28em;color:rgba(201,168,76,.55);text-transform:uppercase;font-weight:700;margin-bottom:8px">SOLUNA 美留和タワーサウナ</div>
+<h1 class="hero-title" data-en="Tower Sauna">タワーサウナ</h1>
+<div class="hero-sub" data-en="We Create What We Use.">俺らが使うものは、俺らが作る。</div>
+</div>
+<div class="player-wrap">
+<div class="player-inner">
+<div class="now-playing">
+<div class="now-dot"></div>
+<span data-en="Tower Sauna">タワーサウナ</span>
+</div>
+<audio controls="" id="audio" preload="auto">
+<source src="song/タワーサウナ.mp3" type="audio/mpeg"/>
+</audio>
+<div class="prog-bar" id="progBar" onclick="seekClick(event)">
+<div class="prog-fill" id="progFill"></div>
+</div>
+<div class="prog-times">
+<span id="tNow">0:00</span>
+<span id="tTotal">3:34</span>
+</div>
+</div>
+</div>
+<div class="lyrics-wrap">
+<div class="lyric-block" data-section="Intro">
+<div class="section-label">Intro</div>
+<div class="lyric-line" data-end="5.00" data-start="0.00"><span class="ts" onclick="seekTo(0.00)">0:00</span><span class="lyric-text" data-en="We Create What We Use.">俺らが使うものは、俺らが作る。</span></div>
+</div>
+<div class="lyric-block" data-section="1Aメロ">
+<div class="section-label" data-en="1st A-Section">1Aメロ</div>
+<div class="lyric-line" data-end="19.00" data-start="15.00"><span class="ts" onclick="seekTo(15.00)">0:15</span><span class="lyric-text" data-en="In the silence of 32,337 tsubo">さんまんにせんさんびゃくさんじゅうななつぼの静寂に</span></div>
+<div class="lyric-line" data-end="25.00" data-start="19.00"><span class="ts" onclick="seekTo(19.00)">0:19</span><span class="lyric-text" data-en="Container, dome, and tower sauna piercing the sky">コンテナ、ドーム、空を刺すタワーサウナ</span></div>
+<div class="lyric-line" data-end="30.00" data-start="26.00"><span class="ts" onclick="seekTo(26.00)">0:26</span><span class="lyric-text" data-en="If we find something inconvenient, we code our solution">不便だと思えば すぐにコードを書く</span></div>
+<div class="lyric-line" data-end="37.00" data-start="30.00"><span class="ts" onclick="seekTo(30.00)">0:30</span><span class="lyric-text" data-en="Our identity, etched into the soil of Teshikaga, Hokkaido">弟子屈の土に 刻んだ僕らのID（なまえ）</span></div>
+</div>
+<div class="lyric-block" data-section="1Bメロ">
+<div class="section-label" data-en="1B Melody">1Bメロ</div>
+<div class="lyric-line" data-end="42.00" data-start="37.00"><span class="ts" onclick="seekTo(37.00)">0:37</span><span class="lyric-text" data-en="Even the door at 2 a.m., a single tap on your phone (KAGI)">深夜2時のドアも スマホひとつでタップ（KAGI）</span></div>
+<div class="lyric-line" data-end="48.00" data-start="42.00"><span class="ts" onclick="seekTo(42.00)">0:42</span><span class="lyric-text" data-en="Capture fleeting ideas by voice (Koe)">自転車で浮かんだ メモは声で捕まえる（Koe）</span></div>
+<div class="lyric-line" data-end="53.00" data-start="48.00"><span class="ts" onclick="seekTo(48.00)">0:48</span><span class="lyric-text" data-en="What we use, we create ourselves">「俺らが使うものは 俺らが作るんだ」</span></div>
+<div class="lyric-line" data-end="58.00" data-start="53.00"><span class="ts" onclick="seekTo(53.00)">0:53</span><span class="lyric-text" data-en="We're spreading &quot;I'm home&quot; across the world">世界中に「ただいま」を 増やしていくんだ</span></div>
+</div>
+<div class="lyric-block sabi" data-section="1サビ">
+<div class="section-label" data-en="1st Chorus">1サビ</div>
+<div class="lyric-line" data-end="63.00" data-start="58.00"><span class="ts" onclick="seekTo(58.00)">0:58</span><span class="lyric-text" data-en="SOLUNA — A village of 100 only">SOLUNA ここは100人だけのビレッジ</span></div>
+<div class="lyric-line" data-end="68.00" data-start="63.00"><span class="ts" onclick="seekTo(63.00)">1:03</span><span class="lyric-text" data-en="Our Hill, Cultivated by All of Us">僕らで育てていく 俺たちの丘</span></div>
+<div class="lyric-line" data-end="74.00" data-start="68.00"><span class="ts" onclick="seekTo(68.00)">1:08</span><span class="lyric-text" data-en="Every obstacle transforms into opportunity">面倒くさいの数だけ チャンスに変わる</span></div>
+<div class="lyric-line" data-end="79.00" data-start="74.00"><span class="ts" onclick="seekTo(74.00)">1:14</span><span class="lyric-text" data-en="One hundred voices layered, becoming an orchestra">100台の音が重なり オーケストラになる</span></div>
+</div>
+<div class="lyric-block" data-section="2Aメロ">
+<div class="section-label" data-en="2nd A-Section">2Aメロ</div>
+<div class="lyric-line" data-end="82.00" data-start="79.00"><span class="ts" onclick="seekTo(79.00)">1:19</span><span class="lyric-text" data-en="Patterns discovered through discipline (JiuFlow)">道場で絞められて 見つけたパターン（JiuFlow）</span></div>
+<div class="lyric-line" data-end="86.00" data-start="82.00"><span class="ts" onclick="seekTo(82.00)">1:22</span><span class="lyric-text" data-en="Map the flow, embed it in the app">フローチャートを描いて アプリに落とし込む</span></div>
+<div class="lyric-line" data-end="89.00" data-start="86.00"><span class="ts" onclick="seekTo(86.00)">1:26</span><span class="lyric-text" data-en="Private AI (Elio) That Works Even Beyond Connectivity">圏外の森でも 動くプライベートAI（Elio）</span></div>
+<div class="lyric-line" data-end="95.00" data-start="89.00"><span class="ts" onclick="seekTo(89.00)">1:29</span><span class="lyric-text" data-en="The reality of sharing both joy and abundance">喜びも豊かさも 分かち合うリアリティ</span></div>
+</div>
+<div class="lyric-block" data-section="2Bメロ">
+<div class="section-label" data-en="2B Melo">2Bメロ</div>
+<div class="lyric-line" data-end="98.00" data-start="95.00"><span class="ts" onclick="seekTo(95.00)">1:35</span><span class="lyric-text" data-en="Find a Bug, Fix It Immediately">バグを見つけたら すぐに直せばいい</span></div>
+<div class="lyric-line" data-end="102.00" data-start="98.00"><span class="ts" onclick="seekTo(98.00)">1:38</span><span class="lyric-text" data-en="Not Expensive—Simply Meant to Be Used">高くはしたくない ただ使ってほしいから</span></div>
+<div class="lyric-line" data-end="107.00" data-start="102.00"><span class="ts" onclick="seekTo(102.00)">1:42</span><span class="lyric-text" data-en="Invitation-Only Entrance">紹介制（インビテーション）の 特別な入り口</span></div>
+<div class="lyric-line" data-end="112.00" data-start="107.00"><span class="ts" onclick="seekTo(107.00)">1:47</span><span class="lyric-text" data-en="Drawn together, this is what we chose">惹かれ合うように 僕らが選んだんだ</span></div>
+</div>
+<div class="lyric-block sabi" data-section="2サビ">
+<div class="section-label" data-en="2nd Chorus">2サビ</div>
+<div class="lyric-line" data-end="117.00" data-start="112.00"><span class="ts" onclick="seekTo(112.00)">1:52</span><span class="lyric-text" data-en="SOLUNA — Your homecoming awaits here">SOLUNA 帰る場所がここにある</span></div>
+<div class="lyric-line" data-end="123.00" data-start="117.00"><span class="ts" onclick="seekTo(117.00)">1:57</span><span class="lyric-text" data-en="An Ecosystem Where 100 Visionaries Form the Core">100人が核（コア）になる 万人のエコシステム</span></div>
+<div class="lyric-line" data-end="128.00" data-start="123.00"><span class="ts" onclick="seekTo(123.00)">2:03</span><span class="lyric-text" data-en="Once created, share it with everyone">作ったらみんなに 渡してしまえばいい</span></div>
+<div class="lyric-line" data-end="134.00" data-start="128.00"><span class="ts" onclick="seekTo(128.00)">2:08</span><span class="lyric-text" data-en="To discover that simply dwelling is freedom">「住んでいる」ことが 自由だと知るんだ</span></div>
+</div>
+<div class="lyric-block" data-section="Cメロ（ブリッジ）">
+<div class="section-label" data-en="C Melody (Bridge)">Cメロ（ブリッジ）</div>
+<div class="lyric-line" data-end="137.00" data-start="134.00"><span class="ts" onclick="seekTo(134.00)">2:14</span><span class="lyric-text" data-en="Pixiv's Palette, DMM's Passion">ピクシブの彩り（いろどり） DMMの熱気</span></div>
+<div class="lyric-line" data-end="140.00" data-start="137.00"><span class="ts" onclick="seekTo(137.00)">2:17</span><span class="lyric-text" data-en="Mercari's spirit, Reiwa's wave">メルカリの風 令和の波</span></div>
+<div class="lyric-line" data-end="143.00" data-start="140.00"><span class="ts" onclick="seekTo(140.00)">2:20</span><span class="lyric-text" data-en="Morning Jujutsu, Crystalline Breath">柔術の朝 澄み切った呼吸</span></div>
+<div class="lyric-line" data-end="146.00" data-start="143.00"><span class="ts" onclick="seekTo(143.00)">2:23</span><span class="lyric-text" data-en="Tangible Craftsmanship Beyond the Numbers (BOM)">数字の奥にある 確かな手触り（BOM）</span></div>
+<div class="lyric-line" data-end="151.00" data-start="146.00"><span class="ts" onclick="seekTo(146.00)">2:26</span><span class="lyric-text" data-en="Perpetual sharing, witnessed by legal counsel">司法書士が記す 永久の共有（シェア）</span></div>
+</div>
+<div class="lyric-block" data-section="Dメロ">
+<div class="section-label" data-en="D Melody">Dメロ</div>
+<div class="lyric-line" data-end="154.00" data-start="151.00"><span class="ts" onclick="seekTo(151.00)">2:31</span><span class="lyric-text" data-en="On TAPKOP's hill, fishing for dreams">TAPKOPの丘で 魚を釣るように</span></div>
+<div class="lyric-line" data-end="157.00" data-start="154.00"><span class="ts" onclick="seekTo(154.00)">2:34</span><span class="lyric-text" data-en="In the Miruwa Forest, Awaiting Tomorrow">美留和（みるわ）の森で 明日を待つように</span></div>
+<div class="lyric-line" data-end="162.00" data-start="157.00"><span class="ts" onclick="seekTo(157.00)">2:37</span><span class="lyric-text" data-en="Update 'Now,' Not 'Someday'">「いつか」じゃなくて 「今」をアップデートしよう</span></div>
+<div class="lyric-line" data-end="167.00" data-start="162.00"><span class="ts" onclick="seekTo(162.00)">2:42</span><span class="lyric-text" data-en="Drawing curves, dreams soar (+100,000 heartbeats)">カーブを描いて 夢は高鳴る（+10万の鼓動）</span></div>
+</div>
+<div class="lyric-block sabi" data-section="アウトロ">
+<div class="section-label" data-en="Outro">アウトロ</div>
+<div class="lyric-line" data-end="172.00" data-start="167.00"><span class="ts" onclick="seekTo(167.00)">2:47</span><span class="lyric-text" data-en="SOLUNA — The story continues">SOLUNA 物語は続いていく</span></div>
+<div class="lyric-line" data-end="178.00" data-start="172.00"><span class="ts" onclick="seekTo(172.00)">2:52</span><span class="lyric-text" data-en="From the Cliffs of Atami to the Kumaushi Wilderness">熱海の崖から 熊牛の原野まで</span></div>
+<div class="lyric-line" data-end="183.00" data-start="178.00"><span class="ts" onclick="seekTo(178.00)">2:58</span><span class="lyric-text" data-en="If we succeed, let's prosper together">うまくいったら 一緒に得をしよう</span></div>
+<div class="lyric-line" data-end="191.00" data-start="183.00"><span class="ts" onclick="seekTo(183.00)">3:03</span><span class="lyric-text" data-en="With that alone, we become more free">それだけで 僕らはもっと、自由になれる</span></div>
+<div class="lyric-line" data-end="201.00" data-start="193.00"><span class="ts" onclick="seekTo(193.00)">3:13</span><span class="lyric-text">SOLUNA……</span></div>
+<div class="lyric-line" data-end="210.00" data-start="208.00"><span class="ts" onclick="seekTo(208.00)">3:28</span><span class="lyric-text" data-en="(Our place, one hundredth at a time)">（100分の1の、僕たちの場所）</span></div>
+</div>
+</div>
+<div class="bottom-nav">
+<a href="/">TOP</a>
+<a data-en="The Reason We're Here" href="/song">ここにいる理由</a>
+<a data-en="Slide" href="/slide">スライド</a>
+<a href="/members">MEMBERS</a>
+<a href="/buy">JOIN</a>
+</div>
+<script>
+const audio = document.getElementById('audio');
+const fill  = document.getElementById('progFill');
+const tNow  = document.getElementById('tNow');
+const DUR   = 214;
+const lines = Array.from(document.querySelectorAll('.lyric-line'));
+
+function fmt(s) {
+  const m = Math.floor(s/60), sec = Math.floor(s%60);
+  return m + ':' + (sec<10?'0':'') + sec;
+}
+
+audio.addEventListener('timeupdate', () => {
+  const t = audio.currentTime;
+  fill.style.width = Math.min(t/DUR*100, 100) + '%';
+  tNow.textContent = fmt(t);
+  let hit = null;
+  for (const l of lines) {
+    l.classList.remove('active');
+    const s = +l.dataset.start, e = +l.dataset.end;
+    if (t >= s && t < e) hit = l;
+  }
+  if (hit) {
+    hit.classList.add('active');
+    const rect = hit.getBoundingClientRect();
+    const mid  = window.innerHeight / 2;
+    if (rect.top > mid + 80 || rect.bottom < mid - 80) {
+      hit.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  }
+});
+
+function seekTo(t) {
+  audio.currentTime = t;
+  if (audio.paused) audio.play();
+}
+function seekClick(e) {
+  const bar = document.getElementById('progBar');
+  const r   = bar.getBoundingClientRect();
+  audio.currentTime = (e.clientX - r.left) / r.width * DUR;
+}
+lines.forEach(l => l.addEventListener('click', () => seekTo(+l.dataset.start)));
+</script>
+<script defer="" src="/track.js"></script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Biroku" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Biroku" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Acquire shares for free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Architectural Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Biruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Law" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+</body>
+</html>

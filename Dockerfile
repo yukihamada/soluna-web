@@ -14,6 +14,9 @@ RUN npm install --omit=dev
 # static files (built by Next.js)
 COPY out/ out/
 
+# cabin static site (SOLUNA main website HTML files)
+COPY cabin/ cabin/
+
 # server entry point
 COPY server.js .
 

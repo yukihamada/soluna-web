@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/management-fee" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="Management Fee Breakdown — SOLUNA CABIN CLUB">管理費の内訳 — SOLUNA CABIN CLUB</title>
+<meta content="SOLUNAオーナーが負担する年間管理費の詳細内訳。物件別・費目別に公開。THE LODGE/NESTING ¥25万/口/年、KUMAUSHI BASE ¥35万/口/年、TAPKOP ¥50万/口/年。" data-en-content="Detailed annual management fee breakdown for SOLUNA owners, disclosed by property and category. THE LODGE/NESTING ¥250,000/share/year, KUMAUSHI BASE ¥350,000/share/year, TAPKOP ¥500,000/share/year." name="description"/>
+<meta content="管理費の内訳 — SOLUNA CABIN CLUB" property="og:title"/>
+<meta content="物件別の年間管理費内訳。清掃・リネン・予約システム・保険・税金まで、隠れコストなしで全公開。" property="og:description"/>
+<meta content="https://solun.art/img/kumaushi_aerial_dawn.webp" property="og:image"/>
+<meta content="https://solun.art/management-fee" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.35);
+  --gold-soft:rgba(200,164,85,.07);
+  --green:#6dbb88;
+  --bg:#040404;
+  --text:#f0ece4;
+  --dim:#555;
+  --line:#131313;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+::selection{background:var(--gold);color:#000}
+
+/* GNAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+
+/* LAYOUT */
+.w{max-width:720px;margin:0 auto;padding:0 24px}
+.ww{max-width:960px;margin:0 auto;padding:0 24px}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:12px}
+h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+.sub{color:#555;font-size:13px;line-height:2.05;max-width:560px;margin-bottom:24px}
+.gold{color:var(--gold)}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.r.in{opacity:1;transform:translateY(0)}
+
+/* HERO */
+.hero{padding:80px 24px 60px;max-width:720px;margin:0 auto;text-align:center}
+.hero .eyebrow{font-size:9px;letter-spacing:.3em;color:#333;text-transform:uppercase;margin-bottom:16px;font-weight:700}
+.hero h1{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spacing:-.04em;line-height:1.15;margin-bottom:18px}
+.hero .sub{color:var(--dim);font-size:13px;line-height:2;max-width:520px;margin:0 auto 10px}
+.hero-note{font-size:10px;color:#2a2a2a;margin-top:10px;letter-spacing:.06em}
+
+/* FEE CARDS */
+.fee-section{padding:0 0 80px}
+.fee-section .w{max-width:760px}
+
+.property-block{margin-bottom:56px}
+.property-header{display:flex;align-items:baseline;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+.property-name{font-size:18px;font-weight:800;letter-spacing:-.03em}
+.property-location{font-size:10px;color:#333;letter-spacing:.08em}
+.property-fee-badge{font-size:22px;font-weight:800;color:var(--gold);letter-spacing:-.04em;font-feature-settings:'tnum';margin-bottom:4px}
+.property-fee-sub{font-size:10px;color:#2a2a2a;margin-bottom:20px;letter-spacing:.06em}
+
+.fee-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px}
+.fee-table th{text-align:left;font-size:9px;letter-spacing:.18em;color:#2a2a2a;font-weight:700;text-transform:uppercase;padding:0 0 10px;border-bottom:1px solid #0f0f0f}
+.fee-table td{padding:10px 0;border-bottom:1px solid #0a0a0a;line-height:1.7;vertical-align:top}
+.fee-table td:first-child{width:40%;color:#555;font-size:11px;padding-right:16px}
+.fee-table td:last-child{color:rgba(240,236,228,.75)}
+.fee-table tr:last-child td{border-bottom:none}
+.fee-table .sum-row td{padding-top:14px;font-weight:700;border-top:1px solid #161616}
+.fee-table .sum-row td:last-child{color:var(--gold);font-size:14px}
+
+.tag-included{display:inline-block;font-size:9px;background:rgba(109,187,136,.12);color:var(--green);border:1px solid rgba(109,187,136,.2);border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle;font-weight:700;letter-spacing:.06em}
+.tag-note{display:inline-block;font-size:9px;background:rgba(200,164,85,.07);color:rgba(200,164,85,.6);border:1px solid rgba(200,164,85,.15);border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle;font-weight:700;letter-spacing:.06em}
+
+.property-divider{border:none;border-top:1px solid #0d0d0d;margin-bottom:56px}
+
+/* NOT INCLUDED */
+.not-included-box{background:#070707;border:1px solid #111;border-radius:14px;padding:24px 28px;margin-bottom:16px}
+.not-included-box h3{font-size:12px;font-weight:700;letter-spacing:.12em;color:#333;text-transform:uppercase;margin-bottom:14px}
+.not-included-box ul{list-style:none;font-size:12px;color:#3a3a3a;line-height:2.2;padding:0}
+.not-included-box ul li::before{content:'— ';color:#222}
+
+/* PAYMENT INFO */
+.payment-box{background:#050505;border:1px solid #0f0f0f;border-radius:14px;padding:24px 28px;margin-bottom:16px}
+.payment-box h3{font-size:12px;font-weight:700;letter-spacing:.12em;color:#333;text-transform:uppercase;margin-bottom:14px}
+.pay-row{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid #0a0a0a;font-size:12px}
+.pay-row:last-child{border-bottom:none}
+.pay-row .k{color:#444}
+.pay-row .v{color:rgba(240,236,228,.75)}
+
+/* SUMMARY TABLE */
+.summary-table{width:100%;border-collapse:collapse;font-size:12px}
+.summary-table th{text-align:left;font-size:9px;letter-spacing:.18em;color:#2a2a2a;font-weight:700;text-transform:uppercase;padding:0 12px 10px;border-bottom:1px solid #111}
+.summary-table td{padding:12px;border-bottom:1px solid #0a0a0a;line-height:1.6;vertical-align:middle}
+.summary-table tr:last-child td{border-bottom:none}
+.summary-table .prop-cell{font-weight:700;font-size:13px}
+.summary-table .prop-loc{font-size:9px;color:#333;display:block;font-weight:400;margin-top:2px;letter-spacing:.04em}
+.summary-table .fee-cell{color:var(--gold);font-weight:800;font-size:14px;white-space:nowrap}
+.summary-table .note-cell{color:#3a3a3a;font-size:11px}
+.summary-bg{background:#060606;border:1px solid #111;border-radius:14px;overflow:hidden;margin-bottom:40px}
+
+/* CTA */
+.cta-box{text-align:center;padding:60px 24px 80px}
+.cta-box h2{font-size:clamp(1.4rem,4vw,2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:14px}
+.cta-box p{font-size:13px;color:var(--dim);line-height:2;max-width:480px;margin:0 auto 28px}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#040404;font-size:12px;font-weight:800;letter-spacing:.08em;padding:14px 28px;border-radius:100px;transition:all .2s}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(200,164,85,.3)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(200,164,85,.3);color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.06em;padding:13px 26px;border-radius:100px;transition:all .2s;margin-left:12px}
+.btn-outline:hover{background:rgba(200,164,85,.06)}
+@media(max-width:520px){.btn-outline{margin-left:0;margin-top:10px}}
+
+/* FOOTNOTE */
+.footnote{font-size:10px;color:#1e1e1e;line-height:2;margin-top:12px;padding:0 4px}
+
+/* FOOTER */
+footer{padding:24px;text-align:center;font-size:9px;color:#1a1a1a;letter-spacing:.12em;border-top:1px solid #0d0d0d}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Construction" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- HERO -->
+<div class="hero">
+<p class="eyebrow" data-en="Transparency · Management Fee Disclosure">Transparency · 管理費開示</p>
+<h1 data-en="Management Fee Breakdown">管理費の内訳</h1>
+<p class="sub" data-en='To demonstrate "no hidden costs," we disclose all expense categories. Annual management fees and itemized breakdowns are published for each property'>「隠れコストがない」を証明するために、全費目を公開します。<br/>物件ごとの年間管理費と内訳を、そのまま掲載しています。</p>
+<p class="hero-note" data-en="Based on 2025 fiscal year performance. Excludes major repairs and special expenses">2025年度実績ベース。大規模修繕・特別費用は含まず。</p>
+</div>
+<!-- SUMMARY TABLE -->
+<section class="fee-section">
+<div class="w">
+<p class="label r" data-en="Overview · Property-by-Property Summary">Overview · 物件別サマリー</p>
+<h2 class="r" data-en="All properties">全物件の<span class="gold" data-en="Management Fee Schedule">管理費一覧</span></h2>
+<p class="sub r" data-en="Annual management fee per share. Billed in full each January via bank transfer.">購入口数に対してかかる年間費用です。管理費は毎年1月に一括請求（銀行振込）。</p>
+<div class="summary-bg r">
+<table class="summary-table">
+<thead>
+<tr>
+<th data-en="Properties">物件</th>
+<th data-en="Annual Management Fee">年間管理費</th>
+<th data-en="Breakdown Characteristics">内訳の特徴</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="prop-cell">THE LODGE <span class="prop-loc" data-en="Teshikaga, Hokkaido (Miruwa)">北海道・弟子屈（美留和）</span></td>
+<td class="fee-cell">¥25万/口/年</td>
+<td class="note-cell" data-en="Includes hot spring open-air bath, Starlink, KAGI, and insurance">温泉露天風呂・Starlink・KAGI・保険含む</td>
+</tr>
+<tr>
+<td class="prop-cell">NESTING <span class="prop-loc" data-en="Teshikaga, Hokkaido (Miruwa)">北海道・弟子屈（美留和）</span></td>
+<td class="fee-cell">¥25万/口/年</td>
+<td class="note-cell" data-en="Includes tower sauna, hot tub, Starlink, KAGI, and insurance">タワーサウナ・ホットタブ・Starlink・KAGI・保険含む</td>
+</tr>
+<tr>
+<td class="prop-cell">KUMAUSHI BASE <span class="prop-loc" data-en="Teshikaga, Hokkaido (Kumaushi)">北海道・弟子屈（熊牛）</span></td>
+<td class="fee-cell">¥35万/口/年</td>
+<td class="note-cell" data-en="Includes utilities (common areas), equipment maintenance, and repair reserves">光熱費（共用部）・設備メンテ・修繕積立含む</td>
+</tr>
+<tr>
+<td class="prop-cell">TAPKOP <span class="prop-loc" data-en="Teshikaga, Hokkaido">北海道・弟子屈</span></td>
+<td class="fee-cell">¥50万/口/年</td>
+<td class="note-cell" data-en="Includes farm management, atelier maintenance, and landscape management">ファーム管理・アトリエ維持・庭園管理含む</td>
+</tr>
+<tr>
+<td class="prop-cell" data-en="WHITE HOUSE Atami">WHITE HOUSE 熱海 <span class="prop-loc" data-en="Atami, Shizuoka (Clifftop Premium)">静岡・熱海（崖上プレミアム）</span></td>
+<td class="fee-cell" data-en="Individual Quote" style="color:#555;font-size:12px">個別見積</td>
+<td class="note-cell" data-en="Varies based on property condition and number of units">物件状況・口数により変動。<a href="buy" style="color:#444">担当者にお問い合わせ</a></td>
+</tr>
+<tr>
+<td class="prop-cell">HONOLULU VILLA <span class="prop-loc" data-en="Hawaii · Honolulu (Salt Lake)">ハワイ・Honolulu（Salt Lake）</span></td>
+<td class="fee-cell" data-en="Individual Quote" style="color:#555;font-size:12px">個別見積</td>
+<td class="note-cell" data-en="Includes Hawaii local management company fees">ハワイ現地管理会社費用含む。<a href="buy" style="color:#444">担当者にお問い合わせ</a></td>
+</tr>
+<tr>
+<td class="prop-cell">HAWAII KAI HOUSE <span class="prop-loc">ハワイ・Hawaii Kai, Oahu</span></td>
+<td class="fee-cell" data-en="Individual Quote" style="color:#555;font-size:12px">個別見積</td>
+<td class="note-cell" data-en="Includes Hawaii local management company fees">ハワイ現地管理会社費用含む。<a href="buy" style="color:#444">担当者にお問い合わせ</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- DETAILED BREAKDOWN -->
+<section class="fee-section" style="padding-top:0">
+<div class="w">
+<p class="label r" data-en="Breakdown · Itemized Breakdown">Breakdown · 費目別内訳</p>
+<h2 class="r" data-en="All line items">全費目を<span class="gold" data-en="Disclosure">開示する</span></h2>
+<p class="sub r" data-en="We disclose detailed breakdowns by property, showing exactly where and how management fees are allocated—including cleaning, system maintenance, and more.">「清掃費」「システム費」など、どこにいくら使われているか。物件ごとに詳細を公開します。</p>
+<!-- THE LODGE -->
+<div class="property-block r">
+<div class="property-header">
+<span class="property-name">THE LODGE</span>
+<span class="property-location" data-en="Teshikaga, Hokkaido (Miruwa) — 10 shares / Currently operational">北海道・弟子屈（美留和） — 10口 / 現存稼働中</span>
+</div>
+<div class="property-fee-badge">¥25万 <span data-en="/unit/year" style="font-size:14px;color:#3a3a3a;font-weight:400">/口/年</span></div>
+<div class="property-fee-sub" data-en="10 shares total ¥2,500,000/year — approximately ¥20,800/share per month">10口総額 ¥250万/年 — 月換算 約¥20,800/口</div>
+<table class="fee-table">
+<thead>
+<tr>
+<th data-en="Expense Category">費目</th>
+<th data-en="Details">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-en="Cleaning and Linen Management">清掃・リネン管理</td>
+<td data-en="Post-checkout cleaning, towel and sheet changes, supply replenishment. Includes external cleaning service fees.">チェックアウト後の清掃、タオル・シーツ交換・消耗品補充。外部清掃業者委託費込み</td>
+</tr>
+<tr>
+<td>Beds24 PMS</td>
+<td data-en="Reservation management system (Airbnb, Booking.com, and direct booking integration). Calendar synchronization and automated messaging.">予約管理システム（Airbnb・Booking.com・直予約連携）。カレンダー同期・自動メッセージ送信</td>
+</tr>
+<tr>
+<td data-en="KAGI Smart Home System">KAGIスマートホームシステム</td>
+<td data-en="Remote control of smart locks, lighting, and temperature management. Used for automated check-in">スマートロック・照明・温度管理の遠隔制御。チェックイン自動化に使用</td>
+</tr>
+<tr>
+<td data-en="Starlink Connection Fee">Starlink 回線費</td>
+<td data-en="Satellite Internet Monthly Fee (up to 200Mbps download; guest Wi-Fi provision)">衛星インターネット月額費（下り最大200Mbps。宿泊者Wi-Fi提供用）</td>
+</tr>
+<tr>
+<td data-en="Hot Spring Open-Air Bath Facilities">温泉露天風呂設備</td>
+<td data-en="Regular inspection, pipe cleaning, chemical costs, and pump maintenance for pH 9.2 natural hot spring open-air bath">pH9.2源泉かけ流し露天風呂の定期点検・配管清掃・薬剤費・ポンプ維持費</td>
+</tr>
+<tr>
+<td data-en="Property Tax (Prorated by Share)">固定資産税（持分割）</td>
+<td data-en="Property tax and city planning tax proportional to 1/10 shared ownership">会員権比率（1/10）に応じた固定資産税・都市計画税の相当額</td>
+</tr>
+<tr>
+<td data-en="Fire &amp; Property Insurance">火災・損害保険</td>
+<td data-en="Fire insurance premium for common building areas (proportional to ownership share). Covers natural disasters, water damage, etc.">建物共有部分の火災保険料（持分割合分）。自然災害・水漏れ等を対象</td>
+</tr>
+<tr>
+<td data-en="Reservation and owner coordination services">予約・オーナー調整業務</td>
+<td data-en="Reservation management, guest services, Owner schedule coordination, and monthly reporting by Enabler Inc.">Enabler Inc. による予約受付・ゲスト対応・オーナー間日程調整・月次レポート作成</td>
+</tr>
+<tr class="sum-row">
+<td data-en="Total">合計</td>
+<td data-en="¥250,000 per unit/year (tax included)">¥25万/口/年（税込）</td>
+</tr>
+</tbody>
+</table>
+<p class="footnote" data-en="* Major renovations (roof replacement, exterior painting, etc.) shall be funded from reserve funds following a special resolution. The annual reserve amount shall be separately agreed upon by Owners.">* 大規模修繕（屋根葺き替え・外壁塗装等）は別途特別決議のうえ積立金から支出。年間積立額は別途オーナー間で合意します。</p>
+</div>
+<hr class="property-divider"/>
+<!-- NESTING -->
+<div class="property-block r">
+<div class="property-header">
+<span class="property-name">NESTING</span>
+<span class="property-location" data-en="Teshikaga, Hokkaido (Miruwa) — 10 shares / Currently operational">北海道・弟子屈（美留和） — 10口 / 現存稼働中</span>
+</div>
+<div class="property-fee-badge">¥25万 <span data-en="/unit/year" style="font-size:14px;color:#3a3a3a;font-weight:400">/口/年</span></div>
+<div class="property-fee-sub" data-en="10 shares total ¥2,500,000/year — approximately ¥20,800/share per month">10口総額 ¥250万/年 — 月換算 約¥20,800/口</div>
+<table class="fee-table">
+<thead>
+<tr>
+<th data-en="Expense Category">費目</th>
+<th data-en="Details">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-en="Cleaning and Linen Management">清掃・リネン管理</td>
+<td data-en="Post-checkout cleaning, towel and sheet changes, supply replenishment. Includes external cleaning service fees.">チェックアウト後の清掃、タオル・シーツ交換・消耗品補充。外部清掃業者委託費込み</td>
+</tr>
+<tr>
+<td>Beds24 PMS</td>
+<td data-en="Reservation management system (Airbnb, Booking.com, and direct booking integration). Calendar synchronization and automated messaging.">予約管理システム（Airbnb・Booking.com・直予約連携）。カレンダー同期・自動メッセージ送信</td>
+</tr>
+<tr>
+<td data-en="KAGI Smart Home System">KAGIスマートホームシステム</td>
+<td data-en="Remote control of smart locks, lighting, and temperature management. Used for automated check-in">スマートロック・照明・温度管理の遠隔制御。チェックイン自動化に使用</td>
+</tr>
+<tr>
+<td data-en="Starlink Connection Fee">Starlink 回線費</td>
+<td data-en="Satellite Internet Monthly Fee (guest Wi-Fi provision)">衛星インターネット月額費（宿泊者Wi-Fi提供用）</td>
+</tr>
+<tr>
+<td data-en="Tower Sauna &amp; Hot Tub">タワーサウナ・ホットタブ</td>
+<td data-en="Maintenance of wood-fired sauna and outdoor hot tub, including regular inspections, chemicals, pump, and heater upkeep">薪サウナ・屋外ホットタブの定期点検・薬剤費・ポンプ・ヒーター維持費</td>
+</tr>
+<tr>
+<td data-en="Building Inspections and Repairs">建物定期点検・修繕</td>
+<td data-en="Annual inspection and minor repairs of exterior walls, roof, and foundation (within scope of single-year completion)">外壁・屋根・基礎の年次点検費および軽微な修繕（単年度で完結する範囲）</td>
+</tr>
+<tr>
+<td data-en="Fire &amp; Property Insurance">火災・損害保険</td>
+<td data-en="Fire insurance premium for common building areas (proportional to ownership share). Covers natural disasters, water damage, etc.">建物共有部分の火災保険料（持分割合分）。自然災害・水漏れ等を対象</td>
+</tr>
+<tr>
+<td data-en="Reservation and owner coordination services">予約・オーナー調整業務</td>
+<td data-en="Reservation management, guest services, Owner schedule coordination, and monthly reporting by Enabler Inc.">Enabler Inc. による予約受付・ゲスト対応・オーナー間日程調整・月次レポート作成</td>
+</tr>
+<tr class="sum-row">
+<td data-en="Total">合計</td>
+<td data-en="¥250,000 per unit/year (tax included)">¥25万/口/年（税込）</td>
+</tr>
+</tbody>
+</table>
+<p class="footnote" data-en="* Major repairs shall be funded from reserves through separate special resolution">* 大規模修繕は別途特別決議のうえ積立金から支出します。</p>
+</div>
+<hr class="property-divider"/>
+<!-- KUMAUSHI BASE -->
+<div class="property-block r">
+<div class="property-header">
+<span class="property-name">KUMAUSHI BASE</span>
+<span class="property-location" data-en="Hokkaido, Teshikaga (Kumaushi) — 20 shares / Scheduled opening September 2026">北海道・弟子屈（熊牛） — 20口 / 2026年9月オープン予定</span>
+</div>
+<div class="property-fee-badge">¥35万 <span data-en="/unit/year" style="font-size:14px;color:#3a3a3a;font-weight:400">/口/年</span></div>
+<div class="property-fee-sub" data-en="20 units total ¥7,000,000 / year — Approximately ¥29,200 / unit / month">20口総額 ¥700万/年 — 月換算 約¥29,200/口</div>
+<table class="fee-table">
+<thead>
+<tr>
+<th data-en="Expense Category">費目</th>
+<th data-en="Details">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-en="Cleaning and Linen Management">清掃・リネン管理</td>
+<td data-en="Post-checkout cleaning for each container unit. Linen and towel replacement, consumables replenishment">コンテナ棟ごとのチェックアウト後清掃。リネン・タオル交換・消耗品補充</td>
+</tr>
+<tr>
+<td data-en="Utilities (Common Areas)">光熱費（共用部分）</td>
+<td data-en="Electricity and Heating Costs for inter-container passages and shared spaces. Individual unit portions included in accommodation charges">コンテナ間通路・共用スペースの電力・暖房費。個室部分は宿泊料金に含む</td>
+</tr>
+<tr>
+<td>Beds24 PMS</td>
+<td data-en="Reservation management system for 20 units. Booking coordination compatible with full-building rentals">20口分の予約管理システム。一棟貸し対応の予約連携</td>
+</tr>
+<tr>
+<td data-en="Facilities and Equipment Maintenance">施設設備メンテナンス</td>
+<td data-en="Regular inspection and maintenance of container exterior walls, insulation, electrical and water systems">コンテナ外壁・断熱・電気設備・水道設備の定期点検および修繕</td>
+</tr>
+<tr>
+<td data-en="Reserve for Major Repairs">修繕積立金</td>
+<td data-en="Monthly reserve accumulation for future major repairs. Transparent reserve balance disclosed to owners.">将来の大規模修繕に備えた月次積立。透明な積立残高をオーナーに開示</td>
+</tr>
+<tr>
+<td data-en="Property Tax (Prorated by Share)">固定資産税（持分割）</td>
+<td data-en="Property Tax Equivalent (1/20 Share)">会員権比率（1/20）に応じた固定資産税相当額</td>
+</tr>
+<tr>
+<td data-en="Fire &amp; Property Insurance">火災・損害保険</td>
+<td data-en="Fire insurance premium for entire building (pro-rata share)">建物全体の火災保険料（持分割合分）</td>
+</tr>
+<tr>
+<td data-en="Reservation and owner coordination services">予約・オーナー調整業務</td>
+<td data-en="Reservation intake, guest services, monthly reporting, and annual owners' meeting by Enabler Inc.">Enabler Inc. による予約受付・ゲスト対応・月次レポート・オーナー総会（年1回）</td>
+</tr>
+<tr class="sum-row">
+<td data-en="Total">合計</td>
+<td data-en="¥350,000 per unit/year (tax included)">¥35万/口/年（税込）</td>
+</tr>
+</tbody>
+</table>
+<p class="footnote" data-en="* KUMAUSHI BASE comprises 10 containers with 20 shares, resulting in a structure where management costs are less distributed compared to THE LODGE/NESTING. Fees may fluctuate slightly due to utility cost variations (up to ±10%; excess charges billed in the following year).">* 熊牛はコンテナ10棟・20口構成のため、THE LODGE/NESTINGより管理コストが分散されにくい構造です。光熱費の変動により若干変動する場合があります（±10%まで。超過分は翌年請求）。</p>
+</div>
+<hr class="property-divider"/>
+<!-- TAPKOP -->
+<div class="property-block r">
+<div class="property-header">
+<span class="property-name">TAPKOP</span>
+<span class="property-location" data-en="Hokkaido, Teshikaga — FULL PACK only">北海道・弟子屈 — FULL PACKのみ</span>
+</div>
+<div class="property-fee-badge" data-en="¥500,000">¥50万 <span data-en="/unit/year" style="font-size:14px;color:#3a3a3a;font-weight:400">/口/年</span></div>
+<div class="property-fee-sub" data-en="Flagship property — includes farm, atelier, and premium facility maintenance costs">旗艦物件 — 農場・アトリエ・高規格施設の維持コストを含む</div>
+<table class="fee-table">
+<thead>
+<tr>
+<th data-en="Expense Category">費目</th>
+<th data-en="Details">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-en="Cleaning and Linen Management">清掃・リネン管理</td>
+<td data-en="Premium specification cleaning (birch log, stone veneer, natural materials). Includes specialized contractor fees">高規格仕様の清掃（白樺ログ・石張り・天然素材）。専門業者委託費込み</td>
+</tr>
+<tr>
+<td data-en="KAGI Smart Home System">KAGIスマートホームシステム</td>
+<td data-en="Smart locks, lighting, and fireplace controls. Remote management for expansive properties.">スマートロック・照明・暖炉制御。広大な敷地の遠隔管理に対応</td>
+</tr>
+<tr>
+<td>Beds24 PMS</td>
+<td data-en="Reservation management system (including minimum stay settings and peak season pricing)">予約管理システム（最低泊数設定・ハイシーズン料金設定含む）</td>
+</tr>
+<tr>
+<td data-en="Starlink Connection Fee">Starlink 回線費</td>
+<td data-en="Satellite internet monthly fee (ensuring stable connectivity in mountainous and remote areas)">衛星インターネット月額費（山岳部・僻地での安定接続を確保）</td>
+</tr>
+<tr>
+<td data-en="Farm Management Fee">ファーム管理費</td>
+<td data-en="Agricultural outsourcing fees and materials costs for on-site farm cultivation, harvesting, and annual share distribution">敷地内農場の作付け・収穫・年間シェア発送に関わる農業委託費および資材費</td>
+</tr>
+<tr>
+<td data-en="Atelier maintenance costs">アトリエ維持費</td>
+<td data-en="Creative atelier equipment maintenance, cleaning, and consumables replenishment (lighting, soundproofing materials, etc.)">創作アトリエの設備維持・清掃・消耗品補充（照明・防音資材等）</td>
+</tr>
+<tr>
+<td data-en="Grounds &amp; Garden Management">敷地・庭園管理</td>
+<td data-en="Grass cutting, snow removal, and landscape maintenance across expansive grounds. Seasonal exterior grounds management">広大な敷地の草刈り・除雪・ランドスケープ維持。季節ごとの外構管理</td>
+</tr>
+<tr>
+<td data-en="Property Tax &amp; Insurance">固定資産税・保険</td>
+<td data-en="Property Tax Equivalent &amp; Fire Insurance (entire property including buildings and farmland)">持分に応じた固定資産税相当額・火災損害保険（建物・農地含む敷地全体）</td>
+</tr>
+<tr>
+<td data-en="Reservation and owner coordination services">予約・オーナー調整業務</td>
+<td data-en="Reservation intake, guest services, farm harvest share coordination, and monthly reporting by Enabler Inc.">Enabler Inc. による予約受付・ゲスト対応・ファーム収穫シェア調整・月次レポート</td>
+</tr>
+<tr class="sum-row">
+<td data-en="Total">合計</td>
+<td data-en="¥500,000 / unit / year (incl. tax)">¥50万/口/年（税込）</td>
+</tr>
+</tbody>
+</table>
+<p class="footnote" data-en="* TAPKOP is available for purchase as FULL PACK (9 properties bundled only). Please calculate using the total management fee combined with other properties.">* TAPKOPはFULL PACK（9物件一括）のみでのご購入となります。他物件と合わせた総管理費で計算してください。</p>
+</div>
+<hr class="property-divider"/>
+<!-- NOT INCLUDED -->
+<div class="r">
+<p class="label">Not Included · 含まれないもの</p>
+<h2 data-en="Management Fee">管理費に<span class="gold" data-en="Not Included">含まれないもの</span></h2>
+<p class="sub" data-en="We clearly distinguish what is and is not included in the management fee.">管理費に含まれると誤解されやすいものを明示します。</p>
+<div class="not-included-box">
+<h3 data-en="Cases Requiring Additional Fees">別途負担が発生するケース</h3>
+<ul>
+<li data-en="Personal Travel and Transportation Costs (airport to property)">個人の旅行費・交通費（空港〜物件）</li>
+<li data-en="Food and Dining Expenses During Personal Use">自己使用時の食材費・外食費</li>
+<li data-en="Major repairs (roof replacement, full exterior painting, etc.) — funded from reserves following special resolution">大規模修繕（屋根葺き替え・外壁全面塗装等）—— 特別決議後、積立金から支出</li>
+<li data-en="Portion of building damage from natural disasters exceeding insurance deductible">自然災害による建物損傷が保険免責額を超える部分</li>
+<li data-en="Equipment Investments Added by Owner Consensus">オーナー間の合意により追加される設備投資</li>
+<li data-en="Guest-caused damage repairs (covered by security deposit/guarantee, excess costs prorated)">宿泊者の故意・過失による損傷の修理費（敷金・保証で対応、超過分は按分）</li>
+</ul>
+</div>
+</div>
+<!-- PAYMENT INFO -->
+<div class="r" style="margin-top:40px">
+<p class="label" data-en="Payment · Payment Methods">Payment · 支払い方法</p>
+<h2 data-en="Management Fee">管理費の<span class="gold" data-en="Payment Method">支払い方法</span></h2>
+<div class="payment-box">
+<h3 data-en="Billing and Payment Schedule">請求・支払いスケジュール</h3>
+<div class="pay-row">
+<span class="k" data-en="Billing Schedule">請求時期</span>
+<span class="v" data-en="January annually (billed in full at fiscal year-start)">毎年1月（年度初頭に一括請求）</span>
+</div>
+<div class="pay-row">
+<span class="k" data-en="Payment Deadline">支払い期限</span>
+<span class="v" data-en="Within 30 days of invoice issuance">請求書発行から30日以内</span>
+</div>
+<div class="pay-row">
+<span class="k" data-en="Payment Method">支払い方法</span>
+<span class="v" data-en="Bank transfer (Japan Post, MUFG, and other major banks)">銀行振込（ゆうちょ・三菱UFJ・その他主要行）</span>
+</div>
+<div class="pay-row">
+<span class="k" data-en="Report">レポート</span>
+<span class="v" data-en="Monthly reports (previous month's occupancy, revenue, and itemized expenses) sent via email">月次レポート（前月稼働実績・収益・費目別支出）をメールで送付</span>
+</div>
+<div class="pay-row">
+<span class="k" data-en="First Year">初年度</span>
+<span class="v" data-en="Prorated monthly calculation from the month of share acquisition (monthly, not daily proration)">持分取得月からの月割り計算（日割りではなく月割り）</span>
+</div>
+<div class="pay-row">
+<span class="k" data-en="Management Entity">管理主体</span>
+<span class="v" data-en="Enabler Inc.">株式会社イネブラ（Enabler Inc.）</span>
+</div>
+</div>
+<p class="footnote" data-en="* Management fees may be revised annually to reflect changes in prices and energy costs. Any revisions will be communicated to owners in writing at least three months in advance. No revisions have been made over the past three years.">* 管理費は年度ごとに物価・エネルギー費等の変動を反映して改定する場合があります。改定は3ヶ月前にオーナーへ書面で告知します。過去3年の改定実績はありません。</p>
+</div>
+</div>
+</section>
+<!-- CTA -->
+<div class="cta-box">
+<p class="label">Next Step</p>
+<h2 data-en="on the Properties page">物件ページで<span class="gold" data-en="View Details">詳細を確認する</span></h2>
+<p data-en="View financial projections, occupancy performance, photos, and purchase flow for each property.">各物件の収支シミュレーション・稼働実績・写真・購入フローを確認できます。</p>
+<a class="btn-gold" data-en="View Properties →" href="collection">物件一覧を見る →</a>
+<a class="btn-outline" data-en="Consult with Your Manager" href="buy">担当者に相談する</a>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Hokkaido, Teshikaga · 8-building, 100-person village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Birawa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Birawa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Biruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Join">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Earn Shares for Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid Systems" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Architectural Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, {threshold:0.07});
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+</script>
+<script src="/lang.js"></script>
+<script src="/js/gate.js"></script>
+</body>
+</html>

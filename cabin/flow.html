@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="canonical" href="https://solun.art/flow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLUNA — サイトマップ・ユーザー動線</title>
+<meta name="description" content="SOLUNAの全ページ構成とユーザー動線を視覚化したインタラクティブマップ。オーナー候補・宿泊検討・施工会社向けの3つの動線を確認できます。">
+<meta property="og:title" content="SOLUNA — サイトマップ">
+<meta property="og:description" content="SOLUNA全15ページの構成と3つのユーザー動線を視覚化。">
+<meta property="og:image" content="https://solun.art/img/kumaushi_aerial_dawn.webp">
+<meta property="og:url" content="https://solun.art/flow">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://solun.art/img/kumaushi_aerial_dawn.webp">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23c8a455'/></svg>">
+
+
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.45);
+  --gold-soft:rgba(200,164,85,.07);
+  --gold-glow:rgba(200,164,85,.18);
+  --green:#9bc46d;
+  --green-dim:rgba(155,196,109,.4);
+  --green-soft:rgba(155,196,109,.07);
+  --blue:#6ab0f0;
+  --blue-dim:rgba(106,176,240,.4);
+  --blue-soft:rgba(106,176,240,.07);
+  --admin:#666;
+  --admin-dim:rgba(80,80,80,.4);
+  --admin-soft:rgba(80,80,80,.05);
+  --bg:#050505;
+  --bg-soft:#080808;
+  --bg-card:#0a0a0a;
+  --line:#131313;
+  --line-soft:#0e0e0e;
+  --text:#f0ece4;
+  --text-dim:#777;
+  --text-soft:#444;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-feature-settings:'palt';min-height:100vh}
+::selection{background:var(--gold);color:#000}
+a{color:var(--gold);text-decoration:none}
+
+/* ─── NAV ─── */
+.tn{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 20px;background:rgba(5,5,5,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
+.tn-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.tn-logo{font-size:13px;font-weight:800;letter-spacing:.15em;color:var(--gold);cursor:pointer}
+.tn-right{font-size:11px;color:var(--text-dim);letter-spacing:.1em}
+
+/* ─── PAGE LAYOUT ─── */
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.page-head{padding:96px 0 40px;text-align:center}
+.page-head .eyebrow{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-soft);font-weight:700;margin-bottom:14px}
+.page-head h1{font-size:clamp(1.7rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:12px}
+.page-head p{color:var(--text-dim);font-size:13px;line-height:1.9;max-width:480px;margin:0 auto}
+
+/* ─── TAB SWITCHER ─── */
+.tabs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:0 0 40px;padding:0 20px}
+.tab-btn{background:#0c0c0c;border:1px solid #1a1a1a;color:#666;font-size:11px;font-family:inherit;padding:9px 18px;border-radius:100px;cursor:pointer;transition:all .2s;letter-spacing:.04em;white-space:nowrap}
+.tab-btn:hover{color:var(--text);border-color:#2a2a2a}
+.tab-btn.active{font-weight:700;border-color:currentColor}
+.tab-btn.t-all.active{color:var(--text);background:#1a1a1a;border-color:#333}
+.tab-btn.t-owner.active{color:var(--gold);background:var(--gold-soft);border-color:var(--gold-dim)}
+.tab-btn.t-stay.active{color:var(--green);background:var(--green-soft);border-color:var(--green-dim)}
+.tab-btn.t-build.active{color:var(--blue);background:var(--blue-soft);border-color:var(--blue-dim)}
+
+/* ─── DIAGRAM AREA ─── */
+.diagram-outer{position:relative;overflow-x:auto;overflow-y:visible;padding-bottom:20px;margin-bottom:48px}
+.diagram-scroll{min-width:900px;position:relative}
+
+/* SVG overlay */
+.arrows-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+
+/* ─── NODE GRID ─── */
+.diagram-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;padding:16px;position:relative;z-index:2}
+
+/* node base */
+.node{
+  border-radius:14px;
+  border:1.5px solid #1a1a1a;
+  background:var(--bg-card);
+  padding:14px 14px 12px;
+  cursor:pointer;
+  transition:border-color .2s,background .2s,transform .15s,box-shadow .2s,opacity .3s;
+  position:relative;
+  text-align:left;
+  user-select:none;
+}
+.node:hover{transform:translateY(-2px)}
+.node.faded{opacity:.2;pointer-events:none}
+
+/* node types */
+.node.gold{border-color:var(--gold-dim);background:var(--gold-soft)}
+.node.gold:hover{border-color:var(--gold);box-shadow:0 0 22px rgba(200,164,85,.14)}
+.node.green{border-color:var(--green-dim);background:var(--green-soft)}
+.node.green:hover{border-color:var(--green);box-shadow:0 0 22px rgba(155,196,109,.12)}
+.node.blue{border-color:var(--blue-dim);background:var(--blue-soft)}
+.node.blue:hover{border-color:var(--blue);box-shadow:0 0 22px rgba(106,176,240,.1)}
+.node.admin-node{border-color:#222;background:#080808;opacity:.7}
+.node.admin-node:hover{opacity:1;border-color:#333}
+
+/* active (highlighted) node */
+.node.highlighted{transform:translateY(-2px)}
+.node.highlighted.gold{border-color:var(--gold);box-shadow:0 0 28px rgba(200,164,85,.22)}
+.node.highlighted.green{border-color:var(--green);box-shadow:0 0 28px rgba(155,196,109,.18)}
+.node.highlighted.blue{border-color:var(--blue);box-shadow:0 0 28px rgba(106,176,240,.16)}
+
+/* currently-viewing node pulse */
+.node.current::before{
+  content:'';position:absolute;inset:-3px;border-radius:17px;
+  border:1.5px solid var(--gold);
+  animation:nodePulse 2.5s ease infinite;
+  pointer-events:none;
+}
+@keyframes nodePulse{0%,100%{opacity:.8;transform:scale(1)}50%{opacity:.3;transform:scale(1.02)}}
+
+.node-icon{font-size:20px;margin-bottom:8px;line-height:1}
+.node-name{font-size:9px;color:var(--text-soft);letter-spacing:.08em;font-weight:600;margin-bottom:4px;font-variant-numeric:tabular-nums}
+.node-label{font-size:12px;font-weight:800;letter-spacing:-.01em;line-height:1.3;margin-bottom:5px}
+.node.gold .node-label{color:var(--gold)}
+.node.green .node-label{color:var(--green)}
+.node.blue .node-label{color:var(--blue)}
+.node.admin-node .node-label{color:#666}
+.node-desc{font-size:10px;color:#444;line-height:1.6}
+
+/* lane badges */
+.node-lanes{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
+.lane-badge{font-size:8px;padding:2px 7px;border-radius:100px;font-weight:700;letter-spacing:.04em}
+.lb-gold{background:rgba(200,164,85,.12);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.lb-green{background:rgba(155,196,109,.1);color:var(--green);border:1px solid rgba(155,196,109,.18)}
+.lb-blue{background:rgba(106,176,240,.08);color:var(--blue);border:1px solid rgba(106,176,240,.15)}
+.lb-admin{background:rgba(80,80,80,.1);color:#555;border:1px solid #1e1e1e}
+
+/* placeholder / spacer node */
+.node-spacer{background:transparent;border:none;pointer-events:none;cursor:default}
+.node-spacer:hover{transform:none;box-shadow:none}
+
+/* row labels */
+.row-label{display:flex;align-items:center;gap:10px;margin:28px 16px 4px;font-size:9px;color:#2a2a2a;letter-spacing:.2em;text-transform:uppercase;font-weight:700}
+.row-label::before,.row-label::after{content:'';flex:1;height:1px;background:#111}
+
+/* ─── LEGEND ─── */
+.legend{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;padding:0 20px 40px;font-size:11px;color:var(--text-dim)}
+.legend-item{display:flex;align-items:center;gap:8px}
+.legend-dot{width:10px;height:10px;border-radius:3px;border:1.5px solid}
+.legend-dot.gold{border-color:var(--gold);background:var(--gold-soft)}
+.legend-dot.green{border-color:var(--green);background:var(--green-soft)}
+.legend-dot.blue{border-color:var(--blue);background:var(--blue-soft)}
+.legend-dot.admin{border-color:#333;background:#0a0a0a}
+
+/* ─── JOURNEY CARDS ─── */
+.journey-section{padding:0 0 80px}
+.section-title{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-soft);font-weight:700;margin-bottom:28px;padding-left:2px}
+.journey-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:64px}
+@media(max-width:860px){.journey-cards{grid-template-columns:1fr}}
+
+.jc{border:1px solid #161616;border-radius:16px;background:var(--bg-soft);padding:24px;position:relative;overflow:hidden}
+.jc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0}
+.jc.gold::before{background:linear-gradient(90deg,var(--gold),transparent)}
+.jc.green::before{background:linear-gradient(90deg,var(--green),transparent)}
+.jc.blue::before{background:linear-gradient(90deg,var(--blue),transparent)}
+.jc-icon{font-size:22px;margin-bottom:12px}
+.jc-title{font-size:14px;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+.jc.gold .jc-title{color:var(--gold)}
+.jc.green .jc-title{color:var(--green)}
+.jc.blue .jc-title{color:var(--blue)}
+.jc-sub{font-size:11px;color:var(--text-soft);margin-bottom:18px;line-height:1.6}
+.jc-steps{display:flex;flex-direction:column;gap:10px}
+.jc-step{display:flex;gap:12px;align-items:flex-start}
+.jc-step-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;margin-top:1px}
+.jc.gold .jc-step-num{background:var(--gold-soft);color:var(--gold);border:1px solid var(--gold-dim)}
+.jc.green .jc-step-num{background:var(--green-soft);color:var(--green);border:1px solid var(--green-dim)}
+.jc.blue .jc-step-num{background:var(--blue-soft);color:var(--blue);border:1px solid var(--blue-dim)}
+.jc-step-body{flex:1}
+.jc-step-title{font-size:12px;font-weight:700;line-height:1.3;margin-bottom:2px}
+.jc-step-link{font-size:10px;color:var(--text-soft);font-family:monospace;letter-spacing:.02em}
+
+/* connector line between steps */
+.jc-connector{width:1px;height:10px;margin-left:10px;margin-bottom:-4px}
+.jc.gold .jc-connector{background:var(--gold-dim)}
+.jc.green .jc-connector{background:var(--green-dim)}
+.jc.blue .jc-connector{background:var(--blue-dim)}
+
+/* ─── PAGE INVENTORY TABLE ─── */
+.inventory-section{padding:0 0 100px}
+.inv-grid{display:grid;gap:1px;background:#111;border-radius:14px;overflow:hidden;border:1px solid #161616}
+.inv-head{display:grid;grid-template-columns:36px 160px 1fr 140px;gap:0;background:#0a0a0a;padding:12px 18px;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-soft);font-weight:700}
+.inv-row{display:grid;grid-template-columns:36px 160px 1fr 140px;gap:0;background:var(--bg-card);padding:14px 18px;align-items:center;cursor:pointer;transition:background .15s}
+.inv-row:hover{background:#0e0e0e}
+.inv-row:last-child{border-radius:0 0 13px 13px}
+.inv-icon{font-size:14px;text-align:center}
+.inv-url{font-size:10px;font-family:monospace;letter-spacing:.02em;padding-right:12px}
+.inv-url.gold{color:var(--gold)}
+.inv-url.green{color:var(--green)}
+.inv-url.blue{color:var(--blue)}
+.inv-url.admin{color:#555}
+.inv-desc{font-size:11.5px;color:var(--text-dim);padding-right:12px;line-height:1.5}
+.inv-for{font-size:9.5px;color:#333;text-align:right}
+.inv-badge{display:inline-block;font-size:8.5px;padding:2px 8px;border-radius:100px;font-weight:700}
+.inv-badge.gold{background:var(--gold-soft);color:var(--gold);border:1px solid rgba(200,164,85,.15)}
+.inv-badge.green{background:var(--green-soft);color:var(--green);border:1px solid rgba(155,196,109,.15)}
+.inv-badge.blue{background:var(--blue-soft);color:var(--blue);border:1px solid rgba(106,176,240,.12)}
+.inv-badge.admin{background:rgba(80,80,80,.08);color:#555;border:1px solid #1c1c1c}
+@media(max-width:640px){
+  .inv-head{grid-template-columns:28px 110px 1fr;display:none}
+  .inv-row{grid-template-columns:28px 110px 1fr;gap:4px}
+  .inv-for{display:none}
+}
+
+/* ─── FOOTER ─── */
+.foot{border-top:1px solid var(--line-soft);padding:32px 20px;text-align:center;font-size:10px;color:var(--text-soft);letter-spacing:.08em}
+.foot a{color:var(--text-soft)}
+.foot a:hover{color:var(--gold)}
+
+/* ─── MOBILE: hide diagram, show linear ─── */
+@media(max-width:700px){
+  .diagram-outer{display:none}
+  .legend{display:none}
+  .mobile-notice{display:flex;align-items:center;gap:10px;background:#0c0c0c;border:1px solid #1a1a1a;border-radius:12px;padding:14px 16px;margin:0 0 32px;font-size:11px;color:#666;letter-spacing:.03em}
+  .mobile-notice span{font-size:18px}
+}
+@media(min-width:701px){
+  .mobile-notice{display:none}
+}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+  <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+
+<body>
+<nav class="gnav">
+  <a class="gnav-logo" href="index">SOLUNA</a>
+  <div class="gnav-links" id="gnav-links">
+    <a href="collection">物件一覧</a>
+    <a href="village">ヴィラ建築</a>
+    <a href="faq">FAQ</a>
+    <a href="owners">オーナーズ</a>
+    <a href="buy" class="gnav-cta">オーナーになる</a>
+  </div>
+  <div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- NAV -->
+
+
+<!-- PAGE HEADER -->
+<div class="wrap">
+  <div class="page-head">
+    <div class="eyebrow">Site Architecture</div>
+    <h1>ページ構成と<br>ユーザー動線</h1>
+    <p>SOLUNAの全15ページと、3つの主要ユーザー動線を視覚化したインタラクティブマップです。各カードをクリックすると実際のページに移動します。</p>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn t-all active" onclick="switchTab('all')">🗺 全体図</button>
+  <button class="tab-btn t-owner" onclick="switchTab('owner')">🏡 オーナー動線</button>
+  <button class="tab-btn t-stay" onclick="switchTab('stay')">🌙 宿泊動線</button>
+  <button class="tab-btn t-build" onclick="switchTab('build')">🔧 施工・協力動線</button>
+</div>
+
+<!-- MOBILE NOTICE -->
+<div class="wrap">
+  <div class="mobile-notice">
+    <span>📱</span>
+    <span>横スクロールで全体図を確認できます。縦向きではジャーニーカードと一覧を表示しています。</span>
+  </div>
+</div>
+
+<!-- DIAGRAM -->
+<div class="wrap">
+  <div class="diagram-outer" id="diagramOuter">
+    <div class="diagram-scroll" id="diagramScroll">
+
+      <!-- SVG ARROWS -->
+      <svg class="arrows-svg" id="arrowsSvg" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Gold arrowhead -->
+          <marker id="arr-gold" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L8,3 z" fill="#c8a455" opacity=".8"/>
+          </marker>
+          <!-- Green arrowhead -->
+          <marker id="arr-green" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L8,3 z" fill="#9bc46d" opacity=".8"/>
+          </marker>
+          <!-- Blue arrowhead -->
+          <marker id="arr-blue" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L8,3 z" fill="#6ab0f0" opacity=".8"/>
+          </marker>
+          <!-- Admin arrowhead -->
+          <marker id="arr-admin" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L8,3 z" fill="#444" opacity=".7"/>
+          </marker>
+          <!-- Double arrowhead (gold) -->
+          <marker id="arr-gold-start" markerWidth="8" markerHeight="8" refX="1" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M8,0 L8,6 L0,3 z" fill="#c8a455" opacity=".6"/>
+          </marker>
+        </defs>
+        <!-- Arrows rendered by JS -->
+      </svg>
+
+      <!-- ROW 0: Entry -->
+      <div class="row-label">エントリー</div>
+      <div class="diagram-grid" id="row0" style="grid-template-columns:repeat(5,1fr)">
+        <div class="node-spacer node"></div>
+        <div class="node-spacer node"></div>
+        <div class="node gold current" id="n-index" data-page="index.html" data-lanes="owner stay build"
+             onclick="navTo('index.html','トップページ')">
+          <div class="node-icon">🏠</div>
+          <div class="node-name">index.html</div>
+          <div class="node-label">トップページ</div>
+          <div class="node-desc">物件一覧・申込フォーム・スキーム説明・実績紹介</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-gold">オーナー</span>
+            <span class="lane-badge lb-green">宿泊</span>
+            <span class="lane-badge lb-blue">施工</span>
+          </div>
+        </div>
+        <div class="node-spacer node"></div>
+        <div class="node-spacer node"></div>
+      </div>
+
+      <!-- ROW 1: Segment + Calendar -->
+      <div class="row-label">セグメント分岐</div>
+      <div class="diagram-grid" id="row1" style="grid-template-columns:repeat(5,1fr)">
+        <div class="node-spacer node"></div>
+        <div class="node gold" id="n-join" data-page="join.html" data-lanes="owner build"
+             onclick="navTo('join.html','セグメント選択')">
+          <div class="node-icon">🎯</div>
+          <div class="node-name">join.html</div>
+          <div class="node-label">セグメント選択</div>
+          <div class="node-desc">どんな人か選ぶ（オーナー候補 / 宿泊検討 / 施工）</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-gold">オーナー</span>
+            <span class="lane-badge lb-blue">施工</span>
+          </div>
+        </div>
+        <div class="node-spacer node"></div>
+        <div class="node green" id="n-calendar" data-page="calendar.html" data-lanes="stay"
+             onclick="navTo('calendar.html','空き状況カレンダー')">
+          <div class="node-icon">📅</div>
+          <div class="node-name">calendar.html</div>
+          <div class="node-label">空き状況カレンダー</div>
+          <div class="node-desc">リアルタイム空き確認・宿泊可能日程の把握</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-green">宿泊</span>
+          </div>
+        </div>
+        <div class="node-spacer node"></div>
+      </div>
+
+      <!-- ROW 2: Construction / Book / Agent -->
+      <div class="row-label">詳細・資料・行動</div>
+      <div class="diagram-grid" id="row2" style="grid-template-columns:repeat(5,1fr)">
+        <div class="node gold" id="n-brochure" data-page="brochure.html" data-lanes="owner"
+             onclick="navTo('brochure.html','印刷用冊子')">
+          <div class="node-icon">📄</div>
+          <div class="node-name">brochure.html</div>
+          <div class="node-label">印刷用冊子</div>
+          <div class="node-desc">A4 6ページPDF印刷対応・オーナー向け詳細資料</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-gold">オーナー</span>
+          </div>
+        </div>
+        <div class="node gold" id="n-construction" data-page="construction.html" data-lanes="owner build"
+             onclick="navTo('construction.html','詳細資料')">
+          <div class="node-icon">🏗</div>
+          <div class="node-name">construction.html</div>
+          <div class="node-label">詳細資料</div>
+          <div class="node-desc">施工BOM・スケジュール・オーナー募集資料・仕様書</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-gold">オーナー</span>
+            <span class="lane-badge lb-blue">施工</span>
+          </div>
+        </div>
+        <div class="node-spacer node"></div>
+        <div class="node green" id="n-book" data-page="book.html" data-lanes="stay"
+             onclick="navTo('book.html','予約フロー')">
+          <div class="node-icon">🛏</div>
+          <div class="node-name">book.html</div>
+          <div class="node-label">予約フロー</div>
+          <div class="node-desc">宿泊体験の申込・日程確定・体験前コンバージョン</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-green">宿泊</span>
+          </div>
+        </div>
+        <div class="node blue" id="n-agent" data-page="agent.html" data-lanes="build"
+             onclick="navTo('agent.html','エージェント窓口')">
+          <div class="node-icon">🤝</div>
+          <div class="node-name">agent.html</div>
+          <div class="node-label">エージェント窓口</div>
+          <div class="node-desc">仲介会社・施工協力会社向け専用ページ</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-blue">施工</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 3: Pay / Crypto / Cancel -->
+      <div class="row-label">決済・キャンセル</div>
+      <div class="diagram-grid" id="row3" style="grid-template-columns:repeat(5,1fr)">
+        <div class="node-spacer node"></div>
+        <div class="node gold" id="n-pay" data-page="pay.html" data-lanes="owner stay"
+             onclick="navTo('pay.html','手付金支払い')">
+          <div class="node-icon">💳</div>
+          <div class="node-name">pay.html</div>
+          <div class="node-label">手付金支払い</div>
+          <div class="node-desc">Stripe / Apple Pay で¥100,000手付金を支払い</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-gold">オーナー</span>
+            <span class="lane-badge lb-green">宿泊後</span>
+          </div>
+        </div>
+        <div class="node gold" id="n-crypto" data-page="crypto.html" data-lanes="owner"
+             onclick="navTo('crypto.html','Solana USDC支払い')">
+          <div class="node-icon">⛓</div>
+          <div class="node-name">crypto.html</div>
+          <div class="node-label">Solana USDC</div>
+          <div class="node-desc">暗号通貨での手付金・残金支払いオプション</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-gold">オーナー</span>
+          </div>
+        </div>
+        <div class="node green" id="n-cancel" data-page="cancel.html" data-lanes="stay owner"
+             onclick="navTo('cancel.html','キャンセル・返金')">
+          <div class="node-icon">↩</div>
+          <div class="node-name">cancel.html</div>
+          <div class="node-label">キャンセル・返金</div>
+          <div class="node-desc">予約・申込のキャンセルポリシーと返金手続き</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-green">宿泊</span>
+            <span class="lane-badge lb-gold">オーナー</span>
+          </div>
+        </div>
+        <div class="node-spacer node"></div>
+      </div>
+
+      <!-- ROW 4: Status / Call -->
+      <div class="row-label">契約プロセス</div>
+      <div class="diagram-grid" id="row4" style="grid-template-columns:repeat(5,1fr)">
+        <div class="node-spacer node"></div>
+        <div class="node gold" id="n-status" data-page="status.html" data-lanes="owner"
+             onclick="navTo('status.html','購入進捗トラッカー')">
+          <div class="node-icon">📊</div>
+          <div class="node-name">status.html</div>
+          <div class="node-label">購入進捗トラッカー</div>
+          <div class="node-desc">5ステップ進捗管理：申込→手付→購入前確認→契約→登記</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-gold">オーナー</span>
+          </div>
+        </div>
+        <div class="node-spacer node"></div>
+        <div class="node gold" id="n-call" data-page="call.html" data-lanes="owner"
+             onclick="navTo('call.html','購入前確認ビデオ通話')">
+          <div class="node-icon">📞</div>
+          <div class="node-name">call.html</div>
+          <div class="node-label">購入前確認ビデオ通話</div>
+          <div class="node-desc">法定重要事項説明のビデオ通話（非Zoom、自社システム）</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-gold">オーナー</span>
+          </div>
+        </div>
+        <div class="node-spacer node"></div>
+      </div>
+
+      <!-- ROW 5: Member -->
+      <div class="row-label">オーナー専用</div>
+      <div class="diagram-grid" id="row5" style="grid-template-columns:repeat(5,1fr)">
+        <div class="node-spacer node"></div>
+        <div class="node-spacer node"></div>
+        <div class="node gold" id="n-member" data-page="member.html" data-lanes="owner"
+             onclick="navTo('member.html','メンバーページ')">
+          <div class="node-icon">🔑</div>
+          <div class="node-name">member.html</div>
+          <div class="node-label">メンバーページ</div>
+          <div class="node-desc">オーナー専用ダッシュボード・売上・利用状況・書類</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-gold">オーナー専用</span>
+          </div>
+        </div>
+        <div class="node-spacer node"></div>
+        <div class="node-spacer node"></div>
+      </div>
+
+      <!-- ROW 6: Admin lane -->
+      <div class="row-label" style="color:#222">管理・承認（内部）</div>
+      <div class="diagram-grid" id="row6" style="grid-template-columns:repeat(5,1fr)">
+        <div class="node-spacer node"></div>
+        <div class="node admin-node" id="n-approve" data-page="approve.html" data-lanes="admin"
+             onclick="navTo('approve.html','承認フロー')">
+          <div class="node-icon">✅</div>
+          <div class="node-name">approve.html</div>
+          <div class="node-label">承認フロー</div>
+          <div class="node-desc">各ステップの社内承認・ステータス更新</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-admin">内部</span>
+          </div>
+        </div>
+        <div class="node admin-node" id="n-admin" data-page="admin.html" data-lanes="admin"
+             onclick="navTo('admin.html','管理画面')">
+          <div class="node-icon">⚙️</div>
+          <div class="node-name">admin.html</div>
+          <div class="node-label">管理画面</div>
+          <div class="node-desc">Enabler社内管理・全申込者・物件・売上一覧</div>
+          <div class="node-lanes">
+            <span class="lane-badge lb-admin">Enabler社内</span>
+          </div>
+        </div>
+        <div class="node-spacer node"></div>
+        <div class="node-spacer node"></div>
+      </div>
+
+    </div><!-- /diagram-scroll -->
+  </div><!-- /diagram-outer -->
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot gold"></div>
+      <span>🏡 オーナー候補（購入検討）</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot green"></div>
+      <span>🌙 宿泊検討</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot blue"></div>
+      <span>🔧 施工・協力会社</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot admin"></div>
+      <span>⚙️ 管理（内部）</span>
+    </div>
+  </div>
+
+  <!-- ─── JOURNEY CARDS ─── -->
+  <div class="journey-section">
+    <div class="section-title">ユーザージャーニー</div>
+    <div class="journey-cards">
+
+      <!-- Card 1: Owner -->
+      <div class="jc gold">
+        <div class="jc-icon">🏡</div>
+        <div class="jc-title">オーナーになるまでの流れ</div>
+        <div class="jc-sub">共同オーナー（購入）動線 — 約2〜4週間</div>
+        <div class="jc-steps">
+
+          <div class="jc-step">
+            <div class="jc-step-num">1</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">トップページを見る</div>
+              <a href="index" class="jc-step-link">index.html</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">2</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">セグメントを選ぶ</div>
+              <a href="join" class="jc-step-link">join.html</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">3</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">詳細資料・冊子を読む</div>
+              <a href="construction" class="jc-step-link">construction.html</a>
+              <span style="color:#333;font-size:10px"> / </span>
+              <a href="brochure" class="jc-step-link">brochure.html</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">4</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">手付金を払う ¥100,000</div>
+              <a href="pay" class="jc-step-link">pay.html</a>
+              <span style="color:#333;font-size:10px"> / </span>
+              <a href="crypto" class="jc-step-link">crypto.html</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">5</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">進捗を確認する</div>
+              <a href="status" class="jc-step-link">status.html（Step 1→2）</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">6</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">購入前確認ビデオ通話を受ける</div>
+              <a href="call" class="jc-step-link">call.html</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">7</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">電子契約・残金決済</div>
+              <a href="status" class="jc-step-link">status.html（Step 3→4）</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">8</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">登記完了 → オーナーへ</div>
+              <a href="member" class="jc-step-link">status.html Step5 → member.html</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Card 2: Stay -->
+      <div class="jc green">
+        <div class="jc-icon">🌙</div>
+        <div class="jc-title">まず泊まってから検討する</div>
+        <div class="jc-sub">宿泊体験動線 — 体験後に購入判断</div>
+        <div class="jc-steps">
+
+          <div class="jc-step">
+            <div class="jc-step-num">1</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">空き状況を確認する</div>
+              <a href="calendar" class="jc-step-link">calendar.html</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">2</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">宿泊予約を入れる</div>
+              <a href="book" class="jc-step-link">book.html</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">3</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">実際に泊まる</div>
+              <div class="jc-step-link" style="color:#333">現地体験（阿寒湖畔）</div>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">4</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">気に入ったら申込へ</div>
+              <a href="join" class="jc-step-link">join.html → index.html#inquiry</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">5</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">手付金を支払う</div>
+              <a href="pay" class="jc-step-link">pay.html → オーナー動線へ</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step" style="opacity:.5">
+            <div class="jc-step-num">—</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">キャンセルの場合</div>
+              <a href="cancel" class="jc-step-link">cancel.html</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Card 3: Build -->
+      <div class="jc blue">
+        <div class="jc-icon">🔧</div>
+        <div class="jc-title">施工・協力会社として関わる</div>
+        <div class="jc-sub">施工・仲介パートナー動線</div>
+        <div class="jc-steps">
+
+          <div class="jc-step">
+            <div class="jc-step-num">1</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">トップページを確認</div>
+              <a href="index" class="jc-step-link">index.html</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">2</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">施工仕様を読む</div>
+              <a href="construction" class="jc-step-link">construction.html#specs</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">3</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">セグメント選択</div>
+              <a href="join" class="jc-step-link">join.html（施工・協力を選択）</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">4</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">エージェント窓口へ</div>
+              <a href="agent" class="jc-step-link">agent.html</a>
+            </div>
+          </div>
+          <div class="jc-connector"></div>
+
+          <div class="jc-step">
+            <div class="jc-step-num">5</div>
+            <div class="jc-step-body">
+              <div class="jc-step-title">承認・契約</div>
+              <a href="approve" class="jc-step-link">approve.html（内部承認）</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /journey-cards -->
+
+    <!-- ─── PAGE INVENTORY ─── -->
+    <div class="inventory-section">
+      <div class="section-title">全ページ一覧</div>
+      <div class="inv-grid">
+        <div class="inv-head">
+          <div></div>
+          <div>URL</div>
+          <div>説明・主な機能</div>
+          <div style="text-align:right">対象ユーザー</div>
+        </div>
+
+        <div class="inv-row" onclick="navTo('index.html','トップページ')">
+          <div class="inv-icon">🏠</div>
+          <div class="inv-url gold">index.html</div>
+          <div class="inv-desc">トップページ — 物件一覧・スキーム説明・申込フォーム・実績紹介・ライブカレンダー</div>
+          <div class="inv-for"><span class="inv-badge gold">全員</span></div>
+        </div>
+        <div class="inv-row" onclick="navTo('join.html','セグメント選択')">
+          <div class="inv-icon">🎯</div>
+          <div class="inv-url gold">join.html</div>
+          <div class="inv-desc">セグメント選択 — どんな人か選ぶ（オーナー候補 / 宿泊検討 / 施工会社）</div>
+          <div class="inv-for"><span class="inv-badge gold">全員</span></div>
+        </div>
+        <div class="inv-row" onclick="navTo('construction.html','詳細資料')">
+          <div class="inv-icon">🏗</div>
+          <div class="inv-url gold">construction.html</div>
+          <div class="inv-desc">詳細資料 — 施工BOM・工程スケジュール・オーナー向け詳細資料・仕様書・ROI試算</div>
+          <div class="inv-for"><span class="inv-badge gold">オーナー</span> <span class="inv-badge blue">施工</span></div>
+        </div>
+        <div class="inv-row" onclick="navTo('brochure.html','印刷用冊子')">
+          <div class="inv-icon">📄</div>
+          <div class="inv-url gold">brochure.html</div>
+          <div class="inv-desc">印刷用冊子 — A4 6ページPDF印刷対応の詳細パンフレット</div>
+          <div class="inv-for"><span class="inv-badge gold">オーナー</span></div>
+        </div>
+        <div class="inv-row" onclick="navTo('calendar.html','空き状況カレンダー')">
+          <div class="inv-icon">📅</div>
+          <div class="inv-url green">calendar.html</div>
+          <div class="inv-desc">空き状況カレンダー — リアルタイムの予約可能日・物件別カレンダー表示</div>
+          <div class="inv-for"><span class="inv-badge green">宿泊</span></div>
+        </div>
+        <div class="inv-row" onclick="navTo('book.html','予約フロー')">
+          <div class="inv-icon">🛏</div>
+          <div class="inv-url green">book.html</div>
+          <div class="inv-desc">予約フロー — 宿泊体験の申込・日程確定・ゲスト情報入力</div>
+          <div class="inv-for"><span class="inv-badge green">宿泊</span></div>
+        </div>
+        <div class="inv-row" onclick="navTo('pay.html','手付金支払い')">
+          <div class="inv-icon">💳</div>
+          <div class="inv-url gold">pay.html</div>
+          <div class="inv-desc">手付金支払い — Stripe / Apple Pay で¥100,000手付金を安全に決済</div>
+          <div class="inv-for"><span class="inv-badge gold">オーナー</span></div>
+        </div>
+        <div class="inv-row" onclick="navTo('status.html','購入進捗トラッカー')">
+          <div class="inv-icon">📊</div>
+          <div class="inv-url gold">status.html</div>
+          <div class="inv-desc">購入進捗トラッカー — 5ステップ（申込→手付→購入前確認→電子契約→登記完了）</div>
+          <div class="inv-for"><span class="inv-badge gold">オーナー</span></div>
+        </div>
+        <div class="inv-row" onclick="navTo('call.html','購入前確認ビデオ通話')">
+          <div class="inv-icon">📞</div>
+          <div class="inv-url gold">call.html</div>
+          <div class="inv-desc">購入前確認ビデオ通話 — 担当者が物件・条件・リスクを説明するビデオ通話</div>
+          <div class="inv-for"><span class="inv-badge gold">オーナー</span></div>
+        </div>
+        <div class="inv-row" onclick="navTo('crypto.html','Solana USDC支払い')">
+          <div class="inv-icon">⛓</div>
+          <div class="inv-url gold">crypto.html</div>
+          <div class="inv-desc">Solana USDC支払い — 暗号通貨（USDC on Solana）での手付金・残金支払い</div>
+          <div class="inv-for"><span class="inv-badge gold">オーナー</span></div>
+        </div>
+        <div class="inv-row" onclick="navTo('cancel.html','キャンセル・返金')">
+          <div class="inv-icon">↩</div>
+          <div class="inv-url green">cancel.html</div>
+          <div class="inv-desc">キャンセル・返金 — 予約・購入申込のキャンセルポリシーと返金手続き</div>
+          <div class="inv-for"><span class="inv-badge green">宿泊</span> <span class="inv-badge gold">オーナー</span></div>
+        </div>
+        <div class="inv-row" onclick="navTo('member.html','メンバーページ')">
+          <div class="inv-icon">🔑</div>
+          <div class="inv-url gold">member.html</div>
+          <div class="inv-desc">メンバーページ — オーナー専用ダッシュボード・収益報告・利用スケジュール・各種書類</div>
+          <div class="inv-for"><span class="inv-badge gold">オーナー専用</span></div>
+        </div>
+        <div class="inv-row" onclick="navTo('admin.html','管理画面')">
+          <div class="inv-icon">⚙️</div>
+          <div class="inv-url admin">admin.html</div>
+          <div class="inv-desc">管理画面 — Enabler社内向け：全申込者管理・物件状況・売上ダッシュボード</div>
+          <div class="inv-for"><span class="inv-badge admin">社内</span></div>
+        </div>
+        <div class="inv-row" onclick="navTo('agent.html','エージェント窓口')">
+          <div class="inv-icon">🤝</div>
+          <div class="inv-url blue">agent.html</div>
+          <div class="inv-desc">エージェント窓口 — 仲介会社・施工協力会社向け専用ページ・報酬体系・資料</div>
+          <div class="inv-for"><span class="inv-badge blue">施工</span></div>
+        </div>
+        <div class="inv-row" onclick="navTo('approve.html','承認フロー')">
+          <div class="inv-icon">✅</div>
+          <div class="inv-url admin">approve.html</div>
+          <div class="inv-desc">承認フロー — 各購入ステップの社内承認・ステータス手動更新・担当者割当</div>
+          <div class="inv-for"><span class="inv-badge admin">社内</span></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /journey-section -->
+
+</div><!-- /wrap -->
+
+<footer class="foot">
+  <a href="index">SOLUNA</a> — 全ページ構成・ユーザー動線マップ &nbsp;·&nbsp;
+  <a href="index">トップへ戻る</a>
+</footer>
+
+<script>
+/* ─── CONFIG: Arrows (from → to → lane) ─── */
+const ARROWS = [
+  // Lane: owner (gold)
+  { from:'n-index',      to:'n-join',         lane:'gold'  },
+  { from:'n-index',      to:'n-calendar',     lane:'green' },
+  { from:'n-join',       to:'n-construction', lane:'gold'  },
+  { from:'n-join',       to:'n-brochure',     lane:'gold'  },
+  { from:'n-join',       to:'n-agent',        lane:'blue'  },
+  { from:'n-construction', to:'n-pay',        lane:'gold'  },
+  { from:'n-construction', to:'n-brochure',   lane:'gold', bidirectional:true },
+  { from:'n-pay',        to:'n-status',       lane:'gold'  },
+  { from:'n-crypto',     to:'n-status',       lane:'gold'  },
+  { from:'n-construction', to:'n-crypto',     lane:'gold'  },
+  { from:'n-status',     to:'n-call',         lane:'gold'  },
+  { from:'n-call',       to:'n-status',       lane:'gold', dashed:true },
+  { from:'n-status',     to:'n-member',       lane:'gold'  },
+
+  // Lane: stay (green)
+  { from:'n-calendar',   to:'n-book',         lane:'green' },
+  { from:'n-book',       to:'n-cancel',       lane:'green', dashed:true },
+  { from:'n-book',       to:'n-join',         lane:'green', dashed:true },
+  { from:'n-join',       to:'n-pay',          lane:'green', dashed:true },
+
+  // Lane: build (blue)
+  { from:'n-construction', to:'n-agent',      lane:'blue'  },
+
+  // Admin lane
+  { from:'n-status',     to:'n-approve',      lane:'admin', dashed:true },
+  { from:'n-approve',    to:'n-admin',        lane:'admin'  },
+  { from:'n-admin',      to:'n-member',       lane:'admin', dashed:true },
+];
+
+/* colour per lane */
+const LANE_COLOR = {
+  gold:  '#c8a455',
+  green: '#9bc46d',
+  blue:  '#6ab0f0',
+  admin: '#3a3a3a',
+};
+
+/* ─── RENDER SVG ARROWS ─── */
+function renderArrows() {
+  const svg = document.getElementById('arrowsSvg');
+  const scroll = document.getElementById('diagramScroll');
+  const scrollRect = scroll.getBoundingClientRect();
+
+  // clear existing paths
+  while (svg.lastChild && svg.lastChild.tagName !== 'defs') {
+    svg.removeChild(svg.lastChild);
+  }
+
+  ARROWS.forEach((a, idx) => {
+    const fromEl = document.getElementById(a.from);
+    const toEl   = document.getElementById(a.to);
+    if (!fromEl || !toEl) return;
+    if (fromEl.classList.contains('node-spacer') || toEl.classList.contains('node-spacer')) return;
+
+    const fr = fromEl.getBoundingClientRect();
+    const tr = toEl.getBoundingClientRect();
+    const sr = scroll.getBoundingClientRect();
+
+    // compute centers relative to scroll container
+    const fx = fr.left - sr.left + fr.width / 2;
+    const fy = fr.top  - sr.top  + fr.height / 2;
+    const tx = tr.left - sr.left + tr.width / 2;
+    const ty = tr.top  - sr.top  + tr.height / 2;
+
+    // edge points (attach to bottom/top/left/right depending on direction)
+    const angle = Math.atan2(ty - fy, tx - fx);
+    const fromR = fromEl.offsetWidth / 2;
+    const fromRh = fromEl.offsetHeight / 2;
+    const toR   = toEl.offsetWidth / 2;
+    const toRh  = toEl.offsetHeight / 2;
+
+    // exit point from source
+    let sx, sy;
+    if (Math.abs(Math.cos(angle)) * fromRh > Math.abs(Math.sin(angle)) * fromR) {
+      sx = fx + (angle > -Math.PI/2 && angle < Math.PI/2 ? fromR : -fromR);
+      sy = fy + Math.tan(angle) * (angle > -Math.PI/2 && angle < Math.PI/2 ? fromR : -fromR);
+    } else {
+      sy = fy + (Math.sin(angle) > 0 ? fromRh : -fromRh);
+      sx = fx + (fromRh / Math.tan(angle)) * (Math.sin(angle) > 0 ? 1 : -1);
+    }
+    // always prefer bottom/top exits for vertical connections
+    if (Math.abs(ty - fy) > Math.abs(tx - fx) * 0.8) {
+      sy = fy + (ty > fy ? fromRh : -fromRh);
+      sx = fx + ((ty > fy ? fromRh : -fromRh) / Math.tan(angle));
+    }
+
+    // entry point to target
+    let ex, ey;
+    if (Math.abs(ty - fy) > Math.abs(tx - fx) * 0.8) {
+      ey = ty + (ty > fy ? -toRh : toRh);
+      ex = tx + ((ty > fy ? -toRh : toRh) / Math.tan(angle));
+    } else {
+      ex = tx + (tx > fx ? -toR : toR);
+      ey = ty + Math.tan(angle) * (tx > fx ? -toR : toR);
+    }
+
+    const color = LANE_COLOR[a.lane];
+    const markerId = 'arr-' + a.lane;
+
+    // bezier control points
+    const midX = (sx + ex) / 2;
+    const midY = (sy + ey) / 2;
+    const dx = ex - sx;
+    const dy = ey - sy;
+    const cx1 = sx + dx * 0.3 + (Math.abs(dx) < 60 ? (dy > 0 ? -30 : 30) : 0);
+    const cy1 = sy + dy * 0.3;
+    const cx2 = ex - dx * 0.3;
+    const cy2 = ey - dy * 0.3;
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', `M${sx},${sy} C${cx1},${cy1} ${cx2},${cy2} ${ex},${ey}`);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', color);
+    path.setAttribute('stroke-width', '1.5');
+    path.setAttribute('stroke-opacity', '0.5');
+    path.setAttribute('marker-end', `url(#${markerId})`);
+    if (a.dashed) path.setAttribute('stroke-dasharray', '4 3');
+    path.dataset.from = a.from;
+    path.dataset.to   = a.to;
+    path.dataset.lane = a.lane;
+    path.classList.add('arrow-path');
+
+    if (a.bidirectional) {
+      const markerId2 = 'arr-gold-start';
+      path.setAttribute('marker-start', `url(#${markerId2})`);
+    }
+
+    svg.appendChild(path);
+  });
+
+  // set SVG height
+  svg.style.height = scroll.scrollHeight + 'px';
+}
+
+/* ─── HOVER HIGHLIGHT ─── */
+function highlightNode(nodeId, on) {
+  const node = document.getElementById(nodeId);
+  if (!node) return;
+  if (on) node.classList.add('highlighted');
+  else     node.classList.remove('highlighted');
+}
+
+function highlightArrows(nodeId, on) {
+  document.querySelectorAll('.arrow-path').forEach(p => {
+    const active = p.dataset.from === nodeId || p.dataset.to === nodeId;
+    if (active) {
+      p.style.strokeOpacity = on ? '1' : '0.5';
+      p.style.strokeWidth   = on ? '2.5' : '1.5';
+      // highlight connected nodes too
+      if (on) {
+        highlightNode(p.dataset.from, true);
+        highlightNode(p.dataset.to, true);
+      } else {
+        highlightNode(p.dataset.from, false);
+        highlightNode(p.dataset.to, false);
+      }
+    }
+  });
+}
+
+document.querySelectorAll('.node:not(.node-spacer)').forEach(node => {
+  node.addEventListener('mouseenter', () => highlightArrows(node.id, true));
+  node.addEventListener('mouseleave', () => highlightArrows(node.id, false));
+});
+
+/* ─── NAV TO PAGE ─── */
+function navTo(page, name) {
+  gtag('event', 'node_click', { page_name: name, page_url: page });
+  window.location.href = page;
+}
+
+/* ─── TAB SWITCHER ─── */
+const LANE_NODES = {
+  owner: ['n-index','n-join','n-construction','n-brochure','n-pay','n-crypto','n-status','n-call','n-member','n-cancel'],
+  stay:  ['n-index','n-calendar','n-book','n-cancel','n-join','n-pay'],
+  build: ['n-index','n-join','n-construction','n-agent','n-approve'],
+  admin: ['n-admin','n-approve','n-status','n-member'],
+};
+const ALL_NODES = ['n-index','n-join','n-construction','n-brochure','n-calendar','n-book','n-agent','n-pay','n-crypto','n-cancel','n-status','n-call','n-member','n-admin','n-approve'];
+
+let currentTab = 'all';
+
+function switchTab(tab) {
+  currentTab = tab;
+  // update button states
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.tab-btn.t-' + tab).classList.add('active');
+
+  if (tab === 'all') {
+    ALL_NODES.forEach(id => {
+      const n = document.getElementById(id);
+      if (n) n.classList.remove('faded');
+    });
+  } else {
+    const activeNodes = LANE_NODES[tab] || [];
+    ALL_NODES.forEach(id => {
+      const n = document.getElementById(id);
+      if (!n) return;
+      if (activeNodes.includes(id)) n.classList.remove('faded');
+      else n.classList.add('faded');
+    });
+  }
+
+  // update arrow visibility
+  document.querySelectorAll('.arrow-path').forEach(p => {
+    if (tab === 'all') {
+      p.style.display = '';
+      p.style.strokeOpacity = '0.5';
+    } else {
+      if (p.dataset.lane === tab || (tab === 'owner' && p.dataset.lane === 'gold') || (tab === 'stay' && p.dataset.lane === 'green') || (tab === 'build' && p.dataset.lane === 'blue') || (tab === 'admin' && p.dataset.lane === 'admin')) {
+        p.style.display = '';
+        p.style.strokeOpacity = '0.8';
+      } else {
+        p.style.display = 'none';
+      }
+    }
+  });
+}
+
+/* ─── INIT ─── */
+window.addEventListener('load', () => {
+  renderArrows();
+});
+window.addEventListener('resize', () => {
+  renderArrows();
+  if (currentTab !== 'all') switchTab(currentTab);
+});
+
+// Also re-render after fonts/images settle
+setTimeout(renderArrows, 500);
+setTimeout(renderArrows, 1200);
+</script>
+
+<script src="/track.js" defer></script>
+</body>
+</html>

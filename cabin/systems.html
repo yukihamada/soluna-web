@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/systems" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA SYSTEMS — Climate Control &amp; Security Installation Guide">SOLUNA SYSTEMS — 空調・セキュリティ導入ガイド</title>
+<meta content="SOLUNAの物件に導入するスマートロック・監視カメラ・空調管理システム。購入リスト付き。" data-en-content="Smart locks, security cameras, and climate control systems deployed across SOLUNA properties. Includes purchase list." name="description"/>
+<meta content="SOLUNA SYSTEMS — 空調・セキュリティ導入ガイド" property="og:title"/>
+<meta content="スマートロック・監視カメラ・空調遠隔管理。北海道〜ハワイの全物件対応。" property="og:description"/>
+<meta content="https://solun.art/img/kumaushi_aerial_dawn.webp" property="og:image"/>
+<meta content="https://solun.art/systems" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;rect width='32' height='32' rx='6' fill='%23070707'/&gt;&lt;text x='16' y='22' font-size='18' text-anchor='middle' fill='%23c8a455' font-family='sans-serif' font-weight='800'&gt;S&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --bg:#070707;
+  --fg:#ece8df;
+  --dim:#404040;
+  --border:#111;
+  --blue:#4a9eff;
+  --green:#4cca8a;
+  --orange:#ff8c42;
+  --red:#ff5050;
+  --card:#0c0c0c;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:14px 28px;background:rgba(7,7,7,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
+.nav-sub{font-size:9px;color:#333;letter-spacing:.12em;margin-left:10px}
+.nav-links{display:flex;gap:20px;align-items:center;font-size:11px;color:#444}
+.nav-links a{color:#444;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links .cta{background:var(--gold);color:#070707;font-weight:700;padding:8px 18px;border-radius:100px;font-size:10.5px}
+.nav-links .cta:hover{opacity:.85;color:#070707}
+
+/* HERO */
+.hero{padding:140px 24px 80px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(200,164,85,.06) 0%,transparent 60%)}
+.hero-label{font-size:9px;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin-bottom:20px;opacity:.7}
+.hero h1{font-size:clamp(2rem,6vw,3.8rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:16px}
+.hero h1 span{color:var(--gold)}
+.hero-sub{font-size:13px;color:#555;line-height:2;max-width:500px;margin:0 auto 40px}
+.hero-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:40px}
+.hero-stat{text-align:center}
+.hero-stat-val{font-size:22px;font-weight:800;color:var(--gold)}
+.hero-stat-lbl{font-size:9px;color:#333;letter-spacing:.1em;margin-top:4px}
+
+/* SECTION */
+.s{padding:80px 0;border-top:1px solid var(--border)}
+.w{max-width:980px;margin:0 auto;padding:0 24px}
+.section-label{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:10px}
+.section-label.blue{color:rgba(74,158,255,.5)}
+.section-label.green{color:rgba(76,202,138,.5)}
+.section-label.orange{color:rgba(255,140,66,.5)}
+.section-label.red{color:rgba(255,80,80,.5)}
+h2{font-size:clamp(1.4rem,3.5vw,2.2rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:10px}
+.section-desc{font-size:12.5px;color:#444;line-height:2;max-width:580px;margin-bottom:36px}
+
+/* PRODUCT GRID */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:24px}
+.prod-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color .3s,transform .2s}
+.prod-card:hover{border-color:rgba(200,164,85,.3);transform:translateY(-2px)}
+.prod-card-img{width:100%;height:200px;object-fit:contain;background:#0e0e0e;padding:24px}
+.prod-card-img-placeholder{width:100%;height:200px;display:flex;align-items:center;justify-content:center;font-size:64px;background:#0a0a0a}
+.prod-card-body{padding:20px}
+.prod-card-tag{display:inline-block;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:100px;margin-bottom:10px;font-weight:700}
+.tag-blue{background:rgba(74,158,255,.1);color:var(--blue)}
+.tag-green{background:rgba(76,202,138,.1);color:var(--green)}
+.tag-orange{background:rgba(255,140,66,.1);color:var(--orange)}
+.tag-red{background:rgba(255,80,80,.1);color:var(--red)}
+.prod-card-name{font-size:15px;font-weight:800;color:var(--fg);margin-bottom:4px;letter-spacing:-.01em}
+.prod-card-maker{font-size:10px;color:#333;margin-bottom:12px}
+.prod-card-price{font-size:20px;font-weight:800;color:var(--gold);margin-bottom:4px}
+.prod-card-price-sub{font-size:9.5px;color:#333;margin-bottom:14px}
+.prod-card-features{list-style:none;margin-bottom:18px}
+.prod-card-features li{font-size:11px;color:#555;padding:4px 0;border-bottom:1px solid #0e0e0e;display:flex;align-items:flex-start;gap:7px;line-height:1.6}
+.prod-card-features li::before{content:'—';color:#222;flex-shrink:0;margin-top:1px}
+.prod-buy-btn{display:block;text-align:center;padding:12px;background:rgba(200,164,85,.08);border:1px solid rgba(200,164,85,.2);border-radius:10px;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.04em;transition:all .2s}
+.prod-buy-btn:hover{background:var(--gold);color:#070707}
+.prod-buy-btn.amazon{background:rgba(255,153,0,.08);border-color:rgba(255,153,0,.2);color:#ff9900}
+.prod-buy-btn.amazon:hover{background:#ff9900;color:#000}
+
+/* RECOMMENDATION TABLE */
+.rec-table{width:100%;border-collapse:collapse;margin-top:24px;font-size:11.5px}
+.rec-table th{text-align:left;padding:12px 16px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#2a2a2a;font-weight:700;border-bottom:1px solid #111}
+.rec-table td{padding:14px 16px;border-bottom:1px solid #0e0e0e;vertical-align:top;line-height:1.7}
+.rec-table tr:last-child td{border-bottom:none}
+.rec-table td:first-child{color:#666;font-weight:600;width:140px;white-space:nowrap}
+.rec-check{color:var(--green);font-size:12px}
+.rec-na{color:#222;font-size:12px}
+.rec-badge{display:inline-block;font-size:8.5px;padding:2px 8px;border-radius:100px;font-weight:700;margin:1px 2px;vertical-align:middle}
+.rb-lock{background:rgba(74,158,255,.1);color:var(--blue)}
+.rb-cam{background:rgba(255,80,80,.1);color:var(--red)}
+.rb-hvac{background:rgba(76,202,138,.1);color:var(--green)}
+.rb-sensor{background:rgba(255,140,66,.1);color:var(--orange)}
+
+/* TOTAL COST */
+.cost-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px}
+@media(max-width:640px){.cost-grid{grid-template-columns:1fr}}
+.cost-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px}
+.cost-card-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#333;margin-bottom:8px;font-weight:700}
+.cost-card-val{font-size:26px;font-weight:800;color:var(--gold);margin-bottom:4px}
+.cost-card-sub{font-size:11px;color:#333;line-height:1.7}
+
+/* STEPS */
+.steps{counter-reset:step;margin-top:28px}
+.step{display:flex;gap:20px;padding:24px 0;border-bottom:1px solid #0e0e0e}
+.step:last-child{border-bottom:none}
+.step-num{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#0e0e0e;border:1px solid #1a1a1a;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#333;counter-increment:step}
+.step-num::after{content:counter(step,"0")}
+.step-body{}
+.step-title{font-size:13px;font-weight:800;color:var(--fg);margin-bottom:5px}
+.step-desc{font-size:11.5px;color:#444;line-height:1.9}
+
+/* DIVIDER */
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(200,164,85,.15),transparent);margin:0}
+
+@media(max-width:680px){
+  .nav-links{display:none}
+  .hero{padding:120px 20px 60px}
+  .hero-stats{gap:24px}
+  .rec-table{font-size:10.5px}
+  .rec-table td:first-child{width:100px}
+}
+</style>
+</head>
+<body>
+<!-- NAV -->
+<nav class="nav">
+<div style="display:flex;align-items:center">
+<a href="index" style="color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.22em">SOLUNA</a>
+<span class="nav-sub">SYSTEMS</span>
+</div>
+<div class="nav-links">
+<a href="kit-security">Security Kit</a>
+<a data-en="Operational Management" href="ops">運営オペレーション</a>
+<a data-en="Properties" href="index">物件一覧</a>
+<a class="cta" data-en="Contact Us" href="contact">お問い合わせ</a>
+</div>
+</nav>
+<!-- HERO -->
+<div class="hero">
+<div class="hero-label">SOLUNA SYSTEMS GUIDE</div>
+<h1 data-en="Climate Control &amp; Security">空調 &amp; セキュリティ<br/><span data-en="Implementation Guide">導入ガイド</span></h1>
+<p class="hero-sub" data-en="Recommended systems across all 9 properties from Hokkaido to Hawaii. Comprehensive guide to smart locks, security cameras, and remote climate control.">北海道〜ハワイ、全9物件の導入推奨システム。<br/>スマートロック・防犯カメラ・空調遠隔管理をまとめて解説。</p>
+<div class="hero-stats">
+<div class="hero-stat"><div class="hero-stat-val">4</div><div class="hero-stat-lbl" data-en="Category">カテゴリ</div></div>
+<div class="hero-stat"><div class="hero-stat-val">12</div><div class="hero-stat-lbl" data-en="Recommended products">推奨製品</div></div>
+<div class="hero-stat"><div class="hero-stat-val">9</div><div class="hero-stat-lbl" data-en="Eligible Properties">対象物件</div></div>
+<div class="hero-stat"><div class="hero-stat-val">¥80万〜</div><div class="hero-stat-lbl" data-en="Per-property estimate">1物件あたり目安</div></div>
+</div>
+</div>
+<div class="divider"></div>
+<!-- ── 01 スマートロック ── -->
+<section class="s" id="lock">
+<div class="w">
+<div class="section-label blue">01 — Smart Lock</div>
+<h2 data-en="Smart Lock">スマートロック</h2>
+<p class="section-desc" data-en="Fully automated check-in and check-out. Guests receive temporary access codes that automatically expire after checkout.
+    Retrofit installation requires no construction and works with existing locks, compatible with rental properties.">
+    チェックイン・アウトを完全無人化。ゲストには一時的な暗証番号を発行し、チェックアウト後は自動失効。
+    工事不要で既存の錠前に後付けできるため、賃貸物件にも対応。
+  </p>
+<div class="prod-grid">
+<!-- SESAME 5 Pro -->
+<div class="prod-card">
+<div class="prod-card-img-placeholder">🔐</div>
+<div class="prod-card-body">
+<span class="prod-card-tag tag-blue" data-en="Primary recommendation">メイン推奨</span>
+<div class="prod-card-name">SESAME 5 Pro</div>
+<div class="prod-card-maker">CANDY HOUSE</div>
+<div class="prod-card-price">¥5,980</div>
+<div class="prod-card-price-sub" data-en="+ WiFi Module ¥3,280 (Required)">+ WiFiモジュール ¥3,280（必須）</div>
+<ul class="prod-card-features">
+<li data-en="Brushless motor rated for 1 million cycles with industry-leading quiet operation">100万回耐久のブラシレスモーター、業界最静音</li>
+<li data-en="No installation required — double-sided tape installation in 5 minutes">工事不要・両面テープで取付5分</li>
+<li data-en="Compatible with Alexa, Google Assistant, and Siri">Alexa / Google Assistant / Siri 対応</li>
+<li data-en="Temporary unlock via QR code or NFC tag">QRコード・NFCタグで一時解錠</li>
+<li data-en="Real-time access logs viewable in app">開錠ログをアプリでリアルタイム確認</li>
+<li data-en="Auto-Lock with Away-Triggered Locking Function">オートロック・離れたら施錠 機能あり</li>
+</ul>
+<a class="prod-buy-btn amazon" data-en="Purchase at official store (Yahoo!)" href="https://store.shopping.yahoo.co.jp/sesame-store/sesamejp5-pro" rel="noopener" target="_blank">公式ストアで購入（Yahoo!）</a>
+</div>
+</div>
+<!-- SESAME Touch Pro -->
+<div class="prod-card">
+<div class="prod-card-img-placeholder">👆</div>
+<div class="prod-card-body">
+<span class="prod-card-tag tag-blue" data-en="Optional">オプション</span>
+<div class="prod-card-name">SESAME Touch Pro</div>
+<div class="prod-card-maker">CANDY HOUSE</div>
+<div class="prod-card-price">¥4,380</div>
+<div class="prod-card-price-sub" data-en="Additional Pad for SESAME 5 Pro">SESAME 5 Proへの追加パッド</div>
+<ul class="prod-card-features">
+<li data-en="Fingerprint authentication + IC card compatible (Suica, etc.)">指紋認証 + ICカード（Suica等）対応</li>
+<li data-en="PIN code entry available (3 types to choose from)">暗証番号入力もOK（3種類を選択可）</li>
+<li data-en="Fingerprint registration available for staff and cleaning personnel">スタッフ・清掃業者に指紋登録可能</li>
+<li data-en="Separate access management: guests use passcodes, staff use fingerprints">ゲストは暗証番号、スタッフは指紋で分けて管理</li>
+</ul>
+<a class="prod-buy-btn amazon" data-en="Purchase at official store (Yahoo!)" href="https://store.shopping.yahoo.co.jp/sesame-store/sesamejp5-pro" rel="noopener" target="_blank">公式ストアで購入（Yahoo!）</a>
+</div>
+</div>
+<!-- RemoteLOCK -->
+<div class="prod-card">
+<div class="prod-card-img-placeholder">🏨</div>
+<div class="prod-card-body">
+<span class="prod-card-tag tag-green" data-en="Short-term rental and PMS integration">民泊・PMS連携</span>
+<div class="prod-card-name">RemoteLOCK</div>
+<div class="prod-card-maker" data-en="Linear LLC (Official Japan Distributor)">Linear LLC（日本総代理）</div>
+<div class="prod-card-price" data-en="¥38,000+">¥38,000〜</div>
+<div class="prod-card-price-sub" data-en="+ Monthly ¥2,000/property (management fee)">+ 月額 ¥2,000/物件（管理費）</div>
+<ul class="prod-card-features">
+<li data-en="Direct integration with Beds24, Airbnb &amp; Booking.com">Beds24・Airbnb・Booking.comと直接連携</li>
+<li data-en="Check-in code automatically generated and sent upon booking confirmation">予約が入ると自動でチェックイン番号を発行・送付</li>
+<li data-en="Access codes automatically expire after checkout">チェックアウト後は番号を自動失効</li>
+<li data-en="Dashboard for centralized management of multiple properties">複数物件を一元管理できるダッシュボード</li>
+<li data-en="Zendesk Support Available (Japanese supported)">Zendeskサポート対応（日本語あり）</li>
+</ul>
+<a class="prod-buy-btn" data-en="RemoteLOCK Official Website" href="https://remotelock.com/vacation-rental-software/" rel="noopener" target="_blank">RemoteLOCK 公式サイト</a>
+</div>
+</div>
+</div><!-- /prod-grid -->
+<div data-en="SESAME 5 Pro (¥5,980) + WiFi Module (¥3,280) + SESAME Touch Pro (¥4,380).
+    For properties requiring automatic Beds24 integration, adopt RemoteLOCK (¥38,000+).
+    For luxury properties like TAPKOP, installation at entrance gates is recommended." style="margin-top:20px;padding:18px 20px;background:#0a0a0a;border:1px solid #111;border-radius:12px;font-size:11.5px;color:#444;line-height:2">
+<strong data-en="Recommended Configuration:" style="color:#666">推奨構成：</strong>
+    SESAME 5 Pro（¥5,980）＋ WiFiモジュール（¥3,280）＋ SESAME Touch Pro（¥4,380）＝ <strong style="color:var(--gold)">¥13,640/戸</strong>。
+    Beds24との自動連携が必要な物件には RemoteLOCK（¥38,000〜）を採用。
+    TAPKOPのような高級物件は入口ゲートにも設置推奨。
+  </div>
+</div>
+</section>
+<!-- ── 02 防犯カメラ ── -->
+<section class="s" id="camera">
+<div class="w">
+<div class="section-label red">02 — Security Camera</div>
+<h2 data-en="Security camera">防犯カメラ</h2>
+<p class="section-desc" data-en="Records entrance, parking area, and surroundings. AI-powered alerts for people and vehicle detection. Interior installation avoided to respect privacy.">
+    玄関・駐車場・周囲を記録。AIによる人物・車両検知でアラート通知。
+    プライバシーに配慮し、室内への設置は行わない。
+  </p>
+<div class="prod-grid">
+<!-- Reolink RLC-820A -->
+<div class="prod-card">
+<div class="prod-card-img-placeholder">📷</div>
+<div class="prod-card-body">
+<span class="prod-card-tag tag-red" data-en="Outdoor &amp; Wired (Recommended)">屋外・有線（推奨）</span>
+<div class="prod-card-name">Reolink RLC-820A</div>
+<div class="prod-card-maker">Reolink</div>
+<div class="prod-card-price">¥11,999</div>
+<div class="prod-card-price-sub" data-en="Direct sales via Amazon.co.jp">Amazon.co.jp 直販</div>
+<ul class="prod-card-features">
+<li data-en="4K / 8MP ultra-high resolution with AI detection for people, vehicles, and animals">4K / 8MP 超高解像度、AI人物・車両・動物検知</li>
+<li data-en="PoE compatible (power and video over single LAN cable), 24-hour recording">PoE対応（LAN1本で電源＋映像）、24時間録画</li>
+<li data-en="Color night vision, H.265 compression for efficient storage">カラーナイトビジョン、H.265圧縮で省ストレージ</li>
+<li data-en="IP67 waterproof and dustproof, operating range -10 to 55°C (Hokkaido compatible)">IP67防水防塵、-10〜55℃対応（北海道OK）</li>
+<li data-en="ONVIF compatible, connectable to NVR or existing recording systems">ONVIF対応、NVRや既存録画装置に接続可</li>
+</ul>
+<a class="prod-buy-btn amazon" data-en="Purchase on Amazon → ¥11,999" href="https://www.amazon.co.jp/dp/B08135WDZW" rel="noopener" target="_blank">Amazonで購入 → ¥11,999</a>
+</div>
+</div>
+<!-- Arlo Pro 5S -->
+<div class="prod-card">
+<div class="prod-card-img-placeholder">📡</div>
+<div class="prod-card-body">
+<span class="prod-card-tag tag-orange" data-en="Wireless (no installation required)">ワイヤレス（工事不要）</span>
+<div class="prod-card-name">Arlo Pro 5S 2K</div>
+<div class="prod-card-maker">Arlo Technologies</div>
+<div class="prod-card-price">¥27,400〜</div>
+<div class="prod-card-price-sub" data-en="+ Arlo Secure Subscription (Optional)">+ Arlo Secure サブスク（任意）</div>
+<ul class="prod-card-features">
+<li data-en="2K HDR + 12x zoom, 160° wide-angle">2K HDR + 12倍ズーム、160°広角</li>
+<li data-en="Completely wireless (rechargeable), no installation required">完全ワイヤレス（充電池）、工事不要</li>
+<li data-en="Color night vision, built-in siren">カラーナイトビジョン、サイレン内蔵</li>
+<li data-en="Dual-band WiFi (automatically connects to stronger band)">デュアルバンドWiFi（自動で強い方に接続）</li>
+<li data-en="Compatible with Alexa / Google Home / HomeKit">Alexa / Google Home / HomeKit対応</li>
+</ul>
+<a class="prod-buy-btn amazon" data-en="Purchase from Arlo Japan official store" href="https://jp.arlo.com/jp/cameras/pro/arlo-pro-5" rel="noopener" target="_blank">Arlo Japan 公式で購入</a>
+</div>
+</div>
+<!-- Reolink NVR System -->
+<div class="prod-card">
+<div class="prod-card-img-placeholder">🖥️</div>
+<div class="prod-card-body">
+<span class="prod-card-tag tag-red" data-en="Recording System">録画システム</span>
+<div class="prod-card-name">Reolink RLK8-812B4-A</div>
+<div class="prod-card-maker" data-en="Reolink (4-Camera Set)">Reolink（4カメラセット）</div>
+<div class="prod-card-price">¥64,000〜</div>
+<div class="prod-card-price-sub" data-en="8-channel NVR + 4K camera 4-unit set">8chNVR + 4K カメラ×4台セット</div>
+<ul class="prod-card-features">
+<li data-en="NVR + 4-Unit 4K camera set, HDD sold separately">NVR＋4Kカメラ4台セット、HDD別途</li>
+<li data-en="Built-in PoE hub with simplified wiring">PoEハブ内蔵、配線がシンプル</li>
+<li data-en="Remote viewing and historical footage review via mobile app">スマホアプリで遠隔視聴・過去映像確認</li>
+<li data-en="2TB HDD stores approximately 30 days of footage">2TB HDDで約30日分の録画を保持</li>
+<li data-en="For large-scale properties (TAPKOP, KUMAUSHI)">大規模物件（TAPKOP・KUMAUSHI）向け</li>
+</ul>
+<a class="prod-buy-btn amazon" href="https://reolink.com/us/product/rlk8-812b4-a/" rel="noopener" target="_blank">Reolink 公式サイト</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ── 03 空調管理 ── -->
+<section class="s" id="hvac">
+<div class="w">
+<div class="section-label green">03 — HVAC / Air Conditioning</div>
+<h2 data-en="Remote Climate Control">空調遠隔管理</h2>
+<p class="section-desc" data-en="Remotely activate heating just before check-in; automatically deactivates after checkout. Hokkaido winters require continuous minimum heating for freeze prevention with real-time temperature monitoring.">
+    チェックイン直前に遠隔で暖房ON。チェックアウト後は自動OFF。
+    北海道の冬は凍結防止のため最低限の暖房を常時維持する必要あり。室温もリアルタイムで把握。
+  </p>
+<div class="prod-grid">
+<!-- Nature Remo 3 -->
+<div class="prod-card">
+<div class="prod-card-img-placeholder">🌡️</div>
+<div class="prod-card-body">
+<span class="prod-card-tag tag-green" data-en="Compatible with existing air conditioning units (recommended)">既存エアコン対応（推奨）</span>
+<div class="prod-card-name">Nature Remo 3</div>
+<div class="prod-card-maker">Nature Inc.</div>
+<div class="prod-card-price">¥9,980</div>
+<div class="prod-card-price-sub">Amazon.co.jp</div>
+<ul class="prod-card-features">
+<li data-en="WiFi-enable existing air conditioning units via infrared (compatible with all models)">赤外線で既存エアコンをWiFi化（機種問わず）</li>
+<li data-en="Built-in temperature, humidity, illumination &amp; motion sensors">温度・湿度・照度・人感センサー内蔵</li>
+<li data-en="Automation enabled: heating activates automatically when room temperature drops to 5°C or below">「室温が5℃以下になったら暖房ON」自動化可</li>
+<li data-en="Compatible with Alexa, Google Home, Siri, and HomeKit">Alexa / Google Home / Siri / HomeKit対応</li>
+<li data-en="Compatible with smart locks (Qrio, etc.)">スマートロック（Qrio等）との連携も可</li>
+<li data-en="IFTTT compatible for advanced automation">IFTTT対応で高度な自動化が可能</li>
+</ul>
+<a class="prod-buy-btn amazon" data-en="Purchase on Amazon → ¥9,980" href="https://www.amazon.co.jp/dp/B08BLSLWH4" rel="noopener" target="_blank">Amazonで購入 → ¥9,980</a>
+</div>
+</div>
+<!-- SwitchBot Hub 2 -->
+<div class="prod-card">
+<div class="prod-card-img-placeholder">🏠</div>
+<div class="prod-card-body">
+<span class="prod-card-tag tag-green" data-en="Smart Home Hub">スマートホームハブ</span>
+<div class="prod-card-name">SwitchBot Hub 2</div>
+<div class="prod-card-maker">SwitchBot</div>
+<div class="prod-card-price">¥9,980</div>
+<div class="prod-card-price-sub" data-en="Amazon.co.jp (¥7,880 during sale)">Amazon.co.jp（セール時 ¥7,880）</div>
+<ul class="prod-card-features">
+<li data-en="Infrared appliance control + integrated temperature and humidity sensor">赤外線家電コントロール＋温湿度センサー一体型</li>
+<li data-en="Matter-compatible, manageable via Apple Home app">Matter対応、AppleHomeアプリから管理可</li>
+<li data-en="Compatible with all SwitchBot sensors, locks, and curtains">SwitchBot各センサー・ロック・カーテンと連携</li>
+<li data-en="Visual setting available for appliance automation based on specific temperatures">「特定の温度になったら家電を操作」が視覚的に設定可</li>
+<li data-en="Compatible with SwitchBot waterproof temperature and humidity meter (outdoor use)">SwitchBot防水温湿度計（屋外用）と組み合わせ可</li>
+</ul>
+<a class="prod-buy-btn amazon" data-en="Purchase on Amazon → ¥9,980" href="https://www.amazon.co.jp/dp/B0BM8VS13P" rel="noopener" target="_blank">Amazonで購入 → ¥9,980</a>
+</div>
+</div>
+<!-- Daikin BRP WiFi Adapter -->
+<div class="prod-card">
+<div class="prod-card-img-placeholder">❄️</div>
+<div class="prod-card-body">
+<span class="prod-card-tag tag-blue" data-en="Daikin Official">ダイキン純正</span>
+<div class="prod-card-name" data-en="Daikin WiFi Adapter">ダイキン WiFiアダプター</div>
+<div class="prod-card-maker" data-en="Daikin (Model: BRP072A41, etc.)">Daikin（型番: BRP072A41等）</div>
+<div class="prod-card-price" data-en="¥8,000–12,000">¥8,000〜12,000</div>
+<div class="prod-card-price-sub" data-en="Model number depends on air conditioning unit type">型番はエアコン機種による</div>
+<ul class="prod-card-features">
+<li data-en="Direct installation on Daikin air conditioning units, remote control via official app">ダイキン製エアコンに直接取付、純正アプリで遠隔操作</li>
+<li data-en="Compatible with DAIKIN Mobile Controller app">「DAIKIN Mobile Controller」アプリ対応</li>
+<li data-en="Control temperature, fan speed, and timer from your smartphone">温度・風量・タイマーをスマホから制御</li>
+<li data-en="Faster response than Nature Remo with full feature functionality">Nature Remoより応答が速く、機能フルに使える</li>
+<li data-en="Model compatibility verification required (cross-reference unit type × adapter model number)">対応機種確認が必要（機種×アダプター型番を照合）</li>
+</ul>
+<a class="prod-buy-btn" data-en="Official Daikin WiFi Adapter List" href="https://www.daikin.co.jp/products/ac/option/wifi/" rel="noopener" target="_blank">ダイキン公式 WiFiアダプター一覧</a>
+</div>
+</div>
+</div>
+<div data-en="During winter months (November–March), interior temperature must be maintained above 5°C even when unoccupied. Setting Nature Remo 3's rule to automatically activate heating at 18°C when temperature drops to 5°C or below prevents freezing and pipe rupture automatically." style="margin-top:20px;padding:18px 20px;background:#040d07;border:1px solid rgba(76,202,138,.1);border-radius:12px;font-size:11.5px;color:#3a6a4a;line-height:2">
+<strong data-en="Freeze prevention for Hokkaido properties:" style="color:#4cca8a">北海道物件の凍結防止：</strong>
+    冬期（11月〜3月）、空き室でも室内温度を5℃以上に維持する必要があります。
+    Nature Remo 3 の「室温5℃以下→暖房18℃自動ON」ルールを設定することで、凍結・水道管破裂を自動防止できます。
+  </div>
+</div>
+</section>
+<!-- ── 04 センサー監視 ── -->
+<section class="s" id="sensor">
+<div class="w">
+<div class="section-label orange">04 — Sensors</div>
+<h2 data-en="Sensor Monitoring">センサー監視</h2>
+<p class="section-desc" data-en="Water leaks, smoke, carbon monoxide, unauthorized entry—24-hour monitoring without cameras.
+    Detect problems before they become damage.">
+    水漏れ・煙・一酸化炭素・不法侵入——カメラなしで24時間監視。
+    問題を、被害になる前に検知する。
+  </p>
+<div class="prod-grid">
+<!-- SwitchBot Water Leak Sensor -->
+<div class="prod-card">
+<div class="prod-card-img-placeholder">💧</div>
+<div class="prod-card-body">
+<span class="prod-card-tag tag-orange" data-en="Water Leak Detection">水漏れ検知</span>
+<div class="prod-card-name" data-en="SwitchBot Water Leak Detection Sensor">SwitchBot 水漏れ検知センサー</div>
+<div class="prod-card-maker">SwitchBot</div>
+<div class="prod-card-price">¥2,480</div>
+<div class="prod-card-price-sub" data-en="Use in combination with Hub 2">Hub 2 と組み合わせて使用</div>
+<ul class="prod-card-features">
+<li data-en="Install under sinks, washing machines, and water heaters">洗面台・洗濯機・給湯器下に設置</li>
+<li data-en="Instant smartphone notification upon water detection">水を検知した瞬間にスマホ通知</li>
+<li data-en="Compatible with SwitchBot Hub 2 (WiFi not required)">SwitchBot Hub 2 と連携（WiFi不要）</li>
+<li data-en="One Unit Recommended per Water Area (¥2,480 × quantity)">各水回りに1個設置推奨（¥2,480×台数）</li>
+</ul>
+<a class="prod-buy-btn amazon" data-en="Search &amp; Purchase on Amazon" href="https://www.amazon.co.jp/s?k=SwitchBot+%E6%B0%B4%E6%BC%8F%E3%82%8C%E6%A4%9C%E7%9F%A5" rel="noopener" target="_blank">Amazonで検索・購入</a>
+</div>
+</div>
+<!-- Kidde 煙・CO 複合検知器 -->
+<div class="prod-card">
+<div class="prod-card-img-placeholder">🔥</div>
+<div class="prod-card-body">
+<span class="prod-card-tag tag-red" data-en="Fire &amp; CO Detection">火災・CO検知</span>
+<div class="prod-card-name">Google Nest Protect</div>
+<div class="prod-card-maker">Google</div>
+<div class="prod-card-price" data-en="From ¥14,000">¥14,000〜</div>
+<div class="prod-card-price-sub" data-en="Smoke and carbon monoxide combination detector">煙＋一酸化炭素 複合検知器</div>
+<ul class="prod-card-features">
+<li data-en="Detects both smoke and carbon monoxide">煙・一酸化炭素の両方を検知</li>
+<li data-en="Instant app notifications with battery level management">アプリに即時通知、残量も管理</li>
+<li data-en="Available in both battery and wired versions">電池・有線の両方あり</li>
+<li data-en="Interconnected alerts when multiple units are installed (all units sound)">複数台設置で相互通報（全部が鳴る）</li>
+<li data-en="Essential for properties with wood stoves and saunas">薪ストーブ・サウナのある物件に必須</li>
+</ul>
+<a class="prod-buy-btn amazon" data-en="Purchase on Amazon" href="https://www.amazon.co.jp/s?k=Google+Nest+Protect" rel="noopener" target="_blank">Amazonで購入</a>
+</div>
+</div>
+<!-- 凍結検知センサー -->
+<div class="prod-card">
+<div class="prod-card-img-placeholder">🌨️</div>
+<div class="prod-card-body">
+<span class="prod-card-tag tag-blue" data-en="Freeze prevention (Hokkaido exclusive)">凍結防止（北海道専用）</span>
+<div class="prod-card-name" data-en="SwitchBot Waterproof Thermo-Hygrometer">SwitchBot 防水温湿度計</div>
+<div class="prod-card-maker">SwitchBot</div>
+<div class="prod-card-price">¥3,480</div>
+<div class="prod-card-price-sub" data-en="Waterproof model for outdoor &amp; wet areas">屋外・水回り対応防水モデル</div>
+<ul class="prod-card-features">
+<li data-en="Install under water pipes and subflooring for continuous temperature monitoring">給水管・床下に設置し温度を常時監視</li>
+<li data-en="Alert notification when temperature drops to 3°C or below">「温度が3℃以下」でアラート通知</li>
+<li data-en="Works with Hub 2 for automatic heating activation">Hub 2 と連携して暖房の自動起動に使用</li>
+<li data-en="Required in all units of THE LODGE, NESTING, and Instant House">LODGE・NESTING・インスタントハウス全戸必須</li>
+</ul>
+<a class="prod-buy-btn amazon" data-en="Purchase on Amazon → ¥3,480" href="https://www.amazon.co.jp/dp/B0C2BZZTQJ" rel="noopener" target="_blank">Amazonで購入 → ¥3,480</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ── 物件別推奨表 ── -->
+<section class="s" id="matrix">
+<div class="w">
+<div class="section-label">05 — Installation Matrix</div>
+<h2 data-en="Property-Specific Implementation Matrix">物件別 導入マトリクス</h2>
+<p class="section-desc" data-en="Recommended system implementation list for each property, organized by priority.">各物件の推奨導入システム一覧。優先度順に整理。</p>
+<div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+<table class="rec-table">
+<thead>
+<tr>
+<th data-en="Properties">物件</th>
+<th data-en="Smart Lock">スマートロック</th>
+<th data-en="Camera">カメラ</th>
+<th data-en="Climate Control Management">空調管理</th>
+<th data-en="Sensors">センサー</th>
+<th data-en="Estimated cost">概算費用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TAPKOP</td>
+<td><span class="rec-badge rb-lock">RemoteLOCK</span><br/><span data-en="Gate &amp; Building-specific" style="font-size:10px;color:#333">門扉・棟別</span></td>
+<td><span class="rec-badge rb-cam">Reolink 4K×4</span><br/><span data-en="NVR Set" style="font-size:10px;color:#333">NVRセット</span></td>
+<td><span class="rec-badge rb-hvac">Nature Remo 3</span><br/><span data-en="Installed at Each Building" style="font-size:10px;color:#333">各棟に設置</span></td>
+<td><span class="rec-badge rb-sensor" data-en="Water Leak Detection ×4">水漏れ×4</span><br/><span class="rec-badge rb-sensor" data-en="Freeze Sensors ×2">凍結×2</span><br/><span class="rec-badge rb-sensor" data-en="Smoke &amp; CO Detection ×4">煙CO×4</span></td>
+<td><strong data-en="¥250,000–350,000" style="color:var(--gold)">¥25〜35万</strong></td>
+</tr>
+<tr>
+<td>THE LODGE</td>
+<td><span class="rec-badge rb-lock">SESAME 5 Pro</span><br/><span class="rec-badge rb-lock">Touch Pro</span></td>
+<td><span class="rec-badge rb-cam">Reolink ×2</span><br/><span data-en="Entrance &amp; Parking" style="font-size:10px;color:#333">玄関・駐車場</span></td>
+<td><span class="rec-badge rb-hvac">Nature Remo 3</span><br/><span data-en="Freeze Prevention Required" style="font-size:10px;color:#333">凍結防止必須</span></td>
+<td><span class="rec-badge rb-sensor" data-en="Water leak sensors ×2">水漏れ×2</span><br/><span class="rec-badge rb-sensor" data-en="Freeze Sensors ×2">凍結×2</span><br/><span class="rec-badge rb-sensor" data-en="Smoke/CO sensors ×2">煙CO×2</span></td>
+<td><strong style="color:var(--gold)">¥7〜10万</strong></td>
+</tr>
+<tr>
+<td>NESTING</td>
+<td><span class="rec-badge rb-lock">SESAME 5 Pro</span><br/><span class="rec-badge rb-lock">Touch Pro</span></td>
+<td><span class="rec-badge rb-cam">Reolink ×2</span></td>
+<td><span class="rec-badge rb-hvac">Nature Remo 3</span></td>
+<td><span class="rec-badge rb-sensor" data-en="Water leak sensors ×2">水漏れ×2</span><br/><span class="rec-badge rb-sensor" data-en="Freezing Detection ×1">凍結×1</span><br/><span class="rec-badge rb-sensor" data-en="Smoke/CO sensors ×2">煙CO×2</span></td>
+<td><strong style="color:var(--gold)">¥7〜10万</strong></td>
+</tr>
+<tr>
+<td data-en="Instant">インスタント</td>
+<td><span class="rec-badge rb-lock">SESAME 5 Pro</span></td>
+<td><span class="rec-badge rb-cam">Arlo Pro 5S ×1</span><br/><span data-en="No installation required" style="font-size:10px;color:#333">工事不要</span></td>
+<td><span class="rec-badge rb-hvac">SwitchBot Hub 2</span></td>
+<td><span class="rec-badge rb-sensor" data-en="Water Leak Sensor ×1">水漏れ×1</span><br/><span class="rec-badge rb-sensor" data-en="Freezing Detection ×1">凍結×1</span></td>
+<td><strong style="color:var(--gold)">¥4〜6万</strong></td>
+</tr>
+<tr>
+<td data-en="WHITE HOUSE Atami">WHITE HOUSE 熱海</td>
+<td><span class="rec-badge rb-lock">SESAME 5 Pro</span><br/><span class="rec-badge rb-lock">Touch Pro</span></td>
+<td><span class="rec-badge rb-cam">Reolink ×3</span><br/><span data-en="Entrance, Garden &amp; Ocean-Facing Areas" style="font-size:10px;color:#333">玄関・庭・海側</span></td>
+<td><span class="rec-badge rb-hvac">Nature Remo 3</span></td>
+<td><span class="rec-badge rb-sensor" data-en="Water Leak Detection ×3">水漏れ×3</span><br/><span class="rec-badge rb-sensor" data-en="Smoke/CO sensors ×2">煙CO×2</span></td>
+<td><strong data-en="¥80,000–120,000" style="color:var(--gold)">¥8〜12万</strong></td>
+</tr>
+<tr>
+<td>KUMAUSHI BASE</td>
+<td><span class="rec-badge rb-lock">RemoteLOCK</span><br/><span data-en="Multi-Property Management" style="font-size:10px;color:#333">複数棟管理</span></td>
+<td><span class="rec-badge rb-cam">Reolink NVR×8</span><br/><span data-en="Comprehensive Monitoring" style="font-size:10px;color:#333">全体監視</span></td>
+<td><span class="rec-badge rb-hvac">Nature Remo 3</span><br/><span data-en="Each building" style="font-size:10px;color:#333">各棟</span></td>
+<td><span class="rec-badge rb-sensor" data-en="Water Leak Detection by Building">水漏れ各棟</span><br/><span class="rec-badge rb-sensor" data-en="Freeze protection management">凍結管理</span></td>
+<td><strong data-en="¥300,000–500,000" style="color:var(--gold)">¥30〜50万</strong></td>
+</tr>
+<tr>
+<td data-en="Miruwa Village">美留和ビレッジ</td>
+<td><span class="rec-badge rb-lock">SESAME 5 Pro</span><br/><span data-en="All plots" style="font-size:10px;color:#333">全区画</span></td>
+<td><span class="rec-badge rb-cam" data-en="Common areas only">共用部のみ</span></td>
+<td><span class="rec-badge rb-hvac">SwitchBot Hub 2</span></td>
+<td><span class="rec-badge rb-sensor" data-en="Common water areas">共用水回り</span></td>
+<td><strong style="color:var(--gold)">¥50〜80万</strong></td>
+</tr>
+<tr>
+<td>BEACH HOUSE<br/><span data-en="Honolulu" style="font-size:10px;color:#333">ホノルル</span></td>
+<td><span class="rec-badge rb-lock">August Smart Lock</span><br/><span data-en="US standard compliant" style="font-size:10px;color:#333">米国規格対応</span></td>
+<td><span class="rec-badge rb-cam">Arlo Pro 5S ×3</span><br/><span data-en="Entrance, pool, garage" style="font-size:10px;color:#333">玄関・プール・ガレージ</span></td>
+<td><span class="rec-badge rb-hvac">Ecobee / Nest</span><br/><span data-en="US Standard Thermostat" style="font-size:10px;color:#333">米国規格サーモスタット</span></td>
+<td><span class="rec-badge rb-sensor" data-en="Water Leak Detection ×3">水漏れ×3</span><br/><span class="rec-badge rb-sensor" data-en="Smoke/CO Detectors ×3">煙CO×3</span></td>
+<td><strong data-en="$3,000–5,000" style="color:var(--gold)">$3,000〜5,000</strong></td>
+</tr>
+<tr>
+<td>HAWAII KAI HOUSE<br/><span data-en="Honolulu" style="font-size:10px;color:#333">ホノルル</span></td>
+<td><span class="rec-badge rb-lock">August Smart Lock</span></td>
+<td><span class="rec-badge rb-cam">Arlo Pro 5S ×4</span><br/><span data-en="Beach &amp; Omnidirectional" style="font-size:10px;color:#333">ビーチ・全方位</span></td>
+<td><span class="rec-badge rb-hvac">Ecobee Premium</span><br/><span data-en="Smart Thermostat" style="font-size:10px;color:#333">スマートサーモスタット</span></td>
+<td><span class="rec-badge rb-sensor" data-en="Water Leak Detection ×3">水漏れ×3</span><br/><span class="rec-badge rb-sensor" data-en="Smoke/CO Detectors ×3">煙CO×3</span></td>
+<td><strong data-en="$3,000–5,000" style="color:var(--gold)">$3,000〜5,000</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- ── コスト概算 ── -->
+<section class="s" id="cost">
+<div class="w">
+<div class="section-label">06 — Budget</div>
+<h2 data-en="Estimated installation cost">導入コスト概算</h2>
+<p class="section-desc" data-en="System implementation cost estimate by property size and type.">物件規模・タイプ別のシステム導入費用目安。</p>
+<div class="cost-grid">
+<div class="cost-card">
+<div class="cost-card-label" data-en="Compact Properties (Instant, THE LODGE, etc.)">コンパクト物件<br/>（インスタント・LODGE等）</div>
+<div class="cost-card-val">¥4〜10万</div>
+<div class="cost-card-sub" data-en="Smart Lock ¥14,000
+        Cameras ×2 ¥24,000
+        Nature Remo ¥10,000
+        Sensors ¥10,000">
+        スマートロック ¥1.4万<br/>
+        カメラ×2 ¥2.4万<br/>
+        Nature Remo ¥1万<br/>
+        センサー類 ¥1万
+      </div>
+</div>
+<div class="cost-card">
+<div class="cost-card-label" data-en="Mid-Size Properties (NESTING, Atami, etc.)">中規模物件<br/>（NESTING・熱海等）</div>
+<div class="cost-card-val" data-en="¥80,000–150,000">¥8〜15万</div>
+<div class="cost-card-sub" data-en="Smart Lock ¥14,000
+        Cameras ×3 ¥36,000
+        Air conditioning management ¥10,000 per building
+        Sensors ¥20,000">
+        スマートロック ¥1.4万<br/>
+        カメラ×3 ¥3.6万<br/>
+        空調管理 ¥1万×棟数<br/>
+        センサー類 ¥2万
+      </div>
+</div>
+<div class="cost-card">
+<div class="cost-card-label" data-en="Large-Scale Properties (TAPKOP, KUMAUSHI, etc.)">大規模物件<br/>（TAPKOP・KUMAUSHI等）</div>
+<div class="cost-card-val">¥25〜80万</div>
+<div class="cost-card-sub" data-en="Multiple RemoteLOCK units
+        NVR + 4K 8-camera system
+        Remo installed per building
+        Comprehensive sensor coverage">
+        RemoteLOCK 複数台<br/>
+        NVR + 4K×8カメラ<br/>
+        各棟 Remo 設置<br/>
+        全センサー完備
+      </div>
+</div>
+</div>
+</div>
+</section>
+<!-- ── 導入ステップ ── -->
+<section class="s" id="steps">
+<div class="w">
+<div class="section-label">07 — How to Proceed</div>
+<h2 data-en="Implementation Steps">導入ステップ</h2>
+<p class="section-desc" data-en="Recommended implementation sequence. Begin with the smart lock as the highest priority.">推奨の導入手順。まずは最優先のスマートロックから始める。</p>
+<div class="steps">
+<div class="step">
+<div class="step-num"></div>
+<div class="step-body">
+<div class="step-title" data-en="Smart Lock Implementation (Top Priority)">スマートロック導入（最優先）</div>
+<div class="step-desc" data-en="Install SESAME 5 Pro + WiFi Module + Touch Pro per property (¥13,640 per unit).
+          Zero key handoff, fully self-serve check-in. Start here.
+          Properties requiring Beds24 integration should switch to RemoteLOCK.">
+          SESAME 5 Pro + WiFiモジュール + Touch Pro を各物件に設置（¥13,640/戸）。
+          鍵の受け渡しゼロ、チェックインを完全セルフ化。まずここから始める。
+          Beds24連携が必要な物件はRemoteLOCKに切り替え。
+        </div>
+</div>
+</div>
+<div class="step">
+<div class="step-num"></div>
+<div class="step-body">
+<div class="step-title" data-en="Climate control remote (highest priority for Hokkaido)">空調リモートコントロール（北海道は最優先）</div>
+<div class="step-desc" data-en='Install Nature Remo 3 near the air conditioning unit at each property. Set freeze prevention rule: "When room temperature drops to 5°C or below, automatically activate heating at 18°C." Remote preheating one hour before check-in ensures a comfortable arrival experience.'>
+          Nature Remo 3 を各物件のエアコン近くに設置。凍結防止ルール「室温5℃以下→暖房18℃自動ON」を設定。
+          チェックイン1時間前に遠隔で予熱することで、快適な到着体験も提供。
+        </div>
+</div>
+</div>
+<div class="step">
+<div class="step-num"></div>
+<div class="step-body">
+<div class="step-title" data-en="Security Camera Installation">防犯カメラ設置</div>
+<div class="step-desc" data-en="Install Reolink 4K at entrance, parking area, and perimeter. Single PoE cable delivers power and video. Connect to NVR for local recording (cloud storage not required). Smaller properties like instant houses work well with Arlo (no installation required).">
+          玄関・駐車場・周囲に Reolink 4K を設置。PoEケーブル1本で電源＋映像を通す。
+          NVRに接続してローカル録画（クラウド不要）。インスタントハウスなど小規模はArlo（工事不要）でOK。
+        </div>
+</div>
+</div>
+<div class="step">
+<div class="step-num"></div>
+<div class="step-body">
+<div class="step-title" data-en="Complete Sensor Suite">センサー類の完備</div>
+<div class="step-desc" data-en="Install water leak sensors at all water points and smoke/CO sensors in each room. Receive consolidated smartphone notifications via SwitchBot Hub 2. Freeze sensors are also essential for Hokkaido properties.">
+          水漏れセンサーを全水回りに設置、煙・COセンサーを各部屋に。
+          SwitchBot Hub 2 経由でまとめてスマホ通知。北海道物件は凍結センサーも必須。
+        </div>
+</div>
+</div>
+<div class="step">
+<div class="step-num"></div>
+<div class="step-body">
+<div class="step-title" data-en="Integration with SOLUNA App">SOLUNA アプリとの連携</div>
+<div class="step-desc" data-en="Temporary Sesame keys are automatically generated upon booking confirmation and sent to guest email. Access automatically expires after checkout. Door codes are also accessible from the Guide tab in the SOLUNA app.">
+          予約確定後に自動でセサミの一時キーを発行し、ゲストのメールに送付。
+          チェックアウト後に自動失効。ドアコードはSOLUNAアプリの「ガイド」タブからも確認可能。
+        </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FOOTER -->
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Biruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Bireiwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase and Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain shares for free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Planning" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner-exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Personal Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><footer>
+<div class="f-top" style="grid-template-columns:repeat(5,1fr)">
+<div class="f-col">
+<h4 data-en="Properties">物件</h4>
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Biruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Bireiwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties" href="collection">全物件一覧</a>
+</div>
+<div class="f-col">
+<h4 data-en="Purchase and Participate">購入・参加</h4>
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain shares for free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a href="crypto">Crypto 購入</a>
+</div>
+<div class="f-col">
+<h4 data-en="Architecture &amp; Design">建築・設計</h4>
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a href="sips-diy">SIPs DIY</a>
+<a data-en="Construction Planning" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="Design" href="design">デザイン</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+<div class="f-col">
+<h4 data-en="Community">コミュニティ</h4>
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner-exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a href="blog-1">Blog #1</a>
+<a href="blog-2">Blog #2</a>
+<a href="blog-3">Blog #3</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+<div class="f-col">
+<h4 data-en="Information &amp; legal">情報・法的</h4>
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Operating Status" href="status">運営状況</a>
+<a data-en="Personal Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+<div class="f-copy">SOLUNA — Enabler Inc. — ★ Airbnb Super Host</div>
+</footer>
+<script src="/lang.js"></script>
+</body>
+</html>

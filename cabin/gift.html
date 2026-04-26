@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/gift" rel="canonical"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title data-en="SOLUNA Gift — For You">SOLUNA Gift — あなたへ</title>
+<meta content="SOLUNAからギフトが届いています" property="og:title"/>
+<meta content="北海道弟子屈・TAPKOP。特別な滞在をプレゼント。" property="og:description"/>
+<meta content="/img/pro_hero.webp" property="og:image"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--bg:#050505;--text:#f0ece4;--dim:#444;--line:#111;--green:#7db86a}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit;text-decoration:none}
+
+/* Hero */
+.hero{position:relative;height:100svh;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.4) saturate(.7);animation:slowzoom 14s ease-out forwards}
+@keyframes slowzoom{from{transform:scale(1.06)}to{transform:scale(1)}}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#050505 0%,rgba(5,5,5,.65) 45%,transparent 100%)}
+.hero-body{position:relative;z-index:2;padding:0 28px 80px;max-width:620px;margin:0 auto;width:100%}
+.eyebrow{font-size:9px;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;margin-bottom:18px;opacity:.9;animation:fadeUp .8s .2s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero h1{font-size:clamp(2rem,6vw,3.8rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:14px;animation:fadeUp 1s .4s both}
+.hero-sub{color:rgba(240,236,228,.55);font-size:14px;line-height:1.9;animation:fadeUp 1s .6s both}
+
+/* Gift box */
+.gift-wrap{max-width:600px;margin:0 auto;padding:72px 24px 120px}
+
+.loading{text-align:center;padding:80px 0;font-size:12px;color:#222;letter-spacing:.15em}
+.loading span{display:inline-block;animation:spin 1.2s linear infinite;font-size:20px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Gift card */
+.gift-card{background:#080808;border:1px solid #141414;border-radius:20px;overflow:hidden;margin-bottom:20px}
+.gift-card-header{padding:24px 24px 0;border-bottom:1px solid #0d0d0d;padding-bottom:20px}
+.gift-from{font-size:9px;letter-spacing:.28em;color:#222;text-transform:uppercase;margin-bottom:10px}
+.gift-to{font-size:24px;font-weight:800;letter-spacing:-.03em}
+.gift-to .name{color:var(--gold)}
+.gift-message{margin-top:14px;font-size:13px;color:#444;line-height:1.9;padding:14px;background:#050505;border-radius:10px;border-left:2px solid var(--gold)}
+
+/* Property items */
+.gift-props{padding:20px 24px}
+.gift-prop{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-bottom:1px solid #0d0d0d}
+.gift-prop:last-child{border-bottom:none}
+.gift-prop-img{width:80px;height:64px;object-fit:cover;border-radius:8px;flex-shrink:0;filter:brightness(.8)}
+.gift-prop-body{flex:1;min-width:0}
+.gift-prop-tag{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:#333;margin-bottom:6px;font-weight:700}
+.gift-prop-name{font-size:15px;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+.gift-prop-detail{font-size:11.5px;color:#555;line-height:1.7}
+.gift-prop-nights{display:inline-block;margin-top:8px;font-size:10px;color:var(--gold);font-weight:700;background:rgba(200,164,85,.08);border:1px solid rgba(200,164,85,.2);padding:4px 10px;border-radius:100px;letter-spacing:.05em}
+
+/* Expires */
+.gift-footer{padding:16px 24px;background:#050505;border-top:1px solid #0d0d0d;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.gift-expires{font-size:10px;color:#222;letter-spacing:.08em}
+.gift-expires strong{color:#333}
+.redeemed-badge{font-size:10px;color:var(--green);background:rgba(125,184,106,.08);border:1px solid rgba(125,184,106,.2);padding:4px 12px;border-radius:100px}
+
+/* CTA */
+.cta-section{margin-top:32px;text-align:center}
+.cta-btn{display:inline-block;background:var(--gold);color:#050505;font-weight:800;font-size:13px;padding:16px 40px;border-radius:100px;letter-spacing:.04em;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 28px rgba(200,164,85,.22)}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(200,164,85,.32)}
+.cta-ghost{display:inline-block;border:1px solid #1a1a1a;color:#444;font-size:12px;padding:13px 28px;border-radius:100px;margin-left:10px;transition:color .2s,border-color .2s}
+.cta-ghost:hover{color:var(--text);border-color:#333}
+.cta-note{margin-top:16px;font-size:11px;color:#222;line-height:1.8}
+
+/* Error */
+.error-state{text-align:center;padding:80px 24px}
+.error-state h2{font-size:22px;font-weight:800;margin-bottom:12px}
+.error-state p{color:#444;font-size:13px;line-height:1.9}
+
+footer{text-align:center;padding:40px 24px;font-size:9px;color:#111;letter-spacing:.14em;border-top:1px solid var(--line)}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<div class="hero">
+<div class="hero-bg">
+<img alt="TAPKOP" src="img/pro_hero.webp"/>
+</div>
+<div class="hero-body">
+<p class="eyebrow">SOLUNA · Special Gift</p>
+<h1 data-en="For You" id="heroTitle">あなたへ<br/><span data-en="An Exceptional Stay Awaits." style="color:var(--gold)">特別な滞在を。</span></h1>
+<p class="hero-sub" data-en="An invitation from Teshikaga, Hokkaido to an extraordinary destination." id="heroSub">北海道弟子屈から、とっておきの場所への招待状です。</p>
+</div>
+</div>
+<div class="gift-wrap">
+<div class="loading" id="loadingState"><span>✦</span></div>
+<div id="giftContent" style="display:none"></div>
+<div class="error-state" id="errorState" style="display:none">
+<h2 data-en="Gift Not Found">ギフトが見つかりません</h2>
+<p data-en="The link may be invalid or expired. Please confirm with the person who sent it to you.">リンクが無効か、期限切れの可能性があります。<br/>送ってくれた方に確認してみてください。</p>
+<a data-en="Back to Top →" href="/" style="display:inline-block;margin-top:24px;color:var(--gold);font-size:12px">トップページへ →</a>
+</div>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Birawa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Birawa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Acquire Units for Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="The Dome Story" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Birawa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="The Foundation Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Personal Consultation" href="call">個別相談</a>
+<a data-en="Contact" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="TOKUSHOHO (Specified Commercial Transaction Act)" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+var PROP_META = {
+  tapkop: {
+    img: 'img/pro_hero.webp',
+    tag: 'TAPKOP · Flagship · 稼働中',
+    detail: 'PAN-PROJECTS設計 · 266m² · 阿寒摩周国立公園 · 1泊定価¥340,000'
+  },
+  village: {
+    img: 'img/container_premium_exterior.webp',
+    tag: 'SOLUNA VILLAGE · 弟子屈',
+    detail: 'コンテナ / ドーム / タワーサウナ / ログキャビン · 32,337坪'
+  },
+  nesting: {
+    img: 'img/nesting_exterior.webp',
+    tag: 'THE NEST / NESTING · 美留和',
+    detail: 'VUILD設計 · 弟子屈 美留和エリア'
+  },
+  atami: {
+    img: 'img/pro_atami_hero.webp',
+    tag: 'WHITE HOUSE · 熱海',
+    detail: '熱海 崖上の邸宅 · 年間売上1,800万実績'
+  }
+};
+
+function fmtDate(s) {
+  if(!s) return '';
+  try { var d=new Date(s); return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日'; } catch(e){return s;}
+}
+
+(async function(){
+  var params = new URLSearchParams(location.search);
+  var token = params.get('token');
+  if(!token){ showError(); return; }
+
+  try {
+    var res = await fetch('https://kagi-server.fly.dev/api/v1/soluna/gifts/'+token);
+    if(!res.ok){ showError(); return; }
+    var d = await res.json();
+    if(!d.ok){ showError(); return; }
+    renderGift(d);
+  } catch(e){ showError(); }
+})();
+
+function showError(){
+  document.getElementById('loadingState').style.display='none';
+  document.getElementById('errorState').style.display='block';
+}
+
+function renderGift(d){
+  document.getElementById('loadingState').style.display='none';
+  // ヒーロータイトル更新
+  if(d.recipient_name){
+    document.getElementById('heroTitle').innerHTML = d.recipient_name+'さんへ<br><span style="color:var(--gold)">特別な滞在を。</span>';
+  }
+
+  var props = d.properties || [];
+  var propHtml = props.map(function(p){
+    var meta = PROP_META[p.prop_id] || {};
+    var nights = p.nights || 1;
+    var nightLabel = nights > 1 ? nights+'泊分の滞在権' : '1泊（特別招待）';
+    return '<div class="gift-prop">'
+      + '<img class="gift-prop-img" src="'+(meta.img||'img/soluna_hero_wide.webp')+'" alt="'+escHtml(p.label||p.prop_id)+'">'
+      + '<div class="gift-prop-body">'
+      + '<div class="gift-prop-tag">'+(meta.tag||p.prop_id)+'</div>'
+      + '<div class="gift-prop-name">'+escHtml(p.label||p.prop_id)+'</div>'
+      + '<div class="gift-prop-detail">'+(meta.detail||'')+'</div>'
+      + '<span class="gift-prop-nights">✦ '+nightLabel+'</span>'
+      + '</div></div>';
+  }).join('');
+
+  var messageHtml = d.message
+    ? '<div class="gift-message">'+escHtml(d.message)+'</div>'
+    : '';
+
+  var footerHtml = '<div class="gift-footer">'
+    + '<span class="gift-expires">有効期限: <strong>'+fmtDate(d.expires_at)+'</strong></span>'
+    + (d.redeemed ? '<span class="redeemed-badge">✓ 受け取り済み</span>' : '')
+    + '</div>';
+
+  var ctaHtml = '<div class="cta-section">'
+    + '<a href="calendar?gift='+encodeURIComponent((new URLSearchParams(location.search)).get('token')||'')+'" class="cta-btn">予約する →</a>'
+    + '<a href="tapkop" class="cta-ghost">施設を見る</a>'
+    + '<p class="cta-note">予約は代表・濱田より折り返し確認します。<br>まず希望日をお知らせください。</p>'
+    + '</div>';
+
+  var html = '<div class="gift-card">'
+    + '<div class="gift-card-header">'
+    + '<div class="gift-from">SOLUNA からのギフト</div>'
+    + '<div class="gift-to">'+escHtml(d.recipient_name||'あなた')+'<span class="name">さんへ</span></div>'
+    + messageHtml
+    + '</div>'
+    + '<div class="gift-props">'+propHtml+'</div>'
+    + footerHtml
+    + '</div>'
+    + ctaHtml;
+
+  var el = document.getElementById('giftContent');
+  el.innerHTML = html;
+  el.style.display = 'block';
+}
+
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+</script>
+<script defer="" src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

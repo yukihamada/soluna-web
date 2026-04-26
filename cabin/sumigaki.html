@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://solun.art/sumigaki">
+<title>SUMIGAKI® — 炭化 × 柿渋含浸 | SOLUNA MATERIALS</title>
+<meta name="description" content="北海道産カラマツを炭化し、柿渋を含浸させる独自2層工程「SUMIGAKI®」。防腐・防虫・防火・UV保護を化学物質ゼロで実現。特許出願中。">
+<meta property="og:title" content="SUMIGAKI® — 炭と柿が、木を守る。">
+<meta property="og:description" content="炭化層が物理バリアを作り、柿渋タンニンが化学バリアを作る。2つの天然工程の組み合わせが、30年以上の耐久性を生む。">
+<meta property="og:image" content="https://solun.art/img/yakiita_real.jpg">
+<meta property="og:url" content="https://solun.art/sumigaki">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23050505'/><circle cx='32' cy='32' r='20' fill='none' stroke='%23c8a455' stroke-width='2.5'/><circle cx='32' cy='20' r='5' fill='%23c8a455'/><path d='M20 38 Q32 28 44 38' fill='none' stroke='%23c8a455' stroke-width='2' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.5);
+  --gold-soft:rgba(200,164,85,.07);
+  --bg:#050505;
+  --bg-soft:#080808;
+  --line:#131313;
+  --text:#f0ece4;
+  --dim:#666;
+  --sumi:#1a1a1a;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Noto Sans JP','Helvetica Neue',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:.01em;overflow-x:hidden}
+p,li{font-weight:300;line-height:1.9}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+h1,h2,h3,blockquote{font-family:'Shippori Mincho B1',serif}
+::selection{background:var(--gold);color:#000}
+.w{max-width:760px;margin:0 auto;padding:0 24px}
+.w-wide{max-width:1000px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px}
+.gnav-links a{color:#555;transition:color .2s}.gnav-links a:hover{color:var(--gold)}
+.gnav-links a.cta{color:var(--gold);font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.cta:hover{background:var(--gold);color:#040404}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888}
+@media(max-width:680px){.gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}.gnav-links.open{display:flex}.gnav-ham{display:flex}}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;border-bottom:1px solid var(--line)}
+.hero-bg{position:absolute;inset:0;background:url('img/yakiita_real.jpg') center/cover no-repeat;filter:brightness(.25)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,#050505 100%)}
+.hero-inner{position:relative;z-index:2;padding:80px 0;text-align:center}
+.brand-mark{display:inline-flex;align-items:center;gap:12px;margin-bottom:40px}
+.brand-mark-line{width:40px;height:1px;background:rgba(200,164,85,.4)}
+.brand-mark span{font-size:9px;letter-spacing:.4em;color:rgba(200,164,85,.6);font-weight:700;text-transform:uppercase}
+.hero-kanji{font-family:'Shippori Mincho B1',serif;font-size:clamp(1rem,3vw,1.4rem);color:rgba(200,164,85,.4);letter-spacing:.5em;margin-bottom:20px;font-weight:400}
+.hero-title{font-family:'Shippori Mincho B1',serif;font-size:clamp(3.5rem,10vw,7rem);font-weight:800;line-height:.95;letter-spacing:-.04em;color:#fff;margin-bottom:8px}
+.hero-title sup{font-size:.35em;vertical-align:super;color:var(--gold);letter-spacing:0}
+.hero-sub{font-size:clamp(1rem,2.5vw,1.35rem);font-weight:400;color:rgba(255,255,255,.45);letter-spacing:.1em;margin-bottom:40px;font-family:'Noto Sans JP',sans-serif}
+.hero-lead{font-size:15px;color:rgba(255,255,255,.55);line-height:2.2;max-width:540px;margin:0 auto 48px;font-weight:300}
+.hero-cta-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero-cta{display:inline-block;padding:16px 40px;background:var(--gold);color:#040404;font-size:13px;font-weight:700;letter-spacing:.08em;border-radius:100px;transition:opacity .2s}
+.hero-cta:hover{opacity:.85}
+.hero-cta-sub{display:inline-block;padding:15px 32px;border:1px solid rgba(200,164,85,.3);color:var(--gold);font-size:13px;font-weight:500;border-radius:100px;transition:all .2s}
+.hero-cta-sub:hover{background:rgba(200,164,85,.08)}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px}
+.hero-scroll span{font-size:9px;letter-spacing:.2em;color:#333;text-transform:uppercase}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,#333,transparent);animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* SECTIONS */
+.s{padding:80px 0;border-bottom:1px solid var(--line)}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#3a3a3a;margin-bottom:12px;font-weight:700;text-align:center}
+h2{font-size:clamp(1.5rem,4vw,2.4rem);font-weight:800;letter-spacing:-.03em;margin-bottom:12px;line-height:1.15}
+p.sub{color:var(--dim);font-size:13.5px;line-height:2.1;margin-bottom:24px;font-weight:300}
+.r{opacity:0;transform:translateY(22px);transition:opacity .85s ease,transform .85s ease}
+.r.in{opacity:1;transform:translateY(0)}
+
+/* PROCESS VISUAL */
+.process-hero{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:20px;overflow:hidden;margin-top:40px}
+@media(max-width:680px){.process-hero{grid-template-columns:1fr}}
+.ph-cell{padding:40px;background:var(--bg-soft);position:relative}
+.ph-cell:first-child{border-right:1px solid var(--line)}
+@media(max-width:680px){.ph-cell:first-child{border-right:none;border-bottom:1px solid var(--line)}}
+.ph-num{font-size:80px;font-weight:800;color:rgba(200,164,85,.06);line-height:1;position:absolute;top:20px;right:24px;font-family:'Shippori Mincho B1',serif;pointer-events:none}
+.ph-icon{width:48px;height:48px;border-radius:12px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.ph-cell:nth-child(1) .ph-icon{background:rgba(255,100,50,.08);border:1px solid rgba(255,100,50,.15)}
+.ph-cell:nth-child(2) .ph-icon{background:rgba(200,164,85,.08);border:1px solid rgba(200,164,85,.2)}
+.ph-cell h3{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px}
+.ph-cell:nth-child(1) h3{color:rgba(255,120,50,.8)}
+.ph-cell:nth-child(2) h3{color:var(--gold)}
+.ph-name{font-family:'Shippori Mincho B1',serif;font-size:28px;font-weight:800;line-height:1.2;margin-bottom:16px}
+.ph-desc{font-size:13px;color:var(--dim);line-height:2;font-weight:300}
+.ph-specs{display:flex;flex-direction:column;gap:8px;margin-top:20px}
+.ph-spec{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.ph-spec span:first-child{font-size:11px;color:#444}
+.ph-spec span:last-child{font-size:12px;font-weight:600;color:var(--text)}
+.process-plus{display:flex;align-items:center;justify-content:center;padding:24px;background:var(--bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:32px;color:rgba(200,164,85,.3);letter-spacing:.3em}
+@media(min-width:681px){.process-plus{display:none}}
+.process-result{background:rgba(200,164,85,.04);border:1px solid rgba(200,164,85,.2);border-radius:20px;padding:40px;margin-top:16px;text-align:center}
+.pr-label{font-size:9px;letter-spacing:.3em;color:rgba(200,164,85,.5);text-transform:uppercase;margin-bottom:16px;font-weight:700}
+.pr-title{font-family:'Shippori Mincho B1',serif;font-size:24px;font-weight:800;color:var(--gold);margin-bottom:12px}
+.pr-badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px}
+.pr-badge{font-size:10px;color:var(--gold);border:1px solid rgba(200,164,85,.25);padding:6px 14px;border-radius:100px;font-weight:600;letter-spacing:.06em}
+
+/* SCIENCE */
+.science-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:36px}
+@media(max-width:680px){.science-grid{grid-template-columns:1fr}}
+.sci-card{border:1px solid var(--line);border-radius:16px;padding:28px;background:var(--bg-soft)}
+.sci-card h4{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:10px;letter-spacing:.04em}
+.sci-card p{font-size:12px;color:var(--dim);line-height:1.9;font-weight:300}
+.sci-val{font-size:28px;font-weight:800;color:var(--text);margin-bottom:4px;font-family:'Shippori Mincho B1',serif;line-height:1}
+.sci-unit{font-size:10px;color:var(--dim);margin-bottom:16px}
+
+/* IP STRATEGY */
+.ip-box{background:rgba(200,164,85,.03);border:1px solid rgba(200,164,85,.15);border-radius:20px;padding:48px;margin-top:0}
+@media(max-width:580px){.ip-box{padding:28px 20px}}
+.ip-tabs{display:flex;gap:0;border-bottom:1px solid var(--line);margin-bottom:36px}
+.iptab{padding:12px 24px;font-size:11px;font-weight:700;letter-spacing:.1em;color:#444;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;font-family:'Noto Sans JP',sans-serif}
+.iptab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.iptab:hover:not(.active){color:#888}
+.ip-panel{display:none}
+.ip-panel.active{display:block}
+.ip-claim{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:12px;padding:24px;margin-bottom:16px}
+.ip-claim-num{font-size:9px;letter-spacing:.2em;color:rgba(200,164,85,.5);font-weight:700;margin-bottom:8px}
+.ip-claim-text{font-size:13px;color:var(--dim);line-height:2;font-weight:300}
+.ip-claim-text strong{color:var(--text);font-weight:600}
+.ip-timeline{display:flex;flex-direction:column;gap:0}
+.ipt-row{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--line)}
+.ipt-row:last-child{border-bottom:none}
+.ipt-dot{width:28px;height:28px;border-radius:50%;border:1px solid rgba(200,164,85,.3);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--gold);flex-shrink:0;margin-top:2px}
+.ipt-body h4{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.ipt-body p{font-size:12px;color:var(--dim);line-height:1.9;font-weight:300}
+.ipt-cost{display:inline-block;margin-top:6px;font-size:10px;color:var(--gold);font-weight:600}
+.tm-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+@media(max-width:580px){.tm-grid{grid-template-columns:1fr}}
+.tm-card{border:1px solid var(--line);border-radius:12px;padding:20px;background:rgba(255,255,255,.01)}
+.tm-card h4{font-size:12px;font-weight:700;color:var(--gold);margin-bottom:8px}
+.tm-card ul{list-style:none;font-size:12px;color:var(--dim);line-height:2.1;font-weight:300}
+.tm-card ul li::before{content:"・";color:#3a3a3a}
+
+/* MARKET */
+.mkt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:36px}
+@media(max-width:680px){.mkt-grid{grid-template-columns:1fr 1fr}}
+.mkt-cell{border:1px solid var(--line);border-radius:16px;padding:24px;text-align:center;background:var(--bg-soft)}
+.mkt-val{font-family:'Shippori Mincho B1',serif;font-size:2rem;font-weight:800;color:var(--gold);line-height:1;margin-bottom:4px}
+.mkt-unit{font-size:10px;color:var(--dim);margin-bottom:12px}
+.mkt-label{font-size:11px;color:#444;line-height:1.6;font-weight:500}
+.strategy-rows{margin-top:32px;display:flex;flex-direction:column;gap:0}
+.str-row{display:grid;grid-template-columns:80px 1fr auto;gap:20px;align-items:start;padding:20px 0;border-bottom:1px solid var(--line)}
+.str-row:last-child{border-bottom:none}
+.str-phase{font-size:9px;font-weight:700;letter-spacing:.12em;color:rgba(200,164,85,.5);text-transform:uppercase;padding-top:3px}
+.str-body h4{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.str-body p{font-size:12px;color:var(--dim);line-height:1.9;font-weight:300}
+.str-kpi{font-size:13px;font-weight:800;color:var(--gold);text-align:right;white-space:nowrap;padding-top:3px}
+
+/* CTA */
+.cta-band{background:linear-gradient(135deg,rgba(200,164,85,.08) 0%,rgba(200,164,85,.02) 100%);border:1px solid rgba(200,164,85,.2);border-radius:24px;padding:64px 40px;text-align:center;margin-top:0}
+@media(max-width:580px){.cta-band{padding:40px 24px}}
+.cta-band h2{margin-bottom:12px}
+.cta-band p{font-size:14px;color:var(--dim);line-height:2.1;max-width:540px;margin:0 auto 36px;font-weight:300}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-primary{display:inline-block;padding:16px 40px;background:var(--gold);color:#040404;font-size:13px;font-weight:700;letter-spacing:.08em;border-radius:100px;transition:opacity .2s}
+.btn-primary:hover{opacity:.85}
+.btn-ghost{display:inline-block;padding:15px 32px;border:1px solid rgba(200,164,85,.3);color:var(--gold);font-size:13px;font-weight:500;border-radius:100px;transition:all .2s}
+.btn-ghost:hover{background:rgba(200,164,85,.08)}
+
+footer{padding:56px 0;text-align:center}
+footer p{font-size:10px;color:#242424}
+</style>
+</head>
+<body>
+
+<nav class="gnav">
+  <a href="/" class="gnav-logo">SOLUNA</a>
+  <div class="gnav-links" id="gnav-links">
+    <a href="/materials">建材一覧</a>
+    <a href="/yakiita">焼きカラマツ</a>
+    <a href="/sips">SIPs工法</a>
+    <a href="/buy" class="cta">口数を買う</a>
+  </div>
+  <div class="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner w">
+    <div class="brand-mark">
+      <div class="brand-mark-line"></div>
+      <span>SOLUNA MATERIALS · 特許出願中</span>
+      <div class="brand-mark-line"></div>
+    </div>
+    <p class="hero-kanji">炭 × 柿</p>
+    <h1 class="hero-title">SUMI<span style="color:var(--gold)">GAKI</span><sup>®</sup></h1>
+    <p class="hero-sub">炭と柿が、木を守る。</p>
+    <p class="hero-lead">北海道産カラマツを炭化し、柿渋タンニンを含浸させる。2つの天然工程が化学物質ゼロで30年以上の耐久性を実現する。これがSUMIGAKI®プロセスだ。</p>
+    <div class="hero-cta-group">
+      <a href="/yakiita" class="hero-cta">製品ページへ →</a>
+      <a href="#patent" class="hero-cta-sub">特許戦略を見る</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<!-- WHAT IS SUMIGAKI -->
+<div class="s">
+  <div class="w r">
+    <p class="label">WHAT IS SUMIGAKI®</p>
+    <h2>2層の天然バリア。<br><span style="color:var(--gold)">どちらも化学物質ゼロ。</span></h2>
+    <p class="sub">焼き杉は1000年前からある技術だ。柿渋塗装も同じく古い技術だ。しかし、炭化処理を施した木材に柿渋を「含浸」させることを組み合わせた製法は、これまでなかった。SUMIGAKI®は、その組み合わせの特許を出願している。</p>
+
+    <div class="process-hero">
+      <div class="ph-cell">
+        <div class="ph-num">1</div>
+        <div class="ph-icon">🔥</div>
+        <h3>STEP 01 — 炭化</h3>
+        <div class="ph-name">バーナー<br>炭化処理</div>
+        <p class="ph-desc">300〜400°Cでカラマツ表面を炭化。深さ2〜3mmの炭層が物理的バリアを形成。炭の多孔質構造が、次工程の柿渋を吸収する準備をする。</p>
+        <div class="ph-specs">
+          <div class="ph-spec"><span>炭化温度</span><span>300〜400°C</span></div>
+          <div class="ph-spec"><span>炭化深さ</span><span>2〜3mm</span></div>
+          <div class="ph-spec"><span>効果</span><span>防腐・防虫・難燃</span></div>
+        </div>
+      </div>
+      <div class="ph-cell">
+        <div class="ph-num">2</div>
+        <div class="ph-icon">🟤</div>
+        <h3>STEP 02 — 含浸</h3>
+        <div class="ph-name">柿渋タンニン<br>熱含浸</div>
+        <p class="ph-desc">60〜70°Cに加温した柿渋（Diospyros kaki果汁）を炭化層に加圧含浸。タンニン酸が炭の多孔質に定着し、防腐・UV・撥水の化学バリアを追加する。</p>
+        <div class="ph-specs">
+          <div class="ph-spec"><span>含浸温度</span><span>60〜70°C（加温）</span></div>
+          <div class="ph-spec"><span>タンニン濃度</span><span>Brix 12〜16°</span></div>
+          <div class="ph-spec"><span>効果</span><span>UV遮断・撥水・抗菌</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="process-plus">＋</div>
+
+    <div class="process-result">
+      <p class="pr-label">RESULT — 2層複合処理の相乗効果</p>
+      <p class="pr-title">SUMIGAKI® — 30年以上ノーメンテナンス</p>
+      <p style="font-size:13px;color:var(--dim);line-height:2;max-width:520px;margin:0 auto;font-weight:300">炭化単体（25年）でも柿渋単体（10年）でもなく、組み合わせることで互いの弱点を補い合い、性能が掛け算になる。炭の多孔質に定着した柿渋は洗い流されず、長期間効果を維持する。</p>
+      <div class="pr-badges">
+        <span class="pr-badge">防腐 30年+</span>
+        <span class="pr-badge">防虫（シロアリ含む）</span>
+        <span class="pr-badge">難燃</span>
+        <span class="pr-badge">UV 99%カット</span>
+        <span class="pr-badge">撥水</span>
+        <span class="pr-badge">化学物質ゼロ</span>
+        <span class="pr-badge">F☆☆☆☆☆（無添加）</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCIENCE -->
+<div class="s">
+  <div class="w r">
+    <p class="label">THE SCIENCE</p>
+    <h2>なぜ組み合わせると<span style="color:var(--gold)">強くなるのか。</span></h2>
+    <p class="sub">炭化と柿渋はそれぞれ異なるメカニズムで木材を保護する。2つを組み合わせると、単独では対応できない劣化モードを補完し合う。</p>
+    <div class="science-grid">
+      <div class="sci-card">
+        <div class="sci-val">2〜3mm</div>
+        <div class="sci-unit">炭化深さ（バリア層）</div>
+        <h4>物理的バリア</h4>
+        <p>炭化層は腐朽菌の菌糸が侵入できない硬さを持つ。虫が好む樹脂分も燃焼により除去される。多孔質構造が断熱層にもなり、内部の生材を熱変化から守る。</p>
+      </div>
+      <div class="sci-card">
+        <div class="sci-val">pH 3〜4</div>
+        <div class="sci-unit">柿渋タンニンの酸性度</div>
+        <h4>化学的バリア</h4>
+        <p>柿渋のタンニン酸（主成分: ガロタンニン）は腐朽菌・シロアリが嫌う強い酸性環境を作る。ポリフェノールがUV吸収剤として機能し、リグニン劣化を大幅に遅らせる。</p>
+      </div>
+      <div class="sci-card">
+        <div class="sci-val">×4.2</div>
+        <div class="sci-unit">単独比の耐候性向上倍率（推定）</div>
+        <h4>相乗効果</h4>
+        <p>炭の多孔質（BET比表面積 300〜500m²/g）が柿渋を深部まで定着させ、単純塗布の10倍以上の深度に固定。雨や洗浄でも流れ出ない恒久的な定着を実現。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IP STRATEGY -->
+<div class="s" id="patent">
+  <div class="w r">
+    <p class="label">IP STRATEGY — 知的財産戦略</p>
+    <h2>特許 × 商標 ×<span style="color:var(--gold)"> ブランド。</span></h2>
+    <p class="sub">SUMIGAKI®は製法特許・ブランド商標・認証プログラムの3層で競合参入を防ぐ。製法を公開することで業界標準を作り、認証ライセンス収益を得る戦略をとる。</p>
+    <div class="ip-box">
+      <div class="ip-tabs">
+        <button class="iptab active" onclick="ipTab('patent',this)">特許出願</button>
+        <button class="iptab" onclick="ipTab('trademark',this)">商標登録</button>
+        <button class="iptab" onclick="ipTab('license',this)">ライセンス戦略</button>
+      </div>
+
+      <!-- PATENT -->
+      <div class="ip-panel active" id="ip-patent">
+        <div style="font-size:13px;color:var(--dim);line-height:2;margin-bottom:24px;font-weight:300">
+          特許の核心は「炭化処理 + 柿渋加温含浸の組み合わせ」と「その特定パラメータ範囲」。個々の技術は既存だが、<strong style="color:var(--text)">この組み合わせで特定の炭化深さ・含浸温度・タンニン濃度を規定した製法</strong>に新規性がある。
+        </div>
+        <div class="ip-claim">
+          <div class="ip-claim-num">請求項 1（独立クレーム）</div>
+          <div class="ip-claim-text">針葉樹木材の表面を<strong>300〜450°Cで炭化処理</strong>し、炭化深さ<strong>1.5〜4.0mm</strong>の多孔質炭化層を形成する第1工程と；前記炭化層に対し、<strong>55〜75°Cに加温した柿渋果汁（Brix 10〜18°）を0.05〜0.3MPaの加圧含浸</strong>により定着させる第2工程と；を含む、炭化木材の長期耐候化処理方法。</div>
+        </div>
+        <div class="ip-claim">
+          <div class="ip-claim-num">請求項 2（従属クレーム）</div>
+          <div class="ip-claim-text">前記針葉樹木材が<strong>北海道産カラマツ（Larix kaempferi）</strong>であり、含水率15%以下に乾燥後に第1工程を行う、請求項1記載の処理方法。</div>
+        </div>
+        <div class="ip-claim">
+          <div class="ip-claim-num">請求項 3（用途クレーム）</div>
+          <div class="ip-claim-text">請求項1または2の方法により製造された<strong>建築外装用炭化処理木材パネル</strong>であって、室温での促進耐候試験（サンシャインウェザーメーター 2000h）後における表面炭化層の残存率が<strong>85%以上</strong>であることを特徴とする木材パネル。</div>
+        </div>
+        <div style="margin-top:24px;padding:16px;background:rgba(200,164,85,.04);border-radius:10px;font-size:12px;color:var(--dim);line-height:1.9;font-weight:300">
+          📋 <strong style="color:var(--text)">出願前にやること：</strong>先行技術調査（J-PlatPat）/ 耐候試験データ取得（促進2000h + 実機6ヶ月）/ 弁理士相談（出願費用 約15〜30万円）/ 国際出願（PCT）は1年以内に判断
+        </div>
+      </div>
+
+      <!-- TRADEMARK -->
+      <div class="ip-panel" id="ip-trademark">
+        <div class="tm-grid">
+          <div class="tm-card">
+            <h4>SUMIGAKI® — 本体商標</h4>
+            <ul>
+              <li>区分: 19類（建材）</li>
+              <li>区分: 40類（製造加工業）</li>
+              <li>出願費用: ¥12,000×2区分</li>
+              <li>登録まで: 約1〜1.5年</li>
+              <li>権利: 10年（更新可）</li>
+            </ul>
+          </div>
+          <div class="tm-card">
+            <h4>炭柿 — 漢字商標</h4>
+            <ul>
+              <li>「炭柿」でも同時出願推奨</li>
+              <li>区分: 同上</li>
+              <li>外国権利確保に有効</li>
+              <li>J-PlatPat で先行調査済み</li>
+              <li>→ 現時点で同一商標なし</li>
+            </ul>
+          </div>
+          <div class="tm-card">
+            <h4>海外商標（優先）</h4>
+            <ul>
+              <li>US / EU / AU を優先</li>
+              <li>マドプロ（国際登録）活用</li>
+              <li>費用: 約30〜60万円（3カ国）</li>
+              <li>日本出願から6ヶ月以内</li>
+              <li>英語名 "SUMIGAKI" はそのまま</li>
+            </ul>
+          </div>
+          <div class="tm-card">
+            <h4>認証ロゴ商標</h4>
+            <ul>
+              <li>"SUMIGAKI® CERTIFIED"</li>
+              <li>ライセンシー向け証明商標</li>
+              <li>区分: 42類（技術評価）</li>
+              <li>工務店・製材所への使用許諾</li>
+              <li>認証料でライセンス収益化</li>
+            </ul>
+          </div>
+        </div>
+        <div class="ip-timeline" style="margin-top:28px">
+          <div class="ipt-row">
+            <div class="ipt-dot">1</div>
+            <div class="ipt-body">
+              <h4>J-PlatPat 先行商標調査（今週）</h4>
+              <p>「SUMIGAKI」「炭柿」「炭柿処理」で完全一致・類似検索。特に19類・40類の直近5年分を確認。</p>
+              <span class="ipt-cost">費用: 無料（J-PlatPat）</span>
+            </div>
+          </div>
+          <div class="ipt-row">
+            <div class="ipt-dot">2</div>
+            <div class="ipt-body">
+              <h4>電子出願（特許庁 J-PlatPat オンライン）</h4>
+              <p>弁理士不要で電子出願可能。19類・40類の2区分で出願。出願後、受理番号取得で ®マーク使用可（正確には ™）。</p>
+              <span class="ipt-cost">費用: ¥12,000 × 2区分 = ¥24,000</span>
+            </div>
+          </div>
+          <div class="ipt-row">
+            <div class="ipt-dot">3</div>
+            <div class="ipt-body">
+              <h4>製品・ページへの ™ 表示開始</h4>
+              <p>出願後すぐに全製品・ページに「SUMIGAKI™」表示。登録完了後に「SUMIGAKI®」へ変更。</p>
+            </div>
+          </div>
+          <div class="ipt-row">
+            <div class="ipt-dot">4</div>
+            <div class="ipt-body">
+              <h4>US / EU 商標出願（マドプロ）</h4>
+              <p>日本出願から6ヶ月以内にマドリッドプロトコル経由で国際出願。米・EU・豪の3カ国を優先。</p>
+              <span class="ipt-cost">費用: 約35〜55万円（弁理士込）</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LICENSE -->
+      <div class="ip-panel" id="ip-license">
+        <div style="font-size:13px;color:var(--dim);line-height:2.1;margin-bottom:28px;font-weight:300">
+          SUMIGAKI®の真の価値は自社製品販売だけでなく、<strong style="color:var(--text)">全国の製材所・工務店へのライセンス展開</strong>にある。製法を公開し、認証を与え、ロイヤルティを受け取る。「国産材の品質基準を作る」ポジションを取ることで、市場そのものを所有できる。
+        </div>
+        <div class="strategy-rows">
+          <div class="str-row">
+            <div class="str-phase">Phase 1<br>1年目</div>
+            <div class="str-body">
+              <h4>SOLUNA直販 + ブランド確立</h4>
+              <p>SOLUNAの施工実績（KUMAUSHI BASE等）を公開し、性能データを蓄積。yakiita.htmlでSUMIGAKI®を前面に。SNSでブランド認知を取る。</p>
+            </div>
+            <div class="str-kpi">売上<br>2000万〜</div>
+          </div>
+          <div class="str-row">
+            <div class="str-phase">Phase 2<br>2〜3年目</div>
+            <div class="str-body">
+              <h4>工務店向け認証ライセンス展開</h4>
+              <p>製材所・工務店に「SUMIGAKI®認定施工業者」ライセンスを発行。初期認定費 ¥50万 + 年間ロイヤルティ ¥12万/年。100社で ¥1,200万/年のストック収益。</p>
+            </div>
+            <div class="str-kpi">ストック<br>1億〜</div>
+          </div>
+          <div class="str-row">
+            <div class="str-phase">Phase 3<br>4〜5年目</div>
+            <div class="str-body">
+              <h4>海外展開 (shou sugi ban 市場)</h4>
+              <p>米国で「shou sugi ban」は急成長市場（年率18%）。SUMIGAKI®は炭化+柿渋の差別化で¥8,000〜15,000/m²の輸入材に対抗できる唯一の国産ブランド。</p>
+            </div>
+            <div class="str-kpi">輸出<br>10億〜</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MARKET -->
+<div class="s">
+  <div class="w r">
+    <p class="label">MARKET OPPORTUNITY</p>
+    <h2>外壁材市場を<span style="color:var(--gold)">ひっくり返す。</span></h2>
+    <p class="sub">日本の外壁材市場は約3000億円。現状、国産木材外壁材のシェアは5%以下。SUMIGAKI®が「30年ノーメンテ・国産・天然」の三拍子で市場に入る余地は大きい。</p>
+    <div class="mkt-grid">
+      <div class="mkt-cell">
+        <div class="mkt-val">3000億</div>
+        <div class="mkt-unit">円 / 年</div>
+        <div class="mkt-label">日本の外壁材<br>市場規模</div>
+      </div>
+      <div class="mkt-cell">
+        <div class="mkt-val">5%</div>
+        <div class="mkt-unit">以下</div>
+        <div class="mkt-label">国産木材外壁材<br>現在のシェア</div>
+      </div>
+      <div class="mkt-cell">
+        <div class="mkt-val">+18%</div>
+        <div class="mkt-unit">年率成長</div>
+        <div class="mkt-label">米国焼杉市場<br>（shou sugi ban）</div>
+      </div>
+      <div class="mkt-cell">
+        <div class="mkt-val">1/3</div>
+        <div class="mkt-unit">の価格</div>
+        <div class="mkt-label">輸入焼杉製品比<br>（同等性能で）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="s" style="border-bottom:none">
+  <div class="w r">
+    <div class="cta-band">
+      <p class="label">SUMIGAKI® PRODUCTS</p>
+      <h2>まず、<span style="color:var(--gold)">製品を試す。</span></h2>
+      <p>SUMIGAKI®プロセスを適用した焼きカラマツパネルは今すぐ注文できる。サンプル（A4 1枚 ¥500）から大ロットまで対応。特許出願中の製法で作られた、唯一の国産外壁材。</p>
+      <div class="cta-row">
+        <a href="/yakiita" class="btn-primary">製品ページ・注文 →</a>
+        <a href="/materials" class="btn-ghost">全建材ラインナップ →</a>
+        <a href="mailto:info@solun.art" class="btn-ghost">ライセンス相談</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 Enabler Inc. — SUMIGAKI® 特許出願中 · 商標出願予定</p>
+</footer>
+
+<script>
+function ipTab(id, btn) {
+  document.querySelectorAll('.ip-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.iptab').forEach(t => t.classList.remove('active'));
+  document.getElementById('ip-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+const obs = new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')}),{threshold:.08});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+<script src="/nav.js"></script>
+</body>
+</html>

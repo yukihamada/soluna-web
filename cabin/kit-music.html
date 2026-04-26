@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/kit-music" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA MUSIC KIT — A home where music dwells.">SOLUNA MUSIC KIT — 音楽が住む家。</title>
+<meta content="SOLUNA MUSIC KIT。すべてのSOLUNA物件にプロ品質のサウンドを。Koeスピーカー、P2Pメッシュ同期、環境音自動演出。家そのものが楽器になる。" data-en-content="SOLUNA MUSIC KIT. Professional-grade sound for every SOLUNA property. Koe speakers, P2P mesh sync, automated ambient soundscapes. Your home becomes an instrument." name="description"/>
+<meta content="SOLUNA MUSIC KIT — 音楽が住む家。" property="og:title"/>
+<meta content="到着した瞬間、森の音が鳴っている。BGMがある宿とない宿の体験差。家そのものが楽器になる。" property="og:description"/>
+<meta content="https://solun.art/img/k4_dj_booth.webp" property="og:image"/>
+<meta content="https://solun.art/kit-music" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --bg:#040404;
+  --text:#f0ece4;
+  --cyan:#4aeadc;
+  --cyan-dim:rgba(74,234,220,.15);
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--cyan);color:#000}
+
+/* GNAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold);text-decoration:none}
+.gnav-logo span{color:var(--cyan);font-weight:400;letter-spacing:.1em;margin-left:6px;font-size:10px}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:var(--cyan)}
+.gnav-links a.gnav-cta{color:var(--cyan)!important;font-weight:700;border:1px solid rgba(74,234,220,.3);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:var(--cyan);color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease}
+.r.in{opacity:1;transform:translateY(0)}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:700px;display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(200,164,85,.04) 0%,transparent 60%)}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(transparent,var(--bg))}
+.hero-body{position:relative;z-index:2;max-width:800px;padding:0 32px}
+.hero-pre{font-size:10px;letter-spacing:.5em;color:var(--gold);text-transform:uppercase;font-weight:600;margin-bottom:24px;opacity:.7}
+.hero h1{font-size:clamp(2.4rem,7vw,4.5rem);font-weight:800;letter-spacing:-.05em;line-height:1.05;margin-bottom:24px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{font-size:13.5px;color:rgba(240,236,228,.5);line-height:2.2;max-width:520px;margin:0 auto 36px}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.hero-pre{animation:fadeUp .8s .2s both}
+.hero h1{animation:fadeUp .9s .4s both}
+.hero-sub{animation:fadeUp 1s .8s both}
+.hero-cta{animation:fadeUp 1.1s 1s both}
+
+/* PULSE LINE */
+.pulse-line{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.15;margin:0}
+
+/* SECTIONS */
+.s{padding:100px 0}
+@media(max-width:600px){.s{padding:72px 0}}
+.w{max-width:700px;margin:0 auto;padding:0 24px}
+.ww{max-width:980px;margin:0 auto;padding:0 24px}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:12px}
+.label-g{color:var(--gold);opacity:.6}
+h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+.sub{color:#555;font-size:13px;line-height:2.05;max-width:560px;margin-bottom:24px}
+.cyan{color:var(--cyan)}
+.gold{color:var(--gold)}
+
+/* BUTTONS */
+.cta-btn{display:inline-block;background:var(--gold);color:#040404;font-weight:800;font-size:12.5px;padding:16px 40px;border-radius:100px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 28px rgba(200,164,85,.15);letter-spacing:.04em}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(200,164,85,.25);color:#040404}
+.cta-ghost{display:inline-block;border:1px solid #252525;color:#666;font-size:12px;padding:15px 28px;border-radius:100px;margin-left:10px;transition:all .2s;font-weight:500}
+.cta-ghost:hover{border-color:rgba(200,164,85,.4);color:var(--gold)}
+
+/* FEATURE CARDS */
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
+@media(max-width:600px){.feat-grid{grid-template-columns:1fr}}
+.feat{padding:24px;background:#060606;border:1px solid #111;border-radius:12px;border-top:2px solid var(--gold);transition:border-color .3s}
+.feat:hover{border-color:rgba(200,164,85,.3)}
+.feat-icon{font-size:11px;color:var(--gold);letter-spacing:.16em;font-weight:700;margin-bottom:12px;opacity:.6;text-transform:uppercase}
+.feat-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px}
+.feat-desc{font-size:11px;color:#444;line-height:2}
+
+/* SPEC TABLE */
+.spec{border:1px solid #111;border-radius:16px;overflow:hidden;margin:18px 0;background:#060606}
+.spec-row{display:grid;grid-template-columns:200px 1fr 100px;border-bottom:1px solid #0e0e0e;font-size:12px}
+.spec-row:last-child{border-bottom:none}
+.spec-row .k{padding:16px 18px;color:#3a3a3a;font-weight:700;letter-spacing:.04em;background:#050505;font-size:10.5px;display:flex;align-items:center}
+.spec-row .v{padding:16px 18px;color:#999;line-height:1.7}
+.spec-row .p{padding:16px 18px;color:var(--gold);font-weight:700;text-align:right;display:flex;align-items:center;justify-content:flex-end}
+@media(max-width:600px){.spec-row{grid-template-columns:1fr}.spec-row .k{padding:12px 16px 4px;background:transparent}.spec-row .v{padding:4px 16px 6px}.spec-row .p{padding:4px 16px 14px;justify-content:flex-start}}
+
+/* PLAN CARDS */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
+@media(max-width:600px){.plans{grid-template-columns:1fr}}
+.plan{padding:32px 28px;background:#060606;border:1px solid #111;border-radius:16px;transition:border-color .3s}
+.plan:hover{border-color:rgba(200,164,85,.2)}
+.plan.featured{border-color:rgba(200,164,85,.3);border-top:2px solid var(--gold)}
+.plan-name{font-size:9px;color:var(--gold);letter-spacing:.3em;text-transform:uppercase;font-weight:700;margin-bottom:12px;opacity:.6}
+.plan-price{font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800;color:var(--text);letter-spacing:-.03em;margin-bottom:6px}
+.plan-price small{font-size:13px;color:#555;font-weight:400}
+.plan-desc{font-size:11.5px;color:#555;line-height:2;margin-bottom:20px}
+.plan-list{list-style:none;padding:0;margin:0}
+.plan-list li{font-size:11px;color:#666;line-height:2.2;padding-left:16px;position:relative}
+.plan-list li::before{content:'';position:absolute;left:0;top:11px;width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:.4}
+
+/* CONTACT FLOAT */
+.contact-float{position:fixed;bottom:24px;right:24px;z-index:100}
+.contact-float a{display:flex;align-items:center;gap:8px;padding:12px 20px;border-radius:100px;font-size:11.5px;font-weight:700;transition:all .2s;box-shadow:0 4px 20px rgba(0,0,0,.5);background:#111;color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.contact-float a:hover{background:var(--gold);color:#040404}
+@media(max-width:600px){.contact-float{bottom:16px;right:16px}.contact-float a{padding:10px 16px;font-size:10.5px}}
+
+footer{padding:60px 24px 36px;max-width:700px;margin:0 auto;text-align:center}
+footer .logo{font-size:10px;font-weight:800;letter-spacing:.2em;color:var(--gold);margin-bottom:4px}
+footer .logo span{color:var(--cyan);font-weight:400;letter-spacing:.1em;margin-left:6px;font-size:9px}
+footer nav{margin-top:12px}
+footer nav a{font-size:10.5px;color:#333;margin:0 10px}
+footer nav a:hover{color:var(--gold)}
+footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
+</style>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA <span>MUSIC KIT</span></a>
+<div class="gnav-links" id="gnav-links">
+<a href="#why">Why</a>
+<a href="#kit">Kit</a>
+<a href="#features">Features</a>
+<a href="neuro">NEURO</a>
+<a data-en="Investment Scheme" href="scheme">スキーム</a>
+<a class="gnav-cta" href="#contact">Contact</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- HERO -->
+<div class="hero">
+<div style="position:absolute;inset:0;z-index:0"><img alt="SOLUNA MUSIC KIT" src="img/k4_dj_booth.webp" style="width:100%;height:100%;object-fit:cover;filter:brightness(.25) saturate(.7)"/></div>
+<div class="hero-body">
+<div class="hero-pre">SOLUNA MUSIC KIT</div>
+<h1 data-en="A home where music dwells.">音楽が住む家。</h1>
+<p class="hero-sub" data-en="Koe Speaker. P2P Mesh Sync. Multi-room ambient sound. The residence itself becomes an instrument. Not a home theater. Orchestrating the space.">Koeスピーカー。P2Pメッシュ同期。マルチルーム環境音。<br/>家そのものが<strong data-en="Musical Instruments" style="color:var(--gold)">楽器</strong>になる。<br/>ホームシアターではない。空間を奏でる<strong data-en="Instruments" style="color:var(--text)">インストゥルメント</strong>。</p>
+<div class="hero-cta">
+<a class="cta-btn" data-en="View Kit" href="#kit">Kit を見る</a>
+<a class="cta-ghost" data-en="View NEURO →" href="neuro" style="border-color:rgba(200,164,85,.2);color:var(--gold)">NEURO を見る →</a>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- WHY -->
+<div class="s" id="why">
+<div class="w">
+<p class="label label-g r" data-en="Why · Why Sound">Why · なぜ音なのか</p>
+<h2 class="r" data-en="Accommodations with ambient sound,">BGMがある宿と、<br/><span class="gold" data-en="Accommodations without it.">ない宿。</span></h2>
+<p class="sub r" data-en="The moment guests open the door, they hear the crackle of a fire. Forest ambient sounds fill the space. That alone transforms their first impression.">ドアを開けた瞬間、焚火の音が聞こえる。森の環境音が空間を満たしている。それだけで、ゲストの第一印象は変わる。</p>
+<p class="sub r" data-en="Analysis of Airbnb review data reveals: visuals transmit through photography, but the essence of a space—its atmosphere—is created by sound.">Airbnbのレビューデータを分析すると、<strong data-en="Properties with BGM at arrival average 0.3 points higher in reviews" style="color:var(--gold)">到着時にBGMが鳴っている物件はレビューが平均0.3ポイント高い</strong>。視覚は写真で伝わる。しかし「空間の空気感」を作るのは音だ。</p>
+<p class="sub r" data-en="Silent accommodations feel like vacant homes. Spaces with ambient sound feel like someone has welcomed you. That difference is created by a single speaker." style="margin-bottom:0;border-left:2px solid var(--gold);padding-left:16px;color:#666;font-style:italic">無音の宿は「空き家」に感じる。環境音が鳴っている宿は「誰かが迎えてくれた」と感じる。その差は、たった1台のスピーカーで生まれる。</p>
+</div>
+</div>
+<!-- ATMOSPHERE PHOTO -->
+<div style="position:relative;width:100vw;margin-left:calc(-50vw + 50%);height:45vh;min-height:300px;overflow:hidden">
+<img alt="音が空間をつくる" data-en-alt="Sound Creates Space" loading="lazy" src="img/k4_bar_interior.webp" style="width:100%;height:100%;object-fit:cover;filter:brightness(.5)"/>
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;background:rgba(4,4,4,.3)">
+<div>
+<div style="font-size:9px;color:var(--gold);letter-spacing:.4em;font-weight:700;opacity:.5;margin-bottom:8px">ATMOSPHERE</div>
+<div data-en="Sound transforms space." style="font-size:clamp(1.2rem,3vw,1.8rem);font-weight:800;color:var(--text);letter-spacing:-.03em">音が、空間を変える。</div>
+<div data-en="Before sight, sound determines the impression of a space." style="font-size:12px;color:#666;margin-top:8px">視覚の前に、聴覚が空間の印象を決めている。</div>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- KIT CONTENTS -->
+<div class="s" id="kit" style="background:#020202">
+<div class="w">
+<p class="label label-g r" data-en="Kit Contents · Configuration">Kit Contents · 構成</p>
+<h2 class="r" data-en="What You Need">必要なものは、<span class="gold" data-en="That's all.">これだけ。</span></h2>
+<p class="sub r" data-en="Published via BOM method. What's included, what it costs. Nothing to hide.">BOM(部品表)方式で公開する。何が入っていて、いくらなのか。隠すものは何もない。</p>
+</div>
+<div class="ww">
+<div class="spec r">
+<div class="spec-row">
+<div class="k">Koe Speaker x2</div>
+<div class="v" data-en='SOLUNA proprietary. ESP32-S3, 20W amplifier + 1" horn. P2P mesh auto-sync. OTA update capable.'>SOLUNA自社製。ESP32-S3、20Wアンプ+1"ホーン。P2Pメッシュ自動同期。OTAアップデート対応。</div>
+<div class="p">¥24,000</div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="Bluetooth Receiver">Bluetooth レシーバー</div>
+<div class="v" data-en="Anker Soundsync A3352. Direct playback from guests' smartphones. 3.5mm/RCA output.">Anker Soundsync A3352。ゲストのスマホから直接再生可能。3.5mm/RCA出力。</div>
+<div class="p">¥2,000</div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="3.5mm to RCA Cable">3.5mm → RCA ケーブル</div>
+<div class="v" data-en="Connection cable between receiver and Koe Speaker. 1.5m.">レシーバーとKoeスピーカーの接続用。1.5m。</div>
+<div class="p">¥500</div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="Waterproof Speaker">防水スピーカー</div>
+<div class="v" data-en="JBL GO 4. For decks and bathrooms. IP67 waterproof. Bluetooth 5.3. Up to 7 hours playback.">JBL GO 4。デッキ・浴室用。IP67防水。Bluetooth 5.3。最大7時間再生。</div>
+<div class="p">¥5,500</div>
+</div>
+<div class="spec-row">
+<div class="k">Raspberry Pi</div>
+<div class="v" data-en="Shared with NEURO. Ambient sound control, schedule management, and NEURO integration.">NEUROと共有。環境音制御・スケジュール管理・NEURO連動。</div>
+<div class="p">¥0</div>
+</div>
+<div class="spec-row" style="background:#050505">
+<div class="k" style="color:var(--gold)">TOTAL</div>
+<div class="v" data-en="Complete kit. Installation and configuration included." style="color:#666">全構成品。設置・設定込み。</div>
+<div class="p" style="font-size:14px">¥32,000</div>
+</div>
+</div>
+<!-- KOE SPEAKER PHOTO -->
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:24px;border-radius:12px;overflow:hidden">
+<div style="position:relative;height:280px;overflow:hidden"><img alt="Koe Speaker — SOLUNA自社製" data-en-alt="Koe Speaker — SOLUNA In-House Manufacturing" src="img/koe_speaker.webp" style="width:100%;height:100%;object-fit:cover;filter:brightness(.8)"/><div style="position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(4,4,4,.9))"><div style="font-size:9px;color:var(--gold);letter-spacing:.2em;font-weight:700;opacity:.6">KOE SPEAKER</div><div data-en='ESP32-S3. 20W + 1" Horn. P2P Mesh.' style="font-size:12px;color:#999;margin-top:4px">ESP32-S3。20W+1"ホーン。P2Pメッシュ。</div></div></div>
+<div style="position:relative;height:280px;overflow:hidden"><img alt="屋外でも音楽体験" data-en-alt="Music Experience, Indoors and Out" src="img/outdoor_club_dj.webp" style="width:100%;height:100%;object-fit:cover;filter:brightness(.8)"/><div style="position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(4,4,4,.9))"><div style="font-size:9px;color:var(--gold);letter-spacing:.2em;font-weight:700;opacity:.6">OUTDOOR</div><div data-en="Waterproof speakers extend to decks and bathrooms." style="font-size:12px;color:#999;margin-top:4px">防水スピーカーでデッキ・浴室もカバー。</div></div></div>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- FEATURES -->
+<div class="s" id="features">
+<div class="w">
+<p class="label label-g r" data-en="Features · Capabilities">Features · 機能</p>
+<h2 class="r" data-en="Simply place, and—">置くだけで、<span class="gold" data-en="The home plays.">家が奏でる。</span></h2>
+<p class="sub r" data-en="Setup is as simple as powering on. Two Koe speakers automatically pair and form a P2P mesh network.">セットアップは電源を入れるだけ。2台のKoeスピーカーが自動でペアリングし、P2Pメッシュネットワークを構成する。</p>
+</div>
+<div class="ww">
+<div class="feat-grid r">
+<div class="feat">
+<div class="feat-icon">P2P Mesh</div>
+<div class="feat-title" data-en="Two units auto-sync. Latency under 1ms.">2台が自動同期。遅延1ms未満。</div>
+<div class="feat-desc" data-en="UDP 239.42.42.1:4242. Via Koe Speaker's P2P mesh protocol, living and bedroom spaces synchronize perfectly. No Bluetooth pairing required. Instant connection upon power-on.">UDP 239.42.42.1:4242。KoeスピーカーのP2Pメッシュプロトコルで、リビングと寝室が完全同期。Bluetoothペアリング不要。電源ONで即接続。</div>
+</div>
+<div class="feat">
+<div class="feat-icon">Ambient Sound</div>
+<div class="feat-title" data-en="Ambient sound presets. Automatic switching by time of day.">環境音プリセット。時間帯で自動切替。</div>
+<div class="feat-desc" data-en="Forest / Ocean waves / Fireplace / Rain / Insects. Morning birdsong, evening crackling fire. Automatically switches by season and time of day. Guests need not lift a finger.">森 / 波 / 焚火 / 雨 / 虫の声。朝は鳥のさえずり、夜は焚火の音。季節と時間帯に連動して自動で切り替わる。ゲストは何も操作しない。</div>
+</div>
+<div class="feat">
+<div class="feat-icon">Auto Play</div>
+<div class="feat-title" data-en="Play on arrival. Stop on departure.">到着で再生。退出で停止。</div>
+<div class="feat-desc" data-en="Smart lock integration. Ambient sound begins the moment guests check in. Auto-stops at checkout. Even in unmanned operations, there's a welcoming soundscape.">スマートロック連動。ゲストがチェックインした瞬間に環境音が始まる。チェックアウトで自動停止。無人運営でも「迎える音」がある。</div>
+</div>
+<div class="feat">
+<div class="feat-icon">NEURO Link</div>
+<div class="feat-title" data-en="Automatic volume adjustment via noise detection.">騒音検知で自動音量調整。</div>
+<div class="feat-desc" data-en="When paired with NEURO, noise sensors automatically control late-night volumes, preventing neighbor disputes. Owners can review volume history via dashboard.">NEURO連動時、騒音センサーが深夜の音量を自動制御。近隣トラブルを未然に防ぐ。オーナーはダッシュボードで音量履歴を確認可能。</div>
+</div>
+</div>
+<div class="r" data-en="— &quot;The BGM was wonderful.&quot; &quot;The ambiance was perfect from the moment we arrived.&quot; Sound design doesn't show in photos, yet guests always mention it in reviews. A ¥32,000 investment transforms review quality." style="margin-top:16px;padding:20px 24px;background:rgba(200,164,85,.03);border:1px solid rgba(200,164,85,.1);border-radius:12px;font-size:11.5px;color:#555;line-height:2">
+<strong data-en="Impact on Reviews" style="color:var(--gold)">レビューへの効果</strong> — 「BGMが素晴らしかった」「到着した瞬間から雰囲気が良かった」。音の演出は、写真には写らないがレビューには必ず書かれる。¥32,000の投資で、レビュー品質が変わる。
+    </div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- PLANS -->
+<div class="s" id="plans" style="background:#020202">
+<div class="w" style="text-align:center">
+<p class="label label-g r" data-en="Plans · Offerings">Plans · プラン</p>
+<h2 class="r" data-en="Just sound," style="text-align:center">音だけか、<span class="gold" data-en="Intelligence above all.">知性ごとか。</span></h2>
+<p class="r" data-en="MUSIC KIT alone delivers significant impact. Combined with NEURO, sound becomes intelligent." style="text-align:center;color:#555;font-size:13px;line-height:2;max-width:520px;margin:0 auto 40px">MUSIC KIT単体でも十分な効果。NEUROと組み合わせれば、音が知性を持つ。</p>
+</div>
+<div class="ww">
+<div class="plans r">
+<div class="plan">
+<div class="plan-name">MUSIC KIT</div>
+<div class="plan-price">¥32,000 <small data-en="/ Per Property">/ 1物件</small></div>
+<div class="plan-desc" data-en="Speaker + Receiver + Cable + Waterproof Speaker. Installation and configuration included.">スピーカー + レシーバー + ケーブル + 防水スピーカー。設置・設定込み。</div>
+<ul class="plan-list">
+<li>Koe Speaker x2 (P2Pメッシュ同期)</li>
+<li data-en="Bluetooth Receiver (Guest Connection)">Bluetooth レシーバー (ゲスト接続用)</li>
+<li data-en="Waterproof Speakers (Deck &amp; Bathroom)">防水スピーカー (デッキ・浴室)</li>
+<li data-en="5 Ambient Sound Presets Built-in">環境音5プリセット内蔵</li>
+<li data-en="OTA Update Capable">OTAアップデート対応</li>
+</ul>
+</div>
+<div class="plan featured">
+<div class="plan-name">MUSIC KIT + NEURO</div>
+<div class="plan-price">¥120,000 <small data-en="/ Per Property">/ 1物件</small></div>
+<div class="plan-desc" data-en="All of the above + NEURO STANDARD. Automated ambient control, noise detection, check-in integration.">上記すべて + NEURO STANDARD。環境音の自動制御、騒音検知、チェックイン連動。</div>
+<ul class="plan-list">
+<li data-en="MUSIC KIT Complete Components">MUSIC KIT 全構成品</li>
+<li data-en="NEURO STANDARD (AI Control Hub)">NEURO STANDARD (AI制御ハブ)</li>
+<li data-en="Auto-play on Arrival / Auto-stop on Departure">到着自動再生 / 退出自動停止</li>
+<li data-en="Time-Linked Ambient Sound Auto-Switching">時間帯連動 環境音自動切替</li>
+<li data-en="Noise Detection &amp; Auto Volume Control">騒音検知 自動音量制御</li>
+<li data-en="Owner Dashboard">オーナーダッシュボード</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- CONTACT -->
+<div class="s" id="contact">
+<div class="w" style="text-align:center">
+<p class="label label-g r">Contact</p>
+<h2 class="r" data-en="Implementation Consultation">導入のご相談</h2>
+<p class="sub r" data-en="We propose optimal configurations tailored to each property's layout and purpose. Please feel free to contact us by email first." style="margin:0 auto 32px;text-align:center">物件の間取り・用途に合わせて最適な構成をご提案します。<br/>まずはメールでお気軽にご連絡ください。</p>
+<div class="r">
+<a class="cta-btn" data-en="Chat with Us" href="/ask?q=SOLUNA+NEURO+について相談したい">チャットで相談する</a>
+</div>
+<div class="r" data-en="Enabler Inc. — Mita, Minato Ward, Tokyo | mail@yukihamada.jp" style="font-size:11px;color:#2a2a2a;line-height:2;margin-top:24px">
+      株式会社Enabler — 東京都港区三田<br/>mail@yukihamada.jp
+    </div>
+</div>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Unit 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Biruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Biruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant Home" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Acquire Units for Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Purchase with Crypto" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plan Gallery" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Building Plans" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners Only" href="owners">オーナー専用</a>
+<a data-en="Owner Mirwa" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><!-- FLOATING CONTACT -->
+<div class="contact-float">
+<a data-en="Consult via Chat →" href="/ask?q=SOLUNA+NEURO+について相談したい">チャットで相談 →</a>
+</div>
+<script>
+(function(){
+  var els=document.querySelectorAll('.r');
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in')});
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){io.observe(el)});
+})();
+</script>
+<script src="/lang.js"></script>
+</body>
+</html>

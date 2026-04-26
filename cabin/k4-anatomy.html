@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title data-en="KUMAUSHI BASE — Architectural Diagram · Layout · Zones · Construction Phases">KUMAUSHI BASE — 解剖図 · 配置・ゾーン・建設フェーズ</title>
+<meta content="コンテナ12台のU字複合棟を完全解剖。ゾーン配置・断面・建設順序・コスト内訳。" data-en-content="Complete Architectural Analysis of U-Shaped Complex with 12 Containers. Zone Layout · Cross-Sections · Construction Sequence · Cost Breakdown." name="description"/>
+<meta content="https://solun.art/img/k4_ref_party.webp" property="og:image"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold2:rgba(200,164,85,.5);
+  --bg:#030303;
+  --text:#f0ece4;
+  --dim:#444;
+  --dim2:#222;
+  --blue:#4a7fa5;
+  --red:#c85555;
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Helvetica Neue',-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{display:block}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 48px;
+  background:rgba(3,3,3,.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid #0d0d0d;
+}
+@media(max-width:640px){nav{padding:14px 20px}}
+.nav-logo{font-size:10px;font-weight:800;letter-spacing:.3em;color:var(--gold)}
+.nav-back{font-size:9px;letter-spacing:.2em;color:var(--dim);transition:color .2s}
+.nav-back:hover{color:var(--gold)}
+
+/* HERO */
+.hero{
+  position:relative;height:100vh;min-height:640px;
+  overflow:hidden;
+}
+.hero-img{
+  position:absolute;inset:0;
+}
+.hero-img img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.55);
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 40%,rgba(3,3,3,.8) 100%);
+}
+.hero-content{
+  position:relative;z-index:2;
+  height:100%;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:0 48px 72px;
+}
+@media(max-width:640px){.hero-content{padding:0 20px 48px}}
+.hero-eyebrow{
+  font-size:9px;letter-spacing:.5em;color:var(--gold);
+  margin-bottom:16px;
+}
+.hero-h1{
+  font-size:clamp(40px,7vw,96px);
+  font-weight:100;letter-spacing:-.03em;
+  line-height:.95;color:#fff;
+  margin-bottom:24px;
+}
+.hero-h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{
+  font-size:14px;color:rgba(240,236,228,.5);
+  max-width:480px;line-height:1.8;
+  font-weight:200;
+}
+
+/* ZONE MAP — annotated image */
+.zone-map{
+  position:relative;
+  max-width:100%;
+  margin:0 auto;
+}
+.zone-map img{width:100%;display:block}
+.zone-pin{
+  position:absolute;cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+}
+.zone-pin .dot{
+  width:14px;height:14px;border-radius:50%;
+  background:var(--gold);
+  border:2px solid #fff;
+  box-shadow:0 0 0 4px rgba(200,164,85,.3);
+  flex-shrink:0;
+  animation:pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(200,164,85,.3)}50%{box-shadow:0 0 0 8px rgba(200,164,85,.1)}}
+.zone-pin .label{
+  background:rgba(3,3,3,.88);
+  border:1px solid rgba(200,164,85,.35);
+  padding:4px 10px;
+  font-size:9px;letter-spacing:.15em;font-weight:700;
+  color:var(--gold);white-space:nowrap;
+}
+
+/* SECTION */
+.s{padding:80px 48px;border-top:1px solid #0a0a0a}
+@media(max-width:640px){.s{padding:60px 20px}}
+.w{max-width:1100px;margin:0 auto}
+.ww{max-width:1400px;margin:0 auto}
+.label{font-size:9px;letter-spacing:.4em;color:var(--dim);margin-bottom:12px;text-transform:uppercase}
+h2{font-size:clamp(28px,4vw,52px);font-weight:100;line-height:1.1;margin-bottom:16px}
+.gold{color:var(--gold)}
+.sub{font-size:14px;color:rgba(240,236,228,.45);max-width:600px;line-height:2;font-weight:200;margin-bottom:40px}
+
+/* ZONE GRID */
+.zone-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+}
+@media(max-width:900px){.zone-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.zone-grid{grid-template-columns:1fr}}
+.zone-card{
+  position:relative;overflow:hidden;cursor:pointer;
+  background:#080808;
+}
+.zone-card img{
+  width:100%;height:260px;object-fit:cover;
+  filter:brightness(.7) saturate(.85);
+  transition:filter .5s,transform .6s;
+  display:block;
+}
+.zone-card:hover img{filter:brightness(1) saturate(1);transform:scale(1.04)}
+.zone-card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(3,3,3,.9) 0%,transparent 55%);
+  pointer-events:none;
+}
+.zone-card-info{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px 18px;
+}
+.zone-code{
+  font-size:8px;letter-spacing:.35em;color:var(--gold);
+  font-weight:700;margin-bottom:6px;
+}
+.zone-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
+.zone-spec{font-size:10px;color:rgba(240,236,228,.45)}
+
+/* PHASE TABLE */
+.phase-list{display:flex;flex-direction:column;gap:2px}
+.phase-item{
+  display:grid;
+  grid-template-columns:48px 1fr auto auto;
+  gap:0;
+  align-items:stretch;
+  border:1px solid #0d0d0d;
+  overflow:hidden;
+}
+@media(max-width:640px){.phase-item{grid-template-columns:40px 1fr auto}}
+.phase-num{
+  background:#080808;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:var(--dim);
+  border-right:1px solid #0d0d0d;
+  padding:16px 0;
+}
+.phase-num.active{color:var(--gold)}
+.phase-body{
+  padding:16px 20px;
+  background:#050505;
+}
+.phase-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.phase-detail{font-size:10px;color:var(--dim);line-height:1.7}
+.phase-period{
+  padding:16px 20px;
+  background:#050505;
+  border-left:1px solid #0d0d0d;
+  display:flex;align-items:center;
+  font-size:10px;color:var(--dim);
+  white-space:nowrap;
+}
+@media(max-width:640px){.phase-period{display:none}}
+.phase-cost{
+  padding:16px 20px;
+  background:#060606;
+  border-left:1px solid #0d0d0d;
+  display:flex;align-items:center;
+  font-size:14px;font-weight:700;color:var(--gold);
+  white-space:nowrap;
+}
+
+/* SECTION 断面図 */
+.cutaway{
+  position:relative;
+  max-width:100%;
+  border:1px solid #0d0d0d;
+  background:#050505;
+  padding:40px;
+}
+.floor-row{
+  display:grid;
+  grid-template-columns:60px 1fr;
+  gap:0;
+  margin-bottom:3px;
+}
+.floor-label{
+  display:flex;align-items:center;justify-content:center;
+  background:#080808;border:1px solid #0d0d0d;
+  font-size:9px;letter-spacing:.2em;color:var(--dim);
+  writing-mode:vertical-rl;text-orientation:mixed;
+  padding:12px 0;
+}
+.floor-cells{
+  display:grid;gap:2px;
+}
+.floor-2f{grid-template-columns:repeat(6,1fr)}
+.floor-1f{grid-template-columns:repeat(6,1fr)}
+.floor-b{grid-template-columns:repeat(3,1fr)}
+.cell{
+  padding:16px 12px;
+  background:#070707;
+  border:1px solid #0d0d0d;
+  font-size:9px;line-height:1.6;
+  text-align:center;
+}
+.cell .cn{font-size:7px;letter-spacing:.2em;color:var(--dim);margin-bottom:4px}
+.cell .cv{font-size:11px;font-weight:700;color:var(--text)}
+.cell.gold{border-color:rgba(200,164,85,.2);background:rgba(200,164,85,.04)}
+.cell.gold .cv{color:var(--gold)}
+.cell.blue{border-color:rgba(74,127,165,.2);background:rgba(74,127,165,.04)}
+.cell.blue .cv{color:var(--blue)}
+
+/* COST TOTAL */
+.cost-total{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2px;
+  margin-top:40px;
+}
+@media(max-width:640px){.cost-total{grid-template-columns:1fr 1fr}}
+.ct-item{
+  padding:24px 20px;
+  background:#060606;
+  border:1px solid #0d0d0d;
+}
+.ct-label{font-size:8px;letter-spacing:.3em;color:var(--dim);margin-bottom:8px;text-transform:uppercase}
+.ct-val{font-size:22px;font-weight:700;color:var(--gold)}
+.ct-unit{font-size:10px;color:var(--dim);margin-left:2px}
+
+/* GALLERY STRIP */
+.gstrip{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:2px;
+}
+@media(max-width:640px){.gstrip{grid-template-columns:repeat(2,1fr)}}
+.gstrip-item{overflow:hidden;cursor:pointer}
+.gstrip-item img{
+  width:100%;height:160px;object-fit:cover;
+  filter:brightness(.75) saturate(.8);
+  transition:filter .4s,transform .5s;
+}
+.gstrip-item:hover img{filter:brightness(1) saturate(1);transform:scale(1.05)}
+
+/* MODAL */
+#modal{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.92);
+  align-items:center;justify-content:center;cursor:zoom-out;
+}
+#modal.on{display:flex}
+#modal img{max-width:90vw;max-height:88vh;object-fit:contain}
+#modal-close{
+  position:absolute;top:24px;right:32px;
+  font-size:28px;color:#fff;cursor:pointer;line-height:1;
+}
+
+/* FI */
+.fi{width:100%;height:480px;object-fit:cover;display:block;filter:brightness(.8)}
+@media(max-width:640px){.fi{height:280px}}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav>
+<span class="nav-logo">SOLUNA / KUMAUSHI BASE</span>
+<a class="nav-back" data-en="← Property Details" href="kumaushi">← 物件詳細</a>
+</nav>
+<!-- HERO -->
+<div class="hero">
+<div class="hero-img">
+<img alt="KUMAUSHI BASE パーティビュー" data-en-alt="KUMAUSHI BASE Party View" src="img/k4_ref_party.webp"/>
+</div>
+<div class="hero-overlay"></div>
+<div class="hero-content">
+<p class="hero-eyebrow" data-en="ANATOMY — Architectural Diagram">ANATOMY — 解剖図</p>
+<h1 class="hero-h1" data-en="This Property">この建物を<br/><em data-en="Complete Transparency.">全部バラす。</em></h1>
+<p class="hero-sub" data-en="12 containers × U-shaped × 2 tiers. What goes where, in what order, and at what cost. We show it all—architecture, zones, costs.">コンテナ12台 × U字 × 2層。何がどこにあって、どういう順番でいくらで作るのか。建築・ゾーン・コスト、全部見せる。</p>
+</div>
+</div>
+<!-- AERIAL ANNOTATED -->
+<div class="s" style="background:#020202;padding-top:0">
+<div class="ww" style="padding-top:60px">
+<p class="label" data-en="Zone Map">Zone Map · ゾーン配置図</p>
+<h2 data-en="From Above,">上から見ると、<span class="gold" data-en="Nine distinctive zones.">9つのゾーンがある。</span></h2>
+<p class="sub" data-en="U-shaped two-story structure. Inward-facing courtyard, outward-facing views. Each zone functions independently.">U字の2層構造。内向きはコートヤード、外向きはビュー。各ゾーンが独立して機能する。</p>
+<div class="zone-map" style="border:1px solid #0d0d0d;overflow:hidden">
+<img alt="KUMAUSHI BASE 空撮配置図" data-en-alt="KUMAUSHI BASE Aerial Site Plan" src="img/k4_ref_aerial_day.webp"/>
+<!-- Zone pins — positioned as % of image -->
+<div class="zone-pin" style="top:12%;left:48%;transform:translateX(-50%)">
+<div class="dot"></div><span class="label" data-en="A · Roof Deck">A · ルーフデッキ</span>
+</div>
+<div class="zone-pin" style="top:25%;left:78%">
+<div class="dot"></div><span class="label" data-en="B · Cinema">B · シネマ</span>
+</div>
+<div class="zone-pin" style="top:55%;left:82%">
+<div class="dot"></div><span class="label" data-en="C · Water Slide">C · スライダー</span>
+</div>
+<div class="zone-pin" style="top:72%;left:68%">
+<div class="dot"></div><span class="label" data-en="D · Pool">D · プール</span>
+</div>
+<div class="zone-pin" style="top:50%;left:45%;transform:translateX(-50%)">
+<div class="dot" style="background:#4a7fa5;box-shadow:0 0 0 4px rgba(74,127,165,.3)"></div><span class="label" data-en="E · BJJ Court" style="border-color:rgba(74,127,165,.4);color:#4a7fa5">E · BJJコート</span>
+</div>
+<div class="zone-pin" style="top:72%;left:20%">
+<div class="dot" style="background:#888"></div><span class="label" data-en="F · Bar/DJ" style="border-color:rgba(150,150,150,.3);color:#aaa">F · バー/DJ</span>
+</div>
+<div class="zone-pin" style="top:40%;left:12%">
+<div class="dot" style="background:#888"></div><span class="label" data-en="G · Sauna" style="border-color:rgba(150,150,150,.3);color:#aaa">G · サウナ</span>
+</div>
+<div class="zone-pin" style="top:20%;left:18%">
+<div class="dot" style="background:#888"></div><span class="label" data-en="H · 6 Bedrooms" style="border-color:rgba(150,150,150,.3);color:#aaa">H · 寝室×6</span>
+</div>
+<div class="zone-pin" style="top:85%;left:45%;transform:translateX(-50%)">
+<div class="dot" style="background:#888"></div><span class="label" data-en="I · Garage" style="border-color:rgba(150,150,150,.3);color:#aaa">I · ガレージ</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 9 ZONES -->
+<div class="s" style="background:#030303">
+<div class="ww">
+<p class="label" data-en="Zone Breakdown · 9-Zone Anatomy">Zone Breakdown · 9ゾーン解剖</p>
+<h2 data-en="9 Zones">9つのゾーン、<span class="gold" data-en="Entirely Distinct Experiences.">全部違う体験。</span></h2>
+<p class="sub" data-en="Experience a different zone each visit. Designed with more than one night to fully appreciate.">毎回違うゾーンをメインにして使える。1泊では使い切れない設計。</p>
+<div class="zone-grid">
+<!-- A Rooftop -->
+<div class="zone-card" onclick="openModal('img/k4_ref_rooftop.webp')">
+<img alt="ルーフデッキ" data-en-alt="Roof Deck" src="img/k4_ref_rooftop.webp"/>
+<div class="zone-card-overlay"></div>
+<div class="zone-card-info">
+<div class="zone-code" data-en="ZONE A · 2F Rooftop">ZONE A · 2F 屋上</div>
+<div class="zone-name">ROOFTOP DECK</div>
+<div class="zone-spec" data-en="60㎡ · Lounge · Stargazing · Telescope">60㎡ · ラウンジ・星観測・望遠鏡</div>
+</div>
+</div>
+<!-- B Cinema -->
+<div class="zone-card" onclick="openModal('img/k4_projector.webp')">
+<img alt="アウトドアシネマ" data-en-alt="Outdoor Cinema" src="img/k4_projector.webp"/>
+<div class="zone-card-overlay"></div>
+<div class="zone-card-info">
+<div class="zone-code" data-en="ZONE B · 2F South Wing">ZONE B · 2F 南翼</div>
+<div class="zone-name">OUTDOOR CINEMA</div>
+<div class="zone-spec" data-en="120-inch Screen · Netflix · Waterproof Speakers">120インチスクリーン · Netflix · 防水スピーカー</div>
+</div>
+</div>
+<!-- C Slider -->
+<div class="zone-card" onclick="openModal('img/k4_ext_full.webp')">
+<img alt="ウォータースライダー" data-en-alt="Water Slide" src="img/k4_ext_full.webp"/>
+<div class="zone-card-overlay"></div>
+<div class="zone-card-info">
+<div class="zone-code" data-en="ZONE C · 2F→1F East End">ZONE C · 2F→1F 東端</div>
+<div class="zone-name">SPIRAL SLIDE</div>
+<div class="zone-spec" data-en="Stainless Steel · Double Helix · 6m Height">ステンレス製 · 螺旋2回転 · 高さ6m</div>
+</div>
+</div>
+<!-- D Pool -->
+<div class="zone-card" onclick="openModal('img/k4_pool_infinity.webp')">
+<img alt="インフィニティプール" data-en-alt="Infinity Pool" src="img/k4_pool_infinity.webp"/>
+<div class="zone-card-overlay"></div>
+<div class="zone-card-info">
+<div class="zone-code" data-en="ZONE D · 1F East Side">ZONE D · 1F 東側</div>
+<div class="zone-name">INFINITY POOL</div>
+<div class="zone-spec" data-en="25m × 4m · Overflow · Infinite Edge to Grassland">25m × 4m · オーバーフロー · 草原への無限エッジ</div>
+</div>
+</div>
+<!-- E BJJ -->
+<div class="zone-card" onclick="openModal('img/k4_dojo_center.webp')">
+<img alt="BJJコートヤード" data-en-alt="BJJ Courtyard" src="img/k4_dojo_center.webp"/>
+<div class="zone-card-overlay"></div>
+<div class="zone-card-info">
+<div class="zone-code" data-en="ZONE E · Central Courtyard">ZONE E · コートヤード中央</div>
+<div class="zone-name">BJJ COURTYARD</div>
+<div class="zone-spec" data-en="180㎡ · White EVA Mat · Three-sided Glass">180㎡ · 白EVAマット · 三方ガラス</div>
+</div>
+</div>
+<!-- F Bar DJ -->
+<div class="zone-card" onclick="openModal('img/k4_dj_booth.webp')">
+<img alt="バー・DJブース" data-en-alt="Bar · DJ Booth" src="img/k4_dj_booth.webp"/>
+<div class="zone-card-overlay"></div>
+<div class="zone-card-info">
+<div class="zone-code" data-en="ZONE F · 2F North Wing">ZONE F · 2F 北翼</div>
+<div class="zone-name">BAR + DJ BOOTH</div>
+<div class="zone-spec" data-en="Bar Counter 8 Seats · Pioneer DJ · Premium Speakers">バーカウンター8席 · Pioneer DJ · 大型スピーカー</div>
+</div>
+</div>
+<!-- G Sauna -->
+<div class="zone-card" onclick="openModal('img/k4_sauna_coldplunge.webp')">
+<img alt="サウナ・冷浴" data-en-alt="Sauna &amp; Cold Bath" src="img/k4_sauna_coldplunge.webp"/>
+<div class="zone-card-overlay"></div>
+<div class="zone-card-info">
+<div class="zone-code" data-en="ZONE G · 1F Northwest">ZONE G · 1F 北西</div>
+<div class="zone-name">SAUNA + COLD PLUNGE</div>
+<div class="zone-spec" data-en="Wood-Fired Sauna 90°C · Cold Bath 8°C · Outdoor Shower">薪サウナ90℃ · 冷浴槽8℃ · アウトドアシャワー</div>
+</div>
+</div>
+<!-- H Bedrooms -->
+<div class="zone-card" onclick="openModal('img/k4_int_bedroom_wide.webp')">
+<img alt="寝室" data-en-alt="Bedroom" src="img/k4_int_bedroom_wide.webp"/>
+<div class="zone-card-overlay"></div>
+<div class="zone-card-info">
+<div class="zone-code" data-en="ZONE H · 1F Both Wings">ZONE H · 1F 両翼</div>
+<div class="zone-name">BEDROOM × 6</div>
+<div class="zone-spec" data-en="18㎡ Each · Double Beds · Individual Climate Control · Storage">各18㎡ · ダブルベッド · 個別空調 · 収納</div>
+</div>
+</div>
+<!-- I Garage -->
+<div class="zone-card" onclick="openModal('img/k4_garage_vehicles.webp')">
+<img alt="ガレージ" data-en-alt="Garage" src="img/k4_garage_vehicles.webp"/>
+<div class="zone-card-overlay"></div>
+<div class="zone-card-info">
+<div class="zone-code" data-en="ZONE I · 1F South Façade">ZONE I · 1F 南面</div>
+<div class="zone-name">GARAGE</div>
+<div class="zone-spec" data-en="3 units · Tesla V2H · Harley · 2 Snowmobiles">3台 · Tesla V2H · Harley · スノーモービル2台</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 断面図 -->
+<img alt="コートヤード内部" class="fi" data-en-alt="Courtyard Interior" src="img/k4_ref_interior_court.webp"/>
+<div class="s" style="background:#020202">
+<div class="w">
+<p class="label" data-en="Floor Plan · Sectional Elevation">Floor Plan · 階層断面図</p>
+<h2 data-en="Two-Story × U-Shaped">2層 × U字、<span class="gold" data-en="28 Spaces Total.">全28スペース。</span></h2>
+<p class="sub" data-en="12 Containers Stacked and Arranged in Parallel. Level 1F: Living, Training, Leisure. Level 2F: Entertainment, Spectacular Views.">コンテナ12台を積み重ね・並列配置。1Fが生活・訓練・快楽、2Fがエンタメ・絶景。</p>
+<div class="cutaway">
+<!-- 2F -->
+<div class="floor-row">
+<div class="floor-label">2 F</div>
+<div class="floor-cells floor-2f">
+<div class="cell gold"><div class="cn">ZONE A</div><div class="cv" data-en="Roof Deck">ルーフデッキ</div></div>
+<div class="cell gold"><div class="cn">ZONE B</div><div class="cv" data-en="Cinema">シネマ</div></div>
+<div class="cell gold"><div class="cn">ZONE F</div><div class="cv" data-en="Bar / DJ">バー / DJ</div></div>
+<div class="cell"><div class="cn" data-en="Shared">共用</div><div class="cv" data-en="Corridors / Staircase">廊下 / 階段</div></div>
+<div class="cell"><div class="cn">ZONE C</div><div class="cv" data-en="Slider Exit">スライダー出口</div></div>
+<div class="cell"><div class="cn" data-en="Facilities">設備</div><div class="cv" data-en="Mechanical Room / Starlink">機械室 / Starlink</div></div>
+</div>
+</div>
+<!-- 1F -->
+<div class="floor-row">
+<div class="floor-label">1 F</div>
+<div class="floor-cells floor-1f">
+<div class="cell blue"><div class="cn">ZONE E</div><div class="cv" data-en="BJJ Court">BJJ コート</div></div>
+<div class="cell"><div class="cn">ZONE G</div><div class="cv" data-en="Sauna + Cold Bath">サウナ + 冷浴</div></div>
+<div class="cell"><div class="cn">ZONE H×3</div><div class="cv" data-en="Bedrooms A/B/C">寝室 A/B/C</div></div>
+<div class="cell"><div class="cn">ZONE H×3</div><div class="cv" data-en="Bedrooms D/E/F">寝室 D/E/F</div></div>
+<div class="cell blue"><div class="cn">ZONE D</div><div class="cv" data-en="Pool">プール</div></div>
+<div class="cell"><div class="cn">ZONE I</div><div class="cv" data-en="Garage">ガレージ</div></div>
+</div>
+</div>
+<!-- 共用 -->
+<div class="floor-row">
+<div class="floor-label">共</div>
+<div class="floor-cells floor-b">
+<div class="cell"><div class="cn" data-en="Kitchen / Dining">キッチン / ダイニング</div><div class="cv" data-en="Open Kitchen with Dual IH Cooktop">オープンキッチン 2口 IH</div></div>
+<div class="cell"><div class="cn" data-en="Power / Infrastructure">電力 / インフラ</div><div class="cv" data-en="Tesla Powerwall × 3 · Solar 40kW">Tesla Powerwall × 3 · 太陽光 40kW</div></div>
+<div class="cell"><div class="cn" data-en="Water / Wastewater">水 / 廃水</div><div class="cv" data-en="Groundwater + Filtration · Integrated Septic System">地下水 + ろ過 · 合併浄化槽</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 建設フェーズ -->
+<div class="s" style="background:#030303">
+<div class="w">
+<p class="label" data-en="Construction Phases">Construction Phases · 建設フェーズ</p>
+<h2 data-en="Across 9 Phases">9つのフェーズで、<span class="gold" data-en="Built over 18 months.">18ヶ月かけて建てる。</span></h2>
+<p class="sub" data-en="Construction begins January 2027. Total investment ¥220,000,000. 18-month construction period. Full operation by June 2028.">2027年1月着工。総工費 ¥2億2,000万。工期18ヶ月。2028年6月フル稼働。</p>
+<div class="phase-list">
+<div class="phase-item">
+<div class="phase-num active">01</div>
+<div class="phase-body">
+<div class="phase-title" data-en="Soil Survey · Surveying · Administrative Applications">地盤調査 · 測量 · 行政申請</div>
+<div class="phase-detail" data-en="Building Permit Application · Agricultural Land Conversion · Consultation with Teshikaga Town. Soil Survey · Load-Bearing Layer Confirmation. Design Finalized.">建築確認申請・農地転用・弟子屈町協議。地盤調査・支持層確認。設計確定。</div>
+</div>
+<div class="phase-period" data-en="2026 Q4 · 3 Months">2026年Q4<br/>3ヶ月</div>
+<div class="phase-cost">¥800<span style="font-size:11px;color:var(--dim)">万</span></div>
+</div>
+<div class="phase-item">
+<div class="phase-num active">02</div>
+<div class="phase-body">
+<div class="phase-title" data-en="Foundation Work · Civil Engineering · Infrastructure Priority">基礎工事 · 土木 · インフラ先行</div>
+<div class="phase-detail" data-en="U-shaped foundation concrete construction. Power supply connection, underground utilities, and Starlink installation. Site preparation and grading.">U字基礎コンクリート打設。電力引込・地下給排水・Starlink基地設置。造成整地。</div>
+</div>
+<div class="phase-period" data-en="2027 Q1 3 months">2027年Q1<br/>3ヶ月</div>
+<div class="phase-cost">¥3,200<span style="font-size:11px;color:var(--dim)">万</span></div>
+</div>
+<div class="phase-item">
+<div class="phase-num">03</div>
+<div class="phase-body">
+<div class="phase-title" data-en="Container Transport · Stacked Arrangement · Welding">コンテナ搬入 · 積層配置 · 溶接</div>
+<div class="phase-detail" data-en="12 x 40-foot containers shipped from Shandong, China. U-shaped stacking with crane trucks. Steel frame welding and reinforcement.">40フィートコンテナ12台を中国山東省から輸送。クレーン車でU字積層。鉄骨溶接・補強。</div>
+</div>
+<div class="phase-period" data-en="2027 Q2 · 2 Months">2027年Q2<br/>2ヶ月</div>
+<div class="phase-cost">¥4,800<span style="font-size:11px;color:var(--dim)">万</span></div>
+</div>
+<div class="phase-item">
+<div class="phase-num">04</div>
+<div class="phase-body">
+<div class="phase-title" data-en="Exterior · Glass Façade · Membrane Roof">外装 · ガラスファサード · 膜屋根</div>
+<div class="phase-detail" data-en="Full Glass Curtain Wall Installation on Courtyard Side. PTFE Membrane Roof Installation (120㎡ Courtyard Coverage). White Finish.">コートヤード側 全面ガラスカーテンウォール取付。PTFE膜屋根展張（コートヤード120㎡被覆）。白塗装。</div>
+</div>
+<div class="phase-period" data-en="2027 Q2–Q3, 3 Months">2027年Q2〜Q3<br/>3ヶ月</div>
+<div class="phase-cost">¥3,500<span style="font-size:11px;color:var(--dim)">万</span></div>
+</div>
+<div class="phase-item">
+<div class="phase-num">05</div>
+<div class="phase-body">
+<div class="phase-title" data-en="Interior Construction · Bedrooms · Kitchen · Bath">内装工事 · 寝室 · キッチン · バス</div>
+<div class="phase-detail" data-en="6 Bedrooms with Plaster Finish, Radiant Heating, and Individual Climate Control. Custom Open Kitchen. 6 Bathrooms with Tile.">寝室×6 左官仕上げ・床暖房・個別空調設置。オープンキッチン造作。バスルーム6室タイル。</div>
+</div>
+<div class="phase-period" data-en="2027 Q3 3 months">2027年Q3<br/>3ヶ月</div>
+<div class="phase-cost">¥3,200<span style="font-size:11px;color:var(--dim)">万</span></div>
+</div>
+<div class="phase-item">
+<div class="phase-num">06</div>
+<div class="phase-body">
+<div class="phase-title" data-en="Swimming Pool · Water Slide Installation">プール · ウォータースライダー設置</div>
+<div class="phase-detail" data-en="Concrete pool construction with FRP waterproofing and infinity edge finish. Custom stainless steel spiral slide fabrication and installation (6m height). Filtration system and heating.">コンクリートプール打設・FRP防水・インフィニティエッジ仕上。ステンレス螺旋スライダー製作・設置（高さ6m）。濾過設備・ヒーター。</div>
+</div>
+<div class="phase-period" data-en="2027 Q3–Q4 · 3 Months">2027年Q3〜Q4<br/>3ヶ月</div>
+<div class="phase-cost">¥3,400<span style="font-size:11px;color:var(--dim)">万</span></div>
+</div>
+<div class="phase-item">
+<div class="phase-num">07</div>
+<div class="phase-body">
+<div class="phase-title" data-en="Sauna · Electrical Systems · Tesla Powerwall">サウナ · 電気設備 · Tesla Powerwall</div>
+<div class="phase-detail" data-en="Wood-Fired Sauna Cabin Installation and Chimney Work. Concrete Cold Plunge Bath. 40kW Solar System and 3× Tesla Powerwall Installation. EV Charging Infrastructure.">薪サウナ小屋設置・煙道工事。冷浴槽コンクリート造。太陽光40kW・Powerwall×3設置。EV充電設備。</div>
+</div>
+<div class="phase-period" data-en="2027 Q4 2 Months">2027年Q4<br/>2ヶ月</div>
+<div class="phase-cost">¥2,000<span style="font-size:11px;color:var(--dim)">万</span></div>
+</div>
+<div class="phase-item">
+<div class="phase-num">08</div>
+<div class="phase-body">
+<div class="phase-title" data-en="Roof Deck · DJ Booth · AV Systems">ルーフデッキ · DJブース · AV設備</div>
+<div class="phase-detail" data-en="Rooftop Deck with Waterproof Finish and Tile. Custom Bar Counter. Pioneer DJ Setup and Speakers. Cinema Screen and Projector. Telescope Mount.">屋上デッキ防水・タイル仕上。バーカウンター造作。Pioneer DJセット・スピーカー設置。シネマスクリーン・プロジェクター。望遠鏡架台。</div>
+</div>
+<div class="phase-period" data-en="2028 Q1 · 2 Months">2028年Q1<br/>2ヶ月</div>
+<div class="phase-cost">¥1,800<span style="font-size:11px;color:var(--dim)">万</span></div>
+</div>
+<div class="phase-item">
+<div class="phase-num">09</div>
+<div class="phase-body">
+<div class="phase-title" data-en="Furniture Installation · Final Inspection · Trial Operation">家具搬入 · 竣工検査 · 試運転</div>
+<div class="phase-detail" data-en="Full installation of furnishings, bedding, and kitchenware. Fire and building code final inspections. Equipment testing and staff training. Grand Opening.">全家具・寝具・キッチン用品搬入。消防・建築確認完了検査。各設備試運転・スタッフ研修。グランドオープン。</div>
+</div>
+<div class="phase-period" data-en="2028 Q2 · 2 Months">2028年Q2<br/>2ヶ月</div>
+<div class="phase-cost">¥1,200<span style="font-size:11px;color:var(--dim)">万</span></div>
+</div>
+</div>
+<!-- COST TOTAL -->
+<div class="cost-total">
+<div class="ct-item">
+<div class="ct-label" data-en="Total Construction Cost">総工費</div>
+<div class="ct-val">¥2.2<span class="ct-unit">億</span></div>
+</div>
+<div class="ct-item">
+<div class="ct-label" data-en="Construction Timeline">工期</div>
+<div class="ct-val">18<span class="ct-unit" data-en="Months">ヶ月</span></div>
+</div>
+<div class="ct-item">
+<div class="ct-label" data-en="Container">コンテナ</div>
+<div class="ct-val">12<span class="ct-unit">台</span></div>
+</div>
+<div class="ct-item">
+<div class="ct-label" data-en="Full Operation">フル稼働</div>
+<div class="ct-val">2028<span class="ct-unit" data-en="Summer of the Year">年夏</span></div>
+</div>
+</div>
+</div>
+</div>
+<!-- GALLERY -->
+<div class="s" style="background:#020202;padding-bottom:40px">
+<div class="ww">
+<p class="label" data-en="Photo Gallery · All Images" style="margin-bottom:24px">Photo Gallery · 全写真</p>
+<div class="gstrip">
+<div class="gstrip-item" onclick="openModal('img/k4_ref_party.webp')">
+<img alt="パーティ" data-en-alt="Party" src="img/k4_ref_party.webp"/>
+</div>
+<div class="gstrip-item" onclick="openModal('img/k4_ref_night.webp')">
+<img alt="夜景" data-en-alt="Night View" src="img/k4_ref_night.webp"/>
+</div>
+<div class="gstrip-item" onclick="openModal('img/k4_ref_winter.webp')">
+<img alt="冬" src="img/k4_ref_winter.webp"/>
+</div>
+<div class="gstrip-item" onclick="openModal('img/k4_ext_ushape.webp')">
+<img alt="U字外観" data-en-alt="U-shaped Exterior" src="img/k4_ext_ushape.webp"/>
+</div>
+<div class="gstrip-item" onclick="openModal('img/k4_aerial_v2.webp')">
+<img alt="空撮" data-en-alt="Aerial View" src="img/k4_aerial_v2.webp"/>
+</div>
+<div class="gstrip-item" onclick="openModal('img/k4_int_kitchen_wide.webp')">
+<img alt="キッチン" data-en-alt="Kitchen" src="img/k4_int_kitchen_wide.webp"/>
+</div>
+<div class="gstrip-item" onclick="openModal('img/k4_bar_interior.webp')">
+<img alt="バー" data-en-alt="Bar" src="img/k4_bar_interior.webp"/>
+</div>
+<div class="gstrip-item" onclick="openModal('img/k4_shikkui_party.webp')">
+<img alt="漆喰パーティ" data-en-alt="Plaster Party" src="img/k4_shikkui_party.webp"/>
+</div>
+<div class="gstrip-item" onclick="openModal('img/k4_snowmobile_action.webp')">
+<img alt="スノーモービル" data-en-alt="Snowmobile" src="img/k4_snowmobile_action.webp"/>
+</div>
+<div class="gstrip-item" onclick="openModal('img/k4_supercar.webp')">
+<img alt="スーパーカー" data-en-alt="Supercar" src="img/k4_supercar.webp"/>
+</div>
+<div class="gstrip-item" onclick="openModal('img/k4_founder.webp')">
+<img alt="ファウンダー" data-en-alt="Founder" src="img/k4_founder.webp"/>
+</div>
+<div class="gstrip-item" onclick="openModal('img/k4_team_workparty.webp')">
+<img alt="チーム" data-en-alt="Team" src="img/k4_team_workparty.webp"/>
+</div>
+<div class="gstrip-item" onclick="openModal('img/k4_snow_bike.webp')">
+<img alt="スノーバイク" data-en-alt="Snow Bike" src="img/k4_snow_bike.webp"/>
+</div>
+<div class="gstrip-item" onclick="openModal('img/k4_harley.webp')">
+<img alt="ハーレー" data-en-alt="Harley" src="img/k4_harley.webp"/>
+</div>
+<div class="gstrip-item" onclick="openModal('img/k4_membrane_retract.webp')">
+<img alt="膜屋根" data-en-alt="Membrane Roof" src="img/k4_membrane_retract.webp"/>
+</div>
+</div>
+</div>
+</div>
+<!-- CTA -->
+<div style="background:#030303;border-top:1px solid #0a0a0a;padding:80px 48px;text-align:center">
+<p data-en="CABIN CLUB · Limited to 20 Members" style="font-size:9px;letter-spacing:.4em;color:var(--dim);margin-bottom:16px">CABIN CLUB · 20名限定</p>
+<h2 data-en="From ¥4,800,000" style="font-size:clamp(28px,5vw,64px);font-weight:100;margin-bottom:24px">¥480万で、<span class="gold" data-en="Become an Owner of This Property.">この建物のオーナーになる。</span></h2>
+<p data-en="30 nights annual usage rights + 1/20 real estate co-ownership registration + annual dividends. Only 20 memberships. No expansion." style="font-size:13px;color:rgba(240,236,228,.4);margin-bottom:40px;max-width:480px;margin-left:auto;margin-right:auto;line-height:2">年30泊の利用権 + 1/20持分の会員権登録 + 年間配当。20口だけ。増えない。</p>
+<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+<a data-en="Become an Owner →" href="club-k4" style="display:inline-block;padding:18px 48px;background:var(--gold);color:#030303;font-size:11px;letter-spacing:.2em;font-weight:800">オーナーになる →</a>
+<a data-en="Property Details" href="kumaushi" style="display:inline-block;padding:18px 48px;border:1px solid #1a1a1a;color:var(--dim);font-size:11px;letter-spacing:.2em">物件詳細</a>
+</div>
+</div>
+<!-- FOOTER -->
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Biruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Biruyawa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Biruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Memberships" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Get Units Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Planning" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fees" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><!-- MODAL -->
+<div id="modal" onclick="closeModal()">
+<span id="modal-close">×</span>
+<img alt="" id="modal-img" src=""/>
+</div>
+<script>
+function openModal(src) {
+  document.getElementById('modal-img').src = src;
+  document.getElementById('modal').classList.add('on');
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('on');
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+</script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer>
+<div class="f-top" style="grid-template-columns:repeat(5,1fr)">
+<div class="f-col">
+<h4 data-en="Properties">物件</h4>
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Biruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Biruyawa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Biruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties" href="collection">全物件一覧</a>
+</div>
+<div class="f-col">
+<h4 data-en="Purchase &amp; Participate">購入・参加</h4>
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Memberships" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Get Units Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+<div class="f-col">
+<h4 data-en="Architecture &amp; Design">建築・設計</h4>
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a href="sips-diy">SIPs DIY</a>
+<a data-en="Construction Planning" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="Design" href="design">デザイン</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+<div class="f-col">
+<h4 data-en="Community">コミュニティ</h4>
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a href="blog-1">Blog #1</a>
+<a href="blog-2">Blog #2</a>
+<a href="blog-3">Blog #3</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+<div class="f-col">
+<h4 data-en="Information · Legal">情報・法的</h4>
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fees" href="management-fee">管理費</a>
+<a data-en="Operational Status" href="status">運営状況</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+<div class="f-copy">SOLUNA — Enabler Inc. — ★ Airbnb Super Host</div>
+</footer>
+<script src="/lang.js"></script>
+</body>
+</html>

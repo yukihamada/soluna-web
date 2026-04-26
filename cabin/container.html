@@ -1,0 +1,2690 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title data-en="Container Anatomy | MIRUWA VILLAGE 240">コンテナ1台の解剖 | MIRUWA VILLAGE 240</title>
+<meta content="山東省工場からの製造・海上輸送・北海道設置・内装仕上げまで。コンテナ1台が4人快眠ルームになるまでの全工程を図解。" data-en-content="From manufacturing at our Shandong factory through ocean transport, Hokkaido installation, and interior finishing—a complete visual guide of the entire journey transforming each container into a four-guest Restful Sleep Room." name="description"/>
+<meta content="https://solun.art/img/container_interior.webp" property="og:image"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --bg:#030303;
+  --text:#f0ece4;
+  --dim:#444;
+  --blue:#4a7fa5;
+  --green:#6a9e72;
+  --red:#c85555;
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Helvetica Neue',-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{display:block}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 48px;
+  background:rgba(3,3,3,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid #0d0d0d;
+}
+@media(max-width:640px){nav{padding:14px 20px}}
+.nav-logo{font-size:10px;font-weight:800;letter-spacing:.3em;color:var(--gold)}
+.nav-back{font-size:9px;letter-spacing:.2em;color:var(--dim);transition:color .2s}
+.nav-back:hover{color:var(--gold)}
+
+/* HERO */
+.hero{position:relative;height:100vh;min-height:640px;overflow:hidden}
+.hero-img{position:absolute;inset:0}
+.hero-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.38)}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 20%,rgba(3,3,3,.9) 100%);
+}
+.hero-content{
+  position:relative;z-index:2;height:100%;
+  display:flex;flex-direction:column;
+  justify-content:flex-end;padding:0 48px 72px;
+}
+@media(max-width:640px){.hero-content{padding:0 20px 48px}}
+.hero-eyebrow{font-size:9px;letter-spacing:.5em;color:var(--gold);margin-bottom:16px}
+.hero-h1{
+  font-size:clamp(36px,6.5vw,88px);
+  font-weight:100;letter-spacing:-.03em;
+  line-height:.95;color:#fff;margin-bottom:20px;
+}
+.hero-h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{
+  font-size:14px;color:rgba(240,236,228,.5);
+  max-width:600px;line-height:1.9;font-weight:200;margin-bottom:36px;
+}
+.hero-numbers{display:flex;gap:36px;flex-wrap:wrap}
+.hn{display:flex;flex-direction:column;gap:4px}
+.hn-v{font-size:28px;font-weight:700;color:var(--gold)}
+.hn-l{font-size:8px;letter-spacing:.2em;color:rgba(240,236,228,.3)}
+
+/* SECTION */
+.s{padding:80px 48px;border-top:1px solid #0a0a0a}
+@media(max-width:640px){.s{padding:60px 20px}}
+.w{max-width:1100px;margin:0 auto}
+.eyebrow{font-size:9px;letter-spacing:.4em;color:var(--dim);margin-bottom:12px;text-transform:uppercase}
+h2{font-size:clamp(26px,4vw,52px);font-weight:100;line-height:1.1;margin-bottom:16px}
+.gold{color:var(--gold)}
+.sub{font-size:14px;color:rgba(240,236,228,.45);max-width:640px;line-height:2;font-weight:200;margin-bottom:48px}
+
+/* PROCESS FLOW */
+.flow{display:flex;flex-direction:column;gap:0}
+.flow-step{
+  display:grid;
+  grid-template-columns:80px 1fr;
+  gap:0;
+  border-bottom:1px solid #0d0d0d;
+  position:relative;
+}
+@media(max-width:640px){.flow-step{grid-template-columns:56px 1fr}}
+.flow-step:last-child{border-bottom:none}
+.flow-num{
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:28px 0 28px;
+  position:relative;
+  border-right:1px solid #0d0d0d;
+}
+.flow-num-inner{
+  width:36px;height:36px;border-radius:50%;
+  background:#0a0a0a;border:1px solid rgba(200,164,85,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:var(--gold);
+  letter-spacing:0;
+  position:relative;z-index:2;
+}
+.flow-line{
+  position:absolute;top:50px;left:50%;transform:translateX(-50%);
+  width:1px;bottom:0;background:linear-gradient(to bottom,rgba(200,164,85,.15),rgba(200,164,85,0));
+}
+.flow-body{padding:24px 32px 24px}
+@media(max-width:640px){.flow-body{padding:20px 16px}}
+.flow-where{
+  font-size:8px;letter-spacing:.3em;
+  color:var(--dim);
+  font-weight:700;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.flow-where.cn{color:#c85555}
+.flow-where.ship{color:#4a7fa5}
+.flow-where.hk{color:#6a9e72}
+.flow-title{font-size:17px;font-weight:600;margin-bottom:8px;letter-spacing:-.01em}
+.flow-desc{font-size:12px;color:rgba(240,236,228,.45);line-height:1.9;margin-bottom:12px}
+.flow-tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{
+  font-size:9px;letter-spacing:.1em;
+  background:#0d0d0d;border:1px solid #1a1a1a;
+  padding:5px 12px;color:rgba(240,236,228,.4);
+}
+.tag.gold{border-color:rgba(200,164,85,.25);color:rgba(200,164,85,.7)}
+.tag.blue{border-color:rgba(74,127,165,.25);color:rgba(74,127,165,.7)}
+
+/* ILLUSTRATION AREA */
+.illus-box{
+  background:#060606;border:1px solid #111;
+  margin-top:12px;padding:20px;
+  border-radius:2px;
+  overflow:hidden;
+}
+.illus-label{font-size:8px;letter-spacing:.25em;color:var(--dim);margin-bottom:14px;text-transform:uppercase}
+
+/* CONTAINER SHAPE CSS DRAWING */
+.cntr-draw{
+  width:100%;position:relative;height:180px;
+  background:#090909;border:1px solid #161616;overflow:hidden;
+}
+.cntr-body{
+  position:absolute;
+  left:40px;right:40px;top:40px;bottom:40px;
+  border:2px solid #c8a455;background:#0d0d0d;
+  border-radius:2px;
+}
+.cntr-door{
+  position:absolute;right:-1px;top:15%;bottom:15%;
+  width:24px;border-left:2px solid #c8a455;
+  background:#111;
+}
+.cntr-door::after{
+  content:'';position:absolute;
+  left:50%;top:50%;transform:translate(-50%,-50%);
+  width:6px;height:6px;border-radius:50%;
+  border:1px solid rgba(200,164,85,.5);
+}
+.cntr-ridge{
+  position:absolute;left:0;right:0;
+  height:1px;background:rgba(200,164,85,.12);
+}
+.cntr-label-ext{
+  position:absolute;
+  font-size:8px;letter-spacing:.15em;color:rgba(200,164,85,.5);
+  font-weight:700;
+}
+.cntr-dim-line{
+  position:absolute;border:1px solid rgba(200,164,85,.2);
+}
+.cntr-arrow{color:rgba(200,164,85,.4);font-size:10px;position:absolute}
+
+/* CROSS SECTION CSS DRAWING */
+.cross-section{
+  width:100%;background:#080808;border:1px solid #161616;
+  position:relative;overflow:hidden;padding-bottom:52%;
+}
+.cs-label{
+  position:absolute;font-size:8px;letter-spacing:.12em;
+  color:rgba(240,236,228,.35);font-weight:700;white-space:nowrap;
+  text-transform:uppercase;
+}
+.cs-label.gold{color:rgba(200,164,85,.65)}
+
+/* LAYER DIAGRAM */
+.layer-diagram{display:flex;flex-direction:column;gap:2px;margin-top:12px}
+.layer{
+  display:grid;grid-template-columns:120px 1fr 80px;
+  gap:2px;align-items:stretch;
+}
+@media(max-width:640px){.layer{grid-template-columns:80px 1fr 60px}}
+.layer-swatch{
+  min-height:70px;display:flex;align-items:center;justify-content:center;
+  font-size:8px;letter-spacing:.1em;color:rgba(240,236,228,.3);font-weight:700;
+  overflow:hidden;
+}
+.layer-swatch img{width:100%;height:80px;object-fit:cover;display:block}
+.layer-info{
+  background:#0a0a0a;padding:10px 16px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.layer-name{font-size:12px;font-weight:600;margin-bottom:2px}
+.layer-detail{font-size:10px;color:var(--dim);line-height:1.5}
+.layer-spec{
+  background:#080808;display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:rgba(200,164,85,.6);font-weight:700;text-align:center;padding:4px;
+}
+
+/* SPECS GRID */
+.specs-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:2px;background:#000;
+}
+@media(max-width:1100px){.specs-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.specs-grid{grid-template-columns:1fr}}
+.spec-card{
+  background:#060606;padding:28px 24px;
+  border-bottom:2px solid transparent;
+  transition:border-color .3s;
+}
+.spec-card:hover{border-bottom-color:var(--gold)}
+.spec-icon{font-size:24px;margin-bottom:14px}
+.spec-name{font-size:10px;letter-spacing:.25em;color:var(--dim);margin-bottom:8px;text-transform:uppercase}
+.spec-val{font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px}
+.spec-note{font-size:11px;color:rgba(240,236,228,.3);line-height:1.6}
+
+/* COMPARE TABLE */
+.cmp-table{width:100%;border-collapse:collapse;font-size:12px}
+.cmp-table th{
+  padding:10px 16px;background:#0a0a0a;
+  font-size:8px;letter-spacing:.2em;color:var(--dim);
+  font-weight:700;text-align:left;border-bottom:1px solid #111;
+}
+.cmp-table td{
+  padding:12px 16px;border-bottom:1px solid #0d0d0d;
+  color:rgba(240,236,228,.55);vertical-align:top;
+}
+.cmp-table tr:hover td{background:#060606}
+.cmp-label{color:rgba(240,236,228,.3);font-size:10px}
+.cmp-val{color:var(--text);font-weight:600}
+.cmp-gold{color:var(--gold);font-weight:700}
+
+/* FLOOR PLAN ASCII ART STYLE */
+.floorplan{
+  background:#060606;border:1px solid #111;
+  padding:32px;font-family:'Courier New',monospace;
+  font-size:11px;line-height:1.5;color:rgba(240,236,228,.4);
+  overflow-x:auto;white-space:pre;
+}
+.fp-highlight{color:var(--gold)}
+.fp-dim{color:rgba(240,236,228,.15)}
+
+/* TIMELINE mini */
+.mini-tl{display:flex;flex-direction:column;gap:0}
+.mtl-item{
+  display:grid;grid-template-columns:100px 1fr;
+  border-bottom:1px solid #0d0d0d;
+}
+.mtl-date{
+  padding:16px 16px;font-size:9px;letter-spacing:.12em;
+  color:var(--dim);border-right:1px solid #0d0d0d;
+  display:flex;align-items:flex-start;
+}
+.mtl-body{padding:16px 24px}
+.mtl-title{font-size:12px;font-weight:600;margin-bottom:4px}
+.mtl-note{font-size:10px;color:rgba(240,236,228,.35);line-height:1.7}
+
+/* CTA strip */
+.cta-strip{
+  background:#050505;border-top:1px solid #0a0a0a;
+  padding:60px 48px;
+}
+@media(max-width:640px){.cta-strip{padding:40px 20px}}
+.cta-links{display:flex;gap:16px;flex-wrap:wrap;margin-top:28px}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 28px;font-size:11px;letter-spacing:.2em;
+  font-weight:700;
+  border:1px solid;transition:background .2s,color .2s;
+  cursor:pointer;
+}
+.cta-btn.primary{background:var(--gold);border-color:var(--gold);color:#000}
+.cta-btn.primary:hover{background:#e0bb6a}
+.cta-btn.secondary{background:transparent;border-color:rgba(240,236,228,.15);color:rgba(240,236,228,.5)}
+.cta-btn.secondary:hover{border-color:var(--gold);color:var(--gold)}
+
+/* photo grid */
+.photo-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:4px}
+@media(max-width:640px){.photo-grid{grid-template-columns:1fr 1fr}}
+.photo-grid img{width:100%;height:240px;object-fit:cover;filter:brightness(.8);display:block;transition:filter .4s}
+.photo-grid img:hover{filter:brightness(1)}
+.photo-grid .tall{grid-row:span 2}
+@media(max-width:640px){.photo-grid .tall{grid-row:span 1}}
+.photo-grid .tall img{height:484px}
+@media(max-width:640px){.photo-grid .tall img{height:240px}}
+
+/* FLOW PHOTO */
+.flow-img{
+  width:100%;height:220px;object-fit:cover;display:block;
+  filter:brightness(.78);transition:filter .4s,transform .5s;
+  margin-top:14px;margin-bottom:2px;
+}
+.flow-img:hover{filter:brightness(1);transform:scale(1.01)}
+.flow-img-caption{
+  font-size:8px;letter-spacing:.15em;color:rgba(240,236,228,.2);
+  padding:5px 0 0;margin-bottom:10px;
+}
+
+/* SPEC PHOTO */
+.spec-photo{
+  width:100%;height:150px;object-fit:cover;display:block;
+  filter:brightness(.7);margin-bottom:16px;
+  transition:filter .4s;
+}
+.spec-card:hover .spec-photo{filter:brightness(.9)}
+
+/* SECTION BANNER */
+.section-banner{
+  width:100%;height:320px;object-fit:cover;display:block;
+  filter:brightness(.65);margin-bottom:40px;
+}
+
+footer{
+  padding:40px 48px;border-top:1px solid #0a0a0a;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+}
+@media(max-width:640px){footer{padding:28px 20px}}
+.footer-logo{font-size:9px;font-weight:800;letter-spacing:.3em;color:rgba(200,164,85,.4)}
+.footer-copy{font-size:9px;color:rgba(240,236,228,.12);letter-spacing:.1em}
+
+/* ─── CONFIGURATOR ─────────────────────────────── */
+.cfg-tb{
+  flex-shrink:0;padding:14px 18px;border:none;
+  background:transparent;cursor:pointer;white-space:nowrap;
+  font-size:11px;font-weight:600;letter-spacing:.04em;
+  color:rgba(240,236,228,.35);border-bottom:2px solid transparent;
+  transition:color .2s,border-color .2s;
+}
+.cfg-tb:hover{color:rgba(240,236,228,.65)}
+.cfg-tb.active{color:var(--gold);border-bottom-color:var(--gold)}
+.cfg-cat-panel{display:none}
+.cfg-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(188px,1fr));
+  gap:10px;
+}
+@media(max-width:640px){.cfg-grid{grid-template-columns:1fr 1fr}}
+.cfg-opt{
+  padding:18px;background:#080808;border:1px solid #181818;
+  cursor:pointer;position:relative;
+  transition:border-color .18s,background .18s,transform .12s;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+.cfg-opt:hover{background:#0c0c0c;border-color:#2e2e2e;transform:translateY(-1px)}
+.cfg-opt:active{transform:translateY(0)}
+.cfg-opt.selected{border-color:var(--gold);background:rgba(200,164,85,.06)}
+.cfg-check{
+  width:18px;height:18px;border-radius:50%;
+  background:var(--gold);color:#000;font-size:9px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:opacity .18s;
+}
+
+/* Sliders */
+.sl-row{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.sl-header{display:flex;justify-content:space-between;align-items:baseline}
+.sl-label{font-size:12px;color:rgba(240,236,228,.45)}
+.sl-val{font-size:20px;font-weight:700;color:var(--gold);letter-spacing:-.02em}
+.sl-track{display:flex;align-items:center;gap:8px}
+.sl-track span{font-size:9px;color:var(--dim);white-space:nowrap}
+input[type=range]{
+  flex:1;-webkit-appearance:none;appearance:none;
+  height:2px;background:#1e1e1e;outline:none;border-radius:1px;
+  cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--gold);cursor:pointer;
+  box-shadow:0 0 0 4px rgba(200,164,85,.12),0 2px 6px rgba(0,0,0,.6);
+  transition:box-shadow .15s;
+}
+input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 7px rgba(200,164,85,.15),0 2px 8px rgba(0,0,0,.7)}
+input[type=range]::-moz-range-thumb{
+  width:18px;height:18px;border-radius:50%;
+  background:var(--gold);cursor:pointer;border:none;
+}
+#cfgTotal{transition:transform .14s ease,color .2s}
+@media(max-width:640px){
+  .sl-track{flex-wrap:wrap}
+  .cfg-grid{grid-template-columns:1fr 1fr}
+}
+
+/* ── VISUAL PREVIEW ───────────────────────────────── */
+.cfg-layout{display:grid;grid-template-columns:370px 1fr;min-height:520px}
+@media(max-width:880px){.cfg-layout{grid-template-columns:1fr;grid-template-rows:auto auto}}
+.cfg-opts-pane{
+  background:#040404;border-right:1px solid #0a0a0a;
+  padding:24px;overflow-y:auto;
+  max-height:calc(100vh - 112px);
+}
+@media(max-width:880px){.cfg-opts-pane{max-height:none;border-right:none;border-top:1px solid #0d0d0d;order:2}}
+.cfg-visual-pane{
+  background:#070707;
+  position:sticky;top:112px;
+  height:calc(100vh - 112px);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+@media(max-width:880px){.cfg-visual-pane{position:relative;top:auto;height:auto;min-height:320px;order:1}}
+.pv-mode-tabs{display:flex;border-bottom:1px solid #0d0d0d;flex-shrink:0}
+.pv-mode-tab{
+  flex:1;padding:13px 8px;background:transparent;border:none;cursor:pointer;
+  font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+  color:rgba(240,236,228,.25);transition:color .2s;border-bottom:2px solid transparent;
+  font-weight:600;
+}
+.pv-mode-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.pv-scene-wrap{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:28px;overflow:hidden;position:relative;
+}
+@media(max-width:880px){.pv-scene-wrap{padding:20px;min-height:260px}}
+.pv-desc{
+  flex-shrink:0;padding:11px 18px;border-top:1px solid #0d0d0d;
+  font-size:10px;color:rgba(240,236,228,.28);letter-spacing:.05em;
+  min-height:40px;line-height:1.6;transition:opacity .3s;
+}
+
+/* SVG transitions */
+#pvFront,#pvTop,#pvSide{transition:fill .45s ease}
+#pvDeckGroup,#pvWinStd,#pvWinPic{transition:opacity .35s ease}
+
+/* Interior CSS room */
+.int-room{
+  width:100%;max-width:420px;height:280px;
+  position:relative;overflow:hidden;border:1px solid #1a1a1a;
+}
+@media(max-width:880px){.int-room{max-width:100%;height:240px}}
+.int-ceiling{position:absolute;left:0;right:0;top:0;height:9%;background:rgba(200,190,175,.15)}
+.int-backwall{
+  position:absolute;left:0;right:0;top:0;bottom:24%;
+  transition:background-color .45s ease;background:#e0ddd4;
+}
+.int-leftwall{
+  position:absolute;left:0;top:0;bottom:24%;width:7%;
+  background:rgba(0,0,0,.18);
+}
+.int-floor{
+  position:absolute;left:0;right:0;bottom:0;height:24%;
+  transition:background-color .45s ease;background:#3a3835;
+  display:flex;align-items:center;justify-content:center;
+}
+.int-floor-label{
+  font-size:8px;color:rgba(240,236,228,.18);letter-spacing:.15em;text-transform:uppercase;
+}
+.int-win{
+  position:absolute;
+  background:rgba(140,195,230,.4);border:2px solid rgba(140,195,230,.5);
+  transition:all .4s ease;
+}
+.int-win.std{top:18%;right:18%;width:20%;height:26%}
+.int-win.pic{top:12%;right:12%;width:34%;height:38%}
+.int-win-shine{
+  position:absolute;left:10%;top:10%;
+  width:30%;height:5px;
+  background:rgba(255,255,255,.5);transform:rotate(-30deg);
+}
+.int-ac{
+  position:absolute;top:14%;left:10%;
+  width:18%;height:8%;
+  background:#1a2a3a;border:1px solid rgba(74,127,165,.35);border-radius:2px;
+  transition:all .4s ease;
+}
+.int-ac.enhanced{border-color:rgba(74,127,165,.7);background:#1a3050}
+.int-ac::after{
+  content:'';position:absolute;left:10%;top:30%;right:10%;height:1px;
+  background:rgba(74,127,165,.4);
+}
+.int-bed{
+  position:absolute;bottom:27%;
+  width:38%;height:36%;
+  border:1px solid rgba(200,164,85,.2);
+  background:rgba(200,164,85,.05);
+  border-radius:2px;
+  transition:all .4s ease;
+}
+.int-bed.a{left:9%}
+.int-bed.b{left:50%}
+.int-bed-pillow{
+  position:absolute;top:10%;left:8%;right:8%;height:22%;
+  background:rgba(240,236,228,.1);border-radius:1px;
+}
+.int-bed-label{
+  position:absolute;bottom:8%;left:0;right:0;text-align:center;
+  font-size:7px;color:rgba(240,236,228,.2);letter-spacing:.12em;
+}
+.int-loft-upper{
+  position:absolute;top:6%;left:6%;right:6%;height:26%;
+  border:1px dashed rgba(200,164,85,.3);background:rgba(200,164,85,.04);
+  border-radius:1px;
+}
+.int-loft-label{
+  position:absolute;top:10%;left:0;right:0;text-align:center;
+  font-size:7px;color:rgba(200,164,85,.35);letter-spacing:.1em;
+}
+.int-bath{
+  position:absolute;bottom:27%;right:3%;
+  width:26%;height:48%;
+  border:1px solid rgba(74,127,165,.2);background:rgba(74,127,165,.04);
+  border-radius:2px;transition:all .4s ease;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+}
+.int-bath-label{font-size:7px;color:rgba(74,127,165,.45);letter-spacing:.1em;text-align:center}
+.int-bath-icon{font-size:20px;opacity:.45;transition:all .4s}
+.int-floor-grain{
+  position:absolute;inset:0;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 11px,rgba(0,0,0,.1) 11px,rgba(0,0,0,.1) 12px);
+  opacity:0;transition:opacity .4s;pointer-events:none;
+}
+.int-floor-grain.visible{opacity:1}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav>
+<span class="nav-logo">MIRUWA VILLAGE</span>
+<a class="nav-back" data-en="← Return to Diagram" href="miruwa-anatomy">← 解剖図に戻る</a>
+</nav>
+<!-- HERO -->
+<div class="hero">
+<div class="hero-img">
+<img alt="コンテナ内装" data-en-alt="Container Interior Finishing" src="/img/container_interior.webp"/>
+</div>
+<div class="hero-overlay"></div>
+<div class="hero-content">
+<p class="hero-eyebrow" data-en="Container Anatomy">Container Anatomy · コンテナ解剖</p>
+<h1 class="hero-h1" data-en="Complete container process.">コンテナ<em data-en="1 unit">1台</em>の<br/>全工程。</h1>
+<p class="hero-sub" data-en="Steel frames are welded at our Shandong factory, shipped across the sea, and transported by trailer to Hokkaido. Each unit is lifted by crane, insulation is applied, and premium Simmons × Daikin systems are installed. Twelve meticulous steps from factory to operation.">山東省の工場で鉄骨を溶接し、海を渡り、トレーラーで北海道へ。クレーンで吊り上げ、断熱材を吹き付け、Simmons×Daikinを入れて完成する。<br/>1台が稼働するまでの12ステップ。</p>
+<div class="hero-numbers">
+<div class="hn"><span class="hn-v">12</span><span class="hn-l">STEPS</span></div>
+<div class="hn"><span class="hn-v" data-en="14.4 m²">14.4㎡</span><span class="hn-l" data-en="Unit Area">1台面積</span></div>
+<div class="hn"><span class="hn-v" data-en="4 Guests">4名</span><span class="hn-l" data-en="Restful Sleep Accommodation">快眠収容</span></div>
+<div class="hn"><span class="hn-v" data-en="¥2,500,000">¥250万</span><span class="hn-l" data-en="One Unit Full Completion">1台フル仕上げ</span></div>
+</div>
+</div>
+</div>
+<!-- WHAT IS A CONTAINER -->
+<div class="s" style="background:#040404">
+<div class="w">
+<p class="eyebrow" data-en="Unit Spec">Unit Spec · ユニット仕様</p>
+<h2 data-en="A steel box becomes a sanctuary.">鉄の箱が、<span class="gold" data-en="Restful Sleep Room">快眠ルーム</span>になる。</h2>
+<p class="sub" data-en="Two standard 20-foot containers (6m × 2.4m × 2.6m) are connected as one unit. Combined living area after insulation and finishing: approximately 28㎡. A premium high-insulation bedroom suite for four guests to sleep in complete comfort.">標準20ftコンテナ（6m×2.4m×2.6m）を2台ユニット連結。内部断熱・内装後の居住面積は2台で約28㎡。4人が快適に眠れる高断熱個室ユニット。</p>
+<!-- 3-up photo row -->
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:32px">
+<img alt="20ftコンテナ" data-en-alt="20ft Container" src="/img/kumaushi_part_container_20ft.jpg" style="width:100%;height:200px;object-fit:cover;display:block;filter:brightness(.75)"/>
+<img alt="内装完成" data-en-alt="Interior Finishing Complete" src="/img/container_interior_luxury.webp" style="width:100%;height:200px;object-fit:cover;display:block;filter:brightness(.75)"/>
+<img alt="外装" data-en-alt="Exterior" src="/img/container_new_exterior.webp" style="width:100%;height:200px;object-fit:cover;display:block;filter:brightness(.75)"/>
+</div>
+<!-- CSS Floor Plan -->
+<div style="margin-bottom:32px">
+<div data-en="Floor Plan · Dual-Unit Connected Layout (Overhead View)" style="font-size:8px;letter-spacing:.25em;color:var(--dim);margin-bottom:12px;text-transform:uppercase">Floor Plan · 2台連結ユニット（俯瞰）</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#000;border:1px solid #111">
+<!-- Container A -->
+<div style="background:#070707;padding:20px;position:relative">
+<div data-en="CONTAINER A — Bedroom" style="font-size:8px;letter-spacing:.3em;color:var(--dim);margin-bottom:14px;border-bottom:1px solid #111;padding-bottom:8px">CONTAINER A — 寝室</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+<div style="background:#0d0d0d;border:1px solid rgba(200,164,85,.15);padding:10px 8px;text-align:center">
+<div style="font-size:8px;color:rgba(200,164,85,.6);letter-spacing:.1em;margin-bottom:4px">BED A</div>
+<div style="font-size:9px;color:rgba(240,236,228,.35)">Simmons TW</div>
+</div>
+<div style="background:#0d0d0d;border:1px solid rgba(200,164,85,.15);padding:10px 8px;text-align:center">
+<div style="font-size:8px;color:rgba(200,164,85,.6);letter-spacing:.1em;margin-bottom:4px">BED B</div>
+<div style="font-size:9px;color:rgba(240,236,228,.35)">Simmons TW</div>
+</div>
+<div style="background:#0a0a0a;border:1px solid #111;padding:8px;text-align:center">
+<div style="font-size:8px;color:rgba(74,127,165,.7);letter-spacing:.1em">Daikin AC</div>
+</div>
+<div style="background:#0a0a0a;border:1px solid #111;padding:8px;text-align:center">
+<div data-en="Shelving · Storage" style="font-size:8px;color:rgba(240,236,228,.2)">棚 · 荷物置き</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="background:#0a0a0a;border:1px solid #111;padding:6px;text-align:center">
+<div data-en="Windows ←→" style="font-size:8px;color:rgba(240,236,228,.2)">窓 ←→</div>
+</div>
+<div style="background:#0a0a0a;border:1px solid #111;padding:6px;text-align:center">
+<div data-en="Windows ←→" style="font-size:8px;color:rgba(240,236,228,.2)">窓 ←→</div>
+</div>
+</div>
+<div style="font-size:8px;color:rgba(240,236,228,.15);text-align:center;margin-top:8px">← 6.0m →</div>
+</div>
+<!-- Container B -->
+<div style="background:#070707;padding:20px;position:relative">
+<div data-en="CONTAINER B — Wet Areas" style="font-size:8px;letter-spacing:.3em;color:var(--dim);margin-bottom:14px;border-bottom:1px solid #111;padding-bottom:8px">CONTAINER B — 水回り</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+<div style="background:#0d0d0d;border:1px solid rgba(74,127,165,.2);padding:10px 8px;text-align:center">
+<div style="font-size:8px;color:rgba(74,127,165,.7);letter-spacing:.1em;margin-bottom:4px">BED C</div>
+<div style="font-size:9px;color:rgba(240,236,228,.35)">Simmons TW</div>
+</div>
+<div style="background:#0d0d0d;border:1px solid rgba(74,127,165,.2);padding:10px 8px;text-align:center">
+<div style="font-size:8px;color:rgba(74,127,165,.7);letter-spacing:.1em;margin-bottom:4px">BED D</div>
+<div style="font-size:9px;color:rgba(240,236,228,.35)">Simmons TW</div>
+</div>
+<div style="background:#0a0a0a;border:1px solid #111;padding:8px;text-align:center">
+<div data-en="Mirror · Washbasin" style="font-size:8px;color:rgba(240,236,228,.2)">鏡 · 洗面台</div>
+</div>
+<div style="background:#0a0a0a;border:1px solid #111;padding:8px;text-align:center">
+<div style="font-size:8px;color:rgba(240,236,228,.2)">WC</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="background:#0a0a0a;border:1px solid #111;padding:6px;text-align:center">
+<div data-en="Windows ←→" style="font-size:8px;color:rgba(240,236,228,.2)">窓 ←→</div>
+</div>
+<div style="background:#0a0a0a;border:1px solid rgba(74,127,165,.15);padding:6px;text-align:center">
+<div data-en="Shower" style="font-size:8px;color:rgba(74,127,165,.5)">シャワー</div>
+</div>
+</div>
+<div style="font-size:8px;color:rgba(240,236,228,.15);text-align:center;margin-top:8px">← 6.0m →</div>
+</div>
+</div>
+<!-- connector label -->
+<div data-en="← Connecting Sliding Door →   Total Width 2.4m × Depth 12.0m = 28.8㎡" style="text-align:center;padding:8px 0;font-size:9px;color:rgba(200,164,85,.4);letter-spacing:.2em;background:#060606;border:1px solid #111;border-top:none">
+        ← 連結引き戸 → 　 合計幅 2.4m × 奥行 12.0m = 28.8㎡
+      </div>
+</div>
+<div style="margin-top:32px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;background:#000">
+<div style="background:#060606;overflow:hidden">
+<img alt="寝室ユニット" data-en-alt="Bedroom Unit" src="/img/container_bedroom.webp" style="width:100%;height:180px;object-fit:cover;display:block;filter:brightness(.75)"/>
+<div style="padding:16px 20px">
+<div style="font-size:9px;letter-spacing:.2em;color:var(--dim);margin-bottom:6px">CONTAINER A</div>
+<div data-en="Bedroom Unit" style="font-size:13px;font-weight:600;margin-bottom:4px">寝室ユニット</div>
+<div data-en="Simmons TW ×4 | Daikin 6-Tatami Unit | Wall-Mount Shelving &amp; 8 Outlets" style="font-size:11px;color:rgba(240,236,228,.35);line-height:1.7">Simmons TW ×4<br/>Daikin 6畳用 壁掛け<br/>荷物棚・コンセント×8</div>
+</div>
+</div>
+<div style="background:#060606;overflow:hidden">
+<img alt="水回りユニット" data-en-alt="Plumbing Unit" src="/img/container_bathroom.webp" style="width:100%;height:180px;object-fit:cover;display:block;filter:brightness(.75)"/>
+<div style="padding:16px 20px">
+<div style="font-size:9px;letter-spacing:.2em;color:var(--dim);margin-bottom:6px">CONTAINER B</div>
+<div data-en="Plumbing Unit" style="font-size:13px;font-weight:600;margin-bottom:4px">水回りユニット</div>
+<div data-en="Shower Room · Washbasin · Simple Toilet (WC) · 4× Storage Lockers" style="font-size:11px;color:rgba(240,236,228,.35);line-height:1.7">シャワー室・洗面台<br/>簡易トイレ（WC）<br/>収納ロッカー×4</div>
+</div>
+</div>
+<div style="background:#060606;overflow:hidden">
+<img alt="デッキ廊下" data-en-alt="Deck Corridor" src="/img/container_deck_summer.webp" style="width:100%;height:180px;object-fit:cover;display:block;filter:brightness(.75)"/>
+<div style="padding:16px 20px">
+<div data-en="Shared Access" style="font-size:9px;letter-spacing:.2em;color:var(--dim);margin-bottom:6px">共用アクセス</div>
+<div data-en="Zone Corridor" style="font-size:13px;font-weight:600;margin-bottom:4px">ゾーン内廊下</div>
+<div data-en="Between Units: Covered Timber Deck Passage with KAGI Smart Lock" style="font-size:11px;color:rgba(240,236,228,.35);line-height:1.7">各ユニット間：屋根付き<br/>木製デッキ通路<br/>KAGI スマートロック</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- BEFORE / AFTER -->
+<div style="background:#000">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">
+<div style="position:relative;overflow:hidden">
+<img alt="空のコンテナ" data-en-alt="Empty Containers" src="/img/kumaushi_part_container_20ft.jpg" style="width:100%;height:360px;object-fit:cover;display:block;filter:brightness(.6)"/>
+<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%)"></div>
+<div style="position:absolute;bottom:0;left:0;right:0;padding:24px">
+<div style="font-size:8px;letter-spacing:.4em;color:rgba(240,236,228,.4);margin-bottom:6px">BEFORE</div>
+<div data-en="Empty 20ft Container" style="font-size:18px;font-weight:100;color:#fff">空の20ftコンテナ</div>
+<div data-en="6m × 2.4m × 2.6m / Steel Module" style="font-size:11px;color:rgba(240,236,228,.35);margin-top:4px">6m × 2.4m × 2.6m ／ 鉄の箱</div>
+</div>
+</div>
+<div style="position:relative;overflow:hidden">
+<img alt="完成した4人快眠ルーム" data-en-alt="Completed Four-Guest Restful Sleep Room" src="/img/container_bedroom.webp" style="width:100%;height:360px;object-fit:cover;display:block;filter:brightness(.8)"/>
+<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%)"></div>
+<div style="position:absolute;bottom:0;left:0;right:0;padding:24px">
+<div style="font-size:8px;letter-spacing:.4em;color:var(--gold);margin-bottom:6px">AFTER</div>
+<div data-en="4-Person Restful Sleep Room" style="font-size:18px;font-weight:100;color:#fff">4人快眠ルーム</div>
+<div data-en="Simmons × 4 / Daikin / 100mm Insulation" style="font-size:11px;color:rgba(240,236,228,.35);margin-top:4px">Simmons×4 ／ Daikin ／ 100mm断熱</div>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:#000">
+<div style="background:#060606;padding:18px;text-align:center">
+<div style="font-size:20px;font-weight:700;color:var(--dim);margin-bottom:4px">¥0</div>
+<div data-en="Container Base Value" style="font-size:8px;letter-spacing:.15em;color:rgba(240,236,228,.2)">空箱の価値</div>
+</div>
+<div style="background:#060606;padding:18px;text-align:center;border-left:1px solid #0d0d0d">
+<div data-en="¥2,500,000" style="font-size:20px;font-weight:700;color:var(--gold);margin-bottom:4px">¥250万</div>
+<div data-en="Finishing Cost" style="font-size:8px;letter-spacing:.15em;color:rgba(240,236,228,.2)">仕上げコスト</div>
+</div>
+<div style="background:#060606;padding:18px;text-align:center;border-left:1px solid #0d0d0d">
+<div data-en="¥3.94M" style="font-size:20px;font-weight:700;color:var(--gold);margin-bottom:4px">¥394万</div>
+<div data-en="Annual net revenue" style="font-size:8px;letter-spacing:.15em;color:rgba(240,236,228,.2)">年間純収益</div>
+</div>
+<div style="background:#060606;padding:18px;text-align:center;border-left:1px solid #0d0d0d">
+<div data-en="~8 Months" style="font-size:20px;font-weight:700;color:var(--green);margin-bottom:4px">〜8ヶ月</div>
+<div data-en="Investment Recovery Timeline" style="font-size:8px;letter-spacing:.15em;color:rgba(240,236,228,.2)">投資回収目安</div>
+</div>
+</div>
+</div>
+<!-- LAYER DIAGRAM -->
+<div class="s" style="background:#030303">
+<div class="w">
+<p class="eyebrow" data-en="Wall Construction · Wall Cross-Section">Wall Construction · 壁の断面</p>
+<h2 data-en="Outside: Hokkaido winter. Inside:">外は北海道の冬。<br/>中は<span class="gold" data-en="Optimal sleep temperature">快眠温度</span>。</h2>
+<p class="sub" data-en="Steel plate → Rust-preventive coating → 100mm rigid polyurethane spray → Gypsum board → Finish coat. Five-layer structure accommodating −20°C outdoor temperatures.">鋼板→防錆塗装→100mm硬質ウレタン吹付→石膏ボード→仕上げ塗装。5層構造で外気温−20℃に対応。</p>
+<img alt="断熱材施工" data-en-alt="Insulation Installation" src="/img/kumaushi_container_glasswool_diy.jpg" style="width:100%;height:300px;object-fit:cover;display:block;filter:brightness(.75);margin-bottom:32px"/>
+<div class="layer-diagram">
+<div style="display:grid;grid-template-columns:120px 1fr 80px;gap:2px;margin-bottom:2px">
+<div data-en="Materials" style="font-size:8px;letter-spacing:.2em;color:var(--dim);padding:6px 0;text-transform:uppercase">素材</div>
+<div data-en="Specifications" style="font-size:8px;letter-spacing:.2em;color:var(--dim);padding:6px 16px;text-transform:uppercase">仕様</div>
+<div data-en="Thickness" style="font-size:8px;letter-spacing:.2em;color:var(--dim);padding:6px;text-align:center;text-transform:uppercase">厚み</div>
+</div>
+<!-- Layer 1: Corten steel outer -->
+<div class="layer">
+<div class="layer-swatch" style="padding:0;overflow:hidden">
+<img alt="Corten鋼" data-en-alt="Corten Steel" src="/img/up_corten_accent.webp" style="width:100%;height:80px;object-fit:cover;display:block;filter:brightness(.7)"/>
+</div>
+<div class="layer-info">
+<div class="layer-name" data-en="Corten Steel (Exterior)">コルテン鋼（外装）</div>
+<div class="layer-detail" data-en="Weather-resistant high-strength steel with natural rust protection film that develops a russet patina over time, equivalent to 5,000 hours of salt-spray resistance.">耐候性高強度鋼。経年で赤錆色に変化する天然の防錆膜。塩水噴霧5,000時間相当。</div>
+</div>
+<div class="layer-spec">3mm</div>
+</div>
+<!-- Layer 2: Rustproof coating -->
+<div class="layer">
+<div class="layer-swatch" style="padding:0;overflow:hidden">
+<img alt="防錆塗装" data-en-alt="Rust-Preventive Coating" src="/img/container_premium_exterior.webp" style="width:100%;height:80px;object-fit:cover;display:block;filter:brightness(.7)"/>
+</div>
+<div class="layer-info">
+<div class="layer-name" data-en="Anti-corrosion primer + waterproof coating">防錆プライマー＋防水塗装</div>
+<div class="layer-detail" data-en="Epoxy anti-corrosion primer → polyurethane topcoat. Two-coat application completed in-factory.">エポキシ系防錆プライマー → ポリウレタン上塗り。工場内で2コート処理。</div>
+</div>
+<div class="layer-spec">1mm</div>
+</div>
+<!-- Layer 3: Urethane insulation -->
+<div class="layer">
+<div class="layer-swatch" style="padding:0;overflow:hidden">
+<img alt="ウレタン断熱" data-en-alt="Polyurethane Insulation" src="/img/kumaushi_container_insulation.jpg" style="width:100%;height:80px;object-fit:cover;display:block;filter:brightness(.75)"/>
+</div>
+<div class="layer-info">
+<div class="layer-name" data-en="Rigid Urethane Foam Spray Insulation" style="color:var(--gold)">硬質ウレタンフォーム吹付断熱</div>
+<div class="layer-detail" data-en="Thermal conductivity λ=0.022 W/mK. At 100mm thickness, equivalent to UA value 0.28. Exceeds Hokkaido ZEH standards. Spray-applied on-site with excellent airtightness ◎.">熱伝導率 λ=0.022 W/mK。100mm厚でUA値0.28相当。北海道ZEH基準を超える。現場で直接吹き付け、気密性◎。</div>
+</div>
+<div class="layer-spec" style="color:var(--gold);font-size:14px;font-weight:800">100mm</div>
+</div>
+<!-- Layer 4: Gypsum board -->
+<div class="layer">
+<div class="layer-swatch" style="padding:0;overflow:hidden">
+<img alt="石膏ボード内壁" data-en-alt="Gypsum Board Interior Walls" src="/img/kumaushi_container_interior_wood.jpg" style="width:100%;height:80px;object-fit:cover;display:block;filter:brightness(.75)"/>
+</div>
+<div class="layer-info">
+<div class="layer-name" data-en="Reinforced Gypsum Board (Interior Wall Base)">強化石膏ボード（内壁下地）</div>
+<div class="layer-detail" data-en="12.5mm thickness with fire-resistant and moisture-barrier film. Electrical wiring and outlets embedded within this layer.">12.5mm厚。防火性・防湿フィルム付き。電気配線・コンセントはこの層に埋込。</div>
+</div>
+<div class="layer-spec">12.5mm</div>
+</div>
+<!-- Layer 5: Interior finish -->
+<div class="layer">
+<div class="layer-swatch" style="padding:0;overflow:hidden">
+<img alt="内装仕上げ" data-en-alt="Interior Finishing" src="/img/container_interior_luxury.webp" style="width:100%;height:80px;object-fit:cover;display:block;filter:brightness(.75)"/>
+</div>
+<div class="layer-info">
+<div class="layer-name" data-en="Water-repellent fabric finish + indirect LED lighting">撥水クロス仕上げ + 間接LED照明</div>
+<div class="layer-detail" data-en="Matte white water-resistant wallcovering. LED tape (2700K warm white) along ceiling cornice. Two-scene switchable ceiling lighting for morning awakening.">マットホワイト撥水クロス。天井コーニスにLEDテープ（2700K暖色）。目覚め用シーリング白色と2系統切替。</div>
+</div>
+<div class="layer-spec">3mm</div>
+</div>
+<div data-en="TOTAL WALL: 119.5mm | Maintains interior 18℃ in −20℃ exterior conditions" style="text-align:right;font-size:9px;color:rgba(200,164,85,.5);padding:8px 0;letter-spacing:.12em">
+        TOTAL WALL: 119.5mm | 外気−20℃ → 室内18℃ を維持
+      </div>
+</div><!-- /layer-diagram -->
+<!-- Winter Performance Data -->
+<div style="margin-top:24px;background:#060606;border:1px solid #0d0d0d;padding:24px">
+<div data-en="Winter Performance Data (Hokkaido Standards)" style="font-size:8px;letter-spacing:.3em;color:var(--dim);margin-bottom:16px;text-transform:uppercase">Winter Performance · 冬季性能データ（北海道基準）</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:#000">
+<div style="background:#070707;padding:16px;text-align:center">
+<div style="font-size:22px;font-weight:700;color:var(--blue);margin-bottom:4px">−20℃</div>
+<div data-en="Outdoor Temperature (Teshikaga, Hokkaido minimum)" style="font-size:8px;color:rgba(240,236,228,.25);letter-spacing:.12em">外気温（弟子屈最低）</div>
+</div>
+<div style="background:#070707;padding:16px;text-align:center">
+<div style="font-size:22px;font-weight:700;color:var(--gold);margin-bottom:4px">18℃</div>
+<div data-en="Interior temperature (maintained)" style="font-size:8px;color:rgba(240,236,228,.25);letter-spacing:.12em">室内温度（維持）</div>
+</div>
+<div style="background:#070707;padding:16px;text-align:center">
+<div style="font-size:22px;font-weight:700;color:var(--green);margin-bottom:4px">0.28</div>
+<div data-en="UA Value W/㎡K (ZEH Standard 0.40 or Below)" style="font-size:8px;color:rgba(240,236,228,.25);letter-spacing:.12em">UA値 W/㎡K（ZEH基準0.40以下）</div>
+</div>
+<div style="background:#070707;padding:16px;text-align:center">
+<div style="font-size:22px;font-weight:700;color:var(--gold);margin-bottom:4px">COP 3.5</div>
+<div data-en="Daikin Heating Efficiency" style="font-size:8px;color:rgba(240,236,228,.25);letter-spacing:.12em">Daikin暖房効率</div>
+</div>
+<div style="background:#070707;padding:16px;text-align:center">
+<div style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px">0.63kW</div>
+<div data-en="Power Consumption (18°C Maintenance)" style="font-size:8px;color:rgba(240,236,228,.25);letter-spacing:.12em">18℃維持時消費電力</div>
+</div>
+<div style="background:#070707;padding:16px;text-align:center">
+<div data-en="Grade 6" style="font-size:22px;font-weight:700;color:var(--green);margin-bottom:4px">等級6</div>
+<div data-en="Insulation performance grade (highest level)" style="font-size:8px;color:rgba(240,236,228,.25);letter-spacing:.12em">断熱性能等級（最高水準）</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- STEP NAV -->
+<div style="background:#020202;border-top:1px solid #0a0a0a;border-bottom:1px solid #0a0a0a;overflow-x:auto;-webkit-overflow-scrolling:touch">
+<div style="display:flex;min-width:max-content;padding:0 48px">
+<a href="#step01" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='#0a0a0a'" style="display:flex;flex-direction:column;align-items:center;padding:14px 16px;gap:4px;border-right:1px solid #0d0d0d;color:inherit;text-decoration:none;transition:background .2s;white-space:nowrap">
+<span style="font-size:9px;font-weight:700;color:var(--gold)">01</span><span data-en="Ordering" style="font-size:8px;color:var(--dim);letter-spacing:.1em">発注</span>
+</a>
+<a href="#step02" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='#0a0a0a'" style="display:flex;flex-direction:column;align-items:center;padding:14px 16px;gap:4px;border-right:1px solid #0d0d0d;color:inherit;text-decoration:none;transition:background .2s">
+<span style="font-size:9px;font-weight:700;color:var(--gold)">02</span><span data-en="Welding" style="font-size:8px;color:var(--dim);letter-spacing:.1em">溶接</span>
+</a>
+<a href="#step03" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='#0a0a0a'" style="display:flex;flex-direction:column;align-items:center;padding:14px 16px;gap:4px;border-right:1px solid #0d0d0d;color:inherit;text-decoration:none;transition:background .2s">
+<span style="font-size:9px;font-weight:700;color:var(--gold)">03</span><span data-en="Painting" style="font-size:8px;color:var(--dim);letter-spacing:.1em">塗装</span>
+</a>
+<a href="#step04" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='#0a0a0a'" style="display:flex;flex-direction:column;align-items:center;padding:14px 16px;gap:4px;border-right:1px solid #0d0d0d;color:inherit;text-decoration:none;transition:background .2s">
+<span style="font-size:9px;font-weight:700;color:var(--blue)">04</span><span data-en="Transport" style="font-size:8px;color:var(--dim);letter-spacing:.1em">輸送</span>
+</a>
+<a href="#step05" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='#0a0a0a'" style="display:flex;flex-direction:column;align-items:center;padding:14px 16px;gap:4px;border-right:1px solid #0d0d0d;color:inherit;text-decoration:none;transition:background .2s">
+<span style="font-size:9px;font-weight:700;color:var(--green)">05</span><span data-en="Foundation" style="font-size:8px;color:var(--dim);letter-spacing:.1em">基礎</span>
+</a>
+<a href="#step06" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='#0a0a0a'" style="display:flex;flex-direction:column;align-items:center;padding:14px 16px;gap:4px;border-right:1px solid #0d0d0d;color:inherit;text-decoration:none;transition:background .2s">
+<span style="font-size:9px;font-weight:700;color:var(--green)">06</span><span data-en="Installation" style="font-size:8px;color:var(--dim);letter-spacing:.1em">設置</span>
+</a>
+<a href="#step07" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='#0a0a0a'" style="display:flex;flex-direction:column;align-items:center;padding:14px 16px;gap:4px;border-right:1px solid #0d0d0d;color:inherit;text-decoration:none;transition:background .2s">
+<span style="font-size:9px;font-weight:700;color:var(--green)">07</span><span data-en="Exterior" style="font-size:8px;color:var(--dim);letter-spacing:.1em">外装</span>
+</a>
+<a href="#step08" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='#0a0a0a'" style="display:flex;flex-direction:column;align-items:center;padding:14px 16px;gap:4px;border-right:1px solid #0d0d0d;color:inherit;text-decoration:none;transition:background .2s">
+<span style="font-size:9px;font-weight:700;color:var(--green)">08</span><span data-en="Insulation" style="font-size:8px;color:var(--dim);letter-spacing:.1em">断熱</span>
+</a>
+<a href="#step09" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='#0a0a0a'" style="display:flex;flex-direction:column;align-items:center;padding:14px 16px;gap:4px;border-right:1px solid #0d0d0d;color:inherit;text-decoration:none;transition:background .2s">
+<span style="font-size:9px;font-weight:700;color:var(--green)">09</span><span data-en="Facilities" style="font-size:8px;color:var(--dim);letter-spacing:.1em">設備</span>
+</a>
+<a href="#step10" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='#0a0a0a'" style="display:flex;flex-direction:column;align-items:center;padding:14px 16px;gap:4px;border-right:1px solid #0d0d0d;color:inherit;text-decoration:none;transition:background .2s">
+<span style="font-size:9px;font-weight:700;color:var(--green)">10</span><span data-en="Interior" style="font-size:8px;color:var(--dim);letter-spacing:.1em">内装</span>
+</a>
+<a href="#step11" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='#0a0a0a'" style="display:flex;flex-direction:column;align-items:center;padding:14px 16px;gap:4px;border-right:1px solid #0d0d0d;color:inherit;text-decoration:none;transition:background .2s">
+<span style="font-size:9px;font-weight:700;color:var(--green)">11</span><span data-en="Furnishings &amp; Amenities" style="font-size:8px;color:var(--dim);letter-spacing:.1em">備品</span>
+</a>
+<a href="#step12" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='#0a0a0a'" style="display:flex;flex-direction:column;align-items:center;padding:14px 16px;gap:4px;color:inherit;text-decoration:none;transition:background .2s">
+<span style="font-size:9px;font-weight:700;color:var(--gold)">12</span><span data-en="Completion" style="font-size:8px;color:var(--dim);letter-spacing:.1em">完成</span>
+</a>
+</div>
+</div>
+<!-- 12-STEP PROCESS FLOW -->
+<div class="s" style="background:#040404">
+<div class="w">
+<p class="eyebrow" data-en="12 Steps · From manufacturing to operation">12 Steps · 製造から稼働まで</p>
+<h2 data-en="Born in the factory.">工場で産まれ、<br/><span class="gold" data-en="Awakening in Hokkaido">北海道で目覚める</span>。</h2>
+<p class="sub" data-en="Approximately 6 months per container from order to on-site installation and interior completion. 80 units delivered sequentially over 24 months.">発注から現地設置・内装完成まで、コンテナ1台あたり約6ヶ月。80台は24ヶ月で順次搬入。</p>
+<div class="flow">
+<!-- STEP 1 -->
+<div class="flow-step" id="step01">
+<div class="flow-num">
+<div class="flow-num-inner">01</div>
+<div class="flow-line"></div>
+</div>
+<div class="flow-body">
+<div class="flow-where cn" data-en="📍 Shandong Province, China">📍 中国・山東省</div>
+<div class="flow-title" data-en="Design Specifications Finalized &amp; Factory Order Placed">設計仕様の確定・工場発注</div>
+<div class="flow-desc" data-en="Architectural drawings conforming to Teshikaga building codes are prepared by our design firm. CAD specifications—including window and door positioning, floor load capacity, and condensation prevention—are submitted to our specialized Shandong container factory. Approximately ¥800,000 per unit (including exterior finishing).">弟子屈町の建築確認に対応した構造図を設計事務所が作成。山東省のコンテナ専門工場に対してCAD図面を渡し、開口部（窓・ドア位置）・床荷重・結露対策仕様を確定して発注する。1台あたり約¥80万（外装仕上げまで）。</div>
+<img alt="山東省コンテナ工場" class="flow-img" data-en-alt="Shandong Container Factory" src="/img/alibaba_factory.webp"/>
+<div class="flow-img-caption" data-en="▲ Shandong Province Container Specialist Factory — Manufacturing 2,000+ units annually">▲ 山東省 コンテナ専門工場 — 年間2,000台以上の製造実績</div>
+<div class="flow-tags">
+<span class="tag gold" data-en="CAD Drawings">CAD図面</span>
+<span class="tag" data-en="Structural Calculation Report">構造計算書</span>
+<span class="tag" data-en="Building Permit Application">建築確認申請</span>
+<span class="tag" data-en="¥800,000/unit">¥80万/台</span>
+</div>
+<div class="illus-box">
+<div class="illus-label" data-en="Order Specification Checklist">発注仕様チェックリスト</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:11px;color:rgba(240,236,228,.4)">
+<div data-en="✓ Opening Positions (Windows ×2 / Door ×1)">✓ 開口部位置（窓×2 / 扉×1）</div>
+<div data-en="✓ Floor Load Capacity 350kg/m²">✓ 床荷重 350kg/㎡</div>
+<div data-en="✓ Exterior Color (White / RAL 9003)">✓ 外装色（ホワイト / RAL 9003）</div>
+<div data-en="✓ Pre-installed Electrical Conduit">✓ 電気配管先行孔</div>
+<div data-en="✓ Suspension Hook Position (Crane-ready)">✓ 吊りフック位置（クレーン用）</div>
+<div data-en="✓ Condensation-prevention primer">✓ 結露防止プライマー</div>
+</div>
+</div>
+</div>
+</div>
+<!-- STEP 2 -->
+<div class="flow-step" id="step02">
+<div class="flow-num">
+<div class="flow-num-inner">02</div>
+<div class="flow-line"></div>
+</div>
+<div class="flow-body">
+<div class="flow-where cn" data-en="📍 Inside Shandong Factory, China">📍 中国・山東省 工場内</div>
+<div class="flow-title" data-en="Steel Frame Welding &amp; Container Manufacturing">鉄骨フレーム溶接・コンテナ製作</div>
+<div class="flow-desc" data-en="High-strength steel (SS400) corner posts and top/bottom rails welded together. Reinforcement frames added to apertures, exceeding standard 20ft container structural integrity. Corten steel cladding applied via automated welding line for precision.">高張力鋼（SS400）のコーナーポストと上下レールを溶接。開口部に補強フレームを追加し、通常の20ftコンテナより強度を上げる。外壁はCorten鋼板を貼り付け、自動溶接ラインで精度を確保。</div>
+<img alt="コンテナ製作フェーズ" class="flow-img" data-en-alt="Container Manufacturing Phase" src="/img/kumaushi_container_phase_build.jpg"/>
+<div class="flow-img-caption" data-en="▲ SS400 Steel Frame Welding Process (Actual Manufacturing Facility)">▲ SS400鋼フレーム溶接工程（実際の製造工場）</div>
+<div class="flow-tags">
+<span class="tag" data-en="SS400 Steel">SS400鋼</span>
+<span class="tag gold" data-en="White Paint Exterior (RAL 9003)">ホワイト塗装外装（RAL 9003）</span>
+<span class="tag" data-en="Weld Inspection (UT)">溶接検査（UT）</span>
+</div>
+<div class="illus-box">
+<div class="illus-label" data-en="Container Structure Diagram (Cross-Section)">コンテナ構造図（断面）</div>
+<div style="font-family:'Courier New',monospace;font-size:10px;color:rgba(240,236,228,.3);line-height:1.6;white-space:pre">
+┌─<span data-en="Corner Posts" style="color:var(--gold)">コーナーポスト</span>──────────────────────<span data-en="Corner Posts" style="color:var(--gold)">コーナーポスト</span>─┐
+│  ════════════════<span data-en="Upper Rail" style="color:var(--gold)">上部レール</span>══════════════════  │
+│  │                                              │  │
+│  │  <span data-en="Corten Steel Exterior" style="color:rgba(240,236,228,.5)">Corten鋼外壁</span>                              │  │
+│  │                         <span data-en="Window Opening" style="color:#4a7fa5">窓開口</span>             │  │
+│  │                         ┌───┐               │  │
+│  │                         │   │               │  │
+│  │                         └───┘               │  │
+│  ════════════════<span data-en="Lower Rail" style="color:var(--gold)">下部レール</span>══════════════════  │
+└──────────────────────────────────────────────────┘
+   ← 6,058mm ────────────────────────────────── →</div>
+</div>
+</div>
+</div>
+<!-- STEP 3 -->
+<div class="flow-step" id="step03">
+<div class="flow-num">
+<div class="flow-num-inner">03</div>
+<div class="flow-line"></div>
+</div>
+<div class="flow-body">
+<div class="flow-where cn" data-en="📍 Inside Shandong Factory, China">📍 中国・山東省 工場内</div>
+<div class="flow-title" data-en="Rust-Resistant Coating, Quality Inspection &amp; Shipping Preparation">防錆塗装・品質検査・出荷準備</div>
+<div class="flow-desc" data-en="Interior epoxy primer treatment followed by pre-drilling for electrical conduit. Exterior finished with two coats of white topcoat (RAL 9003 Signal White). Final inspection of dimensions, welding, and aperture precision documented photographically. Loaded onto trailer for Shanghai Port.">内部をエポキシプライマー処理後、電気配管用の先行孔を施工。外装にホワイト上塗り（RAL 9003 / シグナルホワイト）を2コート。完成検査（寸法・溶接・開口精度）を実施し、写真記録を送付。トレーラーに積載し上海港へ。</div>
+<img alt="防錆塗装後のコンテナ外観" class="flow-img" data-en-alt="Container Exterior Post-Rust Prevention Coating" src="/img/container_premium_exterior.webp"/>
+<div class="flow-img-caption" data-en="▲ Finished Container — Rust-preventive coating &amp; pre-shipment quality inspected">▲ 防錆塗装・出荷前品質検査済みの完成コンテナ</div>
+<div class="flow-tags">
+<span class="tag" data-en="Epoxy Primer">エポキシプライマー</span>
+<span class="tag" data-en="Completion Inspection Certificate">完成検査証</span>
+<span class="tag blue" data-en="Departure from Shanghai Port">上海港出港</span>
+</div>
+</div>
+</div>
+<!-- STEP 4 -->
+<div class="flow-step" id="step04">
+<div class="flow-num">
+<div class="flow-num-inner">04</div>
+<div class="flow-line"></div>
+</div>
+<div class="flow-body">
+<div class="flow-where ship" data-en="🚢 Shanghai Port → Tomakomai Port / Ocean Freight">🚢 上海港 → 苫小牧港 / 海上輸送</div>
+<div class="flow-title" data-en="Ocean transport (East China Sea &amp; Japan Sea)">海上輸送（東シナ海・日本海）</div>
+<div class="flow-desc" data-en="Ferry and RoRo vessel transport from Shanghai Port to Tomakomai Port. Transit time: approximately 7–10 days. Ocean freight: approximately ¥150,000–200,000 per 20ft container. 80 units strategically scheduled across multiple shipments. Following customs clearance and cargo handling at Tomakomai, units transferred to dedicated trailers.">上海港からフェリー・RORO船で苫小牧港へ。所要日数：約7〜10日。20ftコンテナ1本あたりの海上運賃は約¥15〜20万。80台を複数便に分けて計画的に搬入。苫小牧港で通関・荷役後、専用トレーラーに積み替え。</div>
+<img alt="コンテナ輸送" class="flow-img" data-en-alt="Container Transportation" src="/img/alibaba_expanded.webp"/>
+<div class="flow-img-caption" data-en="▲ Ocean Freight Shanghai Port to Tomakomai Port (7–10 Days)">▲ 上海港から苫小牧港へ海上輸送（7〜10日）</div>
+<div class="flow-tags">
+<span class="tag blue" data-en="Shanghai → Tomakomai 7–10 Days">上海→苫小牧 7〜10日</span>
+<span class="tag" data-en="Customs Clearance &amp; Cargo Handling">通関・荷役</span>
+<span class="tag" data-en="¥150,000–200,000/unit">¥15〜20万/台</span>
+</div>
+<div class="illus-box">
+<div class="illus-label" data-en="Transportation Route">輸送ルート</div>
+<div data-en="🏭 Shandong Province Factory
+
+              🚢 Shanghai Port (Shipment)
+
+              ⚓ Tomakomai Port (Entry &amp; Customs)
+
+              📍 MIRUWA Site (Teshikaga, Hokkaido)" style="font-size:12px;color:rgba(240,236,228,.4);line-height:2">
+              🏭 山東省工場<br/>
+<span data-en="→ Trailer (2–3 hours) →" style="color:rgba(74,127,165,.5)">→ トレーラー（2〜3時間）→</span><br/>
+              🚢 上海港（積出）<br/>
+<span data-en="→ Ocean Freight (7–10 days) →" style="color:rgba(74,127,165,.5)">→ 海上輸送（7〜10日）→</span><br/>
+              ⚓ 苫小牧港（入港・通関）<br/>
+<span data-en="→ Large trailer (3–4 hours) →" style="color:rgba(106,158,114,.5)">→ 大型トレーラー（3〜4時間）→</span><br/>
+              📍 美留和現地（弟子屈町）
+            </div>
+</div>
+</div>
+</div>
+<!-- STEP 5 -->
+<div class="flow-step" id="step05">
+<div class="flow-num">
+<div class="flow-num-inner">05</div>
+<div class="flow-line"></div>
+</div>
+<div class="flow-body">
+<div class="flow-where hk" data-en="📍 Biruwa, Teshikaga, Hokkaido">📍 北海道・弟子屈町 美留和</div>
+<div class="flow-title" data-en="Foundation Work &amp; Concrete Pouring">基礎工事・コンクリート打設</div>
+<div class="flow-desc" data-en="Fabric foundation engineered for 1.2m frost depth (lean concrete → crushed stone → moisture barrier → rebar → concrete placement). Anchor bolts embedded at precise positions at all four container corners. Due to winter construction limitations in Hokkaido, concentrated work scheduled for Q1 2027 (post-snowmelt, April–May).">凍結深度1.2mに対応した布基礎（捨てコン→砕石→防湿シート→鉄筋→コンクリート打設）。コンテナ4コーナーのアンカーボルトを正確な位置に埋込。北海道の冬は基礎工事不可なため、2027年Q1（4〜5月の雪解け後）に集中施工。</div>
+<img alt="基礎工事" class="flow-img" data-en-alt="Foundation Work" src="/img/step1_foundation.webp"/>
+<div class="flow-img-caption" data-en="▲ KUMAUSHI BASE Phase 1 construction — Hokkaido-specification fabric foundation (same method as planned 2026 construction)">▲ 熊牛原野 フェーズ1施工 — 北海道仕様布基礎（2026年着工予定と同工法）</div>
+<div class="flow-tags">
+<span class="tag" data-en="Frost Depth 1.2m Compatible">凍結深度1.2m対応</span>
+<span class="tag gold" data-en="Fabric Foundation">布基礎</span>
+<span class="tag" data-en="Anchor Bolt Installation">アンカーボルト埋込</span>
+</div>
+</div>
+</div>
+<!-- STEP 6 -->
+<div class="flow-step" id="step06">
+<div class="flow-num">
+<div class="flow-num-inner">06</div>
+<div class="flow-line"></div>
+</div>
+<div class="flow-body">
+<div class="flow-where hk" data-en="📍 Biruwa, Hokkaido — On-Site">📍 北海道・美留和 現地</div>
+<div class="flow-title" data-en="Crane Lifting &amp; Installation">クレーン吊り上げ・設置</div>
+<div class="flow-desc" data-en="Each unit is lifted individually using 25–50t rough terrain cranes and positioned precisely against the foundation anchor bolts. Single unit installation takes 30–60 minutes. For two-unit configurations, installation proceeds in A→B sequence, secured with connecting frames. Anti-tip bolts are fastened immediately upon placement.">25〜50tラフタークレーンで1台ずつ吊り上げ、基礎のアンカーボルトに正確に合わせて設置。1台の設置作業は30〜60分。2台ユニットの場合、A→Bの順で設置し、連結フレームで固定。設置後すぐに転倒防止ボルトを締め付け。</div>
+<img alt="クレーン設置" class="flow-img" data-en-alt="Crane Installation" src="/img/step2_container_crane.webp"/>
+<div class="flow-img-caption" data-en="▲ Container Installation via 50t Rough Terrain Crane (30–60 min per unit)">▲ 50tラフタークレーンによるコンテナ設置（1台30〜60分）</div>
+<div class="flow-tags">
+<span class="tag gold" data-en="50-ton Crane">50tクレーン</span>
+<span class="tag" data-en="2 units/day installation capacity">2台/日 設置可能</span>
+<span class="tag" data-en="Anchor Securing">アンカー固定</span>
+</div>
+<div class="illus-box">
+<div class="illus-label" data-en="Crane Installation Visualization">クレーン設置イメージ</div>
+<div data-en="/|
+            / |  ← Wire
+           /  |
+    ┌──────────────┐  ← 
+    │              │
+    │   20ft       │
+    │   Container  │
+    └──────────────┘
+          ⬇ Installation
+    ════════════════  ← Foundation Concrete
+    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  ← Ground" style="font-family:'Courier New',monospace;font-size:10px;color:rgba(240,236,228,.25);line-height:1.4;white-space:pre">
+<span style="color:rgba(200,164,85,.4)">🏗</span>
+             /|
+            / |  ← ワイヤー
+           /  |
+    ┌──────────────┐  ← <span data-en="Container Hoisting" style="color:var(--gold)">コンテナ吊り上げ</span>
+    │              │
+    │   20ft       │
+    │   Container  │
+    └──────────────┘
+          ⬇ 設置
+    ════════════════  ← 基礎コンクリート
+    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  ← 地盤</div>
+</div>
+</div>
+</div>
+<!-- STEP 7 -->
+<div class="flow-step" id="step07">
+<div class="flow-num">
+<div class="flow-num-inner">07</div>
+<div class="flow-line"></div>
+</div>
+<div class="flow-body">
+<div class="flow-where hk" data-en="📍 On-Site · Exterior Construction">📍 現地 屋外工事</div>
+<div class="flow-title" data-en="Exterior Finishes, Roof &amp; Deck">外装仕上げ・屋根・デッキ</div>
+<div class="flow-desc" data-en="Two units are secured via connecting frame, then a pitched metal roof is added (snow accumulation mitigation, reduced clearing burden). Cedar wood accent cladding is applied to exterior walls. Slatted decking (1.5m width) is installed before each unit. External electrical conduit and water supply/drainage connections are completed.">2台ユニットの間を連結フレームで固定後、屋根に勾配をつけた金属葺きを追加（積雪対応、雪下ろし軽減）。外壁の杉板アクセントを貼り付け。各ユニット前にスノコデッキ（1.5m幅）を設置。外部電気配管・給排水接続を行う。</div>
+<img alt="北海道コンテナ外装" class="flow-img" data-en-alt="Hokkaido Container Exterior" src="/img/kumaushi_container_exterior_hokkaido.jpg"/>
+<div class="flow-img-caption" data-en="▲ After Exterior Finishing — White Coating × Cedar Board Accents">▲ 外装仕上げ後 — ホワイト塗装×杉板アクセント</div>
+<div class="flow-tags">
+<span class="tag" data-en="Metal Roofing">金属屋根葺き</span>
+<span class="tag gold" data-en="Cedar Board Accent">杉板アクセント</span>
+<span class="tag" data-en="Slatted Deck">スノコデッキ</span>
+<span class="tag" data-en="Water Supply &amp; Drainage Connection">給排水接続</span>
+</div>
+</div>
+</div>
+<!-- STEP 8 -->
+<div class="flow-step" id="step08">
+<div class="flow-num">
+<div class="flow-num-inner">08</div>
+<div class="flow-line"></div>
+</div>
+<div class="flow-body">
+<div class="flow-where hk" data-en="📍 On-Site · Interior Construction (Insulation)">📍 現地 内部工事（断熱）</div>
+<div class="flow-title" data-en="Rigid Polyurethane Foam 100mm Spray Application">硬質ウレタンフォーム100mm吹付</div>
+<div class="flow-desc" data-en="Polyurethane foam is spray-applied directly to the container interior, creating an airtight seal between steel and foam with zero thermal gaps. Applied to ceiling, side walls, and underfloor. Hardens within 24 hours; finished to uniform 100mm thickness through shaving.">コンテナ内部に直接ウレタンフォームを吹き付ける。鋼板とウレタンが密着することで気密層を形成、隙間ゼロの断熱を実現。天井・側壁・床下すべてに施工。吹付後24時間で硬化、削り取り作業で均一厚さ（100mm）に整える。</div>
+<img alt="断熱材吹付" class="flow-img" data-en-alt="Insulation Spray Application" src="/img/kumaushi_container_insulation.jpg"/>
+<div class="flow-img-caption" data-en="▲ Rigid Urethane Spray Application (KUMAUSHI BASE under construction) — 100mm thickness creates airtight layer">▲ 硬質ウレタン吹付（熊牛原野 施工中） — 100mm厚で気密層を形成</div>
+<div class="flow-tags">
+<span class="tag gold" data-en="100mm Rigid Urethane">100mm硬質ウレタン</span>
+<span class="tag">λ=0.022 W/mK</span>
+<span class="tag" data-en="Airtight Tape Application">気密テープ処理</span>
+<span class="tag" data-en="1 Unit: 1.5 Days">1台：1.5日</span>
+</div>
+</div>
+</div>
+<!-- STEP 9 -->
+<div class="flow-step" id="step09">
+<div class="flow-num">
+<div class="flow-num-inner">09</div>
+<div class="flow-line"></div>
+</div>
+<div class="flow-body">
+<div class="flow-where hk" data-en="📍 On-Site Interior Work (Electrical &amp; Mechanical Systems)">📍 現地 内部工事（電気・設備）</div>
+<div class="flow-title" data-en="Electrical Wiring &amp; Equipment Installation">電気配線・設備設置</div>
+<div class="flow-desc" data-en="Electrical wiring (8 outlets, 2 lighting circuits, dedicated air conditioning circuit) pre-installed in conduit before drywall. Water supply and drainage pipes connected to plumbing unit. Daikin wall-mounted air conditioner (2.2kW, 6-mat capacity) installed. KAGI smart lock integrated during installation.">石膏ボード施工前に電気配線（コンセント×8・照明回路×2・エアコン専用回路）をCD管で先行配線。水回りユニットには給排水管を接続。Daikin壁掛けエアコン（6畳用 2.2kW）を設置。KAGIスマートロック電気錠も同時施工。</div>
+<img alt="電気設備配線" class="flow-img" data-en-alt="Electrical Wiring" src="/img/kumaushi_container_boiler_room.jpg"/>
+<div class="flow-img-caption" data-en="▲ Container Equipment Room (Actual Installation) — Distribution Panel, Water Heater &amp; AC Piping">▲ コンテナ設備室（実際の施工例） — 分電盤・給湯器・エアコン配管</div>
+<div class="flow-tags">
+<span class="tag gold">Daikin 2.2kW</span>
+<span class="tag" data-en="KAGI Smart Lock">KAGI スマートロック</span>
+<span class="tag" data-en="Outlets × 8">コンセント×8</span>
+<span class="tag" data-en="100V/200V Distribution Panel">100V/200V分電盤</span>
+</div>
+</div>
+</div>
+<!-- STEP 10 -->
+<div class="flow-step" id="step10">
+<div class="flow-num">
+<div class="flow-num-inner">10</div>
+<div class="flow-line"></div>
+</div>
+<div class="flow-body">
+<div class="flow-where hk" data-en="📍 On-Site Interior Construction &amp; Finishing">📍 現地 内部工事（内装）</div>
+<div class="flow-title" data-en="Wall, Floor &amp; Ceiling Interior Finishing">壁・床・天井 内装仕上げ</div>
+<div class="flow-desc" data-en="12.5mm gypsum board with water-repellent matte white finish. Flooring: 12mm oak veneer with radiant heat mat. Ceiling cove features indirect LED (2700K warm white, dual-circuit). Window frames: painted larch plywood finish.">12.5mm石膏ボードを貼り付け後、撥水マットホワイトクロス仕上げ。床はオーク突板フローリング（12mm、温水マット付き）。天井コーニスに間接LED（2700K×白色の2系統）。窓枠はラーチ合板塗装仕上げ。</div>
+<img alt="内装仕上げ" class="flow-img" data-en-alt="Interior Finishing" src="/img/container_interior_luxury.webp"/>
+<div class="flow-img-caption" data-en="▲ Interior Finishing Complete — Indirect LED 2-System, Oak Flooring, Water-Repellent Wallcovering (Actual Completion Example)">▲ 内装仕上げ完成 — 間接LED 2系統・オーク床・撥水クロス（実際の完成例）</div>
+<div class="flow-tags">
+<span class="tag" data-en="Oak Flooring">オークフローリング</span>
+<span class="tag gold" data-en="Indirect LED dual circuit">間接LED 2系統</span>
+<span class="tag" data-en="Warm Water Heating Mat (Floor Heating)">温水マット（床暖）</span>
+<span class="tag" data-en="Water-Repellent Cloth">撥水クロス</span>
+</div>
+</div>
+</div>
+<!-- STEP 11 -->
+<div class="flow-step" id="step11">
+<div class="flow-num">
+<div class="flow-num-inner">11</div>
+<div class="flow-line"></div>
+</div>
+<div class="flow-body">
+<div class="flow-where hk" data-en="📍 On-site equipment delivery">📍 現地 備品搬入</div>
+<div class="flow-title" data-en="Simmons Delivery &amp; Furnishings Installation">Simmons搬入・備品設置</div>
+<div class="flow-desc" data-en="Four Simmons pocket coil mattresses (98cm twin width) delivered and installed. Scandinavian oak bed frames, storage shelving, and luggage stands assembled. Towels, amenities, and Starlink WiFi router provisioned. Operational testing of air conditioning, lighting, and smart lock completed.">Simmons社製ポケットコイルマットレス（ツイン幅98cm）を4台搬入・設置。Scandinavian Oak製ベッドフレーム、収納棚、荷物置き台を組み立て。タオル・アメニティ・Starlink WiFiルーターを設置。試運転（エアコン・照明・スマートロック）を実施。</div>
+<img alt="Simmons搬入後の寝室" class="flow-img" data-en-alt="Bedroom After Simmons Installation" src="/img/container_bedroom.webp"/>
+<div class="flow-img-caption" data-en="▲ Furnishings Delivery Complete — 4× Simmons Beautyrest, Test Run Verified">▲ 備品搬入完了 — Simmons Beautyrest × 4 台、試運転チェック済み</div>
+<div class="flow-tags">
+<span class="tag gold" data-en="Simmons Pocketed Coil">Simmons ポケットコイル</span>
+<span class="tag">Starlink WiFi</span>
+<span class="tag" data-en="Amenity Set">アメニティセット</span>
+<span class="tag" data-en="Test Run Verification">試運転チェック</span>
+</div>
+<div class="illus-box">
+<div class="illus-label" data-en="Furnishings List (1 Unit = 2 Containers)">備品リスト（1ユニット = コンテナ2台）</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;color:rgba(240,236,228,.4)">
+<div>🛏 Simmons TW ×4</div>
+<div data-en="❄️ Daikin Wall-Mounted Air Conditioning">❄️ Daikin 壁掛けエアコン</div>
+<div data-en="💧 Hot Water Shower">💧 温水シャワー</div>
+<div data-en="🚿 Vanity &amp; mirror">🚿 洗面台・ミラー</div>
+<div data-en="💡 LED indirect lighting (dual circuit)">💡 LED間接照明（2系統）</div>
+<div data-en="🔒 KAGI Smart Lock">🔒 KAGIスマートロック</div>
+<div data-en="📡 Starlink WiFi Router">📡 Starlink WiFiルーター</div>
+<div data-en="🪣 Storage lockers ×4">🪣 収納ロッカー×4</div>
+<div data-en="🔌 8 Outlets / USB-A&amp;C">🔌 コンセント×8 / USB-A&amp;C</div>
+<div data-en="🧴 Amenity Set">🧴 アメニティセット</div>
+</div>
+</div>
+</div>
+</div>
+<!-- STEP 12 -->
+<div class="flow-step" id="step12">
+<div class="flow-num">
+<div class="flow-num-inner" style="background:var(--gold);color:#000;border-color:var(--gold)">12</div>
+</div>
+<div class="flow-body">
+<div class="flow-where hk" data-en="✅ Complete · Operations Begin" style="color:var(--gold)">✅ 完成 · 稼働開始</div>
+<div class="flow-title" data-en="Grand Opening" style="color:var(--gold)">グランドオープン</div>
+<div class="flow-desc" data-en="Final cleaning, photography, and booking system (KAGI integration) activated. Welcome the first guests. Operating cost per unit (electricity and consumables) is ¥15,000–20,000 monthly. Grand opening by zone upon completion of Zone 10 rooms (20 containers).">最終清掃・写真撮影・予約システム（KAGI連携）を起動。最初のゲストを迎え入れる。1台あたりの稼働コスト（電気・消耗品）は月¥1.5〜2万。ゾーン10室（20台コンテナ）が揃ったタイミングでゾーン単位のグランドオープン。</div>
+<img alt="グランドオープン" class="flow-img" data-en-alt="Grand Opening" src="/img/step8_complete_golden.webp"/>
+<div class="flow-img-caption" data-en="▲ Grand Opening — Miruwa Village First Guest Reception">▲ グランドオープン — 美留和ヴィレッジ 最初のゲストを迎える日</div>
+<div class="flow-tags">
+<span class="tag gold" data-en="¥2.5M/unit Full Finishing">¥250万/台 フル仕上げ</span>
+<span class="tag gold" data-en="Operational Commencement">稼働開始</span>
+<span class="tag" data-en="¥15,000–20,000/month Operational Fee">月¥1.5〜2万 運営費</span>
+</div>
+</div>
+</div>
+</div><!-- /flow -->
+</div>
+</div>
+<!-- SPECS GRID -->
+<div class="s" style="background:#050505">
+<div class="w">
+<p class="eyebrow">Equipment Spec · 設備仕様</p>
+<h2 data-en="Supporting restorative sleep.">快眠を支える<br/><span class="gold" data-en="6 Curated Amenities">厳選6設備</span>。</h2>
+<p class="sub" data-en="Not 'inexpensive and inconvenient,' but 'eliminate the unnecessary and prioritize what matters.' The six essential amenities that define the guest experience are without compromise.">「安く作って不便」ではなく「削るべき場所を削り、必要なものに全振り」。宿泊体験の質を決める6つの設備は一切妥協しない。</p>
+<div class="specs-grid">
+<div class="spec-card">
+<img alt="Simmons寝室" class="spec-photo" data-en-alt="Simmons Bedroom" src="/img/kumaushi_a_room_sleeping.webp"/>
+<div class="spec-icon">🛏</div>
+<div class="spec-name">Mattress</div>
+<div class="spec-val" data-en="Simmons pocketed coil">Simmons<br/>ポケットコイル</div>
+<div class="spec-note" data-en="Beautyrest Hotel Premier TW-97 (744 pocket coils/TW). Proven delivery record to over 3,000 domestic city hotel rooms. ¥80,000–120,000 per unit. Pressure-distribution technology ensures restorative sleep.">Beautyrest ホテルプレミアム TW-97（ポケットコイル744個/TW）。国内シティホテル3,000室以上に納品実績。1台¥8〜12万。体圧分散で深い眠りを確保。</div>
+</div>
+<div class="spec-card">
+<img alt="コンテナ内装エアコン" class="spec-photo" data-en-alt="Container Interior Air Conditioning" src="/img/container_interior.webp"/>
+<div class="spec-icon">❄️</div>
+<div class="spec-name">Air Conditioning</div>
+<div class="spec-val" data-en="Daikin Wall-mounted 2.2kW">Daikin<br/>壁掛け 2.2kW</div>
+<div class="spec-note" data-en="S22XTES (2.2kW for 6-tatami rooms). Low-temperature heating capability guaranteed model (compatible down to −20°C outdoor temperature). Heating COP 3.5. 10-year parts warranty.">S22XTES（6畳用 2.2kW）。低外気温暖房能力保証モデル（−20℃外気まで対応）。暖房COP 3.5。10年間部品保証。</div>
+</div>
+<div class="spec-card">
+<img alt="温水床暖房" class="spec-photo" data-en-alt="Warm Water Floor Heating" src="/img/up_heated_floor.webp"/>
+<div class="spec-icon">🔥</div>
+<div class="spec-name">Floor Heating</div>
+<div class="spec-val" data-en="Hot Water Radiant Floor Heating">温水式<br/>床暖房</div>
+<div class="spec-note" data-en="Hot water heating mat beneath oak flooring ensures zero cold floor in the morning. Delivers higher perceived warmth than air conditioning alone, with whisper-quiet operation.">オークフローリング下に温水マット。朝の冷床ゼロ。エアコン単体より体感温度が高く、静音。</div>
+</div>
+<div class="spec-card">
+<img alt="Starlink WiFi環境" class="spec-photo" data-en-alt="Starlink WiFi Environment" src="/img/container_workspace.webp"/>
+<div class="spec-icon">📡</div>
+<div class="spec-name">WiFi</div>
+<div class="spec-val">Starlink<br/>Standard</div>
+<div class="spec-note" data-en="STARLINK-RESIDENTIAL (Standard). Antenna diameter 48cm. Latency 20–60ms. Single antenna covers 30m radius with up to 32 simultaneous connections. ¥6,600/month.">STARLINK-RESIDENTIAL（スタンダード）。アンテナ径48cm。レイテンシ20〜60ms。1アンテナで半径30m・32台同時接続。月額¥6,600。</div>
+</div>
+<div class="spec-card">
+<img alt="スマートロック" class="spec-photo" data-en-alt="Smart Lock" src="/img/kumaushi_part_sesame5pro.jpg"/>
+<div class="spec-icon">🔒</div>
+<div class="spec-name">Smart Lock</div>
+<div class="spec-val" data-en="KAGI Smart Lock">KAGI<br/>スマートロック</div>
+<div class="spec-note" data-en="Three access methods: QR code, PIN code, and smartphone unlock. Fully contactless check-in and check-out. Battery-powered with blackout protection.">QRコード・PINコード・スマホ解錠の3方式。チェックイン/アウトを完全非対面化。電池駆動で停電対応。</div>
+</div>
+<div class="spec-card">
+<img alt="間接LED照明夜景" class="spec-photo" data-en-alt="Indirect LED Lighting · Night Ambiance" src="/img/container_night_stars.webp"/>
+<div class="spec-icon">💡</div>
+<div class="spec-name">Lighting</div>
+<div class="spec-val" data-en="Indirect LED Lighting with 2 Scenes">間接LED<br/>2シーン</div>
+<div class="spec-note" data-en="Pre-sleep mode (2700K, indirect, 50lx) and wake-up mode (5000K, full illumination, 400lx). Switchable via smartphone app.">就寝前モード（2700K・間接・50lx）と起床モード（5000K・全灯・400lx）。スマホアプリで切替可能。</div>
+</div>
+<div class="spec-card">
+<img alt="熱交換換気" class="spec-photo" data-en-alt="Heat Recovery Ventilation" src="/img/kumaushi_part_lossnay.jpg"/>
+<div class="spec-icon">🌬️</div>
+<div class="spec-name">Ventilation</div>
+<div class="spec-val" data-en="Mitsubishi Lossnay Heat Recovery Ventilation">三菱 ロスナイ<br/>熱交換換気</div>
+<div class="spec-note" data-en="VL-100ZS3. Recovers 80% of exhaust heat for fresh air supply. Minimizes indoor temperature drop during winter ventilation. Maintains CO₂ concentration below 1,000ppm. Directly supports restful sleep.">VL-100ZS3。排気熱の80%を回収して給気。冬の換気による室温低下を最小化。CO₂濃度を1,000ppm以下に維持。快眠に直結。</div>
+</div>
+<div class="spec-card">
+<img alt="防音内壁" class="spec-photo" data-en-alt="Soundproof Interior Wall" src="/img/kumaushi_container_interior_wood.jpg"/>
+<div class="spec-icon">🔇</div>
+<div class="spec-name">Sound Insulation</div>
+<div class="spec-val" data-en="STC-42 Equivalent Inter-Room Sound Insulation">STC-42相当<br/>室間遮音</div>
+<div class="spec-note" data-en="Steel plate 3mm + urethane 100mm + drywall 12.5mm construction equivalent to STC-42. Sound isolation sufficient to block adjacent room conversations. Vibration-damping rubber pads installed at container connection points.">鋼板3mm＋ウレタン100mm＋石膏ボード12.5mm構成でSTC-42相当。隣室の会話が聞こえないレベル。コンテナ間の連結部に防振ゴムパッド施工。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- COST BREAKDOWN -->
+<div class="s" style="background:#030303">
+<div class="w">
+<p class="eyebrow" data-en="Cost · Breakdown">Cost · コスト内訳</p>
+<h2 data-en="Breakdown of one unit fully finished.">1台フル仕上げ<br/><span class="gold" data-en="¥2,500,000">¥250万</span>の内訳。</h2>
+<p class="sub" data-en="80 units × ¥2,500,000 = ¥200,000,000 (container procurement through interior completion). This represents the largest cost component of the ¥900,000,000 plan.">80台×¥250万 = ¥20,000万（コンテナ調達〜内装完成まで）。これが¥9億プランの最大コスト項目。</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:32px">
+<img alt="製造コスト" data-en-alt="Manufacturing Cost" src="/img/kumaushi_container_phase_build.jpg" style="width:100%;height:240px;object-fit:cover;display:block;filter:brightness(.75)"/>
+<img alt="内装完成" data-en-alt="Interior Finishing Complete" src="/img/container_interior_luxury.webp" style="width:100%;height:240px;object-fit:cover;display:block;filter:brightness(.75)"/>
+</div>
+<table class="cmp-table">
+<thead>
+<tr>
+<th data-en="Item">項目</th>
+<th data-en="Specifications">仕様</th>
+<th data-en="Unit Price (per unit)">単価（1台）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="cmp-val" data-en="Container Shell">コンテナ本体</span></td>
+<td><span class="cmp-label" data-en="20ft New / Shipped from Shandong Province Factory">20ft 新品 / 山東省工場出荷</span></td>
+<td><span class="cmp-gold" data-en="¥800,000">¥80万</span></td>
+</tr>
+<tr>
+<td><span class="cmp-val" data-en="Ocean Freight &amp; Customs Clearance">海上輸送・通関</span></td>
+<td><span class="cmp-label" data-en="Shanghai → Tomakomai + Customs Clearance Fee">上海→苫小牧 + 通関費用</span></td>
+<td><span class="cmp-gold" data-en="¥180,000">¥18万</span></td>
+</tr>
+<tr>
+<td><span class="cmp-val" data-en="Land Transportation">陸上輸送</span></td>
+<td><span class="cmp-label" data-en="Tomakomai → Teshikaga, Hokkaido Large Trailer Transport">苫小牧→弟子屈 大型トレーラー</span></td>
+<td><span class="cmp-gold" data-en="¥60,000">¥6万</span></td>
+</tr>
+<tr>
+<td><span class="cmp-val" data-en="Foundation Work (Proportional)">基礎工事（按分）</span></td>
+<td><span class="cmp-label" data-en="Strip Foundation + Anchors (80 Units Equally Distributed)">布基礎+アンカー（80台均等按分）</span></td>
+<td><span class="cmp-gold" data-en="¥100,000">¥10万</span></td>
+</tr>
+<tr>
+<td><span class="cmp-val" data-en="Crane Installation">クレーン設置</span></td>
+<td><span class="cmp-label" data-en="50t Rough Terrain Crane (1 deployment)">50t ラフタークレーン 1回分</span></td>
+<td><span class="cmp-gold" data-en="¥50,000">¥5万</span></td>
+</tr>
+<tr>
+<td><span class="cmp-val" data-en="Insulation Works">断熱工事</span></td>
+<td><span class="cmp-label" data-en="Rigid Polyurethane 100mm On-Site Spray">硬質ウレタン100mm 現場吹付</span></td>
+<td><span class="cmp-gold" data-en="¥150,000">¥15万</span></td>
+</tr>
+<tr>
+<td><span class="cmp-val" data-en="Electrical &amp; Mechanical Installation">電気・設備工事</span></td>
+<td><span class="cmp-label" data-en="Wiring, Air Conditioning, Floor Heating, Smart Lock">配線・エアコン・床暖・スマートロック</span></td>
+<td><span class="cmp-gold" data-en="¥300,000">¥30万</span></td>
+</tr>
+<tr>
+<td><span class="cmp-val" data-en="Interior Finishing">内装仕上げ</span></td>
+<td><span class="cmp-label" data-en="Gypsum Board, Wallcovering, Flooring, LED Lighting">石膏ボード・クロス・フローリング・LED</span></td>
+<td><span class="cmp-gold">¥20万</span></td>
+</tr>
+<tr>
+<td><span class="cmp-val" data-en="Simmons Mattress ×4">Simmons マットレス×4</span></td>
+<td><span class="cmp-label" data-en="Twin Pocket Coil Mattress · Standard Grade">ツイン ポケットコイル 標準グレード</span></td>
+<td><span class="cmp-gold" data-en="¥360,000">¥36万</span></td>
+</tr>
+<tr>
+<td><span class="cmp-val" data-en="Complete Fixtures &amp; Fittings">備品一式</span></td>
+<td><span class="cmp-label" data-en="Bed Frames · Shelving · Lockers · Amenities">ベッドフレーム・棚・ロッカー・アメニティ</span></td>
+<td><span class="cmp-gold">¥20万</span></td>
+</tr>
+<tr>
+<td><span class="cmp-val" data-en="Exterior, Roof &amp; Deck (Apportioned)">外装・屋根・デッキ（按分）</span></td>
+<td><span class="cmp-label" data-en="Cedar Cladding · Metal Roof · Timber Decking">杉板・金属屋根・スノコデッキ</span></td>
+<td><span class="cmp-gold" data-en="¥100,000">¥10万</span></td>
+</tr>
+<tr style="border-top:2px solid rgba(200,164,85,.3)">
+<td><strong data-en="Total (per unit)" style="color:var(--gold)">合計（1台）</strong></td>
+<td><span class="cmp-label" data-en="Complete Process from Order to Operational Launch">発注〜稼働開始まで全工程</span></td>
+<td><strong class="cmp-gold" data-en="¥2,500,000" style="font-size:16px">¥250万</strong></td>
+</tr>
+<tr>
+<td><strong data-en="80 Units Total" style="color:rgba(240,236,228,.4)">80台合計</strong></td>
+<td><span class="cmp-label" data-en="Container Procurement through Interior Completion (Total)">コンテナ調達〜内装完成（総額）</span></td>
+<td><strong data-en="¥200,000,000 (¥20,000 per unit)" style="color:rgba(240,236,228,.6);font-size:14px">¥2億（¥20,000万）</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- ╔══════════════════════════════╗ -->
+<!-- ║  INTERACTIVE CONFIGURATOR    ║ -->
+<!-- ╚══════════════════════════════╝ -->
+<div id="configurator" style="background:#050505;border-top:1px solid #0a0a0a">
+<div style="max-width:1100px;margin:0 auto;padding:72px 48px 28px">
+<p class="eyebrow" data-en="Custom Builder · Custom Quote">Custom Builder · カスタム見積</p>
+<h2 data-en="With each selection,">選ぶたびに、<br/><span class="gold" data-en="The Vision Transforms">絵が変わる</span></h2>
+<p class="sub" data-en="Select options on the left to update the exterior and interior illustrations in real time on the right. Price, revenue, and payback period adjust accordingly.">左でオプションを選ぶと右の外観・内観イラストがリアルタイムで更新されます。価格・収益・回収期間も連動。</p>
+</div>
+<!-- Sticky Price Strip -->
+<div id="cfgStrip" style="position:sticky;top:58px;z-index:190;background:rgba(5,5,5,.97);backdrop-filter:blur(20px);border-top:1px solid rgba(200,164,85,.1);border-bottom:1px solid rgba(200,164,85,.1)">
+<div style="max-width:1100px;margin:0 auto;padding:11px 48px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+<div style="display:flex;gap:28px;flex-wrap:wrap;align-items:center">
+<div>
+<div style="font-size:7px;letter-spacing:.35em;color:var(--dim);margin-bottom:1px;text-transform:uppercase">Total Cost</div>
+<div data-en="¥2,500,000" id="cfgTotal" style="font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--text)">¥250万</div>
+</div>
+<div style="width:1px;background:#141414;height:34px;flex-shrink:0"></div>
+<div>
+<div data-en="Annual net revenue" style="font-size:7px;letter-spacing:.35em;color:var(--dim);margin-bottom:1px;text-transform:uppercase">年間純収益</div>
+<div data-en="¥3.94M" id="cfgRevenue" style="font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--green)">¥394万</div>
+</div>
+<div style="width:1px;background:#141414;height:34px;flex-shrink:0"></div>
+<div>
+<div data-en="Payback Period" style="font-size:7px;letter-spacing:.35em;color:var(--dim);margin-bottom:1px;text-transform:uppercase">回収期間</div>
+<div data-en="8 Months" id="cfgPayback" style="font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--gold)">8ヶ月</div>
+</div>
+</div>
+<a data-en="Consult →" href="miruwa-grand#contact" onmouseout="this.style.opacity='1'" onmouseover="this.style.opacity='.8'" style="display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:var(--gold);color:#000;font-size:10px;font-weight:800;letter-spacing:.15em;text-decoration:none;white-space:nowrap;transition:opacity .2s">相談する →</a>
+</div>
+</div>
+<!-- Category Tabs (full width) -->
+<div style="background:#030303;border-bottom:1px solid #0d0d0d;display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none">
+<button class="cfg-tb active" data-cat="bed" data-en="🛏 Bed" onclick="cfgSwitch(this)">🛏 ベッド</button>
+<button class="cfg-tb" data-cat="bath" data-en="🚿 Bathroom" onclick="cfgSwitch(this)">🚿 バスルーム</button>
+<button class="cfg-tb" data-cat="floor" data-en="🪵 Flooring" onclick="cfgSwitch(this)">🪵 フロア</button>
+<button class="cfg-tb" data-cat="ac" data-en="❄ Air Conditioning" onclick="cfgSwitch(this)">❄ 空調</button>
+<button class="cfg-tb" data-cat="interior" data-en="🖼 Interior Finishing" onclick="cfgSwitch(this)">🖼 内装仕上げ</button>
+<button class="cfg-tb" data-cat="exterior" data-en="🎨 Exterior Color" onclick="cfgSwitch(this)">🎨 外装色</button>
+<button class="cfg-tb" data-cat="deck" data-en="🏡 Deck" onclick="cfgSwitch(this)">🏡 デッキ</button>
+<button class="cfg-tb" data-cat="smart" data-en="📱 Smart Home" onclick="cfgSwitch(this)">📱 スマートホーム</button>
+<button class="cfg-tb" data-cat="window" data-en="🪟 View Windows" onclick="cfgSwitch(this)">🪟 眺望窓</button>
+</div>
+<!-- TWO-COLUMN LAYOUT: Options (left) + Visual Preview (right) -->
+<div class="cfg-layout">
+<!-- LEFT: Option Cards -->
+<div class="cfg-opts-pane">
+<div class="cfg-cat-panel" id="cfg-bed"></div>
+<div class="cfg-cat-panel" id="cfg-bath"></div>
+<div class="cfg-cat-panel" id="cfg-floor"></div>
+<div class="cfg-cat-panel" id="cfg-ac"></div>
+<div class="cfg-cat-panel" id="cfg-interior"></div>
+<div class="cfg-cat-panel" id="cfg-exterior"></div>
+<div class="cfg-cat-panel" id="cfg-deck"></div>
+<div class="cfg-cat-panel" id="cfg-smart"></div>
+<div class="cfg-cat-panel" id="cfg-window"></div>
+</div>
+<!-- RIGHT: Visual Preview (Three.js) -->
+<div class="cfg-visual-pane">
+<!-- Mode tabs: 外観 / 内観 -->
+<div class="pv-mode-tabs">
+<button class="pv-mode-tab active" data-mode="ext" onclick="setPvMode('ext')">外観 · Exterior</button>
+<button class="pv-mode-tab" data-en="Interior" data-mode="int" onclick="setPvMode('int')">内観 · Interior</button>
+</div>
+<!-- Three.js Canvas (shared for both modes) -->
+<div id="cfgCanvasWrap" style="flex:1;position:relative;overflow:hidden">
+<canvas id="cfgCanvas" style="display:block;width:100%;height:100%"></canvas>
+<div data-en="Drag to Rotate · Scroll to Zoom" style="position:absolute;bottom:40px;left:0;right:0;text-align:center;font-size:9px;color:rgba(240,236,228,.15);pointer-events:none;letter-spacing:.22em">ドラッグ回転 · スクロールでズーム</div>
+</div>
+<!-- Description bar -->
+<div class="pv-desc" data-en="Exterior — RAL 9003 · signal white" id="pvDesc">外観 — RAL 9003 · シグナルホワイト</div>
+</div>
+<!-- /RIGHT visual pane (THREE.JS) - old SVG/CSS scenes removed below this line -->
+<!-- DELETED: pvExtScene SVG, pvIntScene CSS room - replaced by Three.js above -->
+<div id="pvExtScene" style="display:none">
+<svg id="extSVG" style="width:100%;max-width:480px;height:auto;filter:drop-shadow(0 8px 24px rgba(0,0,0,.5))" viewbox="0 0 540 310" xmlns="http://www.w3.org/2000/svg">
+<!-- Ground shadow -->
+<ellipse cx="270" cy="296" fill="rgba(0,0,0,.4)" rx="218" ry="11"></ellipse>
+<!-- TOP FACE -->
+<polygon fill="#f4f2ea" id="pvTop" points="80,50 440,50 492,95 128,95"></polygon>
+<!-- RIGHT SIDE FACE -->
+<polygon fill="#d4d2ca" id="pvSide" points="440,50 492,95 492,232 440,210"></polygon>
+<!-- FRONT FACE -->
+<rect fill="#e8e6de" height="160" id="pvFront" width="360" x="80" y="50"></rect>
+<!-- Corrugation grooves -->
+<g fill="none" stroke="rgba(0,0,0,.045)" stroke-width="1.8">
+<line x1="128" x2="128" y1="50" y2="210"></line>
+<line x1="176" x2="176" y1="50" y2="210"></line>
+<line x1="224" x2="224" y1="50" y2="210"></line>
+<line x1="272" x2="272" y1="50" y2="210"></line>
+<line x1="320" x2="320" y1="50" y2="210"></line>
+<line x1="368" x2="368" y1="50" y2="210"></line>
+</g>
+<!-- Corner castings -->
+<rect fill="rgba(0,0,0,.18)" height="14" rx="1" width="14" x="80" y="50"></rect>
+<rect fill="rgba(0,0,0,.18)" height="14" rx="1" width="14" x="426" y="50"></rect>
+<rect fill="rgba(0,0,0,.18)" height="14" rx="1" width="14" x="80" y="196"></rect>
+<rect fill="rgba(0,0,0,.18)" height="14" rx="1" width="14" x="426" y="196"></rect>
+<!-- STANDARD WINDOW (default shown) -->
+<g id="pvWinStd" opacity="1" style="transition:opacity .35s">
+<rect fill="rgba(140,198,232,.65)" height="74" rx="2" stroke="rgba(100,160,200,.4)" stroke-width="1.5" width="88" x="152" y="88"></rect>
+<line stroke="rgba(0,0,0,.1)" stroke-width="1" x1="196" x2="196" y1="88" y2="162"></line>
+<line stroke="rgba(0,0,0,.1)" stroke-width="1" x1="152" x2="240" y1="125" y2="125"></line>
+<line stroke="rgba(255,255,255,.55)" stroke-width="2.5" x1="157" x2="180" y1="93" y2="120"></line>
+</g>
+<!-- PICTURE WINDOW (hidden by default) -->
+<g id="pvWinPic" opacity="0" style="transition:opacity .35s">
+<rect fill="rgba(140,198,232,.7)" height="104" rx="2" stroke="rgba(100,160,200,.4)" stroke-width="1.5" width="148" x="130" y="74"></rect>
+<line stroke="rgba(255,255,255,.55)" stroke-width="3" x1="133" x2="164" y1="78" y2="118"></line>
+<text fill="rgba(0,0,0,.22)" font-family="monospace" font-size="8.5" letter-spacing="0.5" text-anchor="middle" x="204" y="130">2000×1200</text>
+</g>
+<!-- DOOR (right side) -->
+<rect fill="rgba(0,0,0,.09)" height="142" rx="1" stroke="rgba(0,0,0,.07)" stroke-width="1" width="58" x="358" y="68"></rect>
+<line stroke="rgba(0,0,0,.07)" stroke-width="1" x1="387" x2="387" y1="68" y2="210"></line>
+<!-- Door handles -->
+<rect fill="rgba(200,164,85,.65)" height="14" rx="2" width="5" x="374" y="134"></rect>
+<rect fill="rgba(200,164,85,.65)" height="14" rx="2" width="5" x="396" y="134"></rect>
+<!-- DECK GROUP -->
+<g id="pvDeckGroup" opacity="0" style="transition:opacity .35s">
+<rect fill="#8B7355" height="26" id="pvDeckRect" rx="1" width="392" x="68" y="210"></rect>
+<!-- Deck planks -->
+<g stroke="rgba(0,0,0,.12)" stroke-width="1.5">
+<line x1="120" x2="120" y1="210" y2="236"></line>
+<line x1="172" x2="172" y1="210" y2="236"></line>
+<line x1="224" x2="224" y1="210" y2="236"></line>
+<line x1="276" x2="276" y1="210" y2="236"></line>
+<line x1="328" x2="328" y1="210" y2="236"></line>
+<line x1="380" x2="380" y1="210" y2="236"></line>
+<line x1="432" x2="432" y1="210" y2="236"></line>
+</g>
+<rect fill="rgba(0,0,0,.18)" height="7" width="392" x="68" y="236"></rect>
+</g>
+<!-- Front border -->
+<rect fill="none" height="160" stroke="rgba(0,0,0,.08)" stroke-width="1" width="360" x="80" y="50"></rect>
+<!-- Color label -->
+<text fill="rgba(200,164,85,.38)" font-family="monospace" font-size="9" id="pvColorLabel" letter-spacing="1.5" text-anchor="middle" x="270" y="278">RAL 9003 · SIGNAL WHITE</text>
+</svg>
+</div>
+<!-- INTERIOR scene -->
+<div class="pv-scene-wrap" id="pvIntScene" style="display:none">
+<div class="int-room">
+<!-- Ceiling strip -->
+<div class="int-ceiling"></div>
+<!-- Back wall -->
+<div class="int-backwall" id="pvWall">
+<!-- Window on back wall -->
+<div class="int-win std" id="pvIntWin"><div class="int-win-shine"></div></div>
+<!-- AC unit -->
+<div class="int-ac" id="pvIntAC"></div>
+</div>
+<!-- Left wall -->
+<div class="int-leftwall"></div>
+<!-- Floor -->
+<div class="int-floor" id="pvFloor">
+<div class="int-floor-grain" id="pvFloorGrain"></div>
+<div class="int-floor-label" data-en="Vinyl Flooring" id="pvFloorLabel">ビニルフロア</div>
+</div>
+<!-- Bed A -->
+<div class="int-bed a" id="pvBedA">
+<div class="int-bed-pillow"></div>
+<div class="int-loft-upper" id="pvLoftA" style="display:none"></div>
+<div class="int-loft-label" id="pvLoftALabel" style="display:none">UPPER</div>
+<div class="int-bed-label" id="pvBedALabel">BED A</div>
+</div>
+<!-- Bed B -->
+<div class="int-bed b" id="pvBedB">
+<div class="int-bed-pillow"></div>
+<div class="int-loft-upper" id="pvLoftB" style="display:none"></div>
+<div class="int-loft-label" id="pvLoftBLabel" style="display:none">UPPER</div>
+<div class="int-bed-label" id="pvBedBLabel">BED B</div>
+</div>
+<!-- Bathroom zone -->
+<div class="int-bath" id="pvBathZone">
+<div class="int-bath-label" id="pvBathLabel">BATH</div>
+<div class="int-bath-icon" id="pvBathIcon">🚿</div>
+</div>
+</div>
+</div>
+<!-- Description bar -->
+<div class="pv-desc" data-en="Exterior — RAL 9003 · Signal White / With Deck" id="pvDesc">外観 — RAL 9003 · シグナルホワイト / デッキ付き</div>
+</div>
+<!-- /RIGHT visual pane -->
+</div>
+<!-- /cfg-layout -->
+<!-- Summary Table (full width below grid) -->
+<div style="padding:0 48px 48px;border-top:1px solid #0a0a0a;background:#040404">
+<div style="max-width:1100px;margin:0 auto;padding-top:32px">
+<div data-en="Selected Configuration · Summary" style="font-size:8px;letter-spacing:.3em;color:var(--dim);margin-bottom:12px;text-transform:uppercase">Selected Configuration · 選択仕様サマリー</div>
+<div id="cfgSummary" style="background:#060606;border:1px solid #111;padding:20px 24px"></div>
+</div>
+</div>
+
+<!-- ROI SIMULATOR -->
+<div class="s" id="revenue" style="background:#040404">
+<div class="w">
+<p class="eyebrow" data-en="ROI Simulator">ROI Simulator · 収益シミュレーター</p>
+<h2 data-en="With Slider">スライダーで<br/><span class="gold" data-en="Calculate revenue">収益を試算</span></h2>
+<p class="sub" data-en="Adjust occupancy rate, nightly rate, and expense ratio to recalculate annual revenue and payback period. Costs sync with your configurator selections above.">稼働率・宿泊料金・経費率を動かすと年間収益と回収期間が変わります。上のコンフィギュレーターで選んだコストが連動します。</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start">
+<!-- Sliders -->
+<div>
+<div class="sl-row">
+<div class="sl-header">
+<span class="sl-label" data-en="Annual Occupancy Rate">稼働率（年間）</span>
+<span class="sl-val" id="slOccVal">55%</span>
+</div>
+<div class="sl-track">
+<span>20%</span>
+<input id="slOcc" max="90" min="20" oninput="cfgRecalc()" type="range" value="55"/>
+<span>90%</span>
+</div>
+</div>
+<div class="sl-row">
+<div class="sl-header">
+<span class="sl-label" data-en="Room Rate (per room, per night)">宿泊料金（1室・1泊）</span>
+<span class="sl-val" id="slRateVal">¥28,000</span>
+</div>
+<div class="sl-track">
+<span>¥1万</span>
+<input id="slRate" max="60000" min="10000" oninput="cfgRecalc()" step="1000" type="range" value="28000"/>
+<span data-en="¥60,000">¥6万</span>
+</div>
+</div>
+<div class="sl-row">
+<div class="sl-header">
+<span class="sl-label" data-en="Operating Cost Rate (Cleaning, Electricity, OTA Fees)">経費率（清掃・電気・OTA手数料）</span>
+<span class="sl-val" id="slExpVal">30%</span>
+</div>
+<div class="sl-track">
+<span>20%</span>
+<input id="slExp" max="50" min="20" oninput="cfgRecalc()" type="range" value="30"/>
+<span>50%</span>
+</div>
+</div>
+<div data-en="※ Projections are estimates. Actual returns vary based on season, marketing, and common facility quality." style="background:#070707;border:1px solid #111;padding:16px;font-size:11px;color:rgba(240,236,228,.25);line-height:1.8;margin-top:8px">
+          ※ 試算は参考値。実際の収益はシーズン・マーケティング・共用施設の質により変動します。
+        </div>
+</div>
+<!-- Output -->
+<div style="background:#060606;border:1px solid #111;padding:32px">
+<div data-en="Projected Returns" style="font-size:8px;letter-spacing:.3em;color:var(--dim);margin-bottom:20px;text-transform:uppercase">Projected Returns · 収益試算</div>
+<div style="display:flex;flex-direction:column;gap:0">
+<div style="display:flex;justify-content:space-between;font-size:12px;border-bottom:1px solid #0d0d0d;padding:10px 0">
+<span data-en="Annual Operating Days" style="color:rgba(240,236,228,.4)">年間稼働日</span><span data-en="201 Days" id="revDays">201日</span>
+</div>
+<div style="display:flex;justify-content:space-between;font-size:12px;border-bottom:1px solid #0d0d0d;padding:10px 0">
+<span data-en="Annual revenue" style="color:rgba(240,236,228,.4)">年間売上</span><span data-en="¥5,630,000" id="revGross">¥563万</span>
+</div>
+<div style="display:flex;justify-content:space-between;font-size:12px;border-bottom:1px solid #0d0d0d;padding:10px 0">
+<span data-en="Total Expenses" style="color:rgba(240,236,228,.4)">経費合計</span><span data-en="−¥1,690,000" id="revExpense" style="color:var(--red)">−¥169万</span>
+</div>
+<div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700;padding:12px 0">
+<span data-en="Annual net revenue">年間純収益</span><span data-en="¥3.94M" id="revNet" style="color:var(--gold)">¥394万</span>
+</div>
+</div>
+<div style="margin-top:20px;text-align:center;padding:24px;background:#030303;border:1px solid rgba(200,164,85,.12)">
+<div data-en="Payback Period · Recovery Period" style="font-size:8px;letter-spacing:.3em;color:var(--dim);margin-bottom:6px;text-transform:uppercase">Payback Period · 回収期間</div>
+<div style="display:flex;align-items:baseline;justify-content:center;gap:4px">
+<span id="revPayback" style="font-size:64px;font-weight:100;color:var(--gold);line-height:1;transition:all .3s">8</span>
+<span data-en="months" style="font-size:20px;color:rgba(240,236,228,.4)">ヶ月</span>
+</div>
+<div data-en="¥2,500,000 ÷ ¥3,940,000/year = 0.63 years" id="revCalc" style="font-size:9px;color:rgba(240,236,228,.18);margin-top:8px">¥250万 ÷ ¥394万/年 = 0.63年</div>
+</div>
+<div data-en="2 Units Linked = 1 Investment
+          80 Units Full Operation = Annual ≈" style="margin-top:16px;padding:14px;background:rgba(200,164,85,.06);border:1px solid rgba(200,164,85,.15);font-size:10px;color:rgba(200,164,85,.6);line-height:1.8">
+          2台連結1ユニット = <span data-en="¥5,000,000" id="revTwo">¥500万</span>投資<br/>
+          80台フル稼働 = 年間 ≈ <span id="revAll">¥3億1,500万</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- MID CTA -->
+<div style="background:#050505;border-top:1px solid #0a0a0a;border-bottom:1px solid #0a0a0a;padding:48px">
+<div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px">
+<div>
+<div data-en="Contact" style="font-size:9px;letter-spacing:.3em;color:var(--dim);margin-bottom:8px;text-transform:uppercase">Contact · 相談する</div>
+<div data-en="Would you like to discuss container specifications, schedule, and costs?" style="font-size:24px;font-weight:100;">コンテナの仕様・スケジュール・<br/>費用について話しませんか。</div>
+</div>
+<a data-en="Owner Consultation Page →" href="miruwa-grand#contact" onmouseout="this.style.background='var(--gold)'" onmouseover="this.style.background='#e0bb6a'" style="display:inline-flex;align-items:center;gap:10px;padding:16px 32px;background:var(--gold);color:#000;font-size:11px;font-weight:800;letter-spacing:.2em;text-decoration:none;transition:background .2s">
+      オーナー相談ページへ →
+    </a>
+</div>
+</div>
+<!-- PRODUCTION SCHEDULE -->
+<div class="s" style="background:#040404">
+<div class="w">
+<p class="eyebrow" data-en="Schedule · Delivery Timeline">Schedule · 搬入スケジュール</p>
+<h2 data-en="80 units, delivered sequentially.">80台、<span class="gold" data-en="Within 24 Months">24ヶ月で</span>順次搬入。</h2>
+<p class="sub" data-en="Avoiding Hokkaido winters while fully maximizing the construction season post-snowmelt (April–October) over two years.">北海道の冬を避けながら、雪解け後（4月〜10月）の施工シーズンを2年間フル活用。</p>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:32px">
+<img alt="クレーン設置" data-en-alt="Crane Installation" src="/img/step2_container_crane.webp" style="width:100%;height:200px;object-fit:cover;display:block;filter:brightness(.75)"/>
+<img alt="夜明けの建設現場" data-en-alt="Dawn at the Construction Site" src="/img/kumaushi_construction_dawn.webp" style="width:100%;height:200px;object-fit:cover;display:block;filter:brightness(.75)"/>
+<img alt="完成空撮" data-en-alt="Aerial Completion Photography" src="/img/miruwa_container_miruwa_container_aerial.jpg" style="width:100%;height:200px;object-fit:cover;display:block;filter:brightness(.75)"/>
+</div>
+<div class="mini-tl">
+<div class="mtl-item">
+<div class="mtl-date" data-en="2026 Q4">2026年<br/>Q4</div>
+<div class="mtl-body">
+<div class="mtl-title" data-en="Order &amp; design finalized">発注・設計確定</div>
+<div class="mtl-note" data-en="Order placement at Shandong Province factory (Batch 1: 40 units). Structural design &amp; building permit application. Foundation work design finalized.">山東省工場への発注（第1ロット：40台）。構造設計・建築確認申請。基礎工事の設計確定。</div>
+</div>
+</div>
+<div class="mtl-item">
+<div class="mtl-date" data-en="Q1 2027">2027年<br/>Q1</div>
+<div class="mtl-body">
+<div class="mtl-title" data-en="Foundation Work &amp; Container Manufacturing">基礎工事・コンテナ製作</div>
+<div class="mtl-note" data-en="Foundation work begins post-snowmelt (April onwards). First batch of 40 units manufactured and prepared for shipment at Shandong Province factory.">雪解け後（4月〜）基礎工事開始。山東省工場で第1ロット40台の製作・出荷準備。</div>
+</div>
+</div>
+<div class="mtl-item" style="border-left:2px solid rgba(200,164,85,.3)">
+<div class="mtl-date" data-en="2027 Q2–Q3" style="color:var(--gold)">2027年<br/>Q2〜Q3</div>
+<div class="mtl-body">
+<div class="mtl-title" data-en="First Batch: 40 Units — Delivery &amp; Installation" style="color:var(--gold)">第1ロット40台 搬入・設置</div>
+<div class="mtl-note" data-en="Ocean freight (Shanghai → Tomakomai) → Trailer transport → Crane installation. Installation at a pace of 10 units monthly. Zones A–E (40 units) completed. Progressing in parallel with interior construction.">海上輸送（上海→苫小牧）→ トレーラー輸送 → クレーン設置。月10台ペースで設置。ゾーンA〜E（40台）完成。内装工事と並行で進行。</div>
+</div>
+</div>
+<div class="mtl-item">
+<div class="mtl-date" data-en="2027 Q4">2027年<br/>Q4</div>
+<div class="mtl-body">
+<div class="mtl-title" data-en="First Batch — Interior Completion &amp; Trial Operation">第1ロット内装完成・試運転</div>
+<div class="mtl-note" data-en="Interior Finishing and Equipment Installation Complete for Zones A–E (40 units, 10 rooms). Trial Operation and Test Stay Conducted.">ゾーンA〜E（40台・10室）の内装仕上げ・設備設置完了。試運転・テスト泊実施。</div>
+</div>
+</div>
+<div class="mtl-item" style="border-left:2px solid rgba(200,164,85,.3)">
+<div class="mtl-date" data-en="2028 Q1–Q2" style="color:var(--gold)">2028年<br/>Q1〜Q2</div>
+<div class="mtl-body">
+<div class="mtl-title" data-en="Batch 2: 40 Units · Delivery &amp; Installation" style="color:var(--gold)">第2ロット40台 搬入・設置</div>
+<div class="mtl-note" data-en="Installation of Zones F–J (40 units) proceeding in parallel with structural work on the grand bath and BJJ arena buildings.">ゾーンF〜J（40台）設置。大浴場棟・BJJアリーナ棟の躯体工事と並行進行。</div>
+</div>
+</div>
+<div class="mtl-item">
+<div class="mtl-date" data-en="2028 Q3–Q4">2028年<br/>Q3〜Q4</div>
+<div class="mtl-body">
+<div class="mtl-title" data-en="All 80 Units · Interior Completion &amp; Common Facilities Completion">全80台 内装完成・共用施設完成</div>
+<div class="mtl-note" data-en="All zones interior-complete. Grand bath, wood-fired sauna, BJJ arena, and D-type residence completed.">全ゾーン内装完成。大浴場・薪サウナ・BJJアリーナ・D型ハウス完成。</div>
+</div>
+</div>
+<div class="mtl-item" style="border-left:2px solid rgba(200,164,85,.3)">
+<div class="mtl-date" data-en="2029 Q2" style="color:var(--gold)">2029年<br/>Q2</div>
+<div class="mtl-body">
+<div class="mtl-title" data-en="Grand Opening" style="color:var(--gold)">グランドオープン</div>
+<div class="mtl-note" data-en="80 containers (20 suites × 4 guests) = Maximum 240-guest capacity. Hokkaido's largest off-grid container village in full operation.">コンテナ80台（20室×4名）= 最大240名収容体制。北海道最大のオフグリッドコンテナヴィレッジ、フル稼働。</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- PHOTO GALLERY -->
+<div class="s" style="background:#030303;padding-bottom:0">
+<div class="w">
+<p class="eyebrow" data-en="Gallery · Visual">Gallery · ビジュアル</p>
+<h2 data-en="Container Village">コンテナヴィレッジ、<br/><span class="gold" data-en="Full Overview">全景</span>。</h2>
+</div>
+</div>
+<!-- Row 1: 3-col grid with tall left -->
+<div class="photo-grid" style="margin-top:8px">
+<div class="tall">
+<img alt="空撮 全景" data-en-alt="Aerial View — Complete Panorama" src="/img/miruwa_container_miruwa_container_aerial.jpg"/>
+</div>
+<div>
+<img alt="コンテナ内装" data-en-alt="Container Interior Finishing" src="/img/container_interior.webp"/>
+</div>
+<div>
+<img alt="ルーフデッキ" data-en-alt="Roof Deck" src="/img/miruwa_container_miruwa_container_rooftop.jpg"/>
+</div>
+<div>
+<img alt="夕景" data-en-alt="Evening View" src="/img/miruwa_container_miruwa_container_dusk.jpg"/>
+</div>
+<div>
+<img alt="BJJコートヤード" data-en-alt="BJJ Court Yard" src="/img/miruwa_container_miruwa_container_courtyard_bjj.jpg"/>
+</div>
+</div>
+<!-- Row 2: 4-col equal -->
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;margin-top:4px">
+<img alt="寝室" data-en-alt="Bedroom" onmouseout="this.style.filter='brightness(.8)'" onmouseover="this.style.filter='brightness(1)'" src="/img/container_bedroom.webp" style="width:100%;height:220px;object-fit:cover;display:block;filter:brightness(.8);transition:filter .4s"/>
+<img alt="ラグジュアリー内装" data-en-alt="Luxury Interior Finishes" onmouseout="this.style.filter='brightness(.8)'" onmouseover="this.style.filter='brightness(1)'" src="/img/container_interior_luxury.webp" style="width:100%;height:220px;object-fit:cover;display:block;filter:brightness(.8);transition:filter .4s"/>
+<img alt="バスルーム" data-en-alt="Bathroom" onmouseout="this.style.filter='brightness(.8)'" onmouseover="this.style.filter='brightness(1)'" src="/img/container_bathroom.webp" style="width:100%;height:220px;object-fit:cover;display:block;filter:brightness(.8);transition:filter .4s"/>
+<img alt="キッチン" data-en-alt="Kitchen" onmouseout="this.style.filter='brightness(.8)'" onmouseover="this.style.filter='brightness(1)'" src="/img/container_kitchen.webp" style="width:100%;height:220px;object-fit:cover;display:block;filter:brightness(.8);transition:filter .4s"/>
+</div>
+<!-- Row 3: 3-col mixed -->
+<div style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:4px;margin-top:4px">
+<img alt="玄関" data-en-alt="Entrance" onmouseout="this.style.filter='brightness(.8)'" onmouseover="this.style.filter='brightness(1)'" src="/img/container_entrance.webp" style="width:100%;height:280px;object-fit:cover;display:block;filter:brightness(.8);transition:filter .4s"/>
+<img alt="夏のデッキ" data-en-alt="Summer Deck" onmouseout="this.style.filter='brightness(.8)'" onmouseover="this.style.filter='brightness(1)'" src="/img/container_deck_summer.webp" style="width:100%;height:280px;object-fit:cover;display:block;filter:brightness(.8);transition:filter .4s"/>
+<img alt="ルーフデッキ" data-en-alt="Roof Deck" onmouseout="this.style.filter='brightness(.8)'" onmouseover="this.style.filter='brightness(1)'" src="/img/container_rooftop_deck.webp" style="width:100%;height:280px;object-fit:cover;display:block;filter:brightness(.8);transition:filter .4s"/>
+</div>
+<!-- Row 4: winter / night / sauna -->
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:4px">
+<img alt="冬の外観" data-en-alt="Winter Exterior" onmouseout="this.style.filter='brightness(.8)'" onmouseover="this.style.filter='brightness(1)'" src="/img/container_exterior_winter.webp" style="width:100%;height:240px;object-fit:cover;display:block;filter:brightness(.8);transition:filter .4s"/>
+<img alt="星空と夜景" data-en-alt="Starry Sky and Night View" onmouseout="this.style.filter='brightness(.8)'" onmouseover="this.style.filter='brightness(1)'" src="/img/container_night_stars.webp" style="width:100%;height:240px;object-fit:cover;display:block;filter:brightness(.8);transition:filter .4s"/>
+<img alt="サウナ接続" data-en-alt="Sauna Connection" onmouseout="this.style.filter='brightness(.8)'" onmouseover="this.style.filter='brightness(1)'" src="/img/container_sauna_connect.webp" style="width:100%;height:240px;object-fit:cover;display:block;filter:brightness(.8);transition:filter .4s"/>
+</div>
+<!-- Row 5: construction process -->
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;margin-top:4px">
+<img alt="工場" data-en-alt="Factory" onmouseout="this.style.filter='brightness(.75)'" onmouseover="this.style.filter='brightness(1)'" src="/img/alibaba_factory.webp" style="width:100%;height:200px;object-fit:cover;display:block;filter:brightness(.75);transition:filter .4s"/>
+<img alt="基礎工事" data-en-alt="Foundation Work" onmouseout="this.style.filter='brightness(.75)'" onmouseover="this.style.filter='brightness(1)'" src="/img/step1_foundation.webp" style="width:100%;height:200px;object-fit:cover;display:block;filter:brightness(.75);transition:filter .4s"/>
+<img alt="クレーン設置" data-en-alt="Crane Installation" onmouseout="this.style.filter='brightness(.75)'" onmouseover="this.style.filter='brightness(1)'" src="/img/step2_container_crane.webp" style="width:100%;height:200px;object-fit:cover;display:block;filter:brightness(.75);transition:filter .4s"/>
+<img alt="完成" data-en-alt="Completion" onmouseout="this.style.filter='brightness(.75)'" onmouseover="this.style.filter='brightness(1)'" src="/img/step8_complete_golden.webp" style="width:100%;height:200px;object-fit:cover;display:block;filter:brightness(.75);transition:filter .4s"/>
+</div>
+<!-- Row 6: lifestyle -->
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:4px;margin-top:4px">
+<img alt="2台連結 空撮" data-en-alt="Two-Unit Configuration · Aerial View" onmouseout="this.style.filter='brightness(.8)'" onmouseover="this.style.filter='brightness(1)'" src="/img/container_twin_aerial.webp" style="width:100%;height:320px;object-fit:cover;display:block;filter:brightness(.8);transition:filter .4s"/>
+<div style="display:flex;flex-direction:column;gap:4px">
+<img alt="夏景色" data-en-alt="Summer Scenery" onmouseout="this.style.filter='brightness(.8)'" onmouseover="this.style.filter='brightness(1)'" src="/img/container_summer.webp" style="width:100%;height:157px;object-fit:cover;display:block;filter:brightness(.8);transition:filter .4s"/>
+<img alt="焚き火リビング" data-en-alt="Bonfire Living Space" onmouseout="this.style.filter='brightness(.8)'" onmouseover="this.style.filter='brightness(1)'" src="/img/container_living_fire.webp" style="width:100%;height:157px;object-fit:cover;display:block;filter:brightness(.8);transition:filter .4s"/>
+</div>
+</div>
+<!-- CTA -->
+<div class="cta-strip">
+<div class="w">
+<p class="eyebrow" data-en="Next Step">Next · 次のステップ</p>
+<h2 data-en="Once you understand the container,">コンテナを理解したら、<br/><span class="gold" data-en="View complete design.">全体設計を見る。</span></h2>
+<p class="sub" data-en="Single container specifications understood. Next: the complete vision of 80 units, 10 zones, and 240 guests.">コンテナ1台の仕様はわかった。次は80台・10ゾーン・240人の全体像へ。</p>
+<div class="cta-links">
+<a class="cta-btn primary" data-en="View Affordable Breakdown Diagram →" href="miruwa-anatomy">格安解剖図を見る →</a>
+<a class="cta-btn secondary" data-en="MIRUWA GRAND Owner Portal →" href="miruwa-grand">MIRUWA GRAND オーナーページ →</a>
+<a class="cta-btn secondary" data-en="View Kumaushi Base (Phase 1) →" href="kumaushi">熊牛原野（フェーズ1）を見る →</a>
+</div>
+</div>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Unit, 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Acquire Units for Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plan Collection" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Biruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founder's story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Inquire" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+// ══════════════════════════════════════════════════
+//  VISUAL MAP DATA
+// ══════════════════════════════════════════════════
+const EXT_COLORS = {
+  ex1:{front:'#e8e6de',top:'#f4f2ea',side:'#d4d2ca',label:'RAL 9003 · SIGNAL WHITE'},
+  ex2:{front:'#b4b6b2',top:'#bfc1bd',side:'#9a9c98',label:'RAL 7035 · LIGHT GREY'},
+  ex3:{front:'#1c1c1c',top:'#242424',side:'#141414',label:'RAL 9005 · MATT BLACK'},
+  ex4:{front:'#d6c49c',top:'#e2d0aa',side:'#baa884',label:'RAL 1014 · WARM BEIGE'},
+};
+const FLOOR_COLORS = {
+  fl1:{bg:'#3a3835',grain:false,label:'ビニルフロア'},
+  fl2:{bg:'#6b4e1e',grain:true,label:'無垢フローリング'},
+  fl3:{bg:'#464e5c',grain:false,label:'フロアタイル'},
+};
+const WALL_COLORS = {
+  in1:'#e0ddd4',
+  in2:'#d0cbc0',
+  in3:'#a08040',
+};
+const DECK_COLORS = {
+  de0:null,
+  de1:'#8b7355',
+  de2:'#7a5e38',
+  de3:'#5c4628',
+};
+const BATH_INFO = {
+  ba1:{icon:'🚿',label:'ユニットバス',border:'rgba(74,127,165,.2)',bg:'rgba(74,127,165,.04)'},
+  ba2:{icon:'🛁',label:'ヒノキ風呂',border:'rgba(139,93,40,.35)',bg:'rgba(100,60,10,.06)'},
+  ba3:{icon:'♨️',label:'ジャグジー',border:'rgba(74,127,165,.45)',bg:'rgba(74,127,165,.1)'},
+};
+
+// ──────────────────────────────────────────────────
+//  CONFIGURATOR DATA
+// ──────────────────────────────────────────────────
+const CFG_BASE = 134; // 固定費用（万円）
+
+const CFG_OPTS = {
+  bed:{
+    label:'ベッドタイプ', unit:'1タイプを選択',
+    options:[
+      {id:'b1',label:'シモンズ TW-97',sub:'ダブル×2 / 4名 スタンダード',price:36,default:true},
+      {id:'b2',label:'シモンズ Beautyrest Silver',sub:'ダブル×2 / 4名 プレミアム',price:56},
+      {id:'b3',label:'ロフト2段ベッド×2',sub:'8名対応 / ファミリー仕様',price:28},
+    ]
+  },
+  bath:{
+    label:'バスルーム', unit:'1タイプを選択',
+    options:[
+      {id:'ba1',label:'TOTO ユニットバス',sub:'WZ1616 / スタンダード',price:40,default:true},
+      {id:'ba2',label:'ヒノキ風呂',sub:'洗い場付き / 檜製浴槽',price:68},
+      {id:'ba3',label:'ジャグジー壺湯',sub:'2名用 / ジェットバス付き',price:95},
+    ]
+  },
+  floor:{
+    label:'フローリング', unit:'1素材を選択',
+    options:[
+      {id:'fl1',label:'ビニルフロア',sub:'防水・耐久 / カーキ系',price:5,default:true},
+      {id:'fl2',label:'無垢フローリング',sub:'北海道産赤松 15mm',price:12},
+      {id:'fl3',label:'フロアタイル',sub:'電気床暖一体型',price:20},
+    ]
+  },
+  ac:{
+    label:'空調システム', unit:'1システムを選択',
+    options:[
+      {id:'ac1',label:'ダイキン S22XTES',sub:'6畳用エアコン / 標準設置',price:18,default:true},
+      {id:'ac2',label:'エアコン + 電気床暖',sub:'S22XTES + 床暖房 8㎡',price:32},
+      {id:'ac3',label:'ヒートポンプ床暖',sub:'放射暖房 / 全面仕様',price:48},
+    ]
+  },
+  interior:{
+    label:'内装仕上げ', unit:'1スタイルを選択',
+    options:[
+      {id:'in1',label:'ビニルクロス',sub:'清潔感 / スタンダード',price:7,default:true},
+      {id:'in2',label:'珪藻土塗り壁',sub:'呼吸する壁 / 結露防止',price:18},
+      {id:'in3',label:'無垢パネル張り',sub:'北欧風 / ラグジュアリー',price:28},
+    ]
+  },
+  exterior:{
+    label:'外装カラー', unit:'1色を選択（追加費用なし）',
+    options:[
+      {id:'ex1',label:'シグナルホワイト',sub:'RAL 9003 / 清潔・雪景色に映える',price:0,default:true,color:'#edeae2'},
+      {id:'ex2',label:'ライトグレー',sub:'RAL 7035 / モダン・森に溶ける',price:0,color:'#b2b4b0'},
+      {id:'ex3',label:'マットブラック',sub:'RAL 9005 / 高級感・夜景に浮かぶ',price:0,color:'#1c1c1c'},
+      {id:'ex4',label:'ウォームベージュ',sub:'RAL 1014 / 温もり・北欧感',price:0,color:'#d6c49c'},
+    ]
+  },
+  deck:{
+    label:'デッキ', unit:'1タイプを選択',
+    options:[
+      {id:'de0',label:'デッキなし',sub:'コスト最小 / シンプル',price:0},
+      {id:'de1',label:'スノコデッキ',sub:'2㎡ / 軽量・雨に強い',price:5,default:true},
+      {id:'de2',label:'ウッドデッキ',sub:'5㎡ / 杉板張り・寛ぎ空間',price:16},
+      {id:'de3',label:'プレミアムデッキ',sub:'8㎡ / ウリン材・テーブル付き',price:28},
+    ]
+  },
+  smart:{
+    label:'スマートホーム', unit:'1プランを選択',
+    options:[
+      {id:'sm1',label:'スタンダード',sub:'スマートロック + WiFi 6',price:5,default:true},
+      {id:'sm2',label:'プレミアム',sub:'Philips Hue + iPad管理 + 見守りカメラ',price:15},
+    ]
+  },
+  window:{
+    label:'眺望窓', unit:'1タイプを選択',
+    options:[
+      {id:'wi1',label:'スタンダード窓',sub:'900×900mm FIX窓×2',price:0,default:true},
+      {id:'wi2',label:'ピクチャーウィンドウ',sub:'2000×1200mm / 全景・絶景仕様',price:8},
+    ]
+  },
+};
+
+// State
+const cfgState = {};
+Object.entries(CFG_OPTS).forEach(([cat,data]) => {
+  const d = data.options.find(o=>o.default) || data.options[0];
+  cfgState[cat] = d.id;
+});
+
+// ──────────────────────────────────────────────────
+//  HELPERS
+// ──────────────────────────────────────────────────
+function cfgTotalCost() {
+  let t = CFG_BASE;
+  Object.entries(CFG_OPTS).forEach(([cat,data]) => {
+    const opt = data.options.find(o=>o.id===cfgState[cat]);
+    if (opt) t += opt.price;
+  });
+  return t;
+}
+
+function fmt(man) { return '¥' + man + '万'; }
+
+// ──────────────────────────────────────────────────
+//  RECALC (called on slider change + option change)
+// ──────────────────────────────────────────────────
+function cfgRecalc() {
+  const occ  = parseInt(document.getElementById('slOcc').value);
+  const rate = parseInt(document.getElementById('slRate').value);
+  const exp  = parseInt(document.getElementById('slExp').value);
+
+  document.getElementById('slOccVal').textContent  = occ + '%';
+  document.getElementById('slRateVal').textContent = '¥' + rate.toLocaleString();
+  document.getElementById('slExpVal').textContent  = exp + '%';
+
+  const days     = Math.round(occ / 100 * 365);
+  const grossMAN = Math.round(days * rate / 10000);
+  const expMAN   = Math.round(grossMAN * exp / 100);
+  const netMAN   = grossMAN - expMAN;
+  const cost     = cfgTotalCost();
+  const payMo    = Math.round(cost / netMAN * 12);
+
+  // Sticky bar
+  document.getElementById('cfgRevenue').textContent = fmt(netMAN);
+  document.getElementById('cfgPayback').textContent = payMo + 'ヶ月';
+
+  // Revenue section
+  document.getElementById('revDays').textContent    = days + '日';
+  document.getElementById('revGross').textContent   = fmt(grossMAN);
+  document.getElementById('revExpense').textContent = '−' + fmt(expMAN);
+  document.getElementById('revNet').textContent     = fmt(netMAN);
+  document.getElementById('revPayback').textContent = payMo;
+  document.getElementById('revCalc').textContent    =
+    fmt(cost) + ' ÷ ' + fmt(netMAN) + '/年 = ' + (cost/netMAN).toFixed(2) + '年';
+
+  const twoUnits = cost * 2;
+  document.getElementById('revTwo').textContent  = fmt(twoUnits);
+  document.getElementById('revAll').textContent  = '¥' + Math.round(netMAN * 80 / 10000).toFixed(1) + '億';
+}
+
+// ──────────────────────────────────────────────────
+//  UPDATE COST DISPLAY (with mini pulse animation)
+// ──────────────────────────────────────────────────
+function cfgUpdateCost() {
+  const cost = cfgTotalCost();
+  const el = document.getElementById('cfgTotal');
+  el.style.transform = 'scale(1.06)';
+  el.style.color = '#e8c870';
+  el.textContent = fmt(cost);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    el.style.transform = 'scale(1)';
+    el.style.color = 'var(--text)';
+  }));
+  cfgRecalc();
+  cfgUpdateSummary();
+}
+
+// ──────────────────────────────────────────────────
+//  SELECT OPTION
+// ──────────────────────────────────────────────────
+// cfgUpdateVisual / cfgUpdatePvDesc / setPvMode → defined in Three.js section below
+
+function cfgSelect(cat, id) {
+  cfgState[cat] = id;
+  document.querySelectorAll('.cfg-opt[data-cat="' + cat + '"]').forEach(el => {
+    const isSel = el.dataset.id === id;
+    el.classList.toggle('selected', isSel);
+    const ck = el.querySelector('.cfg-check');
+    if (ck) ck.style.opacity = isSel ? '1' : '0';
+  });
+  cfgUpdateCost();
+  cfgUpdateVisual();
+
+  // Auto-switch preview mode based on category
+  const extCats = ['exterior','deck','window'];
+  const intCats = ['bed','bath','floor','ac','interior'];
+  if (extCats.includes(cat)) setPvMode('ext');
+  else if (intCats.includes(cat)) setPvMode('int');
+}
+
+// ──────────────────────────────────────────────────
+//  TAB SWITCH
+// ──────────────────────────────────────────────────
+function cfgSwitch(btn) {
+  document.querySelectorAll('.cfg-tb').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.cfg-cat-panel').forEach(p => p.style.display = 'none');
+  const panel = document.getElementById('cfg-' + btn.dataset.cat);
+  if (panel) panel.style.display = 'block';
+}
+
+// ──────────────────────────────────────────────────
+//  SUMMARY TABLE
+// ──────────────────────────────────────────────────
+function cfgUpdateSummary() {
+  const baseRow = '<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #111;font-size:12px">'
+    + '<div><span style="font-size:8px;letter-spacing:.18em;color:var(--dim);display:inline-block;width:76px;margin-right:8px">固定費用</span>'
+    + '<span style="color:rgba(240,236,228,.45)">コンテナ本体・輸送・基礎・断熱・電気工事</span></div>'
+    + '<span style="color:rgba(240,236,228,.35)">¥' + CFG_BASE + '万</span></div>';
+
+  const rows = Object.entries(CFG_OPTS).map(([cat, data]) => {
+    const opt = data.options.find(o => o.id === cfgState[cat]);
+    if (!opt) return '';
+    const swatch = opt.color
+      ? '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:' + opt.color + ';margin-right:6px;vertical-align:middle;border:1px solid rgba(255,255,255,.1)"></span>'
+      : '';
+    const pc = opt.price === 0
+      ? '<span style="color:var(--dim);font-size:11px">—</span>'
+      : '<span style="color:var(--gold);font-weight:600">¥' + opt.price + '万</span>';
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #0d0d0d;font-size:12px">'
+      + '<div><span style="font-size:8px;letter-spacing:.18em;color:var(--dim);display:inline-block;width:76px;margin-right:8px">' + data.label + '</span>'
+      + swatch + '<span>' + opt.label + '</span></div>' + pc + '</div>';
+  }).join('');
+
+  const totalRow = '<div style="display:flex;justify-content:space-between;padding:13px 0;font-size:15px;font-weight:700;margin-top:2px">'
+    + '<span>合計（1台）</span><span style="color:var(--gold)">¥' + cfgTotalCost() + '万</span></div>';
+
+  document.getElementById('cfgSummary').innerHTML = baseRow + rows + totalRow;
+}
+
+// ──────────────────────────────────────────────────
+//  RENDER OPTION CARDS FOR A CATEGORY
+// ──────────────────────────────────────────────────
+function cfgRenderCat(cat) {
+  const data = CFG_OPTS[cat];
+  const panel = document.getElementById('cfg-' + cat);
+  if (!panel) return;
+
+  const cards = data.options.map(opt => {
+    const isSel = cfgState[cat] === opt.id;
+    const swatch = opt.color
+      ? '<div style="width:100%;height:52px;background:' + opt.color + ';margin-bottom:14px;border-radius:1px"></div>'
+      : '';
+    const priceHtml = opt.price === 0
+      ? '<span style="font-size:10px;color:var(--dim)">追加費用なし</span>'
+      : '<span style="font-size:17px;font-weight:700;color:var(--gold)">¥' + opt.price + '万</span>';
+
+    return '<div class="cfg-opt' + (isSel ? ' selected' : '') + '"'
+      + ' data-cat="' + cat + '" data-id="' + opt.id + '"'
+      + ' onclick="cfgSelect(\'' + cat + '\',\'' + opt.id + '\')">'
+      + swatch
+      + '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px">'
+      + '<div style="font-size:14px;font-weight:600;line-height:1.3">' + opt.label + '</div>'
+      + '<div class="cfg-check" style="opacity:' + (isSel?1:0) + '">✓</div>'
+      + '</div>'
+      + '<div style="font-size:11px;color:rgba(240,236,228,.35);line-height:1.6;margin-bottom:14px">' + opt.sub + '</div>'
+      + priceHtml
+      + '</div>';
+  }).join('');
+
+  panel.innerHTML =
+    '<div style="font-size:8px;letter-spacing:.3em;color:var(--dim);margin-bottom:18px;text-transform:uppercase">'
+    + data.label + ' — ' + data.unit + '</div>'
+    + '<div class="cfg-grid">' + cards + '</div>';
+}
+
+// ──────────────────────────────────────────────────
+//  INIT
+// ──────────────────────────────────────────────────
+// ──────────────────────────────────────────────────
+//  THREE.JS 3D PREVIEW
+// ──────────────────────────────────────────────────
+let T3 = {}; // namespace: scene, camera, renderer, controls, meshes, mats
+
+const CAM_EXT = {pos:[5.2,2.8,5.2], tgt:[0,1.3,0]};
+const CAM_INT = {pos:[2.2,1.4,0.5], tgt:[-2.5,1.0,0]};
+const CL=6.0, CW=2.4, CH=2.6; // container L/W/H in metres
+
+function initThree() {
+  const wrap = document.getElementById('cfgCanvasWrap');
+  const cvs  = document.getElementById('cfgCanvas');
+  if (!wrap || !cvs || !window.THREE) return;
+
+  const W = wrap.clientWidth  || 600;
+  const H = wrap.clientHeight || 440;
+
+  // Renderer
+  T3.renderer = new THREE.WebGLRenderer({canvas:cvs, antialias:true, alpha:false});
+  T3.renderer.setSize(W, H);
+  T3.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  T3.renderer.shadowMap.enabled = true;
+  T3.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  T3.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  T3.renderer.toneMappingExposure = 1.25;
+
+  // Scene + fog
+  T3.scene = new THREE.Scene();
+  T3.scene.background = new THREE.Color(0x050505);
+  T3.scene.fog = new THREE.FogExp2(0x050505, 0.04);
+
+  // Camera
+  T3.camera = new THREE.PerspectiveCamera(42, W/H, 0.05, 80);
+  T3.camera.position.set(...CAM_EXT.pos);
+
+  // Controls (OrbitControls)
+  T3.controls = new THREE.OrbitControls(T3.camera, T3.renderer.domElement);
+  T3.controls.enableDamping = true;
+  T3.controls.dampingFactor = 0.06;
+  T3.controls.minDistance = 1.5;
+  T3.controls.maxDistance = 20;
+  T3.controls.maxPolarAngle = Math.PI * 0.78;
+  T3.controls.target.set(...CAM_EXT.tgt);
+  T3.controls.update();
+
+  // Lights
+  T3.scene.add(new THREE.AmbientLight(0xfff6e8, 0.45));
+  // Hemisphere (sky/ground) — better PBR ambient
+  const hemi = new THREE.HemisphereLight(0xd4e8ff, 0x4a3a20, 0.8);
+  T3.scene.add(hemi);
+  const sun = new THREE.DirectionalLight(0xfffbe8, 2.8);
+  sun.position.set(6, 10, 6);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(2048,2048);
+  sun.shadow.camera.near=0.5; sun.shadow.camera.far=40;
+  sun.shadow.camera.left=-8; sun.shadow.camera.right=8;
+  sun.shadow.camera.top=8; sun.shadow.camera.bottom=-8;
+  T3.scene.add(sun);
+  const fill = new THREE.DirectionalLight(0x8899cc, 0.65);
+  fill.position.set(-4, 3, -4);
+  T3.scene.add(fill);
+  // Rim light (back-left) for edge definition
+  const rim = new THREE.DirectionalLight(0x6688cc, 0.45);
+  rim.position.set(-6, 4, -6);
+  T3.scene.add(rim);
+  // Interior warm lights (bathroom + main room)
+  T3.intLight = new THREE.PointLight(0xfff5e0, 3.0, 6);
+  T3.intLight.position.set(-1.0, CH-0.4, 0);
+  T3.scene.add(T3.intLight);
+  T3.bathLight = new THREE.PointLight(0xffffff, 1.8, 3.5);
+  T3.bathLight.position.set(2.0, CH-0.4, 0);
+  T3.scene.add(T3.bathLight);
+
+  // Ground
+  const gnd = new THREE.Mesh(
+    new THREE.PlaneGeometry(50,50),
+    new THREE.MeshStandardMaterial({color:0x0a0a0a, roughness:0.95, metalness:0})
+  );
+  gnd.rotation.x = -Math.PI/2;
+  gnd.receiveShadow = true;
+  T3.scene.add(gnd);
+
+  // Build model
+  buildModel();
+
+  // Render loop
+  (function loop(){ requestAnimationFrame(loop); T3.controls.update(); T3.renderer.render(T3.scene, T3.camera); })();
+
+  // Resize observer
+  new ResizeObserver(()=>{
+    const W=wrap.clientWidth||600, H=wrap.clientHeight||440;
+    T3.camera.aspect = W/H;
+    T3.camera.updateProjectionMatrix();
+    T3.renderer.setSize(W,H);
+  }).observe(wrap);
+
+  // Apply any mode selected before Three.js was ready
+  if (T3._pendingMode && T3._pendingMode !== 'ext') {
+    animateCamera(CAM_INT, 0); // instant, no animation
+  }
+  cfgUpdateVisual();
+}
+
+function buildModel() {
+  // ── Materials ──────────────────────────────────
+  // Exterior: semi-transparent steel (so interior is visible)
+  T3.matExt = new THREE.MeshStandardMaterial({color:0xc5c2b8, roughness:0.22, metalness:0.78, transparent:true, opacity:0.30, depthWrite:false});
+  // Glass: very clear with subtle tint
+  T3.matGlass = new THREE.MeshStandardMaterial({color:0xb8e0f5, roughness:0.01, metalness:0.02, transparent:true, opacity:0.14, side:THREE.DoubleSide, depthWrite:false});
+  // Door: steel panel
+  T3.matDoor = new THREE.MeshStandardMaterial({color:0xb0ad9e, roughness:0.28, metalness:0.62});
+  // Gold handle
+  T3.matHandle = new THREE.MeshStandardMaterial({color:0xc8a455, roughness:0.10, metalness:0.95});
+  // Deck wood
+  T3.matDeck = new THREE.MeshStandardMaterial({color:0x8b7355, roughness:0.80, metalness:0.01});
+  // Floor (changeable)
+  T3.matFloor = new THREE.MeshStandardMaterial({color:0x3a3835, roughness:0.82, metalness:0.06});
+  // Interior wall (BackSide — seen from inside camera)
+  T3.matWallIn = new THREE.MeshStandardMaterial({color:0xe0ddd4, roughness:0.70, metalness:0, side:THREE.BackSide});
+  // Bed linen
+  T3.matBed = new THREE.MeshStandardMaterial({color:0xb08050, roughness:0.70, metalness:0.02});
+  T3.matPillow = new THREE.MeshStandardMaterial({color:0xf2ede4, roughness:0.80, metalness:0});
+  // AC unit
+  T3.matAC = new THREE.MeshStandardMaterial({color:0x1a2a3a, roughness:0.32, metalness:0.65});
+  // Corner castings
+  T3.matCasting = new THREE.MeshStandardMaterial({color:0x181818, roughness:0.30, metalness:0.82});
+  // Bathroom — ceramic/chrome/glass
+  T3.matCeramic = new THREE.MeshStandardMaterial({color:0xf0ede8, roughness:0.05, metalness:0.0});
+  T3.matChrome = new THREE.MeshStandardMaterial({color:0xd2d2d2, roughness:0.03, metalness:0.99});
+  T3.matBathGlass = new THREE.MeshStandardMaterial({color:0x90d0ee, roughness:0.02, metalness:0.04, transparent:true, opacity:0.18, side:THREE.DoubleSide, depthWrite:false});
+  T3.matBathFloor = new THREE.MeshStandardMaterial({color:0xe8e8e8, roughness:0.12, metalness:0.0});
+
+  // ── Container body (exterior shell) ───────────
+  T3.extBody = new THREE.Mesh(new THREE.BoxGeometry(CL,CH,CW), T3.matExt);
+  T3.extBody.position.set(0, CH/2, 0);
+  T3.extBody.castShadow = T3.extBody.receiveShadow = true;
+  T3.scene.add(T3.extBody);
+
+  // Corrugation grooves (vertical thin boxes on front & back face)
+  const grooMat = new THREE.MeshStandardMaterial({color:0x000000, transparent:true, opacity:0.07, roughness:0.9});
+  for (let x=-2.5; x<=2.5; x+=0.55) {
+    [[0, CW/2+0.003],[Math.PI, -CW/2-0.003]].forEach(([ry, zpos])=>{
+      const g = new THREE.Mesh(new THREE.BoxGeometry(0.04, CH*0.96, 0.012), grooMat);
+      g.position.set(x, CH/2, zpos);
+      T3.scene.add(g);
+    });
+  }
+
+  // Corner castings
+  const castG = new THREE.BoxGeometry(0.14,0.2,0.14);
+  [[-CL/2,0,-CW/2],[-CL/2,0,CW/2],[CL/2,0,-CW/2],[CL/2,0,CW/2],
+   [-CL/2,CH,-CW/2],[-CL/2,CH,CW/2],[CL/2,CH,-CW/2],[CL/2,CH,CW/2]].forEach(([x,y,z])=>{
+    const c = new THREE.Mesh(castG, T3.matCasting);
+    c.position.set(x,y,z);
+    T3.scene.add(c);
+  });
+
+  // Interior shell (BackSide — visible when camera inside)
+  T3.intShell = new THREE.Mesh(new THREE.BoxGeometry(CL-0.12,CH-0.1,CW-0.12), T3.matWallIn);
+  T3.intShell.position.set(0, CH/2, 0);
+  T3.scene.add(T3.intShell);
+
+  // ── Windows ────────────────────────────────────
+  // Standard window (900x900mm)
+  T3.win1 = makeWindow(0.9, 0.9, -1.2, CH/2+0.2, CW/2+0.04);
+  T3.scene.add(T3.win1);
+
+  // Picture window (2000x1200mm)
+  T3.win2 = makeWindow(2.0, 1.2, -1.2, CH/2+0.15, CW/2+0.04);
+  T3.win2.visible = false;
+  T3.scene.add(T3.win2);
+
+  // ── Door (on the +X end face, facing -Z direction) ──
+  const doorGrp = new THREE.Group();
+  // Two door panels
+  [-0.33, 0.33].forEach(dx => {
+    const panel = new THREE.Mesh(new THREE.BoxGeometry(0.6, CH*0.88, 0.06), T3.matDoor);
+    panel.position.set(dx, 0, 0);
+    doorGrp.add(panel);
+    // 3 horizontal ribs
+    [-0.25, 0.15, 0.55].forEach(dy => {
+      const rib = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.045, 0.075),
+        new THREE.MeshStandardMaterial({color:0x9a9892, roughness:0.4, metalness:0.55}));
+      rib.position.set(dx, dy, 0.01);
+      doorGrp.add(rib);
+    });
+  });
+  // Handles
+  const hg = new THREE.CylinderGeometry(0.018, 0.018, 0.38, 8);
+  [-0.06, 0.06].forEach(dx => {
+    const h = new THREE.Mesh(hg, T3.matHandle);
+    h.rotation.x = Math.PI/2; h.position.set(dx, 0, 0.06);
+    doorGrp.add(h);
+  });
+  doorGrp.position.set(CL/2+0.01, CH/2, 0);
+  doorGrp.rotation.y = Math.PI/2;
+  T3.scene.add(doorGrp);
+
+  // ── Deck (default: snouko, hidden when de0) ────
+  T3.deckGrp = new THREE.Group();
+  const deckBase = new THREE.Mesh(new THREE.BoxGeometry(CL+0.3,0.08,1.4), T3.matDeck);
+  deckBase.position.y = 0.04;
+  T3.deckGrp.add(deckBase);
+  // Plank lines
+  const plkMat = new THREE.MeshStandardMaterial({color:0x6b5028, roughness:0.9});
+  for (let x=-CL/2; x<=CL/2+0.15; x+=0.19) {
+    const plk = new THREE.Mesh(new THREE.BoxGeometry(0.025,0.1,1.4), plkMat);
+    plk.position.set(x,0.05,0);
+    T3.deckGrp.add(plk);
+  }
+  T3.deckGrp.position.set(0, 0, CW/2+0.7);
+  T3.deckGrp.visible = true; // default 'de1' = スノコ付き
+  T3.scene.add(T3.deckGrp);
+
+  // ── Interior floor ─────────────────────────────
+  T3.intFloor = new THREE.Mesh(new THREE.BoxGeometry(CL-0.14,0.08,CW-0.14), T3.matFloor);
+  T3.intFloor.position.set(0, 0.04, 0);
+  T3.scene.add(T3.intFloor);
+
+  // ── Beds ───────────────────────────────────────
+  T3.bedA = makeBed(-1.6, 0.4, -0.55);
+  T3.bedB = makeBed(-1.6, 0.4,  0.55);
+  T3.scene.add(T3.bedA);
+  T3.scene.add(T3.bedB);
+
+  // ── Bathroom (detailed) ────────────────────────
+  T3.bathGrp = makeBath(2.0, 0, 0);
+  T3.scene.add(T3.bathGrp);
+
+  // ── AC unit ────────────────────────────────────
+  T3.acUnit = new THREE.Mesh(new THREE.BoxGeometry(0.85,0.25,0.16), T3.matAC);
+  T3.acUnit.position.set(-1.0, CH-0.32, -CW/2+0.1);
+  T3.scene.add(T3.acUnit);
+}
+
+function makeWindow(w, h, x, y, z) {
+  const grp = new THREE.Group();
+  const frame = new THREE.Mesh(new THREE.BoxGeometry(w+0.06, h+0.06, 0.08), T3.matExt);
+  const glass = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.02), T3.matGlass);
+  grp.add(frame);
+  grp.add(glass);
+  grp.position.set(x, y, z);
+  return grp;
+}
+
+function makeBed(x, y, z) {
+  const grp = new THREE.Group();
+  // Bed frame
+  const frame = new THREE.Mesh(new THREE.BoxGeometry(2.05, 0.18, 1.02),
+    new THREE.MeshStandardMaterial({color:0x2a2016, roughness:0.7, metalness:0.05}));
+  frame.position.set(0, -0.06, 0);
+  grp.add(frame);
+  // Mattress
+  const mattress = new THREE.Mesh(new THREE.BoxGeometry(1.95, 0.22, 0.92), T3.matBed);
+  mattress.position.set(0, 0.09, 0);
+  grp.add(mattress);
+  // Pillow
+  const pillow = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.10, 0.72), T3.matPillow);
+  pillow.position.set(0.68, 0.21, 0);
+  grp.add(pillow);
+  // Headboard
+  const headboard = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.55, 1.02),
+    new THREE.MeshStandardMaterial({color:0x2a2016, roughness:0.65, metalness:0.05}));
+  headboard.position.set(-1.0, 0.18, 0);
+  grp.add(headboard);
+  grp.position.set(x, y, z);
+  return grp;
+}
+
+function makeBath(cx, cy, cz) {
+  const grp = new THREE.Group();
+  const BW = 1.55; // bathroom length (X)
+  const BD = CW - 0.18; // bathroom depth (Z = full container width)
+
+  // ── Tile floor ──
+  const flr = new THREE.Mesh(new THREE.BoxGeometry(BW, 0.05, BD), T3.matBathFloor);
+  flr.position.set(0, 0.025, 0);
+  grp.add(flr);
+
+  // ── Shower area (back half: -Z side) ──
+  const shFlr = new THREE.Mesh(new THREE.BoxGeometry(BW*0.58, 0.055, BD*0.48),
+    new THREE.MeshStandardMaterial({color:0xd8e8f0, roughness:0.15, metalness:0.0}));
+  shFlr.position.set(-0.15, 0.025, -BD*0.26);
+  grp.add(shFlr);
+
+  // Drain
+  const drain = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.02, 12), T3.matChrome);
+  drain.position.set(-0.15, 0.04, -BD*0.26);
+  grp.add(drain);
+
+  // Shower glass — front panel
+  const sg1 = new THREE.Mesh(new THREE.BoxGeometry(BW*0.58, 2.0, 0.012), T3.matBathGlass);
+  sg1.position.set(-0.15, 1.0, -BD*0.02);
+  grp.add(sg1);
+
+  // Shower glass — side panel
+  const sg2 = new THREE.Mesh(new THREE.BoxGeometry(0.012, 2.0, BD*0.48), T3.matBathGlass);
+  sg2.position.set(BW*0.29-0.15, 1.0, -BD*0.26);
+  grp.add(sg2);
+
+  // Shower head (chrome disc)
+  const shHead = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 0.025, 16),
+    T3.matChrome);
+  shHead.position.set(-0.15, 2.25, -BD*0.48);
+  grp.add(shHead);
+  // Arm
+  const shArm = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.32, 8), T3.matChrome);
+  shArm.rotation.z = Math.PI/2;
+  shArm.position.set(-0.06, 2.26, -BD*0.48);
+  grp.add(shArm);
+  // Vertical pipe
+  const shPipe = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 1.1, 8), T3.matChrome);
+  shPipe.position.set(0.15, 1.7, -BD*0.48);
+  grp.add(shPipe);
+
+  // ── Toilet ──
+  const toilBase = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.40, 0.58), T3.matCeramic);
+  toilBase.position.set(0.38, 0.20, BD*0.28);
+  grp.add(toilBase);
+  const toilTank = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.30, 0.12), T3.matCeramic);
+  toilTank.position.set(0.38, 0.55, BD*0.48-0.08);
+  grp.add(toilTank);
+  // Seat
+  const toilSeat = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.035, 0.46),
+    new THREE.MeshStandardMaterial({color:0xf0ede6, roughness:0.10}));
+  toilSeat.position.set(0.38, 0.415, BD*0.26);
+  grp.add(toilSeat);
+
+  // ── Vanity + sink ──
+  const vanity = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.78, 0.40),
+    new THREE.MeshStandardMaterial({color:0x222222, roughness:0.55, metalness:0.1}));
+  vanity.position.set(0.38, 0.39, BD*0.02);
+  grp.add(vanity);
+
+  // Counter top
+  const counter = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.025, 0.40), T3.matCeramic);
+  counter.position.set(0.38, 0.79, BD*0.02);
+  grp.add(counter);
+
+  // Sink basin (cylinder)
+  const sinkBas = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.13, 0.09, 20), T3.matCeramic);
+  sinkBas.position.set(0.38, 0.83, BD*0.02);
+  grp.add(sinkBas);
+
+  // Faucet (chrome)
+  const faucetStem = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.16, 8), T3.matChrome);
+  faucetStem.position.set(0.38, 0.97, BD*0.02 - 0.07);
+  grp.add(faucetStem);
+  const faucetSpout = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.12, 8), T3.matChrome);
+  faucetSpout.rotation.x = Math.PI/2;
+  faucetSpout.position.set(0.38, 1.02, BD*0.02 + 0.03);
+  grp.add(faucetSpout);
+
+  // Mirror
+  const mirror = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.58, 0.012),
+    new THREE.MeshStandardMaterial({color:0x99b8cc, roughness:0.02, metalness:0.95}));
+  mirror.position.set(0.38, 1.35, BD*0.02 - 0.20);
+  grp.add(mirror);
+
+  // Mirror frame
+  const mirrorFrame = new THREE.Mesh(new THREE.BoxGeometry(0.50, 0.62, 0.018),
+    new THREE.MeshStandardMaterial({color:0x181818, roughness:0.35, metalness:0.5}));
+  mirrorFrame.position.set(0.38, 1.35, BD*0.02 - 0.21);
+  grp.add(mirrorFrame);
+
+  // ── Partition wall (glass) separating bath from main room ──
+  const partGlass = new THREE.Mesh(new THREE.BoxGeometry(0.012, CH-0.12, BD),
+    new THREE.MeshStandardMaterial({color:0xb8d8ee, roughness:0.02, metalness:0.04,
+      transparent:true, opacity:0.22, side:THREE.DoubleSide, depthWrite:false}));
+  partGlass.position.set(-BW/2, (CH-0.12)/2, 0);
+  grp.add(partGlass);
+
+  grp.position.set(cx, cy, cz);
+  return grp;
+}
+
+// Camera animation (smooth lerp)
+function animateCamera(targetCfg, duration=900) {
+  if (!T3.camera || !T3.controls) return; // Three.js not yet initialized
+  const startPos = T3.camera.position.clone();
+  const startTgt = T3.controls.target.clone();
+  const endPos = new THREE.Vector3(...targetCfg.pos);
+  const endTgt = new THREE.Vector3(...targetCfg.tgt);
+  const t0 = performance.now();
+  function step(now) {
+    let p = Math.min((now - t0) / duration, 1);
+    const ease = p < 0.5 ? 2*p*p : -1+(4-2*p)*p;
+    T3.camera.position.lerpVectors(startPos, endPos, ease);
+    T3.controls.target.lerpVectors(startTgt, endTgt, ease);
+    T3.controls.update();
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ── Visual update triggered on option select ────
+function cfgUpdateVisual() {
+  if (!T3.matExt) return; // Three.js not loaded yet
+
+  // Exterior color
+  const ec = EXT_COLORS[cfgState.exterior] || EXT_COLORS.ex1;
+  T3.matExt.color.set(ec.front);
+  T3.matExt.needsUpdate = true;
+
+  // Update color label in desc
+  cfgUpdatePvDesc();
+
+  // Windows
+  if (T3.win1 && T3.win2) {
+    T3.win1.visible = cfgState.window !== 'wi2';
+    T3.win2.visible = cfgState.window === 'wi2';
+  }
+
+  // Deck
+  if (T3.deckGrp) {
+    T3.deckGrp.visible = cfgState.deck !== 'de0';
+    const dc = {de1:0x8b7355, de2:0x7a5e38, de3:0x5c4628}[cfgState.deck];
+    if (dc) T3.matDeck.color.setHex(dc);
+  }
+
+  // Floor color
+  const fhex = {fl1:0x3a3835, fl2:0x6b4e1e, fl3:0x464e5c}[cfgState.floor] || 0x3a3835;
+  if (T3.matFloor) T3.matFloor.color.setHex(fhex);
+
+  // Wall/interior color
+  const wc = {in1:0xe0ddd4, in2:0xd0cbc0, in3:0xa08040}[cfgState.interior] || 0xe0ddd4;
+  if (T3.matWallIn) T3.matWallIn.color.setHex(wc);
+
+  // Bed style
+  const bid = cfgState.bed;
+  const bedC = bid==='b2' ? 0xc8a455 : bid==='b3' ? 0x4a7fa5 : 0xb08050;
+  if (T3.matBed) T3.matBed.color.setHex(bedC);
+  if (T3.bedA && T3.bedB) {
+    if (bid === 'b3') { // loft
+      T3.bedA.position.y = 0.4;
+      T3.bedB.position.y = 1.55;
+    } else {
+      T3.bedA.position.y = 0.4;
+      T3.bedB.position.y = 0.4;
+    }
+  }
+
+  // Bath floor/style color
+  if (T3.matBathFloor) {
+    const bathFloors = {ba1:0xe8e8e8, ba2:0xc4a86a, ba3:0x2a3a4a};
+    T3.matBathFloor.color.setHex(bathFloors[cfgState.bath] || 0xe8e8e8);
+    // Roughness: hinoki (ba2) is woody, jacuzzi (ba3) is polished stone
+    T3.matBathFloor.roughness = cfgState.bath==='ba2' ? 0.75 : cfgState.bath==='ba3' ? 0.08 : 0.12;
+    T3.matBathFloor.needsUpdate = true;
+  }
+  // Bathroom light color matches style
+  if (T3.bathLight) {
+    T3.bathLight.color.setHex(cfgState.bath==='ba2' ? 0xffe8c8 : cfgState.bath==='ba3' ? 0xc8d8ff : 0xffffff);
+  }
+
+  // AC
+  if (T3.matAC) T3.matAC.color.setHex(cfgState.ac==='ac1' ? 0x1a2a3a : 0x1a3060);
+  if (T3.acUnit) T3.acUnit.scale.x = cfgState.ac==='ac3' ? 1.6 : 1.0;
+}
+
+function cfgUpdatePvDesc() {
+  const el = document.getElementById('pvDesc');
+  if (!el) return;
+  const isExt = (document.querySelector('.pv-mode-tab.active') || {}).dataset?.mode !== 'int';
+  if (isExt) {
+    const ec = EXT_COLORS[cfgState.exterior] || EXT_COLORS.ex1;
+    const dk = cfgState.deck==='de0' ? 'デッキなし' : cfgState.deck==='de3' ? 'プレミアムデッキ' : 'デッキ付き';
+    const wk = cfgState.window==='wi2' ? 'ピクチャーウィンドウ' : 'スタンダード窓';
+    el.textContent = '外観 — ' + ec.label + ' / ' + dk + ' / ' + wk;
+  } else {
+    const fl = {fl1:'ビニルフロア',fl2:'無垢フローリング',fl3:'フロアタイル'}[cfgState.floor] || 'ビニルフロア';
+    const ba = {ba1:'ユニットバス',ba2:'ヒノキ風呂',ba3:'ジャグジー'}[cfgState.bath] || 'ユニットバス';
+    const bd = cfgState.bed==='b3' ? 'ロフト8名' : cfgState.bed==='b2' ? 'Beautyrest 4名' : 'スタンダード 4名';
+    el.textContent = '内観 — ' + fl + ' / ' + ba + ' / ' + bd;
+  }
+}
+
+function setPvMode(mode) {
+  document.querySelectorAll('.pv-mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode===mode));
+  // animateCamera guards internally if Three.js not ready yet
+  animateCamera(mode==='ext' ? CAM_EXT : CAM_INT);
+  cfgUpdatePvDesc();
+  // Store requested mode so initThree can apply it after load
+  T3._pendingMode = mode;
+}
+
+// ──────────────────────────────────────────────────
+//  INIT
+// ──────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  Object.keys(CFG_OPTS).forEach(cat => cfgRenderCat(cat));
+  const panels = document.querySelectorAll('.cfg-cat-panel');
+  panels.forEach((p,i) => { p.style.display = i===0 ? 'block' : 'none'; });
+  cfgUpdateSummary();
+  cfgRecalc();
+
+  // Load Three.js then init 3D
+  function load3D() {
+    if (!window.THREE) { setTimeout(load3D, 100); return; }
+    if (!window.THREE.OrbitControls) {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js';
+      s.onload = () => initThree();
+      document.head.appendChild(s);
+    } else {
+      initThree();
+    }
+  }
+  load3D();
+});
+</script>
+<script src="/lang.js"></script>
+</body>
+</html>

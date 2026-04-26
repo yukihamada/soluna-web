@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOLUNA Mail — Admin</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23040404'/><path d='M6 10 L16 18 L26 10 M6 10 L6 22 L26 22 L26 10' fill='none' stroke='%23c8a455' stroke-width='1.5' stroke-linejoin='round'/></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--gold-dim:rgba(200,164,85,.15);--gold-faint:rgba(200,164,85,.06);
+  --bg:#040404;--bg2:#070706;--bg3:#0c0b09;
+  --text:#d8d3c9;--dim:#555;--line:rgba(255,255,255,.06);
+  --build:rgba(100,200,120,.7);--materials:rgba(100,160,220,.7);
+  --wp:rgba(200,120,200,.7);--general:rgba(200,164,85,.7);
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased}
+
+/* AUTH SCREEN */
+#auth-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999}
+.auth-box{width:320px;text-align:center}
+.auth-box .logo{font-size:10px;font-weight:800;letter-spacing:.25em;color:var(--gold);margin-bottom:32px}
+.auth-box h2{font-size:18px;font-weight:700;color:#f0ece4;margin-bottom:8px}
+.auth-box p{font-size:12px;color:var(--dim);margin-bottom:24px}
+.auth-input{width:100%;background:var(--bg3);border:1px solid var(--line);border-radius:8px;padding:12px 16px;color:var(--text);font-size:13px;outline:none;transition:border-color .2s}
+.auth-input:focus{border-color:rgba(200,164,85,.4)}
+.auth-btn{margin-top:12px;width:100%;background:var(--gold);color:#040404;border:none;border-radius:8px;padding:12px;font-size:12px;font-weight:800;letter-spacing:.1em;cursor:pointer;transition:opacity .2s}
+.auth-btn:hover{opacity:.85}
+.auth-error{font-size:11px;color:#e07070;margin-top:8px;display:none}
+
+/* LAYOUT */
+#app{display:none;height:100vh;grid-template-rows:52px 1fr;grid-template-columns:220px 1fr}
+#app.visible{display:grid}
+
+/* TOP BAR */
+.topbar{grid-column:1/-1;background:var(--bg2);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:16px;padding:0 20px}
+.topbar .logo{font-size:10px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
+.topbar .title{font-size:11px;color:var(--dim);letter-spacing:.06em}
+.topbar .spacer{flex:1}
+.topbar .refresh-btn{font-size:10px;letter-spacing:.1em;color:var(--dim);background:none;border:1px solid var(--line);border-radius:6px;padding:5px 12px;cursor:pointer;transition:all .2s}
+.topbar .refresh-btn:hover{border-color:rgba(200,164,85,.3);color:var(--gold)}
+.topbar .count{font-size:11px;color:var(--dim)}
+
+/* SIDEBAR */
+.sidebar{background:var(--bg2);border-right:1px solid var(--line);padding:16px 0;overflow-y:auto}
+.sidebar-section{padding:0 12px;margin-bottom:8px}
+.sidebar-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#2a2a2a;padding:8px 8px 4px;font-weight:600}
+.filter-btn{display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;border-radius:7px;border:none;background:none;color:var(--dim);font-size:12px;cursor:pointer;transition:all .2s;text-align:left}
+.filter-btn:hover{background:rgba(255,255,255,.03);color:var(--text)}
+.filter-btn.active{background:var(--gold-faint);color:var(--gold)}
+.filter-btn .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dot-all{background:rgba(255,255,255,.2)}
+.dot-build{background:var(--build)}
+.dot-materials{background:var(--materials)}
+.dot-wp{background:var(--wp)}
+.dot-general{background:var(--general)}
+.filter-btn .badge{margin-left:auto;font-size:10px;background:rgba(255,255,255,.06);border-radius:100px;padding:1px 7px;color:#444}
+.filter-btn.active .badge{background:rgba(200,164,85,.15);color:var(--gold)}
+
+/* MAIN */
+.main{overflow:hidden;display:grid;grid-template-columns:340px 1fr}
+
+/* EMAIL LIST */
+.email-list{border-right:1px solid var(--line);overflow-y:auto;background:var(--bg)}
+.email-item{padding:14px 16px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .15s;position:relative}
+.email-item:hover{background:rgba(255,255,255,.02)}
+.email-item.active{background:var(--gold-faint)}
+.email-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold)}
+.email-item .ei-header{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.ei-project{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:2px 7px;border-radius:100px}
+.ei-project.build{background:rgba(100,200,120,.1);color:var(--build);border:1px solid rgba(100,200,120,.2)}
+.ei-project.materials{background:rgba(100,160,220,.1);color:var(--materials);border:1px solid rgba(100,160,220,.2)}
+.ei-project.wp{background:rgba(200,120,200,.1);color:var(--wp);border:1px solid rgba(200,120,200,.2)}
+.ei-project.general{background:rgba(200,164,85,.08);color:var(--general);border:1px solid rgba(200,164,85,.15)}
+.ei-time{font-size:10px;color:#333;margin-left:auto}
+.ei-replied{font-size:9px;background:rgba(100,200,120,.1);color:rgba(100,200,120,.7);border:1px solid rgba(100,200,120,.2);padding:1px 6px;border-radius:100px}
+.ei-pending{font-size:9px;background:rgba(200,100,100,.1);color:rgba(200,120,100,.6);border:1px solid rgba(200,100,100,.15);padding:1px 6px;border-radius:100px}
+.email-item .ei-from{font-size:12px;font-weight:600;color:#e0dbd2;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.email-item .ei-subject{font-size:12px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.email-item .ei-preview{font-size:11px;color:#333;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* EMAIL DETAIL */
+.email-detail{overflow-y:auto;background:var(--bg);padding:28px 32px}
+.detail-empty{height:100%;display:flex;align-items:center;justify-content:center;color:#2a2a2a;font-size:12px;letter-spacing:.08em}
+.detail-header{margin-bottom:24px}
+.detail-subject{font-size:18px;font-weight:700;color:#f0ece4;line-height:1.3;margin-bottom:12px}
+.detail-meta{display:flex;flex-wrap:wrap;gap:12px;font-size:11px;color:var(--dim);margin-bottom:16px}
+.detail-meta span strong{color:#888;margin-right:4px}
+.detail-tags{display:flex;gap:8px;flex-wrap:wrap}
+
+.detail-section{margin-bottom:24px}
+.detail-section h3{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#333;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.detail-body{font-size:13px;line-height:1.9;color:#a8a39a;white-space:pre-wrap;word-break:break-word;background:var(--bg3);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.detail-reply{font-size:13px;line-height:1.9;color:#c8ddb8;white-space:pre-wrap;word-break:break-word;background:rgba(100,200,120,.04);border:1px solid rgba(100,200,120,.12);border-radius:8px;padding:16px 18px}
+.detail-reply-pending{font-size:12px;color:#555;font-style:italic;padding:12px 0}
+
+/* EMPTY STATE */
+.empty-state{padding:48px;text-align:center;color:#2a2a2a;font-size:12px;line-height:2}
+
+/* LOADING */
+.loading{display:flex;align-items:center;justify-content:center;height:100%;color:#333;font-size:11px;letter-spacing:.1em}
+.spinner{width:16px;height:16px;border:1.5px solid #222;border-top-color:#c8a455;border-radius:50%;animation:spin .7s linear infinite;margin-right:10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#1a1a18;border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="auth-screen">
+  <div class="auth-box">
+    <div class="logo">SOLUNA</div>
+    <h2>Mail Admin</h2>
+    <p>管理者キーを入力してください</p>
+    <input id="auth-input" class="auth-input" type="password" placeholder="Admin Key" autocomplete="off">
+    <button class="auth-btn" onclick="doAuth()">ログイン</button>
+    <div id="auth-error" class="auth-error">キーが正しくありません</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <span class="logo">SOLUNA</span>
+    <span class="title">Mail Admin</span>
+    <div class="spacer"></div>
+    <span class="count" id="total-count">— 件</span>
+    <button class="refresh-btn" onclick="loadEmails()">↻ 更新</button>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-label">プロジェクト</div>
+    <div class="sidebar-section">
+      <button class="filter-btn active" data-project="" onclick="setFilter(this,'')">
+        <span class="dot dot-all"></span> すべて
+        <span class="badge" id="badge-all">0</span>
+      </button>
+      <button class="filter-btn" data-project="build" onclick="setFilter(this,'build')">
+        <span class="dot dot-build"></span> Build
+        <span class="badge" id="badge-build">0</span>
+      </button>
+      <button class="filter-btn" data-project="materials" onclick="setFilter(this,'materials')">
+        <span class="dot dot-materials"></span> Materials
+        <span class="badge" id="badge-materials">0</span>
+      </button>
+      <button class="filter-btn" data-project="wp" onclick="setFilter(this,'wp')">
+        <span class="dot dot-wp"></span> Work Party
+        <span class="badge" id="badge-wp">0</span>
+      </button>
+      <button class="filter-btn" data-project="general" onclick="setFilter(this,'general')">
+        <span class="dot dot-general"></span> General
+        <span class="badge" id="badge-general">0</span>
+      </button>
+    </div>
+    <div class="sidebar-label" style="margin-top:16px">ステータス</div>
+    <div class="sidebar-section">
+      <button class="filter-btn" data-status="" onclick="setStatus(this,'')">
+        <span class="dot dot-all"></span> すべて
+      </button>
+      <button class="filter-btn" data-status="replied" onclick="setStatus(this,'replied')">
+        <span class="dot dot-build"></span> 返信済み
+      </button>
+      <button class="filter-btn" data-status="pending" onclick="setStatus(this,'pending')">
+        <span class="dot" style="background:rgba(200,100,100,.7)"></span> 未返信
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <!-- LIST -->
+    <div class="email-list" id="email-list">
+      <div class="loading"><div class="spinner"></div>読み込み中...</div>
+    </div>
+    <!-- DETAIL -->
+    <div class="email-detail" id="email-detail">
+      <div class="detail-empty">← メールを選択</div>
+    </div>
+  </div>
+</div>
+
+<script>
+let allEmails = [];
+let currentFilter = '';
+let currentStatus = '';
+let selectedId = null;
+const API_BASE = '';
+
+function getAdminKey() { return localStorage.getItem('soluna_admin_key') || ''; }
+
+async function doAuth() {
+  const key = document.getElementById('auth-input').value.trim();
+  if (!key) return;
+  // Try to load emails with this key
+  const r = await fetch(`${API_BASE}/api/email/project-emails?key=${encodeURIComponent(key)}&limit=1`);
+  if (r.ok) {
+    localStorage.setItem('soluna_admin_key', key);
+    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    loadEmails();
+  } else {
+    document.getElementById('auth-error').style.display = 'block';
+  }
+}
+
+document.getElementById('auth-input').addEventListener('keydown', e => { if (e.key === 'Enter') doAuth(); });
+
+// Auto-login if key already saved
+(async () => {
+  const saved = getAdminKey();
+  if (saved) {
+    const r = await fetch(`${API_BASE}/api/email/project-emails?key=${encodeURIComponent(saved)}&limit=1`);
+    if (r.ok) {
+      document.getElementById('auth-screen').style.display = 'none';
+      document.getElementById('app').classList.add('visible');
+      loadEmails();
+    } else {
+      localStorage.removeItem('soluna_admin_key');
+    }
+  }
+})();
+
+async function loadEmails() {
+  const key = getAdminKey();
+  if (!key) return;
+  document.getElementById('email-list').innerHTML = '<div class="loading"><div class="spinner"></div>読み込み中...</div>';
+  try {
+    const r = await fetch(`${API_BASE}/api/email/project-emails?key=${encodeURIComponent(key)}&limit=200`);
+    if (!r.ok) { localStorage.removeItem('soluna_admin_key'); location.reload(); return; }
+    allEmails = await r.json();
+    updateBadges();
+    renderList();
+  } catch (e) {
+    document.getElementById('email-list').innerHTML = '<div class="empty-state">読み込みエラー</div>';
+  }
+}
+
+function updateBadges() {
+  const counts = { all: allEmails.length, build: 0, materials: 0, wp: 0, general: 0 };
+  allEmails.forEach(m => { if (counts[m.project] !== undefined) counts[m.project]++; });
+  Object.keys(counts).forEach(k => {
+    const el = document.getElementById(`badge-${k}`);
+    if (el) el.textContent = counts[k];
+  });
+  document.getElementById('total-count').textContent = `${counts.all} 件`;
+}
+
+function setFilter(btn, project) {
+  document.querySelectorAll('[data-project]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = project;
+  selectedId = null;
+  renderList();
+  document.getElementById('email-detail').innerHTML = '<div class="detail-empty">← メールを選択</div>';
+}
+
+function setStatus(btn, status) {
+  document.querySelectorAll('[data-status]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentStatus = status;
+  renderList();
+}
+
+function filtered() {
+  return allEmails.filter(m => {
+    if (currentFilter && m.project !== currentFilter) return false;
+    if (currentStatus === 'replied' && !m.reply_sent) return false;
+    if (currentStatus === 'pending' && m.reply_sent) return false;
+    return true;
+  });
+}
+
+function timeAgo(dt) {
+  if (!dt) return '';
+  const d = new Date(dt.replace(' ', 'T') + 'Z');
+  const s = Math.floor((Date.now() - d) / 1000);
+  if (s < 60) return `${s}秒前`;
+  if (s < 3600) return `${Math.floor(s/60)}分前`;
+  if (s < 86400) return `${Math.floor(s/3600)}時間前`;
+  return `${Math.floor(s/86400)}日前`;
+}
+
+function renderList() {
+  const emails = filtered();
+  const list = document.getElementById('email-list');
+  if (!emails.length) {
+    list.innerHTML = '<div class="empty-state">メールがありません</div>';
+    return;
+  }
+  list.innerHTML = emails.map(m => `
+    <div class="email-item${selectedId === m.id ? ' active' : ''}" onclick="selectEmail('${m.id}')">
+      <div class="ei-header">
+        <span class="ei-project ${m.project}">${m.project}</span>
+        ${m.reply_sent ? '<span class="ei-replied">返信済</span>' : '<span class="ei-pending">未返信</span>'}
+        <span class="ei-time">${timeAgo(m.created_at)}</span>
+      </div>
+      <div class="ei-from">${esc(m.from_email)}</div>
+      <div class="ei-subject">${esc(m.subject || '(件名なし)')}</div>
+      <div class="ei-preview">${esc((m.body_text || '').slice(0, 80))}</div>
+    </div>
+  `).join('');
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function selectEmail(id) {
+  selectedId = id;
+  renderList();
+  const m = allEmails.find(e => e.id === id);
+  if (!m) return;
+  const detail = document.getElementById('email-detail');
+  detail.innerHTML = `
+    <div class="detail-header">
+      <div class="detail-subject">${esc(m.subject || '(件名なし)')}</div>
+      <div class="detail-meta">
+        <span><strong>From</strong>${esc(m.from_email)}</span>
+        <span><strong>To</strong>${esc(m.to_email)}</span>
+        <span><strong>受信</strong>${m.created_at || ''}</span>
+      </div>
+      <div class="detail-tags">
+        <span class="ei-project ${m.project}" style="font-size:9px">${m.project}</span>
+        ${m.reply_sent ? '<span class="ei-replied">返信済み</span>' : '<span class="ei-pending">未返信</span>'}
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>受信メール</h3>
+      <div class="detail-body">${esc(m.body_text || '(本文なし)')}</div>
+    </div>
+
+    <div class="detail-section">
+      <h3>AI返信 (Claude Haiku)</h3>
+      ${m.reply_text
+        ? `<div class="detail-reply">${esc(m.reply_text)}</div>`
+        : `<div class="detail-reply-pending">返信は生成されていません</div>`
+      }
+    </div>
+  `;
+}
+
+// Auto-init if already authenticated
+window.addEventListener('DOMContentLoaded', () => {
+  const key = getAdminKey();
+  if (key) {
+    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    loadEmails();
+  }
+  // Auto-refresh every 60s
+  setInterval(loadEmails, 60000);
+});
+</script>
+</body>
+</html>

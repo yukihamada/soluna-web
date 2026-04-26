@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/ichiki" rel="canonical"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title data-en="For Ichiki — SOLUNA Biruwa Project Overview">市木さんへ — SOLUNA 美留和プロジェクトのご説明</title>
+<link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #9bc46d;
+    --dark:  #0a0f07;
+    --card:  rgba(255,255,255,.04);
+    --border:rgba(155,196,109,.15);
+  }
+  body {
+    background: var(--dark);
+    color: #e8f0e0;
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    line-height: 1.7;
+  }
+
+  /* ── HERO ─────────────────────────────────── */
+  .hero {
+    padding: 80px 24px 60px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero .eyebrow {
+    font-size: .75rem;
+    letter-spacing: .18em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    color: #fff;
+  }
+  .hero p {
+    max-width: 560px;
+    margin: 0 auto 32px;
+    color: rgba(232,240,224,.7);
+    font-size: 1.05rem;
+  }
+  .from-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: .85rem;
+    color: var(--green);
+    background: rgba(155,196,109,.06);
+  }
+
+  /* ── SECTIONS ─────────────────────────────── */
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  h2 span { color: var(--green); }
+  .lead {
+    color: rgba(232,240,224,.65);
+    font-size: .9rem;
+    margin-bottom: 32px;
+    letter-spacing: .06em;
+  }
+
+  /* ── MAP ──────────────────────────────────── */
+  #map {
+    width: 100%;
+    height: 380px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .map-legend {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-size: .85rem;
+    color: rgba(232,240,224,.7);
+  }
+  .map-legend span { display: flex; align-items: center; gap: 8px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .dot-green  { background: var(--green); }
+  .dot-yellow { background: #f0d060; }
+
+  /* ── TIMELINE CARD ────────────────────────── */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 0 20px;
+    position: relative;
+  }
+  .tl-item + .tl-item .tl-body { border-top: none; }
+  .tl-date {
+    text-align: right;
+    padding: 20px 0;
+    font-size: .82rem;
+    color: var(--green);
+    font-weight: 700;
+    line-height: 1.3;
+    padding-top: 22px;
+  }
+  .tl-body {
+    border-left: 2px solid var(--border);
+    padding: 20px 0 20px 24px;
+    position: relative;
+  }
+  .tl-body::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 24px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--dark);
+    border: 2px solid var(--green);
+  }
+  .tl-body h3 { font-size: 1rem; color: #fff; margin-bottom: 4px; }
+  .tl-body p  { font-size: .88rem; color: rgba(232,240,224,.65); }
+
+  /* ── CARDS ────────────────────────────────── */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width:500px){ .cards { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .card-icon { font-size: 1.6rem; margin-bottom: 12px; }
+  .card h3 { font-size: 1rem; color: #fff; margin-bottom: 6px; }
+  .card p  { font-size: .85rem; color: rgba(232,240,224,.65); }
+
+  /* ── WORK PARTY INVITE ────────────────────── */
+  .party-box {
+    background: rgba(155,196,109,.06);
+    border: 1px solid rgba(155,196,109,.35);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+  }
+  .party-date {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .party-box p {
+    color: rgba(232,240,224,.75);
+    font-size: .95rem;
+    margin-bottom: 24px;
+  }
+  .btn-green {
+    display: inline-block;
+    padding: 14px 32px;
+    background: var(--green);
+    color: #0a0f07;
+    font-weight: 700;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: .95rem;
+  }
+
+  /* ── Q&A ──────────────────────────────────── */
+  .qa-item { margin-bottom: 24px; }
+  .qa-item dt {
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 6px;
+    font-size: .95rem;
+  }
+  .qa-item dd {
+    color: rgba(232,240,224,.75);
+    font-size: .92rem;
+    padding-left: 16px;
+    border-left: 2px solid var(--border);
+  }
+
+  /* ── CONTACT ──────────────────────────────── */
+  .contact-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+  }
+  .contact-box h3 { color: #fff; font-size: 1.1rem; margin-bottom: 20px; }
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: .92rem;
+    color: rgba(232,240,224,.8);
+  }
+  .contact-row a { color: var(--green); text-decoration: none; }
+  .contact-label {
+    font-size: .78rem;
+    color: rgba(232,240,224,.4);
+    width: 60px;
+    flex-shrink: 0;
+  }
+
+  /* ── FOOTER ───────────────────────────────── */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    font-size: .8rem;
+    color: rgba(232,240,224,.3);
+  }
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<!-- HERO -->
+<div class="hero">
+<div class="eyebrow" data-en="Neighborhood Introduction">ご近所へのご挨拶</div>
+<h1 data-en="Building Container Lodging in Mirua for Ichiki">市木さんへ<br/>美留和にコンテナ宿を<br/>作ります</h1>
+<p data-en="I would like to explain directly about the project we're developing next door. Please feel free to share any concerns or questions you may have.">
+    お隣で進めているプロジェクトについて、直接ご説明させてください。
+    ご心配な点や気になることがあれば、なんでもお聞かせください。
+  </p>
+<div class="from-badge" data-en="From Yuki Hamada">濱田 優貴 より</div>
+</div>
+<!-- MAP -->
+<section>
+<div class="wrap">
+<h2 data-en="Location and Distance"><span>01</span> 場所と距離</h2>
+<p class="lead" data-en="Located approximately 220 meters from Ichiki's residence">市木さんのお宅から約220mの場所です</p>
+<div id="map"></div>
+<div class="map-legend">
+<span data-en="SOLUNA Instant House (Planned Construction Site)"><div class="dot dot-green"></div>SOLUNA Instant House（建設予定地）</span>
+<span data-en="Ichiki Residence"><div class="dot dot-yellow"></div>市木さんのお宅</span>
+</div>
+</div>
+</section>
+<!-- WHAT -->
+<section>
+<div class="wrap">
+<h2 data-en="What We're Creating"><span>02</span> 何を作るのか</h2>
+<p class="lead" data-en="A boutique lodging facility featuring renovated containers.">改装コンテナを使った小さな宿泊施設です</p>
+<div class="cards">
+<div class="card">
+<div class="card-icon">📦</div>
+<h3 data-en="One Container Unit">コンテナ1棟</h3>
+<p data-en="A 20-foot shipping container conversion. The exterior will feature wood paneling or Corten steel. A compact size without any sense of confinement.">20フィートの輸送コンテナを改装。外観はウッドパネルかコルテン鋼を予定。圧迫感のないコンパクトなサイズです。</p>
+</div>
+<div class="card">
+<div class="card-icon">🧖</div>
+<h3 data-en="Sauna &amp; Open-Air Bath">サウナ＋露天風呂</h3>
+<p data-en="Wood-fired sauna and wooden barrel open-air bath. A serene facility open during daytime through evening hours only, with no late-night disturbances.">薪サウナと木樽の露天風呂。静かに楽しめる施設で、営業は日中〜夜間のみ。深夜の騒音はありません。</p>
+</div>
+<div class="card">
+<div class="card-icon">☀️</div>
+<h3 data-en="Off-Grid Design">オフグリッド設計</h3>
+<p data-en="Self-sufficient through solar panels and Starlink. No large-scale electrical work or noisy equipment will be installed.">太陽光パネルとStarlinkで自給自足。大規模な電気工事や騒音を伴う設備は設置しません。</p>
+</div>
+<div class="card">
+<div class="card-icon">🏕️</div>
+<h3 data-en="Serene Retreat Experience">静かな滞在型</h3>
+<p data-en="Intimate accommodation for small groups. This is not a venue for large events or mass gatherings.">1棟貸し・少人数向け。大型イベントや大勢の団体客を呼ぶ施設ではありません。</p>
+</div>
+</div>
+</div>
+</section>
+<!-- TIMELINE -->
+<section>
+<div class="wrap">
+<h2 data-en="Schedule"><span>03</span> スケジュール</h2>
+<p class="lead" data-en="We aim to complete this by end of 2026">2026年中に完成を目指しています</p>
+<div class="timeline">
+<div class="tl-item">
+<div class="tl-date" data-en="April–May 2026">2026年<br/>4〜5月</div>
+<div class="tl-body">
+<h3 data-en="Design &amp; Container Procurement">設計・コンテナ発注</h3>
+<p data-en="Container specifications finalized and ordered from Chinese factory. Foundation preparation underway.">コンテナの仕様確定・中国工場への発注。基礎工事の準備。</p>
+</div>
+</div>
+<div class="tl-item">
+<div class="tl-date" data-en="June 6–7">6月6〜7日</div>
+<div class="tl-body">
+<h3 data-en="Work Party (Prototype Assembly)">ワークパーティ（試作組み立て）</h3>
+<p data-en="Assemble the sauna, open-air bath, and deck with fellow members, then experience an overnight stay.">サウナ・露天風呂・デッキを仲間と一緒に組み立て、実際に泊まってみます。</p>
+</div>
+</div>
+<div class="tl-item">
+<div class="tl-date" data-en="July–August">7〜8月</div>
+<div class="tl-body">
+<h3 data-en="Container Arrival and Installation">コンテナ到着・設置</h3>
+<p data-en="Upon container delivery, installation on the foundation begins. Crane operations will be completed within one day.">コンテナ本体が届き次第、基礎に据え付け。クレーン作業は1日で完了します。</p>
+</div>
+</div>
+<div class="tl-item">
+<div class="tl-date" data-en="Autumn–Winter">秋〜冬</div>
+<div class="tl-body">
+<h3 data-en="Interior Finishing &amp; Trial Operation">内装仕上げ・試験運用</h3>
+<p data-en="Interior work and equipment installation follow. After select trial stays, we proceed to official opening.">内装工事・設備接続。知人限定の試験宿泊を経て本格オープンへ。</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- WORK PARTY -->
+<section>
+<div class="wrap">
+<h2 data-en="June Work Party"><span>04</span> 6月のワークパーティ</h2>
+<p class="lead" data-en="Please join us if your schedule permits! Meals and beverages will be provided.">ご都合よければぜひ！食事・飲み物はこちらで用意します</p>
+<div class="party-box">
+<div class="party-date" data-en="6/6 (Sat) – 6/7 (Sun)">6/6（土）〜 6/7（日）</div>
+<p data-en="We'll assemble the sauna together, followed by an evening of barbecue and bonfire. The next morning, enjoy a leisurely outdoor bath and breakfast. Those skilled with tools are especially welcome.">
+        みんなでサウナを組み立て、夜はバーベキューと焚き火。<br/>
+        翌朝は露天風呂と朝食でゆっくり過ごします。<br/>
+        道具の扱いが得意な方、大歓迎です。
+      </p>
+<a class="btn-green" data-en="View Details →" href="https://solun.art/workparty" target="_blank">詳細を見る →</a>
+</div>
+</div>
+</section>
+<!-- Q&A -->
+<section>
+<div class="wrap">
+<h2 data-en="Common Concerns"><span>05</span> よくある心配事</h2>
+<p class="lead" data-en="Please do not hesitate to ask directly about any concerns">気になることはご遠慮なく直接聞いてください</p>
+<dl>
+<div class="qa-item">
+<dt data-en="Q. What is the noise level?">Q. 騒音はどのくらいですか？</dt>
+<dd data-en="Sounds are limited to wood-chopping in the morning and normal conversation during bathing. Late-night use is not permitted, with checkout scheduled for 10 a.m. the following day. Large speakers and karaoke equipment are not available.">薪サウナの薪割り音（朝）、入浴中の会話程度です。深夜は利用不可とし、チェックアウトは翌10時を予定。大型スピーカーやカラオケ設備はありません。</dd>
+</div>
+<div class="qa-item">
+<dt data-en="Q. Will there be increased vehicle traffic?">Q. 車の出入りは増えますか？</dt>
+<dd data-en="As this is an exclusive venue rental, occupancy is limited to 1–2 groups per day (maximum 4 guests). Large coach tours and group bookings are not accommodated.">1棟貸しのため1日1〜2組（最大4名）が上限です。大型バスや団体ツアーは想定していません。</dd>
+</div>
+<div class="qa-item">
+<dt data-en="Q. Are there any issues with light or odor?">Q. 光や臭いの問題は？</dt>
+<dd data-en="Outdoor lighting is confined to the property grounds with light spillage mitigation. The wood-fired sauna is oriented based on wind direction assessment.">屋外照明は敷地内照射のみ（漏れ光対策あり）。薪サウナの煙は風向きを確認したうえで設置方向を決めます。</dd>
+</div>
+<div class="qa-item">
+<dt data-en="Q. What if an issue arises?">Q. もし問題があったら？</dt>
+<dd data-en="Please contact us immediately if you have any concerns. We will incorporate your feedback into our operational guidelines. Your input helps us enhance the project.">何かあればすぐ連絡ください。運営のルールに組み込みます。ご意見はプロジェクトをより良くするためにも助かります。</dd>
+</div>
+<div class="qa-item">
+<dt data-en="Q. What is the planned scope of future expansion?">Q. 将来どこまで拡大しますか？</dt>
+<dd data-en="In 2026, we plan 1–2 units. Due to limited land, this will not become a large-scale facility. We have no intention of disrupting the tranquility of Mirua.">2026年は1〜2棟。敷地が限られているため大規模な施設にはなりません。美留和の静けさを壊すつもりはまったくありません。</dd>
+</div>
+</dl>
+</div>
+</section>
+<!-- CONTACT -->
+<section>
+<div class="wrap">
+<h2 data-en="Contact"><span>06</span> 連絡先</h2>
+<p class="lead" data-en="Please feel free to ask about anything">何でも気軽に話しかけてください</p>
+<div class="contact-box">
+<h3 data-en="Yuki Hamada (Project Owner)">濱田 優貴 （プロジェクトオーナー）</h3>
+<div class="contact-row">
+<span class="contact-label" data-en="Phone">電話</span>
+<a data-en="Chat Consultation" href="#" onclick="typeof scToggle!=='undefined'&amp;&amp;scToggle();return false">チャットで相談</a>
+</div>
+<div class="contact-row">
+<span class="contact-label" data-en="Email">メール</span>
+<a href="mailto:mail@yukihamada.jp">mail@yukihamada.jp</a>
+</div>
+<div class="contact-row">
+<span class="contact-label" data-en="Site">サイト</span>
+<a href="https://solun.art/instant" target="_blank">solun.art/instant</a>
+<span data-en="(Project Details)" style="font-size:.8rem;color:rgba(232,240,224,.4)">（プロジェクト詳細）</span>
+</div>
+<div class="contact-row">
+<span class="contact-label">OPS</span>
+<a href="https://solun.art/ops" target="_blank">solun.art/ops</a>
+<span data-en="(Construction Schedule Details)" style="font-size:.8rem;color:rgba(232,240,224,.4)">（施工スケジュール詳細）</span>
+</div>
+</div>
+</div>
+</section>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Unit 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Mirua" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Biruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Acquire Units Free of Charge" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Construction &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Biruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+// Map
+const map = L.map('map', { zoomControl: true }).setView([43.5498, 144.3944], 16);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors',
+  maxZoom: 19
+}).addTo(map);
+
+// Custom icons
+const greenIcon = L.divIcon({
+  className: '',
+  html: `<div style="width:18px;height:18px;background:#9bc46d;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.5)"></div>`,
+  iconAnchor: [9, 9]
+});
+const yellowIcon = L.divIcon({
+  className: '',
+  html: `<div style="width:18px;height:18px;background:#f0d060;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.5)"></div>`,
+  iconAnchor: [9, 9]
+});
+
+// Instant House
+L.marker([43.548833, 144.394500], { icon: greenIcon })
+  .addTo(map)
+  .bindPopup('<b>SOLUNA Instant House</b><br>建設予定地', { className: 'dark-popup' });
+
+// 市木さん
+L.marker([43.5508122, 144.3942405], { icon: yellowIcon })
+  .addTo(map)
+  .bindPopup('<b>市木さんのお宅</b>', { className: 'dark-popup' });
+
+// Distance line
+L.polyline(
+  [[43.548833, 144.394500], [43.5508122, 144.3942405]],
+  { color: 'rgba(155,196,109,.4)', weight: 2, dashArray: '6 4' }
+).addTo(map);
+
+// Distance label
+const mid = [(43.548833 + 43.5508122) / 2, (144.394500 + 144.3942405) / 2];
+L.marker(mid, {
+  icon: L.divIcon({
+    className: '',
+    html: `<div style="background:rgba(10,15,7,.85);color:#9bc46d;padding:3px 8px;border-radius:4px;font-size:12px;white-space:nowrap;border:1px solid rgba(155,196,109,.3)">約220m</div>`,
+    iconAnchor: [28, 10]
+  })
+}).addTo(map);
+
+// Popup style override
+const style = document.createElement('style');
+style.textContent = `.leaflet-popup-content-wrapper{background:#1a2410;color:#e8f0e0;border:1px solid rgba(155,196,109,.3);}.leaflet-popup-tip{background:#1a2410;}`;
+document.head.appendChild(style);
+</script>
+<script defer="" src="/chat-widget.js"></script>
+<script defer="" src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

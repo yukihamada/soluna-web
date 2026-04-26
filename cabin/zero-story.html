@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/zero-story" rel="canonical"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title data-en="SOLUNA ZERO — Architecture That Descends into the Earth. Nothing Above Ground. | SOLUNA">SOLUNA ZERO — 地球に潜る建築。地上には何もない。| SOLUNA</title>
+<meta content="40ftコンテナ16本を丘の斜面に30°で埋める。屋根は野花の草原。地上の唯一の痕跡は、草に埋もれたCor-Ten鋼のハッチ。¥5,000万/口" data-en-content="Sixteen 40-foot containers embedded at 30° into a hillside slope. The roof is a wildflower meadow. The sole surface trace is a Cor-Ten steel hatch buried beneath grass. ¥50,000,000 per unit" name="description"/>
+<meta content="/img/cabin_morning.webp" property="og:image"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --void:#010108;
+  --deep:#05050f;
+  --signal:#6a4fcc;
+  --pale:#c8c4e8;
+  --dim:#5a5870;
+  --text:#ddd8f0;
+  --cor:#8b5e3c;
+  --light:#f0e8d0;
+  --crater:#e8c860;
+}
+html{scroll-behavior:smooth;background:var(--void)}
+body{padding-top:48px;
+  background:var(--void);color:var(--text);
+  font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+  overflow-x:hidden;cursor:none;
+}
+#cur{position:fixed;width:6px;height:6px;background:var(--signal);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#cur-r{position:fixed;width:32px;height:32px;border:1px solid rgba(106,79,204,.3);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .2s cubic-bezier(.25,.46,.45,.94)}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:28px 48px;mix-blend-mode:difference}
+.nav-l{font-size:10px;letter-spacing:.4em;color:#fff;text-decoration:none}
+.nav-r{font-size:9px;letter-spacing:.35em;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.2);padding:10px 22px;transition:background .3s}
+.nav-r:hover{background:rgba(255,255,255,.1)}
+
+/* S0 — VOID / SURFACE */
+#s0{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#000}
+#surface-canvas{position:absolute;inset:0}
+.hatch-glow{
+  position:absolute;
+  width:80px;height:80px;
+  border:1px solid rgba(106,79,204,.4);
+  border-radius:50%;
+  bottom:38%;left:50%;transform:translateX(-50%);
+  animation:hatch-pulse 3s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes hatch-pulse{0%,100%{opacity:.2;transform:translateX(-50%) scale(.9)}50%{opacity:.8;transform:translateX(-50%) scale(1.1)}}
+.hero-wrap{position:relative;z-index:2;text-align:center;padding:0 40px}
+.hero-ko{font-size:11px;letter-spacing:.55em;color:rgba(106,79,204,.7);margin-bottom:40px}
+.hero-h1{
+  font-size:clamp(48px,8vw,120px);
+  font-weight:100;color:#fff;
+  line-height:.95;letter-spacing:-.02em;
+  opacity:0;transform:translateY(20px);
+  transition:opacity 2s 1s ease,transform 2s 1s ease;
+}
+.hero-h1.show{opacity:1;transform:none}
+.hero-h1 .line2{display:block;font-weight:300;font-size:.5em;color:var(--pale);letter-spacing:.06em;margin-top:.4em}
+.hero-sub{
+  margin-top:48px;font-size:12px;letter-spacing:.3em;
+  color:var(--dim);
+  opacity:0;transition:opacity 2s 2.5s ease;
+}
+.hero-sub.show{opacity:1}
+.scroll-cue{
+  position:absolute;bottom:48px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  font-size:8px;letter-spacing:.5em;color:var(--dim);
+  opacity:0;transition:opacity 1.5s 4s ease;
+}
+.scroll-cue.show{opacity:1}
+.s-line{width:1px;height:50px;background:linear-gradient(to bottom,transparent,var(--signal));animation:sline 2.5s ease-in-out infinite}
+@keyframes sline{0%,100%{opacity:.2;transform:scaleY(.2)}50%{opacity:1;transform:scaleY(1)}}
+
+/* SECTIONS */
+section{padding:160px 48px}
+@media(max-width:768px){section{padding:100px 28px}}
+.s-label{font-size:9px;letter-spacing:.6em;color:var(--signal);margin-bottom:48px;display:block}
+.s-h2{font-size:clamp(36px,5vw,80px);font-weight:100;line-height:1.05;letter-spacing:-.02em;color:var(--light)}
+.s-h2 em{font-style:normal;color:var(--signal)}
+
+/* DESCENT — EXPERIENCE */
+#s1{background:linear-gradient(to bottom,#000 0%,#05040a 100%);position:relative}
+.descent-steps{
+  margin-top:80px;
+  counter-reset:step;
+}
+.d-step{
+  display:grid;grid-template-columns:60px 1fr;gap:24px;
+  padding:28px 0;
+  border-top:1px solid rgba(106,79,204,.12);
+  opacity:.4;transform:translateX(-12px);
+  transition:opacity .6s,transform .6s;
+}
+.d-step.vis{opacity:1;transform:none}
+.d-num{
+  font-size:11px;letter-spacing:.4em;color:var(--signal);
+  padding-top:4px;
+}
+.d-text{
+  font-size:clamp(16px,2.5vw,24px);
+  font-weight:200;color:var(--pale);
+  line-height:1.5;
+}
+.d-text em{font-style:normal;font-weight:400;color:#fff}
+
+/* SPINE / MAP */
+#s2{background:#000;position:relative;overflow:hidden}
+.spine-canvas-wrap{
+  width:100%;max-width:900px;margin:60px auto 0;
+  background:rgba(106,79,204,.04);
+  border:1px solid rgba(106,79,204,.15);
+  border-radius:2px;overflow:hidden;position:relative;
+}
+#spine-canvas{display:block;width:100%}
+.spine-meta{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+  margin-top:2px;
+}
+.sm-cell{
+  background:rgba(106,79,204,.06);padding:20px;
+  border:1px solid rgba(106,79,204,.1);
+}
+.sm-cell .sm-label{font-size:8px;letter-spacing:.5em;color:var(--signal);margin-bottom:8px;display:block}
+.sm-cell .sm-val{font-size:22px;font-weight:100;color:var(--light)}
+.sm-cell .sm-unit{font-size:10px;color:var(--dim);margin-left:4px}
+
+/* CONTAINERS TABLE */
+#s3{background:linear-gradient(to bottom,#000 0%,#030010 100%)}
+.ct-table{width:100%;border-collapse:collapse;margin-top:60px}
+.ct-table th{
+  font-size:8px;letter-spacing:.5em;color:var(--signal);
+  padding:12px 16px;border-bottom:1px solid rgba(106,79,204,.2);
+  text-align:left;font-weight:400;
+}
+.ct-table td{
+  padding:18px 16px;border-bottom:1px solid rgba(106,79,204,.06);
+  font-size:13px;color:var(--pale);font-weight:200;vertical-align:top;
+}
+.ct-table tr:hover td{background:rgba(106,79,204,.05)}
+.ct-idx{color:var(--dim);font-family:monospace}
+.ct-badge{
+  display:inline-block;padding:3px 8px;
+  background:rgba(106,79,204,.15);border:1px solid rgba(106,79,204,.3);
+  font-size:8px;letter-spacing:.3em;color:var(--signal);
+  margin-top:4px;
+}
+.ct-rt60{font-family:monospace;color:var(--crater)}
+
+/* CRATER section */
+#s4{background:#030010;position:relative;overflow:hidden}
+#crater-canvas{display:block;margin:60px auto 0;width:100%;max-width:700px}
+.crater-desc{
+  max-width:640px;margin:48px auto 0;
+  display:grid;grid-template-columns:1fr 1fr;gap:2px;
+}
+.cd-cell{
+  background:rgba(232,200,96,.04);border:1px solid rgba(232,200,96,.1);
+  padding:28px;
+}
+.cd-label{font-size:8px;letter-spacing:.5em;color:var(--crater);margin-bottom:12px;display:block}
+.cd-text{font-size:14px;font-weight:200;color:var(--pale);line-height:1.6}
+
+/* PHOTO STRIPS */
+.photo-strip{
+  display:grid;gap:3px;
+  margin:0;padding:0;
+}
+.photo-strip.cols3{grid-template-columns:1fr 1fr 1fr}
+.photo-strip.cols2{grid-template-columns:2fr 1fr}
+.photo-strip.cols2r{grid-template-columns:1fr 2fr}
+@media(max-width:640px){
+  .photo-strip.cols3{grid-template-columns:1fr 1fr}
+  .photo-strip.cols2,.photo-strip.cols2r{grid-template-columns:1fr}
+}
+.ps-img{
+  overflow:hidden;position:relative;
+  background:#0a0a14;
+}
+.ps-img.tall{aspect-ratio:3/4}
+.ps-img.wide{aspect-ratio:16/9}
+.ps-img.sq{aspect-ratio:1/1}
+.ps-img img{
+  width:100%;height:100%;object-fit:cover;
+  display:block;
+  filter:saturate(.75) brightness(.85);
+  transition:filter .6s ease,transform .8s ease;
+}
+.ps-img:hover img{filter:saturate(.95) brightness(.95);transform:scale(1.03)}
+.ps-cap{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px 18px 16px;
+  background:linear-gradient(transparent,rgba(0,0,0,.7));
+  font-size:9px;letter-spacing:.35em;color:rgba(200,196,232,.6);
+  pointer-events:none;
+}
+
+/* ACOUSTIC — WHY ZERO */
+#s5{background:#000}
+.acoustic-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:2px;
+  margin-top:60px;max-width:900px;
+}
+@media(max-width:768px){.acoustic-grid{grid-template-columns:1fr}}
+.ag-cell{
+  background:rgba(10,10,20,.8);border:1px solid rgba(106,79,204,.12);
+  padding:40px;
+}
+.ag-label{font-size:8px;letter-spacing:.5em;color:var(--signal);margin-bottom:20px;display:block}
+.ag-big{font-size:clamp(36px,5vw,64px);font-weight:100;color:#fff;line-height:1}
+.ag-unit{font-size:14px;color:var(--dim);margin-left:6px}
+.ag-sub{font-size:13px;font-weight:200;color:var(--dim);margin-top:12px;line-height:1.5}
+.ag-cmp{
+  display:flex;flex-direction:column;gap:8px;margin-top:16px;
+}
+.ag-bar-wrap{display:flex;align-items:center;gap:12px}
+.ag-bar-label{font-size:10px;color:var(--dim);width:100px;text-align:right;flex-shrink:0}
+.ag-bar{height:2px;background:rgba(106,79,204,.15);flex:1;position:relative}
+.ag-bar-fill{height:2px;background:var(--signal);position:absolute;left:0;top:0;width:0;transition:width 1.5s cubic-bezier(.25,.46,.45,.94)}
+
+/* SOLUNA SIGNAL */
+#s6{background:linear-gradient(to bottom,#030010,#000)}
+.signal-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+  margin-top:60px;
+}
+@media(max-width:900px){.signal-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.signal-grid{grid-template-columns:1fr}}
+.sg-cell{
+  background:rgba(106,79,204,.06);border:1px solid rgba(106,79,204,.15);
+  padding:32px;
+}
+.sg-icon{font-size:24px;margin-bottom:20px;display:block;color:var(--signal)}
+.sg-name{font-size:13px;letter-spacing:.15em;color:var(--light);margin-bottom:8px}
+.sg-price{font-size:11px;color:var(--signal);margin-bottom:16px}
+.sg-desc{font-size:12px;color:var(--dim);line-height:1.6}
+
+/* COST BREAKDOWN */
+#s7{background:#000}
+.cost-rows{margin-top:60px;max-width:700px}
+.cost-row{
+  display:grid;grid-template-columns:1fr auto;
+  padding:18px 0;border-bottom:1px solid rgba(106,79,204,.1);
+  align-items:baseline;
+}
+.cost-row.total{border-top:1px solid var(--signal);border-bottom:none;margin-top:8px;padding-top:24px}
+.cost-item{font-size:13px;font-weight:200;color:var(--pale)}
+.cost-price{font-size:14px;color:var(--light);font-family:monospace;letter-spacing:.05em}
+.cost-row.total .cost-item{font-size:16px;letter-spacing:.1em;color:#fff}
+.cost-row.total .cost-price{font-size:20px;color:var(--crater)}
+
+/* OWNERSHIP */
+#s8{background:linear-gradient(to bottom,#000,#030010)}
+.own-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:2px;
+  margin-top:60px;max-width:800px;
+}
+@media(max-width:600px){.own-grid{grid-template-columns:1fr}}
+.og-cell{
+  background:rgba(106,79,204,.06);border:1px solid rgba(106,79,204,.15);padding:36px;
+}
+.og-tier{font-size:9px;letter-spacing:.5em;color:var(--signal);margin-bottom:16px;display:block}
+.og-price{font-size:clamp(24px,3.5vw,40px);font-weight:100;color:#fff}
+.og-unit{font-size:12px;color:var(--dim);margin-left:4px}
+.og-perks{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:8px}
+.og-perks li{font-size:12px;color:var(--pale);padding-left:16px;position:relative;line-height:1.5}
+.og-perks li::before{content:'—';position:absolute;left:0;color:var(--signal)}
+
+/* SOUND TOGGLE */
+#sound-btn{
+  position:fixed;bottom:40px;right:40px;z-index:200;
+  background:rgba(106,79,204,.15);border:1px solid rgba(106,79,204,.3);
+  color:var(--pale);padding:12px 20px;font-size:9px;letter-spacing:.35em;
+  cursor:none;transition:background .3s;
+}
+#sound-btn:hover{background:rgba(106,79,204,.3)}
+
+/* CTA */
+#s9{
+  min-height:70vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;
+  background:radial-gradient(ellipse at 50% 100%,rgba(106,79,204,.15) 0%,#000 70%);
+  padding:120px 48px;
+}
+.cta-h2{font-size:clamp(36px,5vw,72px);font-weight:100;color:var(--pale);line-height:1.1;margin-bottom:24px;letter-spacing:-.02em}
+.cta-h2 em{font-style:normal;color:var(--signal)}
+.cta-sub{font-size:13px;color:var(--dim);margin-bottom:60px;letter-spacing:.2em}
+.cta-btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.btn-main{
+  padding:18px 48px;background:var(--signal);color:#fff;
+  font-size:10px;letter-spacing:.45em;text-decoration:none;
+  border:1px solid var(--signal);transition:background .3s;
+}
+.btn-main:hover{background:rgba(106,79,204,.7)}
+.btn-sub{
+  padding:18px 48px;background:transparent;color:var(--pale);
+  font-size:10px;letter-spacing:.45em;text-decoration:none;
+  border:1px solid rgba(106,79,204,.3);transition:background .3s;
+}
+.btn-sub:hover{background:rgba(106,79,204,.1)}
+
+/* FADE IN */
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.fade-in.vis{opacity:1;transform:none}
+
+/* MONOSPACE DIAGRAM */
+.mono-box{
+  font-family:'Courier New',Courier,monospace;
+  font-size:clamp(10px,1.8vw,13px);
+  line-height:1.6;
+  color:rgba(200,196,232,.6);
+  background:rgba(106,79,204,.04);
+  border:1px solid rgba(106,79,204,.1);
+  padding:32px;
+  margin-top:40px;
+  white-space:pre;
+  overflow-x:auto;
+}
+.mono-box em{color:var(--signal);font-style:normal}
+
+footer{
+  padding:60px 48px;border-top:1px solid rgba(106,79,204,.1);
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:9px;letter-spacing:.35em;color:var(--dim);
+}
+footer a{color:var(--dim);text-decoration:none}
+
+/* ARCHITECTURAL DRAWINGS */
+#s-arch{background:#000a14;position:relative}
+.arch-tabs{display:flex;gap:1px;margin-top:60px;flex-wrap:wrap}
+.arch-tab{
+  padding:14px 28px;font-size:9px;letter-spacing:.4em;
+  background:rgba(74,138,212,.06);border:1px solid rgba(74,138,212,.15);
+  color:rgba(120,170,220,.4);cursor:none;transition:all .25s;
+  font-family:'Courier New',monospace;
+}
+.arch-tab.active,.arch-tab:hover{
+  background:rgba(74,138,212,.15);
+  color:rgba(180,220,255,.9);
+  border-color:rgba(74,138,212,.4);
+}
+.arch-panel{display:none}
+.arch-panel.active{display:block}
+.arch-cv-wrap{
+  width:100%;margin-top:1px;
+  border:1px solid rgba(74,138,212,.12);
+  background:#000810;overflow:hidden;
+}
+.arch-cv-wrap canvas{display:block;width:100%}
+.arch-note{
+  font-family:'Courier New',monospace;font-size:9px;
+  letter-spacing:.25em;color:rgba(74,138,212,.3);
+  margin-top:10px;
+}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<div id="cur"></div>
+<div id="cur-r"></div>
+<!-- S0: SURFACE — NOTHING ABOVE GROUND -->
+<section id="s0">
+<canvas id="surface-canvas"></canvas>
+<div class="hatch-glow"></div>
+<div class="hero-wrap">
+<p class="hero-ko" data-en="SOLUNA ZERO — ¥1 billion underground architecture">SOLUNA ZERO — ¥10億の地下建築</p>
+<h1 class="hero-h1" data-en="Architecture Submerged in Earth">
+      地球に潜る建築。
+      <span class="line2" data-en="Nothing exists above ground.">地上には、何もない。</span>
+</h1>
+<p class="hero-sub" data-en="Hokkaido, Kushiro — 40ft Containers × 16 Units — Fully Underground Installation">北海道 屈斜路 — 40ftコンテナ × 16本 — 完全地中埋設</p>
+</div>
+<div class="scroll-cue">
+<span>DESCEND</span>
+<div class="s-line"></div>
+</div>
+</section>
+<!-- S1: DESCENT EXPERIENCE -->
+<section id="s1">
+<span class="s-label fade-in">THE EXPERIENCE</span>
+<h2 class="s-h2 fade-in" data-en="Open the grassland hatch,">草原のハッチを開ける、<em data-en="That is all.">それだけ。</em></h2>
+<div class="descent-steps">
+<div class="d-step fade-in"><span class="d-num">01</span><p class="d-text" data-en="Step out of the car. Teshikaga, Hokkaido—the outer edge of Akan-Mashu National Park.">車を降りる。<em data-en="Ground is grass. No structures above.">地面は草。建物はゼロ。</em>北海道 弟子屈町、阿寒摩周国立公園の外縁。</p></div>
+<div class="d-step fade-in"><span class="d-num">02</span><p class="d-text" data-en="Navigate by GPS. In the center of the grassland, a Cor-Ten steel hatch emerges.">GPSで進む。草原の中央に、Cor-Ten鋼のハッチ（直径 <em>900mm</em>）が現れる。</p></div>
+<div class="d-step fade-in"><span class="d-num">03</span><p class="d-text" data-en="Open the hatch. The air temperature shifts. Ground level.">ハッチを開ける。空気温度が変わる。地表 <em data-en="+28°C → Underground Entrance +14°C">+28°C → 地中入口 +14°C</em>。</p></div>
+<div class="d-step fade-in"><span class="d-num">04</span><p class="d-text" data-en="Descend by steel ladder. Above the groundwater level. Bedrock is volcanic andesite.">スチール梯子で <em>−3.2m</em> 降りる。地下水面の上。岩盤は火山性安山岩。</p></div>
+<div class="d-step fade-in"><span class="d-num">05</span><p class="d-text" data-en="Arriving at THE SPINE. Cor-Ten Steel Lining, Width × Height. 200m Left and Right.">THE SPINE に着く。Cor-Ten鋼ライニング、幅 <em>3.6m</em> × 高 <em>2.8m</em>。左右に200m。</p></div>
+<div class="d-step fade-in"><span class="d-num">06</span><p class="d-text" data-en="Walk. Eight 40ft container doors on each side.">歩く。両側に40ftコンテナの扉（<em>2,340mm × 2,280mm</em>）が8本ずつ。</p></div>
+<div class="d-step fade-in"><span class="d-num">07</span><p class="d-text" data-en="100m point. Temperature, noise level. The human heartbeat is audible.">100m地点。気温 <em>+13°C</em>、騒音レベル <em>18dB(A)</em>。人間の心拍音が聴こえる。</p></div>
+<div class="d-step fade-in"><span class="d-num">08</span><p class="d-text" data-en="Light from the front. THE CRATER — a bedrock shaft penetrating to the surface.">正面に光。THE CRATER — 直径 <em>Ø15m</em> の岩盤シャフトが地上まで貫通。</p></div>
+<div class="d-step fade-in"><span class="d-num">09</span><p class="d-text" data-en="Look Up: Circular Sky. At Night, a Telescope. Teshikaga's Light Pollution Index Ranks Among Japan's Lowest.">見上げると円形の空。夜は望遠鏡。屈斜路の光害指数は全国最低クラス <em>SQM 21.8</em>。</p></div>
+<div class="d-step fade-in"><span class="d-num">10</span><p class="d-text" data-en="Lake Kussharo Through the Northern Glass. All Containers Face This Direction.">北端のガラス越しに屈斜路湖。<em data-en="Direct Line to Water Surface: 2.1km">水面まで直線 2.1km</em>。全コンテナがこの方向を向く。</p></div>
+</div>
+</section>
+<!-- PHOTO: DESCENT ATMOSPHERE -->
+<div class="photo-strip cols3">
+<div class="ps-img wide"><img alt="コンテナ内装" data-en-alt="Container Interior" loading="lazy" src="/img/container_interior.webp"/><span class="ps-cap">CONTAINER INTERIOR</span></div>
+<div class="ps-img wide"><img alt="薪暖炉" data-en-alt="Wood-Burning Fireplace" loading="lazy" src="/img/container_living_fire.webp"/><span class="ps-cap">WOOD FIRE / LIVING</span></div>
+<div class="ps-img wide"><img alt="地下空間" data-en-alt="Underground Space" loading="lazy" src="/img/comfort_underground_cellar.webp"/><span class="ps-cap">UNDERGROUND SPACE</span></div>
+</div>
+<!-- S2: THE SPINE + MAP -->
+<section id="s2">
+<span class="s-label fade-in">THE SPINE</span>
+<h2 class="s-h2 fade-in" data-en="A 200-meter underground corridor">200mの地下回廊が、<em data-en="Connecting Everything">全てをつなぐ。</em></h2>
+<div class="spine-canvas-wrap fade-in">
+<canvas height="360" id="spine-canvas"></canvas>
+</div>
+<div class="spine-meta fade-in">
+<div class="sm-cell">
+<span class="sm-label" data-en="Resonance Frequency">共鳴周波数</span>
+<span class="sm-val">0.85<span class="sm-unit">Hz</span></span>
+</div>
+<div class="sm-cell">
+<span class="sm-label" data-en="Total Corridor Length">廊下全長</span>
+<span class="sm-val">200<span class="sm-unit">m</span></span>
+</div>
+<div class="sm-cell">
+<span class="sm-label" data-en="Embedded Containers">埋設コンテナ</span>
+<span class="sm-val">16<span class="sm-unit">本</span></span>
+</div>
+</div>
+<div class="mono-box fade-in" data-en="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ THE SPINE — Cross-Section Specifications
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Total Length       200 m (North End → South End)
+  Effective Width    3,600 mm
+  Effective Height   2,800 mm
+  Lining             Cor-Ten Steel t=6mm + Epoxy Coal Tar Waterproofing (3 Layers)
+  Flooring           Polished Sandstone Slab t=50mm
+  Ceiling            Fiber Optic Illumination (Day: Daylight Tube / Night: Stars)
+  Ventilation        Geothermal Pressure Differential Ventilation — Zero Blower, Natural Circulation
+  Fire Safety        Water Mist Suppression System + Smoke Control Ventilation 2,400 m³/h
+
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ Acoustic Resonance — Standing Wave Frequency
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  f = c / 2L = 340m/s ÷ (200m × 2) =
+  → Physically Impossible in Conventional Studios (Requires 200m Space)
+  → Perceived Frequency Band (&lt;1Hz). Inaudible. Visceral Movement.">
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ THE SPINE — 断面仕様
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  全長          200 m（北端 → 南端）
+  有効幅        3,600 mm
+  有効高        2,800 mm
+  ライニング    Cor-Ten鋼 t=6mm + エポキシコールタール防水 3層
+  床材          研磨砂岩スラブ t=50mm
+  天井          光ファイバー照明（昼：採光チューブ / 夜：星）
+  換気          地熱差圧換気 — 送風機ゼロ、自然循環
+  消防          水噴霧消火設備 + 煙制御換気 2,400 m³/h
+
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 音響共鳴 — 定在波周波数
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  f = c / 2L = 340m/s ÷ (200m × 2) = <em>0.85 Hz</em>
+  → 地上スタジオでは物理的に不可能（200mの空間が必要）
+  → 体感周波数帯（&lt;1Hz）。聴こえない。内臓が動く。</div>
+</section>
+<!-- PHOTO: SITE / AERIAL -->
+<div class="photo-strip cols3">
+<div class="ps-img wide"><img alt="航空写真" data-en-alt="Aerial photograph" loading="lazy" src="/img/village_aerial_new.webp"/><span class="ps-cap">SITE — AERIAL VIEW</span></div>
+<div class="ps-img wide"><img alt="美留和空撮" data-en-alt="Miruwa aerial photography" loading="lazy" src="/img/miruwa_mixed_aerial.webp"/><span class="ps-cap">MIRUWA — MIXED AERIAL</span></div>
+<div class="ps-img wide"><img alt="広大な敷地" data-en-alt="Expansive Grounds" loading="lazy" src="/img/village_vast_scale.webp"/><span class="ps-cap" data-en="32,337 Tsubo — SCALE">32,337坪 — SCALE</span></div>
+</div>
+<div class="photo-strip cols2r">
+<div class="ps-img wide"><img alt="冬の美留和" data-en-alt="Miruwa in winter" loading="lazy" src="/img/winter_village.webp"/><span class="ps-cap">WINTER / −20°C</span></div>
+<div class="ps-img wide"><img alt="雪の空撮" data-en-alt="Aerial View in Snow" loading="lazy" src="/img/village_snow_aerial.webp"/><span class="ps-cap">SNOW AERIAL</span></div>
+</div>
+<!-- S3: 16 CONTAINERS -->
+<section id="s3">
+<span class="s-label fade-in">THE 16 CONTAINERS</span>
+<h2 class="s-h2 fade-in" data-en="Sixteen rooms.">16の部屋が、<em data-en="Existing within the earth.">地球の中に存在する。</em></h2>
+<table class="ct-table fade-in">
+<thead>
+<tr>
+<th>#</th>
+<th data-en="Purpose">用途</th>
+<th data-en="Acoustic RT60">音響RT60</th>
+<th>SIGNAL</th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="ct-idx">01–04</td><td data-en="Sleep pods × 4">スリープポッド × 4<br/><span class="ct-badge" data-en="Each 29m² · King 180×200cm · Skylight Included">各 29m²・King 180×200cm・天窓付き</span></td><td class="ct-rt60">0.4 s</td><td>–</td></tr>
+<tr><td class="ct-idx">05</td><td data-en="Recording Studio A">レコーディングスタジオ A<br/><span class="ct-badge" data-en="DRY ROOM / 150 mm rockwool sound absorption">DRY ROOM / 150mm ロックウール吸音</span></td><td class="ct-rt60">0.15 s</td><td>Forest Console 12-bus</td></tr>
+<tr><td class="ct-idx">06</td><td data-en="Recording Studio B">レコーディングスタジオ B<br/><span class="ct-badge" data-en="LIVE ROOM / Diffusion panels + reflection panels">LIVE ROOM / 拡散パネル + 反射パネル</span></td><td class="ct-rt60">0.80 s</td><td>Forest Console 12-bus</td></tr>
+<tr><td class="ct-idx">07–08</td><td data-en="Production suite (2-unit connected, 58m²)">プロダクションスイート（2本連結 58m²）<br/><span class="ct-badge" data-en="32-Channel HOA + GPS-Synchronized Clock">32ch HOA + GPS同期クロック</span></td><td class="ct-rt60">variable</td><td>GPS Oracle + Dome Array</td></tr>
+<tr><td class="ct-idx">09</td><td data-en="Shared kitchen / dining">共用キッチン / ダイニング<br/><span class="ct-badge" data-en="Capacity 50 guests, Electrolux 6-burner commercial, dishwasher">50名収容・Electrolux 6口業務用・食器洗浄機</span></td><td class="ct-rt60">–</td><td>–</td></tr>
+<tr><td class="ct-idx">10</td><td data-en="Library / Lounge">ライブラリー / ラウンジ<br/><span class="ct-badge" data-en="3,000-volume library, reading lights, whiskey cellar">蔵書3,000冊・読書灯・ウィスキーセラー</span></td><td class="ct-rt60">–</td><td>–</td></tr>
+<tr><td class="ct-idx">11</td><td data-en="Hot Spring Bath">温泉浴室<br/><span class="ct-badge" data-en="Geothermal hot spring intake · pH 6.8 · sodium bicarbonate spring water">地熱源泉引込・pH 6.8・ナトリウム炭酸水素塩泉</span></td><td class="ct-rt60">–</td><td>–</td></tr>
+<tr><td class="ct-idx">12</td><td data-en="Wood-fired sauna + cold plunge bath">薪サウナ + 水風呂<br/><span class="ct-badge" data-en="HARVIA 36 kW, temperature 110°C, flowing groundwater">HARVIA 36kW・温度110°C・地下水掛け流し</span></td><td class="ct-rt60">–</td><td>–</td></tr>
+<tr><td class="ct-idx">13–14</td><td data-en="Work Party workshop (2 connected units, 58 m²)">Work Party工房（2本連結 58m²）<br/><span class="ct-badge" data-en="Lathe, Welding, 3D Printer, Dust Collection System">旋盤・溶接・3Dプリンター・集塵設備</span></td><td class="ct-rt60">–</td><td>–</td></tr>
+<tr><td class="ct-idx">15</td><td data-en="Equipment room / server">機材室 / サーバー<br/><span class="ct-badge" data-en="Temperature 20±0.5°C · Humidity 45% · UPS 30kVA">温度 20±0.5°C・湿度 45%・UPS 30kVA</span></td><td class="ct-rt60">–</td><td>–</td></tr>
+<tr><td class="ct-idx">16</td><td data-en="Entry / Control">エントリー / コントロール<br/><span class="ct-badge" data-en="16-channel surveillance cameras · smart locks · weather sensors">監視カメラ16ch・スマートロック・気象センサー</span></td><td class="ct-rt60">–</td><td>–</td></tr>
+</tbody>
+</table>
+</section>
+<!-- PHOTO: ROOM TYPES -->
+<div class="photo-strip cols2">
+<div class="ps-img wide"><img alt="ラグジュアリーインテリア" data-en-alt="Luxury Interior" loading="lazy" src="/img/container_interior_luxury.webp"/><span class="ps-cap">SLEEP POD INTERIOR</span></div>
+<div class="ps-img wide"><img alt="ベッドルーム" data-en-alt="Bedroom" loading="lazy" src="/img/container_bedroom.webp"/><span class="ps-cap">BEDROOM</span></div>
+</div>
+<div class="photo-strip cols3">
+<div class="ps-img sq"><img alt="キッチン" data-en-alt="Kitchen" loading="lazy" src="/img/container_kitchen.webp"/><span class="ps-cap">KITCHEN / DINING</span></div>
+<div class="ps-img sq"><img alt="バスルーム" data-en-alt="Bathroom" loading="lazy" src="/img/container_bathroom.webp"/><span class="ps-cap">BATHROOM</span></div>
+<div class="ps-img sq"><img alt="ワークスペース" data-en-alt="Workspace" loading="lazy" src="/img/container_workspace.webp"/><span class="ps-cap">WORKSPACE / STUDIO</span></div>
+</div>
+<!-- PHOTO: CONTAINER DETAILS -->
+<div class="photo-strip cols3">
+<div class="ps-img wide"><img alt="エントランス" data-en-alt="Entrance" loading="lazy" src="/img/container_entrance.webp"/><span class="ps-cap">CONTAINER ENTRANCE</span></div>
+<div class="ps-img wide"><img alt="ルーフデッキ" data-en-alt="Roof deck" loading="lazy" src="/img/container_rooftop_deck.webp"/><span class="ps-cap">ROOFTOP DECK</span></div>
+<div class="ps-img wide"><img alt="サウナ接続" data-en-alt="Sauna connection" loading="lazy" src="/img/container_sauna_connect.webp"/><span class="ps-cap">SAUNA CONNECTION</span></div>
+</div>
+<div class="photo-strip cols2">
+<div class="ps-img wide"><img alt="プレミアムコンテナ外観" data-en-alt="Premium Container Exterior" loading="lazy" src="/img/container_premium_exterior.webp"/><span class="ps-cap">PREMIUM CONTAINER — EXTERIOR</span></div>
+<div class="ps-img wide"><img alt="ツイン空撮" data-en-alt="Twin Aerial Photography" loading="lazy" src="/img/container_twin_aerial.webp"/><span class="ps-cap">TWIN CONTAINER — AERIAL</span></div>
+</div>
+<!-- S-ARCH: ARCHITECTURAL DRAWINGS -->
+<section id="s-arch">
+<span class="s-label fade-in" data-en="Architectural Drawings">設計図 / ARCHITECTURAL DRAWINGS</span>
+<h2 class="s-h2 fade-in" data-en="Architecture">建築を<em data-en="Anatomy">解剖する。</em></h2>
+<div class="arch-tabs fade-in">
+<button class="arch-tab active" data-en="01 — Cross-Section A-A" onclick="switchTab('cross',this)">01 — 断面図 A-A</button>
+<button class="arch-tab" data-en="02 — Floor Plan B0" onclick="switchTab('plan',this)">02 — 平面図 B0</button>
+<button class="arch-tab" data-en="03 — Axonometric Projection" onclick="switchTab('axo',this)">03 — アクソノメ投影図</button>
+</div>
+<div class="arch-cv-wrap fade-in">
+<div class="arch-panel active" id="tab-cross">
+<canvas id="cv-cross" style="height:560px"></canvas>
+</div>
+<div class="arch-panel" id="tab-plan">
+<canvas id="cv-plan" style="height:560px"></canvas>
+</div>
+<div class="arch-panel" id="tab-axo">
+<canvas id="cv-axo" style="height:560px"></canvas>
+</div>
+</div>
+<p class="arch-note fade-in" data-en="Schematic Design—Subject to Change">図面は概念設計段階のものです — 実施設計において変更が生じる場合があります / SCHEMATIC DESIGN — SUBJECT TO CHANGE</p>
+</section>
+<!-- S4: THE CRATER -->
+<section id="s4">
+<span class="s-label fade-in">THE CRATER</span>
+<h2 class="s-h2 fade-in" data-en="Pierced through the center">中心に穿たれた<em data-en="A Aperture of Light.">光の穴。</em></h2>
+<canvas height="500" id="crater-canvas"></canvas>
+<div class="crater-desc fade-in">
+<div class="cd-cell">
+<span class="cd-label" data-en="Dimensions">寸法</span>
+<p class="cd-text" data-en="Diameter, Depth (Shaft Penetrating to Ground Level). Floor Area 176m². Excavation Volume Approximately 1,146m³. Walls Mirror-Finished by Rock Cutting Machine Without Blasting.">直径 <strong>Ø15m</strong>、深さ <strong>6.5m</strong>（地表まで貫通シャフト）。底面積 176m²。掘削量 約1,146m³。壁は発破なし、岩盤切削機による鏡面仕上げ。</p>
+</div>
+<div class="cd-cell">
+<span class="cd-label" data-en="Materials">素材</span>
+<p class="cd-text" data-en="Bedrock walls are exposed in raw shotcrete finish (t=80mm). Flooring features locally sourced Teshikaga sandstone slabs (t=60mm) with polished finish. Drainage occurs through natural percolation below the water table (drainage φ200mm × 6 units).">岩盤壁面はショットクリート t=80mm 仕上げのまま露出。床は弟子屈産砂岩スラブ t=60mm、研磨仕上げ。排水は地下水位下に自然浸透（ドレイン φ200mm × 6本）。</p>
+</div>
+<div class="cd-cell">
+<span class="cd-label" data-en="Natural light / daytime">採光 / 昼</span>
+<p class="cd-text" data-en="Sunlight enters vertically at noon. Illuminance (summer solstice). Rising air currents within the shaft ventilate the entire SPINE. Ventilation volume (zero mechanical fan).">正午に太陽光が垂直入射。照度 <strong>8,000 lux</strong>（夏至）。シャフト内上昇気流が SPINE 全体を換気。換気量 <strong>2,400 m³/h</strong>（送風機ゼロ）。</p>
+</div>
+<div class="cd-cell">
+<span class="cd-label" data-en="Starry Sky / Night">星空 / 夜</span>
+<p class="cd-text" data-en="Zero artificial light. Light pollution index SQM (highest class in Hokkaido). The Milky Way framed within Ø15m.">人工光ゼロ。周辺半径 <strong data-en="No Urban Development Within 50km">50km 以内に市街地なし</strong>。光害指数 SQM <strong>21.8 mag/arcsec²</strong>（北海道最高クラス）。天の川が Ø15m の額縁に収まる。</p>
+</div>
+</div>
+</section>
+<!-- PHOTO: NIGHT / STARS -->
+<div class="photo-strip cols2r">
+<div class="ps-img wide"><img alt="星空" data-en-alt="Starlit Sky" loading="lazy" src="/img/container_night_stars.webp"/><span class="ps-cap">CRATER OPENING — NIGHT SKY</span></div>
+<div class="ps-img wide"><img alt="天の川" data-en-alt="Milky Way" loading="lazy" src="/img/village_night_milkyway.webp"/><span class="ps-cap" data-en="MILKY WAY / Lake Kussharo">MILKY WAY / 屈斜路湖</span></div>
+</div>
+<div class="photo-strip cols3">
+<div class="ps-img wide"><img alt="星空観測" data-en-alt="Stargazing" loading="lazy" src="/img/comfort_stargazing.webp"/><span class="ps-cap">STARGAZING DECK</span></div>
+<div class="ps-img wide"><img alt="サウナ" data-en-alt="Sauna" loading="lazy" src="/img/comfort_barrel_sauna.webp"/><span class="ps-cap">WOOD-FIRED SAUNA</span></div>
+<div class="ps-img wide"><img alt="薪ストーブ" data-en-alt="Wood-Burning Stove" loading="lazy" src="/img/offgrid_stove_night.webp"/><span class="ps-cap">GEOTHERMAL STOVE</span></div>
+</div>
+<!-- S5: WHY UNDERGROUND -->
+<section id="s5">
+<span class="s-label fade-in" data-en="Why Underground">なぜ地中か</span>
+<h2 class="s-h2 fade-in" data-en="In above-ground construction">地上建築では<em data-en="A Number That Cannot Be Disclosed.">絶対に出せない数字。</em></h2>
+<div class="acoustic-grid fade-in">
+<div class="ag-cell">
+<span class="ag-label" data-en="External noise isolation (3m underground)">外部騒音遮断（地中3m）</span>
+<div class="ag-big">−100<span class="ag-unit">dB以上</span></div>
+<p class="ag-sub" data-en="ISO 3382 measurement. 60dB+ improvement over above-ground studio standard (−40dB). Background noise NR-5 or below (human hearing threshold).">ISO 3382 計測。地上一級スタジオ（−40dB）比で 60dB 以上の改善。バックグラウンドノイズは NR-5 以下（人間の聴力限界）。</p>
+<div class="ag-cmp">
+<div class="ag-bar-wrap"><span class="ag-bar-label" data-en="Ground-Level Studio (NR-15)">地上スタジオ (NR-15)</span><div class="ag-bar"><div class="ag-bar-fill" data-w="38"></div></div></div>
+<div class="ag-bar-wrap"><span class="ag-bar-label" data-en="ZERO (NR-5 and below)">ZERO (NR-5 以下)</span><div class="ag-bar"><div class="ag-bar-fill" data-w="100"></div></div></div>
+</div>
+</div>
+<div class="ag-cell">
+<span class="ag-label" data-en="Constant Temperature (3.2m Below Ground, Measured)">恒温性（地下 3.2m 実測）</span>
+<div class="ag-big">13–15<span class="ag-unit">°C</span></div>
+<p class="ag-sub" data-en="Measured at 3m underground in Teshikaga (Geological Survey Report 2023). Temperature variance only ±1°C despite exterior ranging from −20°C (deep winter) to +32°C (peak summer). Heating cost approximately ; zero air conditioning.">弟子屈町の地下 3m 実測値（地質調査報告 2023）。外気 −20°C（厳冬）〜 +32°C（盛夏）に対して変動わずか ±1°C。暖房コスト 約 <strong>1/5</strong>、冷房ゼロ。</p>
+</div>
+<div class="ag-cell">
+<span class="ag-label" data-en="Structural durability lifespan">構造耐久年数</span>
+<div class="ag-big">100<span class="ag-unit" data-en="Years and Beyond">年以上</span></div>
+<p class="ag-sub" data-en="Three-layer epoxy coal tar + rust-preventative primer HC containers (equivalent to JIS A 6021). In anaerobic subsurface conditions, Cor-Ten steel corrosion rates remain minimal. Design lifespan: 300 years at 6mm wall thickness.">エポキシコールタール 3層 + 防錆プライマー処理済み HC コンテナ（JIS A 6021 相当）。地中無酸素環境でコルテン鋼の腐食速度は <strong data-en="0.02mm/Year">0.02mm/年</strong>以下。壁厚 6mm で 300年計算。</p>
+</div>
+<div class="ag-cell">
+<span class="ag-label" data-en="Coverage &amp; Floor Area Ratio (Surface Level)">建蔽率・容積率（地上）</span>
+<div class="ag-big">0<span class="ag-unit">%</span></div>
+<p class="ag-sub" data-en="No structure classified as a building under the Building Standards Law exists above ground. The hatch is classified as an auxiliary structure (confirmation application not required). Vegetated roof returns value to the ecosystem. Exterior regulations under landscape ordinances and natural park law are circumvented.">建築基準法上の「建築物」は地上に存在しない。ハッチは工作物（確認申請不要）。緑化屋根として生態系に還元。景観条例・自然公園法の外観規制を回避。</p>
+</div>
+</div>
+</section>
+<!-- PHOTO: EXTERIOR / LANDSCAPE -->
+<div class="photo-strip cols3">
+<div class="ps-img wide"><img alt="冬の外観" data-en-alt="Winter exterior" loading="lazy" src="/img/container_exterior_winter.webp"/><span class="ps-cap">SURFACE — WINTER</span></div>
+<div class="ps-img wide"><img alt="朝の草原" data-en-alt="Morning Meadow" loading="lazy" src="/img/cabin_morning.webp"/><span class="ps-cap">GRASSLAND SURFACE — MORNING</span></div>
+<div class="ps-img wide"><img alt="夏" loading="lazy" src="/img/container_summer.webp"/><span class="ps-cap">HATCH ENTRANCE — SUMMER</span></div>
+</div>
+<!-- S6: SOLUNA SIGNAL -->
+<section id="s6">
+<span class="s-label fade-in">SOLUNA SIGNAL — ZERO EDITION</span>
+<h2 class="s-h2 fade-in" data-en="The Sound of the Earth,">地球の音を、<em data-en="Record in full specification.">完全装備で録る。</em></h2>
+<div class="signal-grid fade-in">
+<div class="sg-cell">
+<span class="sg-icon">▣</span>
+<div class="sg-name">Forest Console</div>
+<div class="sg-price">¥380,000</div>
+<p class="sg-desc" data-en="DIY tube summing mixer. 12-bus Neve-style. In the silence beneath the earth, analog warmth achieves its fullest expression.">DIYチューブサミングミキサー。12バスNeve-style。地中の静寂の中で、アナログの温かみが最大限に活きる。</p>
+</div>
+<div class="sg-cell">
+<span class="sg-icon">◉</span>
+<div class="sg-name">GPS Oracle</div>
+<div class="sg-price">¥120,000</div>
+<p class="sg-desc" data-en="50 femtosecond jitter clock. GPS satellite synchronization. Atomic clock precision word clock supplied via surface antenna, even underground.">50フェムト秒ジッタークロック。GPS衛星同期。地下でも地上アンテナ経由で原子時計精度のワードクロックを供給。</p>
+</div>
+<div class="sg-cell">
+<span class="sg-icon">⬡</span>
+<div class="sg-name">Silent Power</div>
+<div class="sg-price">¥280,000</div>
+<p class="sg-desc" data-en="Toroidal Transformer × 4 + Linear Stabilized Power Supply. Complete Off-Grid Operation: Geothermal + Solar Integration.">トロイダルトランス×4 + リニア安定化電源。地熱発電と太陽光の組み合わせで完全オフグリッド。</p>
+</div>
+<div class="sg-cell">
+<span class="sg-icon">◎</span>
+<div class="sg-name">Dome Array</div>
+<div class="sg-price">¥850,000</div>
+<p class="sg-desc" data-en="32-channel 7th-order HOA. Spherical acoustic microphone array. Permanently installed in production suite (#07-08).">32ch 7th Order HOA。球面音響マイクロフォンアレイ。プロダクションスイート（#07-08）に常設。</p>
+</div>
+<div class="sg-cell">
+<span class="sg-icon">☁</span>
+<div class="sg-name">Weather Synth</div>
+<div class="sg-price">¥420,000</div>
+<p class="sg-desc" data-en="CEM3340 × 8 + SSI2144 × 4. Surface meteorological sensors dynamically modulate the underground studio's acoustic environment in real time.">CEM3340 × 8 + SSI2144 × 4。地上の気象センサーがリアルタイムで地下スタジオの音響環境を変える。</p>
+</div>
+<div class="sg-cell">
+<span class="sg-icon">〜</span>
+<div class="sg-name">Deep Listener</div>
+<div class="sg-price">¥410,000</div>
+<p class="sg-desc" data-en="4-Channel Hydrophone Array. Underwater Acoustics from Lake Kussharo Piped Directly into Underground Studio. The Voice of the Lake Resonates from the Walls.">4chハイドロフォンアレイ。屈斜路湖の水中音響を地下スタジオに直接引き込む。湖の声が壁から聴こえる。</p>
+</div>
+</div>
+</section>
+<!-- PHOTO: SAUNA / NIGHT LIFE -->
+<div class="photo-strip cols3">
+<div class="ps-img wide"><img alt="サウナ全景" data-en-alt="Full Sauna View" loading="lazy" src="/img/pro_sauna_complete.webp"/><span class="ps-cap">HARVIA SAUNA — EXTERIOR</span></div>
+<div class="ps-img wide"><img alt="サウナ内部" data-en-alt="Sauna Interior" loading="lazy" src="/img/pro_sauna_inside.webp"/><span class="ps-cap">HARVIA 36kW — INTERIOR</span></div>
+<div class="ps-img wide"><img alt="水風呂" data-en-alt="Cold Water Bath" loading="lazy" src="/img/sauna_water.webp"/><span class="ps-cap" data-en="COLD PLUNGE / Groundwater Cascade">COLD PLUNGE / 地下水掛け流し</span></div>
+</div>
+<div class="photo-strip cols2">
+<div class="ps-img wide"><img alt="野外シアター" data-en-alt="Open-Air Theater" loading="lazy" src="/img/outdoor_cinema_night.webp"/><span class="ps-cap">OUTDOOR CINEMA — NIGHT</span></div>
+<div class="ps-img wide"><img alt="焚き火ステージ" data-en-alt="Bonfire stage" loading="lazy" src="/img/village_bonfire_stage.webp"/><span class="ps-cap">BONFIRE STAGE</span></div>
+</div>
+<div class="photo-strip cols3">
+<div class="ps-img wide"><img alt="夜の美留和" data-en-alt="Biruwa at night" loading="lazy" src="/img/miruwa_mixed_night.webp"/><span class="ps-cap">MIRUWA — NIGHT</span></div>
+<div class="ps-img wide"><img alt="夜の集い" data-en-alt="Evening Gathering" loading="lazy" src="/img/outdoor_social_night.webp"/><span class="ps-cap">SOCIAL NIGHT</span></div>
+<div class="ps-img wide"><img alt="村の夜" data-en-alt="Village night" loading="lazy" src="/img/village_night.webp"/><span class="ps-cap">VILLAGE — NIGHT</span></div>
+</div>
+<!-- S7: COST -->
+<section id="s7">
+<span class="s-label fade-in" data-en="Budget Breakdown">予算内訳</span>
+<h2 class="s-h2 fade-in" data-en="¥1 Billion">¥10億の<em data-en="Purpose.">使い道。</em></h2>
+<div class="cost-rows fade-in">
+<div class="cost-row"><span class="cost-item" data-en="Land (4,000 m²) + registration + permits">土地（4,000m²）+ 登記 + 許認可</span><span class="cost-price">¥100,000,000</span></div>
+<div class="cost-row"><span class="cost-item" data-en="HC 40ft Containers × 16 Units (New Import @¥3.5M) + Renovation · Rust Prevention · Opening Work">HC 40ft コンテナ × 16本（輸入新品 @¥350万）+ 改造・防錆・開口工事</span><span class="cost-price">¥80,000,000</span></div>
+<div class="cost-row"><span class="cost-item" data-en="Civil Engineering (Excavation 45,000m³ + Retaining Wall + 3-Layer Epoxy Waterproofing)">土木工事（掘削 45,000m³ + 擁壁 + エポキシ防水 3層）</span><span class="cost-price">¥250,000,000</span></div>
+<div class="cost-row"><span class="cost-item" data-en="THE SPINE Underground Corridor 200m (Cor-Ten Steel + Sandstone Flooring + Fiber Optic Ceiling)">THE SPINE 地下回廊 200m（Cor-Ten鋼 + 砂岩床 + 光ファイバー天井）</span><span class="cost-price">¥120,000,000</span></div>
+<div class="cost-row"><span class="cost-item" data-en="THE CRATER Bedrock Shaft Ø15m × Depth 6.5m (Excavated + Cleated Finish)">THE CRATER 岩盤シャフト Ø15m × 深 6.5m（切削 + クリート仕上げ）</span><span class="cost-price">¥80,000,000</span></div>
+<div class="cost-row"><span class="cost-item" data-en="Interior Finishes / Fixtures / Skylight Glass (All 16 Rooms × @¥11.25M)">内装 / 建具 / トップライトガラス（全16室 × @¥1,125万）</span><span class="cost-price">¥180,000,000</span></div>
+<div class="cost-row"><span class="cost-item" data-en="Acoustic system SOLUNA SIGNAL ZERO Edition (6 components)">音響設備 SOLUNA SIGNAL ZERO Edition（全6コンポーネント）</span><span class="cost-price">¥30,000,000</span></div>
+<div class="cost-row"><span class="cost-item" data-en="Geothermal heat pump (COP 4.2) + hot spring source intake (800m drilling)">地熱ヒートポンプ（COP 4.2）+ 温泉源泉引込（掘削 800m）</span><span class="cost-price">¥60,000,000</span></div>
+<div class="cost-row"><span class="cost-item" data-en="Solar 80.6kW (560W × 144 Panels) + Tesla Powerwall × 6 (81kWh) + EV Charging">太陽光 80.6kW（560W × 144枚）+ Tesla Powerwall × 6（81kWh）+ EV充電</span><span class="cost-price">¥50,000,000</span></div>
+<div class="cost-row"><span class="cost-item" data-en="Design Supervision (Architect + Acoustic Engineer + Structural Design + MEP Design)">設計監理（建築家 + 音響エンジニア + 構造設計 + 設備設計）</span><span class="cost-price">¥50,000,000</span></div>
+<div class="cost-row total"><span class="cost-item">TOTAL</span><span class="cost-price">¥1,000,000,000</span></div>
+</div>
+</section>
+<!-- PHOTO: POWER / INFRASTRUCTURE -->
+<div class="photo-strip cols3">
+<div class="ps-img wide"><img alt="太陽光" data-en-alt="Sunlight" loading="lazy" src="/img/offgrid_solar_thermal.webp"/><span class="ps-cap" data-en="SOLAR 80.6kW — 560W × 144 Panels">SOLAR 80.6kW — 560W×144枚</span></div>
+<div class="ps-img wide"><img alt="Tesla V2H" loading="lazy" src="/img/offgrid_tesla_v2h.webp"/><span class="ps-cap">POWERWALL×6 / 81kWh</span></div>
+<div class="ps-img wide"><img alt="水システム" data-en-alt="Water System" loading="lazy" src="/img/offgrid_water_system.webp"/><span class="ps-cap" data-en="WATER / Flowing groundwater">WATER / 地下水掛け流し</span></div>
+</div>
+<div class="photo-strip cols2">
+<div class="ps-img wide"><img alt="夕日の美留和" data-en-alt="Biruwa at sunset" loading="lazy" src="/img/village_arc_sunset.webp"/><span class="ps-cap">SUNSET — MIRUWA</span></div>
+<div class="ps-img wide"><img alt="シネマティック村" data-en-alt="Cinematic village" loading="lazy" src="/img/pro_village_cinematic.webp"/><span class="ps-cap">CINEMATIC — VILLAGE</span></div>
+</div>
+<!-- S8: OWNERSHIP -->
+<section id="s8">
+<span class="s-label fade-in" data-en="Co-owner">共同オーナー</span>
+<h2 class="s-h2 fade-in" data-en="Within the Earth,">地球の中に、<em data-en="Inscribe your name.">名前を刻む。</em></h2>
+<div class="own-grid fade-in">
+<div class="og-cell">
+<span class="og-tier">STANDARD</span>
+<div class="og-price">¥5,000<span class="og-unit" data-en="¥10,000 / share">万 / 口</span></div>
+<ul class="og-perks">
+<li data-en="Annual Usage Rights: 12 Nights (Maximum Among All Properties)">年12泊の利用権（他物件最大）</li>
+<li data-en="Registered Owner">登記名義人</li>
+<li data-en="ZERO exclusive studio priority reservation">ZERO専用スタジオ優先予約</li>
+<li data-en="Work Party participation rights">Work Partyへの参加権</li>
+</ul>
+</div>
+<div class="og-cell">
+<span class="og-tier" data-en="5 or More Openings">5口以上</span>
+<div class="og-price">¥2.5<span class="og-unit" data-en="From ¥100,000,000+">億〜</span></div>
+<ul class="og-perks">
+<li data-en="All Standard Benefits">全Standard特典</li>
+<li data-en="Dedicated Service Manager">専任サービスマン</li>
+<li data-en="Right to Bring Personal Equipment into Equipment Room">機材室への専用機材持込権</li>
+<li data-en="Work Party Priority Participation (Early Access)">Work Party優先参加（先行入場）</li>
+</ul>
+</div>
+<div class="og-cell">
+<span class="og-tier" data-en="10 units or more">10口以上</span>
+<div class="og-price">¥5<span class="og-unit" data-en="From ¥100,000,000+">億〜</span></div>
+<ul class="og-perks">
+<li data-en="All 5 Openings Benefit">全5口特典</li>
+<li data-en="Container Naming Rights">コンテナ1本の命名権</li>
+<li data-en="Design Phase Participation (Consultation with Architect)">設計段階からの参加（建築家との打合せ）</li>
+<li data-en="SOLUNA ZERO Initial Construction Work Party Hosting Rights">SOLUNA ZERO初回建設Work Party主催権</li>
+</ul>
+</div>
+<div class="og-cell">
+<span class="og-tier">WORK PARTY</span>
+<div class="og-price og-price--small" data-en="Through Construction Participation" style="font-size:clamp(16px,2vw,24px)">建設参加で<span class="og-unit" data-en="Night Stay Credits">泊数加算</span></div>
+<ul class="og-perks">
+<li data-en="Participate in excavation, container installation, and interior construction">掘削・コンテナ搬入・内装工事に参加</li>
+<li data-en="1-day participation = +2 nights usage rights granted">1日参加 = +2泊の利用権付与</li>
+<li data-en="Shared Site with Architects &amp; Acoustic Engineers">建築家・音響エンジニアと同じ現場</li>
+<li data-en="Experience Staying in the House You Built">「自分で建てた家」に泊まる体験</li>
+</ul>
+</div>
+</div>
+<!-- 収支試算 -->
+<div class="fade-in" style="margin-top:60px">
+<span class="s-label" data-en="Financial Projection" style="margin-bottom:28px;display:block">収支試算 / FINANCIAL PROJECTION</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;max-width:700px">
+<div style="background:#07070f;border:1px solid #0e0e20;padding:28px">
+<p data-en="Exclusive Facility Rental (1 Night)" style="font-size:8px;letter-spacing:.4em;color:#5a5870;margin-bottom:12px">施設全体貸切（1泊）</p>
+<p style="font-size:36px;font-weight:100;color:var(--pale)">¥480,000</p>
+<p data-en="Up to 16 guests, studio included" style="font-size:10px;color:#5a5870;margin-top:6px">最大16名・スタジオ込み</p>
+</div>
+<div style="background:#07070f;border:1px solid #0e0e20;padding:28px">
+<p data-en="Sleep Pod (1 Night / 1 Room)" style="font-size:8px;letter-spacing:.4em;color:#5a5870;margin-bottom:12px">スリープポッド（1泊 / 1室）</p>
+<p style="font-size:36px;font-weight:100;color:var(--pale)">¥58,000</p>
+<p data-en="Breakfast and hot spring included" style="font-size:10px;color:#5a5870;margin-top:6px">朝食・温泉込み</p>
+</div>
+<div style="background:#07070f;border:1px solid #0e0e20;padding:28px">
+<p data-en="Annual Occupancy Rate (Projected)" style="font-size:8px;letter-spacing:.4em;color:#5a5870;margin-bottom:12px">年間稼働率（想定）</p>
+<p style="font-size:36px;font-weight:100;color:var(--pale)">40<span style="font-size:14px;color:#5a5870">%</span></p>
+<p data-en="146 nights / year" style="font-size:10px;color:#5a5870;margin-top:6px">146泊 / 年</p>
+</div>
+<div style="background:#07070f;border:1px solid #0e0e20;padding:28px">
+<p data-en="Annual Revenue Projection" style="font-size:8px;letter-spacing:.4em;color:#5a5870;margin-bottom:12px">年間売上試算</p>
+<p style="font-size:36px;font-weight:100;color:#b09ee8">¥7,000<span style="font-size:14px;color:#5a5870">万</span></p>
+<p data-en="Private rental + pod mixed operation" style="font-size:10px;color:#5a5870;margin-top:6px">貸切 + ポッド 混合想定</p>
+</div>
+</div>
+</div>
+<div class="mono-box fade-in" data-en="2025 Q4: Land Acquisition + Geological Survey + Design Finalization
+2026 Q1: Permit Application + Excavation Begins (Komatsu PC800)
+2026 Q2: THE SPINE Structural Framework Complete + Waterproofing Application
+2026 Q2: Container Installation &amp; Burial (Phase 1: 8 Units)
+2026 Q3: Interior / Electrical / Plumbing
+2026 Q3: THE CRATER Completed
+2026 Q4: Remaining 8 Units Completed + Hot Spring Water Supply
+2027 Q1: Studio Acoustic Construction
+2027 Q2: Early Owners' Access Begins (Soft Opening)
+2027 Q4: Official Opening + Airbnb Listing" style="max-width:700px;margin-top:48px">
+<em data-en="Construction Schedule (Estimated)">建設スケジュール（概算）</em>
+
+2025 Q4 : 土地取得 + 地質調査 + 設計確定
+2026 Q1 : 許認可申請 + 掘削開始（コマツ PC800）
+2026 Q2 : THE SPINE 骨格完成 + 防水施工
+2026 Q2 : コンテナ搬入・埋設（第1期 8本）
+2026 Q3 : <em>Work Party #1</em> — 内装 / 電気 / 配管
+2026 Q3 : THE CRATER 完成
+2026 Q4 : 残り 8本完成 + 温泉引込
+2027 Q1 : <em>Work Party #2</em> — スタジオ音響工事
+2027 Q2 : 先行オーナー利用開始（ソフトオープン）
+2027 Q4 : 正式オープン + Airbnb 掲載</div>
+</section>
+<!-- CTA -->
+<section id="s9">
+<h2 class="cta-h2" data-en="A story still told a decade from now">10年後も語られる<br/><em data-en="Architecture">建築。</em></h2>
+<p class="cta-sub" data-en="SOLUNA ZERO — Total Units: 20">SOLUNA ZERO — 総口数 20口</p>
+<div class="cta-btns">
+<a class="btn-main" data-en="Owner Registration" href="/pay?property=zero">オーナー登録</a>
+<a class="btn-sub" data-en="View Other Properties" href="/plans">他の物件を見る</a>
+</div>
+</section>
+<button id="sound-btn" onclick="toggleSound()">SOUND ○</button>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Birowa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant house" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Acquire Units Free of Charge" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Architectural Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="The Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="The Story of Inception" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Maintenance Fees" href="management-fee">管理費</a>
+<a data-en="Private consultation" href="call">個別相談</a>
+<a data-en="Contact" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+// ══════════════════════════════════════════════
+//  ARCHITECTURAL DRAWINGS
+// ══════════════════════════════════════════════
+
+const archDrawn = {};
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.arch-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.arch-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  if (!archDrawn[name]) { archDraw(name); archDrawn[name] = true; }
+}
+
+function archDraw(name) {
+  const DPR = window.devicePixelRatio || 1;
+  const H = 560;
+
+  function setup(id) {
+    const cv = document.getElementById(id);
+    if (!cv) return null;
+    const W = cv.offsetWidth || 800;
+    cv.width = W * DPR; cv.height = H * DPR;
+    cv.style.height = H + 'px';
+    const ctx = cv.getContext('2d');
+    ctx.scale(DPR, DPR);
+    ctx.fillStyle = '#000810'; ctx.fillRect(0, 0, W, H);
+    return { ctx, W, H };
+  }
+
+  function bar(ctx, W, txt) {
+    ctx.fillStyle = 'rgba(74,138,212,.07)';
+    ctx.fillRect(0, 0, W, 30);
+    ctx.font = '9px "Courier New",monospace';
+    ctx.fillStyle = 'rgba(74,138,212,.65)';
+    ctx.textAlign = 'left'; ctx.fillText(txt, 14, 20);
+  }
+
+  function grid(ctx, W, H, s = 40) {
+    ctx.strokeStyle = 'rgba(74,138,212,.045)'; ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += s) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+    for (let y = 0; y < H; y += s) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+  }
+
+  function lbl(ctx, t, x, y, al = 'left', col = 'rgba(170,210,255,.6)', sz = '9px') {
+    ctx.font = sz + ' "Courier New",monospace';
+    ctx.fillStyle = col; ctx.textAlign = al; ctx.fillText(t, x, y); ctx.textAlign = 'left';
+  }
+
+  function scalebar(ctx, x, y, len, label) {
+    ctx.strokeStyle = 'rgba(74,138,212,.4)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + len, y);
+    ctx.moveTo(x, y - 4); ctx.lineTo(x, y + 4);
+    ctx.moveTo(x + len, y - 4); ctx.lineTo(x + len, y + 4);
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(74,138,212,.35)'; ctx.fillRect(x, y - 1, len / 2, 2);
+    lbl(ctx, '0', x, y - 7, 'center', 'rgba(74,138,212,.45)', '7px');
+    lbl(ctx, label, x + len, y - 7, 'center', 'rgba(74,138,212,.45)', '7px');
+  }
+
+  // ── DRAWING 1: 断面図 A-A  N-S Cross Section @ CRATER ──
+  if (name === 'cross') {
+    const r = setup('cv-cross'); if (!r) return;
+    const { ctx, W } = r;
+    bar(ctx, W, 'SOLUNA ZERO  |  断面図 A-A  N-S CROSS SECTION @ THE CRATER  |  SCH. 1:200  単位:m');
+    grid(ctx, W, H);
+
+    const ML = 72, MR = 36, MT = 44, MB = 28;
+    const MW = W - ML - MR, MH = H - MT - MB;
+    const GY = MT + MH * 0.20;
+    const SPINE_Y = MT + MH * 0.72, SPINE_H = 24;
+    const CR_W = 72, CR_X = ML + MW / 2;
+    const CR_TOP = GY, CR_BOT = SPINE_Y - SPINE_H / 2;
+
+    // Earth
+    ctx.beginPath();
+    ctx.rect(ML, GY, MW, MT + MH - GY);
+    ctx.fillStyle = 'rgba(9,8,5,.92)'; ctx.fill();
+    ctx.save();
+    ctx.beginPath(); ctx.rect(ML, GY, MW, MT + MH - GY); ctx.clip();
+    ctx.strokeStyle = 'rgba(52,42,25,.22)'; ctx.lineWidth = 0.5;
+    for (let i = -MH * 2; i < MW + MH; i += 13) {
+      ctx.beginPath(); ctx.moveTo(ML + i, MT); ctx.lineTo(ML + i + MH * 2, MT + MH); ctx.stroke();
+    }
+    ctx.restore();
+
+    // Ground line
+    ctx.strokeStyle = 'rgba(72,118,52,.7)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(ML, GY); ctx.lineTo(CR_X - CR_W / 2 - 2, GY);
+    ctx.moveTo(CR_X + CR_W / 2 + 2, GY); ctx.lineTo(ML + MW, GY);
+    ctx.stroke();
+
+    // Stars
+    for (let i = 0; i < 55; i++) {
+      ctx.beginPath();
+      ctx.arc(ML + Math.random() * MW, MT + Math.random() * (GY - MT - 6), Math.random() * .7 + .1, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200,210,255,${Math.random() * .3 + .08})`; ctx.fill();
+    }
+
+    // Grass
+    for (let x = ML + 6; x < ML + MW - 6; x += 9) {
+      if (Math.abs(x - CR_X) < CR_W / 2 + 18) continue;
+      ctx.beginPath(); ctx.moveTo(x, GY);
+      ctx.quadraticCurveTo(x + (Math.random() - .5) * 5, GY - 9, x + (Math.random() - .5) * 6, GY - 15 - Math.random() * 5);
+      ctx.strokeStyle = `rgba(45,82,35,.${2 + Math.floor(Math.random() * 3)})`; ctx.lineWidth = .8; ctx.stroke();
+    }
+
+    // SPINE
+    const SP_X = ML + MW * 0.04, SP_W = MW * 0.92;
+    ctx.fillStyle = 'rgba(74,138,212,.07)'; ctx.fillRect(SP_X, SPINE_Y - SPINE_H / 2, SP_W, SPINE_H);
+    ctx.strokeStyle = 'rgba(74,138,212,.6)'; ctx.lineWidth = 1.3;
+    ctx.strokeRect(SP_X, SPINE_Y - SPINE_H / 2, SP_W, SPINE_H);
+    lbl(ctx, '━ THE SPINE ━ ( 全長 200m — Cor-Ten鋼 )', CR_X, SPINE_Y + SPINE_H / 2 + 15, 'center');
+
+    // CRATER shaft
+    const grad = ctx.createLinearGradient(CR_X, CR_TOP, CR_X, CR_BOT);
+    grad.addColorStop(0, 'rgba(235,215,130,.12)'); grad.addColorStop(1, 'rgba(235,215,130,.02)');
+    ctx.fillStyle = grad; ctx.fillRect(CR_X - CR_W / 2, CR_TOP, CR_W, CR_BOT - CR_TOP);
+    ctx.strokeStyle = 'rgba(232,200,96,.55)'; ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.moveTo(CR_X - CR_W / 2, CR_TOP); ctx.lineTo(CR_X - CR_W / 2, CR_BOT);
+    ctx.moveTo(CR_X + CR_W / 2, CR_TOP); ctx.lineTo(CR_X + CR_W / 2, CR_BOT);
+    ctx.stroke();
+
+    // Rock texture in crater walls
+    for (let y = CR_TOP + 24; y < CR_BOT - 10; y += 20) {
+      [[-1, 1], [1, -1]].forEach(([s, e]) => {
+        ctx.beginPath();
+        ctx.moveTo(CR_X + s * CR_W / 2, y);
+        ctx.lineTo(CR_X + s * CR_W / 2 + e * (6 + Math.random() * 8), y + 4);
+        ctx.strokeStyle = 'rgba(95,75,45,.3)'; ctx.lineWidth = 0.7; ctx.stroke();
+      });
+    }
+
+    // Ladder
+    const LX = CR_X + CR_W / 2 - 14;
+    ctx.strokeStyle = 'rgba(170,140,80,.22)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(LX - 7, CR_TOP + 20); ctx.lineTo(LX - 7, CR_BOT);
+    ctx.moveTo(LX, CR_TOP + 20); ctx.lineTo(LX, CR_BOT); ctx.stroke();
+    for (let y = CR_TOP + 24; y < CR_BOT; y += 18) {
+      ctx.beginPath(); ctx.moveTo(LX - 7, y); ctx.lineTo(LX, y); ctx.stroke();
+    }
+
+    lbl(ctx, 'THE CRATER  Ø 15m  岩盤掘削・研磨仕上げ', CR_X, CR_TOP + (CR_BOT - CR_TOP) / 2 + 4, 'center', 'rgba(232,200,96,.4)');
+
+    // Hatch
+    ctx.strokeStyle = 'rgba(106,79,204,.85)'; ctx.lineWidth = 2.5;
+    ctx.strokeRect(CR_X - 25, GY - 13, 50, 13);
+    ctx.beginPath(); ctx.arc(CR_X, GY - 6, 3, 0, Math.PI * 2); ctx.stroke();
+    lbl(ctx, '▲ COR-TEN STEEL HATCH', CR_X, GY - 20, 'center', 'rgba(106,79,204,.75)', '8px');
+
+    // Containers in section (shown as dashed rectangles - seen from ends looking E)
+    const C_H = 26, C_L = 96;
+    const C_Y = SPINE_Y - SPINE_H / 2 - 52;
+    // N-side
+    const N_X = CR_X + CR_W / 2 + 32;
+    ctx.strokeStyle = 'rgba(139,94,60,.58)'; ctx.lineWidth = 1.1; ctx.setLineDash([5, 3]);
+    ctx.strokeRect(N_X, C_Y, C_L, C_H); ctx.fillStyle = 'rgba(139,94,60,.07)'; ctx.fillRect(N_X, C_Y, C_L, C_H);
+    ctx.setLineDash([]);
+    // Window on lake-facing end
+    ctx.strokeStyle = 'rgba(110,180,230,.55)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(N_X + C_L - 5, C_Y + 4); ctx.lineTo(N_X + C_L - 5, C_Y + C_H - 4); ctx.stroke();
+    // Label
+    ctx.save(); ctx.translate(N_X + C_L / 2, C_Y + C_H / 2); ctx.rotate(-Math.PI / 2);
+    lbl(ctx, 'CONTAINER  12.0m', 0, 4, 'center', 'rgba(180,155,130,.6)', '7px');
+    ctx.restore();
+    lbl(ctx, '[N SIDE — HIDDEN]', N_X + C_L + 5, C_Y + C_H / 2 + 4, 'left', 'rgba(139,94,60,.55)', '8px');
+
+    // S-side
+    const S_X = CR_X - CR_W / 2 - 32 - C_L;
+    ctx.strokeStyle = 'rgba(139,94,60,.58)'; ctx.lineWidth = 1.1; ctx.setLineDash([5, 3]);
+    ctx.strokeRect(S_X, C_Y, C_L, C_H); ctx.fillStyle = 'rgba(139,94,60,.07)'; ctx.fillRect(S_X, C_Y, C_L, C_H);
+    ctx.setLineDash([]);
+    ctx.strokeStyle = 'rgba(110,180,230,.55)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(S_X + C_L - 5, C_Y + 4); ctx.lineTo(S_X + C_L - 5, C_Y + C_H - 4); ctx.stroke();
+    ctx.save(); ctx.translate(S_X + C_L / 2, C_Y + C_H / 2); ctx.rotate(-Math.PI / 2);
+    lbl(ctx, 'CONTAINER  12.0m', 0, 4, 'center', 'rgba(180,155,130,.6)', '7px');
+    ctx.restore();
+    lbl(ctx, '[S SIDE — HIDDEN]', S_X - 5, C_Y + C_H / 2 + 4, 'right', 'rgba(139,94,60,.55)', '8px');
+
+    // Connect containers to SPINE (dashed)
+    ctx.strokeStyle = 'rgba(139,94,60,.2)'; ctx.lineWidth = 0.7; ctx.setLineDash([3, 4]);
+    ctx.beginPath();
+    ctx.moveTo(N_X + C_L * 0.25, C_Y + C_H); ctx.lineTo(N_X + C_L * 0.25, SPINE_Y - SPINE_H / 2);
+    ctx.moveTo(S_X + C_L * 0.75, C_Y + C_H); ctx.lineTo(S_X + C_L * 0.75, SPINE_Y - SPINE_H / 2);
+    ctx.stroke(); ctx.setLineDash([]);
+
+    // Container label
+    lbl(ctx, '[破線 = 断面面より前後に位置するコンテナ / 投影表示]', SP_X, SPINE_Y + SPINE_H / 2 + 30, 'left', 'rgba(139,94,60,.4)', '8px');
+
+    // DIMENSION: depth GL to SPINE
+    const DX = ML + 22;
+    ctx.strokeStyle = 'rgba(239,68,68,.5)'; ctx.lineWidth = 0.8;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(ML, GY); ctx.lineTo(DX - 8, GY);
+    ctx.moveTo(ML, SPINE_Y); ctx.lineTo(DX - 8, SPINE_Y); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(DX - 8, GY); ctx.lineTo(DX - 8, SPINE_Y);
+    ctx.moveTo(DX - 12, GY + 8); ctx.lineTo(DX - 8, GY); ctx.moveTo(DX - 4, GY + 8); ctx.lineTo(DX - 8, GY);
+    ctx.moveTo(DX - 12, SPINE_Y - 8); ctx.lineTo(DX - 8, SPINE_Y); ctx.moveTo(DX - 4, SPINE_Y - 8); ctx.lineTo(DX - 8, SPINE_Y);
+    ctx.stroke();
+    ctx.save(); ctx.translate(DX - 22, (GY + SPINE_Y) / 2); ctx.rotate(-Math.PI / 2);
+    lbl(ctx, 'GL -18.50m', 0, 4, 'center', 'rgba(239,68,68,.65)', '8px');
+    ctx.restore();
+
+    // DIMENSION: CRATER width
+    const DY2 = GY - 48;
+    ctx.strokeStyle = 'rgba(239,68,68,.4)'; ctx.lineWidth = 0.8;
+    ctx.beginPath();
+    ctx.moveTo(CR_X - CR_W / 2, GY); ctx.lineTo(CR_X - CR_W / 2, DY2);
+    ctx.moveTo(CR_X + CR_W / 2, GY); ctx.lineTo(CR_X + CR_W / 2, DY2);
+    ctx.moveTo(CR_X - CR_W / 2, DY2); ctx.lineTo(CR_X + CR_W / 2, DY2);
+    ctx.moveTo(CR_X - CR_W / 2 + 8, DY2 - 5); ctx.lineTo(CR_X - CR_W / 2, DY2); ctx.moveTo(CR_X + CR_W / 2 - 8, DY2 - 5); ctx.lineTo(CR_X + CR_W / 2, DY2);
+    ctx.stroke();
+    lbl(ctx, 'Ø 15m', CR_X, DY2 - 6, 'center', 'rgba(239,68,68,.6)', '8px');
+
+    // Elevation axis
+    ctx.strokeStyle = 'rgba(74,138,212,.18)'; ctx.lineWidth = .5; ctx.setLineDash([3, 5]);
+    ctx.beginPath(); ctx.moveTo(ML - 10, GY); ctx.lineTo(ML, GY);
+    ctx.moveTo(ML - 10, SPINE_Y); ctx.lineTo(ML, SPINE_Y); ctx.stroke(); ctx.setLineDash([]);
+    lbl(ctx, '± 0.00', ML - 5, GY + 4, 'right', 'rgba(74,138,212,.5)', '8px');
+    lbl(ctx, '-18.50', ML - 5, SPINE_Y + 4, 'right', 'rgba(74,138,212,.5)', '8px');
+    lbl(ctx, 'EL.(m)', ML - 5, MT + 8, 'right', 'rgba(74,138,212,.35)', '8px');
+
+    // A-A markers
+    ctx.font = 'bold 12px "Courier New",monospace'; ctx.fillStyle = 'rgba(239,68,68,.7)'; ctx.textAlign = 'center';
+    ctx.fillText('A', CR_X, H - 8); ctx.fillText('A', CR_X, MT - 4);
+    ctx.strokeStyle = 'rgba(239,68,68,.45)'; ctx.lineWidth = 1; ctx.setLineDash([5, 4]);
+    ctx.beginPath(); ctx.moveTo(CR_X, H - 16); ctx.lineTo(CR_X, MT + 8); ctx.stroke(); ctx.setLineDash([]);
+
+    scalebar(ctx, ML + MW - 120, H - 10, 80, '20m');
+    ctx.strokeStyle = 'rgba(74,138,212,.18)'; ctx.lineWidth = 1;
+    ctx.strokeRect(ML - 46, MT - 4, MW + 56, MH + 10);
+  }
+
+  // ── DRAWING 2: 平面図 B0  Underground Floor Plan ──
+  else if (name === 'plan') {
+    const r = setup('cv-plan'); if (!r) return;
+    const { ctx, W } = r;
+    bar(ctx, W, 'SOLUNA ZERO  |  平面図 B0  UNDERGROUND FLOOR PLAN @ EL. -18.50m  |  SCH. 1:500  単位:m');
+    grid(ctx, W, H, 32);
+
+    const ML = 70, MR = 36, MT = 44, MB = 36;
+    const MW = W - ML - MR, MH = H - MT - MB;
+    const SP_Y = MT + MH / 2, SP_H = 24;
+    const SP_X = ML + MW * 0.04, SP_W = MW * 0.92;
+    const CR_X = ML + MW / 2, CR_R = 28;
+
+    // SPINE
+    ctx.fillStyle = 'rgba(74,138,212,.07)'; ctx.fillRect(SP_X, SP_Y - SP_H / 2, SP_W, SP_H);
+    ctx.strokeStyle = 'rgba(74,138,212,.55)'; ctx.lineWidth = 1.3;
+    ctx.strokeRect(SP_X, SP_Y - SP_H / 2, SP_W, SP_H);
+    // Center line
+    ctx.strokeStyle = 'rgba(74,138,212,.12)'; ctx.lineWidth = .5; ctx.setLineDash([8, 4]);
+    ctx.beginPath(); ctx.moveTo(SP_X, SP_Y); ctx.lineTo(SP_X + SP_W, SP_Y); ctx.stroke(); ctx.setLineDash([]);
+    lbl(ctx, 'THE SPINE ( 200m CORRIDOR / Cor-Ten LINING )', CR_X, SP_Y + SP_H / 2 + 14, 'center');
+
+    // THE CRATER
+    ctx.beginPath(); ctx.arc(CR_X, SP_Y, CR_R, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(232,200,96,.08)'; ctx.fill();
+    ctx.strokeStyle = 'rgba(232,200,96,.65)'; ctx.lineWidth = 2; ctx.stroke();
+    lbl(ctx, '★', CR_X, SP_Y + 5, 'center', 'rgba(232,200,96,.9)', '13px');
+    lbl(ctx, 'THE CRATER', CR_X, SP_Y + CR_R + 14, 'center', 'rgba(232,200,96,.6)', '8px');
+    lbl(ctx, 'Ø 15m', CR_X, SP_Y + CR_R + 24, 'center', 'rgba(232,200,96,.45)', '7px');
+
+    // 16 containers: 8 N, 8 S — horizontal blocks perpendicular to SPINE
+    const CW = 16, CL = 58, NUM = 8;
+    const TOTAL_RANGE = SP_W * 0.86;
+    const STEP = TOTAL_RANGE / (NUM + 0.5);
+    const C_OFFSET = SP_X + SP_W * 0.07;
+
+    const roomN = ['POD 01','POD 02','POD 03','POD 04','REC.A','REC.B','PROD.','SUITE'];
+    const roomS = ['POD 09','POD 10','POD 11','POD 12','KITCH','LIB.','SAUNA','ENTRY'];
+
+    for (let i = 0; i < NUM; i++) {
+      const cx = C_OFFSET + STEP * i + STEP * 0.3;
+      const NY = SP_Y - SP_H / 2 - CL; // top of SPINE going north
+      const SY = SP_Y + SP_H / 2;      // bottom of SPINE going south
+
+      // North
+      ctx.fillStyle = 'rgba(139,94,60,.13)'; ctx.fillRect(cx - CW / 2, NY, CW, CL);
+      ctx.strokeStyle = 'rgba(139,94,60,.58)'; ctx.lineWidth = 1; ctx.strokeRect(cx - CW / 2, NY, CW, CL);
+      // Window (lake-facing = east end; here shown as south end of N-container)
+      ctx.strokeStyle = 'rgba(100,175,225,.5)'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(cx - CW / 2, NY + 4); ctx.lineTo(cx + CW / 2, NY + 4); ctx.stroke();
+      // Label
+      ctx.save(); ctx.translate(cx, NY + CL / 2); ctx.rotate(Math.PI / 2);
+      lbl(ctx, roomN[i], 0, 3, 'center', 'rgba(175,155,135,.65)', '6px');
+      ctx.restore();
+
+      // South
+      ctx.fillStyle = 'rgba(139,94,60,.13)'; ctx.fillRect(cx - CW / 2, SY, CW, CL);
+      ctx.strokeStyle = 'rgba(139,94,60,.58)'; ctx.lineWidth = 1; ctx.strokeRect(cx - CW / 2, SY, CW, CL);
+      ctx.strokeStyle = 'rgba(100,175,225,.5)'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(cx - CW / 2, SY + CL - 4); ctx.lineTo(cx + CW / 2, SY + CL - 4); ctx.stroke();
+      ctx.save(); ctx.translate(cx, SY + CL / 2); ctx.rotate(Math.PI / 2);
+      lbl(ctx, roomS[i], 0, 3, 'center', 'rgba(175,155,135,.65)', '6px');
+      ctx.restore();
+
+      // Access hatch markers (projected from surface)
+      if (i % 2 === 1) {
+        ctx.beginPath(); ctx.arc(cx, SP_Y, 6, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(106,79,204,.45)'; ctx.lineWidth = 1; ctx.setLineDash([2, 2]); ctx.stroke(); ctx.setLineDash([]);
+      }
+    }
+
+    lbl(ctx, '← WEST / HILL                                EAST / 屈斜路湖 →', CR_X, MT + 14, 'center', 'rgba(74,138,212,.3)', '8px');
+
+    // North arrow
+    const NX = ML + MW - 26, NY = MT + 32;
+    ctx.strokeStyle = 'rgba(74,138,212,.55)'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(NX, NY + 20); ctx.lineTo(NX, NY);
+    ctx.moveTo(NX - 6, NY + 11); ctx.lineTo(NX, NY); ctx.lineTo(NX + 6, NY + 11);
+    ctx.stroke(); lbl(ctx, 'N', NX, NY - 4, 'center', 'rgba(74,138,212,.65)', '9px');
+
+    // Section cut A-A indicator
+    ctx.strokeStyle = 'rgba(239,68,68,.45)'; ctx.lineWidth = 1; ctx.setLineDash([6, 4]);
+    ctx.beginPath(); ctx.moveTo(CR_X, SP_Y - SP_H / 2 - CL - 20); ctx.lineTo(CR_X, SP_Y + SP_H / 2 + CL + 20); ctx.stroke(); ctx.setLineDash([]);
+    lbl(ctx, 'A', CR_X, MT + 8, 'center', 'rgba(239,68,68,.55)', '9px');
+    lbl(ctx, 'A', CR_X, MT + MH - 4, 'center', 'rgba(239,68,68,.55)', '9px');
+
+    // Legend
+    lbl(ctx, '━ コンテナ壁  ─ 窓（湖向き）  ◦ アクセスハッチ投影  ⊕ THE CRATER', SP_X, MT + MH + 20, 'left', 'rgba(74,138,212,.35)', '8px');
+
+    scalebar(ctx, ML, H - 12, 90, '50m');
+    ctx.strokeStyle = 'rgba(74,138,212,.18)'; ctx.lineWidth = 1;
+    ctx.strokeRect(ML - 40, MT - 4, MW + 50, MH + 10);
+  }
+
+  // ── DRAWING 3: アクソノメ投影図 Axonometric ──
+  else if (name === 'axo') {
+    const r = setup('cv-axo'); if (!r) return;
+    const { ctx, W } = r;
+    bar(ctx, W, 'SOLUNA ZERO  |  アクソノメ投影図  AXONOMETRIC / CUTAWAY  |  不等角投影  N-E 45°');
+
+    const CX = W * 0.52, CY = H * 0.52;
+    // Iso projection: X=East, Y=up, Z=North
+    // Screen: right axis at 30° from horiz (X), left axis at 150° (Z), Y = vertical
+    const SX = Math.min(W, H) * 0.0028; // scale
+    function iso(x, y, z) {
+      return [
+        CX + (x - z) * Math.cos(Math.PI / 6) * SX * 10,
+        CY - y * SX * 10 + (x + z) * Math.sin(Math.PI / 6) * SX * 10
+      ];
+    }
+
+    const GL = 18.5; // ground level above SPINE
+    const GD = 0;    // SPINE level = y=0
+
+    function face(pts, fill, stroke, lw = 0.8) {
+      ctx.beginPath(); ctx.moveTo(...iso(...pts[0]));
+      pts.slice(1).forEach(p => ctx.lineTo(...iso(...p)));
+      ctx.closePath();
+      if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.stroke(); }
+    }
+
+    // EARTH block (cutaway — remove NE quadrant to show inside)
+    // Show only SW-facing and top faces
+    const EX = 50, EZ = 55; // half extents
+
+    // Earth top face (NW quadrant - upper left)
+    face([[-EX, GL, -EZ], [0, GL, -EZ], [0, GL, 0], [-EX, GL, 0]],
+      'rgba(12,18,8,.88)', 'rgba(42,70,28,.4)', 0.7);
+    // Earth top face (SW quadrant - lower left)
+    face([[-EX, GL, 0], [0, GL, 0], [0, GL, EZ], [-EX, GL, EZ]],
+      'rgba(12,18,8,.88)', 'rgba(42,70,28,.4)', 0.7);
+    // Earth west face (visible left wall)
+    face([[-EX, GL, -EZ], [-EX, GL, EZ], [-EX, GD, EZ], [-EX, GD, -EZ]],
+      'rgba(8,7,4,.92)', 'rgba(50,40,24,.35)', 0.7);
+    // Earth south face (visible front wall)
+    face([[-EX, GL, EZ], [EX, GL, EZ], [EX, GD, EZ], [-EX, GD, EZ]],
+      'rgba(10,8,5,.88)', 'rgba(50,40,24,.35)', 0.7);
+
+    // Hatching on earth faces
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(...iso(-EX, GL, -EZ));
+    ctx.lineTo(...iso(-EX, GL, EZ));
+    ctx.lineTo(...iso(-EX, GD, EZ));
+    ctx.lineTo(...iso(-EX, GD, -EZ));
+    ctx.closePath(); ctx.clip();
+    ctx.strokeStyle = 'rgba(45,36,20,.25)'; ctx.lineWidth = 0.5;
+    for (let i = -120; i < 120; i += 14) {
+      const [ax, ay] = iso(-EX, GL + i * 0.1, -EZ + i);
+      const [bx, by] = iso(-EX, GL + i * 0.1 - 10, -EZ + i + 10);
+      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+    }
+    ctx.restore();
+
+    // Cut face (NE quadrant opening - shows interior)
+    // Draw a frame around the cutaway
+    ctx.strokeStyle = 'rgba(74,138,212,.3)'; ctx.lineWidth = 1.2; ctx.setLineDash([4, 3]);
+    ctx.beginPath();
+    ctx.moveTo(...iso(0, GL, -EZ)); ctx.lineTo(...iso(0, GL, 0));
+    ctx.lineTo(...iso(0, GD, 0)); ctx.lineTo(...iso(0, GD, -EZ));
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(...iso(-EX, GL, 0)); ctx.lineTo(...iso(0, GL, 0));
+    ctx.lineTo(...iso(0, GD, 0)); ctx.lineTo(...iso(-EX, GD, 0));
+    ctx.stroke(); ctx.setLineDash([]);
+
+    // THE SPINE corridor (visible in cutaway)
+    const SW = 4.5, SL = EX, SH = 3;
+    // Floor of SPINE
+    face([[SL, GD, -SW], [-SL, GD, -SW], [-SL, GD, SW], [SL, GD, SW]],
+      'rgba(74,138,212,.06)', 'rgba(74,138,212,.3)', 0.8);
+    // Ceiling
+    face([[SL, GD + SH, -SW], [-SL, GD + SH, -SW], [-SL, GD + SH, SW], [SL, GD + SH, SW]],
+      'rgba(74,138,212,.08)', 'rgba(74,138,212,.35)', 0.8);
+    // S wall (visible)
+    face([[SL, GD + SH, SW], [-SL, GD + SH, SW], [-SL, GD, SW], [SL, GD, SW]],
+      'rgba(74,138,212,.05)', 'rgba(74,138,212,.25)', 0.8);
+    // W wall (visible)
+    face([[-SL, GD + SH, -SW], [-SL, GD + SH, SW], [-SL, GD, SW], [-SL, GD, -SW]],
+      'rgba(74,138,212,.04)', 'rgba(74,138,212,.2)', 0.8);
+    // SPINE label
+    const [slx, sly] = iso(-SL - 3, GD + SH / 2, SW);
+    lbl(ctx, 'THE SPINE (200m)', slx + 4, sly, 'left', 'rgba(74,138,212,.65)', '8px');
+
+    // CONTAINERS: 6 visible (3 N-side, 3 S-side)
+    const CL = 12, CCW = 2.4, CCH = 2.6;
+    const cZposN = [-10, -20, -30, -40]; // north side (negative Z)
+    const cZposS = [10, 20, 30, 40];     // south side (positive Z)
+    const cXstart = -SL;
+
+    // Draw N containers (behind cut plane - shown as dashed)
+    cZposN.forEach((cz, i) => {
+      if (cz < -EZ) return;
+      const bx1 = cXstart + CL, bx2 = cXstart;
+      const bz1 = cz - CCW / 2, bz2 = cz + CCW / 2;
+      ctx.strokeStyle = 'rgba(139,94,60,.45)'; ctx.lineWidth = 0.9; ctx.setLineDash([4, 3]);
+      face([[bx1, GD + SH, bz1], [bx2, GD + SH, bz1], [bx2, GD + SH, bz2], [bx1, GD + SH, bz2]],
+        null, 'rgba(139,94,60,.35)', 0.8);
+      face([[bx1, GD + SH + CCH, bz1], [bx2, GD + SH + CCH, bz1], [bx2, GD + SH + CCH, bz2], [bx1, GD + SH + CCH, bz2]],
+        null, 'rgba(139,94,60,.3)', 0.7);
+      ctx.setLineDash([]);
+    });
+
+    // Draw S containers (visible)
+    cZposS.forEach((cz, i) => {
+      if (cz > EZ) return;
+      const bx1 = cXstart + CL, bx2 = cXstart;
+      const bz1 = cz - CCW / 2, bz2 = cz + CCW / 2;
+      // Top
+      face([[bx1, GD + SH + CCH, bz1], [bx2, GD + SH + CCH, bz1], [bx2, GD + SH + CCH, bz2], [bx1, GD + SH + CCH, bz2]],
+        'rgba(139,94,60,.14)', 'rgba(139,94,60,.55)', 0.9);
+      // South
+      face([[bx1, GD + SH + CCH, bz2], [bx2, GD + SH + CCH, bz2], [bx2, GD + SH, bz2], [bx1, GD + SH, bz2]],
+        'rgba(139,94,60,.12)', 'rgba(139,94,60,.5)', 0.9);
+      // East
+      face([[bx1, GD + SH + CCH, bz1], [bx1, GD + SH + CCH, bz2], [bx1, GD + SH, bz2], [bx1, GD + SH, bz1]],
+        'rgba(139,94,60,.1)', 'rgba(139,94,60,.45)', 0.9);
+      // Window (east face glazing)
+      ctx.strokeStyle = 'rgba(110,175,225,.55)'; ctx.lineWidth = 1.5;
+      face([[bx1, GD + SH + CCH - 0.3, bz1 + 0.3], [bx1, GD + SH + CCH - 0.3, bz2 - 0.3],
+            [bx1, GD + SH + 0.3, bz2 - 0.3], [bx1, GD + SH + 0.3, bz1 + 0.3]],
+        null, 'rgba(110,175,225,.5)', 1.2);
+    });
+
+    // THE CRATER (cylinder on surface)
+    const CR = 7.5;
+    const segs = 16;
+    for (let i = 0; i < segs; i++) {
+      const a1 = (i / segs) * Math.PI * 2, a2 = ((i + 1) / segs) * Math.PI * 2;
+      const x1 = Math.cos(a1) * CR, z1 = Math.sin(a1) * CR;
+      const x2 = Math.cos(a2) * CR, z2 = Math.sin(a2) * CR;
+      // Only draw visible faces (simplified: those with positive x or z)
+      if (x1 > -5 || x2 > -5) {
+        face([[x1, GL, z1], [x2, GL, z2], [x2, GD + SH, z2], [x1, GD + SH, z1]],
+          'rgba(30,22,10,.7)', 'rgba(130,100,45,.3)', 0.7);
+      }
+    }
+
+    // Crater top ring
+    ctx.beginPath();
+    for (let i = 0; i <= segs; i++) {
+      const a = (i / segs) * Math.PI * 2;
+      const [px, py] = iso(Math.cos(a) * CR, GL, Math.sin(a) * CR);
+      i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+    }
+    ctx.strokeStyle = 'rgba(232,200,96,.75)'; ctx.lineWidth = 2; ctx.stroke();
+
+    // Light rays in crater
+    const [crCx, crCy] = iso(0, GL, 0);
+    for (let i = 0; i < 5; i++) {
+      const a = (i / 5) * Math.PI * 2;
+      const [lx, ly] = iso(Math.cos(a) * CR * 0.25, GL - GL * 0.4, Math.sin(a) * CR * 0.25);
+      ctx.beginPath(); ctx.moveTo(crCx, crCy); ctx.lineTo(lx, ly);
+      ctx.strokeStyle = `rgba(235,210,120,${.05 + i * .01})`; ctx.lineWidth = 10 - i * 1.5; ctx.stroke();
+    }
+    lbl(ctx, '★ THE CRATER  Ø15m', crCx + 10, crCy - 10, 'left', 'rgba(232,200,96,.75)', '9px');
+
+    // Hatch on surface
+    const [hx, hy] = iso(0, GL + 0.3, 0);
+    ctx.beginPath(); ctx.arc(hx, hy, 6, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(106,79,204,.8)'; ctx.lineWidth = 2; ctx.stroke();
+    lbl(ctx, '▲ HATCH', hx, hy - 12, 'center', 'rgba(106,79,204,.7)', '8px');
+
+    // Grass dots on visible top faces
+    for (let i = 0; i < 160; i++) {
+      const gx = -EX + Math.random() * EX, gz = -EZ + Math.random() * EZ * 2;
+      if (gx > 0 && gz < 0) continue; // skip cutaway
+      if (Math.sqrt(gx * gx + gz * gz) < CR + 2) continue; // skip crater
+      const [px, py] = iso(gx, GL, gz);
+      if (px < 0 || px > W || py < 0 || py > H) continue;
+      ctx.beginPath(); ctx.arc(px, py, .7, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(35,70,25,${Math.random() * .25 + .05})`; ctx.fill();
+    }
+
+    // Depth indicator
+    const [d1x, d1y] = iso(-EX - 4, GL, EZ);
+    const [d2x, d2y] = iso(-EX - 4, GD, EZ);
+    ctx.strokeStyle = 'rgba(239,68,68,.45)'; ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.moveTo(d1x, d1y); ctx.lineTo(d2x, d2y);
+    ctx.moveTo(d1x - 5, d1y + 8); ctx.lineTo(d1x, d1y); ctx.moveTo(d1x + 5, d1y + 8); ctx.lineTo(d1x, d1y);
+    ctx.moveTo(d2x - 5, d2y - 8); ctx.lineTo(d2x, d2y); ctx.moveTo(d2x + 5, d2y - 8); ctx.lineTo(d2x, d2y);
+    ctx.stroke();
+    ctx.save(); ctx.translate((d1x + d2x) / 2 - 30, (d1y + d2y) / 2);
+    lbl(ctx, '18.5m', 0, 4, 'center', 'rgba(239,68,68,.6)', '8px');
+    ctx.restore();
+
+    // Axis labels
+    const [ex1, ey1] = iso(EX + 4, GD, 0); lbl(ctx, '→ EAST / 屈斜路湖', ex1, ey1, 'left', 'rgba(74,138,212,.4)', '8px');
+    const [nz1, ny1] = iso(0, GD, -EZ - 4); lbl(ctx, 'N ↑', nz1, ny1, 'center', 'rgba(74,138,212,.4)', '8px');
+    const [up1, up2] = iso(-EX, GL + 4, -EZ); lbl(ctx, '↑ 地上', up1 - 10, up2, 'right', 'rgba(74,138,212,.4)', '8px');
+
+    ctx.strokeStyle = 'rgba(74,138,212,.18)'; ctx.lineWidth = 1;
+    ctx.strokeRect(10, 34, W - 20, H - 44);
+  }
+}
+
+// Trigger first drawing when section enters view
+const archObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !archDrawn['cross']) {
+      archDraw('cross'); archDrawn['cross'] = true;
+      archObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+const archSection = document.getElementById('s-arch');
+if (archSection) archObs.observe(archSection);
+
+// Redraw on resize
+window.addEventListener('resize', () => {
+  Object.keys(archDrawn).forEach(k => { archDrawn[k] = false; });
+  const activeTab = document.querySelector('.arch-tab.active');
+  const activeName = activeTab ? activeTab.textContent.match(/断面図/) ? 'cross' : activeTab.textContent.match(/平面図/) ? 'plan' : 'axo' : 'cross';
+  archDraw(activeName); archDrawn[activeName] = true;
+});
+
+// CURSOR
+const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
+document.addEventListener('mousemove',e=>{
+  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
+  curR.style.left=e.clientX+'px';curR.style.top=e.clientY+'px';
+});
+
+// SURFACE CANVAS — grassland at night with stars
+const sc=document.getElementById('surface-canvas');
+const sCtx=sc.getContext('2d');
+function resizeSurface(){sc.width=sc.offsetWidth;sc.height=sc.offsetHeight}
+resizeSurface();window.addEventListener('resize',resizeSurface);
+
+// Generate stars
+const stars=[];
+for(let i=0;i<400;i++){
+  stars.push({x:Math.random(),y:Math.random()*.6,size:Math.random()*1.5+.2,twinkle:Math.random()*Math.PI*2});
+}
+
+// Generate grass blades
+const blades=[];
+for(let i=0;i<150;i++){
+  blades.push({
+    x:Math.random(),
+    height:.05+Math.random()*.12,
+    width:1+Math.random()*2,
+    sway:Math.random()*Math.PI*2,
+    swayAmt:Math.random()*.005+.002
+  });
+}
+
+let t=0;
+function drawSurface(){
+  const w=sc.width,h=sc.height;
+  sCtx.clearRect(0,0,w,h);
+
+  // Sky gradient
+  const sky=sCtx.createLinearGradient(0,0,0,h*.7);
+  sky.addColorStop(0,'#010108');
+  sky.addColorStop(.6,'#020312');
+  sky.addColorStop(1,'#040820');
+  sCtx.fillStyle=sky;
+  sCtx.fillRect(0,0,w,h*.75);
+
+  // Stars
+  stars.forEach(s=>{
+    const twinkle=Math.sin(t*.5+s.twinkle)*.4+.6;
+    sCtx.beginPath();
+    sCtx.arc(s.x*w,s.y*h*.7,s.size*twinkle,0,Math.PI*2);
+    sCtx.fillStyle=`rgba(220,216,255,${twinkle*.8})`;
+    sCtx.fill();
+  });
+
+  // Horizon glow (lake reflection)
+  const horiz=sCtx.createLinearGradient(0,h*.6,0,h*.75);
+  horiz.addColorStop(0,'rgba(50,40,120,.4)');
+  horiz.addColorStop(1,'transparent');
+  sCtx.fillStyle=horiz;
+  sCtx.fillRect(0,h*.6,w,h*.15);
+
+  // Ground
+  const gnd=sCtx.createLinearGradient(0,h*.72,0,h);
+  gnd.addColorStop(0,'#0a0d08');
+  gnd.addColorStop(1,'#050603');
+  sCtx.fillStyle=gnd;
+  sCtx.fillRect(0,h*.72,w,h*.28);
+
+  // Grass
+  blades.forEach(b=>{
+    const bx=b.x*w, by=h*.72;
+    const bh=b.height*h;
+    const swayX=Math.sin(t*b.swayAmt*10+b.sway)*bh*.15;
+    sCtx.beginPath();
+    sCtx.moveTo(bx,by);
+    sCtx.quadraticCurveTo(bx+swayX*.5,by-bh*.5,bx+swayX,by-bh);
+    sCtx.lineWidth=b.width;
+    const g=Math.floor(30+Math.random()*20);
+    sCtx.strokeStyle=`rgb(${g},${g+10},${g-5})`;
+    sCtx.stroke();
+  });
+
+  // Hatch — center bottom area of screen
+  const hx=w*.5, hy=h*.82;
+  const hs=24;
+  sCtx.strokeStyle='rgba(106,79,204,.6)';
+  sCtx.lineWidth=1.5;
+  sCtx.strokeRect(hx-hs,hy-hs*1.5,hs*2,hs*3);
+  // Hatch handle
+  sCtx.beginPath();
+  sCtx.arc(hx,hy-hs*.8,4,0,Math.PI*2);
+  sCtx.strokeStyle='rgba(106,79,204,.8)';
+  sCtx.stroke();
+  // Hatch glow
+  const hg=sCtx.createRadialGradient(hx,hy,0,hx,hy,80);
+  hg.addColorStop(0,'rgba(106,79,204,.12)');
+  hg.addColorStop(1,'transparent');
+  sCtx.fillStyle=hg;
+  sCtx.fillRect(hx-80,hy-80,160,160);
+
+  t+=.016;
+  requestAnimationFrame(drawSurface);
+}
+drawSurface();
+
+// HERO SHOW
+window.addEventListener('load',()=>{
+  document.querySelectorAll('.hero-h1,.hero-sub,.scroll-cue').forEach(el=>el.classList.add('show'));
+});
+
+// SPINE CANVAS — top-down plan view
+const spCv=document.getElementById('spine-canvas');
+const spCtx=spCv.getContext('2d');
+function drawSpine(){
+  spCv.width=spCv.offsetWidth;
+  const w=spCv.width, h=360;
+  spCv.height=h;
+  spCtx.clearRect(0,0,w,h);
+  spCtx.fillStyle='#010108';
+  spCtx.fillRect(0,0,w,h);
+
+  // Grid
+  spCtx.strokeStyle='rgba(106,79,204,.06)';
+  spCtx.lineWidth=1;
+  for(let x=0;x<w;x+=40){
+    spCtx.beginPath();spCtx.moveTo(x,0);spCtx.lineTo(x,h);spCtx.stroke();
+  }
+  for(let y=0;y<h;y+=40){
+    spCtx.beginPath();spCtx.moveTo(0,y);spCtx.lineTo(w,y);spCtx.stroke();
+  }
+
+  const cx=w/2, cy=h/2;
+
+  // THE SPINE — horizontal line
+  spCtx.strokeStyle='rgba(106,79,204,.5)';
+  spCtx.lineWidth=3;
+  spCtx.beginPath();spCtx.moveTo(40,cy);spCtx.lineTo(w-40,cy);spCtx.stroke();
+
+  // Spine label
+  spCtx.fillStyle='rgba(106,79,204,.5)';
+  spCtx.font='9px monospace';
+  spCtx.fillText('THE SPINE  200m',cx-50,cy-12);
+
+  // Containers — 8 per side, angled at 30°
+  const cW=20, cH=48;
+  const cols=[-3,-2,-1,0,1,2,3];
+  const rows=[-1,1]; // top and bottom
+  const spacing=w/(cols.length+1);
+
+  cols.forEach((c,i)=>{
+    const bx=spacing*(i+1);
+    rows.forEach(r=>{
+      const by=cy+r*70;
+      spCtx.save();
+      spCtx.translate(bx,by);
+      spCtx.rotate(r*Math.PI/6); // 30 degrees
+      spCtx.strokeStyle='rgba(139,94,60,.6)';
+      spCtx.lineWidth=1;
+      spCtx.strokeRect(-cW/2,-cH/2,cW,cH);
+      spCtx.fillStyle='rgba(139,94,60,.1)';
+      spCtx.fillRect(-cW/2,-cH/2,cW,cH);
+      // Number
+      spCtx.fillStyle='rgba(200,196,232,.4)';
+      spCtx.font='7px monospace';
+      spCtx.fillText(i+1+(r<0?0:7),-4,4);
+      spCtx.restore();
+
+      // Connector to spine
+      spCtx.strokeStyle='rgba(106,79,204,.2)';
+      spCtx.lineWidth=1;
+      spCtx.beginPath();spCtx.moveTo(bx,cy);spCtx.lineTo(bx,by);spCtx.stroke();
+    });
+  });
+
+  // THE CRATER — center circle
+  spCtx.beginPath();
+  spCtx.arc(cx,cy,22,0,Math.PI*2);
+  spCtx.strokeStyle='rgba(232,200,96,.6)';
+  spCtx.lineWidth=2;
+  spCtx.stroke();
+  spCtx.fillStyle='rgba(232,200,96,.08)';
+  spCtx.fill();
+  spCtx.fillStyle='rgba(232,200,96,.7)';
+  spCtx.font='bold 8px monospace';
+  spCtx.textAlign='center';
+  spCtx.fillText('CRATER',cx,cy+3);
+  spCtx.textAlign='left';
+
+  // Label
+  spCtx.fillStyle='rgba(200,196,232,.3)';
+  spCtx.font='8px monospace';
+  spCtx.fillText('TOP VIEW — 30° BURIED CONTAINERS',20,h-16);
+}
+drawSpine();
+window.addEventListener('resize',drawSpine);
+
+// CRATER CANVAS — animated light shaft
+const cCv=document.getElementById('crater-canvas');
+const cCtx=cCv.getContext('2d');
+let ct2=0;
+function drawCrater(){
+  cCv.width=cCv.offsetWidth;
+  const w=cCv.width, h=500;
+  cCv.height=h;
+  cCtx.clearRect(0,0,w,h);
+  cCtx.fillStyle='#010108';
+  cCtx.fillRect(0,0,w,h);
+
+  const cx=w/2, cy=h/2;
+  const r=Math.min(w,h)*.35;
+
+  // Rock texture — radial concentric
+  for(let ri=r;ri>0;ri-=12){
+    cCtx.beginPath();
+    cCtx.arc(cx,cy,ri,0,Math.PI*2);
+    cCtx.strokeStyle=`rgba(60,50,40,${(r-ri)/r*.3+.05})`;
+    cCtx.lineWidth=1;
+    cCtx.stroke();
+  }
+
+  // Light shaft from above — animated
+  const beamW=r*.3;
+  const beam=cCtx.createRadialGradient(cx,cy-r*.8,0,cx,cy,r);
+  beam.addColorStop(0,`rgba(240,232,200,${.15+Math.sin(ct2*.3)*.05})`);
+  beam.addColorStop(.4,`rgba(240,232,200,${.06+Math.sin(ct2*.3)*.02})`);
+  beam.addColorStop(1,'transparent');
+  cCtx.fillStyle=beam;
+  cCtx.beginPath();
+  cCtx.moveTo(cx-beamW,cy-r);
+  cCtx.lineTo(cx+beamW,cy-r);
+  cCtx.lineTo(cx+beamW*.2,cy);
+  cCtx.lineTo(cx-beamW*.2,cy);
+  cCtx.closePath();
+  cCtx.fill();
+
+  // Crater rim
+  cCtx.beginPath();
+  cCtx.arc(cx,cy,r,0,Math.PI*2);
+  const rim=cCtx.createLinearGradient(cx-r,cy,cx+r,cy);
+  rim.addColorStop(0,'rgba(139,94,60,.2)');
+  rim.addColorStop(.5,'rgba(200,180,140,.5)');
+  rim.addColorStop(1,'rgba(139,94,60,.2)');
+  cCtx.strokeStyle=rim;
+  cCtx.lineWidth=3;
+  cCtx.stroke();
+
+  // Stars visible through shaft — when night
+  const numStars=8;
+  for(let i=0;i<numStars;i++){
+    const ang=(i/numStars)*Math.PI*2+ct2*.01;
+    const sr=beamW*.7*Math.random();
+    const sx=cx+Math.cos(ang)*sr;
+    const sy=cy-r*.5+Math.sin(ang)*sr*.3;
+    const tw=Math.sin(ct2*.4+i)*.5+.5;
+    cCtx.beginPath();
+    cCtx.arc(sx,sy,1,0,Math.PI*2);
+    cCtx.fillStyle=`rgba(220,216,255,${tw*.6})`;
+    cCtx.fill();
+  }
+
+  // Center floor pool (water)
+  cCtx.beginPath();
+  cCtx.ellipse(cx,cy+r*.5,r*.3,r*.08,0,0,Math.PI*2);
+  const pool=cCtx.createRadialGradient(cx,cy+r*.5,0,cx,cy+r*.5,r*.3);
+  pool.addColorStop(0,`rgba(40,60,100,${.4+Math.sin(ct2*.5)*.1})`);
+  pool.addColorStop(1,'transparent');
+  cCtx.fillStyle=pool;
+  cCtx.fill();
+
+  // Label
+  cCtx.fillStyle='rgba(232,200,96,.4)';
+  cCtx.font='9px monospace';
+  cCtx.textAlign='center';
+  cCtx.fillText('THE CRATER — Ø 15m — ROCK FACE + SKYLIGHT',cx,h-20);
+  cCtx.textAlign='left';
+
+  ct2+=.016;
+  requestAnimationFrame(drawCrater);
+}
+drawCrater();
+
+// FADE IN OBSERVER
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('vis');
+      // Animate bars
+      e.target.querySelectorAll('.ag-bar-fill').forEach(b=>{
+        b.style.width=b.dataset.w+'%';
+      });
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:.15});
+document.querySelectorAll('.fade-in,.d-step').forEach(el=>io.observe(el));
+
+// SOUND
+let audioCtx=null, nodes=[], soundOn=false;
+function toggleSound(){
+  const btn=document.getElementById('sound-btn');
+  if(!soundOn){
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    startSound();
+    btn.textContent='SOUND ●';soundOn=true;
+  } else {
+    nodes.forEach(n=>{try{n.stop&&n.stop();n.disconnect&&n.disconnect()}catch(e){}});
+    nodes=[];audioCtx.close();audioCtx=null;
+    btn.textContent='SOUND ○';soundOn=false;
+  }
+}
+
+function startSound(){
+  const master=audioCtx.createGain();
+  master.gain.setValueAtTime(.12,audioCtx.currentTime);
+  master.connect(audioCtx.destination);
+  nodes.push(master);
+
+  // Deep underground resonance — 0.85Hz body sensation simulated at 28Hz
+  const sub=audioCtx.createOscillator();
+  const subG=audioCtx.createGain();
+  sub.type='sine';sub.frequency.value=28;
+  subG.gain.setValueAtTime(.3,audioCtx.currentTime);
+  sub.connect(subG);subG.connect(master);
+  sub.start();
+  nodes.push(sub,subG);
+
+  // Earth rumble — filtered noise
+  const buf=audioCtx.createBuffer(1,audioCtx.sampleRate*2,audioCtx.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+  const src=audioCtx.createBufferSource();
+  src.buffer=buf;src.loop=true;
+  const flt=audioCtx.createBiquadFilter();
+  flt.type='lowpass';flt.frequency.value=80;flt.Q.value=2;
+  const nG=audioCtx.createGain();nG.gain.setValueAtTime(.08,audioCtx.currentTime);
+  src.connect(flt);flt.connect(nG);nG.connect(master);
+  src.start();
+  nodes.push(src,flt,nG);
+
+  // Dripping water — sparse impulse
+  function drip(){
+    if(!soundOn)return;
+    const o=audioCtx.createOscillator();
+    const g=audioCtx.createGain();
+    o.type='sine';o.frequency.value=1200+Math.random()*400;
+    g.gain.setValueAtTime(.04,audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.3);
+    o.connect(g);g.connect(master);
+    o.start();o.stop(audioCtx.currentTime+.3);
+    setTimeout(drip,1000+Math.random()*4000);
+  }
+  drip();
+
+  // Distant geothermal hum
+  const geo=audioCtx.createOscillator();
+  const geoG=audioCtx.createGain();
+  geo.type='sawtooth';geo.frequency.value=60;
+  geoG.gain.setValueAtTime(.02,audioCtx.currentTime);
+  const geoFlt=audioCtx.createBiquadFilter();
+  geoFlt.type='lowpass';geoFlt.frequency.value=100;
+  geo.connect(geoFlt);geoFlt.connect(geoG);geoG.connect(master);
+  geo.start();
+  nodes.push(geo,geoG,geoFlt);
+}
+</script>
+<script defer="" src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

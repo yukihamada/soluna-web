@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA PASS — Stay at remote Hokkaido retreats via monthly subscription | From ¥9,800/month">SOLUNA PASS — 月額サブスクで北海道の秘境に泊まる | ¥9,800〜/月</title>
+<meta content="クレカ1枚で北海道の秘境キャビンに毎月泊まれる。¥9,800〜/月。12ヶ月継続でCABIN CLUBオーナー移行特典つき。" data-en-content="Stay at remote Hokkaido cabins monthly with a single credit card. From ¥9,800/month. Continue for 12 months and receive CABIN CLUB Owner transition benefits." name="description"/>
+<meta content="SOLUNA PASS — 月¥9,800から始める秘境所有への道" property="og:title"/>
+<meta content="年2〜12泊の優先予約権。¥49,800/月×12ヶ月でCABIN CLUBオーナーへの移行クレジット付き。クレカ月払い、いつでも解約可。" property="og:description"/>
+<meta content="https://solun.art/img/kumaushi_aerial_dawn.webp" property="og:image"/>
+<meta content="https://solun.art/pass" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.4);
+  --gold-soft:rgba(200,164,85,.07);
+  --bg:#040404;
+  --text:#f0ece4;
+  --dim:#555;
+  --line:#111;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--gold);color:#000}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 28px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.85);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.03)}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--gold)}
+.nav-links{display:flex;gap:20px;align-items:center;font-size:10.5px}
+.nav-links a{color:#555;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links .cta{color:var(--gold);font-weight:700;border:1px solid rgba(200,164,85,.3);padding:7px 16px;border-radius:100px;transition:all .2s}
+.nav-links .cta:hover{background:var(--gold);color:#040404}
+
+/* HERO */
+.hero{position:relative;height:90svh;min-height:560px;overflow:hidden;display:flex;align-items:flex-end}
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);animation:slowzoom 14s ease-out forwards;filter:brightness(.65) saturate(.75)}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.6) 40%,rgba(4,4,4,.1) 80%)}
+.hero-body{position:relative;z-index:2;padding:0 32px 80px;max-width:720px;margin:0 auto;width:100%}
+.hero-eyebrow{font-size:9px;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:14px;opacity:.85;animation:fadeUp .8s .2s both}
+.hero h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:18px;animation:fadeUp .9s .4s both}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{color:rgba(240,236,228,.55);font-size:13px;line-height:2;max-width:480px;font-weight:300;margin-bottom:28px;animation:fadeUp 1s .6s both}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp 1.1s .8s both}
+
+@keyframes slowzoom{from{transform:scale(1.04)}to{transform:scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+.cta-btn{display:inline-block;background:var(--gold);color:#040404;font-weight:800;font-size:12.5px;padding:16px 36px;border-radius:100px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 28px rgba(200,164,85,.2);letter-spacing:.04em}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(200,164,85,.3);color:#040404}
+.cta-ghost{display:inline-block;border:1px solid #252525;color:#666;font-size:12px;padding:15px 28px;border-radius:100px;transition:all .2s;font-weight:500}
+.cta-ghost:hover{border-color:rgba(200,164,85,.5);color:var(--gold)}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease}
+.r.in{opacity:1;transform:translateY(0)}
+
+/* SECTION */
+.s{padding:100px 0}
+@media(max-width:600px){.s{padding:72px 0}}
+.w{max-width:700px;margin:0 auto;padding:0 24px}
+.ww{max-width:1280px;margin:0 auto;padding:0 24px}
+
+/* NUMBERS */
+.numbers{padding:40px 24px;background:#020202;border-top:1px solid #0a0a0a;border-bottom:1px solid #0a0a0a}
+.num-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;max-width:900px;margin:0 auto}
+.num-grid>div{text-align:center;padding:20px 12px}
+.v{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;letter-spacing:-.04em;color:var(--gold);line-height:1}
+.l{font-size:10px;color:#333;margin-top:8px;line-height:1.6;letter-spacing:.04em}
+@media(max-width:600px){.num-grid{grid-template-columns:1fr 1fr}}
+
+/* PLAN CARDS */
+.plans-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:3px;max-width:1280px;margin:0 auto}
+@media(max-width:1000px){.plans-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.plans-grid{grid-template-columns:1fr}}
+.plan-card{background:#050505;border:1px solid #0f0f0f;border-radius:16px;overflow:hidden;position:relative;transition:border-color .3s}
+.plan-card:hover{border-color:rgba(200,164,85,.2)}
+.plan-card.featured{border-color:rgba(200,164,85,.35);background:#060608}
+.plan-card.featured::before{content:'MOST POPULAR';position:absolute;top:0;left:0;right:0;background:var(--gold);color:#040404;font-size:8px;font-weight:800;letter-spacing:.2em;text-align:center;padding:6px}
+.plan-header{padding:28px 24px 20px}
+.plan-card.featured .plan-header{padding-top:40px}
+.plan-badge{display:inline-block;font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:14px}
+.plan-name{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.plan-desc{font-size:11px;color:#444;line-height:1.8;margin-bottom:20px}
+.plan-price-wrap{margin-bottom:24px}
+.plan-price{font-size:42px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1}
+.plan-price sup{font-size:16px;font-weight:600;vertical-align:top;margin-top:8px;display:inline-block}
+.plan-price-note{font-size:10px;color:#333;margin-top:6px}
+.plan-price-alt{font-size:11px;color:#2a2a2a;margin-top:4px}
+.plan-divider{height:1px;background:#0d0d0d;margin:0 24px}
+.plan-features{padding:20px 24px 24px}
+.plan-feature{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;font-size:12px;color:#555;line-height:1.6}
+.plan-feature .check{color:var(--gold);flex-shrink:0;margin-top:1px;font-size:14px}
+.plan-feature .check.dim{color:#222}
+.plan-feature strong{color:#888}
+.plan-cta{padding:0 24px 24px}
+
+/* FUNNEL VISUAL */
+.funnel{max-width:700px;margin:0 auto;padding:0 24px}
+.funnel-step{display:flex;gap:20px;align-items:flex-start;padding:20px 0;border-left:1px solid #111;margin-left:20px;padding-left:28px;position:relative}
+.funnel-step::before{content:'';position:absolute;left:-6px;top:24px;width:11px;height:11px;border-radius:50%;background:#111;border:2px solid #222}
+.funnel-step.active::before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 12px rgba(200,164,85,.4)}
+.funnel-step:last-child{border-left-color:transparent}
+.fs-num{font-size:9px;color:#333;letter-spacing:.14em;font-weight:700;margin-bottom:4px}
+.fs-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:6px;line-height:1.2}
+.fs-desc{font-size:11px;color:#444;line-height:1.8}
+.fs-price{display:inline-block;margin-top:8px;font-size:11px;color:var(--gold);background:rgba(200,164,85,.07);border:1px solid rgba(200,164,85,.2);padding:4px 12px;border-radius:100px}
+
+/* COMPARE TABLE */
+.compare-table{width:100%;border-collapse:collapse;font-size:12px}
+.compare-table th{padding:12px 16px;text-align:center;font-size:9px;font-weight:700;letter-spacing:.14em;color:#333;border-bottom:1px solid #0d0d0d}
+.compare-table th:first-child{text-align:left}
+.compare-table td{padding:13px 16px;border-bottom:1px solid #070707;color:#555}
+.compare-table td:first-child{color:#888;font-size:11px}
+.compare-table td:not(:first-child){text-align:center}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table .yes{color:var(--gold);font-weight:700}
+.compare-table .no{color:#222}
+.compare-table .row-highlight{background:rgba(200,164,85,.03)}
+
+/* CONVERSION CALC */
+.calc-box{background:#040408;border:1px solid rgba(200,164,85,.15);border-radius:16px;padding:32px 36px;max-width:700px;margin:0 auto}
+.calc-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #0a0a0a;font-size:13px}
+.calc-row:last-child{border-bottom:none;margin-top:8px;padding-top:16px}
+.calc-row.total{font-size:16px;font-weight:800}
+.calc-label{color:#555}
+.calc-value{color:var(--gold);font-weight:700}
+.calc-value.minus{color:#888;text-decoration:line-through}
+.calc-value.big{font-size:24px;letter-spacing:-.04em}
+
+/* TESTIMONIAL / FAQ */
+.faq-item{border-bottom:1px solid #0a0a0a;padding:20px 0}
+.faq-q{font-size:14px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:#aaa;gap:12px}
+.faq-q:hover{color:var(--text)}
+.faq-icon{font-size:18px;color:#333;transition:transform .3s;flex-shrink:0}
+.faq-a{font-size:12.5px;color:#444;line-height:2;padding-top:14px;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-icon{transform:rotate(45deg);color:var(--gold)}
+
+/* COMPARISON vs competitors */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;max-width:900px;margin:0 auto}
+@media(max-width:680px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{padding:24px;border:1px solid #0d0d0d;border-radius:12px;background:#050505}
+.comp-card.ours{border-color:rgba(200,164,85,.3);background:#060608}
+
+/* FOOTER */
+footer{padding:48px 24px;border-top:1px solid #0a0a0a;max-width:1020px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+.footer-logo{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--gold);margin-bottom:8px}
+.footer-links{display:flex;gap:20px;flex-wrap:wrap}
+.footer-links a{font-size:10px;color:#333;transition:color .2s}
+.footer-links a:hover{color:var(--gold)}
+.footer-disc{font-size:9px;color:#1a1a1a;line-height:1.8;max-width:480px}
+
+@media(max-width:600px){
+  .hero-body{padding:0 20px 60px}
+  nav{padding:14px 18px}
+  .nav-links{gap:12px}
+  .plan-price{font-size:32px}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<!-- NAV -->
+<nav>
+<div class="nav-logo">SOLUNA</div>
+<div class="nav-links">
+<a data-en="← All Properties" href="offgrid">← 全物件</a>
+<a data-en="Plan" href="#plans">プラン</a>
+<a data-en="Path to Ownership" href="#funnel">所有への道</a>
+<a href="#faq">FAQ</a>
+<a class="cta" data-en="Start Now" href="#plans">今すぐ始める</a>
+</div>
+</nav>
+<!-- HERO -->
+<div class="hero">
+<div class="hero-bg">
+<img alt="SOLUNA PASS — 月額で北海道の秘境に泊まる" data-en-alt="SOLUNA PASS — Stay in Hokkaido's hidden regions with monthly subscription" loading="eager" src="img/dome_interior_projector.webp"/>
+</div>
+<div class="hero-body">
+<div class="hero-eyebrow" data-en="SOLUNA PASS · Subscription">SOLUNA PASS · サブスクリプション</div>
+<h1 data-en="From ¥9,800/month,">月¥9,800から、<br/><em data-en="Stay in pristine sanctuaries.">秘境に泊まる。</em></h1>
+<p class="hero-sub" data-en="Access hidden cabins in Teshikaga, Hokkaido with a single credit card. Priority booking rights for 2-12 nights annually. Earn transfer credits toward CABIN CLUB ownership after 12 consecutive months. Cancel anytime.">クレカ1枚で北海道・弟子屈の秘境キャビンに泊まれる。<br/>年2〜12泊の優先予約権。12ヶ月継続でCABIN CLUBオーナーへの移行クレジットつき。いつでも解約可。</p>
+<div class="hero-cta">
+<a class="cta-btn" data-en="Select Plan" href="#plans">プランを選ぶ</a>
+<a class="cta-ghost" data-en="Full ownership from ¥5,300,000 →" href="offgrid#cabinclub">一括所有 ¥530万〜 →</a>
+</div>
+</div>
+</div>
+<!-- NUMBERS -->
+<div class="numbers">
+<div class="num-grid r">
+<div><div class="v">¥9,800<span data-en="/month~" style="font-size:.4em">/月〜</span></div><div class="l" data-en="Minimum monthly rate includes 2 nights annually">最低月額<br/>年2泊つき</div></div>
+<div><div class="v" data-en="12 nights">12泊<span data-en="/year" style="font-size:.4em">/年</span></div><div class="l" data-en="Annual nights for UNLIMITED members">UNLIMITEDの<br/>年間滞在泊数</div></div>
+<div><div class="v" data-en="¥600,000–1,180,000">¥60〜118万</div><div class="l" data-en="Applied toward ownership purchase after 12 months">12ヶ月後に<br/>所有権購入に充当</div></div>
+<div><div class="v" data-en="¥4.3M–¥9.9M">¥430〜990万<span data-en="(Plan-dependent)" style="font-size:.35em">（プランによる）</span></div><div class="l" data-en="Effective owner conversion amount after 1 year">1年後の実質<br/>オーナー移行額</div></div>
+</div>
+</div>
+<!-- PLAN CARDS -->
+<div class="s" id="plans">
+<div class="ww">
+<p class="r" style="text-align:center;font-size:9px;letter-spacing:.28em;color:#333;font-weight:700;margin-bottom:12px">SOLUNA PASS · 4 PLANS</p>
+<h2 class="r" data-en="At your own pace" style="text-align:center;font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;margin-bottom:8px">自分のペースで<span data-en="Get Started" style="color:var(--gold)">始める</span></h2>
+<p class="r" data-en="Monthly credit card payments. Upgrade or cancel anytime." style="text-align:center;font-size:12px;color:#444;margin-bottom:48px">クレカ月払い。いつでもアップグレード、いつでも解約。</p>
+<div class="plans-grid r">
+<!-- STARTER -->
+<div class="plan-card">
+<div class="plan-header">
+<div class="plan-badge" style="background:rgba(255,255,255,.04);color:#444;border:1px solid #111">STARTER</div>
+<div class="plan-name" data-en="Starter" style="color:#888">スターター</div>
+<div class="plan-desc" data-en="For those wishing to experience first. Discover Hokkaido's hidden sanctuaries twice annually.">まずは試してみたい人へ。年2回、北海道の秘境を体験する。</div>
+<div class="plan-price-wrap">
+<div class="plan-price"><sup>¥</sup>9,800</div>
+<div class="plan-price-note" data-en="/ month (incl. tax) · Monthly credit card payments">/ 月（税込）· クレカ月払い</div>
+<div class="plan-price-alt" data-en="Annual payment: ¥98,000 (savings equivalent to 2 months)">年払いなら ¥98,000（2ヶ月分お得）</div>
+</div>
+</div>
+<div class="plan-divider"></div>
+<div class="plan-features">
+<div class="plan-feature"><span class="check">✦</span><span data-en="Priority reservation rights (book 7 days ahead of general availability)"><strong data-en="2 nights per year">年2泊</strong>の優先予約権（一般より7日前から予約可）</span></div>
+<div class="plan-feature"><span class="check">✦</span><span data-en="SOLUNA Community Member status">SOLUNAコミュニティメンバー資格</span></div>
+<div class="plan-feature"><span class="check">✦</span><span data-en="Early Access to New Locations">新拠点の先行案内</span></div>
+<div class="plan-feature"><span class="check">✦</span><span data-en="Experience Options">体験オプション <strong data-en="5% Discount">5%割引</strong></span></div>
+<div class="plan-feature"><span class="check dim">○</span><span data-en="No CABIN CLUB transfer credit" style="color:#2a2a2a">CABIN CLUB移行クレジットなし</span></div>
+<div class="plan-feature"><span class="check dim">○</span><span data-en="Standard accommodation charges apply separately (from ¥65,000/night)" style="color:#2a2a2a">宿泊時の通常料金が別途必要（¥65,000〜/泊）</span></div>
+</div>
+<div class="plan-cta">
+<a class="cta-ghost" data-en="Start with Starter" href="mailto:mail@yukihamada.jp?subject=SOLUNA PASS STARTERに申し込みたい&amp;body=お名前:%0A電話番号:%0A希望開始月:" style="display:block;text-align:center;padding:14px 20px;border-radius:100px;color:#555;border-color:#151515">スターターを始める</a>
+</div>
+</div>
+<!-- EXPLORER (FEATURED) -->
+<div class="plan-card featured">
+<div class="plan-header">
+<div class="plan-badge" style="background:rgba(200,164,85,.1);color:var(--gold);border:1px solid rgba(200,164,85,.2)">EXPLORER</div>
+<div class="plan-name" data-en="Explorer" style="color:var(--text)">エクスプローラー</div>
+<div class="plan-desc" data-en="Spend 2-3 months per year in Hokkaido. Ideal for travel enthusiasts and remote workers.">月2〜3回を北海道で過ごす。旅好き・リモートワーカーに最適。</div>
+<div class="plan-price-wrap">
+<div class="plan-price"><sup>¥</sup>24,800</div>
+<div class="plan-price-note" data-en="/ month (incl. tax) · Monthly credit card payments">/ 月（税込）· クレカ月払い</div>
+<div class="plan-price-alt" data-en="Annual payment: ¥248,000 (save 2 months)">年払いなら ¥248,000（2ヶ月分お得）</div>
+</div>
+</div>
+<div class="plan-divider"></div>
+<div class="plan-features">
+<div class="plan-feature"><span class="check">✦</span><span data-en="Priority booking rights (14 days before general availability)"><strong data-en="6 nights per year">年6泊</strong>の優先予約権（一般より14日前から予約可）</span></div>
+<div class="plan-feature"><span class="check">✦</span><span data-en="SOLUNA Community (Slack Access)">SOLUNAコミュニティ（Slackアクセス）</span></div>
+<div class="plan-feature"><span class="check">✦</span><span data-en="Early access to new properties + exclusive owner information">新拠点の先行案内 + オーナー向け情報開示</span></div>
+<div class="plan-feature"><span class="check">✦</span><span data-en="Experience Options">体験オプション <strong data-en="10% discount">10%割引</strong></span></div>
+<div class="plan-feature"><span class="check">✦</span><span data-en="Teshikaga Guidebook (Digital) + Relocation Information">弟子屈ガイドブック（デジタル）+ 移住情報</span></div>
+<div class="plan-feature"><span class="check">✦</span><span data-en="CABIN CLUB Transition Credit (at 12-month commitment: total amount paid)">CABIN CLUB移行クレジット（12ヶ月継続時: 支払済み総額の<strong data-en="30% applied">30%充当</strong>）</span></div>
+<div class="plan-feature"><span class="check dim">○</span><span data-en="Standard accommodation charges apply separately (from ¥65,000/night)" style="color:#2a2a2a">宿泊時の通常料金が別途必要（¥65,000〜/泊）</span></div>
+</div>
+<div class="plan-cta">
+<a class="cta-btn" data-en="Begin EXPLORER" href="mailto:mail@yukihamada.jp?subject=SOLUNA PASS EXPLORERに申し込みたい&amp;body=お名前:%0A電話番号:%0A希望開始月:" style="display:block;text-align:center">エクスプローラーを始める</a>
+</div>
+</div>
+<!-- UNLIMITED -->
+<div class="plan-card" style="border-color:rgba(200,164,85,.1)">
+<div class="plan-header">
+<div class="plan-badge" style="background:rgba(200,164,85,.15);color:var(--gold);border:1px solid rgba(200,164,85,.3);font-weight:800">UNLIMITED</div>
+<div class="plan-name" data-en="UNLIMITED" style="color:var(--gold)">アンリミテッド</div>
+<div class="plan-desc" data-en="One night monthly—Hokkaido becomes your second home. A pathway to ownership in 12 months.">月1泊、北海道が第二の拠点になる。12ヶ月でオーナーへの道。</div>
+<div class="plan-price-wrap">
+<div class="plan-price"><sup>¥</sup>49,800</div>
+<div class="plan-price-note" data-en="/ month (incl. tax) · Monthly credit card payments">/ 月（税込）· クレカ月払い</div>
+<div class="plan-price-alt" data-en="Annual payment: ¥498,000 (save 2 months)">年払いなら ¥498,000（2ヶ月分お得）</div>
+</div>
+</div>
+<div class="plan-divider"></div>
+<div class="plan-features">
+<div class="plan-feature"><span class="check">✦</span><span data-en="priority booking rights (equivalent to 1 night per month)"><strong data-en="12 nights annually">年12泊</strong>の優先予約権（月1泊換算）</span></div>
+<div class="plan-feature"><span class="check">✦</span><span data-en="All 4 properties (Miruwa, Kumaushi Base) usable anywhere">全4物件（美留和・熊牛原野）どこでも使える</span></div>
+<div class="plan-feature"><span class="check">✦</span><span data-en="Experience Options (equivalent to CABIN Owner)">体験オプション <strong data-en="20% discount">20%割引</strong>（CABINオーナー同等）</span></div>
+<div class="plan-feature"><span class="check">✦</span><span data-en="Dedicated Concierge Service">専任コンシェルジュサービス</span></div>
+<div class="plan-feature"><span class="check">✦</span><span data-en="⭐  → Become an Owner from effectively ¥4,300,000" style="color:var(--text)">⭐ <strong data-en="After 12 months: Total payments (¥597,600) apply 100% toward CABIN CLUB purchase" style="color:var(--gold)">12ヶ月継続後: 支払済み総額（¥597,600）をCABIN CLUB購入代金に100%充当</strong> → 実質¥430万でオーナーに</span></div>
+<div class="plan-feature"><span class="check">✦</span><span data-en="24-month commitment: +¥100,000 bonus credit">24ヶ月継続: +¥100,000 ボーナスクレジット</span></div>
+<div class="plan-feature"><span class="check">✦</span><span data-en="Accommodation included (no additional nightly charges)">宿泊料金コミコミ（追加宿泊料ゼロ）</span></div>
+</div>
+<div class="plan-cta">
+<a class="cta-btn" data-en="Begin UNLIMITED" href="mailto:mail@yukihamada.jp?subject=SOLUNA PASS UNLIMITEDに申し込みたい&amp;body=お名前:%0A電話番号:%0A希望開始月:" style="display:block;text-align:center;background:var(--gold)">アンリミテッドを始める</a>
+<div data-en="Cancel anytime · No long-term commitment" style="text-align:center;margin-top:10px;font-size:9px;color:#333">いつでも解約可 · 縛りなし</div>
+</div>
+</div>
+<!-- ELITE -->
+<div class="plan-card" style="border-color:rgba(200,164,85,.25);background:#070506">
+<div class="plan-header">
+<div class="plan-badge" style="background:rgba(200,164,85,.2);color:#f0c060;border:1px solid rgba(200,164,85,.5);font-weight:800;letter-spacing:.22em">ELITE</div>
+<div class="plan-name" data-en="Elite" style="color:#f0c060">エリート</div>
+<div class="plan-desc" data-en="2 nights per month across multiple residences. Become an Owner in 2 years. Annual payment members invited to exclusive launch event.">月2泊、複数拠点を自在に使う。2年でオーナーに。年払いで会員ローンチイベントに招待。</div>
+<div class="plan-price-wrap">
+<div class="plan-price" style="color:#f0c060"><sup>¥</sup>98,000</div>
+<div class="plan-price-note" data-en="/ month (incl. tax) · Monthly credit card payments">/ 月（税込）· クレカ月払い</div>
+<div class="plan-price-alt" data-en="Annual payment: ¥980,000 (savings equivalent to 2 months)">年払いなら ¥980,000（2ヶ月分お得）</div>
+</div>
+</div>
+<div class="plan-divider"></div>
+<div class="plan-features">
+<div class="plan-feature"><span class="check" style="color:#f0c060">✦</span><span data-en="Priority booking rights (equivalent to 2 nights monthly)"><strong data-en="24 nights per year">年24泊</strong>の優先予約権（月2泊換算）</span></div>
+<div class="plan-feature"><span class="check" style="color:#f0c060">✦</span><span data-en="All Properties (4 properties in Teshikaga, Hokkaido) usable anywhere">全物件（弟子屈4物件）どこでも利用可</span></div>
+<div class="plan-feature"><span class="check" style="color:#f0c060">✦</span><span data-en="Experience Options (Staff Discount Equivalent)">体験オプション <strong data-en="30% discount">30%割引</strong>（スタッフ割引同等）</span></div>
+<div class="plan-feature"><span class="check" style="color:#f0c060">✦</span><span data-en="Dedicated concierge (24/7 LINE support)">専任コンシェルジュ（24h LINE対応）</span></div>
+<div class="plan-feature"><span class="check" style="color:#f0c060">✦</span><span data-en="Monthly curated provisions box (Hokkaido vegetables and seafood) delivered to your cabin">毎月の調達食材ボックス（北海道産野菜・海産物）をキャビン着で用意</span></div>
+<div class="plan-feature"><span class="check" style="color:#f0c060">✦</span><span data-en="Accommodation included (no additional nightly charges)">宿泊料金コミコミ（追加宿泊料ゼロ）</span></div>
+<div class="plan-feature"><span class="check" style="color:#f0c060">✦</span><span data-en="⭐ → ¥9 million Kumaushi Base or ¥8.9 million NESTING with ¥1.18 million applied, effectively becoming an owner for ¥7.72–7.82 million" style="color:var(--text)">⭐ <strong data-en="12-Month Continuation: ¥1,176,000 applied 100% toward CABIN CLUB purchase price" style="color:#f0c060">12ヶ月継続: ¥1,176,000をCABIN CLUB購入代金に100%充当</strong> → ¥900万熊牛原野 or ¥890万NESTINGに対して¥118万充当、実質¥772〜782万でオーナーに</span></div>
+<div class="plan-feature"><span class="check" style="color:#f0c060">✦</span><span data-en="⭐  → Nearly covers ¥4.9M property (Become an Owner with remaining ¥1.54M)" style="color:var(--text)">⭐ <strong data-en="24-month commitment: ¥2,352,000 credited" style="color:#f0c060">24ヶ月継続: ¥2,352,000充当</strong> → ¥490万物件をほぼカバー（残額¥154万でオーナーに）</span></div>
+<div class="plan-feature"><span class="check" style="color:#f0c060">✦</span><span data-en="Once yearly: Complimentary invitation to Teshikaga BBQ annual member event">年1回: 弟子屈バーベキュー年次メンバーイベントに招待（無料）</span></div>
+<div class="plan-feature"><span class="check" style="color:#f0c060">✦</span><span data-en="Priority selection for Wakayama, Atami, and TAPKOP new properties">和歌山・熱海・TAPKOP新拠点の最優先選択権</span></div>
+</div>
+<div class="plan-cta">
+<a class="cta-btn" data-en="Begin Elite" href="mailto:mail@yukihamada.jp?subject=SOLUNA PASS ELITEに申し込みたい&amp;body=お名前:%0A電話番号:%0A希望開始月:" style="display:block;text-align:center;background:linear-gradient(135deg,#c8a455,#f0c060);color:#040404">エリートを始める</a>
+<div data-en="The fastest path to ownership. After 24 months, nearly the full amount of the ¥4.9 million property is accumulated." style="text-align:center;margin-top:10px;font-size:9px;color:#555">最も早くオーナーになれるプラン。24ヶ月後に¥490万物件のほぼ全額が積み上がる。</div>
+</div>
+</div>
+</div><!-- /plans-grid -->
+<!-- Annual toggle note -->
+<div class="r" style="text-align:center;margin-top:28px;padding:16px 24px;background:#040404;border:1px solid #0d0d0d;border-radius:10px;max-width:620px;margin-left:auto;margin-right:auto">
+<span data-en="💡 Annual payment saves 2 months (12 months of use for 10 months' price). Credit card payments processed through Stripe." style="font-size:11px;color:#444">💡 年払いはすべて2ヶ月分お得（10ヶ月分の価格で12ヶ月利用）。Stripe でクレカ決済。</span>
+</div>
+</div>
+</div>
+<!-- CONVERSION CALC — UNLIMITED の12ヶ月後シミュレーション -->
+<div id="funnel" style="background:#020206;border-top:1px solid rgba(200,164,85,.1);border-bottom:1px solid rgba(200,164,85,.1);padding:80px 0">
+<div class="ww">
+<p class="r" data-en="UNLIMITED · 12-Month Simulation" style="text-align:center;font-size:9px;letter-spacing:.28em;color:rgba(200,164,85,.5);font-weight:700;margin-bottom:12px">UNLIMITED · 12ヶ月シミュレーション</p>
+<h2 class="r" data-en="While staying for one year," style="text-align:center;font-size:clamp(1.4rem,3.5vw,2.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:40px">1年間泊まりながら、<span data-en="Become an Owner" style="color:var(--gold)">オーナーになる。</span></h2>
+<div class="calc-box r">
+<div class="calc-row">
+<span class="calc-label" data-en="UNLIMITED Monthly × 12 months">UNLIMITED月額 × 12ヶ月</span>
+<span class="calc-value">¥49,800 × 12 = ¥597,600</span>
+</div>
+<div class="calc-row">
+<span class="calc-label" data-en="Accommodation earned over these 12 months">この12ヶ月間に得られる宿泊</span>
+<span class="calc-value" data-en="12 nights annually (Regular rate ¥65,000~/night × 12 = equivalent to ¥780,000)">年12泊（通常料金 ¥65,000〜/泊 × 12 = ¥78万相当）</span>
+</div>
+<div class="calc-row">
+<span class="calc-label" data-en="Transition to CABIN CLUB Owner after 12 months">12ヶ月後、CABIN CLUBオーナー移行</span>
+<span class="calc-value" data-en="Lodge 1 Unit Standard Price">ロッジ 1口 通常価格</span>
+</div>
+<div class="calc-row">
+<span class="calc-label" data-en="Standard Price">通常価格</span>
+<span class="calc-value minus">¥4,900,000</span>
+</div>
+<div class="calc-row">
+<span class="calc-label" data-en="100% of 12-month PASS applied">PASS 12ヶ月分を100%充当</span>
+<span class="calc-value" data-en="– ¥597,600" style="color:#aaa">－ ¥597,600</span>
+</div>
+<div class="calc-row total" style="border-top:1px solid rgba(200,164,85,.2);margin-top:8px">
+<span class="calc-label" data-en="Remaining balance upon transition (lump sum payment)" style="color:#aaa">移行時の残額（一括払い）</span>
+<span class="calc-value big">¥4,302,400</span>
+</div>
+<div data-en="✦ When including the value of 12 nights stayed over 12 months (approximately ¥780,000), the effective cost decreases further.
+        ✦ After transition, you receive 30 nights annually as a formal Owner plus dividends of ¥410,000–1,070,000 per year.
+        ✦ You may decide the timing of transition while maintaining your PASS membership (no obligation)." style="margin-top:20px;padding:16px;background:rgba(200,164,85,.05);border-radius:10px;font-size:11px;color:#555;line-height:1.9">
+        ✦ 12ヶ月間に泊まった12泊の宿泊価値（¥78万相当）を含めると、実質コストはさらに低下。<br/>
+        ✦ 移行後は正式オーナーとして年30泊の権利＋配当¥41〜107万/年が発生。<br/>
+        ✦ PASSを継続したまま移行のタイミングを決められる（義務なし）。
+      </div>
+</div>
+</div>
+</div>
+<!-- OWNERSHIP FUNNEL VISUAL -->
+<div class="s">
+<div class="w">
+<p class="r" style="font-size:9px;letter-spacing:.28em;color:#333;font-weight:700;margin-bottom:16px">OWNERSHIP JOURNEY · 所有への道</p>
+<h2 class="r" data-en="In 4 Simple Steps" style="font-size:clamp(1.3rem,3vw,2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:48px;line-height:1.2">4つのステップで<br/><span data-en="Become an Owner of Hidden Sanctuaries." style="color:var(--gold)">秘境のオーナーへ。</span></h2>
+<div class="funnel r">
+<div class="funnel-step active">
+<div>
+<div class="fs-num">STEP 01</div>
+<div class="fs-title" data-en="Register for PASS">PASSに登録する</div>
+<div class="fs-desc" data-en="Whether STARTER at ¥9,800/month or UNLIMITED at ¥49,800/month. Register instantly with a credit card. Join the community, tour the properties, and experience stays. No commitment—cancel anytime.">¥9,800/月のSTARTERでも、¥49,800/月のUNLIMITEDでも。クレカで即日登録。コミュニティに入り、物件を見学し、泊まってみる。縛りなし、いつでもキャンセル可。</div>
+<span class="fs-price" data-en="From ¥9,800/month today">今日から ¥9,800〜/月</span>
+</div>
+</div>
+<div class="funnel-step active">
+<div>
+<div class="fs-num">STEP 02</div>
+<div class="fs-title" data-en="Upgrade to UNLIMITED or ELITE">UNLIMITEDまたはELITEにアップグレード</div>
+<div class="fs-desc" data-en="Enjoy, then upgrade to UNLIMITED (1 night/month, 12 nights/year). Aspire to ownership faster? Choose ELITE (2 nights/month, 24 nights/year). Monthly payments accumulate as CABIN CLUB purchase credits. UNLIMITED = 12 months to THE LODGE ownership; ELITE = 24 months to THE LODGE, NESTING, or KUMAUSHI BASE ownership.">気に入ったらUNLIMITEDへ（月1泊、年12泊）。さらに速くオーナーになりたいならELITEへ（月2泊、年24泊）。毎月の支払いがCABIN CLUB購入クレジットとして積み上がる。UNLIMITED=12ヶ月でロッジオーナー、ELITE=24ヶ月でロッジ/NESTING/熊牛原野オーナー。</div>
+<span class="fs-price" data-en="UNLIMITED ¥49,800/month × 12 months = ¥600K savings / ELITE ¥98,000/month × 24 months = ¥2.35M savings">UNLIMITED ¥49,800/月 × 12ヶ月 = ¥60万 積立 ／ ELITE ¥98,000/月 × 24ヶ月 = ¥235万 積立</span>
+</div>
+</div>
+<div class="funnel-step">
+<div>
+<div class="fs-num">STEP 03</div>
+<div class="fs-title" data-en="Transition to CABIN CLUB Ownership">CABIN CLUBオーナーへ移行</div>
+<div class="fs-desc" data-en="UNLIMITED after 12 months: ¥597K applied to ¥4.9M property, remaining ¥4.3M makes you a Lodge Owner. ELITE after 12 months: ¥1.18M applied to ¥9-8.9M property, effectively ¥7.72-7.82M to become a NESTING/KUMAUSHI BASE Owner. ELITE after 24 months: Over ¥2.35M applied leaves just ¥1.54M remaining on ¥4.9M property. At this point, 1/10 real estate ownership is formally registered.">UNLIMITED 12ヶ月後: ¥490万物件に¥59.7万充当、残額¥430万でロッジオーナーに。ELITE 12ヶ月後: ¥900〜890万物件に¥118万充当、実質¥772〜782万でNESTING/熊牛オーナーに。ELITE 24ヶ月後: ¥235万超充当で¥490万物件の残額わずか¥154万。この時点で正式に1/10の不動産持分が登記される。</div>
+<span class="fs-price" data-en="UNLIMITED: Remaining ¥4.3M / ELITE 24 months: Remaining ¥1.54M to become an Owner">UNLIMITED: 残額 ¥430万 ／ ELITE 24ヶ月: 残額 ¥154万 でオーナーに</span>
+</div>
+</div>
+<div class="funnel-step">
+<div>
+<div class="fs-num">STEP 04</div>
+<div class="fs-title" data-en="30 nights annually as Owner + dividends">オーナーとして年30泊 + 配当</div>
+<div class="fs-desc" data-en="Formal Owners receive 30 nights annually at no charge, plus annual dividends of ¥410K–¥1.07M (conservative to optimistic scenarios). Only ¥250K annual management fee applies. Your investment begins working from day one.">正式オーナーは毎年30泊の滞在権（通常料金ゼロ）＋配当¥41〜107万/年（保守〜楽観）を受け取る。管理費¥25万/年のみ。買ったその日から投資が働き始める。</div>
+<span class="fs-price" data-en="30 nights annually (¥1.65M/year equivalent) + dividends ¥410K–¥1.07M/year">年30泊（¥165万/年相当）+ 配当 ¥41〜107万/年</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- COMPARE TABLE -->
+<div style="background:#020204;border-top:1px solid #0a0a0a;border-bottom:1px solid #0a0a0a;padding:80px 0">
+<div class="ww">
+<p class="r" style="text-align:center;font-size:9px;letter-spacing:.28em;color:#333;font-weight:700;margin-bottom:12px">PLAN COMPARISON</p>
+<h2 class="r" data-en="All Plans" style="text-align:center;font-size:clamp(1.3rem,3vw,2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:40px">全プラン <span data-en="Comparison Table" style="color:var(--gold)">比較表</span></h2>
+<div class="r" style="overflow-x:auto;border:1px solid #0d0d0d;border-radius:14px;overflow:hidden">
+<table class="compare-table" style="min-width:780px">
+<thead>
+<tr style="background:#050505">
+<th data-en="Features" style="text-align:left;width:28%">機能</th>
+<th>STARTER<br/><span data-en="¥9,800/month" style="color:var(--gold);font-size:12px">¥9,800/月</span></th>
+<th style="background:rgba(200,164,85,.03)">EXPLORER<br/><span data-en="¥24,800/month" style="color:var(--gold);font-size:12px">¥24,800/月</span></th>
+<th>UNLIMITED<br/><span data-en="¥49,800/month" style="color:var(--gold);font-size:12px">¥49,800/月</span></th>
+<th style="background:rgba(200,164,85,.05)">ELITE<br/><span data-en="¥98,000/month" style="color:#f0c060;font-size:12px">¥98,000/月</span></th>
+<th>CABIN CLUB<br/><span data-en="From ¥4,900,000 · Lump sum" style="color:var(--gold);font-size:12px">¥490万〜 一括</span></th>
+</tr>
+</thead>
+<tbody>
+<tr><td data-en="Annual nights">年間宿泊泊数</td><td data-en="2 nights">2泊</td><td class="row-highlight" data-en="6 nights">6泊</td><td data-en="12 nights">12泊</td><td data-en="24 nights" style="background:rgba(200,164,85,.04);color:#f0c060;font-weight:700">24泊</td><td class="yes" data-en="30 nights">30泊</td></tr>
+<tr><td data-en="Accommodation Fees">宿泊料金</td><td data-en="Additional ¥65,000+/night">別途¥65,000〜/泊</td><td class="row-highlight" data-en="Additional ¥65,000+/night">別途¥65,000〜/泊</td><td class="yes" data-en="All-Inclusive">コミコミ</td><td class="yes" data-en="All-Inclusive" style="background:rgba(200,164,85,.04)">コミコミ</td><td class="yes" data-en="All-Inclusive">コミコミ</td></tr>
+<tr><td data-en="Experience Options Discount">体験オプション割引</td><td>5%</td><td class="row-highlight">10%</td><td class="yes">20%</td><td style="background:rgba(200,164,85,.04);color:#f0c060;font-weight:700">30%</td><td class="yes">20%</td></tr>
+<tr><td data-en="Community Access">コミュニティアクセス</td><td class="yes">○</td><td class="row-highlight yes">○</td><td class="yes">○</td><td class="yes" style="background:rgba(200,164,85,.04)">○</td><td class="yes">○</td></tr>
+<tr><td data-en="Dedicated Concierge">専任コンシェルジュ</td><td class="no">—</td><td class="row-highlight no">—</td><td class="yes">○</td><td data-en="24-Hour LINE Support" style="background:rgba(200,164,85,.04);color:#f0c060;font-weight:700">24h LINE対応</td><td class="yes">○</td></tr>
+<tr><td data-en="Food Box (monthly)">食材ボックス（月次）</td><td class="no">—</td><td class="row-highlight no">—</td><td class="no">—</td><td data-en="Hokkaido-sourced vegetables and seafood" style="background:rgba(200,164,85,.04);color:#f0c060;font-weight:700">北海道産野菜・海産物</td><td class="no">—</td></tr>
+<tr><td data-en="Real Estate Equity">不動産持分</td><td class="no">—</td><td class="row-highlight no">—</td><td class="no">—</td><td class="no" style="background:rgba(200,164,85,.04)">—</td><td class="yes" data-en="1/10 property registration">1/10 登記</td></tr>
+<tr><td data-en="Annual dividends">年間配当</td><td class="no">—</td><td class="row-highlight no">—</td><td class="no">—</td><td class="no" style="background:rgba(200,164,85,.04)">—</td><td class="yes" data-en="¥410,000–¥1,070,000/year">¥41〜107万/年</td></tr>
+<tr><td data-en="CABIN CLUB transfer credit">CABIN CLUB移行クレジット</td><td class="no">—</td><td class="row-highlight" data-en="30% applied">30%充当</td><td class="yes" data-en="100% Applied">100%充当</td><td data-en="100% Applied" style="background:rgba(200,164,85,.04);color:#f0c060;font-weight:700">100%充当</td><td>—</td></tr>
+<tr><td data-en="Member Event Invitations">メンバーイベント招待</td><td class="no">—</td><td class="row-highlight no">—</td><td class="no">—</td><td data-en="Annual BBQ event" style="background:rgba(200,164,85,.04);color:#f0c060;font-weight:700">年1回 BBQイベント</td><td class="no">—</td></tr>
+<tr><td data-en="First Priority Selection of New Locations">新拠点最優先選択権</td><td class="no">—</td><td class="row-highlight no">—</td><td class="no">—</td><td class="yes" data-en="Wakayama · Atami · TAPKOP" style="background:rgba(200,164,85,.04)">和歌山・熱海・TAPKOP</td><td class="no">—</td></tr>
+<tr><td data-en="Terms &amp; Early Cancellation">縛り・途中解約</td><td class="yes" data-en="None">なし</td><td class="row-highlight yes" data-en="None">なし</td><td class="yes" data-en="None">なし</td><td class="yes" data-en="None" style="background:rgba(200,164,85,.04)">なし</td><td>—</td></tr>
+<tr><td data-en="Perfect For">こんな人に</td><td data-en="For those who travel 1-2 times per year" style="font-size:10px;color:#444">年1〜2回の旅好き</td><td class="row-highlight" data-en="Travelers and remote workers visiting several times monthly" style="font-size:10px;color:#666">月数回の旅人・<br/>リモートワーカー</td><td data-en="For those seeking a second residence" style="font-size:10px;color:#aaa">第二の拠点を持ちたい人</td><td data-en="For Those Seeking Rapid Ownership" style="background:rgba(200,164,85,.04);font-size:10px;color:#c8a455">最速でオーナーになりたい人</td><td data-en="For those seeking serious investment and ownership" style="font-size:10px;color:#888">本格的に投資・所有したい人</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- VS COMPETITOR -->
+<div class="s">
+<div class="ww">
+<p class="r" data-en="COMPARISON · Comparison with Other Services" style="text-align:center;font-size:9px;letter-spacing:.28em;color:#333;font-weight:700;margin-bottom:12px">COMPARISON · 他サービスとの比較</p>
+<h2 class="r" data-en="Why SOLUNA" style="text-align:center;font-size:clamp(1.3rem,3vw,2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:32px">なぜ <span style="color:var(--gold)">SOLUNA PASS</span> なのか</h2>
+<div class="comp-grid r">
+<div class="comp-card">
+<div data-en="SANU (Mountain Residence)" style="font-size:9px;color:#333;letter-spacing:.14em;font-weight:700;margin-bottom:10px">SANU（山の家）</div>
+<div style="font-size:28px;font-weight:800;margin-bottom:4px">¥55,000<span data-en="/month" style="font-size:12px;color:#444">/月</span></div>
+<div data-en="• Access to properties across Japan year-round
+          • No conversion to ownership
+          • No dividends
+          • Limited sense of Hokkaido's remote nature" style="font-size:11px;color:#444;line-height:1.9;margin-top:12px">
+          ・年を通じて日本各地の拠点に滞在可<br/>
+          ・所有権への転換なし<br/>
+          ・配当なし<br/>
+          ・北海道秘境感は薄い
+        </div>
+</div>
+<div class="comp-card">
+<div style="font-size:9px;color:#333;letter-spacing:.14em;font-weight:700;margin-bottom:10px">NOT A HOTEL</div>
+<div data-en="¥27.4M" style="font-size:28px;font-weight:800;margin-bottom:4px">¥2,740万<span data-en="10 nights/year" style="font-size:12px;color:#444"> 10泊/年</span></div>
+<div data-en="• ¥27,400,000+ per unit (substantial investment)
+          • No monthly payment option
+          • No dividend structure
+          • 10 nights only (not 30 nights)" style="font-size:11px;color:#444;line-height:1.9;margin-top:12px">
+          ・1口¥2,740万〜（高額）<br/>
+          ・月払い選択肢なし<br/>
+          ・配当構造なし<br/>
+          ・10泊のみ（30泊ではない）
+        </div>
+</div>
+<div class="comp-card ours">
+<div style="font-size:9px;color:var(--gold);letter-spacing:.14em;font-weight:700;margin-bottom:10px">SOLUNA PASS</div>
+<div data-en="¥9,800~" style="font-size:28px;font-weight:800;color:var(--gold);margin-bottom:4px">¥9,800〜<span data-en="/month" style="font-size:12px;color:#888">/月</span></div>
+<div data-en="• Starting from ¥9,800/month
+          • Available
+          • (After owner conversion)
+          • Authentic wilderness experience in Hokkaido's hidden regions
+          • Rich experiences including music, pottery, and martial arts" style="font-size:11px;color:#666;line-height:1.9;margin-top:12px">
+          ・月¥9,800〜でスタート可<br/>
+          ・<strong data-en="Ownership Conversion Credit" style="color:#aaa">所有権への転換クレジット</strong>あり<br/>
+          ・<strong data-en="With dividends" style="color:#aaa">配当付き</strong>（オーナー転換後）<br/>
+          ・北海道秘境の本物感<br/>
+          ・音楽・陶芸・柔術など体験豊富
+        </div>
+</div>
+</div>
+</div>
+</div>
+<!-- FAQ -->
+<div id="faq" style="background:#020202;border-top:1px solid #0a0a0a;padding:80px 0">
+<div class="w">
+<p class="r" style="font-size:9px;letter-spacing:.28em;color:#333;font-weight:700;margin-bottom:12px">FAQ</p>
+<h2 class="r" data-en="FAQ" style="font-size:clamp(1.3rem,3vw,2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:40px">よくある質問</h2>
+<div class="r">
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q" data-en="What does UNLIMITED's &quot;accommodation included&quot; mean?">UNLIMITEDの「宿泊料金コミコミ」とは何ですか？ <span class="faq-icon">+</span></div>
+<div class="faq-a" data-en="The UNLIMITED plan includes 12 nights annually (typically ¥65,000~/night) in your monthly ¥49,800 fee. No additional accommodation charges at check-in. You receive one night per month, and unused nights can be carried forward to the following month (maximum 3 months).">UNLIMITEDプランでは、年12泊の宿泊費（通常¥65,000〜/泊）が月額¥49,800に含まれます。チェックイン時に別途宿泊料を支払う必要はありません。1ヶ月あたり1泊の権利があり、使わなかった泊数は翌月に繰り越せます（最大3ヶ月）。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q" data-en="Are accommodation fees charged separately for STARTER and EXPLORER?">STARTER・EXPLORERは宿泊料金が別途かかるのですか？ <span class="faq-icon">+</span></div>
+<div class="faq-a" data-en="Yes. STARTER (2 nights/year) and EXPLORER (6 nights/year) include priority reservation rights only. Actual accommodation charges (from ¥65,000/night) are paid separately at the time of stay. However, you may book 7–14 days earlier than general public reservations, ensuring easier access during peak periods.">はい。STARTER（年2泊）とEXPLORER（年6泊）は「優先予約権」のみ含まれます。実際の宿泊料金（¥65,000〜/泊）は宿泊時に別途お支払いいただきます。ただし、一般の外部予約より7〜14日早く予約でき、混雑期でも確保しやすくなります。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q" data-en="Is migration to CABIN CLUB mandatory?">CABIN CLUBへの移行は義務ですか？ <span class="faq-icon">+</span></div>
+<div class="faq-a" data-en="It is not mandatory. You may continue with PASS without any issue. The structure works as follows: after 12 consecutive months, you earn the right to use transfer credits. Should you wish to transition, please contact Hamada and we will proceed with the necessary arrangements. If you choose not to transition, credits will continue to accumulate without limit.">義務ではありません。PASSを継続するだけでも問題ありません。「12ヶ月継続したら移行クレジットが使える権利が発生する」という仕組みです。移行したい場合は濱田に連絡いただければ手続きを進めます。移行しなければ、クレジットは引き続き積み立てられます（上限なし）。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q" data-en="What happens to accumulated credits if I cancel?">解約した場合、積み立てたクレジットはどうなりますか？ <span class="faq-icon">+</span></div>
+<div class="faq-a" data-en="With EXPLORER or UNLIMITED, if you transition to CABIN CLUB Ownership within 6 months of cancellation, accumulated credits remain available. Credits expire after 6 months and cannot be resold or transferred.">EXPLORER・UNLIMITEDの場合、解約後6ヶ月以内にCABIN CLUBオーナーに移行いただければ、積み立てたクレジットを使用できます。6ヶ月を超えると失効します。クレジットの転売・譲渡はできません。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q" data-en="Payment Methods?">支払い方法は？ <span class="faq-icon">+</span></div>
+<div class="faq-a" data-en="We accept monthly or annual credit card payments via Stripe (VISA, Mastercard, JCB, American Express). Bank transfers are also available upon request. Billing occurs automatically each month or year.">クレジットカードでの月払いまたは年払いに対応します（Stripe経由）。VISA・Mastercard・JCB・American Express。銀行振込にも対応可能です（要相談）。自動更新で毎月または毎年請求されます。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q" data-en="Can I choose my preferred property after upgrading to UNLIMITED?">UNLIMITED移行後、好きな物件を選べますか？ <span class="faq-icon">+</span></div>
+<div class="faq-a" data-en="Yes. Choose from NESTING (¥8,900,000/unit), THE LODGE (¥4,900,000/unit), KUMAUSHI BASE—Sky Dojo (¥9,000,000/unit), or Biruyawa Grand (¥4,900,000/unit). The 12-month UNLIMITED credit (¥597,000) applies to any property. Please note: KUMAUSHI BASE and Biruyawa Grand are pre-construction, with title registration upon completion.">はい。NESTING（¥890万/口）、ロッジ（¥490万/口）、熊牛原野・天空の道場（¥900万/口）、美留和グランド（¥490万/口）のいずれかを選べます。UNLIMITED12ヶ月分のクレジット（¥59.7万）は、どの物件でも充当可能です。ただし熊牛原野・美留和グランドは建設前のため、竣工後の登記になります。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q" data-en="Can I upgrade or downgrade my plan?">プランのアップグレード・ダウングレードはできますか？ <span class="faq-icon">+</span></div>
+<div class="faq-a" data-en="You may change your plan anytime. Upgrades are reflected immediately. Downgrades take effect the following month. If you downgrade from UNLIMITED to EXPLORER, accumulated UNLIMITED credits are retained (though new credits will accrue at the EXPLORER rate).">いつでも変更できます。アップグレードは即日反映。ダウングレードは翌月から反映されます。UNLIMITED→EXPLORERにダウングレードした場合、積み上げたUNLIMITEDクレジットはそのまま保持されます（ただし新規積立はEXPLORERの比率に変わります）。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- FINAL CTA -->
+<div style="padding:80px 24px;text-align:center;background:radial-gradient(ellipse at center,rgba(200,164,85,.07) 0%,transparent 70%)">
+<p data-en="TODAY · Start Today" style="font-size:9px;letter-spacing:.28em;color:rgba(200,164,85,.5);font-weight:700;margin-bottom:14px">TODAY · 今日から始める</p>
+<h2 data-en="Starting from ¥9,800." style="font-size:clamp(1.6rem,4vw,2.8rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:16px">まず、¥9,800から。<br/><span data-en="Cancel anytime." style="color:var(--gold)">いつでもやめられる。</span></h2>
+<p data-en="No commitment. One credit card. Cancel whenever you wish. Hokkaido's hidden treasures enter your life for under ¥10,000 per month." style="font-size:13px;color:#444;margin-bottom:36px;line-height:2">縛りなし。クレカ1枚。好きなときにキャンセル。<br/>北海道の秘境が、月1万以下で生活に入ってくる。</p>
+<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
+<a class="cta-btn" data-en="Apply Now" href="mailto:mail@yukihamada.jp?subject=SOLUNA PASSに申し込みたい&amp;body=希望プラン（STARTER/EXPLORER/UNLIMITED）:%0Aお名前:%0A電話番号:%0A質問等:" style="font-size:14px;padding:18px 44px">今すぐ申し込む</a>
+<a class="cta-ghost" data-en="View More Properties →" href="offgrid">物件をもっと見る →</a>
+</div>
+<p data-en="mail@yukihamada.jp / 090-7409-0407 (Hamada)" style="margin-top:20px;font-size:10px;color:#222">mail@yukihamada.jp / 090-7409-0407（濱田）</p>
+</div>
+<!-- FOOTER -->
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-building 100-person village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Birawa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Birokuwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Birawa Village" href="village">美留和ビレッジ</a>
+<a data-en="Birawa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Join">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Earn shares for free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Villages" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Biruyawa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fees" href="management-fee">管理費</a>
+<a data-en="Personal Consultation" href="call">個別相談</a>
+<a data-en="Inquiries" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Law" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+// Intersection Observer for .r reveals
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}});
+},{threshold:0.08});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+<script defer="" src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

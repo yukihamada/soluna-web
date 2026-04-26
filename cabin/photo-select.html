@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>写真選択 — 香川 全10物件 After 3パターン</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#060606;color:#e0dbd4;font-family:'Helvetica Neue',-apple-system,sans-serif;padding:24px}
+h1{font-size:16px;font-weight:800;letter-spacing:.1em;color:#c8a455;margin-bottom:8px}
+.note{font-size:11px;color:#444;margin-bottom:40px;line-height:1.8}
+.prop{margin-bottom:56px;border-top:1px solid #111;padding-top:28px}
+.prop-title{font-size:13px;font-weight:800;color:#c8a455;margin-bottom:4px;letter-spacing:.05em}
+.prop-sub{font-size:10px;color:#333;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.grid{grid-template-columns:1fr}}
+.card{position:relative;cursor:pointer;border:2px solid #111;border-radius:10px;overflow:hidden;transition:border-color .2s}
+.card:hover{border-color:rgba(200,164,85,.5)}
+.card.selected{border-color:#c8a455;box-shadow:0 0 0 2px rgba(200,164,85,.3)}
+.card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;filter:brightness(.9)}
+.card-label{position:absolute;top:8px;left:8px;font-size:8px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;padding:4px 10px;border-radius:100px}
+.label-before{background:rgba(0,0,0,.7);color:#666;border:1px solid rgba(255,255,255,.1)}
+.label-a{background:rgba(200,164,85,.2);color:#c8a455;border:1px solid rgba(200,164,85,.4)}
+.label-b{background:rgba(74,143,192,.2);color:#4a8fc0;border:1px solid rgba(74,143,192,.4)}
+.label-c{background:rgba(100,180,100,.2);color:#6bb46b;border:1px solid rgba(100,180,100,.4)}
+.card-check{position:absolute;bottom:8px;right:8px;width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:11px;background:rgba(0,0,0,.5)}
+.card.selected .card-check{background:#c8a455;border-color:#c8a455;color:#040404}
+.summary{position:fixed;bottom:0;left:0;right:0;background:rgba(6,6,6,.97);border-top:1px solid #1a1a1a;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.summary-text{font-size:11px;color:#444}
+.summary-text strong{color:#c8a455}
+.copy-btn{background:#c8a455;color:#040404;font-weight:800;font-size:11px;padding:10px 28px;border-radius:100px;border:none;cursor:pointer;letter-spacing:.06em;transition:transform .2s}
+.copy-btn:hover{transform:translateY(-1px)}
+#output{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:16px;font-size:10px;color:#4a8fc0;font-family:monospace;white-space:pre;overflow-x:auto;margin-top:16px;display:none}
+</style>
+</head>
+<body>
+<h1>香川 全10物件 — After 写真 3パターン選択</h1>
+<p class="note">各物件の Before（左端）を参考に、A / B / C から好みのAfterを選択してください。<br/>最後に「選択結果をコピー」→ クロードに貼り付けると一括反映します。</p>
+
+<div id="props"></div>
+
+<div class="summary">
+  <div class="summary-text">選択済み: <strong id="count">0</strong> / 10</div>
+  <button class="copy-btn" onclick="copyResult()">選択結果をコピー →</button>
+</div>
+<pre id="output"></pre>
+
+<script>
+const props = [
+  {id:"p01", label:"P01 · 小豆島 RC ヴィラ ¥4,580万", before:"kagawa_shodoshima_p01_before", afters:["kagawa_shodoshima_p01_after_a","kagawa_shodoshima_p01_after_b","kagawa_shodoshima_p01_after_c"]},
+  {id:"p02", label:"P02 · 小豆島 バルコニー別荘 ¥888万", before:"kagawa_shodoshima_p02_before", afters:["kagawa_shodoshima_p02_after_a","kagawa_shodoshima_p02_after_b","kagawa_shodoshima_p02_after_c"]},
+  {id:"p03", label:"P03 · 直島 宮ノ浦 古家 ¥220万", before:"kagawa_naoshima_p03_before", afters:["kagawa_naoshima_p03_after_a","kagawa_naoshima_p03_after_b","kagawa_naoshima_p03_after_c"]},
+  {id:"p04", label:"P04 · 三豊市 茅葺古民家 ¥15万", before:"kagawa_mitoyo_p04_before", afters:["kagawa_mitoyo_p04_after_a","kagawa_mitoyo_p04_after_b","kagawa_mitoyo_p04_after_c"]},
+  {id:"p05", label:"P05 · 豊島 土地 ¥550万（新築）", before:"kagawa_teshima_p05_before", afters:["kagawa_teshima_p05_after_a","kagawa_teshima_p05_after_b","kagawa_teshima_p05_after_c"]},
+  {id:"p06", label:"P06 · さぬき市 遍路古家 ¥220万", before:"kagawa_sanuki_p06_before", afters:["kagawa_sanuki_p06_after_a","kagawa_sanuki_p06_after_b","kagawa_sanuki_p06_after_c"]},
+  {id:"p07", label:"P07 · 高松市 居酒屋古民家 ¥390万", before:"kagawa_takamatsu_p07_before", afters:["kagawa_takamatsu_p07_after_a","kagawa_takamatsu_p07_after_b","kagawa_takamatsu_p07_after_c"]},
+  {id:"p08", label:"P08 · 観音寺市 空き家 ¥40万", before:"kagawa_kanonji_p08_before", afters:["kagawa_kanonji_p08_after_a","kagawa_kanonji_p08_after_b","kagawa_kanonji_p08_after_c"]},
+  {id:"p09", label:"P09 · 小豆島 坂手 ¥1万", before:"kagawa_shodoshima_sakate_before", afters:["kagawa_shodoshima_sakate_after_a","kagawa_shodoshima_sakate_after_b","kagawa_shodoshima_sakate_after_c"]},
+  {id:"p10", label:"P10 · 三豊市 仁尾 海沿い ¥250万", before:"kagawa_mitoyo_p10_before", afters:["kagawa_mitoyo_p10_after_a","kagawa_mitoyo_p10_after_b","kagawa_mitoyo_p10_after_c"]},
+];
+
+const selected = {};
+const labels = ['A','B','C'];
+const labelClasses = ['label-a','label-b','label-c'];
+
+function render(){
+  const container = document.getElementById('props');
+  container.innerHTML = props.map(p=>`
+    <div class="prop" id="prop-${p.id}">
+      <div class="prop-title">${p.label}</div>
+      <div class="prop-sub">← Before（現状）&nbsp;&nbsp;|&nbsp;&nbsp; A・B・C から1つ選択</div>
+      <div class="grid">
+        <div class="card">
+          <img src="img/${p.before}.jpg?v=3" loading="lazy"/>
+          <span class="card-label label-before">Before</span>
+        </div>
+        ${p.afters.map((af,i)=>`
+        <div class="card" id="${p.id}-${labels[i]}" onclick="pick('${p.id}','${labels[i]}','${af}')">
+          <img src="img/${af}.jpg?v=3" loading="lazy"/>
+          <span class="card-label ${labelClasses[i]}">${labels[i]}</span>
+          <div class="card-check" id="check-${p.id}-${labels[i]}">✓</div>
+        </div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function pick(propId, variant, filename){
+  selected[propId] = {variant, filename};
+  // update UI
+  ['A','B','C'].forEach(v=>{
+    const el = document.getElementById(`${propId}-${v}`);
+    const ch = document.getElementById(`check-${propId}-${v}`);
+    if(el) el.classList.toggle('selected', v===variant);
+    if(ch) ch.textContent = v===variant ? '✓' : '';
+  });
+  document.getElementById('count').textContent = Object.keys(selected).length;
+}
+
+function copyResult(){
+  const lines = props.map(p=>{
+    const s = selected[p.id];
+    return s ? `${p.id}: ${s.variant} → ${s.filename}.jpg` : `${p.id}: 未選択`;
+  });
+  const text = lines.join('\n');
+  document.getElementById('output').textContent = text;
+  document.getElementById('output').style.display = 'block';
+  navigator.clipboard.writeText(text).catch(()=>{});
+}
+
+render();
+// auto-reload images every 8s while generating
+setInterval(()=>{
+  document.querySelectorAll('.card img').forEach(img=>{
+    const src = img.getAttribute('src');
+    if(src && src.startsWith('data:')) {
+      const orig = img.dataset.orig || img.getAttribute('src');
+      img.src = orig + '?' + Date.now();
+    }
+  });
+},8000);
+</script>
+</body>
+</html>

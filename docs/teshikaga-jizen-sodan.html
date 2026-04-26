@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>事前相談資料 – SOLUNA VILLAGE（美留和）建築計画</title>
+  <style>
+    /* ===== ベース ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", "Meiryo", sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.75;
+      color: #1a1a1a;
+      background: #fff;
+      padding: 20px;
+    }
+
+    /* ===== ページラッパー ===== */
+    .page {
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 16mm 18mm;
+      background: #fff;
+    }
+
+    /* ===== ヘッダー ===== */
+    .doc-header {
+      border-top: 3px solid #1e4d8c;
+      border-bottom: 1px solid #1e4d8c;
+      padding: 10px 0 8px;
+      margin-bottom: 20px;
+    }
+    .doc-header .meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.5pt;
+      color: #555;
+      margin-bottom: 4px;
+    }
+    .doc-header h1 {
+      font-size: 17pt;
+      font-weight: 700;
+      color: #1e4d8c;
+      letter-spacing: 0.04em;
+      margin-bottom: 2px;
+    }
+    .doc-header .subtitle {
+      font-size: 9pt;
+      color: #444;
+    }
+
+    /* ===== セクション ===== */
+    section {
+      margin-bottom: 22px;
+    }
+    section + section {
+      border-top: 1px solid #d0d8e8;
+      padding-top: 18px;
+    }
+
+    h2 {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #1e4d8c;
+      background: #edf2fa;
+      padding: 5px 10px;
+      border-left: 4px solid #1e4d8c;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      font-size: 10pt;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 12px 0 6px;
+    }
+
+    p {
+      margin-bottom: 6px;
+    }
+
+    /* ===== テーブル ===== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9.5pt;
+      margin-bottom: 8px;
+    }
+    th {
+      background: #1e4d8c;
+      color: #fff;
+      font-weight: 600;
+      padding: 5px 8px;
+      text-align: left;
+      white-space: nowrap;
+    }
+    td {
+      padding: 5px 8px;
+      border: 1px solid #c8d4e8;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td {
+      background: #f4f7fb;
+    }
+    .td-label {
+      font-weight: 600;
+      white-space: nowrap;
+      width: 40%;
+      color: #2a3a5c;
+    }
+
+    /* ===== 確認事項リスト ===== */
+    .check-list {
+      list-style: none;
+      padding: 0;
+    }
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 7px 8px;
+      border-bottom: 1px solid #dde6f5;
+      font-size: 9.5pt;
+    }
+    .check-list li:first-child {
+      border-top: 1px solid #dde6f5;
+    }
+    .check-num {
+      display: inline-block;
+      min-width: 22px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      background: #1e4d8c;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 8.5pt;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .check-title {
+      font-weight: 700;
+      color: #1e4d8c;
+    }
+    .check-body {
+      color: #333;
+      margin-top: 2px;
+      font-size: 9pt;
+    }
+
+    /* ===== 備考ボックス ===== */
+    .note-box {
+      background: #fffbea;
+      border: 1px solid #e6c800;
+      border-left: 4px solid #e6a800;
+      padding: 8px 12px;
+      font-size: 9pt;
+      margin-top: 10px;
+      color: #3a3200;
+    }
+
+    /* ===== 署名欄 ===== */
+    .sign-section {
+      margin-top: 28px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .sign-box {
+      border: 1px solid #999;
+      padding: 12px 20px;
+      font-size: 9.5pt;
+      min-width: 240px;
+    }
+    .sign-box .sign-title {
+      font-size: 8pt;
+      color: #666;
+      margin-bottom: 6px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 4px;
+    }
+    .sign-box p {
+      margin-bottom: 3px;
+    }
+
+    /* ===== フッター ===== */
+    .doc-footer {
+      margin-top: 30px;
+      border-top: 1px solid #ccc;
+      padding-top: 8px;
+      font-size: 8pt;
+      color: #888;
+      text-align: center;
+    }
+
+    /* ===== 印刷用 ===== */
+    @media print {
+      body {
+        padding: 0;
+        background: #fff;
+      }
+      .page {
+        padding: 14mm 16mm;
+        max-width: 100%;
+      }
+      a { text-decoration: none; color: inherit; }
+      section { page-break-inside: avoid; }
+      .no-print { display: none; }
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 15mm 15mm 18mm 15mm;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ======== ドキュメントヘッダー ======== -->
+  <header class="doc-header">
+    <div class="meta">
+      <span>作成日: 2026年4月23日</span>
+      <span>提出先: 弟子屈町役場 建設課　鈴木主任 様</span>
+    </div>
+    <h1>事前相談資料</h1>
+    <div class="subtitle">SOLUNA VILLAGE（美留和）建築計画 ― 建築確認申請に係る事前確認のお願い</div>
+  </header>
+
+  <!-- ======== 1. 申請者情報 ======== -->
+  <section>
+    <h2>1. 申請者情報</h2>
+    <table>
+      <tbody>
+        <tr>
+          <td class="td-label">氏名</td>
+          <td>濱田 優貴（ハマダ ユウキ）</td>
+        </tr>
+        <tr>
+          <td class="td-label">住所</td>
+          <td>〒108-0073　東京都港区三田2-7-1 THE RESIDENCE三田 1913号室</td>
+        </tr>
+        <tr>
+          <td class="td-label">電話番号</td>
+          <td>090-7409-0407</td>
+        </tr>
+        <tr>
+          <td class="td-label">メールアドレス</td>
+          <td>yuki@hamada.tokyo</td>
+        </tr>
+        <tr>
+          <td class="td-label">所属法人</td>
+          <td>Enabler Inc.（エネブラー株式会社）</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ======== 2. 建設予定地 ======== -->
+  <section>
+    <h2>2. 建設予定地</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>地番</th>
+          <th>地目</th>
+          <th>地積（㎡）</th>
+          <th>備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>北海道川上郡弟子屈町美留和 501番1</td>
+          <td>原野</td>
+          <td>74,115</td>
+          <td>主要建設候補地</td>
+        </tr>
+        <tr>
+          <td>同　658番4</td>
+          <td>原野</td>
+          <td>1,840</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>同　607番1</td>
+          <td>原野</td>
+          <td>18,680</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>同　607番2</td>
+          <td>原野</td>
+          <td>12,264</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">合計</td>
+          <td></td>
+          <td style="font-weight:700;">106,899（約32,300坪）</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ======== 3. 建築計画概要 ======== -->
+  <section>
+    <h2>3. 建築計画概要</h2>
+    <table>
+      <tbody>
+        <tr>
+          <td class="td-label">プロジェクト名</td>
+          <td>SOLUNA VILLAGE（美留和）</td>
+        </tr>
+        <tr>
+          <td class="td-label">第一棟 建物概要</td>
+          <td>平屋 1棟、延床面積 50〜70㎡程度（15〜20坪）</td>
+        </tr>
+        <tr>
+          <td class="td-label">用途</td>
+          <td>宿泊施設（コミュニティ型別荘・会員制リゾート）</td>
+        </tr>
+        <tr>
+          <td class="td-label">構造・工法</td>
+          <td>木造軸組み工法<br>断熱材としてストローベイル（麦わらベイル）を使用</td>
+        </tr>
+        <tr>
+          <td class="td-label">着工希望時期</td>
+          <td>2026年秋（設計・許可取得後、順次着手）</td>
+        </tr>
+        <tr>
+          <td class="td-label">将来計画</td>
+          <td>敷地内に複数棟を段階的に建設予定<br>（サウナ棟・コモンハウス・グランピング施設等）</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      ※ ストローベイル工法について：木造軸組み構造材で荷重を負担し、外壁充填断熱材として麦わらベイル（稲・麦ワラを圧縮・成形）を使用するものです。構造は木造として申請予定ですが、断熱材の認定・仕様等について事前にご確認をお願いいたします。
+    </div>
+  </section>
+
+  <!-- ======== 4. 事前確認事項 ======== -->
+  <section>
+    <h2>4. 事前確認事項（ご回答をお願いしたい項目）</h2>
+    <ul class="check-list">
+
+      <li>
+        <span class="check-num">1</span>
+        <div>
+          <div class="check-title">用途地域の確認（用途規制・建ぺい率・容積率）</div>
+          <div class="check-body">
+            建設予定地（美留和地区）の用途地域の指定状況をご確認ください。
+            また、宿泊施設（旅館業法に基づく簡易宿所等）としての建築が可能かどうか、
+            適用される建ぺい率・容積率の上限についてもお教えください。
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <span class="check-num">2</span>
+        <div>
+          <div class="check-title">農振地域・農用地区域への該当有無／農地転用の必要性</div>
+          <div class="check-body">
+            当該地は地目が「原野」ですが、農業振興地域整備計画（農振農用地区域）に指定されているかどうか、
+            また農地転用許可（農地法3〜5条）の手続きが別途必要かどうかをご確認ください。
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <span class="check-num">3</span>
+        <div>
+          <div class="check-title">防火地域・準防火地域の該当有無</div>
+          <div class="check-body">
+            防火地域・準防火地域の指定状況を教えてください。
+            ストローベイル外壁を用いる場合、防火性能（防火構造・準耐火構造）の対応が必要か
+            合わせてご確認をお願いします。
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <span class="check-num">4</span>
+        <div>
+          <div class="check-title">建築確認申請の必要書類・手続きの流れ</div>
+          <div class="check-body">
+            本建物（木造平屋、延床50〜70㎡）の建築確認申請に必要な書類一式および
+            申請先（弟子屈町もしくは北海道知事指定確認検査機関）をお教えください。
+            また、標準的な審査期間の目安もご確認をお願いします。
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <span class="check-num">5</span>
+        <div>
+          <div class="check-title">ストローベイル工法の取り扱い（木造区分・断熱材認定等）</div>
+          <div class="check-body">
+            断熱材としてのストローベイルの使用に際して、建築確認上の構造区分（木造）、
+            断熱材としての認定品・告示基準への適合方法、
+            国土交通大臣等の特別認定（建基法第38条等）の要否について教えてください。
+            また、過去に弟子屈町または北海道内でストローベイル工法の確認申請実績があるかも
+            お聞かせいただけますと幸いです。
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <span class="check-num">6</span>
+        <div>
+          <div class="check-title">国立公園（阿寒摩周国立公園）の建築規制・景観条例の適用</div>
+          <div class="check-body">
+            建設予定地が阿寒摩周国立公園の区域（特別地域・普通地域等）に該当するか確認をお願いします。
+            該当する場合、自然公園法に基づく環境大臣等への事前届出・許可の要否、
+            北海道景観条例に基づく届出義務の有無、外観・色彩・高さ等の制限内容をお教えください。
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <span class="check-num">7</span>
+        <div>
+          <div class="check-title">開発許可の必要性（都市計画法・敷地1ha超）</div>
+          <div class="check-body">
+            今回の建設予定地は合計約10.7haに及びます。
+            都市計画区域内外の別および都市計画法第29条に基づく開発許可の要否、
+            許可が必要な場合の申請先・手続きの流れについてご教示ください。
+            また、宿泊施設としての「第二種特定工作物」への該当可能性（同法第4条第12項）についても
+            あわせてご確認をお願いします。
+          </div>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <!-- ======== 5. 添付資料（予定） ======== -->
+  <section>
+    <h2>5. 添付資料（別途準備中）</h2>
+    <table>
+      <tbody>
+        <tr>
+          <td class="td-label">① 土地の登記事項証明書</td>
+          <td>4筆分（取得次第添付）</td>
+        </tr>
+        <tr>
+          <td class="td-label">② 公図・地形図</td>
+          <td>対象地番付近の公図および地形図（1/2,500程度）</td>
+        </tr>
+        <tr>
+          <td class="td-label">③ 建物配置案（スケッチ）</td>
+          <td>敷地内の第一棟配置イメージ（設計士作成予定）</td>
+        </tr>
+        <tr>
+          <td class="td-label">④ 航空写真・現況写真</td>
+          <td>Google Earth 等による敷地現況</td>
+        </tr>
+        <tr>
+          <td class="td-label">⑤ ストローベイル工法資料</td>
+          <td>工法概要、断熱性能データ、施工事例（国内外）</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ======== 6. スケジュール ======== -->
+  <section>
+    <h2>6. 想定スケジュール</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>時期</th>
+          <th>内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2026年4〜5月</td>
+          <td>事前相談・各種法令確認、設計者選定</td>
+        </tr>
+        <tr>
+          <td>2026年6〜7月</td>
+          <td>基本設計・実施設計、農地転用・開発許可申請（必要な場合）</td>
+        </tr>
+        <tr>
+          <td>2026年7〜8月</td>
+          <td>建築確認申請・自然公園法届出</td>
+        </tr>
+        <tr>
+          <td>2026年秋（9〜10月）</td>
+          <td>着工（第一棟）</td>
+        </tr>
+        <tr>
+          <td>2027年春以降</td>
+          <td>竣工・供用開始、第二棟以降の計画検討</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ======== 7. その他・依頼事項 ======== -->
+  <section>
+    <h2>7. その他・依頼事項</h2>
+    <p>
+      本資料は弟子屈町建設課への事前相談を目的として作成しました。
+      上記確認事項について、ご回答もしくは相談面談の機会をいただけますよう、よろしくお願いいたします。
+    </p>
+    <p>
+      面談の日程については、担当者のご都合に合わせて調整いたします。
+      お電話（090-7409-0407）またはメール（yuki@hamada.tokyo）にてご連絡ください。
+    </p>
+    <p>
+      なお、将来的には敷地内に複数棟を段階的に建設（サウナ棟・コモンハウス・グランピング施設等）する計画があり、
+      プロジェクト全体の法令整理についても、長期的にご指導いただければ幸いです。
+    </p>
+  </section>
+
+  <!-- ======== 差出人署名欄 ======== -->
+  <div class="sign-section">
+    <div class="sign-box">
+      <div class="sign-title">提出者</div>
+      <p>Enabler Inc.</p>
+      <p>代表者　濱田 優貴</p>
+      <p>〒108-0073 東京都港区三田2-7-1</p>
+      <p>THE RESIDENCE三田 1913号室</p>
+      <p>TEL: 090-7409-0407</p>
+      <p>MAIL: yuki@hamada.tokyo</p>
+      <p style="margin-top:10px; color:#aaa; font-size:8pt;">（印）</p>
+    </div>
+  </div>
+
+  <!-- ======== フッター ======== -->
+  <footer class="doc-footer">
+    SOLUNA VILLAGE 建築計画 事前相談資料　／　Enabler Inc. 濱田優貴　／　2026年4月23日作成
+  </footer>
+
+</div>
+</body>
+</html>

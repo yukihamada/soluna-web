@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/song" rel="canonical"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title data-en="Why We Are Here — SOLUNA">ここにいる理由 — SOLUNA</title>
+<meta content="ここにいる理由 — SOLUNA CABIN CLUB" property="og:title"/>
+<meta content="32,337坪の北海道弟子屈。100人だけのビレッジ、その歌。" property="og:description"/>
+<meta content="https://solun.art/img/kumaushi_aerial_dawn.webp" property="og:image"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--bg:#050505;--text:#f0ece4;--line:#111}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;background:rgba(5,5,5,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
+.nav-links{display:flex;gap:20px;align-items:center}
+.nav-link{font-size:11px;color:#333;transition:color .2s}
+.nav-link:hover{color:var(--gold)}
+
+.hero{position:relative;height:100svh;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.45) saturate(.7)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#050505 0%,rgba(5,5,5,.55) 40%,transparent 100%)}
+.hero-body{position:relative;z-index:2;padding:0 28px 80px;max-width:680px;margin:0 auto;width:100%}
+.hero-eyebrow{font-size:9px;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;opacity:.8}
+.hero h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:12px}
+.hero-sub{font-size:13px;color:#555;line-height:1.9;margin-bottom:32px}
+.play-btn{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#050505;font-weight:800;font-size:13px;padding:14px 28px;border-radius:100px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 28px rgba(200,164,85,.25)}
+.play-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(200,164,85,.35)}
+.play-btn.playing .icon{display:none}
+.pause-icon{display:none}
+.play-btn.playing .pause-icon{display:block;width:18px;height:18px}
+.progress-wrap{margin-top:24px;display:flex;align-items:center;gap:12px}
+.progress-bar{flex:1;height:3px;background:#1a1a1a;border-radius:2px;cursor:pointer}
+.progress-fill{height:100%;background:var(--gold);border-radius:2px;width:0%;transition:width .1s linear}
+.time-display{font-size:10px;color:#333;letter-spacing:.08em;white-space:nowrap}
+
+.lyrics-section{max-width:720px;margin:0 auto;padding:80px 24px 120px}
+.section-label{font-size:9px;letter-spacing:.3em;color:#222;text-transform:uppercase;margin-bottom:40px;font-weight:700}
+.lyric-block{margin-bottom:52px}
+.lyric-section-tag{font-size:8px;letter-spacing:.28em;color:#1a1a1a;text-transform:uppercase;margin-bottom:16px;font-weight:700;padding-left:2px}
+.lyric-line{font-size:clamp(16px,3.5vw,22px);font-weight:500;line-height:1.95;color:#1e1e1e;cursor:pointer;padding:6px 12px;margin:0 -12px;border-radius:6px;transition:color .25s,background .25s;display:flex;align-items:baseline;gap:12px}
+.lyric-line .ts{font-size:9px;color:#111;min-width:36px;flex-shrink:0;font-variant-numeric:tabular-nums;opacity:0;transition:opacity .2s}
+.lyric-line:hover .ts{opacity:1}
+.lyric-line:hover{color:#3a3a3a;background:rgba(255,255,255,.02)}
+.lyric-line.active{color:var(--text) !important;background:rgba(200,164,85,.07);border-left:2px solid var(--gold);padding-left:14px}
+.lyric-line.active .ts{opacity:.4;color:var(--gold)}
+.lyric-line.past{color:#141414}
+.lyric-block.sabi .lyric-line{font-weight:700;font-size:clamp(17px,4vw,24px)}
+.lyric-block.sabi .lyric-line.active{background:rgba(200,164,85,.1);color:var(--gold) !important}
+
+.prop-card{background:#080808;border:1px solid #111;border-radius:14px;padding:22px 24px;margin:36px 0;display:flex;flex-direction:column;gap:10px}
+.prop-card-label{font-size:9px;letter-spacing:.25em;color:#222;text-transform:uppercase;font-weight:700}
+.prop-card-title{font-size:15px;font-weight:800;letter-spacing:-.01em;color:var(--gold)}
+.prop-card-sub{font-size:12px;color:#333;line-height:1.85}
+.prop-card-link{font-size:11px;color:var(--gold);margin-top:4px;transition:opacity .2s}
+.prop-card-link:hover{opacity:.7}
+
+footer{text-align:center;padding:48px 24px;font-size:9px;color:#111;letter-spacing:.15em;border-top:1px solid var(--line)}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:#1a1a1a;border-radius:2px}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties List" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<div class="hero">
+<div class="hero-bg"><img alt="SOLUNA" src="img/soluna_hero_wide.webp"/></div>
+<div class="hero-body">
+<p class="hero-eyebrow">SOLUNA CABIN CLUB · Original Song</p>
+<h1 data-en="Why We Are Here">ここにいる<br/>理由</h1>
+<p class="hero-sub" data-en="Teshikaga. 32,337 tsubo. A village for one hundred. Its song.">弟子屈 32,337坪。100人だけのビレッジ、その歌。</p>
+<button class="play-btn" id="playBtn" onclick="togglePlay()">
+<svg class="icon" fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M8 5v14l11-7z"></path></svg>
+<svg class="pause-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
+<span data-en="Play" id="playLabel">再生する</span>
+</button>
+<div class="progress-wrap">
+<div class="progress-bar" id="progressBar" onclick="seekTo(event)">
+<div class="progress-fill" id="progressFill"></div>
+</div>
+<span class="time-display" id="timeDisplay">0:00 / 0:00</span>
+</div>
+</div>
+</div>
+<div class="lyrics-section">
+<p class="section-label" data-en="Lyrics">Lyrics · 歌詞</p>
+<div id="lyricsContainer"></div>
+<div class="prop-card">
+<div class="prop-card-label" data-en="The Stage of This Song">この歌の舞台</div>
+<div class="prop-card-title" data-en="SOLUNA VILLAGE — Teshikaga 32,337 Tsubo">SOLUNA VILLAGE — 弟子屈 32,337坪</div>
+<div class="prop-card-sub" data-en="Containers, Domes, Tower Sauna, Log Cabins. From ¥5,300,000 per unit · 8 nights annually · All structures accessible · Referral-based · Limited to 100 units">コンテナ、ドーム、タワーサウナ、ログキャビン。<br/>1口¥530万〜 · 年8泊 · 全棟利用可 · 紹介制 · 100口限定</div>
+<a class="prop-card-link" data-en="Become an Owner →" href="miruwa-grand">オーナーになる →</a>
+</div>
+<div class="prop-card" style="border-color:rgba(200,164,85,.15)">
+<div class="prop-card-label" data-en="Flagship · Operating">Flagship · 稼働中</div>
+<div class="prop-card-title" data-en="TAPKOP — Teshikaga, Hokkaido · Akan-Mashu National Park">TAPKOP — 弟子屈 阿寒摩周国立公園</div>
+<div class="prop-card-sub" data-en="PAN-PROJECTS Design · 266m² · Operating at ¥340,000 per night · East Ventures ¥50,000,000 investment · ¥39,000,000 per unit · 6 nights annually and beyond">PAN-PROJECTS設計 · 266m² · 1泊¥340,000で稼働中<br/>East Ventures 5,000万円出資 · 1口¥3,900万 · 年6泊〜</div>
+<a class="prop-card-link" data-en="View TAPKOP →" href="tapkop">TAPKOPを見る →</a>
+</div>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8 Structures, 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Birawa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Birawa Village" href="village">美留和ビレッジ</a>
+<a data-en="Birawa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Join">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Units for Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Purchase Crypto" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners Only" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owners" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fees" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><audio id="audio" preload="auto">
+<source src="song/ここにいる理由.mp3" type="audio/mpeg"/>
+</audio>
+<script>
+var SEGMENTS = [
+  {
+    "start": 11.3,
+    "end": 16.08,
+    "text": "さんまんにせんさんびゃくさんじゅうななつぼの静寂に",
+    "section": "1Aメロ",
+    "sabi": false
+  },
+  {
+    "start": 16.08,
+    "end": 21.38,
+    "text": "コンテナ、ドーム、空を刺すタワーサウナ",
+    "section": "1Aメロ",
+    "sabi": false
+  },
+  {
+    "start": 22.12,
+    "end": 26.84,
+    "text": "それぞれの個性が ひとつの根を張る",
+    "section": "1Aメロ",
+    "sabi": false
+  },
+  {
+    "start": 26.84,
+    "end": 32.82,
+    "text": "弟子屈（てしかが）の土に 刻んだ僕らのID（なまえ）",
+    "section": "1Aメロ",
+    "sabi": false
+  },
+  {
+    "start": 34.06,
+    "end": 37.08,
+    "text": "「フィンランドよりフィンランドらしい」",
+    "section": "1Bメロ",
+    "sabi": false
+  },
+  {
+    "start": 37.08,
+    "end": 40.38,
+    "text": "ここから描き出す 遊びの設計図",
+    "section": "1Bメロ",
+    "sabi": false
+  },
+  {
+    "start": 40.38,
+    "end": 43.48,
+    "text": "宮崎、あたみ、ハワイの海辺",
+    "section": "1Bメロ",
+    "sabi": false
+  },
+  {
+    "start": 43.48,
+    "end": 47.24,
+    "text": "世界中に「ただいま」を 増やしていくんだ",
+    "section": "1Bメロ",
+    "sabi": false
+  },
+  {
+    "start": 48.72,
+    "end": 52.42,
+    "text": "SOLUNA ここは100人だけのビレッジ",
+    "section": "1サビ",
+    "sabi": true
+  },
+  {
+    "start": 53.42,
+    "end": 58.32,
+    "text": "僕らで育てていく 俺たちの丘",
+    "section": "1サビ",
+    "sabi": true
+  },
+  {
+    "start": 58.32,
+    "end": 63.62,
+    "text": "五百三十（ごひゃくさんじゅう）の 夢のチケット",
+    "section": "1サビ",
+    "sabi": true
+  },
+  {
+    "start": 63.62,
+    "end": 70.26,
+    "text": "価値は重なり 引力に変わる",
+    "section": "1サビ",
+    "sabi": true
+  },
+  {
+    "start": 70.26,
+    "end": 73.4,
+    "text": "Airbnb（エアビー）の星を背負った",
+    "section": "2Aメロ",
+    "sabi": false
+  },
+  {
+    "start": 73.4,
+    "end": 76.4,
+    "text": "スーパーホストが教えてくれた",
+    "section": "2Aメロ",
+    "sabi": false
+  },
+  {
+    "start": 76.4,
+    "end": 80.26,
+    "text": "「君が眠る夜も 資産（この場所）は動く」",
+    "section": "2Aメロ",
+    "sabi": false
+  },
+  {
+    "start": 80.26,
+    "end": 84.3,
+    "text": "喜びも豊かさも 分かち合うリアリティ",
+    "section": "2Aメロ",
+    "sabi": false
+  },
+  {
+    "start": 85.16,
+    "end": 88.78,
+    "text": "10万円で 新しい扉を開こう",
+    "section": "2Bメロ",
+    "sabi": false
+  },
+  {
+    "start": 88.78,
+    "end": 92.34,
+    "text": "いつでも次の旅の クレジットに変わる",
+    "section": "2Bメロ",
+    "sabi": false
+  },
+  {
+    "start": 92.34,
+    "end": 95.2,
+    "text": "紹介制（インビテーション）の 特別な入り口",
+    "section": "2Bメロ",
+    "sabi": false
+  },
+  {
+    "start": 95.2,
+    "end": 101.34,
+    "text": "惹かれ合うように 僕らが選んだんだ",
+    "section": "2Bメロ",
+    "sabi": false
+  },
+  {
+    "start": 102.74,
+    "end": 106.9,
+    "text": "SOLUNA 帰る場所がここにある",
+    "section": "2サビ",
+    "sabi": true
+  },
+  {
+    "start": 106.9,
+    "end": 112.54,
+    "text": "100人が核（コア）になる 万人のエコシステム",
+    "section": "2サビ",
+    "sabi": true
+  },
+  {
+    "start": 112.54,
+    "end": 117.86,
+    "text": "焚き火の煙が 星に溶けて",
+    "section": "2サビ",
+    "sabi": true
+  },
+  {
+    "start": 117.86,
+    "end": 123.98,
+    "text": "「住んでいる」ことが 自由だと知るんだ",
+    "section": "2サビ",
+    "sabi": true
+  },
+  {
+    "start": 136.9,
+    "end": 140.38,
+    "text": "ピクシブの彩り（いろどり） DMMの熱気",
+    "section": "Cメロ（ブリッジ）",
+    "sabi": false
+  },
+  {
+    "start": 140.38,
+    "end": 145.1,
+    "text": "メルカリの風 令和の波",
+    "section": "Cメロ（ブリッジ）",
+    "sabi": false
+  },
+  {
+    "start": 145.1,
+    "end": 148.14,
+    "text": "柔術の朝 澄み切った呼吸",
+    "section": "Cメロ（ブリッジ）",
+    "sabi": false
+  },
+  {
+    "start": 149.06,
+    "end": 152.28,
+    "text": "数字の奥にある 確かな手触り（BOM）",
+    "section": "Cメロ（ブリッジ）",
+    "sabi": false
+  },
+  {
+    "start": 152.28,
+    "end": 156.14,
+    "text": "司法書士が記す 永久の共有（シェア）",
+    "section": "Cメロ（ブリッジ）",
+    "sabi": false
+  },
+  {
+    "start": 156.14,
+    "end": 159.88,
+    "text": "TAPKOPの丘で 魚を釣るように",
+    "section": "Dメロ",
+    "sabi": false
+  },
+  {
+    "start": 159.88,
+    "end": 163.18,
+    "text": "びるわの森で 明日を待つように",
+    "section": "Dメロ",
+    "sabi": false
+  },
+  {
+    "start": 163.18,
+    "end": 167.2,
+    "text": "「いつか」じゃなくて 「今」を手に入れよう",
+    "section": "Dメロ",
+    "sabi": false
+  },
+  {
+    "start": 168.04,
+    "end": 173.3,
+    "text": "カーブを描いて 夢は高鳴る（+10万の鼓動）",
+    "section": "Dメロ",
+    "sabi": false
+  },
+  {
+    "start": 173.3,
+    "end": 177.04,
+    "text": "SOLUNA 物語は続いていく",
+    "section": "アウトロ",
+    "sabi": true
+  },
+  {
+    "start": 177.04,
+    "end": 182.9,
+    "text": "熱海の崖から 熊牛の原野まで",
+    "section": "アウトロ",
+    "sabi": true
+  },
+  {
+    "start": 182.9,
+    "end": 187.84,
+    "text": "帰る場所が あるということ",
+    "section": "アウトロ",
+    "sabi": true
+  },
+  {
+    "start": 187.84,
+    "end": 194.16,
+    "text": "それだけで 僕らはもっと、自由になれる",
+    "section": "アウトロ",
+    "sabi": true
+  },
+  {
+    "start": 195.5,
+    "end": 222.3,
+    "text": "SOLUNA……（100分の1の、僕たちの場所）",
+    "section": "アウトロ",
+    "sabi": true
+  }
+];
+
+var audio=document.getElementById('audio');
+var playBtn=document.getElementById('playBtn');
+var playLabel=document.getElementById('playLabel');
+var progressFill=document.getElementById('progressFill');
+var timeDisplay=document.getElementById('timeDisplay');
+var activeIdx=-1;
+
+function renderLyrics(){
+  var container=document.getElementById('lyricsContainer');
+  var html='', curSection=null;
+  SEGMENTS.forEach(function(seg,i){
+    if(seg.section!==curSection){
+      if(curSection!==null) html+='</div>';
+      html+='<div class="lyric-block'+(seg.sabi?' sabi':'')+'"><div class="lyric-section-tag">'+seg.section+'</div>';
+      curSection=seg.section;
+    }
+    html+='<div class="lyric-line" id="seg-'+i+'" data-start="'+seg.start+'" data-end="'+seg.end+'" onclick="seekToSeg('+seg.start+')">'
+         +'<span class="ts">'+fmt(seg.start)+'</span><span>'+esc(seg.text)+'</span></div>';
+  });
+  if(curSection!==null) html+='</div>';
+  container.innerHTML=html;
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmt(s){var m=Math.floor(s/60),sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec;}
+
+function togglePlay(){
+  if(audio.paused){audio.play();playBtn.classList.add('playing');playLabel.textContent='停止';}
+  else{audio.pause();playBtn.classList.remove('playing');playLabel.textContent='再生する';}
+}
+function seekTo(e){
+  var bar=document.getElementById('progressBar'),rect=bar.getBoundingClientRect();
+  if(audio.duration) audio.currentTime=((e.clientX-rect.left)/rect.width)*audio.duration;
+}
+function seekToSeg(t){
+  audio.currentTime=t;
+  if(audio.paused) audio.play();
+  playBtn.classList.add('playing');playLabel.textContent='停止';
+}
+audio.addEventListener('timeupdate',function(){
+  var t=audio.currentTime,dur=audio.duration||222.3;
+  if(dur) progressFill.style.width=(t/dur*100)+'%';
+  timeDisplay.textContent=fmt(t)+' / '+fmt(dur);
+  var newIdx=-1;
+  for(var i=0;i<SEGMENTS.length;i++){
+    if(t>=SEGMENTS[i].start&&t<SEGMENTS[i].end){newIdx=i;break;}
+  }
+  if(newIdx!==activeIdx){
+    if(activeIdx>=0){var p=document.getElementById('seg-'+activeIdx);if(p){p.classList.remove('active');p.classList.add('past');}}
+    if(newIdx>=0){var c=document.getElementById('seg-'+newIdx);if(c){c.classList.remove('past');c.classList.add('active');c.scrollIntoView({behavior:'smooth',block:'center'});}}
+    activeIdx=newIdx;
+  }
+});
+audio.addEventListener('ended',function(){
+  playBtn.classList.remove('playing');playLabel.textContent='再生する';progressFill.style.width='100%';
+});
+renderLyrics();
+</script>
+<script defer="" src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

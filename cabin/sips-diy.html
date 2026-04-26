@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://solun.art/sips-diy" rel="canonical"/>
+<title data-en="Can You Build SIPs Yourself? — SOLUNA DIY Guide | Building in 5 Days with 4 People">SIPs 自作できる? — SOLUNA 自作ガイド | 5日間・4人で建てる方法</title>
+<meta content="SIPs（構造用断熱パネル）は自作できる。4人・5日間・材料費¥200万台。工場プレカット+現場組立で、職人なしでも断熱性能R-28の小屋が建つ。SOLUNA Work Partyの実施手順。" data-en-content="SIPs (Structural Insulated Panels) can be self-built. Four people, five days, materials approximately ¥2,000,000. With factory precut panels and on-site assembly, a cabin with R-28 insulation performance is built without professional tradespeople. SOLUNA Work Party implementation steps." name="description"/>
+<meta content="SIPs 自作できる? — 4人・5日・¥200万台で断熱小屋を建てる" property="og:title"/>
+<meta content="SIPsは現場組立が主作業。工場プレカット済みパネルを4〜6人で起こし、発泡ウレタンで塞いで、焼杉を貼る。職人なしで26m²の断熱小屋が5日で完成する。" property="og:description"/>
+<meta content="https://solun.art/img/sips_diy_raise.jpg" property="og:image"/>
+<meta content="https://solun.art/sips-diy" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://solun.art/img/sips_diy_raise.jpg" name="twitter:image"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'&gt;&lt;rect width='64' height='64' rx='14' fill='%23050505'/&gt;&lt;circle cx='32' cy='32' r='20' fill='none' stroke='%23c8a455' stroke-width='2.5'/&gt;&lt;circle cx='32' cy='20' r='5' fill='%23c8a455'/&gt;&lt;path d='M20 38 Q32 28 44 38' fill='none' stroke='%23c8a455' stroke-width='2' stroke-linecap='round'/&gt;&lt;path d='M24 44 Q32 36 40 44' fill='none' stroke='%23c8a455' stroke-width='1.5' stroke-linecap='round'/&gt;&lt;/svg&gt;" rel="icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.5);
+  --gold-soft:rgba(200,164,85,.07);
+  --green:#4ade80;
+  --green-soft:rgba(74,222,128,.07);
+  --red:#f87171;
+  --bg:#050505;
+  --bg-soft:#080808;
+  --line:#131313;
+  --text:#f0ece4;
+  --dim:#666;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:'palt';overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+h1,h2,blockquote{font-family:'Shippori Mincho B1','Noto Serif JP',Georgia,serif}
+::selection{background:var(--gold);color:#000}
+.w{max-width:720px;margin:0 auto;padding:0 24px}
+
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px}
+.gnav-links a{color:#555;transition:color .2s}
+.gnav-links a:hover{color:var(--gold)}
+.gnav-links a.cta{color:var(--gold);font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px}
+.gnav-links a.cta:hover{background:var(--gold);color:#040404}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+
+/* HERO */
+.hero-img{position:relative;height:72vh;min-height:460px;overflow:hidden}
+.hero-img img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.6)}
+.hero-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#050505 0%,rgba(5,5,5,.6) 35%,transparent 65%)}
+.hero-body{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:40px 28px}
+.hero-body .w{padding:0}
+.hero-eyebrow{font-size:9px;letter-spacing:.35em;color:rgba(200,164,85,.6);text-transform:uppercase;font-weight:700;margin-bottom:14px}
+.hero-h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.06;margin-bottom:14px}
+.hero-h1 em{color:var(--gold);font-style:normal}
+.hero-sub{color:#888;font-size:13.5px;line-height:1.9;max-width:520px;margin-bottom:24px}
+.hero-verdict{display:inline-flex;align-items:center;gap:10px;background:#0a0a0a;border:1px solid var(--gold-dim);border-radius:100px;padding:10px 18px}
+.hero-verdict .dot{width:8px;height:8px;background:var(--green);border-radius:50%;flex-shrink:0;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-verdict span{font-size:12px;color:#aaa;font-weight:600}
+.hero-verdict strong{color:var(--gold)}
+
+/* SECTIONS */
+.s{padding:72px 0;border-bottom:1px solid var(--line)}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#3a3a3a;margin-bottom:12px;font-weight:700}
+h2{font-size:clamp(1.4rem,3.5vw,2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:12px;line-height:1.2}
+h3{font-size:14px;font-weight:700;margin-bottom:6px;line-height:1.4}
+p.sub{color:var(--dim);font-size:13px;line-height:2;max-width:580px;margin-bottom:20px}
+
+.r{opacity:0;transform:translateY(22px);transition:opacity .85s ease,transform .85s ease}
+.r.in{opacity:1;transform:translateY(0)}
+
+/* VERDICT TABLE */
+.verdict{border:1px solid #171717;border-radius:14px;overflow:hidden;margin:20px 0}
+.verdict-row{display:grid;grid-template-columns:2fr 1fr 1fr;align-items:center;padding:14px 18px;border-bottom:1px solid #0e0e0e;font-size:12.5px;gap:12px}
+.verdict-row:last-child{border-bottom:none}
+.verdict-row.head{background:#060606;font-size:9.5px;font-weight:700;letter-spacing:.1em;color:#333;text-transform:uppercase;padding:11px 18px}
+.verdict-row .task{color:#888;line-height:1.5}
+.verdict-row .ok{color:var(--green);font-weight:700;font-size:13px;text-align:center}
+.verdict-row .ng{color:var(--red);font-weight:700;font-size:13px;text-align:center}
+.verdict-row .warn{color:var(--gold);font-weight:700;font-size:13px;text-align:center}
+@media(max-width:520px){.verdict-row{grid-template-columns:1fr 1fr}}
+
+/* TOOLS GRID */
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:20px 0}
+@media(max-width:520px){.tools-grid{grid-template-columns:1fr}}
+.tool-card{border:1px solid #171717;border-radius:10px;padding:14px 16px;background:var(--bg-soft)}
+.tool-card .tc-name{font-size:12.5px;font-weight:700;color:#bbb;margin-bottom:3px}
+.tool-card .tc-sub{font-size:11px;color:#444;line-height:1.5}
+.tool-card .tc-price{font-size:10.5px;color:var(--gold);margin-top:6px;font-weight:600}
+
+/* STEP CARDS */
+.step-card{border:1px solid #171717;border-radius:14px;overflow:hidden;margin-bottom:16px;background:var(--bg-soft)}
+.step-card .sc-header{display:grid;grid-template-columns:72px 1fr;align-items:center;padding:20px;gap:16px;border-bottom:1px solid #111}
+.step-card .sc-day{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.08em;margin-bottom:4px}
+.step-card .sc-title{font-size:15px;font-weight:700;color:#ddd;line-height:1.2}
+.step-card .sc-time{font-size:10px;color:#444;margin-top:4px}
+.step-card .sc-num{font-size:38px;font-weight:800;color:#111;line-height:1;text-align:center;font-feature-settings:'tnum'}
+.step-card .sc-body{padding:20px}
+.step-card .sc-body p{font-size:12.5px;color:#666;line-height:1.95;margin-bottom:12px}
+.step-card .sc-body p:last-child{margin-bottom:0}
+.step-card .sc-checklist{list-style:none;display:grid;gap:6px;margin-top:10px}
+.step-card .sc-checklist li{display:flex;align-items:flex-start;gap:9px;font-size:12px;color:#555;line-height:1.6}
+.step-card .sc-checklist li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+.step-card img{width:100%;height:200px;object-fit:cover;display:block;border-top:1px solid #111}
+
+/* CALLOUT */
+.callout{border-left:3px solid var(--gold);padding:18px 20px;background:#070707;border-radius:0 10px 10px 0;margin:20px 0}
+.callout p{font-size:13px;color:#888;line-height:2}
+.callout p strong{color:#ccc}
+.callout.warn{border-color:var(--red);background:rgba(248,113,113,.03)}
+.callout.green{border-color:var(--green);background:rgba(74,222,128,.03)}
+
+/* COST TABLE */
+.cost-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#111;border:1px solid #111;border-radius:14px;overflow:hidden;margin:20px 0}
+.cost-col{background:#070707;padding:24px}
+.cost-col.hl{background:#060606}
+.cost-col h4{font-size:9px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:18px}
+.cost-col h4.gray{color:#2a2a2a}
+.cost-col h4.gold{color:var(--gold)}
+.cost-item{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid #0e0e0e;font-size:11.5px}
+.cost-item:last-child{border:none;padding-top:14px;margin-top:8px}
+.cost-item .ck{color:#444}
+.cost-item .cv{font-weight:600;color:#888}
+.cost-item .cv.gold{color:var(--gold)}
+.cost-item.total .ck{color:#888;font-weight:700}
+.cost-item.total .cv{font-size:16px;font-weight:800}
+@media(max-width:520px){.cost-grid{grid-template-columns:1fr}}
+
+/* LEGAL BOX */
+.legal-grid{display:grid;gap:10px;margin:20px 0}
+.legal-item{border:1px solid #171717;border-radius:10px;padding:16px;background:var(--bg-soft);display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:flex-start}
+.legal-item .li-icon{font-size:16px;line-height:1;margin-top:2px;text-align:center}
+.legal-item h4{font-size:12.5px;font-weight:700;color:#bbb;margin-bottom:4px}
+.legal-item p{font-size:11.5px;color:#444;line-height:1.75}
+.legal-item.ok{border-color:rgba(74,222,128,.2);background:rgba(74,222,128,.02)}
+.legal-item.warn{border-color:rgba(200,164,85,.2);background:rgba(200,164,85,.02)}
+.legal-item.ng{border-color:rgba(248,113,113,.2);background:rgba(248,113,113,.02)}
+
+/* STAT ROW */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid #111;border-radius:14px;overflow:hidden;margin:20px 0}
+.stat-item{padding:20px 12px;text-align:center;border-right:1px solid #111}
+.stat-item:last-child{border-right:none}
+.stat-item .sv{font-size:20px;font-weight:800;color:var(--gold);line-height:1.1;margin-bottom:5px;font-feature-settings:'tnum'}
+.stat-item .sl{font-size:9px;color:#3a3a3a;letter-spacing:.08em;text-transform:uppercase;line-height:1.5}
+@media(max-width:520px){.stat-row{grid-template-columns:1fr 1fr}.stat-item:nth-child(2){border-right:none}.stat-item:nth-child(3){border-top:1px solid #111}.stat-item:nth-child(4){border-right:none;border-top:1px solid #111}}
+
+/* PHOTO GRID */
+.pg2{display:grid;grid-template-columns:1fr 1fr;gap:4px;border-radius:14px;overflow:hidden;margin:20px 0}
+.pg-item{position:relative;overflow:hidden}
+.pg-item img{width:100%;height:260px;object-fit:cover;display:block}
+.pg-caption{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(5,5,5,.95));padding:14px 16px}
+.pg-caption p{font-size:10.5px;color:#888}
+.pg-caption strong{display:block;font-size:11px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+@media(max-width:520px){.pg2{grid-template-columns:1fr}}
+
+/* CTA */
+.cta-btn{display:inline-block;background:var(--gold);color:#050505;font-weight:700;font-size:13px;padding:16px 40px;border-radius:100px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 24px rgba(200,164,85,.15)}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(200,164,85,.25);color:#050505}
+.cta-ghost{display:inline-block;border:1px solid #2a2a2a;color:#888;font-weight:600;font-size:12px;padding:14px 28px;border-radius:100px;margin-left:8px;transition:all .2s}
+.cta-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+footer{padding:48px 24px 32px;max-width:720px;margin:0 auto;border-top:1px solid var(--line)}
+footer .f-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:28px}
+footer .f-col h4{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#2a2a2a;margin-bottom:10px;font-weight:700}
+footer .f-col a{display:block;font-size:11px;color:#3a3a3a;line-height:2.1}
+footer .f-col a:hover{color:var(--gold)}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.15em;text-align:center}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="/">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="SIPs Construction Method" href="sips">SIPs工法</a>
+<a href="workparty">Work Party</a>
+<a href="faq">FAQ</a>
+<a class="cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- HERO -->
+<div class="hero-img">
+<img alt="SIPs壁パネルを仲間と起こす — Work Party" data-en-alt="Raising SIPs Wall Panels with Friends — Work Party" loading="eager" src="img/sips_diy_raise.jpg"/>
+<div class="hero-body">
+<div class="w">
+<p class="hero-eyebrow" data-en="SOLUNA — SIPs DIY Guide">SOLUNA — SIPs 自作ガイド</p>
+<h1 class="hero-h1" data-en="DIY,">自作、<em data-en="Yes, it can be.">できる。</em></h1>
+<p class="hero-sub" data-en="Four people raise factory-precut panels, seal with spray foam, and attach charred cedar. That's it. No skilled trades required—just manpower and five days.">工場でプレカット済みのパネルを4人で起こし、発泡ウレタンで塞ぎ、焼杉を貼る。それだけだ。職人技術は要らない。必要なのは人手と5日間。</p>
+<div class="hero-verdict">
+<span class="dot"></span>
+<span data-en="Built in 26m²">26m² · <strong data-en="Five Days · 4–6 People · Approximately ¥2,000,000">5日間 · 4〜6人 · ¥200万台</strong> で建つ</span>
+</div>
+</div>
+</div>
+</div>
+<!-- VERDICT: 何がDIYできて、何ができないか -->
+<div class="s">
+<div class="w r">
+<p class="label" data-en="01 · What You Can and Cannot Do">01 · できること・できないこと</p>
+<h2 data-en="Let's be honest.">正直に言う。<span data-en="80% can be owner-built." style="color:var(--gold)">8割は自作できる。</span></h2>
+<p class="sub" data-en='SIPs "self-assembly" means assembling factory-made panels on-site yourself. No material processing is required—on-site work simply involves repeating three steps: arranging, sealing, and adhering.'>SIPsの「自作」とは、工場で作ったパネルを自分たちで組み立てること。材料加工は不要で、現場作業は「並べる・塞ぐ・貼る」の繰り返しだ。</p>
+<div class="stat-row">
+<div class="stat-item"><div class="sv" data-en="5 days">5日</div><div class="sl" data-en="Structure to Exterior Completion Timeline">躯体〜外装<br/>完成目安</div></div>
+<div class="stat-item"><div class="sv" data-en="4–6 people">4〜6人</div><div class="sl" data-en="Required Team Size">必要な<br/>作業人数</div></div>
+<div class="stat-item"><div class="sv" data-en="¥2,000,000+">¥200万〜</div><div class="sl" data-en="Material costs (26 m²)">材料費<br/>（26m²）</div></div>
+<div class="stat-item"><div class="sv" data-en="Class 2">2種</div><div class="sl" data-en="Required National Certifications">必要な<br/>国家資格</div></div>
+</div>
+<div class="verdict">
+<div class="verdict-row head">
+<div data-en="Work Phases">作業工程</div>
+<div data-en="Suitable for Beginners?" style="text-align:center">素人 OK?</div>
+<div data-en="Difficulty Level" style="text-align:center">難易度</div>
+</div>
+<div class="verdict-row">
+<div class="task" data-en="Pile cap level verification and foundation position marking"><strong data-en="Foundation inspection and layout marking" style="color:#bbb">基礎確認・墨出し</strong><br/>杭天端の水平確認、土台位置マーキング</div>
+<div class="ok" data-en="◎ Achievable">◎ できる</div>
+<div style="color:#555;text-align:center;font-size:11px">★☆☆☆☆</div>
+</div>
+<div class="verdict-row">
+<div class="task" data-en="Arrange panels, screw together, fill with spray foam"><strong data-en="Floor Panel Installation" style="color:#bbb">床パネル設置</strong><br/>パネルを並べてビス留め、発泡ウレタン充填</div>
+<div class="ok" data-en="◎ Achievable">◎ できる</div>
+<div style="color:#555;text-align:center;font-size:11px">★★☆☆☆</div>
+</div>
+<div class="verdict-row">
+<div class="task" data-en="Raise and secure with 4–6 people. The most critical process."><strong data-en="Wall panel erection" style="color:#bbb">壁パネル建て方</strong><br/>4〜6人で起こして固定。最も重要な工程</div>
+<div class="ok" data-en="◎ Achievable">◎ できる</div>
+<div style="color:#555;text-align:center;font-size:11px">★★★☆☆</div>
+</div>
+<div class="verdict-row">
+<div class="task" data-en="Elevated heavy-load work. Requires temporary scaffolding and two or more people."><strong data-en="Roof Panel Installation" style="color:#bbb">屋根パネル設置</strong><br/>重量物の高所作業。仮設足場と2人以上で</div>
+<div class="warn" data-en="△ Requires Caution">△ 要注意</div>
+<div style="color:#555;text-align:center;font-size:11px">★★★★☆</div>
+</div>
+<div class="verdict-row">
+<div class="task" data-en="Continuous airtightness tape applied to panel joints"><strong data-en="Airtight Tape Application" style="color:#bbb">気密テープ施工</strong><br/>パネル接合部を連続気密テープで処理</div>
+<div class="ok" data-en="◎ Achievable">◎ できる</div>
+<div style="color:#555;text-align:center;font-size:11px">★★☆☆☆</div>
+</div>
+<div class="verdict-row">
+<div class="task" data-en="Roof Breathable Waterproof Membrane Installation"><strong data-en="Waterproof Roofing" style="color:#bbb">防水ルーフィング</strong><br/>屋根の透湿防水シート張り</div>
+<div class="ok" data-en="◎ Achievable">◎ できる</div>
+<div style="color:#555;text-align:center;font-size:11px">★★☆☆☆</div>
+</div>
+<div class="verdict-row">
+<div class="task" data-en="Ventilation battens → vertical charred cedar application. Nail gun recommended."><strong data-en="Shou Sugi Ban Exterior Installation" style="color:#bbb">焼杉外装取付</strong><br/>通気胴縁→焼杉縦張り。ネイルガン使用</div>
+<div class="ok" data-en="◎ Achievable">◎ できる</div>
+<div style="color:#555;text-align:center;font-size:11px">★★☆☆☆</div>
+</div>
+<div class="verdict-row">
+<div class="task" data-en="Window Frame Installation &amp; Water-Shedding at Openings"><strong data-en="Window installation" style="color:#bbb">サッシ建て込み</strong><br/>開口部へのサッシ設置・水切り処理</div>
+<div class="warn" data-en="△ Practice required">△ 練習要</div>
+<div style="color:#555;text-align:center;font-size:11px">★★★☆☆</div>
+</div>
+<div class="verdict-row">
+<div class="task" data-en="Distribution Panel to Outlets &amp; Lighting Wiring"><strong data-en="Electrical wiring" style="color:#bbb">電気配線</strong><br/>分電盤〜コンセント・照明の配線</div>
+<div class="ng" data-en="✕ Certification Required">✕ 資格必要</div>
+<div data-en="Class 2 Electrical Engineer License" style="color:#555;text-align:center;font-size:11px">第二種電気工事士</div>
+</div>
+<div class="verdict-row">
+<div class="task" data-en="Water Supply, Drainage &amp; Sanitary System Connections"><strong data-en="Water Supply &amp; Drainage Plumbing" style="color:#bbb">給排水配管</strong><br/>給水・排水・衛生設備の接続</div>
+<div class="ng" data-en="✕ Certification Recommended">✕ 資格推奨</div>
+<div data-en="Certified Plumbing Construction Manager" style="color:#555;text-align:center;font-size:11px">管工事施工管理技士</div>
+</div>
+<div class="verdict-row">
+<div class="task" data-en="Frost-Depth-Compliant Foundation Work"><strong data-en="Steel Pipe Piling Installation" style="color:#bbb">鋼管杭打設</strong><br/>凍結深度対応の基礎工事</div>
+<div class="ng" data-en="✕ Machinery Required">✕ 機械必要</div>
+<div data-en="Specialized Equipment &amp; Outsourced Services" style="color:#555;text-align:center;font-size:11px">専用重機・外注</div>
+</div>
+</div>
+<div class="callout green">
+<p data-en="If you outsource electrical, foundation, and plumbing, amateurs can handle the remaining 80% of work. Outsourcing costs approximately ¥500,000–800,000 total. Even so, you'll save ¥1,000,000–1,500,000 compared to a full contractor build."><strong data-en="Conclusion:">結論：</strong>電気・基礎・配管を外注すれば、残り8割の工程は素人でもできる。外注費は合計で¥50〜80万程度。それでも業者一括よりも¥100〜150万安くなる。</p>
+</div>
+</div>
+</div>
+<!-- TOOLS -->
+<div class="s">
+<div class="w r">
+<p class="label" data-en="02 · Required Tools">02 · 必要な道具</p>
+<h2 data-en="Tool Cost,">工具代、<span data-en="Total: ¥150,000 or less." style="color:var(--gold)">全部で¥15万以下。</span></h2>
+<p class="sub" data-en="No specialized tools required. Everything is available at home improvement stores and online. If you already own most tools, you can begin for virtually zero cost.">特殊な工具は何もいらない。ホームセンターとネットで全部揃う。既に持っている工具が多ければ、ほぼゼロ円で始められる。</p>
+<div style="margin:20px 0;border-radius:14px;overflow:hidden;border:1px solid #1a1a1a;position:relative">
+<img alt="SIPs自作に必要な道具一覧" data-en-alt="Essential Tools for DIY SIPs Construction" loading="lazy" src="img/sips_diy_tools.jpg" style="width:100%;height:300px;object-fit:cover;display:block"/>
+<div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(5,5,5,.95));padding:16px 20px">
+<p data-en="From left: Pneumatic nail gun, expanding polyurethane gun, SIPs spine (joining material), airtightness tape, cordless drill, rubber mallet" style="font-size:11px;color:#888">左から：空圧ネイルガン、発泡ウレタンガン、SIPsスパイン（接合材）、気密テープ、コードレスドリル、ゴムハンマー</p>
+</div>
+</div>
+<div class="tools-grid">
+<div class="tool-card">
+<div class="tc-name" data-en="Pneumatic Nail Gun + Air Compressor">空気圧ネイルガン + コンプレッサー</div>
+<div class="tc-sub" data-en="Accelerates fastening to OSB. Ten times faster than hand-driving. An essential item.">OSBへのビス打ちを高速化。手打ちの10倍速い。必須アイテム。</div>
+<div class="tc-price" data-en="Rental ¥5,000/day or Purchase ¥20,000–40,000">レンタル ¥5,000/日 or 購入 ¥2〜4万</div>
+</div>
+<div class="tool-card">
+<div class="tc-name" data-en="Polyurethane Foam Gun + Cartridge">発泡ウレタンガン + カートリッジ</div>
+<div class="tc-sub" data-en="Sealant filling at panel joints. Core of the airtightness line. Approximately 10 units per building required.">パネル接合部へのシール充填。気密ライン形成の核。1棟あたり10本程度必要。</div>
+<div class="tc-price" data-en="Gun ¥3,000 / Cartridge ¥600 × 10 units">ガン ¥3,000 / カートリッジ ¥600×10本</div>
+</div>
+<div class="tool-card">
+<div class="tc-name" data-en="Cordless Drill Drivers × 2">コードレスドリルドライバー × 2台</div>
+<div class="tc-sub" data-en="Panel fastening with screws. With two batteries, alternating use ensures uninterrupted workflow.">パネル固定ビス打ち。バッテリー2台あれば交互使いで止まらない。</div>
+<div class="tc-price">¥1.5〜3万/台</div>
+</div>
+<div class="tool-card">
+<div class="tc-name" data-en="Airtight Tape (Silver)">気密テープ（シルバー）</div>
+<div class="tc-sub" data-en="Seal all interior panel seams continuously. The most critical consumable item for determining air tightness (C-value).">パネル内側の接合部を全て連続で貼る。C値を決定する最重要消耗品。</div>
+<div class="tc-price" data-en="¥2,000/roll × 10 rolls">¥2,000/巻 × 10巻</div>
+</div>
+<div class="tool-card">
+<div class="tc-name" data-en="Chain Block + Tubular Scaffolding">チェーンブロック + 単管足場</div>
+<div class="tc-sub" data-en="Lifting equipment for raising wall panels (200–400 kg). Rental is sufficient.">壁パネル（200〜400kg）を起こすための吊り道具。レンタルで十分。</div>
+<div class="tc-price" data-en="Rental ¥3,000/day">レンタル ¥3,000/日</div>
+</div>
+<div class="tool-card">
+<div class="tc-name" data-en="Rubber Mallet + Wooden Dowels">ゴムハンマー + 木ダボ</div>
+<div class="tc-sub" data-en="Used for fine-tuning panel joints. A plastic mallet works as a substitute.">パネル接合部の微調整に使う。プラハンでも代用可。</div>
+<div class="tc-price" data-en="¥2,000–3,000">¥2,000〜3,000</div>
+</div>
+<div class="tool-card">
+<div class="tc-name" data-en="Laser Level">レーザー水平器</div>
+<div class="tc-sub" data-en="Verify floor and wall level and plumb. With this, one person can achieve accuracy.">床・壁の水平垂直確認。これがあると一人でも精度が出せる。</div>
+<div class="tc-price" data-en="¥5,000–¥15,000">¥5,000〜1.5万</div>
+</div>
+<div class="tool-card">
+<div class="tc-name" data-en="Circular Saw (Cordless)">丸鋸（充電式）</div>
+<div class="tc-sub" data-en="On-site OSB and burnt cedar cutting. Panels are pre-cut, so this is supplementary.">現場でのOSB・焼杉カット。パネル自体はプレカット済みなので補助的に使う。</div>
+<div class="tc-price" data-en="¥15,000–30,000">¥1.5〜3万</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 5-DAY PLAN -->
+<div class="s">
+<div class="w r">
+<p class="label" data-en="03 · Five-day plan">03 · 5日間プラン</p>
+<h2 data-en="Beginning on Monday,">月曜に始めて、<span data-en="Roof closes on Friday." style="color:var(--gold)">金曜に屋根が閉まる。</span></h2>
+<p class="sub" data-en="Schedule for one 26 m² (3.6×7.2 m) unit with a 4–6 person team. Duration varies by ±1 day depending on weather and skill level.">26m²（3.6×7.2m）1ユニットの工程表。4〜6人チームの場合。天候・習熟度によって±1日変動する。</p>
+<!-- Day 0 -->
+<div class="step-card">
+<div class="sc-header">
+<div class="sc-num" style="color:#1e1e1e">0</div>
+<div>
+<div class="sc-day" data-en="Day 0 (Pre-Delivery)">Day 0（搬入前）</div>
+<div class="sc-title" data-en="Foundation Inspection + Material Verification">基礎確認 + 材料チェック</div>
+<div class="sc-time" data-en="Workers: 2 / Duration: Half day">作業人数：2人 / 所要：半日</div>
+</div>
+</div>
+<div class="sc-body">
+<p data-en="Verify the level of pile tops set by the steel pile contractor. Ensure tolerance is within ±3mm. If variance exists, adjust with steel shims. Place foundation material (105×105 pressure-treated timber) on piles and confirm anchor bolt positions.">鋼管杭業者が打設した杭天端の水平を確認する。±3mm以内に収まっているか。誤差があれば鋼板でシム調整。土台材（105×105 防腐処理）を杭に載せてアンカーボルト位置を確認。</p>
+<ul class="sc-checklist">
+<li data-en="Pile cap level confirmation (laser level)">杭天端 水平確認（レーザー水平器）</li>
+<li data-en="Verify panel count and dimensions upon delivery (cross-reference with factory shipping documents)">搬入パネルの個数・寸法確認（工場出荷票と照合）</li>
+<li data-en="Inventory Check: Spray Polyurethane, Air Sealing Tape &amp; Fasteners">発泡ウレタン・気密テープ・ビスの在庫確認</li>
+<li data-en="Confirm wind speed on the day (Wall raising guideline: wind speed 5 m/s or less)">当日の風速確認（壁起こしは風速5m/s以下が目安）</li>
+</ul>
+</div>
+</div>
+<!-- Day 1 -->
+<div class="step-card">
+<div class="sc-header">
+<div class="sc-num">1</div>
+<div>
+<div class="sc-day" data-en="Day 1 (Monday)">Day 1（月曜）</div>
+<div class="sc-title" data-en="Foundation + Floor Panel Installation">土台 + 床パネル設置</div>
+<div class="sc-time" data-en="Crew: 4 people / Duration: 6–8 hours">作業人数：4人 / 所要：6〜8時間</div>
+</div>
+</div>
+<div class="sc-body">
+<p data-en="Once foundation material is anchored to the pile cap, arrange floor SIPs panels (100mm thick). Apply spray foam to panel edges, butt adjacent panels together, insert spines, and secure from above with screws into the OSB.">杭天端に土台材を固定したら、床SIPsパネル（厚100mm）を並べていく。パネル端部に発泡ウレタンを打ち、隣のパネルと突き合わせて、スパインを差し込む。ビスで上からOSBに固定。</p>
+<p data-en="Upon completion of this phase, the 'working platform' is finished. Since elevated work begins the next day, verify scaffold and chain block placement positions at this stage.">この工程が終わると「作業床」が完成する。翌日からは高さのある作業になるため、この段階で足場材・チェーンブロックの設置位置を確認しておく。</p>
+<ul class="sc-checklist">
+<li data-en="Foundation Material — Anchor Bolt Fastening (M16, Torque Management)">土台材 アンカーボルト固定（M16、トルク管理）</li>
+<li data-en="Floor Panel Layout &amp; Spray Foam Filling">床パネル配置・発泡ウレタン充填</li>
+<li data-en="Spine (Connecting Hardware) Insertion &amp; Screw Fastening">スパイン（連結金物）差し込み・ビス固定</li>
+<li data-en="Floor surface: apply air-sealing tape to all joints">床上面 気密テープ全接合部に施工</li>
+<li data-en="Next-Day Chain Block Temporary Position Confirmation">翌日用チェーンブロック仮設位置確認</li>
+</ul>
+</div>
+<img alt="SIPsパネル設置作業" data-en-alt="SIPs Panel Installation Work" loading="lazy" src="img/kumaushi_sips_panels_assembly.webp"/>
+</div>
+<!-- Day 2 -->
+<div class="step-card" style="border-color:var(--gold-dim)">
+<div class="sc-header" style="background:rgba(200,164,85,.04)">
+<div class="sc-num" style="color:var(--gold)">2</div>
+<div>
+<div class="sc-day" data-en="Day 2 (Tuesday) ← Main Event" style="color:var(--gold)">Day 2（火曜）← メインイベント</div>
+<div class="sc-title" data-en="Wall Panel Installation Method">壁パネル 建て方</div>
+<div class="sc-time" data-en="Team Size: 6 recommended / Duration: 8–10 hours">作業人数：6人推奨 / 所要：8〜10時間</div>
+</div>
+</div>
+<div class="sc-body">
+<p data-en="The day's most critical and exhilarating phase. Each wall panel weighs approximately 200–350 kg. Four team members support each corner while hoisting with a chain block, one person fastens screws, and one ensures level and plumb.">1日で最も重要かつ興奮する工程。壁パネル1枚あたり約200〜350kg。チェーンブロックで吊りながら、4人が各コーナーを支え、1人がビスを打ち、1人が水平垂直を確認する。</p>
+<p data-en="Begin at corners, securing them firmly, then raise straight walls in sequence. The moment all walls stand, the box-shaped structure appears. This is the 'built it' moment of the Work Party.">角から始めてコーナーを固め、直線壁を順に建てていく。全壁が立ち上がった瞬間、箱型の躯体が現れる。これがWork Partyの「建てた」という瞬間だ。</p>
+<ul class="sc-checklist">
+<li data-en="Begin with corner panels (secure the four corners first)">コーナーパネルから着手（4隅を先に固める）</li>
+<li data-en="Spray polyurethane between each panel → spline → screw fixation">各パネル間に発泡ウレタン → スパイン → ビス固定</li>
+<li data-en="Plumb verification: use laser level combined with plumb bob">垂直確認はレーザー水平器 + 下げ振り併用</li>
+<li data-en='Nail "top frame material" to the upper edge (roof panel support)'>上端に「上枠材」を釘打ち（屋根パネル受け）</li>
+<li data-en="Temporary Installation of Frame Materials for Openings (Windows and Doors)">開口部（窓・ドア）の額縁材を仮設置</li>
+</ul>
+</div>
+<img alt="壁パネルを仲間と起こす Work Party" data-en-alt="Work Party: Raising Wall Panels with Your Team" loading="lazy" src="img/sips_diy_raise.jpg"/>
+</div>
+<!-- Day 3 -->
+<div class="step-card">
+<div class="sc-header">
+<div class="sc-num">3</div>
+<div>
+<div class="sc-day" data-en="Day 3 (Wednesday)">Day 3（水曜）</div>
+<div class="sc-title" data-en="Roof Panel + Waterproofing">屋根パネル + 防水</div>
+<div class="sc-time" data-en="Team: 4–5 people / Duration: 8 hours">作業人数：4〜5人 / 所要：8時間</div>
+</div>
+</div>
+<div class="sc-body">
+<p data-en="Installing roof panels (200 mm thickness) atop the wall. The most demanding phase. Each panel weighs 300–500 kg. Assemble temporary scaffolding and carefully raise using chain blocks. Consider outsourcing this phase if necessary.">屋根パネル（厚200mm）を壁天端に載せる。最も重い工程。1枚あたり300〜500kg。単管足場を組み、チェーンブロックで慎重に吊り上げる。無理せず外注してもよい工程。</p>
+<p data-en="Once all panels are secured, immediately apply breathable weather-resistant membrane (Tyvek House Wrap) to all surfaces. The structure will be secure against rain, even if storms arrive that evening.">全パネルが固定されたら即日、透湿防水シート（タイベックハウスラップ）を全面に貼る。この日の夕方〜夜に雨が来ても問題ない状態にする。</p>
+<ul class="sc-checklist">
+<li data-en="Temporary scaffolding assembly (work platform secured at wall plate level)">単管足場 組立（壁天端レベルで作業床確保）</li>
+<li data-en="Sequential Roof Panel Installation via Chain Block">屋根パネルをチェーンブロックで順次設置</li>
+<li data-en="Polyurethane Foam at Ridge + Airtight Tape">リッジ（棟）部の発泡ウレタン + 気密テープ</li>
+<li data-en="Full Coverage Installation of Vapor-Permeable Waterproof Membrane (Tyvek)">透湿防水シート（タイベック）全面貼り付け</li>
+<li data-en="Temporary Metal Fascia Fastening at Roof Edge">屋根端部（鼻隠し）の板金仮留め</li>
+</ul>
+</div>
+</div>
+<!-- Day 4 -->
+<div class="step-card">
+<div class="sc-header">
+<div class="sc-num">4</div>
+<div>
+<div class="sc-day" data-en="Day 4 (Thursday)">Day 4（木曜）</div>
+<div class="sc-title" data-en="Charred Cedar Exterior + Window Frame Installation">焼杉外装 + サッシ建て込み</div>
+<div class="sc-time" data-en="Crew: 4 people / Duration: 8 hours">作業人数：4人 / 所要：8時間</div>
+</div>
+</div>
+<div class="sc-body">
+<p data-en="Fasten ventilation battens (18mm thick, vertical orientation) to the exterior wall with screws, then apply shou sugi ban planks vertically above. Two seconds per plank with a nail gun. Nearly complete coverage achievable in a morning.">通気胴縁（18mm厚 縦張り）をビスで外壁に固定し、その上に焼杉を縦張りしていく。ネイルガンで1枚2秒。午前中でほぼ全面が貼れる。</p>
+<p data-en="Afternoon: window frame installation. Apply flashing at openings, insert frames, wrap perimeter with waterproof tape for water-sealing.">午後はサッシ建て込み。開口部に水切りを施工してからサッシを入れ、外周を防水テープで巻いて水密処理をする。</p>
+<ul class="sc-checklist">
+<li data-en="Ventilation battens: vertical installation (455mm spacing)">通気胴縁 縦打ち（455mmピッチ）</li>
+<li data-en="Shou Sugi Ban Vertical Installation (Nail gun, top to bottom)">焼杉縦張り（ネイルガン、上から下へ）</li>
+<li data-en="Window Frame Installation &amp; Waterproof Tape Application">サッシ建て込み・防水テープ処理</li>
+<li data-en="Eave soffit (Galvalume metal) temporary securing">軒天（ガルバリウム板金）仮固定</li>
+</ul>
+</div>
+<img alt="焼杉（shou sugi ban）の炭化処理" data-en-alt="Shou Sugi Ban Carbonization Process" loading="lazy" src="img/sips_diy_yakisugi_making.jpg"/>
+</div>
+<!-- Day 5 -->
+<div class="step-card">
+<div class="sc-header">
+<div class="sc-num">5</div>
+<div>
+<div class="sc-day" data-en="Day 5 (Friday)">Day 5（金曜）</div>
+<div class="sc-title" data-en="Airtightness testing + interior substrate preparation">気密測定 + 内装下地</div>
+<div class="sc-time" data-en="Work Crew: 2–3 People / Duration: 6 Hours">作業人数：2〜3人 / 所要：6時間</div>
+</div>
+</div>
+<div class="sc-body">
+<p data-en="Measure the C-value with a blower door test. If above 1.0, recheck joints. Properly installed SIPs achieve 0.5 or below. After testing, hand off to electrical and plumbing contractors.">気密測定器（ブロアドア）でC値を測定する。1.0を超えていたら接合部を再チェック。SIPsは正しく施工すれば0.5以下が出る。測定後、電気・配管業者に引き渡し。</p>
+<ul class="sc-checklist">
+<li data-en="Final verification of waterproofing tape on all windows and door openings">全窓・ドア開口部の防水テープ最終確認</li>
+<li data-en="Airtightness testing (blower door test; contractor rental ¥1–2万)">気密測定（ブロアドア。業者レンタル ¥1〜2万）</li>
+<li data-en="Additional Spray Foam Insulation at Problem Areas">不具合箇所に発泡ウレタン追加充填</li>
+<li data-en="Handoff to electrical and plumbing contractors (chase verification)">電気・配管業者へ引き渡し（チェイス確認）</li>
+<li data-en="Cleaning and Debris Disposal">掃除・廃材まとめ</li>
+</ul>
+</div>
+</div>
+<div class="callout">
+<p data-en="SIPs chase (electrical conduit) arrives pre-fabricated from the factory in a ready-to-install state—the electrician simply inserts it. Outsourcing costs ¥300,000–500,000. When you factor in the time and certification costs for doing it yourself, outsourcing proves more economical overall."><strong data-en="Electrical and plumbing work can be fully outsourced.">電気・配管は丸投げでいい。</strong>SIPsのチェイス（電線管路）は工場加工済みで、電気業者が来たら「差し込むだけ」の状態になっている。外注費は¥30〜50万。自分でやる時間と資格取得コストを考えると、外注の方がトータルで安い。</p>
+</div>
+</div>
+</div>
+<!-- 焼杉を自作する -->
+<div class="s">
+<div class="w r">
+<p class="label" data-en="04 · Creating Charred Cedar Yourself">04 · 焼杉を自分で作る</p>
+<h2 data-en="Exterior materials as well">外装材も、<span data-en="DIY construction is possible." style="color:var(--gold)">自作できる。</span></h2>
+<p class="sub" data-en="Shou Sugi Ban is simply charring cedar boards with a torch and brushing them. Material cost: ¥1,000/m² or less. Professional installation runs ¥5,000/m² or more, making this one of the most cost-effective DIY processes.">焼杉（Shou Sugi Ban）は「杉板をバーナーで焼いてブラシをかける」だけ。材料費は¥1,000/m²以下。業者に頼むと¥5,000/m²以上するから、DIYで最も費用効果が高い工程の一つだ。</p>
+<div class="pg2">
+<div class="pg-item">
+<img alt="焼杉を自作する — バーナーで炭化" data-en-alt="DIY Charred Cedar — Torch Carbonization" loading="lazy" src="img/sips_diy_yakisugi_making.jpg"/>
+<div class="pg-caption"><strong data-en="Carbonization Treatment">炭化処理</strong><p data-en="Char the entire surface uniformly with a propane torch. Excessive charring causes cracking. Allow 20–30 seconds per side as a guideline.">プロパンバーナーで表面全体を均一に焼く。焼きすぎると割れる。20〜30秒/面が目安。</p></div>
+</div>
+<div class="pg-item">
+<img alt="焼杉外装 完成状態" data-en-alt="Burned Cedar Exterior – Completed State" loading="lazy" src="img/sips_yakisugi_wall.jpg"/>
+<div class="pg-caption"><strong data-en="Finished State">完成状態</strong><p data-en="Rinse after charring → brush → linseed oil. A maintenance-free exterior for 30+ years completes at ¥1,000/m².">焼いたら水洗い→ブラシがけ→亜麻仁油。30年以上メンテ不要の外装が¥1,000/m²で完成。</p></div>
+</div>
+</div>
+<div style="margin:20px 0;display:grid;gap:0;border:1px solid #171717;border-radius:14px;overflow:hidden">
+<div data-en="Shou Sugi Ban — DIY Process" style="background:#060606;padding:11px 18px;font-size:9.5px;letter-spacing:.1em;color:#333;font-weight:700;text-transform:uppercase">焼杉 自作 手順</div>
+<div style="padding:20px;display:grid;gap:14px">
+<div style="display:grid;grid-template-columns:28px 1fr;gap:12px">
+<div style="width:28px;height:28px;border-radius:50%;background:var(--gold-soft);border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--gold);flex-shrink:0">1</div>
+<div><strong data-en="Prepare cedar boards (thickness 12–15mm, width 90–120mm)" style="font-size:12.5px;color:#bbb;display:block;margin-bottom:3px">杉板を用意（厚12〜15mm、幅90〜120mm）</strong><span data-en="Hokkaido cedar is ideal. Use kiln-dried lumber (moisture content ≤15%). Green lumber is prone to warping. Price: ¥300–¥500 per meter." style="font-size:11.5px;color:#444;line-height:1.7">道産スギが理想。乾燥材（含水率15%以下）を使う。生材は反りやすい。価格：¥300〜500/m</span></div>
+</div>
+<div style="display:grid;grid-template-columns:28px 1fr;gap:12px">
+<div style="width:28px;height:28px;border-radius:50%;background:var(--gold-soft);border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--gold);flex-shrink:0">2</div>
+<div><strong data-en="Even Burning with Propane Burner" style="font-size:12.5px;color:#bbb;display:block;margin-bottom:3px">プロパンバーナーで均一に焼く</strong><span data-en="Maintain 10–15cm distance, moving slowly. Reverse when surface turns black. Caution: excessive burning thins the planks." style="font-size:11.5px;color:#444;line-height:1.7">距離10〜15cm、ゆっくり動かす。表面が黒くなったら反転。焼きすぎると板が薄くなるので注意。</span></div>
+</div>
+<div style="display:grid;grid-template-columns:28px 1fr;gap:12px">
+<div style="width:28px;height:28px;border-radius:50%;background:var(--gold-soft);border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--gold);flex-shrink:0">3</div>
+<div><strong data-en="Cool with water, then brush with steel brush" style="font-size:12.5px;color:#bbb;display:block;margin-bottom:3px">水で冷まし、スチールブラシをかける</strong><span data-en="Brush firmly along the wood grain. Remove loose charcoal dust while highlighting the grain pattern. This reveals the distinctive texture." style="font-size:11.5px;color:#444;line-height:1.7">木目に沿って強くブラシがけ。ルーズな炭粉を落としながら木目を浮き立たせる。これで独特の凹凸が出る。</span></div>
+</div>
+<div style="display:grid;grid-template-columns:28px 1fr;gap:12px">
+<div style="width:28px;height:28px;border-radius:50%;background:var(--gold-soft);border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--gold);flex-shrink:0">4</div>
+<div><strong data-en="Apply Linseed Oil (or Persimmon Tannin)" style="font-size:12.5px;color:#bbb;display:block;margin-bottom:3px">亜麻仁油（または柿渋）を塗布</strong><span data-en="After drying, apply linseed oil thinly with a brush, allowing it to penetrate. Water resistance increases and a sheen develops. Full curing requires 24 hours." style="font-size:11.5px;color:#444;line-height:1.7">乾燥後に亜麻仁油を刷毛で薄く塗り、浸透させる。撥水性が上がり光沢が出る。完全硬化に24時間。</span></div>
+</div>
+</div>
+</div>
+<div class="callout green">
+<p data-en="Cedar board materials cost ¥15,000–20,000. Torch gas runs approximately ¥3,000. Burning as a half-day Work Party activity with everyone involved entirely transforms your attachment to the residence."><strong data-en="Exterior materials required for a 26m² building: approximately 30–40m².">26m²の建物で必要な外装材は約30〜40m²。</strong>杉板材料費で¥1.5〜2万。バーナーガスが¥3,000程度。Work Partyの半日イベントとして全員で焼けば、建物に対する愛着が全く変わる。</p>
+</div>
+</div>
+</div>
+<!-- UPGRADE: 断熱材 + 空間改善 -->
+<div class="s">
+<div class="w r">
+<p class="label" data-en="05 · Insulation Material Upgrade">05 · 断熱材アップグレード</p>
+<h2 data-en="Not EPS, but rather">EPSじゃなく、<span data-en='Create "breathing" insulation.' style="color:var(--gold)">「呼吸する」断熱にする。</span></h2>
+<p class="sub" data-en="Standard SIPs EPS core offers superior airtightness but does not allow moisture vapor transmission. In Hokkaido's high-humidity climate, upgrading to moisture-regulating materials reduces condensation risk while significantly enhancing interior comfort.">標準SIPsのEPSコアは気密性が高い代わりに湿気を通さない。北海道の高湿度環境では、調湿性能のある素材に変えることで結露リスクを下げながら室内環境を格段に快適にできる。</p>
+<!-- Comparison header -->
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#111;border:1px solid #111;border-radius:14px;overflow:hidden;margin:20px 0">
+<!-- EPS standard -->
+<div style="background:#070707;padding:22px 18px">
+<div data-en="Standard EPS" style="font-size:9px;letter-spacing:.18em;color:#2a2a2a;text-transform:uppercase;font-weight:700;margin-bottom:14px">標準 EPS</div>
+<div style="font-size:13px;font-weight:700;color:#2e2e2e;margin-bottom:10px">¥800〜1,200円/m²</div>
+<ul style="list-style:none;display:grid;gap:6px;font-size:11px;color:#2a2a2a">
+<li data-en="Thermal Resistance R-28" style="display:flex;gap:6px"><span style="color:#4ade80">◎</span> 断熱性能 R-28</li>
+<li data-en="Readily available" style="display:flex;gap:6px"><span style="color:#4ade80">◎</span> 入手しやすい</li>
+<li data-en="Zero humidity regulation" style="display:flex;gap:6px"><span style="color:#f87171">✕</span> 調湿ゼロ</li>
+<li data-en="Condensation Risk Present" style="display:flex;gap:6px"><span style="color:#f87171">✕</span> 結露リスクあり</li>
+<li data-en="Waste materials treated as industrial waste" style="display:flex;gap:6px"><span style="color:#f87171">✕</span> 廃材は産廃扱い</li>
+</ul>
+</div>
+<!-- Cellulose -->
+<div style="background:#060606;padding:22px 18px;border-left:1px solid #111;border-right:1px solid #111">
+<div data-en="Cellulose fiber" style="font-size:9px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:14px">セルロースファイバー</div>
+<div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:10px">¥2,000〜3,500円/m²</div>
+<ul style="list-style:none;display:grid;gap:6px;font-size:11px;color:#888">
+<li data-en="Moisture Regulation MBV 2.0" style="display:flex;gap:6px"><span style="color:#4ade80">◎</span> 調湿 MBV 2.0</li>
+<li data-en="Insulation R-21 (150mm)" style="display:flex;gap:6px"><span style="color:#4ade80">◎</span> 断熱 R-21（150mm）</li>
+<li data-en="Sound Insulation Included" style="display:flex;gap:6px"><span style="color:#4ade80">◎</span> 防音効果あり</li>
+<li data-en="Disposal: Combustible Waste" style="display:flex;gap:6px"><span style="color:#4ade80">◎</span> 廃棄は可燃ゴミ</li>
+<li data-en="Blower Machine Required" style="display:flex;gap:6px"><span style="color:#c8a455">△</span> 吹込み機が必要</li>
+</ul>
+</div>
+<!-- Wood fiber -->
+<div style="background:#070707;padding:22px 18px">
+<div data-en="Wood Fiber Board" style="font-size:9px;letter-spacing:.18em;color:#888;text-transform:uppercase;font-weight:700;margin-bottom:14px">木質繊維ボード</div>
+<div style="font-size:13px;font-weight:700;color:#888;margin-bottom:10px">¥3,000〜5,000円/m²</div>
+<ul style="list-style:none;display:grid;gap:6px;font-size:11px;color:#666">
+<li data-en="Humidity Regulation MBV 2.5 (Highest)" style="display:flex;gap:6px"><span style="color:#4ade80">◎</span> 調湿 MBV 2.5（最高）</li>
+<li data-en="Thermal Mass Present (Phase Lag)" style="display:flex;gap:6px"><span style="color:#4ade80">◎</span> 蓄熱性あり（位相遅延）</li>
+<li data-en="Entirely Natural Materials" style="display:flex;gap:6px"><span style="color:#4ade80">◎</span> 完全自然素材</li>
+<li data-en="Cost is High" style="display:flex;gap:6px"><span style="color:#c8a455">△</span> 価格が高い</li>
+<li data-en="Domestic Sourcing: Moderately Challenging" style="display:flex;gap:6px"><span style="color:#c8a455">△</span> 国内調達やや難</li>
+</ul>
+</div>
+</div>
+<!-- Photo pair: cellulose + wood fiber -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;border-radius:14px;overflow:hidden;margin-bottom:20px">
+<div style="position:relative">
+<img alt="セルロースファイバー断熱材" data-en-alt="Cellulose Fiber Insulation" loading="lazy" src="img/insulation_cellulose.jpg" style="width:100%;height:260px;object-fit:cover;display:block"/>
+<div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(5,5,5,.95));padding:14px 16px">
+<p data-en="Cellulose fiber" style="font-size:9px;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:3px">セルロースファイバー</p>
+<p data-en="80% recycled newsprint. Absorbs moisture and releases it when dry. Exceptional air quality." style="font-size:11px;color:#888">新聞紙80%リサイクル。湿気を吸って、乾いたら放す。空気がうまい。</p>
+</div>
+</div>
+<div style="position:relative">
+<img alt="木質繊維断熱ボード" data-en-alt="Wood Fiber Insulation Board" loading="lazy" src="img/insulation_woodfiber.jpg" style="width:100%;height:260px;object-fit:cover;display:block"/>
+<div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(5,5,5,.95));padding:14px 16px">
+<p data-en="Wood Fiber Board" style="font-size:9px;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:3px">木質繊維ボード</p>
+<p data-en='The greatest advantage is "thermal lag"—delaying summer heat from reaching interior spaces.' style="font-size:11px;color:#888">夏の暑さが室内に届くのを遅らせる「位相遅延」が最大の武器。</p>
+</div>
+</div>
+</div>
+<!-- 調湿とは何か -->
+<div style="background:#060606;border:1px solid #111;border-radius:14px;padding:24px;margin-bottom:20px">
+<p data-en="What is MBV (Moisture Buffer Value)?" style="font-size:9px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:14px">MBV（Moisture Buffer Value）とは</p>
+<p data-en="An indicator (g/m²/%RH) of moisture the material can absorb and release in 24 hours. Higher values better smooth humidity fluctuations." style="font-size:13px;color:#888;line-height:2;margin-bottom:14px">素材が24時間で吸放湿できる水分量の指標（g/m²/%RH）。数値が高いほど湿度の変動を平滑化する。</p>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid #111;border-radius:10px;overflow:hidden">
+<div style="padding:16px;text-align:center;border-right:1px solid #111">
+<div style="font-size:16px;font-weight:800;color:#2e2e2e">0.1</div>
+<div data-en="EPS / XPS Glass" style="font-size:9px;color:#1e1e1e;margin-top:4px">EPS / XPS<br/>ガラス</div>
+</div>
+<div style="padding:16px;text-align:center;border-right:1px solid #111">
+<div data-en="0.5–1.0" style="font-size:16px;font-weight:800;color:#888">0.5〜1.0</div>
+<div data-en="Gypsum Board Concrete" style="font-size:9px;color:#444;margin-top:4px">石膏ボード<br/>コンクリート</div>
+</div>
+<div style="padding:16px;text-align:center;border-right:1px solid #111;background:rgba(200,164,85,.04)">
+<div data-en="1.5–2.0" style="font-size:16px;font-weight:800;color:var(--gold)">1.5〜2.0</div>
+<div data-en="Cellulose Diatomaceous Earth Plaster" style="font-size:9px;color:var(--gold);opacity:.7;margin-top:4px">セルロース<br/>珪藻土</div>
+</div>
+<div style="padding:16px;text-align:center;background:rgba(200,164,85,.06)">
+<div style="font-size:16px;font-weight:800;color:var(--gold)">2.0〜3.0</div>
+<div data-en="Wood Fiber Wool Insulation" style="font-size:9px;color:var(--gold);opacity:.7;margin-top:4px">木質繊維<br/>羊毛</div>
+</div>
+</div>
+</div>
+<div class="callout green">
+<p data-en="The core SIPs panels maintain structural performance with EPS while ensuring moisture regulation through layering. No need to restart everything—address it layer by layer."><strong data-en="SOLUNA Selection:">SOLUNAの選択：</strong>コアSIPsパネルはEPSのまま構造性能を維持し、<strong data-en="Interior finish layer (diatomaceous earth or lime plaster) combined with cellulose blown-in insulation">内側の仕上げ層（珪藻土 or 漆喰）とセルロース吹き込みの組み合わせ</strong>で調湿を確保する。全部をやり直す必要はない。レイヤーで対応する。</p>
+</div>
+</div>
+</div>
+<!-- 安く空間を上げる -->
+<div class="s">
+<div class="w r">
+<p class="label" data-en="06 · Five budget upgrades">06 · 格安アップグレード5選</p>
+<h2 data-en="Under ¥100,000">¥10万以下で、<span data-en="It becomes a different space." style="color:var(--gold)">別の空間になる。</span></h2>
+<p class="sub" data-en='Once insulation and airtightness are established, the remainder is simply "finishing." You need not use expensive materials—selecting the right materials for the right locations dramatically enhances the spatial quality.'>断熱と気密が決まれば、あとは「仕上げ」だ。高い素材を使わなくても、正しい素材を正しい場所に使えば空間の質は大きく変わる。</p>
+<!-- 01 珪藻土 -->
+<div style="margin-bottom:4px;border-radius:14px 14px 0 0;overflow:hidden;position:relative">
+<img alt="珪藻土仕上げの内壁" data-en-alt="Diatomaceous Earth Interior Wall Finish" loading="lazy" src="img/interior_kessodo.jpg" style="width:100%;height:300px;object-fit:cover;display:block;filter:brightness(.8)"/>
+<div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(5,5,5,.88) 0%,rgba(5,5,5,.2) 60%,transparent 100%)"></div>
+<div style="position:absolute;top:50%;left:28px;transform:translateY(-50%)">
+<p style="font-size:9px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:8px">01 — UPGRADE</p>
+<h3 data-en="Apply diatomaceous earth plaster. Walls breathe." style="font-size:clamp(1.2rem,3vw,1.7rem);color:#f0ece4;font-family:'Shippori Mincho B1',serif;font-weight:700;letter-spacing:-.02em;margin-bottom:8px">珪藻土を塗る。<br/>壁が呼吸する。</h3>
+<p data-en="MBV 1.5. One wall surface takes 3–5 hours; material cost ¥5,000–¥10,000. Air conditioning runtime noticeably decreases." style="font-size:12px;color:#888;max-width:280px;line-height:1.7">MBV 1.5。壁1面 3〜5時間、材料費¥5,000〜1万。エアコンの稼働時間が体感で減る。</p>
+</div>
+</div>
+<div style="background:#060606;border:1px solid #111;border-radius:0 0 14px 14px;padding:20px;margin-bottom:24px">
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+<div><div data-en="Material Costs" style="font-size:9px;color:#333;letter-spacing:.1em;margin-bottom:4px">材料費</div><div data-en="¥1,500–3,000 per m²" style="font-size:13px;font-weight:700;color:var(--gold)">¥1,500〜3,000/m²</div></div>
+<div><div data-en="DIY Difficulty Level" style="font-size:9px;color:#333;letter-spacing:.1em;margin-bottom:4px">DIY難易度</div><div data-en="★★☆☆☆ Easy" style="font-size:13px;font-weight:700;color:#4ade80">★★☆☆☆ 易</div></div>
+<div><div data-en="Effect" style="font-size:9px;color:#333;letter-spacing:.1em;margin-bottom:4px">効果</div><div data-en="Moisture Regulation + Odor Control" style="font-size:13px;font-weight:700;color:#888">調湿 + 消臭</div></div>
+</div>
+<p data-en="Pre-mixed diatomaceous earth (Limeworks, Shirasukazabe, etc.) applies easily with a trowel. For beginners, brush-finish is simpler and more expressive than smooth finish. For 26m², plan 50–70m² of wall coverage; material costs total approximately ¥100,000–150,000." style="font-size:12px;color:#444;line-height:1.85;margin-top:14px">既調合の珪藻土（ライムワークス、シラス壁など）はコテで塗るだけ。初心者は「なめらか仕上げ」より「刷毛引き」の方が簡単で味が出る。26m²なら壁全面で50〜70m²、材料費は合計¥10〜15万程度。</p>
+</div>
+<!-- 02 薪ストーブ -->
+<div style="margin-bottom:4px;border-radius:14px 14px 0 0;overflow:hidden;position:relative">
+<img alt="薪ストーブ — SIPsキャビン内" data-en-alt="Wood Stove — Inside SIPs Cabin" loading="lazy" src="img/interior_maki_stove.jpg" style="width:100%;height:300px;object-fit:cover;display:block;filter:brightness(.85)"/>
+<div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(5,5,5,.88) 0%,rgba(5,5,5,.2) 60%,transparent 100%)"></div>
+<div style="position:absolute;top:50%;left:28px;transform:translateY(-50%)">
+<p style="font-size:9px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:8px">02 — UPGRADE</p>
+<h3 data-en="A single wood stove reduces monthly heating costs to ¥10,000." style="font-size:clamp(1.2rem,3vw,1.7rem);color:#f0ece4;font-family:'Shippori Mincho B1',serif;font-weight:700;letter-spacing:-.02em;margin-bottom:8px">薪ストーブ一台で、<br/>暖房費が月¥1万になる。</h3>
+<p data-en="Firewood is affordable in Hokkaido. A used stove at ¥50,000 plus chimney work lasts 20 years." style="font-size:12px;color:#888;max-width:280px;line-height:1.7">北海道の薪は安い。中古ストーブ¥5万＋煙突工事で20年使える。</p>
+</div>
+</div>
+<div style="background:#060606;border:1px solid #111;border-radius:0 0 14px 14px;padding:20px;margin-bottom:24px">
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+<div><div data-en="Initial Investment" style="font-size:9px;color:#333;letter-spacing:.1em;margin-bottom:4px">初期費用</div><div data-en="¥150,000–300,000 (used ¥50,000+)" style="font-size:13px;font-weight:700;color:var(--gold)">¥15〜30万（中古¥5万〜）</div></div>
+<div><div data-en="Annual Fuel Cost" style="font-size:9px;color:#333;letter-spacing:.1em;margin-bottom:4px">年間燃料費</div><div style="font-size:13px;font-weight:700;color:#4ade80">¥5〜12万（薪自前なら¥0）</div></div>
+<div><div data-en="Humidity Control Performance" style="font-size:9px;color:#333;letter-spacing:.1em;margin-bottom:4px">湿度への効果</div><div data-en="Beware of excessive drying → Keep kettle permanently positioned" style="font-size:13px;font-weight:700;color:#888">過乾燥に注意 → ヤカン常設</div></div>
+</div>
+<p data-en="SIPs cabins offer superior insulation, so a compact system (5–8kW) is sufficient. Use double-insulated flue pipes to prevent tar accumulation from interior condensation. Source firewood through Work Parties from the forest—fuel costs become zero." style="font-size:12px;color:#444;line-height:1.85;margin-top:14px">SIPs小屋は高断熱なので小型（5〜8kW）で十分。煙突は二重断熱管を使うこと（内部結露でタールが垂れるのを防ぐ）。薪はWork Partyで山から切り出せば燃料費ゼロ。</p>
+</div>
+<!-- 03 杉無垢床 -->
+<div style="margin-bottom:4px;border-radius:14px 14px 0 0;overflow:hidden;position:relative">
+<img alt="杉無垢床材" data-en-alt="Solid cedar flooring" loading="lazy" src="img/interior_sugi_floor.jpg" style="width:100%;height:260px;object-fit:cover;display:block;filter:brightness(.85)"/>
+<div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(5,5,5,.85) 0%,rgba(5,5,5,.15) 60%,transparent 100%)"></div>
+<div style="position:absolute;top:50%;left:28px;transform:translateY(-50%)">
+<p style="font-size:9px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:8px">03 — UPGRADE</p>
+<h3 data-en="Cedar flooring also serves as insulation." style="font-size:clamp(1.1rem,2.8vw,1.6rem);color:#f0ece4;font-family:'Shippori Mincho B1',serif;font-weight:700;letter-spacing:-.02em;margin-bottom:8px">杉の床は、<br/>断熱材でもある。</h3>
+<p data-en="Thermal conductivity 0.12 W/mK—one-eighth that of concrete. Comfortable underfoot even barefoot." style="font-size:12px;color:#888;max-width:280px;line-height:1.7">熱伝導率0.12 W/mK。コンクリートの1/8。素足で踏んでも冷たくない。</p>
+</div>
+</div>
+<div style="background:#060606;border:1px solid #111;border-radius:0 0 14px 14px;padding:20px;margin-bottom:24px">
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+<div><div data-en="Material Costs" style="font-size:9px;color:#333;letter-spacing:.1em;margin-bottom:4px">材料費</div><div style="font-size:13px;font-weight:700;color:var(--gold)">¥3,000〜6,000/m²</div></div>
+<div><div data-en="Moisture Regulation MBV" style="font-size:9px;color:#333;letter-spacing:.1em;margin-bottom:4px">調湿 MBV</div><div style="font-size:13px;font-weight:700;color:#4ade80">1.2〜1.8</div></div>
+<div><div data-en="DIY Difficulty Level" style="font-size:9px;color:#333;letter-spacing:.1em;margin-bottom:4px">DIY難易度</div><div data-en="★★★☆☆ Moderate" style="font-size:13px;font-weight:700;color:#888">★★★☆☆ 中</div></div>
+</div>
+<p data-en="Hokkaido cedar (30 mm thickness) costs approximately ¥3,000/m². For 26 m² with approximately 20 m² of flooring, material costs are ¥60,000–80,000. DIY-compatible using nail-down flooring methods. Beeswax finish is recommended for durability and ease of repair." style="font-size:12px;color:#444;line-height:1.85;margin-top:14px">道産スギ（厚30mm）なら¥3,000/m²前後。26m²で床面積約20m²、材料費¥6〜8万。釘打ち工法（フローリングネイル）でDIY可能。塗装は蜜蝋ワックスを推奨（補修も蜜蝋を塗るだけ）。</p>
+</div>
+<!-- 04 竹炭パネル + 残り2つ をコンパクトに -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">
+<div style="border:1px solid #171717;border-radius:14px;padding:22px;background:var(--bg-soft)">
+<div data-en="04 — Install Bamboo Charcoal Panels" style="font-size:9px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:12px">04 — 竹炭パネルを仕込む</div>
+<p data-en="Lay one sheet of bamboo charcoal board inside walls or beneath the floor. Regulates humidity, eliminates odors, and absorbs formaldehyde. Available at home centers for ¥500–¥1,000 per sheet. For 26m², 10–15 sheets under the floor will suffice." style="font-size:12.5px;color:#888;line-height:1.9;margin-bottom:14px">壁の内側 or 床下に竹炭ボードを1枚敷く。調湿・消臭・ホルムアルデヒド吸着。ホームセンターで¥500〜1,000/枚。26m²なら床下に10〜15枚で十分。</p>
+<div style="display:flex;justify-content:space-between;font-size:11.5px;padding:7px 0;border-top:1px solid #111">
+<span data-en="Cost" style="color:#444">費用</span><span data-en="¥5,000–¥15,000" style="color:var(--gold);font-weight:600">¥5,000〜1.5万</span>
+</div>
+<div style="display:flex;justify-content:space-between;font-size:11.5px;padding:7px 0;border-top:1px solid #0e0e0e">
+<span style="color:#444">MBV</span><span data-en="2.0–3.0 (highest class)" style="color:#888">2.0〜3.0（最高クラス）</span>
+</div>
+<div style="display:flex;justify-content:space-between;font-size:11.5px;padding:7px 0;border-top:1px solid #0e0e0e">
+<span data-en="Difficulty Level" style="color:#444">難易度</span><span data-en="★☆☆☆☆ Simply place" style="color:#4ade80">★☆☆☆☆ 置くだけ</span>
+</div>
+</div>
+<div style="border:1px solid #171717;border-radius:14px;padding:22px;background:var(--bg-soft)">
+<div data-en="05 — High Sidelights" style="font-size:9px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:12px">05 — ハイサイドライト（高窓）</div>
+<p data-en='Add one to two small operable windows at height on the walls. When openable, natural ventilation occurs as "warm air rises and escapes," extending seasons without air conditioning and reducing mold risk.' style="font-size:12.5px;color:#888;line-height:1.9;margin-bottom:14px">壁の高い位置に小窓を1〜2枚追加。開閉式にすると「暖かい空気が上から抜ける」自然換気が成立する。エアコン不要の季節が増え、カビリスクが下がる。</p>
+<div style="display:flex;justify-content:space-between;font-size:11.5px;padding:7px 0;border-top:1px solid #111">
+<span data-en="Cost" style="color:#444">費用</span><span data-en="¥20,000–60,000 per location" style="color:var(--gold);font-weight:600">¥2〜6万/箇所</span>
+</div>
+<div style="display:flex;justify-content:space-between;font-size:11.5px;padding:7px 0;border-top:1px solid #0e0e0e">
+<span data-en="Effect" style="color:#444">効果</span><span data-en="Ventilation + Natural Light + Mold Prevention" style="color:#888">換気 + 採光 + カビ防止</span>
+</div>
+<div style="display:flex;justify-content:space-between;font-size:11.5px;padding:7px 0;border-top:1px solid #0e0e0e">
+<span data-en="Difficulty Level" style="color:#444">難易度</span><span data-en="★★★☆☆ (Opening Processing Required)" style="color:#888">★★★☆☆（開口加工必要）</span>
+</div>
+</div>
+</div>
+<!-- 総コスト表 -->
+<div style="border:1px solid rgba(200,164,85,.2);border-radius:14px;background:rgba(200,164,85,.03);overflow:hidden">
+<div data-en="Budget-Friendly Upgrades — What if you do everything together?" style="padding:11px 20px;background:rgba(200,164,85,.06);border-bottom:1px solid rgba(200,164,85,.15);font-size:9.5px;letter-spacing:.1em;color:#c8a455;font-weight:700;text-transform:uppercase">格安アップグレード — まとめて全部やると？</div>
+<div style="padding:20px">
+<div style="display:grid;gap:0">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #111;font-size:12.5px">
+<span data-en="Diatomaceous Earth Interior Walls (26 m² walls, 50 m² total)" style="color:#666">珪藻土 内壁全面（26m²・壁50m²）</span><span data-en="¥100,000–150,000" style="color:#bbb;font-weight:600">¥10〜15万</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #111;font-size:12.5px">
+<span data-en="Wood Stove (Used) + Chimney Installation" style="color:#666">薪ストーブ（中古）+ 煙突工事</span><span data-en="¥120,000–200,000" style="color:#bbb;font-weight:600">¥12〜20万</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #111;font-size:12.5px">
+<span data-en="Cedar Solid Flooring (20 m² / DIY Installation)" style="color:#666">杉無垢床（20m²・DIY施工）</span><span data-en="¥60,000–120,000" style="color:#bbb;font-weight:600">¥6〜12万</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #111;font-size:12.5px">
+<span data-en="Bamboo Charcoal Panels (Subfloor &amp; Walls)" style="color:#666">竹炭パネル（床下・壁）</span><span data-en="¥10,000–20,000" style="color:#bbb;font-weight:600">¥1〜2万</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #111;font-size:12.5px">
+<span data-en="High side-lights (2 locations)" style="color:#666">ハイサイドライト 2箇所</span><span data-en="¥50,000–120,000" style="color:#bbb;font-weight:600">¥5〜12万</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;font-size:14px;margin-top:4px;border-top:1px solid #222">
+<span data-en="Even if you do everything," style="color:var(--gold);font-weight:700">全部やっても</span>
+<span style="font-size:20px;font-weight:800;color:var(--gold)">¥34〜61万</span>
+</div>
+</div>
+<p data-en="Humidity control, heating, flooring, air quality, and ventilation—all addressed for a maximum ¥600,000. This is why total construction stays within ¥2,900,000–3,800,000." style="font-size:11px;color:#333;line-height:1.8;margin-top:4px">調湿・暖房・床・空気質・換気を全て手当てして、最大¥60万。これが建設費と合わせても¥290〜380万に収まる理由だ。</p>
+</div>
+</div>
+<div class="callout green" style="margin-top:20px">
+<p data-en="If this sequence is compromised, adding moisture-regulating materials will be meaningless. First, construct the box, seal it, and allow it to breathe. Only then invest in finishing materials."><strong data-en="The sequence is: Insulation → Airtightness → Ventilation → Moisture-Regulating Finish.">順番は：断熱→気密→換気→調湿仕上げ。</strong>この順が崩れると、調湿材を入れても意味がない。まず箱を作り、塞いで、呼吸させる。それから素材に投資する。</p>
+</div>
+</div>
+</div>
+<!-- COST BREAKDOWN -->
+<div class="s">
+<div class="w r">
+<p class="label" data-en="07 · Cost Breakdown">07 · 費用内訳</p>
+<h2 data-en="When you DIY">自作すると<span data-en="How much you'll save." style="color:var(--gold)">いくら安くなるか。</span></h2>
+<p class="sub" data-en="For 26m² units (3.6 × 7.2m). Foundation (pilings), electrical, and plumbing outsourced. Cost comparison when all other elements are self-built.">26m²ユニット（3.6×7.2m）の場合。基礎（杭）・電気・配管は外注前提。それ以外を自作した場合のコスト比較。</p>
+<div class="cost-grid">
+<div class="cost-col">
+<h4 class="gray" data-en="Consolidated Vendor Ordering">業者一括発注</h4>
+<div class="cost-item"><span class="ck" data-en="SIPs panels (factory precut)">SIPsパネル（工場プレカット）</span><span class="cv" data-en="¥1,200,000–¥1,500,000">¥120〜150万</span></div>
+<div class="cost-item"><span class="ck" data-en="Foundation (steel tube piles)">基礎（鋼管杭）</span><span class="cv">¥50〜70万</span></div>
+<div class="cost-item"><span class="ck" data-en="Assembly and construction">組立・建て方</span><span class="cv">¥60〜80万</span></div>
+<div class="cost-item"><span class="ck" data-en="Exterior (burned cedar)">外装（焼杉）</span><span class="cv">¥25〜40万</span></div>
+<div class="cost-item"><span class="ck" data-en="Windows &amp; Doors">サッシ・建具</span><span class="cv">¥30〜50万</span></div>
+<div class="cost-item"><span class="ck" data-en="Electrical and plumbing">電気・配管</span><span class="cv" data-en="¥400,000–600,000">¥40〜60万</span></div>
+<div class="cost-item"><span class="ck" data-en="Miscellaneous Expenses &amp; Management Fees">諸経費・管理費</span><span class="cv" data-en="¥200,000–¥300,000">¥20〜30万</span></div>
+<div class="cost-item total"><span class="ck" data-en="Total">合計</span><span class="cv" data-en="¥3,450,000–4,800,000" style="color:#888">¥345〜480万</span></div>
+</div>
+<div class="cost-col hl">
+<h4 class="gold" data-en="DIY (Electrical and Foundation Outsourced Only)">自作（電気・基礎のみ外注）</h4>
+<div class="cost-item"><span class="ck" data-en="SIPs panels (factory precut)">SIPsパネル（工場プレカット）</span><span class="cv gold" data-en="¥1,200,000–¥1,500,000">¥120〜150万</span></div>
+<div class="cost-item"><span class="ck" data-en="Foundation (Steel Pipe Pilings) — Outsourced">基礎（鋼管杭）外注</span><span class="cv gold">¥50〜70万</span></div>
+<div class="cost-item"><span class="ck" data-en="Assembly &amp; Raising (Self-built)">組立・建て方（自分たち）</span><span class="cv gold" data-en="¥0 (Tool Rental: ¥20,000)">¥0（工具レンタル ¥2万）</span></div>
+<div class="cost-item"><span class="ck" data-en="Exterior (burned cedar, self-assembled)">外装（焼杉 自作）</span><span class="cv gold">¥2〜4万</span></div>
+<div class="cost-item"><span class="ck" data-en="Windows and doors (owner-supplied)">サッシ・建具（施主支給）</span><span class="cv gold" data-en="¥200,000–350,000">¥20〜35万</span></div>
+<div class="cost-item"><span class="ck" data-en="Electrical &amp; Plumbing: Outsourced">電気・配管 外注</span><span class="cv gold" data-en="¥350,000–550,000">¥35〜55万</span></div>
+<div class="cost-item"><span class="ck" data-en="Consumables (Urethane, Tape, etc.)">消耗品（ウレタン・テープ等）</span><span class="cv gold" data-en="¥30,000–¥50,000">¥3〜5万</span></div>
+<div class="cost-item total"><span class="ck" data-en="Total" style="color:var(--gold)">合計</span><span class="cv gold" data-en="¥2,300,000–3,200,000">¥230〜320万</span></div>
+</div>
+</div>
+<div style="margin-top:16px;padding:18px 20px;background:rgba(200,164,85,.05);border:1px solid rgba(200,164,85,.2);border-radius:12px;text-align:center">
+<p data-en="Savings from DIY Construction:" style="font-size:13px;color:#888;line-height:1.9">自作による節約額：<strong data-en="¥1,000,000–1,600,000" style="font-size:20px;color:var(--gold)">¥100〜160万</strong><br/><span data-en="One Work Party generates savings equivalent to one entire residence. Those savings directly fund materials for the next residence." style="font-size:11px;color:#444">Work Party 1回で1棟分の節約が生まれる。節約分がそのまま次の棟の材料費になる。</span></p>
+</div>
+</div>
+</div>
+<!-- 法的事項 -->
+<div class="s">
+<div class="w r">
+<p class="label" data-en="08 · Legal Considerations">08 · 法的事項</p>
+<h2 data-en="Building in Hokkaido">北海道で建てるなら<span data-en="What You Need." style="color:var(--gold)">何が必要か。</span></h2>
+<p class="sub" data-en="Primary legal requirements for construction in Teshikaga, Hokkaido and the Kushiro region. SOLUNA has verified these matters. However, individual projects must be confirmed with qualified professionals.">弟子屈・釧路管内での建築に関する主な法的要件。SOLUNAが確認済みの事項を整理した。ただし個別案件は必ず専門家に確認すること。</p>
+<div class="legal-grid">
+<div class="legal-item ok">
+<div class="li-icon">✓</div>
+<div>
+<h4 data-en="Building Confirmation Application (over 10 m²)">建築確認申請（10m²超）</h4>
+<p data-en="Buildings exceeding 10 m² require building permits. SOLUNA's standard units (26 m²) fall under this requirement. Create architectural drawings and submit to the building inspection authority. Cost: ¥50,000–100,000. Hiring a designer for drawings costs ¥200,000–300,000.">10m²を超える建物は確認申請が必要。SOLUNAの標準ユニット（26m²）は対象。設計図面を作成し、確認検査機関に申請する。費用：¥5〜10万。設計士に依頼すれば図面作成込みで¥20〜30万。</p>
+</div>
+</div>
+<div class="legal-item ok">
+<div class="li-icon">✓</div>
+<div>
+<h4 data-en="Building on Agricultural or Wilderness Land">農地・原野での建築</h4>
+<p data-en="Target sites in Teshikaga, Hokkaido are either pre-converted agricultural land or classified as wilderness. For agricultural land, conversion approval from the Agricultural Committee is prerequisite. SOLUNA's Miruwa Grand site has completed conversion procedures.">弟子屈の対象地は農地転用済み or 原野扱いの土地。農地の場合は農地転用許可（農業委員会）が先決。SOLUNAの美留和グランド用地は転用手続き済み。</p>
+</div>
+</div>
+<div class="legal-item warn">
+<div class="li-icon">△</div>
+<div>
+<h4 data-en="Class 2 Electrical Contractor License">第二種電気工事士 資格</h4>
+<p data-en="Standard residential electrical wiring (main panel to outlets and lighting) may only be installed by licensed professionals. SOLUNA owners pursuing this qualification are welcome. Certification requires 3–6 months of coursework and practical training. Exam fee: ¥9,600. Practical materials: ¥20,000–30,000.">一般住宅の電気配線（分電盤〜コンセント・照明）は資格者のみ施工可。SOLUNAオーナーで取得を目指す人は歓迎。学科+実技で取得まで3〜6ヶ月。受験費用：¥9,600。実技材料：¥2〜3万。</p>
+</div>
+</div>
+<div class="legal-item warn">
+<div class="li-icon">△</div>
+<div>
+<h4 data-en="If Leasing as Airbnb — Lodging Business Law">Airbnbとして貸す場合 — 旅館業法</h4>
+<p data-en="Lodging charges require either a Simple Lodging Facility license under the Hotel Industry Law or registration under the Residential Accommodation Business Law (Private Lodging Law). Teshikaga Town requires confirmation of private lodging ordinances. SOLUNA's operating company (Enabler Inc.) obtains all licenses collectively. Individual units do not require separate licenses (delegated operations).">宿泊料を取るには旅館業法の簡易宿所営業許可、または住宅宿泊事業法（民泊法）の届出が必要。弟子屈町は民泊条例の確認要。SOLUNAは運営会社（Enabler）が一括取得。個人棟は取得不要（委託運営のため）。</p>
+</div>
+</div>
+<div class="legal-item ok">
+<div class="li-icon">✓</div>
+<div>
+<h4 data-en="Hokkaido Insulation Standards (Energy Efficiency Act)">北海道の断熱基準（省エネ法）</h4>
+<p data-en="Hokkaido falls within Energy Efficiency Law Zones 1–2, requiring envelope performance standards (UA value ≤0.46). SIPs 150mm achieves approximately UA 0.3, significantly exceeding the standard. Energy efficiency calculations are attached to the building confirmation application.">北海道は省エネ法地域区分 1〜2地域。外皮性能基準（UA値0.46以下）が求められる。SIPs 150mmはUA値0.3前後を達成できるため基準を大幅にクリア。省エネ計算書は確認申請に添付。</p>
+</div>
+</div>
+</div>
+<div class="callout warn">
+<p data-en="The above is reference information. Building confirmation, agricultural land conversion, and lodging business law procedures vary by local authority. SOLUNA plans to provide application support in coordination with architects.">上記は参考情報です。建築確認・農地転用・旅館業法の手続きは行政によって異なります。<strong data-en="Please consult with an architect, administrative scrivener, and your local administrative office.">必ず建築士・行政書士・管轄行政窓口に確認してください。</strong> SOLUNAは設計士と連携した申請サポートを提供する予定です。</p>
+</div>
+</div>
+</div>
+<!-- FOAM PHOTO BREAK -->
+<div style="margin:0;position:relative;overflow:hidden;max-height:340px">
+<img alt="SIPsパネル接合部への発泡ウレタン充填" data-en-alt="Spray Foam Insulation at SIPs Panel Joints" loading="lazy" src="img/sips_diy_foam.jpg" style="width:100%;height:340px;object-fit:cover;display:block;filter:brightness(.75)"/>
+<div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(5,5,5,.85) 0%,rgba(5,5,5,.3) 60%,transparent 100%);pointer-events:none"></div>
+<div style="position:absolute;top:50%;left:28px;transform:translateY(-50%);max-width:380px">
+<p data-en="Core of Airtightness · FOAM SEALING" style="font-size:9px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;font-weight:700">気密の核 · FOAM SEALING</p>
+<p data-en="With spray polyurethane applied, Hokkaido winters are no concern." style="font-size:17px;font-weight:700;color:#f0ece4;line-height:1.4;font-family:'Shippori Mincho B1',serif">発泡ウレタンを打てば、<br/>北海道の冬は関係ない。</p>
+<p data-en="A 1mm gap in panel joints costs ¥100,000 annually in heating. Do not spare on sealing." style="font-size:12px;color:#888;margin-top:10px;line-height:1.7">パネル接合部の1mm隙間が、年間10万円の暖房費になる。充填は惜しまない。</p>
+</div>
+</div>
+<!-- FINAL CTA -->
+<div style="padding:100px 20px;text-align:center;background:radial-gradient(ellipse at center,rgba(200,164,85,.06),transparent 60%)">
+<div class="w r">
+<p style="font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:rgba(200,164,85,.4);margin-bottom:20px;font-weight:700">SOLUNA — Work Party</p>
+<h2 data-en="Within the Walls You Built" style="font-size:clamp(1.7rem,5vw,2.8rem);margin-bottom:14px;letter-spacing:-.02em;line-height:1.15">自分が建てた壁の中で<br/><em data-en="Rest." style="color:var(--gold);font-style:normal">眠る。</em></h2>
+<p data-en="The memory of building it with your own hands lasts far longer than saving ¥1,000,000." style="color:#555;font-size:14px;line-height:2.2;max-width:420px;margin:0 auto 36px;font-family:'Shippori Mincho B1',serif">¥100万を節約することより、<br/>自分の手で建てたことの方が<br/>ずっと長く記憶に残る。</p>
+<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+<a class="cta-btn" data-en="Join a Work Party →" href="workparty">Work Party に参加 →</a>
+<a class="cta-ghost" data-en="Explore SIPs Method in Detail" href="sips">SIPs工法を詳しく見る</a>
+</div>
+</div>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 100-Person Village, 8 Structures · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Biruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="View All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-term ownership plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Share Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Units for Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plan Collection" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Building Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information and Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fees" href="management-fee">管理費</a>
+<a data-en="Personal Consultation" href="call">個別相談</a>
+<a data-en="Contact us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+(function(){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in'); });
+  },{threshold:.08});
+  document.querySelectorAll('.r').forEach(function(el){ io.observe(el); });
+})();
+document.getElementById('gnav-ham').addEventListener('click', function(){
+  document.getElementById('gnav-links').classList.toggle('open');
+});
+</script>
+<script src="/nav.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

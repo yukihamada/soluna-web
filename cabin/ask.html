@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SOLUNA に相談する</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23c8a455'/></svg>">
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.12);
+  --gold-border:rgba(200,164,85,.3);
+  --bg:#050505;
+  --bg3:#111;
+  --line:#1a1a1a;
+  --text:#f0ece4;
+  --dim:#555;
+  --mid:#888;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,'Helvetica Neue','Hiragino Sans',sans-serif;-webkit-font-smoothing:antialiased}
+body{display:flex;flex-direction:column;max-width:680px;margin:0 auto;height:100dvh}
+
+/* HEADER */
+.hd{flex:0 0 auto;height:52px;display:flex;align-items:center;padding:0 16px;border-bottom:1px solid var(--line);background:rgba(5,5,5,.92);backdrop-filter:blur(20px);gap:10px}
+.hd-logo{font-size:11px;font-weight:800;letter-spacing:.25em;color:var(--gold)}
+.hd-sep{color:var(--dim);font-size:12px}
+.hd-title{font-size:13px;font-weight:600;color:var(--text);opacity:.7}
+.hd-user{margin-left:auto;font-size:10px;color:var(--dim);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* CHAT */
+.chat-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.msgs{flex:1;overflow-y:auto;padding:16px 16px 8px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
+.msgs::-webkit-scrollbar{width:3px}
+.msgs::-webkit-scrollbar-thumb{background:#1a1a1a;border-radius:3px}
+.bubble{max-width:85%;padding:11px 14px;border-radius:16px;font-size:14px;line-height:1.7;word-break:break-word;white-space:pre-wrap}
+.bubble.user{align-self:flex-end;background:var(--gold);color:#050505;border-radius:16px 16px 4px 16px;font-weight:500}
+.bubble.ai{align-self:flex-start;background:var(--bg3);color:var(--text);border:1px solid var(--line);border-radius:16px 16px 16px 4px}
+.ai-label{font-size:9px;letter-spacing:.12em;color:var(--gold);margin-bottom:5px;font-weight:700}
+.bubble.typing{color:var(--dim);font-style:italic}
+
+/* INPUT */
+.input-wrap{flex:0 0 auto;padding:12px 16px;padding-bottom:max(12px,env(safe-area-inset-bottom));border-top:1px solid var(--line);display:flex;gap:8px;background:var(--bg)}
+.inp{flex:1;padding:12px 14px;background:var(--bg3);border:1px solid var(--line);border-radius:12px;color:var(--text);font-size:14px;outline:none;font-family:inherit;resize:none;height:44px;max-height:100px;overflow-y:auto;transition:border-color .2s}
+.inp:focus{border-color:var(--gold-border)}
+.send-btn{width:44px;height:44px;border-radius:12px;background:var(--gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s}
+.send-btn:disabled{opacity:.3;cursor:not-allowed}
+.send-btn svg{width:18px;height:18px;fill:#050505}
+
+/* AUTH MODAL */
+.auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.auth-overlay.show{opacity:1;pointer-events:all}
+.auth-sheet{background:#0d0d0d;border:1px solid var(--line);border-radius:20px 20px 0 0;padding:28px 24px 32px;width:100%;max-width:680px;display:flex;flex-direction:column;gap:14px;transform:translateY(20px);transition:transform .25s}
+.auth-overlay.show .auth-sheet{transform:translateY(0)}
+.auth-sheet-title{font-size:15px;font-weight:800;letter-spacing:-.02em}
+.auth-sheet-sub{font-size:12px;color:var(--mid);line-height:1.7}
+.auth-pending{background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--gold);line-height:1.6}
+.auth-pending b{display:block;font-size:9px;letter-spacing:.1em;margin-bottom:3px;opacity:.7}
+.auth-input{padding:13px 15px;background:#141414;border:1px solid var(--line);border-radius:12px;color:var(--text);font-size:15px;font-family:inherit;outline:none;transition:border-color .2s;width:100%}
+.auth-input:focus{border-color:var(--gold-border)}
+.auth-btn{padding:14px;background:var(--gold);color:#050505;font-weight:800;font-size:14px;border:none;border-radius:12px;cursor:pointer;font-family:inherit;transition:opacity .2s;letter-spacing:.02em}
+.auth-btn:disabled{opacity:.35;cursor:not-allowed}
+.auth-msg{font-size:11px;color:var(--mid);min-height:14px}
+.auth-cancel{font-size:11px;color:var(--dim);background:none;border:none;cursor:pointer;font-family:inherit;align-self:center;text-decoration:underline}
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <span class="hd-logo">SOLUNA</span>
+  <span class="hd-sep">/</span>
+  <span class="hd-title">AI相談</span>
+  <span class="hd-user" id="hd-user"></span>
+</div>
+
+<div class="chat-wrap">
+  <div class="msgs" id="msgs">
+    <div class="bubble ai"><div class="ai-label">SOLUNA AI</div>こんにちは。物件・購入・宿泊・SOLUNA NEUROなど、なんでもお聞きください。</div>
+  </div>
+  <div class="input-wrap">
+    <textarea class="inp" id="inp" placeholder="質問を入力…" rows="1" onkeydown="handleKey(event)" oninput="autoGrow(this)"></textarea>
+    <button class="send-btn" id="send-btn" onclick="send()" disabled>
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Auth modal (shown on send when not logged in) -->
+<div class="auth-overlay" id="auth-overlay">
+  <div class="auth-sheet">
+    <div class="auth-sheet-title">メール認証が必要です</div>
+    <p class="auth-sheet-sub">質問を保存・送信するにはメールアドレスで認証してください。</p>
+
+    <div class="auth-pending" id="auth-pending-q" style="display:none">
+      <b>送信待ちの質問</b>
+      <span id="auth-pending-text"></span>
+    </div>
+
+    <div id="auth-email-step" style="display:flex;flex-direction:column;gap:10px">
+      <input class="auth-input" id="auth-email" type="email" placeholder="メールアドレス" autocomplete="email">
+      <button class="auth-btn" id="auth-email-btn" onclick="authSendOTP()">コードを送る</button>
+      <p class="auth-msg" id="auth-msg"></p>
+    </div>
+
+    <div id="auth-otp-step" style="display:none;flex-direction:column;gap:10px">
+      <input class="auth-input" id="auth-otp" type="text" placeholder="6桁のコード" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+      <button class="auth-btn" id="auth-otp-btn" onclick="authVerifyOTP()">認証して送信</button>
+      <p class="auth-msg" id="auth-otp-msg"></p>
+    </div>
+
+    <button class="auth-cancel" onclick="closeAuth()">キャンセル</button>
+  </div>
+</div>
+
+<script>
+const API = "";
+const urlQ = new URLSearchParams(location.search).get("q") || "";
+let token = localStorage.getItem("sln_token") || "";
+let userEmail = "";
+let chatHistory = [];
+let busy = false;
+let pendingMsg = ""; // message buffered while waiting for auth
+
+// ── BOOT ──────────────────────────────────────────────────────────────
+const inp = document.getElementById("inp");
+const sendBtn = document.getElementById("send-btn");
+inp.disabled = false;
+
+if (token) {
+  fetch(`${API}/api/soluna/me`, { headers: { Authorization: `Bearer ${token}` } })
+    .then(r => {
+      if (!r.ok) { localStorage.removeItem("sln_token"); token = ""; return; }
+      return r.json();
+    })
+    .then(d => {
+      if (!d) return;
+      userEmail = d.member?.email || "";
+      document.getElementById("hd-user").textContent = userEmail;
+      // Auto-send ?q= param once login is confirmed
+      // Note: inp.value is set synchronously below, so check urlQ (not inp.value) here
+      if (urlQ) setTimeout(() => send(), 200);
+    })
+    .catch(() => {});
+}
+
+// Pre-fill ?q= param
+if (urlQ) {
+  inp.value = urlQ;
+  autoGrow(inp);
+  sendBtn.disabled = false;
+}
+
+// ── SEND ──────────────────────────────────────────────────────────────
+function send() {
+  const text = inp.value.trim();
+  if (!text || busy) return;
+  if (!token) {
+    // Buffer the message and show auth modal
+    pendingMsg = text;
+    document.getElementById("auth-pending-text").textContent = text;
+    document.getElementById("auth-pending-q").style.display = "";
+    showAuth();
+    return;
+  }
+  doSend(text);
+}
+
+async function doSend(text) {
+  busy = true;
+  inp.value = ""; autoGrow(inp);
+  sendBtn.disabled = true;
+
+  addBubble(text, "user");
+  chatHistory.push({ role: "user", content: text });
+
+  const typingId = "t" + Date.now();
+  addBubble("…", "ai typing", typingId);
+
+  try {
+    const headers = { "Content-Type": "application/json" };
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    const r = await fetch(`${API}/api/soluna/chat`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ message: text, history: chatHistory.slice(-8) })
+    });
+    const d = await r.json();
+    const reply = d.reply || "エラーが発生しました。";
+    chatHistory.push({ role: "assistant", content: reply });
+
+    const el = document.getElementById(typingId);
+    if (el) {
+      el.classList.remove("typing");
+      el.innerHTML = `<div class="ai-label">SOLUNA AI</div>` +
+        reply.replace(/</g, "&lt;").replace(/\n/g, "<br>")
+             .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    }
+  } catch {
+    const el = document.getElementById(typingId);
+    if (el) el.textContent = "通信エラーが発生しました。";
+  } finally {
+    busy = false;
+    sendBtn.disabled = false;
+    inp.focus();
+  }
+}
+
+// ── AUTH MODAL ────────────────────────────────────────────────────────
+function showAuth() {
+  document.getElementById("auth-overlay").classList.add("show");
+  document.getElementById("auth-email").value = "";
+  document.getElementById("auth-msg").textContent = "";
+  document.getElementById("auth-otp-step").style.display = "none";
+  document.getElementById("auth-email-step").style.display = "flex";
+  setTimeout(() => document.getElementById("auth-email").focus(), 300);
+}
+
+function closeAuth() {
+  document.getElementById("auth-overlay").classList.remove("show");
+  pendingMsg = "";
+  document.getElementById("auth-pending-q").style.display = "none";
+}
+
+async function authSendOTP() {
+  const email = document.getElementById("auth-email").value.trim();
+  if (!email) return;
+  const btn = document.getElementById("auth-email-btn");
+  btn.disabled = true;
+  document.getElementById("auth-msg").textContent = "送信中…";
+  try {
+    const r = await fetch(`${API}/api/soluna/otp`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email })
+    });
+    if (!r.ok) throw new Error((await r.json()).error);
+    document.getElementById("auth-email-step").style.display = "none";
+    const otpStep = document.getElementById("auth-otp-step");
+    otpStep.style.display = "flex";
+    document.getElementById("auth-otp-msg").textContent = `${email} にコードを送りました`;
+    document.getElementById("auth-otp").value = "";
+    document.getElementById("auth-otp").focus();
+  } catch(e) {
+    document.getElementById("auth-msg").textContent = e.message || "送信エラー";
+    btn.disabled = false;
+  }
+}
+
+async function authVerifyOTP() {
+  const email = document.getElementById("auth-email").value.trim();
+  const code = document.getElementById("auth-otp").value.trim();
+  const btn = document.getElementById("auth-otp-btn");
+  btn.disabled = true;
+  document.getElementById("auth-otp-msg").textContent = "確認中…";
+  try {
+    const r = await fetch(`${API}/api/soluna/verify`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, code })
+    });
+    if (!r.ok) throw new Error((await r.json()).error);
+    const d = await r.json();
+    token = d.token;
+    localStorage.setItem("sln_token", token);
+    userEmail = email;
+    document.getElementById("hd-user").textContent = email;
+    document.getElementById("auth-overlay").classList.remove("show");
+    // Send the buffered message
+    if (pendingMsg) {
+      inp.value = "";
+      const msg = pendingMsg;
+      pendingMsg = "";
+      document.getElementById("auth-pending-q").style.display = "none";
+      doSend(msg);
+    }
+  } catch(e) {
+    document.getElementById("auth-otp-msg").textContent = e.message || "認証エラー";
+    btn.disabled = false;
+  }
+}
+
+// Close modal on overlay click
+document.getElementById("auth-overlay").addEventListener("click", e => {
+  if (e.target === document.getElementById("auth-overlay")) closeAuth();
+});
+
+// Keyboard shortcuts in auth modal
+document.getElementById("auth-email").addEventListener("keydown", e => { if (e.key === "Enter") authSendOTP(); });
+document.getElementById("auth-otp").addEventListener("keydown", e => { if (e.key === "Enter") authVerifyOTP(); });
+
+// ── HELPERS ───────────────────────────────────────────────────────────
+function addBubble(text, cls, id) {
+  const msgs = document.getElementById("msgs");
+  const el = document.createElement("div");
+  el.className = "bubble " + cls;
+  if (id) el.id = id;
+  if (cls.includes("user")) {
+    el.textContent = text;
+  } else {
+    el.innerHTML = `<div class="ai-label">SOLUNA AI</div>${text.replace(/</g, "&lt;")}`;
+  }
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+  return el;
+}
+
+function handleKey(e) {
+  if (e.key === "Enter" && !e.shiftKey && !e.isComposing) {
+    e.preventDefault();
+    send();
+  }
+}
+
+function autoGrow(el) {
+  el.style.height = "auto";
+  el.style.height = Math.min(el.scrollHeight, 100) + "px";
+  sendBtn.disabled = !el.value.trim();
+}
+</script>
+</body>
+</html>

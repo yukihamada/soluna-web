@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/terms" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="Terms of Use — SOLUNA">利用規約 — SOLUNA</title>
+<meta content="SOLUNAの利用規約。共同所有権の売買、オーナー権利・義務、禁止事項。" data-en-content="SOLUNA Terms of Service. Co-ownership rights sales, owner rights and obligations, prohibited activities." name="description"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2020/svg' viewBox='0 0 64 64'&gt;&lt;rect width='64' height='64' rx='14' fill='%23050505'/&gt;&lt;circle cx='32' cy='32' r='20' fill='none' stroke='%23c8a455' stroke-width='2.5'/&gt;&lt;circle cx='32' cy='20' r='5' fill='%23c8a455'/&gt;&lt;path d='M20 38 Q32 28 44 38' fill='none' stroke='%23c8a455' stroke-width='2' stroke-linecap='round'/&gt;&lt;path d='M24 44 Q32 36 40 44' fill='none' stroke='%23c8a455' stroke-width='1.5' stroke-linecap='round'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--bg:#050505;--bg2:#080808;--line:#1a1a1a;--text:#f0ece4;--dim:#777}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:'palt';line-height:1.85}
+a{color:var(--gold);text-decoration:none}
+.gnav{position:fixed;top:0;left:0;right:0;height:48px;background:rgba(5,5,5,.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:1000}
+.gnav-logo{font-size:15px;font-weight:700;letter-spacing:.12em;color:var(--gold)!important}
+.gnav-links{display:flex;align-items:center;gap:22px}
+.gnav-links a{font-size:13px;color:#888;transition:color .2s}
+.gnav-links a:hover{color:var(--gold)}
+.gnav-links a.gnav-cta{color:var(--gold)!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px}
+.gnav-links a.gnav-cta:hover{background:var(--gold);color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888}
+@media(max-width:680px){.gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}.gnav-links.open{display:flex}.gnav-ham{display:flex}}
+.hero{padding:64px 24px 48px;text-align:center}
+.hero h1{font-size:clamp(20px,3vw,32px);font-weight:800;margin-bottom:10px}
+.hero p{font-size:14px;color:var(--dim)}
+.body{padding:0 24px 80px}
+.doc{max-width:680px;margin:0 auto}
+h2{font-size:15px;font-weight:700;color:var(--gold);margin:36px 0 12px;padding-top:8px;border-top:1px solid var(--line)}
+h2:first-child{border-top:none;margin-top:0}
+p{font-size:14px;color:#ccc;margin-bottom:10px}
+ul{font-size:14px;color:#ccc;padding-left:20px;margin-bottom:10px}
+ul li{margin-bottom:6px}
+footer{border-top:1px solid var(--line);padding:40px 24px;text-align:center;color:var(--dim);font-size:12px;line-height:2}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
+</nav>
+<div class="hero">
+<h1 data-en="Terms of Use">利用規約</h1>
+<p data-en="Enabler Inc. — Last Updated April 2026">Enabler Inc. — 最終更新 2026年4月</p>
+</div>
+<div class="body">
+<div class="doc">
+<h2 data-en="Article 1 (Application)">第1条（適用）</h2>
+<p data-en='These Terms establish the conditions for using the real estate co-ownership service ("the Service") provided through SOLUNA (solun.art), operated by Enabler Inc. ("the Company"). Application as an Owner constitutes acceptance of these Terms.'>本規約は、Enabler Inc.（以下「当社」）が運営するSOLUNA（solun.art）を通じて提供する不動産共同所有サービス（以下「本サービス」）の利用条件を定めます。オーナーとしての申込みをもって本規約に同意したものとみなします。</p>
+<h2 data-en="Article 2 (Definitions)">第2条（定義）</h2>
+<ul>
+<li data-en='"Properties": Real estate in Teshikaga, Hokkaido acquired or developed by the Company (TAPKOP, Biruyuwa Grand, THE LODGE, and others)'>「物件」：当社が取得・開発した北海道弟子屈町の不動産（TAPKOP、美留和グランド、THE LODGEほか）</li>
+<li data-en='"Ownership Interest": Co-ownership interest in each Property (based on Civil Code co-ownership provisions)'>「持分権」：各物件の共有持分（民法の共有規定に基づく）</li>
+<li data-en='"Owner": A person who has acquired an ownership interest'>「オーナー」：持分権を取得した者</li>
+<li data-en='"Units": Minimum unit of ownership interest purchase (set per Property)'>「口数」：持分購入の最小単位（物件ごとに設定）</li>
+</ul>
+<h2 data-en="Article 3 (Acquisition of Ownership Interest)">第3条（持分権の取得）</h2>
+<p data-en="Upon signing the application form and purchase agreement and making full payment, the Owner acquires the right to file an application for transfer registration of the ownership interest. Upon completion of registration, the Owner becomes the legal proprietor.">オーナーは申込書・売買契約書への署名および代金の全額支払いをもって、持分権の移転登記申請を受ける権利を取得します。登記完了後、法的な所有者となります。</p>
+<h2 data-en="Article 4 (Payment and Payment Methods)">第4条（代金・支払方法）</h2>
+<p data-en="Payment is based on prices determined by the Company (bonding curve methodology). Payment methods are as follows.">代金は当社が定める価格（ボンディングカーブ方式）によります。支払方法は以下のとおりです。</p>
+<ul>
+<li data-en="Bank Transfer (transfer fees borne by Owner)">銀行振込（振込手数料はオーナー負担）</li>
+<li data-en="USDC (Solana Network)">USDC（Solanaネットワーク）</li>
+<li data-en="Other methods individually approved by the Company">その他当社が個別に認める方法</li>
+</ul>
+<h2 data-en="Article 5 (Owner Rights)">第5条（オーナーの権利）</h2>
+<ul>
+<li data-en="Priority Reservation Allocation Based on Units (annual nights determined separately by property)">口数に応じた優先予約枠（年間泊数は物件ごとに別途定める）</li>
+<li data-en="A portion of operating revenues may be distributed in proportion to ownership units (details outlined in property-specific agreements; revenue is not guaranteed).">稼働収益の一部を口数に応じて分配する場合があります（詳細は物件別の個別契約書に記載。収益の保証はありません）</li>
+<li data-en="Right to Participate in Work Parties">Work Partyへの参加権</li>
+<li data-en="Voting Rights on Material Matters (1 unit = 1 vote)">重要事項に関する議決権（1口 = 1票）</li>
+<li data-en="Referral Rewards (1% of referred owner's purchase amount, subject to individual agreement)">紹介報酬（紹介オーナーの購入額の1%、個別合意に基づく）</li>
+</ul>
+<h2 data-en="Article 6 (Owner Obligations)">第6条（オーナーの義務）</h2>
+<ul>
+<li data-en="Comply with these Terms and facility usage rules as separately established by the Company">本規約および当社が別途定める施設利用ルールを遵守すること</li>
+<li data-en="Act with integrity toward other Owners and Guests">他のオーナーおよびゲストに対して誠実に行動すること</li>
+<li data-en="Use facilities and equipment appropriately and promptly notify the Company of any damage">施設・設備を適切に使用し、損傷した場合は速やかに通知すること</li>
+<li data-en="Owners must notify the Company in advance when transferring ownership interests to third parties">持分権を第三者に譲渡する際は事前に当社へ通知すること</li>
+</ul>
+<h2 data-en="Article 7 (Prohibited Activities)">第7条（禁止事項）</h2>
+<ul>
+<li data-en="Unauthorized subletting or re-leasing of facilities">施設の無断転貸・又貸し</li>
+<li data-en="Conduct that causes nuisance to other Owners or Guests">他のオーナー・ゲストへの迷惑行為</li>
+<li data-en="Illegal activities within the facilities">施設内での違法行為</li>
+<li data-en="Pledging ownership interests as collateral without prior written consent from the Company">当社の事前承諾なしに持分権を担保に供すること</li>
+<li data-en="Solicitation or promotional activities using the SOLUNA brand without authorization">SOLUNAブランドを無断で使用した勧誘・宣伝活動</li>
+</ul>
+<h2 data-en="Article 8 (Cancellation and Refunds)">第8条（キャンセル・返金）</h2>
+<p data-en="Cancellations are not accepted after the sales contract is finalized. The earnest money deposit is non-refundable but may be used as an equivalent accommodation credit across all properties.">売買契約成立後のキャンセルはお受けできません。手付金は返金不可ですが、同額の宿泊クレジットとして全物件でご利用いただけます。</p>
+<h2 data-en="Article 9 (Disclaimer)">第9条（免責）</h2>
+<p data-en="SOLUNA assumes no responsibility for facility usage restrictions resulting from natural disasters, administrative regulations, or other force majeure events. While historical performance is provided as reference information regarding revenue distribution, future earnings are not guaranteed.">当社は天災、行政の規制、その他不可抗力による施設の利用制限について責任を負いません。収益分配については過去実績を参考情報として提供しますが、将来の収益を保証するものではありません。</p>
+<h2 data-en="Article 10 (Governing Law &amp; Jurisdiction)">第10条（準拠法・裁判管轄）</h2>
+<p data-en="These Terms are governed by the laws of Japan. The Tokyo District Court shall have jurisdiction as the court of first instance for any disputes relating to these Terms.">本規約は日本法に準拠します。本規約に関する紛争の第一審は東京地方裁判所とします。</p>
+<h2 data-en="Article 11 (Amendment of Terms)">第11条（規約の変更）</h2>
+<p data-en="The Company may amend these Terms at any time. Material amendments will be notified in advance via email and the Owners Portal. Owners who continue to use the Service after amendments are deemed to have accepted the amended Terms.">当社は本規約を変更する場合があります。重要な変更はメールおよびオーナーズポータルで事前に通知します。変更後も本サービスを利用したオーナーは変更後の規約に同意したものとみなします。</p>
+<h2 data-en="Contact Us">お問い合わせ</h2>
+<p data-en="Inquiries regarding these Terms:">本規約に関するお問い合わせ：<a href="mailto:info@enablerdao.com">info@enablerdao.com</a></p>
+</div>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Birowa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Biruyuwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Biruyuwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Units Free of Charge" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plan Collection" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plans" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>document.getElementById('gnav-ham').onclick=function(){document.getElementById('gnav-links').classList.toggle('open')};</script>
+<script defer="" src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

@@ -51,6 +51,7 @@ export default function RootLayout({
         <SolanaProviders>
         {children}
         </SolanaProviders>
+        <Script defer src="https://enabler-analytics.fly.dev/t.js" strategy="afterInteractive" />
         {/* Google Analytics 4 (gtag.js) */}
         <Script
           strategy="afterInteractive"

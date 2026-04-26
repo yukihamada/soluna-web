@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLUNA — メンバーページ</title>
+<meta name="description" content="SOLUNAオーナー向けメンバーページ。物件情報・予約・収益レポートを確認できます。">
+<meta property="og:title" content="SOLUNA — オーナーメンバーページ">
+<meta property="og:description" content="SOLUNAオーナー向けメンバーページ。物件情報・予約・収益レポート。">
+<meta property="og:image" content="https://solun.art/img/kumaushi_aerial_dawn.webp">
+<meta property="og:url" content="https://solun.art/member">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://solun.art/img/kumaushi_aerial_dawn.webp">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050505;color:#f0ece4;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.w,.paywall-wrap{visibility:hidden}
+body.auth .w,body.auth .paywall-wrap{visibility:visible}
+body.auth #gate{display:none!important}
+.w{max-width:680px;margin:0 auto;padding:40px 20px}
+h1{font-size:20px;font-weight:700;margin-bottom:8px}
+h2{font-size:15px;font-weight:700;margin:32px 0 8px;color:#c8a455}
+p.sub{color:#555;font-size:13px;line-height:1.8;margin-bottom:20px}
+.gold{color:#c8a455}
+.sp{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #131313;font-size:13px}
+.sp .k{color:#555}.sp .v{font-weight:600}
+.cd{border:1px solid #171717;border-radius:10px;padding:20px;margin:8px 0}
+.cd h3{font-size:13px;font-weight:700;margin-bottom:8px}
+.btn{display:inline-block;background:#c8a455;color:#050505;font-weight:700;font-size:12px;padding:10px 24px;border-radius:100px;text-decoration:none;margin:4px 4px 4px 0}
+.btn:hover{opacity:.9;color:#050505}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:16px 0}
+.ig img{width:100%;height:160px;object-fit:cover;border-radius:5px}
+footer{text-align:center;padding:32px;font-size:9px;color:#1a1a1a;letter-spacing:.1em}
+.warn{font-size:10px;color:#555;margin-top:8px;line-height:1.7;font-style:italic}
+/* Gate */
+#gate{position:fixed;inset:0;background:#050505;display:flex;align-items:center;justify-content:center;z-index:99;padding:20px;overflow-y:auto}
+.gate-box{text-align:center;max-width:340px;width:100%;margin:auto}
+.gate-logo{font-size:12px;font-weight:800;letter-spacing:.22em;color:#c8a455;margin-bottom:20px}
+.gate-badge{display:inline-block;font-size:8.5px;letter-spacing:.25em;font-weight:700;background:rgba(200,164,85,.12);color:#c8a455;border:1px solid rgba(200,164,85,.25);padding:4px 12px;border-radius:100px;margin-bottom:14px}
+.gate-title{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.gate-sub{font-size:11px;color:#555;line-height:1.8;margin-bottom:24px}
+.gate-btn{width:100%;background:#c8a455;color:#050505;font-weight:800;font-size:13px;padding:14px;border:none;border-radius:10px;cursor:pointer;letter-spacing:.02em;transition:opacity .2s;margin-top:4px}
+.gate-btn:hover{opacity:.85}
+.gate-btn:disabled{opacity:.35;cursor:not-allowed}
+.gate-btn.secondary{background:#111;color:#888;border:1px solid #222;margin-top:8px;font-weight:700}
+.gate-btn.secondary:hover{border-color:#444;color:#bbb}
+.gate-input{width:100%;padding:13px 14px;border:1px solid #1e1e1e;border-radius:8px;background:#0c0c0c;color:#f0ece4;font-size:15px;text-align:center;margin-bottom:4px;outline:none;letter-spacing:.04em}
+.gate-input:focus{border-color:rgba(200,164,85,.5)}
+.gate-otp-input{font-size:22px;font-weight:700;letter-spacing:.2em}
+.gate-msg{margin-top:10px;font-size:11px;color:#555;line-height:1.7;min-height:16px}
+.gate-err{margin-top:8px;font-size:11px;color:#e05555;min-height:16px}
+.gate-back{display:block;margin-top:16px;font-size:11px;color:#333;cursor:pointer;text-decoration:underline}
+.gate-back:hover{color:#888}
+/* Paywall */
+#paywall{display:none;padding:32px 20px;max-width:680px;margin:0 auto}
+.pw-title{font-size:18px;font-weight:800;margin-bottom:6px}
+.pw-sub{font-size:12px;color:#555;line-height:1.8;margin-bottom:24px}
+.pw-spot{background:#0a0a0a;border:1px solid rgba(200,164,85,.2);border-radius:14px;padding:20px;margin-bottom:16px;text-align:center}
+.pw-spot h3{font-size:14px;font-weight:800;color:#c8a455;margin-bottom:6px}
+.pw-spot p{font-size:11.5px;color:#666;margin-bottom:14px;line-height:1.7}
+.pw-price{font-size:28px;font-weight:900;color:#c8a455;letter-spacing:-.03em;margin-bottom:14px}
+/* === TIER HIERARCHY === */
+.tier-wrap{background:linear-gradient(180deg,#0a0a0a,#060606);border:1px solid rgba(200,164,85,.12);border-radius:16px;padding:28px 24px 24px;margin-bottom:24px}
+.tier-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+.tier-eyebrow{font-size:8px;letter-spacing:.3em;color:#333;font-weight:700;text-transform:uppercase;margin-bottom:8px}
+.tier-cur-name{font-size:28px;font-weight:900;letter-spacing:-.03em;line-height:1;margin-bottom:6px}
+.tier-cur-sub{font-size:11px;color:#444;line-height:1.6}
+.tier-up-box{background:rgba(200,164,85,.06);border:1px solid rgba(200,164,85,.18);border-radius:12px;padding:16px 18px;min-width:170px}
+.tier-up-label{font-size:8px;letter-spacing:.25em;color:#555;margin-bottom:6px}
+.tier-up-name{font-size:15px;font-weight:900;color:#c8a455;margin-bottom:12px}
+.tier-up-act{display:block;background:#c8a455;color:#000;font-size:11px;font-weight:800;padding:10px;border-radius:8px;text-align:center;border:none;cursor:pointer;font-family:inherit;width:100%;text-decoration:none;transition:opacity .2s}
+.tier-up-act:hover{opacity:.85;color:#000}
+/* Track */
+.tier-track{display:flex;overflow-x:auto;padding-bottom:4px;gap:0;scrollbar-width:none}
+.tier-track::-webkit-scrollbar{display:none}
+.tier-node{flex:1;min-width:80px;display:flex;flex-direction:column;align-items:center;position:relative;padding:0 4px}
+.tier-node:not(:last-child)::after{content:'';position:absolute;top:13px;left:calc(50% + 14px);right:calc(-50% + 14px);height:2px;background:#181818;z-index:0}
+.tier-node.passed:not(:last-child)::after{background:linear-gradient(90deg,#c8a455,#2a2a2a)}
+.tier-dot{width:26px;height:26px;border-radius:50%;border:2px solid #1e1e1e;background:#0c0c0c;display:flex;align-items:center;justify-content:center;font-size:10px;margin-bottom:10px;position:relative;z-index:1;flex-shrink:0}
+.tier-node.passed .tier-dot{background:#c8a455;border-color:#c8a455;color:#000;font-size:12px}
+.tier-node.current .tier-dot{border-color:#c8a455;color:#c8a455;animation:tier-pulse 2.4s ease infinite}
+@keyframes tier-pulse{0%,100%{box-shadow:0 0 0 0 rgba(200,164,85,.35)}60%{box-shadow:0 0 0 8px rgba(200,164,85,0)}}
+.tier-node-name{font-size:8px;font-weight:800;letter-spacing:.12em;color:#252525;text-align:center;margin-bottom:3px;text-transform:uppercase}
+.tier-node.passed .tier-node-name{color:#666}
+.tier-node.current .tier-node-name{color:#c8a455}
+.tier-node-price{font-size:7.5px;color:#1e1e1e;text-align:center}
+.tier-node.current .tier-node-price{color:#444}
+.tier-node.passed .tier-node-price{color:#3a3a3a}
+.tier-node-perks{margin-top:6px;font-size:8px;color:#1e1e1e;line-height:1.85;text-align:center}
+.tier-node.passed .tier-node-perks{color:#3a3a3a}
+.tier-node.current .tier-node-perks{color:#666}
+/* Quick Actions CVR */
+.qa-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:32px}
+@media(max-width:480px){.qa-row{grid-template-columns:1fr}}
+.qa-card{background:#090909;border:1px solid #131313;border-radius:12px;padding:18px 14px;display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;transition:border-color .2s,background .2s}
+.qa-card:hover{border-color:rgba(200,164,85,.2);background:rgba(200,164,85,.03);color:inherit}
+.qa-card.qa-locked{opacity:.4;pointer-events:none}
+.qa-ico{font-size:22px;flex-shrink:0}
+.qa-title{font-size:12px;font-weight:700;margin-bottom:2px}
+.qa-sub{font-size:10px;color:#444}
+.qa-lock{margin-left:auto;font-size:8px;color:#2a2a2a;border:1px solid #181818;border-radius:4px;padding:2px 6px;white-space:nowrap;flex-shrink:0}
+
+/* Membership tiers */
+.mem-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+@media(max-width:520px){.mem-grid{grid-template-columns:1fr}}
+.mem-card{border:1px solid #141414;border-radius:12px;background:#080808;padding:16px;text-align:left;cursor:pointer;transition:border-color .2s}
+.mem-card:hover{border-color:rgba(200,164,85,.3)}
+.mem-card.popular{border-color:rgba(200,164,85,.3);background:linear-gradient(180deg,rgba(200,164,85,.05),#080808)}
+.mem-card .tier-name{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#555;margin-bottom:6px}
+.mem-card.popular .tier-name{color:#c8a455}
+.mem-card .tier-price{font-size:20px;font-weight:900;letter-spacing:-.02em;margin-bottom:4px}
+.mem-card .tier-per{font-size:9.5px;color:#444}
+.mem-card .tier-feats{list-style:none;margin-top:10px;font-size:10.5px;color:#555;line-height:1.9}
+.mem-card .tier-feats li::before{content:'✓ ';color:#c8a455}
+.mem-card .tier-feats.plain li::before{content:'— ';color:#2a2a2a}
+.mem-card .tier-btn{display:block;margin-top:12px;padding:9px;border:1px solid #222;border-radius:8px;font-size:11px;font-weight:700;color:#888;text-align:center;text-decoration:none;cursor:pointer;transition:all .2s}
+.mem-card.popular .tier-btn{background:rgba(200,164,85,.12);border-color:rgba(200,164,85,.3);color:#c8a455}
+.mem-card .tier-btn:hover{border-color:#555;color:#ccc}
+</style>
+  <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<div id="gate">
+  <!-- Step 1: Email input -->
+  <div id="gate-email" class="gate-box">
+    <div class="gate-logo">SOLUNA</div>
+    <div class="gate-badge">MEMBERS ONLY</div>
+    <div class="gate-title">メールアドレスを入力</div>
+    <div class="gate-sub">認証コードを送信します。<br>初回登録は<strong style="color:#c8a455">空き状況を1回無料</strong>でご確認いただけます。</div>
+    <input type="email" id="email-input" class="gate-input" placeholder="your@email.com"
+      onkeydown="if(event.key==='Enter')sendOtp()">
+    <button class="gate-btn" id="send-otp-btn" onclick="sendOtp()">認証コードを送る</button>
+    <div class="gate-err" id="email-err"></div>
+    <div class="gate-msg" id="email-msg"></div>
+  </div>
+
+  <!-- Step 2: OTP verification -->
+  <div id="gate-otp" class="gate-box" style="display:none">
+    <div class="gate-logo">SOLUNA</div>
+    <div class="gate-badge">認証コード</div>
+    <div class="gate-title">コードを入力</div>
+    <div class="gate-sub" id="otp-email-hint" style="margin-bottom:20px"></div>
+    <input type="text" id="otp-input" class="gate-input gate-otp-input" placeholder="000000"
+      maxlength="6" inputmode="numeric" onkeydown="if(event.key==='Enter')verifyOtp()">
+    <button class="gate-btn" id="verify-otp-btn" onclick="verifyOtp()">認証する</button>
+    <div class="gate-err" id="otp-err"></div>
+    <div class="gate-msg">コードが届かない場合は迷惑メールをご確認ください。</div>
+    <span class="gate-back" onclick="showEmailStep()">← メールアドレスを変更する</span>
+  </div>
+</div>
+
+<!-- Paywall (shown when first free view already used, no active membership) -->
+<div class="paywall-wrap"><div id="paywall">
+  <div class="pw-title">空き状況を確認する</div>
+  <div class="pw-sub">初回の無料確認はお済みです。引き続き空き状況をご確認いただくには、1回ごとのお支払い、またはメンバーシップへのご加入をお選びください。</div>
+
+  <!-- ¥100 single view -->
+  <div class="pw-spot">
+    <h3>1回だけ確認する</h3>
+    <p>今すぐカードで決済して、本日の空き状況を1回だけ確認できます。</p>
+    <div class="pw-price">¥100</div>
+    <a class="gate-btn" id="pay100-btn" onclick="pay100()" style="display:inline-block;width:auto;padding:12px 32px;text-decoration:none;cursor:pointer">カードで¥100支払い →</a>
+  </div>
+
+  <!-- Membership tiers -->
+  <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#2a2a2a;font-weight:700;text-align:center;margin:24px 0 14px">または メンバーシップに加入</div>
+  <div class="mem-grid">
+
+    <div class="mem-card">
+      <div class="tier-name">LITE</div>
+      <div class="tier-price">¥3,000<span style="font-size:.45em;font-weight:400;color:#444">/月</span></div>
+      <div class="tier-per">月3回まで閲覧可</div>
+      <ul class="tier-feats">
+        <li>空き状況 月3回確認</li>
+        <li>物件詳細資料閲覧</li>
+      </ul>
+      <ul class="tier-feats plain">
+        <li>割引なし</li>
+        <li>優先予約なし</li>
+      </ul>
+      <a class="tier-btn" onclick="joinMembership('lite',3000)">加入する</a>
+    </div>
+
+    <div class="mem-card popular">
+      <div class="tier-name">STANDARD ★人気</div>
+      <div class="tier-price">¥10,000<span style="font-size:.45em;font-weight:400;color:#666">/月</span></div>
+      <div class="tier-per">無制限閲覧 + 宿泊5%割引</div>
+      <ul class="tier-feats">
+        <li>空き状況 無制限確認</li>
+        <li>宿泊料金 5% OFF</li>
+        <li>体験プラン先行案内</li>
+      </ul>
+      <a class="tier-btn" onclick="joinMembership('standard',10000)">加入する</a>
+    </div>
+
+    <div class="mem-card">
+      <div class="tier-name">PRO</div>
+      <div class="tier-price">¥50,000<span style="font-size:.45em;font-weight:400;color:#444">/月</span></div>
+      <div class="tier-per">無制限 + 優先予約 + 10%割引</div>
+      <ul class="tier-feats">
+        <li>空き状況 無制限確認</li>
+        <li>宿泊料金 10% OFF</li>
+        <li>繁忙期 優先予約権</li>
+        <li>担当者によるサポート</li>
+      </ul>
+      <a class="tier-btn" onclick="joinMembership('pro',50000)">加入する</a>
+    </div>
+
+    <div class="mem-card">
+      <div class="tier-name">INSIDER</div>
+      <div class="tier-price">¥200,000<span style="font-size:.45em;font-weight:400;color:#444">/月</span></div>
+      <div class="tier-per">全て + 専属担当 + 15%割引</div>
+      <ul class="tier-feats">
+        <li>上位プラン全て含む</li>
+        <li>専属担当者アサイン</li>
+        <li>宿泊料金 15% OFF</li>
+        <li>未公開物件情報</li>
+        <li>投資家ネットワーク招待</li>
+      </ul>
+      <a class="tier-btn" onclick="joinMembership('insider',200000)">加入する</a>
+    </div>
+
+  </div>
+
+  <!-- Sovereign full row -->
+  <div class="mem-card" style="border-color:rgba(220,200,180,.2);background:linear-gradient(135deg,rgba(200,164,85,.06),#080808);margin-bottom:24px">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div>
+        <div class="tier-name" style="color:rgba(220,200,180,.6)">SOVEREIGN</div>
+        <div class="tier-price" style="background:linear-gradient(90deg,#c8a455,#dfd3bf);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">¥1,000,000<span style="font-size:.4em;font-weight:400;-webkit-text-fill-color:#555">/月</span></div>
+        <div class="tier-per" style="color:#555">全て含む + 個別カスタマイズ + 20%割引 + 月1回コンシェルジュ</div>
+      </div>
+      <a class="tier-btn" onclick="joinMembership('sovereign',1000000)" style="width:140px;text-align:center;background:rgba(200,164,85,.1);border-color:rgba(200,164,85,.3);color:#c8a455">加入する</a>
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:10px;color:#2a2a2a;margin-top:8px">
+    全メンバーシップは月単位・いつでも解約可能。決済はStripeで安全に処理されます。
+  </div>
+</div></div><!-- /paywall-wrap -->
+
+<div class="w">
+
+<!-- === TIER STATUS (rendered by JS after login) === -->
+<div id="tier-section" style="display:none">
+
+  <div class="tier-wrap">
+    <div class="tier-hdr">
+      <div>
+        <div class="tier-eyebrow">YOUR STATUS</div>
+        <div class="tier-cur-name" id="tier-cur-name">FREE</div>
+        <div class="tier-cur-sub" id="tier-cur-sub">ログイン済み · 基本情報を閲覧できます</div>
+      </div>
+      <div class="tier-up-box" id="tier-up-box">
+        <div class="tier-up-label">NEXT LEVEL</div>
+        <div class="tier-up-name" id="tier-up-name">MEMBER</div>
+        <button class="tier-up-act" id="tier-up-act" onclick="doUpgrade()">MEMBER になる →</button>
+      </div>
+    </div>
+
+    <div class="tier-track">
+      <div class="tier-node passed" id="tn-login">
+        <div class="tier-dot">✓</div>
+        <div class="tier-node-name">LOGIN</div>
+        <div class="tier-node-price">無料</div>
+        <div class="tier-node-perks">情報閲覧<br>問い合わせ</div>
+      </div>
+      <div class="tier-node" id="tn-member">
+        <div class="tier-dot">🔒</div>
+        <div class="tier-node-name">MEMBER</div>
+        <div class="tier-node-price">¥10,000/月</div>
+        <div class="tier-node-perks">予約確認<br>5% OFF<br>資料DL</div>
+      </div>
+      <div class="tier-node" id="tn-partner">
+        <div class="tier-dot">🔒</div>
+        <div class="tier-node-name">PARTNER</div>
+        <div class="tier-node-price">¥50,000/月</div>
+        <div class="tier-node-perks">優先予約<br>担当者<br>10% OFF</div>
+      </div>
+      <div class="tier-node" id="tn-owner">
+        <div class="tier-dot">🔒</div>
+        <div class="tier-node-name">OWNER</div>
+        <div class="tier-node-price">口数購入</div>
+        <div class="tier-node-perks">年30泊<br>収益配当<br>KAGI/Pon</div>
+      </div>
+      <div class="tier-node" id="tn-club">
+        <div class="tier-dot">🔒</div>
+        <div class="tier-node-name">CLUB K4</div>
+        <div class="tier-node-price">¥300万〜</div>
+        <div class="tier-node-perks">北海道<br>DJ · 道場<br>サウナ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CVR Quick Actions -->
+  <div class="qa-row">
+    <a href="calendar" class="qa-card">
+      <div class="qa-ico">📅</div>
+      <div>
+        <div class="qa-title">空き状況を確認</div>
+        <div class="qa-sub">全物件のカレンダー</div>
+      </div>
+    </a>
+    <a href="buy" class="qa-card">
+      <div class="qa-ico">🏡</div>
+      <div>
+        <div class="qa-title">物件を購入する</div>
+        <div class="qa-sub">共同オーナーになる</div>
+      </div>
+    </a>
+    <a href="brochure" class="qa-card qa-locked" id="qa-brochure">
+      <div class="qa-ico">📄</div>
+      <div>
+        <div class="qa-title">詳細資料を見る</div>
+        <div class="qa-sub">収益シミュレーション・設計</div>
+      </div>
+      <div class="qa-lock" id="qa-brochure-lock">🔒 MEMBER+</div>
+    </a>
+    <a href="club-k4" class="qa-card">
+      <div class="qa-ico">⚡</div>
+      <div>
+        <div class="qa-title">CLUB K4 に加入</div>
+        <div class="qa-sub">北海道 熊牛原野 秘密基地</div>
+      </div>
+    </a>
+  </div>
+
+</div>
+
+  <h1>SOLUNA <span class="gold">Members</span></h1>
+  <p class="sub">購入希望者・オーナー専用ページです。物件の詳細資料、収益シミュレーション、契約手続きをご確認いただけます。</p>
+
+  <div class="cd" style="border-color:#c8a455;background:linear-gradient(180deg,rgba(200,164,85,.04),#080808)">
+    <h3 style="color:#c8a455">運営体制</h3>
+    <div class="sp"><span class="k">創業</span><span class="v">濱田 優貴</span></div>
+    <div class="sp"><span class="k">経歴</span><span class="v" style="font-size:11px;text-align:right">元Mercari CPO/CINO<br>NOT A HOTEL 共同創業者<br>令和トラベル 社外取締役</span></div>
+    <div class="sp"><span class="k">運営会社</span><span class="v">Enabler Inc.<br><span style="color:#c8a455;font-size:11px">★ Airbnb Super Host</span></span></div>
+    <div class="sp"><span class="k">TAPKOP事業体</span><span class="v">イーストサイド株式会社</span></div>
+    <div class="sp"><span class="k">出資</span><span class="v">East Ventures<br><span style="color:#888;font-size:11px">優先株5% / 5,000万円</span></span></div>
+    <div class="sp"><span class="k">運営実績</span><span class="v">熱海 年1,800万 / 弟子屈 年1,000万</span></div>
+  </div>
+
+  <!-- Calendar: shown on first free view or active membership -->
+  <div id="cal-section" style="display:none">
+    <h2 style="color:#9bc46d">空き状況（本日更新）</h2>
+    <div id="cal-free-badge" style="display:none;font-size:9px;background:rgba(155,196,109,.1);color:#9bc46d;border:1px solid rgba(155,196,109,.2);border-radius:100px;padding:4px 12px;display:inline-block;margin-bottom:10px">初回無料閲覧</div>
+    <div id="cal-member-badge" style="display:none;font-size:9px;background:rgba(200,164,85,.1);color:#c8a455;border:1px solid rgba(200,164,85,.2);border-radius:100px;padding:4px 12px;display:inline-block;margin-bottom:10px"></div>
+    <iframe id="cal-frame"
+      src="https://kagi-server.fly.dev/embed/soluna-calendar"
+      style="width:100%;height:420px;border:none;border-radius:10px;background:#0a0a0a;margin-bottom:8px"
+      loading="lazy"></iframe>
+    <p style="font-size:10px;color:#333;margin-bottom:24px">
+      リアルタイム空き状況。予約は<a href="calendar" style="color:#c8a455">予約ページ</a>から。
+    </p>
+  </div>
+
+  <h2>物件一覧・詳細資料</h2>
+
+  <div class="cd">
+    <h3 class="gold">TAPKOP — 3,900万円/口 (最大10口・総額3.9億・1口10%所有)</h3>
+    <div class="ig">
+      <img src="img/tapkop_real2.webp" alt="TAPKOP">
+      <img src="img/tapkop_real3.webp" alt="TAPKOP">
+    </div>
+    <div class="sp"><span class="k">PAN-PROJECTS設計 / 266m² / 9,000坪</span><span class="v">5口</span></div>
+    <div class="sp"><span class="k">年24泊 / 8名 / 34万円/泊稼働</span><span class="v">管理費 月10万</span></div>
+    <div class="sp"><span class="k">年間想定分配（稼働率80%時）</span><span class="v gold">約575万円</span></div>
+    <div class="sp"><span class="k">年間想定分配（全泊運用時）</span><span class="v gold">約695万円</span></div>
+    <p class="warn">※分配額は売上から清掃費・光熱費・修繕積立・保険・固定資産税・管理費を控除した利益の50%。空室率・経費変動により増減します。確定利回りではありません。</p>
+    <a href="https://tapkop.com/" target="_blank" class="btn">TAPKOP公式サイト</a>
+  </div>
+
+  <div class="cd">
+    <h3 class="gold">NESTING (VUILD設計) — 1,000万円/口 (最大10口・総額3億)</h3>
+    <div class="ig">
+      <img src="img/property-nest.webp" alt="THE NEST">
+      <img src="img/property-nest-2.webp" alt="THE NEST">
+    </div>
+    <div class="sp"><span class="k">VUILD設計 / デジタルファブ建築 / 天然温泉</span><span class="v">6口</span></div>
+    <div class="sp"><span class="k">年30泊 / 8名</span><span class="v">管理費 月5万</span></div>
+    <a href="https://www.airbnb.jp/rooms/911857804615412559" target="_blank" class="btn">Airbnb実績</a>
+  </div>
+
+  <div class="cd">
+    <h3 class="gold">THE LODGE — 1,000万円/口 (最大9口・総額9,000万)</h3>
+    <div class="ig">
+      <img src="img/property-teshikaga.webp" alt="THE LODGE">
+      <img src="img/property-teshikaga-2.webp" alt="THE LODGE">
+    </div>
+    <div class="sp"><span class="k">天然温泉 / 薪ストーブ / BBQ</span><span class="v">6口</span></div>
+    <div class="sp"><span class="k">年24泊 / 6名 / 売上実績年1,000万</span><span class="v">管理費 月3万</span></div>
+    <div class="sp"><span class="k">年間想定分配（経費控除後）</span><span class="v gold">約45万円</span></div>
+    <p class="warn">※過去売上実績に基づく試算。清掃費・修繕費・固定資産税等の経費を控除後、利益の50%を分配。将来の収益を保証するものではありません。</p>
+    <a href="https://www.airbnb.jp/rooms/597239384272621732" target="_blank" class="btn">Airbnb実績</a>
+  </div>
+
+  <div class="cd">
+    <h3 class="gold">WHITE HOUSE 熱海 — 1,000万円/口 (最大10口・総額1.9億)</h3>
+    <div class="ig">
+      <img src="img/property-atami.webp" alt="WHITE HOUSE 熱海">
+      <img src="img/property-atami-2.webp" alt="WHITE HOUSE 熱海">
+    </div>
+    <div class="sp"><span class="k">オーシャンビュー / 全面ガラス / 新幹線45分</span><span class="v">6口</span></div>
+    <div class="sp"><span class="k">年36泊 / 6名 / 売上実績年1,800万</span><span class="v">管理費 月5万</span></div>
+    <div class="sp"><span class="k">年間想定分配（経費控除後）</span><span class="v gold">約50万〜75万円</span></div>
+    <p class="warn">※過去売上実績に基づく試算。運営経費控除後の利益50%を分配。稼働率・経費により変動。将来の収益を保証するものではありません。</p>
+    <a href="https://www.airbnb.jp/rooms/53223988" target="_blank" class="btn">Airbnb実績</a>
+  </div>
+
+  <div class="cd">
+    <h3 class="gold">青島デザイナーズヴィラ — 5,720万円/口</h3>
+    <div class="sp"><span class="k">GENERAL DESIGN設計 / 767m² / プール+サウナ+暖炉</span><span class="v">1口</span></div>
+    <div class="sp"><span class="k">年10泊 / 8名 / 45万円/泊クラス</span><span class="v">管理費 年255万</span></div>
+    <p class="warn">※ファウンダー個人保有の会員権（1/12口）の譲渡。運営会社との利用契約引継ぎ。</p>
+  </div>
+
+  <div class="cd" style="border-color:rgba(62,130,200,.3)">
+    <h3 style="color:#6bb2ff">タワーサウナ — 共用施設（按分所有）</h3>
+    <div class="sp"><span class="k">本格タワーサウナ / 美留和エリア</span><span class="v">共用</span></div>
+    <div class="sp"><span class="k">所有形態</span><span class="v" style="color:#6bb2ff">美留和全オーナーに按分</span></div>
+    <div class="sp"><span class="k">敷地土地</span><span class="v" style="color:#6bb2ff">美留和エリア利用権</span></div>
+    <p class="warn">※THE LODGE / NESTING / Instant House のオーナーに口数比で按分所有権が付与されます。単独購入不可。オーナーは予約制で利用可能。</p>
+  </div>
+
+  <div class="cd">
+    <h3 class="gold">Instant House A / B — 1,000万円/口 (各最大2口・総額2,000万)</h3>
+    <div class="sp"><span class="k">プレハブ小型キャビン×2棟 / NESTING敷地内</span><span class="v">各2口 (50%所有)</span></div>
+    <div class="sp"><span class="k">年24泊 / 4名</span><span class="v">管理費 月1万</span></div>
+    <p class="warn">※1,000万円で50%オーナー、2,000万円で1棟完全所有可能。</p>
+  </div>
+
+  <div class="cd" style="border-color:#1f2a1a">
+    <h3 class="gold">OFF-GRID CABIN A / B — 各 5,000万円 1棟完全所有（計画中・先行予約）</h3>
+    <div class="sp"><span class="k">弟子屈・熊牛 3,000坪のうち300坪エリア</span><span class="v">各1棟</span></div>
+    <div class="sp"><span class="k">完成予定</span><span class="v">2026年夏</span></div>
+    <div class="sp"><span class="k">年24泊 / 4名</span><span class="v">管理費 月8千円</span></div>
+    <div class="sp"><span class="k">早期予約特典</span><span class="v" style="color:#9bc46d">完成後の運用利益を1年分多く分配</span></div>
+    <p class="warn">※中国認証工場製・拡張型スチールフレームモジュール、SGS第三者検査済み。100mmロックウール断熱+気密処理で-25℃対応。最低参入価格。</p>
+  </div>
+
+  <div class="cd" style="border-color:#1f2a1a">
+    <h3 class="gold">和歌山 リトリート — お問い合わせ（計画中）</h3>
+    <div class="sp"><span class="k">和歌山 100,000坪 (約33ha)</span><span class="v">10口予定</span></div>
+    <p class="warn">※10万坪の広大な敷地に大型リトリート施設を計画中。山・海・温泉の好アクセス。</p>
+  </div>
+
+  <div class="cd" style="border-color:#1f2a1a">
+    <h3 class="gold">熱海 第二邸 — 600坪・温泉引込可（計画中）</h3>
+    <div class="sp"><span class="k">熱海 600坪 / 温泉引込可 / 拡張モジュール OFF-GRID</span><span class="v">お問合せ</span></div>
+    <p class="warn">※WHITE HOUSE熱海とは完全独立。天然温泉引込可能な崖上600坪。</p>
+  </div>
+
+  <div class="cd" style="border-color:#1f2a1a">
+    <h3 class="gold">THE LAKE HOUSE 野尻湖 — お問い合わせ（登録予定）</h3>
+    <div class="sp"><span class="k">長野・野尻湖 / 湖畔ヴィラ / 15万/泊</span><span class="v">お問合せ</span></div>
+    <p class="warn">※Notionの既存物件をSOLUNA共同オーナーとして登録予定。</p>
+  </div>
+
+  <div class="cd" style="border-color:#1f2a1a">
+    <h3 class="gold">鎌倉物件 — お問い合わせ（登録予定）</h3>
+    <div class="sp"><span class="k">鎌倉 / 古都の隠れ家 / 東京から1時間</span><span class="v">お問合せ</span></div>
+    <p class="warn">※詳細準備中。SOLUNAラインナップへ順次登録予定。</p>
+  </div>
+
+  <div class="cd">
+    <h3 class="gold">SOLUNA VILLAGE — 3,500万円/口（8棟 · 総額2.8億）</h3>
+    <div class="ig">
+      <img src="img/village_aerial.webp" alt="VILLAGE">
+      <img src="img/hero.webp" alt="VILLAGE">
+    </div>
+    <div class="sp"><span class="k">30,000坪 / キャビン8棟 建設予定</span><span class="v">8口（1棟1オーナー）</span></div>
+    <div class="sp"><span class="k">年36泊 / 8名 / ステージ+サウナ+DOJO</span><span class="v">管理費 月5万</span></div>
+  </div>
+
+  <div class="cd">
+    <h3 class="gold">ハワイ — メンバー特別価格</h3>
+    <div class="ig">
+      <img src="img/property-honolulu.webp" alt="ハワイ">
+      <img src="img/property-garage.webp" alt="ハワイ">
+    </div>
+    <div class="sp"><span class="k">BEACH HOUSE + GARAGE HOUSE / ホノルル</span><span class="v gold">50% OFF</span></div>
+    <a href="https://www.airbnb.jp/rooms/1226550388535476490" target="_blank" class="btn">BEACH HOUSE</a>
+    <a href="https://www.airbnb.jp/rooms/936009273046846679" target="_blank" class="btn">GARAGE HOUSE</a>
+  </div>
+
+  <h2>夕食サービス</h2>
+  <div class="cd" style="border-color:rgba(200,164,85,.3);background:linear-gradient(180deg,rgba(200,164,85,.05),var(--bg-soft))">
+    <h3 class="gold" style="font-size:14px;margin-bottom:10px">SOLUNA DINNER — 全物件で別途提供</h3>
+    <div class="sp"><span class="k">北海道</span><span class="v">十勝牛・阿寒湖産ヒメマス・山菜</span></div>
+    <div class="sp"><span class="k">熱海</span><span class="v">伊豆の海鮮・地魚・温泉野菜</span></div>
+    <div class="sp"><span class="k">野尻湖</span><span class="v">信州和牛・松本平野菜・湖魚</span></div>
+    <div class="sp"><span class="k">鎌倉</span><span class="v">湘南野菜・鎌倉素材・江ノ島海産物</span></div>
+    <div class="sp"><span class="k">和歌山</span><span class="v">熊野牛・みかん・紀伊の海鮮</span></div>
+    <div class="sp"><span class="k">料金</span><span class="v gold">別途お見積もり（要事前予約）</span></div>
+    <p class="warn">※シェフ派遣または地元料理人手配。予約時にご相談ください。</p>
+  </div>
+
+  <h2>オーナー特典</h2>
+  <div class="cd">
+    <div class="sp"><span class="k">KAGI（スマートホーム管理）</span><span class="v gold">無料</span></div>
+    <div class="sp"><span class="k">Pon（電子契約・署名）</span><span class="v gold">無料</span></div>
+    <div class="sp"><span class="k">StayFlow（民泊管理PMS）</span><span class="v gold">無料</span></div>
+    <div class="sp"><span class="k">Enabler全アプリ</span><span class="v gold">永年無料</span></div>
+    <div class="sp"><span class="k">HondaJet</span><span class="v gold">優先予約 / 片道50万円（6名まで）</span></div>
+    <div class="sp"><span class="k">ハワイ物件</span><span class="v gold">50% OFF利用</span></div>
+  </div>
+
+  <h2>所有形態</h2>
+  <div class="cd">
+    <div class="sp"><span class="k">形態</span><span class="v">SOLUNA会員権（利用権）</span></div>
+    <div class="sp"><span class="k">転売</span><span class="v">可能（第三者への売却可）</span></div>
+    <div class="sp"><span class="k">相続</span><span class="v">可能</span></div>
+    <div class="sp"><span class="k">ローン</span><span class="v">セカンドハウスローン対応</span></div>
+    <div class="sp"><span class="k">運営</span><span class="v">Enablerが全て代行</span></div>
+    <div class="sp"><span class="k">分配</span><span class="v">経費差引後の利益の50%</span></div>
+  </div>
+
+  <h2 style="color:#c8a455">手付金で、まず泊まる。</h2>
+  <div class="cd" style="border-color:#c8a455">
+    <h3 style="color:#c8a455">手付金 10万円 = 宿泊クレジット</h3>
+    <p style="font-size:12px;color:#888;line-height:1.8;margin-bottom:12px">手付金は「宿泊クレジット」として即利用可能。泊まりながら購入を検討できます。</p>
+    <div class="sp"><span class="k">手付金</span><span class="v" style="color:#c8a455">10万円</span></div>
+    <div class="sp"><span class="k">即座に使える宿泊クレジット</span><span class="v" style="color:#c8a455">10万円分</span></div>
+    <div class="sp"><span class="k">購入決定時</span><span class="v" style="color:#c8a455">全額を購入代金に充当</span></div>
+    <div class="sp"><span class="k">購入しない場合</span><span class="v">宿泊クレジットとして全額利用可（返金不可）</span></div>
+    <div class="sp"><span class="k">有効期限</span><span class="v">契約日から2年間</span></div>
+  </div>
+
+  <h2>ステップ</h2>
+  <div class="cd">
+    <p style="font-size:13px;color:#888;line-height:2">
+      1. 手付金10万円を入金する<br>
+      2. 宿泊クレジットで体験宿泊（TAPKOP / LODGE / 熱海）<br>
+      3. 気に入った物件を選ぶ<br>
+      4. 購入申込 → Pon電子契約で完結<br>
+      5. 会員権の移転手続き（司法書士が代行）<br>
+      6. 予約開始。使わない日は稼ぐ。
+    </p>
+    <br>
+    <a href="book" class="btn">宿泊体験を予約する</a>
+    <a href="mailto:info@enablerdao.com?subject=SOLUNA%20共同オーナーについて相談" class="btn" style="background:#222;color:#888">メールで相談する</a>
+  </div>
+</div>
+
+<footer>SOLUNA &mdash; 株式会社Enabler</footer>
+
+<script>
+// =============================================
+// SOLUNA Member Auth — Email OTP + Paywall
+// =============================================
+var KAGI = 'https://kagi-server.fly.dev';
+var LS = {
+  email:    'sol_member_email',
+  token:    'sol_member_token',
+  freeUsed: 'sol_free_view_used',
+  memLevel: 'sol_membership_level',
+  memExp:   'sol_membership_expires',
+};
+
+// ---------- OTP send ----------
+var _pendingCode = null;  // fallback demo code (no backend)
+
+async function sendOtp(){
+  var email = document.getElementById('email-input').value.trim();
+  if(!email || !email.includes('@')){
+    document.getElementById('email-err').textContent = '有効なメールアドレスを入力してください';
+    return;
+  }
+  var btn = document.getElementById('send-otp-btn');
+  var err = document.getElementById('email-err');
+  var msg = document.getElementById('email-msg');
+  btn.textContent = '送信中...'; btn.disabled = true; err.textContent = '';
+
+  // Try real backend first
+  var sent = false;
+  try{
+    var r = await fetch(KAGI+'/api/v1/auth/otp/send',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,product:'soluna'})
+    });
+    if(r.ok) sent = true;
+  }catch(e){}
+
+  // Fallback: demo mode — generate code locally
+  if(!sent){
+    _pendingCode = String(Math.floor(100000+Math.random()*900000));
+    // Log for dev — remove in production
+    console.info('[SOLUNA demo] OTP code:', _pendingCode);
+    msg.innerHTML = '⚠️ メール送信API未接続（デモ）。コード: <strong style="color:#c8a455">'+_pendingCode+'</strong>';
+  } else {
+    msg.textContent = '✓ '+email+' にコードを送信しました';
+  }
+
+  // Advance to OTP step
+  document.getElementById('gate-email').style.display = 'none';
+  document.getElementById('gate-otp').style.display = '';
+  document.getElementById('otp-email-hint').textContent = email+'に送信した6桁のコードを入力してください。';
+  sessionStorage.setItem('sol_pending_email', email);
+  btn.textContent = '認証コードを送る'; btn.disabled = false;
+}
+
+// ---------- OTP verify ----------
+async function verifyOtp(){
+  var code  = document.getElementById('otp-input').value.trim();
+  var email = sessionStorage.getItem('sol_pending_email')||'';
+  var btn   = document.getElementById('verify-otp-btn');
+  var err   = document.getElementById('otp-err');
+  if(!code){ err.textContent='コードを入力してください'; return; }
+  btn.textContent = '確認中...'; btn.disabled = true; err.textContent = '';
+
+  var token = null;
+
+  // Try real backend
+  try{
+    var r = await fetch(KAGI+'/api/v1/auth/otp/verify',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email, code:code, product:'soluna'})
+    });
+    if(r.ok){
+      var d = await r.json();
+      token = d.token || 'verified';
+    }
+  }catch(e){}
+
+  // Fallback: accept demo code
+  if(!token && _pendingCode && code === _pendingCode){
+    token = 'demo-'+Date.now();
+  }
+
+  if(token){
+    localStorage.setItem(LS.email, email);
+    localStorage.setItem(LS.token, token);
+    sessionStorage.removeItem('sol_pending_email');
+    grantAccess();
+  } else {
+    err.textContent = 'コードが正しくありません。もう一度お試しください。';
+    btn.textContent = '認証する'; btn.disabled = false;
+  }
+}
+
+function showEmailStep(){
+  document.getElementById('gate-otp').style.display = 'none';
+  document.getElementById('gate-email').style.display = '';
+  document.getElementById('otp-err').textContent = '';
+}
+
+// ---------- Access & Calendar ----------
+// ---------- Tier Hierarchy ----------
+var _TIER_IDX = {free:0,lite:1,standard:1,member:1,pro:2,partner:2,owner:3,club:4,insider:4,sovereign:4};
+var _TIER_NAMES = ['FREE','MEMBER','PARTNER','OWNER','CLUB K4'];
+var _TIER_SUBS  = ['ログイン済み · 基本情報を閲覧できます','MEMBER · 予約確認・資料DL・5% OFF','PARTNER · 優先予約・担当者サポート・10% OFF','OWNER · 年間滞在権・収益配当・全特典','CLUB K4 · 北海道秘密基地・全特典'];
+var _upgradeAction = null;
+
+function renderTier(rawLevel){
+  var lvl = _TIER_IDX[rawLevel||'free']||0;
+  var nodes = ['login','member','partner','owner','club'];
+  nodes.forEach(function(n,i){
+    var el = document.getElementById('tn-'+n); if(!el) return;
+    el.classList.remove('passed','current');
+    if(i < lvl){ el.classList.add('passed'); el.querySelector('.tier-dot').textContent='✓'; }
+    else if(i === lvl){ el.classList.add('current'); el.querySelector('.tier-dot').textContent = i===0?'✓':'◉'; }
+  });
+  document.getElementById('tier-cur-name').textContent = _TIER_NAMES[lvl];
+  document.getElementById('tier-cur-sub').textContent  = _TIER_SUBS[lvl];
+  if(lvl < 4){
+    var nextLevel = _TIER_NAMES[lvl+1];
+    document.getElementById('tier-up-name').textContent = nextLevel;
+    document.getElementById('tier-up-act').textContent  = nextLevel+' になる →';
+    var actions = [
+      function(){ joinMembership('standard',10000); },
+      function(){ joinMembership('pro',50000); },
+      function(){ window.location.href='buy.html'; },
+      function(){ window.location.href='club-k4-apply.html'; }
+    ];
+    _upgradeAction = actions[lvl];
+  } else {
+    var upBox = document.getElementById('tier-up-box'); if(upBox) upBox.style.display='none';
+  }
+  if(lvl >= 1){
+    var b = document.getElementById('qa-brochure'); if(b) b.classList.remove('qa-locked');
+    var l = document.getElementById('qa-brochure-lock'); if(l) l.style.display='none';
+  }
+  document.getElementById('tier-section').style.display='block';
+}
+
+function doUpgrade(){ if(_upgradeAction) _upgradeAction(); }
+
+function grantAccess(){
+  document.getElementById('gate').style.display = 'none';
+  document.body.classList.add('auth');
+
+  var email = localStorage.getItem(LS.email) || '';
+  var memLevel = localStorage.getItem(LS.memLevel);
+  var memExp   = parseInt(localStorage.getItem(LS.memExp)||'0');
+  var hasMembership = memLevel && Date.now() < memExp;
+
+  // Show user badge
+  if(email){
+    var badge = document.createElement('div');
+    badge.style.cssText = 'position:fixed;top:10px;right:12px;font-size:9px;color:#444;z-index:40;background:#050505;padding:4px 10px;border-radius:4px;border:1px solid #161616;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
+    badge.title = email;
+    badge.textContent = email;
+    var logoutSpan = document.createElement('span');
+    logoutSpan.textContent = '  ログアウト';
+    logoutSpan.style.cssText = 'color:#2a2a2a;cursor:pointer;margin-left:6px';
+    logoutSpan.onclick = logout;
+    badge.appendChild(logoutSpan);
+    document.body.appendChild(badge);
+  }
+
+  // Render tier hierarchy immediately after login
+  renderTier(hasMembership ? memLevel : null);
+
+  if(hasMembership){
+    // Active membership → always show calendar
+    showCalendar(true, memLevel);
+  } else {
+    var freeUsed = localStorage.getItem(LS.freeUsed);
+    if(!freeUsed){
+      // First-time free view
+      localStorage.setItem(LS.freeUsed, '1');
+      showCalendar(false, null);
+    } else {
+      // Paywall
+      document.getElementById('paywall').style.display = 'block';
+    }
+  }
+}
+
+function showCalendar(isMember, level){
+  var sec = document.getElementById('cal-section');
+  sec.style.display = 'block';
+  if(isMember){
+    var b = document.getElementById('cal-member-badge');
+    b.style.display = 'inline-block';
+    b.textContent = '✓ ' + levelName(level) + ' メンバー';
+  } else {
+    document.getElementById('cal-free-badge').style.display = 'inline-block';
+  }
+}
+
+function levelName(l){
+  return {lite:'LITE',standard:'STANDARD',pro:'PRO',insider:'INSIDER',sovereign:'SOVEREIGN'}[l]||l||'';
+}
+
+// ---------- Payments ----------
+// Stripe Payment Link placeholders — replace with real links
+var STRIPE_LINKS = {
+  pay100:   'https://buy.stripe.com/soluna_100yen',     // ¥100 single view
+  lite:     'https://buy.stripe.com/soluna_lite',       // ¥3,000/月
+  standard: 'https://buy.stripe.com/soluna_standard',   // ¥10,000/月
+  pro:      'https://buy.stripe.com/soluna_pro',        // ¥50,000/月
+  insider:  'https://buy.stripe.com/soluna_insider',    // ¥200,000/月
+  sovereign:'https://buy.stripe.com/soluna_sovereign',  // ¥1,000,000/月
+};
+
+function pay100(){
+  // After Stripe checkout, user returns with ?paid=1
+  // For demo: just grant access immediately
+  if(STRIPE_LINKS.pay100.includes('soluna_')){
+    // Demo mode
+    localStorage.setItem(LS.freeUsed, '2');  // mark as paid-once
+    document.getElementById('paywall').style.display = 'none';
+    showCalendar(false, null);
+    document.getElementById('cal-free-badge').textContent = '¥100 決済済み';
+    document.getElementById('cal-free-badge').style.display = 'inline-block';
+  } else {
+    var email = localStorage.getItem(LS.email)||'';
+    window.location.href = STRIPE_LINKS.pay100 + '?prefilled_email='+encodeURIComponent(email);
+  }
+}
+
+function joinMembership(level, amount){
+  var link = STRIPE_LINKS[level];
+  if(!link || link.includes('soluna_')){
+    // Demo mode
+    var exp = Date.now() + 30*24*60*60*1000;  // 30 days
+    localStorage.setItem(LS.memLevel, level);
+    localStorage.setItem(LS.memExp, String(exp));
+    document.getElementById('paywall').style.display = 'none';
+    showCalendar(true, level);
+    renderTier(level);
+    alert('✓ '+levelName(level)+' メンバーシップに加入しました（デモ）。Stripe連携後に本決済が有効になります。');
+  } else {
+    var email = localStorage.getItem(LS.email)||'';
+    window.location.href = link + '?prefilled_email='+encodeURIComponent(email);
+  }
+}
+
+// Check Stripe return (e.g. ?paid=1&level=standard)
+(function checkStripeReturn(){
+  var p = new URLSearchParams(location.search);
+  if(p.get('paid') && p.get('level')){
+    var level = p.get('level');
+    var exp = Date.now() + 30*24*60*60*1000;
+    localStorage.setItem(LS.memLevel, level);
+    localStorage.setItem(LS.memExp, String(exp));
+    history.replaceState({}, '', location.pathname);
+  }
+  if(p.get('paid') === '100'){
+    localStorage.setItem(LS.freeUsed, '2');
+    history.replaceState({}, '', location.pathname);
+  }
+})();
+
+// ---------- Logout ----------
+function logout(){
+  localStorage.removeItem(LS.email);
+  localStorage.removeItem(LS.token);
+  location.reload();
+}
+
+// ---------- Auto-restore session ----------
+(function(){
+  var tok = localStorage.getItem(LS.token);
+  if(tok){
+    grantAccess();
+  }
+  // Check URL for one-time access token (magic link fallback)
+  var p = new URLSearchParams(location.search);
+  var urlToken = p.get('token');
+  var urlEmail = p.get('email');
+  if(urlToken && urlEmail){
+    localStorage.setItem(LS.email, urlEmail);
+    localStorage.setItem(LS.token, urlToken);
+    history.replaceState({}, '', location.pathname);
+    grantAccess();
+  }
+})();
+</script>
+<script src="chat-widget.js"></script>
+<script src="/track.js" defer></script>
+</body>
+</html>

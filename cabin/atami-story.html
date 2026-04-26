@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/atami-story" rel="canonical"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title data-en="WHITE HOUSE Atami — Waves as rhythm. | SOLUNA">WHITE HOUSE 熱海 — 波がリズムだ。| SOLUNA</title>
+<meta content="熱海 海岸。太平洋が見える。波の音がBPMになる。カスタムプリアンプ。¥1,000万〜/口" data-en-content="Atami coastline. The Pacific in view. Wave sound becomes BPM. Custom preamplifier. ¥1,000万〜/unit" name="description"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--void:#04080c;--ocean:#061828;--wave:#1a5a7a;--foam:#e8f4f8;--gold:#c9a84c;--horizon:#c8e8f8;--text:#dceef8;--dim:#4a6878}
+html{scroll-behavior:smooth;background:var(--void)}
+body{padding-top:48px;background:var(--void);color:var(--text);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;overflow-x:hidden;cursor:none}
+#cur{position:fixed;width:6px;height:6px;background:var(--foam);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference}
+#cur-r{position:fixed;width:32px;height:32px;border:1px solid rgba(232,244,248,.2);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .22s}
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:28px 48px;mix-blend-mode:difference}
+.nav-l{font-size:10px;letter-spacing:.4em;color:#fff;text-decoration:none}
+.nav-r{font-size:9px;letter-spacing:.35em;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.2);padding:10px 22px}
+
+#s0{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+#wave-canvas{position:absolute;inset:0}
+.hero-wrap{position:relative;z-index:2;text-align:center;padding:0 40px}
+.hero-ko{font-size:10px;letter-spacing:.5em;color:rgba(200,232,248,.4);margin-bottom:48px}
+.hero-h{font-size:clamp(44px,7.5vw,110px);font-weight:100;color:#fff;line-height:.95;letter-spacing:-.02em;opacity:0;transform:translateY(24px);transition:opacity 2.5s 1s ease,transform 2.5s 1s ease}
+.hero-h.show{opacity:1;transform:none}
+.hero-h em{font-style:normal;display:block;font-size:.44em;color:var(--horizon);letter-spacing:.05em;font-weight:200;margin-top:.4em}
+.hero-sub{margin-top:48px;font-size:11px;letter-spacing:.4em;color:var(--dim);opacity:0;transition:opacity 2s 3s ease}
+.hero-sub.show{opacity:1}
+.scroll-c{position:absolute;bottom:48px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:8px;letter-spacing:.5em;color:var(--dim);opacity:0;transition:opacity 1.5s 4.5s ease}
+.scroll-c.show{opacity:1}
+.sl{width:1px;height:50px;background:linear-gradient(to bottom,transparent,var(--foam));animation:sla 2.5s ease-in-out infinite}
+@keyframes sla{0%,100%{opacity:.15;transform:scaleY(.2)}50%{opacity:.8;transform:scaleY(1)}}
+
+/* Wave BPM section */
+#s0b{min-height:60vh;background:#000;display:flex;align-items:center;justify-content:center;padding:100px 40px;position:relative;overflow:hidden}
+#bpm-canvas{position:absolute;inset:0}
+.bpm-inner{position:relative;z-index:2;text-align:center}
+.bpm-label{font-size:9px;letter-spacing:.6em;color:var(--wave);margin-bottom:24px}
+.bpm-number{font-size:clamp(80px,15vw,200px);font-weight:100;color:#fff;line-height:1;letter-spacing:-.04em}
+.bpm-unit{font-size:24px;color:var(--wave);margin-left:8px;vertical-align:super}
+.bpm-sub{margin-top:16px;font-size:12px;letter-spacing:.35em;color:var(--dim)}
+
+#s1{min-height:100vh;padding:160px 80px;display:flex;align-items:center;position:relative;overflow:hidden}
+.s1-bg{position:absolute;inset:0;background:linear-gradient(180deg,#000 0%,var(--ocean) 50%,#000 100%)}
+.s1-in{position:relative;z-index:2;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center}
+.eye{font-size:9px;letter-spacing:.6em;color:var(--gold);margin-bottom:40px}
+.s1-h{font-size:clamp(32px,4.5vw,64px);font-weight:200;color:#fff;line-height:1.1;margin-bottom:28px}
+.s1-body{font-size:14px;line-height:2.1;color:rgba(220,238,248,.5)}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
+.sp{padding:20px 24px;border:1px solid rgba(232,244,248,.06);border-top:1px solid var(--wave)}
+.sp-n{font-size:clamp(22px,3vw,36px);font-weight:100;color:#fff}
+.sp-u{font-size:11px;color:var(--wave);margin-left:4px}
+.sp-l{margin-top:6px;font-size:9px;letter-spacing:.3em;color:var(--dim)}
+.ocean-spec{margin-top:48px;font-family:'Courier New',monospace;font-size:11px;line-height:2;color:rgba(200,232,248,.4);border-left:1px solid rgba(26,90,122,.4);padding-left:20px}
+
+/* Custom preamp section */
+#s2{background:var(--void);padding:140px 80px}
+.s2-head{text-align:center;max-width:700px;margin:0 auto 72px}
+.s2-h{font-size:clamp(28px,4vw,56px);font-weight:200;color:#fff;line-height:1.15}
+.preamp-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:rgba(232,244,248,.05);border:1px solid rgba(232,244,248,.05);max-width:1000px;margin:0 auto}
+.pc{padding:48px 36px;background:var(--void);opacity:0;transform:translateY(24px);transition:opacity .9s,transform .9s}
+.pc.show{opacity:1;transform:none}
+.pc-ico{font-size:28px;margin-bottom:20px}
+.pc-n{font-size:11px;letter-spacing:.35em;color:var(--gold);margin-bottom:14px}
+.pc-d{font-size:13px;line-height:2;color:var(--dim)}
+.pc-s{margin-top:20px;font-size:10px;font-family:'Courier New',monospace;color:rgba(200,232,248,.35);line-height:1.8;border-top:1px solid rgba(232,244,248,.04);padding-top:14px}
+
+/* Sound */
+#s3{min-height:70vh;background:#000;display:flex;align-items:center;justify-content:center;padding:120px 40px;position:relative;overflow:hidden}
+#ocean-canvas{position:absolute;inset:0}
+.s3-in{position:relative;z-index:2;text-align:center;max-width:560px}
+.s3-h{font-size:clamp(28px,4.5vw,64px);font-weight:100;color:#fff;margin-bottom:20px}
+.s3-sub{font-size:11px;letter-spacing:.35em;color:var(--dim);margin-bottom:48px}
+.s3-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.s3-btn{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(232,244,248,.2);color:var(--foam);padding:14px 28px;font-size:10px;letter-spacing:.3em;background:none;cursor:pointer;transition:background .3s}
+.s3-btn:hover{background:rgba(232,244,248,.04)}
+
+/* Purchase */
+#s4{padding:160px 80px;background:var(--void)}
+.buy-in{max-width:800px;margin:0 auto}
+.buy-eye{font-size:9px;letter-spacing:.6em;color:var(--gold);margin-bottom:48px}
+.buy-h{font-size:clamp(40px,6vw,88px);font-weight:100;color:#fff;line-height:.95;margin-bottom:64px}
+.buy-rows{border:1px solid rgba(232,244,248,.07);margin-bottom:48px}
+.br{display:flex;justify-content:space-between;align-items:baseline;padding:22px 28px;border-bottom:1px solid rgba(232,244,248,.05)}
+.br:last-child{border-bottom:none}
+.br-l{font-size:11px;letter-spacing:.2em;color:var(--dim)}
+.br-v{font-size:14px;color:#fff;font-weight:200}
+.br-v.a{color:var(--gold)}
+.buy-note{font-size:12px;line-height:2;color:rgba(220,238,248,.35);margin-bottom:48px;border-left:1px solid rgba(26,90,122,.3);padding-left:24px}
+.btn-b{display:inline-block;background:var(--foam);color:#000;padding:20px 56px;font-size:11px;letter-spacing:.35em;font-weight:600;text-decoration:none;transition:opacity .3s}
+.btn-b:hover{opacity:.85}
+.btn-g{display:inline-block;border:1px solid rgba(255,255,255,.15);color:#fff;padding:20px 36px;font-size:11px;letter-spacing:.35em;text-decoration:none;margin-left:14px}
+
+#grain{position:fixed;inset:0;z-index:700;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");animation:gr .1s steps(1) infinite}
+@keyframes gr{0%{background-position:0 0}33%{background-position:-8% 6%}66%{background-position:5% -10%}100%{background-position:0 0}}
+@media(max-width:768px){#nav{padding:20px 24px}.s1-in{grid-template-columns:1fr}#s1,#s2,#s3,#s4{padding-left:24px;padding-right:24px}.btn-g{margin-left:0;margin-top:12px}}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<div id="grain"></div><div id="cur"></div><div id="cur-r"></div>
+<section id="s0">
+<canvas id="wave-canvas"></canvas>
+<div class="hero-wrap">
+<div class="hero-ko" data-en="WHITE HOUSE Atami — Atami, Shizuoka — Overlooking the Pacific">WHITE HOUSE 熱海 — 静岡県 熱海市 — 太平洋を望む</div>
+<h1 class="hero-h" data-en="Waves are rhythm." id="hH">波が、<br/>リズムだ。<em>The ocean sets the tempo.</em></h1>
+<p class="hero-sub" data-en="Pacific / Coastal 28 dB Noise Floor / Custom Preamplifier / ¥10,000,000+/unit" id="hS">太平洋 / 海岸 28dB ノイズフロア / カスタムプリアンプ / ¥1,000万〜/口</p>
+</div>
+<div class="scroll-c" id="sc">SCROLL<div class="sl"></div></div>
+</section>
+<!-- Live BPM from waves -->
+<section id="s0b">
+<canvas id="bpm-canvas"></canvas>
+<div class="bpm-inner">
+<div class="bpm-label">WAVE BPM — LIVE</div>
+<div class="bpm-number" id="bpmDisplay">—<span class="bpm-unit">BPM</span></div>
+<div class="bpm-sub" data-en="Real-Time Measurement of Atami Wave Rhythm">熱海の波のリズムをリアルタイムで測定中</div>
+</div>
+</section>
+<section id="s1">
+<div class="s1-bg"></div>
+<div class="s1-in">
+<div>
+<div class="eye">THE PROPERTY</div>
+<h2 class="s1-h" data-en="The Pacific is your monitor.">太平洋が<br/>モニターだ。</h2>
+<p class="s1-body" data-en="Perched on Atami's clifftop, facing the Pacific Ocean. Constant sea breezes maintain background noise below 28 dBA. Wave periods of approximately 8–12 seconds translate to 5–7.5 BPM—recording within the world's slowest rhythm.">熱海の崖上。正面に太平洋。海風が常に吹き、背景騒音は28dBA以下。波の周期は約8〜12秒、BPMに換算すると5〜7.5。世界で最も遅いリズムの中で録音する。</p>
+<div class="specs">
+<div class="sp"><div class="sp-n">¥1,000<span class="sp-u" data-en="Million+">万〜</span></div><div class="sp-l" data-en="/ unit">/ 口</div></div>
+<div class="sp"><div class="sp-n" data-en="Annual Residency">年<span class="sp-u" style="font-size:20px">8</span>泊</div><div class="sp-l" data-en="With Usage Rights">利用権付き</div></div>
+<div class="sp"><div class="sp-n">28<span class="sp-u">dBA</span></div><div class="sp-l" data-en="Ambient Noise (Nocturnal)">背景騒音（夜間）</div></div>
+<div class="sp"><div class="sp-n" data-en="From 5">5〜<span class="sp-u">7.5</span></div><div class="sp-l" data-en="Wave BPM">波のBPM</div></div>
+</div>
+</div>
+<div>
+<p data-en="The Pacific waves are not a natural reverb chamber, yet they offer something else entirely. The ocean's &quot;presence&quot;—subsonic pressure variations at low frequencies permeate the entire recording space. Felt in the body, yet barely captured in recordings." style="font-size:14px;line-height:2.1;color:rgba(220,238,248,.5);margin-bottom:28px">太平洋の波は自然のリバーブチャンバーではないが、別の何かを提供する。海の「存在感」——低周波のサブソニック圧力変化が、録音空間全体に浸透する。体で感じる、でも録音にはほとんど乗らない低域。</p>
+<div class="ocean-spec" data-en="Pacific Acoustic Characteristics:
+Subsonic Pressure: 0.1–2 Hz
+Wave BPM: 5–7.5 BPM
+Sea Breeze Noise Spectrum: 200–400 Hz center
+Distance to Horizon: &gt;100 km
+(No reflections = Perfect far-field)
+Tidal Range: Atami approximately 1.2 m">
+太平洋の音響特性:<br/>
+サブソニック圧力: 0.1〜2 Hz<br/>
+波のBPM: 5〜7.5 BPM<br/>
+海風ノイズスペクトル: 200〜400Hz 中心<br/>
+水平線までの距離: &gt;100 km<br/>
+(反射がない = 完全な遠方音場)<br/>
+潮汐 干満差: 熱海 約1.2m
+      </div>
+</div>
+</div>
+</section>
+<section id="s2">
+<div class="s2-head">
+<div class="eye" data-en="SOLUNA SIGNAL — WHITE HOUSE Atami">SOLUNA SIGNAL — WHITE HOUSE 熱海</div>
+<h2 class="s2-h" data-en="Custom Equipment for Coastal Recording">海の近くで<br/>録るための<br/>カスタム機材</h2>
+</div>
+<div class="preamp-cards">
+<div class="pc" data-delay="0">
+<div class="pc-ico">🎙</div>
+<div class="pc-n">OCEAN PREAMP</div>
+<div class="pc-d" data-en="Dedicated condenser microphone preamplifier engineered for coastal sea breeze environments. Salt-resistant protective coating. Jensen JT-16B + fully balanced discrete circuitry. EIN -133 dBu.">海風の中で使うために設計したコンデンサーマイク専用プリアンプ。塩分環境対応のコーティング。Jensen JT-16B + 完全対称ディスクリート回路。EIN -133dBu。</div>
+<div class="pc-s" data-en="EIN: -133 dBu | Target: Condenser + Ribbon | Enclosure: Aluminum Anodized (Salt-Resistant)">EIN: -133 dBu<br/>対象: コンデンサー + リボン<br/>筐体: アルミアルマイト(塩分対応)</div>
+</div>
+<div class="pc" data-delay="150">
+<div class="pc-ico">🌊</div>
+<div class="pc-n">WAVE SYNC</div>
+<div class="pc-d" data-en="Wave periodicity detected and converted to LFO modulation. Recording equipment parameters (EQ curve, reverb depth) modulated by wave rhythm. The Pacific automatically shapes the mix.">波の周期を検出してLFOに変換。録音機材のパラメーター（EQカーブ、リバーブ量）を波のリズムで変調。太平洋が自動的にミックスを動かす。</div>
+<div class="pc-s" data-en="Detection Range: 0.05–0.3 Hz | Output: CV + MIDI CC | Latency: &lt;10ms">検出帯域: 0.05〜0.3 Hz<br/>出力: CV + MIDI CC<br/>レイテンシ: &lt;10ms</div>
+</div>
+<div class="pc" data-delay="300">
+<div class="pc-ico">☀️</div>
+<div class="pc-n">SILENT POWER</div>
+<div class="pc-d" data-en="Solar panels installed on the clifftop. Custom linear power supply from battery storage. Zero commercial grid dependency—electricity sourced from the Pacific skyline itself.">崖上に設置した太陽光パネル。蓄電池からカスタム線形電源。商用電源を一切使わず、太平洋のスカイラインから電力を得る。</div>
+<div class="pc-s" data-en="Noise: -140 dBV Energy Storage: 20 kWh / Solar: 4 kW">ノイズ: -140 dBV<br/>蓄電: 20 kWh / 太陽光: 4 kW</div>
+</div>
+<div class="pc" data-delay="450">
+<div class="pc-ico">🛰</div>
+<div class="pc-n">GPS ORACLE</div>
+<div class="pc-d" data-en="Satellite-Synchronized Clock. GPS antenna oriented toward the Pacific. Maximum precision reception in the most open sky. 50 femtosecond jitter.">衛星同期クロック。GPSのアンテナは太平洋に向けて設置。空が最も開けた場所で最高精度の受信。ジッター50フェムト秒。</div>
+<div class="pc-s" data-en="Jitter: 50 fs / Precision: ±10 ns Antenna: Ocean-oriented optimization">ジッター: 50 fs / 精度: ±10 ns<br/>アンテナ: 海方向最適化</div>
+</div>
+</div>
+</section>
+<section id="s3">
+<canvas id="ocean-canvas"></canvas>
+<div class="s3-in">
+<h2 class="s3-h" data-en="Listen to the Pacific.">太平洋を<br/>聴く。</h2>
+<p class="s3-sub" data-en="Atami's Acoustic Environment Rendered in Web Audio">熱海の音響環境をウェブオーディオで再現</p>
+<div class="s3-btns">
+<button class="s3-btn" data-en="🌊 Serene" onclick="playOcean('calm')">🌊 穏やか</button>
+<button class="s3-btn" data-en="🌊🌊 Swell" onclick="playOcean('swell')">🌊🌊 うねり</button>
+<button class="s3-btn" data-en="⛈ Storm Surge" onclick="playOcean('storm')">⛈ 時化</button>
+<button class="s3-btn" data-en="🌅 Dawn" onclick="playOcean('dawn')">🌅 夜明け</button>
+<button class="s3-btn" data-en="■ Pause" onclick="stopOcean()" style="opacity:.5">■ 停止</button>
+</div>
+</div>
+</section>
+<section id="s4">
+<div class="buy-in">
+<div class="buy-eye">YOUR STAKE</div>
+<h2 class="buy-h" data-en="Own the horizon.">水平線を<br/>所有する。</h2>
+<div class="buy-rows">
+<div class="br"><span class="br-l" data-en="Properties">物件</span><span class="br-v" data-en="WHITE HOUSE Atami">WHITE HOUSE 熱海</span></div>
+<div class="br"><span class="br-l" data-en="Pricing">価格</span><span class="br-v a" data-en="¥1,000万〜/unit">¥1,000万〜/口</span></div>
+<div class="br"><span class="br-l" data-en="Usage Rights">利用権</span><span class="br-v" data-en="8 nights annually">年8泊</span></div>
+<div class="br"><span class="br-l" data-en="Views">眺望</span><span class="br-v" data-en="Pacific Ocean (visibility to the horizon)">太平洋（水平線まで視界あり）</span></div>
+<div class="br"><span class="br-l">SOLUNA SIGNAL</span><span class="br-v a">Ocean Preamp + Wave Sync + GPS Oracle + Silent Power</span></div>
+</div>
+<p class="buy-note" data-en="For purchases of 5 units or more, a dedicated service specialist will support you through registration and delivery. Wave Sync continues after purchase, marking the rhythm of your studio as long as the Pacific waves move.">5口以上購入の場合、専任サービスマンが登記・引き渡しまでサポートします。<br/>Wave Syncは購入後も、太平洋の波が動く限り、あなたのスタジオのリズムを刻む。</p>
+<a class="btn-b" data-en="Proceed to Purchase" href="/pay?property=atami">購入手続きへ</a>
+<a class="btn-g" data-en="FAQ" href="/faq">よくある質問</a>
+</div>
+</section>
+<script defer="" src="/track.js"></script>
+<script>
+(function(){
+const cur=document.getElementById('cur'),cr=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function lc(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(lc)})();
+
+// Wave canvas — animated ocean surface
+const wc=document.getElementById('wave-canvas');
+const wctx=wc.getContext('2d');
+function resizeWC(){wc.width=window.innerWidth;wc.height=window.innerHeight}
+let waves=Array.from({length:6},(_,i)=>({amp:20+i*15,freq:0.003+i*.001,speed:0.4+i*.15,offset:i*40}));
+function animWC(){
+  const w=wc.width,h=wc.height,t=Date.now()*.001;
+  wctx.clearRect(0,0,w,h);
+  const sky=wctx.createLinearGradient(0,0,0,h*.5);
+  sky.addColorStop(0,'#020810');sky.addColorStop(1,'#061828');
+  wctx.fillStyle=sky;wctx.fillRect(0,0,w,h);
+  // Stars
+  if(!wc._st)wc._st=Array.from({length:60},()=>({x:Math.random()*w,y:Math.random()*h*.4,r:Math.random()*.7+.2,o:Math.random()*.5}));
+  wc._st.forEach(s=>{
+    const f=Math.sin(t*.4+s.x*.01)*.3+.7;
+    wctx.beginPath();wctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    wctx.fillStyle=`rgba(220,238,248,${s.o*f})`;wctx.fill();
+  });
+  // Waves
+  waves.forEach((wave,i)=>{
+    const y0=h*.5+wave.offset;
+    wctx.beginPath();wctx.moveTo(0,y0);
+    for(let x=0;x<=w;x+=4){
+      const y=y0+Math.sin(x*wave.freq+t*wave.speed)*wave.amp;
+      wctx.lineTo(x,y);
+    }
+    wctx.lineTo(w,h);wctx.lineTo(0,h);wctx.closePath();
+    const alpha=.06+i*.04;
+    const grad=wctx.createLinearGradient(0,y0,0,h);
+    grad.addColorStop(0,`rgba(26,90,122,${alpha})`);
+    grad.addColorStop(1,`rgba(6,24,40,${alpha*2})`);
+    wctx.fillStyle=grad;wctx.fill();
+    // Foam line
+    wctx.beginPath();wctx.moveTo(0,y0);
+    for(let x=0;x<=w;x+=4){
+      const y=y0+Math.sin(x*wave.freq+t*wave.speed)*wave.amp;
+      wctx.lineTo(x,y);
+    }
+    wctx.strokeStyle=`rgba(232,244,248,${.03+i*.01})`;wctx.lineWidth=1;wctx.stroke();
+  });
+  requestAnimationFrame(animWC);
+}
+resizeWC();animWC();window.addEventListener('resize',resizeWC);
+
+// BPM simulator
+let bpm=6.2,bpmTimer=null;
+function simBPM(){
+  bpm=5+Math.random()*2.5;
+  document.getElementById('bpmDisplay').innerHTML=`${bpm.toFixed(1)}<span class="bpm-unit">BPM</span>`;
+  setTimeout(simBPM,(60/bpm)*1000*0.5);
+}
+setTimeout(simBPM,2000);
+
+// BPM canvas
+const bc=document.getElementById('bpm-canvas');
+const bctx=bc.getContext('2d');
+function resizeBC(){bc.width=bc.parentElement.offsetWidth;bc.height=bc.parentElement.offsetHeight}
+let bpmPhase=0;
+function animBC(){
+  const w=bc.width,h=bc.height;
+  bctx.clearRect(0,0,w,h);
+  bpmPhase+=0.01;
+  for(let i=0;i<5;i++){
+    const y=h*.3+i*(h*.12);
+    bctx.beginPath();
+    for(let x=0;x<=w;x+=3){
+      const amp=10+i*8;const freq=0.003+i*.001;
+      const yy=y+Math.sin(x*freq+bpmPhase*(1+i*.2))*amp;
+      x===0?bctx.moveTo(x,yy):bctx.lineTo(x,yy);
+    }
+    bctx.strokeStyle=`rgba(26,90,122,${.08+i*.03})`;bctx.lineWidth=.8;bctx.stroke();
+  }
+  requestAnimationFrame(animBC);
+}
+resizeBC();animBC();window.addEventListener('resize',resizeBC);
+
+// Ocean canvas (s3)
+const oc=document.getElementById('ocean-canvas');
+const octx=oc.getContext('2d');
+function resizeOC(){oc.width=oc.parentElement.offsetWidth;oc.height=oc.parentElement.offsetHeight}
+function animOC(){
+  const w=oc.width,h=oc.height,t=Date.now()*.001;
+  octx.clearRect(0,0,w,h);
+  for(let i=0;i<8;i++){
+    const y=h*.2+i*(h*.075);
+    octx.beginPath();
+    for(let x=0;x<=w;x+=3){
+      const yy=y+Math.sin(x*.004+t*(0.3+i*.08))*20+Math.cos(x*.003+t*.2)*10;
+      x===0?octx.moveTo(x,yy):octx.lineTo(x,yy);
+    }
+    octx.strokeStyle=`rgba(26,90,122,${.06+i*.025})`;octx.lineWidth=.8;octx.stroke();
+  }
+  requestAnimationFrame(animOC);
+}
+resizeOC();animOC();window.addEventListener('resize',resizeOC);
+
+setTimeout(()=>{document.getElementById('hH').classList.add('show');document.getElementById('hS').classList.add('show');document.getElementById('sc').classList.add('show')},600);
+const io=new IntersectionObserver(e=>{e.forEach(en=>{if(!en.isIntersecting)return;const el=en.target;if(el.classList.contains('pc')){setTimeout(()=>el.classList.add('show'),parseInt(el.dataset.delay||0));io.unobserve(el)}})},{threshold:.12});
+document.querySelectorAll('.pc').forEach(el=>io.observe(el));
+
+// Audio
+let actx=null,anodes=[];
+function mkN(freq,q,gain,type){const buf=actx.createBuffer(1,actx.sampleRate*5,actx.sampleRate);const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;const src=actx.createBufferSource();src.buffer=buf;src.loop=true;const f=actx.createBiquadFilter();f.type=type;f.frequency.value=freq;f.Q.value=q;const g=actx.createGain();g.gain.value=gain;src.connect(f);f.connect(g);g.connect(actx.destination);src.start();anodes.push(src,g)}
+const SC={
+  calm:()=>{mkN(200,.6,.05,'bandpass');mkN(60,.3,.04,'lowpass');mkN(1500,.3,.008,'bandpass')},
+  swell:()=>{mkN(180,.8,.07,'bandpass');mkN(50,.4,.06,'lowpass');mkN(800,.4,.012,'bandpass')},
+  storm:()=>{mkN(300,1.2,.1,'bandpass');mkN(80,.6,.07,'lowpass');mkN(2000,.5,.015,'highpass')},
+  dawn:()=>{mkN(160,.5,.03,'bandpass');mkN(45,.2,.025,'lowpass');const o=actx.createOscillator(),g=actx.createGain();o.type='sine';o.frequency.value=220;g.gain.value=.008;o.connect(g);g.connect(actx.destination);o.start();anodes.push(o,g)}
+};
+window.stopOcean=function(){anodes.forEach(n=>{try{n.stop?n.stop():n.disconnect()}catch(e){}});anodes=[];if(actx){actx.close();actx=null;}};
+window.playOcean=function(n){stopOcean();actx=new(window.AudioContext||window.webkitAudioContext)();SC[n]&&SC[n]()};
+})();
+</script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-structure, 100-person village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Acquire Units Complimentarily" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Architectural Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners Only" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Special Commercial Act Disclosure" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+</body>
+</html>

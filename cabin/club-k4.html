@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/club-k4" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="CLUB K4 — Members-Only Secret Base | Kumaushi, Hokkaido">CLUB K4 — 会員制秘密基地 | 北海道 熊牛原野</title>
+<meta content="ホテルじゃない。自分の別荘みたいに使える北海道の秘密基地。プール・バー・DJ・サウナ・スバル アウトバック・スノーモービル全部ある。創設会員100名限定。" data-en-content="Not a hotel. A secret sanctuary in Hokkaido you use like your own private villa. Pool, bar, DJ, sauna, Subaru Outback, snowmobiles—everything included. Limited to 100 founding members." name="description"/>
+<meta content="CLUB K4 — 会員制秘密基地 | 北海道 熊牛原野" property="og:title"/>
+<meta content="所有感を売る。創設会員100名限定。年¥300万で草原の秘密基地をほぼ所有できる。" property="og:description"/>
+<meta content="/img/k4_ref_aerial_day.webp" property="og:image"/>
+<meta content="https://solun.art/club-k4" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;rect width='32' height='32' fill='%23000'/&gt;&lt;text y='22' x='4' font-size='20' fill='%23c8a455'&gt;K4&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold2:#e8c878;
+  --gold-dim:rgba(200,164,85,.35);
+  --gold-soft:rgba(200,164,85,.07);
+  --bg:#040404;
+  --bg2:#0a0a0a;
+  --text:#f0ece4;
+  --text-dim:#666;
+  --line:rgba(255,255,255,.05);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--gold);color:#000}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
+.nav-logo{font-size:13px;font-weight:900;letter-spacing:.15em;color:var(--gold)}
+.nav-sub{font-size:9px;color:#444;letter-spacing:.15em;margin-left:10px}
+.nav-right{display:flex;gap:16px;align-items:center;font-size:10px}
+.nav-right a{color:#555;letter-spacing:.05em;transition:color .2s}
+.nav-right a:hover{color:var(--gold)}
+.btn-apply{background:var(--gold);color:#000;font-weight:800;font-size:10px;letter-spacing:.1em;padding:8px 18px;border-radius:100px;transition:all .2s}
+.btn-apply:hover{background:var(--gold2);color:#000}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:640px;overflow:hidden;display:flex;align-items:flex-end}
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;animation:slowzoom 14s ease-out forwards;filter:brightness(.55) contrast(1.1)}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.7) 30%,rgba(4,4,4,.1) 65%,rgba(4,4,4,.3) 100%)}
+.hero-body{position:relative;z-index:2;width:100%;padding:0 40px 80px;max-width:900px;margin:0 auto}
+.hero-tag{display:inline-block;font-size:9px;letter-spacing:.4em;color:var(--gold);border:1px solid var(--gold-dim);padding:5px 14px;border-radius:100px;margin-bottom:20px;animation:fadeUp .7s .2s both}
+.hero h1{font-size:clamp(2.8rem,8vw,5.5rem);font-weight:900;letter-spacing:-.05em;line-height:1;margin-bottom:12px;animation:fadeUp .8s .4s both}
+.hero h1 .line2{display:block;color:var(--gold)}
+.hero-copy{font-size:clamp(1rem,2.5vw,1.25rem);color:rgba(240,236,228,.6);font-weight:300;line-height:1.8;margin-bottom:32px;animation:fadeUp .9s .6s both;max-width:560px}
+.hero-numbers{display:flex;gap:0;margin-bottom:36px;animation:fadeUp 1s .8s both;flex-wrap:wrap}
+.hn{padding:0 24px;border-right:1px solid var(--line)}
+.hn:first-child{padding-left:0}
+.hn:last-child{border-right:none}
+.hn-v{font-size:22px;font-weight:900;color:var(--gold);letter-spacing:-.03em;line-height:1}
+.hn-l{font-size:9px;color:#444;margin-top:5px;letter-spacing:.08em}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp 1.1s 1s both}
+.btn-primary{background:var(--gold);color:#000;font-weight:800;font-size:12px;letter-spacing:.08em;padding:14px 28px;border-radius:100px;transition:all .25s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn-ghost{border:1px solid rgba(200,164,85,.4);color:var(--gold);font-size:12px;letter-spacing:.08em;padding:14px 28px;border-radius:100px;transition:all .25s;display:inline-flex;align-items:center;gap:8px}
+.btn-ghost:hover{background:var(--gold-soft);border-color:var(--gold)}
+.hero-scroll{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:2;font-size:8px;color:#333;letter-spacing:.3em;animation:bounce 3s ease infinite}
+
+/* SECTIONS */
+.s{padding:100px 0}
+@media(max-width:600px){.s{padding:72px 0}}
+.w{max-width:720px;margin:0 auto;padding:0 28px}
+.ww{max-width:1000px;margin:0 auto;padding:0 28px}
+.label{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:14px}
+h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;letter-spacing:-.04em;line-height:1.15;margin-bottom:16px}
+h2 em{font-style:normal;color:var(--gold)}
+.sub{color:#555;font-size:13px;line-height:2.1;max-width:560px}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.r.in{opacity:1;transform:translateY(0)}
+
+/* CONCEPT */
+.concept-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
+.concept-cell{background:var(--bg);padding:36px 32px}
+.concept-cell:first-child{background:var(--gold-soft)}
+.concept-num{font-size:10px;font-weight:800;color:var(--gold);letter-spacing:.15em;margin-bottom:10px}
+.concept-title{font-size:18px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.concept-body{font-size:12.5px;color:#666;line-height:1.9}
+@media(max-width:640px){.concept-wrap{grid-template-columns:1fr}}
+
+/* BIG QUOTE */
+.big-quote{text-align:center;padding:80px 28px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.big-quote p{font-size:clamp(1.3rem,4vw,2.2rem);font-weight:800;letter-spacing:-.03em;line-height:1.5;max-width:700px;margin:0 auto}
+.big-quote em{color:var(--gold);font-style:normal}
+
+/* PLANS */
+.plans{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:48px}
+@media(max-width:860px){.plans{grid-template-columns:1fr}}
+.plan{background:var(--bg2);padding:40px 32px;position:relative;transition:background .3s}
+.plan:hover{background:var(--gold-soft)}
+.plan.featured{background:rgba(200,164,85,.06);border-left:2px solid var(--gold)}
+.plan-badge{position:absolute;top:20px;right:20px;background:var(--gold);color:#000;font-size:8px;font-weight:900;letter-spacing:.15em;padding:4px 10px;border-radius:100px}
+.plan-type{font-size:9px;letter-spacing:.3em;color:#444;font-weight:700;margin-bottom:12px}
+.plan-name{font-size:20px;font-weight:900;letter-spacing:-.02em;margin-bottom:6px}
+.plan-price{font-size:clamp(2rem,4vw,2.8rem);font-weight:900;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:4px}
+.plan-price span{font-size:14px;font-weight:400;color:#555;letter-spacing:0}
+.plan-desc{font-size:11.5px;color:#555;line-height:1.8;margin-bottom:24px;margin-top:10px}
+.plan-items{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.plan-items li{font-size:12px;color:#888;padding-left:18px;position:relative;line-height:1.6}
+.plan-items li::before{content:'✓';position:absolute;left:0;color:var(--gold);font-weight:900}
+.plan-items li strong{color:var(--text)}
+.plan-availability{font-size:10px;color:#333;letter-spacing:.08em;margin-top:auto}
+.plan-cta{display:inline-block;background:transparent;border:1px solid rgba(200,164,85,.3);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.1em;padding:10px 20px;border-radius:100px;transition:all .25s;margin-top:16px;cursor:pointer}
+.plan-cta:hover{background:var(--gold);color:#000}
+.plan.featured .plan-cta{background:var(--gold);color:#000}
+.plan.featured .plan-cta:hover{background:var(--gold2)}
+
+/* CORPORATE */
+.corp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
+@media(max-width:640px){.corp-grid{grid-template-columns:1fr}}
+.corp-cell{background:var(--bg2);padding:32px}
+.corp-cell-title{font-size:15px;font-weight:800;margin-bottom:8px}
+.corp-cell-body{font-size:12px;color:#666;line-height:1.9}
+.corp-cell-price{font-size:22px;font-weight:900;color:var(--gold);letter-spacing:-.03em;margin-top:12px}
+.corp-cell-price span{font-size:11px;font-weight:400;color:#555}
+
+/* REVENUE */
+.rev-table{width:100%;border-collapse:collapse;margin-top:36px}
+.rev-table th{text-align:left;font-size:9px;letter-spacing:.2em;color:#333;font-weight:700;padding:12px 16px;border-bottom:1px solid var(--line)}
+.rev-table td{padding:14px 16px;font-size:13px;border-bottom:1px solid rgba(255,255,255,.03)}
+.rev-table tr:last-child td{border-bottom:none;font-weight:900;color:var(--gold);font-size:15px}
+.rev-table .amount{text-align:right;font-weight:700;color:var(--gold)}
+.rev-bar-wrap{height:4px;background:rgba(255,255,255,.05);border-radius:2px;margin-top:6px;overflow:hidden}
+.rev-bar{height:100%;background:var(--gold);border-radius:2px;transition:width 1s ease}
+.rev-total-row td{padding-top:18px}
+.rev-footer{margin-top:16px;font-size:11px;color:#444;line-height:1.9}
+.profit-box{background:var(--gold-soft);border:1px solid var(--gold-dim);border-radius:8px;padding:28px 32px;margin-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.profit-box .label-big{font-size:11px;color:#666;letter-spacing:.1em}
+.profit-box .value-big{font-size:clamp(2rem,5vw,3rem);font-weight:900;color:var(--gold);letter-spacing:-.04em}
+
+/* WHY HAPPY */
+.happy-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
+@media(max-width:640px){.happy-grid{grid-template-columns:1fr}}
+.happy-cell{background:var(--bg2);padding:32px}
+.happy-who{font-size:9px;letter-spacing:.3em;color:var(--gold);font-weight:700;margin-bottom:10px}
+.happy-title{font-size:16px;font-weight:800;margin-bottom:8px}
+.happy-body{font-size:12px;color:#666;line-height:1.9}
+
+/* GENIUS POINTS */
+.genius-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
+.genius-item{background:var(--bg2);padding:28px 32px;display:flex;gap:24px;align-items:flex-start;transition:background .3s}
+.genius-item:hover{background:var(--gold-soft)}
+.genius-num{font-size:10px;font-weight:900;color:var(--gold);min-width:24px;padding-top:2px;letter-spacing:.05em}
+.genius-title{font-size:15px;font-weight:800;margin-bottom:6px}
+.genius-body{font-size:12px;color:#666;line-height:1.9}
+
+/* GALLERY */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:40px}
+@media(max-width:640px){.gallery{grid-template-columns:1fr 1fr}}
+.gallery-item{aspect-ratio:4/3;overflow:hidden;position:relative}
+.gallery-item.tall{aspect-ratio:3/4}
+.gallery-item.wide{grid-column:span 2}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease,filter .4s ease;filter:brightness(.85) saturate(.9)}
+.gallery-item:hover img{transform:scale(1.05);filter:brightness(1) saturate(1)}
+.gallery-cap{position:absolute;bottom:0;left:0;right:0;padding:20px 16px 14px;background:linear-gradient(to top,rgba(4,4,4,.9),transparent);font-size:10px;color:rgba(240,236,228,.6);letter-spacing:.06em}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
+.step{background:var(--bg2);padding:28px 32px;display:flex;gap:20px;align-items:flex-start}
+.step-n{width:40px;height:40px;border-radius:50%;background:var(--gold-soft);border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--gold);flex-shrink:0}
+.step-title{font-size:15px;font-weight:800;margin-bottom:4px}
+.step-body{font-size:12px;color:#666;line-height:1.9}
+
+/* APPLY CTA */
+.apply-section{background:var(--gold-soft);border-top:1px solid var(--gold-dim);border-bottom:1px solid var(--gold-dim);padding:100px 28px;text-align:center}
+.apply-section h2{font-size:clamp(2rem,5vw,3.5rem);letter-spacing:-.05em;margin-bottom:16px}
+.apply-section p{color:#666;font-size:14px;line-height:2;max-width:480px;margin:0 auto 36px}
+.apply-form{max-width:420px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.apply-form input,.apply-form textarea,.apply-form select{background:rgba(4,4,4,.8);border:1px solid rgba(200,164,85,.25);color:var(--text);font-size:13px;padding:14px 18px;border-radius:8px;outline:none;transition:border .2s;font-family:inherit;width:100%}
+.apply-form input::placeholder,.apply-form textarea::placeholder{color:#444}
+.apply-form input:focus,.apply-form textarea:focus,.apply-form select:focus{border-color:var(--gold)}
+.apply-form select option{background:#111}
+.apply-form textarea{resize:vertical;min-height:80px}
+.apply-form button{background:var(--gold);color:#000;font-size:13px;font-weight:900;letter-spacing:.08em;padding:16px;border-radius:100px;border:none;cursor:pointer;transition:all .25s}
+.apply-form button:hover{background:var(--gold2);transform:translateY(-1px)}
+.apply-note{font-size:10px;color:#444;margin-top:12px}
+
+/* FOOTER */
+footer{padding:48px 28px;border-top:1px solid var(--line);text-align:center}
+.footer-logo{font-size:14px;font-weight:900;color:var(--gold);letter-spacing:.15em;margin-bottom:10px}
+.footer-body{font-size:11px;color:#333;line-height:1.9}
+
+/* KEYFRAMES */
+@keyframes slowzoom{from{transform:scale(1.08)}to{transform:scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
+
+/* UTIL */
+.divider{height:1px;background:var(--line);margin:0}
+.mt-8{margin-top:8px}
+.text-gold{color:var(--gold)}
+
+/* FINITE BAND */
+.finite-band{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:0;overflow:hidden}
+.finite-inner{display:flex;align-items:stretch;max-width:1100px;margin:0 auto}
+.finite-cell{flex:1;padding:32px 28px;border-right:1px solid var(--line);position:relative}
+.finite-cell:last-child{border-right:none}
+.finite-num{font-size:clamp(2.4rem,5vw,3.8rem);font-weight:900;letter-spacing:-.05em;line-height:1;color:var(--gold)}
+.finite-num.inf{font-size:clamp(3rem,6vw,5rem);color:rgba(200,164,85,.2)}
+.finite-label{font-size:9px;letter-spacing:.2em;color:#444;margin-top:8px;font-weight:700}
+.finite-sub{font-size:11px;color:#333;margin-top:4px;line-height:1.6}
+.finite-bar-wrap{height:3px;background:rgba(255,255,255,.04);margin-top:16px;border-radius:2px;overflow:hidden}
+.finite-bar{height:100%;background:linear-gradient(90deg,var(--gold),rgba(200,164,85,.3));border-radius:2px;transition:width 1.5s ease}
+.finite-pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin-right:6px;animation:pulse2 2s ease infinite}
+@media(max-width:760px){.finite-inner{flex-direction:column}.finite-cell{border-right:none;border-bottom:1px solid var(--line)}.finite-cell:last-child{border-bottom:none}}
+
+/* FINITE / INFINITE PHILOSOPHY */
+.philosophy{padding:120px 28px;text-align:center;position:relative;overflow:hidden}
+.philosophy::before{content:'∞';position:absolute;font-size:40vw;font-weight:900;color:rgba(200,164,85,.02);left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-.1em}
+.philosophy-label{font-size:9px;letter-spacing:.35em;color:#333;font-weight:700;margin-bottom:40px}
+.philosophy-line{font-size:clamp(1.6rem,4vw,3rem);font-weight:900;letter-spacing:-.04em;line-height:1.3;margin:0 auto;max-width:800px}
+.philosophy-line em{color:var(--gold);font-style:normal}
+.philosophy-line .dim{color:#222}
+.philosophy-divider{width:1px;height:60px;background:linear-gradient(to bottom,transparent,rgba(200,164,85,.3),transparent);margin:40px auto}
+.philosophy-sub{font-size:14px;color:#444;letter-spacing:.05em;line-height:2.2;max-width:480px;margin:0 auto}
+
+/* COUNTDOWN */
+.countdown-wrap{display:inline-flex;gap:0;border:1px solid var(--gold-dim);border-radius:4px;overflow:hidden;margin-top:24px}
+.cd-unit{padding:12px 20px;text-align:center;border-right:1px solid var(--gold-dim)}
+.cd-unit:last-child{border-right:none}
+.cd-v{font-size:28px;font-weight:900;color:var(--gold);letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.cd-l{font-size:8px;color:#444;letter-spacing:.2em;margin-top:4px}
+
+/* NAV FINITE */
+.nav-finite{display:flex;align-items:center;gap:5px;font-size:9px;color:#555;letter-spacing:.05em}
+.nav-finite strong{color:var(--gold);font-size:11px}
+
+@keyframes pulse2{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<!-- NAV -->
+<nav>
+<div style="display:flex;align-items:baseline;gap:8px">
+<span class="nav-logo">CLUB K4</span>
+<span class="nav-sub" data-en="Kumaushi Base, Hokkaido">北海道 熊牛原野</span>
+</div>
+<div class="nav-right">
+<div class="nav-finite" data-en="Remaining spots"><span class="finite-pulse"></span>残り <strong id="nav-spots">3</strong> 名</div>
+<a data-en="Facilities" href="club-k4-facility">施設</a>
+<a data-en="Plans" href="#plans">プラン</a>
+<a class="btn-apply" data-en="Apply" href="club-k4-apply">申し込む</a>
+</div>
+</nav>
+<!-- HERO -->
+<section class="hero">
+<div class="hero-bg">
+<img alt="CLUB K4 熊牛原野" data-en-alt="CLUB K4 KUMAUSHI BASE" src="/img/k4_ref_aerial_day.webp"/>
+</div>
+<div class="hero-body">
+<div class="hero-tag" data-en="FOUNDING MEMBERSHIP — Limited to 100 — 3 Remaining">FOUNDING MEMBERSHIP — 100名限定 — 残り3名</div>
+<h1 data-en="Life is finite.">人生は有限だ。<br/><span class="line2" data-en="So, to the place where everything exists.">だから、全部ある場所へ。</span></h1>
+<p class="hero-copy" data-en="Hokkaido's summer spans 92 days; winter, 150. Spend this precious time at our exclusive sanctuary—complete with pool, bar, DJ, sauna, and Subaru Outback. Only 100 members are granted entry.">北海道の夏は92日。冬は150日。その有限な時間を、プール・バー・DJ・サウナ・スバル アウトバック全部ある秘密基地で過ごす。100名だけが、入れる。</p>
+<div class="hero-numbers">
+<div class="hn">
+<div class="hn-v" data-en="100 Members">100名</div>
+<div class="hn-l" data-en="Absolutely Limited—No Additional Memberships">絶対に増えない</div>
+</div>
+<div class="hn">
+<div class="hn-v" data-en="30 Nights per Year">年30泊</div>
+<div class="hn-l" data-en="Your Time">あなたの時間</div>
+</div>
+<div class="hn">
+<div class="hn-v" data-en="3 Memberships Remaining">残り3名</div>
+<div class="hn-l" data-en="Founding Tier">創設枠</div>
+</div>
+<div class="hn">
+<div class="hn-v">2026.10</div>
+<div class="hn-l" data-en="Days Until Opening">開業まであと<span id="hero-days">—</span>日</div>
+</div>
+</div>
+<div class="hero-btns">
+<a class="btn-primary" data-en="Apply as Founding Member →" href="#apply">創設会員に申し込む →</a>
+<a class="btn-ghost" data-en="View Plans" href="#plans">プランを見る</a>
+</div>
+</div>
+<div class="hero-scroll">SCROLL</div>
+</section>
+<!-- FINITE BAND -->
+<div class="finite-band r">
+<div class="finite-inner">
+<div class="finite-cell">
+<div class="finite-num" id="countdown-days">—</div>
+<div class="finite-label">DAYS TO OPENING</div>
+<div class="finite-sub" data-en="Opening October 1, 2026">2026年10月1日 開業</div>
+<div class="finite-bar-wrap"><div class="finite-bar" id="bar-days" style="width:0%"></div></div>
+</div>
+<div class="finite-cell">
+<div class="finite-num">3<span style="font-size:.4em;color:#555">/20</span></div>
+<div class="finite-label">SPOTS REMAINING</div>
+<div class="finite-sub" data-en="17 members enrolled">17名 申込済み</div>
+<div class="finite-bar-wrap"><div class="finite-bar" style="width:85%"></div></div>
+</div>
+<div class="finite-cell">
+<div class="finite-num">¥300万</div>
+<div class="finite-label">FOUNDING PRICE</div>
+<div class="finite-sub" data-en="Phase 2 pricing increases to ¥4,000,000">第2期は¥400万に値上がり</div>
+<div class="finite-bar-wrap"><div class="finite-bar" style="width:60%"></div></div>
+</div>
+<div class="finite-cell" style="background:rgba(200,164,85,.03)">
+<div class="finite-num inf">∞</div>
+<div class="finite-label">MEMORIES CREATED</div>
+<div class="finite-sub" data-en="Infinite memories born in a finite place">有限な場所で生まれる、無限の記憶</div>
+</div>
+</div>
+</div>
+<!-- CONCEPT -->
+<section class="s r" id="concept">
+<div class="w">
+<div class="label">CONCEPT</div>
+<h2 data-en="We sell experience.">「<em data-en="Sense of Ownership">所有感</em>」を売る。</h2>
+<p class="sub" data-en="Use it as your own private retreat, not just a hotel reservation. That's why the investment brings joy. That's why members naturally share it.">ホテルを予約するのではなく、自分の別荘みたいに使える。<br/>だから高くても嬉しい。だから人に話したくなる。</p>
+<div class="concept-wrap">
+<div class="concept-cell">
+<div class="concept-num">01</div>
+<div class="concept-title" data-en="Completely Private">完全プライベート</div>
+<div class="concept-body" data-en="No general guests. Members and their invited guests only. No need to consider anyone else's comfort.">一般客はいない。会員と、会員が連れてきた人だけ。誰かに気を遣う必要がない。</div>
+</div>
+<div class="concept-cell">
+<div class="concept-num">02</div>
+<div class="concept-title" data-en="Everything You Desire Is Here">使いたいものが全部ある</div>
+<div class="concept-body" data-en="Pool, Bar, DJ, Sauna, Subaru Outback, Snowmobile. A place where nothing is lacking.">プール、バー、DJ、サウナ、スバル アウトバック、スノーモービル。「あれはない」がない場所。</div>
+</div>
+<div class="concept-cell">
+<div class="concept-num">03</div>
+<div class="concept-title" data-en="Connect with Peers of Equivalent Standing">同レベルの人間と繋がれる</div>
+<div class="concept-body" data-en="Our selection process ensures that only those who truly desire to own this place gather here.">審査制だから、全員が「この場所を所有したい」と思える人間だけが集まる。</div>
+</div>
+<div class="concept-cell">
+<div class="concept-num">04</div>
+<div class="concept-title" data-en="Word-of-Mouth Stronger Than Social Media">SNSより口コミが強い</div>
+<div class="concept-body" data-en='Members bring their guests. Those invited think, "I want to become a member next."'>会員が自分のゲストを連れてくる。招待された人は「次の会員になりたい」と思う。</div>
+</div>
+</div>
+</div>
+</section>
+<!-- PHILOSOPHY -->
+<div class="philosophy r">
+<div class="philosophy-label">FINITE &amp; INFINITE</div>
+<p class="philosophy-line" data-en="This grassland is eternal. Your time to be here,">この草原は、永遠にある。<br/>あなたがここに来られる時間は、<em data-en="It is finite.">有限だ。</em></p>
+<div class="philosophy-divider"></div>
+<p class="philosophy-sub" data-en="Hokkaido's summer lasts 92 days.
+    The 100-member limit will never increase.
+    Your 30 annual nights expire if unused.">
+    北海道の夏は92日。<br/>
+    100名という枠は、絶対に増えない。<br/>
+    年30泊は、使わなければ消える。<br/><br/>
+<em data-en="That is precisely why time spent here becomes infinitely precious." style="color:var(--gold)">だからこそ、ここで過ごす時間は無限に重くなる。</em>
+</p>
+</div>
+<!-- GALLERY ROW 1 -->
+<div class="ww s r" style="padding-top:60px;padding-bottom:60px">
+<div class="gallery">
+<div class="gallery-item wide">
+<img alt="パーティー" data-en-alt="Party" src="/img/k4_ref_party.webp"/>
+<div class="gallery-cap">PARTY / DJ / BAR</div>
+</div>
+<div class="gallery-item">
+<img alt="夜景" data-en-alt="Night views" src="/img/k4_ref_night.webp"/>
+<div class="gallery-cap">NIGHT VIEW</div>
+</div>
+<div class="gallery-item">
+<img alt="サウナ" data-en-alt="Sauna" src="/img/k4_ref_sauna_spa.webp"/>
+<div class="gallery-cap">SAUNA / SPA</div>
+</div>
+<div class="gallery-item">
+<img alt="ルーフトップ" data-en-alt="Rooftop" src="/img/k4_ref_rooftop.webp"/>
+<div class="gallery-cap">ROOFTOP DECK</div>
+</div>
+<div class="gallery-item">
+<img alt="中庭" data-en-alt="Courtyard" src="/img/k4_ref_interior_court.webp"/>
+<div class="gallery-cap">COURTYARD DOJO</div>
+</div>
+<div class="gallery-item">
+<img alt="冬" src="/img/k4_ref_winter.webp"/>
+<div class="gallery-cap">WINTER / SNOW</div>
+</div>
+</div>
+</div>
+<!-- PLANS -->
+<section class="s r" id="plans">
+<div class="ww">
+<div class="label">MEMBERSHIP PLANS</div>
+<h2 data-en="Three Plans. Designed for All to Participate.">3つのプラン。<br/>全員が<em data-en="With Joy">嬉しく</em>なる設計。</h2>
+<div class="plans">
+<!-- FOUNDING MEMBER -->
+<div class="plan featured">
+<div class="plan-badge" data-en="100 Spots Remaining">残り100名</div>
+<div class="plan-type">FOUNDING MEMBER</div>
+<div class="plan-name" data-en="Founding Member">創設会員</div>
+<div class="plan-price">¥300<span data-en="¥10,000/year">万/年</span></div>
+<div class="plan-desc" data-en="30 nights annually. Complimentary access for up to 2 guests. Unlimited use of vehicles, motorcycles, and snowmobiles.">年30泊の使用権。ゲスト2名まで無料同伴。車・バイク・スノーモービル使い放題。</div>
+<ul class="plan-items">
+<li data-en="Priority Reservation Rights"><strong data-en="30 Nights per Year">年30泊</strong>優先予約権</li>
+<li data-en="Free Guest Accompaniment Until"><strong data-en="2 Guests">ゲスト2名</strong>まで無料同伴</li>
+<li data-en="Unlimited Access to Harley, Snowmobile, and Subaru">ハーレー・スノーモービル・スバル使い放題</li>
+<li data-en="Full Access to Pool, Sauna, DJ, and Bar">プール・サウナ・DJ・バー全施設利用</li>
+<li data-en="Complimentary Invitation (Annual Festival)"><strong>Founder's Harvest</strong>（年1回フェス）無料招待</li>
+<li data-en="Members-Only Slack Community">会員限定Slackコミュニティ</li>
+<li data-en="Voice in Facility Design">施設設備への意見権</li>
+</ul>
+<a class="plan-cta" data-en="Apply →" href="#apply">申し込む →</a>
+</div>
+<!-- FOUNDING PATRON -->
+<div class="plan">
+<div class="plan-badge" data-en="3 Memberships Remaining" style="background:transparent;border:1px solid var(--gold-dim);color:var(--gold)">残り3名</div>
+<div class="plan-type">FOUNDING PATRON</div>
+<div class="plan-name" data-en="Founding Patron">創設パトロン</div>
+<div class="plan-price">¥1,000<span data-en="¥10,000/year">万/年</span></div>
+<div class="plan-desc" data-en="Your name remains on the facility. Right to voice on additional equipment. You may visit anytime.">施設に名前が残る。設備追加の意見権。いつでも来ていい。</div>
+<ul class="plan-items">
+<li data-en="(Unlimited)"><strong data-en="Access Whenever You Wish">いつでも来ていい</strong>（無制限）</li>
+<li data-en="Guest Privileges">ゲスト<strong data-en="Unlimited">無制限</strong>同伴</li>
+<li data-en="Within the Facility">施設内に<strong data-en="Personalized Nameplate">名前入りプレート</strong></li>
+<li data-en="Facility Upgrades &amp; Renovations">設備追加・改修への<strong data-en="Right to Voice Opinion">意見権</strong></li>
+<li data-en="From Creating Member">Creating Memberより<strong data-en="Priority Booking">優先予約</strong></li>
+<li data-en="Full Facility Access + Private Locker">全施設利用 + 専用ロッカー</li>
+<li data-en="Harvest VIP Area + Priority Stage Seating">Harvest VIPエリア + 優先ステージ席</li>
+</ul>
+<a class="plan-cta" data-en="Inquire →" href="#apply">問い合わせ →</a>
+</div>
+<!-- CORPORATE -->
+<div class="plan">
+<div class="plan-type">CORPORATE</div>
+<div class="plan-name" data-en="Corporate Rental">法人貸切</div>
+<div class="plan-price">¥200<span data-en="¥10,000/visit">万/回</span></div>
+<div class="plan-desc" data-en="Weekday 2 nights, 3 days. Perfect for executive retreats, recruitment events, and team building. Exclusive access to all facilities.">平日2泊3日。経営合宿・採用イベント・チームビルディングに。全施設専有。</div>
+<ul class="plan-items">
+<li data-en="(Up to 30 people)"><strong data-en="Complete Exclusive Access to All Facilities">全施設完全専有</strong>（最大30名）</li>
+<li data-en="On-Site Staff &amp; Catering Services">スタッフ常駐・ケータリング対応</li>
+<li data-en="DJ, Projector &amp; Audio Equipment Included">DJ・プロジェクター・音響設備込み</li>
+<li data-en="All Vehicles &amp; Activities Included">車両・アクティビティ全て利用可</li>
+<li data-en="Corporate Logo Display &amp; Photo Session Coordination">企業ロゴ掲示・撮影会対応</li>
+<li data-en="Fully Equipped Meeting &amp; Workation Facilities">会議・ワーケーション設備完備</li>
+<li data-en="Reservable up to twice per month">月2回まで予約可能</li>
+</ul>
+<a class="plan-cta" data-en="Inquire →" href="#apply">問い合わせ →</a>
+</div>
+</div>
+</div>
+</section>
+<!-- REVENUE MODEL -->
+<section class="s r" id="revenue" style="background:var(--bg2)">
+<div class="w">
+<div class="label">REVENUE MODEL</div>
+<h2 data-en="Annual Revenue Model.">年間<em>¥1.58億</em>の収益設計。</h2>
+<p class="sub" data-en="Members pay annual fees upfront. Zero customer acquisition cost. Profitability secured before facility completion.">会員が年契約で先払い。集客コストゼロ。施設完成前に黒字確定できる。</p>
+<table class="rev-table">
+<thead>
+<tr>
+<th data-en="Revenue Streams">収益源</th>
+<th></th>
+<th data-en="Annual revenue" style="text-align:right">年間売上</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-en="Founding Members ¥3,000,000 × 100">
+            創設会員 ¥300万 × 100名
+            <div class="rev-bar-wrap"><div class="rev-bar" style="--w:38%"></div></div>
+</td>
+<td data-en="Membership Fee" style="color:#444;font-size:11px">会費</td>
+<td class="amount" data-en="¥60,000,000">¥6,000万</td>
+</tr>
+<tr>
+<td data-en="Founding Patrons ¥10,000,000 × 3">
+            創設パトロン ¥1,000万 × 3名
+            <div class="rev-bar-wrap"><div class="rev-bar" style="--w:19%"></div></div>
+</td>
+<td data-en="Membership Fee" style="color:#444;font-size:11px">会費</td>
+<td class="amount" data-en="¥30,000,000">¥3,000万</td>
+</tr>
+<tr>
+<td data-en="Corporate Exclusive Use ¥2,000,000 × 24 Times">
+            法人貸切 ¥200万 × 24回
+            <div class="rev-bar-wrap"><div class="rev-bar" style="--w:31%"></div></div>
+</td>
+<td data-en="Weekday private rental" style="color:#444;font-size:11px">平日貸切</td>
+<td class="amount" data-en="¥48,000,000">¥4,800万</td>
+</tr>
+<tr>
+<td data-en="Guest Fee ¥50,000 Per Person">
+            ゲスト同伴費 ¥5万/人
+            <div class="rev-bar-wrap"><div class="rev-bar" style="--w:6%"></div></div>
+</td>
+<td data-en="Pay-Per-Visit" style="color:#444;font-size:11px">都度課金</td>
+<td class="amount">¥1,000万</td>
+</tr>
+<tr>
+<td data-en="Founder's Harvest ¥100,000 × 100 Members">
+            Founder's Harvest ¥10万 × 100人
+            <div class="rev-bar-wrap"><div class="rev-bar" style="--w:6%"></div></div>
+</td>
+<td data-en="Once Per Year" style="color:#444;font-size:11px">年1回</td>
+<td class="amount">¥1,000万</td>
+</tr>
+<tr class="rev-total-row">
+<td><strong data-en="Annual total revenue">年間売上合計</strong></td>
+<td></td>
+<td class="amount" style="font-size:20px">¥1.58億</td>
+</tr>
+</tbody>
+</table>
+<div class="profit-box r">
+<div>
+<div class="label-big" data-en="Operating Costs (3 Staff Members, Utilities, Provisions, Maintenance)">運営コスト（スタッフ3名・光熱・食材・メンテ）</div>
+<div data-en="Approximately ¥50,000,000" style="font-size:18px;font-weight:900;color:#666;margin-top:6px">約 ¥5,000万</div>
+</div>
+<div>
+<div class="label-big" data-en="Operating Profit (Estimated)">営業利益（推定）</div>
+<div class="value-big" data-en="Approx. ¥100,000,000">約 ¥1億</div>
+</div>
+</div>
+<p class="rev-footer" data-en="※ Estimates are approximate. Feasible if founding member and patron slots are filled before completion.
+※ Phase 2 pricing planned to increase to ¥4,000,000. Early participation offers advantages.">
+      ※ 試算は概算。完成前に創設会員・パトロン枠を埋めれば、<strong data-en="Profitability from Facility Completion">施設完成と同時に黒字スタート</strong>できる。<br/>
+      ※ 第2期は価格を¥400万に引き上げ予定。早期参加が有利。
+    </p>
+</div>
+</section>
+<!-- WHY HAPPY -->
+<section class="s r">
+<div class="ww">
+<div class="label">WHY EVERYONE IS HAPPY</div>
+<h2 data-en="Everyone involved is the reason.">関わる全員が<em data-en="Delightful">嬉しい</em>理由。</h2>
+<p class="sub" data-en="Not exploitation. Designed so no one loses.">搾取じゃない。誰かが損をしない設計。</p>
+<div class="happy-grid">
+<div class="happy-cell">
+<div class="happy-who">MEMBER</div>
+<div class="happy-title" data-en="Your Private Sanctuary Feeling">「俺の秘密基地」感</div>
+<div class="happy-body" data-en="Unlike hotels, you experience true ownership. You gather exclusively with peers of equal standing. A place worthy of sharing. A place you wish to bring others to.">ホテルと違い「自分が所有している場所」という感覚。同じレベルの人間とだけ過ごせる。SNSで自慢できる。人を連れてきたくなる。</div>
+</div>
+<div class="happy-cell">
+<div class="happy-who">PATRON</div>
+<div class="happy-title" data-en="A Sense of True Ownership">「ここは俺が作った」感</div>
+<div class="happy-body" data-en="Your legacy endures. Shape facility decisions. Witness your vision materialize. Your aesthetic vision becomes tangible reality.">名前が残る。設備に意見できる。施設の成長を自分ごととして楽しめる。自分の審美眼が形になっている。</div>
+</div>
+<div class="happy-cell">
+<div class="happy-who" data-en="GUEST (Invited Guest)">GUEST（招待された人）</div>
+<div class="happy-title" data-en="The Experience of Being Invited">「招待された」という体験</div>
+<div class="happy-body" data-en='Brought to an exclusive place by someone special—a place the ordinary cannot access. This experience becomes the motivation to think, "I want to become a member next."'>一般では来られない場所に、特別な人に連れてきてもらった。この体験が「次は俺も会員になりたい」という動機になる。</div>
+</div>
+<div class="happy-cell">
+<div class="happy-who" data-en="OPERATOR (Management)">OPERATOR（運営）</div>
+<div class="happy-title" data-en="Revenue confirmed with annual contract">年契約で売上確定</div>
+<div class="happy-body" data-en="Zero marketing cost. Members organically share through word-of-mouth. High annual renewal rates ensure continuous revenue growth.">集客コストゼロ。会員が勝手に口コミしてくれる。毎年の更新率が高ければ売上は増え続ける。</div>
+</div>
+<div class="happy-cell">
+<div class="happy-who" data-en="CORPORATE">CORPORATE（法人）</div>
+<div class="happy-title" data-en="'We held it at such an extraordinary place' becomes a brand asset">「こんな場所でやった」がブランドになる</div>
+<div class="happy-body" data-en="Simply using it for management retreats and recruitment events elevates your company's brand. People will think, 'This must be an exceptional company.'">経営合宿・採用イベントに使うだけで会社のブランドが上がる。「なんかすごい会社だな」と思われる。</div>
+</div>
+<div class="happy-cell">
+<div class="happy-who">HOKKAIDO</div>
+<div class="happy-title" data-en="Community Contribution">地域への還元</div>
+<div class="happy-body" data-en="All provisions sourced from Hokkaido (Tokachi beef, lamb, potatoes, local sake). Minimum three local employees. We create a facility that embodies our commitment to Hokkaido.">食材は全部北海道産（十勝牛・羊・ジャガイモ・地酒）。地元雇用3名以上。北海道への愛が伝わる施設を作る。</div>
+</div>
+</div>
+</div>
+</section>
+<!-- GENIUS POINTS -->
+<section class="s r" style="background:var(--bg2)">
+<div class="w">
+<div class="label">THE GENIUS PART</div>
+<h2 data-en="Why This Model?">なぜこのモデルは<em data-en="Strong">強い</em>のか。</h2>
+<div class="genius-list">
+<div class="genius-item">
+<div class="genius-num">01</div>
+<div>
+<div class="genius-title" data-en="Waiting List Creates Exclusivity">ウェイティングリストがFOMOを生む</div>
+<div class="genius-body" data-en="The moment we reach capacity, those excluded will desire entry even more. Phase Two pricing increases to ¥4,000,000. Exclusivity becomes value.">「満員」になった瞬間から、入れなかった人が「次こそ入りたい」と思う。第2期は¥400万に値上げ。希少性が価値になる。</div>
+</div>
+</div>
+<div class="genius-item">
+<div class="genius-num">02</div>
+<div>
+<div class="genius-title" data-en="Our Selection Process Safeguards the Brand">審査制がブランドを守る</div>
+<div class="genius-body" data-en="Because not everyone can enter, membership becomes a status symbol. 'That person is a CLUB K4 member' becomes part of the conversation.">誰でも入れないから、メンバーであることがステータスになる。「あの人CLUB K4のメンバーだ」が会話になる。</div>
+</div>
+</div>
+<div class="genius-item">
+<div class="genius-num">03</div>
+<div>
+<div class="genius-title" data-en="Instagram-worthy moments become free advertising">SNS映えが無料の広告になる</div>
+<div class="genius-body" data-en="We don't restrict sharing. Every room and zone is designed to be photographed. Member posts become our marketing. Zero advertising budget.">投稿禁止にしない。むしろ全部屋・全ゾーンが映える設計。会員の投稿がそのままマーケティング。広告費ゼロ。</div>
+</div>
+</div>
+<div class="genius-item">
+<div class="genius-num">04</div>
+<div>
+<div class="genius-title" data-en="Capital Recovery Before Completion">完成前に資金回収できる</div>
+<div class="genius-body" data-en="Founding members and patrons pay annual fees upfront. Revenue is confirmed before facility completion. The same structure as crowdfunding.">創設会員・パトロンの年会費は前払い。施設が完成する前に収益確定。クラウドファンディングと同じ構造。</div>
+</div>
+</div>
+<div class="genius-item">
+<div class="genius-num">05</div>
+<div>
+<div class="genius-title" data-en="The Experience of Having Subaru Outback at Your Disposal">スバル アウトバックが「使える」という体験</div>
+<div class="genius-body" data-en="Drive through Hokkaido's pristine grasslands in a Subaru Outback with zero ownership costs. No experience offers greater value. Usership surpasses ownership in richness.">所有コストゼロで北海道の草原をスバル アウトバックで走れる。これ以上のコスパの体験はない。所有より使える方が豊か。</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- GALLERY ROW 2 -->
+<div class="ww s r" style="padding-top:60px;padding-bottom:60px">
+<div class="gallery">
+<div class="gallery-item">
+<img alt="スバル アウトバック" src="/img/k4_supercar.webp"/>
+<div class="gallery-cap">FERRARI</div>
+</div>
+<div class="gallery-item">
+<img alt="スノーモービル" data-en-alt="Snowmobile" src="/img/k4_snowmobile_action.webp"/>
+<div class="gallery-cap">SNOWMOBILE</div>
+</div>
+<div class="gallery-item">
+<img alt="DJ" src="/img/k4_dj_booth.webp"/>
+<div class="gallery-cap">DJ BOOTH</div>
+</div>
+<div class="gallery-item">
+<img alt="プール" data-en-alt="Pool" src="/img/k4_pool_infinity.webp"/>
+<div class="gallery-cap">INFINITY POOL</div>
+</div>
+<div class="gallery-item">
+<img alt="バー" data-en-alt="Bar" src="/img/k4_bar_interior.webp"/>
+<div class="gallery-cap">BAR</div>
+</div>
+<div class="gallery-item">
+<img alt="シーシャ" data-en-alt="Shisha" src="/img/k4_shisha_rooftop.webp"/>
+<div class="gallery-cap">SHISHA / ROOFTOP</div>
+</div>
+</div>
+</div>
+<!-- HOW TO JOIN -->
+<section class="s r" id="how">
+<div class="w">
+<div class="label">HOW TO JOIN</div>
+<h2 data-en="begins with."><em data-en="Four Steps">4ステップ</em>で始まる。</h2>
+<p class="sub" data-en="We welcome you to simply listen first. There is no rush.">まず話だけ聞くのも歓迎。焦らなくていい。</p>
+<div class="steps">
+<div class="step">
+<div class="step-n">1</div>
+<div>
+<div class="step-title" data-en="Inquire via form">フォームから問い合わせ</div>
+<div class="step-body" data-en="Whether you want to learn about plans or simply listen—we can send information in 5 minutes.">「プランを知りたい」「話だけ聞きたい」でOK。5分で送れる。</div>
+</div>
+</div>
+<div class="step">
+<div class="step-n">2</div>
+<div>
+<div class="step-title" data-en="30-Minute Online Information Session">オンラインで30分の説明会</div>
+<div class="step-body" data-en="We share detailed figures, facility plans, equipment lists, and member selection criteria.">詳細な数字・施設計画・設備リスト・メンバー審査の基準を共有する。</div>
+</div>
+</div>
+<div class="step">
+<div class="step-n">3</div>
+<div>
+<div class="step-title" data-en="Review → Agreement">審査 → 契約</div>
+<div class="step-body" data-en="Following a simple review, annual membership prepayment confirms your Founding Member status. Applications close once capacity is reached.">簡単な審査の後、年会費の前払いで創設会員が確定。枠が埋まり次第締め切り。</div>
+</div>
+</div>
+<div class="step">
+<div class="step-n">4</div>
+<div>
+<div class="step-title" data-en="October 2026 — Opening">2026年10月 — オープン</div>
+<div class="step-body" data-en="Access begins upon facility completion. All members invited to inaugural Founder's Harvest.">施設完成と同時に利用スタート。初年度Founder's Harvestに全員招待。</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- APPLY -->
+<section class="apply-section r" id="apply">
+<div class="label" style="color:rgba(200,164,85,.5);margin-bottom:16px">JOIN THE CLUB</div>
+<h2 data-en="For Founding Members">創設会員に<em data-en="Become.">なる。</em></h2>
+<p data-en="Simply inquire first. Do not wait until remaining positions are scarce.">まず「話を聞きたい」だけでOK。<br/>残り枠が少なくなってから後悔しないために。</p>
+<div class="apply-form">
+<input placeholder="お名前" type="text"/>
+<input placeholder="メールアドレス" type="email"/>
+<input placeholder="電話番号（任意）" type="tel"/>
+<select>
+<option data-en="Choose Your Plan" disabled="" selected="" value="">気になるプランを選ぶ</option>
+<option data-en="Founding Member (¥3,000,000/year)">創設会員（¥300万/年）</option>
+<option data-en="Founding Patron (¥10,000,000/year)">創設パトロン（¥1,000万/年）</option>
+<option data-en="Corporate Exclusive Use (¥2,000,000 per session)">法人貸切（¥200万/回）</option>
+<option data-en="I'd Like to Hear More First">まず話だけ聞きたい</option>
+</select>
+<textarea placeholder="一言あれば（任意）"></textarea>
+<button data-en="Submit — Free, Reply within 3 Minutes →" type="submit">送信する — 無料・3分以内に返信 →</button>
+</div>
+<p class="apply-note" data-en="Personal information is used solely for facility operations. We will not contact you for sales purposes.">個人情報は当施設の運営目的のみに使用します。セールス目的での連絡はしません。</p>
+</section>
+<!-- FOOTER -->
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-building, 100-person village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Birawa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Birawa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="View All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Join">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain units for free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor plan collection" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="The Story of Our Creation" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+// Scroll reveal
+const obs = new IntersectionObserver(els => {
+  els.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+
+// Countdown to Oct 1 2026
+function updateCountdown() {
+  const target = new Date('2026-10-01T00:00:00+09:00');
+  const now = new Date();
+  const diff = target - now;
+  const days = Math.max(0, Math.floor(diff / 86400000));
+  const totalDays = Math.floor((target - new Date('2026-01-01')) / 86400000);
+  const elapsed = totalDays - days;
+  const pct = Math.min(100, (elapsed / totalDays * 100)).toFixed(1);
+
+  ['countdown-days','hero-days'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = days.toLocaleString();
+  });
+  const bar = document.getElementById('bar-days');
+  if (bar) bar.style.width = pct + '%';
+}
+updateCountdown();
+setInterval(updateCountdown, 60000);
+
+// Revenue bar animation
+const barObs = new IntersectionObserver(els => {
+  els.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.rev-bar').forEach(bar => {
+        const w = getComputedStyle(bar).getPropertyValue('--w');
+        bar.style.width = '0';
+        requestAnimationFrame(() => { bar.style.width = w; });
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+const revTable = document.querySelector('.rev-table');
+if (revTable) barObs.observe(revTable);
+
+// Form submit
+document.querySelector('.apply-form button').addEventListener('click', e => {
+  e.preventDefault();
+  const btn = e.target;
+  btn.textContent = '✓ 送信完了 — 3分以内にご連絡します';
+  btn.style.background = '#2a5';
+});
+
+// Nav padding
+document.body.style.paddingTop = '48px';
+</script>
+<script src="/lang.js"></script>
+</body>
+</html>

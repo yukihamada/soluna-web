@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="Structural Calculation Report — SOLUNA Hybrid SIPs Cabin 5m×5m">構造計算書 — SOLUNA ハイブリッドSIPsキャビン 5m×5m</title>
+<meta content="SOLUNA 5m×5m平屋キャビンの構造概算書。固定荷重・積雪荷重・風荷重・地震荷重・壁量計算・屋根構造・基礎検討を網羅。" data-en-content="SOLUNA 5m×5m Single-Story Cabin Structural Estimate. Comprehensive coverage of dead load, snow load, wind load, seismic load, wall quantity calculations, roof structure, and foundation analysis." name="description"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'&gt;&lt;rect width='64' height='64' rx='14' fill='%23050505'/&gt;&lt;circle cx='32' cy='32' r='20' fill='none' stroke='%23c8a455' stroke-width='2.5'/&gt;&lt;/svg&gt;" rel="icon"/>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;700;800&amp;display=swap" rel="stylesheet"/>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--bg:#050505;--bg-soft:#080808;--line:#131313;--text:#f0ece4;--dim:#666;--pass:#4aea80;--warn:#f0c040;--fail:#ff5555}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+h1,h2,h3{font-family:'Shippori Mincho B1',serif}
+::selection{background:var(--gold);color:#000}
+.w{max-width:840px;margin:0 auto;padding:0 24px}
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px}
+.gnav-links a{color:#555}
+.gnav-links a:hover{color:var(--gold)}
+.gnav-links a.cta{color:var(--gold);font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px}
+
+/* Hero */
+.hero{padding:80px 0 60px;border-bottom:1px solid var(--line);text-align:center}
+.hero .eyebrow{font-size:9px;letter-spacing:.35em;color:rgba(200,164,85,.7);margin-bottom:16px;font-weight:700;text-transform:uppercase}
+.hero h1{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:16px}
+.hero h1 em{color:var(--gold);font-style:normal}
+.hero .lead{color:var(--dim);font-size:13px;line-height:2;max-width:560px;margin:0 auto 24px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.hero-meta span{font-size:9.5px;color:var(--gold);border:1px solid rgba(200,164,85,.4);padding:5px 14px;border-radius:100px;background:rgba(200,164,85,.06);font-weight:600}
+.pdf-link{display:inline-flex;align-items:center;gap:8px;margin-top:28px;padding:12px 28px;border:1px solid rgba(200,164,85,.4);border-radius:100px;font-size:12px;font-weight:700;color:var(--gold);transition:all .3s}
+.pdf-link:hover{background:rgba(200,164,85,.08)}
+
+/* Tabs */
+.tabs{position:sticky;top:48px;z-index:100;background:rgba(5,5,5,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab-list{display:flex;gap:0;min-width:max-content;padding:0 24px}
+.tab-btn{padding:14px 18px;font-size:11px;color:#555;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;font-weight:600;letter-spacing:.04em;transition:color .2s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* Sections */
+.sec{display:none;padding:56px 0;animation:fadeUp .5s ease}
+.sec.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.sec .label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#3a3a3a;margin-bottom:12px;font-weight:700}
+.sec h2{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800;margin-bottom:10px;line-height:1.25}
+.sec h2 em{color:var(--gold);font-style:normal}
+.sec h3{font-size:15px;font-weight:700;margin:32px 0 12px;color:var(--text);padding-bottom:8px;border-bottom:1px solid var(--line)}
+.sec p.desc{color:var(--dim);font-size:13px;line-height:2;max-width:640px;margin-bottom:24px}
+
+/* Tables */
+.calc-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:12.5px}
+.calc-table th{text-align:left;padding:10px 12px;font-size:10px;letter-spacing:.08em;color:var(--dim);background:rgba(200,164,85,.04);border-bottom:1px solid var(--line);font-weight:700}
+.calc-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.03);line-height:1.6}
+.calc-table tr:hover{background:rgba(255,255,255,.01)}
+.calc-table .num{font-variant-numeric:tabular-nums;text-align:right;font-weight:600;color:var(--text)}
+.calc-table .unit{color:var(--dim);font-size:11px}
+.calc-table .total{font-weight:800;color:var(--gold);border-top:2px solid var(--gold)}
+.calc-table .total td{padding-top:14px}
+
+/* Formula blocks */
+.formula{background:rgba(200,164,85,.03);border:1px solid rgba(200,164,85,.12);border-radius:10px;padding:16px 20px;margin:16px 0;font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:2;color:var(--text);overflow-x:auto}
+.formula .var{color:var(--gold)}
+.formula .comment{color:var(--dim)}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:100px;font-size:10px;font-weight:800;letter-spacing:.04em}
+.badge-pass{color:var(--pass);background:rgba(74,234,128,.08);border:1px solid rgba(74,234,128,.2)}
+.badge-warn{color:var(--warn);background:rgba(240,192,64,.08);border:1px solid rgba(240,192,64,.2)}
+.badge-fail{color:var(--fail);background:rgba(255,85,85,.08);border:1px solid rgba(255,85,85,.2)}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%}
+.badge-pass::before{background:var(--pass)}
+.badge-warn::before{background:var(--warn)}
+.badge-fail::before{background:var(--fail)}
+
+/* Result card */
+.result-card{border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0;background:var(--bg-soft)}
+.result-card h4{font-size:13px;margin-bottom:10px;font-family:'Shippori Mincho B1',serif}
+.result-card .val{font-size:26px;font-weight:800;color:var(--gold);font-family:'Shippori Mincho B1',serif;margin-bottom:4px}
+.result-card .note{font-size:11px;color:var(--dim);line-height:1.8}
+
+/* Grid */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:20px 0}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+/* Notes */
+.note-box{border-left:3px solid var(--gold);padding:12px 16px;margin:16px 0;font-size:12px;color:var(--dim);line-height:1.9;background:rgba(200,164,85,.02)}
+.note-box strong{color:var(--text)}
+.warn-box{border-left:3px solid var(--warn);padding:12px 16px;margin:16px 0;font-size:12px;color:var(--dim);line-height:1.9;background:rgba(240,192,64,.02)}
+.warn-box strong{color:var(--warn)}
+
+/* Summary */
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:24px 0}
+.summary-item{border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;justify-content:space-between;align-items:center}
+.summary-item .s-label{font-size:12px;color:var(--dim)}
+.summary-item .s-val{font-size:13px;font-weight:700}
+
+/* Footer */
+footer{padding:56px 0;text-align:center;border-top:1px solid var(--line)}
+footer .brand{font-size:10px;font-weight:800;letter-spacing:.3em;color:#2a2a2a;margin-bottom:16px}
+footer .links{display:flex;justify-content:center;flex-wrap:wrap;gap:16px;font-size:11px;color:#333;margin-bottom:20px}
+footer .links a{color:#333}
+footer p{font-size:10px;color:#242424}
+</style>
+</head>
+<body>
+<nav class="gnav"><a class="gnav-logo" href="/">SOLUNA</a><div class="gnav-links"><a data-en="Building Materials List" href="/materials">建材一覧</a><a data-en="Hybrid SIPs" href="/hybrid-sips">ハイブリッドSIPs</a><a class="cta" data-en="Consult" href="/contact">相談する</a></div></nav>
+<!-- HERO -->
+<div class="hero"><div class="w">
+<p class="eyebrow">SOLUNA ENGINEERING</p>
+<h1><em data-en="Structural Calculation Report.">構造計算書。</em></h1>
+<p class="lead" data-en="Structural estimate for 5m x 5m Hybrid SIPs Cabin (single-story with mono-pitch roof). Teshikaga, Hokkaido; heavy snow zone 120cm; seismic regional factor Z=1.0.">5m x 5m ハイブリッドSIPsキャビン（平屋・片流れ屋根）の構造概算。北海道弟子屈町、多雪区域120cm、地震地域係数Z=1.0。</p>
+<div class="hero-meta">
+<span data-en="25 m² Single-Story">25 m² 平屋</span>
+<span data-en="Heavy Snow Region 120cm">多雪区域 120cm</span>
+<span>V₀ = 34 m/s</span>
+<span>Z = 1.0</span>
+<span data-en="SIPs Wall Magnification Factor 5.0x">SIPs壁倍率 5.0倍</span>
+</div>
+<a class="pdf-link" data-en="Download Structural Estimate (Markdown)" download="" href="/pdf/structural_calc.md">構造概算書 (Markdown) をダウンロード</a>
+</div></div>
+<!-- TABS -->
+<div class="tabs">
+<div class="tab-list">
+<button class="tab-btn active" data-en="Dead Load" data-tab="dead">固定荷重</button>
+<button class="tab-btn" data-en="Snow Load" data-tab="snow">積雪荷重</button>
+<button class="tab-btn" data-en="Wind Load" data-tab="wind">風荷重</button>
+<button class="tab-btn" data-en="Seismic Load" data-tab="seismic">地震荷重</button>
+<button class="tab-btn" data-en="Wall Quantity Calculation" data-tab="wall">壁量計算</button>
+<button class="tab-btn" data-en="Roof Structure" data-tab="roof">屋根構造</button>
+<button class="tab-btn" data-en="Foundation" data-tab="foundation">基礎</button>
+<button class="tab-btn" data-en="Overall Assessment" data-tab="summary">総合判定</button>
+</div>
+</div>
+<!-- 1. DEAD LOADS -->
+<div class="sec active" id="sec-dead"><div class="w">
+<p class="label">01 / 08</p>
+<h2 data-en="Dead Load">固定荷重 <em>Dead Loads</em></h2>
+<p class="desc" data-en="Self-weight of each structural component. Surface loads are calculated from material density and dimensions for roof, walls, and floor respectively.">建物を構成する各部材の自重。屋根・壁・床のそれぞれについて、材料密度と寸法から面荷重を算定する。</p>
+<h3 data-en="Roof Dead Load">屋根固定荷重</h3>
+<table class="calc-table">
+<tr><th data-en="Members">部材</th><th data-en="Calculate">算定</th><th data-en="Load" style="text-align:right">荷重</th></tr>
+<tr><td data-en="Larch Ridge Beam 90x90 @910">カラマツ母屋 90x90 @910</td><td>0.09x0.09x550 / 0.91 <span class="unit" data-en="= Cross-section × Density / Pitch">= 断面x密度/ピッチ</span></td><td class="num">6.2 <span class="unit">kg/m²</span></td></tr>
+<tr><td data-en="EPDM Waterproof Membrane 1.5mm">EPDM防水シート 1.5mm</td><td>0.0015 x 1,250 <span class="unit">kg/m³</span></td><td class="num">2.0 <span class="unit">kg/m²</span></td></tr>
+<tr><td data-en="Roof Grid Frame">ルーフグリッドフレーム</td><td data-en="Preliminary Estimate">概算 <span class="unit" data-en="(Wood Frame + Hardware)">（木枠+金物）</span></td><td class="num">5.0 <span class="unit">kg/m²</span></td></tr>
+<tr><td data-en="Hybrid Panel (Weighted Average)">混合パネル（加重平均）</td><td>55x0.25 + 10x0.30 + 15x0.30 + 3x0.15</td><td class="num">21.7 <span class="unit">kg/m²</span></td></tr>
+<tr><td data-en="Sheathing Structural Plywood 12mm">野地板 構造用合板 12mm</td><td>0.012 x 600 <span class="unit">kg/m³</span></td><td class="num">7.2 <span class="unit">kg/m²</span></td></tr>
+<tr class="total"><td colspan="2"><strong data-en="Roof Dead Load D_roof">屋根固定荷重 D_roof</strong></td><td class="num">45 <span class="unit">kg/m²</span></td></tr>
+</table>
+<h3 data-en="Wall Dead Load — Hybrid SIPs">壁固定荷重 — ハイブリッドSIPs</h3>
+<table class="calc-table">
+<tr><th>層</th><th data-en="Thickness x Density">厚さ x 密度</th><th data-en="Load" style="text-align:right">荷重</th></tr>
+<tr><td data-en="Cedar CLT (exterior)">杉CLT（外面）</td><td>12mm x 380 <span class="unit">kg/m³</span></td><td class="num">4.56 <span class="unit">kg/m²</span></td></tr>
+<tr><td data-en="Cellulose Fiber">セルロースファイバー</td><td>100mm x 45 <span class="unit">kg/m³</span></td><td class="num">4.50 <span class="unit">kg/m²</span></td></tr>
+<tr><td data-en="Bamboo Laminated Panel (interior)">竹集成パネル（内面）</td><td>12mm x 750 <span class="unit">kg/m³</span></td><td class="num">9.00 <span class="unit">kg/m²</span></td></tr>
+<tr><td data-en="Burnt Wood Cladding">焼板クラッディング</td><td>12mm x 470 <span class="unit" data-en="kg/m³ (post-carbonization)">kg/m³ (炭化後)</span></td><td class="num">5.64 <span class="unit">kg/m²</span></td></tr>
+<tr><td data-en="Ventilation Batten 18x45 @455">通気胴縁 18x45 @455</td><td data-en="Cross-Section × Density / Pitch">断面x密度/ピッチ</td><td class="num">0.70 <span class="unit">kg/m²</span></td></tr>
+<tr class="total"><td colspan="2"><strong data-en="Wall Dead Load D_wall">壁固定荷重 D_wall</strong></td><td class="num">25 <span class="unit">kg/m²</span></td></tr>
+</table>
+<h3 data-en="Floor Dead Load">床固定荷重</h3>
+<table class="calc-table">
+<tr><th>層</th><th data-en="Calculate">算定</th><th data-en="Load" style="text-align:right">荷重</th></tr>
+<tr><td data-en="Bamboo Flooring 18mm">竹フローリング 18mm</td><td>18mm x 750 <span class="unit">kg/m³</span></td><td class="num">13.5 <span class="unit">kg/m²</span></td></tr>
+<tr><td data-en="Structural Plywood Base 12mm">構造用合板下地 12mm</td><td>12mm x 500 <span class="unit">kg/m³</span></td><td class="num">6.0 <span class="unit">kg/m²</span></td></tr>
+<tr><td data-en="Rice Husk Insulation 100mm">籾殻断熱材 100mm</td><td>100mm x 100 <span class="unit">kg/m³</span></td><td class="num">10.0 <span class="unit">kg/m²</span></td></tr>
+<tr><td data-en="Main Beam 90x90 @910">大引 90x90 @910</td><td data-en="Ridge Beam Equivalent">母屋同等</td><td class="num">5.4 <span class="unit">kg/m²</span></td></tr>
+<tr class="total"><td colspan="2"><strong data-en="Floor Dead Load D_floor">床固定荷重 D_floor</strong></td><td class="num">35 <span class="unit">kg/m²</span></td></tr>
+</table>
+<h3 data-en="Total Building Weight">建物総重量</h3>
+<div class="grid-3">
+<div class="result-card"><h4 data-en="Roof">屋根</h4><div class="val">1,125 kg</div><div class="note">45 kg/m² x 25 m²</div></div>
+<div class="result-card"><h4 data-en="Wall Assembly">壁体</h4><div class="val">1,165 kg</div><div class="note" data-en="25 kg/m² x 46.6 m² (excluding openings)">25 kg/m² x 46.6 m²（開口除く）</div></div>
+<div class="result-card"><h4>床</h4><div class="val">875 kg</div><div class="note">35 kg/m² x 25 m²</div></div>
+</div>
+<div class="result-card" style="border-color:rgba(200,164,85,.3)">
+<h4 data-en="Total Building Dead Load W_dead">建物固定荷重合計 W_dead</h4>
+<div class="val">3,165 kg</div>
+<div class="note">= 31.05 kN</div>
+</div>
+</div></div>
+<!-- 2. SNOW LOAD -->
+<div class="sec" id="sec-snow"><div class="w">
+<p class="label">02 / 08</p>
+<h2 data-en="Snow Load">積雪荷重 <em>Snow Load</em></h2>
+<p class="desc" data-en="Snow load on roof is calculated from Teshikaga's design snow depth of 120 cm and design snow density of 200 kg/m³, with reduction applied via shape coefficient for single-slope roofs.">弟子屈町の設計積雪深120cmと設計用積雪密度200 kg/m³から、屋根積雪荷重を算定。片流れ屋根の形状係数による低減を適用する。</p>
+<h3 data-en="Ground Snow Load">地上積雪荷重</h3>
+<div class="formula">
+<span class="var">S_ground</span> = d x rho / 100<br/>
+<span class="comment">// d = 120 cm, rho = 200 kg/m³</span><br/>
+<span class="var">S_ground</span> = 120 x 200 / 100 = <strong>240 kg/m²</strong>
+</div>
+<div class="note-box" data-en="Fresh snow 30 kg/m³, settled snow 150 kg/m³, granular snow 300 kg/m³. Considering long-term accumulation in Hokkaido's interior regions, 200 kg/m³ is adopted as the design average density.">
+<strong data-en="Rationale for Snow Density:">積雪密度の根拠:</strong> 新雪30 kg/m³、締雪150 kg/m³、ざらめ雪300 kg/m³。北海道内陸部の長期堆積を考慮し、設計用平均密度として200 kg/m³を採用。
+  </div>
+<h3 data-en="Roof Shape Coefficient">屋根形状係数</h3>
+<div class="formula">
+<span class="comment" data-en="// Notification 1455 (2000) Single-slope, gradient 30° or less">// 告示1455号（平成12年）片流れ・勾配 30° 以下</span><br/>
+<span class="var">Cs</span> = sqrt(cos(theta))<br/>
+<span class="var">Cs</span> = sqrt(cos(16.7°)) = sqrt(0.9578) = <strong>0.9787</strong>
+</div>
+<h3 data-en="Design Snow Load on Roof">屋根設計積雪荷重</h3>
+<div class="formula">
+<span class="var">S_roof</span> = Cs x S_ground<br/>
+<span class="var">S_roof</span> = 0.9787 x 240 = <strong>235 kg/m²</strong>
+</div>
+<div class="grid-2">
+<div class="result-card">
+<h4 data-en="Roof Snow Load">屋根積雪荷重</h4>
+<div class="val">235 kg/m²</div>
+<div class="note" data-en="Ground Level 240 kg/m² x Cs=0.979">地上240 kg/m² x Cs=0.979</div>
+</div>
+<div class="result-card">
+<h4 data-en="Total Roof Load During Snow">積雪時 屋根総荷重</h4>
+<div class="val">5,875 kg</div>
+<div class="note">235 x 25 m² = 57.6 kN</div>
+</div>
+</div>
+<div class="warn-box" data-en="For this structure, snow load of 235 kg/m² is the governing factor for roof design, exceeding wind and seismic loads.">
+<strong data-en="Snow Load is Governing Load:">積雪荷重が支配荷重:</strong> 本建物では積雪235 kg/m²が屋根設計の主要因となる。風荷重・地震荷重より大きい。
+  </div>
+</div></div>
+<!-- 3. WIND LOAD -->
+<div class="sec" id="sec-wind"><div class="w">
+<p class="label">03 / 08</p>
+<h2 data-en="Wind Load">風荷重 <em>Wind Load</em></h2>
+<p class="desc" data-en="Per Bulletin No. 1454: Reference wind speed V₀ = 34 m/s with surface roughness category II velocity pressure calculation. Overturning stability and roof uplift considered.">告示第1454号に基づく基準風速V₀=34 m/s、地表面粗度区分IIで速度圧を算定。転倒安定性と屋根吸い上げを検討する。</p>
+<h3 data-en="Velocity Pressure q_H">速度圧 q_H</h3>
+<div class="formula">
+<span class="var">q_H</span> = 0.6 x E x V₀²<br/><br/>
+<span class="comment" data-en="// Roughness Category II: Zb=5m, ZG=350m, alpha=0.15">// 粗度区分II: Zb=5m, ZG=350m, alpha=0.15</span><br/>
+<span class="comment">// H=2.65m &lt; Zb=5m → Er at H=Zb</span><br/>
+<span class="var">Er</span> = 1.7 x (5/350)^0.15 = 0.866<br/>
+<span class="var">Gf</span> = 2.2 <span class="comment" data-en="// Gust Effect Factor">// ガスト影響係数</span><br/>
+<span class="var">E</span> = Er² x Gf = 0.750 x 2.2 = 1.650<br/><br/>
+<span class="var">q_H</span> = 0.6 x 1.650 x 34² = <strong>1,145 N/m²</strong> (117 kgf/m²)
+  </div>
+<h3 data-en="Wall Wind Pressure Coefficient">壁面風力係数</h3>
+<table class="calc-table">
+<tr><th>面</th><th>Cf</th><th data-en="Wind Pressure (N/m²)" style="text-align:right">風圧 (N/m²)</th></tr>
+<tr><td data-en="Windward Wall (Positive Pressure)">風上壁（正圧）</td><td class="num">+0.8</td><td class="num">916</td></tr>
+<tr><td data-en="Leeward Wall (Negative Pressure)">風下壁（負圧）</td><td class="num">-0.4</td><td class="num">458</td></tr>
+<tr><td data-en="Side Wall (Negative Pressure)">側壁（負圧）</td><td class="num">-0.7</td><td class="num">802</td></tr>
+</table>
+<h3 data-en="Overturning Stability">転倒安定性</h3>
+<div class="formula">
+<span class="comment" data-en="// Horizontal Wind Force">// 水平風力</span><br/>
+<span class="var">F_wind</span> = (0.8 + 0.4) x 1,145 x 13.25 m² = <strong>18.2 kN</strong><br/><br/>
+<span class="comment" data-en="// Overturning Moment">// 転倒モーメント</span><br/>
+<span class="var">M_ot</span> = 18.2 x 1.325 = 24.1 kN-m<br/><br/>
+<span class="comment" data-en="// Stability Moment">// 安定モーメント</span><br/>
+<span class="var">M_st</span> = 3,165 x 9.81/1000 x 2.5 = 77.7 kN-m<br/><br/>
+<span class="var">SF</span> = 77.7 / 24.1 = <strong>3.22</strong> ≥ 1.5
+  </div>
+<p data-en="Safety Factor 3.22 — Fully safe against overturning" style="margin:12px 0"><span class="badge badge-pass">PASS</span> 安全率 3.22 -- 転倒に対して十分安全</p>
+<h3 data-en="Roof Uplift">屋根吸い上げ</h3>
+<div class="formula">
+<span class="var">W_uplift</span> = 1,145 x 25 = 28,625 N = 28.6 kN<br/>
+<span class="var">W_roof</span> = 1,125 x 9.81/1000 = 11.04 kN<br/>
+<span class="comment" data-en="// Net Capillary Rise">// ネット吸い上げ</span><br/>
+<span class="var">F_net</span> = 28.6 - 11.04 = <strong>17.6 kN</strong>
+</div>
+<div class="note-box" data-en="4 walls × 2 locations each = 8 total HD fastening points. 2.2 kN per location.">
+<strong data-en="Countermeasures:">対策:</strong> 壁4面 x 各2箇所 = 計8箇所にHD金物。1箇所あたり 2.2 kN。<strong data-en="Accommodated by HD-B10 (allowable 10kN).">HD-B10（許容10kN）で対応可。</strong>
+</div>
+<p data-en="Roof uplift resistance with HD-B10 hardware" style="margin:12px 0"><span class="badge badge-pass">PASS</span> HD-B10金物で屋根吸い上げに対応</p>
+</div></div>
+<!-- 4. SEISMIC -->
+<div class="sec" id="sec-seismic"><div class="w">
+<p class="label">04 / 08</p>
+<h2 data-en="Seismic Load">地震荷重 <em>Seismic Load</em></h2>
+<p class="desc" data-en="Base Shear Calculation per Article 88. In heavy snow regions, add 35% of snow load to building weight.">令第88条に基づくベースシア計算。多雪区域では積雪荷重の35%を建物重量に加算する。</p>
+<h3 data-en="Seismic Building Weight">地震時建物重量</h3>
+<div class="formula">
+<span class="var">W_eq</span> = W_dead + 0.35 x W_snow<br/>
+<span class="var">W_eq</span> = 3,165 + 0.35 x 5,875<br/>
+<span class="var">W_eq</span> = 3,165 + 2,056 = <strong>5,221 kg = 51.2 kN</strong>
+</div>
+<h3 data-en="Design Seismic Force">設計地震力</h3>
+<table class="calc-table">
+<tr><th data-en="Parameters">パラメータ</th><th>値</th><th data-en="Basis">根拠</th></tr>
+<tr><td>C₀</td><td class="num">0.2</td><td data-en="Allowable Stress Design (Primary Design)">許容応力度設計（1次設計）</td></tr>
+<tr><td>Z</td><td class="num">1.0</td><td data-en="Hokkaido Regional Coefficient">北海道 地域係数</td></tr>
+<tr><td>Rt</td><td class="num">1.0</td><td data-en="Timber Single-Story T &lt; 0.3s">木造平屋 T &lt; 0.3s</td></tr>
+<tr><td>Ai</td><td class="num">1.0</td><td data-en="Single-Story (i=1)">1階建（i=1）</td></tr>
+</table>
+<div class="formula">
+<span class="var">Q_d</span> = C₀ x Z x Rt x Ai x W_eq<br/>
+<span class="var">Q_d</span> = 0.2 x 1.0 x 1.0 x 1.0 x 51.2<br/>
+<span class="var">Q_d</span> = <strong>10.24 kN</strong> (1,044 kgf)
+  </div>
+<div class="result-card" style="border-color:rgba(200,164,85,.3)">
+<h4 data-en="Design Seismic Force Q_d">設計地震力 Q_d</h4>
+<div class="val">10.24 kN</div>
+<div class="note" data-en="= 1,044 kgf Horizontal Force">= 1,044 kgf 水平力</div>
+</div>
+</div></div>
+<!-- 5. WALL BRACING -->
+<div class="sec" id="sec-wall"><div class="w">
+<p class="label">05 / 08</p>
+<h2 data-en="Wall Quantity Calculation">壁量計算 <em>Wall Bracing</em></h2>
+<p class="desc" data-en="Compare required wall quantity per Article 46 and Notification No. 1352 with existing wall quantity of hybrid SIPs panels, confirming seismic and wind resistance requirements.">令第46条・告示第1352号に基づく必要壁量と、ハイブリッドSIPsパネルの存在壁量を比較し、耐震・耐風の充足を確認する。</p>
+<h3 data-en="Required Wall Quantity">必要壁量</h3>
+<div class="formula" data-en="Base Factor = 15 cm/m²
+    Snow Load Increment = 1.2 x 7 = 8.4 cm/m²
+    Required Wall Quantity = 15 + 8.4 = 23.4 cm/m²
+ = 25 x 23.4 =">
+<span class="comment" data-en="// Seismic Event (Heavy snow region, 120cm accumulation, single-story)">// 地震時（多雪区域, 積雪120cm, 平屋）</span><br/>
+    基本係数 = 15 cm/m²<br/>
+    積雪割増 = 1.2 x 7 = 8.4 cm/m²<br/>
+    所要壁量 = 15 + 8.4 = 23.4 cm/m²<br/><br/>
+<span class="var" data-en="Required Wall Quantity (Seismic)">必要壁量(地震)</span> = 25 x 23.4 = <strong>585 cm = 5.85 m</strong>
+</div>
+<div class="formula" data-en="Exposed Area (over 1.35m) = 5.0 x (2.65-1.35) + 1.25 = 7.75 m²
+ = 7.75 x 50 =">
+<span class="comment" data-en="// Wind Pressure (Projected Area × 50 cm/m²)">// 風圧時（見付面積 x 50 cm/m²）</span><br/>
+    見付面積(1.35m超) = 5.0 x (2.65-1.35) + 1.25 = 7.75 m²<br/>
+<span class="var" data-en="Required Wall Quantity (Wind Pressure)">必要壁量(風圧)</span> = 7.75 x 50 = <strong>387.5 cm = 3.88 m</strong>
+</div>
+<div class="note-box" data-en="Wall quantity of 5.85m or greater required in each direction."><strong data-en="Seismic Force Governs:">地震力が支配的:</strong> 各方向 5.85m 以上の壁量が必要。</div>
+<h3 data-en="Wall Strength Ratio Assessment">壁倍率の推定</h3>
+<table class="calc-table">
+<tr><th data-en="Facing Material">面材</th><th data-en="Estimated Wall Strength Ratio">推定壁倍率</th><th data-en="Basis">根拠</th></tr>
+<tr><td data-en="Cedar CLT 12mm (exterior)">杉CLT 12mm（外面）</td><td class="num" data-en="3.0x">3.0倍</td><td data-en="Structural plywood 9mm = 2.5× base">構造用合板9mm=2.5倍ベース</td></tr>
+<tr><td data-en="Laminated Bamboo 12mm (interior)">竹集成 12mm（内面）</td><td class="num" data-en="4.0×">4.0倍</td><td data-en="Tensile strength 140MPa, shear strength 3 times or greater than cedar">引張140MPa、せん断強度が杉の3倍以上</td></tr>
+<tr><td data-en="Both Sides Combined (Conservative Value)" style="color:var(--gold);font-weight:700">両面合算（保守値）</td><td class="num" data-en="5.0 times" style="color:var(--gold)">5.0倍</td><td data-en="Conservative value considering bulletin limits">告示上限考慮の保守値</td></tr>
+</table>
+<h3 data-en="Existing Wall Quantity (excluding openings)">存在壁量（開口部を除く）</h3>
+<table class="calc-table">
+<tr><th data-en="Wall Surface">壁面</th><th data-en="Total Length">全長</th><th data-en="Openings">開口部</th><th data-en="Effective Wall Length" style="text-align:right">有効壁長</th></tr>
+<tr><td data-en="South Elevation (Front)">南面（正面）</td><td>5.0 m</td><td data-en="Door 0.8 + M Window × 2 = 2.6m">ドア0.8 + M窓x2 = 2.6m</td><td class="num">2.4 m</td></tr>
+<tr><td data-en="North Elevation">北面</td><td>5.0 m</td><td data-en="S Window ×2 = 1.2m">S窓x2 = 1.2m</td><td class="num">3.8 m</td></tr>
+<tr><td data-en="East Elevation">東面</td><td>5.0 m</td><td data-en="M Window x1 = 0.9m">M窓x1 = 0.9m</td><td class="num">4.1 m</td></tr>
+<tr><td data-en="West Elevation">西面</td><td>5.0 m</td><td data-en="M Window x1 = 0.9m">M窓x1 = 0.9m</td><td class="num">4.1 m</td></tr>
+</table>
+<h3 data-en="Wall Quantity Assessment">壁量判定</h3>
+<table class="calc-table">
+<tr><th data-en="Direction">方向</th><th data-en="Required Wall Quantity">必要壁量</th><th data-en="Existing Wall Quantity">存在壁量</th><th data-en="Compliance Rate">充足率</th><th data-en="Assessment">判定</th></tr>
+<tr>
+<td data-en="X Direction">X方向</td><td class="num">5.85 m</td>
+<td class="num">41.0 m <span class="unit">(4.1+4.1)x5.0</span></td>
+<td class="num" style="color:var(--pass)">701%</td>
+<td><span class="badge badge-pass">PASS</span></td>
+</tr>
+<tr>
+<td data-en="Y Direction">Y方向</td><td class="num">5.85 m</td>
+<td class="num">31.0 m <span class="unit">(2.4+3.8)x5.0</span></td>
+<td class="num" style="color:var(--pass)">530%</td>
+<td><span class="badge badge-pass">PASS</span></td>
+</tr>
+</table>
+<h3 data-en="Eccentricity Ratio (Four-Quadrant Method)">偏心率（4分割法）</h3>
+<div class="formula" data-en="South/North Wall Ratio = (2.4 × 5.0) / (3.8 × 5.0) = 12.0 / 19.0 = ≥ 0.5">
+    南側/北側 壁量比 = (2.4 x 5.0) / (3.8 x 5.0) = 12.0 / 19.0 = <strong>0.632</strong> ≥ 0.5
+  </div>
+<p data-en="Four-Section Method Wall Ratio Compliance: 0.632" style="margin:12px 0"><span class="badge badge-pass">PASS</span> 4分割法 充足壁量比 0.632</p>
+<div class="note-box" data-en="Wall quantity substantially exceeds requirements in both directions. Even with a conservative wall strength ratio of 2.5× (Cedar CLT surface only), we achieve 350% in X-direction and 265% in Y-direction. Further capacity for increased openings exists.">
+<strong data-en="Opening Clearance:">開口余裕:</strong> 壁量は両方向とも大幅に充足。壁倍率を保守的に2.5倍（杉CLT面のみ）としても、X方向350%、Y方向265%で充足する。開口部をさらに増やす余地あり。
+  </div>
+</div></div>
+<!-- 6. ROOF STRUCTURE -->
+<div class="sec" id="sec-roof"><div class="w">
+<p class="label">06 / 08</p>
+<h2 data-en="Roof Structure">屋根構造 <em>Roof Structure</em></h2>
+<p class="desc" data-en="Examine bending stress and deflection of larch ridge beam 90x90mm. Verify safety relative to span under snow load of 235 kg/m².">カラマツ母屋90x90mmの曲げ応力とたわみを検討。積雪235 kg/m²の荷重下でスパンに対する安全性を確認する。</p>
+<h3 data-en="Ridge Beam Bending (Span 2,500mm — No Intermediate Support)">母屋の曲げ（スパン 2,500mm — 中間支持なし）</h3>
+<div class="formula">
+<span class="var">w</span> = (45 + 235) x 0.91 = <strong>254.8 kg/m = 2.498 kN/m</strong><br/><br/>
+<span class="var">M</span> = wL²/8 = 2.498 x 2.5² / 8 = <strong>1.952 kN-m</strong><br/>
+<span class="var">Z</span> = 90 x 90² / 6 = 121,500 mm³<br/>
+<span class="var">sigma_b</span> = 1.952 x 10⁶ / 121,500 = <strong>16.1 MPa</strong>
+</div>
+<table class="calc-table">
+<tr><th data-en="Grade">等級</th><th data-en="Allowable Bending Stress fb">許容曲げ fb</th><th data-en="Assessment">判定</th></tr>
+<tr><td data-en="Non-Graded Lumber">無等級材</td><td class="num">14.7 MPa</td><td><span class="badge badge-fail">NG</span></td></tr>
+<tr><td>JAS E110</td><td class="num">22.2 MPa</td><td><span class="badge badge-pass">OK</span></td></tr>
+<tr><td data-en="Visual Grade 1">目視1級</td><td class="num">20.4 MPa</td><td><span class="badge badge-pass">OK</span></td></tr>
+</table>
+<h3 data-en="Rafter Deflection (Span 2,500mm)">母屋のたわみ（スパン 2,500mm）</h3>
+<div class="formula">
+<span class="var">delta</span> = 5wL⁴ / (384EI)<br/>
+    = 5 x 2.498 x 2500⁴ / (384 x 11,000 x 5,467,500)<br/>
+    = <strong>21.1 mm</strong><br/><br/>
+    L/300 = 2,500 / 300 = 8.3 mm
+  </div>
+<p data-en="Deflection 21.1mm &gt; Allowable 8.3mm -- Not acceptable for 2,500mm span" style="margin:12px 0"><span class="badge badge-fail">NG</span> たわみ 21.1mm &gt; 許容 8.3mm -- スパン2,500mmでは不可</p>
+<div class="warn-box" data-en="At 90x90mm, the rafter shows significant deflection over a 2,500mm span. Consider the following solutions below.">
+<strong data-en="Action Required:">対策が必要:</strong> 母屋90x90mmではスパン2,500mmで大きくたわむ。以下の対策案を検討。
+  </div>
+<h3 data-en="Countermeasure C (Recommended): Intermediate Beam Added, Span 1,250mm">対策案C（推奨）: 中間梁追加でスパン1,250mm</h3>
+<div class="formula">
+<span class="comment" data-en="// Span reduced to 1,250 mm">// スパン1,250mmに短縮</span><br/>
+<span class="var">M</span> = 2.498 x 1.25² / 8 = 0.488 kN-m<br/>
+<span class="var">sigma_b</span> = 0.488 x 10⁶ / 121,500 = <strong>4.02 MPa</strong> &lt; 14.7 MPa<br/><br/>
+<span class="var">delta</span> = 5 x 2.498 x 1250⁴ / (384 x 11,000 x 5,467,500) = <strong>1.32 mm</strong><br/>
+    L/300 = 4.17 mm
+  </div>
+<div class="grid-2">
+<div>
+<p data-en="Bending 4.02 &lt; 14.7 MPa (Non-Graded Acceptable)" style="margin:8px 0"><span class="badge badge-pass">PASS</span> 曲げ 4.02 &lt; 14.7 MPa（無等級OK）</p>
+</div>
+<div>
+<p data-en="Deflection 1.32 &lt; 4.17 mm" style="margin:8px 0"><span class="badge badge-pass">PASS</span> たわみ 1.32 &lt; 4.17 mm</p>
+</div>
+</div>
+<h3 data-en="Bearing Pressure Check">支圧チェック</h3>
+<div class="formula">
+<span class="var">R</span> = wL/2 = 2.498 x 1.25 / 2 = 1.561 kN<br/>
+<span class="var">sigma_c</span> = 1,561 / (90 x 90) = <strong>0.193 MPa</strong> &lt; 2.4 MPa
+  </div>
+<p data-en="Bearing Stress — Fully Safe" style="margin:12px 0"><span class="badge badge-pass">PASS</span> めり込み応力 十分安全</p>
+</div></div>
+<!-- 7. FOUNDATION -->
+<div class="sec" id="sec-foundation"><div class="w">
+<p class="label">07 / 08</p>
+<h2 data-en="Foundation Review">基礎検討 <em>Foundation</em></h2>
+<p class="desc" data-en="RC strip foundation. Embedment depth of 1.2m at frost line. Ground bearing pressure verified for volcanic ash soil in Teshikaga, Hokkaido.">RC布基礎。凍結深度1.2mの根入れ。弟子屈の火山灰質土に対する接地圧を確認する。</p>
+<h3 data-en="Long-Term Load">長期荷重</h3>
+<div class="formula">
+<span class="var">W_total</span> = W_dead + W_live + 0.7 x W_snow<br/>
+    = 31.05 + 44.15 + 0.7 x 57.6<br/>
+    = 31.05 + 44.15 + 40.34<br/>
+    = <strong>115.54 kN</strong>
+</div>
+<h3 data-en="Ground Bearing Pressure Check">接地圧チェック</h3>
+<div class="formula" data-en="Foundation Base Width B = 450 mm 
+    Total Foundation Length L_f = 25.0 m 
+ = W_total / (B x L_f)
+    = 115.54 / (0.45 x 25.0)
+    = 
+    q_a = 50 kN/m²">
+    基礎底版幅 B = 450 mm <span class="comment" data-en="// Bulletin Specification Provisions">// 告示仕様規定</span><br/>
+    基礎総延長 L_f = 25.0 m <span class="comment" data-en="// Perimeter 20m + Interior Beam 5m">// 外周20m + 内部梁5m</span><br/><br/>
+<span class="var">q</span> = W_total / (B x L_f)<br/>
+    = 115.54 / (0.45 x 25.0)<br/>
+    = <strong>10.27 kN/m²</strong><br/><br/>
+    q_a = 50 kN/m² <span class="comment" data-en="// Volcanic Ash Soil Allowable Bearing Capacity (assumed)">// 火山灰質土 許容地耐力（仮定）</span>
+</div>
+<div class="grid-2">
+<div class="result-card">
+<h4 data-en="Bearing Pressure">接地圧</h4>
+<div class="val">10.3 kN/m²</div>
+<div class="note" data-en="20.5% of Allowable 50 kN/m²">許容50 kN/m² の 20.5%</div>
+</div>
+<div class="result-card">
+<h4 data-en="Compliance Rate">充足率</h4>
+<div class="val" style="color:var(--pass)">20.5%</div>
+<div class="note" data-en="Substantial Safety Margin">大幅に余裕あり</div>
+</div>
+</div>
+<p data-en="Bearing Pressure 10.3 &lt; 50 kN/m²" style="margin:12px 0"><span class="badge badge-pass">PASS</span> 接地圧 10.3 &lt; 50 kN/m²</p>
+<h3 data-en="Foundation Cross-Section">基礎断面</h3>
+<table class="calc-table">
+<tr><th data-en="Item">項目</th><th data-en="Dimensions" style="text-align:right">寸法</th></tr>
+<tr><td data-en="Base Width">底版幅</td><td class="num">450 mm</td></tr>
+<tr><td data-en="Base Slab Thickness">底版厚</td><td class="num">150 mm</td></tr>
+<tr><td data-en="Rise Thickness">立上り厚</td><td class="num">120 mm</td></tr>
+<tr><td data-en="Rise Height (GL+)">立上り高（GL+）</td><td class="num">400 mm</td></tr>
+<tr><td data-en="Embedment Depth">根入れ深さ</td><td class="num">1,200 mm</td></tr>
+<tr><td data-en="Concrete">コンクリート</td><td class="num">Fc 21 N/mm²</td></tr>
+<tr><td data-en="Foundation Reinforcement">底版鉄筋</td><td class="num">D10 @200</td></tr>
+<tr><td data-en="Rising Reinforcement">立上り鉄筋</td><td class="num">D10 @300</td></tr>
+</table>
+<div class="note-box" data-en="Allowable bearing capacity of 50 kN/m² is assumed. Confirm by SWS test or equivalent. Frost depth of 1.2m is standard for Teshikaga.">
+<strong data-en="Soil Investigation Required:">要地盤調査:</strong> 許容地耐力50 kN/m²は仮定値。SWS試験等で確認のこと。凍結深度1.2mは弟子屈の標準値。
+  </div>
+</div></div>
+<!-- 8. SUMMARY -->
+<div class="sec" id="sec-summary"><div class="w">
+<p class="label">08 / 08</p>
+<h2 data-en="Overall Assessment">総合判定 <em>Summary</em></h2>
+<p class="desc" data-en="Summary of results for all evaluation items. All items PASS on condition that intermediate beam is added to the rafter span.">全検討項目の結果一覧。母屋スパンの中間梁追加を条件として、全項目 PASS。</p>
+<table class="calc-table">
+<tr><th style="width:40px">No.</th><th data-en="Items Under Review">検討項目</th><th data-en="Results">結果</th><th data-en="Assessment" style="width:90px">判定</th></tr>
+<tr><td>1</td><td data-en="Dead Load Calculation">固定荷重算定</td><td data-en="Roof 45, Wall 25, Floor 35 kg/m²">屋根45, 壁25, 床35 kg/m²</td><td><span class="badge badge-pass" data-en="Calculation Complete">算定完了</span></td></tr>
+<tr><td>2</td><td data-en="Snow Load">積雪荷重</td><td data-en="235 kg/m² (Governing Load)">235 kg/m²（支配荷重）</td><td><span class="badge badge-pass" data-en="Calculation Complete">算定完了</span></td></tr>
+<tr><td>3</td><td data-en="Wind Load — Overturning Stability">風荷重 — 転倒安定</td><td data-en="Safety Factor 3.22 ≥ 1.5">安全率 3.22 ≥ 1.5</td><td><span class="badge badge-pass">PASS</span></td></tr>
+<tr><td>4</td><td data-en="Wind Load — Roof Uplift">風荷重 — 屋根吸い上げ</td><td data-en="Addressed with HD-B10 Hardware">HD-B10金物で対応</td><td><span class="badge badge-pass">PASS</span></td></tr>
+<tr><td>5</td><td data-en="Seismic Load">地震荷重</td><td>Q_d = 10.24 kN</td><td><span class="badge badge-pass" data-en="Calculation Complete">算定完了</span></td></tr>
+<tr><td>6</td><td data-en="Wall Quantity X-Direction">壁量 X方向</td><td data-en="Adequacy Ratio 701%">充足率 701%</td><td><span class="badge badge-pass">PASS</span></td></tr>
+<tr><td>7</td><td data-en="Wall Quantity Y-Direction">壁量 Y方向</td><td data-en="Compliance Rate 530%">充足率 530%</td><td><span class="badge badge-pass">PASS</span></td></tr>
+<tr><td>8</td><td data-en="Eccentricity Ratio (Four-Quadrant Method)">偏心率（4分割法）</td><td>0.632 ≥ 0.5</td><td><span class="badge badge-pass">PASS</span></td></tr>
+<tr><td>9</td><td data-en="Principal Rafter Bending (L=1,250)">母屋 曲げ (L=1,250)</td><td>4.0 &lt; 14.7 MPa</td><td><span class="badge badge-pass">PASS</span></td></tr>
+<tr><td>10</td><td data-en="Primary Rafter Deflection (L=1,250)">母屋 たわみ (L=1,250)</td><td>1.32 &lt; 4.17 mm</td><td><span class="badge badge-pass">PASS</span></td></tr>
+<tr><td>11</td><td data-en="Primary Rafter Bearing Pressure">母屋 支圧</td><td>0.19 &lt; 2.4 MPa</td><td><span class="badge badge-pass">PASS</span></td></tr>
+<tr><td>12</td><td data-en="Foundation Ground Bearing Pressure">基礎 接地圧</td><td>10.3 &lt; 50 kN/m²</td><td><span class="badge badge-pass">PASS</span></td></tr>
+</table>
+<h3 data-en="Terms &amp; Precautions">条件・注意事項</h3>
+<div class="warn-box" data-en="90x90mm does not meet requirements at 2,500mm span. Add an intermediate beam to reduce span to 1,250mm or less, or increase the section to 90x130mm or greater.">
+<strong data-en="1. Primary Rafter Span:">1. 母屋スパン:</strong> 90x90mmはスパン2,500mmでNG。中間梁を追加しスパン1,250mm以下にするか、断面を90x130mm以上に変更すること。
+  </div>
+<div class="warn-box" data-en="For 2,500mm span, JAS E110 or higher (or Visual Grade 1 or higher) is mandatory. For 1,250mm span, ungraded material is acceptable.">
+<strong data-en="2. Rafter Grade:">2. 母屋等級:</strong> スパン2,500mmの場合はJAS E110以上（or 目視1級以上）が必須。スパン1,250mmなら無等級でも可。
+  </div>
+<div class="note-box" data-en="5.0x is an estimated value. Ministerial approval is desirable. Prior to approval, calculations at 2.5x (Cedar CLT face only) conservatively satisfy both directions.">
+<strong data-en="3. Wall Magnification Factor:">3. 壁倍率:</strong> 5.0倍は推定値。大臣認定取得が望ましい。認定前は保守的に2.5倍（杉CLT面のみ）で計算しても両方向で充足。
+  </div>
+<div class="note-box" data-en="Allowable bearing capacity 50 kN/m² is an assumed value. Verify through SWS testing or equivalent.">
+<strong data-en="4. Ground:">4. 地盤:</strong> 許容地耐力50 kN/m²は仮定値。SWS試験等で確認のこと。
+  </div>
+<div class="note-box" data-en="This is a preliminary estimate and not a structural calculation report for building permit submission. Detailed design requires structural engineer review.">
+<strong data-en="5. Position of This Document:">5. 本書の位置づけ:</strong> 概算検討であり、確認申請用の構造計算書ではない。詳細設計には構造設計者による検討が必要。
+  </div>
+<h3 data-en="Load Combination">荷重組合せ</h3>
+<table class="calc-table">
+<tr><th data-en="Combinations">組合せ</th><th>式</th><th data-en="Notes">備考</th></tr>
+<tr><td data-en="Long-Term (Permanent)">長期（常時）</td><td>G + P + 0.7S</td><td data-en="Heavy Snow Region">多雪区域</td></tr>
+<tr><td data-en="Short-Term (Snow Load)">短期（積雪）</td><td>G + P + S</td><td data-en="Snow Load Condition">積雪時</td></tr>
+<tr><td data-en="Short-term (Seismic)">短期（地震）</td><td>G + P + 0.35S + K</td><td data-en="Heavy Snow Region Seismic">多雪区域地震</td></tr>
+<tr><td data-en="Short-Term (Wind Pressure)">短期（風圧）</td><td>G + P + W</td><td data-en="Wind Pressure Condition">風圧時</td></tr>
+</table>
+<h3 data-en="Referenced Regulations">参照法規</h3>
+<table class="calc-table">
+<tr><td data-en="Article 38">令38条</td><td data-en="Foundation Structure">基礎の構造</td></tr>
+<tr><td data-en="Article 46">令46条</td><td data-en="Wall Quantity">壁量</td></tr>
+<tr><td data-en="Article 85">令85条</td><td data-en="Live Load">積載荷重</td></tr>
+<tr><td data-en="Article 86">令86条</td><td data-en="Snow Load">積雪荷重</td></tr>
+<tr><td data-en="Article 87">令87条</td><td data-en="Wind Pressure">風圧力</td></tr>
+<tr><td data-en="Article 88">令88条</td><td data-en="Seismic Force">地震力</td></tr>
+<tr><td data-en="Bulletin No. 1347">告示1347号</td><td data-en="Foundation Structural Method">基礎の構造方法</td></tr>
+<tr><td data-en="Notification No. 1352">告示1352号</td><td data-en="Required Wall Quantity">必要壁量</td></tr>
+<tr><td data-en="Notice 1454">告示1454号</td><td data-en="Reference Wind Speed">基準風速</td></tr>
+<tr><td data-en="Notification No. 1455">告示1455号</td><td data-en="Roof Shape Coefficient">屋根形状係数</td></tr>
+<tr><td data-en="Notification No. 1100">告示1100号</td><td data-en="Wall Strength Ratio">壁倍率</td></tr>
+</table>
+<div style="text-align:center;margin:48px 0 0;padding:32px;border:1px solid var(--line);border-radius:16px;background:var(--bg-soft)">
+<p style="font-size:11px;color:var(--dim);margin-bottom:8px">SOLUNA Engineering</p>
+<p data-en="Structural Estimate Rev.1 / 2026-04-22" style="font-size:13px;color:var(--text)">構造概算書 Rev.1 / 2026-04-22</p>
+<a class="pdf-link" data-en="Download Markdown Version" download="" href="/pdf/structural_calc.md" style="margin-top:20px">Markdown版をダウンロード</a>
+</div>
+</div></div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Biruwawa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Biruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Birawa Village" href="village">美留和ビレッジ</a>
+<a data-en="Birawa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Units Free of Charge" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Purchase Crypto" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plan Collection" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Architectural Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Foundation Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('sec-' + btn.dataset.tab).classList.add('active');
+    window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 48, behavior: 'smooth' });
+  });
+});
+</script>
+<script src="nav.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

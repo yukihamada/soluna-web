@@ -1,0 +1,47 @@
+# SOLUNA NEURO AI CABIN Controller — build commands
+
+# Default: build debug
+default: build
+
+# Debug build
+build:
+    cargo build
+
+# Release build (optimized)
+release:
+    cargo build --release
+
+# Install on local Pi (build + systemd)
+install:
+    sudo bash install.sh
+
+# Cross-compile for aarch64 from macOS
+cross:
+    cross build --release --target aarch64-unknown-linux-gnu
+
+# Deploy to Pi via SSH
+deploy host="neuro.local":
+    cross build --release --target aarch64-unknown-linux-gnu
+    scp target/aarch64-unknown-linux-gnu/release/soluna-neuro root@{{host}}:/opt/soluna-neuro/soluna-neuro
+    ssh root@{{host}} "systemctl restart soluna-neuro"
+
+# Run locally (debug, will fail without GPIO)
+run:
+    RUST_LOG=debug cargo run -- --config config.yaml
+
+# Check code
+check:
+    cargo check
+    cargo clippy -- -W clippy::all
+
+# Format code
+fmt:
+    cargo fmt
+
+# View logs on Pi
+logs host="neuro.local":
+    ssh root@{{host}} "journalctl -u soluna-neuro -f --no-pager"
+
+# Clean build artifacts
+clean:
+    cargo clean

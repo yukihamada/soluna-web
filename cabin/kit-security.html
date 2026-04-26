@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/kit-security" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA SECURITY KIT — Protect your empty home. Without a camera. With sensors alone.">SOLUNA SECURITY KIT — 留守の家を、守る。カメラなしで。センサーだけで。</title>
+<meta content="SOLUNA SECURITY KIT。空き家・別荘を24/7センサー監視。水漏れ・火災・侵入・凍結を検知し即通知。カメラなし、プライバシーファースト。¥5,700〜。" data-en-content="SOLUNA SECURITY KIT. 24/7 sensor monitoring for vacant homes and vacation properties. Detects water leaks, fire, intrusion, and freezing with instant alerts. Camera-free, privacy-first. From ¥5,700." name="description"/>
+<meta content="SOLUNA SECURITY KIT — 留守の家を、守る。" property="og:title"/>
+<meta content="空き家・別荘を24/7センサー監視。水漏れ・火災・侵入・凍結を検知し即通知。カメラなし。¥5,700〜。" property="og:description"/>
+<meta content="https://solun.art/img/container_night_stars.webp" property="og:image"/>
+<meta content="https://solun.art/kit-security" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23ff6b35'/&gt;&lt;/svg&gt;" rel="icon"/>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --accent:#ff6b35;
+  --bg:#040404;
+  --text:#f0ece4;
+  --cyan:#4aeadc;
+  --accent-dim:rgba(255,107,53,.15);
+  --gold:#c8a455;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--accent);color:#000}
+
+/* GNAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold);text-decoration:none}
+.gnav-logo span{color:var(--accent);font-weight:400;letter-spacing:.1em;margin-left:6px;font-size:10px}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:var(--accent)}
+.gnav-links a.gnav-cta{color:var(--accent)!important;font-weight:700;border:1px solid rgba(255,107,53,.3);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:var(--accent);color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease}
+.r.in{opacity:1;transform:translateY(0)}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:700px;display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(255,107,53,.04) 0%,transparent 60%)}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(transparent,var(--bg))}
+.hero-grid{position:absolute;inset:0;opacity:.03;background-image:linear-gradient(rgba(255,107,53,.3) 1px,transparent 1px),linear-gradient(90deg,rgba(255,107,53,.3) 1px,transparent 1px);background-size:60px 60px}
+.hero-body{position:relative;z-index:2;max-width:800px;padding:0 32px}
+.hero-pre{font-size:10px;letter-spacing:.5em;color:var(--accent);text-transform:uppercase;font-weight:600;margin-bottom:24px;opacity:.7}
+.hero h1{font-size:clamp(2.4rem,7vw,4.5rem);font-weight:800;letter-spacing:-.05em;line-height:1.05;margin-bottom:24px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-sub{font-size:13.5px;color:rgba(240,236,228,.5);line-height:2.2;max-width:520px;margin:0 auto 36px}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.hero-pre{animation:fadeUp .8s .2s both}
+.hero h1{animation:fadeUp .9s .4s both}
+.hero-sub{animation:fadeUp 1s .6s both}
+.hero-cta{animation:fadeUp 1.1s .8s both}
+
+/* PULSE LINE */
+.pulse-line{height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.15;margin:0}
+
+/* SECTIONS */
+.s{padding:100px 0}
+@media(max-width:600px){.s{padding:72px 0}}
+.w{max-width:700px;margin:0 auto;padding:0 24px}
+.ww{max-width:980px;margin:0 auto;padding:0 24px}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:12px}
+.label-a{color:var(--accent);opacity:.6}
+h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+.sub{color:#555;font-size:13px;line-height:2.05;max-width:560px;margin-bottom:24px}
+.accent{color:var(--accent)}
+.cyan{color:var(--cyan)}
+
+/* BUTTONS */
+.cta-btn{display:inline-block;background:var(--accent);color:#040404;font-weight:800;font-size:12.5px;padding:16px 40px;border-radius:100px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 28px rgba(255,107,53,.15);letter-spacing:.04em}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(255,107,53,.25);color:#040404}
+.cta-ghost{display:inline-block;border:1px solid #252525;color:#666;font-size:12px;padding:15px 28px;border-radius:100px;margin-left:10px;transition:all .2s;font-weight:500}
+.cta-ghost:hover{border-color:rgba(255,107,53,.4);color:var(--accent)}
+
+/* THREAT GRID */
+.threat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin:32px 0}
+@media(max-width:600px){.threat-grid{grid-template-columns:1fr}}
+.threat{padding:32px 28px;background:#060606;border:1px solid #0e0e0e;position:relative;overflow:hidden;transition:border-color .3s}
+.threat:hover{border-color:rgba(255,107,53,.2)}
+.threat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
+.threat:hover::before{opacity:.4}
+.threat-icon{font-size:28px;margin-bottom:12px}
+.threat-name{font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px}
+.threat-cost{font-size:11px;color:var(--accent);font-weight:700;margin-bottom:10px}
+.threat-desc{font-size:11.5px;color:#444;line-height:2}
+
+/* SPEC TABLE */
+.spec{border:1px solid #111;border-radius:16px;overflow:hidden;margin:18px 0;background:#060606}
+.spec-row{display:grid;grid-template-columns:160px 1fr;border-bottom:1px solid #0e0e0e;font-size:12px}
+.spec-row:last-child{border-bottom:none}
+.spec-row .k{padding:16px 18px;color:#3a3a3a;font-weight:700;letter-spacing:.04em;background:#050505;font-size:10.5px;display:flex;align-items:center}
+.spec-row .v{padding:16px 18px;color:#999;line-height:1.7}
+.spec-row .v strong{color:var(--accent);font-weight:700}
+@media(max-width:600px){.spec-row{grid-template-columns:1fr}.spec-row .k{padding:12px 16px 4px;background:transparent}.spec-row .v{padding:4px 16px 14px}}
+
+/* HOW IT WORKS */
+.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin:32px 0}
+@media(max-width:600px){.how-grid{grid-template-columns:1fr}}
+.how{padding:28px 24px;background:#060606;border:1px solid #0e0e0e;transition:border-color .3s}
+.how:hover{border-color:rgba(74,234,220,.15)}
+.how-label{font-size:9px;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:8px;opacity:.5}
+.how-title{font-size:13px;font-weight:700;color:#ccc;margin-bottom:8px}
+.how-desc{font-size:11px;color:#444;line-height:2}
+
+/* CONTACT FLOAT */
+.contact-float{position:fixed;bottom:24px;right:24px;z-index:100}
+.contact-float a{display:flex;align-items:center;gap:8px;padding:12px 20px;border-radius:100px;font-size:11.5px;font-weight:700;transition:all .2s;box-shadow:0 4px 20px rgba(0,0,0,.5);background:#111;color:var(--accent);border:1px solid rgba(255,107,53,.2)}
+.contact-float a:hover{background:var(--accent);color:#040404}
+@media(max-width:600px){.contact-float{bottom:16px;right:16px}.contact-float a{padding:10px 16px;font-size:10.5px}}
+
+footer{padding:60px 24px 36px;max-width:700px;margin:0 auto;text-align:center}
+footer .logo{font-size:10px;font-weight:800;letter-spacing:.2em;color:var(--gold);margin-bottom:4px}
+footer .logo span{color:var(--accent);font-weight:400;letter-spacing:.1em;margin-left:6px;font-size:9px}
+footer nav{margin-top:12px}
+footer nav a{font-size:10.5px;color:#333;margin:0 10px}
+footer nav a:hover{color:var(--accent)}
+footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
+</style>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA <span>SECURITY</span></a>
+<div class="gnav-links" id="gnav-links">
+<a href="neuro">NEURO</a>
+<a href="kit-music">Music Kit</a>
+<a data-en="Scheme" href="scheme">スキーム</a>
+<a class="gnav-cta" href="#contact">Contact</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- HERO -->
+<div class="hero">
+<div class="hero-grid"></div>
+<div style="position:absolute;inset:0;z-index:0"><img alt="SOLUNA — 夜の物件" data-en-alt="SOLUNA — Properties by Night" src="img/container_night_stars.webp" style="width:100%;height:100%;object-fit:cover;filter:brightness(.25) saturate(.6)"/></div>
+<div class="hero-body">
+<div class="hero-pre">SOLUNA SECURITY KIT</div>
+<h1 data-en="Protect your vacant home.">留守の家を、<br/><em data-en="Protect.">守る。</em></h1>
+<p class="hero-sub" data-en="No cameras. Sensors alone. Monitor vacant properties and vacation homes. Detect water leaks, fires, intrusions, and freezing—before problems become disasters.">カメラなしで。センサーだけで。<br/>空き家・別荘を<strong data-en="24/7/365" style="color:var(--accent)">24時間365日</strong>監視。<br/>水漏れ、火災、侵入、凍結——<br/>問題を、災害になる前に検知する。</p>
+<div class="hero-cta">
+<a class="cta-btn" data-en="See the Threats" href="#threats">脅威を見る</a>
+<a class="cta-ghost" data-en="Kit contents →" href="#kit" style="border-color:rgba(255,107,53,.2);color:var(--accent)">キット内容 →</a>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- THESIS -->
+<div class="s">
+<div class="w">
+<p class="label label-a r">Problem</p>
+<h2 class="r" data-en="A house with no one inside is,">誰もいない家は、<span class="accent" data-en="Deteriorating.">壊れていく。</span></h2>
+<p class="sub r" data-en="Vacant homes, vacation properties, short-term rentals. More than 300 days annually unoccupied. Water leaks go unnoticed for weeks. Fires aren't discovered until too late. Intruders remain unknown until the owner's next visit.">空き家、別荘、民泊物件。年間300日以上、誰もいない。水漏れは数週間気づかない。火災は手遅れになるまで発見されない。侵入者は翌月のオーナー訪問まで分からない。</p>
+<p class="sub r" data-en="No cameras. mmWave radar detects presence via radio waves only. No video. No audio recording. Privacy-first design." style="margin-bottom:0;border-left:2px solid var(--accent);padding-left:16px;color:#666;font-style:italic">カメラは使わない。mmWaveレーダーは電波で存在だけを検知。映像なし。録音なし。プライバシーファースト。</p>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- THREATS -->
+<div class="s" id="threats" style="background:#020202">
+<div class="w" style="text-align:center">
+<p class="label label-a r" data-en="Threats · 4 Critical Risks">Threats · 4つの脅威</p>
+<h2 class="r" data-en="Left unattended," style="text-align:center">放置すれば、<span class="accent" data-en="Losses in the millions.">数百万の損害。</span></h2>
+<p class="r" data-en="Four major risks of vacant properties. All detectable by sensors. No cameras needed." style="text-align:center;color:#555;font-size:13px;line-height:2;max-width:520px;margin:0 auto 40px">空き家の4大リスク。全てセンサーで検知できる。カメラは不要。</p>
+</div>
+<div class="ww">
+<div class="threat-grid r">
+<div class="threat">
+<div class="threat-icon">💧</div>
+<div class="threat-name" data-en="Water Leaks">水漏れ</div>
+<div class="threat-cost" data-en="Cost of Neglect: Repairs ¥2,000,000">放置コスト: 修繕¥200万</div>
+<div class="threat-desc" data-en="The greatest risk to vacant properties: pipe deterioration, freeze-burst damage, and loose fixtures. Weeks of neglect cause flooring rot and structural material erosion. Early detection with automatic main valve shutoff prevents all damage.">空き家の最大リスク。配管劣化、凍結破裂、蛇口の緩み。数週間放置で床材が腐り、構造材まで浸食。早期検知で元栓を自動閉止すれば被害ゼロ。</div>
+</div>
+<div class="threat">
+<div class="threat-icon">🔥</div>
+<div class="threat-name" data-en="Fire / gas leak">火災 / ガス漏れ</div>
+<div class="threat-cost" data-en="Cost of neglect: Total loss ¥5,000,000+">放置コスト: 全焼¥500万+</div>
+<div class="threat-desc" data-en="Fire detection in vacant properties is delayed. Electrical faults, gas leaks, arson. Smoke sensors detect early stages and immediately notify the owner and fire department. Minutes make the difference in preventing total loss.">無人物件の火災は発見が遅れる。漏電、ガス漏れ、放火。煙センサーが初期段階で検知し、即座にオーナーと消防に通知。数分の差が全焼を防ぐ。</div>
+</div>
+<div class="threat">
+<div class="threat-icon">🚪</div>
+<div class="threat-name" data-en="Unauthorized intrusion">不法侵入</div>
+<div class="threat-cost" data-en="Cost of neglect: Damages ¥500,000+">放置コスト: 被害¥50万〜</div>
+<div class="threat-desc" data-en="Vacant homes are targets. Door/window sensors + mmWave motion detection provide instant alerts. Siren activation + owner notification + neighbor alerts. Proves presence without video surveillance.">空き家は狙われる。ドア開閉センサー+mmWave人感で即座に検知。サイレン鳴動+オーナー通知+近隣通知。映像なしでも「誰かいる」は分かる。</div>
+</div>
+<div class="threat">
+<div class="threat-icon">🧊</div>
+<div class="threat-name" data-en="Freezing">凍結</div>
+<div class="threat-cost" data-en="Cost of Neglect: Pipe Rupture ¥1,000,000">放置コスト: 配管破裂¥100万</div>
+<div class="threat-desc" data-en="Properties in Hokkaido and Tohoku. Winter pipe freezing directly causes ruptures. Temperature probes continuously monitor water line temperatures. Below 3°C triggers automatic heater activation or water drain notification.">北海道・東北の物件。冬季の水道管凍結は配管破裂に直結。温度プローブが水道管温度を常時監視。3℃以下でヒーター自動ON or 水抜き通知。</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- KIT CONTENTS -->
+<div class="s" id="kit">
+<div class="w">
+<p class="label label-a r" data-en="Kit Contents">Kit Contents · キット内容</p>
+<h2 class="r" data-en="With Minimal Sensors,">最小のセンサーで、<span class="accent" data-en="Maximum protection.">最大の防御。</span></h2>
+<p class="sub r" data-en="All commercial components. Available on Amazon. No soldering required. Simply plug and play.">全て市販パーツ。Amazonで買える。はんだ不要。挿すだけ。</p>
+</div>
+<div class="ww">
+<!-- BOM PHOTOS -->
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:28px;border-radius:12px;overflow:hidden">
+<div style="position:relative;height:240px;overflow:hidden"><img alt="セキュリティセンサー群" data-en-alt="Security Sensor Array" loading="lazy" src="img/neuro_bom_security.jpg" style="width:100%;height:100%;object-fit:cover;filter:brightness(.7)"/><div style="position:absolute;bottom:0;left:0;right:0;padding:12px;background:linear-gradient(transparent,rgba(4,4,4,.9))"><div style="font-size:8px;color:var(--accent);letter-spacing:.15em;font-weight:700">SENSORS</div><div data-en="Water Leak + Smoke + Door/Window + Motion" style="font-size:10px;color:#888">水漏れ+煙+開閉+人感</div></div></div>
+<div style="position:relative;height:240px;overflow:hidden"><img alt="制御モジュール" data-en-alt="Control module" loading="lazy" src="img/neuro_bom_power.jpg" style="width:100%;height:100%;object-fit:cover;filter:brightness(.7)"/><div style="position:absolute;bottom:0;left:0;right:0;padding:12px;background:linear-gradient(transparent,rgba(4,4,4,.9))"><div style="font-size:8px;color:var(--accent);letter-spacing:.15em;font-weight:700">CONTROL</div><div data-en="Pi + Siren + Wiring" style="font-size:10px;color:#888">Pi + サイレン + 配線</div></div></div>
+</div>
+<!-- DETECTION -->
+<div class="r" data-en="DETECTION — Detection Sensors" style="font-size:10px;color:var(--accent);letter-spacing:.25em;font-weight:700;margin:0 0 8px;opacity:.5">DETECTION — 検知センサー</div>
+<div class="spec r">
+<div class="spec-row"><div class="k" data-en="Water leak sensors x3">水漏れセンサー x3</div><div class="v" data-en="— Kitchen / bathroom / washroom. Detects water → instant notification."><strong><a data-en="Water Leak Sensor" href="https://www.amazon.co.jp/s?k=漏水センサー+水漏れ検知" style="border-bottom:1px solid rgba(255,107,53,.3)">水漏れセンサー</a></strong> — <strong>¥400 x3 = ¥1,200</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>キッチン / 浴室 / 洗面台。水を検知→即通知。</div></div>
+<div class="spec-row"><div class="k" data-en="Smoke/Gas x1">煙/ガス x1</div><div class="v" data-en="— GPIO Output. Smoke &amp; Flammable Gas Detection → Instant Push Notification."><strong><a data-en="MQ-2 Smoke Sensor" href="https://www.amazon.co.jp/s?k=MQ-2+煙+センサー" style="border-bottom:1px solid rgba(255,107,53,.3)">MQ-2 煙センサー</a></strong> — <strong>¥600</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>GPIO出力。煙・可燃ガス検知→即Push通知。</div></div>
+<div class="spec-row"><div class="k" data-en="Reed Switches x5">リードスイッチ x5</div><div class="v" data-en="— Entry door + 4 windows. Detects opening/closing instantly."><strong><a data-en="Reed Switch — Pack of 5" href="https://www.amazon.co.jp/s?k=マグネットスイッチ+リードスイッチ+5個" style="border-bottom:1px solid rgba(255,107,53,.3)">リードスイッチ 5個入</a></strong> — <strong>¥200</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>玄関ドア+窓4枚。開閉を即検知。</div></div>
+<div class="spec-row"><div class="k" data-en="mmWave Motion Sensor x1">mmWave人感 x1</div><div class="v" data-en="— 24GHz mmWave radar. No video. Install behind walls. One unit at entrance."><strong><a href="https://www.amazon.co.jp/s?k=HLK-LD2410B" style="border-bottom:1px solid rgba(255,107,53,.3)">HLK-LD2410B</a></strong> — <strong>¥800</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>24GHz mmWaveレーダー。映像なし。壁裏設置可。玄関に1台。</div></div>
+<div class="spec-row"><div class="k" data-en="Temperature Probe x2">温度プローブ x2</div><div class="v" data-en="— 1-Wire. Indoor temperature + water pipe temperature. Freezing prediction."><strong><a data-en="DS18B20 waterproof probes" href="https://www.amazon.co.jp/s?k=DS18B20+防水+温度+プローブ" style="border-bottom:1px solid rgba(255,107,53,.3)">DS18B20 防水プローブ</a></strong> — <strong>¥400 x2 = ¥800</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>1-Wire。室内温度+水道管温度。凍結予測。</div></div>
+</div>
+<!-- ALERT -->
+<div class="r" data-en="ALERT — Alarm" style="font-size:10px;color:var(--accent);letter-spacing:.25em;font-weight:700;margin:28px 0 8px;opacity:.5">ALERT — 警報</div>
+<div class="spec r">
+<div class="spec-row"><div class="k" data-en="Siren x1">サイレン x1</div><div class="v" data-en="— Activates upon intrusion detection. Powerful deterrent."><strong><a data-en="Siren/buzzer module" href="https://www.amazon.co.jp/s?k=ブザーモジュール+アクティブ+5V" style="border-bottom:1px solid rgba(255,107,53,.3)">サイレン/ブザーモジュール</a></strong> — <strong>¥300</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>侵入検知時に鳴動。抑止効果。</div></div>
+</div>
+<!-- BRAIN -->
+<div class="r" data-en="BRAIN — Intelligence Hub (standalone operation only)" style="font-size:10px;color:var(--accent);letter-spacing:.25em;font-weight:700;margin:28px 0 8px;opacity:.5">BRAIN — 頭脳（単独運用時のみ）</div>
+<div class="spec r">
+<div class="spec-row"><div class="k">Raspberry Pi 5</div><div class="v" data-en="— Not required if shared with NEURO. Standalone only."><strong><a href="https://www.switch-science.com/products/9250" style="border-bottom:1px solid rgba(255,107,53,.3)">Raspberry Pi 5 / 2GB</a></strong> — <strong>¥13,640</strong><br/><span data-en="Switch Science (Japan Official Distributor)" style="color:#333">Switch Science（国内正規）</span><br/>NEUROと共有なら不要。単独時のみ。</div></div>
+<div class="spec-row"><div class="k">microSD 64GB</div><div class="v"><strong><a href="https://www.amazon.co.jp/s?k=Samsung+EVO+Plus+64GB+microSD" style="border-bottom:1px solid rgba(255,107,53,.3)">Samsung EVO Plus 64GB</a></strong> — <strong>¥980</strong><br/><span style="color:#333">Amazon.co.jp</span></div></div>
+</div>
+<!-- WIRING -->
+<div class="r" data-en="WIRING" style="font-size:10px;color:var(--accent);letter-spacing:.25em;font-weight:700;margin:28px 0 8px;opacity:.5">WIRING — 配線</div>
+<div class="spec r">
+<div class="spec-row"><div class="k" data-en="Complete wiring">配線一式</div><div class="v" data-en="— No soldering required. Simply insert and screw."><strong><a data-en="Jumper Wire + Terminal Block" href="https://www.amazon.co.jp/s?k=ジャンパーワイヤー+端子台+GPIO" style="border-bottom:1px solid rgba(255,107,53,.3)">ジャンパーワイヤー + 端子台</a></strong> — <strong>¥800</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>はんだ不要。挿す・ネジ止めだけ。</div></div>
+</div>
+<!-- TOTALS -->
+<div class="r" style="margin-top:24px;border:1px solid rgba(255,107,53,.15);border-radius:16px;overflow:hidden;background:#060606">
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;text-align:center">
+<div style="padding:24px 16px;border-right:1px solid #111"><div style="font-size:2rem;font-weight:800;color:var(--accent)">¥5,700</div><div data-en="When adding NEURO" style="font-size:9px;color:#333;letter-spacing:.14em;margin-top:4px">NEURO追加時</div></div>
+<div style="padding:24px 16px;border-right:1px solid #111"><div style="font-size:2rem;font-weight:800;color:var(--accent)">¥19,320</div><div data-en="Standalone (Pi Included)" style="font-size:9px;color:#333;letter-spacing:.14em;margin-top:4px">単独（Pi込み）</div></div>
+<div style="padding:24px 16px"><div style="font-size:2rem;font-weight:800;color:var(--accent)">0</div><div style="font-size:9px;color:#333;letter-spacing:.14em;margin-top:4px">CAMERAS</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- HOW IT WORKS -->
+<div class="s" style="background:#020202">
+<div class="w" style="text-align:center">
+<p class="label label-a r" data-en="How it Works · How It Works">How it Works · 仕組み</p>
+<h2 class="r" data-en="Detect. Notify." style="text-align:center">検知。通知。<span class="cyan" data-en="Automatic response.">自動対処。</span></h2>
+<p class="r" data-en="24/7 monitoring. Alert notification within seconds of detection. All monitored via NEURO dashboard." style="text-align:center;color:#555;font-size:13px;line-height:2;max-width:520px;margin:0 auto 40px">24/7監視。異常検知から通知まで数秒。全てNEUROダッシュボードで監視可能。</p>
+</div>
+<div class="ww">
+<div class="how-grid r">
+<div class="how">
+<div class="how-label">Water Leak</div>
+<div class="how-title" data-en="Water leak detection → Automatic main valve shutoff">水漏れ検知 → 元栓自動閉止</div>
+<div class="how-desc" data-en="Water leak sensor detects moisture → Instant Push Notification (LINE/Email). Optional solenoid valve integration auto-closes main valve. Zero damage.">水漏れセンサーが水を検知→即Push通知（LINE/メール）。オプションの電磁弁接続で元栓を自動閉止。被害をゼロに。</div>
+</div>
+<div class="how">
+<div class="how-label">Intrusion</div>
+<div class="how-title" data-en="Door Open + Motion → Siren + Notification">ドア開 + 人感 → サイレン + 通知</div>
+<div class="how-desc" data-en="Reed switch detects door opening. mmWave confirms human presence. Siren activation + Owner notification + Neighborhood alert.">リードスイッチがドア開放を検知。mmWaveが人の存在を確認。サイレン鳴動 + オーナー通知 + 近隣通知。</div>
+</div>
+<div class="how">
+<div class="how-label">Fire / Gas</div>
+<div class="how-title" data-en="Smoke/Gas Detection → Instant Alert">煙/ガス検知 → 即時警報</div>
+<div class="how-desc" data-en="MQ-2 detects smoke and combustible gases. Instant push notification to owner. Early detection prevents total loss.">MQ-2が煙・可燃ガスを検知。オーナーに即Push通知。初期段階での発見が全焼を防ぐ。</div>
+</div>
+<div class="how">
+<div class="how-label">Freeze</div>
+<div class="how-title" data-en="Water Pipe &lt;3°C → Heater Auto-Activation">水道管 &lt;3℃ → ヒーター自動ON</div>
+<div class="how-desc" data-en="DS18B20 continuously monitors water line temperature. Below 3°C triggers automatic heater activation (when relay connected) or sends water drain notification to owner.">DS18B20が水道管温度を常時監視。3℃以下でヒーター自動起動（リレー接続時）。または水抜き通知をオーナーに送信。</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- ROI -->
+<div class="s">
+<div class="w" style="text-align:center">
+<p class="label label-a r" data-en="ROI · Return on Investment">ROI · 投資対効果</p>
+<h2 class="r" data-en="Investment Recovery:" style="text-align:center">投資回収: <span class="accent" data-en="0 days.">0日。</span></h2>
+<p class="r" data-en="Recovery complete the moment it's prevented." style="text-align:center;color:#555;font-size:13px;line-height:2;max-width:520px;margin:0 auto 40px">防いだ瞬間に回収完了。</p>
+</div>
+<div class="w">
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="padding:28px 24px;background:#060606;border:1px solid #111;border-radius:16px;text-align:center">
+<div data-en="¥2,000,000" style="font-size:2.2rem;font-weight:800;color:var(--accent)">¥200万</div>
+<div data-en="Repair Cost from Single Water Leak Incident" style="font-size:10px;color:#333;margin-top:4px;letter-spacing:.1em">水漏れ1回の修繕費</div>
+<div data-en="Flooring replacement, structural repairs, mold remediation, drying services" style="font-size:11px;color:#555;margin-top:12px;line-height:2">床材交換、構造材補修、<br/>カビ除去、乾燥作業</div>
+</div>
+<div style="padding:28px 24px;background:#060606;border:1px solid #111;border-radius:16px;text-align:center">
+<div style="font-size:2.2rem;font-weight:800;color:var(--accent)">¥500万+</div>
+<div data-en="Damage Cost from Single Fire Incident" style="font-size:10px;color:#333;margin-top:4px;letter-spacing:.1em">火災1回の損害額</div>
+<div data-en="Building Damage, Personal Property, Neighboring Property Liability, Demolition Costs" style="font-size:11px;color:#555;margin-top:12px;line-height:2">建物損壊、家財、<br/>近隣賠償、解体費用</div>
+</div>
+</div>
+<div class="r" data-en="A modest kit investment prevents millions in potential losses." style="margin-top:16px;padding:16px 20px;background:rgba(255,107,53,.03);border:1px solid rgba(255,107,53,.1);border-radius:10px;font-size:12px;color:#555;line-height:2;text-align:center">
+      キット費用 <strong style="color:var(--accent)">¥5,700〜¥19,320</strong> で、数百万の損害を未然に防ぐ。
+    </div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- PLANS -->
+<div class="s" id="plans" style="background:#020202">
+<div class="w" style="text-align:center">
+<p class="label label-a r" data-en="Plans · Two Plans">Plans · 2つのプラン</p>
+<h2 class="r" data-en="With NEURO, or" style="text-align:center">NEUROがあるか、<span class="accent" data-en="Or not.">ないか。</span></h2>
+<p class="r" data-en="For properties with existing NEURO, simply add sensors. Standalone with Pi included at under ¥20,000." style="text-align:center;color:#555;font-size:13px;line-height:2;max-width:520px;margin:0 auto 40px">既にNEUROがある物件はセンサー追加だけ。単独でもPi込みで2万円以下。</p>
+</div>
+<div class="ww">
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:720px;margin:0 auto">
+<!-- NEURO ADD-ON -->
+<div style="padding:32px 24px;background:#060606;border:1px solid #111;border-radius:16px;position:relative;overflow:hidden">
+<div style="font-size:9px;color:var(--accent);letter-spacing:.2em;font-weight:700;opacity:.5;margin-bottom:16px">NEURO ADD-ON</div>
+<div style="font-size:1.8rem;font-weight:800;color:var(--text);letter-spacing:-.03em">¥5,700</div>
+<div data-en="Security sensors only" style="font-size:10px;color:#333;margin:4px 0 20px">セキュリティセンサーのみ</div>
+<div data-en="Water leak sensors x3
+          MQ-2 smoke/gas x1
+          Reed switches x5
+          mmWave motion x1
+          DS18B20 temperature probes x2
+          Siren/buzzer x1
+          Complete wiring" style="font-size:11.5px;color:#555;line-height:2.2">
+          水漏れセンサー x3<br/>
+          MQ-2 煙/ガス x1<br/>
+          リードスイッチ x5<br/>
+          mmWave人感 x1<br/>
+          DS18B20 温度プローブ x2<br/>
+          サイレン/ブザー x1<br/>
+          配線一式<br/>
+<span data-en="Pi not required (NEURO shared)" style="color:#333">Pi不要（NEURO共有）</span>
+</div>
+<a data-en="Order kit →" href="/ask?q=SOLUNA+NEURO+について相談したい" onmouseout="this.style.background='transparent';this.style.color='var(--accent)'" onmouseover="this.style.background='var(--accent)';this.style.color='#040404'" style="display:block;margin-top:20px;padding:14px;text-align:center;background:transparent;border:1px solid rgba(255,107,53,.3);border-radius:10px;color:var(--accent);font-size:12px;font-weight:700;text-decoration:none;transition:all .2s">キット注文 →</a>
+</div>
+<!-- STANDALONE -->
+<div style="padding:32px 24px;background:#060606;border:2px solid var(--accent);border-radius:16px;position:relative;overflow:hidden">
+<div style="position:absolute;top:16px;right:16px;font-size:8px;color:#040404;background:var(--accent);padding:4px 10px;border-radius:100px;font-weight:700;letter-spacing:.1em">STANDALONE</div>
+<div data-en="Standalone Kit" style="font-size:9px;color:var(--accent);letter-spacing:.2em;font-weight:700;opacity:.5;margin-bottom:16px">単独キット</div>
+<div style="font-size:1.8rem;font-weight:800;color:var(--text);letter-spacing:-.03em">¥19,320</div>
+<div data-en="Includes Pi, Security-Focused" style="font-size:10px;color:#333;margin:4px 0 20px">Pi込み・セキュリティ特化</div>
+<div data-en="All NEURO ADD-ON features +
+
+
+          Rust firmware pre-installed
+          Dashboard access
+          LINE/Email notification settings" style="font-size:11.5px;color:#555;line-height:2.2">
+          NEURO ADD-ONの全て +<br/>
+<strong style="color:var(--text)">Raspberry Pi 5 / 2GB</strong><br/>
+<strong style="color:var(--text)">microSD 64GB</strong><br/>
+          Rustファームウェア書込済み<br/>
+          ダッシュボードアクセス<br/>
+          LINE/メール通知設定
+        </div>
+<a data-en="Order →" href="/ask?q=SOLUNA+NEURO+について相談したい" onmouseout="this.style.opacity='1'" onmouseover="this.style.opacity='.85'" style="display:block;margin-top:20px;padding:14px;text-align:center;background:var(--accent);border:none;border-radius:10px;color:#040404;font-size:12px;font-weight:800;text-decoration:none;transition:opacity .2s;letter-spacing:.04em">注文する →</a>
+</div>
+</div>
+<div class="r" data-en="Included in All Plans: Rust Firmware / OTA Updates / Dashboard Access / LINE Notification Setup
+Included with Property Acquisition + Renovation." style="margin-top:16px;padding:16px 20px;background:rgba(255,107,53,.03);border:1px solid rgba(255,107,53,.1);border-radius:10px;font-size:11.5px;color:#555;line-height:2;text-align:center;max-width:720px;margin-left:auto;margin-right:auto">
+      全プランに含まれるもの: Rustファームウェア / OTAアップデート / ダッシュボードアクセス / LINE通知設定<br/>
+<strong data-en="SOLUNA property owners receive NEURO ADD-ON complimentary." style="color:var(--accent)">SOLUNA物件オーナーはNEURO ADD-ONが無料。</strong>物件取得+リノベに含まれています。
+    </div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- CONTACT -->
+<div class="s" id="contact">
+<div class="w" style="text-align:center">
+<p class="label label-a r">Contact</p>
+<h2 class="r" data-en="First," style="text-align:center">まず、<span class="accent" data-en="Consult with us.">相談する。</span></h2>
+<p class="r" data-en="We propose the optimal sensor configuration tailored to your property's specific needs." style="text-align:center;color:#555;font-size:13px;line-height:2;max-width:520px;margin:0 auto 32px">物件の状況に合わせて最適なセンサー構成をご提案します。</p>
+<div class="r">
+<a class="cta-btn" data-en="Consult via Email" href="/ask?q=SOLUNA+NEURO+について相談したい">メールで相談</a>
+</div>
+</div>
+<div class="r" data-en="Enabler Inc. — Mita, Minato-ku, Tokyo mail@yukihamada.jp" style="font-size:11px;color:#2a2a2a;line-height:2;margin-top:24px;text-align:center">
+    株式会社Enabler — 東京都港区三田<br/>mail@yukihamada.jp
+  </div>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8 Buildings, 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT shares" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Acquire Units at No Cost" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Purchase Crypto" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Commercial Transaction Law" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><!-- FLOATING CONTACT -->
+<div class="contact-float">
+<a data-en="Consult via chat →" href="/ask?q=SOLUNA+NEURO+について相談したい">チャットで相談 →</a>
+</div>
+<script>
+(function(){
+  var els=document.querySelectorAll('.r');
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in')});
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){io.observe(el)});
+})();
+</script>
+<script src="/lang.js"></script>
+</body>
+</html>

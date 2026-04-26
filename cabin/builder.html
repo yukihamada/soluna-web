@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://solun.art/builder" rel="canonical"/>
+<title data-en="Cabin Builder — SOLUNA MATERIALS | Quotation simulator for building homes with domestic materials">キャビンビルダー — SOLUNA MATERIALS | 国産建材で家を建てる見積シミュレーター</title>
+<meta content="家のサイズを決めるだけで、壁・断熱・屋根・窓すべての建材と価格が自動計算。SOLUNA MATERIALS 7製品で1棟まるごと。" data-en-content="Simply choose your home size, and all building materials and pricing for walls, insulation, roof, and windows are automatically calculated. Complete construction with 7 SOLUNA MATERIALS products." name="description"/>
+<meta content="キャビンビルダー — SOLUNA MATERIALS" property="og:title"/>
+<meta content="サイズを選ぶ。建材が決まる。価格が出る。国産建材だけで家を建てる。" property="og:description"/>
+<meta content="https://solun.art/img/builder-hero.jpg" property="og:image"/>
+<meta content="https://solun.art/builder" property="og:url"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'&gt;&lt;rect width='64' height='64' rx='14' fill='%23050505'/&gt;&lt;circle cx='32' cy='32' r='20' fill='none' stroke='%23c8a455' stroke-width='2.5'/&gt;&lt;circle cx='32' cy='20' r='5' fill='%23c8a455'/&gt;&lt;path d='M20 38 Q32 28 44 38' fill='none' stroke='%23c8a455' stroke-width='2' stroke-linecap='round'/&gt;&lt;/svg&gt;" rel="icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;700;800&amp;display=swap" rel="stylesheet"/>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--gold-dim:rgba(200,164,85,.5);--bg:#050505;--bg-soft:#080808;--line:#131313;--text:#f0ece4;--dim:#666}
+html{scroll-behavior:smooth}
+body{padding-top:48px;padding-bottom:60px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:'palt';overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+h1,h2,h3{font-family:'Shippori Mincho B1','Noto Serif JP',Georgia,serif}
+::selection{background:var(--gold);color:#000}
+.w{max-width:800px;margin:0 auto;padding:0 24px}
+
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px}
+.gnav-links a{color:#555;transition:color .2s}.gnav-links a:hover{color:var(--gold)}
+.gnav-links a.cta{color:var(--gold);font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.cta:hover{background:var(--gold);color:#040404}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888}
+@media(max-width:680px){.gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}.gnav-links.open{display:flex}.gnav-ham{display:flex}}
+
+.hero{padding:0;border-bottom:1px solid var(--line);text-align:center;position:relative;overflow:hidden;min-height:520px;display:flex;align-items:center;justify-content:center}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 80%,rgba(200,164,85,.06) 0%,transparent 60%)}
+.hero .eyebrow{font-size:9px;letter-spacing:.4em;color:rgba(200,164,85,.6);text-transform:uppercase;margin-bottom:16px;font-weight:700}
+.hero h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800;line-height:1.05;letter-spacing:-.04em;margin-bottom:16px}
+.hero h1 em{color:var(--gold);font-style:normal}
+.hero p{color:var(--dim);font-size:14px;line-height:2;max-width:540px;margin:0 auto 32px}
+.hero-cabin{margin:0 auto;max-width:480px;opacity:.9}
+.hero-stats{display:flex;justify-content:center;gap:40px;margin-top:32px}
+.hero-stat{text-align:center}
+.hero-stat .val{font-size:28px;font-weight:800;color:var(--gold);font-family:'Shippori Mincho B1',serif;line-height:1}
+.hero-stat .lbl{font-size:10px;color:var(--dim);letter-spacing:.08em;margin-top:4px}
+
+/* STICKY PRICE BAR */
+.sticky-price{position:fixed;bottom:0;left:0;right:0;z-index:9998;background:rgba(4,4,4,.95);backdrop-filter:blur(18px);border-top:1px solid rgba(200,164,85,.15);padding:12px 28px;display:flex;justify-content:space-between;align-items:center;transform:translateY(100%);transition:transform .4s ease}
+.sticky-price.show{transform:translateY(0)}
+.sticky-price .sp-info{font-size:12px;color:var(--dim)}
+.sticky-price .sp-info strong{color:var(--text);font-size:14px}
+.sticky-price .sp-total{font-size:22px;font-weight:800;color:var(--gold);font-family:'Shippori Mincho B1',serif}
+.sticky-price .sp-btn{padding:10px 24px;background:var(--gold);color:#040404;font-size:11px;font-weight:800;letter-spacing:.08em;border-radius:100px;transition:opacity .2s}
+.sticky-price .sp-btn:hover{opacity:.85}
+@media(max-width:600px){.sticky-price{padding:10px 16px}.sticky-price .sp-total{font-size:18px}}
+
+.s{padding:56px 0;border-bottom:1px solid var(--line)}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#3a3a3a;margin-bottom:12px;font-weight:700}
+h2{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800;letter-spacing:-.025em;margin-bottom:12px;line-height:1.2}
+p.sub{color:var(--dim);font-size:13px;line-height:2;max-width:580px;margin-bottom:20px}
+
+/* EXPLODED DIAGRAM */
+.diagram-wrap{display:grid;grid-template-columns:280px 1fr;gap:32px;margin:32px 0;align-items:start}
+@media(max-width:700px){.diagram-wrap{grid-template-columns:1fr;gap:20px}}
+.cabin-svg{width:100%;max-width:280px;margin:0 auto}
+.cabin-svg .layer-shape{transition:all .4s ease;cursor:pointer}
+.cabin-svg .layer-shape:hover{filter:brightness(1.3)}
+.cabin-svg .layer-shape.hl{filter:brightness(1.5);stroke:var(--gold);stroke-width:2}
+.exploded{display:flex;flex-direction:column;gap:3px}
+.layer{display:flex;align-items:center;gap:14px;padding:12px 16px;border:1px solid var(--line);border-radius:10px;transition:all .3s ease;cursor:pointer;position:relative;overflow:hidden}
+.layer::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);transform:scaleY(0);transition:transform .3s ease;border-radius:0 2px 2px 0}
+.layer:hover{border-color:rgba(200,164,85,.3);background:rgba(200,164,85,.03)}
+.layer:hover::before,.layer.hl::before{transform:scaleY(1)}
+.layer.hl{border-color:var(--gold);background:rgba(200,164,85,.06)}
+.layer-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;flex-shrink:0;filter:brightness(.7);transition:filter .3s}
+.layer:hover .layer-thumb,.layer.hl .layer-thumb{filter:brightness(1)}
+.layer-num{width:22px;height:22px;border-radius:50%;border:1px solid rgba(200,164,85,.3);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--gold);flex-shrink:0;transition:all .3s;position:absolute;top:-4px;left:-4px;background:var(--bg);z-index:1}
+.layer.hl .layer-num{background:var(--gold);color:#000;border-color:var(--gold)}
+.layer-thumb-wrap{position:relative;flex-shrink:0}
+.layer-info{flex:1}
+.layer-info h4{font-size:13px;font-weight:700;margin-bottom:2px}
+.layer-info p{font-size:11px;color:var(--dim);line-height:1.6}
+.layer-product{font-size:11px;color:var(--gold);font-weight:600;white-space:nowrap}
+.layer-arrow{color:#333;font-size:16px;transition:transform .2s}
+.layer:hover .layer-arrow{transform:translateX(3px);color:var(--gold)}
+
+/* SIZE SELECTOR */
+.size-wrap{display:grid;grid-template-columns:1fr 200px;gap:24px;align-items:center;margin:24px 0}
+@media(max-width:600px){.size-wrap{grid-template-columns:1fr;gap:16px}}
+.size-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:600px){.size-selector{grid-template-columns:1fr}}
+.size-btn{border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center;cursor:pointer;transition:all .3s;background:var(--bg-soft);position:relative;overflow:hidden}
+.size-btn::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 100%,rgba(200,164,85,.08),transparent 70%);opacity:0;transition:opacity .3s}
+.size-btn:hover{border-color:rgba(200,164,85,.3)}.size-btn:hover::after{opacity:1}
+.size-btn.active{border-color:var(--gold);background:rgba(200,164,85,.06)}.size-btn.active::after{opacity:1}
+.size-btn .sz-icon{font-size:28px;margin-bottom:8px;position:relative;z-index:1}
+.size-btn .sz-name{font-size:14px;font-weight:800;margin-bottom:4px;position:relative;z-index:1}
+.size-btn .sz-dim{font-size:11px;color:var(--dim);position:relative;z-index:1}
+.floor-plan{width:200px;height:200px;border:1px solid var(--line);border-radius:14px;display:flex;align-items:center;justify-content:center;position:relative;background:var(--bg-soft)}
+.floor-rect{border:2px solid var(--gold);border-radius:4px;transition:all .5s ease;position:relative;box-shadow:0 0 20px rgba(200,164,85,.1)}
+.floor-label{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--gold);white-space:nowrap;font-weight:700}
+.floor-area{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:18px;font-weight:800;color:var(--gold);font-family:'Shippori Mincho B1',serif}
+
+/* CUSTOM SIZE */
+.custom-size{margin:20px 0;padding:20px;border:1px solid var(--line);border-radius:14px;display:none}
+.custom-size.show{display:block}
+.custom-size h4{font-size:13px;margin-bottom:12px}
+.custom-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.custom-row label{font-size:11px;color:var(--dim)}
+.custom-row input{width:80px;background:rgba(255,255,255,.04);border:1px solid #1e1e1e;border-radius:8px;padding:8px 10px;color:var(--text);font-size:14px;font-weight:700;text-align:center}
+.custom-row input:focus{border-color:rgba(200,164,85,.4);outline:none}
+.custom-row span{color:var(--dim);font-size:12px}
+
+/* OPTIONS */
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
+@media(max-width:600px){.opt-grid{grid-template-columns:1fr}}
+.opt-toggle{display:flex;align-items:center;gap:10px;padding:14px;border:1px solid var(--line);border-radius:10px;cursor:pointer;transition:all .2s;font-size:12px}
+.opt-toggle:hover{border-color:rgba(200,164,85,.2)}
+.opt-toggle.on{border-color:var(--gold);background:rgba(200,164,85,.05)}
+.opt-toggle input{display:none}
+.opt-thumb{width:40px;height:40px;border-radius:8px;object-fit:cover;flex-shrink:0;filter:brightness(.5);transition:filter .3s}
+.opt-toggle.on .opt-thumb{filter:brightness(.85)}
+.opt-toggle:hover .opt-thumb{filter:brightness(.85)}
+.opt-check{width:18px;height:18px;border:1px solid #333;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;font-size:11px;color:transparent}
+.opt-toggle.on .opt-check{border-color:var(--gold);background:var(--gold);color:#000}
+.opt-label{flex:1}
+.opt-label strong{display:block;font-size:13px;color:var(--text);margin-bottom:2px}
+.opt-label span{color:var(--dim);font-size:11px}
+
+/* ESTIMATE TABLE */
+.estimate{margin:32px 0;border:1px solid rgba(200,164,85,.2);border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(200,164,85,.06)}
+.est-header{background:linear-gradient(135deg,rgba(200,164,85,.1),rgba(200,164,85,.04));padding:28px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(200,164,85,.1)}
+.est-header h3{font-size:16px;font-weight:800}
+.est-total{text-align:right}
+.est-total-num{font-size:36px;font-weight:800;color:var(--gold);font-family:'Shippori Mincho B1',serif;line-height:1;transition:all .3s}
+.est-total .per-m2{font-size:12px;color:var(--dim);font-weight:400;margin-top:4px}
+.est-body{padding:0}
+.est-row{display:flex;align-items:center;padding:16px 24px;border-bottom:1px solid var(--line);font-size:13px;transition:background .2s}
+.est-row:hover{background:rgba(200,164,85,.02)}
+.est-row:last-child{border-bottom:none}
+.est-thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;margin-right:12px;filter:brightness(.75);transition:filter .2s}
+.est-row:hover .est-thumb{filter:brightness(1)}
+.est-row .est-name{flex:1;font-weight:600}
+.est-row .est-name a{font-size:11px;color:var(--gold);margin-left:6px;opacity:.5;transition:opacity .2s}
+.est-row:hover .est-name a{opacity:1}
+.est-row .est-qty{width:140px;text-align:right;color:var(--dim);font-size:11px}
+.est-row .est-price{width:100px;text-align:right;font-weight:700;color:var(--text);font-size:14px}
+.est-bar{height:3px;background:var(--line);border-radius:2px;margin-top:6px;overflow:hidden}
+.est-bar-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .6s ease}
+
+/* CTA */
+.cta-box{text-align:center;margin:40px 0;padding:40px;border:1px solid rgba(200,164,85,.15);border-radius:20px;background:rgba(200,164,85,.03)}
+.cta-box h3{font-size:20px;margin-bottom:10px}
+.cta-box p{font-size:13px;color:var(--dim);line-height:2;margin-bottom:20px}
+.cta-btn{display:inline-block;padding:16px 40px;background:var(--gold);color:#040404;font-size:13px;font-weight:800;letter-spacing:.08em;border-radius:100px;transition:opacity .2s}
+.cta-btn:hover{opacity:.85}
+.cta-sub{font-size:11px;color:#444;margin-top:12px}
+
+footer{padding:56px 0;text-align:center}
+footer .brand{font-size:10px;font-weight:800;letter-spacing:.3em;color:#2a2a2a;margin-bottom:16px}
+footer .links{display:flex;justify-content:center;flex-wrap:wrap;gap:16px;font-size:11px;color:#333;margin-bottom:20px}
+footer .links a{color:#333;transition:color .2s}.links a:hover{color:var(--gold)}
+footer p{font-size:10px;color:#242424}
+</style>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="/">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Building Materials List" href="/materials">建材一覧</a>
+<a data-en="SIPs Construction Method" href="/sips">SIPs工法</a>
+<a data-en="DIY Guide" href="/sips-diy">DIYガイド</a>
+<a class="cta" data-en="Consult with us" href="/contact">相談する</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
+</nav>
+<!-- HERO -->
+<div class="hero">
+<div class="hero-bg"></div>
+<div class="w" style="position:relative;z-index:1">
+<div class="eyebrow">SOLUNA MATERIALS</div>
+<h1 data-en="Cabin">キャビン<em data-en="Builder.">ビルダー。</em></h1>
+<p data-en="Choose your size. Materials are determined. Price is calculated. Build your home with domestic materials only.">サイズを決める。建材が決まる。価格が出る。<br/>国産建材だけで家を建てる。</p>
+<!-- Hero SVG cabin -->
+<svg class="hero-cabin" fill="none" viewbox="0 0 480 260" xmlns="http://www.w3.org/2000/svg">
+<!-- Ground -->
+<ellipse cx="240" cy="245" fill="rgba(200,164,85,.04)" rx="220" ry="12"></ellipse>
+<!-- Foundation -->
+<rect fill="#111" height="25" rx="3" stroke="#222" stroke-width="1" width="320" x="80" y="220"></rect>
+<!-- Floor -->
+<rect fill="#1a1408" height="14" rx="2" stroke="rgba(200,164,85,.2)" stroke-width="1" width="310" x="85" y="210"></rect>
+<text data-en="Bamboo laminated panel flooring" fill="#444" font-family="sans-serif" font-size="8" text-anchor="middle" x="240" y="232">竹集成パネル床</text>
+<!-- Walls -->
+<rect fill="#1a1510" height="114" stroke="rgba(200,164,85,.25)" stroke-width="1" width="14" x="85" y="100"></rect>
+<rect fill="#1a1510" height="114" stroke="rgba(200,164,85,.25)" stroke-width="1" width="14" x="381" y="100"></rect>
+<!-- Wall fill (insulation) -->
+<rect fill="rgba(74,222,128,.08)" height="108" stroke="none" width="8" x="88" y="103"></rect>
+<rect fill="rgba(74,222,128,.08)" height="108" stroke="none" width="8" x="384" y="103"></rect>
+<!-- Exterior cladding markers -->
+<line stroke="rgba(200,164,85,.15)" stroke-width="3" x1="85" x2="85" y1="110" y2="210"></line>
+<line stroke="rgba(200,164,85,.15)" stroke-width="3" x1="395" x2="395" y1="110" y2="210"></line>
+<!-- Window left -->
+<rect fill="rgba(100,180,255,.06)" height="60" rx="3" stroke="rgba(100,180,255,.2)" stroke-width="1" width="60" x="130" y="130"></rect>
+<line stroke="rgba(100,180,255,.15)" stroke-width="0.5" x1="160" x2="160" y1="130" y2="190"></line>
+<!-- Window right -->
+<rect fill="rgba(100,180,255,.06)" height="60" rx="3" stroke="rgba(100,180,255,.2)" stroke-width="1" width="60" x="290" y="130"></rect>
+<!-- Louver -->
+<g opacity=".6">
+<rect fill="none" height="90" rx="2" stroke="rgba(200,164,85,.2)" stroke-width="1" width="24" x="56" y="120"></rect>
+<line stroke="rgba(200,164,85,.15)" x1="60" x2="76" y1="128" y2="128"></line>
+<line stroke="rgba(200,164,85,.15)" x1="60" x2="76" y1="138" y2="138"></line>
+<line stroke="rgba(200,164,85,.15)" x1="60" x2="76" y1="148" y2="148"></line>
+<line stroke="rgba(200,164,85,.15)" x1="60" x2="76" y1="158" y2="158"></line>
+<line stroke="rgba(200,164,85,.15)" x1="60" x2="76" y1="168" y2="168"></line>
+<line stroke="rgba(200,164,85,.15)" x1="60" x2="76" y1="178" y2="178"></line>
+<line stroke="rgba(200,164,85,.15)" x1="60" x2="76" y1="188" y2="188"></line>
+<line stroke="rgba(200,164,85,.15)" x1="60" x2="76" y1="198" y2="198"></line>
+</g>
+<!-- Roof frame -->
+<polygon fill="none" points="240,30 60,100 420,100" stroke="rgba(200,164,85,.3)" stroke-width="1.5"></polygon>
+<line stroke="rgba(200,164,85,.1)" stroke-width="0.5" x1="240" x2="240" y1="30" y2="100"></line>
+<!-- Roof grid cells -->
+<rect fill="rgba(74,222,128,.08)" height="28" rx="2" stroke="rgba(74,222,128,.15)" width="36" x="80" y="72"></rect>
+<rect fill="rgba(91,141,238,.08)" height="28" rx="2" stroke="rgba(91,141,238,.15)" width="36" x="120" y="62"></rect>
+<rect fill="rgba(91,141,238,.08)" height="28" rx="2" stroke="rgba(91,141,238,.15)" width="36" x="160" y="52"></rect>
+<rect fill="rgba(154,192,255,.06)" height="28" rx="2" stroke="rgba(154,192,255,.15)" width="36" x="200" y="46"></rect>
+<rect fill="rgba(200,164,85,.08)" height="28" rx="2" stroke="rgba(200,164,85,.15)" width="36" x="244" y="46"></rect>
+<rect fill="rgba(200,164,85,.08)" height="28" rx="2" stroke="rgba(200,164,85,.15)" width="36" x="284" y="52"></rect>
+<rect fill="rgba(74,222,128,.08)" height="28" rx="2" stroke="rgba(74,222,128,.15)" width="36" x="324" y="62"></rect>
+<rect fill="rgba(74,222,128,.08)" height="28" rx="2" stroke="rgba(74,222,128,.15)" width="36" x="364" y="72"></rect>
+<!-- Labels -->
+<text data-en="Charred Larch Exterior" fill="rgba(200,164,85,.4)" font-family="sans-serif" font-size="7" transform="rotate(-90,28,165)" x="28" y="165">焼きカラマツ外壁</text>
+<text data-en="Cedar CLT Insulated Wall" fill="rgba(200,164,85,.4)" font-family="sans-serif" font-size="7" transform="rotate(90,420,165)" x="420" y="165">杉CLT断熱壁</text>
+<text data-en="Roof Grid" fill="rgba(200,164,85,.5)" font-family="sans-serif" font-size="8" text-anchor="middle" x="240" y="22">ルーフグリッド</text>
+<text data-en="Smart Window" fill="rgba(100,180,255,.3)" font-family="sans-serif" font-size="7" text-anchor="middle" x="160" y="176">スマートウィンドウ</text>
+</svg>
+<div class="hero-stats">
+<div class="hero-stat"><div class="val">7</div><div class="lbl" data-en="Building materials">建材</div></div>
+<div class="hero-stat"><div class="val">100%</div><div class="lbl" data-en="Japanese Domestic Frame">国産フレーム</div></div>
+<div class="hero-stat"><div class="val" id="hero-price">—</div><div class="lbl" data-en="Estimated Building Materials Cost">概算建材費</div></div>
+</div>
+</div>
+</div>
+<!-- STICKY PRICE BAR -->
+<div class="sticky-price" id="sticky-price">
+<div class="sp-info" data-en="Total building materials cost">建材費合計 <strong id="sp-size">5×5m</strong></div>
+<div class="sp-total" id="sp-total">¥0</div>
+<a class="sp-btn" data-en="Request Quote" href="#" id="sp-btn">見積依頼</a>
+</div>
+<!-- EXPLODED DIAGRAM: Where does each product go? -->
+<div class="s">
+<div class="w">
+<p class="label" data-en="Where should each material go?">どこに何を使う？</p>
+<h2 data-en="Seven building materials,">7つの建材、<span data-en="Each location." style="color:var(--gold)">それぞれの場所。</span></h2>
+<p class="sub" data-en="When the cabin is disassembled from the top, each layer corresponds to SOLUNA products.">キャビンを上から分解すると、各層にSOLUNA製品が対応している。</p>
+<div class="diagram-wrap">
+<!-- SVG Cross-section -->
+<svg class="cabin-svg" fill="none" viewbox="0 0 260 420">
+<!-- Roof -->
+<g class="layer-shape" data-layer="1" onclick="location.href='/roofgrid'" onmouseenter="hlLayer(1)" onmouseleave="hlLayer(0)">
+<polygon fill="rgba(200,164,85,.06)" points="130,10 20,80 240,80" stroke="rgba(200,164,85,.25)" stroke-width="1"></polygon>
+<rect fill="rgba(91,141,238,.1)" height="20" rx="2" stroke="rgba(91,141,238,.2)" width="30" x="40" y="55"></rect>
+<rect fill="rgba(74,222,128,.1)" height="20" rx="2" stroke="rgba(74,222,128,.2)" width="30" x="75" y="48"></rect>
+<rect fill="rgba(154,192,255,.08)" height="20" rx="2" stroke="rgba(154,192,255,.2)" width="30" x="110" y="43"></rect>
+<rect fill="rgba(200,164,85,.1)" height="20" rx="2" stroke="rgba(200,164,85,.2)" width="30" x="145" y="43"></rect>
+<rect fill="rgba(74,222,128,.1)" height="20" rx="2" stroke="rgba(74,222,128,.2)" width="30" x="180" y="48"></rect>
+<rect fill="rgba(91,141,238,.1)" height="20" rx="2" stroke="rgba(91,141,238,.2)" width="22" x="215" y="55"></rect>
+<text data-en="▲ Roof" fill="rgba(200,164,85,.5)" font-family="sans-serif" font-size="8" text-anchor="middle" x="130" y="28">▲ 屋根</text>
+</g>
+<!-- Window -->
+<g class="layer-shape" data-layer="2" onclick="location.href='/smartwindow'" onmouseenter="hlLayer(2)" onmouseleave="hlLayer(0)">
+<rect fill="rgba(100,180,255,.06)" height="50" rx="3" stroke="rgba(100,180,255,.25)" stroke-width="1" width="50" x="55" y="130"></rect>
+<rect fill="rgba(255,255,255,.04)" height="50" rx="3" stroke="rgba(255,255,255,.15)" stroke-width="1" width="50" x="155" y="130"></rect>
+<text data-en="Transparency" fill="rgba(100,180,255,.3)" font-family="sans-serif" font-size="6" text-anchor="middle" x="80" y="168">透明</text>
+<text data-en="Overcast" fill="rgba(255,255,255,.2)" font-family="sans-serif" font-size="6" text-anchor="middle" x="180" y="168">曇り</text>
+</g>
+<!-- Wall structure (CLT) -->
+<g class="layer-shape" data-layer="3" onclick="location.href='/sugi-clt'" onmouseenter="hlLayer(3)" onmouseleave="hlLayer(0)">
+<rect fill="rgba(200,164,85,.05)" height="200" stroke="rgba(200,164,85,.2)" stroke-width="1" width="16" x="25" y="85"></rect>
+<rect fill="rgba(200,164,85,.05)" height="200" stroke="rgba(200,164,85,.2)" stroke-width="1" width="16" x="219" y="85"></rect>
+<!-- Insulation fill -->
+<rect fill="rgba(74,222,128,.06)" height="192" width="8" x="29" y="89"></rect>
+<rect fill="rgba(74,222,128,.06)" height="192" width="8" x="223" y="89"></rect>
+</g>
+<!-- Exterior cladding -->
+<g class="layer-shape" data-layer="4" onclick="location.href='/yakiita'" onmouseenter="hlLayer(4)" onmouseleave="hlLayer(0)">
+<rect fill="rgba(60,40,20,.3)" height="200" stroke="rgba(200,164,85,.15)" stroke-width="0.5" width="6" x="18" y="85"></rect>
+<rect fill="rgba(60,40,20,.3)" height="200" stroke="rgba(200,164,85,.15)" stroke-width="0.5" width="6" x="236" y="85"></rect>
+</g>
+<!-- Floor insulation -->
+<g class="layer-shape" data-layer="5" onclick="location.href='/komenuka'" onmouseenter="hlLayer(5)" onmouseleave="hlLayer(0)">
+<rect fill="rgba(180,160,100,.04)" height="16" stroke="rgba(180,160,100,.15)" stroke-dasharray="3,3" stroke-width="1" width="176" x="42" y="300"></rect>
+</g>
+<!-- Floor (bamboo) -->
+<g class="layer-shape" data-layer="6" onclick="location.href='/take'" onmouseenter="hlLayer(6)" onmouseleave="hlLayer(0)">
+<rect fill="rgba(200,180,100,.06)" height="14" rx="2" stroke="rgba(200,180,100,.2)" stroke-width="1" width="176" x="42" y="285"></rect>
+</g>
+<!-- Louver -->
+<g class="layer-shape" data-layer="7" onclick="location.href='/louver'" onmouseenter="hlLayer(7)" onmouseleave="hlLayer(0)">
+<rect fill="none" height="160" rx="2" stroke="rgba(200,164,85,.2)" stroke-width="1" width="14" x="2" y="120"></rect>
+<line stroke="rgba(200,164,85,.12)" x1="4" x2="14" y1="130" y2="130"></line>
+<line stroke="rgba(200,164,85,.12)" x1="4" x2="14" y1="142" y2="142"></line>
+<line stroke="rgba(200,164,85,.12)" x1="4" x2="14" y1="154" y2="154"></line>
+<line stroke="rgba(200,164,85,.12)" x1="4" x2="14" y1="166" y2="166"></line>
+<line stroke="rgba(200,164,85,.12)" x1="4" x2="14" y1="178" y2="178"></line>
+<line stroke="rgba(200,164,85,.12)" x1="4" x2="14" y1="190" y2="190"></line>
+<line stroke="rgba(200,164,85,.12)" x1="4" x2="14" y1="202" y2="202"></line>
+<line stroke="rgba(200,164,85,.12)" x1="4" x2="14" y1="214" y2="214"></line>
+<line stroke="rgba(200,164,85,.12)" x1="4" x2="14" y1="226" y2="226"></line>
+<line stroke="rgba(200,164,85,.12)" x1="4" x2="14" y1="238" y2="238"></line>
+<line stroke="rgba(200,164,85,.12)" x1="4" x2="14" y1="250" y2="250"></line>
+<line stroke="rgba(200,164,85,.12)" x1="4" x2="14" y1="262" y2="262"></line>
+</g>
+<!-- Foundation -->
+<rect fill="#0e0e0e" height="20" rx="3" stroke="#222" stroke-width="1" width="200" x="30" y="320"></rect>
+<!-- Ground line -->
+<line stroke="#1a1a1a" stroke-width="1" x1="10" x2="250" y1="345" y2="345"></line>
+<!-- Dimension annotations -->
+<text fill="#333" font-family="sans-serif" font-size="9" id="svg-dim" text-anchor="middle" x="130" y="365">5m × 5m</text>
+<text fill="rgba(200,164,85,.4)" font-family="sans-serif" font-size="11" font-weight="700" id="svg-area" text-anchor="middle" x="130" y="380">25m²</text>
+</svg>
+<div class="exploded">
+<a class="layer" data-layer="1" href="/roofgrid" onmouseenter="hlLayer(1)" onmouseleave="hlLayer(0)">
+<div class="layer-thumb-wrap"><div class="layer-num">1</div><img alt="" class="layer-thumb" src="img/roofgrid-hero.jpg"/></div>
+<div class="layer-info">
+<h4 data-en="Roof Frame + Panels">屋根フレーム + パネル</h4>
+<p data-en="Solar panels, green roof, skylights, and charred cladding arranged on modular grid">モジュラーグリッドにソーラー・草屋根・天窓・焼き板を配置</p>
+</div>
+<div class="layer-product" data-en="Roof Grid">ルーフグリッド</div>
+<div class="layer-arrow">›</div>
+</a>
+<a class="layer" data-layer="2" href="/smartwindow" onmouseenter="hlLayer(2)" onmouseleave="hlLayer(0)">
+<div class="layer-thumb-wrap"><div class="layer-num">2</div><img alt="" class="layer-thumb" src="img/smartwindow-hero.jpg"/></div>
+<div class="layer-info">
+<h4>窓</h4>
+<p data-en="PDLC smart glass + larch wood frame. Switch between clear and frosted glass">PDLC調光ガラス+カラマツ木枠。スイッチで透明⇔すりガラス</p>
+</div>
+<div class="layer-product" data-en="Smart Window">スマートウィンドウ</div>
+<div class="layer-arrow">›</div>
+</a>
+<a class="layer" data-layer="3" href="/sugi-clt" onmouseenter="hlLayer(3)" onmouseleave="hlLayer(0)">
+<div class="layer-thumb-wrap"><div class="layer-num">3</div><img alt="" class="layer-thumb" src="img/sugi-clt-hero.jpg"/></div>
+<div class="layer-info">
+<h4 data-en="Wall panels (structural + insulation)">壁パネル（構造+断熱）</h4>
+<p data-en="3-Layer Panel: Cedar CLT Surface + Cellulose Fiber Insulation. R-14">杉CLT面材+セルロースファイバー断熱の3層パネル。R-14</p>
+</div>
+<div class="layer-product" data-en="Cedar CLT sandwich panel">杉CLTサンドパネル</div>
+<div class="layer-arrow">›</div>
+</a>
+<a class="layer" data-layer="4" href="/yakiita" onmouseenter="hlLayer(4)" onmouseleave="hlLayer(0)">
+<div class="layer-thumb-wrap"><div class="layer-num">4</div><img alt="" class="layer-thumb" src="img/yakiita_hero.jpg"/></div>
+<div class="layer-info">
+<h4 data-en="Exterior finishing">外壁仕上げ</h4>
+<p data-en="Charred finish: 30 years maintenance-free. Rot-resistant, pest-resistant, fire-resistant">焼き加工で30年メンテナンスフリー。防腐・防虫・防火</p>
+</div>
+<div class="layer-product" data-en="Charred Larch Panel">焼きカラマツパネル</div>
+<div class="layer-arrow">›</div>
+</a>
+<a class="layer" data-layer="5" href="/komenuka" onmouseenter="hlLayer(5)" onmouseleave="hlLayer(0)">
+<div class="layer-thumb-wrap"><div class="layer-num">5</div><img alt="" class="layer-thumb" src="img/komenuka_hero.jpg"/></div>
+<div class="layer-info">
+<h4 data-en="Additional insulation (flooring &amp; ceiling)">追加断熱（床・天井）</h4>
+<p data-en="Boron-Treated Rice Husk Fill Insulation. Moisture Regulating MBV 1.7, Biodegradable">籾殻をホウ酸処理した充填断熱材。調湿MBV 1.7、土に還る</p>
+</div>
+<div class="layer-product" data-en="Rice Husk Insulation">籾殻断熱材</div>
+<div class="layer-arrow">›</div>
+</a>
+<a class="layer" data-layer="6" href="/take" onmouseenter="hlLayer(6)" onmouseleave="hlLayer(0)">
+<div class="layer-thumb-wrap"><div class="layer-num">6</div><img alt="" class="layer-thumb" src="img/take-hero.jpg"/></div>
+<div class="layer-info">
+<h4 data-en="Flooring &amp; interior finishing">床・内装仕上げ</h4>
+<p data-en="Heat-Compressed Bamboo Panel. Twice the Strength of OSB, Adhesive-Free">竹の熱圧縮パネル。OSBの2倍強度、接着剤不使用</p>
+</div>
+<div class="layer-product" data-en="Bamboo Laminated Panels">竹集成パネル</div>
+<div class="layer-arrow">›</div>
+</a>
+<a class="layer" data-layer="7" href="/louver" onmouseenter="hlLayer(7)" onmouseleave="hlLayer(0)">
+<div class="layer-thumb-wrap"><div class="layer-num">7</div><img alt="" class="layer-thumb" src="img/louver-hero.jpg"/></div>
+<div class="layer-info">
+<h4 data-en="Exterior &amp; Privacy Screening">外構・目隠し</h4>
+<p data-en="Japanese larch louvers for visual privacy and ventilation. Ideal for deck and terrace screening">カラマツルーバーで視線遮蔽+通風。デッキやテラスの目隠しに</p>
+</div>
+<div class="layer-product" data-en="Larch Louvers">カラマツルーバー</div>
+<div class="layer-arrow">›</div>
+</a>
+</div>
+</div><!-- close diagram-wrap -->
+</div>
+</div>
+<!-- REGION SELECTOR -->
+<div class="s" id="region-section">
+<div class="w">
+<p class="label">STEP 0</p>
+<h2 data-en="Build">建てる<span data-en="Select your location." style="color:var(--gold)">場所を選ぶ。</span></h2>
+<p class="sub" data-en="Building materials automatically recommended based on your region's climate. Select to automatically enable optimal options.">地域の気候に合った建材を自動でおすすめ。選ぶと最適なオプションが自動ONになる。</p>
+<div id="region-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+<div class="size-btn" data-region="hokkaido" onclick="selectRegion(this)" style="padding:14px 10px">
+<div style="font-size:20px;margin-bottom:6px">❄</div>
+<div class="sz-name" data-en="Hokkaido &amp; Tohoku" style="font-size:12px">北海道・東北</div>
+<div class="sz-dim" data-en="Cold Climate, Snow Load &amp; Condensation Resistance">寒冷・積雪・結露</div>
+</div>
+<div class="size-btn active" data-region="kanto" onclick="selectRegion(this)" style="padding:14px 10px">
+<div style="font-size:20px;margin-bottom:6px">⛰</div>
+<div class="sz-name" data-en="Kanto &amp; Chubu" style="font-size:12px">関東・中部</div>
+<div class="sz-dim">温暖・地震・湿気</div>
+</div>
+<div class="size-btn" data-region="kansai" onclick="selectRegion(this)" style="padding:14px 10px">
+<div style="font-size:20px;margin-bottom:6px">☀</div>
+<div class="sz-name" data-en="Kansai to Kyushu region" style="font-size:12px">関西〜九州</div>
+<div class="sz-dim" data-en="High Temperature, High Humidity &amp; Termite Protection">高温多湿・シロアリ</div>
+</div>
+<div class="size-btn" data-region="nihonkai" onclick="selectRegion(this)" style="padding:14px 10px">
+<div style="font-size:20px;margin-bottom:6px">🌪</div>
+<div class="sz-name" data-en="Sea of Japan side" style="font-size:12px">日本海側</div>
+<div class="sz-dim" data-en="Heavy Snow &amp; High Humidity">豪雪・高湿度</div>
+</div>
+</div>
+<div id="region-recommend" style="margin-top:16px;padding:16px;background:rgba(200,164,85,.04);border:1px solid rgba(200,164,85,.12);border-radius:12px;font-size:12px;color:var(--dim);line-height:2;display:none"></div>
+</div>
+</div>
+<!-- SIZE SELECTOR -->
+<div class="s">
+<div class="w">
+<p class="label">STEP 1</p>
+<h2 data-en="Cabin">キャビンの<span data-en="Select Your Size." style="color:var(--gold)">サイズを選ぶ。</span></h2>
+<p class="sub" data-en="Choose from presets or enter custom dimensions. Wall height fixed at 2.4m.">プリセットから選ぶか、カスタムサイズを入力。壁高は2.4m固定。</p>
+<div class="size-wrap">
+<div class="size-selector" id="size-selector">
+<div class="size-btn" data-d="3" data-w="3" onclick="selectSize(this)">
+<div class="sz-icon">◻</div>
+<div class="sz-name" data-en="S — Small Shelter">S — 小屋</div>
+<div class="sz-dim" data-en="3m × 3m (9m²)">3m × 3m（9m²）</div>
+</div>
+<div class="size-btn active" data-d="5" data-w="5" onclick="selectSize(this)">
+<div class="sz-icon">◼</div>
+<div class="sz-name" data-en="M — Cabin">M — キャビン</div>
+<div class="sz-dim" data-en="5m × 5m (25m²)">5m × 5m（25m²）</div>
+</div>
+<div class="size-btn" data-d="8" data-w="6" onclick="selectSize(this)">
+<div class="sz-icon">⬜</div>
+<div class="sz-name" data-en="L — Residence">L — 住宅</div>
+<div class="sz-dim" data-en="6m × 8m (48m²)">6m × 8m（48m²）</div>
+</div>
+</div>
+<!-- Floor plan viz -->
+<div class="floor-plan" id="floor-plan">
+<div class="floor-rect" id="floor-rect" style="width:100px;height:100px">
+<div class="floor-area" id="floor-area-viz">25m²</div>
+</div>
+<div class="floor-label" id="floor-dim-label">5m × 5m</div>
+</div>
+</div><!-- close size-wrap -->
+<div class="custom-size" id="custom-size">
+<h4 data-en="Custom size">カスタムサイズ</h4>
+<div class="custom-row">
+<label>幅</label>
+<input id="cw" max="20" min="2" onchange="calcCustom()" step="0.5" type="number" value="5"/>
+<span>m</span>
+<span style="margin:0 8px">×</span>
+<label data-en="Depth">奥行</label>
+<input id="cd" max="20" min="2" onchange="calcCustom()" step="0.5" type="number" value="5"/>
+<span>m</span>
+<span id="custom-area" style="margin-left:16px;color:var(--text);font-weight:700">= 25m²</span>
+</div>
+</div>
+<div style="text-align:center;margin-top:12px">
+<a data-en="Enter custom size ↓" href="#" onclick="toggleCustom();return false" style="font-size:11px;color:var(--dim)">カスタムサイズを入力 ↓</a>
+</div>
+</div>
+</div>
+<!-- OPTIONS -->
+<div class="s">
+<div class="w">
+<p class="label">STEP 2</p>
+<h2 data-en="to select."><span data-en="Options" style="color:var(--gold)">オプション</span>を選ぶ。</h2>
+<div class="opt-grid" id="options">
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="yakiita" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/yakiita_hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Charred Larch Exterior">焼きカラマツ外壁</strong>
+<span data-en="¥4,200/m² — Full Exterior Walls">¥4,200/m² — 外壁全面</span>
+</div>
+</div>
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="komenuka" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/komenuka_hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Rice Husk Insulation (Floor + Ceiling)">籾殻断熱（床+天井）</strong>
+<span data-en="¥2,800/bag — 100mm Fill">¥2,800/袋 — 100mm充填</span>
+</div>
+</div>
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="sugi_clt" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/sugi-clt-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Cedar CLT Sandwich Panel Walls">杉CLTサンドパネル壁</strong>
+<span data-en="¥21,000/m² — Structure + Insulation">¥21,000/m² — 構造+断熱</span>
+</div>
+</div>
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="roofgrid" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/roofgrid-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Roof Grid">ルーフグリッド屋根</strong>
+<span data-en="Frame + panel hybrid">フレーム+パネル混合</span>
+</div>
+</div>
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="smartwindow" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/smartwindow-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Smart Window">スマートウィンドウ</strong>
+<span data-en="M×2 + S×1">M×2枚 + S×1枚</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="take_floor" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/take-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Bamboo laminated panel flooring">竹集成パネル床</strong>
+<span data-en="¥22,000/m² — 18mm Structure + Finishing">¥22,000/m² — 18mm構造+仕上げ</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="louver" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/louver-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Louvered Privacy Screen">ルーバー目隠し</strong>
+<span data-en="¥8,000/m² — Single Terrace">¥8,000/m² — テラス1面</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="solar" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/roofgrid-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Add solar panels">ソーラーパネル追加</strong>
+<span data-en="Convert south-facing half of roof to solar">屋根の南面半分をソーラーに</span>
+</div>
+</div>
+</div>
+<p class="label" data-en="Interior Finishing &amp; Paint" style="margin-top:28px">内装・仕上げ・塗装</p>
+<div class="opt-grid">
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="shikkui" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/shikkui-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Lime Plaster Interior Wall Finish">漆喰 内壁仕上げ</strong>
+<span data-en="¥2,800/m² — Fire-Resistant, Moisture-Regulating &amp; Antibacterial">¥2,800/m² — 防火・調湿・抗菌</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="keisodo" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/keisodo-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Diatomaceous Earth Interior Wall Finish">珪藻土 内壁仕上げ</strong>
+<span data-en="¥3,500/m² — Condensation Control MBV3.0+">¥3,500/m² — 結露対策MBV3.0+</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="kakishibu" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/kakishibu-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Persimmon Tannin Finish">柿渋塗装</strong>
+<span data-en="¥1,200/L — Natural wood preservation for all timber">¥1,200/L — 全木部の天然防腐</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="hinoki_deck" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/hinoki-deck-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Hinoki cypress deck">檜デッキ</strong>
+<span data-en="¥8,500/m² — Natural Preservative Terrace">¥8,500/m² — 天然防腐テラス</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="igusa" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/igusa-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Igusa Tatami Panels">い草畳パネル</strong>
+<span data-en="¥6,000/sheet — Japanese-style room space">¥6,000/枚 — 和室スペース</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="take_sips" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/take-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Bamboo SIPs wall (cedar CLT alternative)">竹SIPs壁（杉CLTの代替）</strong>
+<span data-en="¥28,000/m² — 4.7× Strength &amp; Seismic Resistant">¥28,000/m² — 強度4.7倍・耐震</span>
+</div>
+</div>
+</div>
+<p class="label" data-en="Equipment, water systems &amp; energy" style="margin-top:28px">設備・水回り・エネルギー</p>
+<p class="sub" data-en="Recommendations are automatically selected based on your region." style="margin-bottom:12px">地域に応じたおすすめが自動選択されます。</p>
+<div class="opt-grid">
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="eco_wh" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Eco Cute Hot Water System 150L">エコキュート給湯 150L</strong>
+<span data-en="¥350,000 — Heat Pump COP3.0+ Solar-Integrated">¥35万 — ヒートポンプ COP3.0+ ソーラー連携</span>
+</div>
+</div>
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="woodstove" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Wood-Burning Stove">薪ストーブ</strong>
+<span data-en="¥200,000–400,000 — Heating + ambiance, zero electricity">¥20万〜40万 — 暖房+雰囲気 電力ゼロ</span>
+</div>
+</div>
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="aircon" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Air Conditioning (Heating &amp; Cooling)">エアコン（冷暖房）</strong>
+<span data-en="¥70,000–150,000 — Heat Pump COP5.0+ Single Unit for Heating &amp; Cooling">¥7万〜15万 — ヒートポンプ COP5.0+ 1台で冷暖房</span>
+</div>
+</div>
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="ventilation" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Ventilation (Lossnay Heat Recovery)">換気（ロスナイ熱交換）</strong>
+<span data-en="¥30,000 — 70% heat recovery wall-mounted, no ductwork required">¥3万 — 70%熱回収 壁掛け ダクト不要</span>
+</div>
+</div>
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="unitbath" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Unit Bath 1014">ユニットバス 1014</strong>
+<span data-en="¥350,000 — LIXIL/TOTO insulated bathtub">¥35万 — LIXIL/TOTO 断熱浴槽</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="outdoor_bath" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Open-Air Bath (Wood-Fired Boiler)">露天風呂（薪ボイラー）</strong>
+<span data-en="¥300,000 — Shigaraki ceramic/granite with wood heating, zero electricity">¥30万 — 信楽焼/御影石+薪加熱 電力ゼロ</span>
+</div>
+</div>
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="kitchen" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Mini kitchen with induction cooking + dishwasher">ミニキッチン IH + 食洗機</strong>
+<span data-en="¥150,000 — LIXIL 120cm + Panasonic NP-TSP1 (Tank Type)">¥15万 — LIXIL120cm+パナNP-TSP1(タンク式)</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="washer" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Washer-Dryer (Drum Type)">洗濯乾燥機（ドラム式）</strong>
+<span data-en="¥100,000 — Sharp ES-S7H heat pump dryer">¥10万 — シャープES-S7H ヒートポンプ乾燥</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="floorheat" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Radiant Floor Heating (Living Area Electric PTC)">床暖房（LDK電気式PTC）</strong>
+<span data-en="¥15,000/m² — Applied to Half of Living Area">¥1.5万/m² — LDK面積の半分に施工</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="well" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Deep Well + Hand Pump">深井戸+手押しポンプ</strong>
+<span data-en="¥900,000 — Off-grid water supply with power outage support">¥90万 — オフグリッド給水 停電対応</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="septic" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Combined septic tank, 5-person capacity">合併浄化槽 5人槽</strong>
+<span data-en="¥800,000 — Subsidies Available (¥300,000–¥500,000)">¥80万 — 補助金あり(¥30〜50万)</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="compost_toilet" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Composting Toilet (Water-Free)">バイオトイレ（水不要）</strong>
+<span data-en="¥250,000 — Seiwaden BT-100 Septic Tank Not Required">¥25万 — 正和電工BT-100 浄化槽不要</span>
+</div>
+</div>
+</div>
+<p class="label" data-en="Electrical, solar, and communications (standard systems)" style="margin-top:28px">電気・ソーラー・通信（基本設備）</p>
+<div class="opt-grid">
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="electrical" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Electrical Work (Distribution Panel + Wiring + Lighting)">電気工事（配電盤+配線+照明）</strong>
+<span data-en="¥250,000 — Distribution Panel + Full Room Wiring + 5 LED Fixtures">¥25万 — 分電盤+全室配線+LED照明5箇所</span>
+</div>
+</div>
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="toilet" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Toilet (TOTO Washlet)">トイレ（TOTO ウォシュレット）</strong>
+<span data-en="¥120,000 — Heated bidet toilet seat + toilet, water-saving 4.8L">¥12万 — 温水洗浄便座+便器 節水4.8L</span>
+</div>
+</div>
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="solar_system" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Solar Generation + Battery Storage">ソーラー発電+蓄電池</strong>
+<span data-en="¥1,500,000 — 4kW Panel + 10kWh Battery + Inverter">¥150万 — 4kWパネル+10kWhバッテリー+インバーター</span>
+</div>
+</div>
+<div class="opt-toggle on" onclick="toggleOpt(this)">
+<input checked="" data-key="starlink" type="checkbox"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Starlink (satellite internet)">Starlink（衛星インターネット）</strong>
+<span data-en="¥55,000 — Initial Cost Only, ¥6,600/month">¥5.5万 — 初期費用のみ 月額¥6,600</span>
+</div>
+</div>
+</div>
+<p class="label" data-en="Renovation Menu" style="margin-top:28px">リノベーション・メニュー</p>
+<p class="sub" data-en="Upgrade without demolition. Compatible with new construction builders." style="margin-bottom:12px">既存住宅を壊さずアップグレード。新築ビルダーと併用も可。</p>
+<div class="opt-grid">
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="reno_win" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/smartwindow-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Window renovation only">窓だけリノベ</strong>
+<span data-en="¥400,000+ — Smart Window Replacement (6× Insulation Improvement)">¥40万〜 — 既存窓→スマートウィンドウ交換 断熱6倍</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="reno_ext" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/yakiita_hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Exterior Wall Cladding (Charred Cedar)">外壁カバー（焼杉）</strong>
+<span data-en="¥300,000+ — Charred Larch Over Existing Facade, No Demolition Required">¥30万〜 — 既存外壁の上から焼きカラマツ 解体不要</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="reno_ins" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/sugi-clt-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="SIPs Interior Insulation">SIPs内貼り断熱</strong>
+<span data-en="¥500,000 — Slim SIPs 50mm interior insulation + seismic reinforcement + finishing">¥50万〜 — 室内側に薄型SIPs50mm 断熱+耐震+仕上げ</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="reno_roof" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/roofgrid-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Roof Cover (Roof Grid)">屋根カバー（ルーフグリッド）</strong>
+<span data-en="¥800,000+ — Solar + Insulation + Waterproofing Overlay System">¥80万〜 — 既存屋根の上に載せる 太陽光+断熱+防水</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="reno_floor" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/igusa-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Floor renovation (tatami + underfloor air conditioning)">床リノベ（い草+床下AC）</strong>
+<span data-en="¥200,000 — Tatami flooring + underfloor air conditioning heating, radiant floor unnecessary">¥20万〜 — 畳敷き+床下エアコン暖房 床暖不要</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="reno_wall" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/shikkui-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Wall painting DIY kit">壁塗りDIYキット</strong>
+<span data-en="¥20,000+/6 Tatami — Plaster or Diatomaceous Earth Complete Kit, DIY-Ready">¥2万〜/6畳 — 漆喰or珪藻土 キット一式 DIYで完結</span>
+</div>
+</div>
+<div class="opt-toggle" onclick="toggleOpt(this)">
+<input data-key="reno_ksb" type="checkbox"/>
+<img alt="" class="opt-thumb" src="img/kakishibu-hero.jpg"/>
+<div class="opt-check">✓</div>
+<div class="opt-label">
+<strong data-en="Persimmon tannin revival">柿渋リバイバル</strong>
+<span data-en="¥10,000+/10m² — Reclaimed timber with persimmon tannin finish for pest protection and aesthetic renewal">¥1万〜/10m² — 古材に柿渋塗装 防虫+美観復活</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ESTIMATE -->
+<div class="s">
+<div class="w">
+<p class="label" data-en="Estimate Results">見積結果</p>
+<h2 data-en="Your cabin">あなたのキャビンの<span data-en="Building Materials Cost." style="color:var(--gold)">建材費。</span></h2>
+<p class="sub" data-en="Estimate includes material costs only. Labor, foundation work, and utilities (electrical and plumbing) are not included.">材料費のみの概算です。施工費・基礎工事・設備（電気・水道）は含みません。</p>
+<div class="estimate" id="estimate">
+<div class="est-header">
+<h3 data-en="Total building materials cost">建材費合計</h3>
+<div class="est-total">
+<span id="total-price">¥0</span>
+<span class="per-m2" id="per-m2">¥0/m²</span>
+</div>
+</div>
+<div class="est-body" id="est-body">
+<!-- JS fills this -->
+</div>
+</div>
+<div class="cta-box">
+<h3 data-en="With this estimate">この見積で<span data-en="Consult with us." style="color:var(--gold)">相談する。</span></h3>
+<p data-en="For inquiries regarding building material combinations, installation methods, and delivery arrangements, please contact us. We will also provide a quotation PDF.">建材の組み合わせについて、施工方法や配送の相談など<br/>お気軽にご連絡ください。見積PDFもお送りします。</p>
+<a class="cta-btn" data-en="Request Quote for This Configuration" href="#" id="cta-btn">この内容で見積依頼する</a>
+<div class="cta-sub" data-en="or email directly to">または <a href="mailto:mail@yukihamada.jp">mail@yukihamada.jp</a> へ直接メール</div>
+</div>
+</div>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-cabin, 100-person village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Biruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruw Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="View All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Shares Free of Charge" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Mirwa owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Personal Consultation" href="call">個別相談</a>
+<a data-en="Contact" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Law" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+// Layer highlight sync between SVG and list
+function hlLayer(n) {
+  document.querySelectorAll('.layer-shape').forEach(el => el.classList.toggle('hl', parseInt(el.dataset.layer) === n));
+  document.querySelectorAll('.layer[data-layer]').forEach(el => el.classList.toggle('hl', parseInt(el.dataset.layer) === n));
+}
+
+// Sticky price bar
+const stickyEl = document.getElementById('sticky-price');
+const heroEl = document.querySelector('.hero');
+window.addEventListener('scroll', () => {
+  stickyEl.classList.toggle('show', window.scrollY > heroEl.offsetHeight + 200);
+});
+
+// Region logic
+let currentRegion = 'kanto';
+const regionPresets = {
+  hokkaido: {
+    on: ['yakiita','komenuka','sugi_clt','roofgrid','smartwindow','keisodo','kakishibu','eco_wh','woodstove','aircon','ventilation','unitbath','kitchen','well','septic','electrical','toilet','solar_system','starlink'],
+    off: ['shikkui','hinoki_deck','take_sips','igusa','outdoor_bath','washer','floorheat','compost_toilet'],
+    desc: '<strong style="color:var(--text)">北海道・東北:</strong> 珪藻土(結露対策)、杉CLT壁、モキ薪ストーブ(主暖房)+寒冷地エアコン(補助)、ロスナイ換気(熱回収必須)、深井戸+浄化槽。'
+  },
+  kanto: {
+    on: ['yakiita','komenuka','roofgrid','smartwindow','take_sips','shikkui','kakishibu','hinoki_deck','eco_wh','aircon','ventilation','unitbath','kitchen','electrical','toilet','solar_system','starlink'],
+    off: ['sugi_clt','keisodo','igusa','woodstove','outdoor_bath','washer','floorheat','well','septic','compost_toilet'],
+    desc: '<strong style="color:var(--text)">関東・中部:</strong> 竹SIPs(耐震)、漆喰、檜デッキ(防蟻)、エアコン1台で冷暖房、エコキュート。公共水道が使えれば井戸不要。'
+  },
+  kansai: {
+    on: ['yakiita','komenuka','roofgrid','smartwindow','take_sips','shikkui','kakishibu','hinoki_deck','igusa','eco_wh','aircon','ventilation','unitbath','kitchen','electrical','toilet','solar_system','starlink'],
+    off: ['sugi_clt','keisodo','woodstove','outdoor_bath','washer','floorheat','well','septic','compost_toilet'],
+    desc: '<strong style="color:var(--text)">関西〜九州:</strong> 竹SIPs(耐震)、漆喰、檜デッキ(シロアリ)、い草畳。暖房はエアコンのみ。エコキュートは温暖地域ほど効率UP(COP4.0+)。'
+  },
+  nihonkai: {
+    on: ['yakiita','komenuka','sugi_clt','roofgrid','smartwindow','keisodo','kakishibu','eco_wh','woodstove','aircon','ventilation','unitbath','kitchen','floorheat','electrical','toilet','solar_system','starlink'],
+    off: ['shikkui','hinoki_deck','take_sips','igusa','outdoor_bath','washer','well','septic','compost_toilet'],
+    desc: '<strong style="color:var(--text)">日本海側:</strong> 珪藻土(結露+高湿)、杉CLT+厚断熱、薪ストーブ+エアコン+床暖房(トリプル暖房)、ルーフグリッド(積雪2m)。'
+  }
+};
+
+function selectRegion(el) {
+  document.querySelectorAll('#region-grid .size-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  currentRegion = el.dataset.region;
+  const preset = regionPresets[currentRegion];
+
+  // Toggle options based on region
+  document.querySelectorAll('#options .opt-toggle, .opt-grid .opt-toggle').forEach(toggle => {
+    const cb = toggle.querySelector('input');
+    if (!cb) return;
+    const key = cb.dataset.key;
+    if (preset.on.includes(key)) {
+      cb.checked = true;
+      toggle.classList.add('on');
+    } else if (preset.off.includes(key)) {
+      cb.checked = false;
+      toggle.classList.remove('on');
+    }
+  });
+
+  // Show recommendation
+  const rec = document.getElementById('region-recommend');
+  rec.innerHTML = preset.desc;
+  rec.style.display = 'block';
+
+  calc();
+}
+
+// State
+let cabinW = 5, cabinD = 5;
+const WALL_H = 2.4;
+
+function selectSize(el) {
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  cabinW = parseFloat(el.dataset.w);
+  cabinD = parseFloat(el.dataset.d);
+  document.getElementById('cw').value = cabinW;
+  document.getElementById('cd').value = cabinD;
+  document.getElementById('custom-area').textContent = '= ' + (cabinW * cabinD) + 'm²';
+  updateFloorPlan();
+  calc();
+}
+
+function updateFloorPlan() {
+  const maxDim = Math.max(cabinW, cabinD);
+  const scale = 140 / maxDim;
+  const rect = document.getElementById('floor-rect');
+  rect.style.width = Math.round(cabinW * scale) + 'px';
+  rect.style.height = Math.round(cabinD * scale) + 'px';
+  document.getElementById('floor-area-viz').textContent = (cabinW * cabinD).toFixed(0) + 'm²';
+  document.getElementById('floor-dim-label').textContent = cabinW + 'm × ' + cabinD + 'm';
+  document.getElementById('svg-dim').textContent = cabinW + 'm × ' + cabinD + 'm';
+  document.getElementById('svg-area').textContent = (cabinW * cabinD).toFixed(0) + 'm²';
+}
+
+function toggleCustom() {
+  document.getElementById('custom-size').classList.toggle('show');
+}
+
+function calcCustom() {
+  cabinW = parseFloat(document.getElementById('cw').value) || 5;
+  cabinD = parseFloat(document.getElementById('cd').value) || 5;
+  document.getElementById('custom-area').textContent = '= ' + (cabinW * cabinD).toFixed(1) + 'm²';
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  updateFloorPlan();
+  calc();
+}
+
+function toggleOpt(el) {
+  const cb = el.querySelector('input');
+  cb.checked = !cb.checked;
+  el.classList.toggle('on', cb.checked);
+
+  // Mutual exclusions
+  const key = cb.dataset.key;
+  if (key === 'take_sips' && cb.checked) setOpt('sugi_clt', false);
+  if (key === 'sugi_clt' && cb.checked) setOpt('take_sips', false);
+  if (key === 'shikkui' && cb.checked) setOpt('keisodo', false);
+  if (key === 'keisodo' && cb.checked) setOpt('shikkui', false);
+  if (key === 'compost_toilet' && cb.checked) setOpt('septic', false);
+  if (key === 'septic' && cb.checked) setOpt('compost_toilet', false);
+
+  calc();
+}
+
+function setOpt(key, on) {
+  const cb = document.querySelector(`input[data-key="${key}"]`);
+  if (!cb) return;
+  cb.checked = on;
+  cb.closest('.opt-toggle').classList.toggle('on', on);
+}
+
+function isOn(key) {
+  const cb = document.querySelector(`input[data-key="${key}"]`);
+  return cb && cb.checked;
+}
+
+function fmt(n) {
+  return '¥' + Math.round(n).toLocaleString();
+}
+
+function calc() {
+  const floor = cabinW * cabinD;
+  const perim = 2 * (cabinW + cabinD);
+  const wallArea = perim * WALL_H;
+  // Window count scales with floor area
+  let winM, winS;
+  if (floor <= 12) { winM = 1; winS = 1; }
+  else if (floor <= 30) { winM = 2; winS = 1; }
+  else { winM = 3; winS = 2; }
+  const windowArea = isOn('smartwindow') ? (winM * 0.9 * 0.9 + winS * 0.6 * 0.6) : 0;
+  const netWallArea = wallArea - windowArea;
+  // Roof = (width + 0.6m overhang) * (depth + 0.6m overhang) * pitch factor ~1.05
+  const roofArea = (cabinW + 0.6) * (cabinD + 0.6) * 1.05;
+  const roofCells = Math.ceil(roofArea / (0.91 * 0.91));
+
+  const rows = [];
+  let total = 0;
+
+  // 1. Wall panels (CLT)
+  if (isOn('sugi_clt')) {
+    const panels = Math.ceil(netWallArea / (0.91 * 1.82));
+    const cost = netWallArea * 21000;
+    rows.push({ part: '壁', name: '杉CLTサンドパネル', link: '/sugi-clt', qty: panels + '枚（' + netWallArea.toFixed(1) + 'm²）', price: cost });
+    total += cost;
+  }
+
+  // 2. Exterior cladding
+  if (isOn('yakiita')) {
+    const cost = netWallArea * 4200;
+    rows.push({ part: '外壁', name: '焼きカラマツパネル', link: '/yakiita', qty: netWallArea.toFixed(1) + 'm²', price: cost });
+    total += cost;
+  }
+
+  // 3. Insulation (floor + ceiling)
+  if (isOn('komenuka')) {
+    const insulArea = floor * 2; // floor + ceiling
+    const bags = Math.ceil(insulArea / 2); // 2m² per bag at 100mm
+    const cost = bags * 2800;
+    rows.push({ part: '断熱', name: '籾殻断熱材', link: '/komenuka', qty: bags + '袋（床+天井 ' + insulArea.toFixed(0) + 'm²）', price: cost });
+    total += cost;
+  }
+
+  // 4. Roof
+  if (isOn('roofgrid')) {
+    // Frame cost: ~22,000/m² for frame + mixed panels
+    let frameCost;
+    if (roofCells <= 4) frameCost = 85000;
+    else if (roofCells <= 12) frameCost = 220000;
+    else if (roofCells <= 24) frameCost = 400000;
+    else frameCost = roofCells * 17000;
+
+    // Default panel mix: 30% solar mount, 30% charred wood, 25% green, 15% skylight
+    const solarCells = Math.round(roofCells * 0.3);
+    const woodCells = Math.round(roofCells * 0.3);
+    const greenCells = Math.round(roofCells * 0.25);
+    const skyCells = Math.max(1, roofCells - solarCells - woodCells - greenCells);
+
+    let panelCost = solarCells * 3500 + woodCells * 6800 + greenCells * 12000 + skyCells * 5500;
+
+    if (isOn('solar')) {
+      // Add actual solar panels (not just mounts)
+      panelCost += solarCells * 15000; // rough solar panel cost
+    }
+
+    const roofTotal = frameCost + panelCost;
+    rows.push({ part: '屋根', name: 'ルーフグリッド', link: '/roofgrid', qty: roofCells + 'セル（' + roofArea.toFixed(1) + 'm²）', price: roofTotal });
+    total += roofTotal;
+  }
+
+  // 5. Windows
+  if (isOn('smartwindow')) {
+    const cost = winM * 48000 + winS * 28000;
+    rows.push({ part: '窓', name: 'スマートウィンドウ', link: '/smartwindow', qty: 'M×' + winM + ' S×' + winS, price: cost });
+    total += cost;
+  }
+
+  // 6. Bamboo floor
+  if (isOn('take_floor')) {
+    const cost = floor * 22000;
+    rows.push({ part: '床', name: '竹集成パネル 18mm', link: '/take', qty: floor.toFixed(1) + 'm²', price: cost });
+    total += cost;
+  }
+
+  // 7. Louver
+  if (isOn('louver')) {
+    const louverArea = cabinW * WALL_H * 0.5;
+    const cost = louverArea * 8000;
+    rows.push({ part: '外構', name: 'カラマツルーバー', link: '/louver', qty: louverArea.toFixed(1) + 'm²', price: cost });
+    total += cost;
+  }
+
+  // 8. Bamboo SIPs (replaces sugi_clt if both on, take_sips takes priority)
+  if (isOn('take_sips') && !isOn('sugi_clt')) {
+    const panels = Math.ceil(netWallArea / (0.91 * 1.82));
+    const cost = netWallArea * 28000;
+    rows.push({ part: '壁', name: '竹SIPsパネル', link: '/take-sips', qty: panels + '枚（' + netWallArea.toFixed(1) + 'm²）', price: cost });
+    total += cost;
+  }
+
+  // 9. Shikkui (interior wall finish)
+  if (isOn('shikkui')) {
+    const innerWall = netWallArea * 0.9; // 90% of wall is interior-paintable
+    const cans = Math.ceil(innerWall / 10);
+    const cost = innerWall * 2800;
+    rows.push({ part: '内壁', name: '漆喰壁材', link: '/shikkui', qty: cans + '缶（' + innerWall.toFixed(0) + 'm²）', price: cost });
+    total += cost;
+  }
+
+  // 10. Keisodo (interior wall - alternative to shikkui)
+  if (isOn('keisodo') && !isOn('shikkui')) {
+    const innerWall = netWallArea * 0.9;
+    const bags = Math.ceil(innerWall / 7);
+    const cost = innerWall * 3500;
+    rows.push({ part: '内壁', name: '珪藻土壁材', link: '/keisodo', qty: bags + '袋（' + innerWall.toFixed(0) + 'm²）', price: cost });
+    total += cost;
+  }
+
+  // 11. Kakishibu (coating for all wood surfaces)
+  if (isOn('kakishibu')) {
+    const woodArea = netWallArea + (isOn('louver') ? cabinW * WALL_H * 0.5 : 0);
+    const liters = Math.ceil(woodArea / 9 * 2); // 9m²/L, 2 coats
+    const cost = liters * 1200;
+    rows.push({ part: '塗装', name: '柿渋塗料', link: '/kakishibu', qty: liters + 'L（2回塗り ' + woodArea.toFixed(0) + 'm²）', price: cost });
+    total += cost;
+  }
+
+  // 12. Hinoki deck
+  if (isOn('hinoki_deck')) {
+    const deckArea = cabinW * 2; // 2m depth deck along one side
+    const cost = deckArea * 8500;
+    rows.push({ part: 'デッキ', name: '檜デッキ材', link: '/hinoki-deck', qty: deckArea.toFixed(1) + 'm²', price: cost });
+    total += cost;
+  }
+
+  // 13. Igusa tatami
+  if (isOn('igusa')) {
+    const tatamiCount = Math.max(4, Math.round(floor * 0.3 / 0.828)); // 30% of floor
+    const cost = tatamiCount * 6000;
+    rows.push({ part: '畳', name: 'い草畳パネル', link: '/igusa', qty: tatamiCount + '枚（' + (tatamiCount * 0.828).toFixed(1) + 'm²）', price: cost });
+    total += cost;
+  }
+
+  // ── Equipment costs ──
+  if (isOn('eco_wh')) {
+    rows.push({ part: '給湯', name: 'エコキュート 150L', link: '/builder', qty: '1台', price: 350000 });
+    total += 350000;
+  }
+  if (isOn('woodstove')) {
+    const stoveCost = currentRegion === 'hokkaido' || currentRegion === 'nihonkai' ? 400000 : 200000;
+    const stoveName = stoveCost > 300000 ? 'モキ MD80II 薪ストーブ' : 'ホンマ HTC-60TX 薪ストーブ';
+    rows.push({ part: '暖房', name: stoveName, link: '/builder', qty: '1台（煙突込み）', price: stoveCost });
+    total += stoveCost;
+  }
+  if (isOn('aircon')) {
+    const acCost = currentRegion === 'hokkaido' ? 150000 : (currentRegion === 'kanto' ? 70000 : 60000);
+    const acName = currentRegion === 'hokkaido' ? 'エアコン寒冷地仕様' : 'ダイキン Eシリーズ エアコン';
+    rows.push({ part: '冷暖房', name: acName, link: '/builder', qty: '1台', price: acCost });
+    total += acCost;
+  }
+  if (isOn('ventilation')) {
+    rows.push({ part: '換気', name: '三菱ロスナイ VL-08PS3', link: '/builder', qty: '1台', price: 30000 });
+    total += 30000;
+  }
+  if (isOn('unitbath')) {
+    rows.push({ part: '浴室', name: 'LIXIL ユニットバス 1014', link: '/builder', qty: '1式', price: 350000 });
+    total += 350000;
+  }
+  if (isOn('outdoor_bath')) {
+    rows.push({ part: '露天風呂', name: '信楽焼+薪ボイラー', link: '/builder', qty: '1式', price: 300000 });
+    total += 300000;
+  }
+  if (isOn('kitchen')) {
+    rows.push({ part: 'キッチン', name: 'ミニキッチンIH+食洗機NP-TSP1', link: '/builder', qty: '1式', price: 150000 });
+    total += 150000;
+  }
+  if (isOn('washer')) {
+    rows.push({ part: '洗濯', name: 'シャープ ES-S7H ドラム式', link: '/builder', qty: '1台', price: 100000 });
+    total += 100000;
+  }
+  if (isOn('floorheat')) {
+    const fhArea = Math.min(floor * 0.5, 20);
+    const fhCost = Math.round(fhArea * 15000);
+    rows.push({ part: '床暖', name: '電気式PTCフィルム', link: '/builder', qty: fhArea.toFixed(0) + 'm²（LDK）', price: fhCost });
+    total += fhCost;
+  }
+  if (isOn('well')) {
+    rows.push({ part: '給水', name: '深井戸+手押しポンプ+浄水', link: '/builder', qty: '1式', price: 900000 });
+    total += 900000;
+  }
+  if (isOn('septic')) {
+    rows.push({ part: '排水', name: '合併浄化槽 5人槽', link: '/builder', qty: '1基', price: 800000 });
+    total += 800000;
+  }
+  if (isOn('compost_toilet')) {
+    rows.push({ part: 'トイレ', name: 'バイオトイレ BT-100', link: '/builder', qty: '1台', price: 250000 });
+    total += 250000;
+  }
+
+  // ── Base infrastructure ──
+  if (isOn('electrical')) {
+    rows.push({ part: '電気', name: '電気工事（配電盤+配線+LED照明）', link: '/builder', qty: '1式', price: 250000 });
+    total += 250000;
+  }
+  if (isOn('toilet') && !isOn('compost_toilet')) {
+    rows.push({ part: 'トイレ', name: 'TOTO ウォシュレット+便器', link: '/builder', qty: '1台', price: 120000 });
+    total += 120000;
+  }
+  if (isOn('solar_system')) {
+    rows.push({ part: 'ソーラー', name: '4kW太陽光+10kWh蓄電+インバーター', link: '/builder', qty: '1式', price: 1500000 });
+    total += 1500000;
+  }
+  if (isOn('starlink')) {
+    rows.push({ part: '通信', name: 'Starlink 初期設置', link: '/builder', qty: '1式（月額¥6,600別）', price: 55000 });
+    total += 55000;
+  }
+
+  // ── Renovation costs ──
+  if (isOn('reno_win')) {
+    const winCount = Math.max(4, Math.round(floor / 6));
+    const cost = winCount * 70000;
+    rows.push({ part: 'リノベ', name: '窓交換（スマートウィンドウ）', link: '/renovation', qty: winCount + '窓', price: cost });
+    total += cost;
+  }
+  if (isOn('reno_ext')) {
+    const extArea = perim * WALL_H;
+    const cost = Math.round(extArea * 5500);
+    rows.push({ part: 'リノベ', name: '外壁カバー（焼きカラマツ）', link: '/renovation', qty: extArea.toFixed(0) + 'm²', price: cost });
+    total += cost;
+  }
+  if (isOn('reno_ins')) {
+    const insArea = perim * WALL_H;
+    const cost = Math.round(insArea * 8000);
+    rows.push({ part: 'リノベ', name: 'SIPs内貼り断熱', link: '/renovation', qty: insArea.toFixed(0) + 'm²', price: cost });
+    total += cost;
+  }
+  if (isOn('reno_roof')) {
+    const roofA = (cabinW + 0.6) * (cabinD + 0.6) * 1.05;
+    const cost = Math.round(roofA * 30000);
+    rows.push({ part: 'リノベ', name: '屋根カバー（ルーフグリッド）', link: '/renovation', qty: roofA.toFixed(0) + 'm²', price: cost });
+    total += cost;
+  }
+  if (isOn('reno_floor')) {
+    const cost = Math.round(floor * 8000);
+    rows.push({ part: 'リノベ', name: '床リノベ（い草+床下AC）', link: '/renovation', qty: floor.toFixed(0) + 'm²', price: cost });
+    total += cost;
+  }
+  if (isOn('reno_wall')) {
+    const innerWall = perim * WALL_H * 0.9;
+    const rooms = Math.max(1, Math.ceil(floor / 10));
+    const cost = rooms * 25000;
+    rows.push({ part: 'リノベ', name: '壁塗りDIYキット', link: '/renovation', qty: rooms + '部屋分', price: cost });
+    total += cost;
+  }
+  if (isOn('reno_ksb')) {
+    const woodArea = perim * WALL_H * 0.3;
+    const cost = Math.round(woodArea * 1500);
+    rows.push({ part: 'リノベ', name: '柿渋リバイバル', link: '/renovation', qty: woodArea.toFixed(0) + 'm²', price: cost });
+    total += cost;
+  }
+
+  // Images for each product
+  const imgs = {
+    '杉CLTサンドパネル':'img/sugi-clt-hero.jpg',
+    '焼きカラマツパネル':'img/yakiita_hero.jpg',
+    '籾殻断熱材':'img/komenuka_hero.jpg',
+    'ルーフグリッド':'img/roofgrid-hero.jpg',
+    'スマートウィンドウ':'img/smartwindow-hero.jpg',
+    '竹集成パネル 18mm':'img/take-hero.jpg',
+    'カラマツルーバー':'img/louver-hero.jpg',
+    '竹SIPsパネル':'img/take-hero.jpg',
+    '漆喰壁材':'img/shikkui-hero.jpg',
+    '珪藻土壁材':'img/keisodo-hero.jpg',
+    '柿渋塗料':'img/kakishibu-hero.jpg',
+    '檜デッキ材':'img/hinoki-deck-hero.jpg',
+    'い草畳パネル':'img/igusa-hero.jpg',
+    '窓交換（スマートウィンドウ）':'img/smartwindow-hero.jpg',
+    '外壁カバー（焼きカラマツ）':'img/yakiita_hero.jpg',
+    'SIPs内貼り断熱':'img/sugi-clt-hero.jpg',
+    '屋根カバー（ルーフグリッド）':'img/roofgrid-hero.jpg',
+    '床リノベ（い草+床下AC）':'img/igusa-hero.jpg',
+    '壁塗りDIYキット':'img/shikkui-hero.jpg',
+    '柿渋リバイバル':'img/kakishibu-hero.jpg'
+  };
+
+  // Render
+  const body = document.getElementById('est-body');
+  const maxPrice = Math.max(...rows.map(r => r.price), 1);
+  body.innerHTML = rows.map(r => `
+    <div class="est-row">
+      <img src="${imgs[r.name] || ''}" class="est-thumb" alt="">
+      <div class="est-name">${r.name}<a href="${r.link}">詳細 &rsaquo;</a>
+        <div class="est-bar"><div class="est-bar-fill" style="width:${Math.round(r.price/maxPrice*100)}%"></div></div>
+      </div>
+      <div class="est-qty">${r.qty}</div>
+      <div class="est-price">${fmt(r.price)}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('total-price').innerHTML = '<span class="est-total-num">' + fmt(total) + '</span>';
+  document.getElementById('per-m2').textContent = fmt(total / floor) + '/m²';
+
+  // Update sticky bar
+  document.getElementById('sp-size').textContent = cabinW + '×' + cabinD + 'm';
+  document.getElementById('sp-total').textContent = fmt(total);
+
+  // Update hero price
+  const heroP = document.getElementById('hero-price');
+  if (heroP) heroP.textContent = fmt(total);
+
+  // Update CTA link
+  const summary = rows.map(r => r.name + ' ' + r.qty + ' ' + fmt(r.price)).join('\n');
+  const mailBody = encodeURIComponent(
+    'キャビンビルダー見積依頼\n\n' +
+    'サイズ: ' + cabinW + 'm × ' + cabinD + 'm = ' + floor + 'm²\n\n' +
+    summary + '\n\n' +
+    '合計: ' + fmt(total) + ' (' + fmt(total/floor) + '/m²)\n\n' +
+    'お名前:\nメール:\n電話:\n設置場所（都道府県）:\nご質問・ご要望:\n'
+  );
+  const mailHref = 'mailto:mail@yukihamada.jp?subject=' +
+    encodeURIComponent('【キャビンビルダー見積】' + cabinW + 'x' + cabinD + 'm ' + fmt(total)) +
+    '&body=' + mailBody;
+  document.getElementById('cta-btn').href = mailHref;
+  document.getElementById('sp-btn').href = mailHref;
+}
+
+// Init — apply default region preset
+selectRegion(document.querySelector('#region-grid .size-btn.active'));
+updateFloorPlan();
+calc();
+</script>
+<script src="/nav.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

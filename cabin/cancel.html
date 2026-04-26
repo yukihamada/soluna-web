@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLUNA — 予約キャンセル</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050505;color:#f0ece4;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.box{max-width:420px;width:100%;text-align:center;padding:32px 24px;border:1px solid #171717;border-radius:16px;background:#0a0a0a}
+h1{font-size:18px;font-weight:700;margin-bottom:8px}
+p{font-size:13px;color:#777;line-height:1.8;margin-bottom:16px}
+.gold{color:#c8a455}
+.btn{width:100%;padding:14px;border:none;border-radius:100px;background:#c8a455;color:#050505;font-weight:700;font-size:13px;cursor:pointer;margin-top:8px}
+.btn:hover{opacity:.9}
+.btn-ghost{background:transparent;color:#666;border:1px solid #1a1a1a}
+.btn-ghost:hover{border-color:#c8a455;color:#c8a455}
+.icon{font-size:40px;margin-bottom:12px}
+a{color:#c8a455;text-decoration:none}
+.sec{display:none}.sec.active{display:block}
+</style>
+  <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<div class="box">
+  <div class="sec active" id="s-confirm">
+    <div class="icon">&#9888;</div>
+    <h1>予約をキャンセルしますか？</h1>
+    <p>この操作は取り消せません。キャンセル後、同じ日程の予約は削除され、他の方が予約できるようになります。</p>
+    <button class="btn" onclick="doCancel()">キャンセルする</button>
+    <button class="btn btn-ghost" onclick="location.href='/calendar.html'">やめる</button>
+  </div>
+
+  <div class="sec" id="s-loading" style="display:none">
+    <div class="icon" style="animation:spin 1s linear infinite">&#9696;</div>
+    <p>処理中...</p>
+  </div>
+
+  <div class="sec" id="s-done" style="display:none">
+    <div class="icon">&#10003;</div>
+    <h1 class="gold">キャンセルしました</h1>
+    <p>予約をキャンセルしました。またのご利用をお待ちしています。</p>
+    <a href="/calendar" class="btn" style="display:block;text-decoration:none">カレンダーに戻る</a>
+  </div>
+
+  <div class="sec" id="s-error" style="display:none">
+    <div class="icon">&#9888;</div>
+    <h1>キャンセルできませんでした</h1>
+    <p id="err-msg">-</p>
+    <a href="mailto:info@enablerdao.com" class="btn" style="display:block;text-decoration:none">サポートに連絡</a>
+  </div>
+</div>
+
+<style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style>
+
+<script>
+var KAGI='https://kagi-server.fly.dev';
+var params=new URLSearchParams(location.search);
+var resId=params.get('id')||'';
+var token=params.get('token')||'';
+
+if(!resId||!token){
+  document.getElementById('s-confirm').style.display='none';
+  document.getElementById('s-error').style.display='block';
+  document.getElementById('err-msg').textContent='予約IDまたはキャンセルトークンが指定されていません。';
+}
+
+function show(id){
+  document.querySelectorAll('.sec').forEach(function(s){s.style.display='none'});
+  document.getElementById(id).style.display='block';
+}
+
+async function doCancel(){
+  show('s-loading');
+  try{
+    var res=await fetch(KAGI+'/api/v1/soluna/reservations/cancel',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({reservation_id:resId,cancel_token:token})
+    });
+    var data=await res.json();
+    if(!res.ok){
+      show('s-error');
+      document.getElementById('err-msg').textContent=
+        data.error==='invalid_token'?'キャンセルリンクが無効です。':
+        data.error==='not_found'?'予約が見つかりません。':
+        'エラー: '+(data.error||res.status);
+      return;
+    }
+    show('s-done');
+  }catch(e){
+    show('s-error');
+    document.getElementById('err-msg').textContent='接続エラー: '+e.message;
+  }
+}
+</script>
+<script src="/track.js" defer></script>
+</body>
+</html>

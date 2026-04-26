@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>共有持分譲渡に関するご承認のお願い</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fafaf8;color:#222;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.9}
+.w{max-width:680px;margin:0 auto;padding:40px 24px 80px}
+h1{font-size:20px;font-weight:700;margin-bottom:8px;line-height:1.5}
+h2{font-size:16px;font-weight:700;margin:32px 0 8px;padding-top:24px;border-top:1px solid #e8e6e0}
+p{font-size:14px;color:#444;margin-bottom:16px}
+.label{font-size:11px;color:#999;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.date{font-size:12px;color:#999;margin-bottom:24px}
+.box{background:#fff;border:1px solid #e0ddd5;border-radius:10px;padding:24px;margin:16px 0}
+.box h3{font-size:14px;font-weight:700;margin-bottom:8px}
+.sp{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0ede5;font-size:13px}
+.sp .k{color:#888}.sp .v{font-weight:600}
+.highlight{background:#fdf8ee;border-color:#e8d9a8}
+
+/* Tabs for approved/current versions */
+.tabs{display:flex;gap:8px;margin:24px 0 16px}
+.tab{padding:8px 16px;border-radius:100px;border:1px solid #ddd;background:#fff;font-size:12px;font-weight:600;cursor:pointer;color:#888;transition:all .2s}
+.tab.active{background:#222;color:#fff;border-color:#222}
+.ver{display:none}.ver.active{display:block}
+
+/* Signature area */
+.sig-area{background:#fff;border:2px solid #222;border-radius:12px;padding:32px;margin:32px 0;text-align:center}
+.sig-area h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.sig-area p{font-size:12px;color:#666;margin-bottom:20px}
+.sig-area input{width:100%;max-width:360px;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:14px;margin-bottom:8px;text-align:center}
+.sig-area input:focus{outline:none;border-color:#222}
+.sig-btn{display:inline-block;background:#222;color:#fff;font-weight:700;font-size:14px;padding:14px 48px;border-radius:100px;border:none;cursor:pointer;transition:transform .2s}
+.sig-btn:hover{transform:scale(1.02)}
+.sig-btn:disabled{opacity:.4;cursor:not-allowed}
+.sig-note{font-size:10px;color:#aaa;margin-top:12px}
+
+/* Status */
+.status{padding:16px;border-radius:8px;margin:16px 0;font-size:13px;font-weight:600;text-align:center}
+.status.pending{background:#fff8e1;color:#b8860b;border:1px solid #f0e0a0}
+.status.approved{background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9;display:none}
+.status.rejected{background:#ffebee;color:#c62828;border:1px solid #ffcdd2;display:none}
+
+.legal{font-size:11px;color:#999;line-height:1.8;margin-top:32px;padding-top:24px;border-top:1px solid #e8e6e0}
+
+footer{text-align:center;padding:24px;font-size:10px;color:#ccc}
+</style>
+  <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<div class="w">
+
+  <div class="label">承認依頼書</div>
+  <h1>AOSHIMA MASTERPIECE<br>共有持分譲渡に関するご承認のお願い</h1>
+  <div class="date">2026年4月11日</div>
+
+  <p>拝啓 時下ますますご清栄のこととお慶び申し上げます。</p>
+
+  <p>私、濱田祐樹は、AOSHIMA MASTERPIECEの会員権（1/12口）を保有しております。このたび、下記の条件にて第三者への持分譲渡を行いたく、貴社の書面による事前承諾をお願い申し上げます。</p>
+
+  <!-- Current vs Approved versions -->
+  <h2>譲渡の内容</h2>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('current')">現在の販売形態</div>
+    <div class="tab" onclick="switchTab('approved')">承認後の販売形態</div>
+  </div>
+
+  <!-- CURRENT VERSION -->
+  <div class="ver active" id="ver-current">
+    <div class="box">
+      <h3>現在の掲載内容</h3>
+      <p style="font-size:12px;color:#666">以下は現在の販売サイト（SOLUNA）における当該物件の掲載内容です。</p>
+      <div class="sp"><span class="k">掲載名</span><span class="v">青島デザイナーズヴィラ</span></div>
+      <div class="sp"><span class="k">設計者名</span><span class="v">GENERAL DESIGN（記載あり）</span></div>
+      <div class="sp"><span class="k">ブランド名の使用</span><span class="v">なし</span></div>
+      <div class="sp"><span class="k">販売形態</span><span class="v">会員権の譲渡</span></div>
+      <div class="sp"><span class="k">注記</span><span class="v">「ファウンダー個人保有の会員権の譲渡」「運営会社との利用契約を引き継ぎ」と明記</span></div>
+      <div class="sp"><span class="k">価格</span><span class="v">非公開（お問い合わせ対応）</span></div>
+      <div class="sp"><span class="k">掲載URL</span><span class="v"><a href="https://solun.art/" target="_blank">solun.art</a></span></div>
+    </div>
+  </div>
+
+  <!-- APPROVED VERSION -->
+  <div class="ver" id="ver-approved">
+    <div class="box highlight">
+      <h3>承認後の掲載内容（変更なし）</h3>
+      <p style="font-size:12px;color:#666">承認いただいた場合も、掲載内容に変更はありません。ブランド名の使用は行いません。</p>
+      <div class="sp"><span class="k">掲載名</span><span class="v">青島デザイナーズヴィラ（変更なし）</span></div>
+      <div class="sp"><span class="k">ブランド名の使用</span><span class="v">なし（変更なし）</span></div>
+      <div class="sp"><span class="k">販売形態</span><span class="v">共有持分の不動産取引</span></div>
+      <div class="sp"><span class="k">買主の義務</span><span class="v">運営会社との利用規約への同意</span></div>
+      <div class="sp"><span class="k">管理費の引継ぎ</span><span class="v">買主が継続して負担</span></div>
+    </div>
+  </div>
+
+  <h2>譲渡の概要</h2>
+
+  <div class="box">
+    <div class="sp"><span class="k">対象物件</span><span class="v">AOSHIMA MASTERPIECE</span></div>
+    <div class="sp"><span class="k">持分割合</span><span class="v">1/12</span></div>
+    <div class="sp"><span class="k">現所有者</span><span class="v">濱田祐樹</span></div>
+    <div class="sp"><span class="k">譲渡先</span><span class="v">SOLUNAメンバーシップ購入者（個人）</span></div>
+    <div class="sp"><span class="k">譲渡形態</span><span class="v">SOLUNA会員権の取得契約</span></div>
+    <div class="sp"><span class="k">利用契約</span><span class="v">買主が貴社と新規締結</span></div>
+    <div class="sp"><span class="k">管理費（年255万円）</span><span class="v">買主が引き継ぎ</span></div>
+  </div>
+
+  <h2>お願い事項</h2>
+
+  <div class="box">
+    <p style="font-size:13px;color:#444">利用規約第10条に基づき、会員権の譲渡に際しての貴社の書面による事前承諾をお願い申し上げます。</p>
+    <p style="font-size:13px;color:#444">なお、本譲渡に際して以下を遵守いたします：</p>
+    <ul style="font-size:13px;color:#444;padding-left:20px;margin:8px 0">
+      <li>貴社ブランド名を販売活動に使用しません</li>
+      <li>買主に対し、貴社の利用規約への同意を義務付けます</li>
+      <li>買主は管理費を滞りなく負担します</li>
+      <li>その他、貴社が指定する条件があれば遵守いたします</li>
+    </ul>
+  </div>
+
+  <!-- Status -->
+  <div class="status pending" id="status-pending">承認待ち</div>
+  <div class="status approved" id="status-approved">承認済み</div>
+
+  <!-- Signature -->
+  <div class="sig-area" id="sig-area">
+    <h3>ご承認</h3>
+    <p>以下にご署名いただくことで、上記の共有持分譲渡を承認したものとします。</p>
+    <input type="text" id="sig-name" placeholder="ご担当者名" oninput="checkSig()">
+    <input type="email" id="sig-email" placeholder="メールアドレス" oninput="checkSig()">
+    <br><br>
+    <button class="sig-btn" id="sig-btn" disabled onclick="signContract()">承認する</button>
+    <div class="sig-note">署名後、Ponによる電子契約が自動生成されます</div>
+  </div>
+
+  <div class="legal">
+    <strong>法的注記:</strong> 本承認は、濱田祐樹が保有するAOSHIMA MASTERPIECEの会員権（1/12口）の第三者への譲渡に対する書面承諾を構成します。承認者の電子署名により、利用規約第10条に基づく事前承諾が完了したものとみなされます。本契約の締結にはPon電子契約システムを使用します。
+  </div>
+
+</div>
+
+<footer>SOLUNA &mdash; Enabler</footer>
+
+<script>
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.ver').forEach(v=>v.classList.remove('active'));
+  document.getElementById('ver-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function checkSig(){
+  var n=document.getElementById('sig-name').value.trim();
+  var e=document.getElementById('sig-email').value.trim();
+  document.getElementById('sig-btn').disabled=!(n&&e&&e.includes('@'));
+}
+
+var PON='https://pon.enablerdao.com';
+
+var CONTRACT_BODY=`AOSHIMA MASTERPIECE 会員権譲渡承認書
+
+本承認書は、以下の譲渡に対する書面による事前承諾を構成します。
+
+【対象物件】AOSHIMA MASTERPIECE
+【持分割合】1/12
+【現所有者】濱田祐樹
+【譲渡先】SOLUNAメンバーシップ購入者（個人）
+【譲渡形態】SOLUNA会員権の取得契約
+
+【承認者の確認事項】
+1. 上記の共有持分譲渡を承認する
+2. 買主は運営会社との利用規約に同意する義務を負う
+3. 買主は管理費（年255万円）を引き継ぐ
+4. 売主はブランド名を販売活動に使用しない
+5. 本承認は利用規約第10条に基づく書面承諾を構成する
+
+本契約は電子署名法（平成12年法律第102号）に基づく電子署名により締結され、
+Solanaブロックチェーンに記録されます。`;
+
+async function signContract(){
+  var name=document.getElementById('sig-name').value.trim();
+  var email=document.getElementById('sig-email').value.trim();
+  var btn=document.getElementById('sig-btn');
+  btn.disabled=true;
+  btn.textContent='Pon で契約を作成中...';
+
+  try{
+    // Step 1: Create contract on Pon
+    var res=await fetch(PON+'/api/contracts',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        title:'AOSHIMA MASTERPIECE 会員権譲渡承認書',
+        client_name:name,
+        client_email:email,
+        creator_email:'mail@yukihamada.jp',
+        creator_name:'濱田祐樹',
+        contract_type:'approval',
+        amount:0,
+        currency:'JPY',
+        body_text:CONTRACT_BODY
+      })
+    });
+
+    if(res.ok){
+      var data=await res.json();
+      // Step 2: Redirect to Pon signing page
+      btn.textContent='署名ページへ移動...';
+      window.location.href=data.sign_url||PON+'/sign/'+data.token;
+      return;
+    }else{
+      throw new Error('Pon API error: '+res.status);
+    }
+  }catch(e){
+    console.error('Pon error:',e);
+    btn.textContent='処理中...（フォールバック）';
+
+    // Fallback: local record + email
+    var record={signer_name:name,signer_email:email,document:'AOSHIMA MASTERPIECE 会員権譲渡承認',signed_at:new Date().toISOString(),status:'approved'};
+    var sigs=JSON.parse(localStorage.getItem('soluna_sigs')||'[]');sigs.push(record);localStorage.setItem('soluna_sigs',JSON.stringify(sigs));
+    try{fetch('https://formspree.io/f/xpznqkaa',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({_subject:'SOLUNA 承認: '+name,...record})})}catch(e){}
+
+    document.getElementById('status-pending').style.display='none';
+    document.getElementById('status-approved').style.display='block';
+    document.getElementById('sig-area').innerHTML='<h3 style="color:#2e7d32">承認を記録しました</h3><p>'+name+' 様</p><p style="font-size:12px;color:#888">'+new Date().toLocaleString('ja-JP')+'</p><p style="font-size:11px;color:#666;margin-top:8px">Pon電子契約システムに接続できなかったため、ローカル記録として保存しました。後ほど正式な電子契約をお送りします。</p>';
+  }
+}
+</script>
+<script src="/track.js" defer></script>
+</body>
+</html>

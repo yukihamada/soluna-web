@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/plans" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA — Plans &amp; Products | Curated Experiences for You">SOLUNA — プランと商品一覧 | あなたに合った体験を</title>
+<meta content="1泊5万円の逃避行から1億円の完全所有まで。サラリーマン・起業家・成功者・遊び人それぞれのSOLUNA体験プラン。" data-en-content="From ¥50,000 weekend retreats to ¥100,000,000 complete ownership. SOLUNA experience plans tailored to professionals, entrepreneurs, achievers, and lifestyle enthusiasts." name="description"/>
+<meta content="SOLUNA プラン一覧 — 5万円の週末から1億円の完全所有まで" property="og:title"/>
+<meta content="サラリーマン・起業家・成功者・遊び人。カヌー、馬でチェックイン、プライベートシェフ、1棟完全所有。なんでも承ります。" property="og:description"/>
+<meta content="https://solun.art/img/kumaushi_aerial_dawn.webp" property="og:image"/>
+<meta content="https://solun.art/plans" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://solun.art/img/kumaushi_aerial_dawn.webp" name="twitter:image"/>
+<meta content="SOLUNA プラン — 5万円〜1億円" name="twitter:title"/>
+<meta content="カヌー、馬でチェックイン、プライベートシェフ。なんでも承ります。" name="twitter:description"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --green:#9bc46d;
+  --bg:#050505;
+  --text:#f0ece4;
+  --dim:#555;
+}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+/* Nav */
+nav{padding:16px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #0d0d0d;position:sticky;top:0;z-index:100;background:rgba(5,5,5,.92);backdrop-filter:blur(12px)}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--gold)}
+.nav-back{font-size:11px;color:#444}
+.nav-back:hover{color:var(--gold)}
+
+/* Hero banner */
+.plans-hero{position:relative;height:72vh;min-height:480px;display:flex;align-items:flex-end;overflow:hidden}
+.plans-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.8)}
+.plans-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#050505 0%,rgba(5,5,5,.7) 40%,rgba(5,5,5,.2) 100%)}
+.plans-hero-body{position:relative;z-index:1;padding:0 24px 56px;max-width:720px;margin:0 auto;width:100%}
+.plans-hero .eyebrow{font-size:9px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:12px;opacity:.8}
+.plans-hero h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:14px}
+.plans-hero p{color:#aaa;font-size:13px;line-height:1.9;max-width:520px}
+
+/* Section title */
+.sec-title{text-align:center;padding:64px 24px 32px;max-width:680px;margin:0 auto}
+.sec-title .label{font-size:9px;letter-spacing:.28em;color:var(--dim);text-transform:uppercase;font-weight:700;margin-bottom:10px}
+.sec-title h2{font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:800;letter-spacing:-.03em;line-height:1.25;margin-bottom:12px}
+.sec-title p{color:var(--dim);font-size:12.5px;line-height:2}
+
+/* Tier divider */
+.tier-divider{display:flex;align-items:center;gap:16px;max-width:840px;margin:0 auto 32px;padding:0 24px}
+.tier-divider::before,.tier-divider::after{content:'';flex:1;height:1px;background:#111}
+.tier-label{font-size:9px;color:#2a2a2a;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;font-weight:700}
+.tier-label.gold{color:rgba(200,164,85,.5)}
+.tier-label.green{color:rgba(155,196,109,.4)}
+.tier-label.blue{color:rgba(100,160,220,.4)}
+.tier-label.platinum{color:rgba(220,200,180,.5)}
+
+/* Plan card */
+.plans{display:flex;flex-direction:column;gap:0;max-width:840px;margin:0 auto;padding:0 16px 100px}
+
+.plan{border:1px solid #111;border-radius:20px;background:#070707;margin-bottom:16px;overflow:hidden;transition:border-color .3s}
+.plan:hover{border-color:#1e1e1e}
+.plan.gold{border-color:rgba(200,164,85,.12)}
+.plan.gold:hover{border-color:rgba(200,164,85,.3)}
+.plan.green{border-color:rgba(155,196,109,.1)}
+.plan.green:hover{border-color:rgba(155,196,109,.25)}
+.plan.blue{border-color:rgba(100,160,220,.1)}
+.plan.blue:hover{border-color:rgba(100,160,220,.25)}
+.plan.platinum{border-color:rgba(220,200,180,.15)}
+.plan.platinum:hover{border-color:rgba(220,200,180,.4)}
+
+.plan-img{width:100%;height:240px;object-fit:cover;display:block;filter:saturate(.7);opacity:.8}
+.plan-body{padding:24px 24px 26px}
+
+.plan-badge{display:inline-flex;align-items:center;gap:6px;font-size:8.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:14px}
+.badge-gold{background:rgba(200,164,85,.1);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.badge-green{background:rgba(155,196,109,.08);color:var(--green);border:1px solid rgba(155,196,109,.18)}
+.badge-blue{background:rgba(100,160,220,.08);color:#7ab4e8;border:1px solid rgba(100,160,220,.18)}
+.badge-platinum{background:rgba(220,200,180,.07);color:#dfd3bf;border:1px solid rgba(220,200,180,.2)}
+
+.plan-name{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:6px}
+.plan-sub{font-size:12px;color:var(--dim);line-height:1.8;margin-bottom:16px}
+.plan-price{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;letter-spacing:-.04em;margin-bottom:4px}
+.plan-price-note{font-size:10.5px;color:#444;margin-bottom:20px}
+
+/* Feature grid */
+.features{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+@media(max-width:480px){.features{grid-template-columns:1fr}}
+.feat{background:#0a0a0a;border:1px solid #141414;border-radius:10px;padding:10px 12px}
+.feat-icon{font-size:16px;margin-bottom:5px}
+.feat-title{font-size:10.5px;font-weight:700;color:#ccc;margin-bottom:2px}
+.feat-desc{font-size:10px;color:#555;line-height:1.6}
+
+/* Highlight box */
+.highlight{background:linear-gradient(135deg,rgba(200,164,85,.06),transparent);border:1px solid rgba(200,164,85,.12);border-radius:12px;padding:14px 16px;margin-bottom:20px}
+.highlight.green{background:linear-gradient(135deg,rgba(155,196,109,.05),transparent);border-color:rgba(155,196,109,.1)}
+.highlight.blue{background:linear-gradient(135deg,rgba(100,160,220,.05),transparent);border-color:rgba(100,160,220,.1)}
+.highlight.platinum{background:linear-gradient(135deg,rgba(220,200,180,.06),transparent);border-color:rgba(220,200,180,.12)}
+.highlight p{font-size:11.5px;color:#888;line-height:1.9}
+.highlight strong{color:var(--text)}
+.highlight.green strong{color:var(--green)}
+.highlight.blue strong{color:#7ab4e8}
+.highlight.platinum strong{color:#dfd3bf}
+
+/* Included list */
+.included{margin-bottom:20px}
+.included-title{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:10px}
+.included-item{display:flex;align-items:flex-start;gap:8px;font-size:11.5px;color:#666;line-height:1.7;margin-bottom:4px}
+.included-item::before{content:'✓';color:var(--gold);font-weight:700;flex-shrink:0;margin-top:2px}
+.plan.green .included-item::before{color:var(--green)}
+.plan.blue .included-item::before{color:#7ab4e8}
+.plan.platinum .included-item::before{color:#dfd3bf}
+
+/* CTA buttons */
+.plan-cta{display:flex;gap:10px;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:12px;font-size:12px;font-weight:700;letter-spacing:.04em;cursor:pointer;transition:all .2s;text-decoration:none}
+.btn-gold{background:var(--gold);color:#050505}
+.btn-gold:hover{background:#d4b060;transform:translateY(-1px)}
+.btn-green{background:var(--green);color:#050505}
+.btn-green:hover{background:#a8d47a;transform:translateY(-1px)}
+.btn-blue{background:#5a9fd4;color:#050505}
+.btn-blue:hover{background:#6aaee0;transform:translateY(-1px)}
+.btn-platinum{background:linear-gradient(135deg,#c8a455,#dfd3bf);color:#050505}
+.btn-platinum:hover{opacity:.9;transform:translateY(-1px)}
+.btn-ghost{background:transparent;border:1px solid #222;color:#555;padding:12px 20px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none}
+.btn-ghost:hover{border-color:#444;color:#888}
+
+/* Experience photo grid */
+.xp-section{max-width:900px;margin:0 auto 80px;padding:0 16px}
+.xp-header{text-align:center;margin-bottom:36px}
+.xp-header .label{font-size:9px;letter-spacing:.28em;color:#222;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.xp-header h2{font-size:clamp(1.3rem,3vw,1.9rem);font-weight:800;letter-spacing:-.03em}
+.xp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:600px){.xp-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:380px){.xp-grid{grid-template-columns:1fr}}
+
+.xp-card{border-radius:14px;overflow:hidden;position:relative;aspect-ratio:3/4;display:flex;flex-direction:column;justify-content:flex-end}
+.xp-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.xp-card:hover img{transform:scale(1.04)}
+.xp-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.4) 55%,rgba(0,0,0,.1) 100%)}
+.xp-card.unavail img{filter:grayscale(1) brightness(.3)}
+.xp-card.unavail::after{background:linear-gradient(to top,rgba(0,0,0,.97) 0%,rgba(0,0,0,.7) 100%)}
+
+.xp-body{position:relative;z-index:1;padding:12px}
+.xp-icon{font-size:20px;margin-bottom:4px}
+.xp-name{font-size:12px;font-weight:800;line-height:1.3;margin-bottom:6px}
+.xp-from{display:inline-block;font-size:8.5px;font-weight:700;letter-spacing:.1em;padding:3px 8px;border-radius:20px}
+.from-all{background:rgba(200,164,85,.2);color:var(--gold);border:1px solid rgba(200,164,85,.3)}
+.from-canoe{background:rgba(200,164,85,.15);color:#d4b87a;border:1px solid rgba(200,164,85,.25)}
+.from-retreat{background:rgba(155,196,109,.15);color:var(--green);border:1px solid rgba(155,196,109,.25)}
+.from-owner{background:rgba(100,160,220,.15);color:#7ab4e8;border:1px solid rgba(100,160,220,.25)}
+.from-sovereign{background:rgba(220,200,180,.12);color:#dfd3bf;border:1px solid rgba(220,200,180,.22)}
+.xp-unavail-tag{display:inline-block;font-size:8.5px;font-weight:700;letter-spacing:.08em;padding:3px 8px;border-radius:20px;background:rgba(255,255,255,.06);color:#333;border:1px solid #1a1a1a}
+.xp-note{font-size:9.5px;color:#555;margin-top:4px;line-height:1.5}
+
+/* Rain plan */
+.rain-section{max-width:900px;margin:0 auto 80px;padding:0 16px}
+.rain-header{text-align:center;margin-bottom:32px}
+.rain-header .label{font-size:9px;letter-spacing:.28em;color:#222;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.rain-header h2{font-size:clamp(1.3rem,3vw,1.9rem);font-weight:800;letter-spacing:-.03em}
+.rain-header p{font-size:12px;color:var(--dim);line-height:2;margin-top:10px}
+.rain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:640px){.rain-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:380px){.rain-grid{grid-template-columns:1fr}}
+.rain-card{background:#080808;border:1px solid #141414;border-radius:14px;padding:18px 16px}
+.rain-card .ri{font-size:22px;margin-bottom:8px}
+.rain-card .rt{font-size:12px;font-weight:800;margin-bottom:5px;color:#ccc}
+.rain-card .rs{font-size:11px;color:#555;line-height:1.7}
+.rain-note{background:linear-gradient(135deg,rgba(155,196,109,.05),transparent);border:1px solid rgba(155,196,109,.1);border-radius:12px;padding:14px 18px;text-align:center}
+.rain-note p{font-size:11.5px;color:#777;line-height:1.9}
+.rain-note strong{color:var(--green)}
+
+/* Cancel policy */
+.cancel-section{max-width:900px;margin:0 auto 80px;padding:0 16px}
+.cancel-header{text-align:center;margin-bottom:32px}
+.cancel-header .label{font-size:9px;letter-spacing:.28em;color:#222;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.cancel-header h2{font-size:clamp(1.3rem,3vw,1.9rem);font-weight:800;letter-spacing:-.03em}
+.cancel-header p{font-size:12px;color:var(--dim);line-height:2;margin-top:10px}
+.cancel-table{width:100%;border-collapse:collapse;margin-bottom:20px}
+.cancel-table th{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#333;font-weight:700;padding:10px 14px;border-bottom:1px solid #111;text-align:left}
+.cancel-table td{font-size:11.5px;color:#666;padding:11px 14px;border-bottom:1px solid #0e0e0e;line-height:1.6}
+.cancel-table td:first-child{color:#999;font-weight:600}
+.cancel-table tr:last-child td{border-bottom:none}
+.cancel-highlight{color:var(--gold)!important}
+.cancel-green{color:var(--green)!important}
+.cancel-red{color:#e07070!important}
+.cancel-block{background:#080808;border:1px solid #141414;border-radius:14px;padding:18px 20px;margin-bottom:12px}
+.cancel-block h4{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;color:#aaa}
+.cancel-policy-note{background:linear-gradient(135deg,rgba(200,164,85,.04),transparent);border:1px solid rgba(200,164,85,.1);border-radius:12px;padding:14px 18px;font-size:11px;color:#666;line-height:1.9}
+.cancel-policy-note strong{color:var(--gold)}
+
+/* Concierge bar */
+.concierge{max-width:840px;margin:0 auto 80px;padding:0 16px}
+.concierge-inner{background:#080808;border:1px solid #141414;border-radius:20px;padding:32px;text-align:center}
+.concierge-inner h3{font-size:1.2rem;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.concierge-inner p{font-size:12px;color:var(--dim);line-height:2;max-width:480px;margin:0 auto 20px}
+
+footer{padding:32px 24px;text-align:center;font-size:9px;color:#1a1a1a;letter-spacing:.12em;border-top:1px solid #0d0d0d}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- Hero -->
+<div class="plans-hero">
+<img alt="SOLUNA" loading="eager" src="img/soluna_hero_wide.webp"/>
+<div class="plans-hero-body">
+<p class="eyebrow">SOLUNA EXPERIENCE PLANS</p>
+<h1 data-en="We accommodate everything.">なんでも承ります。</h1>
+<p data-en="Canoe down rivers, check in on horseback, dine before a wood-burning stove. From ¥50,000 weekends to ¥100,000,000 complete ownership—plans designed for every phase of your journey.">カヌーで川を下り、馬でチェックインし、薪ストーブの前でシェフの料理を食べる。<br/>5万円の週末から1億円の完全所有まで、あなたのフェーズに合わせたプランを用意しました。</p>
+</div>
+</div>
+<!-- ====== TIER 0: 月額メンバー ====== -->
+<div class="sec-title">
+<div class="label">Tier 00 — Monthly Member</div>
+<h2 data-en="From ¥9,800 per month">月額¥9,800で<span data-en="Own KAGI access." style="color:var(--gold)">KAGIを持つ。</span></h2>
+<p data-en="The most accessible membership, available from the start of cabin construction. Includes monthly progress reports and KAGI smart home access key. After completion, remotely manage lighting, smart locks, and temperature/humidity from your iPhone.">キャビン建設中から参加できる最安値メンバーシップ。毎月の進捗レポート + KAGIスマートホームアクセスキー発行。<br/>キャビン完成後は照明・スマートロック・温湿度をiPhoneからリモート管理できます。</p>
+</div>
+<div class="plans">
+<div class="tier-divider"><span class="tier-label gold" data-en="MONTHLY MEMBER — ¥9,800/month">MONTHLY MEMBER — ¥9,800/月</span></div>
+<div class="plan gold" id="monthly-plan">
+<div class="plan-body" style="padding-top:32px">
+<div class="plan-badge badge-gold">🏠 SMART HOME ACCESS</div>
+<div class="plan-name" data-en="SOLUNA Monthly Membership">SOLUNA 月額メンバー</div>
+<div class="plan-sub" data-en="KAGI smart home access key issued for Teshikaga Kumaushi Base cabin. Monthly construction progress reports delivered. Priority reservation rights upon completion.">弟子屈熊牛原野キャビンのKAGIスマートホームアクセスキーを発行。建設進捗レポートを毎月お届け。キャビン完成後は優先予約権付き。</div>
+<div class="plan-price" style="color:var(--gold)">¥9,800<span data-en="/month (incl. tax)" style="font-size:1rem;font-weight:400;color:#555"> /月（税込）</span></div>
+<div class="plan-price-note" data-en="Cancel anytime · Secure payment via Stripe · Valid from first month">いつでもキャンセル可能 · Stripe による安全な決済 · 初月から有効</div>
+<div class="highlight" style="margin-bottom:20px">
+<p data-en=": KAGI access key issued instantly to your registered email. Simply install the KAGI app on your iPhone, enter the key, and connection is complete."><strong data-en="Immediate Benefits">すぐに届くもの</strong>：登録メールアドレスにKAGIアクセスキーを即時発行。iPhoneに KAGIアプリ をインストールしてキーを入力するだけで接続完了。</p>
+</div>
+<div class="features">
+<div class="feat"><div class="feat-icon">🔑</div><div class="feat-title" data-en="KAGI Access Key">KAGIアクセスキー</div><div class="feat-desc" data-en="Issued immediately upon registration. Manage via iPhone app">登録後すぐに発行。iPhoneアプリで管理</div></div>
+<div class="feat"><div class="feat-icon">📡</div><div class="feat-title" data-en="Smart Lock">スマートロック</div><div class="feat-desc" data-en="Remote lock and unlock after cabin completion">キャビン完成後にリモート施錠・解錠</div></div>
+<div class="feat"><div class="feat-icon">💡</div><div class="feat-title" data-en="Remote lighting control">照明リモート制御</div><div class="feat-desc" data-en="Philips Hue Integration. Control On/Off Remotely">Philips Hue 連携。外出先からON/OFF</div></div>
+<div class="feat"><div class="feat-icon">🌡️</div><div class="feat-title" data-en="Temperature and humidity monitoring">温湿度モニタリング</div><div class="feat-desc" data-en="Real-time cabin environment monitoring">キャビン内環境をリアルタイム確認</div></div>
+<div class="feat"><div class="feat-icon">📊</div><div class="feat-title" data-en="Monthly progress reports">月次進捗レポート</div><div class="feat-desc" data-en="Monthly updates on construction progress, costs, and photography.">建設状況・コスト・写真を毎月共有</div></div>
+<div class="feat"><div class="feat-icon">📅</div><div class="feat-title" data-en="Priority Reservation Rights">優先予約権</div><div class="feat-desc" data-en="Early booking available upon cabin completion, before public opening">キャビン完成後、一般公開前に先行予約可</div></div>
+</div>
+<div class="included">
+<div class="included-title" data-en="What's included">含まれるもの</div>
+<div class="included-item" data-en="KAGI App Access Key (Issued Immediately Upon Registration)">KAGIアプリ アクセスキー（登録後即時発行）</div>
+<div class="included-item" data-en="kagi-server.fly.dev smart home server connectivity">kagi-server.fly.dev スマートホームサーバー接続</div>
+<div class="included-item" data-en="Monthly construction progress report email">月次建設進捗レポートメール</div>
+<div class="included-item" data-en="Priority booking rights upon cabin completion">キャビン完成後 優先宿泊予約権</div>
+<div class="included-item" data-en="SOLUNA Member Exclusive Updates">SOLUNA メンバー限定アップデート</div>
+</div>
+<div class="plan-cta">
+<button class="btn-primary btn-gold" data-en="Receive KAGI Access Key (¥9,800/month) →" id="monthly-btn" onclick="startMonthly()" style="border:none;cursor:pointer">
+          KAGIアクセスキーを受け取る（¥9,800/月）→
+        </button>
+</div>
+<p data-en="Secure payments via Stripe · Credit card · Automatic monthly billing from the following month · Cancel anytime" style="font-size:10px;color:#2a2a2a;margin-top:12px;line-height:1.8">Stripeによる安全な決済 · クレジットカード · 翌月以降毎月自動請求 · いつでもキャンセル可</p>
+</div>
+</div>
+</div>
+<script>
+async function startMonthly() {
+  const btn = document.getElementById('monthly-btn');
+  btn.textContent = '処理中...';
+  btn.disabled = true;
+  try {
+    const email = prompt('メールアドレスを入力してください（KAGIキーの送付先）：');
+    if (!email || !email.includes('@')) { btn.textContent = 'KAGIアクセスキーを受け取る（¥9,800/月）→'; btn.disabled = false; return; }
+    const res = await fetch('https://kagi-server.fly.dev/api/v1/checkout', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({product:'soluna_monthly', email})
+    });
+    const data = await res.json();
+    if (data.url) { window.location.href = data.url; }
+    else { alert('エラーが発生しました。しばらく後にお試しください。'); btn.textContent = 'KAGIアクセスキーを受け取る（¥9,800/月）→'; btn.disabled = false; }
+  } catch(e) { alert('エラーが発生しました。'); btn.textContent = 'KAGIアクセスキーを受け取る（¥9,800/月）→'; btn.disabled = false; }
+}
+</script>
+<!-- ====== TIER 1: サラリーマン ====== -->
+<div class="sec-title">
+<div class="label" data-en="Tier 01 — For the Professional">Tier 01 — For サラリーマン</div>
+<h2 data-en="Escape for the weekend.">週末、逃げていい。</h2>
+<p data-en="Even if Mondays feel daunting, you'll return transformed. Experience the extraordinary in Hokkaido and Atami, from just one night.">月曜日がちょっと怖くても、ここから帰れば少し違う自分になっている。北海道・熱海の非日常を1泊から。</p>
+</div>
+<div class="plans">
+<div class="tier-divider"><span class="tier-label gold" data-en="Professional TIER — ¥58,000〜">サラリーマン TIER — ¥58,000〜</span></div>
+<!-- Plan 1: Weekend Escape -->
+<div class="plan gold">
+<img alt="朝の弟子屈" class="plan-img" data-en-alt="Morning in Teshikaga" src="img/cabin_morning.webp"/>
+<div class="plan-body">
+<div class="plan-badge badge-gold">🏡 WEEKEND ESCAPE</div>
+<div class="plan-name" data-en="Weekend Reset — 1 night, 2 days">週末リセット — 1泊2日</div>
+<div class="plan-sub" data-en="One or two guests at either our Hokkaido or Atami property. A wood-burning stove, a sky full of stars, and a local morning breakfast the next day. That's all you need.">北海道・熱海どちらかの物件に1〜2名で。薪ストーブ、満点の星空、翌朝のローカルモーニング。それだけでいい。</div>
+<div class="plan-price" style="color:var(--gold)">¥58,000<span data-en="/Per Night, Up to 2 Guests" style="font-size:1rem;font-weight:400;color:#555"> /1泊・2名まで</span></div>
+<div class="plan-price-note" data-en="Additional person +¥12,000 / Peak season (summer/year-end) +¥18,000">追加1名 +¥12,000 / 繁忙期（夏・年末）は+¥18,000</div>
+<div class="features">
+<div class="feat"><div class="feat-icon">🛖</div><div class="feat-title" data-en="Property Selection">物件選択</div><div class="feat-desc" data-en="Choose between TAPKOP (Teshikaga) or WHITE HOUSE (Atami)">TAPKOP（弟子屈）/ WHITE HOUSE（熱海）から選択</div></div>
+<div class="feat"><div class="feat-icon">🔥</div><div class="feat-title" data-en="Wood Stove Ignition Assistance">薪ストーブ着火サポート</div><div class="feat-desc" data-en="Our local staff will ignite the first fire. The rest is yours.">現地スタッフが初回着火。あとはあなたの番</div></div>
+<div class="feat"><div class="feat-icon">📺</div><div class="feat-title" data-en="Netflix / Prime / Disney+ and all major streaming services">Netflix / Prime / Disney+ほか全配信</div><div class="feat-desc" data-en="ABEMA / Hulu / U-NEXT / TVer / DAZN / NHK Plus">ABEMA / Hulu / U-NEXT / TVer / DAZN / NHKプラス</div></div>
+<div class="feat"><div class="feat-icon">🎤</div><div class="feat-title" data-en="uta.live karaoke">uta.live カラオケ</div><div class="feat-desc" data-en="AirPlay compatible. Sing freely with private room rental">Airplay対応。部屋ごと貸し切りで思いっきり歌える</div></div>
+</div>
+<div class="highlight">
+<p data-en=": Depart Friday evening → spend Saturday as you wish → return home Sunday morning. Monday's work feels just a little lighter."><strong data-en="Signature Uses">こんな使い方</strong>：金曜夜に出発→土曜は好きに過ごす→日曜午前に帰宅。月曜の仕事、少しだけましになる気がする。</p>
+</div>
+<div class="plan-cta">
+<a class="btn-primary btn-gold" data-en="Check availability →" href="calendar" onclick="gtag('event','plan_cta',{plan:'weekend_escape'})">空き日程を確認する →</a>
+<a class="btn-ghost" data-en="Inquiries" href="book">問い合わせ</a>
+</div>
+</div>
+</div>
+<!-- Plan 2: Hokkaido Full Experience -->
+<div class="plan gold">
+<img alt="北海道の夏" class="plan-img" data-en-alt="Hokkaido Summer" src="img/summer.webp"/>
+<div class="plan-body">
+<div class="plan-badge badge-gold">🌊 CANOE + STAY</div>
+<div class="plan-name" data-en="Complete Hokkaido Experience — 2 nights, 3 days">北海道まるごと体験 — 2泊3日</div>
+<div class="plan-sub" data-en="Kussharo Wetlands canoeing + TAPKOP accommodation package. A 2-night, 3-day immersion into Teshikaga's pristine nature. All meals, experiences, and accommodations included.">釧路湿原カヌー＋TAPKOP宿泊のセットプラン。弟子屈の大自然をぜんぶ使い倒す2泊3日。食事・体験・宿泊すべて込み。</div>
+<div class="plan-price" style="color:var(--gold)">¥148,000<span data-en="/2 nights, 2 guests" style="font-size:1rem;font-weight:400;color:#555"> /2泊・2名</span></div>
+<div class="plan-price-note" data-en="Additional guest +¥28,000 / Up to 4 guests">追加1名 +¥28,000 / 4名まで対応可</div>
+<div class="features">
+<div class="feat"><div class="feat-icon">🛶</div><div class="feat-title" data-en="Kushiro Wetlands Canoeing">釧路湿原カヌー</div><div class="feat-desc" data-en="Half-day to full-day guided tours with local experts. Paddle through Ramsar Convention wetlands.">地元ガイドと半日〜1日ツアー。ラムサール条約湿地を漕ぐ</div></div>
+<div class="feat"><div class="feat-icon">🍽️</div><div class="feat-title" data-en="Dinner featuring Doto regional ingredients">道東食材の夕食</div><div class="feat-desc" data-en="Direct from local farmers and fishermen. Charcoal-grilled or chef-prepared">地元農家・漁師直送。炭火焼きorシェフ調理</div></div>
+<div class="feat"><div class="feat-icon">⭐</div><div class="feat-title" data-en="Stargazing">星空観察</div><div class="feat-desc" data-en="Among Japan's Darkest Skies. On Clear Nights, the Milky Way Emerges">日本有数の暗さ。晴れれば天の川が見える</div></div>
+<div class="feat"><div class="feat-icon">♨️</div><div class="feat-title" data-en="Kussharo Lake Hot Springs">屈斜路湖温泉</div><div class="feat-desc" data-en="Lakeside open-air bath. Hot springs emerge when you dig in the sand">湖畔の野天風呂。砂を掘ると温泉が湧く</div></div>
+</div>
+<div class="highlight">
+<p data-en="Includes: accommodations, canoe guide, first evening dinner, two breakfasts, hot spring access, and full entertainment amenities. Transportation (New Chitose → Teshikaga) not included. Airport transfers available by arrangement (+¥15,000–)."><strong data-en="What's included">含まれるもの</strong>：宿泊費・カヌーガイド料・初日夕食・朝食2回・温泉入浴料・全エンタメ設備。<br/>交通費（新千歳→弟子屈）は含まず。空港からの送迎は要相談（+¥15,000〜）。</p>
+</div>
+<div class="plan-cta">
+<a class="btn-primary btn-gold" data-en="Reserve 2 Nights, 3 Days →" href="calendar" onclick="gtag('event','plan_cta',{plan:'hokkaido_full'})">2泊3日を予約する →</a>
+<a class="btn-ghost" data-en="Inquire for details" href="book">詳細を問い合わせ</a>
+</div>
+</div>
+</div>
+</div><!-- /plans -->
+<!-- ====== TIER 2: 起業家 ====== -->
+<div class="sec-title">
+<div class="label" data-en="Tier 02 — For Entrepreneurs">Tier 02 — For 起業家</div>
+<h2 data-en="A space to reset your mind.">思考を、リセットする場所。</h2>
+<p data-en="True decisions are made not in conference rooms, but before a fireplace. Whether you bring your team or come alone.">本当の意思決定は、会議室ではなく焚き火の前でされる。チームを連れてきても、一人で来ても。</p>
+</div>
+<div class="plans">
+<div class="tier-divider"><span class="tier-label green" data-en="Entrepreneur TIER — from ¥480,000">起業家 TIER — ¥480,000〜</span></div>
+<!-- Plan 3: Private Retreat -->
+<div class="plan green">
+<img alt="焚き火" class="plan-img" data-en-alt="Bonfire" src="img/bonfire_night.webp"/>
+<div class="plan-body">
+<div class="plan-badge badge-green">🔥 PRIVATE RETREAT</div>
+<div class="plan-name" data-en="Entrepreneur Retreat — 3-day private rental">起業家リトリート — 3日間貸し切り</div>
+<div class="plan-sub" data-en="Exclusive private rental of the property. Perfect for founder team offsites, final retreats before fundraising, and strategic planning sessions. Check-in on horseback (Hokkaido plan only).">物件を完全貸し切り。創業チームのオフサイト、資金調達前の最終合宿、次の一手を考える3日間。馬に乗ってチェックイン（北海道プランのみ）。</div>
+<div class="plan-price" style="color:var(--green)">¥480,000<span data-en="/3 days, up to 6 guests" style="font-size:1rem;font-weight:400;color:#555"> /3日間・最大6名</span></div>
+<div class="plan-price-note" data-en="7+ guests / Additional dates available upon request. Dining option +¥80,000〜 (catering included)">7名以上 / 追加日程はご相談。食事オプション +¥80,000〜（ケータリング込み）</div>
+<div class="features">
+<div class="feat"><div class="feat-icon">🏇</div><div class="feat-title" data-en="Check-in on horseback">馬に乗ってチェックイン</div><div class="feat-desc" data-en="From the Teshikaga pasture to the property. A small legend unfolds.">弟子屈の牧場から物件まで。ちょっとした伝説になる</div></div>
+<div class="feat"><div class="feat-icon">🏠</div><div class="feat-title" data-en="Full exclusive property rental">物件完全貸し切り</div><div class="feat-desc" data-en="Choose from TAPKOP / NESTING / THE LODGE / WHITE HOUSE Atami">TAPKOP / NESTING / THE LODGE / WHITE HOUSE熱海から選択</div></div>
+<div class="feat"><div class="feat-icon">🎵</div><div class="feat-title" data-en="SONOS + karaoke system included">SONOS + カラオケ完備</div><div class="feat-desc" data-en="Celebration with uta.live / djay. AirPlay 2 compatible">打ち上げはuta.live / djayで。Airplay2対応</div></div>
+<div class="feat"><div class="feat-icon">📶</div><div class="feat-title" data-en="High-Speed Wi-Fi + Work Environment">高速Wi-Fi + 作業環境</div><div class="feat-desc" data-en="High-speed fiber optic connectivity. Ideal for offsite document creation and remote meetings.">光回線接続。オフサイト資料作成・リモート会議も可</div></div>
+</div>
+<div class="highlight green">
+<p data-en="For founders who've completed Series A, startup CXOs, and executives seeking a space for candid conversation with their teams. Before the fire, everyone becomes a little more honest."><strong data-en="Ideal for">こういう人に使ってほしい</strong>：シリーズAを終えた創業者、スタートアップCXO、「チームと本音で話せる場所がない」と思っている経営者。焚き火の前では、みんな少し正直になれる。</p>
+</div>
+<div class="included">
+<div class="included-title" data-en="What's included">含まれるもの</div>
+<div class="included-item" data-en="Three Nights' Accommodations (up to 6 guests)">3泊分の宿泊費（〜6名）</div>
+<div class="included-item" data-en="Welcome Dinner on Day One (Local Ingredients &amp; Charcoal-Fire Cuisine)">初日の歓迎ディナー（地産食材・炭火料理）</div>
+<div class="included-item" data-en="Check-in experience on horseback (Hokkaido plan only)">馬でのチェックイン体験（北海道プランのみ）</div>
+<div class="included-item" data-en="Full Entertainment Suite (Netflix, Prime, Disney+, ABEMA, Hulu, U-NEXT, TVer, DAZN, and more)">全エンタメ設備（Netflix/Prime/Disney+/ABEMA/Hulu/U-NEXT/TVer/DAZN ほか）</div>
+<div class="included-item" data-en="SONOS + uta.live / djay Karaoke">SONOS + uta.live / djay カラオケ</div>
+<div class="included-item" data-en="One Local Experience (choose from canoe, horseback riding, or hot spring)">地元体験1つ（カヌー / 乗馬 / 温泉 から選択）</div>
+</div>
+<div class="plan-cta">
+<a class="btn-primary btn-green" data-en="Reserve 3 Days →" href="book" onclick="gtag('event','plan_cta',{plan:'retreat'})">3日間を予約する →</a>
+<a class="btn-ghost" data-en="Consult by Phone" href="call">電話で相談する</a>
+</div>
+</div>
+</div>
+<!-- Plan 4: Annual Pass -->
+<div class="plan green">
+<img alt="弟子屈 aerial" class="plan-img" data-en-alt="Teshikaga aerial" src="img/village_aerial.webp"/>
+<div class="plan-body">
+<div class="plan-badge badge-green">♾️ ANNUAL PASS</div>
+<div class="plan-name" data-en="SOLUNA Annual Pass — Unlimited Annual Access">SOLUNA アニュアルパス — 年間使い放題</div>
+<div class="plan-sub" data-en="For entrepreneurs seeking to establish their personal secondary office. Enjoy year-round reservation priority, exclusive discounts, and reserved access across all SOLUNA locations from Hokkaido to Atami.">「ここを自分のセカンドオフィスにしたい」という起業家向け。年間を通じて予約優先・割引・招待枠つき。北海道から熱海まで全拠点利用可能。</div>
+<div class="plan-price" style="color:var(--green)">¥1,200,000<span data-en="/year (tax excluded)" style="font-size:1rem;font-weight:400;color:#555"> /年（税別）</span></div>
+<div class="plan-price-note" data-en="Monthly Payment Option (¥120,000/month) / Corporate Contracts &amp; Expense Management Available">月払い対応（¥120,000/月）/ 法人契約・経費処理可</div>
+<div class="features">
+<div class="feat"><div class="feat-icon">📅</div><div class="feat-title" data-en="Priority reservation rights for 12 nights annually">年間12泊分優先予約権</div><div class="feat-desc" data-en="Access Available 48 Hours Before Standard Reservation">通常予約の48時間前にアクセス可能</div></div>
+<div class="feat"><div class="feat-icon">👥</div><div class="feat-title" data-en="Four times annually • Guest invitations complimentary">年4回・ゲスト招待無料</div><div class="feat-desc" data-en="Invite business partners and acquaintances">ビジネスパートナーや知人を招待できる</div></div>
+<div class="feat"><div class="feat-icon">🌏</div><div class="feat-title" data-en="Access to All Locations">全拠点利用可</div><div class="feat-desc" data-en="Teshikaga, Hokkaido / Atami / Miyazaki (post-opening). Anywhere.">弟子屈 / 熱海 / 宮崎（開業後）どこでも</div></div>
+<div class="feat"><div class="feat-icon">📊</div><div class="feat-title" data-en="Early access to owner information">オーナー向け情報先行共有</div><div class="feat-desc" data-en="Priority access to new properties and future developments">新物件・今後の展開を優先的に案内</div></div>
+</div>
+<div class="plan-cta">
+<a class="btn-primary btn-green" data-en="Apply for an annual pass →" href="book" onclick="gtag('event','plan_cta',{plan:'annual_pass'})">アニュアルパスに申し込む →</a>
+<a class="btn-ghost" data-en="Speak with corporate team" href="call">法人担当と話す</a>
+</div>
+</div>
+</div>
+</div><!-- /plans -->
+<!-- ====== TIER 3: 成功者 ====== -->
+<div class="sec-title">
+<div class="label" data-en="Tier 03 — For the Accomplished">Tier 03 — For 成功者</div>
+<h2 data-en="Ownership as an investment choice.">資産として持つ、という選択。</h2>
+<p data-en="More than just a stay. During periods you don't use it, our team operates the property and a portion of revenue returns to you. WHITE HOUSE Atami's annual revenue is ¥18,000,000.">泊まるだけじゃない。使わない期間は運営が回し、売上の一部があなたに戻る。WHITE HOUSE熱海の年間売上実績は1,800万円。</p>
+</div>
+<div class="plans">
+<div class="tier-divider"><span class="tier-label blue" data-en="Accomplished TIER — From ¥10,000,000">成功者 TIER — ¥1,000万〜</span></div>
+<!-- Plan 5: Co-ownership -->
+<div class="plan blue">
+<img alt="WHITE HOUSE 熱海" class="plan-img" data-en-alt="WHITE HOUSE Atami" src="img/pro_atami_hero.webp"/>
+<div class="plan-body">
+<div class="plan-badge badge-blue">🤝 CO-OWNER</div>
+<div class="plan-name" data-en="Co-Ownership Rights — Equity Acquisition">共同オーナー権 — 持分取得</div>
+<div class="plan-sub" data-en="Co-own a single property with multiple parties. Receive both annual usage rights (designated exclusive days) and revenue sharing. Registered real estate ownership. WHITE HOUSE Atami historical annual revenue: ¥18,000,000 (reference value).">1棟を複数名で共同所有。年間利用権（一定日数の専有利用）と収益配分の両方が得られる。登記上の不動産所有権。WHITE HOUSE熱海の年間売上実績1,800万円（参考値）。</div>
+<div class="plan-price" data-en="¥10,000,000" style="color:#7ab4e8">¥1,000万<span data-en="~ ¥35,000,000" style="font-size:1rem;font-weight:400;color:#555"> 〜3,500万円</span></div>
+<div class="plan-price-note" data-en="1/10 to 1/2 ownership stake. Varies by property and ownership ratio. Direct acquisition of co-ownership interests under Civil Code Article 250.">1/10〜1/2持分。物件・持分比率により異なる。SOLUNA利用権型会員権</div>
+<div class="features">
+<div class="feat"><div class="feat-icon">📜</div><div class="feat-title" data-en="Real estate ownership rights as registered">登記上の不動産所有権</div><div class="feat-desc" data-en="Registration according to ownership stake. Inheritable and transferable.">持分比率に応じた登記。相続・売却可能</div></div>
+<div class="feat"><div class="feat-icon">📅</div><div class="feat-title" data-en="Annual Exclusive Usage Rights">年間専有利用権</div><div class="feat-desc" data-en="Priority usage rights for days according to ownership stake (e.g., 1/4 ownership = 90 days annually)">持分に応じた日数（例: 1/4所有=年90日）の優先使用権</div></div>
+<div class="feat"><div class="feat-icon">💰</div><div class="feat-title" data-en="Operational Revenue Distribution">運営収益の配分</div><div class="feat-desc" data-en="Operating revenue during unused periods distributed according to ownership stake">使わない期間の稼働収益を持分比率で配分</div></div>
+<div class="feat"><div class="feat-icon">🔧</div><div class="feat-title" data-en="All maintenance managed by SOLUNA">維持管理はすべてSOLUNA</div><div class="feat-desc" data-en="Cleaning, maintenance, marketing, and Airbnb management handled">清掃・修繕・集客・Airbnb管理を代行</div></div>
+</div>
+<div class="highlight blue">
+<p data-en="TAPKOP, Hokkaido: ¥340,000 per night with annual revenue exceeding ¥50 million / WHITE HOUSE, Atami: ¥18 million annual revenue with occupancy rates up to 75% / Airbnb rating 4.9. Both properties currently operational. Limited availability in Atami."><strong data-en="Operational performance">稼働中実績</strong>：TAPKOP北海道 1泊34万円・年間売上5,000万円超 / WHITE HOUSE熱海 年間売上1,800万円・稼働率〜75% / Airbnb評価4.9。<br/>どちらも現在稼働中。熱海は残口わずか。</p>
+</div>
+<div class="included">
+<div class="included-title" data-en="Included (Common to All Co-Ownership Plans)">含まれるもの（すべてのコオーナーシッププランで共通）</div>
+<div class="included-item" data-en="Property registration according to ownership stake">持分比率に応じた会員権登録</div>
+<div class="included-item" data-en="Annual exclusive usage days (ownership stake × 365 days)">年間専有利用日数（持分比率 × 365日）</div>
+<div class="included-item" data-en="Distribution of operating revenue (after expense deduction, by ownership percentage)">運営収益の配分（経費控除後・持分比率）</div>
+<div class="included-item" data-en="Airbnb and booking site management and guest acquisition">Airbnb / 宿泊予約サイトの管理・集客代行</div>
+<div class="included-item" data-en="Cleaning, Amenity Restocking &amp; Maintenance Service (Annual Management Fee Separate)">清掃・備品補充・修繕対応（年間管理費は別途）</div>
+<div class="included-item" data-en="Invitation to Exclusive Owner Community">オーナー限定コミュニティへの招待</div>
+</div>
+<div class="plan-cta">
+<a class="btn-primary btn-blue" data-en="View Ownership Details →" href="member" onclick="gtag('event','plan_cta',{plan:'co_owner'})">オーナー詳細を見る →</a>
+<a class="btn-ghost" data-en="Speak with a representative" href="call">担当者と話す</a>
+</div>
+</div>
+</div>
+<!-- Plan 6: Large investor -->
+<div class="plan blue">
+<img alt="弟子屈の夜" class="plan-img" data-en-alt="Teshikaga nights" src="img/village_night.webp"/>
+<div class="plan-body">
+<div class="plan-badge badge-blue">📊 PORTFOLIO</div>
+<div class="plan-name" data-en="Multiple and bulk acquisition plans">複数口・大口取得プラン</div>
+<div class="plan-sub" data-en="Acquire multiple structures and fractional ownership. We provide personalized consultation on property combinations, depreciation strategies, future sale options, and dedicated account management.">2棟以上・複数持分での取得。物件の組み合わせ設計、減価償却の活用、将来の売却オプションも含めて個別にご相談できます。専任担当者がつきます。</div>
+<div class="plan-price" data-en="¥35,000,000" style="color:#7ab4e8">¥3,500万<span data-en="– (multiple units available)" style="font-size:1rem;font-weight:400;color:#555"> 〜（複数口対応）</span></div>
+<div class="plan-price-note" data-en="Available for both corporate and individual ownership. Can be integrated into asset management companies.">法人・個人どちらでも対応。資産管理会社への組み込みも可</div>
+<div class="highlight blue">
+<p data-en="：Multiple property combinations, ownership structure design, depreciation schedules, and future sale procedures handled in individual meetings."><strong data-en="Bulk acquisition inquiries">大口取得のご相談内容</strong>：複数物件の組み合わせ、持分割合の設計、減価償却スケジュール、将来売却時の手続きについて、個別ミーティングで対応します。</p>
+</div>
+<div class="plan-cta">
+<a class="btn-primary btn-blue" data-en="Schedule a private meeting →" href="call" onclick="gtag('event','plan_cta',{plan:'portfolio'})">個別ミーティングを申し込む →</a>
+<a class="btn-ghost" data-en="Download Materials" href="brochure">資料をダウンロード</a>
+</div>
+</div>
+</div>
+</div><!-- /plans -->
+<!-- ====== TIER 4: 遊び人 ====== -->
+<div class="sec-title">
+<div class="label" data-en="Tier 04 — For the adventurous spirit">Tier 04 — For 遊び人</div>
+<h2 data-en="Everything included, ¥100,000,000.">全部のせ、1億円。</h2>
+<p data-en="Own an entire property exclusively with dedicated concierge, private chef, and bespoke experiences tailored to your every desire. The ultimate expression of our commitment to fulfill any vision.">1棟を完全に自分のものにして、専属コンシェルジュ、プライベートシェフ、あなたが望むすべての体験をオーダーする。<br/>「なんでも承ります」の最上位がここ。</p>
+</div>
+<div class="plans">
+<div class="tier-divider"><span class="tier-label platinum" data-en="Revelry Tier — ¥50,000,000–¥100,000,000">遊び人 TIER — ¥5,000万〜1億円</span></div>
+<!-- Plan 7: Full Ownership -->
+<div class="plan platinum">
+<img alt="プライベートジェット" class="plan-img" data-en-alt="Private Jet" src="img/hondajet.webp"/>
+<div class="plan-body">
+<div class="plan-badge badge-platinum">👑 SOVEREIGN OWNERSHIP</div>
+<div class="plan-name" data-en="Complete property ownership + dedicated concierge">1棟完全所有 + 専属コンシェルジュ</div>
+<div class="plan-sub" data-en="Own a property exclusively and use it whenever you wish throughout the year. During periods you don't use it, generate income through delegated management. Includes one year of dedicated concierge service. Entirely yours.">物件を一人で所有し、年間を通じて好きな時に使う。使わない期間は委託運営で稼がせる。1年間の専属コンシェルジュサービス付き。まるごとあなたのもの。</div>
+<div class="plan-price" data-en="¥50,000,000" style="color:#dfd3bf">¥5,000万<span data-en="~ (Varies by Property &amp; Specifications)" style="font-size:1rem;font-weight:400;color:#555"> 〜（物件・仕様による）</span></div>
+<div class="plan-price-note" data-en="Properties: TAPKOP (Teshikaga) / WHITE HOUSE (Atami) / Custom new construction available">物件：TAPKOP（弟子屈） / WHITE HOUSE（熱海） / オーダーメイド新築対応</div>
+<div class="features">
+<div class="feat"><div class="feat-icon">🏡</div><div class="feat-title" data-en="Complete ownership + registration">完全所有 + 登記</div><div class="feat-desc" data-en="Registered ownership as real estate. Own it as a tangible asset">不動産として所有権登記。資産として持てる</div></div>
+<div class="feat"><div class="feat-icon">👤</div><div class="feat-title" data-en="Dedicated Concierge (Annual)">専属コンシェルジュ（年間）</div><div class="feat-desc" data-en="We handle all arrangements, preparation, cleaning, and customization">手配・準備・清掃・カスタマイズすべて対応</div></div>
+<div class="feat"><div class="feat-icon">🍽️</div><div class="feat-title" data-en="Private Chef Arrangement">プライベートシェフ手配</div><div class="feat-desc" data-en="During your stay, a local chef provides exclusive culinary service. Ingredients sourced from the finest local suppliers">滞在時は地元シェフが専属出張。食材も道内最高峰</div></div>
+<div class="feat"><div class="feat-icon">🚁</div><div class="feat-title" data-en="Helicopter &amp; Private Jet Arrangement Support">ヘリ・ジェット手配サポート</div><div class="feat-desc" data-en="Private Transportation Arranged from New Chitose to Teshikaga">新千歳→弟子屈のプライベート移動を手配</div></div>
+</div>
+<div class="highlight platinum">
+<p data-en="Generate revenue through delegated management (via Airbnb and similar platforms). WHITE HOUSE Atami has achieved ¥18 million in annual revenue. Full ownership can operate under the same model."><strong data-en="Revenue During Unused Periods">使わない期間の稼ぎ</strong>：委託運営（Airbnb等）に出して収益化。WHITE HOUSE熱海は年間売上1,800万円の実績。完全所有でも同じ仕組みで運用できます。</p>
+</div>
+<div class="included">
+<div class="included-title" data-en="Included (Full Ownership Plan)">含まれるもの（完全所有プラン）</div>
+<div class="included-item" data-en="Full Property Ownership (Registered)">物件の完全所有権（登記）</div>
+<div class="included-item" data-en="One year of exclusive concierge service (¥3,600,000/year from year two onward)">1年間の専属コンシェルジュサービス（2年目以降 ¥360万/年）</div>
+<div class="included-item" data-en="Year One: Private Chef Accommodation × 12 Nights">初年度：プライベートシェフ滞在対応 ×12泊分</div>
+<div class="included-item" data-en="Custom Interior and Appliance Specifications">カスタムインテリア・家電の仕様変更対応</div>
+<div class="included-item" data-en="SONOS / uta.live / all streaming services / karaoke equipped">SONOS / uta.live / 全動画配信 / カラオケ完備</div>
+<div class="included-item" data-en="Helicopter / Jet Transfer Arrangement Support">ヘリコプター / ジェット移動の手配サポート</div>
+<div class="included-item" data-en="Option to switch to delegated management (management fee from 15%)">委託運営への切り替えオプション（管理費15%〜）</div>
+</div>
+<div class="plan-cta">
+<a class="btn-primary btn-platinum" data-en="Schedule a private meeting →" href="call" onclick="gtag('event','plan_cta',{plan:'sovereign'})">個別ミーティングを申し込む →</a>
+</div>
+</div>
+</div>
+<!-- Plan 8: Bespoke 1億 -->
+<div class="plan platinum" style="border-color:rgba(220,200,180,.25)">
+<img alt="TAPKOP luxury" class="plan-img" src="img/tapkop_luxury.webp"/>
+<div class="plan-body">
+<div class="plan-badge badge-platinum">∞ BESPOKE — ¥100,000,000</div>
+<div class="plan-name" data-en="Everything Included — SOLUNA Full Package">全部のせ — SOLUNA フルパッケージ</div>
+<div class="plan-sub" data-en="¥100,000,000. A Comprehensive Package of Everything SOLUNA Offers — Property Ownership, Concierge Services, Experience Curation, Community Access, and Priority Participation Rights in Future Properties. Let's First Discuss What You Seek">1億円。SOLUNA が提供できるすべてをパッケージにします。物件所有、コンシェルジュ、体験設計、コミュニティ、未来の物件への優先参加権まで。<br/>何を望んでいるか、まず話しましょう。</div>
+<div class="plan-price" style="background:linear-gradient(90deg,#c8a455,#dfd3bf);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">¥100,000,000</div>
+<div class="plan-price-note" data-en="Fully customizable / Installment &amp; corporate options available / Open to negotiating terms" style="color:#333">完全オーダーメイド / 分割・法人対応可 / 条件交渉に応じます</div>
+<div class="features">
+<div class="feat" style="border-color:#1a1a1a;background:#0c0c0c"><div class="feat-icon">🏡</div><div class="feat-title" data-en="Properties × 2 structures (full ownership)">物件 × 2棟（完全所有）</div><div class="feat-desc" data-en="Hokkaido + Atami. Or one newly built custom-designed property.">北海道 + 熱海。または新築オーダーメイド1棟</div></div>
+<div class="feat" style="border-color:#1a1a1a;background:#0c0c0c"><div class="feat-icon">👤</div><div class="feat-title" data-en="Dedicated Concierge (3 Years)">専属コンシェルジュ（3年間）</div><div class="feat-desc" data-en="24/7 Support. Your dedicated advocate who fulfills every request">24/7対応。あなたの要望を何でも実行する人</div></div>
+<div class="feat" style="border-color:#1a1a1a;background:#0c0c0c"><div class="feat-icon">🎪</div><div class="feat-title" data-en="Right to host private events">プライベートイベント開催権</div><div class="feat-desc" data-en="Host annual events for up to 50 guests across all SOLUNA properties">年1回、SOLUNA全物件を使った50人規模のイベントを主催可</div></div>
+<div class="feat" style="border-color:#1a1a1a;background:#0c0c0c"><div class="feat-icon">🌐</div><div class="feat-title" data-en="East Ventures Owner Network">East Ventures オーナーネットワーク</div><div class="feat-desc" data-en="Priority invitation to SOLUNA Owner Community (conditions apply)">SOLUNAオーナーコミュニティへの優先招待（条件あり）</div></div>
+<div class="feat" style="border-color:#1a1a1a;background:#0c0c0c"><div class="feat-icon">🏇</div><div class="feat-title" data-en="Unlimited experience design">体験設計 無制限</div><div class="feat-desc" data-en="Arrange horseback riding, canoeing, helicopter tours, private chef—anything">馬・カヌー・ヘリ・シェフ・何でも手配する</div></div>
+<div class="feat" style="border-color:#1a1a1a;background:#0c0c0c"><div class="feat-icon">🔑</div><div class="feat-title" data-en="Priority Access to Future Properties">未来物件への優先参加権</div><div class="feat-desc" data-en="Early access to future developments in Miyazaki, Hawaii, and beyond">宮崎・ハワイなど次の展開に真っ先に参加できる</div></div>
+</div>
+<div class="highlight platinum" style="background:linear-gradient(135deg,rgba(200,164,85,.08),rgba(220,200,180,.04));border-color:rgba(200,164,85,.25)">
+<p data-en="Two registered real estate properties (current market value ¥50—80 million) + operational revenue (¥18 million annually × multiple properties) + 3 years of exclusive services (¥36 million value) + experiential and community benefits. The answer is yours to define. Let's talk first."><strong data-en='"Is it worth ¥100,000,000?"'>「1億円の価値があるか？」</strong><br/>不動産として登記される2棟（時価5,000万〜8,000万相当）＋運営収益（年間1,800万×複数棟）＋3年間の専属サービス（3,600万相当）＋体験・コミュニティ価値。<br/>答えはあなたが決めてください。まずは話しましょう。</p>
+</div>
+<div class="plan-cta">
+<a class="btn-primary btn-platinum" data-en="Let's talk →" href="call" onclick="gtag('event','plan_cta',{plan:'bespoke_100m'})" style="font-size:13px;padding:15px 28px">話しましょう →</a>
+</div>
+</div>
+</div>
+</div><!-- /plans -->
+<!-- Experience photo grid -->
+<div class="xp-section">
+<div class="xp-header">
+<div class="label" data-en="WHAT'S INCLUDED — Experience List">WHAT'S INCLUDED — 体験一覧</div>
+<h2 data-en="What's included and what's not—at a glance.">あるやつ、ないやつ、一目でわかる</h2>
+</div>
+<div class="xp-grid">
+<!-- 1. 宿泊 — 全プラン -->
+<div class="xp-card">
+<img alt="宿泊" data-en-alt="Lodging" src="img/cabin_morning.webp"/>
+<div class="xp-body">
+<div class="xp-icon">🛖</div>
+<div class="xp-name" data-en="Luxury Accommodation">贅沢な宿泊</div>
+<span class="xp-from from-all" data-en="Included in all plans from ¥58,000">全プランに含む ¥58,000〜</span>
+<div class="xp-note" data-en="Available at all properties in Hokkaido and Atami">北海道・熱海・全物件対応</div>
+</div>
+</div>
+<!-- 2. カラオケ/エンタメ — 全プラン -->
+<div class="xp-card">
+<img alt="エンタメ設備" data-en-alt="Entertainment Amenities" src="img/interior.webp"/>
+<div class="xp-body">
+<div class="xp-icon">🎤</div>
+<div class="xp-name" data-en="Karaoke and all streaming services">カラオケ・全動画配信</div>
+<span class="xp-from from-all" data-en="Included in all plans from ¥58,000">全プランに含む ¥58,000〜</span>
+<div class="xp-note" data-en="uta.live / djay / Netflix / ABEMA and all streaming services">uta.live / djay / Netflix / ABEMA ほか全配信</div>
+</div>
+</div>
+<!-- 3. 焚き火 — 全プラン -->
+<div class="xp-card">
+<img alt="焚き火" data-en-alt="Bonfire" src="img/bonfire_night.webp"/>
+<div class="xp-body">
+<div class="xp-icon">🔥</div>
+<div class="xp-name" data-en="Bonfire night">焚き火ナイト</div>
+<span class="xp-from from-all" data-en="Included in all plans from ¥58,000">全プランに含む ¥58,000〜</span>
+<div class="xp-note" data-en="Firewood &amp; Complete Tool Set Provided">薪・道具一式備え付け</div>
+</div>
+</div>
+<!-- 4. カヌー — ¥148,000〜 -->
+<div class="xp-card">
+<img alt="カヌー 釧路湿原" data-en-alt="Canoeing in Kushiro Wetland" src="img/summer.webp"/>
+<div class="xp-body">
+<div class="xp-icon">🛶</div>
+<div class="xp-name" data-en="Kushiro Wetlands Canoeing">釧路湿原カヌー</div>
+<span class="xp-from from-canoe" data-en="Hokkaido Experience Plan from ¥148,000">北海道体験プラン ¥148,000〜</span>
+<div class="xp-note" data-en="Half-day to full-day with local guides. Weekend reset experiences not included.">地元ガイドと半日〜1日。週末リセットは含まず</div>
+</div>
+</div>
+<!-- 5. 食事 — ¥148,000〜 -->
+<div class="xp-card">
+<img alt="道東食材の夕食" data-en-alt="Dinner featuring Doto regional ingredients" src="img/food_pizza.webp"/>
+<div class="xp-body">
+<div class="xp-icon">🍽️</div>
+<div class="xp-name" data-en="Dinner featuring Doto regional ingredients">道東食材の夕食</div>
+<span class="xp-from from-canoe" data-en="Hokkaido Experience Plan from ¥148,000">北海道体験プラン ¥148,000〜</span>
+<div class="xp-note" data-en="Direct from local farmers and fishermen. Charcoal-grilled or chef-prepared.">地元農家・漁師直送。炭火or調理</div>
+</div>
+</div>
+<!-- 6. サウナ — 物件による -->
+<div class="xp-card">
+<img alt="サウナ" data-en-alt="Sauna" src="img/sauna_tower.webp"/>
+<div class="xp-body">
+<div class="xp-icon">♨️</div>
+<div class="xp-name" data-en="Private Sauna">プライベートサウナ</div>
+<span class="xp-from from-all" data-en="Varies by property from ¥58,000">物件による ¥58,000〜</span>
+<div class="xp-note" data-en="Available at TAPKOP, THE LODGE, and WHITE HOUSE Atami">TAPKOP・THE LODGE・WHITE HOUSE熱海で利用可</div>
+</div>
+</div>
+<!-- 7. 馬でチェックイン — ¥480,000〜 起業家リトリート -->
+<div class="xp-card">
+<img alt="馬でチェックイン" data-en-alt="Check-in on horseback" src="img/tapkop_real4.webp"/>
+<div class="xp-body">
+<div class="xp-icon">🏇</div>
+<div class="xp-name" data-en="Check-in on horseback">馬に乗ってチェックイン</div>
+<span class="xp-from from-retreat" data-en="Entrepreneur Retreat ¥480,000~">起業家リトリート ¥480,000〜</span>
+<div class="xp-note" data-en="Hokkaido Plan only. Horseback journey from pasture to property.">北海道プランのみ。牧場から物件まで乗馬で移動</div>
+</div>
+</div>
+<!-- 8. 不動産所有権 — ¥1,000万〜 -->
+<div class="xp-card">
+<img alt="不動産所有権" data-en-alt="Real Estate Ownership Rights" src="img/pro_atami_hero.webp"/>
+<div class="xp-body">
+<div class="xp-icon">📜</div>
+<div class="xp-name" data-en="Real Estate Ownership (Registered Title)">不動産所有権（登記）</div>
+<span class="xp-from from-owner" data-en="Co-ownership from ¥10,000,000">共同オーナー ¥1,000万〜</span>
+<div class="xp-note" data-en="Not included in accommodation plans. Registered as ownership right">宿泊プランには含まれない。所有権として登記</div>
+</div>
+</div>
+<!-- 9. 収益配分 — ¥1,000万〜 -->
+<div class="xp-card">
+<img alt="収益配分" data-en-alt="Revenue Sharing" src="img/earn_day.webp"/>
+<div class="xp-body">
+<div class="xp-icon">💰</div>
+<div class="xp-name" data-en="Airbnb Operating Revenue Share">Airbnb運営収益の配分</div>
+<span class="xp-from from-owner" data-en="Co-ownership from ¥10,000,000">共同オーナー ¥1,000万〜</span>
+<div class="xp-note" data-en="Generate returns during periods you're not using it. Historical performance: ¥18,000,000/year">使わない期間を稼がせる。実績1,800万/年</div>
+</div>
+</div>
+<!-- 10. 専属コンシェルジュ — ¥5,000万〜 -->
+<div class="xp-card">
+<img alt="専属コンシェルジュ" data-en-alt="Dedicated Concierge" src="img/tapkop_luxury.webp"/>
+<div class="xp-body">
+<div class="xp-icon">👤</div>
+<div class="xp-name" data-en="Dedicated Concierge">専属コンシェルジュ</div>
+<span class="xp-from from-sovereign" data-en="Full Ownership Plan ¥50 million—">完全所有プラン ¥5,000万〜</span>
+<div class="xp-note" data-en="24/7 support. Dedicated concierge managing all arrangements">24/7対応。全手配を引き受ける専属担当</div>
+</div>
+</div>
+<!-- 11. ヘリ/ジェット — ¥5,000万〜 -->
+<div class="xp-card">
+<img alt="プライベートジェット" data-en-alt="Private Jet" src="img/hondajet.webp"/>
+<div class="xp-body">
+<div class="xp-icon">🚁</div>
+<div class="xp-name" data-en="Helicopter and private jet arrangements">ヘリ・プライベートジェット手配</div>
+<span class="xp-from from-sovereign" data-en="Full Ownership Plan ¥50 million—">完全所有プラン ¥5,000万〜</span>
+<div class="xp-note" data-en="Arrange transfers between New Chitose and Teshikaga, Hokkaido">新千歳〜弟子屈間などの移動を手配</div>
+</div>
+</div>
+<!-- 12. プライベートシェフ — ¥5,000万〜 -->
+<div class="xp-card">
+<img alt="プライベートシェフ" data-en-alt="Private chef" src="img/deck.webp"/>
+<div class="xp-body">
+<div class="xp-icon">👨‍🍳</div>
+<div class="xp-name" data-en="Private Chef (In-Residence Dining)">プライベートシェフ（出張料理）</div>
+<span class="xp-from from-sovereign" data-en="Full Ownership Plan ¥50 million—">完全所有プラン ¥5,000万〜</span>
+<div class="xp-note" data-en="Local chef on exclusive assignment. Hokkaido cuisine prepared with regional ingredients">地元シェフが専属出張。北海道食材を使った料理</div>
+</div>
+</div>
+</div><!-- /xp-grid -->
+<!-- Legend -->
+<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:24px">
+<span class="xp-from from-all" data-en="All Plans from ¥58,000">全プラン ¥58,000〜</span>
+<span class="xp-from from-canoe" data-en="Hokkaido experience from ¥148,000">北海道体験 ¥148,000〜</span>
+<span class="xp-from from-retreat" data-en="Entrepreneur Retreat ¥480,000~">起業家リトリート ¥480,000〜</span>
+<span class="xp-from from-owner" data-en="Co-ownership from ¥10,000,000">共同オーナー ¥1,000万〜</span>
+<span class="xp-from from-sovereign" data-en="Full ownership from ¥50,000,000">完全所有 ¥5,000万〜</span>
+</div>
+</div><!-- /xp-section -->
+<!-- Rain plan -->
+<div class="rain-section" id="rain">
+<div class="rain-header">
+<p class="label">Rainy Day</p>
+<h2 data-en="SOLUNA shines even on rainy days">雨の日もSOLUNAです</h2>
+<p data-en="Hokkaido's weather is unpredictable, yet even rainy days are extraordinary. Outdoor experiences seamlessly shift to alternative itineraries, while indoor indulgences offer an entirely different dimension of luxury.">北海道の天候は読めない。でも雨でも最高な理由がある。<br/>アウトドア体験は代替プランへ切り替え、室内は別次元の贅沢が待っています。</p>
+</div>
+<div class="rain-grid">
+<div class="rain-card">
+<div class="ri">🛁</div>
+<div class="rt" data-en="Private Sauna">プライベートサウナ</div>
+<div class="rs" data-en="All Properties Feature Complete Sauna Facilities. Wellness Rituals Accompanied by Rainfall Create an Experience More Profound Than Sunny Days">全物件にサウナを完備。雨音を聞きながら整う体験は、晴れの日より深い。</div>
+</div>
+<div class="rain-card">
+<div class="ri">🔥</div>
+<div class="rt" data-en="Wood-burning stove &amp; reading">薪ストーブ×読書</div>
+<div class="rs" data-en="An afternoon in the rain by the expansive wood-burning stove at TAPKOP and THE LODGE. The luxury of doing nothing.">TAPKOP・THE LODGEの大型薪ストーブで過ごす雨の午後。何もしない贅沢。</div>
+</div>
+<div class="rain-card">
+<div class="ri">🎵</div>
+<div class="rt" data-en="Karaoke &amp; Theater">カラオケ&amp;シアター</div>
+<div class="rs" data-en="Professional karaoke, Netflix, and Amazon Prime included. Enjoy unlimited entertainment in your private sanctuary.">業務用カラオケ・Netflix・Amazon Prime完備。プライベート空間で好きなだけ。</div>
+</div>
+<div class="rain-card">
+<div class="ri">🍲</div>
+<div class="rt" data-en="Eastern Hokkaido Regional Cuisine Experience">道東食材料理体験</div>
+<div class="rs" data-en="Culinary workshop featuring ingredients from Kushiro and Teshikaga. Held exclusively on rainy days with meticulous attention to detail">釧路・弟子屈の食材を使った料理ワークショップ。雨の日限定で丁寧に開催。</div>
+</div>
+<div class="rain-card">
+<div class="ri">🧘</div>
+<div class="rt" data-en="Private meditation">プライベート瞑想</div>
+<div class="rs" data-en="Even lakeside in the mist. Rain sounds × nature × silence—Hokkaido's weather becomes the experience.">霧の中の湖畔でもOK。雨音×自然×無音——北海道の天気がコンテンツになる。</div>
+</div>
+<div class="rain-card">
+<div class="ri">🚗</div>
+<div class="rt" data-en="Switch from canoe to scenic drive">カヌー→ドライブ変更</div>
+<div class="rs" data-en="If canoeing is cancelled due to rain, the itinerary will be adjusted to include a scenic drive featuring the Kushiro Marshlands Observatory, Mashu Lake, and Io Mountain. Refund of any difference in price.">雨天でカヌーが中止の場合、釧路湿原展望台・摩周湖・硫黄山のドライブプランへ変更。差額返金。</div>
+</div>
+</div>
+<div class="rain-note">
+<p data-en="：Will be changed to Land Rover pickup or stable visit after check-in.
+：Alternative plan provided or full refund of experience fee."><strong data-en="In case of rain during horse check-in">馬でのチェックインが雨天の場合</strong>：ランドローバー送迎またはチェックイン後の厩舎訪問に変更します。<br/>
+<strong data-en="In case outdoor activities are cancelled due to weather">アウトドア体験が天候中止になった場合</strong>：代替プランを提供、または体験料を全額返金します。</p>
+</div>
+</div>
+<!-- Cancellation policy -->
+<div class="cancel-section" id="cancel">
+<div class="cancel-header">
+<p class="label">Change &amp; Cancel</p>
+<h2 data-en="Change &amp; Cancellation Policy">変更・キャンセルポリシー</h2>
+<p data-en="Plans evolve. Flexibility matters. Reschedule your experiences as many times as needed.">予定は変わる。だから柔軟に。日程変更は何度でも相談できます。</p>
+</div>
+<div class="cancel-block">
+<h4 data-en="🛏 Accommodation &amp; Experience Plans (¥58,000–¥1,200,000)">🛏 宿泊・体験プラン（¥58,000〜¥1,200,000）</h4>
+<table class="cancel-table">
+<thead>
+<tr>
+<th data-en="Cancellation Timing">キャンセルタイミング</th>
+<th data-en="Service Fee">手数料</th>
+<th data-en="Refund amount">返金額</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-en="Until 14 days prior">14日前まで</td>
+<td class="cancel-green" data-en="Complimentary">無料</td>
+<td data-en="Full refund">全額返金</td>
+</tr>
+<tr>
+<td data-en="Up to 7 days prior">7日前まで</td>
+<td class="cancel-green" data-en="Complimentary">無料</td>
+<td data-en="Full refund">全額返金</td>
+</tr>
+<tr>
+<td data-en="Until 3 days prior">3日前まで</td>
+<td class="cancel-highlight">30%</td>
+<td data-en="70% Refund">70%返金</td>
+</tr>
+<tr>
+<td data-en="Until the day before">前日まで</td>
+<td class="cancel-red">50%</td>
+<td data-en="50% Refund">50%返金</td>
+</tr>
+<tr>
+<td data-en="Same day, no advance notice">当日・無連絡</td>
+<td class="cancel-red">100%</td>
+<td data-en="Non-refundable">返金なし</td>
+</tr>
+</tbody>
+</table>
+<p data-en="Schedule Changes Are Accommodated. Please Contact Your Assigned Manager First" style="font-size:10.5px;color:#444;line-height:1.8">日程変更は<strong data-en="Complimentary cancellations up to 7 days prior, unlimited times" style="color:#888">7日前まで無料で何度でも</strong>対応します。まず担当へご連絡ください。</p>
+</div>
+<div class="cancel-block">
+<h4 data-en="🤝 Co-Ownership · Deposit (¥100,000)">🤝 共同オーナー・手付金（¥100,000）</h4>
+<table class="cancel-table">
+<thead>
+<tr>
+<th data-en="Timing">タイミング</th>
+<th data-en="Service Fee">手数料</th>
+<th data-en="Refund">返金</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-en="Before Pre-Purchase Verification (Video Call)">購入前確認（ビデオ通話）前</td>
+<td class="cancel-green" data-en="Complimentary">無料</td>
+<td data-en="Full refund">全額返金</td>
+</tr>
+<tr>
+<td data-en="After pre-purchase confirmation, before contract execution">購入前確認後・契約締結前</td>
+<td class="cancel-highlight" data-en="Administrative fee ¥20,000">事務手数料2万円</td>
+<td data-en="¥80,000 refund">8万円返金</td>
+</tr>
+<tr>
+<td data-en="After Contract Execution">契約締結後</td>
+<td class="cancel-red" data-en="Deposit Forfeiture">手付金没収</td>
+<td data-en="No refund (subject to contract terms)">返金なし（契約条件による）</td>
+</tr>
+</tbody>
+</table>
+<p data-en="Change your mind? Completely free if you decide before the pre-purchase consultation (video call). Let's talk first." style="font-size:10.5px;color:#444;line-height:1.8">「やっぱりやめたい」は購入前確認（ビデオ通話）の前なら完全無料です。まず話してみてください。</p>
+</div>
+<div class="cancel-block">
+<h4 data-en="☁️ Experiences may be suspended due to weather">☁️ 天候による体験中止</h4>
+<table class="cancel-table">
+<tbody>
+<tr>
+<td data-en="Outdoor Experiences Including Canoeing &amp; Horseback Riding">カヌー・乗馬等アウトドア体験</td>
+<td class="cancel-green" data-en="Full refund of experience fees OR alternative plan provided">体験料を全額返金 または 代替プラン提供</td>
+</tr>
+<tr>
+<td data-en="Lodging (regardless of weather)">宿泊（天候に関わらず）</td>
+<td data-en="Standard Policy Applies (For Stay Cancellations, See Above)">通常ポリシー適用（宿泊自体のキャンセルは上記参照）</td>
+</tr>
+<tr>
+<td data-en="Heavy snow or traffic obstruction on check-in day">チェックイン日の大雪・交通遮断</td>
+<td class="cancel-green" data-en="Free Date Changes (at Manager's Discretion)">無料で日程変更（担当判断）</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cancel-policy-note" data-en="：Contact your dedicated representative directly /  / 
+    ※ Above is standard policy. Peak seasons (Golden Week, Obon, year-end) may have separate conditions. Please confirm at booking.">
+<strong data-en="Contact for changes or cancellations">変更・キャンセルのご連絡先</strong>：担当者へ直接 / <a data-en="Inquiry Form" href="book" style="color:var(--gold)">お問い合わせフォーム</a> / <a data-en="Phone &amp; Video Consultation" href="call" style="color:var(--gold)">電話・ビデオ相談</a><br/>
+    ※ 上記は標準ポリシーです。繁忙期（GW・お盆・年末年始）は別途条件が設定される場合があります。ご予約時にご確認ください。
+  </div>
+</div>
+<!-- Concierge bar -->
+<div class="concierge">
+<div class="concierge-inner">
+<h3 data-en="If this plan doesn't fit your needs">「このプランに当てはまらない」という方へ</h3>
+<p data-en="Arrive by horseback, propose in the wetlands, host a 30-person celebration—we accommodate any vision. Let's discuss your wishes first.">馬で迎えに来てほしい、湿原でプロポーズしたい、30人のパーティーを開きたい——<br/>なんでも承ります。まず話しましょう。</p>
+<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+<a class="btn-primary btn-gold" data-en="Consult by Phone or Video →" href="call">電話・ビデオで相談する →</a>
+<a class="btn-ghost" data-en="Inquiry Form" href="book">問い合わせフォーム</a>
+</div>
+</div>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-property, 100-person village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Biruyowa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Biruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Units at No Cost" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalogue Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs insulation" href="sips">SIPs 断熱</a>
+<a data-en="Development Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Biruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="The Story of SOLUNA" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+// Track plan page visit
+gtag('event','page_view',{event_category:'funnel',event_label:'plans_page',referrer:document.referrer||'direct'});
+
+// Smooth scroll reveal
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting)e.target.style.opacity=1;
+  });
+},{threshold:.1});
+document.querySelectorAll('.plan,.compare,.concierge-inner').forEach(el=>{
+  el.style.opacity=0;
+  el.style.transition='opacity .6s ease';
+  observer.observe(el);
+});
+</script>
+<script src="chat-widget.js"></script>
+<script defer="" src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

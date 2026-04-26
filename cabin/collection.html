@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/collection" rel="canonical"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title data-en="THE COLLECTION — Where Do You Return To? | SOLUNA">THE COLLECTION — どこに、帰るか。| SOLUNA</title>
+<meta content="北海道から熱海まで。SOLUNA が手がける特別な不動産コレクション。帰れる場所を選ぶとき、人は本当に正直になる。" data-en-content="From Hokkaido to Atami. An exceptional real estate collection curated by SOLUNA. When choosing a place to return to, one discovers their truest self." name="description"/>
+<meta content="/img/soluna_hero_wide.webp" property="og:image"/>
+<meta content="THE COLLECTION — どこに、帰るか。| SOLUNA" property="og:title"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold2:rgba(200,164,85,.6);
+  --gold3:rgba(200,164,85,.12);
+  --bg:#050505;
+  --bg2:#080808;
+  --bg3:#0c0c0c;
+  --line:#141414;
+  --text:#f0ece4;
+  --dim:#666;
+  --dim2:#333;
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{padding-top:48px;
+  background:var(--bg);color:var(--text);
+  font-family:'Helvetica Neue',-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{display:block}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 48px;
+  background:linear-gradient(rgba(5,5,5,.95),transparent);
+  backdrop-filter:blur(0);
+}
+@media(max-width:640px){nav{padding:16px 20px}}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.3em;color:var(--gold)}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{font-size:10px;letter-spacing:.2em;color:var(--dim);transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{
+  font-size:10px;letter-spacing:.15em;
+  border:1px solid var(--gold2);
+  padding:9px 20px;color:var(--gold);
+  transition:background .2s;
+}
+.nav-cta:hover{background:var(--gold3)}
+@media(max-width:640px){.nav-links{display:none}}
+
+/* ── HERO ── */
+#hero{
+  height:100vh;min-height:600px;
+  position:relative;overflow:hidden;
+}
+#hero-img{
+  position:absolute;inset:0;
+  background:#000;
+}
+#hero-img img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.45) saturate(.8);
+}
+.hero-inner{
+  position:relative;z-index:2;
+  height:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:0 24px;
+}
+.hero-eyebrow{
+  font-size:9px;letter-spacing:.6em;color:var(--gold);
+  margin-bottom:28px;
+  opacity:0;animation:fadeUp .8s 1s ease forwards;
+}
+.hero-h1{
+  font-size:clamp(48px,9vw,140px);
+  font-weight:100;letter-spacing:-.02em;
+  line-height:.95;color:#fff;
+  opacity:0;animation:fadeUp .8s 1.3s ease forwards;
+}
+.hero-h1 span{
+  display:block;font-size:.38em;font-weight:400;
+  letter-spacing:.12em;color:rgba(255,255,255,.4);
+  margin-top:.4em;
+}
+.hero-scroll{
+  position:absolute;bottom:48px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  font-size:8px;letter-spacing:.5em;color:rgba(255,255,255,.25);
+  opacity:0;animation:fadeUp .6s 3s ease forwards;
+}
+.hero-scroll-line{
+  width:1px;height:44px;
+  background:linear-gradient(to bottom,rgba(200,164,85,.6),transparent);
+  animation:scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse{0%,100%{opacity:.3;transform:scaleY(.3)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ── COLLECTION COUNT ── */
+.coll-meta{
+  padding:60px 48px 0;
+  max-width:1400px;margin:0 auto;
+  display:flex;align-items:baseline;justify-content:space-between;
+  border-top:1px solid var(--line);
+}
+@media(max-width:640px){.coll-meta{padding:40px 20px 0}}
+.coll-title{font-size:clamp(28px,4vw,48px);font-weight:100;color:var(--text)}
+.coll-count{font-size:10px;letter-spacing:.3em;color:var(--dim)}
+
+/* ── PROPERTY CARD ── */
+.estate{
+  max-width:1400px;margin:0 auto;
+  padding:80px 48px;
+  border-bottom:1px solid var(--line);
+}
+@media(max-width:640px){.estate{padding:60px 20px}}
+
+.estate-inner{
+  display:grid;
+  grid-template-columns:1fr 380px;
+  gap:60px;
+  align-items:start;
+}
+@media(max-width:960px){.estate-inner{grid-template-columns:1fr}}
+
+/* photo side */
+.estate-photos{}
+.ep-main{
+  width:100%;aspect-ratio:16/10;
+  overflow:hidden;background:#0a0a0a;
+  position:relative;margin-bottom:3px;
+}
+.ep-main img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .8s ease,filter .6s ease;
+  filter:saturate(.8) brightness(.9);
+}
+.estate:hover .ep-main img{transform:scale(1.03);filter:saturate(.95) brightness(1)}
+.ep-row{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.ep-thumb{
+  aspect-ratio:4/3;overflow:hidden;background:#0a0a0a;
+}
+.ep-thumb img{
+  width:100%;height:100%;object-fit:cover;
+  filter:saturate(.7) brightness(.8);
+  transition:filter .5s ease;
+}
+.ep-thumb:hover img{filter:saturate(.95) brightness(.95)}
+
+/* info side */
+.estate-info{}
+.ei-num{
+  font-size:9px;letter-spacing:.5em;color:var(--dim2);
+  margin-bottom:20px;
+}
+.ei-status{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:8px;letter-spacing:.2em;
+  padding:5px 12px;margin-bottom:20px;
+}
+.ei-status.open{
+  background:rgba(200,164,85,.1);
+  border:1px solid rgba(200,164,85,.3);
+  color:var(--gold);
+}
+.ei-status.open::before{
+  content:'';width:5px;height:5px;background:var(--gold);
+  border-radius:50%;animation:blink 2s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+.ei-status.coming{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  color:var(--dim);
+}
+.ei-name{
+  font-size:clamp(28px,3.5vw,48px);
+  font-weight:100;letter-spacing:-.02em;
+  line-height:1;margin-bottom:12px;
+  color:#fff;
+}
+.ei-location{
+  font-size:11px;letter-spacing:.12em;
+  color:var(--dim);margin-bottom:32px;
+}
+.ei-tagline{
+  font-size:clamp(13px,1.5vw,16px);
+  font-weight:200;color:rgba(240,236,228,.65);
+  line-height:1.75;margin-bottom:40px;
+  border-left:2px solid var(--gold2);
+  padding-left:18px;
+}
+.ei-specs{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;margin-bottom:40px;
+  border:1px solid var(--line);
+}
+.ei-spec{
+  padding:18px 16px;background:var(--bg2);
+}
+.ei-spec-label{font-size:8px;letter-spacing:.35em;color:var(--dim2);margin-bottom:8px}
+.ei-spec-val{font-size:16px;font-weight:300;color:var(--text)}
+.ei-spec-val em{font-style:normal;color:var(--gold)}
+.ei-price{
+  padding:24px;background:var(--bg3);
+  border:1px solid var(--line);
+  margin-bottom:24px;
+}
+.ei-price-label{font-size:8px;letter-spacing:.4em;color:var(--dim);margin-bottom:10px}
+.ei-price-val{
+  font-size:clamp(28px,3vw,40px);
+  font-weight:100;color:var(--gold);
+  letter-spacing:-.02em;
+}
+.ei-price-unit{font-size:11px;color:var(--dim);margin-left:4px}
+.ei-price-deposit{font-size:10px;color:var(--dim2);margin-top:8px}
+.ei-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ei-btn{
+  padding:14px;text-align:center;
+  font-size:10px;letter-spacing:.15em;
+  transition:all .2s;cursor:pointer;
+}
+.ei-btn.primary{
+  background:var(--gold);color:#050505;
+  font-weight:700;
+}
+.ei-btn.primary:hover{opacity:.88}
+.ei-btn.secondary{
+  border:1px solid var(--line);color:var(--dim);
+}
+.ei-btn.secondary:hover{border-color:var(--gold2);color:var(--gold)}
+
+/* ── FULL-BLEED SEPARATOR ── */
+.fb-sep{
+  width:100%;aspect-ratio:21/6;
+  position:relative;overflow:hidden;
+}
+@media(max-width:640px){.fb-sep{aspect-ratio:16/9}}
+.fb-sep img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.35) saturate(.6);
+}
+.fb-sep-text{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:clamp(11px,2vw,15px);
+  letter-spacing:.55em;color:rgba(200,164,85,.5);
+}
+
+/* ── OUTRO ── */
+#outro{
+  padding:160px 48px;
+  text-align:center;
+  border-top:1px solid var(--line);
+}
+@media(max-width:640px){#outro{padding:100px 20px}}
+.outro-h2{
+  font-size:clamp(32px,5vw,72px);
+  font-weight:100;color:#fff;
+  letter-spacing:-.02em;margin-bottom:16px;
+}
+.outro-sub{font-size:13px;color:var(--dim);line-height:2;margin-bottom:48px}
+.outro-btn{
+  display:inline-block;
+  padding:18px 48px;
+  background:var(--gold);color:#050505;
+  font-size:11px;letter-spacing:.2em;font-weight:700;
+  transition:opacity .2s;
+}
+.outro-btn:hover{opacity:.85}
+
+/* ── FOOTER ── */
+footer{
+  padding:40px 48px;
+  border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:10px;color:var(--dim2);letter-spacing:.1em;
+}
+@media(max-width:640px){footer{flex-direction:column;gap:12px;padding:32px 20px;text-align:center}}
+footer a{color:var(--dim2);transition:color .2s}
+footer a:hover{color:var(--gold)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.fade-in.vis{opacity:1;transform:none}
+
+/* ── MAP ── */
+#map-section{max-width:1400px;margin:0 auto;padding:48px 48px 0}
+@media(max-width:640px){#map-section{padding:32px 20px 0}}
+#map-eyebrow{font-size:9px;letter-spacing:.45em;color:var(--dim);margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+#prop-map{width:100%;height:520px;background:#060606;border:1px solid var(--line)}
+@media(max-width:640px){#prop-map{height:340px}}
+#map-legend{display:flex;gap:24px;margin-top:14px;font-size:10px;color:var(--dim2);letter-spacing:.12em;flex-wrap:wrap}
+.map-leg-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+/* Leaflet popup overrides */
+.leaflet-popup-content-wrapper{background:#090909!important;border:1px solid #1c1c1c!important;border-radius:0!important;box-shadow:0 8px 32px rgba(0,0,0,.7)!important}
+.leaflet-popup-tip{background:#090909!important}
+.leaflet-popup-close-button{color:#555!important;font-size:16px!important;top:8px!important;right:10px!important}
+.leaflet-popup-close-button:hover{color:#c8a455!important}
+.leaflet-control-zoom a{background:#0d0d0d!important;border:1px solid #1c1c1c!important;color:#666!important}
+.leaflet-control-zoom a:hover{background:#1a1a1a!important;color:#c8a455!important}
+.leaflet-bar{border:none!important;box-shadow:none!important}
+.leaflet-control-attribution{display:none}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
+<script crossorigin="" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+<script defer src="/js/sln-track.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- NAV -->
+<!-- HERO -->
+<section id="hero">
+<div id="hero-img"><img alt="SOLUNA COLLECTION" src="/img/soluna_hero_wide.webp"/></div>
+<div class="hero-inner">
+<p class="hero-eyebrow" data-en="THE COLLECTION — When choosing where to belong, people become truly honest.">THE COLLECTION — 帰れる場所を選ぶとき、人は本当に正直になる。</p>
+<h1 class="hero-h1">THE<br/>COLLECTION
+      <span data-en="Where will you return to?">どこに、帰るか。</span>
+</h1>
+<div class="hero-scroll">
+<div class="hero-scroll-line"></div>
+      SCROLL
+    </div>
+</div>
+</section>
+<!-- META -->
+<div class="coll-meta fade-in">
+<h2 class="coll-title" data-en="Where will you return to?">どこに、帰るか。</h2>
+<span class="coll-count">9 PROPERTIES</span>
+</div>
+<!-- MAP -->
+<div class="fade-in" id="map-section">
+<div id="map-eyebrow">
+<span>ALL LOCATIONS</span>
+<span data-en="Click pin for details" style="font-size:9px;color:var(--dim2)">ピンをクリックで詳細</span>
+</div>
+<div id="prop-map"></div>
+<div id="map-legend">
+<span data-en="Now Recruiting"><i class="map-leg-dot" style="background:#c8a455"></i>募集中</span>
+<span><i class="map-leg-dot" style="background:#7a6030"></i>Coming Soon</span>
+<span data-en="In Planning"><i class="map-leg-dot" style="background:#2a2a2a;border:1px solid #444"></i>計画中</span>
+</div>
+</div>
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 01 TAPKOP -->
+<!-- ══════════════════════════════════════════════════ -->
+<article class="estate fade-in">
+<div class="estate-inner">
+<div class="estate-photos">
+<div class="ep-main">
+<img alt="TAPKOP" loading="lazy" src="/img/tapkop_real1.webp"/>
+</div>
+<div class="ep-row">
+<div class="ep-thumb"><img alt="TAPKOP 2" loading="lazy" src="/img/tapkop_real2.webp"/></div>
+<div class="ep-thumb"><img alt="TAPKOP 3" loading="lazy" src="/img/tapkop_real3.webp"/></div>
+<div class="ep-thumb"><img alt="TAPKOP interior" loading="lazy" src="/img/tapkop_luxury.webp"/></div>
+</div>
+<div class="ep-row">
+<div class="ep-thumb"><img alt="TAPKOP 4" loading="lazy" src="/img/tapkop_real4.webp"/></div>
+<div class="ep-thumb"><img alt="TAPKOP 5" loading="lazy" src="/img/tapkop_real5.webp"/></div>
+<div class="ep-thumb"><img alt="TAPKOP 6" loading="lazy" src="/img/tapkop_real6.webp"/></div>
+</div>
+</div>
+<div class="estate-info">
+<p class="ei-num">01 / 06</p>
+<div class="ei-status open" data-en="Now Recruiting">募集中</div>
+<h2 class="ei-name">TAPKOP</h2>
+<p class="ei-location" data-en="Teshikaga, Hokkaido / Akan-Mashu National Park">北海道 弟子屈町 / 阿寒摩周国立公園</p>
+<p class="ei-tagline" data-en="Hill in Ainu. There is a hill in Hokkaido to return to.">アイヌ語で〈丘〉。北海道に、帰れる丘がある。</p>
+<div class="ei-specs">
+<div class="ei-spec"><p class="ei-spec-label" data-en="Type">タイプ</p><p class="ei-spec-val" data-en="Mountain Villa">マウンテンヴィラ</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Total plots">総区画</p><p class="ei-spec-val"><em>10</em> 口</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Land Area">土地面積</p><p class="ei-spec-val"><em>2,000</em> m²</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Airbnb Rating">Airbnb評価</p><p class="ei-spec-val"><em>★ 4.97</em></p></div>
+</div>
+<div class="ei-price">
+<p class="ei-price-label" data-en="1 Unit / UNIT PRICE">1口 / UNIT PRICE</p>
+<p class="ei-price-val">¥3,900<span class="ei-price-unit" data-en="¥10,000 units">万円</span></p>
+<p class="ei-price-deposit" data-en="Deposit ¥100,000 → Apply Now">手付金 ¥100,000 → 今すぐ申込</p>
+</div>
+<div class="ei-btns">
+<a class="ei-btn primary" data-en="Discover This Place →" href="tapkop-story">この場所を知る →</a>
+<a class="ei-btn secondary" data-en="Create Your Home →" href="buy?property=tapkop" data-sln-track="purchase_click">帰れる場所を作る →</a>
+</div>
+</div>
+</div>
+</article>
+<!-- SEPARATOR -->
+<div class="fb-sep">
+<img alt="" src="/img/village_snow_aerial.webp"/>
+<p class="fb-sep-text" data-en="NORTH HOKKAIDO · 43° North Latitude">NORTH HOKKAIDO · 北緯43°</p>
+</div>
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 02 THE LODGE -->
+<!-- ══════════════════════════════════════════════════ -->
+<article class="estate fade-in">
+<div class="estate-inner">
+<div class="estate-photos">
+<div class="ep-main">
+<img alt="THE LODGE" loading="lazy" src="/img/lodge_new1.webp"/>
+</div>
+<div class="ep-row">
+<div class="ep-thumb"><img alt="Lodge 2" loading="lazy" src="/img/lodge_new2.webp"/></div>
+<div class="ep-thumb"><img alt="Lodge onsen" loading="lazy" src="/img/lodge_onsen.webp"/></div>
+<div class="ep-thumb"><img alt="Lodge window" loading="lazy" src="/img/lodge_window.webp"/></div>
+</div>
+<div class="ep-row">
+<div class="ep-thumb"><img alt="Lodge 3" loading="lazy" src="/img/lodge_new3.webp"/></div>
+<div class="ep-thumb"><img alt="Lodge 4" loading="lazy" src="/img/lodge_new4.webp"/></div>
+<div class="ep-thumb"><img alt="Lodge winter" loading="lazy" src="/img/lodge_exterior_snow.webp"/></div>
+</div>
+</div>
+<div class="estate-info">
+<p class="ei-num">02 / 06</p>
+<div class="ei-status open" data-en="Now Recruiting">募集中</div>
+<h2 class="ei-name">THE LODGE</h2>
+<p class="ei-location" data-en="Teshikaga, Hokkaido / In the Forest">北海道 弟子屈町 / 森の中</p>
+<p class="ei-tagline" data-en="Hot springs await. There is always more to discover at a place you can call home.">温泉が待っている。帰れる場所には、続きがある。</p>
+<div class="ei-specs">
+<div class="ei-spec"><p class="ei-spec-label" data-en="Type">タイプ</p><p class="ei-spec-val" data-en="Mountain Lodge">マウンテンロッジ</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Total plots">総区画</p><p class="ei-spec-val"><em>10</em> 口</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Features">特徴</p><p class="ei-spec-val" data-en="Natural Hot Spring">天然温泉</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Elevation">標高</p><p class="ei-spec-val"><em>280</em> m</p></div>
+</div>
+<div class="ei-price">
+<p class="ei-price-label" data-en="1 Unit / UNIT PRICE">1口 / UNIT PRICE</p>
+<p class="ei-price-val">¥520<span class="ei-price-unit" data-en="¥10,000 units">万円</span></p>
+<p class="ei-price-deposit" data-en="Deposit ¥100,000 → Apply Now">手付金 ¥100,000 → 今すぐ申込</p>
+</div>
+<div class="ei-btns">
+<a class="ei-btn primary" data-en="Discover This Place →" href="lodge-story">この場所を知る →</a>
+<a class="ei-btn secondary" data-en="Create Your Home →" href="buy?property=lodge" data-sln-track="purchase_click">帰れる場所を作る →</a>
+</div>
+</div>
+</div>
+</article>
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 03 NESTING -->
+<!-- ══════════════════════════════════════════════════ -->
+<article class="estate fade-in">
+<div class="estate-inner">
+<div class="estate-photos">
+<div class="ep-main">
+<img alt="NESTING" loading="lazy" src="/img/nesting_wide.webp"/>
+</div>
+<div class="ep-row">
+<div class="ep-thumb"><img alt="Nesting living" loading="lazy" src="/img/nesting_living.webp"/></div>
+<div class="ep-thumb"><img alt="Nesting dining" loading="lazy" src="/img/nesting_dining.webp"/></div>
+<div class="ep-thumb"><img alt="Nesting night" loading="lazy" src="/img/nesting_night.webp"/></div>
+</div>
+<div class="ep-row">
+<div class="ep-thumb"><img alt="Nesting kitchen" loading="lazy" src="/img/nesting_kitchen.webp"/></div>
+<div class="ep-thumb"><img alt="Nesting exterior" loading="lazy" src="/img/nesting_exterior.webp"/></div>
+<div class="ep-thumb"><img alt="Nesting forest bath" loading="lazy" src="/img/nesting_forest_bath.webp"/></div>
+</div>
+</div>
+<div class="estate-info">
+<p class="ei-num">03 / 06</p>
+<div class="ei-status open" data-en="Now Recruiting">募集中</div>
+<h2 class="ei-name">NESTING</h2>
+<p class="ei-location" data-en="Greater Tokyo Area / Retreat Villa">東京近郊 / リトリートヴィラ</p>
+<p class="ei-tagline" data-en="Walls embrace the forest's humidity. You can always come home here.">壁が森の湿度を含んでいる。ここには、いつでも帰れる。</p>
+<div class="ei-specs">
+<div class="ei-spec"><p class="ei-spec-label" data-en="Type">タイプ</p><p class="ei-spec-val" data-en="Retreat Villa">リトリートヴィラ</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Total plots">総区画</p><p class="ei-spec-val"><em>10</em> 口</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="From Tokyo">東京から</p><p class="ei-spec-val" data-en="Within"><em>2h</em> 以内</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Style">スタイル</p><p class="ei-spec-val" data-en="Modern Japanese">モダン和風</p></div>
+</div>
+<div class="ei-price">
+<p class="ei-price-label" data-en="1 Unit / UNIT PRICE">1口 / UNIT PRICE</p>
+<p class="ei-price-val">¥780<span class="ei-price-unit" data-en="¥10,000 units">万円</span></p>
+<p class="ei-price-deposit" data-en="Deposit ¥100,000 → Apply Now">手付金 ¥100,000 → 今すぐ申込</p>
+</div>
+<div class="ei-btns">
+<a class="ei-btn primary" data-en="Discover This Place →" href="nesting-story">この場所を知る →</a>
+<a class="ei-btn secondary" data-en="Create Your Home →" href="buy?property=nesting" data-sln-track="purchase_click">帰れる場所を作る →</a>
+</div>
+</div>
+</div>
+</article>
+<!-- SEPARATOR -->
+<div class="fb-sep">
+<img alt="" src="/img/village_night_milkyway.webp"/>
+<p class="fb-sep-text" data-en="MILKY WAY · Lake Kusharo · Zero Light Pollution">MILKY WAY · 屈斜路湖 · 光害ゼロ</p>
+</div>
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 04 WHITE HOUSE 熱海 -->
+<!-- ══════════════════════════════════════════════════ -->
+<article class="estate fade-in">
+<div class="estate-inner">
+<div class="estate-photos">
+<div class="ep-main">
+<img alt="WHITE HOUSE熱海" data-en-alt="WHITE HOUSE Atami" loading="lazy" src="/img/pro_atami_hero.webp"/>
+</div>
+<div class="ep-row">
+<div class="ep-thumb"><img alt="Atami exterior" loading="lazy" src="/img/property-atami.webp"/></div>
+<div class="ep-thumb"><img alt="Atami 2" loading="lazy" src="/img/property-atami-2.webp"/></div>
+<div class="ep-thumb"><img alt="Atami 3" loading="lazy" src="/img/property-atami-3.webp"/></div>
+</div>
+<div class="ep-row">
+<div class="ep-thumb"><img alt="Atami 4" loading="lazy" src="/img/property-atami-4.webp"/></div>
+<div class="ep-thumb"><img alt="Atami cliff" loading="lazy" src="/img/atami_cliff_view.webp"/></div>
+<div class="ep-thumb"><img alt="Atami sunset" loading="lazy" src="/img/atami_sunset_ocean.webp"/></div>
+</div>
+</div>
+<div class="estate-info">
+<p class="ei-num">04 / 06</p>
+<div class="ei-status open" data-en="Now Recruiting">募集中</div>
+<h2 class="ei-name" data-en="WHITE HOUSE Atami">WHITE HOUSE<br/>熱海</h2>
+<p class="ei-location" data-en="Atami, Shizuoka / Ocean View">静岡県 熱海市 / オーシャンビュー</p>
+<p class="ei-tagline" data-en="The sound of waves awaits. Your refuge, just two hours from Tokyo.">波の音が待っている。東京から2時間の、帰り先。</p>
+<div class="ei-specs">
+<div class="ei-spec"><p class="ei-spec-label" data-en="Type">タイプ</p><p class="ei-spec-val" data-en="Ocean Villa">オーシャンヴィラ</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Total plots">総区画</p><p class="ei-spec-val"><em>10</em> 口</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="From Tokyo">東京から</p><p class="ei-spec-val"><em>45</em> 分</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Facilities">設備</p><p class="ei-spec-val" data-en="With Pool">プール付き</p></div>
+</div>
+<div class="ei-price">
+<p class="ei-price-label" data-en="1 Unit / UNIT PRICE">1口 / UNIT PRICE</p>
+<p class="ei-price-val">¥1,280<span class="ei-price-unit" data-en="¥10,000 units">万円</span></p>
+<p class="ei-price-deposit" data-en="Deposit ¥100,000 → Apply Now">手付金 ¥100,000 → 今すぐ申込</p>
+</div>
+<div class="ei-btns">
+<a class="ei-btn primary" data-en="Discover This Place →" href="atami-story">この場所を知る →</a>
+<a class="ei-btn secondary" data-en="Create Your Home →" href="pay?property=atami">帰れる場所を作る →</a>
+</div>
+</div>
+</div>
+</article>
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 05 天空の道場 熊牛 -->
+<!-- ══════════════════════════════════════════════════ -->
+<article class="estate fade-in">
+<div class="estate-inner">
+<div class="estate-photos">
+<div class="ep-main">
+<img alt="天空の道場 熊牛" data-en-alt="Dojo in the Sky KUMAUSHI BASE" loading="lazy" src="/img/kumaushi_aerial_dawn.webp"/>
+</div>
+<div class="ep-row">
+<div class="ep-thumb"><img alt="EPSドーム 空撮" data-en-alt="EPS Dome Aerial View" loading="lazy" src="/img/kumaushi_a_aerial_layout.webp"/></div>
+<div class="ep-thumb"><img alt="柔術修練" data-en-alt="Brazilian Jiu-Jitsu Training" loading="lazy" src="/img/kumaushi_b_group_training.webp"/></div>
+<div class="ep-thumb"><img alt="雪夜のドーム" data-en-alt="Dome in the Snowy Night" loading="lazy" src="/img/kumaushi_c_snow_dome_night.webp"/></div>
+</div>
+<div class="ep-row">
+<div class="ep-thumb"><img alt="インフィニティプール" data-en-alt="Infinity Pool" loading="lazy" src="/img/k4_pool_infinity.webp"/></div>
+<div class="ep-thumb"><img alt="ルーフデッキ" data-en-alt="Roof Deck" loading="lazy" src="/img/k4_rooftop_deck.webp"/></div>
+<div class="ep-thumb"><img alt="道場センター" data-en-alt="Dojo Center" loading="lazy" src="/img/k4_dojo_center.webp"/></div>
+</div>
+<div class="ep-row">
+<div class="ep-thumb"><img alt="ワイド空撮" data-en-alt="Wide Aerial View" loading="lazy" src="/img/kumaushi_wide_wide_aerial_full.jpg"/></div>
+<div class="ep-thumb"><img alt="ブルーアワー" data-en-alt="Blue Hour" loading="lazy" src="/img/kumaushi_wide_wide_dusk_lit.jpg"/></div>
+<div class="ep-thumb"><img alt="冬の空撮" data-en-alt="Winter Aerial View" loading="lazy" src="/img/kumaushi_wide_wide_snow_aerial.jpg"/></div>
+</div>
+</div>
+<div class="estate-info">
+<p class="ei-num">05 / 06</p>
+<div class="ei-status open" data-en="Early Registration Open">先行受付中</div>
+<h2 class="ei-name" data-en="KUMAUSHI BASE">天空の道場<br/>熊牛</h2>
+<p class="ei-location" data-en="Teshikaga, Hokkaido / Kumaushi Wilderness 270° Panorama">北海道 弟子屈町 / 熊牛原野 270°パノラマ</p>
+<p class="ei-tagline" data-en="When September arrives, you return here. A place where only those who have made this choice come.">9月になったら、ここに帰る。そう決めた人だけが来る場所。</p>
+<div class="ei-specs">
+<div class="ei-spec"><p class="ei-spec-label" data-en="Type">タイプ</p><p class="ei-spec-val" data-en="EPS Dome × 2 Structures">EPSドーム×2棟</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Total plots">総区画</p><p class="ei-spec-val"><em>20</em> 口</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Under Construction">着工</p><p class="ei-spec-val"><em>2026</em>.09</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Facilities">設備</p><p class="ei-spec-val" data-en="Sauna &amp; BJJ Mat">サウナ・柔術マット</p></div>
+</div>
+<div class="ei-price">
+<p class="ei-price-label" data-en="1 Unit / UNIT PRICE">1口 / UNIT PRICE</p>
+<p class="ei-price-val">¥900<span class="ei-price-unit" data-en="¥10,000 units">万円</span></p>
+<p class="ei-price-deposit" data-en="Deposit ¥100,000 → Apply Now">手付金 ¥100,000 → 今すぐ申込</p>
+</div>
+<div class="ei-btns">
+<a class="ei-btn primary" data-en="Discover This Place →" href="kumaushi">この場所を知る →</a>
+<a class="ei-btn secondary" data-en="Create Your Home →" href="pay?property=kumaushi">帰れる場所を作る →</a>
+</div>
+</div>
+</div>
+</article>
+<!-- SEPARATOR -->
+<div class="fb-sep">
+<img alt="" src="/img/miruwa_container_miruwa_container_dusk.jpg"/>
+<p class="fb-sep-text" data-en="BIRYU-WA GRAND · HOKKAIDO NORTH · 43.4° N">美留和グランド · HOKKAIDO NORTH · 北緯43.4°</p>
+</div>
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 06 美留和グランド -->
+<!-- ══════════════════════════════════════════════════ -->
+<article class="estate fade-in">
+<div class="estate-inner">
+<div class="estate-photos">
+<div class="ep-main">
+<img alt="美留和グランド コンテナ複合棟 空撮" data-en-alt="Miruwa Grand Container Complex Aerial View" loading="lazy" src="/img/miruwa_container_miruwa_container_aerial.jpg"/>
+</div>
+<div class="ep-row">
+<div class="ep-thumb"><img alt="ルーフデッキ×シネマ×望遠鏡" data-en-alt="Roof Deck × Cinema × Telescope" loading="lazy" src="/img/miruwa_container_miruwa_container_rooftop.jpg"/></div>
+<div class="ep-thumb"><img alt="ウォータースライダー＆プール" data-en-alt="Water Slide &amp; Pool" loading="lazy" src="/img/miruwa_container_miruwa_container_slide_pool.jpg"/></div>
+<div class="ep-thumb"><img alt="BJJコートヤード" data-en-alt="BJJ Courtyard" loading="lazy" src="/img/miruwa_container_miruwa_container_courtyard_bjj.jpg"/></div>
+</div>
+<div class="ep-row">
+<div class="ep-thumb"><img alt="D型ハウス 外観" data-en-alt="D-Type House Exterior" loading="lazy" src="/img/miruwa_dhouse_d_house_exterior_day.jpg"/></div>
+<div class="ep-thumb"><img alt="D型ハウス 内部" data-en-alt="D-Type House Interior" loading="lazy" src="/img/miruwa_dhouse_d_house_interior.jpg"/></div>
+<div class="ep-thumb"><img alt="D型ハウス 夜景" data-en-alt="D-Type House Night View" loading="lazy" src="/img/miruwa_dhouse_d_house_night.jpg"/></div>
+</div>
+<div class="ep-row">
+<div class="ep-thumb"><img alt="D型ハウス 空撮" data-en-alt="D-Type House Aerial View" loading="lazy" src="/img/miruwa_dhouse_d_house_aerial.jpg"/></div>
+<div class="ep-thumb"><img alt="D型ハウス 冬" data-en-alt="D-Type House Winter" loading="lazy" src="/img/miruwa_dhouse_d_house_winter.jpg"/></div>
+<div class="ep-thumb"><img alt="コンテナ ブルーアワー" data-en-alt="Container Blue Hour" loading="lazy" src="/img/miruwa_container_miruwa_container_dusk.jpg"/></div>
+</div>
+</div>
+<div class="estate-info">
+<p class="ei-num">06 / 06</p>
+<div class="ei-status open" data-en="Early Registration Open">先行受付中</div>
+<h2 class="ei-name" data-en="Birowa Grand">美留和グランド</h2>
+<p class="ei-location" data-en="Teshikaga, Hokkaido / Birowa 106,899㎡">北海道 弟子屈町 / 美留和 106,899㎡</p>
+<p class="ei-tagline" data-en="12 white containers in U-shaped complex buildings × large D-Type house. Rooftop cinema, water slide, 25m infinity pool, BJJ courtyard, and astronomical telescope. An exclusive village of 100 residents across 8 architectural styles.">白コンテナ12台のU字複合棟 × 大型D型ハウス。ルーフデッキシネマ・ウォータースライダー・25mインフィニティプール・BJJコートヤード・天体望遠鏡。8種の建物が集まる100人だけのビレッジ。</p>
+<div class="ei-specs">
+<div class="ei-spec"><p class="ei-spec-label" data-en="Land Area">土地面積</p><p class="ei-spec-val"><em>32,337</em> 坪</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Total plots">総区画</p><p class="ei-spec-val"><em>100</em> 口</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Under Construction">着工</p><p class="ei-spec-val"><em>2027</em> Q1</p></div>
+<div class="ei-spec"><p class="ei-spec-label" data-en="Facilities">設備</p><p class="ei-spec-val" data-en="Pool, BJJ &amp; Cinema">プール・BJJ・シネマ</p></div>
+</div>
+<div class="ei-price">
+<p class="ei-price-label" data-en="1 Unit / UNIT PRICE">1口 / UNIT PRICE</p>
+<p class="ei-price-val">¥490<span class="ei-price-unit" data-en="¥ million+">万円〜</span></p>
+<p class="ei-price-deposit" data-en="Deposit ¥100,000 → Apply Now">手付金 ¥100,000 → 今すぐ申込</p>
+</div>
+<div class="ei-btns">
+<a class="ei-btn primary" data-en="Discover This Place →" href="miruwa-grand">この場所を知る →</a>
+<a class="ei-btn secondary" data-en="Create Your Home →" href="pay?property=village">帰れる場所を作る →</a>
+</div>
+</div>
+</div>
+</article>
+<!-- OUTRO -->
+<section id="outro">
+<h2 class="outro-h2" data-en="Create a place to call home.">帰れる場所を、<br/>作る。</h2>
+<p class="outro-sub" data-en="Become an Owner starting today with a deposit from ¥100,000.">
+    手付金 ¥10万〜 で、本日からオーナーの申込が可能です。<br/>
+</p>
+<a class="outro-btn" data-en="Create Your Home →" href="pay">帰れる場所を作る →</a>
+</section>
+<!-- HAZARD LINK -->
+<div style="max-width:900px;margin:0 auto 48px;padding:0 32px">
+<a href="hazard" onmouseout="this.style.borderColor='#131313'" onmouseover="this.style.borderColor='#222'" style="display:flex;align-items:center;gap:16px;border:1px solid #131313;border-radius:10px;padding:18px 22px;background:#080808;text-decoration:none;transition:border-color .2s">
+<span style="font-size:18px">⚠️</span>
+<div>
+<div data-en="Confirm Before Purchase — Teshikaga Hazard Map &amp; Disaster Prevention Information" style="font-size:10.5px;color:#3a3a3a;margin-bottom:3px">購入前に確認 — 弟子屈 ハザードマップ・防災情報</div>
+<div data-en="Volcanoes, Flooding, Landslides, Earthquakes, Winter Weather, Bears. Disclosed based on official data." style="font-size:10px;color:#1e1e1e">火山・洪水・土砂・地震・冬の気象・ヒグマ。公式データに基づいて開示しています。</div>
+</div>
+<span data-en="View →" style="margin-left:auto;font-size:10px;color:#1e1e1e;white-space:nowrap">見る →</span>
+</a>
+</div>
+<!-- FOOTER -->
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Structure 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Birowa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Birowa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="View All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Join">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy" data-sln-track="purchase_click">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Earn units free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Building Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners Only" href="owners">オーナー専用</a>
+<a data-en="BIRYU-WA Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fees" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script defer="" src="/chat-widget.js"></script>
+<script>
+// IntersectionObserver for fade-in
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+
+// Property map — data from /api/soluna/properties/all
+(function initMap(){
+  const el = document.getElementById('prop-map');
+  if(!el) return;
+  const map = L.map('prop-map', {
+    center: [38, 137],
+    zoom: 5,
+    zoomControl: true,
+    scrollWheelZoom: false
+  });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {maxZoom:19}).addTo(map);
+
+  function pin(color, size){
+    return L.divIcon({
+      className:'',
+      html:`<div style="width:${size}px;height:${size}px;background:${color};border-radius:50%;box-shadow:0 0 0 ${Math.round(size/2.2)}px ${color}28;cursor:pointer;transition:transform .2s"></div>`,
+      iconSize:[size,size],iconAnchor:[size/2,size/2]
+    });
+  }
+
+  function statusLabel(s){ return s==='open'?'募集中':s==='soon'?'COMING SOON':'計画中'; }
+  function pinColor(s){ return s==='open'?'#c8a455':s==='soon'?'#7a6030':'#2a2a2a'; }
+  function pinSize(s){ return s==='open'?13:s==='soon'?10:8; }
+  function priceStr(p){ return p>=10000000?`¥${(p/10000000).toFixed(1).replace('.0','')}千万〜`:`¥${Math.round(p/10000)}万〜`; }
+
+  function addMarkers(props){
+    props.forEach(p=>{
+      if(!p.lat || !p.lng) return;
+      const url = p.page_url ? p.page_url.replace(/^\//,'') : p.slug;
+      const btnColor = p.status==='open' ? '#c8a455' : '#333';
+      const btnText  = p.status==='open' ? '詳細を見る →' : '詳細を見る';
+      L.marker([p.lat,p.lng],{icon:pin(pinColor(p.status),pinSize(p.status))})
+       .addTo(map)
+       .bindPopup(`
+        <div style="font-family:'Helvetica Neue',sans-serif;min-width:180px;padding:4px 0">
+          <div style="font-size:8px;letter-spacing:.3em;color:${pinColor(p.status)};margin-bottom:6px">${statusLabel(p.status)}</div>
+          <div style="font-size:17px;font-weight:100;color:#fff;margin-bottom:3px">${p.name}</div>
+          <div style="font-size:10px;color:#444;margin-bottom:10px">${p.location||''}</div>
+          <div style="font-size:14px;color:#c8a455;font-weight:200;margin-bottom:14px">${priceStr(p.price)}/口</div>
+          <a href="${url}" style="display:block;padding:9px 14px;background:${btnColor};color:${p.status==='open'?'#050505':'#888'};font-size:9px;letter-spacing:.2em;font-weight:700;text-align:center;text-decoration:none">${btnText}</a>
+        </div>
+       `,{closeButton:true,maxWidth:220});
+    });
+  }
+
+  fetch('/api/soluna/properties/all')
+    .then(r=>r.json())
+    .then(props=>{ addMarkers(props); })
+    .catch(()=>{
+      // fallback: Japan center only
+      console.warn('map: api unavailable');
+    });
+})();
+</script>
+<script defer="" src="/track.js"></script>
+<script>
+// Sync prices from DB
+fetch('/api/soluna/properties/all')
+  .then(r => r.json())
+  .then(props => {
+    const bySlug = {};
+    props.forEach(p => { bySlug[p.slug] = p; });
+
+    const nameToSlug = {
+      'TAPKOP': 'tapkop',
+      'THELODGE': 'lodge',
+      'NESTING': 'nesting',
+      'WHITEHOUSE熱海': 'atami',
+      '天空の道場熊牛': 'kumaushi',
+      '美留和グランド': 'village'
+    };
+
+    document.querySelectorAll('article.estate').forEach(article => {
+      const nameEl = article.querySelector('.ei-name');
+      if (!nameEl) return;
+      const key = nameEl.textContent.replace(/[\s\n]/g, '');
+      const slug = nameToSlug[key];
+      if (!slug || !bySlug[slug]) return;
+
+      const p = bySlug[slug];
+      const man = Math.round(p.price / 10000);
+      const manStr = man.toLocaleString('ja-JP');
+      const priceVal = article.querySelector('.ei-price-val');
+      if (priceVal) {
+        const unitEl = priceVal.querySelector('.ei-price-unit');
+        const unitHTML = unitEl ? unitEl.outerHTML : '<span class="ei-price-unit">万円</span>';
+        priceVal.innerHTML = `¥${manStr}${unitHTML}`;
+      }
+      if (p.remaining_units != null && p.remaining_units <= 5) {
+        const dep = article.querySelector('.ei-price-deposit');
+        if (dep && !dep.querySelector('.rem-badge')) {
+          dep.insertAdjacentHTML('beforeend', ` <span class="rem-badge" style="color:#e06060;font-size:9px;margin-left:6px">残り${p.remaining_units}口</span>`);
+        }
+      }
+    });
+  })
+  .catch(() => {});
+</script>
+<script src="/lang.js"></script>
+</body>
+</html>

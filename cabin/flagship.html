@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/flagship" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA — Land registered in your name.">SOLUNA — あなたの名前で登記される、原野。</title>
+<meta content="北海道弟子屈、32,337坪。管理会社もルームサービスも要らない。自分の手で建て、自分の名前で登記する——それがSOLUNAだ。" data-en-content="Teshikaga, Hokkaido—32,337 tsubo. No management company. No room service. Build with your own hands, register in your own name. That is SOLUNA." name="description"/>
+<meta content="SOLUNA — あなたの名前で登記される、原野。" property="og:title"/>
+<meta content="北海道弟子屈、32,337坪。管理会社もルームサービスも要らない。" property="og:description"/>
+<meta content="img/village_aerial.webp" property="og:image"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<script defer="" src="/track.js"></script>
+<style>
+/* ════════════════════════════════════════════════
+   RESET + ROOT
+════════════════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold2:rgba(200,164,85,.6);
+  --bg:#030305;
+  --text:#f0ece4;
+  --dim:#555;
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{padding-top:48px;
+  background:var(--bg);color:var(--text);overflow-x:hidden;
+  font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  cursor:none;
+}
+a{color:var(--gold);text-decoration:none}
+::selection{background:var(--gold);color:#000}
+
+/* ════ CUSTOM CURSOR ════ */
+#cur{
+  position:fixed;z-index:9999;pointer-events:none;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--gold);
+  transform:translate(-50%,-50%);
+  transition:width .2s,height .2s,opacity .2s;
+  mix-blend-mode:difference;
+}
+#cur2{
+  position:fixed;z-index:9998;pointer-events:none;
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(200,164,85,.4);
+  transform:translate(-50%,-50%);
+  transition:width .35s,height .35s,left .08s,top .08s,opacity .3s;
+}
+body:hover #cur{opacity:1} body #cur{opacity:0}
+@media(pointer:coarse){#cur,#cur2{display:none}body{cursor:auto}}
+
+/* ════ FILM GRAIN ════ */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity:.55;mix-blend-mode:overlay;
+  animation:grain 0.4s steps(1) infinite;
+}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-2px,2px)}40%{transform:translate(2px,-2px)}60%{transform:translate(-1px,3px)}80%{transform:translate(3px,-1px)}100%{transform:translate(0,0)}}
+
+/* ════ SOUND TOGGLE ════ */
+#sound-btn{
+  position:fixed;top:20px;right:20px;z-index:9000;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(3,3,5,.8);border:1px solid rgba(200,164,85,.2);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:14px;
+  transition:border-color .3s,opacity .5s;
+  opacity:0;
+}
+#sound-btn.vis{opacity:1}
+#sound-btn:hover{border-color:var(--gold)}
+
+/* ════ MARK ════ */
+#mark{
+  position:fixed;top:20px;left:24px;z-index:9000;
+  font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--gold);
+  opacity:0;transition:opacity 1s;
+}
+#mark.vis{opacity:1}
+
+/* ════════ SECTION 1 — STARFIELD HERO ════════ */
+#s1{
+  position:relative;height:100vh;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+#stars-canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero-text{
+  position:relative;z-index:2;text-align:center;
+  opacity:0;transform:translateY(20px);
+  transition:opacity 2s,transform 2s;
+}
+.hero-text.show{opacity:1;transform:none}
+.coords{
+  font-size:9px;letter-spacing:.3em;color:rgba(200,164,85,.5);
+  margin-bottom:28px;font-variant-numeric:tabular-nums;
+}
+.deed-num{
+  font-size:clamp(64px,14vw,140px);font-weight:900;
+  letter-spacing:-.04em;line-height:.9;
+  background:linear-gradient(135deg,#f0ece4 30%,#c8a455 70%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.deed-unit{font-size:clamp(18px,3vw,32px);letter-spacing:.08em;color:var(--gold);display:block;margin-top:8px}
+.deed-sub{
+  margin-top:24px;font-size:clamp(13px,2vw,16px);color:#888;
+  letter-spacing:.12em;line-height:2;
+}
+.scroll-hint{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  font-size:8px;letter-spacing:.35em;color:#333;
+  animation:pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:.3;transform:translateX(-50%) translateY(0)}50%{opacity:.8;transform:translateX(-50%) translateY(4px)}}
+
+/* ════════ SECTION 2 — PARALLAX IMAGE ════════ */
+.s-full{position:relative;height:100vh;overflow:hidden}
+.s-full img{
+  position:absolute;inset:-20%;width:120%;height:120%;
+  object-fit:cover;object-position:center;
+  will-change:transform;
+}
+.s-full-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to bottom,rgba(3,3,5,.7) 0%,rgba(3,3,5,.1) 40%,rgba(3,3,5,.1) 60%,rgba(3,3,5,.9) 100%);
+}
+.s-full-cap{
+  position:absolute;bottom:60px;left:0;right:0;z-index:2;
+  text-align:center;
+  opacity:0;transform:translateY(30px);transition:opacity 1.2s,transform 1.2s;
+}
+.s-full-cap.show{opacity:1;transform:none}
+.s-full-cap .eyebrow{font-size:8px;letter-spacing:.4em;color:var(--gold);margin-bottom:12px}
+.s-full-cap h2{font-size:clamp(28px,5vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1.1}
+
+/* ════════ SECTION 3 — MANIFESTO ════════ */
+#s3{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:80px 24px;background:var(--bg);
+}
+.manifesto{max-width:800px;width:100%}
+.manifesto-line{
+  display:block;
+  font-size:clamp(32px,6vw,80px);font-weight:900;letter-spacing:-.03em;
+  line-height:1.05;color:#111;
+  transition:color 1s,transform 1s;
+  transform:translateX(-40px);
+  overflow:hidden;
+}
+.manifesto-line.lit{color:var(--text);transform:none}
+.manifesto-line .gold{color:var(--gold)}
+.manifesto-line.small{font-size:clamp(16px,2.5vw,28px);font-weight:400;letter-spacing:.02em;color:#333;margin-top:16px}
+.manifesto-line.small.lit{color:#888}
+
+/* ════════ SECTION 4 — NUMBERS ════════ */
+#s4{background:#030305;padding:80px 24px}
+.nums-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  max-width:800px;margin:0 auto;background:#0d0d0d;border:1px solid #0d0d0d;border-radius:16px;overflow:hidden;
+}
+@media(min-width:640px){.nums-grid{grid-template-columns:repeat(4,1fr)}}
+.num-cell{
+  background:var(--bg);padding:40px 24px;text-align:center;
+  opacity:0;transform:translateY(20px);transition:opacity .8s,transform .8s;
+}
+.num-cell.show{opacity:1;transform:none}
+.num-cell .v{
+  font-size:clamp(32px,5vw,56px);font-weight:900;
+  background:linear-gradient(135deg,#f0ece4,var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  font-variant-numeric:tabular-nums;
+}
+.num-cell .l{font-size:10px;letter-spacing:.2em;color:#333;margin-top:8px;text-transform:uppercase}
+
+/* ════════ SECTION 5 — PARALLAX IMAGES SEQUENCE ════════ */
+.img-seq{position:relative;overflow:hidden}
+.img-seq-inner{
+  display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+  scrollbar-width:none;gap:0;
+}
+.img-seq-inner::-webkit-scrollbar{display:none}
+.img-slide{
+  flex:0 0 100vw;height:90vh;position:relative;scroll-snap-align:start;
+}
+.img-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.img-slide-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(3,3,5,.9) 0%,transparent 50%);
+}
+.img-slide-label{
+  position:absolute;bottom:40px;left:40px;right:40px;
+  font-size:clamp(18px,3vw,36px);font-weight:800;line-height:1.2;
+  opacity:0;transform:translateY(20px);transition:opacity .8s,transform .8s;
+}
+.img-slide.active .img-slide-label{opacity:1;transform:none}
+.img-slide-num{font-size:9px;letter-spacing:.3em;color:var(--gold);display:block;margin-bottom:8px}
+.seq-nav{
+  position:absolute;bottom:20px;right:24px;
+  display:flex;gap:6px;z-index:5;
+}
+.seq-dot{
+  width:4px;height:4px;border-radius:50%;background:#333;
+  cursor:pointer;transition:background .3s,transform .3s;
+}
+.seq-dot.active{background:var(--gold);transform:scale(1.5)}
+
+/* ════════ SECTION 6 — WORK PARTY ════════ */
+#s6{background:#030305;padding:80px 0}
+.wp-header{max-width:800px;margin:0 auto 48px;padding:0 24px;
+  opacity:0;transform:translateY(20px);transition:opacity .8s,transform .8s}
+.wp-header.show{opacity:1;transform:none}
+.wp-header .eyebrow{font-size:8px;letter-spacing:.35em;color:var(--gold);margin-bottom:12px}
+.wp-header h2{font-size:clamp(28px,5vw,52px);font-weight:900;letter-spacing:-.02em;line-height:1.1}
+.wp-header p{font-size:13px;color:#555;line-height:2;margin-top:16px;max-width:480px}
+.wp-strip{
+  display:flex;gap:2px;overflow-x:auto;padding:0 24px;
+  scrollbar-width:none;
+}
+.wp-strip::-webkit-scrollbar{display:none}
+.wp-card{
+  flex:0 0 260px;height:380px;position:relative;overflow:hidden;border-radius:4px;
+  cursor:pointer;
+}
+.wp-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s,filter .5s;filter:brightness(.7)}
+.wp-card:hover img{transform:scale(1.05);filter:brightness(.9)}
+.wp-card-label{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px 16px;
+  background:linear-gradient(to top,rgba(3,3,5,.9),transparent);
+  font-size:11px;color:#666;line-height:1.7;
+}
+
+/* ════════ SECTION 7 — FOUNDER ════════ */
+#s7{
+  background:var(--bg);padding:100px 24px;
+  display:flex;align-items:center;justify-content:center;
+}
+.founder-inner{
+  max-width:800px;width:100%;
+  display:grid;grid-template-columns:160px 1fr;gap:48px;align-items:start;
+}
+@media(max-width:600px){.founder-inner{grid-template-columns:1fr;text-align:center}}
+.founder-photo{
+  width:160px;height:160px;border-radius:50%;overflow:hidden;
+  border:2px solid #1a1a1a;flex-shrink:0;
+  background:linear-gradient(135deg,#1a1a1a,#0a0a0a);
+  display:flex;align-items:center;justify-content:center;
+}
+.founder-photo img{width:100%;height:100%;object-fit:cover}
+.founder-photo .initials{font-size:32px;font-weight:800;color:#2a2a2a;letter-spacing:-.02em}
+.founder-eyebrow{font-size:8px;letter-spacing:.3em;color:var(--gold);margin-bottom:16px}
+.founder-quote{
+  font-size:clamp(18px,3vw,28px);font-weight:700;letter-spacing:-.01em;line-height:1.5;
+  margin-bottom:24px;color:#888;
+}
+.founder-quote em{color:var(--text);font-style:normal}
+.founder-bio{font-size:12px;color:#444;line-height:2;margin-bottom:20px}
+.founder-link{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;color:var(--gold);letter-spacing:.1em;
+  border-bottom:1px solid rgba(200,164,85,.3);padding-bottom:2px;
+  transition:border-color .2s;
+}
+.founder-link:hover{border-color:var(--gold)}
+.founder-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.founder-title{font-size:10px;color:#444;letter-spacing:.1em}
+
+/* ════════ SECTION 8 — LIVE PRICE ════════ */
+#s8{
+  background:#040407;padding:80px 24px;
+  border-top:1px solid #0d0d0d;border-bottom:1px solid #0d0d0d;
+}
+.price-inner{max-width:800px;margin:0 auto}
+.price-eyebrow{font-size:8px;letter-spacing:.35em;color:var(--gold);margin-bottom:12px}
+.price-title{font-size:clamp(24px,4vw,40px);font-weight:900;letter-spacing:-.02em;margin-bottom:32px}
+
+.bc-bar-wrap{margin:32px 0}
+.bc-label{display:flex;justify-content:space-between;font-size:10px;color:#333;letter-spacing:.1em;margin-bottom:8px}
+.bc-bar{height:3px;background:#0d0d0d;border-radius:2px;position:relative;overflow:visible}
+.bc-fill{height:100%;background:linear-gradient(to right,rgba(200,164,85,.3),var(--gold));border-radius:2px;transition:width 1.5s ease}
+.bc-marker{
+  position:absolute;top:-6px;transform:translateX(-50%);
+  width:16px;height:16px;border-radius:50%;border:2px solid var(--gold);background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+}
+.bc-marker::after{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold)}
+
+.props-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:32px}
+.prop-card2{
+  border:1px solid #0e0e0e;border-radius:12px;overflow:hidden;
+  transition:border-color .3s,transform .3s;cursor:pointer;
+  text-decoration:none;display:block;
+}
+.prop-card2:hover{border-color:rgba(200,164,85,.4);transform:translateY(-4px)}
+.prop-card2 img{width:100%;height:160px;object-fit:cover;display:block;filter:brightness(.75);transition:filter .4s}
+.prop-card2:hover img{filter:brightness(.9)}
+.prop-card2-body{padding:16px}
+.prop-card2-location{font-size:8px;letter-spacing:.2em;color:var(--gold);margin-bottom:4px}
+.prop-card2-name{font-size:14px;font-weight:700;margin-bottom:8px}
+.prop-card2-price{font-size:18px;font-weight:900;color:var(--gold)}
+.prop-card2-nights{font-size:10px;color:#444;margin-top:2px}
+
+/* ════════ SECTION 9 — CTA ════════ */
+#s9{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  background:#030305;
+}
+#s9 canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.4}
+.cta-inner{
+  position:relative;z-index:2;text-align:center;
+  max-width:680px;padding:40px 24px;
+  opacity:0;transform:translateY(30px);transition:opacity 1.5s,transform 1.5s;
+}
+.cta-inner.show{opacity:1;transform:none}
+.cta-pre{font-size:9px;letter-spacing:.4em;color:var(--gold);margin-bottom:24px}
+.cta-h{
+  font-size:clamp(32px,6vw,72px);font-weight:900;letter-spacing:-.03em;line-height:1.05;
+  margin-bottom:24px;
+}
+.cta-sub{font-size:14px;color:#555;line-height:2;margin-bottom:48px;max-width:480px;margin-left:auto;margin-right:auto}
+.cta-mega{
+  display:inline-block;padding:18px 48px;
+  background:var(--gold);color:#040404;
+  font-size:15px;font-weight:900;letter-spacing:.08em;
+  border-radius:100px;border:none;cursor:pointer;
+  transition:transform .2s,box-shadow .2s,opacity .2s;
+  text-decoration:none;
+}
+.cta-mega:hover{transform:scale(1.04);box-shadow:0 0 60px rgba(200,164,85,.3)}
+.cta-ghost2{
+  display:inline-block;margin-left:16px;padding:18px 36px;
+  border:1px solid #1a1a1a;color:#555;font-size:14px;
+  border-radius:100px;cursor:pointer;transition:border-color .2s,color .2s;
+  text-decoration:none;
+}
+.cta-ghost2:hover{border-color:var(--gold);color:var(--gold)}
+.cta-note{margin-top:32px;font-size:10px;color:#2a2a2a;line-height:2}
+.cta-note a{color:#333}
+
+/* ════ REVEAL UTILITY ════ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s,transform .9s}
+.reveal.show{opacity:1;transform:none}
+
+/* ════ SECTION DIVIDER ════ */
+.div-line{height:1px;background:linear-gradient(to right,transparent,#131313,transparent);margin:0}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Construction" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- Custom cursor -->
+<div id="cur"></div>
+<div id="cur2"></div>
+<!-- Sound toggle -->
+<div id="sound-btn" onclick="toggleSound()" title="環境音ON/OFF">🌲</div>
+<!-- SOLUNA mark -->
+<div id="mark">SOLUNA</div>
+<!-- ════════════════════════════════════════════
+     SECTION 1 — STARFIELD HERO
+════════════════════════════════════════════ -->
+<section id="s1">
+<canvas id="stars-canvas"></canvas>
+<div class="hero-text" id="hero-text">
+<div class="coords">43°29′N   144°27′E   ·   HOKKAIDO, JAPAN</div>
+<div class="deed-num" id="deed-counter">0</div>
+<span class="deed-unit">坪</span>
+<p class="deed-sub" data-en="Pristine land registered in your name.">あなたの名前で登記される、原野。</p>
+</div>
+<div class="scroll-hint">SCROLL</div>
+</section>
+<!-- ════════════════════════════════════════════
+     SECTION 2 — AERIAL
+════════════════════════════════════════════ -->
+<div class="s-full" data-parallax="">
+<img alt="美留和グランド 俯瞰" data-parallax-img="" loading="eager" src="img/village_aerial.webp"/>
+<div class="s-full-overlay"></div>
+<div class="s-full-cap reveal">
+<div class="eyebrow">MIRUWA · TESHIKAGA · HOKKAIDO</div>
+<h2 data-en="32,337 tsubo. A village for 100 people.">32,337坪。<br/>100人のための、村。</h2>
+</div>
+</div>
+<!-- ════════════════════════════════════════════
+     SECTION 3 — MANIFESTO
+════════════════════════════════════════════ -->
+<section id="s3">
+<div class="manifesto">
+<span class="manifesto-line" data-delay="0" data-en="A management company">管理会社は</span>
+<span class="manifesto-line" data-delay="100" data-en="Not needed.">要らない。</span>
+<span class="manifesto-line" data-delay="250" data-en="Room Service Either">ルームサービスも</span>
+<span class="manifesto-line" data-delay="350" data-en="Not needed.">要らない。</span>
+<span class="manifesto-line" data-delay="550" data-en="What is Required——">必要なのは——</span>
+<span class="manifesto-line gold" data-delay="750" data-en="and" style="color:#1a1a1a"><span class="gold" data-en="Land">土地</span>と、</span>
+<span class="manifesto-line gold" data-delay="900" data-en="That's it." style="color:#1a1a1a"><span class="gold" data-en="Members">仲間</span>だけ。</span>
+<span class="manifesto-line small" data-delay="1200" data-en="Only those who build are owners. Ownership is registered. Earnings are transferred monthly.">建てた人だけがオーナーだ。所有権は登記される。収益は毎月送金される。</span>
+<span class="manifesto-line small" data-delay="1400" data-en="Use what you would pay a management company for your wood-burning stove instead.">管理会社に払う金を、薪ストーブに使え。</span>
+</div>
+</section>
+<!-- ════════════════════════════════════════════
+     SECTION 4 — NUMBERS
+════════════════════════════════════════════ -->
+<section id="s4">
+<div class="nums-grid">
+<div class="num-cell" data-delay="0" data-suf="坪" data-val="32337">
+<div class="v" id="n0">0</div><div class="l">North Hokkaido Land</div>
+</div>
+<div class="num-cell" data-delay="100" data-suf="万〜" data-val="490">
+<div class="v" id="n1">0</div><div class="l" data-en="Starting Price / Unit">Starting Price / 口</div>
+</div>
+<div class="num-cell" data-delay="200" data-suf="泊" data-val="8">
+<div class="v" id="n2">0</div><div class="l" data-en="Annual Stays / Units">Annual Stays / 口</div>
+</div>
+<div class="num-cell" data-delay="300" data-suf="人" data-val="100">
+<div class="v" id="n3">0</div><div class="l">Max Community</div>
+</div>
+</div>
+</section>
+<!-- ════════════════════════════════════════════
+     SECTION 5 — IMAGE SEQUENCE
+════════════════════════════════════════════ -->
+<div class="img-seq" id="img-seq">
+<div class="img-seq-inner" id="img-seq-inner">
+<div class="img-slide active">
+<img alt="星空" data-en-alt="Starry Sky" loading="lazy" src="img/container_night_stars.webp"/>
+<div class="img-slide-overlay"></div>
+<div class="img-slide-label" data-en="On clear nights, there are no streetlights.">
+<span class="img-slide-num">01 · STARS</span>
+        晴れた夜、街灯は一つもない。
+      </div>
+</div>
+<div class="img-slide">
+<img alt="朝の小屋" data-en-alt="Morning Cottage" loading="lazy" src="img/cabin_morning.webp"/>
+<div class="img-slide-overlay"></div>
+<div class="img-slide-label" data-en="6 a.m. Light the wood stove.">
+<span class="img-slide-num">02 · DAWN</span>
+        6時。薪ストーブに火を入れる。
+      </div>
+</div>
+<div class="img-slide">
+<img alt="タワーサウナ" data-en-alt="Tower Sauna" loading="lazy" src="img/sauna_tower.webp"/>
+<div class="img-slide-overlay"></div>
+<div class="img-slide-label" data-en="Tower Sauna overlooking Lake Kussharo.">
+<span class="img-slide-num">03 · SAUNA</span>
+        タワーサウナ、屈斜路湖を望む。
+      </div>
+</div>
+<div class="img-slide">
+<img alt="薪ストーブの夜" data-en-alt="Evenings by the Wood Stove" loading="lazy" src="img/offgrid_stove_night.webp"/>
+<div class="img-slide-overlay"></div>
+<div class="img-slide-label" data-en="Nights Independent from the Grid.">
+<span class="img-slide-num">04 · FIRE</span>
+        電力会社と無縁の夜。
+      </div>
+</div>
+<div class="img-slide">
+<img alt="デッキ 夏" data-en-alt="Deck · Summer" loading="lazy" src="img/container_deck_summer.webp"/>
+<div class="img-slide-overlay"></div>
+<div class="img-slide-label" data-en="This is your land.">
+<span class="img-slide-num">05 · SUMMER</span>
+        ここは、あなたの土地だ。
+      </div>
+</div>
+</div>
+<div class="seq-nav" id="seq-nav"></div>
+</div>
+<!-- ════════════════════════════════════════════
+     SECTION 6 — WORK PARTY
+════════════════════════════════════════════ -->
+<section id="s6">
+<div class="wp-header reveal" id="wp-header">
+<div class="eyebrow">WORK PARTY</div>
+<h2 data-en="Only those who build are owners.">建てた人だけが<br/>オーナーだ。</h2>
+<p data-en="Instead of a management company, you have community. Once a year, owners gather to build the property together. Painting, furniture crafting, wood splitting, landscaping. Participation is optional, but only those who participate know the true sense of solidarity.">管理会社の代わりに、仲間がいる。年に一度、オーナーたちが集まって物件を自分たちで作る。塗装、家具製作、薪割り、造園。参加は任意だが、参加したものだけが知る連帯感がある。</p>
+</div>
+<div class="wp-strip">
+<div class="wp-card">
+<img alt="冬の外装" data-en-alt="Winter Exterior" loading="lazy" src="img/container_exterior_winter.webp"/>
+<div class="img-slide-overlay"></div>
+<div class="wp-card-label" data-en="Container Villa — Exterior Finishing">コンテナヴィラ — 外装塗装</div>
+</div>
+<div class="wp-card">
+<img alt="NESTING" loading="lazy" src="img/nesting_exterior.webp"/>
+<div class="img-slide-overlay"></div>
+<div class="wp-card-label" data-en="NESTING — Wall Panel Installation">NESTING — 壁パネル施工</div>
+</div>
+<div class="wp-card">
+<img alt="オフグリッド" data-en-alt="Off-Grid" loading="lazy" src="img/offgrid_complete.webp"/>
+<div class="img-slide-overlay"></div>
+<div class="wp-card-label" data-en="Solar installation — energy self-sufficiency">ソーラー設置 — 電力自給</div>
+</div>
+<div class="wp-card">
+<img alt="インスタントハウス" data-en-alt="Instant House" loading="lazy" src="img/instant_dome_snow.webp"/>
+<div class="img-slide-overlay"></div>
+<div class="wp-card-label" data-en="Instant House — Assembly">インスタントハウス — 組立</div>
+</div>
+<div class="wp-card">
+<img alt="ドーム" data-en-alt="Dome" loading="lazy" src="img/dome_exterior_winter.webp"/>
+<div class="img-slide-overlay"></div>
+<div class="wp-card-label" data-en="Dome House — Foundation Work">ドームハウス — 基礎工事</div>
+</div>
+</div>
+</section>
+<!-- ════════════════════════════════════════════
+     SECTION 7 — FOUNDER
+════════════════════════════════════════════ -->
+<section id="s7">
+<div class="founder-inner reveal">
+<div>
+<div class="founder-photo">
+<img alt="濱田 優貴" data-en-alt="Yuki Hamada" onerror="this.parentNode.innerHTML='&lt;span class=\'initials\'&gt;YH&lt;/span&gt;'" src="https://yukihamada.jp/images/yuki.jpg"/>
+</div>
+</div>
+<div>
+<div class="founder-eyebrow">FOUNDER · CEO</div>
+<div class="founder-name" data-en="Yuki Hamada">濱田 優貴 — Yuki Hamada</div>
+<div class="founder-title" data-en="Enabler Inc. Representative Director / Brazilian Jiu-Jitsu Blue Belt" style="margin-bottom:20px">Enabler Inc. 代表取締役 / 柔術 青帯</div>
+<div class="founder-quote">
+<em data-en="A second home should not be managed;">「別荘は管理するものじゃない、</em><br/>
+<em data-en='It is a living thing."'>生きるものだ。」</em>
+</div>
+<p class="founder-bio" data-en="Former Mercari CPO who relocated to Teshikaga, Hokkaido. Having acquired 32,337 tsubo of pristine wilderness, we have cultivated a community of 100 members. Together with those who wish to redirect management fees toward wood-fired heating, we are establishing an authentic base in the Hokkaido wilderness.">
+        元 Mercari CPO、北海道弟子屈に移住。32,337坪の原野を取得し、
+        100人のコミュニティを作っている。管理会社に払う金を薪ストーブに使いたい人たちと共に、
+        本物の拠点を北海道の野に建てている。
+      </p>
+<a class="founder-link" href="https://yukihamada.jp" rel="noopener" target="_blank">
+        yukihamada.jp →
+      </a>
+</div>
+</div>
+</section>
+<div class="div-line"></div>
+<!-- ════════════════════════════════════════════
+     SECTION 8 — LIVE PRICE + PROPERTIES
+════════════════════════════════════════════ -->
+<section id="s8">
+<div class="price-inner reveal">
+<div class="price-eyebrow">BONDING CURVE · LIVE PRICE</div>
+<div class="price-title" data-en="The earlier you purchase, the lower the price.">早く買うほど、安い。</div>
+<p data-en="Bonding curve model where price increases with each unit sold. Current price:" style="font-size:13px;color:#555;line-height:2;margin-bottom:24px">口数が売れるごとに価格が上がるボンディングカーブ方式。現在の価格：</p>
+<div style="font-size:clamp(36px,7vw,80px);font-weight:900;letter-spacing:-.03em;margin-bottom:8px">
+      ¥<span id="live-price">490</span><span style="font-size:.4em;color:var(--gold)">万</span>
+</div>
+<div data-en="Units sold · Remaining units · ¥14,800,000 upon completion" style="font-size:11px;color:#444;margin-bottom:32px"><span id="live-sold">—</span>口売却済 · 残り<span id="live-remain">—</span>口 · 完売時¥1,480万</div>
+<div class="bc-bar-wrap">
+<div class="bc-label">
+<span data-en="¥4,900,000 (starting)">¥490万（開始）</span>
+<span data-en="¥14,800,000 (Sold Out)">¥1,480万（完売）</span>
+</div>
+<div class="bc-bar">
+<div class="bc-fill" id="bc-fill" style="width:0%"></div>
+<div class="bc-marker" id="bc-marker" style="left:0%"></div>
+</div>
+</div>
+<div class="props-grid" style="margin-top:48px">
+<a class="prop-card2" href="pay?property=lodge">
+<img alt="THE LODGE" loading="lazy" src="img/cabin_morning.webp"/>
+<div class="prop-card2-body">
+<div class="prop-card2-location" data-en="MIRUWA">美留和 · MIRUWA</div>
+<div class="prop-card2-name">THE LODGE</div>
+<div class="prop-card2-price" data-en="¥10,000,000">¥1,000万</div>
+<div class="prop-card2-nights" data-en="8 Nights Annual · Access to All Properties">年8泊 · 全棟利用可</div>
+</div>
+</a>
+<a class="prop-card2" href="pay?property=nesting">
+<img alt="NESTING" loading="lazy" src="img/nesting_exterior.webp"/>
+<div class="prop-card2-body">
+<div class="prop-card2-location" data-en="MIRUWA · Designed by VUILD">美留和 · VUILD設計</div>
+<div class="prop-card2-name">NESTING</div>
+<div class="prop-card2-price" data-en="¥13,000,000">¥1,300万</div>
+<div class="prop-card2-nights" data-en="8 Nights Annual · Access to All Properties">年8泊 · 全棟利用可</div>
+</div>
+</a>
+<a class="prop-card2" href="pay?property=whitehouse">
+<img alt="WHITE HOUSE" loading="lazy" src="img/container_deck_summer.webp"/>
+<div class="prop-card2-body">
+<div class="prop-card2-location" data-en="Atami · Operational">熱海 · 稼働中</div>
+<div class="prop-card2-name">WHITE HOUSE</div>
+<div class="prop-card2-price" data-en="¥10,000,000">¥1,000万</div>
+<div class="prop-card2-nights" data-en="Distribution: Approx. ¥900,000/year">分配 約90万/年</div>
+</div>
+</a>
+<a class="prop-card2" href="pay?property=tapkop">
+<img alt="TAPKOP" loading="lazy" src="img/tapkop_luxury.webp"/>
+<div class="prop-card2-body">
+<div class="prop-card2-location" data-en="Teshikaga · Backed by East Ventures">弟子屈 · East Ventures出資</div>
+<div class="prop-card2-name">TAPKOP</div>
+<div class="prop-card2-price">¥3,900万</div>
+<div class="prop-card2-nights" data-en="Distribution approximately ¥2,500,000–3,200,000 annually">分配 約250〜320万/年</div>
+</div>
+</a>
+</div>
+</div>
+</section>
+<!-- ════════════════════════════════════════════
+     SECTION 9 — CTA
+════════════════════════════════════════════ -->
+<section id="s9">
+<canvas id="stars-canvas2"></canvas>
+<div class="cta-inner" id="cta-inner">
+<div class="cta-pre" data-en="NOW OPEN · Credit card or bank transfer · Same-day registration">NOW OPEN · カード払い or 銀行振込 · 即日登記</div>
+<h2 class="cta-h" data-en="Your own land.">自分の土地を<br/><span data-en="Own it." style="color:var(--gold)">持つ。</span></h2>
+<p class="cta-sub" data-en="No need to wait for contact. Choose, pay, register. That's all. Owners of 5 units or more receive a dedicated service manager.">連絡を待つ必要はない。<br/>選んで、払って、登記する。それだけ。<br/>5口以上のオーナーには専属サービスマンが付く。</p>
+<div>
+<a class="cta-mega" data-en="Select and Purchase Properties →" href="#s8">物件を選んで購入する →</a>
+<a class="cta-ghost2" data-en="Have a question?" href="faq">質問がある</a>
+</div>
+<p class="cta-note" data-en="This transaction involves the direct acquisition of shared real estate ownership based on Civil Code Article 250. Returns are not guaranteed. ·">
+      本取引はSOLUNA会員権（利用権）の取得です。<br/>
+      収益は保証するものではありません。<a data-en="Revenue Model Details" href="plan">収益モデル詳細</a> · <a data-en="Construction Specifications" href="construction">施工仕様</a>
+</p>
+</div>
+</section>
+<!-- ════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+// ── Custom cursor ──────────────────────────────────────────────
+var cur = document.getElementById('cur');
+var cur2 = document.getElementById('cur2');
+var mx = 0, my = 0, cx = 0, cy = 0;
+document.addEventListener('mousemove', function(e) {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+  cur.style.opacity = '1';
+});
+(function animCur() {
+  cx += (mx - cx) * .12; cy += (my - cy) * .12;
+  cur2.style.left = cx + 'px'; cur2.style.top = cy + 'px';
+  requestAnimationFrame(animCur);
+})();
+document.querySelectorAll('a, button, .wp-card, .prop-card2, .seq-dot').forEach(function(el) {
+  el.addEventListener('mouseenter', function() {
+    cur.style.width = '14px'; cur.style.height = '14px';
+    cur2.style.width = '60px'; cur2.style.height = '60px';
+  });
+  el.addEventListener('mouseleave', function() {
+    cur.style.width = '8px'; cur.style.height = '8px';
+    cur2.style.width = '36px'; cur2.style.height = '36px';
+  });
+});
+
+// ── Star canvas factory ────────────────────────────────────────
+function initStars(canvas, opts) {
+  var ctx = canvas.getContext('2d');
+  var W, H, stars = [], scrollFrac = 0;
+  var N = opts.N || 200;
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for (var i = 0; i < N; i++) {
+    stars.push({
+      x: Math.random(), y: Math.random(),
+      r: Math.random() * 1.2 + 0.2,
+      spd: Math.random() * 0.4 + 0.1,
+      phase: Math.random() * Math.PI * 2,
+      bright: Math.random() * 0.7 + 0.3,
+    });
+  }
+
+  var t = 0;
+  function draw() {
+    t += 0.008;
+    ctx.clearRect(0, 0, W, H);
+
+    // Sky gradient — shifts from deep blue to dark on scroll
+    var fade = opts.scrollFade ? Math.max(0, 1 - scrollFrac * 2) : 1;
+    var grad = ctx.createRadialGradient(W/2, H*.4, 0, W/2, H/2, H);
+    grad.addColorStop(0, 'rgba(8,8,20,' + (0.9 * fade) + ')');
+    grad.addColorStop(1, 'rgba(3,3,5,1)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Stars
+    stars.forEach(function(s) {
+      var flicker = Math.sin(t * s.spd + s.phase) * 0.3 + 0.7;
+      var alpha = s.bright * flicker * fade;
+      if (alpha < 0.01) return;
+      ctx.beginPath();
+      ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(240,236,228,' + alpha + ')';
+      ctx.fill();
+
+      // Occasional gold star
+      if (s.r > 1) {
+        var ga = (Math.sin(t * s.spd * 0.5 + s.phase) + 1) * 0.15 * fade;
+        ctx.beginPath();
+        ctx.arc(s.x * W, s.y * H, s.r * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(200,164,85,' + ga + ')';
+        ctx.fill();
+      }
+    });
+
+    // Shooting star occasionally
+    if (Math.random() < 0.001 && fade > 0.3) {
+      var sx = Math.random() * W, sy = Math.random() * H * 0.5;
+      var sg = ctx.createLinearGradient(sx, sy, sx + 80, sy + 30);
+      sg.addColorStop(0, 'rgba(240,236,228,0)');
+      sg.addColorStop(0.5, 'rgba(240,236,228,0.6)');
+      sg.addColorStop(1, 'rgba(240,236,228,0)');
+      ctx.beginPath();
+      ctx.moveTo(sx, sy);
+      ctx.lineTo(sx + 80, sy + 30);
+      ctx.strokeStyle = sg;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  return { setScroll: function(f) { scrollFrac = f; } };
+}
+
+var starsH = initStars(document.getElementById('stars-canvas'), { N: 220, scrollFade: true });
+var starsF = initStars(document.getElementById('stars-canvas2'), { N: 180, scrollFade: false });
+
+// ── Hero text entrance ────────────────────────────────────────
+var heroText = document.getElementById('hero-text');
+var deedEl = document.getElementById('deed-counter');
+var markEl = document.getElementById('mark');
+var soundBtn = document.getElementById('sound-btn');
+
+setTimeout(function() {
+  markEl.classList.add('vis');
+  soundBtn.classList.add('vis');
+  heroText.classList.add('show');
+  countUp(deedEl, 32337, 2000, '', function(n) { return n.toLocaleString('ja-JP'); });
+}, 800);
+
+// ── Count-up util ─────────────────────────────────────────────
+function countUp(el, target, dur, suf, fmt) {
+  var start = null;
+  function step(ts) {
+    if (!start) start = ts;
+    var prog = Math.min((ts - start) / dur, 1);
+    var ease = 1 - Math.pow(1 - prog, 3);
+    var val = Math.round(ease * target);
+    el.textContent = (fmt ? fmt(val) : val) + (suf || '');
+    if (prog < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ── Scroll parallax + reveal ──────────────────────────────────
+var parallaxImgs = document.querySelectorAll('[data-parallax-img]');
+var revealEls = document.querySelectorAll('.reveal, .s-full-cap, .manifesto-line, .num-cell');
+
+window.addEventListener('scroll', onScroll, { passive: true });
+
+function onScroll() {
+  var sy = window.scrollY;
+  var vh = window.innerHeight;
+
+  // Starfield hero fade
+  var s1h = document.getElementById('s1').offsetHeight;
+  starsH.setScroll(Math.min(sy / s1h, 1));
+
+  // Parallax images
+  parallaxImgs.forEach(function(img) {
+    var rect = img.parentElement.getBoundingClientRect();
+    var frac = -rect.top / vh;
+    img.style.transform = 'translateY(' + (frac * 30) + '%)';
+  });
+
+  // Reveal elements
+  revealEls.forEach(function(el) {
+    var rect = el.getBoundingClientRect();
+    if (rect.top < vh * 0.88) {
+      var delay = parseInt(el.dataset.delay || 0);
+      setTimeout(function() {
+        el.classList.add('show', 'lit');
+      }, delay);
+    }
+  });
+
+  // Num cells
+  document.querySelectorAll('.num-cell:not(.counted)').forEach(function(cell) {
+    var rect = cell.getBoundingClientRect();
+    if (rect.top < vh * 0.9) {
+      cell.classList.add('counted');
+      var idx = cell.parentElement ? Array.from(cell.parentElement.children).indexOf(cell) : 0;
+      var el = document.getElementById('n' + idx);
+      var val = parseInt(cell.dataset.val);
+      var suf = cell.dataset.suf || '';
+      var delay = parseInt(cell.dataset.delay || 0);
+      setTimeout(function() {
+        cell.classList.add('show');
+        if (el) countUp(el, val, 1400, suf, function(n) {
+          return val >= 1000 ? n.toLocaleString('ja-JP') : n;
+        });
+      }, delay);
+    }
+  });
+
+  // CTA reveal
+  var ctaRect = document.getElementById('cta-inner').getBoundingClientRect();
+  if (ctaRect.top < vh * 0.85) {
+    document.getElementById('cta-inner').classList.add('show');
+  }
+}
+
+// Init scroll reveal
+setTimeout(onScroll, 100);
+document.addEventListener('DOMContentLoaded', onScroll);
+
+// ── Image sequence ────────────────────────────────────────────
+var seqInner = document.getElementById('img-seq-inner');
+var seqNav = document.getElementById('seq-nav');
+var slides = seqInner.querySelectorAll('.img-slide');
+var currentSlide = 0;
+
+slides.forEach(function(_, i) {
+  var dot = document.createElement('div');
+  dot.className = 'seq-dot' + (i === 0 ? ' active' : '');
+  dot.onclick = function() { goSlide(i); };
+  seqNav.appendChild(dot);
+});
+
+function goSlide(i) {
+  slides[currentSlide].classList.remove('active');
+  seqNav.children[currentSlide].classList.remove('active');
+  currentSlide = i;
+  slides[i].classList.add('active');
+  seqNav.children[i].classList.add('active');
+  seqInner.scrollTo({ left: i * window.innerWidth, behavior: 'smooth' });
+}
+
+// Auto-advance
+setInterval(function() { goSlide((currentSlide + 1) % slides.length); }, 5000);
+
+// Touch scroll sync
+seqInner.addEventListener('scroll', function() {
+  var idx = Math.round(seqInner.scrollLeft / window.innerWidth);
+  if (idx !== currentSlide) {
+    slides[currentSlide].classList.remove('active');
+    seqNav.children[currentSlide].classList.remove('active');
+    currentSlide = idx;
+    slides[idx].classList.add('active');
+    seqNav.children[idx].classList.add('active');
+  }
+}, { passive: true });
+
+// ── Live price from API ───────────────────────────────────────
+(function() {
+  fetch('https://kagi-server.fly.dev/api/v1/soluna/pricing')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var v = (d.properties || []).find(function(p) { return p.id === 'village'; });
+      if (!v) return;
+      var price = Math.round((v.current_price || 49000000) / 10000);
+      var sold  = v.sold_count || 4;
+      var total = v.total_shares || 100;
+      var remain = total - sold;
+      var pct = Math.min(sold / total * 100, 100);
+
+      document.getElementById('live-price').textContent  = price.toLocaleString('ja-JP');
+      document.getElementById('live-sold').textContent   = sold;
+      document.getElementById('live-remain').textContent = remain;
+      document.getElementById('bc-fill').style.width    = pct + '%';
+      document.getElementById('bc-marker').style.left   = pct + '%';
+    })
+    .catch(function() {
+      // Defaults already shown
+    });
+})();
+
+// ── Web Audio ambient sound ───────────────────────────────────
+var audioCtx = null, gainNode = null, isPlaying = false;
+
+function toggleSound() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    gainNode = audioCtx.createGain();
+    gainNode.gain.value = 0;
+    gainNode.connect(audioCtx.destination);
+
+    // Wind: filtered noise
+    var buf = audioCtx.createBuffer(1, audioCtx.sampleRate * 4, audioCtx.sampleRate);
+    var data = buf.getChannelData(0);
+    for (var i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+    var src = audioCtx.createBufferSource();
+    src.buffer = buf; src.loop = true;
+    var filt = audioCtx.createBiquadFilter();
+    filt.type = 'bandpass'; filt.frequency.value = 300; filt.Q.value = 0.6;
+    src.connect(filt); filt.connect(gainNode);
+    src.start();
+
+    // Sub drone: 55Hz
+    var osc = audioCtx.createOscillator();
+    osc.type = 'sine'; osc.frequency.value = 55;
+    var dGain = audioCtx.createGain(); dGain.gain.value = 0.04;
+    osc.connect(dGain); dGain.connect(gainNode);
+    osc.start();
+  }
+
+  isPlaying = !isPlaying;
+  gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+  gainNode.gain.linearRampToValueAtTime(isPlaying ? 0.18 : 0, audioCtx.currentTime + 1.5);
+  document.getElementById('sound-btn').textContent = isPlaying ? '🔇' : '🌲';
+}
+</script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-building village for 100 residents · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Mirowa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Mirowa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Acquire units at no cost" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners Only" href="owners">オーナー専用</a>
+<a data-en="MIRUWA Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="The Story of Our Founding" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fees" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+</body>
+</html>

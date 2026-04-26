@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BLANK — SOLUNA</title>
+<meta name="description" content="BLANK — 考えもしない。ただ決める。進める。実行する。SOLUNAオーナー物件で行われる、実行のための合宿。">
+<meta property="og:title" content="BLANK — SOLUNA">
+<meta property="og:description" content="考えもしない。ただ決める。進める。実行する。">
+<meta property="og:image" content="https://solun.art/img/blank_og.jpg">
+<meta property="og:url" content="https://solun.art/blank">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://solun.art/blank">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23050505'/><circle cx='32' cy='32' r='20' fill='none' stroke='%23c8a455' stroke-width='2.5'/><circle cx='32' cy='20' r='5' fill='%23c8a455'/><path d='M20 38 Q32 28 44 38' fill='none' stroke='%23c8a455' stroke-width='2' stroke-linecap='round'/><path d='M24 44 Q32 36 40 44' fill='none' stroke='%23c8a455' stroke-width='1.5' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --gold: #c8a455; --gold-dim: rgba(200,164,85,0.12);
+  --bg: #080806; --text: #d4cfc6; --text-bright: #f4f0ea;
+  --sub: #4e4a44; --sub-mid: #7a7468; --border: rgba(200,164,85,0.08);
+}
+html { background: var(--bg); scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 44px;
+  background: linear-gradient(to bottom, rgba(8,8,6,0.88) 0%, transparent 100%);
+}
+.logo { font-size: 11px; font-weight: 700; letter-spacing: 0.32em; color: var(--gold); text-decoration: none; }
+.back { font-size: 10px; letter-spacing: 0.16em; color: var(--sub-mid); text-decoration: none; transition: color 0.25s; }
+.back:hover { color: var(--gold); }
+
+/* ── Hero ── */
+#hero {
+  position: relative; height: 100vh; min-height: 600px;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+#hero-bg {
+  position: absolute; inset: 0;
+  background-image: url('/img/kumaushi_training_sunset.webp');
+  background-size: cover; background-position: center 40%;
+  filter: brightness(0.28) saturate(0.5);
+}
+#hero::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(8,8,6,0.15) 0%, rgba(8,8,6,0.5) 60%, var(--bg) 100%);
+}
+.hero-content { position: relative; z-index: 10; text-align: center; padding: 0 24px; max-width: 800px; }
+.hero-eyebrow { font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); opacity: 0.6; margin-bottom: 28px; }
+.hero-title {
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: clamp(72px, 14vw, 180px);
+  font-weight: 800; line-height: 1.0; color: var(--text-bright); letter-spacing: 0.1em; margin-bottom: 36px;
+}
+.hero-sub {
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: clamp(16px, 2vw, 26px); color: var(--text); font-weight: 400;
+  line-height: 1.9; letter-spacing: 0.06em;
+}
+.hero-sub em { color: var(--gold); font-style: normal; }
+
+/* ── Sections ── */
+.section { padding: 88px 56px; border-bottom: 1px solid var(--border); }
+.section-inner { max-width: 840px; margin: 0 auto; }
+.section-label { font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); opacity: 0.55; margin-bottom: 16px; }
+.section-title { font-family: 'Shippori Mincho B1', serif; font-size: clamp(24px, 3vw, 40px); font-weight: 700; color: var(--text-bright); letter-spacing: 0.04em; margin-bottom: 24px; line-height: 1.4; }
+.section-body { font-size: 14px; color: var(--sub-mid); line-height: 2.0; font-weight: 300; max-width: 580px; }
+
+/* ── Cycle ── */
+.cycle {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: 0; margin-top: 48px;
+  border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+}
+.cycle-step {
+  flex: 1; min-width: 140px;
+  padding: 28px 24px 32px;
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+  transition: background 0.3s;
+}
+.cycle-step:last-child { border-right: none; }
+.cycle-step:hover { background: rgba(200,164,85,0.03); }
+.cycle-arrow {
+  font-size: 11px; color: var(--sub); margin-bottom: 12px;
+  letter-spacing: 0.1em;
+}
+.cycle-word {
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: clamp(18px, 2vw, 26px); font-weight: 700;
+  color: var(--text-bright); margin-bottom: 8px;
+}
+.cycle-desc { font-size: 11px; color: var(--sub-mid); line-height: 1.7; }
+
+/* ── Theme grid ── */
+.theme-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border); border: 1px solid var(--border);
+  margin-top: 48px;
+}
+.theme-card { padding: 30px 26px 34px; background: var(--bg); transition: background 0.3s; }
+.theme-card:hover { background: rgba(200,164,85,0.03); }
+.theme-num { font-size: 9px; letter-spacing: 0.24em; color: var(--gold); opacity: 0.5; margin-bottom: 14px; }
+.theme-name { font-family: 'Shippori Mincho B1', serif; font-size: clamp(16px, 1.5vw, 20px); font-weight: 700; color: var(--text-bright); margin-bottom: 10px; line-height: 1.3; }
+.theme-body { font-size: 12px; color: var(--sub-mid); line-height: 1.85; font-weight: 300; }
+
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.tag { font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sub-mid); border: 1px solid rgba(200,164,85,0.12); border-radius: 100px; padding: 5px 14px; }
+
+/* ── Locations ── */
+.loc-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border); border: 1px solid var(--border);
+  margin-top: 40px;
+}
+.loc-card { position: relative; overflow: hidden; aspect-ratio: 3/2; display: block; text-decoration: none; }
+.loc-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.45) saturate(0.65); transition: transform 0.8s, filter 0.5s; }
+.loc-card:hover img { transform: scale(1.05); filter: brightness(0.6) saturate(0.85); }
+.loc-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,6,0.88) 0%, transparent 60%); }
+.loc-info { position: absolute; bottom: 0; left: 0; right: 0; z-index: 10; padding: 16px 18px 20px; }
+.loc-name { font-family: 'Shippori Mincho B1', serif; font-size: 15px; font-weight: 700; color: var(--text-bright); margin-bottom: 3px; }
+.loc-place { font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sub-mid); }
+
+/* ── CTA ── */
+.cta-section { padding: 88px 56px 96px; }
+.cta-inner { max-width: 840px; margin: 0 auto; }
+.cta-box { border: 1px solid var(--border); border-radius: 4px; padding: 48px 48px 52px; background: rgba(200,164,85,0.02); }
+.cta-title { font-family: 'Shippori Mincho B1', serif; font-size: clamp(22px, 2.5vw, 32px); color: var(--text-bright); margin-bottom: 10px; }
+.cta-body { font-size: 13px; color: var(--sub-mid); line-height: 1.9; margin-bottom: 32px; max-width: 480px; }
+.email-form { display: flex; max-width: 380px; border: 1px solid rgba(200,164,85,0.3); border-radius: 4px; overflow: hidden; }
+.email-form input { flex: 1; padding: 13px 18px; background: rgba(8,8,6,0.6); color: var(--text-bright); border: none; outline: none; font-size: 13px; font-family: 'Inter', sans-serif; }
+.email-form input::placeholder { color: var(--sub-mid); }
+.email-form button { padding: 13px 22px; background: var(--gold); color: #080806; border: none; cursor: pointer; font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; font-family: 'Inter', sans-serif; transition: background 0.25s; white-space: nowrap; }
+.email-form button:hover { background: #d4b066; }
+.email-sent { font-size: 12px; color: var(--gold); letter-spacing: 0.06em; margin-top: 14px; display: none; }
+
+footer { padding: 28px 56px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); }
+.footer-logo { font-size: 10px; font-weight: 700; letter-spacing: 0.28em; color: var(--gold); opacity: 0.45; }
+.footer-copy { font-size: 9px; color: var(--sub); }
+
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 900px) {
+  .theme-grid { grid-template-columns: repeat(2, 1fr); }
+  .loc-grid { grid-template-columns: repeat(2, 1fr); }
+  .loc-card:last-child { display: none; }
+}
+@media (max-width: 768px) {
+  header { padding: 16px 20px; }
+  .section { padding: 56px 20px; }
+  .cta-section { padding: 56px 20px 72px; }
+  .cta-box { padding: 32px 24px 36px; }
+  .theme-grid { grid-template-columns: 1fr; }
+  .cycle { flex-direction: column; }
+  .cycle-step { border-right: none; border-bottom: 1px solid var(--border); }
+  .cycle-step:last-child { border-bottom: none; }
+  footer { padding: 24px 20px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">SOLUNA</a>
+  <a href="/" class="back">← solun.art</a>
+</header>
+
+<!-- Hero -->
+<section id="hero">
+  <div id="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">SOLUNA PROGRAM</p>
+    <h1 class="hero-title">BLANK</h1>
+    <p class="hero-sub">
+      考えもしない。<em>ただ決める。</em><br>
+      進める。実行する。
+    </p>
+  </div>
+</section>
+
+<!-- What is BLANK -->
+<div class="section reveal">
+  <div class="section-inner">
+    <p class="section-label">BLANK とは</p>
+    <h2 class="section-title">実行し、思考をとめ、<br>遊び、また進める。</h2>
+    <p class="section-body">
+      考えすぎて動けなくなることがある。<br>
+      BLANKは、その逆をやる場所だ。<br><br>
+      決める。進める。やる。<br>
+      終わったら遊ぶ。また進める。<br><br>
+      思考を洗練させるのではなく、思考を止めて体を動かす。<br>
+      武道がそうであるように、行動の中に答えがある。<br><br>
+      SOLUNAオーナーが持つ物件で、少人数で行われる合宿。
+    </p>
+    <div class="tags">
+      <span class="tag">少人数 · 8名以下</span>
+      <span class="tag">オーナー物件</span>
+      <span class="tag">北海道 · ハワイ · 熱海</span>
+      <span class="tag">武道</span>
+      <span class="tag">犬OK</span>
+    </div>
+  </div>
+</div>
+
+<!-- Cycle -->
+<div class="section reveal">
+  <div class="section-inner">
+    <p class="section-label">サイクル</p>
+    <h2 class="section-title">このループを、ひたすら回す。</h2>
+    <div class="cycle">
+      <div class="cycle-step">
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-word">実行する</div>
+        <p class="cycle-desc">考える前に動く。まず手を動かす。</p>
+      </div>
+      <div class="cycle-step">
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-word">思考をとめる</div>
+        <p class="cycle-desc">体を使う。稽古、食事、自然の中にいる。</p>
+      </div>
+      <div class="cycle-step">
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-word">遊ぶ</div>
+        <p class="cycle-desc">サウナ、焚き火、海、山。完全に離れる。</p>
+      </div>
+      <div class="cycle-step">
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-word">また進める</div>
+        <p class="cycle-desc">戻ってくる。また決める。また動く。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Curriculum -->
+<div class="section reveal">
+  <div class="section-inner">
+    <p class="section-label">テーマ</p>
+    <h2 class="section-title">持ち込むのは、問いだけでいい。</h2>
+    <p class="section-body">毎回のセッションで扱うテーマ。答えを出す場ではなく、動き出す場。</p>
+    <div class="theme-grid">
+      <div class="theme-card">
+        <div class="theme-num">01</div>
+        <div class="theme-name">自己認識<br>メタ認知</div>
+        <p class="theme-body">自分がどう動き、何に止まるかを知る。武道の稽古はその鏡になる。</p>
+      </div>
+      <div class="theme-card">
+        <div class="theme-num">02</div>
+        <div class="theme-name">AIの使い方</div>
+        <p class="theme-body">何を任せ、何を自分で持つか。実行速度を上げるための設計。</p>
+      </div>
+      <div class="theme-card">
+        <div class="theme-num">03</div>
+        <div class="theme-name">セキュリティ</div>
+        <p class="theme-body">知らないまま作らない。個人・プロダクト・組織のリスクを自分で持つ。</p>
+      </div>
+      <div class="theme-card">
+        <div class="theme-num">04</div>
+        <div class="theme-name">次世代の<br>ソフトウェア・ハードウェア</div>
+        <p class="theme-body">画面の外へ。物理と身体に接続するプロダクト設計。</p>
+      </div>
+      <div class="theme-card">
+        <div class="theme-num">05</div>
+        <div class="theme-name">プロダクトアウト<br>vs プロセス</div>
+        <p class="theme-body">何を作るかより、どう動くか。出力の質はプロセスに宿る。</p>
+      </div>
+      <div class="theme-card" style="background:rgba(200,164,85,0.02)">
+        <div class="theme-num" style="opacity:0.3">+</div>
+        <div class="theme-name" style="color:var(--sub-mid)">持ち込みテーマ</div>
+        <p class="theme-body">参加者が「今すぐ動かしたいこと」を持ってくる。毎回テーマは違う。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Locations -->
+<div class="section reveal">
+  <div class="section-inner">
+    <p class="section-label">開催場所</p>
+    <h2 class="section-title">SOLUNAオーナーの物件で行われる。</h2>
+    <p class="section-body">
+      特定の施設ではなく、SOLUNAのメンバーが持つ物件が会場になる。<br>
+      北海道の森、ハワイのヴィラ、熱海の崖の上。<br>
+      場所によって、BLANKの空気は変わる。
+    </p>
+    <div class="loc-grid">
+      <a href="/homes" class="loc-card">
+        <img src="/img/tapkop_real1.webp" alt="TAPKOP" loading="lazy">
+        <div class="loc-info">
+          <div class="loc-name">TAPKOP</div>
+          <div class="loc-place">Hokkaido, Japan</div>
+        </div>
+      </a>
+      <a href="/homes" class="loc-card">
+        <img src="/img/property-honolulu.webp" alt="HONOLULU VILLA" loading="lazy">
+        <div class="loc-info">
+          <div class="loc-name">HONOLULU VILLA</div>
+          <div class="loc-place">Honolulu, Hawaii</div>
+        </div>
+      </a>
+      <a href="/homes" class="loc-card">
+        <img src="/img/atami.webp" alt="WHITE HOUSE 熱海" loading="lazy">
+        <div class="loc-info">
+          <div class="loc-name">WHITE HOUSE 熱海</div>
+          <div class="loc-place">Atami, Shizuoka</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section reveal">
+  <div class="cta-inner">
+    <div class="cta-box">
+      <h2 class="cta-title">次回の開催を受け取る</h2>
+      <p class="cta-body">
+        少人数のため、先着順。<br>
+        メールを登録すると、次の開催情報をお知らせします。
+      </p>
+      <form class="email-form" id="blank-form">
+        <input type="email" placeholder="メールアドレス" required autocomplete="email">
+        <button type="submit">登録する</button>
+      </form>
+      <p class="email-sent" id="blank-sent">✓ 登録しました。</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">SOLUNA</div>
+  <div class="footer-copy">solun.art</div>
+</footer>
+
+<script>
+var io = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(function(el) { io.observe(el); });
+
+document.getElementById('blank-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var email = this.querySelector('input').value.trim();
+  if (!email) return;
+  fetch('/api/email', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ email: email, locale: 'ja' })
+  }).then(function() {
+    document.getElementById('blank-form').style.display = 'none';
+    document.getElementById('blank-sent').style.display = 'block';
+  }).catch(function() {});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "name": "SOLUNA FEST HAWAII 2026",
+  "description": "AI assistant for SOLUNA FEST HAWAII 2026 (solun.art). Answers questions about tickets, lineup, venue, schedule, VIP packages, and general festival info.",
+  "url": "https://solun.art/api/a2a",
+  "version": "1.0.0",
+  "provider": {
+    "organization": "Enabler Inc.",
+    "url": "https://solun.art"
+  },
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false
+  },
+  "defaultInputModes": ["text/plain"],
+  "defaultOutputModes": ["text/plain"],
+  "skills": [
+    {
+      "id": "festival_info",
+      "name": "Festival Information",
+      "description": "Get dates, venue, ticket prices, and general info about SOLUNA FEST HAWAII 2026",
+      "tags": ["festival", "info", "dates", "venue"],
+      "examples": ["When is SOLUNA FEST?", "Where is the venue?", "What are the ticket prices?"]
+    },
+    {
+      "id": "tickets",
+      "name": "Ticket & Booking",
+      "description": "Ticket types, pricing, VIP packages, and how to purchase",
+      "tags": ["tickets", "booking", "vip", "pricing"],
+      "examples": ["How do I buy tickets?", "What is VIP?", "How much are tickets?"]
+    },
+    {
+      "id": "lineup",
+      "name": "Artist Lineup",
+      "description": "Artist lineup and schedule information",
+      "tags": ["lineup", "artists", "schedule"],
+      "examples": ["Who is performing?", "What time does it start?"]
+    },
+    {
+      "id": "guide",
+      "name": "Attendee Guide",
+      "description": "What to bring, how to get there, rules and regulations",
+      "tags": ["guide", "transport", "rules"],
+      "examples": ["How do I get to the venue?", "What can I bring?"]
+    }
+  ]
+}

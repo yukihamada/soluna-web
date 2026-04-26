@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/wakayama" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA Wakayama — A place to return to your true self. Next-generation cabins near Kumano Kodo. Early registration now open.">SOLUNA 和歌山 — 本当の自分に、帰れる場所。熊野古道近接の次世代キャビン。先行登録受付中</title>
+<meta content="和歌山県に土地取得済。熊野古道・神域リトリート。「また来たい」ではなく「ここに帰りたい」と思う場所を、持ち物にする。2028年着工予定。先行登録で最優先・最安値でご案内。" data-en-content="Land secured in Wakayama Prefecture. A sacred Kumano Kodo retreat. Transform a place where you long to return home into your own possession. Construction anticipated in 2028. Early registrants receive priority placement and optimal pricing." name="description"/>
+<meta content="SOLUNA 和歌山 — 本当の自分に、帰れる場所。熊野古道近接キャビン。先行登録受付中" property="og:title"/>
+<meta content="土地取得済・開発計画策定中。2028年着工（フェーズ4）。熊野古道を歩いた人が「また帰りたい」と言う感覚を、持ち物にする。先行登録で最優先・最安値でご案内。" property="og:description"/>
+<meta content="/img/kamiyama.webp" property="og:image"/>
+<meta content="https://solun.art/wakayama" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.4);
+  --gold-soft:rgba(200,164,85,.07);
+  --accent:#dd8866;
+  --accent-dim:rgba(221,136,102,.3);
+  --accent-soft:rgba(221,136,102,.07);
+  --bg:#040404;
+  --text:#f0ece4;
+  --text-dim:#666;
+  --line:#131313;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--accent);color:#000}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 28px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.75);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.03);transition:opacity .3s}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--gold)}
+.nav-links{display:flex;gap:20px;align-items:center;font-size:10.5px}
+.nav-links a{color:#555;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links .cta{color:var(--gold);font-weight:700;border:1px solid rgba(200,164,85,.3);padding:7px 16px;border-radius:100px;transition:all .2s}
+.nav-links .cta:hover{background:var(--gold);color:#040404}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:640px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:slowzoom 12s ease-out forwards;filter:contrast(1.05) saturate(.85) brightness(.65)}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.65) 35%,rgba(4,4,4,.1) 65%,rgba(4,4,4,.45) 100%);z-index:1}
+.hero-body{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:0 32px 72px;max-width:740px;margin:0 auto}
+.hero-eyebrow{font-size:9px;letter-spacing:.38em;color:var(--accent);text-transform:uppercase;font-weight:700;margin-bottom:16px;opacity:.85;animation:fadeUp .8s .2s both}
+.hero h1{font-size:clamp(2.4rem,7vw,4.2rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:20px;animation:fadeUp .9s .4s both}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-badge{display:inline-block;background:rgba(221,136,102,.15);border:1px solid rgba(221,136,102,.4);color:var(--accent);font-size:9px;font-weight:800;letter-spacing:.18em;padding:6px 16px;border-radius:100px;margin-bottom:16px;animation:fadeUp .8s .1s both;text-transform:uppercase}
+.hero-stats{display:flex;align-items:center;gap:0;margin-bottom:22px;animation:fadeUp 1s .55s both;flex-wrap:wrap;row-gap:10px}
+.hero-stat{text-align:left;padding:0 18px}
+.hero-stat:first-child{padding-left:0}
+.hero-stat-v{display:block;font-size:14px;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em}
+.hero-stat-l{display:block;font-size:9px;color:rgba(240,236,228,.35);margin-top:4px;letter-spacing:.06em}
+.hero-stat-div{width:1px;height:26px;background:rgba(255,255,255,.06);flex-shrink:0}
+@media(max-width:600px){.hero-stat{padding:0 10px}.hero-stat-v{font-size:12px}}
+.hero-sub{color:rgba(240,236,228,.55);font-size:13px;line-height:2;max-width:500px;font-weight:300;animation:fadeUp 1s .7s both;margin-bottom:28px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp 1.1s .9s both}
+.hero-scroll{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:8px;color:#333;letter-spacing:.3em;z-index:2;animation:bounce 3s ease infinite}
+
+@keyframes slowzoom{from{transform:scale(1.06)}to{transform:scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-7px)}}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease}
+.r.in{opacity:1;transform:translateY(0)}
+.r2{opacity:0;transition:opacity 1.2s ease}
+.r2.in{opacity:1}
+
+/* SECTION */
+.s{padding:100px 0}
+@media(max-width:600px){.s{padding:72px 0}}
+.w{max-width:700px;margin:0 auto;padding:0 24px}
+.ww{max-width:980px;margin:0 auto;padding:0 24px}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:12px}
+h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+.sub{color:#555;font-size:13px;line-height:2.05;max-width:560px;margin-bottom:24px}
+.gold{color:var(--gold)}
+.accent{color:var(--accent)}
+
+/* PROGRESS BAR */
+.progress-banner{background:#050505;border-top:1px solid #0d0d0d;border-bottom:1px solid #0d0d0d;padding:60px 0}
+.progress-steps{display:flex;align-items:center;max-width:760px;margin:0 auto;padding:0 24px;position:relative}
+.progress-steps::before{content:'';position:absolute;left:calc(24px + 32px);right:calc(24px + 32px);height:1px;background:#1a1a1a;top:50%;transform:translateY(calc(-50% - 18px))}
+.pstep{display:flex;flex-direction:column;align-items:center;flex:1;position:relative;z-index:1}
+.pstep-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-bottom:10px;border:2px solid #1a1a1a;background:#050505;color:#333;transition:all .3s}
+.pstep.done .pstep-circle{background:var(--accent);border-color:var(--accent);color:#040404}
+.pstep.active .pstep-circle{background:var(--accent);border-color:var(--accent);color:#040404;box-shadow:0 0 0 6px rgba(221,136,102,.15)}
+.pstep-label{font-size:9.5px;font-weight:700;color:#2a2a2a;letter-spacing:.05em;text-align:center;line-height:1.5}
+.pstep.done .pstep-label{color:#555}
+.pstep.active .pstep-label{color:var(--accent)}
+.pstep-sub{font-size:8px;color:#222;letter-spacing:.04em;text-align:center;margin-top:2px}
+.pstep.active .pstep-sub{color:rgba(221,136,102,.5)}
+@media(max-width:600px){.pstep-label{font-size:8px}.pstep-sub{display:none}.pstep-circle{width:26px;height:26px;font-size:9px}}
+
+/* FULLWIDTH IMAGE */
+.fi{width:100vw;margin-left:calc(-50vw + 50%);height:65vh;min-height:360px;object-fit:cover;display:block}
+@media(max-width:600px){.fi{height:52vw;min-height:260px}}
+
+/* SPEC TABLE */
+.spec{border:1px solid #111;border-radius:16px;overflow:hidden;margin:18px 0;background:#060606}
+.spec-row{display:grid;grid-template-columns:160px 1fr;border-bottom:1px solid #0e0e0e;font-size:12px}
+.spec-row:last-child{border-bottom:none}
+.spec-row .k{padding:16px 18px;color:#3a3a3a;font-weight:700;letter-spacing:.04em;background:#050505;font-size:10.5px;display:flex;align-items:center}
+.spec-row .v{padding:16px 18px;color:#999;line-height:1.7}
+.spec-row .v strong{color:var(--accent);font-weight:700}
+@media(max-width:600px){.spec-row{grid-template-columns:1fr}.spec-row .k{padding:12px 16px 4px;background:transparent;font-size:9.5px}.spec-row .v{padding:4px 16px 14px}}
+
+/* GALLERY STRIP */
+.gstrip{display:flex;gap:3px;overflow:hidden;height:320px;margin:18px 0}
+.gstrip img{flex:1;object-fit:cover;min-width:0;cursor:pointer;filter:brightness(.85);transition:flex .5s ease,filter .4s}
+.gstrip img:hover{flex:2.5;filter:brightness(1)}
+@media(max-width:600px){.gstrip{height:200px}}
+
+/* CTA BUTTONS */
+.cta-btn{display:inline-block;background:var(--accent);color:#040404;font-weight:800;font-size:12.5px;padding:16px 40px;border-radius:100px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 28px rgba(221,136,102,.2);letter-spacing:.04em}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(221,136,102,.32);color:#040404}
+.cta-ghost{display:inline-block;border:1px solid #252525;color:#666;font-size:12px;padding:15px 28px;border-radius:100px;margin-left:10px;transition:all .2s;font-weight:500}
+.cta-ghost:hover{border-color:rgba(221,136,102,.5);color:var(--accent)}
+
+/* BENEFIT CARD */
+.benefit-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin:20px 0}
+@media(max-width:700px){.benefit-grid{grid-template-columns:1fr}}
+.benefit-card{padding:28px 24px;background:#070707;border:1px solid #0f0f0f;position:relative;overflow:hidden}
+.benefit-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:var(--accent);opacity:.35}
+.benefit-card .bnum{font-size:36px;font-weight:800;color:#111;position:absolute;bottom:14px;right:16px;letter-spacing:-.04em}
+.benefit-card h3{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.benefit-card p{font-size:12.5px;color:#666;line-height:1.95}
+
+/* PROPERTY SCROLL */
+.prop-scroll{display:flex;gap:12px;overflow-x:auto;padding:20px 0 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.prop-scroll::-webkit-scrollbar{display:none}
+.prop-card{flex-shrink:0;width:260px;background:#070707;border:1px solid #111;border-radius:14px;overflow:hidden;transition:border-color .3s}
+.prop-card:hover{border-color:rgba(200,164,85,.3)}
+.prop-card-img{height:160px;object-fit:cover;width:100%;filter:brightness(.8);transition:filter .4s}
+.prop-card:hover .prop-card-img{filter:brightness(.95)}
+.prop-card-body{padding:16px}
+.prop-card-loc{font-size:8.5px;color:#333;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.prop-card-name{font-size:14px;font-weight:800;color:var(--text);margin-bottom:6px;line-height:1.3}
+.prop-card-status{display:inline-block;font-size:8px;font-weight:800;letter-spacing:.1em;padding:3px 10px;border-radius:100px;margin-bottom:8px}
+.status-active{background:rgba(155,196,109,.15);color:#9bc46d;border:1px solid rgba(155,196,109,.3)}
+.status-plan{background:rgba(221,136,102,.12);color:var(--accent);border:1px solid rgba(221,136,102,.3)}
+.prop-card-desc{font-size:11px;color:#444;line-height:1.7}
+
+/* FAQ */
+.faq-item{border-bottom:1px solid #0e0e0e;padding:20px 0;cursor:pointer}
+.faq-item:last-child{border-bottom:none}
+.faq-q{display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:13px;font-weight:600;color:#aaa;transition:color .2s}
+.faq-item:hover .faq-q{color:var(--text)}
+.faq-a{font-size:12.5px;color:#555;line-height:2;max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s;opacity:0;margin-top:0}
+.faq-item.open .faq-a{max-height:400px;opacity:1;margin-top:14px}
+.faq-icon{font-size:18px;color:#333;transition:transform .3s;flex-shrink:0}
+.faq-item.open .faq-icon{transform:rotate(45deg);color:var(--accent)}
+
+/* REGISTER SECTION */
+.register-section{background:radial-gradient(ellipse at center,rgba(221,136,102,.06) 0%,transparent 70%);border-top:1px solid #0d0d0d;padding:120px 0}
+
+/* NUMBERS BAR */
+.numbers{background:#030303;border-top:1px solid #0c0c0c;border-bottom:1px solid #0c0c0c;padding:52px 24px}
+.num-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:820px;margin:0 auto;text-align:center}
+@media(max-width:600px){.num-grid{grid-template-columns:repeat(2,1fr);gap:28px}}
+.num-grid .v{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.04em}
+.num-grid .l{font-size:9px;color:#333;letter-spacing:.14em;text-transform:uppercase;margin-top:8px;line-height:1.6;font-weight:600}
+
+/* TIMELINE */
+.timeline{max-width:600px;margin:24px auto 0;padding:0 24px}
+.tl-item{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid #0c0c0c;position:relative}
+.tl-item:last-child{border-bottom:none}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:#111;border:2px solid #222;flex-shrink:0;margin-top:4px;transition:all .3s}
+.tl-item.done .tl-dot{background:var(--accent);border-color:var(--accent)}
+.tl-item.active .tl-dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px rgba(221,136,102,.15)}
+.tl-year{font-size:10px;font-weight:800;color:#2a2a2a;letter-spacing:.08em;width:56px;flex-shrink:0;margin-top:2px}
+.tl-item.done .tl-year,.tl-item.active .tl-year{color:var(--accent)}
+.tl-content h4{font-size:13px;font-weight:700;color:#888;margin-bottom:4px;line-height:1.4}
+.tl-item.done .tl-content h4,.tl-item.active .tl-content h4{color:var(--text)}
+.tl-content p{font-size:11.5px;color:#3a3a3a;line-height:1.85}
+.tl-item.active .tl-content p{color:#555}
+
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:999;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(8px)}
+.modal.active{display:flex}
+.modal img{max-width:94vw;max-height:94vh;object-fit:contain;border-radius:4px}
+
+/* FOOTER */
+footer{padding:60px 24px 36px;max-width:700px;margin:0 auto;text-align:center}
+footer .logo{font-size:10px;font-weight:800;letter-spacing:.2em;color:var(--gold);margin-bottom:16px}
+footer nav a{font-size:10.5px;color:#333;margin:0 10px}
+footer nav a:hover{color:var(--gold)}
+footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
+
+@media(max-width:600px){
+  nav .nav-links{display:none}
+  .benefit-grid{grid-template-columns:1fr}
+  .num-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- NAV -->
+<!-- HERO -->
+<div class="hero">
+<div class="hero-bg">
+<img alt="SOLUNA 和歌山 — 熊野古道の霊気と海の光" data-en-alt="SOLUNA Wakayama — The Spiritual Essence of Kumano Kodo and the Light of the Sea" loading="eager" src="img/kamiyama.webp"/>
+</div>
+<div class="hero-body">
+<div class="hero-badge" data-en="Land Only · Development in Progress">土地のみ・開発計画中</div>
+<div class="hero-eyebrow" data-en="SOLUNA · WAKAYAMA · Phase 4">SOLUNA · WAKAYAMA · 和歌山 · フェーズ4</div>
+<h1 data-en="Toward Your Authentic Self">本当の自分に、<br/><em data-en="A place to return to.">帰れる場所。</em></h1>
+<div class="hero-stats">
+<div class="hero-stat">
+<span class="hero-stat-v" data-en="Land Acquired">土地取得済</span>
+<span class="hero-stat-l" data-en="Wakayama Prefecture">和歌山県</span>
+</div>
+<div class="hero-stat-div"></div>
+<div class="hero-stat">
+<span class="hero-stat-v" data-en="2028">2028年</span>
+<span class="hero-stat-l" data-en="Construction Scheduled">着工予定</span>
+</div>
+<div class="hero-stat-div"></div>
+<div class="hero-stat">
+<span class="hero-stat-v">CABIN CLUB</span>
+<span class="hero-stat-l" data-en="In Preparation">準備中</span>
+</div>
+<div class="hero-stat-div"></div>
+<div class="hero-stat">
+<span class="hero-stat-v" data-en="Reserve Your Return Destination">帰り先を予約</span>
+<span class="hero-stat-l" data-en="Early Registration Now Open">先行登録受付中</span>
+</div>
+</div>
+<p class="hero-sub" data-en="Those who have walked Kumano Kodo speak of a singular desire: to return. We transform that longing into sanctuary. Having secured land adjacent to this UNESCO World Heritage trail, we are now bringing our vision of a sacred retreat to life.">熊野古道を歩いた人が「もう一度あそこに帰りたい」と言う。その感覚を、持ち物にする。熊野古道（世界遺産）に近接した土地を取得済。神域リトリートの構想を、いま形にしていく。</p>
+<div class="hero-cta">
+<a class="cta-btn" data-en="Decide Your Sanctuary First →" href="#register">先に帰り先を決める →</a>
+<a class="cta-ghost" data-en="View Details →" href="#overview" style="border-color:rgba(255,255,255,.1);color:#888">詳細を見る →</a>
+</div>
+</div>
+<div class="hero-scroll">SCROLL</div>
+</div>
+<!-- STATUS PROGRESS BANNER -->
+<div class="progress-banner" id="overview">
+<div class="ww">
+<p class="label r" style="text-align:center;color:#2a2a2a;margin-bottom:32px">Current Status · 現在のステータス</p>
+<div class="progress-steps r">
+<div class="pstep done">
+<div class="pstep-circle">1</div>
+<div class="pstep-label" data-en="Land Acquired">土地取得済</div>
+<div class="pstep-sub" data-en="Completion 2025">2025年完了</div>
+</div>
+<div class="pstep active">
+<div class="pstep-circle">2</div>
+<div class="pstep-label" data-en="Master Planning Underway">計画策定中</div>
+<div class="pstep-sub" data-en="You Are Here">現在ここ</div>
+</div>
+<div class="pstep">
+<div class="pstep-circle">3</div>
+<div class="pstep-label" data-en="Construction Commences">着工</div>
+<div class="pstep-sub" data-en="Scheduled 2028">2028年予定</div>
+</div>
+<div class="pstep">
+<div class="pstep-circle">4</div>
+<div class="pstep-label" data-en="Completion · Operations Launch">完成・運用開始</div>
+<div class="pstep-sub" data-en="Planned for 2029">2029年予定</div>
+</div>
+</div>
+<p class="r" data-en="We are currently in the master planning phase. Early registrants will receive detailed plans, pricing information, and priority property selection." style="text-align:center;font-size:12px;color:#2a2a2a;max-width:500px;margin:28px auto 0;line-height:2">現在は開発計画の策定段階です。先行登録いただいた方には、計画の詳細・価格・先着順の物件選択権をご案内します。</p>
+</div>
+</div>
+<!-- STATEMENT -->
+<div style="padding:100px 24px;text-align:center;background:radial-gradient(ellipse at center,rgba(221,136,102,.05) 0%,transparent 70%)">
+<p class="r" data-en="In the place furthest from urban clamor lies the meaning of a place to return home." style="font-size:clamp(1.1rem,3vw,1.7rem);font-weight:300;line-height:1.95;color:#aaa;max-width:620px;margin:0 auto">
+    都市の喧騒から一番遠い場所で、<br/>
+<strong data-en="Where you become most authentically yourself." style="color:var(--text);font-weight:700">一番自分らしくなれる。</strong><br/>
+    それが、帰れる場所の意味だ。<br/><br/>
+<span data-en='The Kumano Kodo translates as "Hech"—the end of the path. SOLUNA chose Wakayama because it embodies the true essence of being beyond the city.' style="color:#555;font-size:.82em">熊野古道は「辺路（へち）」—道の果て—という意味を持つ。<br/>SOLUNAが和歌山を選んだのは、ここが本当の意味で「都市の外」だから。</span>
+</p>
+<div class="r" data-en="— Yuki Hamada / SOLUNA" style="margin-top:36px;font-size:10px;color:#333;letter-spacing:.2em">— 濱田 優貴 / SOLUNA</div>
+</div>
+<!-- FULL IMAGE -->
+<img alt="SOLUNA 和歌山 — 聖地に建てるキャビン構想" class="fi r2" data-en-alt="SOLUNA Wakayama — A cabin visionary on sacred ground" loading="lazy" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/dome_summer_deck.webp"/>
+<!-- LOCATION SECTION -->
+<div class="s" id="location" style="background:#030303;border-top:1px solid #0a0a0a;padding:80px 0">
+<div class="ww">
+<p class="label r" style="text-align:center;color:#2a2a2a">Location · 場所</p>
+<h2 class="r" data-en="Wakayama Prefecture Area" style="text-align:center;margin-bottom:8px">和歌山県<span class="accent" data-en="Kumano Kodo">熊野古道</span>近接</h2>
+<p class="r" data-en="Nachi Falls and Kumano Hongu Taisha. SOLUNA builds next-generation cabins where the sacred and contemporary converge on hallowed ground." style="text-align:center;color:#333;font-size:12px;max-width:500px;margin:0 auto 28px">那智の滝、熊野本宮大社。神域と現代が交差する聖地に、SOLUNAは次世代キャビンを建てる。</p>
+<!-- Map -->
+<div class="r" style="position:relative;border-radius:14px;overflow:hidden;max-width:860px;margin:0 auto 24px;border:1px solid #111">
+<iframe allowfullscreen="" height="400" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=33.7200,135.3600&amp;t=k&amp;z=10&amp;ie=UTF8&amp;iwloc=&amp;output=embed" style="border:0;display:block;filter:grayscale(1) invert(0.9) contrast(0.9) brightness(0.3)" width="100%"></iframe>
+<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;text-align:center">
+<div style="width:12px;height:12px;background:var(--accent);border-radius:50%;border:2px solid #040404;box-shadow:0 0 0 6px rgba(221,136,102,.2);margin:0 auto 10px"></div>
+<div style="background:rgba(4,4,4,.88);backdrop-filter:blur(12px);border:1px solid rgba(221,136,102,.3);border-radius:10px;padding:10px 18px">
+<div data-en="SOLUNA Wakayama" style="font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.06em">SOLUNA 和歌山</div>
+<div data-en="Adjacent to the Kumano Kodo Pilgrimage Route — Details disclosed to registered members" style="font-size:9.5px;color:#555;margin-top:3px">熊野古道近接 — 詳細は登録者に開示</div>
+</div>
+</div>
+</div>
+<!-- Access grid -->
+<div class="r" style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;max-width:860px;margin:0 auto">
+<div style="padding:20px 18px;background:#070707;border:1px solid #0f0f0f;border-radius:12px 0 0 12px">
+<div style="font-size:9px;color:#2a2a2a;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:10px">ACCESS</div>
+<div data-en="4–5 hours" style="font-size:20px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:6px">4〜5時間</div>
+<div data-en="2 hours by car from Kansai Airport / Shinkansen + express from Tokyo" style="font-size:11px;color:#3a3a3a;line-height:1.7">東京から新幹線＋特急<br/>関西空港から車2時間</div>
+</div>
+<div style="padding:20px 18px;background:#070707;border:1px solid #0f0f0f">
+<div style="font-size:9px;color:#2a2a2a;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:10px">CLIMATE</div>
+<div data-en="Annual average 16°C" style="font-size:20px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:6px">年16℃</div>
+<div data-en="Mild climate enabling residence throughout all four seasons" style="font-size:11px;color:#3a3a3a;line-height:1.7">温暖な気候<br/>四季を通じた滞在が可能</div>
+</div>
+<div style="padding:20px 18px;background:#070707;border:1px solid #0f0f0f;border-radius:0 12px 12px 0">
+<div style="font-size:9px;color:#2a2a2a;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:10px">NEARBY</div>
+<div data-en="UNESCO World Heritage Site" style="font-size:20px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:6px">世界遺産</div>
+<div data-en="Kumano Kodo · Nachi Falls · Kumano Hongu Taisha" style="font-size:11px;color:#3a3a3a;line-height:1.7">熊野古道・那智の滝<br/>熊野本宮大社</div>
+</div>
+</div>
+</div>
+</div>
+<!-- LOCATION HIGHLIGHTS -->
+<div class="s" style="padding:80px 0">
+<div class="ww">
+<p class="label r" data-en="Why Wakayama" style="color:#2a2a2a;margin-bottom:8px">Why Wakayama · なぜ和歌山か</p>
+<h2 class="r" data-en="A place to return to your authentic self" style="margin-bottom:16px">「本当の自分に<span class="accent" data-en="A Place to Return To">帰れる</span>」場所</h2>
+<p class="r" data-en="Those who regularly practice fasting and retreats find themselves returning to certain places. That place is Wakayama and Kumano. Those who have walked the Kumano Kodo express the desire to return there once more. Own that place." style="color:#3a3a3a;font-size:13px;max-width:620px;line-height:2.1;margin-bottom:28px">定期的に断食やリトリートをしている人が、繰り返し来る土地がある。それが和歌山・熊野だ。熊野古道を歩いた人が「もう一度あそこに帰りたい」と言う感覚。その場所を、持ち物にする。</p>
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr;gap:3px;max-width:860px;margin:0 auto">
+<div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f">
+<div data-en="Kumano Kodo (UNESCO World Heritage Site)" style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:10px;letter-spacing:.06em">熊野古道（世界遺産）</div>
+<p data-en="A pilgrimage route with over 1,000 years of history. The path once walked by emperors, warriors, and commoners remains preserved within primordial forest. A spiritually and culturally irreplaceable sanctuary unparalleled globally." style="font-size:12.5px;color:#555;line-height:2">1,000年以上の歴史を持つ巡礼路。法皇・武士・庶民が歩んだ道が、今も原生林の中に残る。世界でも類を見ない文化的・精神的な場所。</p>
+</div>
+<div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f">
+<div data-en="Nachi Waterfall &amp; Kumano Sanzan" style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:10px;letter-spacing:.06em">那智の滝・熊野三山</div>
+<p data-en="Nachi Waterfall with its 133-meter cascade. Kumano Hongu Taisha, Kumano Hayatama Taisha, and Kumano Nachi Taisha. Sacred ground unchanged since ancient times exists near the cabin." style="font-size:12.5px;color:#555;line-height:2">落差133mを誇る那智の滝。熊野本宮大社、熊野速玉大社、熊野那智大社。古代から変わらない神域が、キャビンの近くに存在する。</p>
+</div>
+<div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f">
+<div data-en="Where Sea and Mountain Coexist" style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:10px;letter-spacing:.06em">海と山が共存する地形</div>
+<p data-en="Unique topography of the Kii Peninsula. A mountain retreat coexists with Pacific coastline. A rare location where forest and ocean are accessible from the same grounds." style="font-size:12.5px;color:#555;line-height:2">紀伊半島の独特な地形。山中のリトリートと太平洋の海岸線が共存する。同じ敷地から、森と海の双方にアクセスできる稀な立地。</p>
+</div>
+<div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f">
+<div data-en="Temperate climate" style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:10px;letter-spacing:.06em">温暖な気候</div>
+<p data-en="Annual average temperature of 16°C. The warm climate influenced by the Kuroshio Current enables year-round retreats. A subtropical warmth that never freezes, even in winter." style="font-size:12.5px;color:#555;line-height:2">年間平均気温16℃。黒潮の影響を受けた温暖な気候は、四季を通じたリトリートを可能にする。冬でも凍えない、南国的な暖かさ。</p>
+</div>
+</div>
+<!-- Spec -->
+<div class="spec r" style="max-width:860px;margin:20px auto 0">
+<div class="spec-row">
+<div class="k" data-en="Location">所在地</div>
+<div class="v" data-en="Wakayama Prefecture (details disclosed to pre-registered members)">和歌山県（詳細は先行登録者に開示）</div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="Land Area">土地面積</div>
+<div class="v" data-en="(Disclosed upon registration)"><strong data-en="Private">非公開</strong>（登録後に開示）</div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="Surrounding Environment">周辺環境</div>
+<div class="v" data-en="Proximity to Kumano Kodo · Natural forests · Hot spring region">熊野古道近接・自然林・温泉地域</div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="Access">アクセス</div>
+<div class="v" data-en="Approximately 4–5 hours from Tokyo via Shinkansen and express train / Approximately 2 hours by car from Kansai International Airport">東京から新幹線＋特急で約4〜5時間 / 関西空港から車で約2時間</div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="Climate">気候</div>
+<div class="v" data-en="Annual average temperature 16°C / Mild Pacific-side climate">年間平均気温16℃ / 温暖な太平洋側気候</div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="Current Status">現状</div>
+<div class="v"><strong data-en="Land Acquired · Master Planning Underway">土地取得済・開発計画策定中</strong></div>
+</div>
+<div class="spec-row">
+<div class="k" data-en="Reference Price">参考価格</div>
+<div class="v" data-en="(Finalized at construction commencement. Early registrants receive priority access and preferential pricing)"><strong data-en="From ¥4.9M">¥490万〜</strong>（着工時に確定。先行登録者は最優先・最安値でご案内）</div>
+</div>
+</div>
+</div>
+</div>
+<!-- IMAGE GALLERY -->
+<div class="ww r2" style="max-width:980px;margin:0 auto;padding:0 24px">
+<div class="gstrip">
+<img alt="星空リトリート" data-en-alt="Starlit Retreat" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/comfort_stargazing.webp"/>
+<img alt="焚き火の夜" data-en-alt="Bonfire Evenings" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/bonfire_night.webp"/>
+<img alt="薪ストーブの夜" data-en-alt="Nights by the Wood-Burning Stove" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/offgrid_stove_night.webp"/>
+</div>
+</div>
+<!-- WHO RETURNS HERE -->
+<div class="s" style="padding:80px 0;border-top:1px solid #0a0a0a">
+<div class="ww">
+<p class="label r" data-en="Who Returns Here" style="text-align:center;color:#2a2a2a">Who Returns Here · ここに帰る人たち</p>
+<h2 class="r" data-en="You must have felt it too—" style="text-align:center;margin-bottom:8px">あなたも<span class="accent" data-en='"I Want to Return"'>「帰りたい」</span>と思ったことがあるはずだ</h2>
+<p class="r" data-en="To those connected with Kumano. To you, reading this page." style="text-align:center;color:#333;font-size:12px;max-width:500px;margin:0 auto 36px;line-height:2">熊野に縁のある人たちへ。このページを読んでいるあなたへ。</p>
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr;gap:3px;max-width:860px;margin:0 auto">
+<div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f;display:flex;gap:16px;align-items:flex-start">
+<div style="font-size:28px;font-weight:800;color:#1a1a1a;flex-shrink:0;line-height:1">01</div>
+<div>
+<div data-en="Regular Retreat Retreats" style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:8px;letter-spacing:.06em">定期的にリトリートをしている</div>
+<p data-en="Fasting, yoga, meditation. Each year you travel somewhere, yet none felt like home. Kumano possesses the power to draw you back, again and again." style="font-size:12.5px;color:#555;line-height:2">断食・ヨガ・瞑想。毎年どこかへ行くけれど、「帰れる場所」ではなかった。熊野は、何度でも帰りたくなる力を持っている。</p>
+</div>
+</div>
+<div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f;display:flex;gap:16px;align-items:flex-start">
+<div style="font-size:28px;font-weight:800;color:#1a1a1a;flex-shrink:0;line-height:1">02</div>
+<div>
+<div data-en="Too consumed by work to remember your true self" style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:8px;letter-spacing:.06em">仕事が忙しすぎて、本当の自分を見失っている</div>
+<p data-en="The simple knowledge that 'I can return here' transforms every ordinary day. Beyond the city lies a place where your truest self awaits." style="font-size:12.5px;color:#555;line-height:2">「ここに帰れる」と知っているだけで、平日が変わる。都市の外に、本当の自分が待っている場所がある。</p>
+</div>
+</div>
+<div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f;display:flex;gap:16px;align-items:flex-start">
+<div style="font-size:28px;font-weight:800;color:#1a1a1a;flex-shrink:0;line-height:1">03</div>
+<div>
+<div data-en="Each visit leaves you wanting to return" style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:8px;letter-spacing:.06em">旅に出るたびに「また来たい」と思う</div>
+<p data-en="Own that feeling. From a journey you visit again to a journey you return home. The privilege of returning here after walking the Kumano Kodo." style="font-size:12.5px;color:#555;line-height:2">その感覚を所有する。「また来る旅」から「帰る旅」へ。熊野古道を歩いた後、ここに帰れる権利を持つということ。</p>
+</div>
+</div>
+<div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f;display:flex;gap:16px;align-items:flex-start">
+<div style="font-size:28px;font-weight:800;color:#1a1a1a;flex-shrink:0;line-height:1">04</div>
+<div>
+<div data-en="Provide enriching experiences for your family" style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:8px;letter-spacing:.06em">家族に豊かな経験をさせてあげたい</div>
+<p data-en="Nachi Falls, Kumano Hongu Taisha, starlit skies. We transform this sacred sanctuary of 1,000 years of history into your family's place to return home to. That is true abundance." style="font-size:12.5px;color:#555;line-height:2">那智の滝、熊野本宮大社、満天の星。1,000年の歴史が残る聖地を、家族の「帰れる場所」にする。それが本当の豊かさだと思う。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- DEVELOPMENT PLAN -->
+<div class="s" id="plan" style="background:#030303;border-top:1px solid #0a0a0a;padding:80px 0">
+<div class="ww">
+<p class="label r" data-en="Development Plan" style="text-align:center;color:#2a2a2a">Development Plan · 開発計画</p>
+<h2 class="r" data-en="Planned" style="text-align:center;margin-bottom:6px">計画中の<span class="accent" data-en="Facility Composition">施設構成</span></h2>
+<p class="r" data-en="As plans are currently being finalized, details are subject to change. Early registrants will receive the latest information as a priority." style="text-align:center;color:#333;font-size:12px;max-width:500px;margin:0 auto 36px;line-height:1.9">現在計画策定中のため、詳細は変更になる可能性があります。先行登録者には最新情報を優先的にお届けします。</p>
+<div class="benefit-grid r">
+<div class="benefit-card">
+<h3 data-en="Accommodation Facilities">宿泊施設</h3>
+<p data-en="Three structures: EPS domes or log cabins, architecturally integrated into the sacred landscape. Each unit planned to feature wood-burning stoves, ceiling projectors, and barrel saunas.">EPSドームまたはログキャビン × 3棟。神域に溶け込む外観デザイン。各棟に薪ストーブ・天井プロジェクター・バレルサウナを完備予定。</p>
+<div class="bnum">01</div>
+</div>
+<div class="benefit-card">
+<h3 data-en="Approach">アプローチ</h3>
+<p data-en="A sanctum approach of stone pathways. An opening ritual that shifts the consciousness of all who enter. A design inspired by Kumano Kodo, fostering dialogue with nature.">参道的アプローチ（石畳）。訪れる者の意識を変える、始まりの儀式。熊野古道に倣った自然との対話を促す設計。</p>
+<div class="bnum">02</div>
+</div>
+<div class="benefit-card">
+<h3 data-en="Meditation Garden">瞑想庭園</h3>
+<p data-en="A circular meditation garden. Open to star-filled skies at night, enveloped by mist at dawn. Designed for Zen practice, yoga, and fasting retreats.">瞑想専用の円形庭園。夜は満天の星空に開かれ、朝は霧の中で目覚める。座禅・ヨガ・断食リトリートの場として設計。</p>
+<div class="bnum">03</div>
+</div>
+<div class="benefit-card">
+<h3 data-en="Kodo Trail Access">古道アクセス</h3>
+<p data-en="Gateway trailhead to Kumano Kodo. Direct access to the UNESCO-designated pilgrimage route. Unify spiritual exploration with physical challenge.">熊野古道へのハイキングスタート地点。世界遺産の巡礼路に直接アクセス。精神的な探求と身体的な挑戦を一体化する。</p>
+<div class="bnum">04</div>
+</div>
+<div class="benefit-card">
+<h3 data-en="Thermal Bath Facilities">温浴施設</h3>
+<p data-en="Thermal bathing facilities leveraging regional hot springs. We integrate Wakayama's abundant geothermal resources directly into your cabin experience. Indoor baths, open-air baths, and sauna facilities are under development.">地域温泉を活用した温浴施設。和歌山の豊富な温泉資源を、キャビン滞在に直結させる。内風呂・露天風呂・サウナを計画中。</p>
+<div class="bnum">05</div>
+</div>
+<div class="benefit-card">
+<h3 data-en="Off-Grid">オフグリッド</h3>
+<p data-en="Solar power generation × energy storage systems × rainwater harvesting. We aspire toward a fully autonomous ecological design, drawing both electricity and water from Kumano's pristine nature.">太陽光発電 × 蓄電システム × 雨水利用。熊野の自然から電力も水も得る、完全自立型の生態系設計を目指す。</p>
+<div class="bnum">06</div>
+</div>
+</div>
+<!-- Timeline -->
+<div class="r" style="max-width:600px;margin:48px auto 0">
+<p class="label" data-en="Timeline · Schedule" style="text-align:center;color:#2a2a2a;margin-bottom:24px">Timeline · スケジュール</p>
+<div class="timeline">
+<div class="tl-item done">
+<div class="tl-dot"></div>
+<div class="tl-year" data-en="2025">2025年</div>
+<div class="tl-content">
+<h4 data-en="Land Acquisition">土地取得</h4>
+<p data-en="Land has been secured within Wakayama Prefecture. Site assessment and environmental studies are underway.">和歌山県内に土地を取得済。場所の精査・環境調査を実施。</p>
+</div>
+</div>
+<div class="tl-item active">
+<div class="tl-dot"></div>
+<div class="tl-year" data-en="2026">2026年</div>
+<div class="tl-content">
+<h4 data-en="Master Planning &amp; Early Registration">計画策定・先行登録</h4>
+<p data-en="Development plans are currently being finalized. We are accepting early registrations and forming a community through consultation with architects and designers.">開発計画の詳細を策定中。先行登録を受け付け、コミュニティを形成。建築家・デザイナーとの協議。</p>
+</div>
+</div>
+<div class="tl-item">
+<div class="tl-dot"></div>
+<div class="tl-year" data-en="2027">2027年</div>
+<div class="tl-content">
+<h4 data-en="Design Finalized · Building Permit Submitted">設計確定・建築申請</h4>
+<p data-en="Preview events for pre-registered members. Finalization of detailed designs. Building approval applications and required permits.">先行登録者へのプレビューイベント開催。詳細設計の確定。建築確認申請・各種許可手続き。</p>
+</div>
+</div>
+<div class="tl-item">
+<div class="tl-dot"></div>
+<div class="tl-year" data-en="2028">2028年</div>
+<div class="tl-content">
+<h4 data-en="Construction Commencement (Phase 4)">着工（フェーズ4）</h4>
+<p data-en="Construction begins. Official membership recruitment for CABIN CLUB commences. Construction leverages our development expertise from Teshikaga, Hokkaido.">建設工事開始。CABIN CLUBの正式募集開始。北海道・弟子屈の開発経験を活かした施工。</p>
+</div>
+</div>
+<div class="tl-item">
+<div class="tl-dot"></div>
+<div class="tl-year" data-en="2029">2029年</div>
+<div class="tl-content">
+<h4 data-en="Completion · Operations Launch">完成・運用開始</h4>
+<p data-en="Operations begin as CABIN CLUB. Early registrants granted priority usage rights.">CABIN CLUBとして運用開始。先行登録者から優先利用権付与。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- NUMBERS -->
+<div class="numbers">
+<div class="num-grid r">
+<div>
+<div class="v">133m</div>
+<div class="l" data-en="Nachi Falls Drop">那智の滝<br/>落差</div>
+</div>
+<div>
+<div class="v">16℃</div>
+<div class="l" data-en="A Four-Season Sanctuary with Mild Annual Temperatures">年間平均気温<br/>四季の帰り先</div>
+</div>
+<div>
+<div class="v" data-en="1,000 years">1,000年</div>
+<div class="l" data-en="The History of Kumano Kodo — A Path of Return">帰り続けられてきた<br/>熊野古道の歴史</div>
+</div>
+<div>
+<div class="v">2028</div>
+<div class="l" data-en="You can choose your return destination starting today, with planned commencement in the near future">着工予定年<br/>帰り先は今日から決めておける</div>
+</div>
+</div>
+</div>
+<!-- REGISTER SECTION -->
+<div class="register-section" id="register">
+<div class="w">
+<p class="label r" data-en="Pre-Registration · Decide your sanctuary in advance" style="text-align:center;color:#2a2a2a">Pre-Registration · 先に帰り先を決める</p>
+<h2 class="r" data-en="From the moment you decide, 'Here is where I return'—" style="text-align:center;margin-bottom:6px">「ここに帰れる」と決めた日から、<br/><span class="accent" data-en="Your life's center of gravity shifts.">人生の重心が変わる。</span></h2>
+<p class="r" data-en="Reference price: ¥4.9 million onwards (confirmed at construction commencement). Early registrants receive priority allocation and preferred pricing. Construction begins 2028. Yet your sanctuary awaits from today." style="text-align:center;color:#555;font-size:13px;max-width:480px;margin:0 auto 40px;line-height:2">参考価格：¥490万〜（着工時に確定）。先行登録者は最優先・最安値でご案内します。2028年着工。でも帰り先は今日から決めておける。</p>
+<!-- Benefits -->
+<div class="r" style="background:#060606;border:1px solid #111;border-radius:20px;padding:36px 32px;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto">
+<div data-en="Early Registration Benefits" style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(221,136,102,.5);font-weight:700;margin-bottom:24px">先行登録特典</div>
+<div style="display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:flex-start;gap:14px">
+<div style="width:20px;height:20px;border-radius:50%;background:rgba(221,136,102,.15);border:1px solid rgba(221,136,102,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+<svg fill="none" height="10" viewbox="0 0 16 16" width="10"><polyline points="3,8 7,12 13,4" stroke="#dd8866" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></polyline></svg>
+</div>
+<div>
+<div data-en="Priority Property Selection Rights" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">最優先の物件選択権</div>
+<div data-en="Upon construction approval, early registrants select properties and units in priority order. Secure the most desirable properties and premier locations." style="font-size:12px;color:#444;line-height:1.7">着工決定時、先行登録順に物件・口数を選択できます。人気の物件・最良のロケーションを確保。</div>
+</div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:14px">
+<div style="width:20px;height:20px;border-radius:50%;background:rgba(221,136,102,.15);border:1px solid rgba(221,136,102,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+<svg fill="none" height="10" viewbox="0 0 16 16" width="10"><polyline points="3,8 7,12 13,4" stroke="#dd8866" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></polyline></svg>
+</div>
+<div>
+<div data-en="Priority unit reservation for CABIN CLUB members" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">CABIN CLUB口数の優先確保</div>
+<div data-en="Wakayama CABIN CLUB units are limited. Pre-registered members secure priority access ahead of the formal offering." style="font-size:12px;color:#444;line-height:1.7">和歌山CABIN CLUBの口数は限定。先行登録者が正式募集に先立ち優先的に確保できます。</div>
+</div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:14px">
+<div style="width:20px;height:20px;border-radius:50%;background:rgba(221,136,102,.15);border:1px solid rgba(221,136,102,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+<svg fill="none" height="10" viewbox="0 0 16 16" width="10"><polyline points="3,8 7,12 13,4" stroke="#dd8866" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></polyline></svg>
+</div>
+<div>
+<div data-en="Early Registration Pricing (approximately 15% discount vs. standard pricing)" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">早期登録価格（通常比15%割引予定）</div>
+<div data-en="Pricing is to be determined. Early registrants will receive approximately 15% discount from standard pricing." style="font-size:12px;color:#444;line-height:1.7">価格は未定ですが、先行登録者には通常価格より15%程度の割引価格でご案内する予定です。</div>
+</div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:14px">
+<div style="width:20px;height:20px;border-radius:50%;background:rgba(221,136,102,.15);border:1px solid rgba(221,136,102,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+<svg fill="none" height="10" viewbox="0 0 16 16" width="10"><polyline points="3,8 7,12 13,4" stroke="#dd8866" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></polyline></svg>
+</div>
+<div>
+<div data-en="Priority Access to Development Updates" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">開発進捗の優先情報共有</div>
+<div data-en="We will keep early registrants informed of development progress, design proposals, and construction updates. Witness the birth of your sanctuary from its very inception." style="font-size:12px;color:#444;line-height:1.7">計画の進捗・設計案・建設状況を先行登録者に優先的にお伝えします。帰り先の誕生を、最初から見届けてほしい。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- CTA Block -->
+<div class="r" style="text-align:center">
+<a class="cta-btn" data-en="Decide Your Sanctuary First →" href="mailto:mail@yukihamada.jp?subject=【SOLUNA 和歌山】先行登録&amp;body=お名前:%0A%0A連絡先（メール）:%0A%0A電話番号（任意）:%0A%0A関心のある点（例：立地・価格・施設構成など）:%0A%0A%0A----%0ASOLUNA 和歌山 先行登録フォームより" style="font-size:14px;padding:18px 48px">先に帰り先を決める →</a>
+<p data-en="Registration and consultation are completely free and cancellable anytime. Responses within 3 business days." style="font-size:11px;color:#2a2a2a;margin-top:16px;line-height:1.8">登録・相談は完全無料。いつでもキャンセル可能。<br/>返信は通常3営業日以内。</p>
+</div>
+</div>
+</div>
+<!-- OTHER PROPERTIES -->
+<div class="s" style="background:#030303;border-top:1px solid #0a0a0a;padding:72px 0">
+<div class="ww">
+<p class="label r" data-en="Other Properties" style="color:#2a2a2a;margin-bottom:8px">Other Properties · 他の物件</p>
+<h2 class="r" data-en="SOLUNA" style="margin-bottom:6px">SOLUNAの<span class="gold" data-en="All Properties">全拠点</span></h2>
+<p class="r" data-en="From Hokkaido to Wakayama, we build cabins on Japan's finest lands." style="color:#333;font-size:12px;margin-bottom:28px;line-height:1.8">北海道から和歌山まで、日本の最良の土地でキャビンを建てていく。</p>
+<div class="prop-scroll r">
+<!-- 弟子屈 (active) -->
+<a class="prop-card" href="offgrid" style="text-decoration:none">
+<img alt="弟子屈" class="prop-card-img" data-en-alt="Teshikaga" src="img/property-teshikaga.webp"/>
+<div class="prop-card-body">
+<div class="prop-card-loc" data-en="Hokkaido · Teshikaga">北海道 · 弟子屈</div>
+<div class="prop-card-name" data-en="SOLUNA Teshikaga, Hokkaido · Kumaushi Base">SOLUNA<br/>弟子屈 熊牛原野</div>
+<span class="prop-card-status status-active" data-en="On Sale · Construction Begins 2026">販売中 · 2026年着工</span>
+<p class="prop-card-desc" data-en="Mashu Lake and Kusharo Lake. EPS Dome × Tesla V2H. From ¥5.3M per unit, with annual 30-night accommodation rights.">摩周湖・屈斜路湖。EPSドーム × Tesla V2H。1口¥530万〜、年30泊の権利。</p>
+</div>
+</a>
+<!-- 熱海 -->
+<a class="prop-card" href="atami" style="text-decoration:none">
+<img alt="熱海" class="prop-card-img" data-en-alt="Atami" src="img/atami.webp"/>
+<div class="prop-card-body">
+<div class="prop-card-loc" data-en="Shizuoka · Atami">静岡 · 熱海</div>
+<div class="prop-card-name" data-en="SOLUNA Atami">SOLUNA<br/>熱海</div>
+<span class="prop-card-status status-plan" data-en="Land Acquired · Early Registration Open">土地取得済 · 先行登録</span>
+<p class="prop-card-desc" data-en="Sagami Bay's horizon and Atami hot springs. 35 minutes by bullet train from Tokyo. Oceanfront container villa concept.">相模湾の水平線と熱海温泉。東京から新幹線35分。海向きコンテナヴィラ構想。</p>
+</div>
+</a>
+<!-- 和歌山（自身） -->
+<div class="prop-card" style="border-color:rgba(221,136,102,.35)">
+<img alt="和歌山" class="prop-card-img" data-en-alt="Wakayama" src="img/kamiyama.webp" style="filter:brightness(.9)"/>
+<div class="prop-card-body">
+<div class="prop-card-loc" data-en="Wakayama · Kumano Kodo">和歌山 · 熊野古道</div>
+<div class="prop-card-name" data-en="SOLUNA Wakayama">SOLUNA<br/>和歌山 <span data-en="← This Page" style="color:var(--accent)">← このページ</span></div>
+<span class="prop-card-status status-plan" data-en="Land Acquired · Early Registration Open" style="background:rgba(221,136,102,.15)">土地取得済 · 先行登録</span>
+<p class="prop-card-desc" data-en="The spiritual energy of Kumano Kodo and ocean light. Sacred retreat. Construction planned for 2028.">熊野古道の霊気と海の光。神域リトリート。2028年着工予定。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- FAQ -->
+<div class="s" style="padding:80px 0">
+<div class="w">
+<p class="label r" style="text-align:center;color:#2a2a2a">FAQ</p>
+<h2 class="r" data-en="FAQ" style="text-align:center;margin-bottom:36px">よくある質問</h2>
+<div class="r">
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">
+<span data-en="Has the land already been acquired?">土地はすでに取得されているのですか？</span>
+<span class="faq-icon">+</span>
+</div>
+<div class="faq-a" data-en="Yes. We have already acquired land within Wakayama Prefecture. Detailed addresses and coordinates are disclosed exclusively to early registrants. Those wishing to visit the property on-site are welcome to inquire.">はい。和歌山県内に土地を取得済みです。詳細な住所・座標は先行登録者にのみ開示しております。現地視察ご希望の方はお問い合わせください。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">
+<span data-en="Is there a cost for early registration?">先行登録に費用はかかりますか？</span>
+<span class="faq-icon">+</span>
+</div>
+<div class="faq-a" data-en="Early registration is completely free with no obligations or contracts. You may cancel at any time. Fees apply only upon formal enrollment in CABIN CLUB.">先行登録は完全無料です。登録後に義務・契約が生じることはありません。いつでもキャンセル可能です。費用が発生するのは、CABIN CLUBへの正式申込時のみです。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">
+<span data-en="What is the pricing?">価格はいくらになりますか？</span>
+<span class="faq-icon">+</span>
+</div>
+<div class="faq-a" data-en="Pricing is currently undetermined. Upon finalization of development plans, early registrants will receive priority notice. We are considering based on Teshikaga, Hokkaido precedent (¥5.3 million per unit and up), though prices vary by location and facility scale. Early registrants will receive approximately 15% discount from standard pricing.">現時点では価格は未定です。開発計画が確定した段階で先行登録者に優先的にご案内します。弟子屈の実績（1口¥530万〜）を参考に検討中ですが、立地・施設規模により異なります。先行登録者には通常価格より15%程度割引された価格でのご案内を予定しています。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">
+<span data-en="Will construction truly commence in 2028?">着工は本当に2028年ですか？</span>
+<span class="faq-icon">+</span>
+</div>
+<div class="faq-a" data-en="We are advancing our development plan with a target construction commencement in 2028. However, changes may occur based on planning progress and permitting circumstances. Latest information will be communicated to early registrants as a priority.">2028年着工を目標として開発計画を進めています。ただし、計画の進捗・許認可の状況により変更の可能性があります。最新情報は先行登録者に優先的にお伝えします。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">
+<span data-en="What is CABIN CLUB?">CABIN CLUBとは何ですか？</span>
+<span class="faq-icon">+</span>
+</div>
+<div class="faq-a" data-en="CABIN CLUB enables multiple owners to share fractional ownership of a single cabin. In Teshikaga, Hokkaido, each unit begins at ¥5.3 million and includes annual stay rights for 30 nights plus dividend entitlements. A similar structure is under development for Wakayama; detailed information will be provided upon confirmation. This is a tangible asset with registered ownership stakes, fully transferable and inheritable.">CABIN CLUBは、複数人でキャビン1棟を分割所有する仕組みです。弟子屈では1口¥530万〜で年30泊の滞在権と配当権利が付帯します。和歌山では類似の仕組みを計画中ですが、詳細は確定次第ご案内します。持分登記あり、売却・相続も可能な実物資産です。</div>
+</div>
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-q">
+<span data-en="What is the distance to Kumano Kodo?">熊野古道まではどのくらいの距離ですか？</span>
+<span class="faq-icon">+</span>
+</div>
+<div class="faq-a" data-en="We have selected a location adjacent to multiple routes of the Kumano Kodo. Detailed distance and access information will be disclosed to early registrants. The site is planned to allow hiking access from the grounds or nearby.">熊野古道の複数ルートに近接した場所を選定しています。詳細な距離・アクセス情報は先行登録者に開示します。敷地内またはすぐ近くからハイキングを開始できる立地を予定しています。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- FOOTER -->
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-structure village for 100 residents · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Biruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Biruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Mirawa Village" href="village">美留和ビレッジ</a>
+<a data-en="Mirawa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase · Join">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Units Complimentary" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Purchase via Crypto" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Architectural Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="MIRUA Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information · Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fees" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Commercial Transaction Law" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><!-- IMAGE MODAL -->
+<div class="modal" onclick="this.classList.remove('active')">
+<img alt="" src=""/>
+</div>
+<script>
+// Intersection Observer reveal
+const obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.r,.r2').forEach(function(el){obs.observe(el)});
+</script>
+<script defer="" src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

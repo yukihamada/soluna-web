@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MYCO FURNITURE — 型が家具になる / ゼロウェイストシステム</title>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --char:#1a1612;--cream:#f5f0e8;--gold:#c8a455;--green:#4a9a5a;--bg:#0e0c0a;
+  --surface:#fff;--line:#e8e4dc;--text:#1a1a1a;--muted:#888;--light:#f5f3ef;
+}
+body{background:#faf9f7;color:var(--text);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;line-height:1.7}
+
+/* ── Cover ── */
+.cover{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;background:var(--bg);color:var(--cream);padding:80px;position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 30%,rgba(200,164,85,.06) 0%,transparent 55%),radial-gradient(ellipse at 80% 70%,rgba(74,154,90,.04) 0%,transparent 50%)}
+.cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,164,85,.25),transparent)}
+.cover-content{position:relative;z-index:2}
+.cover-badge{font-size:9px;letter-spacing:.35em;color:var(--gold);margin-bottom:24px;text-transform:uppercase;font-weight:700}
+.cover-title{font-size:clamp(3.5rem,11vw,7.5rem);font-weight:900;line-height:.88;letter-spacing:-.04em;margin-bottom:20px}
+.cover-title span{display:block}
+.cover-title .sub{font-size:.26em;font-weight:400;letter-spacing:.12em;color:#666;margin-top:10px}
+.cover-line{height:1px;background:linear-gradient(90deg,var(--gold),transparent);margin:32px 0}
+.cover-specs{display:flex;gap:40px;flex-wrap:wrap}
+.cs label{font-size:8px;letter-spacing:.2em;color:#3a3530;text-transform:uppercase;display:block;margin-bottom:4px}
+.cs span{font-size:22px;font-weight:800;color:#bbb8b0}
+.cs small{font-size:9px;color:#4a4540;display:block;margin-top:2px}
+
+/* ── Nav ── */
+.nav{background:#faf9f7;border-bottom:1px solid var(--line);padding:13px 48px;display:flex;align-items:center;gap:24px;position:sticky;top:0;z-index:100;flex-wrap:wrap}
+.nav-logo{font-size:11px;font-weight:900;letter-spacing:.22em;color:var(--char);margin-right:8px;white-space:nowrap}
+.nav a{font-size:11px;color:var(--muted);text-decoration:none;white-space:nowrap}
+.nav a:hover{color:var(--text)}
+.nav-right{margin-left:auto;display:flex;gap:10px}
+.btn-sm{font-size:10px;padding:6px 14px;border-radius:4px;cursor:pointer;font-weight:700;letter-spacing:.05em;text-decoration:none;border:none}
+.btn-dark{background:var(--char);color:#c8c0b0}
+.btn-outline{background:transparent;border:1px solid var(--line);color:var(--muted)}
+
+/* ── Content ── */
+.wrap{max-width:1020px;margin:0 auto;padding:64px 32px}
+.section{margin-bottom:88px}
+.sec-label{font-size:9px;letter-spacing:.3em;color:var(--muted);margin-bottom:8px;text-transform:uppercase}
+.sh{font-size:26px;font-weight:900;letter-spacing:-.02em;margin-bottom:6px}
+.sdesc{font-size:13px;color:var(--muted);line-height:1.9;max-width:600px;margin-bottom:32px}
+.diagram-wrap{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:white}
+.diagram-title{font-size:9px;letter-spacing:.15em;color:var(--muted);padding:10px 16px;background:#faf9f7;border-bottom:1px solid var(--line);text-transform:uppercase}
+
+table{width:100%;border-collapse:collapse;font-size:12px}
+table th{background:#faf9f7;padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--muted);border-bottom:1px solid var(--line)}
+table td{padding:9px 12px;border-bottom:1px solid var(--line)}
+table tr:last-child td{border-bottom:none}
+table tbody tr:hover td{background:#faf9f7}
+
+/* ── Furniture Cards ── */
+.furniture-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+@media(max-width:720px){.furniture-grid{grid-template-columns:1fr}}
+.f-card{background:var(--char);color:var(--cream);border-radius:4px;padding:28px 24px;border:1px solid #2a2520;position:relative;overflow:hidden}
+.f-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold)}
+.f-card-num{font-size:9px;letter-spacing:.25em;color:#555;margin-bottom:16px;text-transform:uppercase}
+.f-card-name{font-size:17px;font-weight:900;letter-spacing:-.01em;margin-bottom:8px;color:var(--cream)}
+.f-card-dim{font-size:11px;color:#888;margin-bottom:12px}
+.f-card-desc{font-size:12px;color:#aaa;line-height:1.7;margin-bottom:16px}
+.f-card-price{font-size:26px;font-weight:900;color:var(--gold);letter-spacing:-.02em}
+
+/* ── CNC Spec ── */
+.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
+@media(max-width:640px){.spec-grid{grid-template-columns:1fr}}
+.spec-box{background:white;border:1px solid var(--line);border-radius:4px;padding:20px 24px}
+.spec-box h3{font-size:10px;letter-spacing:.15em;color:var(--muted);margin-bottom:12px;text-transform:uppercase;font-weight:700}
+.spec-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0ece4;font-size:12px}
+.spec-item:last-child{border-bottom:none}
+.spec-item .sv{font-weight:700;color:var(--char)}
+
+/* ── Formula Box ── */
+.formula-box{background:var(--char);color:var(--cream);border-radius:4px;padding:28px;margin:24px 0}
+.formula-box h3{font-size:10px;letter-spacing:.2em;color:var(--gold);margin-bottom:16px;text-transform:uppercase}
+.formula-row{display:flex;align-items:center;gap:16px;margin-bottom:10px;font-size:13px}
+.formula-pct{font-size:28px;font-weight:900;color:var(--gold);min-width:64px;line-height:1}
+.formula-name{color:#ccc}
+.formula-note{font-size:10px;color:#666;margin-top:4px}
+
+/* ── Comparison table highlight ── */
+.thl-myco{background:#f0faf0!important;font-weight:700;color:var(--green)!important}
+.thl-save{background:#fdf5e0!important;font-weight:700;color:var(--gold)!important}
+
+/* ── Footer nav ── */
+.foot-nav{border-top:1px solid var(--line);padding-top:48px;margin-top:40px;display:flex;gap:16px;flex-wrap:wrap}
+.foot-link{font-size:11px;color:var(--muted);text-decoration:none;padding:8px 16px;border:1px solid var(--line);border-radius:4px}
+.foot-link:hover{background:#faf9f7;color:var(--text)}
+
+/* ── Nesting legend ── */
+.nest-legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px;padding:12px 16px;background:#faf9f7;border-top:1px solid var(--line)}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:10px;color:#555}
+.leg-dot{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+
+/* ── Usage bar ── */
+.usage-bar{margin:16px 0;padding:12px 16px;background:var(--char);color:var(--cream);font-size:12px;display:flex;gap:32px;flex-wrap:wrap}
+.usage-bar span{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#666;display:block;margin-bottom:2px}
+.usage-bar strong{color:var(--gold);font-size:16px;font-weight:900}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     COVER
+═══════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-content">
+    <div class="cover-badge">SOLUNA × ENABLER INC. — ZERO WASTE MANUFACTURING</div>
+    <h1 class="cover-title">
+      <span>MYCO</span>
+      <span>FURNITURE</span>
+      <span class="sub">型が家具になる / ゼロウェイストシステム</span>
+    </h1>
+    <div class="cover-line"></div>
+    <div class="cover-specs">
+      <div class="cs"><label>合板コスト</label><span>¥4,500</span><small>1220×2440mm / 枚</small></div>
+      <div class="cs"><label>加工</label><span>CNC 1発</span><small>ネスティングカット</small></div>
+      <div class="cs"><label>培養期間</label><span>14日</span><small>25℃ 恒温</small></div>
+      <div class="cs"><label>内装一式</label><span>¥8,000</span><small>スツール〜棚まで全部</small></div>
+      <div class="cs"><label>端材率</label><span>0%</span><small>型枠→家具で全消費</small></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     NAV
+═══════════════════════════════════ -->
+<nav class="nav">
+  <span class="nav-logo">MYCO FURNITURE</span>
+  <a href="#system">システム全体図</a>
+  <a href="#nesting">ネスティング設計</a>
+  <a href="#conversion">型枠→家具変換</a>
+  <a href="#lineup">家具ライン</a>
+  <a href="#cnc">CNC仕様</a>
+  <a href="#formula">菌糸体配合</a>
+  <a href="#cost">コスト比較</a>
+  <div class="nav-right no-print">
+    <a href="/manufacturing/kumanoki.html" class="btn-sm btn-outline">← KUMANOKI</a>
+    <a href="/manufacturing/mycelium-lab.html" class="btn-sm btn-outline">菌糸体Lab</a>
+    <button class="btn-sm btn-dark" onclick="window.print()">印刷</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════
+     MAIN CONTENT
+═══════════════════════════════════ -->
+<div class="wrap">
+
+<!-- ── SECTION 01: システム全体図 ── -->
+<div class="section" id="system">
+  <div class="sec-label">SECTION 01</div>
+  <h2 class="sh">システム全体図</h2>
+  <p class="sdesc">合板1枚からCNCで全パーツを切り出し、型枠を組んで菌糸体を14日培養。型枠を解体すると同時に家具が完成する。端材ゼロ。廃棄物ゼロ。</p>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">ZERO WASTE FLOW — 合板1枚→内装一式</div>
+    <svg viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;padding:32px 24px;background:#fff">
+
+      <!-- Step boxes -->
+      <!-- Step 1: 合板 -->
+      <rect x="10" y="70" width="120" height="80" rx="4" fill="#1a1612" stroke="#c8a455" stroke-width="1.5"/>
+      <text x="70" y="100" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#c8a455" letter-spacing="1">PLYWOOD</text>
+      <text x="70" y="116" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="11" fill="#f5f0e8" font-weight="700">合板 1枚</text>
+      <text x="70" y="132" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">1220×2440mm</text>
+      <text x="70" y="145" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#c8a455">¥4,500</text>
+
+      <!-- Arrow 1 -->
+      <line x1="132" y1="110" x2="162" y2="110" stroke="#c8a455" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="147" y="104" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#888">CNC</text>
+
+      <!-- Step 2: CNCカット -->
+      <rect x="164" y="70" width="120" height="80" rx="4" fill="#f8f6f2" stroke="#e8e4dc" stroke-width="1.5"/>
+      <text x="224" y="100" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888" letter-spacing="1">CNC CUT</text>
+      <text x="224" y="116" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="11" fill="#1a1612" font-weight="700">ネスティング</text>
+      <text x="224" y="132" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">全パーツ一括</text>
+      <text x="224" y="145" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#4a9a5a">端材0%</text>
+
+      <!-- Arrow 2 -->
+      <line x1="286" y1="110" x2="316" y2="110" stroke="#c8a455" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="301" y="104" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#888">組立</text>
+
+      <!-- Step 3: 型枠組立 -->
+      <rect x="318" y="70" width="120" height="80" rx="4" fill="#f8f6f2" stroke="#e8e4dc" stroke-width="1.5"/>
+      <text x="378" y="100" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888" letter-spacing="1">MOLD BUILD</text>
+      <text x="378" y="116" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="11" fill="#1a1612" font-weight="700">型枠組立</text>
+      <text x="378" y="132" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">フィンガー接合</text>
+      <text x="378" y="145" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">ビスゼロ</text>
+
+      <!-- Arrow 3 -->
+      <line x1="440" y1="110" x2="470" y2="110" stroke="#c8a455" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="455" y="104" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#888">14日</text>
+
+      <!-- Step 4: 培養 -->
+      <rect x="472" y="70" width="120" height="80" rx="4" fill="#f0faf0" stroke="#4a9a5a" stroke-width="1.5"/>
+      <text x="532" y="100" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#4a9a5a" letter-spacing="1">CULTURE</text>
+      <text x="532" y="116" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="11" fill="#1a1612" font-weight="700">菌糸体培養</text>
+      <text x="532" y="132" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">25℃ / 14日</text>
+      <text x="532" y="145" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#4a9a5a">霊芝菌</text>
+
+      <!-- Arrow 4 -->
+      <line x1="594" y1="110" x2="624" y2="110" stroke="#c8a455" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="609" y="104" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#888">解体</text>
+
+      <!-- Step 5: 型枠解体 -->
+      <rect x="626" y="70" width="120" height="80" rx="4" fill="#f8f6f2" stroke="#e8e4dc" stroke-width="1.5"/>
+      <text x="686" y="100" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888" letter-spacing="1">DEMOLD</text>
+      <text x="686" y="116" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="11" fill="#1a1612" font-weight="700">型枠解体</text>
+      <text x="686" y="132" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">合板パーツ分離</text>
+      <text x="686" y="145" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">→家具に転用</text>
+
+      <!-- Arrow 5 -->
+      <line x1="748" y1="110" x2="778" y2="110" stroke="#c8a455" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <!-- Step 6: 家具完成 -->
+      <rect x="780" y="70" width="108" height="80" rx="4" fill="#1a1612" stroke="#c8a455" stroke-width="2"/>
+      <text x="834" y="100" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#c8a455" letter-spacing="1">COMPLETE</text>
+      <text x="834" y="116" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="11" fill="#f5f0e8" font-weight="700">家具完成</text>
+      <text x="834" y="132" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#aaa">合板脚+菌糸体</text>
+      <text x="834" y="145" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#c8a455">¥8,100 一式</text>
+
+      <!-- Arrow marker -->
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#c8a455"/>
+        </marker>
+      </defs>
+
+      <!-- Bottom labels -->
+      <text x="70" y="200" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#bbb">INPUT</text>
+      <text x="224" y="200" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#bbb">FABRICATE</text>
+      <text x="378" y="200" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#bbb">FORM</text>
+      <text x="532" y="200" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#bbb">GROW</text>
+      <text x="686" y="200" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#bbb">RELEASE</text>
+      <text x="834" y="200" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#bbb">OUTPUT</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ── SECTION 02: ネスティング設計図 ── -->
+<div class="section" id="nesting">
+  <div class="sec-label">SECTION 02</div>
+  <h2 class="sh">ネスティング設計図</h2>
+  <p class="sdesc">1220×2440mm合板2枚に全パーツをパズルのように配置。レーザーのように隙間ゼロで切り出す。</p>
+
+  <!-- Sheet 1 -->
+  <div class="diagram-wrap" style="margin-bottom:16px">
+    <div class="diagram-title">SHEET 1 — テーブル天板 / 椅子座面 / ランプフレーム / 型枠壁パーツ</div>
+    <svg viewBox="0 0 610 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;padding:20px;background:#fefefe">
+      <!-- Sheet outline: 1220×2440 → scale 1:4 = 305×610, displayed as 610×280 (landscape) -->
+      <rect x="4" y="4" width="600" height="270" rx="2" fill="#f5f5f0" stroke="#ccc" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <!-- Scale: 2440mm = 600px → 1mm = 0.2459px; 1220mm = 300px → scale landscape: 2440=600, 1220=270 -->
+
+      <!-- テーブル天板 800×600mm → 196×147px, placed top-center-left -->
+      <rect x="8" y="8" width="196" height="147" rx="2" fill="#c8a455" fill-opacity=".25" stroke="#c8a455" stroke-width="1.5"/>
+      <text x="106" y="75" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#a07a30" font-weight="700">テーブル天板</text>
+      <text x="106" y="89" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#999">800 × 600 mm</text>
+
+      <!-- 椅子座面×2: 400×400mm → 98×98px each -->
+      <rect x="210" y="8" width="98" height="98" rx="2" fill="#4a9a5a" fill-opacity=".2" stroke="#4a9a5a" stroke-width="1.5"/>
+      <text x="259" y="52" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#357040" font-weight="700">椅子座面 A</text>
+      <text x="259" y="64" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#999">400×400</text>
+
+      <rect x="314" y="8" width="98" height="98" rx="2" fill="#4a9a5a" fill-opacity=".2" stroke="#4a9a5a" stroke-width="1.5"/>
+      <text x="363" y="52" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#357040" font-weight="700">椅子座面 B</text>
+      <text x="363" y="64" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#999">400×400</text>
+
+      <!-- ランプフレーム×2: φ280mm → r=34px circles -->
+      <circle cx="448" cy="42" r="34" fill="#5b8fd4" fill-opacity=".2" stroke="#5b8fd4" stroke-width="1.5"/>
+      <text x="448" y="40" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#3a6fa0" font-weight="700">ランプ A</text>
+      <text x="448" y="52" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#999">φ280</text>
+
+      <circle cx="549" cy="42" r="34" fill="#5b8fd4" fill-opacity=".2" stroke="#5b8fd4" stroke-width="1.5"/>
+      <text x="549" y="40" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#3a6fa0" font-weight="700">ランプ B</text>
+      <text x="549" y="52" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#999">φ280</text>
+
+      <!-- 型枠壁パーツ×6: 300×200mm → 74×49px each, 3 columns × 2 rows at bottom -->
+      <!-- Row 1: y=162 -->
+      <rect x="8" y="162" width="74" height="49" rx="2" fill="#c0392b" fill-opacity=".15" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="45" y="184" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#a02020" font-weight="700">型枠壁 1</text>
+      <text x="45" y="195" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#aaa">300×200</text>
+
+      <rect x="88" y="162" width="74" height="49" rx="2" fill="#c0392b" fill-opacity=".15" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="125" y="184" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#a02020" font-weight="700">型枠壁 2</text>
+      <text x="125" y="195" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#aaa">300×200</text>
+
+      <rect x="168" y="162" width="74" height="49" rx="2" fill="#c0392b" fill-opacity=".15" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="205" y="184" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#a02020" font-weight="700">型枠壁 3</text>
+      <text x="205" y="195" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#aaa">300×200</text>
+
+      <!-- Row 2: y=218 -->
+      <rect x="8" y="218" width="74" height="49" rx="2" fill="#c0392b" fill-opacity=".15" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="45" y="240" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#a02020" font-weight="700">型枠壁 4</text>
+      <text x="45" y="251" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#aaa">300×200</text>
+
+      <rect x="88" y="218" width="74" height="49" rx="2" fill="#c0392b" fill-opacity=".15" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="125" y="240" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#a02020" font-weight="700">型枠壁 5</text>
+      <text x="125" y="251" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#aaa">300×200</text>
+
+      <rect x="168" y="218" width="74" height="49" rx="2" fill="#c0392b" fill-opacity=".15" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="205" y="240" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#a02020" font-weight="700">型枠壁 6</text>
+      <text x="205" y="251" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#aaa">300×200</text>
+
+      <!-- Sheet label -->
+      <text x="596" y="265" text-anchor="end" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#ccc">SHEET 1 / 1220×2440mm</text>
+    </svg>
+    <div class="nest-legend">
+      <div class="leg-item"><div class="leg-dot" style="background:#c8a455;opacity:.7"></div>テーブル天板</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#4a9a5a;opacity:.7"></div>椅子座面×2</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#5b8fd4;opacity:.7"></div>ランプフレーム×2</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#c0392b;opacity:.7"></div>型枠壁パーツ×6</div>
+    </div>
+  </div>
+
+  <!-- Sheet 2 -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">SHEET 2 — テーブル脚 / 椅子脚 / 棚板 / 型枠底板</div>
+    <svg viewBox="0 0 610 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;padding:20px;background:#fefefe">
+      <rect x="4" y="4" width="600" height="270" rx="2" fill="#f5f5f0" stroke="#ccc" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <!-- テーブル脚×4: 700×80mm → 172×20px, vertical -->
+      <rect x="8" y="8" width="20" height="172" rx="2" fill="#8b5cf6" fill-opacity=".2" stroke="#8b5cf6" stroke-width="1.5"/>
+      <text x="18" y="100" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#7040c0" font-weight="700" transform="rotate(-90,18,100)">テーブル脚 A / 700×80</text>
+
+      <rect x="34" y="8" width="20" height="172" rx="2" fill="#8b5cf6" fill-opacity=".2" stroke="#8b5cf6" stroke-width="1.5"/>
+      <text x="44" y="100" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#7040c0" font-weight="700" transform="rotate(-90,44,100)">テーブル脚 B / 700×80</text>
+
+      <rect x="60" y="8" width="20" height="172" rx="2" fill="#8b5cf6" fill-opacity=".2" stroke="#8b5cf6" stroke-width="1.5"/>
+      <text x="70" y="100" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#7040c0" font-weight="700" transform="rotate(-90,70,100)">テーブル脚 C / 700×80</text>
+
+      <rect x="86" y="8" width="20" height="172" rx="2" fill="#8b5cf6" fill-opacity=".2" stroke="#8b5cf6" stroke-width="1.5"/>
+      <text x="96" y="100" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#7040c0" font-weight="700" transform="rotate(-90,96,100)">テーブル脚 D / 700×80</text>
+
+      <!-- 椅子脚×8: 400×60mm → 98×15px, vertical -->
+      <rect x="114" y="8" width="14" height="98" rx="2" fill="#f97316" fill-opacity=".2" stroke="#f97316" stroke-width="1.5"/>
+      <rect x="134" y="8" width="14" height="98" rx="2" fill="#f97316" fill-opacity=".2" stroke="#f97316" stroke-width="1.5"/>
+      <rect x="154" y="8" width="14" height="98" rx="2" fill="#f97316" fill-opacity=".2" stroke="#f97316" stroke-width="1.5"/>
+      <rect x="174" y="8" width="14" height="98" rx="2" fill="#f97316" fill-opacity=".2" stroke="#f97316" stroke-width="1.5"/>
+      <rect x="114" y="112" width="14" height="98" rx="2" fill="#f97316" fill-opacity=".2" stroke="#f97316" stroke-width="1.5"/>
+      <rect x="134" y="112" width="14" height="98" rx="2" fill="#f97316" fill-opacity=".2" stroke="#f97316" stroke-width="1.5"/>
+      <rect x="154" y="112" width="14" height="98" rx="2" fill="#f97316" fill-opacity=".2" stroke="#f97316" stroke-width="1.5"/>
+      <rect x="174" y="112" width="14" height="98" rx="2" fill="#f97316" fill-opacity=".2" stroke="#f97316" stroke-width="1.5"/>
+      <text x="144" y="220" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#c05000">椅子脚×8 / 400×60mm</text>
+
+      <!-- 棚板×3: 600×250mm → 148×61px horizontal -->
+      <rect x="200" y="8" width="148" height="61" rx="2" fill="#4a9a5a" fill-opacity=".18" stroke="#4a9a5a" stroke-width="1.5"/>
+      <text x="274" y="36" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#357040" font-weight="700">棚板 A</text>
+      <text x="274" y="49" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#999">600 × 250 mm</text>
+
+      <rect x="200" y="75" width="148" height="61" rx="2" fill="#4a9a5a" fill-opacity=".18" stroke="#4a9a5a" stroke-width="1.5"/>
+      <text x="274" y="103" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#357040" font-weight="700">棚板 B</text>
+      <text x="274" y="116" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#999">600 × 250 mm</text>
+
+      <rect x="200" y="142" width="148" height="61" rx="2" fill="#4a9a5a" fill-opacity=".18" stroke="#4a9a5a" stroke-width="1.5"/>
+      <text x="274" y="170" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#357040" font-weight="700">棚板 C</text>
+      <text x="274" y="183" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#999">600 × 250 mm</text>
+
+      <!-- 型枠底板×2: 400×400mm → 98×98px -->
+      <rect x="362" y="8" width="98" height="98" rx="2" fill="#c0392b" fill-opacity=".15" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="411" y="52" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#a02020" font-weight="700">型枠底板 A</text>
+      <text x="411" y="64" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#aaa">400×400</text>
+
+      <rect x="466" y="8" width="98" height="98" rx="2" fill="#c0392b" fill-opacity=".15" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="515" y="52" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#a02020" font-weight="700">型枠底板 B</text>
+      <text x="515" y="64" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#aaa">400×400</text>
+
+      <text x="596" y="265" text-anchor="end" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#ccc">SHEET 2 / 1220×2440mm</text>
+    </svg>
+    <div class="nest-legend">
+      <div class="leg-item"><div class="leg-dot" style="background:#8b5cf6;opacity:.7"></div>テーブル脚×4</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#f97316;opacity:.7"></div>椅子脚×8</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#4a9a5a;opacity:.7"></div>棚板×3</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#c0392b;opacity:.7"></div>型枠底板×2</div>
+    </div>
+  </div>
+
+  <div class="usage-bar">
+    <div><span>Sheet 1 使用率</span><strong>91%</strong></div>
+    <div><span>Sheet 2 使用率</span><strong>88%</strong></div>
+    <div><span>平均使用率</span><strong>89.5%</strong></div>
+    <div><span>端材率</span><strong>10.5%</strong></div>
+    <div><span>端材用途</span><strong>Myco-Tray / 堆肥</strong></div>
+  </div>
+</div>
+
+<!-- ── SECTION 03: 型枠→家具変換表 ── -->
+<div class="section" id="conversion">
+  <div class="sec-label">SECTION 03</div>
+  <h2 class="sh">型枠 → 家具 変換表</h2>
+  <p class="sdesc">型枠として14日間使い、解体した瞬間に家具のパーツになる。「型枠は消耗品」という常識を覆す。</p>
+
+  <div class="diagram-wrap" style="margin-bottom:24px">
+    <div class="diagram-title">MOLD-TO-FURNITURE CONVERSION DIAGRAM</div>
+    <svg viewBox="0 0 860 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;padding:24px 20px;background:#fff">
+      <defs>
+        <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#c8a455"/>
+        </marker>
+      </defs>
+
+      <!-- Items: y positions -->
+      <!-- Myco-Stool: y=20 -->
+      <!-- Myco-Table: y=76 -->
+      <!-- Myco-Lamp: y=132 -->
+      <!-- Myco-Shelf: y=188 -->
+      <!-- Myco-Panel: y=244 -->
+
+      <!-- Left column: 型枠フェーズ -->
+      <text x="100" y="14" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#888" letter-spacing="1" text-transform="uppercase">MOLD PHASE</text>
+
+      <!-- Stool mold -->
+      <rect x="8" y="20" width="184" height="48" rx="3" fill="#f0faf0" stroke="#4a9a5a" stroke-width="1.5"/>
+      <text x="100" y="39" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#357040" font-weight="700">スツール型枠</text>
+      <text x="100" y="54" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#888">14日 培養 / 350×350×420</text>
+
+      <!-- Table mold -->
+      <rect x="8" y="76" width="184" height="48" rx="3" fill="#fdf5e0" stroke="#c8a455" stroke-width="1.5"/>
+      <text x="100" y="95" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#a07a30" font-weight="700">テーブル天板型枠</text>
+      <text x="100" y="110" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#888">14日 培養 / 800×600×720</text>
+
+      <!-- Lamp mold -->
+      <rect x="8" y="132" width="184" height="48" rx="3" fill="#f0f4ff" stroke="#5b8fd4" stroke-width="1.5"/>
+      <text x="100" y="151" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#3a6fa0" font-weight="700">薄型ランプ型枠</text>
+      <text x="100" y="166" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#888">7日 培養 / φ280×20mm</text>
+
+      <!-- Shelf mold -->
+      <rect x="8" y="188" width="184" height="48" rx="3" fill="#f8f0ff" stroke="#8b5cf6" stroke-width="1.5"/>
+      <text x="100" y="207" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#7040c0" font-weight="700">棚型枠</text>
+      <text x="100" y="222" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#888">14日 培養 / 600×250×900</text>
+
+      <!-- Panel mold -->
+      <rect x="8" y="244" width="184" height="48" rx="3" fill="#fff0f0" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="100" y="263" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#a02020" font-weight="700">内壁パネル型枠</text>
+      <text x="100" y="278" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#888">14日 培養 / 600×600×100</text>
+
+      <!-- Arrows -->
+      <line x1="194" y1="44" x2="250" y2="44" stroke="#c8a455" stroke-width="1.5" marker-end="url(#arr2)"/>
+      <line x1="194" y1="100" x2="250" y2="100" stroke="#c8a455" stroke-width="1.5" marker-end="url(#arr2)"/>
+      <line x1="194" y1="156" x2="250" y2="156" stroke="#c8a455" stroke-width="1.5" marker-end="url(#arr2)"/>
+      <line x1="194" y1="212" x2="250" y2="212" stroke="#c8a455" stroke-width="1.5" marker-end="url(#arr2)"/>
+      <line x1="194" y1="268" x2="250" y2="268" stroke="#c8a455" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+      <text x="222" y="40" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#888">解体後</text>
+      <text x="222" y="96" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#888">解体後</text>
+      <text x="222" y="152" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#888">解体後</text>
+      <text x="222" y="208" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#888">解体後</text>
+      <text x="222" y="264" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="7" fill="#888">解体後</text>
+
+      <!-- Right column: 家具+菌糸体 -->
+      <text x="555" y="14" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#888" letter-spacing="1">FURNITURE OUTPUT</text>
+
+      <!-- Stool output: 合板パーツ -->
+      <rect x="254" y="20" width="164" height="48" rx="3" fill="#1a1612" stroke="#4a9a5a" stroke-width="1.5"/>
+      <text x="336" y="39" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#aaa" font-weight="700">スツール本体</text>
+      <text x="336" y="54" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#666">合板脚 4本</text>
+
+      <!-- Stool myco -->
+      <rect x="424" y="20" width="164" height="48" rx="3" fill="#0a2010" stroke="#4a9a5a" stroke-width="1.5"/>
+      <text x="506" y="39" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#7cb87a" font-weight="700">座面クッション</text>
+      <text x="506" y="54" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#557a55">菌糸体 350×350×40</text>
+
+      <!-- Table output -->
+      <rect x="254" y="76" width="164" height="48" rx="3" fill="#1a1612" stroke="#c8a455" stroke-width="1.5"/>
+      <text x="336" y="95" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#aaa" font-weight="700">テーブル脚+フレーム</text>
+      <text x="336" y="110" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#666">合板脚 4本+幕板</text>
+
+      <rect x="424" y="76" width="164" height="48" rx="3" fill="#201a00" stroke="#c8a455" stroke-width="1.5"/>
+      <text x="506" y="95" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#c8a455" font-weight="700">天板表面</text>
+      <text x="506" y="110" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#887040">菌糸体 800×600×30</text>
+
+      <!-- Lamp output -->
+      <rect x="254" y="132" width="164" height="48" rx="3" fill="#1a1612" stroke="#5b8fd4" stroke-width="1.5"/>
+      <text x="336" y="151" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#aaa" font-weight="700">ランプフレーム</text>
+      <text x="336" y="166" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#666">合板円形フレーム</text>
+
+      <rect x="424" y="132" width="164" height="48" rx="3" fill="#00101a" stroke="#5b8fd4" stroke-width="1.5"/>
+      <text x="506" y="151" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#80b0d4" font-weight="700">透過シェード</text>
+      <text x="506" y="166" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#406080">菌糸体 20mm 薄型</text>
+
+      <!-- Shelf output -->
+      <rect x="254" y="188" width="164" height="48" rx="3" fill="#1a1612" stroke="#8b5cf6" stroke-width="1.5"/>
+      <text x="336" y="207" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#aaa" font-weight="700">棚フレーム</text>
+      <text x="336" y="222" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#666">合板縦板+横桟</text>
+
+      <rect x="424" y="188" width="164" height="48" rx="3" fill="#100a20" stroke="#8b5cf6" stroke-width="1.5"/>
+      <text x="506" y="207" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#a080d4" font-weight="700">棚板 ×3</text>
+      <text x="506" y="222" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#806090">菌糸体 600×250×25</text>
+
+      <!-- Panel output -->
+      <rect x="254" y="244" width="164" height="48" rx="3" fill="#1a1612" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="336" y="263" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#aaa" font-weight="700">廃棄 → 堆肥化</text>
+      <text x="336" y="278" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#666">合板は薪/チップに</text>
+
+      <rect x="424" y="244" width="164" height="48" rx="3" fill="#1a0000" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="506" y="263" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#d06060" font-weight="700">壁パネル</text>
+      <text x="506" y="278" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#904040">菌糸体 600×600×100</text>
+
+      <!-- Column labels at bottom -->
+      <text x="336" y="308" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#888">合板パーツ（型枠から転用）</text>
+      <text x="506" y="308" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#888">菌糸体コンポーネント</text>
+    </svg>
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">CONVERSION TABLE</div>
+    <table>
+      <thead>
+        <tr>
+          <th>アイテム</th>
+          <th>型枠として使う期間</th>
+          <th>解体後の合板の形</th>
+          <th>菌糸体の使途</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Myco-Stool</strong></td>
+          <td>14日（スツール型枠）</td>
+          <td>スツール本体 — 合板脚4本に再組立</td>
+          <td>座面クッション（厚40mm）</td>
+        </tr>
+        <tr>
+          <td><strong>Myco-Table</strong></td>
+          <td>14日（テーブル天板型枠）</td>
+          <td>テーブル脚4本＋幕板フレーム</td>
+          <td>天板表面（30mm厚）</td>
+        </tr>
+        <tr>
+          <td><strong>Myco-Lamp</strong></td>
+          <td>7日（薄型20mm）</td>
+          <td>ランプ円形フレーム</td>
+          <td>透過シェード（20mm薄型）</td>
+        </tr>
+        <tr>
+          <td><strong>Myco-Shelf</strong></td>
+          <td>14日</td>
+          <td>棚縦フレーム＋横桟</td>
+          <td>棚板×3枚（25mm厚）</td>
+        </tr>
+        <tr>
+          <td><strong>Myco-Panel（内壁）</strong></td>
+          <td>14日</td>
+          <td>廃棄（薪・チップ・堆肥）</td>
+          <td>壁パネル（100mm厚）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── SECTION 04: 家具ライン仕様 ── -->
+<div class="section" id="lineup">
+  <div class="sec-label">SECTION 04</div>
+  <h2 class="sh">家具ライン仕様</h2>
+  <p class="sdesc">合板1枚から切り出した脚＋菌糸体で育てた天板・座面。合計6アイテムで内装一式が揃う。</p>
+
+  <div class="furniture-grid">
+    <!-- Stool -->
+    <div class="f-card">
+      <div class="f-card-num">ITEM 01 / MYCO-STOOL</div>
+      <div class="f-card-name">Myco-Stool</div>
+      <div class="f-card-dim">350 × 350 × 420 mm</div>
+      <div class="f-card-desc">菌糸体座面（40mm厚）＋合板脚4本。スツールの型枠として14日間使った合板が、そのままスツールの脚になる。</div>
+      <img src="../img/myco_render_organic_stool.jpg" alt="Myco-Stool" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:2px;margin-bottom:16px;background:#2a2520">
+      <div class="f-card-price">¥1,200</div>
+    </div>
+
+    <!-- Table -->
+    <div class="f-card">
+      <div class="f-card-num">ITEM 02 / MYCO-TABLE</div>
+      <div class="f-card-name">Myco-Table</div>
+      <div class="f-card-dim">800 × 600 × 720 mm</div>
+      <div class="f-card-desc">菌糸体天板（30mm厚）＋合板脚4本＋幕板。天板型枠として使った合板板がそのままテーブル脚に転生する。</div>
+      <img src="../img/myco_render_organic_table.jpg" alt="Myco-Table" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:2px;margin-bottom:16px;background:#2a2520">
+      <div class="f-card-price">¥2,500</div>
+    </div>
+
+    <!-- Lamp -->
+    <div class="f-card">
+      <div class="f-card-num">ITEM 03 / MYCO-LAMP</div>
+      <div class="f-card-name">Myco-Lamp</div>
+      <div class="f-card-dim">φ 280 mm / 20mm厚</div>
+      <div class="f-card-desc">菌糸体透過シェード（20mm薄型）＋合板円形フレーム。7日培養で光が透過する薄さに育つ。電球はE17ソケット。</div>
+      <img src="../img/myco_render_organic_lamp.jpg" alt="Myco-Lamp" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:2px;margin-bottom:16px;background:#2a2520">
+      <div class="f-card-price">¥800</div>
+    </div>
+
+    <!-- Shelf -->
+    <div class="f-card">
+      <div class="f-card-num">ITEM 04 / MYCO-SHELF</div>
+      <div class="f-card-name">Myco-Shelf</div>
+      <div class="f-card-dim">600 × 250 × 900 mm / 3段</div>
+      <div class="f-card-desc">菌糸体棚板3枚（25mm厚）＋合板縦フレーム。壁面固定式。棚板の型枠として使った合板が棚のフレームに変わる。</div>
+      <img src="../img/myco_render_organic_shelf.jpg" alt="Myco-Shelf" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:2px;margin-bottom:16px;background:#2a2520">
+      <div class="f-card-price">¥1,800</div>
+    </div>
+
+    <!-- Side Table -->
+    <div class="f-card">
+      <div class="f-card-num">ITEM 05 / MYCO-SIDETABLE</div>
+      <div class="f-card-name">Myco-SideTable</div>
+      <div class="f-card-dim">φ 400 × 500 mm</div>
+      <div class="f-card-desc">菌糸体丸天板（25mm厚）＋合板脚3本。ベッドサイドや窓際に。端材の脚3本で三脚スタイルに仕上げる。</div>
+      <img src="../img/myco_render_organic_table.jpg" alt="Myco-SideTable" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:2px;margin-bottom:16px;background:#2a2520">
+      <div class="f-card-price">¥1,500</div>
+    </div>
+
+    <!-- Tray -->
+    <div class="f-card">
+      <div class="f-card-num">ITEM 06 / MYCO-TRAY</div>
+      <div class="f-card-name">Myco-Tray</div>
+      <div class="f-card-dim">300 × 200 mm</div>
+      <div class="f-card-desc">ネスティング後の端材（300×200mm程度）から作るトレー。端材を培地に使い菌糸体コーティングで仕上げる。廃棄ゼロの象徴的なアイテム。</div>
+      <img src="../img/myco_render_mycelium_detail.jpg" alt="Myco-Tray" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:2px;margin-bottom:16px;background:#2a2520">
+      <div class="f-card-price">¥300</div>
+    </div>
+  </div>
+
+  <div style="background:var(--char);color:var(--cream);border-radius:4px;padding:24px;margin-top:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+    <div>
+      <div style="font-size:9px;letter-spacing:.2em;color:#666;margin-bottom:4px">TOTAL — 内装一式 6アイテム</div>
+      <div style="font-size:42px;font-weight:900;letter-spacing:-.03em;color:var(--gold);line-height:1">¥8,100</div>
+      <div style="font-size:11px;color:#888;margin-top:6px">合板2枚(¥9,000) + 種菌(¥5,000) + おが粉(¥0) + CNC加工(¥12,000)</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:9px;letter-spacing:.2em;color:#666;margin-bottom:4px">vs 無印良品一式</div>
+      <div style="font-size:28px;font-weight:900;color:#c0392b;line-height:1">▼ 95%</div>
+      <div style="font-size:11px;color:#888;margin-top:6px">無印¥149,000 → ¥8,100</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 05: CNC仕様書 ── -->
+<div class="section" id="cnc">
+  <div class="sec-label">SECTION 05</div>
+  <h2 class="sh">CNC 仕様書</h2>
+  <p class="sdesc">ネスティングデータをDXF/SVGで発注。フィンガージョイントでビスゼロ組立。</p>
+
+  <div class="spec-grid">
+    <div class="spec-box">
+      <h3>ファイル仕様</h3>
+      <div class="spec-item"><span>ファイル形式</span><span class="sv">DXF / SVG</span></div>
+      <div class="spec-item"><span>レイヤー</span><span class="sv">カット / ポケット / 刻印</span></div>
+      <div class="spec-item"><span>原点</span><span class="sv">左下コーナー</span></div>
+      <div class="spec-item"><span>単位</span><span class="sv">mm（小数点3桁）</span></div>
+    </div>
+    <div class="spec-box">
+      <h3>材料仕様</h3>
+      <div class="spec-item"><span>材料</span><span class="sv">18mm ラーチ合板</span></div>
+      <div class="spec-item"><span>代替材</span><span class="sv">シラカバ合板 18mm</span></div>
+      <div class="spec-item"><span>シートサイズ</span><span class="sv">1220 × 2440 mm</span></div>
+      <div class="spec-item"><span>反り許容</span><span class="sv">±2mm以内</span></div>
+    </div>
+    <div class="spec-box">
+      <h3>切削条件</h3>
+      <div class="spec-item"><span>エンドミル</span><span class="sv">φ6mm スパイラルフルート</span></div>
+      <div class="spec-item"><span>送り速度</span><span class="sv">3,000 mm/min</span></div>
+      <div class="spec-item"><span>切込み深さ</span><span class="sv">6mm/パス</span></div>
+      <div class="spec-item"><span>外形カット</span><span class="sv">左回り / タブ4点留め</span></div>
+    </div>
+    <div class="spec-box">
+      <h3>フィンガージョイント仕様</h3>
+      <div class="spec-item"><span>タブサイズ</span><span class="sv">40 × 18 mm</span></div>
+      <div class="spec-item"><span>クリアランス</span><span class="sv">0.3 mm（片側0.15）</span></div>
+      <div class="spec-item"><span>ポケット深さ</span><span class="sv">9 mm（板厚の50%）</span></div>
+      <div class="spec-item"><span>接着剤</span><span class="sv">不要（摩擦締結）</span></div>
+    </div>
+  </div>
+
+  <div class="diagram-wrap" style="margin-top:24px">
+    <div class="diagram-title">CNC 発注先候補</div>
+    <table>
+      <thead>
+        <tr>
+          <th>業者</th>
+          <th>単価目安</th>
+          <th>対応エリア</th>
+          <th>備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>P-Ban.com</strong></td>
+          <td>¥15,000〜/枚</td>
+          <td>全国通販</td>
+          <td>DXFアップロードで即見積、最短3日</td>
+        </tr>
+        <tr>
+          <td><strong>木工所直発注（北海道）</strong></td>
+          <td>¥8,000〜/枚</td>
+          <td>要交渉</td>
+          <td>端材も引き取り可、関係構築が必要</td>
+        </tr>
+        <tr>
+          <td><strong>Fabtech（札幌）</strong></td>
+          <td>¥12,000〜/枚</td>
+          <td>道内配送</td>
+          <td>近隣のため送料安、要問合せ</td>
+        </tr>
+        <tr>
+          <td><strong>Makuake工房（DIY）</strong></td>
+          <td>¥3,000〜/枚（機械使用料）</td>
+          <td>要現地</td>
+          <td>自分でオペレートできれば最安、研修必要</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── SECTION 06: 菌糸体配合 ── -->
+<div class="section" id="formula">
+  <div class="sec-label">SECTION 06</div>
+  <h2 class="sh">菌糸体配合 — 家具用</h2>
+  <p class="sdesc">家具用は建築パネルより密度を高く配合。硬さと軽さを両立させる霊芝（Ganoderma lucidum）を種菌に使用。</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+    <div class="formula-box">
+      <h3>家具用培地配合（乾燥重量比）</h3>
+      <div class="formula-row">
+        <div class="formula-pct">55%</div>
+        <div>
+          <div class="formula-name">おが粉（ラーチ）</div>
+          <div class="formula-note">炭素源 / 菌糸の骨格材</div>
+        </div>
+      </div>
+      <div class="formula-row">
+        <div class="formula-pct">20%</div>
+        <div>
+          <div class="formula-name">ふすま（小麦ふすま）</div>
+          <div class="formula-note">窒素源 / 成長促進</div>
+        </div>
+      </div>
+      <div class="formula-row">
+        <div class="formula-pct">15%</div>
+        <div>
+          <div class="formula-name">米ぬか</div>
+          <div class="formula-note">ビタミン・ミネラル補給</div>
+        </div>
+      </div>
+      <div class="formula-row">
+        <div class="formula-pct" style="color:#aaa">10%</div>
+        <div>
+          <div class="formula-name" style="color:#aaa">石膏（無水）</div>
+          <div class="formula-note">硬化剤 / 密度向上</div>
+        </div>
+      </div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid #2a2520">
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:6px">
+          <span style="color:#888">含水率</span><span style="color:var(--gold);font-weight:700">50〜55%</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:6px">
+          <span style="color:#888">種菌</span><span style="color:var(--gold);font-weight:700">霊芝（Ganoderma lucidum）</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:6px">
+          <span style="color:#888">培養温度</span><span style="color:var(--gold);font-weight:700">25℃ / 14日</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px">
+          <span style="color:#888">目標密度</span><span style="color:var(--gold);font-weight:700">80〜120 kg/m³</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="diagram-wrap">
+      <div class="diagram-title">家具用 vs 建築用 配合比較</div>
+      <table>
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th>家具用</th>
+            <th>建築パネル用</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>おが粉</td>
+            <td><strong>55%</strong></td>
+            <td>65%</td>
+          </tr>
+          <tr>
+            <td>ふすま</td>
+            <td><strong>20%</strong></td>
+            <td>15%</td>
+          </tr>
+          <tr>
+            <td>米ぬか</td>
+            <td><strong>15%</strong></td>
+            <td>20%</td>
+          </tr>
+          <tr>
+            <td>石膏</td>
+            <td><strong>10%</strong></td>
+            <td>0%</td>
+          </tr>
+          <tr>
+            <td>目標密度</td>
+            <td><strong>80〜120 kg/m³</strong></td>
+            <td>50〜80 kg/m³</td>
+          </tr>
+          <tr>
+            <td>培養期間</td>
+            <td><strong>14日</strong></td>
+            <td>21日</td>
+          </tr>
+          <tr>
+            <td>圧縮強度</td>
+            <td><strong>0.4〜0.8 MPa</strong></td>
+            <td>0.2〜0.4 MPa</td>
+          </tr>
+          <tr>
+            <td>用途適性</td>
+            <td><strong>高荷重家具</strong></td>
+            <td>断熱・遮音パネル</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding:14px 16px;font-size:11px;color:var(--muted);background:#faf9f7;border-top:1px solid var(--line)">
+        石膏10%添加で密度・硬度ともに約1.5倍。座面・天板など荷重のかかる部位に適用。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 07: コスト vs 市販品比較 ── -->
+<div class="section" id="cost">
+  <div class="sec-label">SECTION 07</div>
+  <h2 class="sh">コスト vs 市販品比較</h2>
+  <p class="sdesc">同等の内装機能を揃えた場合の総コスト比較。材料費・加工費・種菌を含む実費ベース。</p>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">COST COMPARISON — 内装一式（6アイテム）</div>
+    <table>
+      <thead>
+        <tr>
+          <th>アイテム</th>
+          <th class="thl-myco">MYCO FURNITURE</th>
+          <th>無印良品 相当</th>
+          <th>IKEA 相当</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Myco-Stool / スツール</td>
+          <td class="thl-myco">¥1,200</td>
+          <td>¥9,900</td>
+          <td>¥4,999</td>
+        </tr>
+        <tr>
+          <td>Myco-Table / ダイニングテーブル</td>
+          <td class="thl-myco">¥2,500</td>
+          <td>¥39,900</td>
+          <td>¥19,999</td>
+        </tr>
+        <tr>
+          <td>Myco-Lamp / ペンダントランプ</td>
+          <td class="thl-myco">¥800</td>
+          <td>¥4,990</td>
+          <td>¥2,999</td>
+        </tr>
+        <tr>
+          <td>Myco-Shelf / 壁面棚 3段</td>
+          <td class="thl-myco">¥1,800</td>
+          <td>¥24,900</td>
+          <td>¥11,999</td>
+        </tr>
+        <tr>
+          <td>Myco-SideTable / サイドテーブル</td>
+          <td class="thl-myco">¥1,500</td>
+          <td>¥19,900</td>
+          <td>¥9,999</td>
+        </tr>
+        <tr>
+          <td>Myco-Tray / トレー</td>
+          <td class="thl-myco">¥300</td>
+          <td>¥1,990</td>
+          <td>¥1,499</td>
+        </tr>
+        <tr>
+          <td><strong>内装一式 合計</strong></td>
+          <td class="thl-myco"><strong>¥8,100</strong></td>
+          <td><strong>¥101,580</strong></td>
+          <td><strong>¥51,494</strong></td>
+        </tr>
+        <tr>
+          <td><strong>削減率</strong></td>
+          <td class="thl-myco">—</td>
+          <td class="thl-save"><strong>▼ 92%</strong></td>
+          <td class="thl-save"><strong>▼ 84%</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Cost breakdown -->
+  <div style="background:var(--char);border-radius:4px;padding:28px 32px;margin-top:24px;color:var(--cream)">
+    <div style="font-size:9px;letter-spacing:.2em;color:#666;margin-bottom:20px;text-transform:uppercase">MYCO FURNITURE 実費内訳</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:8px;letter-spacing:.15em;color:#555;margin-bottom:6px">合板2枚</div>
+        <div style="font-size:22px;font-weight:900;color:#ccc">¥9,000</div>
+        <div style="font-size:9px;color:#444;margin-top:3px">¥4,500×2枚</div>
+      </div>
+      <div>
+        <div style="font-size:8px;letter-spacing:.15em;color:#555;margin-bottom:6px">CNC加工費</div>
+        <div style="font-size:22px;font-weight:900;color:#ccc">¥12,000</div>
+        <div style="font-size:9px;color:#444;margin-top:3px">P-Ban.com概算</div>
+      </div>
+      <div>
+        <div style="font-size:8px;letter-spacing:.15em;color:#555;margin-bottom:6px">種菌（霊芝）</div>
+        <div style="font-size:22px;font-weight:900;color:#ccc">¥5,000</div>
+        <div style="font-size:9px;color:#444;margin-top:3px">20個分</div>
+      </div>
+      <div>
+        <div style="font-size:8px;letter-spacing:.15em;color:#555;margin-bottom:6px">おが粉 / ふすま</div>
+        <div style="font-size:22px;font-weight:900;color:var(--green)">¥0〜2,000</div>
+        <div style="font-size:9px;color:#444;margin-top:3px">製材所廃材</div>
+      </div>
+    </div>
+    <div style="margin-top:24px;padding-top:20px;border-top:1px solid #2a2520;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div style="font-size:12px;color:#888">家具の材料コスト合計（加工費除く）</div>
+      <div style="font-size:32px;font-weight:900;color:var(--gold);letter-spacing:-.02em">¥14,000〜16,000</div>
+    </div>
+    <div style="font-size:11px;color:#555;margin-top:8px">※ CNC加工を自前設備にするとさらに¥12,000削減。設備投資回収後は合板代＋種菌代のみ。</div>
+  </div>
+
+  <!-- Visual bar chart SVG -->
+  <div class="diagram-wrap" style="margin-top:24px">
+    <div class="diagram-title">VISUAL COST COMPARISON</div>
+    <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;padding:24px;background:#fff">
+      <!-- Y axis labels -->
+      <text x="45" y="20" text-anchor="end" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#ccc">¥100K</text>
+      <text x="45" y="70" text-anchor="end" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#ccc">¥75K</text>
+      <text x="45" y="120" text-anchor="end" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#ccc">¥50K</text>
+      <text x="45" y="170" text-anchor="end" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#ccc">¥25K</text>
+      <line x1="50" y1="12" x2="50" y2="178" stroke="#eee" stroke-width="1"/>
+      <line x1="50" y1="178" x2="590" y2="178" stroke="#eee" stroke-width="1"/>
+
+      <!-- 無印 bar: ¥101,580 ≈ 100% = 160px height -->
+      <rect x="100" y="18" width="100" height="160" rx="2" fill="#e8e4dc"/>
+      <text x="150" y="13" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">無印良品</text>
+      <text x="150" y="190" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">¥101,580</text>
+
+      <!-- IKEA bar: ¥51,494 ≈ 50% = 81px -->
+      <rect x="260" y="97" width="100" height="81" rx="2" fill="#d4d0cc"/>
+      <text x="310" y="92" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">IKEA</text>
+      <text x="310" y="190" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">¥51,494</text>
+
+      <!-- MYCO bar: ¥8,100 ≈ 8% = 13px -->
+      <rect x="420" y="165" width="100" height="13" rx="2" fill="#c8a455"/>
+      <text x="470" y="160" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#c8a455" font-weight="700">MYCO</text>
+      <text x="470" y="190" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#c8a455" font-weight="700">¥8,100</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ── FOOTER NAV ── -->
+<div class="foot-nav">
+  <a href="/manufacturing/kumanoki.html" class="foot-link">← KUMANOKI V-01</a>
+  <a href="/manufacturing/mycelium-lab.html" class="foot-link">菌糸体ラボ</a>
+  <a href="/manufacturing/3d-mold.html" class="foot-link">3D MOLD</a>
+  <a href="/manufacturing/house.html" class="foot-link">SOLUNA HOUSE S-01</a>
+</div>
+
+</div><!-- /.wrap -->
+
+</body>
+</html>

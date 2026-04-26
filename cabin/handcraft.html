@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/handcraft" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA HANDCRAFT — Building by Hand. Straw, Timber, Earth. | solun.art">SOLUNA HANDCRAFT — 手で建てる。麦わら・丸太・土。 | solun.art</title>
+<meta content="ストローベイル・コードウッド・版築。3つの自然建築工法で、在来工法の半額以下。北海道弟子屈32,000坪でオーナーが手で作る場所。" data-en-content="Strawbale, cordwood, and rammed earth—three natural building methods at half the cost of conventional construction. A 32,000-tsubo sanctuary in Teshikaga, Hokkaido, built by owners' hands." name="description"/>
+<meta content="手で建てる。麦わら・丸太・土。— SOLUNA HANDCRAFT" property="og:title"/>
+<meta content="断熱性抜群のストローベイル、丸太横積みのコードウッドサウナ、敷地の土を踏み固める版築。在来工法の半額で、世界に一つの空間を作る。" property="og:description"/>
+<meta content="https://solun.art/img/kumaushi_b_autumn_building.webp" property="og:image"/>
+<meta content="https://solun.art/handcraft" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.35);
+  --gold-soft:rgba(200,164,85,.07);
+  --bg:#040404;
+  --bg-soft:#070707;
+  --line:#111;
+  --text:#ede9e1;
+  --text-dim:#666;
+  --text-soft:#3a3a3a;
+  --card:#080808;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--gold);color:#000}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.03)}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--gold)}
+.nav-links{display:flex;gap:24px;align-items:center;font-size:10.5px}
+.nav-links a{color:#4a4a4a;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--gold)}
+.nav-cta{color:var(--gold)!important;font-weight:700;border:1px solid var(--gold-dim);padding:7px 16px;border-radius:100px;transition:all .2s!important}
+.nav-cta:hover{background:var(--gold)!important;color:#040404!important}
+@media(max-width:600px){.nav-links{display:none}}
+
+/* Hero */
+.hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(4,4,4,.95) 0%,rgba(4,4,4,.4) 50%,rgba(4,4,4,.1) 100%)}
+.hero-content{position:relative;z-index:2;padding:0 28px 80px;max-width:760px}
+.hero-chip{display:inline-block;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-dim);padding:5px 13px;border-radius:100px;margin-bottom:24px;font-weight:700}
+.hero h1{font-size:clamp(2.8rem,8vw,5.5rem);font-weight:900;line-height:.95;letter-spacing:-.04em;margin-bottom:24px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{font-size:clamp(14px,2vw,16px);color:#888;line-height:1.9;max-width:480px;margin-bottom:36px}
+.hero-stats{display:flex;gap:40px;flex-wrap:wrap}
+.hero-stat .num{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:900;color:var(--gold);letter-spacing:-.03em}
+.hero-stat .lbl{font-size:10px;letter-spacing:.12em;color:#555;text-transform:uppercase;margin-top:2px}
+
+/* Section layout */
+.section{padding:96px 28px}
+.w{max-width:760px;margin:0 auto}
+.w-wide{max-width:1100px;margin:0 auto}
+.section-label{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:16px}
+.section-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;letter-spacing:-.03em;line-height:1.1;margin-bottom:20px}
+.section-body{font-size:15px;color:#888;line-height:2;max-width:600px}
+hr.sep{border:none;border-top:1px solid var(--line);margin:0}
+
+/* Intro */
+.intro{background:var(--bg-soft);border-bottom:1px solid var(--line)}
+.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.intro-img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px}
+.intro p{font-size:15px;color:#888;line-height:2.1;margin-bottom:18px}
+.intro p strong{color:var(--text)}
+.pq{border-left:3px solid var(--gold);padding:0 0 0 20px;font-size:1.05rem;font-style:italic;color:#aaa;line-height:1.85;margin:28px 0}
+@media(max-width:680px){.intro-grid{grid-template-columns:1fr;gap:32px}}
+
+/* Method cards */
+.methods{background:var(--bg)}
+.method-card{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:40px;transition:border-color .3s}
+.method-card:hover{border-color:rgba(200,164,85,.2)}
+.method-card.reverse{direction:rtl}
+.method-card.reverse > *{direction:ltr}
+.method-img{width:100%;height:100%;min-height:360px;object-fit:cover}
+.method-body{padding:40px}
+.method-num{font-size:9px;letter-spacing:.35em;color:var(--gold-dim);font-weight:700;margin-bottom:12px}
+.method-name{font-size:clamp(1.4rem,3vw,2rem);font-weight:900;letter-spacing:-.03em;margin-bottom:6px}
+.method-en{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:20px}
+.method-body p{font-size:14px;color:#777;line-height:2;margin-bottom:16px}
+.method-body strong{color:var(--text)}
+.tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.tag{font-size:9.5px;padding:4px 12px;border-radius:100px;font-weight:700;letter-spacing:.08em}
+.tag-eco{background:rgba(100,180,100,.1);color:#7bc47b;border:1px solid rgba(100,180,100,.2)}
+.tag-cost{background:rgba(200,164,85,.08);color:var(--gold);border:1px solid var(--gold-dim)}
+.tag-diy{background:rgba(100,150,255,.08);color:#8aabff;border:1px solid rgba(100,150,255,.2)}
+.tag-warm{background:rgba(255,150,80,.08);color:#ffaa66;border:1px solid rgba(255,150,80,.2)}
+.cost-row{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 20px;margin-top:20px}
+.cost-row .label{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px}
+.cost-nums{display:flex;align-items:baseline;gap:12px}
+.cost-main{font-size:1.6rem;font-weight:900;color:var(--gold);letter-spacing:-.03em}
+.cost-vs{font-size:11px;color:var(--text-dim)}
+.cost-old{font-size:1rem;font-weight:700;color:#3a3a3a;text-decoration:line-through}
+@media(max-width:700px){
+  .method-card,.method-card.reverse{grid-template-columns:1fr;direction:ltr}
+  .method-img{min-height:240px}
+  .method-body{padding:28px}
+}
+
+/* Steps */
+.steps{background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line)}
+.step{background:var(--bg-soft);padding:32px 24px}
+.step-num{font-size:2.5rem;font-weight:900;color:rgba(200,164,85,.12);letter-spacing:-.05em;margin-bottom:8px;line-height:1}
+.step-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px}
+.step-body{font-size:12.5px;color:#555;line-height:1.75}
+@media(max-width:700px){.steps-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:400px){.steps-grid{grid-template-columns:1fr}}
+
+/* Comparison */
+.compare{background:var(--bg)}
+.compare-table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px}
+.compare-table th{background:var(--card);padding:14px 18px;text-align:left;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:700;border-bottom:1px solid var(--line)}
+.compare-table td{padding:14px 18px;border-bottom:1px solid rgba(17,17,17,.8);color:#888;vertical-align:middle}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table tr:hover td{background:rgba(255,255,255,.01)}
+.compare-table td:first-child{color:var(--text);font-weight:600}
+.compare-table td.gold{color:var(--gold);font-weight:700}
+.compare-table td.dim{color:#333}
+.bar-wrap{background:#111;border-radius:100px;height:5px;width:120px;display:inline-block;vertical-align:middle;margin-left:8px}
+.bar{height:5px;border-radius:100px;background:var(--gold);display:block}
+
+/* WorkParty */
+.workparty{background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.wp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;background:var(--line);margin:48px 0}
+.wp-card{background:var(--bg-soft);padding:32px 28px}
+.wp-card-num{font-size:9px;letter-spacing:.35em;color:var(--gold-dim);font-weight:700;margin-bottom:16px}
+.wp-card-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:10px;letter-spacing:-.02em}
+.wp-card-day{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:700}
+.wp-card p{font-size:12.5px;color:#555;line-height:1.8}
+.wp-photo-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:48px}
+.wp-photo-strip img{width:100%;aspect-ratio:4/3;object-fit:cover}
+@media(max-width:700px){
+  .wp-grid{grid-template-columns:1fr}
+  .wp-photo-strip{grid-template-columns:1fr 1fr}
+}
+
+/* Comfort gallery */
+.comfort{background:var(--bg)}
+.comfort-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px;background:var(--line)}
+.comfort-item{position:relative;overflow:hidden;background:var(--card)}
+.comfort-item img{width:100%;aspect-ratio:1;object-fit:cover;transition:transform .5s}
+.comfort-item:hover img{transform:scale(1.04)}
+.comfort-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(4,4,4,.85),transparent 60%);display:flex;align-items:flex-end;padding:16px}
+.comfort-label{font-size:11px;font-weight:700;color:var(--text);letter-spacing:.05em}
+@media(max-width:600px){.comfort-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* CTA */
+.cta{background:var(--bg-soft);border-top:1px solid var(--line);text-align:center;padding:96px 28px}
+.cta h2{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:-.04em;line-height:1.05;margin-bottom:20px}
+.cta h2 em{font-style:normal;color:var(--gold)}
+.cta p{font-size:14px;color:#666;max-width:480px;margin:0 auto 40px;line-height:1.9}
+.btn-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;padding:14px 32px;border-radius:100px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;transition:all .25s}
+.btn-primary{background:var(--gold);color:#040404}
+.btn-primary:hover{background:#d4b56a}
+.btn-ghost{border:1px solid var(--gold-dim);color:var(--gold)}
+.btn-ghost:hover{background:var(--gold-soft)}
+
+/* FAQ */
+.faq{background:var(--bg)}
+.faq-list{margin-top:48px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.faq-item{border-bottom:1px solid var(--line);padding:24px 28px}
+.faq-item:last-child{border-bottom:none}
+.faq-q{font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px;letter-spacing:-.01em}
+.faq-a{font-size:13px;color:#666;line-height:1.9}
+.faq-a strong{color:#aaa}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding:40px 28px;text-align:center}
+.footer-logo{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--gold);margin-bottom:12px}
+.footer-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;font-size:11px;margin-bottom:16px}
+.footer-links a{color:#3a3a3a;transition:color .2s}
+.footer-links a:hover{color:var(--gold)}
+.footer-copy{font-size:10.5px;color:#2a2a2a}
+
+/* Anim */
+.r{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s ease}
+.r.in{opacity:1;transform:translateY(0)}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<!-- Nav -->
+<nav>
+<a class="nav-logo" href="index">SOLUNA</a>
+<div class="nav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Construction" href="village">ヴィラ建築</a>
+<a class="active" href="handcraft">HANDCRAFT</a>
+<a href="homes">MODEL VILLAGE</a>
+<a href="blog">Journal</a>
+<a class="nav-cta" data-en="Become an Owner" href="index#join">オーナーになる</a>
+</div>
+</nav>
+<!-- Hero -->
+<section class="hero">
+<img alt="SOLUNA HANDCRAFT 建築現場" class="hero-img" data-en-alt="SOLUNA HANDCRAFT Construction Site" src="img/kumaushi_b_autumn_building.webp"/>
+<div class="hero-overlay"></div>
+<div class="hero-content">
+<div class="hero-chip">SOLUNA HANDCRAFT</div>
+<h1 data-en="Built by hand.">手で建てる。<br/><em data-en="Straw. Logs. Earth.">麦わら、丸太、土。</em></h1>
+<p class="hero-sub" data-en="Create a singular space for half the cost of conventional methods. Straw bale, cordwood, and rammed earth—three natural building techniques experienced firsthand by owners.">在来工法の半額以下で、世界に一つの空間を作る。<br/>ストローベイル・コードウッド・版築——3つの自然建築工法を、オーナーが自分の手で体験する。</p>
+<div class="hero-stats">
+<div class="hero-stat">
+<div class="num">1/2</div>
+<div class="lbl" data-en="Cost vs. Conventional Methods">在来工法比コスト</div>
+</div>
+<div class="hero-stat">
+<div class="num">UA 0.2</div>
+<div class="lbl" data-en="Thermal Performance (Exceeds Hokkaido Standards)">断熱性能（北海道基準超え）</div>
+</div>
+<div class="hero-stat">
+<div class="num">3</div>
+<div class="lbl" data-en="Work Party Sessions">Work Party 回数</div>
+</div>
+</div>
+</div>
+</section>
+<hr class="sep"/>
+<!-- Intro -->
+<section class="intro section">
+<div class="w">
+<div class="intro-grid">
+<div>
+<div class="section-label r">Philosophy</div>
+<h2 class="section-title r" data-en="The experience of 'building it yourself' cannot be purchased.">「自分で作った」は、<br/>買えない体験だ。</h2>
+<p class="r" data-en="There are things luxury hotels cannot create. This truth generates a deeper sense of ownership than millions of yen in interior design.">高級ホテルには作れないものがある。<strong data-en="Logs stacked by your own hands become the sauna walls">自分の手で積んだ丸太がサウナの壁になっている</strong>という事実は、何百万円のインテリアよりも深い所有感を生む。</p>
+<p class="r" data-en="What SOLUNA is undertaking across 32,000 tsubo in Teshikaga, Hokkaido is the reconnection of luxury and handcraft. Straw, timber, earth—the most affordable materials on our planet become the richest spaces imaginable.">SOLUNAが弟子屈の3万坪でやろうとしていることは、ラグジュアリーと手仕事の再接続だ。麦わら・丸太・土——地球上で最も安価な素材が、最も豊かな空間になる。</p>
+<div class="pq r" data-en='"A handcrafted home possesses a soul." — Bernard Rudofsky'>「手作りの家は、魂を持っている。」<br/>— バーナード・ルドフスキー</div>
+</div>
+<div class="r">
+<img alt="薪割り Work Party" class="intro-img" data-en-alt="Firewood Splitting Work Party" src="img/kumaushi_b_wood_chopping.webp"/>
+<div style="margin-top:2px;display:grid;grid-template-columns:1fr 1fr;gap:2px">
+<img alt="Work Party" class="intro-img" src="img/k4_team_workparty.webp" style="aspect-ratio:1;border-radius:0"/>
+<img alt="薪ストーブ" class="intro-img" data-en-alt="Wood Stove" src="img/comfort_rocket_stove.webp" style="aspect-ratio:1;border-radius:0"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<hr class="sep"/>
+<!-- Method 01: Straw Bale -->
+<section class="methods section">
+<div class="w-wide">
+<div class="section-label r" data-en="Three Construction Methods" style="padding:0 28px;margin-bottom:48px">3つの工法</div>
+<div class="method-card r">
+<img alt="ストローベイル断熱壁" class="method-img" data-en-alt="Strawbale Insulation Wall" src="img/insulation_woodfiber.jpg"/>
+<div class="method-body">
+<div class="method-num">METHOD 01</div>
+<div class="method-name" data-en="Strawbale">ストローベイル</div>
+<div class="method-en">Straw Bale Construction</div>
+<div class="tag-row">
+<span class="tag tag-warm" data-en="Maximum Insulation">断熱最強</span>
+<span class="tag tag-eco" data-en="Carbon Negative">カーボンマイナス</span>
+<span class="tag tag-cost" data-en="Materials from ¥100,000">材料費 10万円〜</span>
+<span class="tag tag-diy" data-en="Work Party Compatible">Work Party 対応</span>
+</div>
+<p data-en="Straw bales are stacked and finished with earth plaster. It exceeds Hokkaido's highest insulation standards, allowing comfortable winters in Teshikaga, Hokkaido (−20°C) with a single wood stove.">麦わらを圧縮したベイルを積み上げ、土プラスター（漆喰）で仕上げる。<strong data-en="U-Value 0.2 or Lower">UA値 0.2以下</strong>は北海道の最高断熱基準を超え、弟子屈の厳冬（-20℃）でも薪ストーブ一台で過ごせる。</p>
+<p data-en="The timber-frame structure passes building approval. Bales are treated as thermal insulation infill. Hokkaido is barley country—sourced from local agricultural cooperatives in eastern Hokkaido for ¥500 per bale.">構造は木造軸組みで確認申請を通す。ベイルは断熱充填材として扱うため<strong data-en="Legal Compliance">法的クリア</strong>。北海道は麦の産地——道東のJAから1個500円で調達できる。</p>
+<p data-en="Lime plaster application is the signature Work Party event for Owners. Walls of layered earth and plaster continue to breathe long after completion.">漆喰塗りはオーナーが参加できるWork Partyのメインイベント。何層も重ねた土と漆喰の壁は、完成後も呼吸し続ける。</p>
+<div class="cost-row">
+<div class="label" data-en="15 Tsubo Single-Story (Materials-Based)">15坪・平屋（材料費ベース）</div>
+<div class="cost-nums">
+<span class="cost-main" data-en="From ¥4,700,000">470万円〜</span>
+<span class="cost-vs">vs</span>
+<span class="cost-old" data-en="¥12,000,000">1,200万円</span>
+<span class="cost-vs" data-en="(Traditional Construction Method)">（在来工法）</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Method 02: Cordwood -->
+<div class="method-card reverse r">
+<div class="method-body">
+<div class="method-num">METHOD 02</div>
+<div class="method-name" data-en="Cordwood Sauna">コードウッドサウナ</div>
+<div class="method-en">Cordwood Masonry</div>
+<div class="tag-row">
+<span class="tag tag-eco" data-en="Thinned Wood Utilization">間伐材活用</span>
+<span class="tag tag-cost" data-en="Materials from ¥500,000">材料費 50万円〜</span>
+<span class="tag tag-diy" data-en="Building permit not required (under 10 m²)">確認申請不要（10㎡以下）</span>
+<span class="tag tag-warm" data-en="Unique Exterior">唯一の外観</span>
+</div>
+<p data-en="Logs are cut into 30-40cm rounds, stacked horizontally, and joined with mortar—a truly singular design. Using thinned larch and cedar from near Teshikaga brings material costs near zero.">丸太を30〜40cmに玉切りして横積みし、モルタルで接合する。<strong data-en="Growth rings of the cut face become the wall">切り口の年輪が壁になる</strong>——世界に一つの意匠だ。弟子屈近郊の間伐カラマツ・スギを使えば材料費はほぼゼロに近い。</p>
+<p data-en="Sauna structures under 10㎡ require no building permit. At KUMAUSHI BASE. Day 1: log cutting, Day 2-3: stacking, final day: inaugural bath.">10㎡以下のサウナ小屋なら建築確認申請不要。KUMAUSHI BASEの敷地に、<strong data-en="Build One Home in a 2-Night, 3-Day Work Party">2泊3日のWork Partyで一棟建てる</strong>。Day1に玉切り、Day2-3で積み上げ、最終日に初入浴。</p>
+<p data-en="Walls of 350–400mm thickness provide ample insulation for Teshikaga's winters. The exposed growth rings function as thermal mass, stabilizing temperature within the sauna space.">壁厚350〜400mmで弟子屈の冬に十分な断熱性能。年輪の断面は蓄熱材としても機能し、サウナ空間の温度を安定させる。</p>
+<div class="cost-row">
+<div class="label" data-en="6–8 m² Sauna Cottage (Construction Included)">6〜8㎡のサウナ小屋（工事費込み）</div>
+<div class="cost-nums">
+<span class="cost-main" data-en="¥500,000–700,000">50〜70万円</span>
+<span class="cost-vs">vs</span>
+<span class="cost-old" data-en="¥2,000,000–¥4,000,000">200〜400万円</span>
+<span class="cost-vs" data-en="(Contractor Arrangement)">（業者発注）</span>
+</div>
+</div>
+</div>
+<img alt="コードウッドサウナ" class="method-img" data-en-alt="Cordwood Sauna" src="img/kumaushi_c_sauna_exterior_snow.webp"/>
+</div>
+<!-- Method 03: Rammed Earth -->
+<div class="method-card r">
+<img alt="版築インテリア" class="method-img" data-en-alt="Rammed Earth Interior" src="img/cabin_morning.webp"/>
+<div class="method-body">
+<div class="method-num">METHOD 03</div>
+<div class="method-name" data-en="Rammed Earth Interior">版築インテリア</div>
+<div class="method-en">Rammed Earth</div>
+<div class="tag-row">
+<span class="tag tag-eco" data-en="Local Earth">現地の土</span>
+<span class="tag tag-cost" data-en="Materials from ¥80,000">材料費 8万円〜</span>
+<span class="tag tag-diy" data-en="Immediately Executable">即実行可能</span>
+<span class="tag tag-warm" data-en="Thermal Mass &amp; Humidity Regulation">蓄熱・調湿</span>
+</div>
+<p data-en="——That is all. We excavate clay-rich soil from our 32,000 tsubo site in Teshikaga, blend it with sand and slaked lime, then compress it. Beautiful stripes emerge, layered like geological strata."><strong data-en="Fill formwork with site soil and compress with rods">敷地の土を型枠に詰め、棒で突き固める</strong>——それだけだ。弟子屈32,000坪の粘土質の土を掘り、砂と消石灰を混ぜて圧縮する。地層のように美しいストライプが浮かび上がる。</p>
+<p data-en="Begin with small elements—the wood stove foundation, hearth counter, wainscoting. A shared narrative of creation with Teshikaga soil unifies every dwelling.">薪ストーブの台座、囲炉裏カウンター、腰壁——まずは小さなパーツから始める。「弟子屈の土で作った」という物語が、全棟に統一感を生む。</p>
+<p data-en="Thermal mass of rammed earth × insulation performance of strawbale. The synergy of these two methods has been confirmed through domestic case studies.">版築の蓄熱性×ストローベイルの断熱性。この2工法を組み合わせることで<strong data-en="90% Reduction in Heating Load">暖房負荷90%削減</strong>が国内事例で確認されている。</p>
+<div class="cost-row">
+<div class="label" data-en="Wood Stove Base &amp; Wainscoting (Materials Only)">薪ストーブ台座・腰壁（材料費のみ）</div>
+<div class="cost-nums">
+<span class="cost-main" data-en="¥80,000–150,000">8〜15万円</span>
+<span class="cost-vs" data-en="Completed in One Half-Day Work Party">半日Work Partyで完結</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<hr class="sep"/>
+<!-- How to Build Steps -->
+<section class="steps section" style="padding:0">
+<div class="w" style="padding:72px 28px 0">
+<div class="section-label r">How to Build</div>
+<h2 class="section-title r" data-en="Construction Method — Anyone Can Build It">作り方——<br/>誰でも積める。</h2>
+<p class="section-body r" data-en="No specialized expertise required. What matters is physical vitality and curiosity. An owner who arrives on day one leaves as a craftsperson." style="margin-bottom:48px">専門知識は不要。必要なのは体力と好奇心だ。初日に来たオーナーが最終日には職人の顔をしている。</p>
+</div>
+<div class="steps-grid">
+<div class="step r">
+<div class="step-num">01</div>
+<div class="step-title" data-en="Discover Site Materials">土地の素材を探す</div>
+<p class="step-body" data-en="Excavate the site to identify clay soil. Mix with moisture, form, and drop—this is the rammed earth composition test. Straw bales are sourced from JA Dohtou at ¥500 per unit in June-July.">敷地を掘って粘土質の土を確認。水分を含ませて丸めて落とす——これが版築配合テスト。麦わらベイルは6〜7月にJA道東から500円/個で取り寄せる。</p>
+</div>
+<div class="step r">
+<div class="step-num">02</div>
+<div class="step-title" data-en="Foundation &amp; Frame Construction">基礎・フレームを作る</div>
+<p class="step-body" data-en="A timber-frame structure is erected—this phase is entrusted to professionals. Strawbale serves as thermal insulation infill; the wood carries structural responsibility, ensuring building approval passes.">木造軸組みのフレームを建てる。ここだけプロに依頼。ストローベイルは断熱充填材——構造は木が担うので建築確認申請も通る。</p>
+</div>
+<div class="step r">
+<div class="step-num">03</div>
+<div class="step-title" data-en="Stack · Fill · Compact">積む・詰める・踏む</div>
+<p class="step-body" data-en="Layer bales in alternating directions. Secure cordwood in full logs with mortar. Rammed earth involves filling formwork with soil and compacting relentlessly. This is the heart of our Work Party.">ベイルを互い違いに積む。コードウッドを丸太ごとモルタルで接合する。版築は型枠に土を入れてひたすら突く。これがWork Partyのメイン。</p>
+</div>
+<div class="step r">
+<div class="step-num">04</div>
+<div class="step-title" data-en="Earth Plaster Finish">土を塗り、仕上げる</div>
+<p class="step-body" data-en="Rough coat (soil + sand + straw) → middle coat → lime plaster finish. Two-week drying period between each layer. Work Party #2: middle coat application, #3: finishing plaster. Engrave your name on the completed wall.">荒壁（土+砂+藁）→ 中塗り → 漆喰仕上げ。各層に2週間の乾燥期間。Work Party #2で中塗り、#3で仕上げ漆喰を塗る。完成した壁に名前を刻む。</p>
+</div>
+</div>
+</section>
+<hr class="sep"/>
+<!-- Cost Comparison -->
+<section class="compare section">
+<div class="w">
+<div class="section-label r">Cost Comparison</div>
+<h2 class="section-title r" data-en="Why Half the Cost?">なぜ半額なのか。</h2>
+<p class="section-body r" data-en='"Affordable" and "crude" are not the same. A method that surpasses traditional construction in insulation, durability, and design—why does it cost half as much? The answer is simple: the material is earth itself.' style="margin-bottom:48px">「安い」と「粗末」は違う。断熱性・耐久性・デザイン性——すべてで在来工法を上回る工法が、なぜ半額になるのか。理由はシンプルだ。素材が地球だから。</p>
+<div class="r">
+<table class="compare-table">
+<thead>
+<tr>
+<th data-en="Construction Method">工法</th>
+<th data-en="Price per Tsubo">坪単価</th>
+<th data-en="Insulation Performance">断熱性能</th>
+<th data-en="DIY Level">DIY度</th>
+<th data-en="Durability Years">耐久年数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-en="Strawbale">ストローベイル</td>
+<td class="gold" data-en="¥200,000–¥400,000">20〜40万円<div class="bar-wrap"><span class="bar" style="width:35%"></span></div></td>
+<td class="gold" data-en="◎ UA Value Below 0.2">◎ UA 0.2以下</td>
+<td>★★★★☆</td>
+<td data-en="50–100 Years">50〜100年</td>
+</tr>
+<tr>
+<td data-en="Cordwood">コードウッド</td>
+<td class="gold" data-en="¥150,000–300,000">15〜30万円<div class="bar-wrap"><span class="bar" style="width:25%"></span></div></td>
+<td data-en="○ Good">○ 良好</td>
+<td>★★★★★</td>
+<td data-en="80–200 years">80〜200年</td>
+</tr>
+<tr>
+<td data-en="Rammed Earth (Interior)">版築（インテリア）</td>
+<td class="gold" data-en="¥80,000–150,000">8〜15万円<div class="bar-wrap"><span class="bar" style="width:12%"></span></div></td>
+<td data-en="◎ Maximum Thermal Mass">◎ 蓄熱最強</td>
+<td>★★★☆☆</td>
+<td data-en="Over 100 Years">100年以上</td>
+</tr>
+<tr>
+<td data-en="Low-Cost Home Method (Traditional)" style="color:#444">ローコストHM（在来）</td>
+<td class="dim" data-en="¥450,000–650,000">45〜65万円<div class="bar-wrap"><span class="bar" style="width:60%;background:#333"></span></div></td>
+<td data-en="△ Standard" style="color:#444">△ 標準</td>
+<td data-en="✕ Not Possible" style="color:#444">✕ 不可</td>
+<td data-en="30–50 Years" style="color:#444">30〜50年</td>
+</tr>
+<tr>
+<td data-en="Major Builder (Conventional)" style="color:#444">大手HM（在来）</td>
+<td class="dim" data-en="¥700,000–¥1,300,000">70〜130万円<div class="bar-wrap"><span class="bar" style="width:100%;background:#333"></span></div></td>
+<td data-en="○ Standard+" style="color:#444">○ 標準+</td>
+<td data-en="✕ Not Possible" style="color:#444">✕ 不可</td>
+<td data-en="30–60 Years" style="color:#444">30〜60年</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="r" style="margin-top:32px;padding:24px;background:var(--card);border:1px solid var(--line);border-radius:10px">
+<div data-en="Leverage Multiple Subsidies" style="font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px">補助金を重複活用する</div>
+<p data-en="Child-rearing Eco-Home Support (¥1,000,000) + Long-term Quality Housing Renovation (¥2,500,000) + Hokkaido Relocation Support (¥500,000–2,000,000 depending on municipality). Multiple applications may be possible in certain cases." style="font-size:13px;color:#666;line-height:1.9">子育てエコホーム支援（100万円）＋長期優良住宅化リフォーム（250万円）＋北海道移住支援（自治体により50〜200万円）。<strong data-en="Maximum ¥5.5 Million+ (National + Prefectural + Municipal Funding)" style="color:#aaa">国＋道＋市町村で最大550万円超</strong>の重複申請が可能なケースあり。</p>
+</div>
+</div>
+</section>
+<hr class="sep"/>
+<!-- Work Party -->
+<section class="workparty section">
+<div class="w">
+<div class="section-label r">Work Party Schedule</div>
+<h2 class="section-title r" data-en="Build Three Homes in 2026.">2026年、3回建てる。</h2>
+<p class="section-body r" data-en="The three Work Party events of SOLUNA HANDCRAFT are exclusive gatherings for Owners only. Spirit matters more than technique. Physical stamina is required." style="margin-bottom:0">「SOLUNA HANDCRAFT」の3つのWork Partyは、オーナーだけが参加できるクローズドイベントだ。技術より気持ちが大事。体力は必要。</p>
+</div>
+<div class="wp-photo-strip r">
+<img alt="薪割り" data-en-alt="Wood Splitting" src="img/kumaushi_b_wood_chopping.webp"/>
+<img alt="Work Party" src="img/k4_team_workparty.webp"/>
+<img alt="焚き火" data-en-alt="Bonfire" src="img/kumaushi_b_bonfire_night.webp"/>
+</div>
+<div class="w">
+<div class="wp-grid r">
+<div class="wp-card">
+<div class="wp-card-num">HANDCRAFT #1</div>
+<div class="wp-card-day" data-en="June 2026 · Day 1">2026年6月 · 1日</div>
+<div class="wp-card-title" data-en="Rammed Earth Day">版築の日</div>
+<p data-en="Excavate site soil. Conduct mix design testing. Assemble formwork. Compress thoroughly. By evening, the wood stove base is complete. All tools are provided. Come empty-handed.">敷地の土を掘る。配合テスト。型枠を組む。突き固める。夕方には薪ストーブの台座が完成している。道具は全て用意する。手ぶらで来い。</p>
+</div>
+<div class="wp-card">
+<div class="wp-card-num">HANDCRAFT #2</div>
+<div class="wp-card-day" data-en="July 2026 · 2 nights, 3 days">2026年7月 · 2泊3日</div>
+<div class="wp-card-title" data-en="Cordwood Sauna">コードウッドサウナ</div>
+<p data-en="We fell Hokkaido larch, section it, and stack the logs. A wall is complete in three days. On the final evening, everyone enters the finished sauna together. There is no greater sense of accomplishment.">道産カラマツを玉切りし、丸太を積む。3日間で壁が完成する。最終日の夕方、全員でそのサウナに入る。これ以上の達成感はない。</p>
+</div>
+<div class="wp-card">
+<div class="wp-card-num">HANDCRAFT #3</div>
+<div class="wp-card-day" data-en="September 2026 · 3 nights, 4 days">2026年9月 · 3泊4日</div>
+<div class="wp-card-title" data-en="Strawbale Home">ストローベイルの家</div>
+<p data-en="Over four days, stack 250 straw bales, apply rough plaster, and install the roof. Beneath Teshikaga's autumn sky, discover the art of earth plastering. Participants' names are engraved in the completed walls.">4日間で麦わら250個を積む。荒壁を塗る。屋根を取り付ける。弟子屈の秋空の下、漆喰を塗る感覚を知る。完成した壁に参加者の名前を刻む。</p>
+</div>
+</div>
+<div class="r" style="background:var(--card);border:1px solid var(--line);border-radius:10px;padding:28px;text-align:center">
+<div data-en="Eligibility Requirements" style="font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:10px;font-weight:700">参加資格</div>
+<p data-en="Simply be a SOLUNA CABIN Owner. That's all. Experience, skills, tools—everything is provided on-site. All that's required is your presence." style="font-size:14px;color:#888;line-height:1.9">SOLUNA CABINのオーナーであること。それだけ。<br/>経験・技術・道具——全て現地で揃える。必要なのは<strong data-en="Two Days of Spirit" style="color:#ddd">2日分の気合い</strong>だけだ。</p>
+</div>
+</div>
+</section>
+<hr class="sep"/>
+<!-- Comfort amenities -->
+<section class="comfort section">
+<div class="w">
+<div class="section-label r">What You Get</div>
+<h2 class="section-title r" data-en="Affordable, Yet Complete.">安いのに、<br/>全部ある。</h2>
+<p class="section-body r" data-en="Cost savings from natural building are reinvested in experience. Wood-fired sauna, open fires, ice baths, rocket stoves, and star-viewing outdoor baths—this is what 'affordable luxury' truly means.">自然建築で節約したコストは、体験に再投資する。薪サウナ、焚き火、氷風呂、ロケットストーブ、天の川の露天風呂——これが「安くてラグジュアリー」の意味だ。</p>
+</div>
+<div class="comfort-grid r">
+<div class="comfort-item">
+<img alt="薪サウナ" data-en-alt="Wood-Fired Sauna" src="img/comfort_barrel_sauna.webp"/>
+<div class="comfort-overlay"><span class="comfort-label" data-en="Cordwood Sauna">コードウッドサウナ</span></div>
+</div>
+<div class="comfort-item">
+<img alt="星空" data-en-alt="Starry Sky" src="img/kumaushi_b_stars_exterior.webp"/>
+<div class="comfort-overlay"><span class="comfort-label" data-en="Night of the Milky Way">天の川の夜</span></div>
+</div>
+<div class="comfort-item">
+<img alt="ロケットストーブ" data-en-alt="Rocket Stove" src="img/comfort_rocket_stove.webp"/>
+<div class="comfort-overlay"><span class="comfort-label" data-en="Rocket Stove">ロケットストーブ</span></div>
+</div>
+<div class="comfort-item">
+<img alt="氷風呂" data-en-alt="Ice Bath" src="img/comfort_ice_bath.webp"/>
+<div class="comfort-overlay"><span class="comfort-label" data-en="Ice Bath">アイスバス</span></div>
+</div>
+<div class="comfort-item">
+<img alt="朝の霧" data-en-alt="Morning Mist" src="img/kumaushi_b_morning_mist.webp"/>
+<div class="comfort-overlay"><span class="comfort-label" data-en="Morning in Teshikaga">弟子屈の朝</span></div>
+</div>
+<div class="comfort-item">
+<img alt="星空観察" data-en-alt="Stargazing" src="img/comfort_stargazing.webp"/>
+<div class="comfort-overlay"><span class="comfort-label" data-en="Star-Filled Sky with Zero Light Pollution">光害ゼロの星空</span></div>
+</div>
+</div>
+</section>
+<hr class="sep"/>
+<!-- FAQ -->
+<section class="faq section">
+<div class="w">
+<div class="section-label r">FAQ</div>
+<h2 class="section-title r" data-en="Common Questions">よくある疑問</h2>
+<div class="faq-list r">
+<div class="faq-item">
+<div class="faq-q" data-en="Can I participate without construction experience?">建築の経験がなくても参加できますか？</div>
+<div class="faq-a" data-en="Yes. Cordwood requires only stacking logs; rammed earth requires only compacting soil. No technical skill is necessary. Professional masons accompany all Work Parties.">できます。コードウッドは「丸太を積む」だけ、版築は「土を突く」だけです。<strong data-en="Only Physical Stamina Poses a Challenge">難しいのは体力だけ</strong>で、技術は必要ありません。プロの左官職人がWork Partyに同行します。</div>
+</div>
+<div class="faq-item">
+<div class="faq-q" data-en="Are straw bale homes cold?">ストローベイルの家は寒くないですか？</div>
+<div class="faq-a" data-en="Quite the contrary. A UA value below 0.2 far exceeds Hokkaido's highest energy efficiency standard (0.4), eliminating the need for electric heating and reducing utility costs to nearly zero.">逆です。<strong data-en="Even in Teshikaga's winters (-20°C), a single wood stove suffices">弟子屈の冬（-20℃）でも薪ストーブ1台で過ごせます</strong>。UA値0.2以下は北海道の省エネ最高基準（0.4）を大きく上回り、電気系暖房いらずで光熱費がほぼゼロになります。</div>
+</div>
+<div class="faq-item">
+<div class="faq-q" data-en="Will the project pass building approval?">建築確認申請は通りますか？</div>
+<div class="faq-a" data-en='Strawbale is approved as "traditional timber construction with bale insulation filling." Pre-consultation with Teshikaga Town Construction Department confirms favorable prospects. The cordwood sauna requires no permit as it is under 10㎡.'>ストローベイルは「木造在来工法＋ベイル断熱充填」として申請します。弟子屈町建設課に事前相談済みで、<strong data-en="Construction in non-fire-designated areas is practically feasible">非防火地域での建設は現実的に対応可能</strong>な見通しです。コードウッドサウナは10㎡以下なので申請不要です。</div>
+</div>
+<div class="faq-item">
+<div class="faq-q" data-en="Can the property be built without participating in Work Party?">Work Partyに参加しなくても建ててもらえますか？</div>
+<div class="faq-a" data-en="Yes. Full contractor delegation is possible. However, we believe there is profound value in building with your own hands.">はい。業者に全委託することも可能です。ただし、<strong data-en="Owners who have built their own walls experience a fundamentally different attachment to the place than those who have not.">自分で積んだ壁があるオーナーとそうでないオーナーでは、その後の「場所への愛着」が根本的に違う</strong>と我々は考えています。</div>
+</div>
+<div class="faq-item">
+<div class="faq-q" data-en="Can I list the completed building on Airbnb?">完成した建物はAirbnbに出せますか？</div>
+<div class="faq-a" data-en='Achievable. "Cordwood saunas hand-stacked by owners" and "straw homes" command premium rates on Airbnb with multiple documented listings. Revenues are distributed among owners.'>出せます。「オーナーが手で積んだコードウッドサウナ」「麦わらの家」は Airbnbで希少性が高く、<strong data-en="1.5–2x standard room rates">通常客室比で単価1.5〜2倍</strong>での掲載事例が複数あります。収益はオーナー間で配分されます。</div>
+</div>
+</div>
+</div>
+</section>
+<hr class="sep"/>
+<!-- CTA -->
+<section class="cta">
+<div class="hero-chip" data-en="2026 Work Party Registration Now Open" style="display:inline-block;margin-bottom:24px">2026年 Work Party 参加受付中</div>
+<h2 class="r" data-en="Next Summer">来年の夏、<br/><em data-en="Build Together">一緒に建てよう。</em></h2>
+<p class="r" data-en="Become a SOLUNA CABIN Owner and receive an invitation to the next Work Party. There is a sensation known only to those who have compacted Teshikaga's soil with their own hands.">SOLUNA CABINのオーナーになれば、次のWork Partyへの招待が届く。弟子屈の土を自分の手で踏み固めた人だけが知っている感覚がある。</p>
+<div class="btn-row r">
+<a class="btn btn-primary" data-en="Become an Owner" href="index#join">オーナーになる</a>
+<a class="btn btn-ghost" data-en="View Properties" href="collection">物件を見る</a>
+</div>
+</section>
+<!-- Footer -->
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Unit, 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Earn Shares at No Cost" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="The Dome Story" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners Only" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Law" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+// Intersection Observer for animations
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      // Stagger children
+      e.target.querySelectorAll('.step, .wp-card, .comfort-item, .faq-item').forEach((el, i) => {
+        el.style.transitionDelay = `${i * 80}ms`;
+        el.classList.add('in');
+      });
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.r').forEach(el => observer.observe(el));
+</script>
+<script src="/lang.js"></script>
+</body>
+</html>

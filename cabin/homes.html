@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title data-en="Birawa MODEL VILLAGE — Construction Method Village in Teshikaga | SOLUNA">美留和 MODEL VILLAGE — 弟子屈に建つ工法の村 | SOLUNA</title>
+<meta content="NESTING・インスタントハウス・タワーサウナ・角ログが建つ美留和グランドから車で10分。12工法が共存するモデルビレッジを建てる。" data-en-content="Ten minutes by car from Birōwa Grand, where NESTING, Instant Houses, Tower Saunas, and timber cabins are established. Build a model village where 12 construction methodologies coexist." name="description"/>
+<meta content="美留和 MODEL VILLAGE — 12の工法が共存する村" property="og:title"/>
+<meta content="img/miruwa_sunset_panorama.webp" property="og:image"/>
+<style>
+:root{--bg:#040404;--gold:#c8a455;--gold-dim:rgba(200,164,85,.3);--text:#ede9e1;--sub:#888;--card:#0e0e0e;--border:rgba(255,255,255,.06)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
+.gnav-links{display:flex;gap:20px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;transition:color .2s}
+.gnav-links a:hover,.gnav-links a.active{color:var(--gold)}
+.gnav-links a.gnav-cta{color:var(--gold)!important;font-weight:700;border:1px solid var(--gold-dim);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:var(--gold);color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:700px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+
+/* HERO */
+.hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:flex-end;padding:0 6vw 80px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('img/miruwa_sunset_panorama.webp') center/cover no-repeat;filter:brightness(.4)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.5) 45%,transparent 100%)}
+.hero-inner{position:relative;z-index:2;max-width:680px}
+.hero-kicker{font-size:10px;letter-spacing:.32em;color:var(--gold);font-weight:700;margin-bottom:16px}
+.hero-title{font-size:clamp(36px,6.5vw,68px);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:20px}
+.hero-title span{color:var(--gold)}
+.hero-body{font-size:15px;color:#999;max-width:460px;margin-bottom:36px;line-height:1.85}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap}
+.hero-stat .num{font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.02em}
+.hero-stat .lbl{font-size:10px;color:#555;letter-spacing:.08em;margin-top:3px}
+
+/* SECTION BASE */
+section{padding:88px 6vw}
+.section-kicker{font-size:10px;letter-spacing:.3em;color:var(--gold);font-weight:700;margin-bottom:12px}
+.section-title{font-size:clamp(24px,3.5vw,40px);font-weight:800;letter-spacing:-.02em;margin-bottom:16px;line-height:1.1}
+.section-body{font-size:15px;color:#888;max-width:540px;line-height:1.9}
+
+/* EXISTING 4 */
+.existing{background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.existing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:44px}
+.ex-card{overflow:hidden;position:relative}
+.ex-card-img-wrap{position:relative;overflow:hidden}
+.ex-card img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;filter:brightness(.8);transition:filter .4s,transform .5s}
+.ex-card:hover img{filter:brightness(1);transform:scale(1.05)}
+.ex-badge{position:absolute;top:12px;left:12px;font-size:8.5px;font-weight:700;letter-spacing:.1em;background:rgba(200,164,85,.15);border:1px solid var(--gold-dim);color:var(--gold);padding:3px 9px;border-radius:100px}
+.ex-body{padding:18px 18px 22px;background:var(--card)}
+.ex-maker{font-size:9px;letter-spacing:.1em;color:#444;margin-bottom:4px}
+.ex-name{font-size:14px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
+.ex-desc{font-size:11px;color:#555;line-height:1.7}
+@media(max-width:800px){.existing-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.existing-grid{grid-template-columns:1fr}}
+
+/* DIVIDER */
+.divider{padding:56px 6vw;text-align:center;position:relative}
+.divider::before{content:'';position:absolute;top:50%;left:6vw;right:6vw;height:1px;background:var(--border)}
+.divider-inner{position:relative;display:inline-block;background:var(--bg);padding:0 28px}
+.divider-text{font-size:10px;letter-spacing:.25em;color:#444;font-weight:700}
+.divider-dist{font-size:22px;font-weight:800;color:var(--gold);letter-spacing:-.01em;margin-top:4px}
+
+/* INTRO BAND */
+.intro-band{background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:0}
+.intro-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.intro-item{padding:44px 32px;border-right:1px solid var(--border);text-align:center}
+.intro-item:last-child{border-right:none}
+.intro-num{font-size:38px;font-weight:800;color:var(--gold);letter-spacing:-.03em}
+.intro-lbl{font-size:10px;color:#555;margin-top:6px;letter-spacing:.05em}
+@media(max-width:640px){.intro-grid{grid-template-columns:1fr}.intro-item{border-right:none;border-bottom:1px solid var(--border)}}
+
+/* ZONE MAP */
+.zone-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:44px;max-width:840px}
+.zone-card{border:1px solid var(--border);padding:22px 20px;background:var(--card);transition:border-color .25s}
+.zone-card:hover{border-color:var(--gold-dim)}
+.zone-name{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--gold);margin-bottom:8px}
+.zone-items{font-size:12px;color:#555;line-height:2.1}
+@media(max-width:640px){.zone-grid{grid-template-columns:1fr}}
+
+/* HOMES GRID */
+.homes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:52px}
+.home-card{background:var(--card);overflow:hidden;transition:transform .3s}
+.home-card:hover{transform:translateY(-4px);z-index:2}
+.home-card-img-wrap{position:relative;overflow:hidden}
+.home-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;filter:brightness(.82);transition:filter .4s,transform .5s}
+.home-card:hover img{filter:brightness(1);transform:scale(1.04)}
+.badge{position:absolute;top:13px;left:13px;font-size:8.5px;font-weight:700;letter-spacing:.1em;padding:3px 9px;border-radius:100px;z-index:2}
+.b-nat{background:rgba(80,140,80,.85);color:#c0ffc0}
+.b-ind{background:rgba(40,80,160,.85);color:#c0d8ff}
+.b-mob{background:rgba(160,100,40,.85);color:#ffdcb8}
+.b-hyb{background:rgba(120,60,130,.85);color:#f0c0ff}
+.b-eco{background:rgba(50,50,50,.9);color:#ccc}
+.home-body{padding:20px 20px 24px}
+.home-num{font-size:9px;letter-spacing:.2em;color:#333;margin-bottom:5px}
+.home-name{font-size:15px;font-weight:800;letter-spacing:-.01em;line-height:1.25}
+.home-name-en{font-size:9.5px;color:#444;letter-spacing:.08em;font-weight:400;display:block;margin-top:2px;margin-bottom:10px}
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:13px}
+.tag{font-size:8.5px;font-weight:700;letter-spacing:.05em;padding:3px 8px;border-radius:100px;border:1px solid}
+.t-warm{border-color:rgba(200,164,85,.4);color:#a07828}
+.t-eco{border-color:rgba(80,160,80,.4);color:#50a050}
+.t-fast{border-color:rgba(100,140,210,.4);color:#7090c0}
+.t-diy{border-color:rgba(180,90,90,.4);color:#c06060}
+.t-wow{border-color:rgba(160,80,210,.4);color:#a060d0}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px;margin-bottom:14px}
+.sp-l{font-size:10px;color:#3a3a3a}
+.sp-v{font-size:10px;color:#999;font-weight:600}
+.price{font-size:17px;font-weight:800;color:var(--gold)}
+.price-note{font-size:9.5px;color:#444;margin-left:3px}
+@media(max-width:860px){.homes-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.homes-grid{grid-template-columns:1fr}}
+
+/* COMPARE */
+.compare-wrap{overflow-x:auto;margin-top:44px}
+table{width:100%;border-collapse:collapse;min-width:620px}
+th{font-size:9px;letter-spacing:.12em;color:#444;font-weight:700;padding:11px 14px;border-bottom:1px solid var(--border);text-align:left}
+td{font-size:11.5px;color:#777;padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.025)}
+tr:hover td{background:rgba(255,255,255,.015);color:#bbb}
+.td-n{color:#ccc;font-weight:700}
+.td-g{color:var(--gold);font-weight:700}
+.s{color:var(--gold)}.so{color:#252525}
+
+/* CTA */
+.cta{text-align:center;background:var(--card);border-top:1px solid var(--border)}
+.btn-gold{display:inline-block;background:var(--gold);color:#040404;font-weight:800;font-size:12px;letter-spacing:.1em;padding:15px 40px;border-radius:100px;transition:opacity .2s}
+.btn-gold:hover{opacity:.85}
+.btn-ghost{display:inline-block;border:1px solid var(--gold-dim);color:var(--gold);font-weight:700;font-size:11px;letter-spacing:.07em;padding:13px 32px;border-radius:100px;transition:all .2s;margin-left:14px}
+.btn-ghost:hover{background:var(--gold-dim)}
+
+/* FOOTER */
+footer{padding:44px 6vw;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px}
+.footer-logo{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--gold)}
+.footer-links{display:flex;gap:20px;font-size:10.5px;color:#3a3a3a;flex-wrap:wrap}
+.footer-links a:hover{color:var(--gold)}
+
+/* SCROLL */
+.r{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.r.in{opacity:1;transform:none}
+</style>
+<script defer src="/js/sln-track.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="handcraft">HANDCRAFT</a>
+<a class="active" href="homes">MODEL VILLAGE</a>
+<a href="sound">SOUND</a>
+<a href="faq">FAQ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- HERO -->
+<section class="hero">
+<div class="hero-bg"></div>
+<div class="hero-inner">
+<div class="hero-kicker" data-en="Birawa MODEL VILLAGE — TESHIKAGA, HOKKAIDO">美留和 MODEL VILLAGE — TESHIKAGA, HOKKAIDO</div>
+<h1 class="hero-title" data-en="Twelve construction methods lined up, built in Teshikaga, Hokkaido.">12の工法が<br/>並ぶ<span>村</span>を<br/>弟子屈に建てる。</h1>
+<p class="hero-body" data-en="10 minutes by car from Birowa Grand, where NESTING, Instant Houses, the Tower Sauna, and log cabins stand. Next, we will create a MODEL VILLAGE here, gathering diverse architectural methods from around the world in one location.">NESTING・インスタントハウス・タワーサウナ・角ログが建つ美留和グランドから車で10分。次はここに、世界中の建築工法を1か所に集めたモデルビレッジを作る。</p>
+<div class="hero-stats">
+<div class="hero-stat"><div class="num" data-en="4 residences">4棟</div><div class="lbl" data-en="Birowa Grand · Existing">美留和グランド・既存</div></div>
+<div class="hero-stat"><div class="num" data-en="+12 Units">+12棟</div><div class="lbl" data-en="MODEL VILLAGE · Newly established">MODEL VILLAGE・新設</div></div>
+<div class="hero-stat"><div class="num" data-en="10 minutes by car">車10分</div><div class="lbl" data-en="Distance Between Locations">両拠点の距離</div></div>
+</div>
+</div>
+</section>
+<!-- TAPKOP + RENOVATION -->
+<section style="padding:80px 6vw">
+<div class="section-kicker r" data-en="SOLUNA PROPERTIES — Existing &amp; Planned">SOLUNA PROPERTIES — 既存・計画中</div>
+<h2 class="section-title r" data-en="TAPKOP &amp; Renovation Properties">TAPKOPとリノベーション物件</h2>
+<p class="section-body r" data-en="Before MODEL VILLAGE, SOLUNA has already pursued two directions: premier properties with Lake Mashu as borrowed landscape, and renovations that revive vacant homes in Teshikaga.">MODEL VILLAGEの前に、SOLUNAがすでに手がけている2つの方向性。摩周湖を丸ごと借景にした最上位物件と、弟子屈の空き家を蘇らせるリノベーション。</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:44px">
+<!-- TAPKOP -->
+<div class="home-card r" style="background:#040404">
+<div class="home-card-img-wrap">
+<span class="badge" data-en="Flagship" style="background:rgba(200,164,85,.2);border:1px solid var(--gold-dim);color:var(--gold)">フラッグシップ</span>
+<img alt="TAPKOP — 摩周湖" data-en-alt="TAPKOP — Lake Mashu" src="img/tapkop_lake_mashu_view.webp"/>
+</div>
+<div class="home-body">
+<div class="home-num">TAPKOP</div>
+<div class="home-name">TAPKOP<span class="home-name-en" data-en="Premium Property with Views of Lake Mashu">摩周湖を望む最上位物件</span></div>
+<div class="tags">
+<span class="tag t-wow" data-en="Panoramic views of Lake Mashu">摩周湖一望</span>
+<span class="tag t-warm" data-en="By Invitation Only">招待制</span>
+</div>
+<div class="specs">
+<div><div class="sp-l" data-en="Purchase price">購入価格</div><div class="sp-v">¥8,000万</div></div>
+<div><div class="sp-l" data-en="Nightly Rate">滞在単価</div><div class="sp-v" data-en="¥340,000 per night">¥340,000/泊</div></div>
+<div><div class="sp-l" data-en="Year-Round Use">年間利用</div><div class="sp-v" data-en="30 nights">30泊</div></div>
+<div><div class="sp-l" data-en="Access">アクセス</div><div class="sp-v" data-en="By Referral Only">紹介制のみ</div></div>
+</div>
+<p data-en="SOLUNA's finest property, featuring Lake Mashu as its borrowed scenery. Nestled quietly within the forest, overlooking the caldera rising through mist. Its value lies in its understated presence, distinctly different from Model Village." style="font-size:12px;color:#555;line-height:1.85;margin-bottom:14px">摩周湖を借景に持つSOLUNA最上位物件。霧に浮かぶカルデラを眼下に、森の中にひっそりと建つ。Model Villageとは異なる「存在感のなさ」が価値。</p>
+<a data-en="View Property Details →" href="tapkop" style="font-size:11px;color:var(--gold);letter-spacing:.08em;font-weight:700">物件詳細を見る →</a>
+</div>
+</div>
+<!-- リノベーション -->
+<div class="home-card r" style="background:#040404">
+<div class="home-card-img-wrap">
+<span class="badge" data-en="Renovation" style="background:rgba(80,120,180,.2);border:1px solid rgba(80,120,180,.4);color:#80a0d8">リノベーション</span>
+<img alt="弟子屈リノベーション物件" data-en-alt="Teshikaga Renovation Properties" src="img/teshikaga_after_exterior.webp"/>
+</div>
+<div class="home-body">
+<div class="home-num">RENOVATION</div>
+<div class="home-name" data-en="Teshikaga Renovation">弟子屈リノベーション<span class="home-name-en">TESHIKAGA AKIYA RENO</span></div>
+<div class="tags">
+<span class="tag t-fast" data-en="Vacant home restoration">空き家再生</span>
+<span class="tag t-eco" data-en="Charred Cedar Exterior">焼杉外壁</span>
+<span class="tag t-diy" data-en="DIY included">DIY込み</span>
+</div>
+<div class="specs">
+<div><div class="sp-l" data-en="Property Acquisition">物件取得</div><div class="sp-v" data-en="¥1M–¥5M">¥100〜500万</div></div>
+<div><div class="sp-l" data-en="Renovation costs">改修費</div><div class="sp-v" data-en="¥3M–¥8M">¥300〜800万</div></div>
+<div><div class="sp-l" data-en="Post-Completion Unit Price">完成後単価</div><div class="sp-v">¥30,000〜/泊</div></div>
+<div><div class="sp-l" data-en="Area">エリア</div><div class="sp-v" data-en="Various Locations in Teshikaga">弟子屈町内各所</div></div>
+</div>
+<p data-en="Acquire vacant homes in Teshikaga and renovate with superior insulation, charred cedar siding, and wood-burning stoves. Achieve Airbnb-ready properties at less than one-third the cost of new construction. Participate in wall painting and flooring installation during Work Parties." style="font-size:12px;color:#555;line-height:1.85;margin-bottom:14px">弟子屈の空き家を取得し、断熱・焼杉・薪ストーブでリノベーション。新築の1/3以下のコストでAirbnb運用可能な物件に。Work Partyで壁塗りや床張りも参加できる。</p>
+<a data-en="View Renovation Details →" href="renovation" style="font-size:11px;color:#80a0d8;letter-spacing:.08em;font-weight:700">リノベ詳細を見る →</a>
+</div>
+</div>
+</div>
+</section>
+<!-- EXISTING 4 BUILDINGS -->
+<section class="existing">
+<div class="section-kicker r" data-en="MIRUWA GRAND — 4 Existing Lodges">MIRUWA GRAND — 既存4棟</div>
+<h2 class="section-title r" data-en="Existing structures">すでに建っている家たち</h2>
+<p class="section-body r" data-en="Four residences completed on the grounds of Birawa Grand. These serve as the genesis and comparative standard for MODEL VILLAGE.">美留和グランドの敷地に実際に完成した4棟。これがMODEL VILLAGEの出発点であり、比較基準になる。</p>
+<div class="existing-grid">
+<!-- NESTING -->
+<div class="ex-card r">
+<div class="ex-card-img-wrap">
+<span class="ex-badge" data-en="Existing">既存</span>
+<img alt="NESTING by VUILD" src="img/nesting_exterior.webp"/>
+</div>
+<div class="ex-body">
+<div class="ex-maker" data-en="Designed and Manufactured by VUILD">VUILD社 設計・製造</div>
+<div class="ex-name">NESTING</div>
+<div class="ex-desc" data-en="Next-generation prefabricated construction using CNC-cut timber. Digital fabrication achieves both precision insulation and refined design.">CNCカット木材を組み上げる次世代プレハブ。デジタルファブリケーションによる高精度な断熱と意匠を両立。</div>
+</div>
+</div>
+<!-- インスタントハウス -->
+<div class="ex-card r">
+<div class="ex-card-img-wrap">
+<span class="ex-badge" data-en="Existing">既存</span>
+<img alt="インスタントハウス" data-en-alt="Instant House" src="img/instant_dome_snow.webp"/>
+</div>
+<div class="ex-body">
+<div class="ex-maker" data-en="Instant House">インスタントハウス</div>
+<div class="ex-name">INSTANT HOUSE</div>
+<div class="ex-desc" data-en="A dome dwelling with commanding presence even amid snow. Quick installation with insulation and heating design engineered for Hokkaido winters.">雪の中でも圧倒的な存在感を持つドーム型住宅。短工期で設置でき、北海道の冬に対応した断熱・暖房設計。</div>
+</div>
+</div>
+<!-- タワーサウナ -->
+<div class="ex-card r">
+<div class="ex-card-img-wrap">
+<span class="ex-badge" data-en="Existing">既存</span>
+<img alt="タワーサウナ" data-en-alt="Tower Sauna" src="img/real_sauna_tower.webp"/>
+</div>
+<div class="ex-body">
+<div class="ex-maker" data-en="Tower Sauna">塔型サウナ</div>
+<div class="ex-name">TOWER SAUNA</div>
+<div class="ex-desc" data-en="A towering sauna cabin that rises vertically, with higher temperatures at upper levels. Offers a distinctive experience of enjoying traditional löyly rituals at the summit.">縦に伸びる塔状のサウナ小屋。上層ほど温度が高い特性を活かし、ロウリュを最上部で楽しむ独自の体験を提供。</div>
+</div>
+</div>
+<!-- 角ログ -->
+<div class="ex-card r">
+<div class="ex-card-img-wrap">
+<span class="ex-badge" data-en="Existing">既存</span>
+<img alt="角ログハウス（THE LODGE）" data-en-alt="The Square Log House (THE LODGE)" src="img/lodge_exterior_snow.webp"/>
+</div>
+<div class="ex-body">
+<div class="ex-maker" data-en="Square Log Construction">角ログ工法</div>
+<div class="ex-name">SQUARE LOG</div>
+<div class="ex-desc" data-en="A log house constructed by stacking squared timber horizontally. This wooden home employs Nordic building traditions adapted to Teshikaga's rigorous winters, featuring superior thermal mass performance.">角材を水平に積み上げるログハウス。北欧建築の伝統工法を弟子屈の厳しい冬に合わせた蓄熱性能の高い木の家。</div>
+</div>
+</div>
+</div>
+</section>
+<!-- DIVIDER -->
+<div class="divider">
+<div class="divider-inner">
+<div class="divider-text" data-en="From Birōwa Grand">美留和グランドから</div>
+<div class="divider-dist" data-en="10 Minutes by Car">車で10分</div>
+<div class="divider-text" data-en="Build the MODEL VILLAGE Here" style="margin-top:4px">ここにMODEL VILLAGEを建てる</div>
+</div>
+</div>
+<!-- STATS BAND -->
+<div class="intro-band">
+<div class="intro-grid">
+<div class="intro-item">
+<div class="intro-num">12</div>
+<div class="intro-lbl" data-en="Diverse construction methods">異なる建築工法</div>
+</div>
+<div class="intro-item">
+<div class="intro-num" data-en="From ¥400,000">¥40万〜</div>
+<div class="intro-lbl" data-en="Most Affordable Lodge (Earthbag Dome)">最安棟（アースバッグドーム）</div>
+</div>
+<div class="intro-item">
+<div class="intro-num" data-en="All units">全棟</div>
+<div class="intro-lbl" data-en="Work Party Participation · Builder Plaque">Work Party参加・施工者プレート</div>
+</div>
+</div>
+</div>
+<!-- ZONE MAP -->
+<section>
+<div class="section-kicker r">VILLAGE LAYOUT</div>
+<h2 class="section-title r" data-en="Site Zoning">敷地のゾーニング</h2>
+<p class="section-body r" data-en="50–100m spacing between structures. Privacy-focused positioning. Dispersed across 6 zones, leveraging Teshikaga's topography, forests, and water systems.">棟間距離50〜100m。互いが見えない配置。弟子屈の地形・林・水脈を活かして6ゾーンに分散する。</p>
+<div class="zone-grid r">
+<div class="zone-card">
+<div class="zone-name" data-en="🌲 FOREST ZONE (North · Forest)">🌲 FOREST ZONE（北・林）</div>
+<div class="zone-items" data-en="Log cabin · Treehouse · Bamboo pavilion">ログキャビン<br/>ツリーハウス<br/>竹パビリオン</div>
+</div>
+<div class="zone-card">
+<div class="zone-name" data-en="⛰ HILL ZONE">⛰ HILL ZONE（丘）</div>
+<div class="zone-items" data-en="Earthship · Semi-subterranean Hobbit · Monolithic dome">アースシップ<br/>半地下ホビット<br/>モノリシックドーム</div>
+</div>
+<div class="zone-card">
+<div class="zone-name" data-en="🌾 MEADOW ZONE (Grassland)">🌾 MEADOW ZONE（草原）</div>
+<div class="zone-items" data-en="Straw Bale SIPS Cabin Off-Grid Cabin">ストローベイル<br/>SIPSキャビン<br/>オフグリッドキャビン</div>
+</div>
+<div class="zone-card">
+<div class="zone-name" data-en="🏛 CORE ZONE (Central)">🏛 CORE ZONE（中心）</div>
+<div class="zone-items" data-en="Dome Common House Cordwood Sauna Rammed Earth Open Kitchen">ドームコモンハウス<br/>コードウッドサウナ<br/>版築オープンキッチン</div>
+</div>
+<div class="zone-card">
+<div class="zone-name" data-en="🚂 ENTRY ZONE (South, Road Side)">🚂 ENTRY ZONE（南・道路側）</div>
+<div class="zone-items" data-en="Container Villas, Yurts &amp; Trailer Houses">コンテナヴィラ<br/>ユルト<br/>トレーラーハウス</div>
+</div>
+<div class="zone-card">
+<div class="zone-name" data-en="💧 WATER ZONE">💧 WATER ZONE（水辺）</div>
+<div class="zone-items" data-en="Hybrid Dome Ferrocement Open-Air Bath Waterside Cottage">ハイブリッドドーム<br/>フェロセメント露天風呂<br/>水上コテージ</div>
+</div>
+</div>
+</section>
+<!-- 12 MODELS -->
+<section style="padding-top:0">
+<div class="section-kicker r">12 NEW MODELS</div>
+<h2 class="section-title r" data-en="12 residences in the MODEL VILLAGE">MODEL VILLAGEに建てる12棟</h2>
+<p class="section-body r" data-en="All construction methods selected to withstand Teshikaga winters (-20℃, 2m snowfall) and meet building standards. Each lodge is built collaboratively during Work Parties.">すべて弟子屈の冬（-20℃・積雪2m）と建築基準をクリアする工法のみ選定。各棟はWork Partyで手を動かして建てる。</p>
+<div class="homes-grid">
+<div class="home-card r">
+<div class="home-card-img-wrap">
+<span class="badge b-nat" data-en="Natural materials">自然素材</span>
+<img alt="ストローベイル離れ" data-en-alt="Straw bale cottage" src="img/kumaushi_b_spring_wildflowers.webp"/>
+</div>
+<div class="home-body">
+<div class="home-num">MODEL 01</div>
+<div class="home-name" data-en="Straw bale cottage">ストローベイル離れ<span class="home-name-en">STRAW BALE CABIN</span></div>
+<div class="tags"><span class="tag t-warm" data-en="Superior Insulation">断熱最強</span><span class="tag t-eco" data-en="Carbon Sequestering">CO₂固定</span><span class="tag t-diy">Work Party◎</span></div>
+<div class="specs">
+<div><div class="sp-l" data-en="Thermal Insulation Performance">断熱性能</div><div class="sp-v" data-en="UA Value 0.15 or below">UA 0.15以下</div></div>
+<div><div class="sp-l" data-en="Scale">規模</div><div class="sp-v" data-en="15 Tsubo · Single Story">15坪・平屋</div></div>
+<div><div class="sp-l" data-en="Materials">材料</div><div class="sp-v" data-en="Eastern Hokkaido Wheat Straw">道東産麦わら</div></div>
+<div><div class="sp-l" data-en="Building confirmation approval">確認申請</div><div class="sp-v" data-en="Required">必要</div></div>
+</div>
+<div class="price" data-en="¥4,700,000–">¥470万〜<span class="price-note" data-en="Half the Traditional Construction Time">在来の1/2</span></div>
+</div>
+</div>
+<div class="home-card r">
+<div class="home-card-img-wrap">
+<span class="badge b-nat" data-en="Natural materials">自然素材</span>
+<img alt="コードウッドサウナ" data-en-alt="Cordwood Sauna" src="img/kumaushi_c_sauna_exterior_snow.webp"/>
+</div>
+<div class="home-body">
+<div class="home-num">MODEL 02</div>
+<div class="home-name" data-en="Cordwood Sauna">コードウッドサウナ<span class="home-name-en">CORDWOOD SAUNA</span></div>
+<div class="tags"><span class="tag t-fast" data-en="No Permit Required">申請不要</span><span class="tag t-eco" data-en="Thinned Wood Utilization">間伐材活用</span><span class="tag t-diy">Work Party◎</span></div>
+<div class="specs">
+<div><div class="sp-l" data-en="Scale">規模</div><div class="sp-v" data-en="8 m² or less">8㎡以下</div></div>
+<div><div class="sp-l" data-en="Materials">材料</div><div class="sp-v" data-en="Hokkaido Cedar and Larch">道内スギ・カラマツ</div></div>
+<div><div class="sp-l" data-en="Wall Thickness">壁厚</div><div class="sp-v" data-en="350–400 mm">350〜400mm</div></div>
+<div><div class="sp-l" data-en="Building confirmation approval">確認申請</div><div class="sp-v" data-en="Not Required (≤108 sq ft)">不要（10㎡以下）</div></div>
+</div>
+<div class="price" data-en="From ¥500,000">¥50万〜<span class="price-note" data-en="Materials Only">材料費のみ</span></div>
+<div class="home-equip" style="margin-top:12px;padding-top:12px;border-top:1px solid #111">
+<div data-en="Facilities · EQUIPMENT" style="font-size:8.5px;color:#444;letter-spacing:.15em;margin-bottom:6px">設備 · EQUIPMENT</div>
+<div data-en="Wood-Burning Stove · Barrel Sauna (Harvia) · Ice Bath · Outdoor Shower · Composting Toilet" style="font-size:10.5px;color:#333;line-height:2">薪ストーブ · バレルサウナ(Harvia) · 水風呂 · 屋外シャワー · コンポストトイレ</div>
+</div>
+<div class="home-furniture" style="margin-top:10px;padding-top:10px;border-top:1px solid #111">
+<div data-en="Architectural Materials &amp; Furnishings · MATERIAL FURNITURE" style="font-size:8.5px;color:#c8a455;letter-spacing:.15em;margin-bottom:6px">建築資材家具 · MATERIAL FURNITURE</div>
+<div data-en="Log Slice Bench · Firewood Rack (Cordwood Stack) · Driftwood Shelf · Chimney Pipe Towel Hanger" style="font-size:10.5px;color:#444;line-height:2">丸太スライスベンチ · 薪棚(コードウッド積み) · 流木棚 · 煙突管タオルハンガー</div>
+</div>
+</div>
+</div>
+<div class="home-card r">
+<div class="home-card-img-wrap">
+<span class="badge b-hyb" data-en="Common House">コモンハウス</span>
+<img alt="ジオデシックドーム" data-en-alt="Geodesic Dome" src="img/kumaushi_c_dome_cherry_spring.webp"/>
+</div>
+<div class="home-body">
+<div class="home-num">MODEL 03</div>
+<div class="home-name" data-en="Geodesic Dome">ジオデシックドーム<span class="home-name-en">GEODESIC DOME</span></div>
+<div class="tags"><span class="tag t-wow" data-en="Snow Load Compatible">積雪対応</span><span class="tag t-fast" data-en="Kit assembly">キット組立て</span></div>
+<div class="specs">
+<div><div class="sp-l" data-en="Scale">規模</div><div class="sp-v" data-en="12m Diameter">直径12m</div></div>
+<div><div class="sp-l" data-en="Purpose">用途</div><div class="sp-v" data-en="Common House">コモンハウス</div></div>
+<div><div class="sp-l" data-en="Snow load capacity">耐雪荷重</div><div class="sp-v" data-en="2m capacity">2m対応</div></div>
+<div><div class="sp-l" data-en="Building confirmation approval">確認申請</div><div class="sp-v" data-en="Confirm Details">要確認</div></div>
+</div>
+<div class="price" data-en="From ¥1,200,000">¥120万〜<span class="price-note" data-en="Kit">キット</span></div>
+<div class="home-equip" style="margin-top:12px;padding-top:12px;border-top:1px solid #111">
+<div data-en="Facilities · EQUIPMENT" style="font-size:8.5px;color:#444;letter-spacing:.15em;margin-bottom:6px">設備 · EQUIPMENT</div>
+<div data-en="Wood-burning stove · Loft bed · Projector · Solar panels · Battery storage" style="font-size:10.5px;color:#333;line-height:2">薪ストーブ · ロフトベッド · プロジェクター · 太陽光パネル · 蓄電池</div>
+</div>
+<div class="home-furniture" style="margin-top:10px;padding-top:10px;border-top:1px solid #111">
+<div data-en="Architectural Materials &amp; Furnishings · MATERIAL FURNITURE" style="font-size:8.5px;color:#c8a455;letter-spacing:.15em;margin-bottom:6px">建築資材家具 · MATERIAL FURNITURE</div>
+<div data-en="Triangular panel offcut table · Dome perimeter bench (molded plywood) · Triangular storage shelving · Hammock chair" style="font-size:10.5px;color:#444;line-height:2">三角パネル端材テーブル · ドーム内周ベンチ(成形合板) · 三角収納棚 · ハンモックチェア</div>
+</div>
+</div>
+</div>
+<div class="home-card r">
+<div class="home-card-img-wrap">
+<span class="badge b-ind" data-en="Industrial">工業系</span>
+<img alt="コンテナヴィラ" data-en-alt="Container Villas" src="img/container_premium_exterior.webp"/>
+</div>
+<div class="home-body">
+<div class="home-num">MODEL 04</div>
+<div class="home-name" data-en="Container Villas">コンテナヴィラ<span class="home-name-en">CONTAINER VILLA</span></div>
+<div class="tags"><span class="tag t-fast" data-en="Fastest Construction Timeline">最短工期</span><span class="tag t-wow" data-en="Heavy Equipment Installation">重機で設置</span></div>
+<div class="specs">
+<div><div class="sp-l" data-en="Scale">規模</div><div class="sp-v" data-en="20ft × 2 Unit Connection">20ft×2棟連結</div></div>
+<div><div class="sp-l" data-en="Construction Period">工期</div><div class="sp-v" data-en="3 Days After Foundation Completion">基礎完成後3日</div></div>
+<div><div class="sp-l" data-en="Insulation">断熱</div><div class="sp-v" data-en="Glass Wool 100mm">グラスウール100mm</div></div>
+<div><div class="sp-l" data-en="Relocation">移設</div><div class="sp-v" data-en="Crane Installation Available">クレーンで可能</div></div>
+</div>
+<div class="price" data-en="¥2.5M+">¥250万〜<span class="price-note" data-en="Includes Used Container">中古コンテナ込み</span></div>
+<div class="home-equip" style="margin-top:12px;padding-top:12px;border-top:1px solid #111">
+<div data-en="Facilities · EQUIPMENT" style="font-size:8.5px;color:#444;letter-spacing:.15em;margin-bottom:6px">設備 · EQUIPMENT</div>
+<div data-en="Induction Kitchen · Unit Bath · 2 Air Conditioning Units · Dishwasher · Heated Toilet Seat" style="font-size:10.5px;color:#333;line-height:2">IHキッチン · ユニットバス · エアコン2台 · 食洗機 · ウォシュレット</div>
+</div>
+<div class="home-furniture" style="margin-top:10px;padding-top:10px;border-top:1px solid #111">
+<div data-en="Architectural Materials &amp; Furnishings · MATERIAL FURNITURE" style="font-size:8.5px;color:#c8a455;letter-spacing:.15em;margin-bottom:6px">建築資材家具 · MATERIAL FURNITURE</div>
+<div data-en="Corrugated Steel Headboard · Steel Frame Desk · H-Beam Bookshelf · Steel Plate Top Table" style="font-size:10.5px;color:#444;line-height:2">コルゲート鋼板ヘッドボード · スチールフレームデスク · H鋼ブックシェルフ · 鉄板天板テーブル</div>
+</div>
+</div>
+</div>
+<div class="home-card r">
+<div class="home-card-img-wrap">
+<span class="badge b-hyb" data-en="Hybrid">ハイブリッド</span>
+<img alt="SIPSキャビン" data-en-alt="SIPS Cabin" src="img/kumaushi_sips_exterior_winter.webp"/>
+</div>
+<div class="home-body">
+<div class="home-num">MODEL 05</div>
+<div class="home-name" data-en="SIPS Cabin">SIPSキャビン<span class="home-name-en">SIPS PANEL CABIN</span></div>
+<div class="tags"><span class="tag t-warm" data-en="High-Precision Insulation">高精度断熱</span><span class="tag t-fast" data-en="Factory-manufactured">工場製作</span></div>
+<div class="specs">
+<div><div class="sp-l" data-en="Thermal Insulation Performance">断熱性能</div><div class="sp-v">UA 0.20</div></div>
+<div><div class="sp-l" data-en="Scale">規模</div><div class="sp-v" data-en="15 Tsubo · Single Story">15坪・平屋</div></div>
+<div><div class="sp-l" data-en="Construction Period">工期</div><div class="sp-v" data-en="1-Week Assembly">組立て1週間</div></div>
+<div><div class="sp-l" data-en="Finishing">仕上げ</div><div class="sp-v" data-en="Charred Cedar Exterior">焼杉外壁</div></div>
+</div>
+<div class="price" data-en="¥3,800,000 +">¥380万〜</div>
+</div>
+</div>
+<div class="home-card r">
+<div class="home-card-img-wrap">
+<span class="badge b-nat" data-en="Timber">木材</span>
+<img alt="丸ログキャビン" data-en-alt="Round Log Cabin" src="img/lodge_trail_approach.webp"/>
+</div>
+<div class="home-body">
+<div class="home-num">MODEL 06</div>
+<div class="home-name" data-en="Round Log Cabin">丸ログキャビン<span class="home-name-en">ROUND LOG CABIN</span></div>
+<div class="tags"><span class="tag t-eco" data-en="Hokkaido-Sourced Materials">道内材</span><span class="tag t-warm" data-en="High Thermal Mass">蓄熱性高</span></div>
+<div class="specs">
+<div><div class="sp-l" data-en="Scale">規模</div><div class="sp-v" data-en="12 Tsubo">12坪</div></div>
+<div><div class="sp-l" data-en="Materials">材料</div><div class="sp-v" data-en="Hokkaido Sugi and Hinoki">道内スギ・ヒノキ</div></div>
+<div><div class="sp-l" data-en="Heating">暖房</div><div class="sp-v" data-en="Wood Stove">薪ストーブ</div></div>
+<div><div class="sp-l" data-en="Lifespan">耐用年数</div><div class="sp-v" data-en="Over 100 Years">100年超</div></div>
+</div>
+<div class="price" data-en="¥4,000,000+">¥400万〜</div>
+<div class="home-equip" style="margin-top:12px;padding-top:12px;border-top:1px solid #111">
+<div data-en="Facilities · EQUIPMENT" style="font-size:8.5px;color:#444;letter-spacing:.15em;margin-bottom:6px">設備 · EQUIPMENT</div>
+<div data-en="Wood Stove · Log Thermal Mass Wall · Wood Boiler · Loft · External Deck" style="font-size:10.5px;color:#333;line-height:2">薪ストーブ · 丸太ログ蓄熱壁 · 薪ボイラー · ロフト · 外部デッキ</div>
+</div>
+<div class="home-furniture" style="margin-top:10px;padding-top:10px;border-top:1px solid #111">
+<div data-en="Architectural Materials &amp; Furnishings · MATERIAL FURNITURE" style="font-size:8.5px;color:#c8a455;letter-spacing:.15em;margin-bottom:6px">建築資材家具 · MATERIAL FURNITURE</div>
+<div data-en="Log Counter Desk · Slab Dining Table · Log Stools ×4 · Branch Coat Rack" style="font-size:10.5px;color:#444;line-height:2">丸太カウンターデスク · スラブダイニングテーブル · 丸太スツール×4 · 枝ハンガーラック</div>
+</div>
+</div>
+</div>
+<div class="home-card r">
+<div class="home-card-img-wrap">
+<span class="badge b-mob" data-en="Mobile Type">移動式</span>
+<img alt="トレーラーハウス" data-en-alt="Trailer House" src="img/minimum_exterior.jpg"/>
+</div>
+<div class="home-body">
+<div class="home-num">MODEL 07</div>
+<div class="home-name" data-en="Trailer House">トレーラーハウス<span class="home-name-en">TRAILER HOUSE</span></div>
+<div class="tags"><span class="tag t-fast" data-en="No Property Tax">固定資産税なし</span><span class="tag t-fast" data-en="Relocatable">移動可</span></div>
+<div class="specs">
+<div><div class="sp-l" data-en="Scale">規模</div><div class="sp-v" data-en="264–396 sq ft">8〜12坪</div></div>
+<div><div class="sp-l" data-en="Installation">設置</div><div class="sp-v" data-en="1 Day">1日</div></div>
+<div><div class="sp-l" data-en="Insulation">断熱</div><div class="sp-v" data-en="Spray Foam">スプレーフォーム</div></div>
+<div><div class="sp-l" data-en="Relocation">移設</div><div class="sp-v" data-en="Mobile by Truck">トラックで移動</div></div>
+</div>
+<div class="price" data-en="¥2,000,000 +">¥200万〜</div>
+<div class="home-equip" style="margin-top:12px;padding-top:12px;border-top:1px solid #111">
+<div data-en="Facilities · EQUIPMENT" style="font-size:8.5px;color:#444;letter-spacing:.15em;margin-bottom:6px">設備 · EQUIPMENT</div>
+<div data-en="Camper IH Cooktop · Compact Bath · Air Conditioning · Solar Power · Washlet" style="font-size:10.5px;color:#333;line-height:2">キャンピングカー用IH · コンパクトバス · エアコン · 太陽光 · ウォシュレット</div>
+</div>
+<div class="home-furniture" style="margin-top:10px;padding-top:10px;border-top:1px solid #111">
+<div data-en="Architectural Materials &amp; Furnishings · MATERIAL FURNITURE" style="font-size:8.5px;color:#c8a455;letter-spacing:.15em;margin-bottom:6px">建築資材家具 · MATERIAL FURNITURE</div>
+<div data-en="Under-bed Storage with Aluminum Frame · Foldable Wall Table · Magnetic Storage Wall" style="font-size:10.5px;color:#444;line-height:2">アルミフレームベッド下収納 · 折り畳みウォールテーブル · マグネット収納壁</div>
+</div>
+</div>
+</div>
+<div class="home-card r">
+<div class="home-card-img-wrap">
+<span class="badge b-nat" data-en="Natural materials">自然素材</span>
+<img alt="アースバッグドーム" data-en-alt="Earthbag Dome" src="img/kumaushi_c_snow_dome_night.webp"/>
+</div>
+<div class="home-body">
+<div class="home-num">MODEL 08</div>
+<div class="home-name" data-en="Earthbag Dome">アースバッグドーム<span class="home-name-en">EARTHBAG DOME</span></div>
+<div class="tags"><span class="tag t-diy" data-en="Materials Nearly Zero Cost">材料ほぼ0円</span><span class="tag t-eco" data-en="Land Only">敷地の土だけ</span></div>
+<div class="specs">
+<div><div class="sp-l" data-en="Scale">規模</div><div class="sp-v" data-en="8m diameter">直径8m</div></div>
+<div><div class="sp-l" data-en="Materials">材料</div><div class="sp-v" data-en="On-Site Soil + Bags">敷地内の土+袋</div></div>
+<div><div class="sp-l" data-en="Construction Period">工期</div><div class="sp-v" data-en="1 Work Party Session">Work Party 1回</div></div>
+<div><div class="sp-l" data-en="Building confirmation approval">確認申請</div><div class="sp-v" data-en="Not Required (≤108 sq ft)">不要（10㎡以下）</div></div>
+</div>
+<div class="price" data-en="From ¥400,000">¥40万〜<span class="price-note" data-en="Most Economical Construction Method">最安の工法</span></div>
+</div>
+</div>
+<div class="home-card r">
+<div class="home-card-img-wrap">
+<span class="badge b-eco" data-en="Off-Grid">オフグリッド</span>
+<img alt="オフグリッドキャビン" data-en-alt="Off-Grid Cabin" src="img/offgrid_aerial_total.webp"/>
+</div>
+<div class="home-body">
+<div class="home-num">MODEL 09</div>
+<div class="home-name" data-en="Off-Grid Cabin">オフグリッドキャビン<span class="home-name-en">OFF-GRID CABIN</span></div>
+<div class="tags"><span class="tag t-eco" data-en="Zero Electricity Costs">電気代ゼロ</span><span class="tag t-wow" data-en="Complete Self-Sufficiency">完全自立</span></div>
+<div class="specs">
+<div><div class="sp-l" data-en="Power">電力</div><div class="sp-v" data-en="Solar + V2H">太陽光+V2H</div></div>
+<div><div class="sp-l">水</div><div class="sp-v" data-en="Rainwater + Well">雨水+井戸</div></div>
+<div><div class="sp-l" data-en="Heating">暖房</div><div class="sp-v" data-en="Wood-Fired + Solar Hot Water">薪+太陽熱温水</div></div>
+<div><div class="sp-l" data-en="Wastewater">汚水</div><div class="sp-v" data-en="Composting Toilet">コンポストトイレ</div></div>
+</div>
+<div class="price" data-en="¥3,500,000–">¥350万〜<span class="price-note" data-en="Amenities included">設備込み</span></div>
+</div>
+</div>
+<div class="home-card r">
+<div class="home-card-img-wrap">
+<span class="badge b-hyb" data-en="Hybrid Type">複合型</span>
+<img alt="ハイブリッドドーム" data-en-alt="Hybrid Dome" src="img/kumaushi_hybrid_winter.webp"/>
+</div>
+<div class="home-body">
+<div class="home-num">MODEL 10</div>
+<div class="home-name" data-en="Hybrid Dome">ハイブリッドドーム<span class="home-name-en">DOME × CONTAINER</span></div>
+<div class="tags"><span class="tag t-wow" data-en="Accommodates Large Groups">大人数対応</span><span class="tag t-fast" data-en="Ultimate specifications">最強仕様</span></div>
+<div class="specs">
+<div><div class="sp-l" data-en="Configuration">構成</div><div class="sp-v" data-en="Dome + 2 Container Structures">ドーム+コンテナ2棟</div></div>
+<div><div class="sp-l" data-en="Capacity">収容</div><div class="sp-v" data-en="8–12 guests">8〜12名</div></div>
+<div><div class="sp-l" data-en="Purpose">用途</div><div class="sp-v" data-en="Family · Group">ファミリー・グループ</div></div>
+<div><div class="sp-l" data-en="Airbnb Nightly Rate">Airbnb単価</div><div class="sp-v" data-en="¥80,000+/Night">¥80,000〜/泊</div></div>
+</div>
+<div class="price" data-en="From ¥5M">¥500万〜</div>
+</div>
+</div>
+<div class="home-card r">
+<div class="home-card-img-wrap">
+<span class="badge b-mob" data-en="Mobile Type">移動式</span>
+<img alt="ユルト" data-en-alt="Yurt" src="img/dome_exterior_winter.webp"/>
+</div>
+<div class="home-body">
+<div class="home-num">MODEL 11</div>
+<div class="home-name" data-en="Yurt">ユルト<span class="home-name-en">MONGOLIAN YURT</span></div>
+<div class="tags"><span class="tag t-fast" data-en="One-Day Assembly">組立て1日</span><span class="tag t-diy">Work Party◎</span></div>
+<div class="specs">
+<div><div class="sp-l" data-en="Diameter">直径</div><div class="sp-v">7m</div></div>
+<div><div class="sp-l" data-en="Insulation">断熱</div><div class="sp-v" data-en="Double Felt">フェルト2重</div></div>
+<div><div class="sp-l" data-en="Installation">設置</div><div class="sp-v" data-en="No Permit Required">申請不要</div></div>
+<div><div class="sp-l" data-en="Deconstruction">解体</div><div class="sp-v" data-en="Removable Before Winter">越冬前に撤去可</div></div>
+</div>
+<div class="price" data-en="¥800,000–">¥80万〜<span class="price-note" data-en="Complete Kit">本格キット</span></div>
+<div class="home-equip" style="margin-top:12px;padding-top:12px;border-top:1px solid #111">
+<div data-en="Facilities · EQUIPMENT" style="font-size:8.5px;color:#444;letter-spacing:.15em;margin-bottom:6px">設備 · EQUIPMENT</div>
+<div data-en="Wood Stove · Battery Storage + Solar · Composting Toilet · Outdoor Shower" style="font-size:10.5px;color:#333;line-height:2">薪ストーブ · 蓄電池+ソーラー · コンポストトイレ · 外部シャワー</div>
+</div>
+<div class="home-furniture" style="margin-top:10px;padding-top:10px;border-top:1px solid #111">
+<div data-en="Architectural Materials &amp; Furnishings · MATERIAL FURNITURE" style="font-size:8.5px;color:#c8a455;letter-spacing:.15em;margin-bottom:6px">建築資材家具 · MATERIAL FURNITURE</div>
+<div data-en="Willow Branch Lattice Frame Shelf · Log Center Table · Wall-Mounted Branch Hooks · Felt Storage Boxes" style="font-size:10.5px;color:#444;line-height:2">ウィロー枝格子フレーム棚 · 丸太センターテーブル · 壁掛けフック(枝) · フェルト収納ボックス</div>
+</div>
+</div>
+</div>
+<div class="home-card r">
+<div class="home-card-img-wrap">
+<span class="badge b-nat" data-en="Underground">地中</span>
+<img alt="半地下ホビット" data-en-alt="Semi-subterranean Hobbit" src="img/village_lux_ext.jpg"/>
+</div>
+<div class="home-body">
+<div class="home-num">MODEL 12</div>
+<div class="home-name" data-en="Semi-subterranean Hobbit">半地下ホビット<span class="home-name-en">EARTH-SHELTERED</span></div>
+<div class="tags"><span class="tag t-warm" data-en="Geothermal Stability">地熱で安定</span><span class="tag t-wow" data-en="Living roof">草屋根</span></div>
+<div class="specs">
+<div><div class="sp-l" data-en="Scale">規模</div><div class="sp-v" data-en="8 tsubo, semi-subterranean">8坪・半地下</div></div>
+<div><div class="sp-l" data-en="Interior temperature">室温</div><div class="sp-v" data-en="Maintains 54–59°F Even in Winter">冬でも12〜15℃</div></div>
+<div><div class="sp-l" data-en="Roof">屋根</div><div class="sp-v" data-en="Living Roof (Thermal Insulation Integrated)">草屋根（断熱兼用）</div></div>
+<div><div class="sp-l" data-en="Excavation">掘削</div><div class="sp-v" data-en="Mini Excavator — 1 Day">ミニショベル1日</div></div>
+</div>
+<div class="price" data-en="From ¥3M">¥300万〜<span class="price-note" data-en="Excavation Included">掘削含む</span></div>
+<div class="home-equip" style="margin-top:12px;padding-top:12px;border-top:1px solid #111">
+<div data-en="Facilities · EQUIPMENT" style="font-size:8.5px;color:#444;letter-spacing:.15em;margin-bottom:6px">設備 · EQUIPMENT</div>
+<div data-en="Geothermal heating · Living roof insulation · Wood-burning stove · 2 skylights · Rainwater harvesting" style="font-size:10.5px;color:#333;line-height:2">地熱利用暖房 · 草屋根断熱 · 薪ストーブ · 天窓2か所 · 雨水利用</div>
+</div>
+<div class="home-furniture" style="margin-top:10px;padding-top:10px;border-top:1px solid #111">
+<div data-en="Architectural Materials &amp; Furnishings · MATERIAL FURNITURE" style="font-size:8.5px;color:#c8a455;letter-spacing:.15em;margin-bottom:6px">建築資材家具 · MATERIAL FURNITURE</div>
+<div data-en="Stone-Built Bench · Earthen Wall Shelving · Tree Stump Side Table · Root Cellar Storage Shelves" style="font-size:10.5px;color:#444;line-height:2">石積みベンチ · 土壁彫り込み棚 · 切り株サイドテーブル · ルートセラー収納棚</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- KUMAUSHI HILLTOP -->
+<section style="background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+<div class="section-kicker r" data-en="KUMAUSHI — Dojo Area · Hilltop · 800 Tsubo">KUMAUSHI — 道場エリア・小山の上・800坪</div>
+<h2 class="section-title r" data-en="2 Lodges at the Summit">頂上に建てる2棟</h2>
+<p class="section-body r" data-en="Atop a small hill extending from the dojo of Kumaushi Base, 800 tsubo. Two structures maximizing views and serenity—a tower ascending skyward and a chamber descending below. The construction method was carefully chosen to honor a space of martial arts and meditation.">熊牛原野の道場から続く小山の頂上、800坪。眺めと静寂を最大化する2つの構造物——上へ伸びる塔と、地に潜る室。武道と瞑想の場にふさわしい工法を選んだ。</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:44px">
+<!-- 版築展望塔 -->
+<div class="home-card r" style="background:#040404">
+<div class="home-card-img-wrap">
+<span class="badge b-nat" data-en="Natural materials">自然素材</span>
+<img alt="版築展望塔" data-en-alt="Rammed Earth Observation Tower" src="img/kumaushi_yagura_tower.webp"/>
+</div>
+<div class="home-body">
+<div class="home-num">KUMAUSHI 01</div>
+<div class="home-name" data-en="Rammed Earth Observation Tower">版築展望塔（やぐら）<span class="home-name-en">RAMMED EARTH WATCHTOWER</span></div>
+<div class="tags">
+<span class="tag t-wow" data-en="360° Panoramic Views">360°パノラマ</span>
+<span class="tag t-eco" data-en="Built with site earth">敷地の土で建てる</span>
+<span class="tag t-diy">Work Party◎</span>
+</div>
+<div class="specs">
+<div><div class="sp-l" data-en="Scale">規模</div><div class="sp-v" data-en="3–4 Levels · Approximately 10m Height">3〜4層・高さ約10m</div></div>
+<div><div class="sp-l" data-en="Materials">材料</div><div class="sp-v" data-en="Rammed Earth: Soil + Gravel + Lime">小山の土+砂利+石灰</div></div>
+<div><div class="sp-l" data-en="Wall Thickness">壁厚</div><div class="sp-v" data-en="400–600mm (thermal mass)">400〜600mm（蓄熱）</div></div>
+<div><div class="sp-l" data-en="Purpose">用途</div><div class="sp-v" data-en="Panoramic views · Cold plunge · Sauna relaxation">展望・冷水浴・サウナ休憩</div></div>
+</div>
+<p data-en="A rammed-earth tower overlooking 360° of Teshikaga from the hilltop. Built entirely from soil excavated on-site. Walls rise in one week as participants take turns tamping during Work Parties." style="font-size:12px;color:#555;line-height:1.8;margin-bottom:14px">小山の頂から360°の弟子屈を見下ろす版築の塔。敷地内を掘った土だけで建つ。Work Partyで皆が交代で突き固めると1週間で壁が立ち上がる。</p>
+<div class="price" data-en="¥800,000–">¥80万〜<span class="price-note" data-en="Soil Free · Formwork Only">土は無料、型枠のみ</span></div>
+</div>
+</div>
+<!-- 半地下キバ（瞑想室） -->
+<div class="home-card r" style="background:#040404">
+<div class="home-card-img-wrap">
+<span class="badge b-nat" data-en="Underground">地中</span>
+<img alt="半地下キバ" data-en-alt="Semi-Underground Foundation" src="img/kumaushi_b_mist_rooftop_meditation.webp"/>
+</div>
+<div class="home-body">
+<div class="home-num">KUMAUSHI 02</div>
+<div class="home-name" data-en="Semi-Underground Kiba (Meditation Room)">半地下キバ（瞑想室）<span class="home-name-en">UNDERGROUND KIVA</span></div>
+<div class="tags">
+<span class="tag t-warm" data-en="Geothermal: 15°C Year-Round">地熱で年中15℃</span>
+<span class="tag t-wow" data-en="Top Entry">上から入る</span>
+<span class="tag t-eco" data-en="Excavation Only">掘るだけ</span>
+</div>
+<div class="specs">
+<div><div class="sp-l" data-en="Scale">規模</div><div class="sp-v" data-en="5m Diameter · 2m Depth">直径5m・深さ2m</div></div>
+<div><div class="sp-l" data-en="Entrance">入口</div><div class="sp-v" data-en="Ladder access through ceiling hatch">天井のハッチから梯子</div></div>
+<div><div class="sp-l" data-en="Interior temperature">室温</div><div class="sp-v" data-en="Interior 15℃ even when exterior reaches -20℃ in winter">冬-20℃外でも内15℃</div></div>
+<div><div class="sp-l" data-en="Building confirmation approval">確認申請</div><div class="sp-v" data-en="Not Required (Underground/Under 10㎡)">不要（地下・10㎡以下）</div></div>
+</div>
+<p data-en="A Native American kiva adapted for Teshikaga. A circular underground chamber carved into a hillside, accessed by ladder from above. Heated by a single wood-burning stove for year-round comfort. An ideal space for meditation and breath work following martial arts practice." style="font-size:12px;color:#555;line-height:1.8;margin-bottom:14px">ネイティブアメリカンの「キバ」を弟子屈に。小山の斜面を掘り込み、上から梯子で降りる円形の地下室。薪ストーブ1台で真冬も快適。武道後の瞑想・息を整える場所。</p>
+<div class="price" data-en="From ¥500,000">¥50万〜<span class="price-note" data-en="Mini Excavator 1 Day + Stone Stacking">ミニショベル1日+石積み</span></div>
+</div>
+</div>
+</div>
+<!-- 小山ゾーンの使い方 -->
+<div style="margin-top:32px;padding:28px 32px;border:1px solid var(--border);border-radius:4px">
+<div data-en="800 tsubo SITE PLAN" style="font-size:10px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin-bottom:12px">800坪 SITE PLAN</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+<div data-en="Open-Air Bathing Deck Following Rammed-Earth Tower Sauna" style="font-size:12px;color:#666;line-height:2">
+<div data-en="Summit (highest point)" style="color:#aaa;font-weight:700;margin-bottom:4px">頂上（最高点）</div>
+        版築展望塔<br/>サウナ後の外気浴デッキ
+      </div>
+<div data-en="Semi-Underground Kiba (Entrance) Solar Thermal Collector Panel" style="font-size:12px;color:#666;line-height:2">
+<div data-en="South-facing slope" style="color:#aaa;font-weight:700;margin-bottom:4px">南斜面</div>
+        半地下キバ（入口）<br/>太陽熱集熱パネル
+      </div>
+<div data-en="Stone-Paved Trail (100m) — Maintained via Work Parties" style="font-size:12px;color:#666;line-height:2">
+<div data-en="Access from the Dojo" style="color:#aaa;font-weight:700;margin-bottom:4px">道場からのアクセス</div>
+        石積みの登山道（100m）<br/>Work Partyで整備
+      </div>
+</div>
+</div>
+</section>
+<!-- COMPARE TABLE -->
+<section style="padding-top:0">
+<div class="section-kicker r">COMPARISON</div>
+<h2 class="section-title r" data-en="All 18 Lodges Quick Reference Chart">全18棟 早見表</h2>
+<p class="section-body r" data-en="4 existing structures at Birawa Grand + 12 structures at Birawa MODEL VILLAGE + 2 structures at KUMAUSHI BASE.">美留和グランドの既存4棟 + 美留和MODEL VILLAGE 12棟 + 熊牛小山の2棟。</p>
+<div class="compare-wrap r">
+<table>
+<thead>
+<tr>
+<th data-en="Location">場所</th><th>#</th><th data-en="Construction Method · Lodge Name">工法・棟名</th><th data-en="Estimated price">価格目安</th><th data-en="Insulation">断熱</th><th data-en="Applications">申請</th><th>Work Party</th>
+</tr>
+</thead>
+<tbody>
+<tr><td data-en="Birowa G" style="color:#666">美留和G</td><td>—</td><td class="td-n" data-en="NESTING (VUILD)">NESTING（VUILD）</td><td class="td-g" data-en="From ¥5.5M">¥550万〜</td><td>★★★★☆</td><td data-en="Not Required">不要</td><td><span class="s">★★</span><span class="so">☆☆☆</span></td></tr>
+<tr><td data-en="Birowa G" style="color:#666">美留和G</td><td>—</td><td class="td-n" data-en="Instant House">インスタントハウス</td><td class="td-g" data-en="¥2,000,000 +">¥200万〜</td><td>★★★☆☆</td><td data-en="Not Required">不要</td><td><span class="s">★★★</span><span class="so">☆☆</span></td></tr>
+<tr><td data-en="Birowa G" style="color:#666">美留和G</td><td>—</td><td class="td-n" data-en="Tower Sauna">タワーサウナ</td><td class="td-g" data-en="¥800,000–">¥80万〜</td><td>★★★☆☆</td><td data-en="Not Required">不要</td><td><span class="s">★★★★</span><span class="so">☆</span></td></tr>
+<tr><td data-en="Birowa G" style="color:#666">美留和G</td><td>—</td><td class="td-n" data-en="Square Log House">角ログハウス</td><td class="td-g" data-en="¥4,000,000+">¥400万〜</td><td>★★★★☆</td><td data-en="Required">必要</td><td><span class="s">★★★</span><span class="so">☆☆</span></td></tr>
+<tr style="border-top:1px solid rgba(200,164,85,.15)"><td style="color:var(--gold)">MODEL V</td><td>01</td><td class="td-n" data-en="Straw Bale Construction">ストローベイル</td><td class="td-g" data-en="¥4,700,000–">¥470万〜</td><td>UA0.15★★★★★</td><td data-en="Required">必要</td><td><span class="s">★★★★★</span></td></tr>
+<tr><td style="color:var(--gold)">MODEL V</td><td>02</td><td class="td-n" data-en="Cordwood Sauna">コードウッドサウナ</td><td class="td-g" data-en="From ¥500,000">¥50万〜</td><td>★★★★☆</td><td data-en="Not Required">不要</td><td><span class="s">★★★★★</span></td></tr>
+<tr><td style="color:var(--gold)">MODEL V</td><td>03</td><td class="td-n" data-en="Geodesic Dome">ジオデシックドーム</td><td class="td-g" data-en="From ¥1,200,000">¥120万〜</td><td>★★★☆☆</td><td data-en="Confirm Details">要確認</td><td><span class="s">★★★★</span><span class="so">☆</span></td></tr>
+<tr><td style="color:var(--gold)">MODEL V</td><td>04</td><td class="td-n" data-en="Container Villas">コンテナヴィラ</td><td class="td-g" data-en="¥2.5M+">¥250万〜</td><td>★★★☆☆</td><td data-en="Required">必要</td><td><span class="s">★★★</span><span class="so">☆☆</span></td></tr>
+<tr><td style="color:var(--gold)">MODEL V</td><td>05</td><td class="td-n" data-en="SIPS Cabin">SIPSキャビン</td><td class="td-g" data-en="¥3,800,000 +">¥380万〜</td><td>UA0.20★★★★☆</td><td data-en="Required">必要</td><td><span class="s">★★</span><span class="so">☆☆☆</span></td></tr>
+<tr><td style="color:var(--gold)">MODEL V</td><td>06</td><td class="td-n" data-en="Round Log Cabin">丸ログキャビン</td><td class="td-g" data-en="¥4,000,000+">¥400万〜</td><td>★★★☆☆</td><td data-en="Required">必要</td><td><span class="s">★★★★</span><span class="so">☆</span></td></tr>
+<tr><td style="color:var(--gold)">MODEL V</td><td>07</td><td class="td-n" data-en="Trailer House">トレーラーハウス</td><td class="td-g" data-en="¥2,000,000 +">¥200万〜</td><td>★★★☆☆</td><td data-en="Not Required">不要</td><td><span class="s">★★★</span><span class="so">☆☆</span></td></tr>
+<tr><td style="color:var(--gold)">MODEL V</td><td>08</td><td class="td-n" data-en="Earthbag Dome">アースバッグドーム</td><td class="td-g" data-en="From ¥400,000">¥40万〜</td><td>★★★★☆</td><td data-en="Not Required">不要</td><td><span class="s">★★★★★</span></td></tr>
+<tr><td style="color:var(--gold)">MODEL V</td><td>09</td><td class="td-n" data-en="Off-Grid Cabin">オフグリッドキャビン</td><td class="td-g" data-en="¥3,500,000–">¥350万〜</td><td>★★★★☆</td><td data-en="Required">必要</td><td><span class="s">★★★</span><span class="so">☆☆</span></td></tr>
+<tr><td style="color:var(--gold)">MODEL V</td><td>10</td><td class="td-n" data-en="Hybrid Dome">ハイブリッドドーム</td><td class="td-g" data-en="From ¥5M">¥500万〜</td><td>★★★★☆</td><td data-en="Required">必要</td><td><span class="s">★★★</span><span class="so">☆☆</span></td></tr>
+<tr><td style="color:var(--gold)">MODEL V</td><td>11</td><td class="td-n" data-en="Yurt">ユルト</td><td class="td-g" data-en="¥800,000–">¥80万〜</td><td>★★☆☆☆</td><td data-en="Not Required">不要</td><td><span class="s">★★★★★</span></td></tr>
+<tr><td style="color:var(--gold)">MODEL V</td><td>12</td><td class="td-n" data-en="Semi-subterranean Hobbit">半地下ホビット</td><td class="td-g" data-en="From ¥3M">¥300万〜</td><td>★★★★★</td><td data-en="Required">必要</td><td><span class="s">★★★</span><span class="so">☆☆</span></td></tr>
+<tr style="border-top:1px solid rgba(200,164,85,.15)"><td data-en="Kumaushi Hill" style="color:#88aacc">熊牛丘</td><td>K1</td><td class="td-n" data-en="Rammed Earth Observation Tower">版築展望塔（やぐら）</td><td class="td-g" data-en="¥800,000–">¥80万〜</td><td>★★★★☆</td><td data-en="Not Required">不要</td><td><span class="s">★★★★★</span></td></tr>
+<tr><td data-en="Kumaushi Hill" style="color:#88aacc">熊牛丘</td><td>K2</td><td class="td-n" data-en="Semi-Underground Kiba (Meditation Room)">半地下キバ（瞑想室）</td><td class="td-g" data-en="From ¥500,000">¥50万〜</td><td>★★★★★</td><td data-en="Not Required">不要</td><td><span class="s">★★★★★</span></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- CTA -->
+<section class="cta">
+<div class="section-kicker r" style="text-align:center">JOIN THE VILLAGE</div>
+<h2 class="section-title r" data-en="Decide which home you wish to inhabit." style="text-align:center">どの家に住みたいか、決めよう。</h2>
+<p class="section-body r" data-en="Tour the four units at Birowa Grand before becoming an Owner of MODEL VILLAGE. Build with your own hands at Work Party, and your name will be engraved on the builder's plaque upon completion." style="text-align:center;margin:0 auto 38px">美留和グランドの4棟を見学してから、MODEL VILLAGEのオーナーになれる。Work Partyで自分の手で建て、完成後は施工者プレートに名前が刻まれる。</p>
+<div>
+<a class="btn-gold" data-en="Begin Owner Registration" href="buy" data-sln-track="purchase_click">オーナー登録をはじめる</a>
+<a class="btn-ghost" data-en="View Work Party" href="handcraft">Work Partyを見る</a>
+</div>
+</section>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-building, 100-person village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Birowa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Birawa Village" href="village">美留和ビレッジ</a>
+<a data-en="Birowa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase · Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-term ownership plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral program" href="referral">紹介制度</a>
+<a data-en="Acquire shares complimentary" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture · Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalogue Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner-exclusive" href="owners">オーナー専用</a>
+<a data-en="Birawa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Maintenance Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+},{threshold:.1,rootMargin:'0px 0px -36px 0px'});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+<script src="/lang.js"></script>
+</body>
+</html>

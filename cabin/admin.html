@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLUNA Admin Dashboard</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--blue:#6688cc;--green:#4a9a5a;--red:#c0392b;
+  --bg:#040404;--surface:#070707;--surface2:#0a0a0a;--line:#111;--text:#f0ece4;--muted:#444;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;display:none}
+body.auth{display:block}
+a{color:var(--gold);text-decoration:none}
+
+/* ── GATE ─────────────────────────────────── */
+#gate{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px}
+.gate-box{text-align:center;max-width:360px;width:100%}
+.gate-logo{font-size:11px;font-weight:800;letter-spacing:.28em;color:var(--gold);margin-bottom:28px}
+.gate-title{font-size:20px;font-weight:800;margin-bottom:8px}
+.gate-sub{font-size:11.5px;color:#3a3a3a;line-height:1.9;margin-bottom:24px}
+.gate-btn{width:100%;background:#512da8;color:#fff;font-weight:800;font-size:13px;padding:14px;border:none;border-radius:12px;cursor:pointer;letter-spacing:.02em;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
+.gate-btn:hover{background:#6135c4}
+.gate-btn:disabled{opacity:.4;cursor:not-allowed}
+.gate-divider{display:flex;align-items:center;gap:12px;margin:14px 0;color:#222;font-size:10px;letter-spacing:.12em}
+.gate-divider::before,.gate-divider::after{content:'';flex:1;height:1px;background:#1a1a1a}
+.gate-input{width:100%;padding:13px 16px;border:1px solid #1a1a1a;border-radius:10px;background:var(--surface);color:var(--text);font-size:14px;text-align:center;outline:none;transition:border-color .2s;margin-bottom:10px}
+.gate-input:focus{border-color:rgba(200,164,85,.5)}
+.gate-btn-text{background:var(--surface);border:1px solid #1c1c1c;color:#666}
+.gate-btn-text:hover{background:var(--surface2);border-color:#2a2a2a;color:#999}
+.gate-err{font-size:11px;color:var(--red);margin-top:8px;min-height:16px}
+.gate-method-hint{font-size:10px;color:#2a2a2a;margin-bottom:14px;line-height:1.8;text-align:left;padding:10px 12px;border:1px solid #111;border-radius:8px}
+
+/* ── LAYOUT ───────────────────────────────── */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(4,4,4,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:14px 28px;display:flex;justify-content:space-between;align-items:center}
+.topbar-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.wallet-badge{font-size:9px;color:#3a3a3a;font-family:monospace;padding:4px 12px;background:var(--surface);border:1px solid var(--line);border-radius:100px;letter-spacing:.04em}
+.refresh-btn{background:none;border:1px solid #1a1a1a;color:#333;padding:5px 14px;border-radius:100px;font-size:9px;cursor:pointer;transition:all .2s;letter-spacing:.08em}
+.refresh-btn:hover{border-color:#333;color:#888}
+
+.main{max-width:1200px;margin:0 auto;padding:32px 24px}
+
+/* ── SECTION HEADERS ──────────────────────── */
+.sh{display:flex;align-items:center;justify-content:space-between;margin:40px 0 20px}
+.sh h2{font-size:13px;font-weight:800;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.sh-action{font-size:10px;color:var(--gold);cursor:pointer;border:none;background:none;letter-spacing:.06em;padding:0}
+
+/* ── KPI ROW ──────────────────────────────── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:32px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px 20px}
+.kpi-val{font-size:28px;font-weight:800;line-height:1;margin-bottom:6px}
+.kpi-val.gold{color:var(--gold)}
+.kpi-val.blue{color:var(--blue)}
+.kpi-val.green{color:var(--green)}
+.kpi-label{font-size:9px;color:#2a2a2a;letter-spacing:.18em;text-transform:uppercase}
+.kpi-sub{font-size:10px;color:#2a2a2a;margin-top:4px}
+
+/* ── NFT GRID ─────────────────────────────── */
+.nft-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.nft-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:border-color .2s}
+.nft-card.sold{border-color:rgba(200,164,85,.35)}
+.nft-card.available{border-color:rgba(74,154,90,.3)}
+.nft-thumb{height:90px;overflow:hidden;position:relative}
+.nft-thumb img{width:100%;height:100%;object-fit:cover;filter:brightness(.7)}
+.nft-slot{position:absolute;top:6px;left:8px;font-size:8px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.5)}
+.nft-body{padding:10px 12px}
+.nft-status{font-size:8.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.nft-status.sold{color:var(--gold)}
+.nft-status.available{color:var(--green)}
+.nft-status.loading{color:#2a2a2a}
+.nft-mint{font-size:8px;color:#2a2a2a;font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nft-owner{font-size:9px;color:#444;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:monospace}
+
+/* ── WALLET CARDS ─────────────────────────── */
+.wallet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.wallet-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+.wallet-chain{font-size:9px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px}
+.wallet-chain.btc{color:#f7931a}
+.wallet-chain.eth{color:#627eea}
+.wallet-chain.sol{color:var(--gold)}
+.wallet-balance{font-size:24px;font-weight:800;line-height:1;margin-bottom:4px}
+.wallet-addr{font-size:8.5px;color:#2a2a2a;font-family:monospace;letter-spacing:.02em;word-break:break-all;line-height:1.6;margin-bottom:8px}
+.wallet-usd{font-size:10px;color:#333}
+.copy-small{background:none;border:none;color:#2a2a2a;cursor:pointer;font-size:9px;padding:2px 6px;border-radius:4px;transition:color .2s}
+.copy-small:hover{color:var(--gold)}
+
+/* ── SALES TABLE ──────────────────────────── */
+.table-wrap{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:11px}
+thead tr{background:var(--surface2)}
+th{padding:12px 14px;text-align:left;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:#2a2a2a;font-weight:700;white-space:nowrap}
+td{padding:13px 14px;border-top:1px solid #080808;color:#888;vertical-align:middle}
+td.em{color:#bbb;font-weight:600}
+tbody tr:hover{background:rgba(255,255,255,.01)}
+.status-pill{display:inline-block;padding:3px 10px;border-radius:100px;font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.status-pill.done{background:rgba(74,154,90,.15);color:var(--green);border:1px solid rgba(74,154,90,.2)}
+.status-pill.pending{background:rgba(200,164,85,.12);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.status-pill.crypto{background:rgba(102,136,204,.12);color:var(--blue);border:1px solid rgba(102,136,204,.2)}
+.status-pill.bank{background:rgba(255,255,255,.05);color:#555;border:1px solid #1a1a1a}
+.method-icon{font-size:14px;margin-right:4px}
+
+/* ── SEND NFT FORM ────────────────────────── */
+.send-nft-form{background:var(--surface);border:1px solid rgba(200,164,85,.2);border-radius:14px;padding:24px;margin-top:12px}
+.form-row{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end}
+.form-label{font-size:9px;color:#333;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;font-weight:700}
+.form-input{width:100%;background:var(--bg);border:1px solid #1a1a1a;border-radius:8px;padding:11px 14px;color:var(--text);font-size:12px;font-family:monospace;outline:none;transition:border-color .2s}
+.form-input:focus{border-color:rgba(200,164,85,.4)}
+.form-select{width:100%;background:var(--bg);border:1px solid #1a1a1a;border-radius:8px;padding:11px 14px;color:var(--text);font-size:12px;outline:none;cursor:pointer}
+.btn-gold{background:var(--gold);color:#040404;border:none;border-radius:8px;padding:11px 22px;font-size:12px;font-weight:800;cursor:pointer;letter-spacing:.04em;transition:opacity .2s;white-space:nowrap}
+.btn-gold:hover{opacity:.85}
+.btn-ghost{background:none;border:1px solid var(--line);color:#555;border-radius:8px;padding:11px 18px;font-size:11px;cursor:pointer;transition:all .2s}
+.btn-ghost:hover{border-color:#333;color:#888}
+
+/* ── ADD SALE FORM ────────────────────────── */
+.add-sale-form{border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:16px;display:none}
+.add-sale-form.open{display:block}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:14px}
+
+/* ── GIFT REQUESTS ────────────────────────── */
+.gift-row{padding:16px;border-bottom:1px solid #080808}
+.gift-row:last-child{border-bottom:none}
+.gift-prop-badge{display:inline-block;padding:2px 8px;background:rgba(200,164,85,.1);border:1px solid rgba(200,164,85,.2);border-radius:100px;font-size:8.5px;color:var(--gold);font-weight:700;letter-spacing:.08em;margin-right:6px;margin-bottom:4px}
+
+/* ── ANALYTICS PANELS ────────────────────── */
+.an-panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+.an-title{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#2a2a2a;margin-bottom:14px}
+.ab-winner{font-size:28px;font-weight:800;line-height:1;margin-bottom:4px}
+.ab-lift{font-size:12px;color:var(--green);margin-top:4px}
+.ab-bar{display:flex;gap:6px;margin-top:12px;align-items:flex-end}
+.ab-col{flex:1;text-align:center}
+.ab-col-bar{border-radius:4px 4px 0 0;transition:height .5s ease;min-height:4px}
+.ab-col-label{font-size:9px;color:#444;margin-top:5px;letter-spacing:.06em}
+.ab-col-val{font-size:10px;color:#888;margin-top:2px}
+.utm-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:11px}
+.utm-src{color:#888;width:80px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.utm-bar-wrap{flex:1;background:#0f0f0f;border-radius:3px;height:6px;overflow:hidden}
+.utm-bar-fill{height:100%;border-radius:3px;background:var(--blue)}
+.utm-cnt{font-size:10px;color:#444;width:28px;text-align:right}
+.device-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.device-icon{font-size:16px;width:22px}
+.device-label{font-size:11px;color:#888;width:60px}
+.device-bar-wrap{flex:1;background:#0f0f0f;border-radius:3px;height:6px;overflow:hidden}
+.device-bar-fill{height:100%;border-radius:3px}
+.device-pct{font-size:10px;color:#444;width:36px;text-align:right}
+.ref-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #0a0a0a;font-size:11px}
+.ref-row:last-child{border-bottom:none}
+.ref-host{color:#888;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ref-cnt{color:#444;font-size:10px}
+.trend-bars{display:flex;align-items:flex-end;gap:2px;height:60px;margin-top:8px}
+.trend-bar{flex:1;border-radius:2px 2px 0 0;background:rgba(200,164,85,.35);transition:height .4s ease;min-height:2px;cursor:default;position:relative}
+.trend-bar:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100%+4px);left:50%;transform:translateX(-50%);background:#111;color:#ccc;font-size:9px;padding:3px 7px;border-radius:4px;white-space:nowrap;pointer-events:none}
+.active-pulse{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:7px;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+/* ── MISC ─────────────────────────────────── */
+.empty{padding:32px;text-align:center;font-size:11px;color:#1e1e1e}
+.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.tag-green{background:rgba(74,154,90,.15);color:var(--green)}
+.tag-gold{background:rgba(200,164,85,.1);color:var(--gold)}
+.tag-blue{background:rgba(102,136,204,.1);color:var(--blue)}
+.spinner{width:16px;height:16px;border:2px solid #1a1a1a;border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:5px}
+.dot.green{background:var(--green)}
+.dot.red{background:var(--red)}
+.dot.gold{background:var(--gold)}
+@media(max-width:700px){.nft-grid{grid-template-columns:repeat(2,1fr)}.wallet-grid{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}}
+
+/* ── MEMBERS TABLE ────────────────────────────────── */
+.members-table{width:100%;border-collapse:collapse}
+.members-table th{font-size:9px;letter-spacing:.12em;color:#2a2a2a;text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);text-transform:uppercase}
+.members-table td{font-size:12px;padding:10px 14px;border-bottom:1px solid #0a0a0a;vertical-align:middle}
+.members-table tr:hover td{background:#070707}
+.member-email{font-size:11px;font-family:monospace;color:var(--text)}
+.member-name{font-size:11px;color:#666}
+.member-type-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:100px}
+.type-admin{background:rgba(200,164,85,.15);color:var(--gold);border:1px solid rgba(200,164,85,.3)}
+.type-founder{background:rgba(147,112,219,.15);color:#9370db;border:1px solid rgba(147,112,219,.3)}
+.type-friend{background:rgba(102,136,204,.15);color:var(--blue);border:1px solid rgba(102,136,204,.3)}
+.type-owner{background:rgba(74,154,90,.15);color:var(--green);border:1px solid rgba(74,154,90,.3)}
+.type-cleaner{background:rgba(240,200,100,.1);color:#f0c864;border:1px solid rgba(240,200,100,.25)}
+.type-construction{background:rgba(255,140,0,.1);color:#ff8c00;border:1px solid rgba(255,140,0,.25)}
+.type-member{background:rgba(255,255,255,.05);color:#444;border:1px solid #1a1a1a}
+.type-select{background:#0a0a0a;border:1px solid #1a1a1a;color:#888;padding:5px 8px;border-radius:6px;font-size:10px;cursor:pointer;transition:border-color .2s}
+.type-select:hover{border-color:#333}
+.member-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.member-filter-btn{padding:5px 14px;border-radius:100px;font-size:10px;font-weight:600;border:1px solid var(--line);color:#3a3a3a;background:transparent;cursor:pointer;transition:all .2s;letter-spacing:.04em}
+.member-filter-btn.active{background:rgba(200,164,85,.12);border-color:rgba(200,164,85,.3);color:var(--gold)}
+/* ── STAFF TABLE ── */
+.staff-table{width:100%;border-collapse:collapse}
+.staff-table th{font-size:9px;letter-spacing:.12em;color:#2a2a2a;text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);text-transform:uppercase}
+.staff-table td{font-size:12px;padding:10px 14px;border-bottom:1px solid #0a0a0a;vertical-align:middle}
+.staff-table tr:hover td{background:#070707}
+.code-badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.15em;padding:4px 12px;background:rgba(200,164,85,.1);border:1px solid rgba(200,164,85,.25);border-radius:6px;color:#c8a455;font-family:monospace}
+.commission-val{font-size:13px;font-weight:700;color:#5ab55a}
+
+/* ── OPS STATUS ────────────────────────────── */
+#ops-section{display:none}
+body.admin-mode #ops-section{display:block}
+.ops-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;margin-bottom:32px}
+.ops-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;position:relative}
+.ops-card.urgent{border-color:rgba(192,57,43,.4)}
+.ops-card.upcoming{border-color:rgba(200,164,85,.3)}
+.ops-card.inprogress{border-color:rgba(102,136,204,.25)}
+.ops-card.done-card{border-color:rgba(74,154,90,.25);opacity:.6}
+.ops-card-tag{font-size:8px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px;display:inline-block;padding:2px 8px;border-radius:4px}
+.ops-card-tag.urgent{background:rgba(192,57,43,.2);color:#e05555}
+.ops-card-tag.upcoming{background:rgba(200,164,85,.15);color:var(--gold)}
+.ops-card-tag.inprogress{background:rgba(102,136,204,.12);color:var(--blue)}
+.ops-card-tag.done-tag{background:rgba(74,154,90,.12);color:var(--green)}
+.ops-card-title{font-size:14px;font-weight:800;margin-bottom:6px;line-height:1.4}
+.ops-card-sub{font-size:11px;color:#555;line-height:1.7;margin-bottom:10px}
+.ops-card-action{font-size:10px;color:var(--gold);font-weight:700;letter-spacing:.04em;border:none;background:none;cursor:pointer;padding:0;text-align:left}
+.ops-card-action:hover{text-decoration:underline}
+.ops-date{font-size:10px;color:#333;margin-top:6px;font-family:monospace}
+.ops-badge{position:absolute;top:12px;right:14px;font-size:9px;font-weight:800;letter-spacing:.08em}
+</style>
+  <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+
+<!-- ══════════ GATE ══════════ -->
+<div id="gate">
+  <div class="gate-box">
+    <div class="gate-logo">SOLUNA · ADMIN</div>
+    <h2 class="gate-title">ダッシュボード</h2>
+    <div class="gate-method-hint">
+      💳 購入者 — 申込番号を入力<br>
+      🖼 NFT保有者 — Phantomで接続<br>
+      🔑 管理者 — キーワードを入力
+    </div>
+
+    <!-- Phantom: admin wallet OR NFT holder -->
+    <button class="gate-btn" id="gate-connect-btn" onclick="connectAndAuth()">
+      <svg width="20" height="20" viewBox="0 0 128 128" fill="none"><rect width="128" height="128" rx="24" fill="#AB9FF2"/><path d="M110 65H99C99 42 80 23 57 23C34 23 15 41 15 64C15 86 29 100 49 100H58C75 100 92 87 96 71H110V65Z" fill="white"/><circle cx="58" cy="61" r="13" fill="#AB9FF2"/><circle cx="83" cy="61" r="13" fill="white"/></svg>
+      Phantom で接続（NFT保有者可）
+    </button>
+
+    <div class="gate-divider">または</div>
+
+    <!-- Input: purchase ID / HAMADA / admin password -->
+    <input type="text" id="gate-input" placeholder="申込番号 / キーワード" class="gate-input"
+      autocomplete="off" spellcheck="false"
+      onkeydown="if(event.key==='Enter')tryInput()">
+    <button class="gate-btn gate-btn-text" onclick="tryInput()">アクセス →</button>
+
+    <div class="gate-err" id="gate-error"></div>
+  </div>
+</div>
+
+<!-- ══════════ TOP BAR ══════════ -->
+<div class="topbar">
+  <div class="topbar-logo">SOLUNA ADMIN</div>
+  <div class="topbar-right">
+    <span id="last-updated" style="font-size:9px;color:#222;letter-spacing:.06em"></span>
+    <div class="wallet-badge" id="nav-wallet">—</div>
+    <button class="refresh-btn" onclick="refreshAll()">↻ 更新</button>
+  </div>
+</div>
+
+<!-- ══════════ MAIN ══════════ -->
+<div class="main">
+
+  <!-- ══ OPS STATUS (admin only) ══ -->
+  <div id="ops-section">
+    <div class="sh">
+      <h2>🗂 オペレーション状況</h2>
+      <span style="font-size:9px;color:#2a2a2a">mail@yukihamada.jp &amp; 管理者のみ表示</span>
+    </div>
+    <div class="ops-grid" id="ops-grid">
+
+      <!-- AWS -->
+      <div class="ops-card urgent">
+        <span class="ops-card-tag urgent">緊急</span>
+        <div class="ops-card-title">AWS アカウント 復旧待ち</div>
+        <div class="ops-card-sub">
+          Account 495350830663 (ap-northeast-1) サスペンド済み。<br>
+          支払い完了 ✓ → Support Center に連絡して復旧依頼を。<br>
+          <code style="font-size:10px;color:#888">console.aws.amazon.com → サポートセンター</code>
+        </div>
+        <button class="ops-card-action" onclick="window.open('https://console.aws.amazon.com/support/home','_blank')">→ AWS Support を開く</button>
+        <div class="ops-date">2026-04-23 支払い済み</div>
+      </div>
+
+      <!-- PCBWay BOM -->
+      <div class="ops-card urgent">
+        <span class="ops-card-tag urgent">要対応</span>
+        <div class="ops-card-title">PCBWay 注文 #T-1JP3W1046165A</div>
+        <div class="ops-card-sub">
+          KAGI IKI Lite PCB — <strong style="color:#e05555">BOMファイル未アップロード</strong><br>
+          部品: ESP32-S3-MINI-1-N8, SHT40-AD1B-R2, ATECC608A-MAHDA-S<br>
+          ファイル: <code style="font-size:10px;color:#888">kagi/hardware/gerbers/PCBWay_BOM.csv</code>
+        </div>
+        <button class="ops-card-action" onclick="window.open('https://www.pcbway.com/orderonline.aspx','_blank')">→ PCBWay でアップロード</button>
+        <div class="ops-date">要: UVプリント写真も確認（W1046165AS1JP1/JP2）</div>
+      </div>
+
+      <!-- Ward Village -->
+      <div class="ops-card upcoming">
+        <span class="ops-card-tag upcoming">5/2 締切</span>
+        <div class="ops-card-title">Ward Village #3902 契約サイン</div>
+        <div class="ops-card-sub">
+          2026-05-02(土) 13:00<br>
+          IBM Building, 1240 Ala Moana Blvd, Honolulu<br>
+          身分証・契約書類を持参のこと
+        </div>
+        <div class="ops-date">2026-05-02 13:00 HST</div>
+      </div>
+
+      <!-- Soluna Team Call -->
+      <div class="ops-card upcoming">
+        <span class="ops-card-tag upcoming">明日</span>
+        <div class="ops-card-title">Soluna Team Call</div>
+        <div class="ops-card-sub">
+          2026-04-24(金) 14:00 JST<br>
+          Google Meet: <code style="font-size:10px;color:#888">mqf-rmdm-nkc</code><br>
+          議題: Zamna Hawaii アーティスト・チケット・会場
+        </div>
+        <button class="ops-card-action" onclick="window.open('https://meet.google.com/mqf-rmdm-nkc','_blank')">→ Meet を開く</button>
+        <div class="ops-date">2026-04-24 14:00 JST</div>
+      </div>
+
+      <!-- Zamna Artist Contracts -->
+      <div class="ops-card inprogress">
+        <span class="ops-card-tag inprogress">交渉中</span>
+        <div class="ops-card-title">Zamna Hawaii アーティスト契約</div>
+        <div class="ops-card-sub">
+          Victor 待ち: WhoMadeWho / Mathame / Korolova 契約書<br>
+          MN2S (Sharron): Mahmut Orhan / Nora En Pure — <strong style="color:#e05555">8日間返信なし</strong><br>
+          Lit &amp; Beyond: コミッション承認待ち (チケット純売上の1〜4%)
+        </div>
+        <div class="ops-date">フォローアップ要: MN2S Sharron に再送</div>
+      </div>
+
+      <!-- NAH 青島売出し -->
+      <div class="ops-card inprogress">
+        <span class="ops-card-tag inprogress">売出し中</span>
+        <div class="ops-card-title">NAH 青島 1/36 売出し</div>
+        <div class="ops-card-sub">
+          売出し価格: <strong style="color:var(--gold)">¥77,777,777</strong><br>
+          取得比 +307.9% (+¥58,711,111)<br>
+          受取予定: ¥75,378,444（手数料 ¥2,399,333 差引後）<br>
+          残契約泊数: 20夜 / 売出し: 10夜分
+        </div>
+        <div class="ops-date">2026-04-23 売出し開始</div>
+      </div>
+
+      <!-- SJJJF -->
+      <div class="ops-card upcoming">
+        <span class="ops-card-tag upcoming">今週末</span>
+        <div class="ops-card-title">SJJJF 柔術大会</div>
+        <div class="ops-card-sub">
+          2026-04-25(土)〜26(日)<br>
+          試合準備・体重・ウォームアップ確認
+        </div>
+        <div class="ops-date">2026-04-25〜26</div>
+      </div>
+
+      <!-- SOLUNA Construction -->
+      <div class="ops-card inprogress">
+        <span class="ops-card-tag inprogress">調査中</span>
+        <div class="ops-card-title">SOLUNA 建設パートナー</div>
+        <div class="ops-card-sub">
+          弟子屈・美留和ビレッジ 建材提携先を探索中<br>
+          候補: ストローベイル工法 / 竹パネル / オフグリッド仕様<br>
+          → <span style="color:var(--gold)">下記「建材提携」セクション参照</span>
+        </div>
+        <div class="ops-date">美留和 106,899m² 開発計画中</div>
+      </div>
+
+    </div>
+
+    <!-- 建材提携候補 -->
+    <div class="sh" style="margin-top:4px">
+      <h2>建材・施工提携候補</h2>
+    </div>
+    <div class="table-wrap" style="margin-bottom:32px">
+      <table>
+        <thead><tr>
+          <th>工法/素材</th><th>企業/団体</th><th>拠点</th><th>特徴</th><th>SOLUNAとの親和性</th><th>ステータス</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td class="em">ストローベイル建築</td>
+            <td style="color:#888">日本ストローベイル協会 / GAIA Architecture</td>
+            <td style="color:#555">全国（北海道実績あり）</td>
+            <td style="color:#555;font-size:10px">断熱性能高・CO₂固定・自然素材</td>
+            <td style="color:var(--gold);font-size:10px">◎ 天空の道場・ビレッジに最適</td>
+            <td><span class="status-pill pending">未接触</span></td>
+          </tr>
+          <tr>
+            <td class="em">竹集成材・竹パネル</td>
+            <td style="color:#888">竹の家研究所 / MOSO Japan</td>
+            <td style="color:#555">関東・九州中心</td>
+            <td style="color:#555;font-size:10px">軽量・高強度・急速再生可能資源</td>
+            <td style="color:var(--gold);font-size:10px">◎ 内装・デッキ・インスタントハウス</td>
+            <td><span class="status-pill pending">未接触</span></td>
+          </tr>
+          <tr>
+            <td class="em">CLT (直交集成板)</td>
+            <td style="color:#888">北海道CLT協会 / 住友林業</td>
+            <td style="color:#555">北海道 ✓</td>
+            <td style="color:#555;font-size:10px">大断面木材・構造材・断熱一体</td>
+            <td style="color:var(--green);font-size:10px">○ THE NEST・ビレッジ本棟</td>
+            <td><span class="status-pill pending">未接触</span></td>
+          </tr>
+          <tr>
+            <td class="em">VUILD (CNC木材)</td>
+            <td style="color:#888">VUILD株式会社</td>
+            <td style="color:#555">東京（全国対応）</td>
+            <td style="color:#555;font-size:10px">ShopBot CNCデジタル建築・THE NEST実績あり</td>
+            <td style="color:var(--green);font-size:10px">○ 既存実績あり（THE NEST）</td>
+            <td><span class="status-pill done">既存提携</span></td>
+          </tr>
+          <tr>
+            <td class="em">ログハウス（道産材）</td>
+            <td style="color:#888">北海道産木材利用推進協議会 / サンタハウス</td>
+            <td style="color:#555">北海道</td>
+            <td style="color:#555;font-size:10px">地元材・断熱・ブランド力</td>
+            <td style="color:var(--green);font-size:10px">○ 弟子屈の世界観に合致</td>
+            <td><span class="status-pill pending">未接触</span></td>
+          </tr>
+          <tr>
+            <td class="em">PAN PROJECTS（設計）</td>
+            <td style="color:#888">PAN PROJECTS</td>
+            <td style="color:#555">東京</td>
+            <td style="color:#555;font-size:10px">TAPKOP設計実績・プレミアム山岳建築</td>
+            <td style="color:var(--green);font-size:10px">○ 既存実績（TAPKOP）</td>
+            <td><span class="status-pill done">既存提携</span></td>
+          </tr>
+          <tr>
+            <td class="em">ハワイ建設（RC/スチール）</td>
+            <td style="color:#888">地元HI州ライセンス業者</td>
+            <td style="color:#555">Honolulu / Maui</td>
+            <td style="color:#555;font-size:10px">ハワイ物件改修・HONOLULU/MAUI対応</td>
+            <td style="color:#666;font-size:10px">△ 2026-11開業に向け要調査</td>
+            <td><span class="status-pill pending">要調査</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="background:rgba(200,164,85,.06);border:1px solid rgba(200,164,85,.15);border-radius:12px;padding:16px 20px;margin-bottom:32px;font-size:11px;color:#666;line-height:1.9">
+      <strong style="color:var(--gold)">現状の提供可否:</strong> SOLUNAオーナー向けの建材・施工紹介は現時点では未提供。
+      ただしVUILD・PAN PROJECTSとは既存実績あり。
+      美留和ビレッジ開発に向けてストローベイル・CLT等の北海道業者との提携交渉を2026年Q3までに開始予定。
+    </div>
+  </div><!-- /ops-section -->
+
+  <!-- KPI ROW -->
+  <div class="kpi-grid" id="kpi-row">
+    <div class="kpi">
+      <div class="kpi-val gold" id="kpi-revenue">—</div>
+      <div class="kpi-label">総売上</div>
+      <div class="kpi-sub" id="kpi-revenue-sub"></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" id="kpi-nft-sold">—<span style="font-size:14px;color:#2a2a2a"> / 8</span></div>
+      <div class="kpi-label">NFT販売済</div>
+      <div class="kpi-sub" id="kpi-nft-sub"></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val blue" id="kpi-pending">—</div>
+      <div class="kpi-label">未確認入金</div>
+      <div class="kpi-sub" id="kpi-pending-sub"></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val green" id="kpi-sol">—</div>
+      <div class="kpi-label">SOL 残高</div>
+      <div class="kpi-sub">miruwa treasury</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" id="kpi-gift">—</div>
+      <div class="kpi-label">ギフト予約</div>
+      <div class="kpi-sub">HAMADAGIFT2</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" id="kpi-booking">—</div>
+      <div class="kpi-label">予約リクエスト</div>
+      <div class="kpi-sub">kagi-server</div>
+    </div>
+  </div>
+
+  <!-- ── CVR ファネル ── -->
+  <div class="sh">
+    <h2>購入ファネル CVR</h2>
+    <div style="display:flex;gap:8px;align-items:center">
+      <select id="cvr-days" onchange="loadCvr()" style="background:#0a0a0a;border:1px solid #1a1a1a;color:#888;padding:6px 10px;border-radius:6px;font-size:11px">
+        <option value="7">7日</option>
+        <option value="30" selected>30日</option>
+        <option value="90">90日</option>
+      </select>
+      <button class="sh-action" onclick="loadCvr()">↻ 更新</button>
+    </div>
+  </div>
+  <div id="cvr-panel" style="background:#070707;border:1px solid #111;border-radius:14px;padding:20px 24px;margin-bottom:28px">
+    <div id="cvr-kpi" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">
+      <div style="text-align:center">
+        <div class="kpi-val" id="cvr-views" style="font-size:28px">—</div>
+        <div class="kpi-label">ページ閲覧（UU）</div>
+      </div>
+      <div style="text-align:center">
+        <div class="kpi-val gold" id="cvr-total" style="font-size:28px">—%</div>
+        <div class="kpi-label">全体CVR（閲覧→完了）</div>
+      </div>
+      <div style="text-align:center">
+        <div class="kpi-val green" id="cvr-completes" style="font-size:28px">—</div>
+        <div class="kpi-label">購入完了</div>
+      </div>
+    </div>
+    <div id="cvr-funnel" style="display:flex;flex-direction:column;gap:10px"></div>
+  </div>
+
+  <!-- ── アクセス解析 & A/B テスト ── -->
+  <div class="sh">
+    <h2>アクセス解析 &amp; A/B テスト</h2>
+    <button class="sh-action" onclick="loadAnalytics()">↻ 更新</button>
+  </div>
+
+  <!-- Row 1: Active Now + A/B Winner -->
+  <div style="display:grid;grid-template-columns:200px 1fr;gap:10px;margin-bottom:10px">
+    <!-- Active now -->
+    <div class="an-panel" style="display:flex;flex-direction:column;justify-content:center">
+      <div class="an-title">リアルタイム</div>
+      <div style="display:flex;align-items:center;margin-bottom:4px">
+        <span class="active-pulse" id="active-pulse-dot"></span>
+        <span class="ab-winner" id="active-now-val" style="font-size:36px">—</span>
+        <span style="font-size:12px;color:#444;margin-left:6px">人</span>
+      </div>
+      <div style="font-size:9px;color:#2a2a2a;letter-spacing:.08em">過去5分間のアクティブセッション</div>
+    </div>
+    <!-- A/B panel -->
+    <div class="an-panel" id="ab-panel">
+      <div class="an-title">A/B テスト結果</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <!-- Summary -->
+        <div>
+          <div style="font-size:9px;color:#444;margin-bottom:6px">勝者</div>
+          <div class="ab-winner" id="ab-winner-label">—</div>
+          <div class="ab-lift" id="ab-lift-text"></div>
+          <div style="margin-top:10px;font-size:9px;color:#2a2a2a" id="ab-sig-text"></div>
+        </div>
+        <!-- Bars -->
+        <div>
+          <div style="font-size:9px;color:#444;margin-bottom:8px">CVR 比較</div>
+          <div class="ab-bar" id="ab-bars" style="height:80px">
+            <div class="ab-col" id="ab-col-a">
+              <div class="ab-col-bar" id="ab-bar-a" style="background:var(--blue);height:4px"></div>
+              <div class="ab-col-label">A</div>
+              <div class="ab-col-val" id="ab-val-a">—</div>
+            </div>
+            <div class="ab-col" id="ab-col-b">
+              <div class="ab-col-bar" id="ab-bar-b" style="background:var(--gold);height:4px"></div>
+              <div class="ab-col-label">B</div>
+              <div class="ab-col-val" id="ab-val-b">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2: UTM + Device + Referrers -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px">
+    <div class="an-panel">
+      <div class="an-title">流入元 (UTM Source)</div>
+      <div id="utm-list"></div>
+    </div>
+    <div class="an-panel">
+      <div class="an-title">デバイス</div>
+      <div id="device-list"></div>
+    </div>
+    <div class="an-panel">
+      <div class="an-title">リファラー TOP5</div>
+      <div id="ref-list"></div>
+    </div>
+  </div>
+
+  <!-- Row 3: Daily trend -->
+  <div class="an-panel" style="margin-bottom:28px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <div class="an-title" style="margin-bottom:0">デイリートレンド（直近14日）</div>
+      <div style="font-size:9px;color:#2a2a2a">PV / 完了</div>
+    </div>
+    <div class="trend-bars" id="trend-bars"></div>
+    <div style="display:flex;justify-content:space-between;font-size:9px;color:#2a2a2a;margin-top:6px" id="trend-labels"></div>
+  </div>
+
+  <!-- ── NFT ステータス ── -->
+  <div class="sh">
+    <h2>NFT ステータス <span id="nft-chain-status" style="font-size:9px;color:#2a2a2a;letter-spacing:.08em;font-weight:400;margin-left:8px"></span></h2>
+    <button class="sh-action" onclick="loadNftStatus()">↻ チェーン確認</button>
+  </div>
+  <div class="nft-grid" id="nft-grid">
+    <!-- JS で生成 -->
+  </div>
+
+  <!-- ── NFT 送付 ── -->
+  <div class="sh" style="margin-top:32px">
+    <h2>NFT 送付</h2>
+  </div>
+  <div class="send-nft-form">
+    <div style="font-size:9px;color:#333;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px;font-weight:700">購入者ウォレットへNFTを転送</div>
+    <div class="form-row">
+      <div>
+        <div class="form-label">NFT Slot</div>
+        <select class="form-select" id="send-slot">
+          <option value="">スロットを選択</option>
+          <option value="BevyiYzLsnC1MNmhQDgaHcAuQyDkc6qBJ49ZkJGUajdd">#1 — BevyiYz...</option>
+          <option value="5ZATBMP8Vunccr257QSgfH7NkXd3JzpeaiAZszpcwaCs">#2 — 5ZATBMP...</option>
+          <option value="DhgBPkBVCx928SepJxy5UsAkweBBeXG8UqwhuXZKGoyA">#3 — DhgBPkB...</option>
+          <option value="2Si8MuBXAFBkEatpypUHQmmmnAFqdx8xKwEo1gJ7oi6x">#4 — 2Si8MuB...</option>
+          <option value="GwUuvHzMkq21V79oXB9DXyUWsAs9uLv4Tdrv2ubDmcyT">#5 — GwUuvHz...</option>
+          <option value="24aM2KJsXzcRvzpfA64xTAjvyMBu9tryfYFQLNPZBrVE">#6 — 24aM2KJ...</option>
+          <option value="CdNah7XQSRvokxALaD4sEj9vFYRxfKHXafdjPS7kiBBs">#7 — CdNah7X...</option>
+          <option value="5XfbbuVwR1xS1FUMmnamBji2nZGJugYh3YdiHjDGRcxJ">#8 — 5Xfbbu...</option>
+        </select>
+      </div>
+      <div>
+        <div class="form-label">購入者ウォレットアドレス (Solana)</div>
+        <input type="text" class="form-input" id="send-wallet" placeholder="購入者のウォレットアドレス">
+      </div>
+      <button class="btn-gold" onclick="sendNftCmd()">転送コマンド生成</button>
+    </div>
+    <div id="send-cmd-out" style="margin-top:12px;display:none;padding:12px 16px;background:var(--bg);border:1px solid #111;border-radius:8px;font-family:monospace;font-size:11px;color:var(--gold);line-height:1.8;word-break:break-all"></div>
+  </div>
+
+  <!-- ── 売上一覧 ── -->
+  <div class="sh">
+    <h2>売上・入金記録</h2>
+    <button class="sh-action" onclick="toggleAddSale()">+ 手動追加</button>
+  </div>
+
+  <!-- 手動追加フォーム -->
+  <div class="add-sale-form" id="add-sale-form">
+    <div class="form-grid">
+      <div>
+        <div class="form-label">購入者名</div>
+        <input class="form-input" id="sale-name" placeholder="田中 太郎">
+      </div>
+      <div>
+        <div class="form-label">メール</div>
+        <input class="form-input" id="sale-email" type="email" placeholder="buyer@example.com">
+      </div>
+      <div>
+        <div class="form-label">金額</div>
+        <input class="form-input" id="sale-amount" placeholder="4900000">
+      </div>
+      <div>
+        <div class="form-label">支払い方法</div>
+        <select class="form-select" id="sale-method">
+          <option value="card">クレジットカード</option>
+          <option value="crypto_sol">SOL</option>
+          <option value="crypto_eth">ETH / USDT</option>
+          <option value="crypto_btc">BTC</option>
+          <option value="bank">銀行振込</option>
+        </select>
+      </div>
+      <div>
+        <div class="form-label">NFT Slot</div>
+        <select class="form-select" id="sale-nft">
+          <option value="">未割当</option>
+          <option value="1">#1</option><option value="2">#2</option><option value="3">#3</option>
+          <option value="4">#4</option><option value="5">#5</option><option value="6">#6</option>
+          <option value="7">#7</option><option value="8">#8</option>
+        </select>
+      </div>
+      <div>
+        <div class="form-label">ステータス</div>
+        <select class="form-select" id="sale-status">
+          <option value="confirmed">✓ 確認済み</option>
+          <option value="pending">⏳ 入金待ち</option>
+          <option value="nft_sent">NFT送付済み</option>
+        </select>
+      </div>
+      <div style="grid-column:1/-1">
+        <div class="form-label">メモ / TXハッシュ</div>
+        <input class="form-input" id="sale-note" placeholder="TX hash や備考">
+      </div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn-gold" onclick="addSale()">保存</button>
+      <button class="btn-ghost" onclick="toggleAddSale()">キャンセル</button>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr>
+        <th>日付</th><th>購入者</th><th>金額</th><th>方法</th><th>NFT</th><th>ステータス</th><th>メモ</th><th></th>
+      </tr></thead>
+      <tbody id="sales-table"></tbody>
+    </table>
+    <div class="empty" id="sales-empty">売上記録なし — 手動追加または決済完了時に自動追記</div>
+  </div>
+
+  <!-- ── ウォレット残高 ── -->
+  <div class="sh"><h2>受取ウォレット残高</h2></div>
+  <div class="wallet-grid">
+    <div class="wallet-card">
+      <div class="wallet-chain sol">SOL — Solana</div>
+      <div class="wallet-balance" id="sol-balance"><span class="spinner"></span></div>
+      <div class="wallet-addr">BisqjXg9EV7H47WfvhSPSrCsvcHMuMEyxzgCgK9pEGLj
+        <button class="copy-small" onclick="copyText('BisqjXg9EV7H47WfvhSPSrCsvcHMuMEyxzgCgK9pEGLj',this)">コピー</button>
+      </div>
+      <div class="wallet-usd" id="sol-usd">—</div>
+    </div>
+    <div class="wallet-card">
+      <div class="wallet-chain eth">ETH / USDT-ERC20</div>
+      <div class="wallet-balance" id="eth-balance"><span class="spinner"></span></div>
+      <div class="wallet-addr">0xaF0160d97553487f0929d125FF152F16C115e2af
+        <button class="copy-small" onclick="copyText('0xaF0160d97553487f0929d125FF152F16C115e2af',this)">コピー</button>
+      </div>
+      <div class="wallet-usd" id="eth-usd">—</div>
+    </div>
+    <div class="wallet-card">
+      <div class="wallet-chain btc">BTC — Bitcoin</div>
+      <div class="wallet-balance" id="btc-balance"><span class="spinner"></span></div>
+      <div class="wallet-addr">1B3zpUpkNCvhgmuUNoY1DsLoMtPkuGeVgL
+        <button class="copy-small" onclick="copyText('1B3zpUpkNCvhgmuUNoY1DsLoMtPkuGeVgL',this)">コピー</button>
+      </div>
+      <div class="wallet-usd" id="btc-usd">—</div>
+    </div>
+  </div>
+
+  <!-- ── KAGI 予約一覧 ── -->
+  <div class="sh"><h2>KAGI 予約一覧 <span id="kagi-status-badge"></span></h2><button class="sh-action" onclick="loadKagiReservations()">↻ 再読込</button></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>物件</th><th>名前</th><th>メール</th><th>チェックイン</th><th>泊数</th><th>状態</th><th></th></tr></thead>
+      <tbody id="kagi-res-table"></tbody>
+    </table>
+    <div class="empty" id="kagi-empty">読み込み中...</div>
+  </div>
+
+  <!-- ── ギフト予約リクエスト ── -->
+  <div class="sh"><h2>ギフト予約 (HAMADAGIFT2)</h2><button class="sh-action" onclick="loadGiftBookings()">↻ 再読込</button></div>
+  <div class="table-wrap">
+    <div id="gift-list"><div class="empty">読み込み中...</div></div>
+  </div>
+
+  <!-- ── 日程ブロック ── -->
+  <div class="sh"><h2>日程ブロック</h2></div>
+  <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px">
+    <div class="form-row" style="grid-template-columns:1fr 1fr auto">
+      <div>
+        <div class="form-label">物件</div>
+        <select class="form-select" id="block-prop">
+          <option value="tapkop">タップコップ</option>
+          <option value="kussharo">屈斜路サウナクラブ</option>
+          <option value="kumaushi">熊牛原野</option>
+          <option value="miruwa">美留和グランド</option>
+          <option value="wakayama">SOLUNA WAKAYAMA</option>
+          <option value="atami">SOLUNA ATAMI</option>
+          <option value="lodge">THE LODGE</option>
+          <option value="nesting">NESTING</option>
+        </select>
+      </div>
+      <div>
+        <div class="form-label">ブロック日（カンマ区切り YYYY-MM-DD）</div>
+        <input class="form-input" id="block-dates" placeholder="2026-08-01,2026-08-02">
+      </div>
+      <button class="btn-gold" onclick="blockDates()">ブロック</button>
+    </div>
+  </div>
+
+  <!-- ── ツール ── -->
+  <div class="sh"><h2>ツール</h2></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;padding-bottom:60px">
+    <button class="btn-ghost" onclick="exportSalesCSV()">売上CSV</button>
+    <button class="btn-ghost" onclick="exportLeadsCSV()">リードCSV</button>
+    <a href="miruwa-owners" target="_blank" class="btn-ghost" style="display:inline-flex;align-items:center;padding:11px 18px;font-size:11px;border:1px solid var(--line);color:#555;border-radius:8px;transition:all .2s">オーナーズポータル ↗</a>
+    <a href="miruwa-photobook" target="_blank" class="btn-ghost" style="display:inline-flex;align-items:center;padding:11px 18px;font-size:11px;border:1px solid var(--line);color:#555;border-radius:8px">フォトブック ↗</a>
+    <button class="btn-ghost" style="color:var(--red);border-color:#2a0a0a" onclick="if(confirm('売上記録を全削除しますか？'))localStorage.removeItem('soluna_sales'),renderSales()">売上リセット</button>
+  </div>
+
+  <!-- ── MEMBERS ── -->
+  <div class="sh">
+    <h2>メンバー管理</h2>
+    <button class="sh-action" onclick="loadMembers()">↻ 更新</button>
+  </div>
+  <div style="background:#070707;border:1px solid #111;border-radius:14px;padding:20px 24px;margin-bottom:48px">
+    <div class="member-filter" id="member-filter">
+      <button class="member-filter-btn active" onclick="filterMembers('all',this)">すべて</button>
+      <button class="member-filter-btn" onclick="filterMembers('admin',this)">管理者</button>
+      <button class="member-filter-btn" onclick="filterMembers('founder',this)">ファウンダー</button>
+      <button class="member-filter-btn" onclick="filterMembers('friend',this)">友達</button>
+      <button class="member-filter-btn" onclick="filterMembers('owner',this)">オーナー</button>
+      <button class="member-filter-btn" onclick="filterMembers('cleaner',this)">清掃スタッフ</button>
+      <button class="member-filter-btn" onclick="filterMembers('construction',this)">工事スタッフ</button>
+      <button class="member-filter-btn" onclick="filterMembers('member',this)">一般会員</button>
+    </div>
+    <div id="members-count" style="font-size:10px;color:#2a2a2a;margin-bottom:12px">読み込み中...</div>
+    <div style="overflow-x:auto">
+      <table class="members-table">
+        <thead><tr>
+          <th>メール</th><th>名前</th><th>タイプ</th><th>NAH</th><th>登録日</th><th>変更</th>
+        </tr></thead>
+        <tbody id="members-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── STAFF MANAGEMENT ── -->
+  <div class="sh">
+    <h2>スタッフ管理（紹介）</h2>
+    <button class="sh-action" onclick="loadStaff()">↻ 更新</button>
+  </div>
+  <div style="background:#070707;border:1px solid #111;border-radius:14px;padding:20px 24px;margin-bottom:24px">
+    <!-- コード発行フォーム -->
+    <div style="display:flex;gap:10px;margin-bottom:20px;align-items:center">
+      <input id="staff-email-input" type="email" placeholder="メールアドレスを入力"
+        style="flex:1;padding:10px 14px;background:#0a0a0a;border:1px solid #1a1a1a;border-radius:8px;color:#f0ece4;font-size:13px;outline:none">
+      <button onclick="issueStaffCode()" style="padding:10px 20px;background:rgba(200,164,85,.15);border:1px solid rgba(200,164,85,.3);color:#c8a455;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">
+        コードを発行
+      </button>
+    </div>
+    <div id="staff-issue-msg" style="font-size:11px;color:#5ab55a;min-height:16px;margin-bottom:16px"></div>
+    <!-- スタッフ一覧 -->
+    <div id="staff-count" style="font-size:10px;color:#2a2a2a;margin-bottom:12px">読み込み中...</div>
+    <div style="overflow-x:auto">
+      <table class="staff-table">
+        <thead><tr>
+          <th>スタッフ</th><th>コード</th><th>紹介数</th><th>確定コミッション</th><th>支払済</th>
+        </tr></thead>
+        <tbody id="staff-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+<script>
+// ─── CONFIG ──────────────────────────────────────────
+var ADMIN_WALLETS = new Set([
+  'BisqjXg9EV7H47WfvhSPSrCsvcHMuMEyxzgCgK9pEGLj', // miruwa treasury
+]);
+var ADMIN_PW = 'soluna2026';
+var KAGI = 'https://kagi-server.fly.dev';
+var ADMIN_TOKEN = '';
+
+var MIRUWA_MINTS = [
+  'BevyiYzLsnC1MNmhQDgaHcAuQyDkc6qBJ49ZkJGUajdd',
+  '5ZATBMP8Vunccr257QSgfH7NkXd3JzpeaiAZszpcwaCs',
+  'DhgBPkBVCx928SepJxy5UsAkweBBeXG8UqwhuXZKGoyA',
+  '2Si8MuBXAFBkEatpypUHQmmmnAFqdx8xKwEo1gJ7oi6x',
+  'GwUuvHzMkq21V79oXB9DXyUWsAs9uLv4Tdrv2ubDmcyT',
+  '24aM2KJsXzcRvzpfA64xTAjvyMBu9tryfYFQLNPZBrVE',
+  'CdNah7XQSRvokxALaD4sEj9vFYRxfKHXafdjPS7kiBBs',
+  '5XfbbuVwR1xS1FUMmnamBji2nZGJugYh3YdiHjDGRcxJ'
+];
+var TREASURY = 'BisqjXg9EV7H47WfvhSPSrCsvcHMuMEyxzgCgK9pEGLj';
+var ETH_ADDR = '0xaF0160d97553487f0929d125FF152F16C115e2af';
+var BTC_ADDR = '1B3zpUpkNCvhgmuUNoY1DsLoMtPkuGeVgL';
+
+// ─── GATE ────────────────────────────────────────────
+var MIRUWA_MINTS_SET = new Set(MIRUWA_MINTS);
+
+function getProvider(){
+  if(window.phantom?.solana?.isPhantom) return window.phantom.solana;
+  if(window.solana?.isPhantom) return window.solana;
+  return null;
+}
+
+// Check if wallet holds any Miruwa NFT via RPC
+async function checkNFTOwnership(addr){
+  try {
+    var conn = new solanaWeb3.Connection('https://api.mainnet-beta.solana.com', 'confirmed');
+    var TOKEN_PROGRAM = new solanaWeb3.PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
+    var res = await conn.getParsedTokenAccountsByOwner(
+      new solanaWeb3.PublicKey(addr), { programId: TOKEN_PROGRAM }
+    );
+    for (var acc of res.value) {
+      var info = acc.account.data.parsed.info;
+      if (MIRUWA_MINTS_SET.has(info.mint) && Number(info.tokenAmount.uiAmount) > 0) return true;
+    }
+  } catch(e) { console.warn('NFT check failed', e); }
+  return false;
+}
+
+async function connectAndAuth(){
+  var btn = document.getElementById('gate-connect-btn');
+  var err = document.getElementById('gate-error');
+  err.textContent = '';
+  btn.textContent = '接続中...'; btn.disabled = true;
+  try {
+    var p = getProvider();
+    if (!p) { window.open('https://phantom.app','_blank'); throw new Error('Phantom が見つかりません'); }
+    var r = await p.connect();
+    var addr = r.publicKey.toString();
+    // Admin wallet → full access
+    if (ADMIN_WALLETS.has(addr)) {
+      sessionStorage.setItem('soluna_admin_wallet', addr);
+      sessionStorage.setItem('soluna_auth_method', 'admin_wallet');
+      grantAccess(addr, 'admin');
+      return;
+    }
+    // NFT holder → member access
+    btn.textContent = 'NFT確認中...';
+    var hasNFT = await checkNFTOwnership(addr);
+    if (hasNFT) {
+      sessionStorage.setItem('soluna_admin_wallet', addr);
+      sessionStorage.setItem('soluna_auth_method', 'nft');
+      grantAccess(addr, 'nft');
+      return;
+    }
+    throw new Error('このウォレットはNFTを保有していません');
+  } catch(e) {
+    err.textContent = e.message;
+  } finally {
+    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 128 128" fill="none"><rect width="128" height="128" rx="24" fill="#AB9FF2"/><path d="M110 65H99C99 42 80 23 57 23C34 23 15 41 15 64C15 86 29 100 49 100H58C75 100 92 87 96 71H110V65Z" fill="white"/><circle cx="58" cy="61" r="13" fill="#AB9FF2"/><circle cx="83" cy="61" r="13" fill="white"/></svg> Phantom で接続（NFT保有者可）';
+    btn.disabled = false;
+  }
+}
+
+async function tryInput(){
+  var val = document.getElementById('gate-input').value.trim();
+  var err = document.getElementById('gate-error');
+  err.textContent = '';
+  if (!val) return;
+
+  // ① HAMADA キーワード → 管理者アクセス
+  if (val.toUpperCase() === 'HAMADA') {
+    sessionStorage.setItem('soluna_auth_method', 'hamada');
+    grantAccess(null, 'admin');
+    return;
+  }
+
+  // ② 既存パスワード（後方互換）
+  if (val === ADMIN_PW) {
+    sessionStorage.setItem('soluna_auth_method', 'password');
+    grantAccess(null, 'admin');
+    return;
+  }
+
+  // ③ 購入番号 → API で確認
+  err.textContent = '確認中...';
+  try {
+    var res = await fetch(KAGI + '/api/v1/soluna/purchase/get/' + encodeURIComponent(val));
+    if (res.ok) {
+      var data = await res.json();
+      if (data.id) {
+        sessionStorage.setItem('soluna_auth_method', 'purchaser');
+        sessionStorage.setItem('soluna_purchase_id', data.id);
+        grantAccess(null, 'purchaser');
+        return;
+      }
+    }
+    err.textContent = '申込番号が見つかりません。もう一度ご確認ください。';
+  } catch(e) {
+    err.textContent = 'サーバーに接続できませんでした。';
+  }
+}
+
+function grantAccess(addr, method){
+  document.getElementById('gate').style.display = 'none';
+  document.body.classList.add('auth');
+  var badge = document.getElementById('nav-wallet');
+  if (addr) {
+    badge.textContent = addr.slice(0,5)+'...'+addr.slice(-4);
+  } else if (method === 'hamada') {
+    badge.textContent = 'HAMADA 🔑';
+  } else if (method === 'purchaser') {
+    badge.textContent = '購入者 💳';
+  } else {
+    badge.textContent = 'Admin';
+  }
+  // Save admin key for member management API calls
+  if (method === 'admin' || method === 'hamada' || method === 'admin_wallet' || method === 'password' || method === 'session_admin') {
+    sessionStorage.setItem('soluna_admin_key', ADMIN_PW);
+    document.body.classList.add('admin-mode');
+  }
+  ADMIN_TOKEN = ADMIN_TOKEN || sessionStorage.getItem('soluna_admin_token') || '';
+  refreshAll();
+}
+
+(function(){
+  var w = sessionStorage.getItem('soluna_admin_wallet');
+  var m = sessionStorage.getItem('soluna_auth_method');
+  if (w && m) { grantAccess(w, m); return; }
+  var pid = sessionStorage.getItem('soluna_purchase_id');
+  if (pid && m === 'purchaser') { grantAccess(null, 'purchaser'); return; }
+  if (m === 'hamada' || m === 'password' || m === 'session_admin') { grantAccess(null, m); return; }
+
+  // Auto-login via sln_token if email is in admin list
+  var ADMIN_EMAILS = ['mail@yukihamada.jp', 'info@solun.art'];
+  var slnToken = localStorage.getItem('sln_token');
+  if (slnToken) {
+    fetch('/api/soluna/me', { headers: { 'Authorization': 'Bearer ' + slnToken } })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){
+        if (d && d.member && ADMIN_EMAILS.indexOf(d.member.email) !== -1) {
+          sessionStorage.setItem('soluna_auth_method', 'session_admin');
+          grantAccess(null, 'session_admin');
+        }
+      }).catch(function(){});
+  }
+})();
+
+// ─── MEMBERS ─────────────────────────────────────────
+var ALL_MEMBERS = [];
+var MEMBER_FILTER = 'all';
+
+var MEMBER_TYPE_OPTIONS = [
+  ['admin','管理者'],['founder','ファウンダー'],['friend','友達'],
+  ['owner','オーナー'],['cleaner','清掃スタッフ'],['construction','工事スタッフ'],
+  ['member','一般会員'],
+];
+
+async function loadMembers(){
+  var adminKey = sessionStorage.getItem('soluna_admin_key') || '';
+  try {
+    var r = await fetch('/api/soluna/admin/members', {
+      headers: { 'x-admin-key': adminKey }
+    });
+    if (!r.ok) { document.getElementById('members-tbody').innerHTML = '<tr><td colspan="6" style="color:#555;font-size:11px">読み込みに失敗しました</td></tr>'; return; }
+    var d = await r.json();
+    ALL_MEMBERS = d.members || [];
+    renderMembers();
+  } catch(e) {
+    document.getElementById('members-tbody').innerHTML = '<tr><td colspan="6" style="color:#555;font-size:11px">エラー: '+e.message+'</td></tr>';
+  }
+}
+
+function filterMembers(type, btn){
+  MEMBER_FILTER = type;
+  document.querySelectorAll('.member-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  renderMembers();
+}
+
+function renderMembers(){
+  var filtered = MEMBER_FILTER === 'all' ? ALL_MEMBERS : ALL_MEMBERS.filter(function(m){ return (m.member_type||'member') === MEMBER_FILTER; });
+  document.getElementById('members-count').textContent = filtered.length + ' 人' + (MEMBER_FILTER !== 'all' ? ' (' + ALL_MEMBERS.length + ' 人中)' : '');
+  var tbody = document.getElementById('members-tbody');
+  if (!filtered.length) { tbody.innerHTML = '<tr><td colspan="6" style="color:#2a2a2a;font-size:11px;padding:20px">該当なし</td></tr>'; return; }
+  tbody.innerHTML = filtered.map(function(m){
+    var mt = m.member_type || 'member';
+    var opts = MEMBER_TYPE_OPTIONS.map(function(o){ return '<option value="'+o[0]+'"'+(o[0]===mt?' selected':'')+'>'+o[1]+'</option>'; }).join('');
+    var date = (m.created_at||'').slice(0,10);
+    return '<tr>'+
+      '<td><div class="member-email">'+esc(m.email)+'</div></td>'+
+      '<td><div class="member-name">'+esc(m.name||'—')+'</div></td>'+
+      '<td><span class="member-type-badge type-'+mt+'">'+esc(m.label||mt)+'</span></td>'+
+      '<td style="font-size:11px;color:'+(m.nah_access?'var(--green)':'#2a2a2a')+'">'+
+        (m.nah_access?'✓':'—')+'</td>'+
+      '<td style="font-size:10px;color:#2a2a2a;font-family:monospace">'+date+'</td>'+
+      '<td><select class="type-select" onchange="updateMemberType('+m.id+',this.value,this)">'+opts+'</select></td>'+
+    '</tr>';
+  }).join('');
+}
+
+async function updateMemberType(id, newType, sel){
+  var adminKey = sessionStorage.getItem('soluna_admin_key') || '';
+  sel.disabled = true;
+  try {
+    var r = await fetch('/api/soluna/admin/members/'+id, {
+      method: 'PATCH',
+      headers: { 'Content-Type':'application/json','x-admin-key': adminKey },
+      body: JSON.stringify({ member_type: newType }),
+    });
+    var d = await r.json();
+    if (!d.ok) throw new Error(d.error);
+    // update local cache
+    var member = ALL_MEMBERS.find(function(m){ return m.id === id; });
+    if (member) { member.member_type = newType; member.label = d.label; }
+    renderMembers();
+  } catch(e) {
+    alert('変更失敗: '+e.message);
+  } finally {
+    sel.disabled = false;
+  }
+}
+
+// ─── STAFF ───────────────────────────────────────────
+async function loadStaff(){
+  var adminKey = sessionStorage.getItem('soluna_admin_key') || '';
+  try {
+    var r = await fetch('/api/soluna/admin/staff/referrals', { headers: { 'x-admin-key': adminKey } });
+    if (!r.ok) { document.getElementById('staff-tbody').innerHTML = '<tr><td colspan="5" style="color:#555;font-size:11px">読み込み失敗</td></tr>'; return; }
+    var d = await r.json();
+    var staff = d.staff || [];
+    document.getElementById('staff-count').textContent = staff.length + ' 人のスタッフ';
+    if (!staff.length) { document.getElementById('staff-tbody').innerHTML = '<tr><td colspan="5" style="color:#2a2a2a;font-size:11px;padding:20px">スタッフなし</td></tr>'; return; }
+    document.getElementById('staff-tbody').innerHTML = staff.map(function(s){
+      return '<tr>'+
+        '<td style="font-size:11px;font-family:monospace">'+(s.staff_email||'—')+'<br><span style="font-size:9px;color:#444">'+(s.staff_name||'')+'</span></td>'+
+        '<td><span class="code-badge">'+(s.code||'—')+'</span></td>'+
+        '<td style="font-size:13px;font-weight:700">'+(s.total_refs||0)+'</td>'+
+        '<td class="commission-val">¥'+((s.confirmed_commission||0).toLocaleString())+'</td>'+
+        '<td style="font-size:12px;color:#888">¥'+((s.paid_commission||0).toLocaleString())+'</td>'+
+      '</tr>';
+    }).join('');
+  } catch(e) {
+    document.getElementById('staff-tbody').innerHTML = '<tr><td colspan="5" style="color:#555;font-size:11px">エラー: '+e.message+'</td></tr>';
+  }
+}
+
+async function issueStaffCode(){
+  var email = document.getElementById('staff-email-input').value.trim();
+  var msg = document.getElementById('staff-issue-msg');
+  if (!email) { msg.textContent = 'メールアドレスを入力してください'; msg.style.color='#e05555'; return; }
+  var adminKey = sessionStorage.getItem('soluna_admin_key') || '';
+  msg.textContent = '発行中...'; msg.style.color='#888';
+  try {
+    var r = await fetch('/api/soluna/admin/staff/issue-code', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json','x-admin-key': adminKey },
+      body: JSON.stringify({ email }),
+    });
+    var d = await r.json();
+    if (!d.ok) throw new Error(d.error);
+    msg.textContent = (d.existing ? '既存コード: ' : '発行完了: ') + d.code + ' (https://solun.art/buy?ref=' + d.code + ')';
+    msg.style.color = '#5ab55a';
+    document.getElementById('staff-email-input').value = '';
+    loadStaff();
+  } catch(e) {
+    msg.textContent = 'エラー: '+e.message; msg.style.color='#e05555';
+  }
+}
+
+// ─── REFRESH ALL ─────────────────────────────────────
+function refreshAll(){
+  renderNftGrid();
+  loadNftStatus();
+  loadWalletBalances();
+  loadKagiReservations();
+  loadGiftBookings();
+  renderSales();
+  loadCvr();
+  loadAnalytics();
+  loadMembers();
+  loadStaff();
+  document.getElementById('last-updated').textContent = '最終更新 ' + new Date().toLocaleTimeString('ja-JP');
+}
+
+// ─── NFT GRID ─────────────────────────────────────────
+function renderNftGrid(){
+  var g = document.getElementById('nft-grid');
+  var sales = getSales();
+  g.innerHTML = MIRUWA_MINTS.map(function(mint, i){
+    var slot = i+1;
+    var sale = sales.find(function(s){ return s.nft == slot; });
+    return '<div class="nft-card" id="nft-card-'+slot+'">' +
+      '<div class="nft-thumb"><img src="img/miruwa-nft.svg" alt=""><div class="nft-slot">SLOT #'+slot+'</div></div>' +
+      '<div class="nft-body">' +
+        '<div class="nft-status loading" id="nft-status-'+slot+'">確認中...</div>' +
+        '<div class="nft-mint" title="'+mint+'">'+mint.slice(0,12)+'...</div>' +
+        '<div class="nft-owner" id="nft-owner-'+slot+'">'+(sale?sale.name:'—')+'</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+async function loadNftStatus(){
+  document.getElementById('nft-chain-status').textContent = 'チェーン確認中...';
+  var conn = new solanaWeb3.Connection('https://api.mainnet-beta.solana.com','confirmed');
+  var treasuryPk = new solanaWeb3.PublicKey(TREASURY);
+  var sold = 0;
+
+  for (var i = 0; i < MIRUWA_MINTS.length; i++){
+    var slot = i+1;
+    var statusEl  = document.getElementById('nft-status-'+slot);
+    var ownerEl   = document.getElementById('nft-owner-'+slot);
+    var cardEl    = document.getElementById('nft-card-'+slot);
+    try {
+      var mintPk = new solanaWeb3.PublicKey(MIRUWA_MINTS[i]);
+      var accounts = await conn.getTokenAccountsByOwner(treasuryPk, { mint: mintPk });
+      var inTreasury = accounts.value.length > 0;
+      if (inTreasury) {
+        statusEl.textContent = '● AVAILABLE';
+        statusEl.className = 'nft-status available';
+        cardEl.className = 'nft-card available';
+      } else {
+        sold++;
+        statusEl.textContent = '● SOLD / SENT';
+        statusEl.className = 'nft-status sold';
+        cardEl.className = 'nft-card sold';
+        // 所有者を検索
+        ownerEl.textContent = '転送済み';
+      }
+    } catch(e) {
+      statusEl.textContent = '確認エラー';
+      statusEl.className = 'nft-status loading';
+    }
+    await new Promise(function(r){ setTimeout(r, 300); });
+  }
+  document.getElementById('nft-chain-status').textContent = '✓ 確認完了';
+  document.getElementById('kpi-nft-sold').innerHTML = sold + '<span style="font-size:14px;color:#2a2a2a"> / 8</span>';
+  document.getElementById('kpi-nft-sub').textContent = '残り ' + (8-sold) + ' 枠';
+}
+
+// ─── WALLET BALANCES ──────────────────────────────────
+async function loadWalletBalances(){
+  // SOL
+  try {
+    var conn = new solanaWeb3.Connection('https://api.mainnet-beta.solana.com','confirmed');
+    var pk = new solanaWeb3.PublicKey(TREASURY);
+    var bal = await conn.getBalance(pk);
+    var sol = (bal / 1e9).toFixed(4);
+    document.getElementById('sol-balance').textContent = sol + ' SOL';
+    document.getElementById('kpi-sol').textContent = sol + ' SOL';
+    // fetch SOL price
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana,ethereum,bitcoin&vs_currencies=jpy,usd')
+      .then(function(r){ return r.json(); })
+      .then(function(prices){
+        var solJpy = prices.solana?.jpy || 0;
+        document.getElementById('sol-usd').textContent = '≈ ¥' + Math.round(sol * solJpy).toLocaleString();
+        // ETH (show address only, no API key needed for display)
+        document.getElementById('eth-balance').textContent = '—';
+        document.getElementById('eth-usd').textContent = 'Etherscan で確認';
+        // BTC
+        document.getElementById('btc-balance').textContent = '—';
+        document.getElementById('btc-usd').textContent = 'Mempool で確認';
+      }).catch(function(){});
+  } catch(e) {
+    document.getElementById('sol-balance').textContent = 'エラー';
+  }
+
+  // ETH via public RPC
+  try {
+    var ethRes = await fetch('https://cloudflare-eth.com', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({jsonrpc:'2.0',method:'eth_getBalance',params:[ETH_ADDR,'latest'],id:1})
+    });
+    var ethData = await ethRes.json();
+    var ethWei = parseInt(ethData.result, 16);
+    var eth = (ethWei / 1e18).toFixed(5);
+    document.getElementById('eth-balance').textContent = eth + ' ETH';
+  } catch(e) {
+    document.getElementById('eth-balance').textContent = '—';
+    document.getElementById('eth-usd').textContent = '<a href="https://etherscan.io/address/' + ETH_ADDR + '" target="_blank" style="color:var(--gold)">Etherscan ↗</a>';
+  }
+
+  // BTC via mempool.space
+  try {
+    var btcRes = await fetch('https://mempool.space/api/address/' + BTC_ADDR);
+    var btcData = await btcRes.json();
+    var sats = btcData.chain_stats?.funded_txo_sum - btcData.chain_stats?.spent_txo_sum;
+    var btc = sats ? (sats / 1e8).toFixed(6) : '0';
+    document.getElementById('btc-balance').textContent = btc + ' BTC';
+  } catch(e) {
+    document.getElementById('btc-balance').textContent = '—';
+  }
+}
+
+// ─── SALES (localStorage) ─────────────────────────────
+function getSales(){ return JSON.parse(localStorage.getItem('soluna_sales') || '[]'); }
+function saveSales(s){ localStorage.setItem('soluna_sales', JSON.stringify(s)); }
+
+function renderSales(){
+  var sales = getSales().slice().reverse();
+  var tb = document.getElementById('sales-table');
+  var empty = document.getElementById('sales-empty');
+  var total = 0, pending = 0, pendingCount = 0;
+  tb.innerHTML = sales.map(function(s){
+    var amt = parseInt(s.amount) || 0;
+    if (s.status === 'confirmed' || s.status === 'nft_sent') total += amt;
+    else { pending += amt; pendingCount++; }
+    var methodIcon = {card:'💳',crypto_sol:'◎',crypto_eth:'Ξ',crypto_btc:'₿',bank:'🏦'}[s.method] || '?';
+    var statusClass = {confirmed:'done',pending:'pending',nft_sent:'done',crypto_sol:'crypto',crypto_eth:'crypto'}[s.status] || 'bank';
+    var statusLabel = {confirmed:'確認済み',pending:'入金待ち',nft_sent:'NFT送付済み'}[s.status] || s.status;
+    return '<tr>' +
+      '<td class="em">' + (s.date || '—') + '</td>' +
+      '<td class="em">' + esc(s.name) + '<br><span style="font-size:9px;color:#333">' + esc(s.email) + '</span></td>' +
+      '<td class="em" style="color:var(--gold)">¥' + amt.toLocaleString() + '</td>' +
+      '<td><span class="method-icon">' + methodIcon + '</span>' + (s.method||'') + '</td>' +
+      '<td>' + (s.nft ? '#'+s.nft : '—') + '</td>' +
+      '<td><span class="status-pill ' + statusClass + '">' + statusLabel + '</span></td>' +
+      '<td style="font-size:9.5px;color:#333;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(s.note) + '</td>' +
+      '<td><button class="btn-ghost" style="padding:4px 10px;font-size:9px" onclick="deleteSale(\'' + s.id + '\')">削除</button></td>' +
+    '</tr>';
+  }).join('');
+  empty.style.display = sales.length ? 'none' : 'block';
+  document.getElementById('kpi-revenue').textContent = '¥' + (total/10000).toFixed(0) + '万';
+  document.getElementById('kpi-revenue-sub').textContent = sales.filter(function(s){return s.status!=='pending'}).length + '件';
+  document.getElementById('kpi-pending').textContent = pendingCount;
+  document.getElementById('kpi-pending-sub').textContent = pending ? '¥' + (pending/10000).toFixed(0) + '万 待ち' : '';
+}
+
+function addSale(){
+  var s = {
+    id: Date.now().toString(),
+    date: new Date().toLocaleDateString('ja-JP'),
+    name: document.getElementById('sale-name').value.trim(),
+    email: document.getElementById('sale-email').value.trim(),
+    amount: document.getElementById('sale-amount').value.trim(),
+    method: document.getElementById('sale-method').value,
+    nft: document.getElementById('sale-nft').value,
+    status: document.getElementById('sale-status').value,
+    note: document.getElementById('sale-note').value.trim()
+  };
+  if (!s.name && !s.email) { alert('名前またはメールを入力してください'); return; }
+  var sales = getSales();
+  sales.push(s);
+  saveSales(sales);
+  ['sale-name','sale-email','sale-amount','sale-note'].forEach(function(id){ document.getElementById(id).value=''; });
+  toggleAddSale();
+  renderSales();
+}
+
+function deleteSale(id){
+  if (!confirm('この記録を削除しますか？')) return;
+  saveSales(getSales().filter(function(s){ return s.id !== id; }));
+  renderSales();
+}
+
+function toggleAddSale(){
+  var f = document.getElementById('add-sale-form');
+  f.classList.toggle('open');
+}
+
+// ─── SEND NFT COMMAND ─────────────────────────────────
+function sendNftCmd(){
+  var mint   = document.getElementById('send-slot').value;
+  var wallet = document.getElementById('send-wallet').value.trim();
+  var out    = document.getElementById('send-cmd-out');
+  if (!mint || !wallet) { alert('スロットと送付先を入力してください'); return; }
+  var cmd = 'spl-token transfer ' + mint + ' 1 ' + wallet + ' --allow-unfunded-recipient --fund-recipient --owner ~/.soluna-keys/miruwa_sol.json';
+  out.style.display = 'block';
+  out.textContent = '$ ' + cmd;
+  // copy to clipboard
+  navigator.clipboard.writeText(cmd).catch(function(){});
+}
+
+// ─── KAGI RESERVATIONS ───────────────────────────────
+async function loadKagiReservations(){
+  var tb = document.getElementById('kagi-res-table');
+  var em = document.getElementById('kagi-empty');
+  em.textContent = '読み込み中...';
+  ADMIN_TOKEN = ADMIN_TOKEN || sessionStorage.getItem('soluna_admin_token') || '';
+  try {
+    var r = await fetch(KAGI+'/api/v1/soluna/reservations/list', {
+      headers: {'x-admin-token': ADMIN_TOKEN}
+    });
+    if (!r.ok) throw new Error('HTTP '+r.status);
+    var data = await r.json();
+    var list = data.reservations || [];
+    document.getElementById('kpi-booking').textContent = list.length;
+    if (!list.length) { em.textContent = '予約なし'; return; }
+    em.style.display = 'none';
+    tb.innerHTML = list.map(function(r){
+      var nights = Math.round((new Date(r.check_out)-new Date(r.check_in))/86400000);
+      var sc = r.status==='confirmed'?'done':r.status==='pending'?'pending':'bank';
+      return '<tr><td class="em">'+esc(r.property)+'</td><td>'+esc(r.name)+'</td><td style="font-size:10px">'+esc(r.email)+'</td><td>'+esc(r.check_in)+'</td><td>'+nights+'</td><td><span class="status-pill '+sc+'">'+esc(r.status)+'</span></td><td><button class="btn-ghost" style="padding:4px 10px;font-size:9px" onclick="adminCancel(\''+r.id+'\')">取消</button></td></tr>';
+    }).join('');
+  } catch(e) {
+    em.textContent = 'KAGI 接続エラー: ' + e.message;
+    document.getElementById('kpi-booking').textContent = '—';
+  }
+}
+
+async function adminCancel(id){
+  if (!confirm('キャンセルしますか？')) return;
+  ADMIN_TOKEN = ADMIN_TOKEN || sessionStorage.getItem('soluna_admin_token') || '';
+  try {
+    var r = await fetch(KAGI+'/api/v1/soluna/reservations/admin_cancel', {
+      method:'POST', headers:{'Content-Type':'application/json','x-admin-token':ADMIN_TOKEN},
+      body: JSON.stringify({reservation_id:id})
+    });
+    if (!r.ok) throw new Error('HTTP '+r.status);
+    loadKagiReservations();
+  } catch(e) { alert('エラー: '+e.message); }
+}
+
+// ─── GIFT BOOKINGS ────────────────────────────────────
+async function loadGiftBookings(){
+  var list = document.getElementById('gift-list');
+  try {
+    var r = await fetch(KAGI+'/api/v1/gift-booking/list', {
+      headers: {'x-admin-token': ADMIN_TOKEN}
+    });
+    if (!r.ok) throw new Error('HTTP '+r.status);
+    var data = await r.json();
+    var items = data.bookings || [];
+    document.getElementById('kpi-gift').textContent = items.length;
+    if (!items.length) { list.innerHTML = '<div class="empty">ギフト予約なし</div>'; return; }
+    list.innerHTML = items.map(function(b){
+      var jetLine = b.jet?.enabled ? '<span class="tag tag-gold">✈ HondaJet '+(b.jet.flight_date||'日程調整中')+'</span>' : '';
+      return '<div class="gift-row">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">' +
+          '<div style="font-size:13px;font-weight:700;color:#bbb">' + esc(b.name) + ' <span style="font-size:10px;font-weight:400;color:#444">' + esc(b.email) + '</span></div>' +
+          '<div style="font-size:9.5px;color:#2a2a2a">' + (b.created_at||'') + '</div>' +
+        '</div>' +
+        '<div style="margin-bottom:8px">' +
+          '<span class="gift-prop-badge">1泊目: ' + esc(b.stay1?.property_label||b.stay1?.property) + ' · ' + (b.stay1?.date||'') + '</span>' +
+          '<span class="gift-prop-badge">2泊目: ' + esc(b.stay2?.property_label||b.stay2?.property) + ' · ' + (b.stay2?.date||'') + '</span>' +
+          jetLine +
+        '</div>' +
+        (b.note ? '<div style="font-size:10px;color:#444;line-height:1.7">' + esc(b.note) + '</div>' : '') +
+      '</div>';
+    }).join('');
+  } catch(e) {
+    document.getElementById('kpi-gift').textContent = '—';
+    list.innerHTML = '<div class="empty">kagi-server 接続エラー</div>';
+  }
+}
+
+// ─── DATE BLOCK ──────────────────────────────────────
+async function blockDates(){
+  var prop  = document.getElementById('block-prop').value;
+  var dates = document.getElementById('block-dates').value.split(',').map(function(s){return s.trim()}).filter(Boolean);
+  if (!dates.length) { alert('日付を入力してください'); return; }
+  ADMIN_TOKEN = ADMIN_TOKEN || sessionStorage.getItem('soluna_admin_token') || '';
+  try {
+    var r = await fetch(KAGI+'/api/v1/soluna/block', {
+      method:'POST', headers:{'Content-Type':'application/json','x-admin-token':ADMIN_TOKEN},
+      body: JSON.stringify({property:prop, dates:dates, reason:'manual'})
+    });
+    if (!r.ok) throw new Error('HTTP '+r.status);
+    var d = await r.json();
+    alert(d.blocked + '日分をブロックしました');
+    document.getElementById('block-dates').value = '';
+  } catch(e) { alert('エラー: '+e.message); }
+}
+
+// ─── ANALYTICS & A/B ─────────────────────────────────
+async function loadAnalytics() {
+  try {
+    const r = await fetch('https://kagi-server.fly.dev/api/v1/soluna/track/analytics');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+
+    // Active now
+    const an = d.active_now ?? 0;
+    document.getElementById('active-now-val').textContent = an;
+    document.getElementById('active-pulse-dot').style.background = an > 0 ? 'var(--green)' : '#2a2a2a';
+
+    // A/B (server returns: ab_test.A/B.cvr, winner, lift_pct, confidence_pct)
+    const ab = d.ab_test || {};
+    const aConv = ab.A?.cvr ?? 0;
+    const bConv = ab.B?.cvr ?? 0;
+    const maxCvr = Math.max(aConv, bConv, 0.01);
+    document.getElementById('ab-bar-a').style.height = Math.round((aConv / maxCvr) * 64) + 'px';
+    document.getElementById('ab-bar-b').style.height = Math.round((bConv / maxCvr) * 64) + 'px';
+    document.getElementById('ab-val-a').textContent = aConv.toFixed(1) + '%';
+    document.getElementById('ab-val-b').textContent = bConv.toFixed(1) + '%';
+    const winner = ab.winner && ab.winner !== 'none' ? ab.winner : null;
+    const lift = ab.lift_pct != null ? ab.lift_pct.toFixed(1) : null;
+    const conf = ab.confidence_pct != null ? ab.confidence_pct : null;
+    document.getElementById('ab-winner-label').textContent = winner === 'A' ? '● Variant A' : winner === 'B' ? '● Variant B' : '未確定';
+    document.getElementById('ab-winner-label').style.color = winner === 'A' ? 'var(--blue)' : winner === 'B' ? 'var(--gold)' : '#444';
+    document.getElementById('ab-lift-text').textContent = lift && winner ? (bConv > aConv ? '+' : '') + lift + '% リフト' : '';
+    document.getElementById('ab-sig-text').textContent = conf != null ? '統計的信頼度 ' + conf + '%' + (conf >= 95 ? ' ✓有意' : ' (収集中)') : '—';
+
+    // UTM (server: {source, sessions})
+    const utms = d.utm_sources || [];
+    const utmMax = utms[0]?.sessions || 1;
+    document.getElementById('utm-list').innerHTML = utms.length ? utms.slice(0,8).map(u =>
+      `<div class="utm-row">
+        <div class="utm-src" title="${esc(u.source)}">${esc(u.source||'(direct)')}</div>
+        <div class="utm-bar-wrap"><div class="utm-bar-fill" style="width:${Math.round((u.sessions/utmMax)*100)}%"></div></div>
+        <div class="utm-cnt">${u.sessions}</div>
+      </div>`).join('') : '<div style="font-size:11px;color:#2a2a2a">データなし</div>';
+
+    // Device (server: {device, sessions})
+    const devs = d.devices || [];
+    const devTotal = devs.reduce((s, x) => s + (x.sessions||0), 0) || 1;
+    const devColors = {mobile:'var(--gold)', desktop:'var(--blue)', tablet:'var(--green)', unknown:'#444'};
+    const devIcons  = {mobile:'📱', desktop:'🖥', tablet:'📲', unknown:'?'};
+    document.getElementById('device-list').innerHTML = devs.length ? devs.map(dv => {
+      const pct = Math.round((dv.sessions / devTotal) * 100);
+      return `<div class="device-row">
+        <div class="device-icon">${devIcons[dv.device]||'?'}</div>
+        <div class="device-label">${esc(dv.device)}</div>
+        <div class="device-bar-wrap"><div class="device-bar-fill" style="width:${pct}%;background:${devColors[dv.device]||'#555'}"></div></div>
+        <div class="device-pct">${pct}%</div>
+      </div>`;
+    }).join('') : '<div style="font-size:11px;color:#2a2a2a">データなし</div>';
+
+    // Referrers (server: {referrer, sessions})
+    const refs = d.referrers || [];
+    document.getElementById('ref-list').innerHTML = refs.length ? refs.slice(0,5).map(ref =>
+      `<div class="ref-row"><div class="ref-host">${esc(ref.referrer||'(direct)')}</div><div class="ref-cnt">${ref.sessions}</div></div>`
+    ).join('') : '<div style="font-size:11px;color:#2a2a2a">データなし</div>';
+
+    // Daily trend (server: daily[].{date, views, completes})
+    const trend = d.daily || [];
+    const trendMax = Math.max(...trend.map(t => t.views || 0), 1);
+    const bars = document.getElementById('trend-bars');
+    const labs = document.getElementById('trend-labels');
+    if (trend.length) {
+      const show = trend.slice(-14);
+      bars.innerHTML = show.map(t => {
+        const h = Math.round(((t.views||0) / trendMax) * 56) + 4;
+        const label = t.date ? t.date.slice(5) : '';
+        return `<div class="trend-bar" style="height:${h}px" data-tip="${label}: ${t.views||0}PV / ${t.completes||0}完了"></div>`;
+      }).join('');
+      labs.innerHTML = `<span>${show[0]?.date?.slice(5)||''}</span><span>${show[Math.floor(show.length/2)]?.date?.slice(5)||''}</span><span>${show[show.length-1]?.date?.slice(5)||''}</span>`;
+    } else {
+      bars.innerHTML = '<div style="font-size:11px;color:#2a2a2a;align-self:center">データなし</div>';
+    }
+
+  } catch(e) {
+    console.warn('analytics error:', e);
+  }
+}
+
+// ─── CVR FUNNEL ──────────────────────────────────────
+async function loadCvr() {
+  const days = document.getElementById('cvr-days').value;
+  try {
+    const r = await fetch(`https://kagi-server.fly.dev/api/v1/soluna/track/stats?days=${days}`);
+    const d = await r.json();
+
+    const views = (d.funnel || []).find(s => s.event === 'buy_view')?.sessions ?? 0;
+    const completes = (d.funnel || []).find(s => s.event === 'funnel_complete')?.sessions ?? 0;
+    document.getElementById('cvr-views').textContent = views.toLocaleString();
+    document.getElementById('cvr-completes').textContent = completes.toLocaleString();
+    document.getElementById('cvr-total').textContent = (d.cvr?.total ?? 0) + '%';
+
+    const maxSessions = views || 1;
+    const el = document.getElementById('cvr-funnel');
+    el.innerHTML = '';
+    (d.funnel || []).forEach(function(step, i) {
+      const pct = Math.round((step.sessions / maxSessions) * 100);
+      const color = step.sessions === 0 ? '#1a1a1a' : i === 0 ? '#c8a455' : '#4a9a5a';
+      const cvr = step.step_cvr != null ? `<span style="margin-left:8px;font-size:10px;color:#555">（前step比 ${step.step_cvr}%）</span>` : '';
+      el.innerHTML += `
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px">
+            <span style="color:#888">${step.label}</span>
+            <span style="color:#ccc;font-weight:700">${step.sessions.toLocaleString()}${cvr}</span>
+          </div>
+          <div style="background:#0f0f0f;border-radius:4px;height:8px;overflow:hidden">
+            <div style="background:${color};height:100%;width:${pct}%;transition:width .6s ease;border-radius:4px"></div>
+          </div>
+        </div>`;
+    });
+  } catch(e) {
+    document.getElementById('cvr-funnel').innerHTML = '<div style="color:#444;font-size:11px">データ取得失敗</div>';
+  }
+}
+
+// ─── EXPORT ──────────────────────────────────────────
+function exportSalesCSV(){
+  var sales = getSales();
+  var csv = '日付,購入者,メール,金額,方法,NFT,ステータス,メモ\n';
+  sales.forEach(function(s){
+    csv += [s.date,s.name,s.email,s.amount,s.method,s.nft?'#'+s.nft:'',s.status,s.note||''].map(function(v){return '"'+String(v||'').replace(/"/g,'""')+'"'}).join(',') + '\n';
+  });
+  var a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'soluna_sales_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+function exportLeadsCSV(){
+  var leads = JSON.parse(localStorage.getItem('soluna_leads')||'[]');
+  var csv = '名前,メール,電話,日時\n';
+  leads.forEach(function(l){ csv+='"'+l.name+'","'+l.email+'","'+(l.phone||'')+'","'+l.time+'"\n'; });
+  var a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'soluna_leads.csv'; a.click();
+}
+
+// ─── UTILS ───────────────────────────────────────────
+function esc(s){ return s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''; }
+function copyText(t, btn){
+  navigator.clipboard.writeText(t).then(function(){
+    var orig = btn.textContent; btn.textContent = '✓'; setTimeout(function(){ btn.textContent=orig; }, 1500);
+  });
+}
+</script>
+<script src="/track.js" defer></script>
+</body>
+</html>

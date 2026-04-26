@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="Hold Plan — SOLUNA CABIN CLUB | The Earlier You Purchase, the More Value Grows">持っといプラン — SOLUNA CABIN CLUB | 早く買うほど、価値が上がる</title>
+<meta content="ボンディングカーブで1口売れるたびに¥10万値上がり。今¥530万で買えば、完売時には¥1,480万相当。泊まりながら資産価値が上がる仕組み。" data-en-content="With our bonding curve, the price increases by ¥100,000 with each unit sold. Purchase today at ¥5.3M, and upon full sale, your holding reaches ¥14.8M in value. Your asset appreciates as you enjoy the property." name="description"/>
+<meta content="持っといプラン — SOLUNA | 早く買うほど価値が上がる" property="og:title"/>
+<meta content="今¥530万。完売時¥1,480万。ボンディングカーブが早期オーナーを報酬する。" property="og:description"/>
+<meta content="/img/container_twin_aerial.webp" property="og:image"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.35);
+  --gold-soft:rgba(200,164,85,.07);
+  --blue:#6688cc;
+  --bg:#040404;
+  --text:#f0ece4;
+  --text-dim:#555;
+  --line:#131313;
+  --green:#5aaa6a;
+  --green-dim:rgba(90,170,106,.3);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 28px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.82);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.03)}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--gold)}
+.nav-links{display:flex;gap:20px;align-items:center;font-size:10.5px}
+.nav-links a{color:#555;transition:color .2s}
+.nav-links a:hover,.nav-links a.act{color:var(--gold)}
+.nav-links .cta{color:var(--gold);font-weight:700;border:1px solid rgba(200,164,85,.3);padding:7px 16px;border-radius:100px}
+@media(max-width:600px){.nav-links{display:none}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes zoom{from{transform:scale(1.05)}to{transform:scale(1)}}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:.9}}
+@keyframes countUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.r{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.r.in{opacity:1;transform:translateY(0)}
+.r2{opacity:0;transition:opacity 1.1s ease}
+.r2.in{opacity:1}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:620px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.35) saturate(.65);animation:zoom 14s ease-out forwards}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.7) 40%,rgba(4,4,4,.1) 75%)}
+.hero-body{position:relative;z-index:2;padding:0 32px 80px;max-width:860px;margin:0 auto;width:100%}
+.eyebrow{font-size:9px;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:18px;animation:fadeUp .7s .2s both}
+.hero h1{font-size:clamp(3rem,9vw,5.8rem);font-weight:800;letter-spacing:-.05em;line-height:.98;margin-bottom:22px;animation:fadeUp .8s .4s both}
+.hero h1 .up{color:var(--green);display:inline-block}
+.hero h1 .sub{font-size:.38em;color:rgba(240,236,228,.3);font-weight:300;display:block;letter-spacing:.01em;margin-top:10px;line-height:1.5}
+.hero-nums{display:flex;gap:0;margin-bottom:30px;animation:fadeUp 1s .6s both;flex-wrap:wrap}
+.hnum{padding:0 22px;text-align:left}
+.hnum:first-child{padding-left:0}
+.hnum-v{font-size:18px;font-weight:800;color:var(--gold);letter-spacing:-.03em}
+.hnum-l{font-size:9px;color:#333;margin-top:4px;letter-spacing:.06em}
+.hnum-div{width:1px;height:28px;background:#111;flex-shrink:0;align-self:center}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp 1.1s .8s both}
+.btn{display:inline-block;background:var(--gold);color:#040404;font-weight:800;font-size:11px;letter-spacing:.12em;padding:14px 28px;border-radius:100px;transition:all .2s}
+.btn:hover{background:#e8c870;transform:translateY(-2px)}
+.btn-g{display:inline-block;border:1px solid rgba(200,164,85,.3);color:var(--gold);font-weight:700;font-size:11px;letter-spacing:.1em;padding:14px 28px;border-radius:100px;transition:all .2s}
+.btn-g:hover{background:rgba(200,164,85,.06)}
+
+/* sections */
+.s{padding:100px 0}
+@media(max-width:600px){.s{padding:72px 0}}
+.w{max-width:700px;margin:0 auto;padding:0 24px}
+.ww{max-width:1000px;margin:0 auto;padding:0 24px}
+.lbl{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#2a2a2a;font-weight:700;margin-bottom:12px}
+.h2{font-size:clamp(1.9rem,4.5vw,2.9rem);font-weight:800;letter-spacing:-.04em;line-height:1.08;margin-bottom:10px}
+.lead{color:#444;font-size:13px;line-height:1.95;font-weight:300;margin-bottom:52px}
+.divider{height:1px;background:var(--line)}
+
+/* CURVE CANVAS SECTION */
+.curve-wrap{position:relative;background:#050505;border:1px solid var(--line);border-radius:0;padding:40px 32px 32px}
+.curve-legend{display:flex;gap:24px;margin-bottom:28px;flex-wrap:wrap}
+.curve-legend-item{display:flex;align-items:center;gap:8px;font-size:10px;color:#444}
+.curve-legend-item i{width:20px;height:2px;border-radius:1px;flex-shrink:0}
+.curve-legend-item i.sold{background:var(--gold)}
+.curve-legend-item i.future{background:#222;border:1px dashed #333}
+canvas#curve{width:100%;height:auto;display:block}
+.curve-note{font-size:10px;color:#2a2a2a;margin-top:14px;line-height:1.8;text-align:center}
+
+/* GAIN SHOWCASE */
+.gain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px}
+@media(max-width:600px){.gain-grid{grid-template-columns:1fr;gap:2px}}
+.gain-card{background:#060606;border:1px solid var(--line);padding:32px 24px;position:relative;overflow:hidden;transition:border-color .3s}
+.gain-card:hover{border-color:rgba(200,164,85,.2)}
+.gain-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.gain-card.now::before{background:var(--gold)}
+.gain-card.mid::before{background:linear-gradient(to right,var(--gold),var(--green))}
+.gain-card.full::before{background:var(--green)}
+.gain-slot{font-size:10px;letter-spacing:.18em;color:#2a2a2a;font-weight:700;margin-bottom:16px}
+.gain-buy{font-size:12px;color:#333;margin-bottom:6px}
+.gain-price{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:4px}
+.gain-price.gold{color:var(--gold)}
+.gain-price.green{color:var(--green)}
+.gain-arrow{font-size:18px;color:#222;margin:10px 0}
+.gain-label{font-size:10px;color:#333;margin-bottom:4px}
+.gain-gain{font-size:15px;font-weight:800}
+.gain-gain.pos{color:var(--green)}
+.gain-pct{font-size:11px;font-weight:700;color:rgba(90,170,106,.7);margin-left:6px}
+.gain-nights{font-size:10px;color:#2a2a2a;margin-top:16px;padding-top:16px;border-top:1px solid #0e0e0e;line-height:1.8}
+
+/* SCENARIOS */
+.scenario-tabs{display:flex;gap:2px;margin-bottom:2px}
+.stab{flex:1;padding:14px;text-align:center;background:#060606;border:1px solid var(--line);cursor:pointer;font-size:11px;font-weight:700;color:#333;transition:all .2s;letter-spacing:.06em}
+.stab.active{background:rgba(200,164,85,.06);border-color:rgba(200,164,85,.3);color:var(--gold)}
+.scenario-panel{display:none;background:#050505;border:1px solid var(--line);padding:40px 32px}
+.scenario-panel.active{display:block;animation:fadeUp .4s both}
+.scenario-table{width:100%;border-collapse:collapse}
+.scenario-table th{text-align:left;font-size:9px;letter-spacing:.2em;color:#222;padding:0 0 14px;font-weight:700;text-transform:uppercase}
+.scenario-table td{padding:12px 0;border-top:1px solid #0a0a0a;font-size:12px;vertical-align:middle}
+.scenario-table td:last-child{text-align:right;font-weight:800}
+.scenario-table td.pos{color:var(--green)}
+.scenario-table td.gold{color:var(--gold)}
+.scenario-bar{height:2px;background:#0e0e0e;border-radius:1px;margin-top:5px;overflow:hidden}
+.scenario-bar-fill{height:100%;background:linear-gradient(to right,var(--gold),var(--green));border-radius:1px;width:0;transition:width 1s ease}
+.scenario-sum{display:flex;gap:32px;flex-wrap:wrap;margin-top:32px;padding-top:28px;border-top:1px solid #111}
+.scenario-sum-item .s-v{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;letter-spacing:-.04em}
+.scenario-sum-item .s-l{font-size:9px;color:#333;margin-top:4px;letter-spacing:.08em}
+
+/* LOCK PLAN */
+.lock-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
+@media(max-width:600px){.lock-grid{grid-template-columns:1fr}}
+.lock-card{background:#060606;border:1px solid var(--line);padding:32px 24px;position:relative;transition:border-color .3s,transform .2s}
+.lock-card:hover{border-color:rgba(200,164,85,.25);transform:translateY(-2px)}
+.lock-card.featured{border-color:rgba(200,164,85,.4);background:linear-gradient(160deg,rgba(200,164,85,.05),#060606)}
+.lock-badge{font-size:8px;letter-spacing:.14em;font-weight:800;padding:5px 12px;border-radius:100px;display:inline-block;margin-bottom:20px}
+.lock-badge.hot{background:rgba(200,164,85,.15);color:var(--gold);border:1px solid rgba(200,164,85,.3)}
+.lock-badge.base{background:rgba(255,255,255,.04);color:#333;border:1px solid #111}
+.lock-name{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.lock-price{font-size:clamp(2rem,5vw,2.8rem);font-weight:800;letter-spacing:-.05em;color:var(--gold);line-height:1;margin-bottom:4px}
+.lock-price-sub{font-size:10px;color:#2a2a2a;letter-spacing:.1em;margin-bottom:20px}
+.lock-rows{border-top:1px solid #0e0e0e;padding-top:20px}
+.lock-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #0a0a0a;font-size:11px}
+.lock-row:last-child{border-bottom:none}
+.lock-row .lr-k{color:#333}
+.lock-row .lr-v{font-weight:700;color:#666}
+.lock-row .lr-v.hi{color:var(--gold)}
+.lock-row .lr-v.green{color:var(--green)}
+.lock-cta{margin-top:24px}
+
+/* URGENCY TICKER */
+.ticker{background:#070707;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;overflow:hidden;white-space:nowrap}
+.ticker-inner{display:inline-block;animation:tick 28s linear infinite}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-item{display:inline-block;font-size:10px;color:#2a2a2a;letter-spacing:.16em;font-weight:700;padding:0 36px}
+.ticker-item .ti-gold{color:var(--gold)}
+.ticker-item .ti-green{color:var(--green)}
+
+/* QUOTE */
+.quote-section{padding:120px 24px;text-align:center;background:radial-gradient(ellipse at center,rgba(200,164,85,.04) 0%,transparent 70%)}
+.quote-text{font-size:clamp(1.2rem,3.5vw,2rem);font-weight:300;line-height:1.9;color:#555;max-width:660px;margin:0 auto 0}
+.quote-text strong{color:var(--text);font-weight:700}
+.quote-attr{font-size:10px;letter-spacing:.2em;color:#222;margin-top:28px}
+
+/* HOW */
+.how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+@media(max-width:600px){.how-steps{grid-template-columns:1fr 1fr;row-gap:2px}}
+.how-step{background:#060606;border:1px solid var(--line);padding:28px 20px}
+.how-num{font-size:32px;font-weight:800;color:#0e0e0e;letter-spacing:-.04em;line-height:1;margin-bottom:12px}
+.how-title{font-size:13px;font-weight:800;margin-bottom:8px;letter-spacing:-.02em}
+.how-body{font-size:10.5px;color:#333;line-height:1.8}
+
+/* CTA final */
+.final-cta{text-align:center;padding:120px 24px}
+.final-cta .f-date{font-size:9px;letter-spacing:.3em;color:var(--blue);font-weight:700;margin-bottom:16px}
+.final-cta .f-title{font-size:clamp(2rem,6vw,3.8rem);font-weight:800;letter-spacing:-.05em;line-height:1.02;margin-bottom:16px}
+.final-cta .f-sub{color:#444;font-size:13px;line-height:1.9;margin-bottom:36px}
+
+/* counter */
+.live-price{font-size:clamp(3rem,10vw,6rem);font-weight:800;letter-spacing:-.06em;line-height:1;color:var(--gold);margin:24px 0 8px;animation:countUp .6s both}
+.live-next{font-size:11px;color:#2a2a2a;letter-spacing:.12em}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav>
+<a class="nav-logo" href="index">SOLUNA</a>
+<div class="nav-links">
+<a data-en="Biruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Construction Schedule" href="plan">建設計画</a>
+<a data-en="Property Overview" href="story">紙芝居</a>
+<a class="cta" data-en="Purchase Now" href="miruwa-grand#pricing">今すぐ買う</a>
+</div>
+</nav>
+<!-- HERO -->
+<section class="hero">
+<div class="hero-bg"><img alt="美留和グランド" data-en-alt="Biruwa Grand" src="img/container_twin_aerial.webp"/></div>
+<div class="hero-body">
+<div class="eyebrow" data-en="Hold Plan">Hold Plan · 持っといプラン</div>
+<h1 data-en="The more you hold,">
+      持てば持つほど、<br/>
+<span class="up" data-en="Value appreciates.">価値が上がる。</span>
+<span class="sub" data-en="Price increases ¥1,000,000 per unit sold. Early purchasers benefit most. Minimum 2 units.">1口売れるたびに¥10万値上がり。<br/>早く買った人だけが得をする設計。最低2口から。</span>
+</h1>
+<div class="hero-nums">
+<div class="hnum">
+<div class="hnum-v" data-en="¥10,600,000" id="h-now">¥1,060万</div>
+<div class="hnum-l" data-en="Current Price (2 Units)">現在価格（2口）</div>
+</div>
+<div class="hnum-div"></div>
+<div class="hnum">
+<div class="hnum-v" data-en="¥29.6M" style="color:var(--green)">¥2,960万</div>
+<div class="hnum-l" data-en="Price at Full Completion (2 Units)">完売時価格（2口）</div>
+</div>
+<div class="hnum-div"></div>
+<div class="hnum">
+<div class="hnum-v" data-en="+¥19M" id="h-gain" style="color:var(--green)">+¥1,900万</div>
+<div class="hnum-l" data-en="Maximum Unrealized Gains (if purchasing 2 units now)">最大含み益（今2口買えば）</div>
+</div>
+<div class="hnum-div"></div>
+<div class="hnum">
+<div class="hnum-v" data-en="16 Nights Annually">年16泊</div>
+<div class="hnum-l" data-en="Total (Adjustable across all residences)">合計（全棟 調整可）</div>
+</div>
+</div>
+<div class="hero-cta">
+<a class="btn" data-en="View Unrealized Gains" href="#gain">含み益を確認する</a>
+<a class="btn-g" data-en="View Lock Plan" href="#lock">ロックプランを見る</a>
+</div>
+</div>
+</section>
+<!-- TICKER -->
+<div class="ticker">
+<div class="ticker-inner">
+<span class="ticker-item" data-en="Currently  Sold ·">現在 <span class="ti-gold" data-en="4 units" id="tk-sold">4口</span> 売却済 ·</span>
+<span class="ticker-item" data-en="Minimum 2 Units · Advance to  with Next 2-Unit Purchase ·">最低2口〜 · 次の2口購入で <span class="ti-gold" data-en="¥11,000,000" id="tk-next">¥1,100万</span> へ ·</span>
+<span class="ticker-item" data-en="Remaining ·">残り <span class="ti-green" data-en="96 Units" id="tk-rem">96口</span> ·</span>
+<span class="ticker-item" data-en="Upon Full Sale  ·">完売時 <span class="ti-green" id="tk-soldout">¥1,480万</span> ·</span>
+<span class="ticker-item" data-en="Unrealized Gains on 2-Unit Purchase (Upon Full Sale)  ·">2口購入の含み益（完売時） <span class="ti-green" data-en="+¥3,800,000 (+36%)" id="tk-gain">+¥380万（+36%）</span> ·</span>
+<span class="ticker-item" data-en="Annual Usage  ·">年間 <span class="ti-gold" data-en="8 Nights Total (All 8 Lodges, Adjustable)">合計8泊（全8棟 調整可能）</span> 利用可 ·</span>
+<span class="ticker-item" data-en="By Referral · Limited to 100 · Teshikaga, Hokkaido 32,337 Tsubo ·">紹介制 · 100人限定 · 弟子屈 32,337坪 ·</span>
+<span class="ticker-item" data-en="Currently  Sold ·">現在 <span class="ti-gold" data-en="4 units" id="tk-sold2">4口</span> 売却済 ·</span>
+<span class="ticker-item" data-en="Minimum 2 Units · Advance to  with Next 2-Unit Purchase ·">最低2口〜 · 次の2口購入で <span class="ti-gold" data-en="¥11,000,000" id="tk-next2">¥1,100万</span> へ ·</span>
+<span class="ticker-item" data-en="Remaining ·">残り <span class="ti-green" data-en="96 Units" id="tk-rem2">96口</span> ·</span>
+<span class="ticker-item" data-en="Upon Full Sale  ·">完売時 <span class="ti-green" id="tk-soldout2">¥1,480万</span> ·</span>
+<span class="ticker-item" data-en="Unrealized Gains on 2-Unit Purchase (Upon Full Sale)  ·">2口購入の含み益（完売時） <span class="ti-green" data-en="+¥3,800,000 (+36%)" id="tk-gain2">+¥380万（+36%）</span> ·</span>
+<span class="ticker-item" data-en="Annual Usage  ·">年間 <span class="ti-gold" data-en="8 Nights Total (All 8 Lodges, Adjustable)">合計8泊（全8棟 調整可能）</span> 利用可 ·</span>
+<span class="ticker-item" data-en="By Referral · Limited to 100 · Teshikaga, Hokkaido 32,337 Tsubo ·">紹介制 · 100人限定 · 弟子屈 32,337坪 ·</span>
+</div>
+</div>
+<!-- CURVE -->
+<section class="s">
+<div class="w">
+<div class="lbl r">Bonding Curve</div>
+<div class="h2 r" data-en="Price Increases with Each Sale">売れるたびに値段が上がる</div>
+<p class="lead r" data-en="Price increases by ¥1M with each unit sold. At full capacity of 100 units, ¥14.8M. Early buyers receive maximum benefit—a mathematically elegant design.">1口売れるごとに¥10万値上がり。100口完売時は¥1,480万。<br/>早く買った人が最大の恩恵を受ける、数学的な設計。</p>
+</div>
+<div class="w r2">
+<div class="curve-wrap">
+<div class="curve-legend">
+<div class="curve-legend-item" data-en="Sold (units)"><i class="sold"></i>売却済（<span id="cv-sold">4</span>口）</div>
+<div class="curve-legend-item" data-en="Remaining (units)"><i class="future"></i>残り（<span id="cv-rem">96</span>口）</div>
+<div class="curve-legend-item" data-en="Your Unrealized Gain Zone" style="color:var(--green)"><i style="background:var(--green);height:2px;width:20px;display:inline-block;border-radius:1px"></i>あなたの含み益ゾーン</div>
+</div>
+<canvas height="260" id="curve" width="640"></canvas>
+<div class="curve-note" data-en="Horizontal axis: Cumulative Units Sold / Vertical axis: Price (¥10,000s) / ★ = Current Position">横軸: 累計販売口数 / 縦軸: 価格（万円）/ ★ = 現在地（<span data-en="5th unit ¥5.3M" id="cv-note">5口目 ¥530万</span>）</div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+<!-- GAIN SHOWCASE -->
+<section class="s" id="gain">
+<div class="w">
+<div class="lbl r">Paper Gain</div>
+<div class="h2 r" data-en="Unrealized Gains Simulation">含み益シミュレーション</div>
+<p class="lead r" data-en="If you purchase 2 units today at ¥10.6M, how will the value change based on subsequent sales performance.">今2口（¥1,060万）で購入した場合、その後の売れ行き次第でどう変わるか。</p>
+</div>
+<div class="ww">
+<div class="gain-grid">
+<div class="gain-card now r">
+<div class="gain-slot" data-en="Current (Purchased with 2 units)">現在（2口で購入）</div>
+<div class="gain-buy" data-en="Purchase Price Total for 2 Units">購入価格 2口合計</div>
+<div class="gain-price gold" data-en="¥10,600,000">¥1,060万</div>
+<div class="gain-arrow">↓</div>
+<div class="gain-label" data-en="Current Value">時価（現在）</div>
+<div class="gain-price gold" data-en="¥10,600,000" style="font-size:1.8rem">¥1,060万</div>
+<div class="gain-gain" data-en="Unrealized Gains ¥0">含み益 ¥0
+          <span class="gain-pct" style="color:#333">±0%</span>
+</div>
+<div class="gain-nights" data-en="16 nights annually in total (adjustable across all 8 residences) | Accommodation equivalent: approximately ¥1,600,000/year">年間16泊合計（全8棟で調整可）<br/>宿泊換算: 約¥160万/年</div>
+</div>
+<div class="gain-card mid r" style="transition-delay:.1s">
+<div class="gain-slot" data-en="Upon Sale of 50 Units">50口売却時</div>
+<div class="gain-buy" data-en="Purchase Price Total for 2 Units">購入価格 2口合計</div>
+<div class="gain-price gold" data-en="¥10,600,000">¥1,060万</div>
+<div class="gain-arrow">↓</div>
+<div class="gain-label" data-en="Current Value (50th Unit × 2)">時価（50口目 × 2）</div>
+<div class="gain-price" data-en="¥19.8M" style="color:#b8cc88;font-size:1.8rem">¥1,980万</div>
+<div class="gain-gain pos" data-en="Unrealized Gain +¥9,200,000">含み益 +¥920万
+          <span class="gain-pct">+87%</span>
+</div>
+<div class="gain-nights" data-en="16 nights annually in total (adjustable across all 8 residences) | Accommodation equivalent: approximately ¥1,600,000/year">年間16泊合計（全8棟で調整可）<br/>宿泊換算: 約¥160万/年</div>
+</div>
+<div class="gain-card full r" style="transition-delay:.2s">
+<div class="gain-slot" data-en="At Full Capacity (100 units)">完売時（100口）</div>
+<div class="gain-buy" data-en="Purchase Price Total for 2 Units">購入価格 2口合計</div>
+<div class="gain-price gold" data-en="¥10,600,000">¥1,060万</div>
+<div class="gain-arrow">↓</div>
+<div class="gain-label" data-en="Market Value (× 2 After Sold Out)">時価（完売後 × 2）</div>
+<div class="gain-price green" data-en="¥29.6M">¥2,960万</div>
+<div class="gain-gain pos" data-en="Unrealized Gains +¥19M">含み益 +¥1,900万
+          <span class="gain-pct">+179%</span>
+</div>
+<div class="gain-nights" data-en="16 nights annually in total (adjustable across all 8 residences) | Accommodation equivalent: approximately ¥1,600,000/year">年間16泊合計（全8棟で調整可）<br/>宿泊換算: 約¥160万/年</div>
+</div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+<!-- SCENARIOS -->
+<section class="s">
+<div class="w">
+<div class="lbl r">Scenario Analysis</div>
+<div class="h2 r" data-en="10-Year Projections by Scenario">シナリオ別 10年試算</div>
+<p class="lead r" data-en="Real returns combining accommodation value and unrealized gains. Your wealth grows while you enjoy your stay.">宿泊価値 + 含み益を合算した実質リターン。泊まりながら資産が育つ。</p>
+</div>
+<div class="ww r">
+<div class="scenario-tabs">
+<div class="stab active" data-en="Slow" onclick="switchTab('slow')">スロー<br/><span data-en="10 units per year" style="font-size:9px;font-weight:400;letter-spacing:0">年10口ペース</span></div>
+<div class="stab" data-en="Middle" onclick="switchTab('mid')">ミドル<br/><span data-en="20 units per year" style="font-size:9px;font-weight:400;letter-spacing:0">年20口ペース</span></div>
+<div class="stab" data-en="Fast" onclick="switchTab('fast')">ファスト<br/><span data-en="2-Year Full Completion" style="font-size:9px;font-weight:400;letter-spacing:0">2年完売</span></div>
+</div>
+<div class="scenario-panel active" id="tab-slow">
+<table class="scenario-table">
+<thead><tr><th>年</th><th data-en="Cumulative Units Sold">累計売却口数</th><th data-en="Current Market Value">時価</th><th data-en="Annual Accommodation Value">宿泊価値（年）</th><th data-en="Unrealized Gains">含み益</th></tr></thead>
+<tbody>
+<tr><td data-en="Year 1">1年目</td><td data-en="14 Units">14口</td><td class="gold" data-en="¥6,300,000">¥630万</td><td data-en="¥800,000">¥80万</td><td class="pos" data-en="+¥1,000,000">+¥100万</td></tr>
+<tr><td data-en="Year 2">2年目</td><td data-en="24 Units">24口</td><td class="gold" data-en="¥7.3M">¥730万</td><td data-en="¥800,000">¥80万</td><td class="pos" data-en="+¥2,000,000">+¥200万</td></tr>
+<tr><td data-en="Year 3">3年目</td><td data-en="34 units">34口</td><td class="gold" data-en="¥8,300,000">¥830万</td><td data-en="¥800,000">¥80万</td><td class="pos" data-en="+¥3,000,000">+¥300万</td></tr>
+<tr><td data-en="Year 5">5年目</td><td data-en="54 units">54口</td><td class="gold">¥1,030万</td><td data-en="¥800,000">¥80万</td><td class="pos" data-en="+¥5M">+¥500万</td></tr>
+<tr><td data-en="Year 10">10年目</td><td data-en="100 Units (Sold Out)">100口(完売)</td><td style="color:var(--green)">¥1,480万</td><td data-en="¥800,000">¥80万</td><td class="pos" data-en="+¥9,500,000" style="color:var(--green)">+¥950万</td></tr>
+</tbody>
+</table>
+<div class="scenario-sum">
+<div class="scenario-sum-item">
+<div class="s-v" data-en="¥17,500,000" style="color:var(--green)">¥1,750万</div>
+<div class="s-l" data-en="10-Year Cumulative Stay Value">10年累計 宿泊価値</div>
+</div>
+<div class="scenario-sum-item">
+<div class="s-v" data-en="+¥9,500,000" style="color:var(--green)">+¥950万</div>
+<div class="s-l" data-en="Final Unrealized Gain (at Full Completion)">最終含み益（完売時）</div>
+</div>
+<div class="scenario-sum-item">
+<div class="s-v" data-en="¥27,000,000" style="color:var(--gold)">¥2,700万</div>
+<div class="s-l" data-en="Total Net Return">合計実質リターン</div>
+</div>
+</div>
+</div>
+<div class="scenario-panel" id="tab-mid">
+<table class="scenario-table">
+<thead><tr><th>年</th><th data-en="Cumulative Units Sold">累計売却口数</th><th data-en="Current Market Value">時価</th><th data-en="Annual Accommodation Value">宿泊価値（年）</th><th data-en="Unrealized Gains">含み益</th></tr></thead>
+<tbody>
+<tr><td data-en="Year 1">1年目</td><td data-en="24 Units">24口</td><td class="gold" data-en="¥7.3M">¥730万</td><td data-en="¥800,000">¥80万</td><td class="pos" data-en="+¥2,000,000">+¥200万</td></tr>
+<tr><td data-en="Year 2">2年目</td><td data-en="44 units">44口</td><td class="gold">¥930万</td><td data-en="¥800,000">¥80万</td><td class="pos" data-en="+¥4,000,000">+¥400万</td></tr>
+<tr><td data-en="Year 3">3年目</td><td data-en="64 units">64口</td><td class="gold" data-en="¥11,300,000">¥1,130万</td><td data-en="¥800,000">¥80万</td><td class="pos" data-en="+¥6M">+¥600万</td></tr>
+<tr><td data-en="Year 5 (Sold Out)">5年目(完売)</td><td data-en="100 units">100口</td><td style="color:var(--green)">¥1,480万</td><td data-en="¥800,000">¥80万</td><td class="pos" data-en="+¥9,500,000" style="color:var(--green)">+¥950万</td></tr>
+<tr><td data-en="Year 10">10年目</td><td data-en="Continue Holding After Sold Out">完売後 保有継続</td><td style="color:var(--green)">¥1,480万</td><td data-en="¥800,000">¥80万</td><td class="pos" data-en="+¥9,500,000" style="color:var(--green)">+¥950万</td></tr>
+</tbody>
+</table>
+<div class="scenario-sum">
+<div class="scenario-sum-item">
+<div class="s-v" data-en="¥17,500,000" style="color:var(--green)">¥1,750万</div>
+<div class="s-l" data-en="10-Year Cumulative Stay Value">10年累計 宿泊価値</div>
+</div>
+<div class="scenario-sum-item">
+<div class="s-v" data-en="+¥9,500,000" style="color:var(--green)">+¥950万</div>
+<div class="s-l" data-en="Final Unrealized Gain (at Full Completion)">最終含み益（完売時）</div>
+</div>
+<div class="scenario-sum-item">
+<div class="s-v" data-en="¥27,000,000" style="color:var(--gold)">¥2,700万</div>
+<div class="s-l" data-en="Total Net Return">合計実質リターン</div>
+</div>
+</div>
+</div>
+<div class="scenario-panel" id="tab-fast">
+<table class="scenario-table">
+<thead><tr><th data-en="Timeline">時期</th><th data-en="Cumulative Units Sold">累計売却口数</th><th data-en="Current Market Value">時価</th><th data-en="Annual Accommodation Value">宿泊価値（年）</th><th data-en="Unrealized Gains">含み益</th></tr></thead>
+<tbody>
+<tr><td data-en="6 months later">6ヶ月後</td><td data-en="50 Units">50口</td><td class="gold" data-en="¥9,900,000">¥990万</td><td data-en="¥400,000">¥40万</td><td class="pos" data-en="+¥4,600,000">+¥460万</td></tr>
+<tr><td data-en="1 Year (at full sales)">1年後(完売)</td><td data-en="100 units">100口</td><td style="color:var(--green)">¥1,480万</td><td data-en="¥800,000">¥80万</td><td class="pos" data-en="+¥9,500,000" style="color:var(--green)">+¥950万</td></tr>
+<tr><td data-en="After 3 Years">3年後</td><td data-en="Holding After Sold Out">完売後 保有</td><td style="color:var(--green)">¥1,480万</td><td data-en="¥800,000">¥80万</td><td class="pos" data-en="+¥9,500,000" style="color:var(--green)">+¥950万</td></tr>
+<tr><td data-en="After 10 Years">10年後</td><td data-en="Holding After Sold Out">完売後 保有</td><td style="color:var(--green)">¥1,480万</td><td data-en="¥800,000">¥80万</td><td class="pos" data-en="+¥9,500,000" style="color:var(--green)">+¥950万</td></tr>
+</tbody>
+</table>
+<div class="scenario-sum">
+<div class="scenario-sum-item">
+<div class="s-v" data-en="¥17,500,000" style="color:var(--green)">¥1,750万</div>
+<div class="s-l" data-en="10-Year Cumulative Stay Value">10年累計 宿泊価値</div>
+</div>
+<div class="scenario-sum-item">
+<div class="s-v" data-en="+¥9,500,000" style="color:var(--green)">+¥950万</div>
+<div class="s-l" data-en="Final Unrealized Gain (post-completion)">最終含み益（完売後）</div>
+</div>
+<div class="scenario-sum-item">
+<div class="s-v" data-en="¥27,000,000" style="color:var(--gold)">¥2,700万</div>
+<div class="s-l" data-en="Total Net Return">合計実質リターン</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- PHOTO STRIP -->
+<div style="height:clamp(280px,38vw,480px);overflow:hidden;position:relative">
+<img alt="美留和グランド 夜" data-en-alt="Biruwa Grand Evening" src="img/village_night.webp" style="width:100%;height:100%;object-fit:cover;filter:brightness(.7) saturate(.8)"/>
+<div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(4,4,4,.7) 0%,transparent 50%,rgba(4,4,4,.7) 100%)"></div>
+<div style="position:absolute;left:5%;top:50%;transform:translateY(-50%)">
+<div data-en="MIRUWA GRAND" style="font-size:9px;letter-spacing:.3em;color:var(--gold);margin-bottom:8px;opacity:.8">MIRUWA GRAND · 美留和グランド</div>
+<div data-en="Value Grows in Hokkaido's Nights." style="font-size:clamp(20px,3.5vw,40px);font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.1">北海道の夜に、<br/>価値が育つ。</div>
+</div>
+</div>
+<div class="divider"></div>
+<!-- QUOTE -->
+<div class="quote-section r2" style="position:relative;overflow:hidden">
+<img alt="星空" data-en-alt="Starry Sky" src="img/comfort_stargazing.webp" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.18) saturate(.4);z-index:0"/>
+<div style="position:relative;z-index:1">
+<p class="quote-text" data-en='"Real estate is typically an asset you hold.
+    But this is different.
+    A place where your wealth grows while you enjoy stays."'>
+    「不動産は<strong data-en="Value declines immediately upon purchase">買った瞬間から価値が下がる</strong>のが普通。<br/>
+    でもこれは<strong data-en="Increases with Each Sale">売れるたびに上がる</strong>。<br/>
+    泊まりながら、資産が育つ場所。」
+  </p>
+<div class="quote-attr" data-en="SOLUNA CABIN CLUB · Design Philosophy">SOLUNA CABIN CLUB · 設計思想</div>
+</div>
+</div>
+<div class="divider"></div>
+<!-- LOCK PLAN -->
+<section class="s" id="lock">
+<div class="w">
+<div class="lbl r">Lock Plan</div>
+<div class="h2 r" data-en="How to Lock in Today's Price">今の価格で<br/>ロックする方法</div>
+<p class="lead r" data-en="Minimum 2 units. Once the next 2 units sell, the price will increase to ¥10,900,000. Act now, or you will no longer be able to purchase at ¥10,600,000.">最低2口から。次の2口が売れると¥1,090万になる。今すぐ動かないと、もう¥1,060万では買えない。</p>
+</div>
+<div class="ww">
+<div class="lock-grid r">
+<div class="lock-card featured">
+<span class="lock-badge hot" data-en="Recommended · Fastest">おすすめ · 最速</span>
+<div class="lock-name" data-en="2 Units Entry Purchase">2口 エントリー購入</div>
+<div class="lock-price" data-en="¥10,600,000">¥1,060万</div>
+<div class="lock-price-sub" data-en="Confirm Now: 2 Units at ¥10.6M (¥5.3M × 2)">今すぐ 2口¥1,060万 で確定（¥530万 × 2）</div>
+<div class="lock-rows">
+<div class="lock-row"><span class="lr-k" data-en="Immediately Confirmed">即時確定</span><span class="lr-v hi" data-en="Rights effective today">今日から権利発生</span></div>
+<div class="lock-row"><span class="lr-k" data-en="Price Lock">価格ロック</span><span class="lr-v hi" data-en="Fixed at ¥10,600,000">¥1,060万で固定</span></div>
+<div class="lock-row"><span class="lr-k" data-en="Annual Accommodation Rights">年間宿泊権</span><span class="lr-v" data-en="Total 16 Nights (Adjustable across all properties)">合計16泊（全棟 調整可）</span></div>
+<div class="lock-row"><span class="lr-k" data-en="Annual Management Fee">年間管理費</span><span class="lr-v" data-en="¥700,000/year (¥350,000 × 2 units)">¥70万/年（¥35万 × 2口）</span></div>
+<div class="lock-row"><span class="lr-k" data-en="NFT Issuance">NFT発行</span><span class="lr-v" data-en="2 NFTs on Solana · Immediately">Solana上に2枚 即時</span></div>
+<div class="lock-row"><span class="lr-k" data-en="Unrealized Gain (at full sales)">含み益（完売時）</span><span class="lr-v green" data-en="+¥19M">+¥1,900万</span></div>
+</div>
+<div class="lock-cta">
+<a class="btn" data-en="Purchase 2 units for ¥10.6M →" href="miruwa-grand#purchase" style="width:100%;display:block;text-align:center">2口 ¥1,060万で購入する →</a>
+</div>
+</div>
+<div class="lock-card">
+<span class="lock-badge base" data-en="For Those Under Consideration">検討中の方へ</span>
+<div class="lock-name" data-en="Pre-registration (Price Notification)">事前登録<br/>（価格通知）</div>
+<div class="lock-price" data-en="Complimentary" style="font-size:1.6rem;color:#444">無料</div>
+<div class="lock-price-sub" data-en="Receive notification before price increases">価格が上がる前に連絡を受け取る</div>
+<div class="lock-rows">
+<div class="lock-row"><span class="lr-k" data-en="Price Change Notifications">価格変動通知</span><span class="lr-v" data-en="Email Notification at Each Sale">売却のたびにメール</span></div>
+<div class="lock-row"><span class="lr-k" data-en="Referral Code">紹介コード</span><span class="lr-v" data-en="Priority Issuance">優先発行</span></div>
+<div class="lock-row"><span class="lr-k" data-en="SOLUNAR Invitation">SOLUNAR招待</span><span class="lr-v" data-en="September 4-6 On-Site Experience">9/4〜6 現地体験</span></div>
+<div class="lock-row"><span class="lr-k" data-en="Construction Progress">建設進捗</span><span class="lr-v" data-en="Video Reports">動画レポート配信</span></div>
+<div class="lock-row"><span class="lr-k" data-en="Purchase Obligation">購入義務</span><span class="lr-v" data-en="None (exit anytime)">なし（いつでも離脱可）</span></div>
+</div>
+<div class="lock-cta">
+<a class="btn-g" data-en="Pre-Register (Free)" href="join" style="width:100%;display:block;text-align:center;box-sizing:border-box">事前登録する（無料）</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+<!-- HOW IT WORKS -->
+<section class="s">
+<div class="w">
+<div class="lbl r">How It Works</div>
+<div class="h2 r" data-en="How It Works">仕組み</div>
+<p class="lead r" data-en="Simple 4-Step Process.">シンプルな4ステップ。</p>
+</div>
+<div class="ww">
+<div class="how-steps r">
+<div class="how-step">
+<img alt="美留和エントランス" data-en-alt="Biriyuwa Entrance" src="img/nesting_exterior.webp" style="width:100%;height:140px;object-fit:cover;border-radius:4px;margin-bottom:16px;filter:brightness(.75)"/>
+<div class="how-num">01</div>
+<div class="how-title" data-en="Enter with Referral Code">紹介コードで入場</div>
+<div class="how-body" data-en="Invitation-only. Requires an invitation code from an existing owner or SOLUNA.">紹介制のため、既存オーナーまたはSOLUNAからの招待コードが必要。</div>
+</div>
+<div class="how-step">
+<img alt="キャビン内部" data-en-alt="Cabin Interior" src="img/container_interior_luxury.webp" style="width:100%;height:140px;object-fit:cover;border-radius:4px;margin-bottom:16px;filter:brightness(.75)"/>
+<div class="how-num">02</div>
+<div class="how-title" data-en="Purchase at Current Price">現在価格で購入</div>
+<div class="how-body" data-en="The bonding curve price at that moment becomes final. Bank transfer / Cryptocurrency (SOL) accepted.">その時点のボンディングカーブ価格が確定価格。銀行振込 / 暗号資産（SOL）対応。</div>
+</div>
+<div class="how-step">
+<img alt="スマートコントロール" data-en-alt="Smart Control" src="img/dome_smart_control.webp" style="width:100%;height:140px;object-fit:cover;border-radius:4px;margin-bottom:16px;filter:brightness(.75)"/>
+<div class="how-num">03</div>
+<div class="how-title" data-en="NFT Issuance &amp; Rights Confirmation">NFT発行・権利確定</div>
+<div class="how-body" data-en="An NFT is issued on the Solana blockchain, and 8 nights of annual accommodation rights become immediately valid.">Solanaブロックチェーン上にNFTが発行され、年8泊の宿泊権が即時に有効になる。</div>
+</div>
+<div class="how-step">
+<img alt="朝のデッキ" data-en-alt="Morning Deck" src="img/pro_morning_deck.webp" style="width:100%;height:140px;object-fit:cover;border-radius:4px;margin-bottom:16px;filter:brightness(.75)"/>
+<div class="how-num">04</div>
+<div class="how-title" data-en="Own While You Stay">泊まりながら持つ</div>
+<div class="how-body" data-en="Allocate 8 total nights annually across all properties. You can upgrade by using 5 cabin nights to enjoy 1 TAPKOP night (e.g., 3 cabin nights + 1 TAPKOP night = 8 nights consumed). You are free to sell or retain your units.">年間合計8泊を全棟で割り振る。キャビン5泊を消費してTAPKOP 1泊にアップグレードも可（例: キャビン3泊 + TAPKOP 1泊で8泊消費）。売るも売らないも自由。</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FINAL CTA -->
+<div class="final-cta r">
+<div class="f-date" data-en="Now · Currently Sold Out · Minimum 2 Units">今すぐ · 現在 <span data-en="4 units" id="cta-sold">4口</span>売却済 · 最低2口〜</div>
+<div class="f-title" data-en="2 units available now only.">2口<span data-en="¥10,600,000" id="cta-2lot">¥1,060万</span>は<br/>今だけ。</div>
+<div class="live-price" data-en="/Unit" id="live-p"><span data-en="¥5,300,000" id="cta-price">¥530万</span>/口</div>
+<div class="live-next" data-en="When the next 2 units sell →">次の2口が売れると → <span id="live-next" style="color:var(--gold)"><span data-en="¥11,000,000" id="cta-next">¥1,100万</span></span></div>
+<p class="f-sub" data-en="units remaining. Once sold out, you will never be able to purchase at today's price again.
+    A place where your asset value grows while you enjoy 16 nights annually." style="margin-top:20px">
+<span id="cta-rem">96</span>口残っている。完売したら二度と今の価格では買えない。<br/>
+    年16泊、泊まりながら資産価値が育っていく場所。
+  </p>
+<a class="btn" data-en="Purchase 2 Units for ¥10,600,000 Now" href="miruwa-grand#purchase" id="cta-btn-buy">今すぐ 2口 ¥1,060万 で買う</a>
+<a class="btn-g" data-en="View Story Presentation" href="story" style="margin-left:12px">紙芝居を見る</a>
+</div>
+<script>
+// Reveal
+var obs = new IntersectionObserver(function(e){
+  e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target)}})
+},{threshold:.1});
+document.querySelectorAll('.r,.r2').forEach(function(el){obs.observe(el)});
+
+// Bonding curve canvas
+var BASE=490,INC=10,SOLD=4,TOTAL=100;
+function priceAt(n){return BASE+n*INC;}
+
+function drawCurve(){
+  var canvas=document.getElementById('curve');
+  if(!canvas)return;
+  var W=canvas.offsetWidth*2,H=260*2;
+  canvas.width=W;canvas.height=H;
+  var ctx=canvas.getContext('2d');
+  var PAD={l:72,r:24,t:20,b:50};
+  var cw=W-PAD.l-PAD.r,ch=H-PAD.t-PAD.b;
+  var minP=BASE,maxP=priceAt(TOTAL);
+  function xp(n){return PAD.l+n/TOTAL*cw;}
+  function yp(p){return PAD.t+ch-(p-minP)/(maxP-minP)*ch;}
+  ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=1;
+  // 均等な目盛り
+  var step=Math.ceil(TOTAL/4);
+  for(var g=0;g<=TOTAL;g+=step){
+    ctx.beginPath();ctx.moveTo(xp(g),PAD.t);ctx.lineTo(xp(g),PAD.t+ch);ctx.stroke();
+    ctx.fillStyle='#222';ctx.font='22px Helvetica Neue';ctx.textAlign='center';
+    ctx.fillText(g+'口',xp(g),H-8);
+  }
+  // 価格目盛り（BASE〜maxP を均等6段階）
+  var prange=maxP-minP;
+  for(var i=0;i<=5;i++){
+    var pp=Math.round(minP+prange*i/5);
+    ctx.beginPath();ctx.moveTo(PAD.l,yp(pp));ctx.lineTo(W-PAD.r,yp(pp));ctx.stroke();
+    ctx.fillStyle='#1a1a1a';ctx.textAlign='right';
+    ctx.fillText('¥'+pp,PAD.l-8,yp(pp)+8);
+  }
+  var buyPrice=priceAt(SOLD);
+  ctx.save();ctx.beginPath();
+  ctx.moveTo(xp(SOLD),yp(buyPrice));
+  for(var n=SOLD;n<=TOTAL;n++){ctx.lineTo(xp(n),yp(priceAt(n)));}
+  ctx.lineTo(xp(TOTAL),yp(buyPrice));ctx.closePath();
+  ctx.fillStyle='rgba(90,170,106,.07)';ctx.fill();ctx.restore();
+  ctx.beginPath();ctx.strokeStyle='rgba(200,164,85,.9)';ctx.lineWidth=4;
+  for(var n=0;n<=SOLD;n++){
+    if(n===0)ctx.moveTo(xp(n),yp(priceAt(n)));
+    else ctx.lineTo(xp(n),yp(priceAt(n)));
+  }
+  ctx.stroke();
+  ctx.beginPath();ctx.strokeStyle='rgba(255,255,255,.12)';ctx.lineWidth=3;
+  ctx.setLineDash([8,8]);
+  ctx.moveTo(xp(SOLD),yp(priceAt(SOLD)));
+  for(var n=SOLD;n<=TOTAL;n++){ctx.lineTo(xp(n),yp(priceAt(n)));}
+  ctx.stroke();ctx.setLineDash([]);
+  ctx.beginPath();ctx.arc(xp(SOLD),yp(priceAt(SOLD)),12,0,Math.PI*2);
+  ctx.fillStyle='rgba(200,164,85,1)';ctx.fill();
+  ctx.beginPath();ctx.arc(xp(SOLD),yp(priceAt(SOLD)),22,0,Math.PI*2);
+  ctx.fillStyle='rgba(200,164,85,.18)';ctx.fill();
+  ctx.fillStyle='rgba(200,164,85,.9)';ctx.font='bold 22px Helvetica Neue';ctx.textAlign='left';
+  ctx.fillText('★ 今ここ ¥'+priceAt(SOLD)+'万',xp(SOLD)+28,yp(priceAt(SOLD))-18);
+  ctx.beginPath();ctx.arc(xp(TOTAL),yp(priceAt(TOTAL)),12,0,Math.PI*2);
+  ctx.fillStyle='rgba(90,170,106,.9)';ctx.fill();
+  ctx.fillStyle='rgba(90,170,106,.8)';ctx.font='bold 22px Helvetica Neue';ctx.textAlign='right';
+  ctx.fillText('完売 ¥'+priceAt(TOTAL)+'万',xp(TOTAL)-16,yp(priceAt(TOTAL))-18);
+}
+window.addEventListener('load',drawCurve);
+
+// ─── SOLUNA リアルタイム価格取得（hold.html）────────────────────────────────
+(async function(){
+  try{
+    var res=await fetch('https://kagi-server.fly.dev/api/v1/soluna/pricing');
+    var data=await res.json();
+    var v=(data.properties||[]).find(function(p){return p.id==='village'});
+    if(!v)return;
+    BASE=Math.round(v.base_price/10000);
+    INC=Math.round(v.price_increment/10000);
+    SOLD=v.sold_count;
+    TOTAL=v.max_lots;
+    var fmt=function(n){return '¥'+(n/10000).toLocaleString('ja-JP',{maximumFractionDigits:0})+'万'};
+    var cp=fmt(v.current_price);
+    var rem=v.remaining_lots;
+    var sold=v.sold_count;
+    var nextTotal=fmt(v.next_min_lots_total);
+    var soldfmt=sold+'口';
+    // 含み益: 完売時 - 現在購入時 の2口分
+    var gain2=v.sold_out_price*2-v.min_lots_total;
+    var gainPct=Math.round(gain2/v.min_lots_total*100);
+    var gainStr='+¥'+Math.round(gain2/10000).toLocaleString('ja-JP')+'万（+'+gainPct+'%）';
+    var set=function(id,t){var el=document.getElementById(id);if(el)el.textContent=t;};
+    set('tk-sold',soldfmt);set('tk-sold2',soldfmt);
+    set('tk-next',nextTotal);set('tk-next2',nextTotal);
+    set('tk-rem',rem+'口');set('tk-rem2',rem+'口');
+    set('tk-soldout',fmt(v.sold_out_price));set('tk-soldout2',fmt(v.sold_out_price));
+    set('tk-gain',gainStr);set('tk-gain2',gainStr);
+    set('cv-sold',sold);set('cv-rem',rem);
+    set('cv-note',(sold+1)+'口目 '+cp);
+    set('cta-sold',soldfmt);
+    set('cta-price',cp);
+    set('cta-2lot',fmt(v.min_lots_total));
+    set('cta-next',nextTotal);
+    set('cta-rem',rem);
+    var btn=document.getElementById('cta-btn-buy');
+    if(btn)btn.textContent='今すぐ 2口 '+fmt(v.min_lots_total)+' で買う';
+    drawCurve();
+  }catch(e){}
+})();
+
+// Scenario tabs
+function switchTab(id){
+  document.querySelectorAll('.stab').forEach(function(t,i){
+    t.classList.toggle('active',['slow','mid','fast'][i]===id);
+  });
+  document.querySelectorAll('.scenario-panel').forEach(function(p){
+    p.classList.toggle('active',p.id==='tab-'+id);
+  });
+}
+
+// Animate progress bars when visible
+var barObs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.scenario-bar-fill').forEach(function(b){
+        b.style.width=b.dataset.w+'%';
+      });
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('.scenario-panel').forEach(function(el){barObs.observe(el)});
+</script>
+<script defer="" src="/track.js"></script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Residence, 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Biriyuwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Biruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Holding Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Acquire Units Free of Charge" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plan Collection" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Biruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+</body>
+</html>

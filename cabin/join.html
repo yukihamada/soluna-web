@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/join" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA — Tell Us About Yourself First">SOLUNA — まずあなたについて教えてください</title>
+<meta content="SOLUNAオーナー・宿泊・協力会社向け案内。あなたに合った情報をお届けします。" data-en-content="Guidance for SOLUNA Owners, guests, and partner companies. We deliver information tailored to you." name="description"/>
+<meta content="SOLUNA — まずあなたについて教えてください" property="og:title"/>
+<meta content="北海道・熱海・宮崎の共同オーナー型リゾート。WHITE HOUSE熱海 年間売上1,800万実績。" property="og:description"/>
+<meta content="https://solun.art/img/kumaushi_aerial_dawn.webp" property="og:image"/>
+<meta content="https://solun.art/join" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://solun.art/img/kumaushi_aerial_dawn.webp" name="twitter:image"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --green:#9bc46d;
+  --bg:#050505;
+  --text:#f0ece4;
+  --dim:#555;
+}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+
+/* Nav */
+nav{padding:16px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #0d0d0d}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--gold)}
+.nav-back{font-size:11px;color:#444}
+.nav-back:hover{color:var(--gold)}
+
+/* Hero */
+.hero{text-align:center;padding:64px 24px 48px;max-width:600px;margin:0 auto}
+.hero .eyebrow{font-size:9px;letter-spacing:.3em;color:#333;text-transform:uppercase;margin-bottom:16px;font-weight:700}
+.hero h1{font-size:clamp(1.6rem,4.5vw,2.5rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+.hero p{color:var(--dim);font-size:13px;line-height:2;max-width:480px;margin:0 auto}
+
+/* Segment cards */
+.segments{display:flex;flex-direction:column;gap:12px;max-width:540px;margin:0 auto;padding:0 20px 80px}
+
+.seg{border:1px solid #161616;border-radius:16px;background:#080808;padding:22px 22px 22px 24px;display:flex;align-items:center;gap:18px;cursor:pointer;transition:border-color .2s,background .2s,transform .15s;text-align:left;position:relative;overflow:hidden}
+.seg::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,164,85,.04),transparent);opacity:0;transition:opacity .2s}
+.seg:hover{border-color:rgba(200,164,85,.35);background:#0c0c0c;transform:translateY(-1px)}
+.seg:hover::before{opacity:1}
+.seg.green:hover{border-color:rgba(155,196,109,.4)}
+.seg.green::before{background:linear-gradient(135deg,rgba(155,196,109,.04),transparent)}
+.seg.blue:hover{border-color:rgba(100,160,220,.4)}
+.seg.blue::before{background:linear-gradient(135deg,rgba(100,160,220,.04),transparent)}
+
+.seg-icon{font-size:28px;flex-shrink:0;width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#0f0f0f}
+.seg-body{flex:1;min-width:0}
+.seg-title{font-size:15px;font-weight:800;margin-bottom:4px;letter-spacing:-.02em}
+.seg-sub{font-size:11.5px;color:#555;line-height:1.7}
+.seg-price{font-size:10px;color:var(--gold);font-weight:700;margin-top:6px;letter-spacing:.03em}
+.seg.green .seg-price{color:var(--green)}
+.seg.blue .seg-price{color:#7ab4e8}
+.seg-arrow{color:#222;font-size:18px;flex-shrink:0;transition:color .2s,transform .2s}
+.seg:hover .seg-arrow{color:var(--gold);transform:translateX(3px)}
+.seg.green:hover .seg-arrow{color:var(--green)}
+.seg.blue:hover .seg-arrow{color:#7ab4e8}
+
+.divider{text-align:center;font-size:9px;color:#1e1e1e;letter-spacing:.2em;text-transform:uppercase;padding:8px 0;margin:4px 0}
+
+footer{margin-top:auto;padding:24px;text-align:center;font-size:9px;color:#1a1a1a;letter-spacing:.12em;border-top:1px solid #0d0d0d}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<div class="hero">
+<p class="eyebrow">Welcome to SOLUNA</p>
+<h1 data-en="Tell Us About Yourself">まずあなたについて<br/>教えてください</h1>
+<p data-en="We will guide you to information, representatives, and pages suited to you.">あなたに合った情報・担当者・ページへご案内します。</p>
+</div>
+<div class="segments">
+<!-- オーナー系 -->
+<a class="seg" href="construction?from=owner_full" onclick="track('owner_full')">
+<div class="seg-icon">🏡</div>
+<div class="seg-body">
+<div class="seg-title" data-en="Own an Entire Residence">1棟まるごと所有したい</div>
+<div class="seg-sub" data-en="Make our properties in Hokkaido and Atami completely your own. Use them freely, and entrust operations to us when not in use.">北海道・熱海の物件を完全に自分のものに。自由に使って、使わない時は運営に委託できます。</div>
+<div class="seg-price" data-en="¥50,000,000+ / Full Ownership of One Residence">5,000万円〜 / 1棟完全所有</div>
+</div>
+<div class="seg-arrow">→</div>
+</a>
+<a class="seg" href="construction?from=owner_share" onclick="track('owner_share')">
+<div class="seg-icon">🤝</div>
+<div class="seg-body">
+<div class="seg-title" data-en="Become a Co-Owner (Equity Share)">共同オーナー（持分）になりたい</div>
+<div class="seg-sub" data-en="¥10,000,000–¥35,000,000 shared ownership. Annual usage rights + revenue sharing. WHITE HOUSE Atami annual revenue: ¥18,000,000 (reference).">1,000万〜3,500万円で複数人で所有。年間利用権 + 収益配分。WHITE HOUSE熱海 年間売上実績1,800万円（参考値）。</div>
+<div class="seg-price" data-en="¥10,000,000+ / Fractional Ownership (1/50 to 1/10)">1,000万円〜 / 持分（50〜1/10所有）</div>
+</div>
+<div class="seg-arrow">→</div>
+</a>
+<a class="seg" href="construction?from=owner_invest" onclick="track('owner_invest')">
+<div class="seg-icon">📊</div>
+<div class="seg-body">
+<div class="seg-title" data-en="Considering Multiple Units or Large Properties as Investment">投資として複数口・大型物件を検討したい</div>
+<div class="seg-sub" data-en="For those considering multiple properties or large-scale acquisitions. We can advise on portfolio composition and tax strategies.">複数物件・大口での取得をご検討の方。ポートフォリオ構成や税務対策も含めてご相談できます。</div>
+<div class="seg-price" data-en="¥35,000,000+ / Multiple Units Available">3,500万円〜 / 複数口対応可</div>
+</div>
+<div class="seg-arrow">→</div>
+</a>
+<div class="divider">or</div>
+<!-- 宿泊・体験 -->
+<a class="seg green" href="calendar?from=stay" onclick="track('stay')">
+<div class="seg-icon" style="background:#0a120a">🌙</div>
+<div class="seg-body">
+<div class="seg-title" data-en="I'd Like to Stay and Experience First">まず宿泊・体験してから検討したい</div>
+<div class="seg-sub" data-en="Experience stays at TAPKOP, NESTING, THE LODGE, and WHITE HOUSE Atami. Begin your ownership journey with a guest experience.">TAPKOP・NESTING・THE LODGE・WHITE HOUSE熱海に実際に泊まれます。オーナー体験から始めましょう。</div>
+<div class="seg-price green" data-en="Check Availability →">空き状況を確認 →</div>
+</div>
+<div class="seg-arrow">→</div>
+</a>
+<div class="divider">or</div>
+<!-- 協力会社 -->
+<a class="seg blue" href="construction?from=contractor#specs" onclick="track('contractor')">
+<div class="seg-icon" style="background:#080d12">🔧</div>
+<div class="seg-body">
+<div class="seg-title" data-en="Interested in Partnering as a Constructor, Designer, or Cooperating Company">施工・設計・協力会社として関わりたい</div>
+<div class="seg-sub" data-en="Construction, insulation, systems, landscaping, and more. We are seeking construction partners in Hokkaido and Atami.">建設・断熱・設備・ランドスケープなど。北海道・熱海での施工パートナーを募集中です。</div>
+<div class="seg-price" data-en="Review Construction Specifications, BOM &amp; Schedule →" style="color:#7ab4e8">施工仕様・BOM・スケジュールを確認 →</div>
+</div>
+<div class="seg-arrow">→</div>
+</a>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8 Residences, 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Birawa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Birawa Village" href="village">美留和ビレッジ</a>
+<a data-en="Birawa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Units for Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Purchase with Crypto" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plans" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners Only" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owners" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="About Our Founding" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Personal Consultation" href="call">個別相談</a>
+<a data-en="Contact" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Act on Specified Commercial Transaction" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+function track(segment){
+  gtag('event','segment_select',{event_category:'funnel',event_label:segment,value:1});
+  // Store segment for analytics on next page
+  try{sessionStorage.setItem('soluna_segment',segment);}catch(e){}
+}
+// Track page load with referrer
+gtag('event','page_view',{event_category:'funnel',event_label:'segment_page',referrer:document.referrer||'direct'});
+</script>
+<script src="chat-widget.js"></script>
+<script defer="" src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

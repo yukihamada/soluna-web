@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA MEMBERS — Forest Friends of Teshikaga">SOLUNA MEMBERS — 弟子屈の森の仲間たち</title>
+<meta content="SOLUNA共同オーナーのメンバーたち。弟子屈・摩周の森で、それぞれの自由を生きる人々。" data-en-content="SOLUNA co-owner members. Individuals living freely in the forests of Teshikaga and Mashu." name="description"/>
+<meta content="SOLUNA MEMBERS — 弟子屈の森の仲間たち" property="og:title"/>
+<meta content="音楽、事業、冒険。SOLUNA共同オーナーのメンバーたち。" property="og:description"/>
+<meta content="img/soluna_hero_wide.webp" property="og:image"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&amp;family=Noto+Sans+JP:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --gold: #D4A846;
+  --gold-l: #F0D78C;
+  --gold-d: #8B6914;
+  --bg: #000;
+  --text: #E8E8E8;
+  --dim: #666;
+  --card-bg: rgba(0,0,0,.82);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body {padding-top:48px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans JP', sans-serif;
+  min-height: 100vh;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  height: 60vh;
+  min-height: 360px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-bg {
+  position: absolute;
+  inset: -5%;
+  background: url('img/soluna_hero_wide.webp') center/cover no-repeat;
+  filter: brightness(.4) sepia(20%);
+  animation: kb 25s ease-in-out infinite alternate;
+}
+@keyframes kb {
+  0%  { transform: scale(1) translateX(0); }
+  100%{ transform: scale(1.07) translateX(-1%); }
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.4) 0%, rgba(0,0,0,.1) 40%, rgba(0,0,0,.85) 100%);
+}
+.hero-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 24px;
+}
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: .5em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 60px rgba(212,168,70,.3);
+  margin-bottom: 16px;
+}
+.hero-sub {
+  font-size: 14px;
+  color: rgba(232,220,200,.6);
+  font-weight: 300;
+  max-width: 480px;
+  line-height: 1.9;
+}
+
+/* Members grid */
+.members-section {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+.section-label {
+  font-size: 10px;
+  letter-spacing: .4em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 48px;
+  text-align: center;
+}
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+/* Member card */
+.m-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(212,168,70,.2);
+  border-radius: 8px;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  position: relative;
+  transition: transform .3s, box-shadow .3s;
+}
+.m-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.m-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(212,168,70,.12);
+}
+.m-photo {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  filter: brightness(.85) sepia(10%);
+  transition: filter .4s;
+}
+.m-card:hover .m-photo {
+  filter: brightness(.95) sepia(5%);
+}
+.m-photo-placeholder {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: linear-gradient(135deg, #111 0%, #1a1508 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+.m-body {
+  padding: 20px 20px 24px;
+}
+.m-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.m-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: rgba(212,168,70,.1);
+  border: 1px solid rgba(212,168,70,.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.m-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold-l);
+  margin-bottom: 3px;
+}
+.m-role {
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: var(--dim);
+  text-transform: uppercase;
+}
+.m-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+.m-tag {
+  font-size: 9px;
+  padding: 2px 8px;
+  border: 1px solid rgba(212,168,70,.25);
+  border-radius: 2px;
+  color: rgba(212,168,70,.65);
+  letter-spacing: .05em;
+}
+.m-desc {
+  font-size: 12px;
+  line-height: 1.85;
+  color: rgba(232,220,200,.55);
+  margin-bottom: 16px;
+}
+.m-property {
+  background: rgba(212,168,70,.05);
+  border: 1px solid rgba(212,168,70,.12);
+  border-radius: 6px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+}
+.m-prop-icon { font-size: 16px; }
+.m-prop-name { color: var(--gold-l); font-weight: 700; letter-spacing: .05em; }
+.m-prop-type { color: var(--dim); font-size: 10px; }
+
+/* Quote block */
+.m-quote {
+  border-left: 2px solid var(--gold-d);
+  padding: 8px 12px;
+  margin: 12px 0;
+  font-style: italic;
+  font-size: 13px;
+  color: rgba(240,215,140,.7);
+  line-height: 1.7;
+}
+
+/* DJ card special */
+.m-card.dj-card {
+  border-color: rgba(180,120,255,.3);
+}
+.m-card.dj-card::before {
+  background: linear-gradient(90deg, transparent, #b478ff, transparent);
+}
+.m-card.dj-card .m-tag {
+  border-color: rgba(180,120,255,.3);
+  color: rgba(180,120,255,.8);
+}
+.m-card.dj-card .m-name { color: #d4aaff; }
+.m-card.dj-card .m-quote {
+  border-color: rgba(180,120,255,.5);
+  color: rgba(210,170,255,.7);
+}
+.m-card.dj-card .m-property {
+  background: rgba(180,120,255,.05);
+  border-color: rgba(180,120,255,.15);
+}
+.m-card.dj-card .m-prop-name { color: #d4aaff; }
+
+/* Equalizer animation for DJ */
+.eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.eq span {
+  display: block;
+  width: 3px;
+  background: #b478ff;
+  border-radius: 1px;
+  animation: eq-anim 1.2s ease-in-out infinite;
+}
+.eq span:nth-child(1) { animation-delay: 0s;    height: 6px; }
+.eq span:nth-child(2) { animation-delay: .15s;  height: 12px; }
+.eq span:nth-child(3) { animation-delay: .3s;   height: 8px; }
+.eq span:nth-child(4) { animation-delay: .45s;  height: 14px; }
+.eq span:nth-child(5) { animation-delay: .6s;   height: 4px; }
+@keyframes eq-anim {
+  0%, 100% { transform: scaleY(.4); }
+  50%       { transform: scaleY(1); }
+}
+
+/* DJ photo overlay */
+.dj-overlay {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0,0,0,.7);
+  border: 1px solid rgba(180,120,255,.4);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 10px;
+  color: #d4aaff;
+  letter-spacing: .1em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Recruit section */
+.recruit-section {
+  max-width: 720px;
+  margin: 0 auto 100px;
+  padding: 0 24px;
+  text-align: center;
+}
+.recruit-card {
+  background: rgba(212,168,70,.04);
+  border: 1px solid rgba(212,168,70,.2);
+  border-radius: 12px;
+  padding: 48px 32px;
+  position: relative;
+  overflow: hidden;
+}
+.recruit-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.recruit-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--gold-l);
+  margin-bottom: 12px;
+}
+.recruit-sub {
+  font-size: 13px;
+  line-height: 1.9;
+  color: rgba(232,220,200,.55);
+  margin-bottom: 32px;
+}
+.recruit-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(212,168,70,.18), rgba(212,168,70,.08));
+  border: 1px solid rgba(212,168,70,.6);
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 14px 32px;
+  border-radius: 4px;
+  text-decoration: none;
+  letter-spacing: .2em;
+  transition: all .2s;
+}
+.recruit-btn:hover {
+  background: rgba(212,168,70,.25);
+  box-shadow: 0 0 24px rgba(212,168,70,.2);
+}
+
+/* nav */
+nav {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+  background: rgba(0,0,0,.8);
+  border: 1px solid rgba(212,168,70,.2);
+  border-radius: 40px;
+  padding: 10px 20px;
+  backdrop-filter: blur(20px);
+  z-index: 100;
+}
+nav a {
+  color: var(--dim);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: .08em;
+  transition: color .2s;
+}
+nav a:hover, nav a.active { color: var(--gold); }
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- Hero -->
+<div class="hero">
+<div class="hero-bg"></div>
+<div class="hero-overlay"></div>
+<div class="hero-text">
+<div class="hero-eyebrow">SOLUNA OWNERS</div>
+<h1 class="hero-title" data-en="Friends of Teshikaga">弟子屈の仲間たち</h1>
+<p class="hero-sub" data-en="Working, playing, and creating in nature. The authentic lives of SOLUNA co-owners.">自然の中で、仕事をして、遊んで、創る。<br/>SOLUNA共同オーナーたちのリアルな暮らし。</p>
+</div>
+</div>
+<!-- Members -->
+<div class="members-section">
+<div class="section-label" data-en="Members · Co-Owners">Members · 共同オーナー</div>
+<div class="members-grid">
+<!-- 片桐 DJ card -->
+<div class="m-card dj-card">
+<div style="position:relative">
+<img alt="片桐 DJ" class="m-photo" data-en-alt="DJ Katagiri" loading="lazy" src="img/music_stage.webp"/>
+<div class="dj-overlay">
+<span>🎧</span> LIVE SET
+          <div class="eq"><span></span><span></span><span></span><span></span><span></span></div>
+</div>
+</div>
+<div class="m-body">
+<div class="m-head">
+<div class="m-avatar">🎧</div>
+<div>
+<div class="m-name" data-en="Katagiri">片桐 <span style="font-size:14px;font-weight:400">Katagiri</span></div>
+<div class="m-role">DJ / Music Producer</div>
+</div>
+</div>
+<div class="m-tags">
+<span class="m-tag">DJ</span>
+<span class="m-tag">TECHNO</span>
+<span class="m-tag">AMBIENT</span>
+<span class="m-tag" data-en="Music in the Forest">森の中の音楽</span>
+<span class="m-tag">SOLUNA RESIDENT</span>
+</div>
+<blockquote class="m-quote" data-en="&quot;Rather than a city floor, I want to play in the forest. There's nothing quite like the sensation of sound spreading beneath the starlit sky.&quot;">
+          「都市のフロアじゃなくて、森の中でかけたい。<br/>星空の下で音が広がる感覚は、他にない。」
+        </blockquote>
+<p class="m-desc" data-en="DJ and producer based in Tokyo. Known for versatile sets spanning from techno to ambient, performing at domestic and international festivals. Plans late-night sets by the fireside at SOLUNA. Currently producing new work featuring sampled natural sounds from Teshikaga.">
+          都内を拠点に活動するDJ / プロデューサー。
+          テクノからアンビエントまで幅広いセットで知られ、
+          国内外のフェスティバルに出演。
+          SOLUNAでは焚き火のそばで深夜セットを計画中。
+          弟子屈の自然音をサンプリングした新作も制作中。
+        </p>
+<div class="m-property">
+<span class="m-prop-icon">🌲</span>
+<div>
+<div class="m-prop-name">THE NEST / NESTING</div>
+<div class="m-prop-type" data-en="Birwa · Co-Owner">美留和 · 共同オーナー</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 濱田優貴 -->
+<div class="m-card">
+<img alt="濱田優貴" class="m-photo" data-en-alt="Yuki Hamada" loading="lazy" src="img/pro_hero.webp"/>
+<div class="m-body">
+<div class="m-head">
+<div class="m-avatar">⚡</div>
+<div>
+<div class="m-name" data-en="Yuki Hamada">濱田 優貴 <span style="font-size:14px;font-weight:400">Yuki</span></div>
+<div class="m-role">Enabler / Developer / BJJ</div>
+</div>
+</div>
+<div class="m-tags">
+<span class="m-tag">RUST</span>
+<span class="m-tag">iOS</span>
+<span class="m-tag" data-en="Brazilian Jiu-Jitsu Brown Belt">柔術茶帯</span>
+<span class="m-tag" data-en="SOLUNA Founder">SOLUNA創設</span>
+<span class="m-tag" data-en="Doto Passion">道東愛</span>
+</div>
+<blockquote class="m-quote" data-en='"If you find something inconvenient, simply create it. SOLUNA itself began as nothing more than a personal retreat."'>
+          「不便だと思ったら作ればいい。<br/>SOLUNAも、最初は自分の拠点が欲しかっただけ。」
+        </blockquote>
+<p class="m-desc" data-en="Former Mercari US CEO, Enabler Inc. CEO. Creator of Pasha, KAGI, JiuFlow, and more. Spends weekends practicing Brazilian jiu-jitsu and cooking on a wood-fired stove. A devoted admirer of the Doto landscape.">
+          元メルカリUS CEO、Enabler CEO。
+          パシャ・KAGI・JiuFlow等を自作。
+          週末はここで柔術の練習と、薪ストーブで料理。
+          道東の大地をこよなく愛する。
+        </p>
+<div class="m-property">
+<span class="m-prop-icon">🏔</span>
+<div>
+<div class="m-prop-name">TAPKOP</div>
+<div class="m-prop-type" data-en="Teshikaga · Co-Owner">弟子屈 · 共同オーナー</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Anonymous member slot -->
+<div class="m-card" style="opacity:.6">
+<div class="m-photo-placeholder">
+<span style="font-size:2rem; color:rgba(212,168,70,.3)">?</span>
+</div>
+<div class="m-body">
+<div class="m-head">
+<div class="m-avatar" style="background:rgba(255,255,255,.03)">🌑</div>
+<div>
+<div class="m-name" style="color:rgba(240,215,140,.3)">Anonymous</div>
+<div class="m-role" data-en="Next Owner">次のオーナー</div>
+</div>
+</div>
+<div class="m-tags">
+<span class="m-tag" data-en="Invitation-Only" style="opacity:.4">招待制</span>
+<span class="m-tag" data-en="8 Units Remaining" style="opacity:.4">残り8口</span>
+</div>
+<p class="m-desc" data-en="Your story becomes part of this. If you have an invitation code, please proceed to the purchase page." style="color:rgba(232,220,200,.3)">
+          あなたのストーリーが、ここに加わります。<br/>
+          招待コードをお持ちの方は、購入ページからどうぞ。
+        </p>
+<a data-en="Become a Co-Owner →" href="/buy" onmouseout="this.style.background='rgba(212,168,70,.06)'" onmouseover="this.style.background='rgba(212,168,70,.12)'" style="display:block;text-align:center;background:rgba(212,168,70,.06);border:1px solid rgba(212,168,70,.25);border-radius:6px;padding:12px;color:var(--gold);font-size:12px;letter-spacing:.15em;text-decoration:none;margin-top:8px;transition:.2s">
+          共同オーナーになる →
+        </a>
+</div>
+</div>
+</div>
+</div>
+<!-- Recruit -->
+<div class="recruit-section">
+<div class="recruit-card">
+<div class="recruit-title" data-en="Next Member">次のメンバーへ</div>
+<p class="recruit-sub" data-en="SOLUNA Co-Owners is an exclusive, invitation-only community of select members. We welcome applications from those who wish to share the experience of the forest in Teshikaga, Hokkaido, and from those passionate about music, business, and nature.">
+      SOLUNA共同オーナーは、招待制の少人数コミュニティです。<br/>
+      弟子屈の森での体験を共にしたい方、<br/>
+      音楽・事業・自然が好きな方からの応募をお待ちしています。
+    </p>
+<a class="recruit-btn" href="/buy">APPLY NOW →</a>
+</div>
+</div>
+<script defer="" src="/track.js"></script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Birwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Birwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Biruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Biruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Join">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Share Units Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Architecture Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Birwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+</body>
+</html>

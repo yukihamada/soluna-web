@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA — Pay with Cryptocurrency (USDC)">SOLUNA — 暗号資産で支払う (USDC)</title>
+<meta content="Solana USDCで手付金を安全・即時に支払い。送金即時確定・国際送金対応・トランザクションIDで確認可。" data-en-content="Pay your deposit securely and instantly with Solana USDC. Transfers are confirmed immediately, international remittances supported, and verifiable via Transaction ID." name="description"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<!-- Solana Web3 -->
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.45);
+  --gold-soft:rgba(200,164,85,.07);
+  --bg:#050505;
+  --bg1:#0a0a0a;
+  --bg2:#0e0e0e;
+  --line:#151515;
+  --text:#f0ece4;
+  --text-dim:#666;
+  --text-soft:#333;
+  --purple:#9945ff;
+  --purple-dim:rgba(153,69,255,.3);
+  --purple-soft:rgba(153,69,255,.08);
+  --green:#00c853;
+  --green-dim:rgba(0,200,83,.25);
+  --red:#ff3b30;
+  --red-dim:rgba(255,59,48,.2);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;font-feature-settings:'palt'}
+::selection{background:var(--gold);color:#000}
+a{color:var(--gold);text-decoration:none}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 20px;background:rgba(5,5,5,.8);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.04)}
+.nav-inner{max-width:640px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.nav-logo{font-size:13px;font-weight:800;letter-spacing:.15em;color:var(--gold)}
+.nav-tag{font-size:10px;color:var(--text-dim);letter-spacing:.1em;display:flex;align-items:center;gap:6px}
+.nav-tag::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--purple);box-shadow:0 0 6px var(--purple)}
+
+/* Layout */
+.w{max-width:560px;margin:0 auto;padding:100px 20px 80px}
+
+/* Steps */
+.steps{display:flex;align-items:center;margin-bottom:36px}
+.step-item{display:flex;align-items:center;gap:6px;font-size:10px;letter-spacing:.08em;color:var(--text-soft)}
+.step-item.active{color:var(--gold)}
+.step-item.done{color:var(--green)}
+.step-num{width:20px;height:20px;border-radius:50%;background:var(--bg2);border:1px solid var(--text-soft);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+.step-item.active .step-num{background:var(--gold);border-color:var(--gold);color:#000}
+.step-item.done .step-num{background:var(--green);border-color:var(--green);color:#000}
+.step-connector{flex:1;height:1px;background:var(--line);margin:0 8px}
+.step-connector.done{background:var(--green);opacity:.4}
+
+/* Cards */
+.card{background:var(--bg1);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:14px}
+.card-title{font-size:11px;color:var(--text-dim);letter-spacing:.1em;margin-bottom:14px;text-transform:uppercase}
+
+/* Property card */
+.prop-card{background:var(--bg1);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:14px;display:flex;gap:0}
+.prop-img{width:100px;height:80px;background:linear-gradient(135deg,#1a1208,#0a0805);flex-shrink:0;position:relative;overflow:hidden}
+.prop-img img{width:100%;height:100%;object-fit:cover;opacity:.85}
+.prop-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:24px}
+.prop-info{padding:14px;flex:1}
+.prop-name{font-size:13px;font-weight:700;margin-bottom:3px}
+.prop-loc{font-size:10px;color:var(--text-dim);margin-bottom:8px;display:flex;align-items:center;gap:4px}
+.prop-badge{font-size:9px;color:var(--gold);border:1px solid var(--gold-dim);padding:2px 8px;border-radius:100px;display:inline-block}
+
+/* Amount display */
+.amount-main{font-size:28px;font-weight:800;letter-spacing:-.03em;margin:4px 0}
+.amount-sub{font-size:12px;color:var(--text-dim);margin-top:2px}
+.amount-equiv{background:var(--purple-soft);border:1px solid var(--purple-dim);border-radius:10px;padding:14px 16px;margin-top:12px;display:flex;justify-content:space-between;align-items:center}
+.amount-equiv .label{font-size:11px;color:var(--text-dim)}
+.amount-equiv .value{font-size:22px;font-weight:800;color:var(--purple)}
+.amount-equiv .usdc-badge{font-size:9px;background:var(--purple);color:#fff;padding:2px 7px;border-radius:100px;margin-left:6px;vertical-align:middle;font-weight:700}
+.rate-note{font-size:10px;color:var(--text-soft);margin-top:8px;display:flex;align-items:center;gap:4px}
+.rate-dot{width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Contract info */
+.contract-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:11px}
+.contract-row:last-child{border:none}
+.ck{color:var(--text-dim)}
+.cv{font-family:'SF Mono','Courier New',monospace;font-size:10px;color:var(--text);background:var(--bg2);padding:3px 7px;border-radius:5px;display:flex;align-items:center;gap:5px}
+.cv-copy{cursor:pointer;color:var(--text-soft);font-size:9px;transition:color .15s}
+.cv-copy:hover{color:var(--gold)}
+
+/* Wallet cards */
+.wallet-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:4px}
+.wallet-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color .2s,background .2s}
+.wallet-card:hover{border-color:var(--gold-dim);background:#0f0f0f}
+.wallet-card:active{transform:scale(.99)}
+.wallet-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.wallet-icon.phantom{background:linear-gradient(135deg,#4e44ce,#9945ff)}
+.wallet-icon.backpack{background:linear-gradient(135deg,#1a1a2e,#3d3d5c)}
+.wallet-icon.solflare{background:linear-gradient(135deg,#fc7227,#f9a11c)}
+.wallet-name{font-size:13px;font-weight:700;flex:1}
+.wallet-sub{font-size:10px;color:var(--text-dim);margin-top:2px}
+.wallet-arrow{color:var(--text-soft);font-size:14px}
+
+/* Connected state */
+.connected-header{background:linear-gradient(135deg,rgba(153,69,255,.08),rgba(200,164,85,.04));border:1px solid var(--purple-dim);border-radius:16px;padding:18px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.connected-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);flex-shrink:0}
+.connected-addr{font-family:'SF Mono','Courier New',monospace;font-size:12px;color:var(--text)}
+.connected-network{font-size:9px;color:var(--text-dim);margin-top:2px}
+.balance-row{margin-top:8px;padding-top:10px;border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between}
+.balance-label{font-size:10px;color:var(--text-dim)}
+.balance-val{font-size:14px;font-weight:700;color:var(--purple)}
+
+/* Warning */
+.warn{background:rgba(255,59,48,.06);border:1px solid var(--red-dim);border-radius:12px;padding:14px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px}
+.warn-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.warn-text{font-size:11px;line-height:1.7;color:rgba(240,236,228,.7)}
+.warn-text strong{color:var(--red);display:block;margin-bottom:3px}
+
+/* QR */
+.qr-box{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;margin-top:10px}
+.qr-img{width:100px;height:100px;background:#fff;border-radius:8px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;overflow:hidden}
+.qr-addr{font-family:'SF Mono','Courier New',monospace;font-size:9px;color:var(--text-dim);word-break:break-all}
+
+/* Transaction preview */
+.tx-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:12px}
+.tx-row:last-child{border:none;padding-bottom:0}
+.tx-key{color:var(--text-dim)}
+.tx-val{font-weight:600;text-align:right;max-width:55%}
+.tx-val.mono{font-family:'SF Mono','Courier New',monospace;font-size:10px}
+.tx-val.purple{color:var(--purple)}
+.tx-val.gold{color:var(--gold)}
+
+/* Buttons */
+.btn{width:100%;padding:15px;border:none;border-radius:100px;font-weight:800;font-size:14px;cursor:pointer;transition:transform .2s,box-shadow .2s;letter-spacing:.03em}
+.btn:hover:not(:disabled){transform:scale(1.02)}
+.btn:active:not(:disabled){transform:scale(.99)}
+.btn:disabled{opacity:.3;cursor:not-allowed;transform:none!important}
+.btn-purple{background:linear-gradient(135deg,#7c3aed,#9945ff);color:#fff;box-shadow:0 4px 24px rgba(153,69,255,.3)}
+.btn-purple:hover:not(:disabled){box-shadow:0 6px 32px rgba(153,69,255,.45)}
+.btn-gold{background:var(--gold);color:#050505;box-shadow:0 4px 20px rgba(200,164,85,.25)}
+.btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--line);margin-top:10px}
+.btn-ghost:hover:not(:disabled){border-color:var(--gold-dim);color:var(--gold)}
+.btn-sm{padding:9px 18px;font-size:12px;width:auto}
+
+/* Loading states */
+.loading-state{text-align:center;padding:32px 0}
+.spinner{width:36px;height:36px;border:2px solid var(--line);border-top-color:var(--purple);border-radius:50%;animation:spin 0.9s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-msg{font-size:13px;color:var(--text-dim);letter-spacing:.05em}
+.loading-sub{font-size:10px;color:var(--text-soft);margin-top:6px}
+
+/* Success */
+.success-state{text-align:center;padding:40px 20px}
+.success-icon{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--green),#00e676);margin:0 auto 18px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 32px rgba(0,200,83,.3)}
+.success-title{font-size:18px;font-weight:800;margin-bottom:8px}
+.success-sub{font-size:12px;color:var(--text-dim);line-height:1.8;max-width:320px;margin:0 auto 20px}
+.txid-box{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;font-family:'SF Mono','Courier New',monospace;font-size:10px;color:var(--purple);word-break:break-all;margin-bottom:16px}
+
+/* Why crypto */
+.why-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:4px}
+.why-item{text-align:center;padding:16px 10px;background:var(--bg2);border:1px solid var(--line);border-radius:12px}
+.why-icon{font-size:22px;margin-bottom:8px}
+.why-title{font-size:10px;font-weight:700;margin-bottom:4px}
+.why-desc{font-size:9px;color:var(--text-dim);line-height:1.6}
+
+/* Security note */
+.security{background:rgba(200,164,85,.04);border:1px solid rgba(200,164,85,.12);border-radius:12px;padding:14px 16px;margin-top:14px;font-size:10px;color:var(--text-dim);line-height:1.8;display:flex;gap:10px;align-items:flex-start}
+.security-icon{font-size:14px;flex-shrink:0}
+
+/* Alt payment */
+.alt-pay{text-align:center;margin-top:20px;font-size:11px;color:var(--text-soft)}
+.alt-pay a{color:var(--text-dim);text-decoration:underline;text-underline-offset:3px}
+.alt-pay a:hover{color:var(--gold)}
+
+/* Install notice */
+.install-notice{background:var(--bg1);border:1px solid var(--line);border-radius:16px;padding:24px;text-align:center}
+.install-notice h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.install-notice p{font-size:12px;color:var(--text-dim);margin-bottom:16px;line-height:1.8}
+.install-links{display:flex;flex-direction:column;gap:8px}
+.install-link{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;font-size:12px;cursor:pointer;transition:border-color .2s}
+.install-link:hover{border-color:var(--gold-dim)}
+.install-link .i-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.demo-divider{margin:16px 0;display:flex;align-items:center;gap:10px;font-size:10px;color:var(--text-soft)}
+.demo-divider::before,.demo-divider::after{content:'';flex:1;height:1px;background:var(--line)}
+
+/* Sections */
+.sec{display:none}
+.sec.active{display:block}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.sec.active{animation:fadeUp .35s ease both}
+
+/* Mobile */
+@media(max-width:480px){
+  .why-grid{grid-template-columns:1fr}
+  .amount-main{font-size:22px}
+}
+
+/* Step labels */
+.step-label{font-size:9px;letter-spacing:.06em}
+
+/* Divider */
+.divider{height:1px;background:var(--line);margin:16px 0}
+
+/* Small link */
+.small-link{font-size:10px;color:var(--text-soft);display:inline-flex;align-items:center;gap:4px}
+.small-link:hover{color:var(--gold)}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<!-- Nav -->
+<nav class="nav">
+<div class="nav-inner">
+<div class="nav-logo">SOLUNA</div>
+<div class="nav-tag" data-en="Pay with Cryptocurrency">暗号資産で支払う</div>
+</div>
+</nav>
+<div class="w">
+<!-- Steps indicator -->
+<div class="steps" id="steps-bar">
+<div class="step-item active" id="step1">
+<div class="step-num">1</div>
+<span class="step-label" data-en="Confirm">確認</span>
+</div>
+<div class="step-connector" id="conn1"></div>
+<div class="step-item" id="step2">
+<div class="step-num">2</div>
+<span class="step-label" data-en="Connect">接続</span>
+</div>
+<div class="step-connector" id="conn2"></div>
+<div class="step-item" id="step3">
+<div class="step-num">3</div>
+<span class="step-label" data-en="Transfer">送金</span>
+</div>
+<div class="step-connector" id="conn3"></div>
+<div class="step-item" id="step4">
+<div class="step-num">4</div>
+<span class="step-label" data-en="Complete">完了</span>
+</div>
+</div>
+<!-- STEP 1: Amount confirmation -->
+<div class="sec active" id="sec1">
+<!-- Property card -->
+<div class="prop-card" id="prop-card">
+<div class="prop-img">
+<div class="prop-img-placeholder" id="prop-emoji">🏔️</div>
+</div>
+<div class="prop-info">
+<div class="prop-name" data-en="Teshikaga · Mashu Lake Cabin" id="prop-name">弟子屈・摩周湖キャビン</div>
+<div class="prop-loc">📍 <span data-en="Teshikaga, Hokkaido" id="prop-loc">北海道・弟子屈町</span></div>
+<div class="prop-badge" data-en="Reserve Experience with Deposit" id="prop-badge">手付金で体験予約</div>
+</div>
+</div>
+<!-- Amount card -->
+<div class="card">
+<div class="card-title" data-en="Payment Amount">お支払い金額</div>
+<div class="amount-main">¥100,000</div>
+<div class="amount-sub" data-en="Deposit (Applied at purchase / Valid for 2 years)">手付金（購入時に充当 / 2年有効）</div>
+<div class="amount-equiv">
+<div>
+<div class="label" data-en="USDC Equivalent Amount">USDC 相当額</div>
+<div data-en="Solana Network" style="font-size:9px;color:var(--text-soft);margin-top:2px">Solana ネットワーク</div>
+</div>
+<div style="text-align:right">
+<span class="value" data-en="Approx. 670" id="usdc-amount">約 670</span>
+<span class="usdc-badge">USDC</span>
+</div>
+</div>
+<div class="rate-note" data-en="Reference Rate: 1 USD ≈ ¥">
+<span class="rate-dot"></span>
+        参考レート: 1 USD ≈ ¥<span id="rate-val">149</span>
+<span data-en="(Market Rate Applied)" style="color:var(--text-soft);margin-left:4px">（市場レート反映）</span>
+</div>
+</div>
+<!-- Contract info -->
+<div class="card">
+<div class="card-title" data-en="USDC Contract Information">USDC コントラクト情報</div>
+<div class="contract-row">
+<span class="ck" data-en="Token">トークン</span>
+<span class="cv">USD Coin (USDC) <span style="color:var(--purple);font-weight:700;font-size:9px;margin-left:4px">●</span></span>
+</div>
+<div class="contract-row">
+<span class="ck" data-en="Network">ネットワーク</span>
+<span class="cv">Solana Mainnet</span>
+</div>
+<div class="contract-row">
+<span class="ck" data-en="Mint Address">Mint アドレス</span>
+<div class="cv">
+<span id="mint-addr-short">EPjF...Dt1v</span>
+<span class="cv-copy" data-en="Copy" onclick="copyText('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',this)">コピー</span>
+</div>
+</div>
+<div class="contract-row">
+<span class="ck" data-en="Issuer">発行者</span>
+<span class="cv" data-en="Circle (Official)">Circle (公式)</span>
+</div>
+</div>
+<!-- Why crypto -->
+<div class="card">
+<div class="card-title" data-en="Benefits of Cryptocurrency Payment">暗号資産決済のメリット</div>
+<div class="why-grid">
+<div class="why-item">
+<div class="why-icon">⚡</div>
+<div class="why-title" data-en="Instant Confirmation">即時確定</div>
+<div class="why-desc" data-en="Recorded on blockchain within seconds of transfer">送金後数秒でブロックチェーンに記録</div>
+</div>
+<div class="why-item">
+<div class="why-icon">🌏</div>
+<div class="why-title" data-en="International Transfer">国際送金</div>
+<div class="why-desc" data-en="Transfer from overseas accounts with no fees">海外口座からも手数料なしで送金可</div>
+</div>
+<div class="why-item">
+<div class="why-icon">🔍</div>
+<div class="why-title" data-en="Transparency">透明性</div>
+<div class="why-desc" data-en="Verify transactions anytime with TXID">TXIDでいつでも送金を確認できる</div>
+</div>
+</div>
+</div>
+<button class="btn btn-purple" data-en="Connect Wallet →" onclick="goToConnect()">ウォレットを接続する →</button>
+<div class="security" style="margin-top:14px">
+<span class="security-icon">🔒</span>
+<span data-en="Our legal specialist and representatives will verify the transaction. Cryptocurrency payments are accepted for deposits only. Transaction IDs can be verified on Solana Explorer.">実際の取引では司法書士・担当者が確認します。暗号資産での支払いは手付金のみ対応。トランザクションIDをSolana Explorerで確認可能です。</span>
+</div>
+<div class="alt-pay" data-en="For credit card payments, please use">
+      クレジットカードでの支払いは <a data-en="Traditional Payment (Stripe)" href="/book">従来の決済 (Stripe)</a> をご利用ください
+    </div>
+</div>
+<!-- STEP 2: Wallet selection / No wallet -->
+<div class="sec" id="sec2">
+<div id="wallet-select-view">
+<div style="margin-bottom:20px">
+<h2 data-en="Select Wallet" style="font-size:16px;font-weight:800;margin-bottom:6px">ウォレットを選択</h2>
+<p data-en="Select a wallet to connect. Simply approve the signature in your wallet." style="font-size:12px;color:var(--text-dim);line-height:1.8">接続するウォレットを選んでください。ウォレット内で署名を承認するだけです。</p>
+</div>
+<div class="wallet-grid">
+<div class="wallet-card" onclick="connectWallet('phantom')">
+<div class="wallet-icon phantom">👻</div>
+<div>
+<div class="wallet-name">Phantom</div>
+<div class="wallet-sub" data-en="Most Popular &amp; User-Friendly">最も人気・使いやすい</div>
+</div>
+<div class="wallet-arrow">›</div>
+</div>
+<div class="wallet-card" onclick="connectWallet('backpack')">
+<div class="wallet-icon backpack">🎒</div>
+<div>
+<div class="wallet-name">Backpack</div>
+<div class="wallet-sub" data-en="Multi-Chain Support">マルチチェーン対応</div>
+</div>
+<div class="wallet-arrow">›</div>
+</div>
+<div class="wallet-card" onclick="connectWallet('solflare')">
+<div class="wallet-icon solflare">☀️</div>
+<div>
+<div class="wallet-name">Solflare</div>
+<div class="wallet-sub" data-en="Solana Native">Solana ネイティブ</div>
+</div>
+<div class="wallet-arrow">›</div>
+</div>
+</div>
+<div id="no-wallet-msg" style="display:none">
+<div style="height:14px"></div>
+<div class="install-notice" id="install-notice">
+<div style="font-size:32px;margin-bottom:10px">👻</div>
+<h3 data-en="Wallet not found">ウォレットが見つかりません</h3>
+<p data-en="Please install Phantom and reload the page.">Phantomをインストールしてページを再読み込みしてください。</p>
+<div class="install-links">
+<a class="install-link" href="https://phantom.app/" rel="noopener" target="_blank">
+<div class="i-icon phantom" style="background:linear-gradient(135deg,#4e44ce,#9945ff)">👻</div>
+<div>
+<div data-en="Install Phantom" style="font-weight:700">Phantom をインストール</div>
+<div style="font-size:10px;color:var(--text-dim)">Chrome / Firefox / Safari / iOS / Android</div>
+</div>
+<div style="margin-left:auto;color:var(--text-soft)">↗</div>
+</a>
+<a class="install-link" href="https://www.backpack.app/" rel="noopener" target="_blank">
+<div class="i-icon" style="background:linear-gradient(135deg,#1a1a2e,#3d3d5c)">🎒</div>
+<div>
+<div data-en="Install Backpack" style="font-weight:700">Backpack をインストール</div>
+<div style="font-size:10px;color:var(--text-dim)">Chrome / Firefox</div>
+</div>
+<div style="margin-left:auto;color:var(--text-soft)">↗</div>
+</a>
+<a class="install-link" href="https://solflare.com/" rel="noopener" target="_blank">
+<div class="i-icon" style="background:linear-gradient(135deg,#fc7227,#f9a11c)">☀️</div>
+<div>
+<div data-en="Install Solflare" style="font-weight:700">Solflare をインストール</div>
+<div style="font-size:10px;color:var(--text-dim)">Chrome / iOS / Android</div>
+</div>
+<div style="margin-left:auto;color:var(--text-soft)">↗</div>
+</a>
+</div>
+</div>
+</div>
+<div class="demo-divider" data-en="Or">または</div>
+<button class="btn btn-ghost" data-en="Try in Demo Mode" onclick="startDemo()">デモモードで試す</button>
+</div>
+<!-- Connecting loader -->
+<div id="connecting-view" style="display:none">
+<div class="loading-state">
+<div class="spinner"></div>
+<div class="loading-msg" data-en="Connecting..." id="connecting-msg">接続しています...</div>
+<div class="loading-sub" data-en="Please approve in your wallet">ウォレットで承認してください</div>
+</div>
+</div>
+<button class="btn btn-ghost" data-en="← Back" onclick="goBack(1)" style="margin-top:14px">← 戻る</button>
+</div>
+<!-- STEP 3: Connected — confirm & send -->
+<div class="sec" id="sec3">
+<!-- Connected header -->
+<div class="connected-header">
+<div class="connected-dot"></div>
+<div>
+<div class="connected-addr" data-en="Connecting..." id="wallet-addr-display">接続中...</div>
+<div class="connected-network">Solana Mainnet • <span id="wallet-type-display">Phantom</span></div>
+<div class="balance-row">
+<span class="balance-label" data-en="USDC Balance">USDC 残高</span>
+<span class="balance-val" data-en="Loading..." id="usdc-balance-display">読み込み中...</span>
+</div>
+</div>
+</div>
+<!-- Low balance warning -->
+<div class="warn" id="low-balance-warn" style="display:none">
+<span class="warn-icon">⚠️</span>
+<div class="warn-text" data-en="A minimum of 670 USDC is required. Please transfer from Binance or your exchange to your wallet address.">
+<strong data-en="Insufficient Balance">残高が不足しています</strong>
+        670 USDC 以上が必要です。Binanceや取引所からウォレットアドレスへ送金してください。
+        <div class="qr-box" style="margin-top:12px">
+<div class="qr-img" id="qr-container">
+<!-- QR placeholder; real QR generated via canvas -->
+<canvas height="100" id="qr-canvas" width="100"></canvas>
+</div>
+<div class="qr-addr" id="qr-addr-text"></div>
+<button class="btn btn-ghost btn-sm" data-en="Copy Address" onclick="copyWalletAddr()" style="margin:10px auto 0;display:block">アドレスをコピー</button>
+</div>
+</div>
+</div>
+<!-- Transaction preview -->
+<div class="card">
+<div class="card-title" data-en="Confirm Transfer Details">送金内容の確認</div>
+<div class="tx-row">
+<span class="tx-key" data-en="Transfer Source">送金元</span>
+<span class="tx-val mono" id="tx-from">—</span>
+</div>
+<div class="tx-row">
+<span class="tx-key" data-en="Recipient (SOLUNA Management Account)">送金先 (SOLUNA 管理口座)</span>
+<span class="tx-val mono">DK29...XvQ</span>
+</div>
+<div class="tx-row">
+<span class="tx-key" data-en="Amount">金額</span>
+<span class="tx-val purple">670 USDC</span>
+</div>
+<div class="tx-row">
+<span class="tx-key" data-en="Network">ネットワーク</span>
+<span class="tx-val">Solana Mainnet</span>
+</div>
+<div class="tx-row">
+<span class="tx-key" data-en="Estimated Fee">推定手数料</span>
+<span class="tx-val gold">≈ 0.000005 SOL</span>
+</div>
+<div class="tx-row">
+<span class="tx-key" data-en="Until Confirmation">確定まで</span>
+<span class="tx-val" data-en="Approx. 0.4 seconds">約 0.4 秒</span>
+</div>
+</div>
+<!-- Send button -->
+<button class="btn btn-purple" data-en="Send 670 USDC" id="send-btn" onclick="sendPayment()">670 USDC を送金する</button>
+<button class="btn btn-ghost" data-en="Disconnect Wallet" onclick="disconnectWallet()" style="margin-top:10px">ウォレットを切断</button>
+<button class="btn btn-ghost" data-en="← Back" onclick="goBack(1)" style="margin-top:6px;border:none;color:var(--text-soft);font-size:11px;padding:8px">← 戻る</button>
+</div>
+<!-- STEP 3.5: Loading / transaction progress -->
+<div class="sec" id="sec-loading">
+<div class="loading-state" style="padding:60px 0">
+<div class="spinner"></div>
+<div class="loading-msg" data-en="Please sign..." id="tx-status-msg">署名してください...</div>
+<div class="loading-sub" data-en="Please approve the transaction in your wallet" id="tx-status-sub">ウォレットで承認操作を行ってください</div>
+</div>
+</div>
+<!-- STEP 4: Success -->
+<div class="sec" id="sec4">
+<div class="success-state">
+<div class="success-icon">✓</div>
+<div class="success-title" data-en="Transfer Complete">送金完了</div>
+<div class="success-sub" data-en="Transfer of 670 USDC has been confirmed. Our representative will contact you within 24 hours.">670 USDC の送金が確認されました。担当者より24時間以内にご連絡します。</div>
+<div class="txid-box" id="txid-display">—</div>
+<a class="btn btn-ghost btn-sm" data-en="View on Solana Explorer ↗" href="#" id="explorer-link" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;width:auto;margin:0 auto 20px" target="_blank">
+        Solana Explorer で確認 ↗
+      </a>
+<div style="height:10px"></div>
+<a class="btn btn-gold" data-en="Next Step →" href="/book" style="display:block;text-align:center;text-decoration:none;line-height:1.4;padding:15px">次のステップへ →</a>
+</div>
+</div>
+</div><!-- .w -->
+<script>
+// ═══════════════════════════════════════════════════
+// Config
+// ═══════════════════════════════════════════════════
+const TREASURY = 'DK29rBGCvP83LUNjUGVM6xt6qPy6rycBFopXbFkg9XvQ';
+const USDC_MINT = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
+const USDC_DECIMALS = 6;
+const REQUIRED_USDC = 670;
+const YEN_AMOUNT = 100000;
+const RPC_URL = 'https://api.mainnet-beta.solana.com';
+
+// ═══════════════════════════════════════════════════
+// State
+// ═══════════════════════════════════════════════════
+let state = {
+  wallet: null,
+  walletType: null,
+  walletAddress: null,
+  usdcBalance: null,
+  connection: null,
+  isDemo: false,
+  currentStep: 1,
+  property: 'tapkop',
+  usdcAmount: REQUIRED_USDC,
+  rate: 149,
+};
+
+// ═══════════════════════════════════════════════════
+// Property data
+// ═══════════════════════════════════════════════════
+const PROPERTIES = {
+  tapkop: { name:'弟子屈・摩周湖キャビン', loc:'北海道・弟子屈町', emoji:'🏔️', badge:'手付金で体験予約' },
+  atami:  { name:'WHITE HOUSE 熱海', loc:'静岡県・熱海市', emoji:'🌊', badge:'手付金で体験予約' },
+  hawaii: { name:'ハワイ・カイルア', loc:'ハワイ州・オアフ島', emoji:'🌺', badge:'手付金で体験予約' },
+};
+
+// ═══════════════════════════════════════════════════
+// Init
+// ═══════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  initProperty();
+  fetchRate();
+  // Try to init Solana connection
+  try {
+    if (window.solanaWeb3) {
+      state.connection = new solanaWeb3.Connection(RPC_URL, 'confirmed');
+    }
+  } catch(e) { console.warn('solanaWeb3 not loaded', e); }
+});
+
+function initProperty() {
+  const params = new URLSearchParams(location.search);
+  state.property = params.get('property') || 'tapkop';
+  const p = PROPERTIES[state.property] || PROPERTIES['tapkop'];
+  document.getElementById('prop-name').textContent = p.name;
+  document.getElementById('prop-loc').textContent = p.loc;
+  document.getElementById('prop-emoji').textContent = p.emoji;
+  document.getElementById('prop-badge').textContent = p.badge;
+}
+
+async function fetchRate() {
+  try {
+    const res = await fetch('https://api.coinbase.com/v2/exchange-rates?currency=USD');
+    const data = await res.json();
+    const jpy = parseFloat(data?.data?.rates?.JPY);
+    if (jpy && jpy > 100 && jpy < 250) {
+      state.rate = jpy;
+      const usdc = Math.ceil(YEN_AMOUNT / jpy);
+      state.usdcAmount = usdc;
+      document.getElementById('rate-val').textContent = Math.round(jpy);
+      document.getElementById('usdc-amount').textContent = '約 ' + usdc;
+    }
+  } catch(e) {
+    // Keep default 149
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// Step navigation
+// ═══════════════════════════════════════════════════
+function showSection(id) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function updateSteps(active) {
+  state.currentStep = active;
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('step' + i);
+    const conn = document.getElementById('conn' + i);
+    el.className = 'step-item';
+    if (i < active) { el.classList.add('done'); el.querySelector('.step-num').textContent = '✓'; }
+    else if (i === active) { el.classList.add('active'); el.querySelector('.step-num').textContent = i; }
+    else { el.querySelector('.step-num').textContent = i; }
+    if (conn) conn.className = 'step-connector' + (i < active ? ' done' : '');
+  }
+}
+
+function goToConnect() {
+  updateSteps(2);
+  showSection('sec2');
+  // Check which wallets are available
+  checkWallets();
+}
+
+function checkWallets() {
+  const hasPhantom = !!(window.solana?.isPhantom);
+  const hasBackpack = !!(window.xnft?.solana);
+  const hasSolflare = !!(window.solflare?.isSolflare);
+  const hasAny = hasPhantom || hasBackpack || hasSolflare;
+  document.getElementById('no-wallet-msg').style.display = hasAny ? 'none' : 'block';
+}
+
+function goBack(step) {
+  updateSteps(step);
+  showSection('sec' + step);
+}
+
+// ═══════════════════════════════════════════════════
+// Wallet connection
+// ═══════════════════════════════════════════════════
+async function connectWallet(type) {
+  document.getElementById('wallet-select-view').style.display = 'none';
+  document.getElementById('connecting-view').style.display = 'block';
+  document.getElementById('connecting-msg').textContent = type === 'phantom' ? '👻 Phantom に接続中...' : type === 'backpack' ? '🎒 Backpack に接続中...' : '☀️ Solflare に接続中...';
+
+  try {
+    let provider = null;
+    if (type === 'phantom' && window.solana?.isPhantom) {
+      provider = window.solana;
+    } else if (type === 'backpack' && window.xnft?.solana) {
+      provider = window.xnft.solana;
+    } else if (type === 'solflare' && window.solflare?.isSolflare) {
+      provider = window.solflare;
+    }
+
+    if (!provider) {
+      // Show install notice for this specific wallet
+      showInstallNotice(type);
+      document.getElementById('wallet-select-view').style.display = 'block';
+      document.getElementById('connecting-view').style.display = 'none';
+      return;
+    }
+
+    const resp = await provider.connect();
+    const publicKey = resp.publicKey || provider.publicKey;
+    state.wallet = provider;
+    state.walletType = type;
+    state.walletAddress = publicKey.toString();
+    state.isDemo = false;
+
+    gtag('event','crypto_wallet_connected', { wallet_type: type });
+
+    await proceedToStep3();
+
+  } catch(err) {
+    console.error('Wallet connect error:', err);
+    document.getElementById('wallet-select-view').style.display = 'block';
+    document.getElementById('connecting-view').style.display = 'none';
+    if (err.code !== 4001) { // not user rejected
+      showToast('接続に失敗しました。再度お試しください。', 'error');
+    }
+  }
+}
+
+function showInstallNotice(type) {
+  document.getElementById('no-wallet-msg').style.display = 'block';
+  const notice = document.getElementById('install-notice');
+  const names = { phantom:'Phantom', backpack:'Backpack', solflare:'Solflare' };
+  const emojis = { phantom:'👻', backpack:'🎒', solflare:'☀️' };
+  notice.querySelector('div:first-child').textContent = emojis[type] || '👛';
+  notice.querySelector('h3').textContent = `${names[type] || type} が見つかりません`;
+  notice.querySelector('p').textContent = `${names[type] || type} をインストールしてページを再読み込みしてください。`;
+}
+
+async function proceedToStep3() {
+  updateSteps(3);
+  showSection('sec3');
+
+  // Display address
+  const addr = state.walletAddress;
+  const short = addr.slice(0,4) + '...' + addr.slice(-4);
+  document.getElementById('wallet-addr-display').textContent = short;
+  document.getElementById('wallet-type-display').textContent =
+    state.isDemo ? 'Demo' : (state.walletType === 'phantom' ? 'Phantom' : state.walletType === 'backpack' ? 'Backpack' : 'Solflare');
+  document.getElementById('tx-from').textContent = short;
+  document.getElementById('qr-addr-text').textContent = addr;
+
+  // Fetch USDC balance
+  document.getElementById('usdc-balance-display').textContent = '読み込み中...';
+  document.getElementById('low-balance-warn').style.display = 'none';
+  document.getElementById('send-btn').disabled = true;
+
+  if (state.isDemo) {
+    // Demo: fake balance of 1000 USDC
+    state.usdcBalance = 1000;
+    document.getElementById('usdc-balance-display').textContent = '1,000.00 USDC (デモ)';
+    document.getElementById('send-btn').disabled = false;
+    generateQR(addr);
+    return;
+  }
+
+  try {
+    const balance = await getUsdcBalance(state.walletAddress);
+    state.usdcBalance = balance;
+    const fmt = balance.toLocaleString('ja-JP', {minimumFractionDigits:2, maximumFractionDigits:2});
+    document.getElementById('usdc-balance-display').textContent = fmt + ' USDC';
+
+    if (balance < state.usdcAmount) {
+      document.getElementById('low-balance-warn').style.display = 'flex';
+      generateQR(state.walletAddress);
+      document.getElementById('send-btn').disabled = true;
+    } else {
+      document.getElementById('low-balance-warn').style.display = 'none';
+      document.getElementById('send-btn').disabled = false;
+    }
+  } catch(e) {
+    console.error('Balance fetch error:', e);
+    document.getElementById('usdc-balance-display').textContent = '取得失敗';
+    document.getElementById('send-btn').disabled = false; // allow attempt anyway
+  }
+}
+
+async function getUsdcBalance(walletAddr) {
+  if (!state.connection || !window.solanaWeb3) throw new Error('No connection');
+  const ownerPk = new solanaWeb3.PublicKey(walletAddr);
+  const mintPk  = new solanaWeb3.PublicKey(USDC_MINT);
+  const tokenAccounts = await state.connection.getTokenAccountsByOwner(ownerPk, { mint: mintPk });
+  if (!tokenAccounts.value.length) return 0;
+  // Parse balance from first token account
+  const accountInfo = await state.connection.getTokenAccountBalance(tokenAccounts.value[0].pubkey);
+  return parseFloat(accountInfo.value.uiAmount || 0);
+}
+
+function disconnectWallet() {
+  try { state.wallet?.disconnect?.(); } catch(e) {}
+  state.wallet = null;
+  state.walletType = null;
+  state.walletAddress = null;
+  state.usdcBalance = null;
+  document.getElementById('wallet-select-view').style.display = 'block';
+  document.getElementById('connecting-view').style.display = 'none';
+  goBack(2);
+}
+
+// ═══════════════════════════════════════════════════
+// Demo mode
+// ═══════════════════════════════════════════════════
+function startDemo() {
+  state.isDemo = true;
+  state.walletType = 'demo';
+  state.walletAddress = '8CeusiVAeibuBGv5xcf7kt7JQZzqwTS5pD7u2CfyoWnL'; // demo addr
+  state.wallet = { isDemo: true };
+  proceedToStep3();
+}
+
+// ═══════════════════════════════════════════════════
+// Payment
+// ═══════════════════════════════════════════════════
+async function sendPayment() {
+  document.getElementById('send-btn').disabled = true;
+  updateSteps(3);
+  showSection('sec-loading');
+
+  if (state.isDemo) {
+    await simulateDemoPayment();
+    return;
+  }
+
+  try {
+    setTxStatus('署名してください...', 'ウォレットアプリで承認操作を行ってください');
+
+    if (!window.solanaWeb3) throw new Error('solanaWeb3 not loaded');
+
+    const connection = state.connection || new solanaWeb3.Connection(RPC_URL, 'confirmed');
+    const fromPubkey = new solanaWeb3.PublicKey(state.walletAddress);
+    const toPubkey   = new solanaWeb3.PublicKey(TREASURY);
+    const mintPubkey = new solanaWeb3.PublicKey(USDC_MINT);
+
+    // Find or create associated token accounts
+    const fromATA = await getATA(fromPubkey, mintPubkey);
+    const toATA   = await getATA(toPubkey, mintPubkey);
+
+    // Build transfer instruction manually (SPL token transfer)
+    const amount = BigInt(Math.round(state.usdcAmount * Math.pow(10, USDC_DECIMALS)));
+    const transferIx = buildSplTransferInstruction(fromATA, toATA, fromPubkey, amount);
+
+    const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+    const tx = new solanaWeb3.Transaction({
+      recentBlockhash: blockhash,
+      feePayer: fromPubkey,
+    }).add(transferIx);
+
+    setTxStatus('送信中...', 'トランザクションをネットワークに送信しています');
+
+    const signed = await state.wallet.signAndSendTransaction(tx);
+    const txid = signed.signature || signed;
+
+    setTxStatus('確認中...', 'ブロックチェーンでの確認を待っています（数秒）');
+
+    await connection.confirmTransaction({ signature: txid, blockhash, lastValidBlockHeight }, 'confirmed');
+
+    gtag('event','crypto_payment_sent', { txid, amount: state.usdcAmount });
+    showSuccess(txid);
+
+  } catch(err) {
+    console.error('Payment error:', err);
+    document.getElementById('send-btn').disabled = false;
+    showSection('sec3');
+    if (err.code !== 4001) {
+      showToast('送金に失敗しました: ' + (err.message || '不明なエラー'), 'error');
+    } else {
+      showToast('署名がキャンセルされました。', 'warn');
+    }
+  }
+}
+
+async function getATA(wallet, mint) {
+  // Derive associated token account address
+  const TOKEN_PROGRAM_ID = new solanaWeb3.PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
+  const ASSOCIATED_TOKEN_PROGRAM_ID = new solanaWeb3.PublicKey('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJe1bR');
+
+  const [ata] = await solanaWeb3.PublicKey.findProgramAddress(
+    [wallet.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), mint.toBuffer()],
+    ASSOCIATED_TOKEN_PROGRAM_ID
+  );
+  return ata;
+}
+
+function buildSplTransferInstruction(fromATA, toATA, authority, amount) {
+  const TOKEN_PROGRAM_ID = new solanaWeb3.PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
+  // SPL Token transfer instruction layout: [3 (instr), amount u64 LE]
+  const data = Buffer.alloc(9);
+  data.writeUInt8(3, 0); // Transfer instruction
+  data.writeBigUInt64LE(amount, 1);
+
+  return new solanaWeb3.TransactionInstruction({
+    programId: TOKEN_PROGRAM_ID,
+    keys: [
+      { pubkey: fromATA,   isSigner: false, isWritable: true },
+      { pubkey: toATA,     isSigner: false, isWritable: true },
+      { pubkey: authority, isSigner: true,  isWritable: false },
+    ],
+    data,
+  });
+}
+
+function setTxStatus(msg, sub) {
+  document.getElementById('tx-status-msg').textContent = msg;
+  document.getElementById('tx-status-sub').textContent = sub;
+}
+
+async function simulateDemoPayment() {
+  setTxStatus('署名してください...', 'デモモード: 自動で処理します');
+  await sleep(1200);
+  setTxStatus('送信中...', 'デモトランザクションを構築中');
+  await sleep(1500);
+  setTxStatus('確認中...', 'ブロックチェーンに記録中');
+  await sleep(1800);
+  const fakeTxid = Array.from({length:88}, () => '23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz'[Math.floor(Math.random()*58)]).join('');
+  gtag('event','crypto_payment_sent', { txid: fakeTxid, amount: state.usdcAmount, demo: true });
+  showSuccess(fakeTxid);
+}
+
+function showSuccess(txid) {
+  updateSteps(4);
+  document.getElementById('txid-display').textContent = txid;
+  const explorerUrl = 'https://explorer.solana.com/tx/' + txid + (state.isDemo ? '?cluster=devnet' : '');
+  const explorerLink = document.getElementById('explorer-link');
+  explorerLink.href = explorerUrl;
+
+  const p = PROPERTIES[state.property] || PROPERTIES['tapkop'];
+  const redirectUrl = `/status.html?step=2&property=${state.property}&payment=crypto&txid=${txid}`;
+  document.querySelector('#sec4 .btn-gold').href = redirectUrl;
+  document.querySelector('#sec4 .btn-gold').onclick = () => { location.href = redirectUrl; return false; };
+
+  showSection('sec4');
+}
+
+// ═══════════════════════════════════════════════════
+// QR code (canvas-based, no external lib)
+// ═══════════════════════════════════════════════════
+function generateQR(addr) {
+  // Simple visual placeholder — real apps would use qrcode.js
+  // For now, draw a decorative pattern indicating QR concept
+  const canvas = document.getElementById('qr-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, 100, 100);
+
+  // Draw minimal QR-like pattern
+  ctx.fillStyle = '#000000';
+  // Corner squares
+  [[4,4],[68,4],[4,68]].forEach(([x,y]) => {
+    ctx.fillRect(x, y, 28, 28);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(x+4, y+4, 20, 20);
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(x+8, y+8, 12, 12);
+  });
+  // Data pattern (seeded from addr)
+  let seed = 0;
+  for (let i = 0; i < addr.length; i++) seed = (seed * 31 + addr.charCodeAt(i)) % 1000;
+  const rand = (n) => { seed = (seed * 1664525 + 1013904223) % 4294967296; return (seed / 4294967296) < n; };
+  for (let row = 0; row < 10; row++) {
+    for (let col = 0; col < 10; col++) {
+      if ((row < 4 && col < 4) || (row < 4 && col > 6) || (row > 6 && col < 4)) continue;
+      if (rand(0.5)) { ctx.fillStyle = '#000'; ctx.fillRect(4 + col*9.2, 4 + row*9.2, 7, 7); }
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// Utils
+// ═══════════════════════════════════════════════════
+function copyText(text, el) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = el.textContent;
+    el.textContent = '✓';
+    setTimeout(() => el.textContent = orig, 1500);
+  });
+}
+
+function copyWalletAddr() {
+  if (state.walletAddress) copyText(state.walletAddress, document.querySelector('.qr-box .btn-sm'));
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// Toast notification
+function showToast(msg, type = 'info') {
+  const el = document.createElement('div');
+  const colors = { error: '#ff3b30', warn: '#ff9f0a', info: '#c8a455' };
+  el.style.cssText = `
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+    background:#111;color:${colors[type] || colors.info};
+    border:1px solid ${colors[type] || colors.info};
+    padding:12px 20px;border-radius:100px;font-size:12px;
+    z-index:9999;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.5);
+    animation:fadeUp .3s ease;
+  `;
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 4000);
+}
+</script>
+<script defer="" src="/track.js"></script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building, 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Holding Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Units for Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Purchase with Crypto" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners Only" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+</body>
+</html>

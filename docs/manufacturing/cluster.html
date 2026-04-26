@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLUSTER — 建築確認不要 9.9m²×∞棟 ユニット加算型</title>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --char:#1a1612;--cream:#f5f0e8;--larch:#c4935a;--glass:#a8cce0;
+  --gold:#c8a455;--green:#4a9a5a;--bg:#0e0c0a;--surface:#fff;
+  --line:#2a2520;--text:#1a1a1a;--muted:#888;
+}
+body{background:#faf9f7;color:var(--text);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;line-height:1.7}
+
+/* Cover */
+.cover{min-height:100vh;background:var(--char);color:var(--cream);display:flex;flex-direction:column;justify-content:flex-end;padding:80px;position:relative;overflow:hidden}
+.hero-svg{position:absolute;inset:0;width:100%;height:100%}
+.cover-content{position:relative;z-index:2}
+.cover-badge{font-size:9px;letter-spacing:.35em;color:var(--gold);margin-bottom:20px;text-transform:uppercase}
+.cover-title{font-size:clamp(4rem,12vw,8rem);font-weight:900;line-height:.88;letter-spacing:-.04em;margin-bottom:20px}
+.cover-title span{display:block}
+.cover-title .sub{font-size:.22em;font-weight:400;letter-spacing:.12em;color:#888;margin-top:8px}
+.cover-line{height:1px;background:linear-gradient(90deg,var(--gold),transparent);margin:28px 0}
+.cover-specs{display:flex;gap:40px;flex-wrap:wrap}
+.cs label{font-size:8px;letter-spacing:.2em;color:#444;text-transform:uppercase;display:block;margin-bottom:4px}
+.cs span{font-size:22px;font-weight:800;color:#ccc}
+.cs small{font-size:9px;color:#555;display:block;margin-top:2px}
+
+/* Nav */
+.nav{background:#faf9f7;border-bottom:1px solid #e8e4dc;padding:13px 48px;display:flex;align-items:center;gap:24px;position:sticky;top:0;z-index:100;flex-wrap:wrap}
+.nav-logo{font-size:11px;font-weight:900;letter-spacing:.22em;color:var(--char);margin-right:8px}
+.nav a{font-size:11px;color:var(--muted);text-decoration:none;white-space:nowrap}
+.nav a:hover{color:var(--text)}
+.nav-right{margin-left:auto;display:flex;gap:10px}
+.btn-sm{font-size:10px;padding:6px 14px;border-radius:4px;cursor:pointer;font-weight:700;letter-spacing:.05em;text-decoration:none;border:none}
+.btn-dark{background:var(--char);color:#c8c0b0}
+.btn-outline{background:transparent;border:1px solid #e8e4dc;color:var(--muted)}
+
+/* Sections */
+.wrap{max-width:1060px;margin:0 auto;padding:64px 32px}
+.section{margin-bottom:88px}
+.sec-label{font-size:9px;letter-spacing:.3em;color:var(--muted);margin-bottom:8px;text-transform:uppercase}
+.sh{font-size:28px;font-weight:900;letter-spacing:-.02em;margin-bottom:6px}
+.diagram-wrap{border:1px solid #e8e4dc;border-radius:4px;overflow:hidden;background:white}
+.diagram-title{font-size:9px;letter-spacing:.15em;color:var(--muted);padding:10px 16px;background:#faf9f7;border-bottom:1px solid #e8e4dc;text-transform:uppercase}
+
+/* Legal box */
+.legal-box{background:var(--char);color:var(--cream);border-radius:4px;padding:40px;margin:32px 0}
+.legal-box h3{font-size:14px;font-weight:900;color:var(--gold);margin-bottom:16px;letter-spacing:.05em}
+.legal-box p{font-size:13px;line-height:1.9;color:#aaa}
+.legal-box ul{list-style:none;padding:0;margin:16px 0}
+.legal-box ul li{font-size:12px;color:#bbb;padding:4px 0 4px 16px;border-left:2px solid #3a3028;margin-bottom:6px;line-height:1.7}
+.legal-box ul li strong{color:var(--gold)}
+.legal-note{font-size:11px;color:#555;margin-top:16px;padding:12px 16px;border:1px solid #2a2520;border-radius:3px;line-height:1.8}
+.legal-note strong{color:#888}
+
+/* Unit grid */
+.unit-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:#e8e4dc;border:1px solid #e8e4dc;border-radius:4px;overflow:hidden;margin:32px 0}
+.unit-card{background:#faf9f7;padding:24px 20px;text-align:center}
+.unit-card:hover{background:#f0ece4}
+.unit-shape{margin:0 auto 16px;display:block}
+.unit-name{font-size:10px;font-weight:900;letter-spacing:.2em;color:var(--char);text-transform:uppercase;margin-bottom:4px}
+.unit-jp{font-size:9px;color:var(--muted);letter-spacing:.12em;margin-bottom:12px}
+.unit-size{font-size:18px;font-weight:900;color:var(--gold);line-height:1;margin-bottom:2px}
+.unit-m2{font-size:8px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+.unit-use{font-size:10px;color:#555;line-height:1.6;margin-bottom:10px}
+.unit-feat{font-size:9px;color:#777;line-height:1.6;margin-bottom:10px}
+.unit-price{font-size:14px;font-weight:900;color:var(--char)}
+
+/* Package table */
+table{width:100%;border-collapse:collapse;font-size:12px}
+table th{background:#faf9f7;padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--muted);border-bottom:1px solid #e8e4dc}
+table td{padding:9px 12px;border-bottom:1px solid #e8e4dc}
+table tr:last-child td{border-bottom:none}
+
+/* Stat row */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#e8e4dc;border:1px solid #e8e4dc;border-radius:4px;overflow:hidden;margin:32px 0}
+.stat-cell{background:#faf9f7;padding:28px 20px;text-align:center}
+.stat-num{font-size:36px;font-weight:900;letter-spacing:-.03em;line-height:1;margin-bottom:4px}
+.stat-label{font-size:9px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.stat-sub{font-size:10px;color:#888;margin-top:4px}
+
+/* Highlight box */
+.hbox{background:var(--char);color:var(--cream);border-radius:4px;padding:40px;margin:32px 0}
+.hbox h3{font-size:20px;font-weight:900;color:var(--gold);margin-bottom:12px}
+.hbox p{font-size:13px;line-height:1.9;color:#aaa}
+
+/* Tags */
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.tag{font-size:9px;letter-spacing:.15em;padding:4px 10px;border-radius:20px;font-weight:700;text-transform:uppercase}
+.tag-gold{background:#2a2108;color:var(--gold);border:1px solid #3a3010}
+.tag-green{background:#0e1f12;color:#4a9a5a;border:1px solid #1a3020}
+.tag-blue{background:#0e1620;color:#5b8fd4;border:1px solid #1a2840}
+
+/* Myco panel grid */
+.panel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin:32px 0}
+.panel-card{border:1px solid #e8e4dc;border-radius:4px;overflow:hidden;background:white}
+.panel-card img{width:100%;height:100px;object-fit:cover;display:block;background:#f0ece4}
+.panel-info{padding:12px}
+.panel-shape-name{font-size:9px;font-weight:900;letter-spacing:.15em;color:var(--char);text-transform:uppercase;margin-bottom:4px}
+.panel-spec{font-size:9px;color:var(--muted);line-height:1.6}
+.panel-method{font-size:10px;color:#555;margin-top:6px;line-height:1.6}
+
+/* Timeline */
+.timeline{position:relative;margin:40px 0;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:12px;top:16px;bottom:16px;width:2px;background:linear-gradient(180deg,var(--gold),var(--green))}
+.tl-item{position:relative;margin-bottom:32px}
+.tl-dot{position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--char);border:2px solid var(--gold)}
+.tl-year{font-size:9px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px}
+.tl-title{font-size:14px;font-weight:800;margin-bottom:4px}
+.tl-desc{font-size:12px;color:#666;line-height:1.7}
+
+/* Roadmap schedule */
+.schedule-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:#e8e4dc;border:1px solid #e8e4dc;border-radius:4px;overflow:hidden;margin:32px 0}
+.sched-cell{background:#faf9f7;padding:20px 16px;text-align:center}
+.sched-month{font-size:10px;font-weight:900;letter-spacing:.15em;color:var(--gold);margin-bottom:8px}
+.sched-items{font-size:10px;color:#555;line-height:1.8;text-align:left}
+.sched-items li{list-style:none;padding-left:10px;position:relative}
+.sched-items li::before{content:'·';position:absolute;left:0;color:var(--gold)}
+
+/* Photo placeholder */
+.img-placeholder{width:100%;background:#f0ece4;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:10px;letter-spacing:.1em}
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <!-- Cover SVG: organic cluster of units in night landscape -->
+  <svg class="hero-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#050403"/>
+        <stop offset="100%" stop-color="#161210"/>
+      </linearGradient>
+      <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#181c12"/>
+        <stop offset="100%" stop-color="#0a0c08"/>
+      </linearGradient>
+      <radialGradient id="unit-glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#c8a455" stop-opacity=".18"/>
+        <stop offset="100%" stop-color="#c8a455" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="glow"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="softglow"><feGaussianBlur stdDeviation="14" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+
+    <!-- Sky -->
+    <rect width="1440" height="900" fill="url(#sky)"/>
+
+    <!-- Stars -->
+    <g opacity=".7">
+      <circle cx="100" cy="60" r="1.2" fill="white"/><circle cx="260" cy="40" r=".8" fill="white"/>
+      <circle cx="420" cy="100" r="1" fill="white"/><circle cx="600" cy="30" r="1.3" fill="white"/>
+      <circle cx="820" cy="80" r=".9" fill="white"/><circle cx="1050" cy="50" r="1.1" fill="white"/>
+      <circle cx="1280" cy="90" r=".8" fill="white"/><circle cx="160" cy="150" r=".7" fill="white"/>
+      <circle cx="380" cy="170" r="1" fill="white"/><circle cx="700" cy="130" r=".8" fill="white"/>
+      <circle cx="960" cy="180" r=".7" fill="white"/><circle cx="1180" cy="120" r="1.2" fill="white"/>
+      <circle cx="1380" cy="160" r=".9" fill="white"/><circle cx="50" cy="200" r=".6" fill="white"/>
+      <circle cx="490" cy="220" r=".8" fill="white"/><circle cx="740" cy="200" r="1" fill="white"/>
+      <circle cx="1100" cy="240" r=".7" fill="white"/><circle cx="1340" cy="210" r=".9" fill="white"/>
+    </g>
+
+    <!-- Moon -->
+    <circle cx="1300" cy="90" r="30" fill="#ddd8c8" opacity=".88"/>
+    <circle cx="1314" cy="83" r="26" fill="#0e0c0a"/>
+
+    <!-- Forest silhouette -->
+    <path d="M0,450 Q60,390 100,415 Q140,360 180,395 Q230,330 280,375 Q340,300 400,355 Q460,275 530,330 Q590,265 660,310 Q730,250 800,295 Q870,235 950,280 Q1010,225 1080,265 Q1140,215 1210,255 Q1270,210 1340,245 Q1390,220 1440,240 L1440,520 L0,520Z" fill="#0c0e09" opacity=".95"/>
+
+    <!-- Ground -->
+    <rect x="0" y="500" width="1440" height="400" fill="url(#ground)"/>
+
+    <!-- Ground snow texture -->
+    <path d="M0,530 Q250,510 500,525 Q750,540 1000,518 Q1200,505 1440,520 L1440,560 L0,560Z" fill="#1c1e16" opacity=".8"/>
+
+    <!-- Deck (organic curved, warm larch) -->
+    <path d="M440,520 Q520,510 620,515 Q720,520 800,510 Q870,505 920,518 Q870,545 780,548 Q680,552 580,548 Q500,545 440,540Z" fill="#5a3e28" opacity=".85"/>
+    <!-- Deck planks -->
+    <g stroke="#4a3018" stroke-width=".5" opacity=".35">
+      <path d="M450,524 Q620,520 900,522"/>
+      <path d="M452,528 Q620,524 898,526"/>
+      <path d="M454,532 Q620,528 896,530"/>
+      <path d="M456,536 Q620,532 894,534"/>
+      <path d="M458,540 Q620,536 892,538"/>
+      <path d="M460,544 Q620,540 890,542"/>
+    </g>
+
+    <!-- ══ UNIT 1: SEED (hexagonal, center-left) ══ -->
+    <!-- Screw piles -->
+    <g fill="#2a2520" stroke="#3a3028" stroke-width=".8">
+      <rect x="610" y="485" width="6" height="60"/><rect x="640" y="488" width="6" height="57"/>
+      <rect x="596" y="488" width="6" height="57"/>
+    </g>
+    <!-- Hex body -->
+    <polygon points="616,350 660,326 704,350 704,398 660,422 616,398" fill="#1e1c18" stroke="#2a2820" stroke-width="1.5"/>
+    <!-- Glass face (east) -->
+    <polygon points="704,350 704,398 680,422 660,422" fill="#a8cce0" opacity=".6"/>
+    <!-- Interior glow -->
+    <polygon points="620,354 660,332 698,354 698,394 660,416 620,394" fill="#c8a455" opacity=".06"/>
+    <!-- Window light -->
+    <polygon points="704,350 704,398 680,422 660,422" fill="#c8a455" opacity=".08"/>
+    <!-- Roof (hex flat top) -->
+    <polygon points="612,347 660,322 708,347 708,352 660,327 612,352" fill="#141210" stroke="#1e1c18" stroke-width="1"/>
+    <!-- SEED label -->
+    <text x="660" y="378" text-anchor="middle" font-size="8" fill="#c8a455" font-weight="700" opacity=".8">SEED</text>
+    <ellipse cx="660" cy="490" rx="80" ry="10" fill="url(#unit-glow)"/>
+
+    <!-- ══ UNIT 2: EGG (ellipse, north-east of SEED) ══ -->
+    <g fill="#2a2520" stroke="#3a3028" stroke-width=".8">
+      <rect x="795" y="490" width="5" height="50"/><rect x="820" y="492" width="5" height="48"/>
+    </g>
+    <!-- Egg oval body -->
+    <ellipse cx="810" cy="420" rx="55" ry="74" fill="#1c1a16" stroke="#2a2820" stroke-width="1.5"/>
+    <!-- Roof light (ellipse top) -->
+    <ellipse cx="810" cy="348" rx="30" ry="12" fill="#5b8fd4" opacity=".35"/>
+    <ellipse cx="810" cy="348" rx="24" ry="8" fill="#a8cce0" opacity=".5"/>
+    <!-- Interior warm -->
+    <ellipse cx="810" cy="430" rx="42" ry="60" fill="#c8a455" opacity=".04"/>
+    <!-- EGG label -->
+    <text x="810" y="428" text-anchor="middle" font-size="8" fill="#c8a455" font-weight="700" opacity=".8">EGG</text>
+    <ellipse cx="810" cy="490" rx="64" ry="8" fill="url(#unit-glow)"/>
+
+    <!-- ══ UNIT 3: TOWER (circle, south-east) ══ -->
+    <g fill="#2a2520" stroke="#3a3028" stroke-width=".8">
+      <rect x="862" y="510" width="5" height="40"/><rect x="900" y="512" width="5" height="38"/>
+    </g>
+    <!-- Tower cylinder -->
+    <ellipse cx="880" cy="470" rx="44" ry="14" fill="#2a2520" stroke="#3a3028" stroke-width="1"/>
+    <rect x="836" y="350" width="88" height="120" rx="44" fill="#1a1816" stroke="#2a2820" stroke-width="1.5"/>
+    <!-- Stone texture lines -->
+    <g stroke="#252220" stroke-width=".6" opacity=".6">
+      <path d="M836,380 Q880,376 924,380"/><path d="M836,400 Q880,396 924,400"/>
+      <path d="M836,420 Q880,416 924,420"/><path d="M836,440 Q880,436 924,440"/>
+    </g>
+    <!-- Tower top window -->
+    <ellipse cx="880" cy="352" rx="30" ry="10" fill="#5b8fd4" opacity=".3"/>
+    <ellipse cx="880" cy="352" rx="22" ry="7" fill="#a8cce0" opacity=".45"/>
+    <!-- Chimney -->
+    <rect x="872" y="308" width="10" height="44" fill="#1a1816"/>
+    <path d="M877,302 Q871,278 882,264 Q890,248 878,236" fill="none" stroke="#3a3830" stroke-width="3" opacity=".5"/>
+    <!-- Sauna glow orange -->
+    <rect x="842" y="420" width="18" height="14" fill="#c0392b" opacity=".55"/>
+    <ellipse cx="880" cy="480" rx="52" ry="8" fill="#c0392b" opacity=".06" filter="url(#softglow)"/>
+    <text x="880" y="415" text-anchor="middle" font-size="8" fill="#c8a455" font-weight="700" opacity=".8">TOWER</text>
+
+    <!-- ══ UNIT 4: WING (triangle, west of SEED) ══ -->
+    <g fill="#2a2520" stroke="#3a3028" stroke-width=".8">
+      <rect x="488" y="492" width="5" height="50"/><rect x="510" y="494" width="5" height="48"/>
+    </g>
+    <!-- Triangle body -->
+    <polygon points="490,480 540,330 590,480" fill="#1c1a16" stroke="#2a2820" stroke-width="1.5"/>
+    <!-- Triangle interior light -->
+    <polygon points="496,474 540,346 584,474" fill="#c8a455" opacity=".04"/>
+    <!-- Kitchen window slit -->
+    <line x1="520" y1="420" x2="560" y2="420" stroke="#a8cce0" stroke-width="3" opacity=".5"/>
+    <text x="540" y="455" text-anchor="middle" font-size="8" fill="#c8a455" font-weight="700" opacity=".8">WING</text>
+    <ellipse cx="540" cy="488" rx="56" ry="8" fill="url(#unit-glow)"/>
+
+    <!-- ══ UNIT 5: SHELL (spiral, north-west) ══ -->
+    <g fill="#2a2520" stroke="#3a3028" stroke-width=".8">
+      <rect x="705" y="478" width="5" height="58"/><rect x="730" y="480" width="5" height="56"/>
+    </g>
+    <!-- Shell spiral shape (approximated with nested arcs) -->
+    <path d="M718,468 Q700,420 718,380 Q736,340 770,336 Q804,332 820,356 Q836,380 820,410 Q804,440 770,448 Q750,452 735,440 Q720,428 724,412 Q728,398 742,394 Q756,390 762,400 Q768,410 760,418 Q752,426 742,422" fill="none" stroke="#3a3028" stroke-width="16" stroke-linecap="round"/>
+    <path d="M718,468 Q700,420 718,380 Q736,340 770,336 Q804,332 820,356 Q836,380 820,410 Q804,440 770,448 Q750,452 735,440 Q720,428 724,412 Q728,398 742,394 Q756,390 762,400 Q768,410 760,418 Q752,426 742,422" fill="none" stroke="#1c1a16" stroke-width="13" stroke-linecap="round"/>
+    <!-- Shell light slits -->
+    <line x1="720" y1="400" x2="735" y2="395" stroke="#a8cce0" stroke-width="2.5" opacity=".45"/>
+    <line x1="740" y1="358" x2="758" y2="352" stroke="#a8cce0" stroke-width="2" opacity=".35"/>
+    <text x="755" y="420" text-anchor="middle" font-size="8" fill="#c8a455" font-weight="700" opacity=".8">SHELL</text>
+    <ellipse cx="740" cy="475" rx="60" ry="8" fill="url(#unit-glow)"/>
+
+    <!-- Approach path from south -->
+    <path d="M660,900 Q650,720 640,580 Q635,560 630,548" fill="none" stroke="#2a2820" stroke-width="18" opacity=".5"/>
+    <path d="M660,900 Q650,720 640,580 Q635,560 630,548" fill="none" stroke="#1a1a14" stroke-width="14" opacity=".7"/>
+
+    <!-- Overall glow on snow -->
+    <ellipse cx="690" cy="510" rx="340" ry="25" fill="#c8a455" opacity=".03" filter="url(#softglow)"/>
+  </svg>
+
+  <div class="cover-content">
+    <div class="cover-badge">SOLUNA VILLAGE — KUMANOKI CLUSTER / 美留和</div>
+    <h1 class="cover-title">
+      <span>CLUS</span>
+      <span>TER</span>
+      <span class="sub">建築確認不要 / 9.9m²×∞棟 / ユニット加算型</span>
+    </h1>
+    <div class="cover-line"></div>
+    <div class="cover-specs">
+      <div class="cs"><label>確認不要</label><span>9.9m²</span><small>都市計画区域外 + 10m²以下</small></div>
+      <div class="cs"><label>ユニット形状</label><span>5種</span><small>SEED / EGG / TOWER / WING / SHELL</small></div>
+      <div class="cs"><label>基礎</label><span>螺旋</span><small>スクリューパイル / 1日施工</small></div>
+      <div class="cs"><label>構造体</label><span>菌糸体</span><small>有機形状成形 / 各棟独立</small></div>
+      <div class="cs"><label>FULLパッケージ</label><span>¥595万</span><small>5棟 + デッキ60m² = 106m²相当</small></div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <span class="nav-logo">CLUSTER</span>
+  <a href="#legal">法的根拠</a>
+  <a href="#units">ユニット一覧</a>
+  <a href="#layout">配置図</a>
+  <a href="#packages">パッケージ</a>
+  <a href="#growth">加算フロー</a>
+  <a href="#myco">菌糸体成形</a>
+  <a href="#roadmap">ロードマップ</a>
+  <div class="nav-right">
+    <a href="/manufacturing/kumanoki.html" class="btn-sm btn-outline">KUMANOKI</a>
+    <a href="/manufacturing/mycelium-lab.html" class="btn-sm btn-outline">菌糸体Lab</a>
+    <button class="btn-sm btn-dark" onclick="window.print()">印刷</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ══ SECTION 01: 法的根拠 ══ -->
+<div class="section" id="legal">
+  <div class="sec-label">SECTION 01</div>
+  <h2 class="sh">なぜ建築確認が不要か</h2>
+  <p style="color:var(--muted);max-width:640px;margin-bottom:32px;font-size:14px;line-height:1.9">
+    CLUSTERは3つの法的根拠を組み合わせることで、建築確認申請なしに有機形状ユニット群を実現する。各ユニットが独立した構造体として成立し、デッキで接続することで実質無制限の居住空間を生み出す。
+  </p>
+
+  <div class="legal-box">
+    <h3>建築基準法 第6条 — 確認申請の要否</h3>
+    <ul>
+      <li><strong>都市計画区域外 + 床面積10m²以下</strong> → 建築確認申請不要（法第6条第2項）</li>
+      <li><strong>弟子屈・美留和地区 = 都市計画区域外（非線引き区域）</strong> → 第1要件を満たす</li>
+      <li><strong>スクリューパイル基礎 = 地盤に定着しない</strong> → 仮設的扱い可能（建告第1347号）</li>
+      <li><strong>各ユニット独立 = 「増築」でなく「別棟」</strong> → 各棟単独で10m²判定（合算なし）</li>
+    </ul>
+
+    <h3 style="margin-top:28px">実質的上限なし — 面積の積み上げ</h3>
+    <ul>
+      <li><strong>ユニット1棟:</strong> 9.9m²（確認不要）</li>
+      <li><strong>ユニット5棟:</strong> 49.5m²（各棟独立で判定）</li>
+      <li><strong>デッキ（屋根なし）:</strong> 「建築物」に該当しない → 面積に算入せず</li>
+      <li><strong>5棟 + デッキ60m²:</strong> 実質 <strong>約110m²</strong> の生活空間</li>
+    </ul>
+
+    <div class="legal-note">
+      <strong>注意事項:</strong> 確認申請は不要でも、建築基準法の技術基準（採光・換気・構造強度）は適用されます。また、農地転用・農振法の手続きは別途必要な場合があります。スクリューパイルの仮設的扱いは施工方法によって異なるため、施工前に専門家への確認を推奨します。本ページの内容は一般的な解釈に基づくものです。
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-cell">
+      <div class="stat-num" style="color:var(--gold)">9.9m²</div>
+      <div class="stat-label">1棟の上限（以下）</div>
+      <div class="stat-sub">建基法 第6条 第2項</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" style="color:var(--green)">無制限</div>
+      <div class="stat-label">棟数の上限</div>
+      <div class="stat-sub">各棟独立 → 別棟扱い</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" style="color:#5b8fd4">0</div>
+      <div class="stat-label">凍上リスク</div>
+      <div class="stat-sub">スクリューパイル L=2,200mm</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" style="color:#a060c0">1日</div>
+      <div class="stat-label">基礎施工期間</div>
+      <div class="stat-sub">1棟あたり / 移設可能</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 02: 5ユニット形状一覧 ══ -->
+<div class="section" id="units">
+  <div class="sec-label">SECTION 02</div>
+  <h2 class="sh">5ユニット形状一覧 — 全て9.9m²以下</h2>
+  <p style="color:var(--muted);max-width:640px;margin-bottom:32px;font-size:13px;line-height:1.9">
+    それぞれが異なる有機形状を持ち、菌糸体成形で製造される独立構造体。用途に合わせて選択し、デッキで接続することで有機的なクラスターを形成する。
+  </p>
+
+  <div class="unit-grid">
+    <!-- SEED -->
+    <div class="unit-card">
+      <svg class="unit-shape" width="90" height="90" viewBox="0 0 90 90">
+        <polygon points="45,8 78,26.5 78,63.5 45,82 12,63.5 12,26.5" fill="#1a1612" stroke="#c8a455" stroke-width="2"/>
+        <polygon points="78,26.5 78,63.5 62,82 45,82" fill="#a8cce0" opacity=".6"/>
+        <polygon points="17,29 45,13 73,29 73,61 45,77 17,61" fill="#c8a455" opacity=".06"/>
+        <text x="45" y="49" text-anchor="middle" font-size="8" fill="#c8a455" font-weight="700">SEED</text>
+      </svg>
+      <div class="unit-name">SEED</div>
+      <div class="unit-jp">種 — 六角形</div>
+      <div class="unit-size">9.4</div>
+      <div class="unit-m2">m² / 対角3.4m</div>
+      <div class="unit-use">リビング・メイン棟</div>
+      <div class="unit-feat">蜂の巣型 × 1面全面ガラス × 菌糸体六角パネル</div>
+      <div class="unit-price">¥120万</div>
+    </div>
+    <!-- EGG -->
+    <div class="unit-card">
+      <svg class="unit-shape" width="90" height="90" viewBox="0 0 90 90">
+        <ellipse cx="45" cy="52" rx="28" ry="38" fill="#1a1612" stroke="#c8a455" stroke-width="2"/>
+        <ellipse cx="45" cy="14" rx="16" ry="7" fill="#5b8fd4" opacity=".45"/>
+        <ellipse cx="45" cy="14" rx="11" ry="4" fill="#a8cce0" opacity=".6"/>
+        <ellipse cx="45" cy="58" rx="22" ry="30" fill="#c8a455" opacity=".05"/>
+        <text x="45" y="57" text-anchor="middle" font-size="8" fill="#c8a455" font-weight="700">EGG</text>
+      </svg>
+      <div class="unit-name">EGG</div>
+      <div class="unit-jp">卵 — 楕円形</div>
+      <div class="unit-size">7.8</div>
+      <div class="unit-m2">m² / 3.8m×2.6m</div>
+      <div class="unit-use">寝室・瞑想室</div>
+      <div class="unit-feat">卵形 × ルーフライト × 曲面菌糸体パネル</div>
+      <div class="unit-price">¥95万</div>
+    </div>
+    <!-- TOWER -->
+    <div class="unit-card">
+      <svg class="unit-shape" width="90" height="90" viewBox="0 0 90 90">
+        <ellipse cx="45" cy="78" rx="30" ry="10" fill="#2a2520"/>
+        <rect x="15" y="20" width="60" height="58" rx="30" fill="#1a1612" stroke="#c8a455" stroke-width="2"/>
+        <g stroke="#2a2520" stroke-width=".8" opacity=".7">
+          <path d="M16,38 Q45,35 74,38"/><path d="M15,50 Q45,47 75,50"/>
+          <path d="M15,62 Q45,59 75,62"/>
+        </g>
+        <ellipse cx="45" cy="22" rx="18" ry="6" fill="#5b8fd4" opacity=".35"/>
+        <rect x="36" y="5" width="8" height="18" fill="#1a1816"/>
+        <text x="45" y="55" text-anchor="middle" font-size="7" fill="#c8a455" font-weight="700">TOWER</text>
+      </svg>
+      <div class="unit-name">TOWER</div>
+      <div class="unit-jp">塔 — 円形</div>
+      <div class="unit-size">9.6</div>
+      <div class="unit-m2">m² / 直径3.5m / 高さ4.5m</div>
+      <div class="unit-use">サウナ × 2層構造</div>
+      <div class="unit-feat">石積み風外壁 × 天窓 × 薪kiuas</div>
+      <div class="unit-price">¥150万</div>
+    </div>
+    <!-- WING -->
+    <div class="unit-card">
+      <svg class="unit-shape" width="90" height="90" viewBox="0 0 90 90">
+        <polygon points="45,5 80,85 10,85" fill="#1a1612" stroke="#c8a455" stroke-width="2"/>
+        <polygon points="45,5 80,85 65,85" fill="#c8a455" opacity=".08"/>
+        <line x1="38" y1="55" x2="52" y2="55" stroke="#a8cce0" stroke-width="2.5" opacity=".5"/>
+        <circle cx="45" cy="85" r="5" fill="#c8a455" opacity=".5"/>
+        <text x="45" y="72" text-anchor="middle" font-size="7" fill="#c8a455" font-weight="700">WING</text>
+      </svg>
+      <div class="unit-name">WING</div>
+      <div class="unit-jp">翼 — 三角形</div>
+      <div class="unit-size">9.45</div>
+      <div class="unit-m2">m² / 底辺4.2m × 高さ4.5m</div>
+      <div class="unit-use">キッチン・水回り・倉庫</div>
+      <div class="unit-feat">鋭角三角形 × 頂点がデッキ接続口</div>
+      <div class="unit-price">¥80万</div>
+    </div>
+    <!-- SHELL -->
+    <div class="unit-card">
+      <svg class="unit-shape" width="90" height="90" viewBox="0 0 90 90">
+        <path d="M45,75 Q20,60 18,42 Q16,24 30,16 Q44,8 56,16 Q68,24 66,38 Q64,52 52,56 Q42,60 36,52 Q30,44 34,36 Q38,28 45,30 Q52,32 50,38 Q48,44 43,43" fill="none" stroke="#1a1612" stroke-width="12" stroke-linecap="round"/>
+        <path d="M45,75 Q20,60 18,42 Q16,24 30,16 Q44,8 56,16 Q68,24 66,38 Q64,52 52,56 Q42,60 36,52 Q30,44 34,36 Q38,28 45,30 Q52,32 50,38 Q48,44 43,43" fill="none" stroke="#2a2820" stroke-width="8" stroke-linecap="round"/>
+        <path d="M45,75 Q20,60 18,42 Q16,24 30,16 Q44,8 56,16 Q68,24 66,38 Q64,52 52,56 Q42,60 36,52 Q30,44 34,36 Q38,28 45,30 Q52,32 50,38 Q48,44 43,43" fill="none" stroke="#c8a455" stroke-width="1.2" stroke-linecap="round" opacity=".5"/>
+        <line x1="22" y1="42" x2="28" y2="38" stroke="#a8cce0" stroke-width="2" opacity=".4"/>
+        <line x1="32" y1="18" x2="38" y2="15" stroke="#a8cce0" stroke-width="1.5" opacity=".35"/>
+        <text x="62" y="60" text-anchor="middle" font-size="7" fill="#c8a455" font-weight="700">SHELL</text>
+      </svg>
+      <div class="unit-name">SHELL</div>
+      <div class="unit-jp">貝 — 螺旋形</div>
+      <div class="unit-size">9.2</div>
+      <div class="unit-m2">m² / 外接円直径3.5m</div>
+      <div class="unit-use">ワーク・アトリエ・読書</div>
+      <div class="unit-feat">巻き貝断面形 × 採光スリット × 最も有機的</div>
+      <div class="unit-price">¥130万</div>
+    </div>
+  </div>
+
+  <div class="hbox">
+    <h3>有機形状がもたらすもの</h3>
+    <p>直方体のキャビンと違い、有機形状は「生き物が作った巣」のような佇まいを持つ。菌糸体成形の特性（型に従いながら生長する）は有機的な曲面と相性が抜群。標準的な木造在来工法では難しい形状が、菌糸体パネルなら比較的低コストで実現できる。各ユニットが独立した個性を持ちながら、デッキで接続することで統一感のあるクラスターを形成する。</p>
+    <div class="tags">
+      <span class="tag tag-gold">木造在来工法では実現困難な形状</span>
+      <span class="tag tag-green">菌糸体成形で低コスト実現</span>
+      <span class="tag tag-blue">各棟9.9m²以下で建確不要</span>
+      <span class="tag tag-gold">段階的にユニット追加可能</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 03: 配置図SVG ══ -->
+<div class="section" id="layout">
+  <div class="sec-label">SECTION 03</div>
+  <h2 class="sh">配置図 — 15m × 20m 敷地内クラスター</h2>
+  <p style="color:var(--muted);max-width:640px;margin-bottom:24px;font-size:13px;line-height:1.9">
+    5ユニットが有機的な曲線デッキで接続された俯瞰図。SEEDを中心に各ユニットが個性的な形状で散在し、デッキが全体を一つのクラスターとして結ぶ。
+  </p>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title">クラスター配置図（俯瞰）— FULL 5棟 + デッキ60m²</div>
+    <svg viewBox="0 0 960 680" style="width:100%;display:block;font-family:inherit">
+      <defs>
+        <pattern id="grass" width="8" height="8" patternUnits="userSpaceOnUse">
+          <rect width="8" height="8" fill="#dde8d0"/>
+          <circle cx="2" cy="3" r=".6" fill="#c8d8b8" opacity=".5"/>
+          <circle cx="6" cy="7" r=".5" fill="#c8d8b8" opacity=".4"/>
+        </pattern>
+        <pattern id="deck-pat" width="6" height="6" patternUnits="userSpaceOnUse">
+          <rect width="6" height="6" fill="#e8d8b8"/>
+          <line x1="0" y1="3" x2="6" y2="3" stroke="#d8c8a8" stroke-width=".5"/>
+        </pattern>
+        <pattern id="shadow" width="4" height="4" patternUnits="userSpaceOnUse">
+          <rect width="4" height="4" fill="#c8d0b8" opacity=".6"/>
+        </pattern>
+      </defs>
+
+      <!-- Site boundary (15m×20m = 450×600px at 1:30) -->
+      <rect x="60" y="40" width="840" height="600" fill="url(#grass)" stroke="#b0c0a0" stroke-width="1.5" rx="4"/>
+      <!-- Site label -->
+      <text x="480" y="30" text-anchor="middle" font-size="10" fill="#888" letter-spacing=".15em">15m × 20m 敷地</text>
+
+      <!-- Approach path (south) -->
+      <path d="M480,640 Q470,600 460,570 Q452,555 448,542" fill="none" stroke="#c8b888" stroke-width="24" stroke-linecap="round" opacity=".7"/>
+      <path d="M480,640 Q470,600 460,570 Q452,555 448,542" fill="none" stroke="#d8c898" stroke-width="18" stroke-linecap="round" opacity=".6"/>
+      <text x="510" y="625" font-size="9" fill="#999" letter-spacing=".1em">アプローチ（南）</text>
+
+      <!-- Organic deck (connected all units) -->
+      <!-- Main deck blob -->
+      <path d="M320,400 Q340,360 380,350 Q420,342 460,348 Q500,354 530,365 Q560,376 580,395 Q600,414 598,440 Q596,466 575,480 Q554,494 520,498 Q486,502 450,496 Q414,490 385,478 Q356,466 336,448 Q316,430 320,400Z"
+            fill="url(#deck-pat)" stroke="#c4935a" stroke-width="1.5" opacity=".9"/>
+      <!-- Deck to TOWER spur -->
+      <path d="M580,395 Q620,380 650,375 Q680,370 705,380 Q720,388 725,402 Q718,416 700,420 Q680,424 655,415 Q630,406 608,400Z"
+            fill="url(#deck-pat)" stroke="#c4935a" stroke-width="1.2" opacity=".85"/>
+      <!-- Deck to SHELL spur -->
+      <path d="M385,350 Q370,330 362,310 Q358,295 368,284 Q380,274 396,278 Q412,282 418,298 Q424,314 416,330 Q408,346 392,352Z"
+            fill="url(#deck-pat)" stroke="#c4935a" stroke-width="1.2" opacity=".85"/>
+      <!-- Deck label -->
+      <text x="460" y="432" text-anchor="middle" font-size="9" fill="#9a7a50" font-weight="700">デッキ</text>
+      <text x="460" y="446" text-anchor="middle" font-size="8" fill="#b89a70">60m²（屋根なし）</text>
+
+      <!-- ══ SEED: center-left, hexagonal ══ -->
+      <!-- Shadow -->
+      <polygon points="420,332 457,311 493,332 493,374 457,395 420,374" fill="#b0b898" opacity=".3" transform="translate(4,4)"/>
+      <!-- Hex body -->
+      <polygon points="420,332 457,311 493,332 493,374 457,395 420,374" fill="#2a2520" stroke="#c8a455" stroke-width="2"/>
+      <!-- Glass face -->
+      <polygon points="493,332 493,374 475,395 457,395" fill="#a8cce0" opacity=".55"/>
+      <!-- Roof indication (top edge bold) -->
+      <polygon points="416,329 457,307 499,329 499,334 457,312 416,334" fill="#141210" stroke="#1e1c18" stroke-width="1"/>
+      <!-- Screw piles (dots) -->
+      <circle cx="428" cy="378" r="3" fill="#4a7a5a"/>
+      <circle cx="487" cy="378" r="3" fill="#4a7a5a"/>
+      <circle cx="457" cy="398" r="3" fill="#4a7a5a"/>
+      <!-- Label -->
+      <text x="457" y="358" text-anchor="middle" font-size="9" fill="#c8a455" font-weight="900">SEED</text>
+      <text x="457" y="370" text-anchor="middle" font-size="7" fill="#999">9.4m² / ¥120万</text>
+      <!-- Dimension callout -->
+      <line x1="416" y1="302" x2="499" y2="302" stroke="#888" stroke-width=".8"/>
+      <line x1="416" y1="298" x2="416" y2="306" stroke="#888" stroke-width=".8"/>
+      <line x1="499" y1="298" x2="499" y2="306" stroke="#888" stroke-width=".8"/>
+      <text x="457" y="297" text-anchor="middle" font-size="8" fill="#888">対角 3,400mm</text>
+
+      <!-- ══ EGG: north-east ══ -->
+      <ellipse cx="610" cy="296" rx="38" ry="52" fill="#b0b898" opacity=".3" transform="translate(4,4)"/>
+      <ellipse cx="610" cy="296" rx="38" ry="52" fill="#2a2520" stroke="#c8a455" stroke-width="2"/>
+      <!-- Roof light -->
+      <ellipse cx="610" cy="246" rx="20" ry="8" fill="#5b8fd4" opacity=".4"/>
+      <ellipse cx="610" cy="246" rx="14" ry="5" fill="#a8cce0" opacity=".55"/>
+      <!-- Piles -->
+      <circle cx="588" cy="344" r="3" fill="#4a7a5a"/>
+      <circle cx="632" cy="344" r="3" fill="#4a7a5a"/>
+      <text x="610" y="298" text-anchor="middle" font-size="9" fill="#c8a455" font-weight="900">EGG</text>
+      <text x="610" y="310" text-anchor="middle" font-size="7" fill="#999">7.8m² / ¥95万</text>
+      <line x1="650" y1="248" x2="650" y2="344" stroke="#888" stroke-width=".8"/>
+      <text x="660" y="300" font-size="8" fill="#888" transform="rotate(90,660,300)">3,800mm</text>
+
+      <!-- ══ TOWER: south-east ══ -->
+      <circle cx="710" cy="440" r="44" fill="#b0b898" opacity=".3" transform="translate(4,4)"/>
+      <circle cx="710" cy="440" r="44" fill="#2a2520" stroke="#c8a455" stroke-width="2"/>
+      <!-- Stone texture arc lines -->
+      <g stroke="#3a3028" stroke-width=".7" opacity=".6">
+        <path d="M670,425 Q710,420 750,425"/>
+        <path d="M666,440 Q710,435 754,440"/>
+        <path d="M668,455 Q710,450 752,455"/>
+      </g>
+      <!-- Top window -->
+      <circle cx="710" cy="440" r="16" fill="none" stroke="#5b8fd4" stroke-width="1.5" opacity=".4"/>
+      <!-- Chimney (vertical line at top) -->
+      <rect x="706" y="396" width="8" height="20" fill="#141210" stroke="#1e1c18" stroke-width=".8"/>
+      <!-- Sauna glow -->
+      <circle cx="670" cy="435" r="8" fill="#c0392b" opacity=".4"/>
+      <!-- Piles -->
+      <circle cx="682" cy="478" r="3" fill="#4a7a5a"/>
+      <circle cx="738" cy="478" r="3" fill="#4a7a5a"/>
+      <text x="710" y="444" text-anchor="middle" font-size="9" fill="#c8a455" font-weight="900">TOWER</text>
+      <text x="710" y="458" text-anchor="middle" font-size="7" fill="#999">9.6m² / ¥150万</text>
+      <line x1="666" y1="496" x2="754" y2="496" stroke="#888" stroke-width=".8"/>
+      <text x="710" y="510" text-anchor="middle" font-size="8" fill="#888">3,500mm</text>
+
+      <!-- ══ WING: west ══ -->
+      <polygon points="300,556 330,430 355,556" fill="#b0b898" opacity=".3" transform="translate(4,4)"/>
+      <polygon points="300,556 330,430 355,556" fill="#2a2520" stroke="#c8a455" stroke-width="2"/>
+      <!-- Kitchen slit window -->
+      <line x1="312" y1="510" x2="346" y2="510" stroke="#a8cce0" stroke-width="2.5" opacity=".5"/>
+      <!-- Piles -->
+      <circle cx="295" cy="560" r="3" fill="#4a7a5a"/>
+      <circle cx="358" cy="560" r="3" fill="#4a7a5a"/>
+      <text x="327" y="510" text-anchor="middle" font-size="9" fill="#c8a455" font-weight="900">WING</text>
+      <text x="327" y="524" text-anchor="middle" font-size="7" fill="#999">9.45m² / ¥80万</text>
+      <line x1="270" y1="430" x2="270" y2="556" stroke="#888" stroke-width=".8"/>
+      <text x="258" y="498" text-anchor="middle" font-size="8" fill="#888" transform="rotate(-90,258,498)">4,500mm</text>
+
+      <!-- ══ SHELL: north-west ══ -->
+      <path d="M370,280 Q348,252 350,222 Q352,192 374,178 Q396,164 416,172 Q436,180 440,202 Q444,224 428,240 Q412,256 396,252 Q382,248 380,234 Q378,220 388,214 Q398,208 405,216 Q412,224 406,230" fill="none" stroke="#b0b898" stroke-width="20" stroke-linecap="round" opacity=".3" transform="translate(4,4)"/>
+      <path d="M370,280 Q348,252 350,222 Q352,192 374,178 Q396,164 416,172 Q436,180 440,202 Q444,224 428,240 Q412,256 396,252 Q382,248 380,234 Q378,220 388,214 Q398,208 405,216 Q412,224 406,230" fill="none" stroke="#2a2520" stroke-width="20" stroke-linecap="round"/>
+      <path d="M370,280 Q348,252 350,222 Q352,192 374,178 Q396,164 416,172 Q436,180 440,202 Q444,224 428,240 Q412,256 396,252 Q382,248 380,234 Q378,220 388,214 Q398,208 405,216 Q412,224 406,230" fill="none" stroke="#c8a455" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+      <!-- Light slits -->
+      <line x1="352" y1="225" x2="360" y2="218" stroke="#a8cce0" stroke-width="2.5" opacity=".4"/>
+      <line x1="376" y1="178" x2="384" y2="172" stroke="#a8cce0" stroke-width="2" opacity=".35"/>
+      <!-- Piles -->
+      <circle cx="356" cy="278" r="3" fill="#4a7a5a"/>
+      <circle cx="382" cy="284" r="3" fill="#4a7a5a"/>
+      <text x="408" y="218" font-size="9" fill="#c8a455" font-weight="900">SHELL</text>
+      <text x="408" y="230" font-size="7" fill="#999">9.2m² / ¥130万</text>
+
+      <!-- North arrow -->
+      <g transform="translate(880,70)">
+        <circle cx="0" cy="0" r="22" fill="none" stroke="#888" stroke-width="1"/>
+        <path d="M0,-18 L5,8 L0,4 L-5,8Z" fill="#1a1612"/>
+        <path d="M0,18 L5,-8 L0,-4 L-5,-8Z" fill="#888"/>
+        <text x="0" y="-24" text-anchor="middle" font-size="9" fill="#888">N</text>
+      </g>
+
+      <!-- Scale bar -->
+      <g transform="translate(700,630)">
+        <line x1="0" y1="0" x2="150" y2="0" stroke="#888" stroke-width="1"/>
+        <line x1="0" y1="-4" x2="0" y2="4" stroke="#888" stroke-width="1"/>
+        <line x1="75" y1="-3" x2="75" y2="3" stroke="#888" stroke-width=".8"/>
+        <line x1="150" y1="-4" x2="150" y2="4" stroke="#888" stroke-width="1"/>
+        <text x="0" y="14" text-anchor="middle" font-size="8" fill="#888">0</text>
+        <text x="75" y="14" text-anchor="middle" font-size="8" fill="#888">2,500</text>
+        <text x="150" y="14" text-anchor="middle" font-size="8" fill="#888">5,000mm</text>
+      </g>
+
+      <!-- Legend -->
+      <g transform="translate(72,460)">
+        <rect x="0" y="0" width="190" height="165" rx="3" fill="white" stroke="#e8e4dc" stroke-width="1" opacity=".95"/>
+        <text x="95" y="18" text-anchor="middle" font-size="9" font-weight="700" fill="#333">凡例</text>
+        <!-- SEED -->
+        <polygon points="10,28 20,22 30,28 30,38 20,44 10,38" fill="#2a2520" stroke="#c8a455" stroke-width="1.2"/>
+        <text x="36" y="35" font-size="8" fill="#555">SEED — リビング 9.4m²</text>
+        <!-- EGG -->
+        <ellipse cx="20" cy="60" rx="10" ry="13" fill="#2a2520" stroke="#c8a455" stroke-width="1.2"/>
+        <text x="36" y="63" font-size="8" fill="#555">EGG — 寝室 7.8m²</text>
+        <!-- TOWER -->
+        <circle cx="20" cy="90" r="10" fill="#2a2520" stroke="#c8a455" stroke-width="1.2"/>
+        <text x="36" y="93" font-size="8" fill="#555">TOWER — サウナ 9.6m²</text>
+        <!-- WING -->
+        <polygon points="10,116 20,104 30,116" fill="#2a2520" stroke="#c8a455" stroke-width="1.2"/>
+        <text x="36" y="120" font-size="8" fill="#555">WING — 水回り 9.45m²</text>
+        <!-- SHELL -->
+        <path d="M20,143 Q12,135 13,128 Q14,122 19,120 Q24,118 27,122 Q30,126 27,130 Q24,134 20,133" fill="none" stroke="#c8a455" stroke-width="5" stroke-linecap="round"/>
+        <path d="M20,143 Q12,135 13,128 Q14,122 19,120 Q24,118 27,122 Q30,126 27,130 Q24,134 20,133" fill="none" stroke="#2a2520" stroke-width="3.5" stroke-linecap="round"/>
+        <text x="36" y="135" font-size="8" fill="#555">SHELL — ワーク 9.2m²</text>
+        <!-- Deck -->
+        <rect x="10" y="148" width="20" height="10" fill="url(#deck-pat)" stroke="#c4935a" stroke-width="1"/>
+        <text x="36" y="157" font-size="8" fill="#555">デッキ（面積算入なし）</text>
+      </g>
+
+      <!-- Site dimension annotation -->
+      <line x1="60" y1="28" x2="900" y2="28" stroke="#aaa" stroke-width=".8"/>
+      <line x1="60" y1="24" x2="60" y2="32" stroke="#aaa" stroke-width=".8"/>
+      <line x1="900" y1="24" x2="900" y2="32" stroke="#aaa" stroke-width=".8"/>
+      <text x="480" y="22" text-anchor="middle" font-size="9" fill="#aaa">15,000mm</text>
+      <line x1="44" y1="40" x2="44" y2="640" stroke="#aaa" stroke-width=".8"/>
+      <line x1="40" y1="40" x2="48" y2="40" stroke="#aaa" stroke-width=".8"/>
+      <line x1="40" y1="640" x2="48" y2="640" stroke="#aaa" stroke-width=".8"/>
+      <text x="30" y="340" text-anchor="middle" font-size="9" fill="#aaa" transform="rotate(-90,30,340)">20,000mm</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ══ SECTION 04: スタンダードパッケージ ══ -->
+<div class="section" id="packages">
+  <div class="sec-label">SECTION 04</div>
+  <h2 class="sh">スタンダードパッケージ</h2>
+  <p style="color:var(--muted);max-width:640px;margin-bottom:24px;font-size:13px;line-height:1.9">
+    よくある組み合わせをパッケージ化。一般的な木造住宅（70m²）の建設費は¥2,500〜4,000万。CLUSTERは1/5〜1/10の投資で同等以上の体験価値を実現する。
+  </p>
+
+  <table style="margin-bottom:16px">
+    <thead>
+      <tr>
+        <th>プラン</th>
+        <th>構成ユニット</th>
+        <th>居室面積</th>
+        <th>デッキ</th>
+        <th>生活面積合計</th>
+        <th>価格</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>STARTER</strong></td>
+        <td>SEED</td>
+        <td>9.4m²</td>
+        <td>20m²</td>
+        <td>29m²</td>
+        <td><strong>¥140万</strong></td>
+      </tr>
+      <tr>
+        <td><strong>STANDARD</strong></td>
+        <td>SEED + EGG + TOWER</td>
+        <td>26.8m²</td>
+        <td>40m²</td>
+        <td>67m²</td>
+        <td><strong>¥385万</strong></td>
+      </tr>
+      <tr style="background:#fdf8ee">
+        <td><strong>FULL</strong></td>
+        <td>全5ユニット</td>
+        <td>45.9m²</td>
+        <td>60m²</td>
+        <td>106m²</td>
+        <td><strong>¥595万</strong></td>
+      </tr>
+      <tr style="background:#f0faf0">
+        <td><strong style="color:var(--green)">オーナービルド割引</strong></td>
+        <td>全5ユニット（BUILD WEEKEND参加）</td>
+        <td>45.9m²</td>
+        <td>60m²</td>
+        <td>106m²</td>
+        <td><strong style="color:var(--green)">¥420万</strong></td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:11px;color:#888;margin-bottom:32px">※ デッキは屋根なし・建築物非該当のため建確面積に算入しない。オーナービルド割引はBUILD WEEKEND（現地での建設参加）が条件。</p>
+
+  <div class="hbox">
+    <h3>在来工法比 1/5〜1/10 のコスト</h3>
+    <p>一般的な木造住宅70m²の建設費（東北・北海道）は¥2,500万〜¥4,000万（坪単価¥120〜190万）。CLUSTERのFULLパッケージは¥595万で106m²相当の生活空間を実現。「建物」面積ではなく「体験できる空間」で比較すれば、コストパフォーマンスはさらに高い。菌糸体成形の型枠さえあれば、将来的にはDIY製造も可能。</p>
+    <div class="tags">
+      <span class="tag tag-gold">在来比 ¥2,500万→¥595万</span>
+      <span class="tag tag-green">デッキ込み106m²</span>
+      <span class="tag tag-blue">建築確認申請ゼロ</span>
+      <span class="tag tag-gold">段階的投資で初期コスト抑制</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 05: ユニット加算フロー ══ -->
+<div class="section" id="growth">
+  <div class="sec-label">SECTION 05</div>
+  <h2 class="sh">ユニット加算フロー — 投資を積み上げる</h2>
+  <p style="color:var(--muted);max-width:640px;margin-bottom:32px;font-size:13px;line-height:1.9">
+    一棟から始めて、収益を確認しながら段階的にユニットを追加する。各ユニットは独立した構造体のため、既存ユニットを稼働させながら新棟を建設できる。
+  </p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">YEAR 0 — 初期投資 ¥140万</div>
+      <div class="tl-title">SEED棟（リビング）建設 → 即入居・運用開始</div>
+      <div class="tl-desc">スクリューパイル施工（1日）+ SEED棟建て方（BUILD WEEKEND 2日）+ デッキ20m²。宿泊グレード: シンプルなワンルームキャビン。<br>
+      <strong>想定収益: ¥25,000/泊 × 20泊 = ¥50万/年（稼働率67%）</strong></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="border-color:var(--green)"></div>
+      <div class="tl-year" style="color:var(--green)">YEAR 1 — 追加投資 ¥115万（累計 ¥255万）</div>
+      <div class="tl-title">EGG棟（寝室）追加 → 宿泊グレードアップ</div>
+      <div class="tl-desc">リビングと寝室の分離により2名以上のグループ利用が増加。デッキを30m²に拡張。<br>
+      <strong>想定収益: ¥35,000/泊 × 22泊 = ¥77万/年（稼働率73%）</strong></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="border-color:#5b8fd4"></div>
+      <div class="tl-year" style="color:#5b8fd4">YEAR 2 — 追加投資 ¥170万（累計 ¥425万）</div>
+      <div class="tl-title">TOWER棟（サウナ）追加 → 稼働率・単価アップ</div>
+      <div class="tl-desc">薪サウナ付きキャビンに格上げ。Airbnb / じゃらんでの検索上位を狙えるカテゴリに参入。デッキを50m²に拡張して外気浴スペース確保。<br>
+      <strong>想定収益: ¥55,000/泊 × 28泊 = ¥154万/年（稼働率93%）</strong></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="border-color:#a060c0"></div>
+      <div class="tl-year" style="color:#a060c0">YEAR 3 — 追加投資 ¥210万（累計 ¥635万）</div>
+      <div class="tl-title">WING棟（水回り充実）+ SHELL棟（ワーク）追加</div>
+      <div class="tl-desc">独立したキッチン・ランドリー設備でロングステイ需要に対応。SHELL棟がワーケーション用途でリモートワーカー層を獲得。デッキを60m²（最終形）に。<br>
+      <strong>想定収益: ¥75,000/泊 × 30泊 = ¥225万/年（稼働率100%）</strong></div>
+    </div>
+  </div>
+
+  <table style="margin-top:16px">
+    <thead>
+      <tr><th>年</th><th>追加ユニット</th><th>累計投資</th><th>想定年収</th><th>累計収益（5年後）</th><th>ROI</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Year 0</td><td>SEED + デッキ20m²</td><td>¥140万</td><td>¥50万</td><td>—</td><td>—</td></tr>
+      <tr><td>Year 1</td><td>EGG追加</td><td>¥255万</td><td>¥77万</td><td>¥127万</td><td>50%</td></tr>
+      <tr><td>Year 2</td><td>TOWER追加</td><td>¥425万</td><td>¥154万</td><td>¥358万</td><td>84%</td></tr>
+      <tr style="background:#fdf8ee"><td>Year 3〜</td><td>WING + SHELL</td><td>¥635万</td><td>¥225万</td><td>¥812万（Year 5）</td><td><strong style="color:var(--green)">128%</strong></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:10px;color:#999;margin-top:8px">※ 収益は参考値。実際の稼働率・単価は季節・マーケティング・運営方法により変動。</p>
+</div>
+
+<!-- ══ SECTION 06: 菌糸体成形 × 有機形状 ══ -->
+<div class="section" id="myco">
+  <div class="sec-label">SECTION 06</div>
+  <h2 class="sh">菌糸体成形 × 有機形状パネル</h2>
+  <p style="color:var(--muted);max-width:640px;margin-bottom:24px;font-size:13px;line-height:1.9">
+    各ユニットの形状に合わせた専用型枠でパネルを成形する。CNC加工型枠に菌糸体基材（おが粉 + 霊芝種菌）を充填し、14日間で形状に沿って生長させる。
+  </p>
+
+  <div class="panel-grid">
+    <!-- SEED -->
+    <div class="panel-card">
+      <img src="../img/myco_render_organic_stool.jpg" alt="六角パネル" class="img-placeholder" style="height:100px">
+      <div class="panel-info">
+        <div class="panel-shape-name">SEED — 六角形</div>
+        <div class="panel-spec">六角プリズム型CNC型枠<br>一辺200mm / 深さ50mm</div>
+        <div class="panel-method">ハニカム配列で敷き詰め。3×3パネルで1面をカバー。最もシンプルな成形で量産性が高い。</div>
+      </div>
+    </div>
+    <!-- EGG -->
+    <div class="panel-card">
+      <img src="../img/myco_render_organic_table.jpg" alt="楕円曲面パネル" class="img-placeholder" style="height:100px">
+      <div class="panel-info">
+        <div class="panel-shape-name">EGG — 楕円曲面</div>
+        <div class="panel-spec">曲面CNC型枠<br>曲率半径1,300mm / 積層型</div>
+        <div class="panel-method">内外面で異なる曲率。外型枠は硬質ウレタン、内型枠は柔軟素材で成形。縦長の曲面パネルを積層。</div>
+      </div>
+    </div>
+    <!-- TOWER -->
+    <div class="panel-card">
+      <img src="../img/myco_render_organic_shelf.jpg" alt="円弧パネル" class="img-placeholder" style="height:100px">
+      <div class="panel-info">
+        <div class="panel-shape-name">TOWER — 円弧</div>
+        <div class="panel-spec">セクター型型枠<br>r=1,750mm / 30°刻み 12ピース/周</div>
+        <div class="panel-method">12枚のセクターパネルで1周を構成。石積みのように段違いに積層。各パネルの目地がテクスチャーとなる。</div>
+      </div>
+    </div>
+    <!-- WING -->
+    <div class="panel-card">
+      <img src="../img/myco_render_organic_lamp.jpg" alt="三角パネル" class="img-placeholder" style="height:100px">
+      <div class="panel-info">
+        <div class="panel-shape-name">WING — 三角形</div>
+        <div class="panel-spec">直角三角型枠<br>2種サイズ（大: 800×400mm / 小: 400×200mm）</div>
+        <div class="panel-method">斜面に沿った形状なのでパネルは矩形で対応可能。傾斜に合わせてカット。最も製造が容易。</div>
+      </div>
+    </div>
+    <!-- SHELL -->
+    <div class="panel-card">
+      <img src="../img/myco_render_organic_interior.jpg" alt="螺旋曲面パネル" class="img-placeholder" style="height:100px">
+      <div class="panel-info">
+        <div class="panel-shape-name">SHELL — 螺旋曲面</div>
+        <div class="panel-spec">可変角型枠<br>曲率が連続変化 / 試験製造中</div>
+        <div class="panel-method">最も難しい形状。ロストフォームキャスト手法を試験中。各パネルが一点もののため、製造コストが高い。2026年6月に1/4スケール実証予定。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hbox" style="margin-top:16px">
+    <h3>菌糸体成形の優位性 — なぜ有機形状に向いているか</h3>
+    <p>菌糸体は液状の基材（おが粉 + 種菌）を型枠に充填し、生物的な成長力で型枠内を完全充填する。この特性はコンクリートのような流し込み材料と同様で、曲面型枠や複雑形状への適応が容易。木材やパネル材では製造が困難・高コストになる有機形状パネルが、菌糸体なら型枠コストのみで実現できる。型枠を一度作れば何度でも同じパネルを成形できるため、ユニット追加時もコスト変動がほぼない。</p>
+    <div class="tags">
+      <span class="tag tag-gold">型枠に沿って完全充填</span>
+      <span class="tag tag-green">曲面・有機形状が得意</span>
+      <span class="tag tag-blue">型枠再利用で量産低コスト</span>
+      <span class="tag tag-gold">軽量 / 廃棄時コンポスト可能</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 07: 発注・実現ロードマップ ══ -->
+<div class="section" id="roadmap">
+  <div class="sec-label">SECTION 07</div>
+  <h2 class="sh">発注・実現ロードマップ — 2026年</h2>
+  <p style="color:var(--muted);max-width:640px;margin-bottom:32px;font-size:13px;line-height:1.9">
+    現在進行中の発注・問い合わせ状況と、2026年の実現スケジュール。
+  </p>
+
+  <div class="legal-box" style="margin-bottom:32px">
+    <h3>現在進行中の発注・問い合わせ</h3>
+    <ul>
+      <li><strong>CNC型枠業者 — 見積もり中:</strong> P-Ban.com（東京）、Fabtech札幌。六角・楕円・円弧の3形状から先行発注予定。単価: ¥15,000〜45,000/型枠（形状複雑度による）</li>
+      <li><strong>種菌業者 — 問い合わせ済み:</strong> 北海道きのこ（釧路）。おが粉ベース培地10kg単位での供給交渉中。霊芝 + タモギタケのブレンド試験予定</li>
+      <li><strong>スクリューパイル施工業者 — 見積もり完了:</strong> 既存KUMANOKIの業者と1棟あたり6本・深さ2,200mmで見積もり取得済み。CLUSTERでは1棟あたり2〜3本（軽量ユニットのため）</li>
+    </ul>
+  </div>
+
+  <div class="schedule-grid">
+    <div class="sched-cell">
+      <div class="sched-month">2026年5月</div>
+      <ul class="sched-items">
+        <li>種菌試験培養開始</li>
+        <li>CNC型枠サンプル発注（六角・楕円）</li>
+        <li>スクリューパイル本数確認</li>
+        <li>基本設計図確定</li>
+      </ul>
+    </div>
+    <div class="sched-cell">
+      <div class="sched-month">2026年6月</div>
+      <ul class="sched-items">
+        <li>1/4スケール実証実験棟</li>
+        <li>各ユニット形状テスト（5種）</li>
+        <li>パネル強度・断熱性測定</li>
+        <li>SHELL螺旋成形の試験製造</li>
+      </ul>
+    </div>
+    <div class="sched-cell">
+      <div class="sched-month">2026年7月</div>
+      <ul class="sched-items">
+        <li>美留和: スクリューパイル施工</li>
+        <li>フルスケールパネル成形開始</li>
+        <li>デッキ材・基礎梁の現地搬入</li>
+        <li>設備配管先行工事</li>
+      </ul>
+    </div>
+    <div class="sched-cell">
+      <div class="sched-month">2026年8月</div>
+      <ul class="sched-items">
+        <li>SEED棟 建て方（BUILD WKD①）</li>
+        <li>TOWER棟 建て方</li>
+        <li>デッキ接続工事</li>
+        <li>EGG棟 成形・養生</li>
+      </ul>
+    </div>
+    <div class="sched-cell">
+      <div class="sched-month">2026年9月</div>
+      <ul class="sched-items">
+        <li>WING・SHELL棟 建て方</li>
+        <li>全ユニット接続完了</li>
+        <li>内装・設備仕上げ</li>
+        <li>CLUSTER OPEN</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;padding:24px;background:#f5f0e8;border-radius:4px;border-left:3px solid var(--gold)">
+    <h3 style="font-size:14px;font-weight:900;margin-bottom:8px;color:var(--char)">先行予約受付中</h3>
+    <p style="font-size:13px;color:#555;line-height:1.8">CLUSTERのSTARTERパッケージ（SEED + デッキ20m²）からご購入いただけます。BUILD WEEKENDへの参加でオーナービルド割引（¥175万→¥140万）が適用されます。2026年8月のBUILD WEEKEND参加枠は先着6名。</p>
+    <div class="tags" style="margin-top:12px">
+      <span class="tag tag-gold">先着6名 BUILD WEEKEND</span>
+      <span class="tag tag-green">STARTER ¥140万〜</span>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<div style="background:var(--char);color:#555;text-align:center;padding:56px;font-size:10px;letter-spacing:.12em">
+  KUMANOKI CLUSTER — SOLUNA VILLAGE · 美留和ビレッジ · 2026.09 OPEN TARGET
+  <br>
+  <span style="color:#333">建築確認不要 9.9m²×∞棟 / 菌糸体有機形状ユニット / スクリューパイル独立構造体</span>
+  <br><br>
+  <a href="/manufacturing/kumanoki.html" style="color:#444;text-decoration:none">KUMANOKI</a>
+  &nbsp;·&nbsp;
+  <a href="/manufacturing/mycelium-lab.html" style="color:#444;text-decoration:none">菌糸体Lab</a>
+  &nbsp;·&nbsp;
+  <a href="/manufacturing/3d-mold.html" style="color:#444;text-decoration:none">3D Mold</a>
+  &nbsp;·&nbsp;
+  <a href="/manufacturing/myco-furniture.html" style="color:#444;text-decoration:none">Myco Furniture</a>
+  &nbsp;·&nbsp;
+  <a href="/manufacturing/sekkei.html" style="color:#444;text-decoration:none">Bio-SIP製造設計書</a>
+</div>
+
+</body>
+</html>

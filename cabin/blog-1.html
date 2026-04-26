@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/blog-1" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="Beginning with Sound — SOLUNA Journal">音から始まった — SOLUNA Journal</title>
+<meta content="コーチェラの音響が好きだ。L-Acousticsが鳴るとき、音が「降ってくる」感覚がある。その体験を自分の場所で再現したくて、Koeを作り、SOLUNAを作った。" data-en-content="I love Coachella's acoustics. When L-Acoustics plays, sound descends around you. Wanting to recreate that experience in my own space, I created Koe, then SOLUNA." name="description"/>
+<meta content="音から始まった — SOLUNA Journal" property="og:title"/>
+<meta content="コーチェラの音響が好きだ。L-Acousticsが鳴るとき、音が「降ってくる」感覚がある。その体験を自分の場所で再現したくて、Koeを作り、SOLUNAを作った。" property="og:description"/>
+<meta content="img/music_stage.webp" property="og:image"/>
+<meta content="article" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.5);
+  --gold-soft:rgba(200,164,85,.08);
+  --bg:#050505;
+  --bg-soft:#080808;
+  --line:#131313;
+  --line-soft:#0e0e0e;
+  --text:#f0ece4;
+  --text-dim:#777;
+  --text-soft:#444;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-feature-settings:'palt'}
+::selection{background:var(--gold);color:#000}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+.gold{color:var(--gold)}
+
+/* Nav */
+.tn{position:fixed;top:0;left:0;right:0;z-index:50;padding:14px 20px;background:rgba(5,5,5,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
+.tn-inner{max-width:680px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.tn-logo{font-size:13px;font-weight:800;letter-spacing:.15em;color:var(--gold)}
+.tn-links{display:flex;gap:18px;font-size:11px}
+.tn-links a{color:var(--text-dim)}
+.tn-links a:hover{color:var(--gold)}
+
+/* Article layout */
+.w{max-width:640px;margin:0 auto;padding:0 20px}
+
+/* Hero image — full bleed */
+.fi{width:100vw;margin-left:calc(-50vw + 50%);max-height:60vh;object-fit:cover;display:block}
+
+/* Article header */
+.article-header{padding:80px 0 40px}
+.cat-chip{display:inline-block;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700;border:1px solid var(--gold-dim);padding:5px 12px;border-radius:100px;margin-bottom:20px}
+.article-header h1{font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.12;margin-bottom:18px}
+.byline{font-size:11.5px;color:#555;display:flex;gap:6px;align-items:center}
+.byline span{color:#333}
+.byline .sep{color:#222}
+
+/* Prose */
+.prose{padding:40px 0 64px}
+.prose p{font-size:15px;line-height:2.1;color:#c8c4bc;margin-bottom:24px}
+.prose strong{color:#f0ece4;font-weight:700}
+.prose h2{font-size:1.1rem;font-weight:800;margin:40px 0 16px;color:var(--gold);letter-spacing:.05em}
+
+/* Pull quote */
+.pq{border-left:3px solid var(--gold);margin:32px 0;padding:0 0 0 20px;font-size:1.15rem;font-style:italic;color:#bbb;line-height:1.8}
+
+/* Full-width inline image */
+.fi-inline{width:100vw;margin-left:calc(-50vw + 50%);max-height:60vh;object-fit:cover;display:block;margin-top:8px;margin-bottom:8px}
+
+/* Author card */
+.author-card{border-top:1px solid var(--line);padding:32px 0;margin-top:8px;display:grid;grid-template-columns:56px 1fr;gap:16px;align-items:start}
+.author-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#d4b56a,#a8843a);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#050505;flex-shrink:0}
+.author-name{font-size:14px;font-weight:700;margin-bottom:4px}
+.author-bio{font-size:11.5px;color:#555;line-height:1.7}
+
+/* Related */
+.related{border-top:1px solid var(--line);padding:32px 0;margin-top:8px}
+.related .lbl{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-soft);font-weight:700;margin-bottom:14px}
+.related-links{display:flex;flex-wrap:wrap;gap:10px}
+.related-links a{font-size:12px;color:#555;border:1px solid #181818;padding:8px 14px;border-radius:6px;transition:border-color .2s,color .2s}
+.related-links a:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Next article */
+.next-article{border-top:1px solid var(--line);padding:32px 0;text-align:right}
+.next-article .lbl{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-soft);font-weight:700;margin-bottom:8px}
+.next-article a{font-size:13.5px;font-weight:700;color:var(--gold)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.r{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.r.in{opacity:1;transform:translateY(0)}
+
+@media(max-width:520px){
+  .article-header{padding:60px 0 30px}
+}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- Opening hero image — full bleed, sits below fixed nav -->
+<div style="padding-top:57px">
+<img alt="ステージの音響" class="fi" data-en-alt="Stage Acoustics" src="img/music_stage.webp"/>
+</div>
+<div class="w">
+<header class="article-header">
+<div class="cat-chip">MUSIC × SPACE</div>
+<h1 data-en="Born from Sound">音から始まった</h1>
+<div class="byline">
+<span data-en="Yuki Hamada">濱田 優貴</span>
+<span class="sep">·</span>
+<span>2026.04.13</span>
+<span class="sep">·</span>
+<span data-en="Approximately 5 minutes">約5分</span>
+</div>
+</header>
+<article class="prose">
+<p><strong data-en="I admire the acoustics of Coachella's main stage.">コーチェラのメインステージの音響が好きだ。</strong></p>
+<p data-en="When L-Acoustics resonates across the Indio desert, there is a sensation of sound descending from above. The density of the air transforms. Something enters within the chest. This is not merely volume—it is physics.">インディオの砂漠でL-Acousticsが鳴るとき、音が「降ってくる」感覚がある。空気の密度が変わる。胸の中に何かが入ってくる。あれは単なる大音量ではない。物理の話だ。</p>
+<h2 data-en="Line Array: A Physical Phenomenon">ラインアレイという物理現象</h2>
+<p data-en="Coachella's main stage suspends its primary hang system overhead. Flanking it are KARA II side fills, with SB28 subwoofers arrayed near ground level. Examining the K2 closely reveals each enclosure incrementally angled in the vertical plane as they stack. This arrangement is acoustically intentional.">コーチェラのメインステージには、<strong data-en="K2 Line Array">K2ラインアレイ</strong>が主ハングとして吊られている。脇にはKARA IIのサイドフィル、そして地面近くにSB28サブウーファーが並ぶ。K2を間近で見ると、各エンクロージャーが数度ずつ縦方向に角度を変えながら積み重なっている。あの配列には意味がある。</p>
+<p data-en="With a single point-source speaker, sound pressure drops by 6dB for every doubling of distance—the inverse square law. Line arrays behave differently. When multiple units with aligned phase are arranged vertically, the wavefront expands cylindrically, keeping attenuation to theoretical minimums. This is why audiences 100 meters back hear nearly the same sound pressure as those 30 meters forward. Coachella's acoustic reach to the desert's edge was physical inevitability.">点音源スピーカーを1台置いた場合、音圧は距離が2倍になるたびに-6dBずつ落ちていく。逆二乗則だ。ところがラインアレイはそうならない。垂直方向に位相の揃った複数ユニットが並ぶことで、波面が円柱状に広がる。理論値では<strong data-en="-3dB Attenuation Even When Distance Doubles">距離が2倍になっても-3dBの減衰</strong>に抑えられる。後方100mの観客でも、前方30mと大きくは変わらない音圧で聴けるのはこの理由だ。コーチェラで「砂漠の端まで音が届く」のは物理的な必然だった。</p>
+<div class="pq" data-en="The line array transforms -6dB/distance doubling into -3dB. It is a system rooted in physics for delivering sound pressure.">ラインアレイは-6dB/距離doubling を -3dB に変える。物理で音圧を届ける仕組みだ。</div>
+<p data-en="Equally compelling is the subwoofer configuration. When using SB28 units, a specific arrangement proves elegant: three SB28s arrayed as two forward-facing and one rear-facing. The low-frequency component projecting rearward from the rear-facing unit cancels in opposite phase with the rear-radiation component of the two forward-facing units, effectively suppressing low-frequency spillage behind the stage. Performers can monitor the mixing console accurately without exposure to overwhelming sound pressure, simultaneously protecting the artist's hearing while maximizing bass response for the audience—an acoustically sophisticated solution.">もうひとつ面白いのがサブウーファーの配置だ。SB28を使う場合、<strong data-en="Cardioid Subwoofer Placement">カーディオイド・サブ配置</strong>という組み方がある。3台のSB28を「前向き2台＋後ろ向き1台」で並べると、後ろ向きのユニットから出た低音がステージ裏に向かう成分と、前向きの2台の後方放射成分が逆位相で打ち消し合う。結果として、ステージ後方への低音漏れが約<strong>-20dB</strong>抑制される。アーティストが演奏しながら轟音に晒されることなく、PA卓の音を正確に聴ける。出演者の耳を守りながら観客への低音を最大化する、エレガントな解法だ。</p>
+<p data-en="What runs deeper is the pre-design phase. By loading the venue's 3D model into L-Acoustics' simulation software and inputting speaker suspension angles, quantities, and delay values, the sound pressure distribution across the entire listening area is visualized through a color map. Coachella's engineers spend weeks optimizing this map before the festival begins. That sensation of descending sound was engineered long before equipment ever reached the desert.">さらに深いのは事前設計だ。L-Acousticsが提供するシミュレーションソフト「<strong>Soundvision</strong>」に会場の3Dモデルを読み込んで、スピーカーの吊り角度・枚数・遅延値を入力すると、リスニングエリア全体の音圧分布がカラーマップで可視化される。コーチェラのエンジニアたちはフェス当日の前に何週間もかけてこの地図を最適化する。あの「降ってくる音」は、砂漠に機材を運び込む前から設計されていた。</p>
+<h2 data-en="Koe — The Same Experience at 1/3 the Cost">Koe — 同じ体験を1/3のコストで</h2>
+<p data-en="Wanting to recreate that experience in my own space, I began creating Koe.">その体験を、自分の場所で再現したくてKoeを作り始めた。</p>
+<p data-en="We selected the MCU for its 240MHz dual-core Xtensa LX7, integrated Wi-Fi 6 and BLE 5.0. The firmware is written in Rust. Combined with an asynchronous runtime, thousands of lines of code fit within 512KB of flash memory. Where a single misconfiguration in C++ HAL causes heap corruption, Rust's compile-time guarantees remain uncompromising, even on bare metal.">MCUには<strong>ESP32-S3</strong>を選んだ。240MHz デュアルコア Xtensa LX7、Wi-Fi 6とBLE 5.0を内蔵する。ファームウェアはRustで書いている。<code>no_std</code>環境に<code>esp-hal</code>と<code>embassy</code>の非同期ランタイムを組み合わせ、数千行のコードがフラッシュ512KBに収まる。C++のHALでは設定ファイルが一つ間違えるとヒープが溶けるが、Rustのコンパイル時保証はベアメタルでも裏切らない。</p>
+<p data-en="Multi-unit synchronization employs network protocols: one address carries audio frames, another manages LED synchronization. NTP clock alignment across units ensures measurable precision. Phase-coherent playback requires synchronization error below 100ms—a margin we comfortably maintain. Capturing audio from a Mac via Roland Babyface Pro and transmitting via UDP yielded end-to-end latency well within acceptable parameters. Since conversational delay perception thresholds approach 30ms, we operate at the boundary of real-time monitoring capability during live performance.">複数台の同期には<strong data-en="UDP Multicast">UDPマルチキャスト</strong>を使う。アドレスは<code>239.42.42.1:4242</code>がオーディオフレーム、<code>:4243</code>がLED同期だ。NTPで各ユニットの時刻を合わせると、実測で<strong data-en="Within ±5ms">±5ms以内</strong>の精度が出る。位相コヒーレントな再生には同期誤差を100ms以内に抑えることが条件で、そのマージンは十分にある。手元のMacからRoland Babyface ProでオーディオをキャプチャしてUDPに乗せる<code>guitar-stream.py</code>を書いたら、エンドツーエンドのレイテンシが<strong>22ms</strong>に収まった。会話で感じる遅延の閾値は約30msなので、演奏しながらリアルタイムでモニターできるギリギリのラインだ。</p>
+<div class="pq" data-en="UDP 239.42.42.1:4242, NTP at ±5ms. When phases align, 100 units become a single instrument.">UDP 239.42.42.1:4242、NTPで±5ms。位相が揃うとき、100台がひとつの楽器になる。</div>
+<p data-en="Four form factors exist. A 15-inch subwoofer with 1000W amplifier output, $1,200. An 8-inch plus 1-inch horn two-way configuration, $1,500. A compact module with 20mm driver mounted on a 26mm circular board, $65. A control hub equipped with Raspberry Pi 5, $800. From a radio regulation standpoint, the ESP32-S3-MINI-1 carries domestic certification (Certification No. 201-220017), allowing direct use within Japan.">フォームファクターは4種類ある。<strong>SUB</strong>は15インチウーファー、アンプ出力1000W、$1,200。<strong>FILL</strong>は8インチ+1インチホーンの2ウェイ、$1,500。<strong>COIN</strong>は直径26mmの丸基板に20mmユニットを乗せた$65の超小型モジュール。<strong>STAGE</strong>はRaspberry Pi 5を積んだ制御ハブ、$800だ。電波法の観点では、ESP32-S3-MINI-1が技適認証済み（認証番号 201-220017）なので日本国内でそのまま使える。</p>
+<p data-en="For a festival accommodating 10,000 people, the cost becomes manageable. Full L-Acoustics rental at equivalent scale exceeds $1,000,000 in equipment costs alone. Our hypothesis: Koe approaches the experience of immersive, enveloping sound at approximately one-third the cost.">10,000人規模のフェスを想定したとき、<strong data-en="10 SUBs + 18 FILLs + 4,000 COINs totaling approximately $304,000">SUB×10台 + FILL×18台 + COIN×4,000台で総額約$304,000</strong>になる。同規模でL-Acousticsをフルレンタルすると機材費だけで$1,000,000を超える。Koeは約1/3のコストで「降ってくる音」の体験に近づける、というのが仮説だ。</p>
+</article>
+</div>
+<img alt="デッキから見える朝の景色" class="fi-inline" data-en-alt="Morning Views from the Deck" src="img/deck.webp"/>
+<div class="w">
+<article class="prose" style="padding-top:40px">
+<h2 data-en="TAPKOP as Experimental Ground">TAPKOPという実験場</h2>
+<p data-en="SOLUNA's Teshikaga site spans 9,000 tsubo. Within Akan-Mashu National Park, the nights are genuinely dark. Unburdened by light pollution, the Milky Way appears to emerge from the ground itself. This profound silence and the acoustic possibilities inherent to the landscape comprised half the reason we selected this land.">SOLUNAの弟子屈に9,000坪の敷地がある。阿寒摩周国立公園の内側、夜は本当に暗い。光害がないから天の川が地面から生えているように見える。その静けさと、音の可能性が、この土地を選んだ理由の半分を占める。</p>
+<p data-en="Our vision for TAPKOP is this: deploying several Wi-Fi 6 access points delivers wireless coverage across the entire 9,000-tsubo property. Synchronizing 100 Koe units envelops one in sound regardless of location within the forest. Rather than radiating from a single source, the space itself becomes the speaker. We aspire to achieve horizontally across our expansive landscape what Coachella's line array accomplishes vertically—a distributed, immersive acoustic environment.">TAPKOPでやりたいことのイメージはこうだ。<strong data-en="COINs suspended throughout the trees, SUBs positioned at the deck, and FILLs creating the stereo image.">COINを木々に掛けて、SUBをデッキに置き、FILLでステレオイメージを作る。</strong> Wi-Fi 6のアクセスポイントを数台立てれば、9,000坪の敷地全体に無線が届く。Koeを100台同期させると、森のどこにいても音に包まれた状態になる。単一の音源から放射するのではなく、空間そのものがスピーカーになる。コーチェラのラインアレイが垂直方向でやっていることを、水平方向の広大な敷地スケールで実現する、という構想だ。</p>
+<p data-en="The acoustic design employs methodologies learned through Soundvision. We construct a 3D model of the property, calculating tree canopy attenuation and terrain reflections while simulating delay times and gains for each unit. While the forest's countless reflective surfaces render precise prediction challenging, our principle remains constant: minimize acoustic pressure variance across all listening points.">音響設計にはSoundvisionで学んだアプローチを流用する。敷地の3Dモデルを作り、樹木の遮蔽や地形の反射を計算に入れながら各ユニットの遅延値とゲインをシミュレートする。森の中には反射面が無数にあるため、正確な予測は難しいが、方針は同じだ。リスニングポイントごとに音圧のばらつきを最小化すること。</p>
+<div class="pq" data-en="We envision the entire 9,000-tsubo property as a singular line array—creating an evening where the forest itself becomes the speaker.">9,000坪の敷地全体をひとつのラインアレイにする。森がスピーカーになる夜を作りたい。</div>
+<p data-en="There is also a vision to perform as a DJ while simultaneously projecting generative visuals. Using Veo to create video clips in real-time from prompts, projecting them across building facades and trees. An evening where sound and image derive from the same signal.">自分でDJをやりながら、生成した映像をプロジェクションする計画もある。Veoでリアルタイムにプロンプトからビデオクリップを生成して、それを建物の外壁や木々に投影する。音と映像が同じ信号から派生する夜。</p>
+<p data-en="Architecture by PAN-PROJECTS and VUIL. Natural hot springs. Local ingredients. A jiu-jitsu DOJO. Festivals, retreats, training, meals, film productions—all can unfold on the same land. Co-owners are co-creators of the place.">建築はPAN-PROJECTSとVUIL。天然温泉がある。地元の食材がある。柔術のDOJOも作る。フェスと、リトリートと、稽古と、食事と、映画撮影と——全部が同じ土地で起きていい。共同オーナーは、その場所の共同制作者だ。</p>
+<p data-en="Everything began at that moment in the Coachella desert when sound seemed to descend from above. From that experience came the pursuit to understand what it was—studying physics, creating devices, selecting land. The impulse remains unchanged. Only the scale has evolved.">全部、コーチェラの砂漠で「音が降ってくる」と感じた瞬間から始まっている。あれが何なのかを理解しようとして、物理を調べ、デバイスを作り、土地を選んだ。衝動は変わっていない。スケールが変わっただけだ。</p>
+</article>
+</div>
+<img alt="焚き火の夜" class="fi-inline" data-en-alt="Bonfire Evenings" src="img/bonfire_night.webp"/>
+<div class="w">
+<div class="author-card r">
+<div class="author-avatar">Y</div>
+<div>
+<div class="author-name" data-en="Yuki Hamada">濱田 優貴</div>
+<div class="author-bio">Enabler Inc. CEO / DJ / Koe作者 / 柔術青帯</div>
+</div>
+</div>
+<div class="related r">
+<div class="lbl" data-en="Related Links">関連リンク</div>
+<div class="related-links">
+<a data-en="→ View Koe Device (koe.live)" href="https://koe.live" rel="noopener" target="_blank">→ Koeデバイスを見る (koe.live)</a>
+<a data-en="→ SOLUNA Properties" href="index#properties">→ SOLUNAの物件</a>
+<a data-en="→ Availability" href="calendar">→ 空き状況</a>
+</div>
+</div>
+<div class="next-article r">
+<div class="lbl" data-en="Next Article">次の記事</div>
+<a data-en="Why does the creator of uta.live build vacation homes? →" href="blog-2">uta.liveを作った人間が、なぜ別荘を作るのか →</a>
+</div>
+</div>
+<script>
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+<script defer="" src="/track.js"></script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Biruw" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Biruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Biruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Units Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Architectural Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners Only" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="The Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Law" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+</body>
+</html>

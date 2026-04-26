@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLUNA NEURO Dashboard — AI CABIN #01</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%234aeadc'/></svg>">
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0a;
+  --bg2:#111;
+  --bg3:#181818;
+  --border:#222;
+  --text:#e0e0e0;
+  --text-dim:#666;
+  --text-mid:#999;
+  --cyan:#4aeadc;
+  --cyan-dim:rgba(74,234,220,.12);
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.15);
+  --red:#ff4d4d;
+  --red-dim:rgba(255,77,77,.12);
+  --yellow:#f0c040;
+  --yellow-dim:rgba(240,192,64,.12);
+  --green:#4adc6a;
+  --green-dim:rgba(74,220,106,.12);
+  --mono:'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
+  --sans:-apple-system,'Helvetica Neue','Noto Sans JP',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:13px;line-height:1.5}
+::selection{background:var(--cyan);color:#000}
+
+/* HEADER BAR */
+.header{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:48px;background:rgba(10,10,10,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.header-left{display:flex;align-items:center;gap:16px}
+.header-logo{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.15em;color:var(--cyan)}
+.header-logo span{color:var(--gold);font-weight:400;margin-left:4px;letter-spacing:.05em}
+.header-loc{font-size:11px;color:var(--text-dim);font-family:var(--mono)}
+.header-right{display:flex;align-items:center;gap:20px;font-family:var(--mono);font-size:11px}
+.header-back{color:var(--text-dim);text-decoration:none;font-size:11px;transition:color .2s}
+.header-back:hover{color:var(--cyan)}
+.status-badge{display:flex;align-items:center;gap:6px}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.status-text{color:var(--green);font-weight:600}
+.header-ts{color:var(--text-dim)}
+.header-ws{color:var(--cyan);opacity:.6}
+
+/* MAIN GRID */
+.dashboard{display:grid;grid-template-columns:1fr 1fr;gap:1px;padding:1px;background:var(--border)}
+.panel{background:var(--bg2);padding:16px 18px;min-height:120px}
+.panel-full{grid-column:1/-1}
+.panel-title{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.panel-title::before{content:'';display:inline-block;width:3px;height:12px;background:var(--cyan);border-radius:1px}
+
+/* ENVIRONMENT GRID */
+.env-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.room-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:12px 14px;transition:border-color .3s}
+.room-card.occupied{border-color:rgba(74,234,220,.25)}
+.room-name{font-size:11px;font-weight:600;color:var(--text-mid);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.room-name .occ{font-size:9px;padding:2px 6px;border-radius:8px;font-weight:700;letter-spacing:.05em}
+.occ-yes{background:var(--cyan-dim);color:var(--cyan)}
+.occ-no{background:rgba(255,255,255,.04);color:var(--text-dim)}
+.room-metrics{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
+.metric{display:flex;flex-direction:column;gap:1px}
+.metric-label{font-size:9px;color:var(--text-dim);font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.metric-val{font-family:var(--mono);font-size:16px;font-weight:700;letter-spacing:-.02em}
+.metric-val.temp{color:var(--cyan)}
+.metric-val.humid{color:#7aa2f7}
+.metric-val.co2-good{color:var(--green)}
+.metric-val.co2-warn{color:var(--yellow)}
+.metric-val.co2-bad{color:var(--red)}
+.sparkline-wrap{grid-column:1/-1;height:28px;margin-top:4px}
+.sparkline-wrap canvas{width:100%;height:28px;border-radius:2px}
+
+/* ENERGY PANEL */
+.energy-top{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.energy-stat{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:12px 14px;text-align:center}
+.energy-stat-label{font-size:9px;font-family:var(--mono);color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.energy-stat-val{font-family:var(--mono);font-size:22px;font-weight:700}
+.energy-stat-val.solar{color:var(--gold)}
+.energy-stat-val.battery{color:var(--green)}
+.energy-stat-val.grid-use{color:var(--red)}
+.energy-stat-val.net{color:var(--cyan)}
+.energy-stat-unit{font-size:10px;font-weight:400;color:var(--text-dim);margin-left:2px}
+
+/* ENERGY FLOW */
+.energy-flow{display:flex;align-items:center;justify-content:center;gap:0;padding:16px 0;margin-bottom:16px;background:var(--bg3);border:1px solid var(--border);border-radius:4px}
+.flow-node{text-align:center;padding:10px 16px;min-width:80px}
+.flow-node-icon{font-size:20px;margin-bottom:4px}
+.flow-node-label{font-size:9px;font-family:var(--mono);color:var(--text-dim);letter-spacing:.08em}
+.flow-node-val{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text)}
+.flow-arrow{font-family:var(--mono);font-size:16px;color:var(--cyan);padding:0 4px;opacity:.6}
+.flow-arrow.reverse{color:var(--gold)}
+
+/* 7-DAY CHART */
+.week-chart{display:flex;align-items:flex-end;gap:8px;height:120px;padding:12px 0}
+.week-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.week-bars{display:flex;gap:3px;align-items:flex-end;height:80px}
+.week-bar{width:14px;border-radius:2px 2px 0 0;transition:height .5s ease}
+.week-bar.gen{background:var(--gold)}
+.week-bar.con{background:rgba(255,77,77,.5)}
+.week-label{font-size:9px;font-family:var(--mono);color:var(--text-dim)}
+.week-val{font-size:8px;font-family:var(--mono);color:var(--text-dim)}
+.chart-legend{display:flex;gap:16px;margin-top:8px;font-size:10px;font-family:var(--mono);color:var(--text-dim)}
+.chart-legend span{display:flex;align-items:center;gap:4px}
+.chart-legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:2px}
+.chart-legend .lg::before{background:var(--gold)}
+.chart-legend .lc::before{background:rgba(255,77,77,.5)}
+
+/* TODAY BAR */
+.today-bar-wrap{margin-top:12px}
+.today-bar-label{font-size:10px;font-family:var(--mono);color:var(--text-dim);margin-bottom:4px;display:flex;justify-content:space-between}
+.today-bar{height:8px;background:var(--bg);border-radius:4px;overflow:hidden;display:flex}
+.today-bar-gen{background:var(--gold);transition:width .5s}
+.today-bar-con{background:var(--red);opacity:.5;transition:width .5s}
+
+/* GUEST STATUS */
+.guest-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.guest-row{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:4px}
+.guest-row-label{font-size:10px;color:var(--text-dim);font-family:var(--mono);letter-spacing:.05em}
+.guest-row-val{font-family:var(--mono);font-size:13px;font-weight:600}
+.guest-row-val.checked-in{color:var(--green)}
+.guest-row-val.vacant{color:var(--text-dim)}
+.guest-row-val.locked{color:var(--green)}
+.guest-row-val.unlocked{color:var(--yellow)}
+.comfort-score{font-size:32px;font-weight:700;font-family:var(--mono);text-align:center;padding:20px 0}
+.comfort-score.high{color:var(--green)}
+.comfort-score.mid{color:var(--yellow)}
+.comfort-score.low{color:var(--red)}
+.comfort-label{text-align:center;font-size:10px;font-family:var(--mono);color:var(--text-dim);letter-spacing:.1em;margin-top:-12px}
+
+/* AI LOG */
+.ai-log{max-height:320px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.ai-log::-webkit-scrollbar{width:4px}
+.ai-log::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.log-entry{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.03);font-family:var(--mono);font-size:11px;line-height:1.6;animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.log-ts{color:var(--text-dim);margin-right:8px;font-size:10px}
+.log-icon{margin-right:4px}
+.log-text{color:var(--text-mid)}
+.log-highlight{color:var(--cyan);font-weight:600}
+
+/* ALERTS */
+.alert-list{display:flex;flex-direction:column;gap:6px}
+.alert-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:4px;font-family:var(--mono);font-size:11px;line-height:1.5}
+.alert-item.yellow{background:var(--yellow-dim);border:1px solid rgba(240,192,64,.2)}
+.alert-item.red{background:var(--red-dim);border:1px solid rgba(255,77,77,.2)}
+.alert-item.green{background:var(--green-dim);border:1px solid rgba(74,220,106,.2)}
+.alert-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.alert-text{color:var(--text)}
+.alert-ts{color:var(--text-dim);font-size:9px;margin-left:auto;flex-shrink:0;white-space:nowrap}
+.alert-empty{color:var(--text-dim);font-family:var(--mono);font-size:11px;text-align:center;padding:20px;opacity:.5}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .dashboard{grid-template-columns:1fr}
+  .env-grid{grid-template-columns:repeat(2,1fr)}
+  .energy-top{grid-template-columns:repeat(2,1fr)}
+  .guest-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .env-grid{grid-template-columns:1fr}
+  .energy-top{grid-template-columns:1fr}
+  .header{flex-direction:column;height:auto;padding:8px 12px;gap:6px}
+  .header-right{flex-wrap:wrap;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <a href="neuro" class="header-back">&#8592; SOLUNA NEURO</a>
+    <div class="header-logo">SOLUNA NEURO<span>AI CABIN #01 海南市下津</span></div>
+  </div>
+  <div class="header-right">
+    <div class="status-badge"><div class="status-dot"></div><span class="status-text">ONLINE</span></div>
+    <div class="header-ts" id="headerTs">--:--:--</div>
+    <div class="header-ws">WS Connected</div>
+  </div>
+</div>
+
+<div class="dashboard">
+
+  <!-- 1. ENVIRONMENT -->
+  <div class="panel panel-full">
+    <div class="panel-title">Environment Monitoring</div>
+    <div class="env-grid" id="envGrid"></div>
+  </div>
+
+  <!-- 2. ENERGY -->
+  <div class="panel panel-full">
+    <div class="panel-title">Energy System</div>
+    <div class="energy-top" id="energyStats"></div>
+    <div class="energy-flow" id="energyFlow"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div>
+        <div class="panel-title" style="font-size:9px;margin-bottom:10px">7-Day History</div>
+        <div class="week-chart" id="weekChart"></div>
+        <div class="chart-legend"><span class="lg">Solar Gen</span><span class="lc">Consumption</span></div>
+      </div>
+      <div>
+        <div class="panel-title" style="font-size:9px;margin-bottom:10px">Today</div>
+        <div class="today-bar-wrap">
+          <div class="today-bar-label"><span>Generation</span><span id="todayGenVal">0 kWh</span></div>
+          <div class="today-bar"><div class="today-bar-gen" id="todayGenBar" style="width:50%"></div></div>
+        </div>
+        <div class="today-bar-wrap" style="margin-top:10px">
+          <div class="today-bar-label"><span>Consumption</span><span id="todayConVal">0 kWh</span></div>
+          <div class="today-bar"><div class="today-bar-con" id="todayConBar" style="width:50%"></div></div>
+        </div>
+        <div style="margin-top:14px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--text-dim)">
+          Net: <span id="todayNet" style="color:var(--green);font-weight:700">+0.0 kWh</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. GUEST STATUS -->
+  <div class="panel">
+    <div class="panel-title">Guest Status</div>
+    <div class="guest-grid" id="guestGrid"></div>
+    <div class="comfort-score high" id="comfortScore">92</div>
+    <div class="comfort-label">COMFORT SCORE</div>
+  </div>
+
+  <!-- 5. ALERTS -->
+  <div class="panel">
+    <div class="panel-title">Auto Actions — 自律制御ログ</div>
+    <div class="alert-list" id="alertList"></div>
+  </div>
+
+  <!-- 4. AI ACTIONS LOG -->
+  <div class="panel panel-full">
+    <div class="panel-title">AI Actions Log</div>
+    <div class="ai-log" id="aiLog"></div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+'use strict';
+
+// ── Utility ──
+function rand(min,max){return min+Math.random()*(max-min)}
+function randInt(min,max){return Math.floor(rand(min,max+1))}
+function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v))}
+function pad2(n){return n<10?'0'+n:''+n}
+function timeStr(d){return pad2(d.getHours())+':'+pad2(d.getMinutes())+':'+pad2(d.getSeconds())}
+function shortTime(d){return pad2(d.getHours())+':'+pad2(d.getMinutes())}
+
+// ── State ──
+var rooms = [
+  {name:'リビング', temp:23.5, humid:52, co2:580, occ:true, history:[]},
+  {name:'寝室',     temp:22.0, humid:48, co2:520, occ:false, history:[]},
+  {name:'キッチン', temp:24.5, humid:55, co2:640, occ:true, history:[]},
+  {name:'浴室',     temp:26.0, humid:72, co2:450, occ:false, history:[]},
+  {name:'玄関',     temp:21.0, humid:50, co2:410, occ:false, history:[]},
+  {name:'デッキ',   temp:19.5, humid:58, co2:400, occ:false, history:[]}
+];
+// Init history
+rooms.forEach(function(r){
+  for(var i=0;i<30;i++) r.history.push(r.temp + rand(-1.5,1.5));
+});
+
+var energy = {solar:0, battery:72, gridUse:0.3, netFlow:0};
+var todayGen = 8.4, todayCon = 6.2;
+var guestState = {
+  status:'チェックイン済み',
+  lock:'Locked',
+  checkin:'15:32',
+  checkout:'明日 11:00',
+  comfort:92
+};
+
+var weekData = [];
+var dow = ['月','火','水','木','金','土','日'];
+for(var i=6;i>=0;i--){
+  var d=new Date(); d.setDate(d.getDate()-i);
+  weekData.push({
+    label: dow[(d.getDay()+6)%7],
+    gen: rand(12,22),
+    con: rand(8,16)
+  });
+}
+
+var aiLogEntries = [];
+var alerts = [];
+
+// ── AI Log Templates ──
+var logTemplates = [
+  function(r){return '空調をエコモードに切替 (CO2: '+r.co2.toFixed(0)+'ppm, 外気温: '+rand(14,22).toFixed(0)+'℃)';},
+  function(){return '太陽光発電ピーク検知 → EV充電開始 ('+energy.solar.toFixed(1)+'kW)';},
+  function(){return 'ゲスト到着検知 (玄関mmWave) → ウェルカムモード起動';},
+  function(r){return r.name+'湿度上昇 ('+r.humid.toFixed(0)+'%) → 換気ファン起動';},
+  function(){return 'バッテリー残量 '+energy.battery.toFixed(0)+'% → グリッド充電モードに切替';},
+  function(){return '深夜料金帯検知 → バッテリー充電スケジュール開始';},
+  function(r){return r.name+'のCO2 '+r.co2.toFixed(0)+'ppm検知 → 換気ファン自動起動 (15分タイマー)';},
+  function(){return '日没検知 → 外灯自動点灯 (デッキ・玄関)';},
+  function(){return '売電モード切替 → グリッドへ '+rand(0.5,2.5).toFixed(1)+'kW 逆潮流';},
+  function(r){return r.name+'の温度 '+r.temp.toFixed(1)+'℃ → 空調設定を自動調整';},
+  function(){return 'IoT機器死活監視: 全12デバイス正常稼働';},
+  function(){return '気象API: 1時間後に降雨予報 → デッキシェード自動展開';},
+  function(){return 'ゲスト睡眠検知 → ナイトモード移行 (照明減光・空調静音)';},
+  function(){return 'EV充電完了 ('+randInt(60,100)+'%) → V2H待機モードへ';},
+  function(){return '電力需要ピーク予測 → バッテリー放電スタンバイ';},
+  function(r){return r.name+'人感センサー反応 → 照明自動ON';},
+  function(){var kw=rand(0.3,1.8);return '消費電力異常検知なし — 現在 '+kw.toFixed(1)+'kW (正常範囲)';},
+  function(){return '翌日天気: 晴れ予報 → 太陽光発電 推定'+rand(15,25).toFixed(0)+'kWh';}
+];
+
+// ── Alert Templates ──
+var alertTemplates = [
+  {level:'green',  text:'浴室湿度 {v}% → 換気ファン自動起動済み (15分タイマー)', gen:function(){return {v:randInt(75,88)};}},
+  {level:'green',  text:'キッチンCO2 {v}ppm → 換気自動実行中', gen:function(){return {v:randInt(900,1150)};}},
+  {level:'green',  text:'全室CO2正常 (<800ppm) — 換気停止', gen:function(){return {};}},
+  {level:'green',  text:'バッテリー残量 {v}% → グリッド充電自動開始', gen:function(){return {v:randInt(15,30)};}},
+  {level:'red',    text:'デッキ温度センサー応答遅延 ({v}ms) → 再接続試行中', gen:function(){return {v:randInt(2000,5000)};}},
+  {level:'green',  text:'太陽光発電出力正常 ({v}kW) → EV充電に振分中', gen:function(){return {v:rand(2,5).toFixed(1)};}},
+  {level:'green',  text:'外気温低下 {v}℃ → 暖房プリヒート自動実行', gen:function(){return {v:randInt(3,10)};}},
+  {level:'green',  text:'スマートロック正常動作確認', gen:function(){return {};}},
+  {level:'green',  text:'寝室湿度 {v}% → 結露防止モード起動 (換気+除湿)', gen:function(){return {v:randInt(68,78)};}},
+  {level:'green',  text:'深夜電力帯突入 → バッテリー充電自動開始 (23:00-07:00)', gen:function(){return {};}},
+];
+
+// Init alerts
+function genAlert(){
+  var tpl = alertTemplates[randInt(0,alertTemplates.length-1)];
+  var vals = tpl.gen();
+  var text = tpl.text.replace(/\{(\w+)\}/g, function(_,k){return vals[k]||'';});
+  return {level:tpl.level, text:text, ts:new Date()};
+}
+for(var a=0;a<3;a++) alerts.push(genAlert());
+
+// Init AI log
+function genLogEntry(){
+  var tpl = logTemplates[randInt(0,logTemplates.length-1)];
+  var r = rooms[randInt(0,rooms.length-1)];
+  return {text:tpl(r), ts:new Date()};
+}
+for(var l=0;l<8;l++){
+  var e=genLogEntry();
+  e.ts=new Date(Date.now()-rand(5000,120000));
+  aiLogEntries.push(e);
+}
+aiLogEntries.sort(function(a,b){return a.ts-b.ts;});
+
+// ── Render Functions ──
+
+function renderEnvGrid(){
+  var html='';
+  rooms.forEach(function(r,i){
+    var co2class = r.co2<800?'co2-good':r.co2<1200?'co2-warn':'co2-bad';
+    html+='<div class="room-card'+(r.occ?' occupied':'')+'">';
+    html+='<div class="room-name">'+r.name+'<span class="occ '+(r.occ?'occ-yes':'occ-no')+'">'+(r.occ?'OCCUPIED':'EMPTY')+'</span></div>';
+    html+='<div class="room-metrics">';
+    html+='<div class="metric"><div class="metric-label">Temp</div><div class="metric-val temp">'+r.temp.toFixed(1)+'<span style="font-size:10px;font-weight:400">℃</span></div></div>';
+    html+='<div class="metric"><div class="metric-label">Humidity</div><div class="metric-val humid">'+r.humid.toFixed(0)+'<span style="font-size:10px;font-weight:400">%</span></div></div>';
+    html+='<div class="metric"><div class="metric-label">CO2</div><div class="metric-val '+co2class+'">'+r.co2.toFixed(0)+'<span style="font-size:10px;font-weight:400">ppm</span></div></div>';
+    html+='<div class="metric"><div class="metric-label">mmWave</div><div class="metric-val" style="font-size:12px;color:'+(r.occ?'var(--cyan)':'var(--text-dim)')+'">'+(r.occ?'Detected':'Clear')+'</div></div>';
+    html+='</div>';
+    html+='<div class="sparkline-wrap"><canvas id="spark'+i+'" width="200" height="28"></canvas></div>';
+    html+='</div>';
+  });
+  document.getElementById('envGrid').innerHTML=html;
+  // Draw sparklines
+  rooms.forEach(function(r,i){
+    drawSparkline('spark'+i, r.history);
+  });
+}
+
+function drawSparkline(id, data){
+  var c=document.getElementById(id);
+  if(!c)return;
+  var ctx=c.getContext('2d');
+  var w=c.offsetWidth, h=c.offsetHeight;
+  c.width=w*2; c.height=h*2;
+  ctx.scale(2,2);
+  var min=Math.min.apply(null,data)-0.5;
+  var max=Math.max.apply(null,data)+0.5;
+  var range=max-min||1;
+  var step=w/(data.length-1);
+
+  // Gradient fill
+  var grad=ctx.createLinearGradient(0,0,0,h);
+  grad.addColorStop(0,'rgba(74,234,220,.15)');
+  grad.addColorStop(1,'rgba(74,234,220,0)');
+  ctx.beginPath();
+  ctx.moveTo(0,h);
+  for(var i=0;i<data.length;i++){
+    var x=i*step;
+    var y=h-((data[i]-min)/range)*h;
+    if(i===0) ctx.lineTo(x,y);
+    else ctx.lineTo(x,y);
+  }
+  ctx.lineTo(w,h);
+  ctx.closePath();
+  ctx.fillStyle=grad;
+  ctx.fill();
+
+  // Line
+  ctx.beginPath();
+  for(var i=0;i<data.length;i++){
+    var x=i*step;
+    var y=h-((data[i]-min)/range)*h;
+    if(i===0) ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle='rgba(74,234,220,.7)';
+  ctx.lineWidth=1.2;
+  ctx.stroke();
+
+  // Current value dot
+  var lx=(data.length-1)*step;
+  var ly=h-((data[data.length-1]-min)/range)*h;
+  ctx.beginPath();
+  ctx.arc(lx,ly,2.5,0,Math.PI*2);
+  ctx.fillStyle='#4aeadc';
+  ctx.fill();
+}
+
+function renderEnergyStats(){
+  var html='';
+  html+='<div class="energy-stat"><div class="energy-stat-label">Solar</div><div class="energy-stat-val solar">'+energy.solar.toFixed(1)+'<span class="energy-stat-unit">kW</span></div></div>';
+  html+='<div class="energy-stat"><div class="energy-stat-label">Battery (EV)</div><div class="energy-stat-val battery">'+energy.battery.toFixed(0)+'<span class="energy-stat-unit">%</span></div></div>';
+  html+='<div class="energy-stat"><div class="energy-stat-label">Grid</div><div class="energy-stat-val grid-use">'+energy.gridUse.toFixed(1)+'<span class="energy-stat-unit">kW</span></div></div>';
+  var netCol = energy.netFlow>=0?'var(--green)':'var(--red)';
+  var netSign = energy.netFlow>=0?'+':'';
+  html+='<div class="energy-stat"><div class="energy-stat-label">Net Flow</div><div class="energy-stat-val net" style="color:'+netCol+'">'+netSign+energy.netFlow.toFixed(1)+'<span class="energy-stat-unit">kW</span></div></div>';
+  document.getElementById('energyStats').innerHTML=html;
+}
+
+function renderEnergyFlow(){
+  var solarKw = energy.solar.toFixed(1);
+  var battPct = energy.battery.toFixed(0);
+  var houseKw = (energy.solar + energy.gridUse - Math.max(0,energy.netFlow)).toFixed(1);
+  var gridKw = energy.gridUse.toFixed(1);
+  var html='';
+  html+='<div class="flow-node"><div class="flow-node-icon">&#9728;&#65039;</div><div class="flow-node-label">SOLAR</div><div class="flow-node-val" style="color:var(--gold)">'+solarKw+' kW</div></div>';
+  html+='<div class="flow-arrow">&#9654;</div>';
+  html+='<div class="flow-node"><div class="flow-node-icon">&#128267;</div><div class="flow-node-label">BATTERY</div><div class="flow-node-val" style="color:var(--green)">'+battPct+'%</div></div>';
+  html+='<div class="flow-arrow">&#9654;</div>';
+  html+='<div class="flow-node"><div class="flow-node-icon">&#127969;</div><div class="flow-node-label">HOUSE</div><div class="flow-node-val">'+houseKw+' kW</div></div>';
+  html+='<div class="flow-arrow '+(energy.netFlow>=0?'':'reverse')+'">'+( energy.netFlow>=0?'&#9654;':'&#9664;')+'</div>';
+  html+='<div class="flow-node"><div class="flow-node-icon">&#9889;</div><div class="flow-node-label">GRID</div><div class="flow-node-val" style="color:var(--red)">'+gridKw+' kW</div></div>';
+  document.getElementById('energyFlow').innerHTML=html;
+}
+
+function renderWeekChart(){
+  var maxVal=0;
+  weekData.forEach(function(d){maxVal=Math.max(maxVal,d.gen,d.con);});
+  var html='';
+  weekData.forEach(function(d){
+    var gh=Math.round((d.gen/maxVal)*75);
+    var ch=Math.round((d.con/maxVal)*75);
+    html+='<div class="week-day">';
+    html+='<div class="week-val">'+d.gen.toFixed(0)+'/'+d.con.toFixed(0)+'</div>';
+    html+='<div class="week-bars">';
+    html+='<div class="week-bar gen" style="height:'+gh+'px"></div>';
+    html+='<div class="week-bar con" style="height:'+ch+'px"></div>';
+    html+='</div>';
+    html+='<div class="week-label">'+d.label+'</div>';
+    html+='</div>';
+  });
+  document.getElementById('weekChart').innerHTML=html;
+}
+
+function renderTodayBars(){
+  var maxKwh=30;
+  var gp=Math.min(100,todayGen/maxKwh*100);
+  var cp=Math.min(100,todayCon/maxKwh*100);
+  document.getElementById('todayGenBar').style.width=gp+'%';
+  document.getElementById('todayConBar').style.width=cp+'%';
+  document.getElementById('todayGenVal').textContent=todayGen.toFixed(1)+' kWh';
+  document.getElementById('todayConVal').textContent=todayCon.toFixed(1)+' kWh';
+  var net=todayGen-todayCon;
+  var netEl=document.getElementById('todayNet');
+  netEl.textContent=(net>=0?'+':'')+net.toFixed(1)+' kWh';
+  netEl.style.color=net>=0?'var(--green)':'var(--red)';
+}
+
+function renderGuestStatus(){
+  var html='';
+  html+='<div class="guest-row"><div class="guest-row-label">STATUS</div><div class="guest-row-val checked-in">'+guestState.status+'</div></div>';
+  html+='<div class="guest-row"><div class="guest-row-label">SMART LOCK</div><div class="guest-row-val '+(guestState.lock==='Locked'?'locked':'unlocked')+'">'+guestState.lock+'</div></div>';
+  html+='<div class="guest-row"><div class="guest-row-label">CHECK-IN</div><div class="guest-row-val" style="color:var(--text)">'+guestState.checkin+'</div></div>';
+  html+='<div class="guest-row"><div class="guest-row-label">CHECK-OUT</div><div class="guest-row-val" style="color:var(--text-mid)">'+guestState.checkout+'</div></div>';
+  document.getElementById('guestGrid').innerHTML=html;
+
+  var cs=document.getElementById('comfortScore');
+  cs.textContent=guestState.comfort;
+  cs.className='comfort-score '+(guestState.comfort>=80?'high':guestState.comfort>=60?'mid':'low');
+}
+
+function renderAlerts(){
+  if(alerts.length===0){
+    document.getElementById('alertList').innerHTML='<div class="alert-empty">No active alerts</div>';
+    return;
+  }
+  var html='';
+  alerts.forEach(function(a){
+    var icon = a.level==='red'?'&#9888;&#65039;':a.level==='yellow'?'&#9888;&#65039;':'&#9989;';
+    html+='<div class="alert-item '+a.level+'">';
+    html+='<div class="alert-icon">'+icon+'</div>';
+    html+='<div class="alert-text">'+a.text+'</div>';
+    html+='<div class="alert-ts">'+shortTime(a.ts)+'</div>';
+    html+='</div>';
+  });
+  document.getElementById('alertList').innerHTML=html;
+}
+
+function renderAiLog(){
+  var html='';
+  aiLogEntries.forEach(function(e){
+    html+='<div class="log-entry">';
+    html+='<span class="log-ts">'+timeStr(e.ts)+'</span>';
+    html+='<span class="log-text">'+e.text+'</span>';
+    html+='</div>';
+  });
+  var el=document.getElementById('aiLog');
+  el.innerHTML=html;
+  el.scrollTop=el.scrollHeight;
+}
+
+// ── Simulation Update ──
+function getSolarOutput(){
+  var now=new Date();
+  var h=now.getHours()+now.getMinutes()/60;
+  // Solar curve: peaks at noon, zero at night
+  if(h<5.5||h>19) return 0;
+  var peak=5.2;
+  var x=(h-5.5)/(19-5.5); // 0..1 over daylight hours
+  var base=Math.sin(x*Math.PI)*peak;
+  // Add cloud noise
+  return Math.max(0, base + rand(-0.3,0.3));
+}
+
+function updateSimulation(){
+  var now=new Date();
+
+  // Update header timestamp
+  document.getElementById('headerTs').textContent=timeStr(now);
+
+  // Update rooms
+  rooms.forEach(function(r){
+    // Temperature: slow drift with noise
+    var baseTemp = r.name==='デッキ'? 18+4*Math.sin((now.getHours()-6)/24*Math.PI*2) : 22+2*Math.sin((now.getHours()-14)/24*Math.PI*2);
+    r.temp = r.temp*0.95 + baseTemp*0.05 + rand(-0.15,0.15);
+    r.temp = clamp(r.temp, 15, 32);
+
+    // Humidity
+    var baseHumid = r.name==='浴室'?70:r.name==='キッチン'?55:50;
+    r.humid = r.humid*0.93 + baseHumid*0.07 + rand(-1.5,1.5);
+    r.humid = clamp(r.humid, 30, 90);
+
+    // CO2
+    var baseCo2 = r.occ? (r.name==='キッチン'?700:600) : 420;
+    r.co2 = r.co2*0.92 + baseCo2*0.08 + rand(-15,15);
+    r.co2 = clamp(r.co2, 380, 1500);
+
+    // Occupancy: random toggle occasionally
+    if(Math.random()<0.02){
+      r.occ = !r.occ;
+    }
+
+    // History
+    r.history.push(r.temp);
+    if(r.history.length>30) r.history.shift();
+  });
+
+  // Energy
+  energy.solar = getSolarOutput();
+  var consumption = rand(0.8, 2.5);
+  energy.netFlow = energy.solar - consumption;
+  energy.gridUse = energy.netFlow < 0 ? Math.abs(energy.netFlow)*0.6 : 0;
+  energy.battery = clamp(energy.battery + energy.netFlow*0.02 + rand(-0.1,0.1), 5, 100);
+
+  // Today cumulative
+  todayGen += energy.solar * (2/3600); // 2 seconds worth
+  todayCon += consumption * (2/3600);
+
+  // Comfort score
+  var avgTemp=0, avgHumid=0, avgCo2=0;
+  rooms.forEach(function(r){avgTemp+=r.temp; avgHumid+=r.humid; avgCo2+=r.co2;});
+  avgTemp/=rooms.length; avgHumid/=rooms.length; avgCo2/=rooms.length;
+  var tempScore = 100 - Math.abs(avgTemp-23)*8;
+  var humidScore = 100 - Math.abs(avgHumid-50)*1.5;
+  var co2Score = avgCo2<600?100:avgCo2<800?85:avgCo2<1000?65:40;
+  guestState.comfort = Math.round(clamp((tempScore+humidScore+co2Score)/3, 0, 100));
+
+  // Render
+  renderEnvGrid();
+  renderEnergyStats();
+  renderEnergyFlow();
+  renderTodayBars();
+  renderGuestStatus();
+}
+
+// ── AI Log Timer ──
+var logCounter=0;
+function addLogEntry(){
+  var entry = genLogEntry();
+  aiLogEntries.push(entry);
+  if(aiLogEntries.length>30) aiLogEntries.shift();
+  renderAiLog();
+}
+
+// ── Alert Timer ──
+function updateAlerts(){
+  // Randomly add/remove alerts
+  if(Math.random()<0.4 && alerts.length<5){
+    alerts.push(genAlert());
+  }
+  if(Math.random()<0.3 && alerts.length>1){
+    alerts.splice(randInt(0,alerts.length-1),1);
+  }
+  renderAlerts();
+}
+
+// ── Boot ──
+renderEnvGrid();
+renderEnergyStats();
+renderEnergyFlow();
+renderWeekChart();
+renderTodayBars();
+renderGuestStatus();
+renderAlerts();
+renderAiLog();
+
+setInterval(updateSimulation, 2000);
+setInterval(addLogEntry, 8000);
+setInterval(updateAlerts, 12000);
+
+// First log entry after random delay
+setTimeout(addLogEntry, rand(3000,6000));
+
+})();
+</script>
+</body>
+</html>

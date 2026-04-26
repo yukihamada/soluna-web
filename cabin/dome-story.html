@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/dome-story" rel="canonical"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title data-en="DOME HOUSE — Stand at the Center of the Sphere. | SOLUNA">DOME HOUSE — 球面の中心に立て。| SOLUNA</title>
+<meta content="直径18mのジオデシックドーム。32chアンビソニクス再生。漆喰壁。50人収容。¥530万〜/口" data-en-content="18m-diameter geodesic dome. 32-channel ambisonics playback. Lime plaster walls. Capacity 50 guests. ¥5,300,000–/unit" name="description"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--void:#050508;--dome:#0a0a18;--purple:#1a0a2a;--signal:#7a5af8;--pale:#d8d4f8;--gold:#c9a84c;--text:#e8e4f8;--dim:#5a5870}
+html{scroll-behavior:smooth;background:var(--void)}
+body{padding-top:48px;background:var(--void);color:var(--text);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;overflow-x:hidden;cursor:none}
+#cur{position:fixed;width:6px;height:6px;background:var(--signal);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#cur-r{position:fixed;width:36px;height:36px;border:1px solid rgba(122,90,248,.3);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .2s}
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:28px 48px;mix-blend-mode:difference}
+.nav-l{font-size:10px;letter-spacing:.4em;color:#fff;text-decoration:none}
+.nav-r{font-size:9px;letter-spacing:.35em;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.2);padding:10px 22px}
+
+#s0{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#000}
+#dome-canvas{position:absolute;inset:0}
+.hero-wrap{position:relative;z-index:2;text-align:center;padding:0 40px}
+.hero-ko{font-size:10px;letter-spacing:.5em;color:rgba(122,90,248,.6);margin-bottom:48px}
+.hero-h{font-size:clamp(44px,7.5vw,112px);font-weight:100;color:#fff;line-height:.95;letter-spacing:-.02em;opacity:0;transform:scale(.97);transition:opacity 2.5s 1s ease,transform 2.5s 1s ease}
+.hero-h.show{opacity:1;transform:scale(1)}
+.hero-h em{font-style:normal;display:block;font-size:.45em;color:var(--pale);letter-spacing:.05em;font-weight:200;margin-top:.4em}
+.hero-sub{margin-top:48px;font-size:11px;letter-spacing:.4em;color:var(--dim);opacity:0;transition:opacity 2s 3s ease}
+.hero-sub.show{opacity:1}
+.scroll-c{position:absolute;bottom:48px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font-size:8px;letter-spacing:.5em;color:var(--dim);opacity:0;transition:opacity 1.5s 4.5s ease}
+.scroll-c.show{opacity:1}
+.sl{width:1px;height:50px;background:linear-gradient(to bottom,transparent,var(--signal));animation:sla 2.5s ease-in-out infinite}
+@keyframes sla{0%,100%{opacity:.2;transform:scaleY(.2)}50%{opacity:1;transform:scaleY(1)}}
+
+#s1{min-height:100vh;padding:160px 80px;display:flex;align-items:center;position:relative;overflow:hidden}
+#s1-bg{position:absolute;inset:0;background:linear-gradient(180deg,#000 0%,var(--dome) 50%,#000 100%)}
+.s1-in{position:relative;z-index:2;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center}
+.eye{font-size:9px;letter-spacing:.6em;color:var(--gold);margin-bottom:40px}
+.s1-h{font-size:clamp(32px,4.5vw,64px);font-weight:200;color:#fff;line-height:1.1;margin-bottom:28px}
+.s1-body{font-size:14px;line-height:2.1;color:rgba(232,228,248,.5)}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
+.sp{padding:20px 24px;border:1px solid rgba(122,90,248,.1);border-top:1px solid var(--signal)}
+.sp-n{font-size:clamp(22px,3vw,36px);font-weight:100;color:#fff}
+.sp-u{font-size:11px;color:var(--signal);margin-left:4px}
+.sp-l{margin-top:6px;font-size:9px;letter-spacing:.3em;color:var(--dim)}
+
+/* Interactive dome */
+#s2{min-height:100vh;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 40px;position:relative;overflow:hidden}
+.s2-pre{font-size:9px;letter-spacing:.6em;color:var(--signal);margin-bottom:32px;text-align:center}
+.s2-h{font-size:clamp(28px,4vw,56px);font-weight:200;color:#fff;text-align:center;margin-bottom:16px}
+.s2-sub{font-size:12px;letter-spacing:.3em;color:var(--dim);text-align:center;margin-bottom:56px}
+#dome-interact{display:block;margin:0 auto;cursor:crosshair}
+.dome-note{margin-top:32px;font-size:11px;letter-spacing:.25em;color:var(--dim);text-align:center}
+
+/* Array spec */
+#s3{background:var(--void);padding:120px 80px}
+.s3-head{text-align:center;max-width:700px;margin:0 auto 72px}
+.s3-h{font-size:clamp(28px,4vw,56px);font-weight:200;color:#fff;line-height:1.15}
+.array-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(122,90,248,.08);border:1px solid rgba(122,90,248,.08);max-width:1000px;margin:0 auto}
+.ag{padding:40px 28px;background:var(--void);opacity:0;transform:translateY(20px);transition:opacity .8s,transform .8s}
+.ag.show{opacity:1;transform:none}
+.ag-n{font-size:36px;font-weight:100;color:#fff}
+.ag-u{font-size:12px;color:var(--signal);margin-left:4px}
+.ag-l{margin-top:8px;font-size:9px;letter-spacing:.3em;color:var(--dim)}
+.ag-d{margin-top:12px;font-size:12px;line-height:1.8;color:rgba(232,228,248,.4)}
+
+/* Purchase */
+#s4{padding:160px 80px;background:var(--void)}
+.buy-in{max-width:800px;margin:0 auto}
+.buy-eye{font-size:9px;letter-spacing:.6em;color:var(--gold);margin-bottom:48px}
+.buy-h{font-size:clamp(40px,6vw,88px);font-weight:100;color:#fff;line-height:.95;margin-bottom:64px}
+.buy-rows{border:1px solid rgba(122,90,248,.1);margin-bottom:48px}
+.br{display:flex;justify-content:space-between;align-items:baseline;padding:22px 28px;border-bottom:1px solid rgba(122,90,248,.07)}
+.br:last-child{border-bottom:none}
+.br-l{font-size:11px;letter-spacing:.2em;color:var(--dim)}
+.br-v{font-size:14px;color:#fff;font-weight:200}
+.br-v.a{color:var(--gold)}
+.buy-note{font-size:12px;line-height:2;color:rgba(232,228,248,.35);margin-bottom:48px;border-left:1px solid rgba(122,90,248,.2);padding-left:24px}
+.btn-b{display:inline-block;background:var(--signal);color:#fff;padding:20px 56px;font-size:11px;letter-spacing:.35em;font-weight:500;text-decoration:none;transition:opacity .3s}
+.btn-b:hover{opacity:.8}
+.btn-g{display:inline-block;border:1px solid rgba(255,255,255,.15);color:#fff;padding:20px 36px;font-size:11px;letter-spacing:.35em;text-decoration:none;margin-left:14px}
+
+#grain{position:fixed;inset:0;z-index:700;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");animation:gr .1s steps(1) infinite}
+@keyframes gr{0%{background-position:0 0}33%{background-position:-10% 7%}66%{background-position:5% -12%}100%{background-position:0 0}}
+@media(max-width:768px){#nav{padding:20px 24px}.s1-in{grid-template-columns:1fr}.array-grid{grid-template-columns:1fr 1fr}#s1,#s2,#s3,#s4{padding-left:24px;padding-right:24px}.btn-g{margin-left:0;margin-top:12px}}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<div id="grain"></div><div id="cur"></div><div id="cur-r"></div>
+<section id="s0">
+<canvas id="dome-canvas"></canvas>
+<div class="hero-wrap">
+<div class="hero-ko" data-en="DOME HOUSE — Miruwa — Geodesic Dome, 18m diameter">DOME HOUSE — 美留和 — ジオデシックドーム 直径18m</div>
+<h1 class="hero-h" data-en="Stand at the center of the sphere." id="hH">球面の中心に、<br/>立て。<em>Stand at the center of the sphere.</em></h1>
+<p class="hero-sub" data-en="32-Channel Ambisonics / Lime Plaster Interior Walls / Capacity 50 / ¥5,300,000〜/unit" id="hS">32chアンビソニクス / 漆喰内壁 / 50人収容 / ¥530万〜/口</p>
+</div>
+<div class="scroll-c" id="sc">SCROLL<div class="sl"></div></div>
+</section>
+<section id="s1">
+<div id="s1-bg"></div>
+<div class="s1-in">
+<div>
+<div class="eye">THE PROPERTY</div>
+<h2 class="s1-h" data-en="Space Becomes an Instrument.">空間が、<br/>楽器になる。</h2>
+<p class="s1-body" data-en="18m in diameter, 9m in height. The spherical interior walls feature lime plaster finish. RT60 of 0.4 seconds—the optimal middle ground between studio and concert hall acoustics. Thirty-two speakers positioned across the spherical surface project sound from every direction. Upon entering the Dome, the boundary between forest interior and exterior dissolves.">直径18m、高さ9m。球面の内壁は漆喰仕上げ。RT60は0.4秒——スタジオとホールの中間。32本のスピーカーが球面上に配置され、あらゆる方向から音を出せる。ドームに入った瞬間、森の外にいるのか内にいるのかわからなくなる。</p>
+<div class="specs">
+<div class="sp"><div class="sp-n">¥530<span class="sp-u" data-en="From ¥10,000,000">万〜</span></div><div class="sp-l" data-en="/ unit">/ 口</div></div>
+<div class="sp"><div class="sp-n" data-en="Annual Nights">年<span class="sp-u" style="font-size:20px">8</span>泊</div><div class="sp-l" data-en="Includes Usage Rights">利用権付き</div></div>
+<div class="sp"><div class="sp-n">0.4<span class="sp-u">s</span></div><div class="sp-l" data-en="RT60 (Lime Plaster Interior Walls)">RT60 （漆喰内壁）</div></div>
+<div class="sp"><div class="sp-n">50<span class="sp-u">人</span></div><div class="sp-l" data-en="Capacity">収容人数</div></div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px">
+<div data-en="DOME ARRAY — 32ch HOA Speaker System
+        Zenith: 1 unit
+        Upper tier: 5 units (72° intervals)
+        Middle tier: 10 units (36° intervals)
+        Lower tier: 10 units (36° intervals)
+        Sub: 6 units (floor)
+        ─────────────────
+        Total: 32ch
+        Decoder: 7th-order HOA → 32ch
+        Latency: &lt;1ms
+        SPL: 120 dB" style="padding:32px;background:rgba(122,90,248,.05);border:1px solid rgba(122,90,248,.12);font-family:'Courier New',monospace;font-size:11px;line-height:2;color:rgba(122,90,248,.6)">
+        DOME ARRAY — 32ch HOA Speaker System<br/><br/>
+        天頂: 1本<br/>
+        上段: 5本（72°間隔）<br/>
+        中段: 10本（36°間隔）<br/>
+        下段: 10本（36°間隔）<br/>
+        サブ: 6本（床面）<br/>
+        ─────────────────<br/>
+        計: 32ch<br/><br/>
+        デコーダー: 7次HOA → 32ch<br/>
+        レイテンシ: &lt;1ms<br/>
+        SPL: 120 dB
+      </div>
+<p data-en="Enter the Dome and click the interactive diagram below. Sound will emanate from that direction." style="font-size:12px;line-height:1.9;color:var(--dim)">ドームに入って、下のインタラクティブ図をクリックしてみてください。音がその方向から聴こえます。</p>
+</div>
+</div>
+</section>
+<section id="s2">
+<div class="s2-pre">DOME ARRAY — INTERACTIVE</div>
+<h2 class="s2-h" data-en="Sound emanates from the direction you click.">クリックした方向から音が来る。</h2>
+<p class="s2-sub" data-en="32-Channel Ambisonics Demo — Click anywhere in the Dome">32chアンビソニクスのデモ — ドームの任意の点をクリック</p>
+<canvas height="400" id="dome-interact" width="400"></canvas>
+<p class="dome-note" data-en="← View from inside the Dome. Each point marks a speaker position.">← ドームの内側から見た図。各点がスピーカー位置。</p>
+</section>
+<section id="s3">
+<div class="s3-head">
+<div class="eye">DOME ARRAY SPEC</div>
+<h2 class="s3-h" data-en="32-Channel Higher-Order Ambisonics">32ch高次<br/>アンビソニクス</h2>
+</div>
+<div class="array-grid">
+<div class="ag" data-delay="0"><div class="ag-n">32<span class="ag-u">ch</span></div><div class="ag-l">SPEAKER COUNT</div><div class="ag-d" data-en="Positioned on the Spherical Surface. Sound Projection from All 360° Directions">球面上に配置。360°全方位から音を出せる</div></div>
+<div class="ag" data-delay="100"><div class="ag-n">7<span class="ag-u">次</span></div><div class="ag-l">HOA ORDER</div><div class="ag-d" data-en="Higher-Order Ambisonics. Directional Resolution ±5° or Better">高次アンビソニクス。方向解像度±5°以下</div></div>
+<div class="ag" data-delay="200"><div class="ag-n">120<span class="ag-u">dB</span></div><div class="ag-l">MAX SPL</div><div class="ag-d" data-en="ICEpower 125ASX2 × 16 Units. Distortion-Free Across All Frequencies">ICEpower 125ASX2 × 16台。全域にわたって歪みなし</div></div>
+<div class="ag" data-delay="300"><div class="ag-n">&lt;1<span class="ag-u">ms</span></div><div class="ag-l">LATENCY</div><div class="ag-d" data-en="GPS Oracle synchronized. All speakers emit sound within ±10μs precision">GPS Oracle同期。全スピーカーが±10μs以内で発音</div></div>
+</div>
+</section>
+<section id="s4">
+<div class="buy-in">
+<div class="buy-eye">YOUR STAKE</div>
+<h2 class="buy-h" data-en="Own the Sphere.">球面を<br/>所有する。</h2>
+<div class="buy-rows">
+<div class="br"><span class="br-l" data-en="Properties">物件</span><span class="br-v" data-en="DOME HOUSE — Birawa">DOME HOUSE — 美留和</span></div>
+<div class="br"><span class="br-l" data-en="Pricing">価格</span><span class="br-v a" data-en="¥5,300,000〜/unit">¥530万〜/口</span></div>
+<div class="br"><span class="br-l" data-en="Usage Rights">利用権</span><span class="br-v" data-en="8 Nights per Year">年8泊</span></div>
+<div class="br"><span class="br-l" data-en="Capacity">収容</span><span class="br-v" data-en="Capacity 50">50人</span></div>
+<div class="br"><span class="br-l">SOLUNA SIGNAL</span><span class="br-v a">Dome Array 32ch + GPS Oracle + Silent Power</span></div>
+</div>
+<p class="buy-note" data-en="For purchases of 5 or more units, a dedicated service representative will support you from registration through delivery. Accommodates 50 guests. Sound arrives from 32 directions. Lime plaster walls resonate with gentle warmth. A place like no other.">5口以上購入の場合、専任サービスマンが登記・引き渡しまでサポートします。<br/>50人が入れる。32方向から音が来る。漆喰の壁が柔らかく響く。他にない場所。</p>
+<a class="btn-b" data-en="Proceed to Purchase" href="/pay?property=dome">購入手続きへ</a>
+<a class="btn-g" data-en="FAQ" href="/faq">よくある質問</a>
+</div>
+</section>
+<script defer="" src="/track.js"></script>
+<script>
+(function(){
+const cur=document.getElementById('cur'),cr=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function lc(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(lc)})();
+
+// Hero dome canvas - geodesic wireframe
+const dc=document.getElementById('dome-canvas');
+const dctx=dc.getContext('2d');
+function resizeDC(){dc.width=window.innerWidth;dc.height=window.innerHeight}
+let rotY=0;
+function project(x,y,z,cx,cy,fov){const scale=fov/(fov+z);return{x:cx+x*scale*280,y:cy-y*scale*280,s:scale}}
+function animDC(){
+  const w=dc.width,h=dc.height;
+  dctx.clearRect(0,0,w,h);
+  dctx.fillStyle='#000';dctx.fillRect(0,0,w,h);
+  rotY+=0.003;
+  const cx=w/2,cy=h*.45,fov=3;
+  // Geodesic dome vertices (simplified icosphere)
+  const verts=[];
+  const rings=[{count:1,lat:90},{count:5,lat:63},{count:10,lat:30},{count:10,lat:-6},{count:5,lat:-42}];
+  rings.forEach(r=>{
+    for(let i=0;i<r.count;i++){
+      const lng=(i/r.count)*360+rotY*57.3+(r.count===5&&rings.indexOf(r)===1?36:0);
+      const lat=r.lat*Math.PI/180,lng2=lng*Math.PI/180;
+      verts.push({x:Math.cos(lat)*Math.cos(lng2),y:Math.sin(lat),z:Math.cos(lat)*Math.sin(lng2)});
+    }
+  });
+  // Draw edges between nearby vertices
+  for(let i=0;i<verts.length;i++){
+    for(let j=i+1;j<verts.length;j++){
+      const a=verts[i],b=verts[j];
+      const d=Math.sqrt((a.x-b.x)**2+(a.y-b.y)**2+(a.z-b.z)**2);
+      if(d<0.8){
+        const pa=project(a.x,a.y,a.z,cx,cy,fov);
+        const pb=project(b.x,b.y,b.z,cx,cy,fov);
+        const alpha=.06+pa.s*.12;
+        dctx.beginPath();dctx.moveTo(pa.x,pa.y);dctx.lineTo(pb.x,pb.y);
+        dctx.strokeStyle=`rgba(122,90,248,${alpha})`;dctx.lineWidth=.8;dctx.stroke();
+      }
+    }
+  }
+  // Speaker nodes
+  verts.forEach(v=>{
+    const p=project(v.x,v.y,v.z,cx,cy,fov);
+    if(v.z+Math.sin(rotY)>-0.5){
+      const pulse=Math.sin(Date.now()*.002+verts.indexOf(v))*0.4+0.6;
+      dctx.beginPath();dctx.arc(p.x,p.y,2,0,Math.PI*2);
+      dctx.fillStyle=`rgba(122,90,248,${p.s*pulse*.8})`;dctx.fill();
+    }
+  });
+  requestAnimationFrame(animDC);
+}
+resizeDC();animDC();window.addEventListener('resize',resizeDC);
+
+// Interactive dome
+const ic=document.getElementById('dome-interact');
+const ictx=ic.getContext('2d');
+const W=ic.width,H=ic.height,CX=W/2,CY=H/2,R=170;
+let actx2=null,activeNode=null;
+
+// Speaker positions (simplified 2D projection)
+const speakers=[];
+const spkRings=[{n:1,r:0},{n:5,r:50},{n:10,r:100},{n:10,r:140},{n:6,r:165}];
+spkRings.forEach(ring=>{
+  for(let i=0;i<ring.n;i++){
+    const a=(i/ring.n)*Math.PI*2-(Math.PI/2);
+    speakers.push({x:CX+Math.cos(a)*ring.r,y:CY+Math.sin(a)*ring.r,active:false,level:0});
+  }
+});
+
+function drawDome(){
+  ictx.clearRect(0,0,W,H);
+  // Outer circle
+  ictx.beginPath();ictx.arc(CX,CY,R,0,Math.PI*2);
+  ictx.strokeStyle='rgba(122,90,248,.2)';ictx.lineWidth=1;ictx.stroke();
+  // Grid lines
+  for(let i=0;i<6;i++){
+    ictx.beginPath();ictx.arc(CX,CY,R*(i+1)/6,0,Math.PI*2);
+    ictx.strokeStyle='rgba(122,90,248,.06)';ictx.stroke();
+  }
+  // Speakers
+  speakers.forEach(s=>{
+    ictx.beginPath();ictx.arc(s.x,s.y,s.active?6:3,0,Math.PI*2);
+    ictx.fillStyle=s.active?'rgba(122,90,248,.9)':`rgba(122,90,248,${.2+s.level*.6})`;
+    ictx.fill();
+    if(s.active){
+      ictx.beginPath();ictx.arc(s.x,s.y,12,0,Math.PI*2);
+      ictx.strokeStyle='rgba(122,90,248,.3)';ictx.lineWidth=1;ictx.stroke();
+    }
+    s.level*=.95;
+    s.active=false;
+  });
+  requestAnimationFrame(drawDome);
+}
+drawDome();
+
+ic.addEventListener('click',e=>{
+  const rect=ic.getBoundingClientRect();
+  const mx2=(e.clientX-rect.left)*(W/rect.width);
+  const my2=(e.clientY-rect.top)*(H/rect.height);
+  // Find closest speakers and activate
+  const dist=speakers.map(s=>Math.sqrt((s.x-mx2)**2+(s.y-my2)**2));
+  const minD=Math.min(...dist);
+  speakers.forEach((s,i)=>{
+    const d=dist[i];
+    if(d<80){s.level=Math.max(0,1-d/80);s.active=d===minD}
+  });
+  // Play tone from that direction
+  if(!actx2)actx2=new(window.AudioContext||window.webkitAudioContext)();
+  const dx=mx2-CX,dy=my2-CY;
+  const angle=Math.atan2(dy,dx);
+  const dist2=Math.min(Math.sqrt(dx*dx+dy*dy)/R,1);
+  const freq=200+dist2*800;
+  const o=actx2.createOscillator(),g=actx2.createGain();
+  o.type='sine';o.frequency.value=freq;
+  g.gain.setValueAtTime(.15,actx2.currentTime);
+  g.gain.exponentialRampToValueAtTime(.001,actx2.currentTime+1.5);
+  o.connect(g);g.connect(actx2.destination);
+  o.start();o.stop(actx2.currentTime+1.5);
+});
+
+setTimeout(()=>{document.getElementById('hH').classList.add('show');document.getElementById('hS').classList.add('show');document.getElementById('sc').classList.add('show')},600);
+const io=new IntersectionObserver(e=>{e.forEach(en=>{if(!en.isIntersecting)return;const el=en.target;if(el.classList.contains('ag')){setTimeout(()=>el.classList.add('show'),parseInt(el.dataset.delay||0));io.unobserve(el)}})},{threshold:.15});
+document.querySelectorAll('.ag').forEach(el=>io.observe(el));
+})();
+</script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Guest Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Birawa Village" href="village">美留和ビレッジ</a>
+<a data-en="Birawa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Earn Units Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Architectural Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="Dome Story" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="NESTING Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Foundation Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fees" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Law" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+</body>
+</html>

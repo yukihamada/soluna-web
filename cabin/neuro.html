@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/neuro" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA NEURO — AI CABIN | Intelligence and beauty infused into machines for dwelling.">SOLUNA NEURO — AI CABIN | 住むための機械に、知性と美しさを。</title>
+<meta content="AI CABIN by SOLUNA NEURO。住むための機械に、知性と美しさを。AI・センサー・自律制御が見えない場所で家を動かし、人はただ美しい空間に身を置く。" data-en-content="AI CABIN by SOLUNA NEURO. A machine for living infused with intelligence and elegance. AI, sensors, and autonomous control operate invisibly, while inhabitants simply dwell in beautiful space." name="description"/>
+<meta content="AI CABIN — SOLUNA NEURO | 住むための機械に、知性と美しさを。" property="og:title"/>
+<meta content="AI CABIN。住むための機械に、知性と美しさを。テクノロジーは消え、残るのは空間の美と心地よさだけ。" property="og:description"/>
+<meta content="https://solun.art/img/neuro_hero_corbusier.jpg" property="og:image"/>
+<meta content="https://solun.art/neuro" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --bg:#040404;
+  --text:#f0ece4;
+  --cyan:#4aeadc;
+  --cyan-dim:rgba(74,234,220,.15);
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--cyan);color:#000}
+
+/* GNAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold);text-decoration:none}
+.gnav-logo span{color:var(--cyan);font-weight:400;letter-spacing:.1em;margin-left:6px;font-size:10px}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:var(--cyan)}
+.gnav-links a.gnav-cta{color:var(--cyan)!important;font-weight:700;border:1px solid rgba(74,234,220,.3);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:var(--cyan);color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease}
+.r.in{opacity:1;transform:translateY(0)}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:700px;display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(74,234,220,.03) 0%,transparent 60%)}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(transparent,var(--bg))}
+.hero-grid{position:absolute;inset:0;opacity:.04;background-image:linear-gradient(rgba(74,234,220,.3) 1px,transparent 1px),linear-gradient(90deg,rgba(74,234,220,.3) 1px,transparent 1px);background-size:60px 60px}
+.hero-body{position:relative;z-index:2;max-width:800px;padding:0 32px}
+.hero-pre{font-size:10px;letter-spacing:.5em;color:var(--cyan);text-transform:uppercase;font-weight:600;margin-bottom:24px;opacity:.7}
+.hero h1{font-size:clamp(2.4rem,7vw,4.5rem);font-weight:800;letter-spacing:-.05em;line-height:1.05;margin-bottom:24px}
+.hero h1 em{font-style:normal;color:var(--cyan)}
+.hero-quote{font-size:14px;color:#555;line-height:2;max-width:560px;margin:0 auto 12px;font-style:italic}
+.hero-quote-attr{font-size:11px;color:#333;margin-bottom:36px}
+.hero-sub{font-size:13.5px;color:rgba(240,236,228,.5);line-height:2.2;max-width:520px;margin:0 auto 36px}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.hero-pre{animation:fadeUp .8s .2s both}
+.hero h1{animation:fadeUp .9s .4s both}
+.hero-quote{animation:fadeUp 1s .6s both}
+.hero-quote-attr{animation:fadeUp 1s .7s both}
+.hero-sub{animation:fadeUp 1s .8s both}
+.hero-cta{animation:fadeUp 1.1s 1s both}
+
+/* PULSE LINE */
+.pulse-line{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.15;margin:0}
+
+/* SECTIONS */
+.s{padding:100px 0}
+@media(max-width:600px){.s{padding:72px 0}}
+.w{max-width:700px;margin:0 auto;padding:0 24px}
+.ww{max-width:980px;margin:0 auto;padding:0 24px}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:12px}
+.label-c{color:var(--cyan);opacity:.6}
+h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+.sub{color:#555;font-size:13px;line-height:2.05;max-width:560px;margin-bottom:24px}
+.cyan{color:var(--cyan)}
+.gold{color:var(--gold)}
+
+/* BUTTONS */
+.cta-btn{display:inline-block;background:var(--cyan);color:#040404;font-weight:800;font-size:12.5px;padding:16px 40px;border-radius:100px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 28px rgba(74,234,220,.15);letter-spacing:.04em}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(74,234,220,.25);color:#040404}
+.cta-ghost{display:inline-block;border:1px solid #252525;color:#666;font-size:12px;padding:15px 28px;border-radius:100px;margin-left:10px;transition:all .2s;font-weight:500}
+.cta-ghost:hover{border-color:rgba(74,234,220,.4);color:var(--cyan)}
+
+/* LAYER DIAGRAM */
+.layers{display:grid;grid-template-columns:1fr;gap:0;margin:32px 0;max-width:600px;margin-left:auto;margin-right:auto}
+.layer{position:relative;padding:32px 28px;border:1px solid #111;background:#060606;transition:all .3s}
+.layer:hover{border-color:rgba(74,234,220,.2);background:#070707}
+.layer-num{position:absolute;top:12px;right:16px;font-size:2.5rem;font-weight:800;color:rgba(74,234,220,.06);line-height:1;letter-spacing:-.05em}
+.layer-icon{font-size:11px;color:var(--cyan);letter-spacing:.3em;text-transform:uppercase;font-weight:700;margin-bottom:8px;opacity:.6}
+.layer-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:-.02em}
+.layer-desc{font-size:12px;color:#444;line-height:2}
+.layer-connect{width:1px;height:28px;background:linear-gradient(var(--cyan),transparent);margin:0 auto;opacity:.2}
+
+/* NERVE GRID */
+.nerve-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin:32px 0}
+@media(max-width:768px){.nerve-grid{grid-template-columns:1fr 1fr;gap:1px}}
+@media(max-width:480px){.nerve-grid{grid-template-columns:1fr}}
+.nerve{padding:28px 24px;background:#060606;border:1px solid #0e0e0e;position:relative;overflow:hidden;transition:border-color .3s}
+.nerve:hover{border-color:rgba(74,234,220,.15)}
+.nerve::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0;transition:opacity .3s}
+.nerve:hover::before{opacity:.3}
+.nerve-name{font-size:13px;font-weight:700;color:#ccc;margin-bottom:6px}
+.nerve-type{font-size:9px;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;opacity:.5}
+.nerve-desc{font-size:11px;color:#444;line-height:2}
+
+/* PROPERTY STRIP */
+.prop-strip{display:grid;grid-template-columns:1fr 1fr;gap:3px;width:100vw;margin-left:calc(-50vw + 50%)}
+@media(max-width:600px){.prop-strip{grid-template-columns:1fr}}
+.prop-panel{position:relative;overflow:hidden;height:60vh;min-height:380px}
+@media(max-width:600px){.prop-panel{height:56vw;min-height:260px}}
+.prop-panel img{width:100%;height:100%;object-fit:cover;filter:brightness(.65);transition:filter .4s}
+.prop-panel:hover img{filter:brightness(.8)}
+.prop-overlay{position:absolute;bottom:0;left:0;right:0;padding:24px;background:linear-gradient(transparent,rgba(4,4,4,.95))}
+.prop-tag{font-size:9px;letter-spacing:.2em;font-weight:800;text-transform:uppercase;color:var(--cyan);margin-bottom:6px;opacity:.7}
+.prop-name{font-size:15px;font-weight:800;color:var(--text);margin-bottom:4px}
+.prop-meta{font-size:11px;color:#555;line-height:1.8}
+.prop-meta strong{color:var(--gold)}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:32px;margin:32px 0}
+.timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:1px;background:linear-gradient(var(--cyan),rgba(74,234,220,.1))}
+.tl-item{position:relative;padding:0 0 36px 24px}
+.tl-item::before{content:'';position:absolute;left:-26px;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid var(--cyan);background:var(--bg)}
+.tl-item:last-child{padding-bottom:0}
+.tl-phase{font-size:9px;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:4px;opacity:.6}
+.tl-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px}
+.tl-desc{font-size:12px;color:#444;line-height:2}
+
+/* SPEC TABLE */
+.spec{border:1px solid #111;border-radius:16px;overflow:hidden;margin:18px 0;background:#060606}
+.spec-row{display:grid;grid-template-columns:160px 1fr;border-bottom:1px solid #0e0e0e;font-size:12px}
+.spec-row:last-child{border-bottom:none}
+.spec-row .k{padding:16px 18px;color:#3a3a3a;font-weight:700;letter-spacing:.04em;background:#050505;font-size:10.5px;display:flex;align-items:center}
+.spec-row .v{padding:16px 18px;color:#999;line-height:1.7}
+.spec-row .v strong{color:var(--cyan);font-weight:700}
+@media(max-width:600px){.spec-row{grid-template-columns:1fr}.spec-row .k{padding:12px 16px 4px;background:transparent}.spec-row .v{padding:4px 16px 14px}}
+
+/* CONTACT FLOAT */
+.contact-float{position:fixed;bottom:24px;right:24px;z-index:100}
+.contact-float a{display:flex;align-items:center;gap:8px;padding:12px 20px;border-radius:100px;font-size:11.5px;font-weight:700;transition:all .2s;box-shadow:0 4px 20px rgba(0,0,0,.5);background:#111;color:var(--cyan);border:1px solid rgba(74,234,220,.2)}
+.contact-float a:hover{background:var(--cyan);color:#040404}
+@media(max-width:600px){.contact-float{bottom:16px;right:16px}.contact-float a{padding:10px 16px;font-size:10.5px}}
+
+footer{padding:60px 24px 36px;max-width:700px;margin:0 auto;text-align:center}
+footer .logo{font-size:10px;font-weight:800;letter-spacing:.2em;color:var(--gold);margin-bottom:4px}
+footer .logo span{color:var(--cyan);font-weight:400;letter-spacing:.1em;margin-left:6px;font-size:9px}
+footer nav{margin-top:12px}
+footer nav a{font-size:10.5px;color:#333;margin:0 10px}
+footer nav a:hover{color:var(--cyan)}
+footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
+</style>
+</head>
+<body>
+<!-- ─── LOGIN GATE ─── -->
+<div id="neuro-login-gate" style="
+  position:fixed;inset:0;z-index:99999;
+  background:#040404;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+">
+<div style="width:100%;max-width:380px">
+<div style="text-align:center;margin-bottom:32px">
+<div style="font-size:11px;letter-spacing:.3em;color:#4aeadc;font-weight:700;margin-bottom:14px">SOLUNA NEURO</div>
+<div data-en="Continue via email" style="font-size:22px;font-weight:800;color:#f0ece4;letter-spacing:-.03em;margin-bottom:10px">メールで続ける</div>
+<div data-en="We will send a confirmation code. No registration required — completed in 30 seconds." style="font-size:12px;color:#444;line-height:1.9">確認コードをお送りします。<br/>登録不要・30秒で完了。</div>
+</div>
+<div id="ng-step-email">
+<input autocomplete="email" id="ng-email" onblur="this.style.borderColor='#1e1e2a'" onfocus="this.style.borderColor='#4aeadc'" onkeydown="if(event.key==='Enter')ngSendOTP()" placeholder="your@email.com" style="width:100%;background:#0a0a0a;border:1px solid #1e1e2a;border-radius:10px;padding:16px;color:#f0ece4;font-size:15px;outline:none;margin-bottom:14px;transition:.2s" type="email"/>
+<div id="ng-err1" style="display:none;background:#200e0e;border:1px solid #e05555;border-radius:8px;padding:10px 14px;color:#e05555;font-size:12px;margin-bottom:12px"></div>
+<button id="ng-btn1" onclick="ngSendOTP()" onmouseout="this.style.opacity='1'" onmouseover="this.style.opacity='.9'" style="
+        width:100%;padding:16px;background:#4aeadc;color:#040404;
+        border:none;border-radius:10px;font-size:14px;font-weight:800;
+        cursor:pointer;letter-spacing:.04em;transition:opacity .2s
+      ">
+<span data-en="Send confirmation code →" id="ng-btn1-text">確認コードを送信 →</span>
+</button>
+</div>
+<div id="ng-step-otp" style="display:none">
+<div id="ng-sent-msg" style="text-align:center;font-size:12px;color:#555;margin-bottom:18px;line-height:1.9"></div>
+<input autocomplete="one-time-code" id="ng-otp" inputmode="numeric" maxlength="6" onblur="this.style.borderColor='#1e1e2a'" onfocus="this.style.borderColor='#4aeadc'" oninput="this.value=this.value.replace(/\D/g,'');if(this.value.length===6)ngVerifyOTP()" onkeydown="if(event.key==='Enter')ngVerifyOTP()" placeholder="123456" style="width:100%;background:#0a0a0a;border:1px solid #1e1e2a;border-radius:10px;padding:16px;color:#4aeadc;font-size:30px;font-weight:700;outline:none;margin-bottom:14px;letter-spacing:.25em;text-align:center;transition:.2s" type="text"/>
+<div id="ng-err2" style="display:none;background:#200e0e;border:1px solid #e05555;border-radius:8px;padding:10px 14px;color:#e05555;font-size:12px;margin-bottom:12px"></div>
+<button id="ng-btn2" onclick="ngVerifyOTP()" onmouseout="this.style.opacity='1'" onmouseover="this.style.opacity='.9'" style="
+        width:100%;padding:16px;background:#4aeadc;color:#040404;
+        border:none;border-radius:10px;font-size:14px;font-weight:800;
+        cursor:pointer;letter-spacing:.04em;transition:opacity .2s;margin-bottom:10px
+      ">
+<span data-en="Log in →" id="ng-btn2-text">ログイン →</span>
+</button>
+<button data-en="← Change Email" onclick="ngResetEmail()" style="
+        width:100%;padding:10px;background:none;border:1px solid #1a1a1a;
+        border-radius:10px;color:#333;font-size:12px;cursor:pointer
+      ">← メールを変更</button>
+</div>
+</div>
+</div>
+<script>
+(function() {
+  if (localStorage.getItem('sln_token')) {
+    var gate = document.getElementById('neuro-login-gate');
+    if (gate) gate.style.display = 'none';
+  }
+})();
+var _ngEmail = '';
+async function ngSendOTP() {
+  var email = document.getElementById('ng-email').value.trim();
+  var err = document.getElementById('ng-err1');
+  err.style.display = 'none';
+  if (!email || !email.includes('@')) { err.textContent = 'メールアドレスを正しく入力してください'; err.style.display = 'block'; return; }
+  var btn = document.getElementById('ng-btn1');
+  document.getElementById('ng-btn1-text').textContent = '送信中...';
+  btn.disabled = true;
+  try {
+    var res = await fetch('/api/soluna/otp', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email}) });
+    var data = await res.json().catch(function(){return {};});
+    if (!res.ok) { err.textContent = data.error||'メール送信に失敗しました'; err.style.display='block'; return; }
+    _ngEmail = email;
+    document.getElementById('ng-sent-msg').innerHTML = '<span style="color:#4aeadc">'+email+'</span> に確認コードを送りました';
+    document.getElementById('ng-step-email').style.display = 'none';
+    document.getElementById('ng-step-otp').style.display = 'block';
+    document.getElementById('ng-otp').focus();
+  } catch(e) {
+    err.textContent = 'サーバーに接続できませんでした'; err.style.display = 'block';
+  } finally {
+    document.getElementById('ng-btn1-text').textContent = '確認コードを送信 →';
+    btn.disabled = false;
+  }
+}
+async function ngVerifyOTP() {
+  var code = document.getElementById('ng-otp').value.trim();
+  var err = document.getElementById('ng-err2');
+  err.style.display = 'none';
+  if (code.length !== 6) { err.textContent = '6桁のコードを入力してください'; err.style.display='block'; return; }
+  var btn = document.getElementById('ng-btn2');
+  document.getElementById('ng-btn2-text').textContent = '確認中...';
+  btn.disabled = true;
+  try {
+    var res = await fetch('/api/soluna/verify', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:_ngEmail, code}) });
+    var data = await res.json().catch(function(){return {};});
+    if (!res.ok || !data.token) {
+      var msg = data.error==='invalid_code' ? 'コードが正しくありません' :
+        data.error==='expired' ? 'コードの有効期限が切れました。再送信してください' : (data.error||'認証に失敗しました');
+      err.textContent = msg; err.style.display = 'block'; return;
+    }
+    localStorage.setItem('sln_token', data.token);
+    document.getElementById('neuro-login-gate').style.display = 'none';
+  } catch(e) {
+    err.textContent = 'サーバーに接続できませんでした'; err.style.display = 'block';
+  } finally {
+    document.getElementById('ng-btn2-text').textContent = 'ログイン →';
+    btn.disabled = false;
+  }
+}
+function ngResetEmail() {
+  document.getElementById('ng-step-otp').style.display = 'none';
+  document.getElementById('ng-step-email').style.display = 'block';
+  document.getElementById('ng-otp').value = '';
+  document.getElementById('ng-err2').style.display = 'none';
+}
+</script>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA <span>NEURO</span></a>
+<div class="gnav-links" id="gnav-links">
+<a href="#system">System</a>
+<a href="#properties">Properties</a>
+<a href="#plans">Plans</a>
+<a data-en="Scheme" href="scheme">スキーム</a>
+<a class="gnav-cta" href="#contact">Contact</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- HERO -->
+<div class="hero">
+<div class="hero-grid"></div>
+<div style="position:absolute;inset:0;z-index:0"><img alt="Villa Savoye — Le Corbusier, 1931" src="img/neuro_hero_corbusier.jpg" style="width:100%;height:100%;object-fit:cover;filter:brightness(.3) saturate(.7)"/></div>
+<div class="hero-body">
+<div class="hero-pre">SOLUNA NEURO — AI CABIN</div>
+<h1 data-en="A machine for living,">住むための機械に、<br/><em data-en="Intelligence and elegance.">知性と美しさを。</em></h1>
+<p class="hero-quote" data-en='"Une maison est une machine-à-habiter." — A house is a machine for living in.'>"Une maison est une machine-a-habiter."<br/>— 住宅は住むための機械である。</p>
+<p class="hero-quote-attr">Le Corbusier, <em>Vers une architecture</em>, 1923</p>
+<p class="hero-sub" data-en="Le Corbusier defined housing as a machine for living. A century later, SOLUNA NEURO infuses that machine with intelligence and creates harmony. Technology fades away. What remains is beauty alone.">コルビュジエは住宅を<strong data-en='"A Machine for Living"' style="color:var(--text)">「住むための機械」</strong>と呼んだ。<br/>100年後。SOLUNA NEUROは、その機械に<strong data-en="Intelligence" style="color:var(--cyan)">知性</strong>を与え、<br/><strong data-en="Strikingly Beautiful Spaces" style="color:var(--text)">圧倒的に美しい空間</strong>を作る。テクノロジーは消える。残るのは美だけ。</p>
+<div class="hero-cta">
+<a class="cta-btn" data-en="View system" href="#system">System を見る</a>
+<a class="cta-ghost" data-en="View Properties →" href="#properties" style="border-color:rgba(74,234,220,.2);color:var(--cyan)">物件を見る →</a>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- THESIS -->
+<div class="s" style="padding:100px 0">
+<div class="w">
+<p class="label label-c r" data-en="Thesis">Thesis · テーゼ</p>
+<h2 class="r" data-en="Intelligence is invisible.">知性は見えない。<br/><span class="cyan" data-en="Only beauty remains.">美しさだけが残る。</span></h2>
+<p class="sub r" data-en="In 1923, Le Corbusier defined housing as a machine for living. Plumbing, electricity, ventilation — the machine was perfected in a century. The next question: what happens when intelligence is introduced to the machine?">1923年、コルビュジエは住宅を<strong data-en='"A machine for living" (machine-à-habiter)' style="color:var(--text)">「住むための機械（machine-à-habiter）」</strong>と定義した。水道、電気、換気——機械は100年で完成した。次の問いは、機械に知性を入れたとき、何が起きるか。</p>
+<p class="sub r" data-en="The answer is beauty. Intelligence orchestrates temperature, light, and air circulation behind the scenes. You simply inhabit an overwhelmingly beautiful space. This is SOLUNA NEURO.">答えは「美」。知性が裏側で温度を整え、光を調え、空気を循環させる。人はただ、圧倒的に美しい空間に身を置く。それがSOLUNA NEURO — 通称、<strong style="color:var(--cyan)">AI CABIN</strong>。</p>
+<p class="sub r" data-en='Less is more. — The moment technology becomes visible, beauty breaks. Sensors disappear behind beams, control works like air itself. Guests notice only one thing: "somehow, this space feels beautiful."' style="margin-bottom:0;border-left:2px solid var(--cyan);padding-left:16px;color:#666;font-style:italic">Less is more. — テクノロジーが見えた瞬間、美は壊れる。センサーは梁の裏に消え、制御は空気のように働く。ゲストが気づくのは「なぜかこの空間は美しい」という感覚だけ。</p>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- 3 LAYERS -->
+<div class="s" id="system" style="padding:100px 0;background:#020202">
+<div class="w" style="text-align:center">
+<p class="label label-c r" data-en="Architecture · 3 layers">Architecture · 3つのレイヤー</p>
+<h2 class="r" data-en="Body. Nervous system. Intelligence." style="text-align:center">身体。神経。知性。</h2>
+<p class="r" data-en="Three layers alone. Minimal structure, maximum intelligence. The moment technology becomes visible, design has failed." style="text-align:center;color:#555;font-size:13px;line-height:2;max-width:520px;margin:0 auto 40px">3層だけ。最小の構造で、最大の知性を。テクノロジーが見えた時点で、それはデザインの敗北。</p>
+</div>
+<div class="w">
+<div class="layers r">
+<div class="layer" style="border-color:rgba(74,234,220,.15);border-top:2px solid var(--cyan)">
+<div class="layer-num">03</div>
+<div class="layer-icon">Intelligence</div>
+<div class="layer-title" data-en="Intelligence — AI Autonomous Control">知性 — AI自律制御</div>
+<div class="layer-desc" data-en="AI integrates sensor data for comprehensive processing. Energy optimization, anomaly detection, predictive maintenance. Anticipates guest arrival to activate climate control. Learns optimal temperature from seasonal and weather patterns. Owners monitor everything via dashboard.">
+          センサーデータをAIが統合処理。エネルギー最適化、異常検知、予測メンテナンス。ゲストの到着を予測して空調を起動。季節と天候から最適な温度を学習。オーナーはダッシュボードで全てを監視。
+        </div>
+</div>
+<div class="layer-connect"></div>
+<div class="layer">
+<div class="layer-num">02</div>
+<div class="layer-icon">Nerve</div>
+<div class="layer-title" data-en="Nervous system — sensors + actuators">神経 — センサー + アクチュエーター</div>
+<div class="layer-desc" data-en="Temperature, humidity, CO₂, illuminance, occupancy, power, water flow, vibration, sound. Sensors distributed throughout the residence continuously perceive the environment. Smart locks, lighting, climate control, and curtains act as nerve endings.">
+          温湿度、CO2、照度、人感、電力、水流、振動、騒音。家中に張り巡らされたセンサーが環境を常時感知。スマートロック、照明、空調、カーテンが神経の末端として動く。
+        </div>
+</div>
+<div class="layer-connect"></div>
+<div class="layer">
+<div class="layer-num">01</div>
+<div class="layer-icon">Body</div>
+<div class="layer-title" data-en="Body — Vacant Property Renovation">身体 — 空き家リノベーション</div>
+<div class="layer-desc" data-en="The vacant house acquired for ¥300,000–¥2,500,000 becomes the body. Seismic reinforcement, high-performance insulation retrofit, plumbing renewal. While preserving the historic structure's essence, we achieve modern insulation and airtightness standards. The house is perfected as a physical 'machine.'">
+          ¥30万〜¥250万で取得した空き家が身体。耐震補強、高断熱改修、水回り刷新。古民家の骨格を活かしながら、現代の断熱・気密基準をクリア。物理的な「機械」としての家を完成させる。
+        </div>
+</div>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- NERVE SYSTEM DETAIL -->
+<div class="s" style="padding:100px 0">
+<div class="w">
+<p class="label label-c r" data-en="Nerve System · Nervous System Configuration">Nerve System · 神経系の構成</p>
+<h2 class="r" data-en="With minimal sensors,">最小のセンサーで、<span class="cyan" data-en="Maximum intelligence.">最大の知性。</span></h2>
+<p class="sub r" data-en="More is not better. Only essential sensors, discretely placed. All data aggregates in real-time to the cloud, unified under AI control.">多ければいいわけじゃない。必要十分なセンサーだけを、見えない場所に。全データはリアルタイムでクラウドに集約され、AIが統合制御する。</p>
+</div>
+<div class="ww">
+<div class="nerve-grid r">
+<div class="nerve">
+<div class="nerve-name">KAGI Hub</div>
+<div class="nerve-type">Control</div>
+<div class="nerve-desc" data-en="Unified device control. Smart locks, lighting, climate, and curtains. Remote management. Automatic settings per guest.">全デバイス統合制御。スマートロック・照明・空調・カーテン。リモート管理。ゲストごとの自動設定。</div>
+</div>
+<div class="nerve">
+<div class="nerve-name">Koe Speaker</div>
+<div class="nerve-type">Voice + Audio</div>
+<div class="nerve-desc" data-en="Voice commands. Ambient soundscapes (forest, waves, campfire). P2P mesh network. Multi-room synchronization.">音声コマンド。環境音演出（森の音・波音・焚火）。P2Pメッシュネットワーク。マルチルーム同期。</div>
+</div>
+<div class="nerve">
+<div class="nerve-name">Climate Sensor x6</div>
+<div class="nerve-type">Sense</div>
+<div class="nerve-desc" data-en="Real-time measurement of temperature, humidity, CO₂, and atmospheric pressure in each room. DS18B20 + BME280. Condensation prediction and automated ventilation control.">各部屋の温度・湿度・CO2・気圧をリアルタイム計測。DS18B20 + BME280。結露予測・換気自動制御。</div>
+</div>
+<div class="nerve">
+<div class="nerve-name" data-en="Motion Sensor x4">人感センサー x4</div>
+<div class="nerve-type">Presence</div>
+<div class="nerve-desc" data-en="mmWave Radar. Occupancy detection and movement tracking. Automatic guest arrival recognition. Auto energy-saving when vacant.">mmWaveレーダー。在室検知・動線トラッキング。ゲスト到着自動検知。不在時の自動省エネ。</div>
+</div>
+<div class="nerve">
+<div class="nerve-name" data-en="Energy Monitor">電力モニター</div>
+<div class="nerve-type">Energy</div>
+<div class="nerve-desc" data-en="Distribution Panel CT Measurement · Real-Time Power Consumption Visualization · Solar Generation Monitoring · V2H Charge-Discharge Control · Peak Shaving">分電盤CT計測。リアルタイム電力消費可視化。太陽光発電量。V2H充放電制御。ピークカット。</div>
+</div>
+<div class="nerve">
+<div class="nerve-name">Smart Lock</div>
+<div class="nerve-type">Access</div>
+<div class="nerve-desc" data-en="SESAME 5 Pro. Automatic one-time key generation per guest. Automatic check-in/check-out detection. Remote unlock.">SESAME 5 Pro。ゲストごとのワンタイムキー自動発行。チェックイン/アウト自動検知。遠隔解錠。</div>
+</div>
+<div class="nerve">
+<div class="nerve-name" data-en="Lighting control">照明制御</div>
+<div class="nerve-type">Actuator</div>
+<div class="nerve-desc" data-en="Hue + KAGI. Adaptive dimming synchronized with time of day, occupancy, and daylight. Circadian rhythm lighting. Scene control.">Hue + KAGI。時間帯・在室・日照に連動した自動調光。サーカディアンリズム照明。シーン切替。</div>
+</div>
+<div class="nerve">
+<div class="nerve-name">V2H + Solar</div>
+<div class="nerve-type">Energy</div>
+<div class="nerve-desc" data-en="Solar panels + EV charging/discharging (Nichicon). Complete energy self-sufficiency. Automatic switchover during outages. Grid-sale optimization AI.">太陽光パネル + EV充放電（ニチコン）。電力の自給自足。停電時自動切替。売電最適化AI。</div>
+</div>
+<div class="nerve">
+<div class="nerve-name">Grafana Dashboard</div>
+<div class="nerve-type">Monitor</div>
+<div class="nerve-desc" data-en="Real-time visualization of all sensor data. Anomaly alerts. Auto-generated monthly reports. Owner-dedicated app.">全センサーデータのリアルタイム可視化。異常アラート。月次レポート自動生成。オーナー向けアプリ。</div>
+</div>
+</div>
+<!-- HARDWARE PHOTOS -->
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:24px;border-radius:12px;overflow:hidden">
+<div style="position:relative;height:320px;overflow:hidden"><img alt="NEURO Hub — Raspberry Pi 5ベースの制御ハブ" data-en-alt="NEURO Hub — Raspberry Pi 5-based control hub" src="img/neuro_hub.jpg" style="width:100%;height:100%;object-fit:cover;filter:brightness(.8)"/><div style="position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(4,4,4,.9))"><div style="font-size:9px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.6">NEURO HUB</div><div data-en="RPi 5–based. Unified sensor control. Local AI inference." style="font-size:12px;color:#999;margin-top:4px">RPi 5ベース。全センサー統合制御。ローカルAI推論。</div></div></div>
+<div style="position:relative;height:320px;overflow:hidden"><img alt="NEURO センサー群 — 必要最小限のハードウェア" data-en-alt="NEURO Sensor Suite — Essential Hardware Minimized" src="img/neuro_sensors.jpg" style="width:100%;height:100%;object-fit:cover;filter:brightness(.8)"/><div style="position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(4,4,4,.9))"><div style="font-size:9px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.6">SENSOR KIT</div><div data-en="Minimal necessity. All concealed within beams and walls." style="font-size:12px;color:#999;margin-top:4px">必要最小限。全て梁の裏、壁の中に消える。</div></div></div>
+</div>
+<div class="r" data-en="NEURO installation costs included in renovation budget. All devices OTA-compatible. Only the Koe speaker remains visible; everything else dissolves into the architecture. Less is more." style="margin-top:16px;padding:20px 24px;background:rgba(74,234,220,.03);border:1px solid rgba(74,234,220,.1);border-radius:12px;font-size:11.5px;color:#555;line-height:2">
+      NEURO設置コストは<strong data-en="Approximately ¥800,000–1,200,000" style="color:var(--cyan)">約¥80〜120万</strong>（リノベ費用に含む）。全デバイスOTA対応。見えるのはKoeスピーカーだけ。他は全て建築の中に消える。Less is more。
+    </div>
+</div>
+</div>
+<!-- INSTALLED PHOTO — full width -->
+<div style="position:relative;width:100vw;margin-left:calc(-50vw + 50%);height:55vh;min-height:340px;overflow:hidden">
+<img alt="AI CABIN — テクノロジーが消えた空間" data-en-alt="AI CABIN — A Space Where Technology Disappears" loading="lazy" src="img/neuro_installed.jpg" style="width:100%;height:100%;object-fit:cover;filter:brightness(.6)"/>
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;background:rgba(4,4,4,.3)">
+<div>
+<div style="font-size:9px;color:var(--cyan);letter-spacing:.4em;font-weight:700;opacity:.5;margin-bottom:8px">INSTALLED</div>
+<div data-en="What remains is beauty alone." style="font-size:clamp(1.2rem,3vw,1.8rem);font-weight:800;color:var(--text);letter-spacing:-.03em">残るのは、美しさだけ。</div>
+<div data-en="Intelligence vanishes behind the beams. What one truly feels is nothing but an overwhelmingly comfortable space." style="font-size:12px;color:#666;margin-top:8px">知性は梁の裏に消える。人が感じるのは、圧倒的に心地いい空間だけ。</div>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- AI INTELLIGENCE -->
+<div class="s" style="padding:100px 0;background:#020202">
+<div class="w">
+<p class="label label-c r" data-en="Intelligence · What AI Does">Intelligence · AIが何をするか</p>
+<h2 class="r" data-en="Your home">家が、<span class="cyan" data-en="Begin to think.">考えはじめる。</span></h2>
+<p class="sub r" data-en="NEURO's AI operates continuously in the cloud. Integrating data streams from 27 sensors to autonomously optimize home operations.">NEUROのAIはクラウド上で常時稼働。27のセンサーからのデータストリームを統合し、家の運用を自律的に最適化する。</p>
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px">
+<div style="padding:24px;background:#060606;border:1px solid #111;border-radius:12px;border-top:2px solid var(--cyan)">
+<div style="font-size:11px;color:var(--cyan);letter-spacing:.16em;font-weight:700;margin-bottom:12px;opacity:.6">ENERGY</div>
+<div data-en="Energy autonomy control" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">エネルギー自律制御</div>
+<div data-en="Solar generation + power consumption + EV battery storage + weather forecast. Real-time optimization of four variables. Minimize electricity costs while maintaining room temperature." style="font-size:11px;color:#444;line-height:2">太陽光発電量 + 電力消費 + EV蓄電 + 天気予報。4変数をリアルタイム最適化。電気代を最小化しつつ、室温を維持。</div>
+</div>
+<div style="padding:24px;background:#060606;border:1px solid #111;border-radius:12px;border-top:2px solid rgba(74,234,220,.3)">
+<div style="font-size:11px;color:var(--cyan);letter-spacing:.16em;font-weight:700;margin-bottom:12px;opacity:.6">COMFORT</div>
+<div data-en="Guest Comfort Optimization" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">ゲスト快適性最適化</div>
+<div data-en="Climate control activates based on estimated arrival time. The system learns from seasonal patterns, weather conditions, and past guest feedback, automatically adjusting temperature, lighting, and sound." style="font-size:11px;color:#444;line-height:2">到着予定時刻から逆算して空調起動。季節・天候・過去のゲスト評価を学習し、温度・照明・音を自動調整。</div>
+</div>
+<div style="padding:24px;background:#060606;border:1px solid #111;border-radius:12px;border-top:2px solid rgba(74,234,220,.3)">
+<div style="font-size:11px;color:var(--cyan);letter-spacing:.16em;font-weight:700;margin-bottom:12px;opacity:.6">MAINTENANCE</div>
+<div data-en="Predictive Maintenance" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">予測メンテナンス</div>
+<div data-en="Temperature anomalies, humidity rise (condensation risk), energy pattern changes. AI detects failure signs and alerts Owners before breakdowns." style="font-size:11px;color:#444;line-height:2">温度異常、湿度上昇（結露リスク）、電力パターン変化。故障の兆候をAIが検知し、壊れる前にオーナーに通知。</div>
+</div>
+<div style="padding:24px;background:#060606;border:1px solid #111;border-radius:12px;border-top:2px solid rgba(74,234,220,.3)">
+<div style="font-size:11px;color:var(--cyan);letter-spacing:.16em;font-weight:700;margin-bottom:12px;opacity:.6">OPERATION</div>
+<div data-en="Guest operations automation" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">宿泊運用の自動化</div>
+<div data-en="Check-in detection → Welcome Mode. Check-out detection → Cleaning notification. Minimum power mode when vacant. Zero-labor operations." style="font-size:11px;color:#444;line-height:2">チェックイン検知 → ウェルカムモード。チェックアウト検知 → 清掃通知。空室時は最小電力モード。人手ゼロ運用。</div>
+</div>
+</div>
+<!-- LIVE DASHBOARD LINK -->
+<div class="r" style="margin-top:32px;position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(74,234,220,.15)">
+<a href="neuro-dashboard" style="display:block;text-decoration:none">
+<img alt="NEURO Dashboard — リアルタイム監視画面" data-en-alt="NEURO Dashboard — real-time monitoring interface" loading="lazy" onmouseout="this.style.filter='brightness(.5)'" onmouseover="this.style.filter='brightness(.7)'" src="img/neuro_dashboard_real.jpg" style="width:100%;height:280px;object-fit:cover;filter:brightness(.5);transition:filter .3s"/>
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center">
+<div>
+<div style="font-size:9px;color:var(--cyan);letter-spacing:.3em;font-weight:700;opacity:.6;margin-bottom:8px">LIVE DEMO</div>
+<div data-en="Experience NEURO Dashboard →" style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.02em">NEURO Dashboard を体験する →</div>
+<div data-en="Real-time sensor data · energy flow · AI action logs" style="font-size:11px;color:#555;margin-top:8px">リアルタイムセンサーデータ・エネルギーフロー・AIアクションログ</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- PROPERTIES -->
+<div class="s" id="properties" style="padding:100px 0">
+<div class="w" style="text-align:center">
+<p class="label label-c r" data-en="Bodies · spaces inhabited by NEURO">Bodies · NEUROが入る身体</p>
+<h2 class="r" data-en="The ¥300,000 vacant house becomes," style="text-align:center">¥30万の空き家が、<span class="cyan" data-en="Become an AI CABIN.">AI CABINになる。</span></h2>
+<p class="r" data-en='Vacant properties are affordable. The physical "machine" already exists. NEURO is the "intelligence" installed within it. Lower the cost of infrastructure, invest in intelligence. Thus is born the AI CABIN.' style="text-align:center;color:#555;font-size:13px;line-height:2;max-width:540px;margin:0 auto 40px">空き家は安い。物理的な「機械」は既にある。NEUROは、その機械にインストールする「知性」。身体のコストを下げ、知性に投資する。生まれるのがAI CABIN。</p>
+</div>
+<!-- Wakayama -->
+<div class="w r" style="margin-bottom:16px">
+<div style="display:flex;align-items:center;gap:12px">
+<span style="font-size:9px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.5">WAKAYAMA</span>
+<span data-en="Wakayama 10 Properties" style="font-size:14px;font-weight:800;color:var(--text)">和歌山 10物件</span>
+<span data-en="¥300,000 – ¥2,500,000" style="font-size:11px;color:#555">¥30万〜¥250万</span>
+</div>
+</div>
+<div class="prop-strip">
+<div class="prop-panel">
+<img alt="海南市 ¥30万 — BEFORE" data-en-alt="Hainan City ¥300,000 — BEFORE" loading="lazy" src="img/wakayama_kainan_before.jpg"/>
+<div class="prop-overlay">
+<div class="prop-tag">Before · Body</div>
+<div class="prop-name" data-en="Shimotsu, Kainan ¥300,000">海南市下津 ¥30万</div>
+<div class="prop-meta" data-en="Built 1952 · 4SDK · 215m² Land · Fisherman's Town Home Overlooking the Seto Inland Sea">築1952年 · 4SDK · 土地215m²<br/>瀬戸内海を望む漁師町の家</div>
+</div>
+</div>
+<div class="prop-panel">
+<img alt="海南市 リノベ後 — NEURO搭載" data-en-alt="Kainan City Post-Renovation — NEURO Equipped" loading="lazy" src="img/wakayama_kainan_after.jpg"/>
+<div class="prop-overlay">
+<div class="prop-tag">After · NEURO installed</div>
+<div class="prop-name" data-en="White plaster × zen garden + NEURO">白漆喰 × 禅庭 + NEURO</div>
+<div class="prop-meta" data-en="Renovation + NEURO: Rate per night">リノベ + NEURO: <strong data-en="¥7,000,000">¥700万</strong><br/>宿泊単価 <strong data-en="¥35,000~">¥35,000〜</strong>/泊</div>
+</div>
+</div>
+</div>
+<div class="prop-strip" style="margin-top:3px">
+<div class="prop-panel">
+<img alt="龍神村 ¥150万 — BEFORE" data-en-alt="Ryujin Village ¥1,500,000 — BEFORE" loading="lazy" src="img/wakayama_ryujin_before.jpg"/>
+<div class="prop-overlay">
+<div class="prop-tag">Before · Body</div>
+<div class="prop-name" data-en="Ryujin, Tanabe ¥1,500,000">田辺市龍神村 ¥150万</div>
+<div class="prop-meta" data-en="Built 1975 · 4DK · 421m² land — mountain farmhouse within walking distance of Ryujin hot springs">築1975年 · 4DK · 土地421m²<br/>龍神温泉 徒歩圏の山岳農家</div>
+</div>
+</div>
+<div class="prop-panel">
+<img alt="龍神村 リノベ後 — NEURO搭載" data-en-alt="Ryujin Village Post-Renovation — NEURO Equipped" loading="lazy" src="img/wakayama_ryujin_after.jpg"/>
+<div class="prop-overlay">
+<div class="prop-tag">After · NEURO installed</div>
+<div class="prop-name" data-en="Polished Plaster × Hot Spring + NEURO">磨き漆喰 × 温泉 + NEURO</div>
+<div class="prop-meta" data-en="Renovation + NEURO: Rate per night">リノベ + NEURO: <strong>¥900万</strong><br/>宿泊単価 <strong>¥55,000〜</strong>/泊</div>
+</div>
+</div>
+</div>
+<div class="w r" style="margin-top:12px;text-align:center">
+<a data-en="Wakayama All 10 Properties →" href="wakayama-akiya" style="font-size:12px;color:var(--cyan);border-bottom:1px solid rgba(74,234,220,.2)">和歌山 全10物件を見る →</a>
+</div>
+<!-- Real Market Listings -->
+<div class="w r" style="margin-top:60px;margin-bottom:20px">
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<span style="font-size:9px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.5">MARKET · NOW</span>
+<span style="font-size:14px;font-weight:800;color:var(--text)">今、実際に市場に出ている物件</span>
+<span style="font-size:11px;color:#444">2026年4月時点・成約済みの場合あり</span>
+</div>
+<p style="font-size:11px;color:#333;margin-top:8px;line-height:1.9">NEUROが狙うエリアで現在売りに出ているボディ候補。取得→NEURO搭載→AI CABINへのルートが最も短い物件たち。</p>
+</div>
+<div style="width:100vw;margin-left:calc(-50vw + 50%);display:grid;grid-template-columns:repeat(3,1fr);gap:3px">
+
+<!-- 小豆島 プール+全室海眺 -->
+<a href="https://www.ieichiba.com/project/P202400649" target="_blank" rel="noopener" style="text-decoration:none;background:#060606;border:1px solid #0d0d0d;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .2s;min-height:260px" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" onmouseout="this.style.borderColor='#0d0d0d'">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:800;opacity:.5;text-transform:uppercase;margin-bottom:12px">KAGAWA · SHODOSHIMA</div>
+<div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:6px">¥4,580万</div>
+<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4">上浦 RC4階建<br/>全室オーシャンビュー + プール</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">665m²</span>
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">277m²建</span>
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">2023リノベ</span>
+</div>
+<div style="font-size:11px;color:#444;line-height:1.9;flex:1">プール4.5×2.2m・ルーフトップテラス・プライベートビーチ。全室が海を向く。NEURO搭載で即AI CABIN化可能。</div>
+<div style="margin-top:16px;font-size:9px;color:#2a2a2a;letter-spacing:.08em">家いちば で見る →</div>
+</a>
+
+<!-- 小豆島 バルコニー別荘 -->
+<a href="https://www.ieichiba.com/project/P202500132" target="_blank" rel="noopener" style="text-decoration:none;background:#060606;border:1px solid #0d0d0d;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .2s;min-height:260px" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" onmouseout="this.style.borderColor='#0d0d0d'">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:800;opacity:.5;text-transform:uppercase;margin-bottom:12px">KAGAWA · SHODOSHIMA</div>
+<div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:6px">¥888万</div>
+<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4">バルコニー絶景 別荘<br/>4LDK 外壁塗装済</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">285m²土地</span>
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">要修繕</span>
+</div>
+<div style="font-size:11px;color:#444;line-height:1.9;flex:1">2024年11月外壁塗装・テラス補強完了。木造2階建・4LDK。山林地目。海眺望のバルコニーにNEURO搭載で別荘AI CABIN。</div>
+<div style="margin-top:16px;font-size:9px;color:#2a2a2a;letter-spacing:.08em">家いちば で見る →</div>
+</a>
+
+<!-- 直島 宮ノ浦 -->
+<a href="https://naoshimacolors.com/live/3192/" target="_blank" rel="noopener" style="text-decoration:none;background:#060606;border:1px solid #0d0d0d;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .2s;min-height:260px" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" onmouseout="this.style.borderColor='#0d0d0d'">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:800;opacity:.5;text-transform:uppercase;margin-bottom:12px">KAGAWA · NAOSHIMA</div>
+<div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:6px">¥220万</div>
+<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4">宮ノ浦 古家<br/>瀬戸内海眺望 商談中</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">225m²土地</span>
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">75m²建</span>
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">築1968</span>
+</div>
+<div style="font-size:11px;color:#444;line-height:1.9;flex:1">直島で数少ない流通物件。3DK木造平屋。高台から瀬戸内を一望。空き家17年・大規模修繕要。NEURO + リノベで世界最高の立地のAI CABIN。</div>
+<div style="margin-top:16px;font-size:9px;color:#2a2a2a;letter-spacing:.08em">直島カラーズ で見る →</div>
+</a>
+
+<!-- 小豆島 中古 + 土地 -->
+<a href="https://www.takken-kagawa.com/property/buy/area/list?m_adr%5B%5D=37324" target="_blank" rel="noopener" style="text-decoration:none;background:#060606;border:1px solid #0d0d0d;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .2s;min-height:260px" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" onmouseout="this.style.borderColor='#0d0d0d'">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:800;opacity:.5;text-transform:uppercase;margin-bottom:12px">KAGAWA · SHODOSHIMA</div>
+<div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:6px">¥250万〜</div>
+<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4">中古住宅・土地 複数<br/>草壁/苗羽/池田エリア</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">6件在庫</span>
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">更地〜中古</span>
+</div>
+<div style="font-size:11px;color:#444;line-height:1.9;flex:1">草壁本町¥250万(190m²/91m²建)、坂手¥270万(180m²/59m²建)。土地は¥350万〜¥759万で291〜713m²。新築・フルリノベ両対応。</div>
+<div style="margin-top:16px;font-size:9px;color:#2a2a2a;letter-spacing:.08em">香川宅建 で見る →</div>
+</a>
+
+<!-- 和歌山 龍神村 -->
+<a href="https://suetaka.com/estate/11971/" target="_blank" rel="noopener" style="text-decoration:none;background:#060606;border:1px solid #0d0d0d;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .2s;min-height:260px" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" onmouseout="this.style.borderColor='#0d0d0d'">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:800;opacity:.5;text-transform:uppercase;margin-bottom:12px">WAKAYAMA · TANABE</div>
+<div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:6px">¥450万</div>
+<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4">田辺市龍神村 民家<br/>畑・田・山 一体</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">農地付</span>
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">龍神温泉近接</span>
+</div>
+<div style="font-size:11px;color:#444;line-height:1.9;flex:1">龍神温泉エリア・熊野古道近接。畑・田・山付きの本格農家物件。NEURO搭載でオフグリッド型AI CABIN。田舎暮らしと宿泊収益の両立。</div>
+<div style="margin-top:16px;font-size:9px;color:#2a2a2a;letter-spacing:.08em">スエタカ不動産 で見る →</div>
+</a>
+
+<!-- 三豊市 激安古民家 -->
+<a href="https://www.ieichiba.com/project/P202600278" target="_blank" rel="noopener" style="text-decoration:none;background:#060606;border:1px solid #0d0d0d;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .2s;min-height:260px" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" onmouseout="this.style.borderColor='#0d0d0d'">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:800;opacity:.5;text-transform:uppercase;margin-bottom:12px">KAGAWA · MITOYO</div>
+<div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:6px">¥15万</div>
+<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4">三豊市 田面町 茅葺古民家<br/>農機具付き・民泊転用可</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">394m²土地</span>
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">竹ヶ浜9分</span>
+</div>
+<div style="font-size:11px;color:#444;line-height:1.9;flex:1">¥15万のボディ。解体再建 or 大規模リノベ前提。民泊許可取得可能性あり。NEURO+フルリノベで最低コストのAI CABIN実験場として最適。</div>
+<div style="margin-top:16px;font-size:9px;color:#2a2a2a;letter-spacing:.08em">家いちば で見る →</div>
+</a>
+
+<!-- 豊島 土地 1910坪 · 美術館至近 -->
+<a href="https://www.ieichiba.com/project/P202400922" target="_blank" rel="noopener" style="text-decoration:none;background:#060606;border:1px solid #0d0d0d;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .2s;min-height:260px" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" onmouseout="this.style.borderColor='#0d0d0d'">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:800;opacity:.5;text-transform:uppercase;margin-bottom:12px">KAGAWA · TESHIMA</div>
+<div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:6px">¥550万</div>
+<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4">豊島 家浦港 徒歩5分<br/>豊島美術館・針工場 至近</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">6,318m²</span>
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">1,910坪</span>
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">更地可</span>
+</div>
+<div style="font-size:11px;color:#444;line-height:1.9;flex:1">豊島美術館・針工場の徒歩圏。約1900坪の更地。芸術祭の中心地にNEURO搭載AI CABINを建てる。瀬戸内で最も文脈のある土地。</div>
+<div style="margin-top:16px;font-size:9px;color:#2a2a2a;letter-spacing:.08em">家いちば で見る →</div>
+</a>
+
+<!-- 小豆島 土地+農地+山林 5筆 -->
+<a href="https://www.ieichiba.com/project/P202500205" target="_blank" rel="noopener" style="text-decoration:none;background:#060606;border:1px solid #0d0d0d;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .2s;min-height:260px" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" onmouseout="this.style.borderColor='#0d0d0d'">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:800;opacity:.5;text-transform:uppercase;margin-bottom:12px">KAGAWA · SHODOSHIMA</div>
+<div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:6px">¥100万</div>
+<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4">宅地+農地+山林 5筆一括<br/>1,690m²</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">1,690m²</span>
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">農地転用要</span>
+</div>
+<div style="font-size:11px;color:#444;line-height:1.9;flex:1">宅地・農地・山林・原野・雑種地の5筆一括。農地転用後に建築可。¥100万でこれだけの面積を取得し、NEURO搭載の自給型AI CABINを作る。</div>
+<div style="margin-top:16px;font-size:9px;color:#2a2a2a;letter-spacing:.08em">家いちば で見る →</div>
+</a>
+
+<!-- さぬき市 遍路古家 ¥220万 -->
+<a href="https://www.ieichiba.com/project/P202600142" target="_blank" rel="noopener" style="text-decoration:none;background:#060606;border:1px solid #0d0d0d;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .2s;min-height:260px" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" onmouseout="this.style.borderColor='#0d0d0d'">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:800;opacity:.5;text-transform:uppercase;margin-bottom:12px">KAGAWA · SANUKI · HENRO</div>
+<div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:6px">¥220万</div>
+<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4">遍路古家 · 88番大窪寺 3km前<br/>343m²土地 · 60m²木造</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">343m²土地</span>
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">ヘンロ宿転用可</span>
+</div>
+<div style="font-size:11px;color:#444;line-height:1.9;flex:1">88番大窪寺3km手前。年間1万人超の徒歩遍路が通る四国最後の難所ルート沿い。NEURO搭載ヘンロ宿として再生する最高立地。</div>
+<div style="margin-top:16px;font-size:9px;color:#2a2a2a;letter-spacing:.08em">家いちば P202600142 で見る →</div>
+</a>
+
+<!-- 小豆島 坂手 ¥1万 -->
+<a href="https://akiya.trade" target="_blank" rel="noopener" style="text-decoration:none;background:#060606;border:1px solid rgba(74,234,220,.15);padding:28px 24px;display:flex;flex-direction:column;transition:border-color .2s;min-height:260px" onmouseover="this.style.borderColor='rgba(74,234,220,.45)'" onmouseout="this.style.borderColor='rgba(74,234,220,.15)'">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:800;opacity:.5;text-transform:uppercase;margin-bottom:12px">KAGAWA · SHODOSHIMA · SAKATE</div>
+<div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:6px">¥1万</div>
+<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4">坂手港 徒歩5分 · 62m²<br/>マルキン醤油工場 隣接</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">62m²建</span>
+<span style="font-size:9px;border:1px solid rgba(200,164,85,.3);color:rgba(200,164,85,.8);padding:2px 8px;border-radius:100px">日本最安の島の家</span>
+</div>
+<div style="font-size:11px;color:#444;line-height:1.9;flex:1">¥1万。醤油の島・坂手港徒歩5分。芸術祭坂手エリア会場隣接。醤油蔵壁×漆喰×港ガラスで再生するNEURO搭載島の家。</div>
+<div style="margin-top:16px;font-size:9px;color:#2a2a2a;letter-spacing:.08em">akiya.trade No.492 →</div>
+</a>
+
+<!-- 三豊市 仁尾 父母ヶ浜 ¥250万 -->
+<a href="https://www.city.mitoyo.lg.jp/akiya" target="_blank" rel="noopener" style="text-decoration:none;background:#060606;border:1px solid #0d0d0d;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .2s;min-height:260px" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" onmouseout="this.style.borderColor='#0d0d0d'">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:800;opacity:.5;text-transform:uppercase;margin-bottom:12px">KAGAWA · MITOYO · CHICHIGAHAMA</div>
+<div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:6px">¥250万</div>
+<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4">仁尾海沿い4DK<br/>父母ヶ浜 車10分</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">4DK</span>
+<span style="font-size:9px;border:1px solid rgba(200,164,85,.3);color:rgba(200,164,85,.8);padding:2px 8px;border-radius:100px">TikTok 5億再生エリア</span>
+</div>
+<div style="font-size:11px;color:#444;line-height:1.9;flex:1">「日本のウユニ塩湖」父母ヶ浜エリア近く。海沿い4DKにNEUROを入れて、瀬戸内の日没を見ながらAIと対話する家を作る。</div>
+<div style="margin-top:16px;font-size:9px;color:#2a2a2a;letter-spacing:.08em">三豊市空き家バンク No.797 →</div>
+</a>
+
+
+<!-- 三豊市詫間 瀬戸内海一望 ¥200万 -->
+<a href="https://www.ieichiba.com/project/P202500670" target="_blank" rel="noopener" style="text-decoration:none;background:#060606;border:1px solid #0d0d0d;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .2s;min-height:260px" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" onmouseout="this.style.borderColor='#0d0d0d'">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:800;opacity:.5;text-transform:uppercase;margin-bottom:12px">KAGAWA · MITOYO · TAKUMA · 1933</div>
+<div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:6px">¥200万</div>
+<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4">1933年築・木造2階94㎡<br/>荘内半島高台 瀬戸内一望</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">築93年古民家</span>
+<span style="font-size:9px;border:1px solid rgba(200,164,85,.3);color:rgba(200,164,85,.8);padding:2px 8px;border-radius:100px">瀬戸内海一望</span>
+</div>
+<div style="font-size:11px;color:#444;line-height:1.9;flex:1">93年の歴史を持つ高台古民家。荘内半島から瀬戸内海を一望。漆喰×古梁×瀬戸内ビューデッキにNEUROを搭載。</div>
+<div style="margin-top:16px;font-size:9px;color:#2a2a2a;letter-spacing:.08em">家いちば P202500670 →</div>
+</a>
+
+<!-- 坂出市 瀬居島 漁港前 ¥60万 -->
+<a href="https://www.ieichiba.com/project/P202000400" target="_blank" rel="noopener" style="text-decoration:none;background:#060606;border:1px solid #0d0d0d;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .2s;min-height:260px" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" onmouseout="this.style.borderColor='#0d0d0d'">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:800;opacity:.5;text-transform:uppercase;margin-bottom:12px">KAGAWA · SAKAIDE · SEIJYOJIMA</div>
+<div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:6px">¥60万</div>
+<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4">漁港目の前<br/>宅地314m²+農地2,500m²</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">漁港直前</span>
+<span style="font-size:9px;border:1px solid rgba(200,164,85,.3);color:rgba(200,164,85,.8);padding:2px 8px;border-radius:100px">農地2,500m²付き</span>
+</div>
+<div style="font-size:11px;color:#444;line-height:1.9;flex:1">瀬居島・漁港目の前の一軒家。農地2,500m²付きで農業×漁業×民泊の複合展開が可能。坂出港から橋でアクセス。</div>
+<div style="margin-top:16px;font-size:9px;color:#2a2a2a;letter-spacing:.08em">家いちば P202000400 →</div>
+</a>
+
+<!-- 小豆島 3棟セット ¥160万 -->
+<a href="https://www.ieichiba.com/project/P202500871" target="_blank" rel="noopener" style="text-decoration:none;background:#060606;border:1px solid #0d0d0d;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .2s;min-height:260px" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" onmouseout="this.style.borderColor='#0d0d0d'">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:800;opacity:.5;text-transform:uppercase;margin-bottom:12px">KAGAWA · SHODOSHIMA · COMPOUND</div>
+<div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1;margin-bottom:6px">¥160万</div>
+<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4">母屋+離れ+倉庫 3棟<br/>土地457m²</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font-size:9px;border:1px solid rgba(74,234,220,.2);color:rgba(74,234,220,.6);padding:2px 8px;border-radius:100px">3棟コンパウンド</span>
+<span style="font-size:9px;border:1px solid rgba(200,164,85,.3);color:rgba(200,164,85,.8);padding:2px 8px;border-radius:100px">オリーブ農園徒歩圏</span>
+</div>
+<div style="font-size:11px;color:#444;line-height:1.9;flex:1">小豆島の3棟セット。母屋・離れ・倉庫をそれぞれNEURO搭載のユニットに改修。グループ滞在×アーティストレジデンス。</div>
+<div style="margin-top:16px;font-size:9px;color:#2a2a2a;letter-spacing:.08em">家いちば P202500871 →</div>
+</a>
+
+</div>
+<div class="w r" style="margin-top:12px;text-align:center">
+<p style="font-size:9px;color:#1e1e1e;line-height:1.8">物件情報は各掲載サイトに帰属。成約・価格変更の可能性あり。購入には宅建業者を介した正式契約が必要です。</p>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- NEURO INSIDE BADGE -->
+<div class="s" style="padding:80px 0;text-align:center;background:#020202">
+<div class="w">
+<div class="r" style="display:inline-block;margin-bottom:24px">
+<svg fill="none" height="80" style="display:block;margin:0 auto" viewbox="0 0 220 80" width="220" xmlns="http://www.w3.org/2000/svg">
+<rect fill="rgba(74,234,220,0.03)" height="78" rx="12" stroke="#4aeadc" stroke-width="1.5" width="218" x="1" y="1"></rect>
+<!-- Brain circuit icon -->
+<circle cx="36" cy="40" fill="none" r="14" stroke="#4aeadc" stroke-width="1.2"></circle>
+<circle cx="36" cy="40" fill="#4aeadc" r="4"></circle>
+<line stroke="#4aeadc" stroke-width="1" x1="50" x2="56" y1="40" y2="40"></line>
+<line stroke="#4aeadc" stroke-width="1" x1="36" x2="36" y1="26" y2="20"></line>
+<line stroke="#4aeadc" stroke-width="1" x1="36" x2="36" y1="54" y2="60"></line>
+<line stroke="#4aeadc" stroke-width="1" x1="46" x2="50" y1="30" y2="26"></line>
+<line stroke="#4aeadc" stroke-width="1" x1="46" x2="50" y1="50" y2="54"></line>
+<line stroke="#4aeadc" stroke-width="1" x1="26" x2="22" y1="30" y2="26"></line>
+<line stroke="#4aeadc" stroke-width="1" x1="26" x2="22" y1="50" y2="54"></line>
+<circle cx="56" cy="40" fill="#4aeadc" r="2"></circle>
+<circle cx="36" cy="20" fill="#4aeadc" r="2"></circle>
+<circle cx="36" cy="60" fill="#4aeadc" r="2"></circle>
+<circle cx="50" cy="26" fill="#4aeadc" r="2"></circle>
+<circle cx="50" cy="54" fill="#4aeadc" r="2"></circle>
+<circle cx="22" cy="26" fill="#4aeadc" r="2"></circle>
+<circle cx="22" cy="54" fill="#4aeadc" r="2"></circle>
+<!-- Text -->
+<text fill="#4aeadc" font-family="Helvetica Neue, Arial" font-size="10" font-weight="800" letter-spacing="0.25em" x="72" y="33">SOLUNA</text>
+<text fill="#f0ece4" font-family="Helvetica Neue, Arial" font-size="16" font-weight="800" letter-spacing="0.08em" x="72" y="52">NEURO</text>
+<text fill="#4aeadc" font-family="Helvetica Neue, Arial" font-size="10" font-weight="300" letter-spacing="0.02em" x="148" y="52">inside</text>
+</svg>
+</div>
+<p class="r" data-en="Standard on all SOLUNA Properties. Homes bearing this badge have AI that perfects temperature, refines lighting, circulates air, and optimizes energy. Residents need do nothing." style="color:#555;font-size:12px;line-height:2;max-width:480px;margin:0 auto">全SOLUNA物件に標準搭載。このバッジがある家は、AI が温度を整え、光を調え、空気を巡らせ、エネルギーを最適化している。人は何もしなくていい。</p>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- WHY — ROI -->
+<div class="s" style="padding:100px 0">
+<div class="w">
+<p class="label label-c r" data-en="ROI · What Changes with ¥35,186">ROI · ¥35,186で何が変わるか</p>
+<h2 class="r" data-en="From year one,">初年度から、<span class="cyan" data-en="Annual ¥1,000,000 difference.">年¥100万の差。</span></h2>
+<p class="sub r" data-en="We speak numbers, not poetry. What happens to your wallet before and after NEURO deployment.">詩じゃなくて数字で話す。NEURO導入の前と後で、民泊オーナーの財布に何が起きるか。</p>
+</div>
+<div class="ww">
+<!-- COMPARISON TABLE -->
+<div class="r" style="overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;font-size:12px">
+<thead>
+<tr>
+<th data-en="The Challenge" style="padding:14px 16px;text-align:left;color:#333;font-size:9px;letter-spacing:.12em;text-transform:uppercase;border-bottom:2px solid #111;background:#050505">課題</th>
+<th data-en="Without NEURO" style="padding:14px 16px;text-align:left;color:#555;font-size:9px;letter-spacing:.12em;text-transform:uppercase;border-bottom:2px solid #111;background:#050505">NEUROなし</th>
+<th data-en="With NEURO" style="padding:14px 16px;text-align:left;color:var(--cyan);font-size:9px;letter-spacing:.12em;text-transform:uppercase;border-bottom:2px solid #111;background:#050505">NEUROあり</th>
+</tr>
+</thead>
+<tbody>
+<tr><td data-en="Remote management" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:#888;font-weight:600">遠隔管理</td><td data-en="¥50,000 monthly to management company" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:#555">管理会社に月¥5万</td><td data-en="Complete on smartphone. ¥0" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:var(--cyan)">スマホで完結。¥0</td></tr>
+<tr><td data-en="Water leak detection" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:#888;font-weight:600">水漏れ</td><td data-en="Undetected for months: ¥2,000,000 in repairs" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:#555">数ヶ月気づかず修繕¥200万</td><td data-en="¥400 sensor provides instant notification. Zero damage." style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:var(--cyan)">¥400センサーが即通知。被害¥0</td></tr>
+<tr><td data-en="Electricity Costs" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:#888;font-weight:600">電気代</td><td data-en="Heating left running even when vacant" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:#555">空室でも暖房つけっぱなし</td><td data-en="Absence detection → automatic shutdown. 30–40% reduction" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:var(--cyan)">不在検知→自動OFF。30〜40%減</td></tr>
+<tr><td data-en="Check-in" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:#888;font-weight:600">チェックイン</td><td data-en="Key Handover or Keybox Management" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:#555">鍵手渡し or キーボックス管理</td><td data-en="SESAME auto-issued. Zero manual handling." style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:var(--cyan)">SESAME自動発行。人手ゼロ</td></tr>
+<tr><td data-en="Guest experience" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:#888;font-weight:600">ゲスト体験</td><td data-en="Cold arrival → Low rating" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:#555">到着時に寒い→低評価</td><td data-en="Preheated 2 Hours Ago → Highly Rated" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:var(--cyan)">2時間前プリヒート→高評価</td></tr>
+<tr><td data-en="Noise Issues" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:#888;font-weight:600">騒音トラブル</td><td data-en="Discovering Issues After Complaints Arrive" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:#555">クレーム来てから知る</td><td data-en="Late-night dB threshold exceeded → auto notification. Preventive control." style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:var(--cyan)">深夜dB超過→自動通知。未然防止</td></tr>
+<tr><td data-en="Maintenance" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:#888;font-weight:600">メンテナンス</td><td data-en="Fix After Failure (Expensive)" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:#555">壊れてから直す（高い）</td><td data-en="Detect Before Failure (Economical)" style="padding:12px 16px;border-bottom:1px solid #0e0e0e;color:var(--cyan)">壊れる前に検知（安い）</td></tr>
+<tr style="background:rgba(74,234,220,.03)"><td data-en="Per-night rate" style="padding:14px 16px;color:var(--text);font-weight:700">宿泊単価</td><td data-en="Review 4.2 → ¥25,000/night" style="padding:14px 16px;color:#888">レビュー4.2 → ¥25,000/泊</td><td data-en="Review 4.8 → ¥45,000/night (+80%)" style="padding:14px 16px;color:var(--cyan);font-weight:700">レビュー4.8 → ¥45,000/泊（+80%）</td></tr>
+</tbody>
+</table>
+</div>
+<!-- ANNUAL IMPACT -->
+<div class="r" style="margin-top:24px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;border-radius:16px;overflow:hidden">
+<div style="padding:24px 16px;background:#060606;text-align:center;border-top:2px solid var(--cyan)">
+<div data-en="-¥600,000" style="font-size:1.6rem;font-weight:800;color:var(--cyan)">-¥60万</div>
+<div data-en="No property management company required" style="font-size:9px;color:#333;letter-spacing:.12em;margin-top:6px">管理会社不要</div>
+</div>
+<div style="padding:24px 16px;background:#060606;text-align:center;border-top:2px solid rgba(74,234,220,.4)">
+<div data-en="-¥180,000" style="font-size:1.6rem;font-weight:800;color:var(--cyan)">-¥18万</div>
+<div data-en="Energy optimization" style="font-size:9px;color:#333;letter-spacing:.12em;margin-top:6px">エネルギー最適化</div>
+</div>
+<div style="padding:24px 16px;background:#060606;text-align:center;border-top:2px solid rgba(74,234,220,.4)">
+<div data-en="-¥2,000,000" style="font-size:1.6rem;font-weight:800;color:var(--cyan)">-¥200万</div>
+<div data-en="Water leak prevention — single occurrence" style="font-size:9px;color:#333;letter-spacing:.12em;margin-top:6px">水漏れ1回防止</div>
+</div>
+<div style="padding:24px 16px;background:#060606;text-align:center;border-top:2px solid rgba(74,234,220,.4)">
+<div data-en="+¥800,000" style="font-size:1.6rem;font-weight:800;color:var(--cyan)">+¥80万</div>
+<div data-en="Rate increase &amp; revenue boost" style="font-size:9px;color:#333;letter-spacing:.12em;margin-top:6px">単価UP増収</div>
+</div>
+</div>
+<div class="r" style="margin-top:12px;padding:20px 24px;background:rgba(74,234,220,.04);border:1px solid rgba(74,234,220,.12);border-radius:12px;text-align:center">
+<div data-en="NEURO installation cost ¥35,186 → annual impact" style="font-size:11px;color:#555;margin-bottom:8px">NEURO導入コスト ¥35,186 → 年間インパクト</div>
+<div data-en="+¥1,000,000~/year" style="font-size:2.4rem;font-weight:800;color:var(--cyan);letter-spacing:-.04em">+¥100万〜/年</div>
+<div data-en="Return on Investment:" style="font-size:11px;color:#444;margin-top:8px">投資回収: <strong data-en="2 Weeks" style="color:var(--text)">2週間</strong></div>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- PURCHASE GUIDE -->
+<div class="s" id="purchase" style="padding:100px 0">
+<div class="w">
+<p class="label label-c r" data-en="Hardware · purchase guide">Hardware · 購入ガイド</p>
+<h2 class="r" data-en="¥35,186 of">¥35,186の<span class="cyan" data-en="Complete Feature List.">全部入りリスト。</span></h2>
+<p class="sub r" data-en="Assemble these components and NEURO operates. All available now on Amazon and Yahoo!.">これだけ揃えればNEUROが動く。全てAmazon・Yahoo!で今すぐ買える。</p>
+</div>
+<div class="ww">
+<div class="r" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:16px">
+<!-- SESAME 5 Pro -->
+<div onmouseout="this.style.borderColor='rgba(74,234,220,.12)'" onmouseover="this.style.borderColor='rgba(74,234,220,.35)'" style="background:#060606;border:1px solid rgba(74,234,220,.12);border-radius:16px;overflow:hidden;transition:border-color .3s">
+<div style="background:#0a0a0a;height:170px;display:flex;align-items:center;justify-content:center;font-size:56px">🔐</div>
+<div style="padding:18px">
+<div data-en="Smart Lock · Essential" style="font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:rgba(74,234,220,.5);font-weight:700;margin-bottom:8px">Smart Lock · 必須</div>
+<div style="font-size:15px;font-weight:800;color:#ddd;margin-bottom:2px">SESAME 5 Pro</div>
+<div style="font-size:10px;color:#333;margin-bottom:12px">CANDY HOUSE</div>
+<div style="font-size:22px;font-weight:800;color:var(--cyan);margin-bottom:2px">¥5,980</div>
+<div data-en="+ WiFi Module ¥3,280" style="font-size:9.5px;color:#333;margin-bottom:14px">+ WiFiモジュール ¥3,280</div>
+<ul style="list-style:none;margin-bottom:16px">
+<li data-en="1 Million-Cycle Brushless Motor" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>100万回耐久 ブラシレスモーター</li>
+<li data-en="No installation work. 5-minute setup. Rental-friendly." style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>工事不要 5分で取付、賃貸OK</li>
+<li data-en="Alexa / Google / Siri compatible" style="font-size:10.5px;color:#444;padding:3px 0;display:flex;gap:6px"><span style="color:#222">—</span>Alexa / Google / Siri 対応</li>
+</ul>
+<a data-en="Purchase on Yahoo! official store" href="https://store.shopping.yahoo.co.jp/sesame-store/sesamejp5-pro" onmouseout="this.style.background='rgba(74,234,220,.08)';this.style.color='var(--cyan)'" onmouseover="this.style.background='var(--cyan)';this.style.color='#040404'" rel="noopener" style="display:block;text-align:center;padding:11px;background:rgba(74,234,220,.08);border:1px solid rgba(74,234,220,.2);border-radius:9px;color:var(--cyan);font-size:11px;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .2s">Yahoo!公式ストアで購入</a>
+</div>
+</div>
+<!-- SESAME Touch Pro -->
+<div onmouseout="this.style.borderColor='rgba(74,234,220,.08)'" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" style="background:#060606;border:1px solid rgba(74,234,220,.08);border-radius:16px;overflow:hidden;transition:border-color .3s">
+<div style="background:#0a0a0a;height:170px;display:flex;align-items:center;justify-content:center;font-size:56px">👆</div>
+<div style="padding:18px">
+<div data-en="Smart Lock · Optional" style="font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:rgba(74,234,220,.4);font-weight:700;margin-bottom:8px">Smart Lock · オプション</div>
+<div style="font-size:15px;font-weight:800;color:#ddd;margin-bottom:2px">SESAME Touch Pro</div>
+<div style="font-size:10px;color:#333;margin-bottom:12px">CANDY HOUSE</div>
+<div style="font-size:22px;font-weight:800;color:var(--cyan);margin-bottom:2px">¥4,380</div>
+<div data-en="Additional Pad for SESAME 5 Pro" style="font-size:9.5px;color:#333;margin-bottom:14px">SESAME 5 Proへの追加パッド</div>
+<ul style="list-style:none;margin-bottom:16px">
+<li data-en="Fingerprint + IC Card (Suica, etc.) Compatible" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>指紋 + ICカード（Suica等）対応</li>
+<li data-en="Staff: Fingerprint Access · Guests: PIN Code" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>スタッフは指紋、ゲストは暗証番号</li>
+<li data-en="Auto-generates numbers in sync with Beds24" style="font-size:10.5px;color:#444;padding:3px 0;display:flex;gap:6px"><span style="color:#222">—</span>Beds24と連動で番号自動発行</li>
+</ul>
+<a data-en="Purchase on Yahoo! official store" href="https://store.shopping.yahoo.co.jp/sesame-store/sesamejp5-pro" onmouseout="this.style.background='rgba(74,234,220,.08)';this.style.color='var(--cyan)'" onmouseover="this.style.background='var(--cyan)';this.style.color='#040404'" rel="noopener" style="display:block;text-align:center;padding:11px;background:rgba(74,234,220,.08);border:1px solid rgba(74,234,220,.2);border-radius:9px;color:var(--cyan);font-size:11px;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .2s">Yahoo!公式ストアで購入</a>
+</div>
+</div>
+<!-- Nature Remo 3 -->
+<div onmouseout="this.style.borderColor='rgba(74,234,220,.12)'" onmouseover="this.style.borderColor='rgba(74,234,220,.35)'" style="background:#060606;border:1px solid rgba(74,234,220,.12);border-radius:16px;overflow:hidden;transition:border-color .3s">
+<div style="background:#0a0a0a;height:170px;display:flex;align-items:center;justify-content:center;font-size:56px">🌡️</div>
+<div style="padding:18px">
+<div data-en="HVAC Control · Essential" style="font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:rgba(74,234,220,.5);font-weight:700;margin-bottom:8px">HVAC Control · 必須</div>
+<div style="font-size:15px;font-weight:800;color:#ddd;margin-bottom:2px">Nature Remo 3</div>
+<div style="font-size:10px;color:#333;margin-bottom:12px">Nature Inc.</div>
+<div style="font-size:22px;font-weight:800;color:var(--cyan);margin-bottom:2px">¥9,980</div>
+<div style="font-size:9.5px;color:#333;margin-bottom:14px">Amazon.co.jp</div>
+<ul style="list-style:none;margin-bottom:16px">
+<li data-en="Convert existing air conditioning to WiFi (all models compatible)" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>既存エアコンをWiFi化（機種不問）</li>
+<li data-en="Room temperature 5°C or below → Heating automatically ON (freeze protection)" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>室温5℃以下→暖房自動ON（凍結防止）</li>
+<li data-en="Built-in temperature, humidity, illumination, and motion sensors" style="font-size:10.5px;color:#444;padding:3px 0;display:flex;gap:6px"><span style="color:#222">—</span>温度・湿度・照度・人感センサー内蔵</li>
+</ul>
+<a data-en="Purchase on Amazon → ¥9,980" href="https://www.amazon.co.jp/dp/B08BLSLWH4" onmouseout="this.style.background='rgba(255,153,0,.08)';this.style.color='#ff9900'" onmouseover="this.style.background='#ff9900';this.style.color='#000'" rel="noopener" style="display:block;text-align:center;padding:11px;background:rgba(255,153,0,.08);border:1px solid rgba(255,153,0,.2);border-radius:9px;color:#ff9900;font-size:11px;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .2s">Amazonで購入 → ¥9,980</a>
+</div>
+</div>
+<!-- SwitchBot Hub 2 -->
+<div onmouseout="this.style.borderColor='rgba(74,234,220,.08)'" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" style="background:#060606;border:1px solid rgba(74,234,220,.08);border-radius:16px;overflow:hidden;transition:border-color .3s">
+<div style="background:#0a0a0a;height:170px;display:flex;align-items:center;justify-content:center;font-size:56px">🏠</div>
+<div style="padding:18px">
+<div data-en="Smart Hub · Recommended" style="font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:rgba(74,234,220,.4);font-weight:700;margin-bottom:8px">Smart Hub · 推奨</div>
+<div style="font-size:15px;font-weight:800;color:#ddd;margin-bottom:2px">SwitchBot Hub 2</div>
+<div style="font-size:10px;color:#333;margin-bottom:12px">SwitchBot</div>
+<div style="font-size:22px;font-weight:800;color:var(--cyan);margin-bottom:2px">¥9,980</div>
+<div data-en="Amazon (¥7,880 during sale)" style="font-size:9.5px;color:#333;margin-bottom:14px">Amazon（セール時 ¥7,880）</div>
+<ul style="list-style:none;margin-bottom:16px">
+<li data-en="Infrared Appliance Control + Integrated Temperature &amp; Humidity Sensor" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>赤外線家電制御 + 温湿度センサー一体型</li>
+<li data-en="Matter compatible / Apple Home / Alexa integration" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>Matter対応 / Apple Home / Alexa連携</li>
+<li data-en="Compatible with SwitchBot Water Leak Sensor" style="font-size:10.5px;color:#444;padding:3px 0;display:flex;gap:6px"><span style="color:#222">—</span>SwitchBot水漏れセンサーと組み合わせ可</li>
+</ul>
+<a data-en="Purchase on Amazon → ¥9,980" href="https://www.amazon.co.jp/dp/B0BM8VS13P" onmouseout="this.style.background='rgba(255,153,0,.08)';this.style.color='#ff9900'" onmouseover="this.style.background='#ff9900';this.style.color='#000'" rel="noopener" style="display:block;text-align:center;padding:11px;background:rgba(255,153,0,.08);border:1px solid rgba(255,153,0,.2);border-radius:9px;color:#ff9900;font-size:11px;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .2s">Amazonで購入 → ¥9,980</a>
+</div>
+</div>
+<!-- Reolink RLC-820A -->
+<div onmouseout="this.style.borderColor='rgba(74,234,220,.12)'" onmouseover="this.style.borderColor='rgba(74,234,220,.35)'" style="background:#060606;border:1px solid rgba(74,234,220,.12);border-radius:16px;overflow:hidden;transition:border-color .3s">
+<div style="background:#0a0a0a;height:170px;display:flex;align-items:center;justify-content:center;font-size:56px">📷</div>
+<div style="padding:18px">
+<div data-en="Security Camera · Essential" style="font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:rgba(74,234,220,.5);font-weight:700;margin-bottom:8px">Security Camera · 必須</div>
+<div style="font-size:15px;font-weight:800;color:#ddd;margin-bottom:2px">Reolink RLC-820A</div>
+<div style="font-size:10px;color:#333;margin-bottom:12px">Reolink</div>
+<div style="font-size:22px;font-weight:800;color:var(--cyan);margin-bottom:2px">¥11,999</div>
+<div data-en="Direct Sales via Amazon.co.jp" style="font-size:9.5px;color:#333;margin-bottom:14px">Amazon.co.jp 直販</div>
+<ul style="list-style:none;margin-bottom:16px">
+<li data-en="4K / 8MP, AI person and vehicle detection" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>4K / 8MP、AI人物・車両検知</li>
+<li data-en="PoE (single LAN for power + video), 24-hour recording" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>PoE（LAN1本で電源+映像）、24H録画</li>
+<li data-en="IP67 waterproof, -10°C rated (Hokkaido-compatible)" style="font-size:10.5px;color:#444;padding:3px 0;display:flex;gap:6px"><span style="color:#222">—</span>IP67防水、-10℃対応（北海道OK）</li>
+</ul>
+<a data-en="Purchase on Amazon → ¥11,999" href="https://www.amazon.co.jp/dp/B08135WDZW" onmouseout="this.style.background='rgba(255,153,0,.08)';this.style.color='#ff9900'" onmouseover="this.style.background='#ff9900';this.style.color='#000'" rel="noopener" style="display:block;text-align:center;padding:11px;background:rgba(255,153,0,.08);border:1px solid rgba(255,153,0,.2);border-radius:9px;color:#ff9900;font-size:11px;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .2s">Amazonで購入 → ¥11,999</a>
+</div>
+</div>
+<!-- SwitchBot Water Sensor -->
+<div onmouseout="this.style.borderColor='rgba(74,234,220,.08)'" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" style="background:#060606;border:1px solid rgba(74,234,220,.08);border-radius:16px;overflow:hidden;transition:border-color .3s">
+<div style="background:#0a0a0a;height:170px;display:flex;align-items:center;justify-content:center;font-size:56px">💧</div>
+<div style="padding:18px">
+<div data-en="Sensor · Water leak detection" style="font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:rgba(74,234,220,.4);font-weight:700;margin-bottom:8px">Sensor · 水漏れ検知</div>
+<div data-en="SwitchBot Water Leak Sensor" style="font-size:15px;font-weight:800;color:#ddd;margin-bottom:2px">SwitchBot 水漏れセンサー</div>
+<div style="font-size:10px;color:#333;margin-bottom:12px">SwitchBot</div>
+<div style="font-size:22px;font-weight:800;color:var(--cyan);margin-bottom:2px">¥2,480</div>
+<div data-en="Install at each water fixture (× quantity)" style="font-size:9.5px;color:#333;margin-bottom:14px">各水回りに設置（×台数）</div>
+<ul style="list-style:none;margin-bottom:16px">
+<li data-en="Installed beneath sinks, washing machines &amp; water heaters" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>洗面台・洗濯機・給湯器下に設置</li>
+<li data-en="Water Detection → Instant Smartphone Alert" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>水検知→即スマホ通知</li>
+<li data-en="Integration with Hub 2 (WiFi-free)" style="font-size:10.5px;color:#444;padding:3px 0;display:flex;gap:6px"><span style="color:#222">—</span>Hub 2と連携（WiFiなし）</li>
+</ul>
+<a data-en="Search and purchase on Amazon" href="https://www.amazon.co.jp/s?k=SwitchBot+水漏れ検知センサー" onmouseout="this.style.background='rgba(255,153,0,.08)';this.style.color='#ff9900'" onmouseover="this.style.background='#ff9900';this.style.color='#000'" rel="noopener" style="display:block;text-align:center;padding:11px;background:rgba(255,153,0,.08);border:1px solid rgba(255,153,0,.2);border-radius:9px;color:#ff9900;font-size:11px;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .2s">Amazonで検索・購入</a>
+</div>
+</div>
+<!-- Google Nest Protect -->
+<div onmouseout="this.style.borderColor='rgba(74,234,220,.08)'" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" style="background:#060606;border:1px solid rgba(74,234,220,.08);border-radius:16px;overflow:hidden;transition:border-color .3s">
+<div style="background:#0a0a0a;height:170px;display:flex;align-items:center;justify-content:center;font-size:56px">🔥</div>
+<div style="padding:18px">
+<div data-en="Sensor · Fire &amp; CO Detection" style="font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:rgba(74,234,220,.4);font-weight:700;margin-bottom:8px">Sensor · 火災・CO検知</div>
+<div style="font-size:15px;font-weight:800;color:#ddd;margin-bottom:2px">Google Nest Protect</div>
+<div style="font-size:10px;color:#333;margin-bottom:12px">Google</div>
+<div style="font-size:22px;font-weight:800;color:var(--cyan);margin-bottom:2px">¥14,000〜</div>
+<div data-en="Smoke + Carbon Monoxide Dual Detector" style="font-size:9.5px;color:#333;margin-bottom:14px">煙 + 一酸化炭素 複合検知器</div>
+<ul style="list-style:none;margin-bottom:16px">
+<li data-en="Smoke and CO detection with instant app notification" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>煙・CO両方検知、アプリ即通知</li>
+<li data-en="Cross-unit notifications with multiple devices" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>複数台で相互通報</li>
+<li data-en="Essential for Properties with Wood Stoves and Saunas" style="font-size:10.5px;color:#444;padding:3px 0;display:flex;gap:6px"><span style="color:#222">—</span>薪ストーブ・サウナある物件に必須</li>
+</ul>
+<a data-en="Purchase on Amazon" href="https://www.amazon.co.jp/s?k=Google+Nest+Protect" onmouseout="this.style.background='rgba(255,153,0,.08)';this.style.color='#ff9900'" onmouseover="this.style.background='#ff9900';this.style.color='#000'" rel="noopener" style="display:block;text-align:center;padding:11px;background:rgba(255,153,0,.08);border:1px solid rgba(255,153,0,.2);border-radius:9px;color:#ff9900;font-size:11px;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .2s">Amazonで購入</a>
+</div>
+</div>
+<!-- SwitchBot 防水温湿度計 -->
+<div onmouseout="this.style.borderColor='rgba(74,234,220,.08)'" onmouseover="this.style.borderColor='rgba(74,234,220,.3)'" style="background:#060606;border:1px solid rgba(74,234,220,.08);border-radius:16px;overflow:hidden;transition:border-color .3s">
+<div style="background:#0a0a0a;height:170px;display:flex;align-items:center;justify-content:center;font-size:56px">🌨️</div>
+<div style="padding:18px">
+<div data-en="Sensor · Freeze Prevention (Hokkaido)" style="font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:rgba(74,234,220,.4);font-weight:700;margin-bottom:8px">Sensor · 凍結防止（北海道）</div>
+<div data-en="SwitchBot Waterproof Thermo-Hygrometer" style="font-size:15px;font-weight:800;color:#ddd;margin-bottom:2px">SwitchBot 防水温湿度計</div>
+<div style="font-size:10px;color:#333;margin-bottom:12px">SwitchBot</div>
+<div style="font-size:22px;font-weight:800;color:var(--cyan);margin-bottom:2px">¥3,480</div>
+<div data-en="Outdoor &amp; water-resistant model" style="font-size:9.5px;color:#333;margin-bottom:14px">屋外・水回り対応防水モデル</div>
+<ul style="list-style:none;margin-bottom:16px">
+<li data-en="Continuous monitoring of water supply line and subfloor temperature" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>給水管・床下の温度を常時監視</li>
+<li data-en="Alert below 3°C → Heating automatically activates" style="font-size:10.5px;color:#444;padding:3px 0;border-bottom:1px solid #0e0e0e;display:flex;gap:6px"><span style="color:#222">—</span>3℃以下でアラート → 暖房自動起動</li>
+<li data-en="THE LODGE · NESTING · Instant House — All Units Required" style="font-size:10.5px;color:#444;padding:3px 0;display:flex;gap:6px"><span style="color:#222">—</span>LODGE・NESTING・インスタント全戸必須</li>
+</ul>
+<a data-en="Purchase on Amazon → ¥3,480" href="https://www.amazon.co.jp/dp/B0C2BZZTQJ" onmouseout="this.style.background='rgba(255,153,0,.08)';this.style.color='#ff9900'" onmouseover="this.style.background='#ff9900';this.style.color='#000'" rel="noopener" style="display:block;text-align:center;padding:11px;background:rgba(255,153,0,.08);border:1px solid rgba(255,153,0,.2);border-radius:9px;color:#ff9900;font-size:11px;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .2s">Amazonで購入 → ¥3,480</a>
+</div>
+</div>
+</div><!-- /grid -->
+<!-- TOTAL COST SUMMARY -->
+<div class="r" style="margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border-radius:16px;overflow:hidden">
+<div style="padding:22px;background:#060606;border-top:2px solid var(--cyan)">
+<div data-en="Starter Plan (1 Property · Minimal Configuration)" style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#333;margin-bottom:8px;font-weight:700">スタータープラン<br/>（1物件・最小構成）</div>
+<div style="font-size:1.8rem;font-weight:800;color:var(--cyan)">¥20,538</div>
+<div data-en="SESAME 5 Pro ¥5,980 · WiFi module ¥3,280 · Nature Remo 3 ¥9,980 · water leak sensor ¥2,480 · smoke &amp; CO detector ¥14,000" style="font-size:10px;color:#333;margin-top:6px;line-height:1.9">SESAME 5 Pro ¥5,980<br/>WiFiモジュール ¥3,280<br/>Nature Remo 3 ¥9,980<br/>水漏れセンサー ¥2,480×<br/>煙CO検知 ¥14,000</div>
+</div>
+<div style="padding:22px;background:#060606;border-top:2px solid rgba(74,234,220,.5)">
+<div data-en="Standard Plan (1 Property · Full Equipment)" style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#333;margin-bottom:8px;font-weight:700">スタンダードプラン<br/>（1物件・フル装備）</div>
+<div style="font-size:1.8rem;font-weight:800;color:var(--cyan)">¥35,186</div>
+<div data-en="+Touch Pro ¥4,380 +Hub 2 ¥9,980 +Reolink ×2 ¥24,000 +Various Sensors" style="font-size:10px;color:#333;margin-top:6px;line-height:1.9">+Touch Pro ¥4,380<br/>+Hub 2 ¥9,980<br/>+Reolink ×2 ¥24,000<br/>+センサー各種</div>
+</div>
+<div style="padding:22px;background:#060606;border-top:2px solid rgba(74,234,220,.3)">
+<div data-en="Premium Plan (TAPKOP · Large Properties)" style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#333;margin-bottom:8px;font-weight:700">プレミアムプラン<br/>（TAPKOP・大型物件）</div>
+<div style="font-size:1.8rem;font-weight:800;color:var(--cyan)">¥25〜80万</div>
+<div data-en="Multiple RemoteLOCK units | Reolink NVR + 8 cameras per building | Remo installation | Full sensor suite" style="font-size:10px;color:#333;margin-top:6px;line-height:1.9">RemoteLOCK複数台<br/>Reolink NVR+8カメラ<br/>各棟Remo設置<br/>全センサー完備</div>
+</div>
+</div>
+<div class="r" style="margin-top:16px;text-align:center">
+<a data-en="View deployment matrix by property →" href="systems" style="font-size:12px;color:var(--cyan);border-bottom:1px solid rgba(74,234,220,.2)">物件別 導入マトリクスを見る →</a>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- PLANS -->
+<div class="s" id="plans" style="padding:100px 0;background:#020202">
+<div class="w" style="text-align:center">
+<p class="label label-c r" data-en="Plans">Plans · プラン</p>
+<h2 class="r" data-en="Three plans." style="text-align:center">3つのプラン。<span class="cyan" data-en="All-inclusive from ¥35,186.">全部入り¥35,186から。</span></h2>
+<p class="r" data-en="For those who prefer hands-on assembly and those who want complete turnkey solutions. Choose what suits your needs." style="text-align:center;color:#555;font-size:13px;line-height:2;max-width:520px;margin:0 auto 40px">自分で組む人も、全部任せたい人も。目的に合わせて選べる。</p>
+</div>
+<div class="ww">
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+<!-- DIY PLAN -->
+<div style="padding:32px 24px;background:#060606;border:1px solid #111;border-radius:16px;position:relative;overflow:hidden">
+<div style="font-size:9px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.5;margin-bottom:16px">DIY</div>
+<div style="font-size:1.8rem;font-weight:800;color:var(--text);letter-spacing:-.03em">¥35,186</div>
+<div data-en="Components kit only" style="font-size:10px;color:#333;margin:4px 0 20px">部品キットのみ</div>
+<div data-en="Complete 15-component kit
+          Rust Firmware (GitHub)
+          Wiring Diagrams + Setup Guide
+          NEURO Owner Community Access" style="font-size:11.5px;color:#555;line-height:2.2">
+          部品15点一式<br/>
+          Rustファームウェア (GitHub)<br/>
+          配線図 + セットアップガイド<br/>
+          NEUROオーナーコミュニティ参加権<br/>
+<span data-en="Self-installation" style="color:#333">設置は自分で</span>
+</div>
+<div data-en="Target: Those with experience handling Pi
+          Time required: Half day to one full day" style="margin-top:20px;font-size:10px;color:#333;line-height:2">
+          対象: Piを触ったことがある人<br/>
+          所要時間: 半日〜1日
+        </div>
+<a data-en="Order Kit →" href="/ask?q=SOLUNA+NEURO+について相談したい" onmouseout="this.style.background='transparent';this.style.color='var(--cyan)'" onmouseover="this.style.background='var(--cyan)';this.style.color='#040404'" style="display:block;margin-top:20px;padding:14px;text-align:center;background:transparent;border:1px solid rgba(74,234,220,.3);border-radius:10px;color:var(--cyan);font-size:12px;font-weight:700;text-decoration:none;transition:all .2s">キット注文 →</a>
+</div>
+<!-- STANDARD PLAN -->
+<div style="padding:32px 24px;background:#060606;border:2px solid var(--cyan);border-radius:16px;position:relative;overflow:hidden">
+<div style="position:absolute;top:16px;right:16px;font-size:8px;color:#040404;background:var(--cyan);padding:4px 10px;border-radius:100px;font-weight:700;letter-spacing:.1em">POPULAR</div>
+<div style="font-size:9px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.5;margin-bottom:16px">STANDARD</div>
+<div style="font-size:1.8rem;font-weight:800;color:var(--text);letter-spacing:-.03em">¥98,000</div>
+<div data-en="Components + Pre-configured Shipping" style="font-size:10px;color:#333;margin:4px 0 20px">部品 + 設定済み配送</div>
+<div data-en="15-piece component kit
+(Rust configuration + WiFi setup)
+
+          Pre-wired harness (plug and play)
+          Dashboard initialization
+          Online installation support — once
+          KAGI integration setup" style="font-size:11.5px;color:#555;line-height:2.2">
+          部品15点一式<br/>
+<strong data-en="Pre-Configured Pi" style="color:var(--text)">Pi設定済み</strong>（Rust書込+WiFi設定）<br/>
+<strong data-en="Sensors verified operational" style="color:var(--text)">センサー動作確認済み</strong><br/>
+          配線済みハーネス（挿すだけ）<br/>
+          ダッシュボード初期設定<br/>
+          オンライン設置サポート 1回<br/>
+          KAGI連携設定
+        </div>
+<div data-en="Target: Anyone
+          Time required: 2–3 hours (just plug and play)" style="margin-top:20px;font-size:10px;color:#333;line-height:2">
+          対象: 誰でも<br/>
+          所要時間: 2〜3時間（挿すだけ）
+        </div>
+<a data-en="Order →" href="/ask?q=SOLUNA+NEURO+について相談したい" onmouseout="this.style.opacity='1'" onmouseover="this.style.opacity='.85'" style="display:block;margin-top:20px;padding:14px;text-align:center;background:var(--cyan);border:none;border-radius:10px;color:#040404;font-size:12px;font-weight:800;text-decoration:none;transition:opacity .2s;letter-spacing:.04em">注文する →</a>
+</div>
+<!-- PRO PLAN -->
+<div style="padding:32px 24px;background:#060606;border:1px solid #111;border-radius:16px;position:relative;overflow:hidden">
+<div style="font-size:9px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.5;margin-bottom:16px">PRO</div>
+<div style="font-size:1.8rem;font-weight:800;color:var(--text);letter-spacing:-.03em">¥248,000</div>
+<div data-en="Components + On-site Installation + Operation" style="font-size:10px;color:#333;margin:4px 0 20px">部品 + 現地設置 + 運用</div>
+<div data-en="Everything in STANDARD +
+(Kanto / Hokkaido / Wakayama)
+
+          Relay → Ventilation fan/heating wiring connection
+          Airbnb listing optimization
+          Dashboard customization
+          3-month support after operations begin" style="font-size:11.5px;color:#555;line-height:2.2">
+          STANDARDの全て +<br/>
+<strong data-en="On-site installation" style="color:var(--text)">現地訪問設置</strong>（関東/北海道/和歌山）<br/>
+<strong data-en="In-wall wiring &amp; concealed installation" style="color:var(--text)">壁内配線・隠蔽施工</strong><br/>
+          リレー→換気扇/暖房の配線接続<br/>
+          Airbnbリスティング最適化<br/>
+          ダッシュボード カスタマイズ<br/>
+          運用開始後3ヶ月サポート
+        </div>
+<div data-en="For: Those seeking complete automation
+          Duration: 1 day (on-site installation)" style="margin-top:20px;font-size:10px;color:#333;line-height:2">
+          対象: 完全おまかせしたい人<br/>
+          所要時間: 1日（訪問設置）
+        </div>
+<a data-en="Consult →" href="/ask?q=SOLUNA+NEURO+について相談したい" onmouseout="this.style.background='transparent';this.style.color='var(--cyan)'" onmouseover="this.style.background='var(--cyan)';this.style.color='#040404'" style="display:block;margin-top:20px;padding:14px;text-align:center;background:transparent;border:1px solid rgba(74,234,220,.3);border-radius:10px;color:var(--cyan);font-size:12px;font-weight:700;text-decoration:none;transition:all .2s">相談する →</a>
+</div>
+</div>
+<div class="r" data-en="Included in All Plans: Rust Firmware Perpetual License / OTA Updates / Dashboard Access / KAGI Integration
+Included with Property Acquisition + Renovation." style="margin-top:16px;padding:16px 20px;background:rgba(74,234,220,.03);border:1px solid rgba(74,234,220,.1);border-radius:10px;font-size:11.5px;color:#555;line-height:2;text-align:center">
+      全プランに含まれるもの: Rustファームウェア永久ライセンス / OTAアップデート / ダッシュボードアクセス / KAGI連携<br/>
+<strong data-en="SOLUNA property owners receive the STANDARD plan free." style="color:var(--cyan)">SOLUNA物件オーナーはSTANDARDプランが無料。</strong>物件取得+リノベに含まれています。
+    </div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- INVESTMENT 3-TIER -->
+<div class="s" style="padding:100px 0;background:#020202">
+<div class="w">
+<p class="label label-c r" data-en="Investment · Three-Phase Scheme">Investment · 3段階スキーム</p>
+<h2 class="r" data-en="Begin with membership.">会員権でスタート。<br/><span class="cyan" data-en="Policy catches up.">制度が追いつく。</span></h2>
+<p class="sub r" data-en="The SOLUNA NEURO investment scheme evolves in three stages. First, membership commences immediately. Concurrently, we establish the General Incorporated Association and register the specific joint business, progressively strengthening our legal foundation.">SOLUNA NEUROの投資スキームは3段階で進化する。まず会員権で即日スタート。並行してGK設立と不特事業登録を進め、法的基盤を段階的に強化する。</p>
+<div class="timeline r">
+<div class="tl-item">
+<div class="tl-phase">Phase 1 · Now</div>
+<div class="tl-title" data-en="Membership (timeshare) model">会員権（タイムシェア）モデル</div>
+<div class="tl-desc" data-en='Enabler Inc. owns and operates the Properties. Members purchase "20-night annual usage rights" (¥1,000,000). Same-day contracts available. Dividends distributed from accommodation revenue. The simplest scheme to get started immediately.'>株式会社Enablerが物件を所有・運営。会員は「年20泊の利用権」を購入（¥100万）。即日契約可能。配当は宿泊収益から按分。最もシンプルで今すぐ始められるスキーム。</div>
+</div>
+<div class="tl-item">
+<div class="tl-phase">Phase 2 · 2026 Q3</div>
+<div class="tl-title" data-en="LLC Membership Rights">合同会社（GK）社員権</div>
+<div class="tl-desc" data-en="Establish a GK for each Property. Transition members to GK employees (investors). Transfer legal Property ownership to the GK. Dividends and voting rights proportional to investment. Clearer governance structure.">物件ごとにGKを設立。会員をGKの社員（出資者）に移行。物件の法的所有をGKに移転。出資比率に応じた配当と議決権。より明確なガバナンス構造。</div>
+</div>
+<div class="tl-item">
+<div class="tl-phase">Phase 3 · 2027</div>
+<div class="tl-title" data-en="Small-Scale Real Estate Specific Joint Business">小規模不動産特定共同事業</div>
+<div class="tl-desc" data-en="Business registration completed in Wakayama and Hokkaido. Formal real estate crowdfunding under the Act on Specified Commercial Transaction Law. Mandatory disclosures, segregated accounting &amp; cooling-off rights. Investor protection under national framework. All properties transitioning sequentially.">和歌山県・北海道への事業者登録完了。不特法に基づく正式な不動産共同投資。重要事項説明・分別管理・クーリングオフ。国の制度による出資者保護。全物件を順次移行。</div>
+</div>
+</div>
+<div class="r" data-en="Phase 1 membership automatically converts to GK shareholder status upon Phase 2 transition. No additional fees. Same applies at Phase 3 transition." style="margin-top:20px;padding:20px 24px;background:rgba(74,234,220,.03);border:1px solid rgba(74,234,220,.1);border-radius:12px;font-size:11.5px;color:#555;line-height:2">
+      Phase 1の会員権は、Phase 2移行時に自動的にGK社員権に転換されます。追加費用なし。Phase 3移行時も同様。<strong data-en="Early members enjoy the most favorable terms and conditions." style="color:var(--cyan)">今入った人が最も早く、最も有利な条件で参加できます。</strong>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- BOM — MINIMAL PARTS LIST -->
+<div class="s" style="padding:80px 0">
+<div class="w">
+<p class="label label-c r" data-en="BOM · All necessary components.">BOM · 必要な部品、これだけ。</p>
+<h2 class="r" data-en="15 Points,">15点、<span class="cyan" data-en="¥35,186.">¥35,186。</span></h2>
+<p class="sub r" data-en="Less is more. All components to transform an entire home into an AI CABIN. Zero cameras. No soldering required. Three ordering sources. Prices verified as of April 2026. Click each component name to go directly to purchase.">Less is more。家1棟をAI CABINにする全部品。カメラ0台。はんだ不要。発注先3箇所。価格は2026年4月時点で実際に確認済み。各部品名クリックで購入ページ直行。</p>
+<!-- BOM PHOTOS -->
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:3px;margin-bottom:28px;border-radius:12px;overflow:hidden">
+<div style="position:relative;height:200px;overflow:hidden"><img alt="NEURO頭脳 — Raspberry Pi 5" data-en-alt="NEURO Brain — Raspberry Pi 5" loading="lazy" src="img/neuro_bom_brain.jpg" style="width:100%;height:100%;object-fit:cover;filter:brightness(.75)"/><div style="position:absolute;bottom:0;left:0;right:0;padding:10px;background:linear-gradient(transparent,rgba(4,4,4,.9))"><div style="font-size:8px;color:var(--cyan);letter-spacing:.15em;font-weight:700">BRAIN</div><div style="font-size:10px;color:#888">Pi 5 · ¥14,620</div></div></div>
+<div style="position:relative;height:200px;overflow:hidden"><img alt="NEUROセンサー群" data-en-alt="NEURO Sensor Suite" loading="lazy" src="img/neuro_bom_sensors.jpg" style="width:100%;height:100%;object-fit:cover;filter:brightness(.75)"/><div style="position:absolute;bottom:0;left:0;right:0;padding:10px;background:linear-gradient(transparent,rgba(4,4,4,.9))"><div style="font-size:8px;color:var(--cyan);letter-spacing:.15em;font-weight:700">SENSORS</div><div data-en="Environmental 7-piece · ¥9,360" style="font-size:10px;color:#888">環境7点 · ¥9,360</div></div></div>
+<div style="position:relative;height:200px;overflow:hidden"><img alt="NEUROセキュリティ" data-en-alt="NEURO security" loading="lazy" src="img/neuro_bom_security.jpg" style="width:100%;height:100%;object-fit:cover;filter:brightness(.75)"/><div style="position:absolute;bottom:0;left:0;right:0;padding:10px;background:linear-gradient(transparent,rgba(4,4,4,.9))"><div style="font-size:8px;color:var(--cyan);letter-spacing:.15em;font-weight:700">SECURITY</div><div data-en="Lock + Smoke + Door/Window · ¥7,006" style="font-size:10px;color:#888">ロック+煙+開閉 · ¥7,006</div></div></div>
+<div style="position:relative;height:200px;overflow:hidden"><img alt="NEURO電力制御" data-en-alt="NEURO Power Control" loading="lazy" src="img/neuro_bom_power.jpg" style="width:100%;height:100%;object-fit:cover;filter:brightness(.75)"/><div style="position:absolute;bottom:0;left:0;right:0;padding:10px;background:linear-gradient(transparent,rgba(4,4,4,.9))"><div style="font-size:8px;color:var(--cyan);letter-spacing:.15em;font-weight:700">POWER</div><div data-en="Measurement + relay + water leak detection · ¥3,500" style="font-size:10px;color:#888">計測+リレー+水漏れ · ¥3,500</div></div></div>
+</div>
+<div class="spec r">
+<!-- BRAIN -->
+<div class="r" data-en="BRAIN — The Brain" style="font-size:10px;color:var(--cyan);letter-spacing:.25em;font-weight:700;margin:0 0 8px;opacity:.5">BRAIN — 頭脳</div>
+<div class="spec r">
+<div class="spec-row"><div class="k">Pi 5 2GB</div><div class="v" data-en="— Integrated sensors and Rust firmware. 8GB (¥35,200) is excessive; 2GB is sufficient."><strong><a href="https://www.switch-science.com/products/9250" style="border-bottom:1px solid rgba(74,234,220,.3)">Raspberry Pi 5 / 2GB</a></strong> — <strong style="color:var(--cyan)">¥13,640</strong><br/><span data-en="Switch Science (Official Domestic · Stock 100+)" style="color:#333">Switch Science（国内正規・在庫100+）</span><br/>全センサー統合・Rustファームウェア。8GB(¥35,200)は過剰、2GBで十分。</div></div>
+<div class="spec-row"><div class="k">microSD</div><div class="v"><strong><a href="https://www.amazon.co.jp/s?k=Samsung+EVO+Plus+64GB+microSD" style="border-bottom:1px solid rgba(74,234,220,.3)">Samsung EVO Plus 64GB</a></strong> — <strong style="color:var(--cyan)">¥980</strong><br/><span style="color:#333">Amazon.co.jp</span></div></div>
+</div>
+<!-- SENSORS -->
+<div class="r" data-en="SENSORS — Environmental Sensors" style="font-size:10px;color:var(--cyan);letter-spacing:.25em;font-weight:700;margin:28px 0 8px;opacity:.5">SENSORS — 環境センサー</div>
+<div class="spec r">
+<div class="spec-row"><div class="k" data-en="Temperature, humidity &amp; atmospheric pressure x2">温湿度気圧 x2</div><div class="v" data-en="— I2C. Living room + bathroom. Simply adheres behind beams."><strong><a href="https://akizukidenshi.com/catalog/g/g109421/" style="border-bottom:1px solid rgba(74,234,220,.3)">BME280 (AE-BME280)</a></strong> — <strong style="color:var(--cyan)">¥1,380 x2 = ¥2,760</strong><br/><span data-en="Akizuki Denshi K-09421 (Stock: 659)" style="color:#333">秋月電子 K-09421（在庫659）</span><br/>I2C。リビング+浴室。梁の裏に貼るだけ。</div></div>
+<div class="spec-row"><div class="k">CO2 x1</div><div class="v" data-en="— NDIR technology. UART. One living space is sufficient."><strong><a href="https://www.amazon.co.jp/s?k=MH-Z19C+CO2" style="border-bottom:1px solid rgba(74,234,220,.3)">MH-Z19C</a></strong> — <strong style="color:var(--cyan)">¥3,500</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>NDIR方式。UART。リビング1つで十分。</div></div>
+<div class="spec-row"><div class="k" data-en="Motion Sensors x2">人感 x2</div><div class="v" data-en="— 24GHz mmWave. No video. Wall cavity installation possible."><strong><a href="https://www.amazon.co.jp/s?k=HLK-LD2410B" style="border-bottom:1px solid rgba(74,234,220,.3)">HLK-LD2410B</a></strong> — <strong style="color:var(--cyan)">¥800 x2 = ¥1,600</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>24GHz mmWave。映像なし。壁裏設置可。</div></div>
+<div class="spec-row"><div class="k" data-en="Outdoor Temperature × 1">外気温 x1</div><div class="v" data-en="— 1-Wire. External wall mounting."><strong><a data-en="DS18B20 waterproof probe" href="https://www.amazon.co.jp/s?k=DS18B20+防水+温度+プローブ" style="border-bottom:1px solid rgba(74,234,220,.3)">DS18B20 防水プローブ</a></strong> — <strong style="color:var(--cyan)">¥400</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>1-Wire。外壁設置。</div></div>
+<div class="spec-row"><div class="k" data-en="Noise Sensor x1">騒音 x1</div><div class="v" data-en="— I2S. Measures dB only (no recording)."><strong><a data-en="INMP441 MEMS microphone" href="https://www.amazon.co.jp/s?k=INMP441+I2S+MEMS" style="border-bottom:1px solid rgba(74,234,220,.3)">INMP441 MEMSマイク</a></strong> — <strong style="color:var(--cyan)">¥500</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>I2S。dBのみ計測（録音なし）。</div></div>
+<div class="spec-row"><div class="k" data-en="Smoke &amp; gas x1">煙・ガス x1</div><div class="v" data-en="— GPIO output. Smoke &amp; gas detection → instant push notification."><strong><a data-en="MQ-2 Smoke Sensor" href="https://www.amazon.co.jp/s?k=MQ-2+煙+センサー" style="border-bottom:1px solid rgba(74,234,220,.3)">MQ-2 煙センサー</a></strong> — <strong style="color:var(--cyan)">¥600</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>GPIO出力。煙・ガス→即Push通知。</div></div>
+</div>
+<!-- SECURITY -->
+<div class="r" data-en="SECURITY — Security" style="font-size:10px;color:var(--cyan);letter-spacing:.25em;font-weight:700;margin:28px 0 8px;opacity:.5">SECURITY — セキュリティ</div>
+<div class="spec r">
+<div class="spec-row"><div class="k" data-en="Smart lock">スマートロック</div><div class="v" data-en="— (sale price, tax included) Simply apply. No installation required. One-time key auto-generated."><strong><a href="https://jp.candyhouse.co/products/sesame5" style="border-bottom:1px solid rgba(74,234,220,.3)">SESAME 5</a></strong> — <strong style="color:var(--cyan)">¥3,828</strong>（税込セール価格）<br/><span data-en="CANDY HOUSE Official" style="color:#333">CANDY HOUSE公式</span><br/>貼るだけ。工事不要。ワンタイムキー自動発行。</div></div>
+<div class="spec-row"><div class="k" data-en="WiFi Hub">WiFiハブ</div><div class="v" data-en="— (including tax) Essential for remote operation."><strong><a href="https://jp.candyhouse.co/collections/all" style="border-bottom:1px solid rgba(74,234,220,.3)">SESAME Hub 3</a></strong> — <strong style="color:var(--cyan)">¥2,178</strong>（税込）<br/><span data-en="CANDY HOUSE Official" style="color:#333">CANDY HOUSE公式</span><br/>遠隔操作に必須。</div></div>
+<div class="spec-row"><div class="k" data-en="Open/Close × 2">開閉 x2</div><div class="v" data-en="— Doors + windows. Opening detected → HVAC auto-shutoff."><strong><a data-en="Reed Switch 5-Pack" href="https://www.amazon.co.jp/s?k=マグネットスイッチ+リードスイッチ" style="border-bottom:1px solid rgba(74,234,220,.3)">リードスイッチ 5個入</a></strong> — <strong style="color:var(--cyan)">¥200</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>ドア+窓。開放検知→HVAC自動停止。</div></div>
+<div class="spec-row"><div class="k" data-en="Water Leak Detector x2">水漏れ x2</div><div class="v" data-en="— Kitchen + bathroom. Protect your home for ¥800."><strong><a data-en="Water leak sensor" href="https://www.amazon.co.jp/s?k=漏水センサー+水漏れ検知" style="border-bottom:1px solid rgba(74,234,220,.3)">水漏れセンサー</a></strong> — <strong style="color:var(--cyan)">¥400 x2 = ¥800</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>キッチン+浴室。¥800で家を守る。</div></div>
+</div>
+<!-- POWER -->
+<div class="r" data-en="POWER — Energy Management" style="font-size:10px;color:var(--cyan);letter-spacing:.25em;font-weight:700;margin:28px 0 8px;opacity:.5">POWER — 電力制御</div>
+<div class="spec r">
+<div class="spec-row"><div class="k" data-en="Power metering">電力計測</div><div class="v" data-en="+  — Simply clamp with CT clamp + ADC. Non-contact."><strong><a href="https://www.amazon.co.jp/s?k=SCT-013-030" style="border-bottom:1px solid rgba(74,234,220,.3)">SCT-013-030</a></strong> + <strong><a href="https://www.amazon.co.jp/s?k=ADS1115+ADC" style="border-bottom:1px solid rgba(74,234,220,.3)">ADS1115</a></strong> — <strong style="color:var(--cyan)">¥1,500 + ¥700 = ¥2,200</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>CTクランプ挟むだけ + ADC。非接触。</div></div>
+<div class="spec-row"><div class="k" data-en="Relay">リレー</div><div class="v" data-en="— Ventilation &amp; heating automatically ON/OFF."><strong><a data-en="4-Channel Relay Module" href="https://www.amazon.co.jp/s?k=4ch+リレーモジュール+5V" style="border-bottom:1px solid rgba(74,234,220,.3)">4ch リレーモジュール</a></strong> — <strong style="color:var(--cyan)">¥500</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>換気扇・暖房 自動ON/OFF。</div></div>
+</div>
+<!-- WIRING -->
+<div class="r" data-en="WIRING — Installation (No Soldering Required)" style="font-size:10px;color:var(--cyan);letter-spacing:.25em;font-weight:700;margin:28px 0 8px;opacity:.5">WIRING — 配線（はんだ不要）</div>
+<div class="spec r">
+<div class="spec-row"><div class="k" data-en="Complete wiring set">配線一式</div><div class="v" data-en="— I2C = connector insertion. UART = screw fastening. SESAME = adhesive application. No soldering required."><strong><a data-en="Qwiic/Grove cable + terminal block" href="https://www.amazon.co.jp/s?k=Qwiic+I2C+ケーブル+Grove" style="border-bottom:1px solid rgba(74,234,220,.3)">Qwiic/Groveケーブル + 端子台</a></strong> — <strong style="color:var(--cyan)">¥1,500</strong><br/><span style="color:#333">Amazon.co.jp</span><br/>I2C=コネクタ挿す。UART=ネジ止め。SESAME=貼る。はんだ不要。</div></div>
+</div>
+<!-- TOTALS -->
+<div class="r" style="margin-top:24px;border:1px solid rgba(74,234,220,.15);border-radius:16px;overflow:hidden;background:#060606">
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;text-align:center">
+<div style="padding:24px 16px;border-right:1px solid #111"><div style="font-size:2rem;font-weight:800;color:var(--cyan)">15</div><div style="font-size:9px;color:#333;letter-spacing:.14em;margin-top:4px">PARTS</div></div>
+<div style="padding:24px 16px;border-right:1px solid #111"><div style="font-size:2rem;font-weight:800;color:var(--cyan)">¥35,186</div><div style="font-size:9px;color:#333;letter-spacing:.14em;margin-top:4px">VERIFIED</div></div>
+<div style="padding:24px 16px;border-right:1px solid #111"><div style="font-size:2rem;font-weight:800;color:var(--cyan)">0</div><div style="font-size:9px;color:#333;letter-spacing:.14em;margin-top:4px">CAMERAS</div></div>
+<div style="padding:24px 16px"><div style="font-size:2rem;font-weight:800;color:var(--cyan)">0</div><div style="font-size:9px;color:#333;letter-spacing:.14em;margin-top:4px">SOLDER</div></div>
+</div>
+</div>
+<!-- STORE BREAKDOWN -->
+<div class="r" style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+<div style="padding:16px;background:#060606;border:1px solid #111;border-radius:10px;text-align:center"><div style="font-size:10px;color:var(--cyan);letter-spacing:.12em;font-weight:700;margin-bottom:6px;opacity:.6">Switch Science</div><div style="font-size:16px;font-weight:800;color:var(--text)">¥14,620</div><div style="font-size:10px;color:#333;margin-top:4px">Pi 5 + microSD</div></div>
+<div style="padding:16px;background:#060606;border:1px solid #111;border-radius:10px;text-align:center"><div data-en="Akizuki Denshi" style="font-size:10px;color:var(--cyan);letter-spacing:.12em;font-weight:700;margin-bottom:6px;opacity:.6">秋月電子</div><div style="font-size:16px;font-weight:800;color:var(--text)">¥2,760</div><div style="font-size:10px;color:#333;margin-top:4px">BME280 x2</div></div>
+<div style="padding:16px;background:#060606;border:1px solid #111;border-radius:10px;text-align:center"><div style="font-size:10px;color:var(--cyan);letter-spacing:.12em;font-weight:700;margin-bottom:6px;opacity:.6">Amazon + CANDY HOUSE</div><div style="font-size:16px;font-weight:800;color:var(--text)">¥17,806</div><div data-en="Sensors + Lock + Control + Wiring" style="font-size:10px;color:#333;margin-top:4px">センサー+ロック+制御+配線</div></div>
+</div>
+<div class="r" data-en="All prices verified as of April 2026 (Switch Science, Akizuki Electronics, CANDY HOUSE official). Amazon pricing subject to change.
+Privacy-first. Reservation management integration." style="margin-top:12px;padding:16px 20px;background:rgba(74,234,220,.03);border:1px solid rgba(74,234,220,.1);border-radius:10px;font-size:11.5px;color:#555;line-height:2.2">
+      全価格2026年4月時点で確認済み（Switch Science・秋月電子・CANDY HOUSE公式）。Amazon価格は変動あり。<br/>
+<strong data-en="Zero cameras. Microphone does not record (dB measurement only)." style="color:var(--text)">カメラ0。マイクは録音しない（dB計測のみ）。</strong>プライバシーファースト。予約管理は<a href="https://kagi-app.fly.dev" style="border-bottom:1px solid rgba(74,234,220,.3)">KAGI</a>連携。</div>
+</div>
+</div>
+<!-- ALL PROJECTS -->
+<div class="s" style="padding:100px 0;background:#020202;border-top:1px solid rgba(74,234,220,.06)">
+<div class="w" style="text-align:center">
+<p class="label label-c r" data-en="Projects · all properties featuring NEURO">Projects · NEUROが入る全プロジェクト</p>
+<h2 class="r" data-en="The machine for living is," style="text-align:center">住むための機械は、<span class="cyan" data-en="Seven more already installed.">もう7つある。</span></h2>
+<p class="r" data-en="Every project conceived by SOLUNA. Containers, domes, historic farmhouses, clifftop sites, villages. The forms vary. When NEURO is integrated, they all become AI CABINS." style="text-align:center;color:#555;font-size:13px;line-height:2;max-width:540px;margin:0 auto 40px">SOLUNAが企画する全プロジェクト。コンテナ、ドーム、古民家、崖上、村。形は違う。NEUROが入ることで、全てがAI CABINになる。</p>
+</div>
+<!-- PROJECT GRID -->
+<div class="ww">
+<!-- Row 1: Hero projects -->
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:3px">
+<a href="kumaushi" style="position:relative;display:block;height:400px;overflow:hidden;text-decoration:none">
+<img alt="熊牛コンテナ" data-en-alt="Kumaushi Container" loading="lazy" onmouseout="this.style.filter='brightness(.5)'" onmouseover="this.style.filter='brightness(.7)'" src="img/container_premium_exterior.webp" style="width:100%;height:100%;object-fit:cover;filter:brightness(.5);transition:filter .4s"/>
+<div style="position:absolute;bottom:0;left:0;right:0;padding:28px;background:linear-gradient(transparent,rgba(4,4,4,.95))">
+<div style="font-size:9px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.6">01 · KUMAUSHI</div>
+<div data-en="KUMAUSHI Container Cabin" style="font-size:20px;font-weight:800;color:var(--text);margin:6px 0 4px">熊牛コンテナキャビン</div>
+<div data-en="Teshikaga, Hokkaido · 32,337 tsubo · Container + dome + sauna · ¥4,900,000~" style="font-size:11px;color:#666">北海道弟子屈 · 32,337坪 · コンテナ+ドーム+サウナ · ¥490万〜</div>
+</div>
+</a>
+<a href="tapkop" style="position:relative;display:block;height:400px;overflow:hidden;text-decoration:none">
+<img alt="TAPKOP" loading="lazy" onmouseout="this.style.filter='brightness(.5)'" onmouseover="this.style.filter='brightness(.7)'" src="img/tapkop_luxury.webp" style="width:100%;height:100%;object-fit:cover;filter:brightness(.5);transition:filter .4s"/>
+<div style="position:absolute;bottom:0;left:0;right:0;padding:28px;background:linear-gradient(transparent,rgba(4,4,4,.95))">
+<div style="font-size:9px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.6">02 · TAPKOP</div>
+<div data-en="TAPKOP premium village" style="font-size:20px;font-weight:800;color:var(--text);margin:6px 0 4px">TAPKOP プレミアムビレッジ</div>
+<div data-en="Teshikaga, Hokkaido · Mashu Lake View · Eco Village · ¥5,300,000+" style="font-size:11px;color:#666">北海道弟子屈 · 摩周湖ビュー · エコビレッジ · ¥530万〜</div>
+</div>
+</a>
+</div>
+<!-- Row 2: 3 columns -->
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-bottom:3px">
+<a href="village" style="position:relative;display:block;height:300px;overflow:hidden;text-decoration:none">
+<img alt="SOLUNA VILLAGE" loading="lazy" onmouseout="this.style.filter='brightness(.5)'" onmouseover="this.style.filter='brightness(.7)'" src="img/village_aerial_new.webp" style="width:100%;height:100%;object-fit:cover;filter:brightness(.5);transition:filter .4s"/>
+<div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,rgba(4,4,4,.95))">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.6">03 · VILLAGE</div>
+<div style="font-size:15px;font-weight:800;color:var(--text);margin:4px 0">SOLUNA VILLAGE</div>
+<div data-en="30,000 tsubo · 20-building village · ¥27,800,000" style="font-size:10px;color:#666">3万坪 · 20棟の村 · ¥2,780万</div>
+</div>
+</a>
+<a href="nesting" style="position:relative;display:block;height:300px;overflow:hidden;text-decoration:none">
+<img alt="NESTING" loading="lazy" onmouseout="this.style.filter='brightness(.5)'" onmouseover="this.style.filter='brightness(.7)'" src="img/nesting_exterior.webp" style="width:100%;height:100%;object-fit:cover;filter:brightness(.5);transition:filter .4s"/>
+<div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,rgba(4,4,4,.95))">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.6">04 · NESTING</div>
+<div style="font-size:15px;font-weight:800;color:var(--text);margin:4px 0">NESTING</div>
+<div data-en="Nestled in the Forest · Wooden NESTING Cabin" style="font-size:10px;color:#666">森に巣を作る · 木造ネスト型キャビン</div>
+</div>
+</a>
+<a href="atami" style="position:relative;display:block;height:300px;overflow:hidden;text-decoration:none">
+<img alt="熱海" data-en-alt="Atami" loading="lazy" onmouseout="this.style.filter='brightness(.5)'" onmouseover="this.style.filter='brightness(.7)'" src="img/atami_cliff_view.webp" style="width:100%;height:100%;object-fit:cover;filter:brightness(.5);transition:filter .4s"/>
+<div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,rgba(4,4,4,.95))">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.6">05 · ATAMI</div>
+<div data-en="Atami cliff-edge resort" style="font-size:15px;font-weight:800;color:var(--text);margin:4px 0">熱海 崖上リゾート</div>
+<div data-en="Sagami Bay · Hot Spring · Cliffside Container" style="font-size:10px;color:#666">相模湾 · 温泉 · 崖上コンテナ</div>
+</div>
+</a>
+</div>
+<!-- Row 3: 3 columns -->
+<div class="r" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-bottom:3px">
+<a href="wakayama-akiya" style="position:relative;display:block;height:300px;overflow:hidden;text-decoration:none">
+<img alt="和歌山古民家" data-en-alt="Wakayama Historic Farmhouse" loading="lazy" onmouseout="this.style.filter='brightness(.5)'" onmouseover="this.style.filter='brightness(.7)'" src="img/wakayama_koya_after.jpg" style="width:100%;height:100%;object-fit:cover;filter:brightness(.5);transition:filter .4s"/>
+<div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,rgba(4,4,4,.95))">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.6">06 · WAKAYAMA</div>
+<div data-en="Wakayama Historic Farmhouse Renovation" style="font-size:15px;font-weight:800;color:var(--text);margin:4px 0">和歌山 古民家リノベ</div>
+<div data-en="¥300,000+ · 10 Properties · Kumano Area" style="font-size:10px;color:#666">¥30万〜 · 10物件 · 熊野エリア</div>
+</div>
+</a>
+<a href="teshikaga-akiya" style="position:relative;display:block;height:300px;overflow:hidden;text-decoration:none">
+<img alt="弟子屈空き家" data-en-alt="Teshikaga, Hokkaido Vacant Property" loading="lazy" onmouseout="this.style.filter='brightness(.5)'" onmouseover="this.style.filter='brightness(.7)'" src="img/teshikaga_92_after.jpg" style="width:100%;height:100%;object-fit:cover;filter:brightness(.5);transition:filter .4s"/>
+<div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,rgba(4,4,4,.95))">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.6">07 · TESHIKAGA</div>
+<div data-en="Teshikaga vacant property renovation" style="font-size:15px;font-weight:800;color:var(--text);margin:4px 0">弟子屈 空き家リノベ</div>
+<div data-en="¥1,200,000+ · 5 Properties · Kawayu Onsen Area" style="font-size:10px;color:#666">¥120万〜 · 5物件 · 川湯温泉エリア</div>
+</div>
+</a>
+<a href="offgrid" style="position:relative;display:block;height:300px;overflow:hidden;text-decoration:none">
+<img alt="オフグリッド" data-en-alt="Off-Grid" loading="lazy" onmouseout="this.style.filter='brightness(.5)'" onmouseover="this.style.filter='brightness(.7)'" src="img/offgrid_complete.webp" style="width:100%;height:100%;object-fit:cover;filter:brightness(.5);transition:filter .4s"/>
+<div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,rgba(4,4,4,.95))">
+<div style="font-size:8px;color:var(--cyan);letter-spacing:.2em;font-weight:700;opacity:.6">08 · OFFGRID</div>
+<div data-en="Off-grid cabin" style="font-size:15px;font-weight:800;color:var(--text);margin:4px 0">オフグリッドキャビン</div>
+<div data-en="Solar + V2H · Complete Energy Independence" style="font-size:10px;color:#666">太陽光+V2H · 完全自給自足</div>
+</div>
+</a>
+</div>
+<div class="r" data-en="NEURO comes standard on all projects. Intelligence for every machine designed for living." style="margin-top:16px;padding:20px 24px;background:rgba(74,234,220,.03);border:1px solid rgba(74,234,220,.1);border-radius:12px;font-size:12px;color:#555;line-height:2;text-align:center">
+      全プロジェクトにNEURO標準搭載。<strong data-en="¥35,186 component kit" style="color:var(--cyan)">¥35,186の部品キット</strong>が、形の違う全ての「住むための機械」に知性を与える。<br/>
+<a data-en="View all Properties →" href="collection" style="border-bottom:1px solid rgba(74,234,220,.3)">全物件一覧を見る →</a>
+</div>
+</div>
+</div>
+<div class="pulse-line"></div>
+<!-- CONTACT -->
+<div class="s" id="contact" style="text-align:center;padding:100px 24px;background:#020202;border-top:1px solid rgba(74,234,220,.06)">
+<p class="label label-c r" style="text-align:center">Contact</p>
+<h2 class="r" data-en="Become an AI CABIN." style="text-align:center;margin-bottom:16px">AI CABINを、<span class="cyan" data-en="Create Together.">一緒に作る。</span></h2>
+<p class="r" data-en="Consult instantly via chat. Purchase a kit. Experience in person with a site visit." style="text-align:center;color:#555;font-size:13px;line-height:2;max-width:480px;margin:0 auto 32px">チャットで即相談。キットを買う。訪問で実物を見る。</p>
+<div class="r" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:36px">
+<a class="cta-btn" data-en="Consult via chat →" href="/ask?q=SOLUNA+NEURO+について相談したい">チャットで相談 →</a>
+<a class="cta-ghost" data-en="Purchase kit" href="kits" style="border-color:rgba(74,234,220,.2);color:var(--cyan)">キットを買う</a>
+<a class="cta-ghost" data-en="Reserve a Visit" href="/ask?q=SOLUNA+訪問予約+場所と日程を相談したい">訪問予約</a>
+</div>
+<div class="r" data-en="Enabler Inc. — Mita, Minato Ward, Tokyo mail@yukihamada.jp" style="font-size:11px;color:#2a2a2a;line-height:2;margin-top:24px">
+<div style="display:grid;grid-template-columns:80px 1fr;gap:16px;align-items:center;max-width:360px;margin:0 auto 16px">
+<img alt="濱田優貴" data-en-alt="Yuki Hamada" src="/img/k4_founder.webp" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid rgba(74,234,220,.2)"/>
+<div>
+<div data-en="Yuki Hamada" style="font-size:12px;font-weight:700;color:rgba(240,236,228,.7)">濱田 優貴</div>
+<div data-en="CEO, Enabler Inc. / Co-Founder, Mercari" style="font-size:10px;color:#333;margin-top:2px">株式会社Enabler CEO / メルカリ元CPO・CINO</div>
+</div>
+</div>
+    株式会社Enabler — 東京都港区三田<br/>mail@yukihamada.jp
+  </div>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8 Residences, 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Biruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase · Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-term holding plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Shares" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral program" href="referral">紹介制度</a>
+<a data-en="Obtain shares for free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture · Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware kit" href="kits">ハードキット</a>
+<a data-en="Floor plan collection" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprints" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="The Dome Story" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners Only" href="owners">オーナー専用</a>
+<a data-en="Miruwa owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="The Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Law" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><!-- FLOATING CONTACT -->
+<div class="contact-float">
+<a data-en="Consult via chat →" href="/ask?q=SOLUNA+NEURO+について相談したい">チャットで相談 →</a>
+</div>
+<script>
+(function(){
+  var els=document.querySelectorAll('.r');
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in')});
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){io.observe(el)});
+})();
+</script>
+<script src="/lang.js"></script>
+</div></body>
+</html>

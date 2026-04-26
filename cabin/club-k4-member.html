@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/club-k4-member" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="Member Dashboard — CLUB K4">メンバーダッシュボード — CLUB K4</title>
+<meta content="CLUB K4 会員専用ダッシュボード" data-en-content="CLUB K4 Member-Exclusive Dashboard" name="description"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;rect width='32' height='32' fill='%23000'/&gt;&lt;text y='22' x='4' font-size='20' fill='%23c8a455'&gt;K4&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold2:#e8c878;
+  --gold-dim:rgba(200,164,85,.35);
+  --gold-soft:rgba(200,164,85,.07);
+  --bg:#040404;
+  --bg2:#0a0a0a;
+  --bg3:#0f0f0f;
+  --text:#f0ece4;
+  --text-dim:#888;
+  --text-faint:#444;
+  --line:rgba(255,255,255,.06);
+  --card-bg:rgba(255,255,255,.03);
+  --card-border:rgba(255,255,255,.07);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+::selection{background:var(--gold);color:#000}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
+.nav-left{display:flex;align-items:center;gap:10px}
+.nav-logo{font-size:13px;font-weight:900;letter-spacing:.15em;color:var(--gold)}
+.nav-sub{font-size:9px;color:#444;letter-spacing:.15em}
+.nav-right{display:flex;gap:16px;align-items:center;font-size:10px}
+.nav-right a{color:#555;letter-spacing:.05em;transition:color .2s}
+.nav-right a:hover,.nav-right a.active{color:var(--gold)}
+.btn-apply{background:var(--gold);color:#000;font-weight:800;font-size:10px;letter-spacing:.1em;padding:8px 18px;border-radius:100px;transition:all .2s}
+.btn-apply:hover{background:var(--gold2)}
+.nav-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#8a6a20);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#000;letter-spacing:0;cursor:pointer;flex-shrink:0}
+
+/* LAYOUT */
+.main{padding-top:72px;min-height:100vh}
+
+/* GREETING BAR */
+.greeting-bar{background:linear-gradient(135deg,rgba(200,164,85,.08),rgba(200,164,85,.02));border-bottom:1px solid var(--line);padding:24px 32px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.greeting-text{flex:1}
+.greeting-text .welcome{font-size:11px;color:var(--text-dim);letter-spacing:.1em;margin-bottom:4px}
+.greeting-text h1{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:900;letter-spacing:-.03em}
+.greeting-text h1 em{font-style:normal;color:var(--gold)}
+.founder-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(200,164,85,.1);border:1px solid var(--gold-dim);border-radius:100px;padding:6px 14px;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.1em}
+.founder-badge .dot{width:5px;height:5px;background:var(--gold);border-radius:50%;animation:pulse 2s ease infinite}
+.stay-counter{text-align:right;flex-shrink:0}
+.stay-counter .num{font-size:2rem;font-weight:900;color:var(--gold);line-height:1;letter-spacing:-.05em}
+.stay-counter .label{font-size:9px;color:var(--text-faint);letter-spacing:.1em;margin-top:2px}
+.stay-progress{margin-top:6px;height:3px;background:rgba(200,164,85,.1);border-radius:2px;width:140px;margin-left:auto}
+.stay-progress-bar{height:100%;width:26.7%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px}
+
+/* QUICK STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+.stat-card{background:var(--bg);padding:24px 28px;display:flex;flex-direction:column;gap:8px;transition:background .2s}
+.stat-card:hover{background:var(--bg2)}
+.stat-icon{font-size:16px;margin-bottom:2px}
+.stat-label{font-size:9px;color:var(--text-faint);letter-spacing:.15em;text-transform:uppercase}
+.stat-value{font-size:1.1rem;font-weight:700;color:var(--text);letter-spacing:-.02em;line-height:1.3}
+.stat-sub{font-size:10px;color:var(--text-dim)}
+.stat-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;padding:3px 8px;border-radius:100px;letter-spacing:.05em}
+.badge-gold{background:rgba(200,164,85,.15);color:var(--gold)}
+.badge-blue{background:rgba(100,160,255,.1);color:#6aa0ff}
+.badge-red{background:rgba(255,80,80,.1);color:#ff6060}
+
+/* SECTION COMMON */
+.section{padding:40px 32px;border-bottom:1px solid var(--line)}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.section-title{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim)}
+.section-action{font-size:10px;color:var(--gold);letter-spacing:.05em;cursor:pointer;transition:opacity .2s}
+.section-action:hover{opacity:.7}
+
+/* CALENDAR */
+.calendar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.cal-month{font-size:1rem;font-weight:700;letter-spacing:-.02em}
+.cal-nav{display:flex;gap:8px}
+.cal-nav button{background:var(--card-bg);border:1px solid var(--card-border);color:var(--text-dim);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.cal-nav button:hover{border-color:var(--gold-dim);color:var(--gold)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-day-label{text-align:center;font-size:9px;color:var(--text-faint);letter-spacing:.05em;padding:6px 0;font-weight:600}
+.cal-day-label:nth-child(1){color:#ff6060}
+.cal-day-label:nth-child(7){color:#6aa0ff}
+.cal-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:11px;border-radius:6px;cursor:pointer;transition:all .2s;position:relative;font-weight:500}
+.cal-cell.empty{cursor:default}
+.cal-cell.available{color:rgba(240,236,228,.4)}
+.cal-cell.available:hover{background:var(--card-bg);color:var(--text)}
+.cal-cell.booked{background:linear-gradient(135deg,rgba(200,164,85,.25),rgba(200,164,85,.1));color:var(--gold);font-weight:700;border:1px solid rgba(200,164,85,.4)}
+.cal-cell.booked-start{border-radius:6px 6px 6px 6px}
+.cal-cell.closed{color:var(--text-faint);background:rgba(255,255,255,.02);cursor:not-allowed}
+.cal-cell.today{box-shadow:0 0 0 1px var(--gold-dim)}
+.booked-dot{position:absolute;bottom:3px;width:3px;height:3px;background:var(--gold);border-radius:50%}
+.cal-legend{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:5px;font-size:9px;color:var(--text-faint)}
+.leg-dot{width:8px;height:8px;border-radius:2px}
+.leg-dot.booked{background:rgba(200,164,85,.4)}
+.leg-dot.available{background:rgba(255,255,255,.1)}
+.leg-dot.closed{background:rgba(255,255,255,.04)}
+.btn-new-booking{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#000;font-weight:800;font-size:11px;letter-spacing:.08em;padding:12px 24px;border-radius:100px;border:none;cursor:pointer;margin-top:20px;transition:all .2s}
+.btn-new-booking:hover{background:var(--gold2);transform:translateY(-1px)}
+
+/* MEMBERS GRID */
+.members-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:16px}
+.member-item{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
+.member-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;letter-spacing:.02em;position:relative;transition:transform .2s}
+.member-item:hover .member-avatar{transform:scale(1.08)}
+.member-avatar.av1{background:linear-gradient(135deg,#3a2a0a,#6b4e1a);color:var(--gold);border:1px solid rgba(200,164,85,.3)}
+.member-avatar.av2{background:linear-gradient(135deg,#0a1a2a,#1a3a5a);color:#6aa0ff;border:1px solid rgba(100,160,255,.2)}
+.member-avatar.av3{background:linear-gradient(135deg,#1a0a2a,#3a1a5a);color:#c080ff;border:1px solid rgba(160,100,255,.2)}
+.member-avatar.av4{background:linear-gradient(135deg,#0a2a1a,#1a5a3a);color:#60c080;border:1px solid rgba(100,200,150,.2)}
+.member-avatar.online::after{content:'';position:absolute;bottom:2px;right:2px;width:8px;height:8px;background:#4caf50;border-radius:50%;border:1.5px solid var(--bg)}
+.member-name{font-size:8px;color:var(--text-dim);text-align:center;letter-spacing:.03em;line-height:1.3}
+.member-type{font-size:7px;color:var(--text-faint);letter-spacing:.05em}
+
+/* NEWS */
+.news-list{display:flex;flex-direction:column;gap:0}
+.news-item{display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:all .2s}
+.news-item:hover{padding-left:6px}
+.news-item:last-child{border-bottom:none}
+.news-item.unread .news-title{color:var(--text)}
+.news-item.unread .news-date::before{content:'';display:inline-block;width:5px;height:5px;background:var(--gold);border-radius:50%;margin-right:5px;vertical-align:middle}
+.news-date{font-size:9px;color:var(--text-faint);letter-spacing:.08em;flex-shrink:0;white-space:nowrap}
+.news-body{flex:1}
+.news-title{font-size:12px;font-weight:600;margin-bottom:3px;color:rgba(240,236,228,.7);transition:color .2s}
+.news-item:hover .news-title{color:var(--text)}
+.news-desc{font-size:10px;color:var(--text-faint);line-height:1.5}
+.news-arrow{font-size:11px;color:var(--text-faint);flex-shrink:0;transition:transform .2s;transform:translateX(0)}
+.news-item:hover .news-arrow{transform:translateX(3px);color:var(--gold)}
+
+/* FACILITY REQUEST */
+.request-form{display:flex;flex-direction:column;gap:12px}
+.request-form textarea{background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;color:var(--text);font-family:inherit;font-size:12px;line-height:1.8;padding:14px 16px;resize:vertical;min-height:100px;outline:none;transition:border-color .2s}
+.request-form textarea::placeholder{color:var(--text-faint)}
+.request-form textarea:focus{border-color:var(--gold-dim)}
+.form-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.form-hint{font-size:10px;color:var(--text-faint);line-height:1.6}
+.btn-submit{background:var(--card-bg);border:1px solid var(--gold-dim);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.1em;padding:10px 20px;border-radius:100px;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-submit:hover{background:var(--gold);color:#000}
+
+/* GUEST INVITE */
+.invite-form{display:flex;gap:10px;flex-wrap:wrap}
+.invite-input{flex:1;min-width:200px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;color:var(--text);font-family:inherit;font-size:12px;padding:12px 16px;outline:none;transition:border-color .2s}
+.invite-input::placeholder{color:var(--text-faint)}
+.invite-input:focus{border-color:var(--gold-dim)}
+.btn-invite{background:var(--gold);color:#000;font-weight:800;font-size:10px;letter-spacing:.1em;padding:12px 22px;border-radius:100px;border:none;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:inherit}
+.btn-invite:hover{background:var(--gold2)}
+.invite-note{font-size:10px;color:var(--text-faint);margin-top:8px;line-height:1.6}
+
+/* BOTTOM NAV (mobile) */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(4,4,4,.95);backdrop-filter:blur(20px);border-top:1px solid var(--line);padding:10px 0 env(safe-area-inset-bottom,10px);z-index:99}
+.bottom-nav-inner{display:flex;justify-content:space-around}
+.bnav-item{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:8px;color:var(--text-faint);letter-spacing:.05em;padding:4px 12px;cursor:pointer;transition:color .2s}
+.bnav-item.active,.bnav-item:hover{color:var(--gold)}
+.bnav-icon{font-size:16px}
+
+/* FOOTER */
+footer{padding:40px 32px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:gap}
+.footer-logo{font-size:11px;font-weight:900;letter-spacing:.15em;color:#333}
+.footer-copy{font-size:9px;color:var(--text-faint);letter-spacing:.08em}
+
+.finite-pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:#c8a455;margin-right:6px;animation:pulse2 2s ease infinite}
+.nav-finite{display:flex;align-items:center;gap:5px;font-size:9px;color:#555;letter-spacing:.05em}
+.nav-finite strong{color:#c8a455;font-size:11px}
+@keyframes pulse2{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}
+.spots-bar-wrap{height:8px;background:rgba(255,255,255,.04);border-radius:4px;margin:12px 0 6px;overflow:hidden}
+.spots-bar{height:100%;width:85%;background:linear-gradient(90deg,#c8a455,rgba(200,164,85,.4));border-radius:4px;transition:width 1.5s ease}
+.finite-quote{text-align:center;padding:60px 28px;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
+.finite-quote p{font-size:clamp(1.2rem,3vw,2rem);font-weight:900;letter-spacing:-.03em;line-height:1.6;max-width:640px;margin:0 auto}
+.finite-quote em{color:#c8a455;font-style:normal}
+
+/* KEYFRAMES */
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .greeting-bar{padding:18px 20px;gap:14px}
+  .stats-row{grid-template-columns:1fr}
+  .stat-card{padding:18px 20px}
+  .section{padding:28px 20px}
+  .members-grid{grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:12px}
+  .bottom-nav{display:block}
+  .main{padding-bottom:70px}
+  .nav-right .nav-links{display:none}
+  footer{padding:28px 20px;flex-direction:column;gap:8px;text-align:center}
+}
+@media(max-width:480px){
+  .nav-right a:not(.btn-apply){display:none}
+  .stay-counter{display:none}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<!-- NAV -->
+<nav>
+<div class="nav-left">
+<div class="nav-logo">CLUB K4</div>
+<div class="nav-sub">MEMBERS</div>
+</div>
+<div class="nav-right nav-links" style="display:flex">
+<a data-en="Facilities" href="club-k4-facility">施設</a>
+<a data-en="Plans" href="club-k4#plans">プラン</a>
+<a data-en="Events" href="club-k4-events">イベント</a>
+<a data-en="Apply" href="club-k4-apply">申し込み</a>
+<div class="nav-finite" data-en="Remaining"><span class="finite-pulse"></span>残り <strong>3</strong> 名</div>
+<a class="active btn-apply" data-en="Dashboard" href="club-k4-member">ダッシュボード</a>
+</div>
+<div class="nav-avatar">H</div>
+</nav>
+<div class="main">
+<!-- 1. GREETING BAR -->
+<div class="greeting-bar">
+<div class="greeting-text">
+<div class="welcome">WELCOME BACK</div>
+<h1 data-en="Welcome back,">おかえりなさい、<em data-en="Mr. Hamada">濱田さん</em></h1>
+</div>
+<div class="founder-badge" data-en="Founding Member #001">
+<span class="dot"></span>
+      創設会員 #001
+    </div>
+<div class="stay-counter">
+<div class="num">22</div>
+<div class="label" data-en="22 nights remaining of your 30 annual nights — seize every moment">年30泊のうち 22泊残り — 有限な時間を、使い切れ</div>
+<div class="stay-progress"><div class="stay-progress-bar" style="background:linear-gradient(90deg,#c8a455,#e8c878)"></div></div>
+</div>
+</div>
+<!-- 2. QUICK STATS -->
+<div class="stats-row">
+<div class="stat-card">
+<div class="stat-icon">🏔</div>
+<div class="stat-label" data-en="Next Stay">次の滞在</div>
+<div class="stat-value" data-en="November 15 (Sat) – 17 (Mon)">11月15日(土)〜17日(月)</div>
+<div class="stat-sub" data-en="2026 · 2 Nights, 3 Days">2026年 · 2泊3日</div>
+<span class="stat-badge badge-gold" data-en="Confirmed">確定済み</span>
+</div>
+<div class="stat-card">
+<div class="stat-icon">👤</div>
+<div class="stat-label" data-en="Guest of the Month">今月のゲスト</div>
+<div class="stat-value" data-en="1 Guest">1名</div>
+<div class="stat-sub" data-en="Remaining Invitation Slots This Month: 2">今月残り招待枠 2名</div>
+<span class="stat-badge badge-blue" data-en="Invitation Available">招待可能</span>
+</div>
+<div class="stat-card">
+<div class="stat-icon">🔔</div>
+<div class="stat-label" data-en="Unread Notifications">未読お知らせ</div>
+<div class="stat-value" data-en="3 Items">3件</div>
+<div class="stat-sub" data-en="Last Updated 2 hours ago">最終更新 2時間前</div>
+<span class="stat-badge badge-red" data-en="Action Required">要確認</span>
+</div>
+</div>
+<!-- 3. CALENDAR -->
+<div class="section">
+<div class="section-header">
+<div class="section-title" data-en="Reservation Calendar">予約カレンダー</div>
+<a class="section-action" data-en="Annual View →" href="#">年間ビュー →</a>
+</div>
+<div class="calendar-header">
+<div class="cal-month" data-en="November 2026">2026年 11月</div>
+<div class="cal-nav">
+<button>‹</button>
+<button>›</button>
+</div>
+</div>
+<div class="cal-grid">
+<!-- Day labels -->
+<div class="cal-day-label">日</div>
+<div class="cal-day-label">月</div>
+<div class="cal-day-label">火</div>
+<div class="cal-day-label">水</div>
+<div class="cal-day-label">木</div>
+<div class="cal-day-label">金</div>
+<div class="cal-day-label">土</div>
+<!-- Week 1: Nov starts on Sunday -->
+<div class="cal-cell available">1</div>
+<div class="cal-cell closed">2</div>
+<div class="cal-cell closed">3</div>
+<div class="cal-cell available">4</div>
+<div class="cal-cell available">5</div>
+<div class="cal-cell available">6</div>
+<div class="cal-cell available">7</div>
+<!-- Week 2 -->
+<div class="cal-cell closed">8</div>
+<div class="cal-cell available">9</div>
+<div class="cal-cell available">10</div>
+<div class="cal-cell available">11</div>
+<div class="cal-cell available">12</div>
+<div class="cal-cell available">13</div>
+<div class="cal-cell available">14</div>
+<!-- Week 3: booked 15,16,17 -->
+<div class="cal-cell booked" title="濱田さんの予約">15<div class="booked-dot"></div></div>
+<div class="cal-cell booked" title="濱田さんの予約">16<div class="booked-dot"></div></div>
+<div class="cal-cell booked" title="濱田さんの予約">17<div class="booked-dot"></div></div>
+<div class="cal-cell available">18</div>
+<div class="cal-cell available">19</div>
+<div class="cal-cell closed">20</div>
+<div class="cal-cell closed">21</div>
+<!-- Week 4 -->
+<div class="cal-cell available">22</div>
+<div class="cal-cell available">23</div>
+<div class="cal-cell available">24</div>
+<div class="cal-cell available">25</div>
+<div class="cal-cell available">26</div>
+<div class="cal-cell available">27</div>
+<div class="cal-cell available">28</div>
+<!-- Week 5 -->
+<div class="cal-cell available">29</div>
+<div class="cal-cell available">30</div>
+<div class="cal-cell empty"></div>
+<div class="cal-cell empty"></div>
+<div class="cal-cell empty"></div>
+<div class="cal-cell empty"></div>
+<div class="cal-cell empty"></div>
+</div>
+<div class="cal-legend">
+<div class="leg" data-en="Your Reservations"><div class="leg-dot booked"></div>あなたの予約</div>
+<div class="leg" data-en="Availability"><div class="leg-dot available"></div>空き</div>
+<div class="leg" data-en="Maintenance / Fully Booked"><div class="leg-dot closed"></div>メンテナンス / 満室</div>
+</div>
+<button class="btn-new-booking" data-en="+ Request New Booking">＋ 新しい予約をリクエスト</button>
+<div style="background:rgba(200,164,85,.04);border:1px solid rgba(200,164,85,.15);border-radius:8px;padding:24px 28px;margin-top:24px;text-align:center">
+<div data-en="Your Remaining Time in Hokkaido" style="font-size:11px;color:#555;letter-spacing:.1em;margin-bottom:8px">あなたに残された北海道の時間</div>
+<div id="hokkaido-days" style="font-size:2.5rem;font-weight:900;color:#c8a455;letter-spacing:-.04em">—</div>
+<div data-en="Available Days (Fiscal Year 2026)" style="font-size:10px;color:#444;margin-top:4px">使用可能日数（2026年度）</div>
+</div>
+</div>
+<!-- 4. MEMBER LIST -->
+<div class="section">
+<div class="section-header">
+<div class="section-title" data-en="Member Directory — 20 Members">メンバー一覧 — 20名</div>
+<a class="section-action" data-en="View Details →" href="#">詳細を見る →</a>
+</div>
+<div class="members-grid">
+<div class="member-item">
+<div class="member-avatar av1 online">H.Y</div>
+<div class="member-name" data-en="Yuuki Hamada">濱田 優貴</div>
+<div class="member-type" data-en="Founding #001">創設 #001</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av2">T.Y</div>
+<div class="member-name">山本 拓也</div>
+<div class="member-type" data-en="Founding #002">創設 #002</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av3 online">K.S</div>
+<div class="member-name" data-en="Kenichi Sato">佐藤 健一</div>
+<div class="member-type" data-en="Founding #003">創設 #003</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av4">R.N</div>
+<div class="member-name" data-en="Ryo Nakamura">中村 涼</div>
+<div class="member-type" data-en="Founding #004">創設 #004</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av1 online">M.T</div>
+<div class="member-name">田中 真奈</div>
+<div class="member-type" data-en="Founding #005">創設 #005</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av2">S.I</div>
+<div class="member-name">伊藤 誠</div>
+<div class="member-type" data-en="Founding #006">創設 #006</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av3">Y.W</div>
+<div class="member-name" data-en="Yuko Watanabe">渡辺 裕子</div>
+<div class="member-type" data-en="Founding #007">創設 #007</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av4 online">K.K</div>
+<div class="member-name">小林 和彦</div>
+<div class="member-type" data-en="Founding #008">創設 #008</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av1">A.K</div>
+<div class="member-name" data-en="Kato Akiko">加藤 明子</div>
+<div class="member-type" data-en="Founding #009">創設 #009</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av2 online">D.Y</div>
+<div class="member-name">吉田 大輔</div>
+<div class="member-type" data-en="Founder #010">創設 #010</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av3">N.Y</div>
+<div class="member-name" data-en="Naoki Yamada">山田 直樹</div>
+<div class="member-type" data-en="Founding #011">創設 #011</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av4">H.M</div>
+<div class="member-name" data-en="Koji Matsumoto">松本 浩二</div>
+<div class="member-type" data-en="Founding #012">創設 #012</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av1 online">E.I</div>
+<div class="member-name" data-en="Eri Inoue">井上 英里</div>
+<div class="member-type" data-en="Founding #013">創設 #013</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av2">T.K</div>
+<div class="member-name">木村 隆</div>
+<div class="member-type" data-en="Founder #014">創設 #014</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av3">S.H</div>
+<div class="member-name" data-en="Saori Hayashi">林 沙織</div>
+<div class="member-type" data-en="Founder #015">創設 #015</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av4 online">R.S</div>
+<div class="member-name" data-en="Ryota Shimizu">清水 亮太</div>
+<div class="member-type" data-en="Founding #016">創設 #016</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av1">M.O</div>
+<div class="member-name" data-en="Okada Miki">岡田 美樹</div>
+<div class="member-type" data-en="Founding #017">創設 #017</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av2">J.F</div>
+<div class="member-name" data-en="Jun Fujiwara">藤原 純</div>
+<div class="member-type" data-en="Founding #018">創設 #018</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av3 online">K.N</div>
+<div class="member-name" data-en="Hikari Nishimura">西村 光</div>
+<div class="member-type" data-en="Founding #019">創設 #019</div>
+</div>
+<div class="member-item">
+<div class="member-avatar av4">A.O</div>
+<div class="member-name" data-en="Aki Ono">大野 亜紀</div>
+<div class="member-type" data-en="Founding #020">創設 #020</div>
+</div>
+</div>
+</div>
+<!-- 5. NEWS -->
+<div class="section">
+<div class="section-header">
+<div class="section-title" data-en="Announcements">お知らせ</div>
+<a class="section-action" data-en="View All →" href="#">すべて見る →</a>
+</div>
+<div class="news-list">
+<div class="news-item unread">
+<div class="news-date">2026.04.10</div>
+<div class="news-body">
+<div class="news-title" data-en="FOUNDER'S HARVEST 2026 — Details Announced">FOUNDER'S HARVEST 2026 — 詳細発表</div>
+<div class="news-desc" data-en="September Event · 2 Nights, 3 Days. Member slots are filling on a first-come, first-served basis.">9月開催・2泊3日。会員枠は先着順で埋まりつつあります。</div>
+</div>
+<div class="news-arrow">→</div>
+</div>
+<div class="news-item unread">
+<div class="news-date">2026.04.05</div>
+<div class="news-body">
+<div class="news-title" data-en="Infinity Pool Completion Announcement">インフィニティプール 竣工完了のお知らせ</div>
+<div class="news-desc" data-en="Available from May 1st. Year-round access available with winter heating system.">5月1日より利用開始。冬季加温対応で通年利用可能です。</div>
+</div>
+<div class="news-arrow">→</div>
+</div>
+<div class="news-item unread">
+<div class="news-date">2026.03.28</div>
+<div class="news-body">
+<div class="news-title" data-en="2026 Guest Invitation Slots Updated">2026年度 ゲスト招待枠を更新しました</div>
+<div class="news-desc" data-en="Each member may invite up to 3 guests per month, 20 per year. Guest rate: ¥100,000 per night.">各会員 月3名・年20名まで招待可能。ゲスト料金：¥10万/泊。</div>
+</div>
+<div class="news-arrow">→</div>
+</div>
+</div>
+</div>
+<!-- 6. FACILITY REQUEST -->
+<div class="section">
+<div class="section-header">
+<div class="section-title" data-en="Facility Request">施設リクエスト</div>
+</div>
+<p data-en="Please inform us of any requests for the facility, equipment additions, or services needed during your stay. Our staff will respond within 48 hours." style="font-size:11px;color:var(--text-faint);margin-bottom:16px;line-height:1.8">施設への要望、設備追加のリクエスト、滞在中に必要なサービスをお知らせください。スタッフが48時間以内に対応いたします。</p>
+<div class="request-form">
+<textarea placeholder="例：次の滞在時にサウナの薪を多めに用意してほしい。バーボンを1本追加で頼みたい。格闘技の練習パートナーがいれば手配してほしい…"></textarea>
+<div class="form-bottom">
+<div class="form-hint" data-en="Please specify your stay dates for a seamless experience.">滞在日程を明記いただくとスムーズです。</div>
+<button class="btn-submit" data-en="Submit →">送信する →</button>
+</div>
+</div>
+</div>
+<!-- 7. GUEST INVITE -->
+<div class="section" style="border-bottom:none">
+<div class="section-header">
+<div class="section-title" data-en="Guest Invitation">ゲスト招待</div>
+</div>
+<p data-en="You may invite trusted individuals to CLUB K4. Invited guests will receive an exclusive preview link." style="font-size:11px;color:var(--text-faint);margin-bottom:16px;line-height:1.8">信頼できる方をCLUB K4へご招待できます。招待を受けたゲストには限定プレビューリンクが届きます。</p>
+<div class="invite-form">
+<input class="invite-input" placeholder="招待したい方のメールアドレス" type="email"/>
+<button class="btn-invite" data-en="Send Invitation Email">招待メールを送る</button>
+</div>
+<div class="invite-note" data-en="Invitation Allowance: 2 remaining this month / 18 remaining this year | Guest Rate: ¥100,000 per night (member managed)">招待枠：今月残り 2名 / 年間残り 18名 ｜ ゲスト滞在費：¥10万/泊（会員管理）</div>
+</div>
+</div><!-- /main -->
+<!-- BOTTOM NAV (mobile) -->
+<div class="bottom-nav">
+<div class="bottom-nav-inner">
+<div class="bnav-item active" data-en="Home">
+<div class="bnav-icon">🏠</div>
+      ホーム
+    </div>
+<div class="bnav-item" data-en="Reservations">
+<div class="bnav-icon">📅</div>
+      予約
+    </div>
+<div class="bnav-item" data-en="Members">
+<div class="bnav-icon">👥</div>
+      メンバー
+    </div>
+<div class="bnav-item" data-en="Notifications">
+<div class="bnav-icon">🔔</div>
+      通知
+    </div>
+<div class="bnav-item" data-en="Settings">
+<div class="bnav-icon">⚙️</div>
+      設定
+    </div>
+</div>
+</div>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Birowa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Biruyawa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Earn Shares Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plan Collection" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner-Exclusive" href="owners">オーナー専用</a>
+<a data-en="Biruyawa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Act on Specified Commercial Transactions" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+// ---- HOKKAIDO DAYS ----
+document.getElementById('hokkaido-days') && (document.getElementById('hokkaido-days').textContent = '22');
+
+// Simple scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add('in');
+  });
+}, {threshold:0.08});
+document.querySelectorAll('.r').forEach(el => observer.observe(el));
+
+// Calendar cell hover
+document.querySelectorAll('.cal-cell.available').forEach(cell => {
+  cell.addEventListener('click', () => {
+    // Demo: show booking modal hint
+    if(!cell.classList.contains('selected')) {
+      document.querySelectorAll('.cal-cell.selected').forEach(c => c.classList.remove('selected'));
+      cell.classList.add('selected');
+      cell.style.background = 'rgba(200,164,85,0.12)';
+      cell.style.color = 'var(--gold)';
+    }
+  });
+});
+
+// Book button
+document.querySelector('.btn-new-booking').addEventListener('click', () => {
+  alert('予約リクエストフォームへ移動します。\n（本番環境では予約モーダルが開きます）');
+});
+
+// Submit request
+document.querySelector('.btn-submit').addEventListener('click', () => {
+  const ta = document.querySelector('.request-form textarea');
+  if(ta.value.trim()) {
+    ta.value = '';
+    const btn = document.querySelector('.btn-submit');
+    btn.textContent = '送信しました ✓';
+    btn.style.background = 'rgba(100,200,100,0.1)';
+    btn.style.color = '#6cc08a';
+    btn.style.borderColor = 'rgba(100,200,100,0.3)';
+    setTimeout(() => {
+      btn.textContent = '送信する →';
+      btn.style = '';
+    }, 3000);
+  }
+});
+
+// Invite button
+document.querySelector('.btn-invite').addEventListener('click', () => {
+  const inp = document.querySelector('.invite-input');
+  if(inp.value.trim()) {
+    const btn = document.querySelector('.btn-invite');
+    btn.textContent = '送信しました ✓';
+    btn.style.background = '#4caf50';
+    inp.value = '';
+    setTimeout(() => {
+      btn.textContent = '招待メールを送る';
+      btn.style = '';
+    }, 3000);
+  }
+});
+</script>
+<script src="/lang.js"></script>
+</body>
+</html>

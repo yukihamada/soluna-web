@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KUMANOKI — 美留和ビレッジ V-01</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --char:#1a1612;--cream:#f5f0e8;--larch:#c4935a;--glass:#a8cce0;
+  --gold:#c8a455;--green:#4a9a5a;--bg:#0e0c0a;--surface:#fff;
+  --line:#2a2520;--text:#1a1a1a;--muted:#888;
+}
+body{background:#faf9f7;color:var(--text);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;line-height:1.7}
+
+/* Cover */
+.cover{min-height:100vh;background:var(--char);color:var(--cream);display:flex;flex-direction:column;justify-content:flex-end;padding:80px;position:relative;overflow:hidden}
+.hero-svg{position:absolute;inset:0;width:100%;height:100%}
+.cover-content{position:relative;z-index:2}
+.cover-badge{font-size:9px;letter-spacing:.35em;color:var(--gold);margin-bottom:20px;text-transform:uppercase}
+.cover-title{font-size:clamp(4rem,12vw,8rem);font-weight:900;line-height:.88;letter-spacing:-.04em;margin-bottom:20px}
+.cover-title span{display:block}
+.cover-title .sub{font-size:.28em;font-weight:400;letter-spacing:.1em;color:#888;margin-top:8px}
+.cover-line{height:1px;background:linear-gradient(90deg,var(--gold),transparent);margin:28px 0}
+.cover-specs{display:flex;gap:40px;flex-wrap:wrap}
+.cs label{font-size:8px;letter-spacing:.2em;color:#444;text-transform:uppercase;display:block;margin-bottom:4px}
+.cs span{font-size:22px;font-weight:800;color:#ccc}
+.cs small{font-size:9px;color:#555;display:block;margin-top:2px}
+
+/* Nav */
+.nav{background:#faf9f7;border-bottom:1px solid #e8e4dc;padding:13px 48px;display:flex;align-items:center;gap:24px;position:sticky;top:0;z-index:100;flex-wrap:wrap}
+.nav-logo{font-size:11px;font-weight:900;letter-spacing:.22em;color:var(--char);margin-right:8px}
+.nav a{font-size:11px;color:var(--muted);text-decoration:none;white-space:nowrap}
+.nav a:hover{color:var(--text)}
+.nav-right{margin-left:auto;display:flex;gap:10px}
+.btn-sm{font-size:10px;padding:6px 14px;border-radius:4px;cursor:pointer;font-weight:700;letter-spacing:.05em;text-decoration:none;border:none}
+.btn-dark{background:var(--char);color:#c8c0b0}
+.btn-outline{background:transparent;border:1px solid #e8e4dc;color:var(--muted)}
+
+/* Sections */
+.wrap{max-width:1060px;margin:0 auto;padding:64px 32px}
+.section{margin-bottom:88px}
+.sec-label{font-size:9px;letter-spacing:.3em;color:var(--muted);margin-bottom:8px;text-transform:uppercase}
+.sh{font-size:28px;font-weight:900;letter-spacing:-.02em;margin-bottom:6px}
+.diagram-wrap{border:1px solid #e8e4dc;border-radius:4px;overflow:hidden;background:white}
+.diagram-title{font-size:9px;letter-spacing:.15em;color:var(--muted);padding:10px 16px;background:#faf9f7;border-bottom:1px solid #e8e4dc;text-transform:uppercase}
+
+/* Concept cards */
+.concept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#e8e4dc;border:1px solid #e8e4dc;border-radius:4px;overflow:hidden;margin-bottom:40px}
+.concept-card{background:#faf9f7;padding:28px 24px}
+.concept-card h3{font-size:11px;letter-spacing:.1em;color:var(--muted);margin-bottom:12px;text-transform:uppercase}
+.concept-card p{font-size:13px;line-height:1.8;color:#333}
+
+/* Material strips */
+.mat-strip{display:flex;height:80px;border-radius:4px;overflow:hidden;margin:20px 0}
+
+table{width:100%;border-collapse:collapse;font-size:12px}
+table th{background:#faf9f7;padding:9px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--muted);border-bottom:1px solid #e8e4dc}
+table td{padding:9px 12px;border-bottom:1px solid #e8e4dc}
+table tr:last-child td{border-bottom:none}
+
+.price-hero{text-align:center;padding:56px;background:var(--char);color:var(--cream);border-radius:4px;margin-bottom:32px}
+.price-hero .amount{font-size:72px;font-weight:900;letter-spacing:-.04em;color:var(--gold);line-height:1}
+
+/* Photo gallery */
+.photo-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:300px 220px 220px;gap:3px;margin-bottom:32px;border-radius:4px;overflow:hidden}
+.photo-cell{overflow:hidden;background:#111;position:relative}
+.photo-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.photo-cell:hover img{transform:scale(1.05)}
+.photo-cap{position:absolute;bottom:0;left:0;right:0;padding:8px 12px;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:9px;letter-spacing:.12em;text-transform:uppercase;opacity:0;transition:opacity .3s}
+.photo-cell:hover .photo-cap{opacity:1}
+.ph-hero{grid-column:span 2;grid-row:span 2}
+
+/* Cover photo */
+.cover-photo-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.32}
+
+/* Journey timeline */
+.journey{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin:40px 0;position:relative}
+.journey::before{content:'';position:absolute;top:36px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,var(--gold),var(--green));z-index:0}
+.jstep{text-align:center;position:relative;z-index:1}
+.jstep-num{width:72px;height:72px;border-radius:50%;background:var(--char);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:11px;font-weight:900;color:var(--gold);letter-spacing:.05em}
+.jstep-day{font-size:9px;letter-spacing:.2em;color:var(--muted);margin-bottom:6px;text-transform:uppercase}
+.jstep h4{font-size:12px;font-weight:800;margin-bottom:6px}
+.jstep p{font-size:11px;color:#666;line-height:1.6;padding:0 8px}
+
+/* Big stat row */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#e8e4dc;border:1px solid #e8e4dc;border-radius:4px;overflow:hidden;margin:32px 0}
+.stat-cell{background:#faf9f7;padding:28px 20px;text-align:center}
+.stat-num{font-size:36px;font-weight:900;letter-spacing:-.03em;line-height:1;margin-bottom:4px}
+.stat-label{font-size:9px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.stat-sub{font-size:10px;color:#888;margin-top:4px}
+
+/* Highlight box */
+.hbox{background:var(--char);color:var(--cream);border-radius:4px;padding:40px;margin:32px 0}
+.hbox h3{font-size:20px;font-weight:900;color:var(--gold);margin-bottom:12px}
+.hbox p{font-size:13px;line-height:1.9;color:#aaa}
+
+/* Tags */
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.tag{font-size:9px;letter-spacing:.15em;padding:4px 10px;border-radius:20px;font-weight:700;text-transform:uppercase}
+.tag-gold{background:#2a2108;color:var(--gold);border:1px solid #3a3010}
+.tag-green{background:#0e1f12;color:#4a9a5a;border:1px solid #1a3020}
+.tag-blue{background:#0e1620;color:#5b8fd4;border:1px solid #1a2840}
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <!-- Actual site photo background -->
+  <img class="cover-photo-bg" src="../img/kumanoki_render_exterior_night.jpg" alt="KUMANOKI外観">
+  <!-- Hero exterior perspective -->
+  <svg class="hero-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#050403"/>
+        <stop offset="100%" stop-color="#1a1410"/>
+      </linearGradient>
+      <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1a1c14"/>
+        <stop offset="100%" stop-color="#0a0c08"/>
+      </linearGradient>
+      <linearGradient id="glass-glow" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#5b8fd4" stop-opacity=".6"/>
+        <stop offset="100%" stop-color="#c8a455" stop-opacity=".3"/>
+      </linearGradient>
+      <filter id="glow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="softglow"><feGaussianBlur stdDeviation="12" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+
+    <!-- Sky -->
+    <rect width="1440" height="900" fill="url(#sky)"/>
+
+    <!-- Stars -->
+    <g opacity=".6">
+      <circle cx="120" cy="80" r="1.2" fill="white"/><circle cx="340" cy="50" r=".8" fill="white"/>
+      <circle cx="560" cy="120" r="1" fill="white"/><circle cx="780" cy="40" r="1.3" fill="white"/>
+      <circle cx="1000" cy="90" r=".9" fill="white"/><circle cx="1200" cy="60" r="1.1" fill="white"/>
+      <circle cx="1380" cy="110" r=".7" fill="white"/><circle cx="200" cy="160" r=".6" fill="white"/>
+      <circle cx="450" cy="180" r="1" fill="white"/><circle cx="680" cy="150" r=".8" fill="white"/>
+      <circle cx="900" cy="200" r=".7" fill="white"/><circle cx="1100" cy="140" r="1.2" fill="white"/>
+      <circle cx="1320" cy="180" r=".9" fill="white"/>
+    </g>
+
+    <!-- Forest silhouette (far) -->
+    <path d="M0,420 Q50,360 80,380 Q100,340 130,360 Q160,320 200,350 Q240,300 280,340 Q320,280 370,330 Q410,290 450,320 Q490,260 540,310 Q580,270 620,300 Q660,240 720,290 Q760,250 800,280 Q840,220 900,270 Q940,240 980,260 Q1020,200 1080,250 Q1120,220 1160,240 Q1200,180 1260,230 Q1300,210 1340,220 Q1380,190 1440,210 L1440,500 L0,500Z" fill="#0d0f0a" opacity=".9"/>
+
+    <!-- Ground -->
+    <rect x="0" y="480" width="1440" height="420" fill="url(#ground)"/>
+
+    <!-- Snow on ground -->
+    <path d="M0,510 Q200,490 400,505 Q600,520 800,500 Q1000,485 1200,505 Q1320,515 1440,498 L1440,540 L0,540Z" fill="#1e2018" opacity=".8"/>
+
+    <!-- MAIN BUILDING -->
+    <!-- Screw piles -->
+    <g fill="#2a2520" stroke="#3a3028" stroke-width="1">
+      <rect x="310" y="530" width="8" height="120"/>
+      <rect x="430" y="530" width="8" height="120"/>
+      <rect x="560" y="528" width="8" height="122"/>
+      <rect x="700" y="528" width="8" height="122"/>
+      <rect x="840" y="530" width="8" height="120"/>
+      <rect x="960" y="530" width="8" height="120"/>
+    </g>
+    <!-- Pile caps / base plates -->
+    <g fill="#3a3028">
+      <rect x="304" y="525" width="20" height="8" rx="1"/>
+      <rect x="424" y="525" width="20" height="8" rx="1"/>
+      <rect x="554" y="523" width="20" height="8" rx="1"/>
+      <rect x="694" y="523" width="20" height="8" rx="1"/>
+      <rect x="834" y="525" width="20" height="8" rx="1"/>
+      <rect x="954" y="525" width="20" height="8" rx="1"/>
+    </g>
+
+    <!-- Deck (warm larch) -->
+    <path d="M290,518 L990,518 L990,540 L290,540Z" fill="#5a3e28" opacity=".9"/>
+    <!-- Deck planks texture -->
+    <g stroke="#4a3020" stroke-width=".5" opacity=".4">
+      <line x1="290" y1="520" x2="990" y2="520"/>
+      <line x1="290" y1="523" x2="990" y2="523"/>
+      <line x1="290" y1="526" x2="990" y2="526"/>
+      <line x1="290" y1="529" x2="990" y2="529"/>
+      <line x1="290" y1="532" x2="990" y2="532"/>
+      <line x1="290" y1="535" x2="990" y2="535"/>
+    </g>
+
+    <!-- Main building body (charcoal Bio-SIP) -->
+    <!-- East face (left in perspective) -->
+    <polygon points="300,260 300,520 500,518 500,270" fill="#1e1c18" stroke="#2a2820" stroke-width="1"/>
+    <!-- Panel texture lines on east face -->
+    <g stroke="#2a2820" stroke-width=".8" opacity=".6">
+      <line x1="300" y1="340" x2="500" y2="342"/><line x1="300" y1="400" x2="500" y2="402"/>
+      <line x1="300" y1="460" x2="500" y2="462"/>
+    </g>
+    <!-- Vertical panel joints -->
+    <g stroke="#2a2820" stroke-width=".6" opacity=".5">
+      <line x1="366" y1="260" x2="366" y2="520"/><line x1="433" y1="262" x2="433" y2="519"/>
+    </g>
+
+    <!-- South face (main, glass) -->
+    <polygon points="500,270 500,518 980,518 980,260" fill="#181614" stroke="#2a2820" stroke-width="1"/>
+    <!-- Frame structure -->
+    <g fill="#1a1816" stroke="#242018" stroke-width="1.5">
+      <rect x="500" y="270" width="480" height="12"/> <!-- top rail -->
+      <rect x="500" y="506" width="480" height="12"/> <!-- bottom rail -->
+      <rect x="500" y="270" width="12" height="248"/> <!-- left post -->
+      <rect x="656" y="270" width="10" height="248"/> <!-- mid post 1 -->
+      <rect x="812" y="270" width="10" height="248"/> <!-- mid post 2 -->
+      <rect x="968" y="270" width="12" height="248"/> <!-- right post -->
+    </g>
+
+    <!-- Glass panels (glowing warm light inside) -->
+    <rect x="513" y="283" width="140" height="222" fill="url(#glass-glow)" opacity=".85"/>
+    <rect x="668" y="283" width="140" height="222" fill="url(#glass-glow)" opacity=".9"/>
+    <rect x="822" y="283" width="142" height="222" fill="url(#glass-glow)" opacity=".85"/>
+
+    <!-- Interior warm light visible through glass -->
+    <rect x="513" y="283" width="140" height="222" fill="#c8a455" opacity=".08"/>
+    <rect x="668" y="283" width="140" height="222" fill="#c4935a" opacity=".06"/>
+    <rect x="822" y="283" width="142" height="222" fill="#c8a455" opacity=".08"/>
+
+    <!-- Glass reflection -->
+    <g opacity=".15">
+      <polygon points="513,283 553,283 513,340" fill="white"/>
+      <polygon points="668,283 708,283 668,340" fill="white"/>
+      <polygon points="822,283 862,283 822,340" fill="white"/>
+    </g>
+
+    <!-- Roof (mono-pitch, very slight slope, galvalume black) -->
+    <polygon points="288,250 992,258 992,270 300,260" fill="#141210" stroke="#1e1c18" stroke-width="1.5"/>
+    <!-- Roof overhang detail -->
+    <line x1="288" y1="252" x2="992" y2="260" stroke="#2a2820" stroke-width=".8"/>
+
+    <!-- Building glow on snow -->
+    <ellipse cx="640" cy="530" rx="320" ry="20" fill="#c8a455" opacity=".04" filter="url(#softglow)"/>
+
+    <!-- SAUNA PAVILION (right, separate small box) -->
+    <!-- Sauna piles -->
+    <g fill="#2a2520">
+      <rect x="1050" y="530" width="6" height="80"/>
+      <rect x="1150" y="530" width="6" height="80"/>
+    </g>
+    <!-- Sauna body -->
+    <rect x="1030" y="390" width="145" height="138" fill="#181614" stroke="#242018" stroke-width="1.5"/>
+    <!-- Sauna panel texture -->
+    <g stroke="#222018" stroke-width=".6" opacity=".5">
+      <line x1="1030" y1="450" x2="1175" y2="450"/>
+      <line x1="1085" y1="390" x2="1085" y2="528"/>
+      <line x1="1130" y1="390" x2="1130" y2="528"/>
+    </g>
+    <!-- Sauna small window (glowing red-orange) -->
+    <rect x="1045" y="430" width="28" height="20" fill="#c0392b" opacity=".6"/>
+    <rect x="1045" y="430" width="28" height="20" fill="#ff6030" opacity=".2"/>
+    <!-- Sauna glow -->
+    <ellipse cx="1102" cy="538" rx="55" ry="12" fill="#c0392b" opacity=".06" filter="url(#softglow)"/>
+    <!-- Sauna roof -->
+    <polygon points="1025,382 1180,386 1180,394 1025,390" fill="#141210"/>
+    <!-- Sauna chimney with smoke -->
+    <rect x="1060" y="340" width="12" height="44" fill="#1a1816"/>
+    <path d="M1066,335 Q1060,310 1072,295 Q1080,275 1068,260" fill="none" stroke="#3a3830" stroke-width="3" opacity=".5"/>
+    <path d="M1066,335 Q1075,315 1064,300 Q1055,285 1068,265" fill="none" stroke="#3a3830" stroke-width="2" opacity=".3"/>
+
+    <!-- Deck connection (walkway between main and sauna) -->
+    <rect x="980" y="510" width="60" height="28" fill="#4a3018" opacity=".8"/>
+
+    <!-- Outdoor shower post -->
+    <rect x="1020" y="460" width="4" height="60" fill="#2a2520"/>
+
+    <!-- Foreground snow detail -->
+    <path d="M0,600 Q150,570 300,590 Q500,560 700,580 Q900,600 1100,570 Q1250,555 1440,575 L1440,900 L0,900Z" fill="#111309" opacity=".9"/>
+
+    <!-- Moonlight on snow -->
+    <ellipse cx="640" cy="590" rx="500" ry="60" fill="#5b8fd4" opacity=".02"/>
+
+    <!-- Moon -->
+    <circle cx="1380" cy="80" r="28" fill="#e8e0d0" opacity=".9"/>
+    <circle cx="1392" cy="74" r="24" fill="#0e0c0a"/>
+
+    <!-- Light beam from inside onto deck -->
+    <polygon points="512,505 512,518 660,518 660,505" fill="#c8a455" opacity=".06"/>
+    <polygon points="666,505 666,518 810,518 810,505" fill="#c8a455" opacity=".08"/>
+    <polygon points="820,505 820,518 966,518 966,505" fill="#c8a455" opacity=".06"/>
+  </svg>
+
+  <div class="cover-content">
+    <div class="cover-badge">SOLUNA VILLAGE — V-01 / 美留和ビレッジ</div>
+    <h1 class="cover-title">
+      <span>KUMA</span>
+      <span>NOKI</span>
+      <span class="sub">弟子屈・美留和 / 2026.09 OPEN</span>
+    </h1>
+    <div class="cover-line"></div>
+    <div class="cover-specs">
+      <div class="cs"><label>1口</label><span>¥280万</span><small>従来比 ▼52%</small></div>
+      <div class="cs"><label>表面利回り</label><span>5.8%</span><small>年¥16.3万配当</small></div>
+      <div class="cs"><label>延床面積</label><span>70m²</span><small>母屋54 + サウナ16</small></div>
+      <div class="cs"><label>建て方</label><span>2日間</span><small>6名オーナー共同作業</small></div>
+      <div class="cs"><label>可動性</label><span>100%</span><small>スクリューパイル撤去可</small></div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <span class="nav-logo">KUMANOKI</span>
+  <a href="#concept">コンセプト</a>
+  <a href="#journey">ジャーニー</a>
+  <a href="#gallery">フォト</a>
+  <a href="#plan">平面図</a>
+  <a href="#section">断面図</a>
+  <a href="#material">素材</a>
+  <a href="#sauna">サウナ</a>
+  <a href="#finance">収益</a>
+  <div class="nav-right">
+    <a href="/manufacturing/cluster.html" class="btn-sm btn-dark">CLUSTER →</a>
+    <a href="/manufacturing/mycelium-lab.html" class="btn-sm btn-outline">菌糸体Lab</a>
+    <a href="/manufacturing/house.html" class="btn-sm btn-outline">S-01</a>
+    <button class="btn-sm btn-dark" onclick="window.print()">印刷</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ══ コンセプト ══ -->
+<div class="section" id="concept">
+  <div class="sec-label">SECTION 01</div>
+  <h2 class="sh">コンセプト</h2>
+  <p style="color:var(--muted);max-width:640px;margin-bottom:40px;font-size:14px;line-height:1.9">
+    購入したら菌糸体グローキットが届く。14日間自宅で壁を育てる。6人のオーナーが美留和に集まり、2日間で一緒に建てる。完成した壁には全員のDNAが入っている。気に入らない場所があれば、建物ごと引越せる。世界に存在しない所有体験。
+  </p>
+
+  <div class="concept-grid">
+    <div class="concept-card" style="border-left:3px solid var(--gold)">
+      <h3>① オーナーが壁を育てる</h3>
+      <p>購入確定でグローキット到着。おが粉+霊芝菌糸体を14日間自宅培養。乾燥・成形してKUMANOKIの内壁パネルに。<strong style="color:#333">「この壁は俺が育てた」</strong>という唯一の話。石膏ボードで隠さずそのまま見せる。</p>
+    </div>
+    <div class="concept-card" style="border-left:3px solid var(--green)">
+      <h3>② オーナーが建物を建てる</h3>
+      <p>材料は全部プレカット済みで美留和に届く。6名のオーナーが2日間で組み立て。設計はビス不要の3Dプリント接合クリップ。<strong style="color:#333">建設に参加 = 入居コスト▼52%</strong>。施工業者への中間マージンをゼロにする。</p>
+    </div>
+    <div class="concept-card" style="border-left:3px solid #5b8fd4">
+      <h3>③ 建物が呼吸する</h3>
+      <p>菌糸体内壁を完全乾燥させず一部を生かしておく。湿度センサー連動で壁が微細な呼吸をする。「生きている建物」はInstagramで広まる。IoTモニタリングで菌糸体の状態をオーナーがアプリから確認できる。</p>
+    </div>
+    <div class="concept-card" style="border-left:3px solid #a060c0">
+      <h3>④ 可動不動産</h3>
+      <p>スクリューパイルは1日で抜ける。菌糸体パネルはクリップで外せる。ガルバリウム屋根は折り畳める。<strong style="color:#333">土地が気に入らなければ建物ごと引越し。</strong>世界初の"可動不動産"。法的分類も「仮設建造物」でグレーゾーン対応。</p>
+    </div>
+    <div class="concept-card">
+      <h3>外装 — 炭化黒 / 内装 — 菌糸白</h3>
+      <p>Bio-SIPパネル表面に炭化コーティング（焼き杉原理）。50年以上塗り替え不要。内側は白い菌糸体テクスチャーをそのまま露出。外=黒、内=白の完全な対比。</p>
+    </div>
+    <div class="concept-card">
+      <h3>南全開 × 独立サウナ × 浮遊450mm</h3>
+      <p>南面アコーディオンドア全開放。三層LOW-Eガラス。独立サウナ棟へ裸足デッキ移動。スクリューパイルで地面から450mm浮遊。雪国の全課題を一気に解決した配置計画。</p>
+    </div>
+  </div>
+
+  <!-- Material palette -->
+  <div class="mat-strip">
+    <div style="flex:3;background:#1a1612;display:flex;align-items:center;justify-content:center">
+      <span style="color:#888;font-size:9px;letter-spacing:.15em">BIO-SIP 炭化外装</span>
+    </div>
+    <div style="flex:3;background:#f0ece4;display:flex;align-items:center;justify-content:center">
+      <span style="color:#888;font-size:9px;letter-spacing:.15em">菌糸体内壁</span>
+    </div>
+    <div style="flex:2;background:#c4935a;display:flex;align-items:center;justify-content:center">
+      <span style="color:#fff;font-size:9px;letter-spacing:.15em">道産ラーチ床</span>
+    </div>
+    <div style="flex:2;background:#1e2820;display:flex;align-items:center;justify-content:center">
+      <span style="color:#6a8a7a;font-size:9px;letter-spacing:.15em">ガルバリウム屋根</span>
+    </div>
+    <div style="flex:1;background:#a8cce0;display:flex;align-items:center;justify-content:center">
+      <span style="color:#fff;font-size:9px;letter-spacing:.1em;writing-mode:vertical-rl">GLASS</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ オーナージャーニー ══ -->
+<div class="section" id="journey">
+  <div class="sec-label">OWNER JOURNEY</div>
+  <h2 class="sh">購入から入居まで — 世界に存在しないプロセス</h2>
+
+  <div class="journey">
+    <div class="jstep">
+      <div class="jstep-num">DAY 1</div>
+      <div class="jstep-day">購入確定</div>
+      <h4>グローキット到着</h4>
+      <p>おが粉3kg + 霊芝種菌 + 型枠 + マニュアルが自宅に届く。</p>
+    </div>
+    <div class="jstep">
+      <div class="jstep-num">DAY 14</div>
+      <div class="jstep-day">自宅培養</div>
+      <h4>菌糸体が育つ</h4>
+      <p>温度22℃・暗所で14日間。白い菌糸が型枠を埋め尽くす。</p>
+    </div>
+    <div class="jstep">
+      <div class="jstep-num">DAY 21</div>
+      <div class="jstep-day">成形・乾燥</div>
+      <h4>パネル完成</h4>
+      <p>型枠から外して1週間乾燥。あなたの内壁パネルが生まれる。</p>
+    </div>
+    <div class="jstep">
+      <div class="jstep-num">D+60</div>
+      <div class="jstep-day">BUILD WEEKEND</div>
+      <h4>美留和で建てる</h4>
+      <p>6名のオーナーが集合。2日間で完成。夜はサウナ&amp;焚き火。</p>
+    </div>
+    <div class="jstep">
+      <div class="jstep-num">OPEN</div>
+      <div class="jstep-day">入居・運用開始</div>
+      <h4>自分が建てた宿に泊まる</h4>
+      <p>年5泊オーナー特典 + 50%利益配当。壁は今も生きている。</p>
+    </div>
+  </div>
+
+  <div class="hbox">
+    <h3>BUILD WEEKEND とは</h3>
+    <p>材料は全部プレカット・プレドリル済みで現地に届いている。接合はビスゼロの3Dプリントクリップ。マニュアルはQRコード付きの動画。1日目：基礎確認・Bio-SIPパネル建て方・屋根。2日目：窓取付・菌糸体内壁設置・薪ストーブ設置・デッキ。設備（電気・給排水）だけ有資格者が並走。夜は全員でサウナに入る。</p>
+    <div class="tags">
+      <span class="tag tag-gold">施工業者マージンゼロ</span>
+      <span class="tag tag-green">オーナー間コミュニティ形成</span>
+      <span class="tag tag-blue">「建てた」という生涯の記憶</span>
+      <span class="tag tag-gold">SNSで自然拡散</span>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-cell">
+      <div class="stat-num" style="color:var(--gold)">¥280万</div>
+      <div class="stat-label">1口価格</div>
+      <div class="stat-sub">従来比 ▼52%（¥580万→¥280万）</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" style="color:var(--green)">2日間</div>
+      <div class="stat-label">BUILD WEEKEND</div>
+      <div class="stat-sub">6名のオーナー全員参加</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" style="color:#5b8fd4">14日</div>
+      <div class="stat-label">菌糸体培養期間</div>
+      <div class="stat-sub">自宅でパネルを育てる</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" style="color:#a060c0">100%</div>
+      <div class="stat-label">移設可能</div>
+      <div class="stat-sub">世界初の「可動不動産」</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ フォト ══ -->
+<div class="section" id="gallery">
+  <div class="sec-label">PHOTO</div>
+  <h2 class="sh">フォト — 敷地 × 参照建築</h2>
+  <p style="color:#888;font-size:12px;margin-bottom:20px">Bio-SIP炭化外壁 × 菌糸体内壁 × スクリューパイル基礎 × 道産ラーチ床 — 実際にこのデザインで建てる。</p>
+
+  <div class="photo-grid">
+    <!-- Large hero: night exterior -->
+    <div class="photo-cell ph-hero">
+      <img src="../img/kumanoki_render_exterior_night.jpg" alt="KUMANOKI 夜間外観">
+      <div class="photo-cap">外観（夜） — 炭化Bio-SIP × スクリューパイル × 南面全面ガラス</div>
+    </div>
+    <!-- Col 3-4, row 1 -->
+    <div class="photo-cell">
+      <img src="../img/kumanoki_render_exterior_day.jpg" alt="外観日中">
+      <div class="photo-cap">外観（日中）— 黒炭化外壁</div>
+    </div>
+    <div class="photo-cell">
+      <img src="../img/kumanoki_render_interior_living.jpg" alt="内観リビング">
+      <div class="photo-cap">内観 — 菌糸体白壁 × ラーチ床</div>
+    </div>
+    <!-- Col 3-4, row 2 -->
+    <div class="photo-cell">
+      <img src="../img/kumanoki_render_sauna_exterior.jpg" alt="サウナ棟外観">
+      <div class="photo-cap">サウナ棟 — 独立棟 渡り廊下つなぎ</div>
+    </div>
+    <div class="photo-cell">
+      <img src="../img/kumanoki_render_interior_sauna.jpg" alt="サウナ内部">
+      <div class="photo-cap">サウナ内部 — アスペン × Harvia kiuas</div>
+    </div>
+    <!-- Row 3: 4 equal -->
+    <div class="photo-cell">
+      <img src="../img/kumanoki_render_deck_evening.jpg" alt="デッキ夕暮れ">
+      <div class="photo-cap">デッキ夕暮れ — ラーチ材 × 南面ガラス反射</div>
+    </div>
+    <div class="photo-cell">
+      <img src="../img/kumanoki_render_mycelium_detail.jpg" alt="菌糸体パネル">
+      <div class="photo-cap">菌糸体パネル — おが粉 × 霊芝 14日培養</div>
+    </div>
+    <div class="photo-cell">
+      <img src="../img/kumanoki_render_aerial_winter.jpg" alt="空撮冬景色">
+      <div class="photo-cap">空撮 — 美留和ビレッジ 10.7ha</div>
+    </div>
+    <div class="photo-cell">
+      <img src="../img/village_night_milkyway.webp" alt="美留和の夜空">
+      <div class="photo-cap">美留和の夜空 — 天の川</div>
+    </div>
+  </div>
+
+  <!-- Full-width site panorama with actual site photo -->
+  <div style="border-radius:4px;overflow:hidden;margin-bottom:32px;position:relative">
+    <img src="../img/kumaushi_wide_wide_aerial_full.jpg" alt="美留和ビレッジ全景" style="width:100%;height:320px;object-fit:cover;display:block">
+    <div style="position:absolute;bottom:0;left:0;right:0;padding:20px 28px;background:linear-gradient(transparent,rgba(0,0,0,.7));color:#fff">
+      <div style="font-size:9px;letter-spacing:.25em;color:#c8a455;margin-bottom:4px">ACTUAL SITE — 美留和ビレッジ 10.7ha（弟子屈・美留和原野）</div>
+      <div style="font-size:14px;font-weight:700;letter-spacing:.05em">KUMANOKIはこの土地に建つ</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 平面図 ══ -->
+<div class="section" id="plan">
+  <div class="sec-label">SECTION 02</div>
+  <h2 class="sh">平面図 — 1:80</h2>
+
+  <div class="diagram-wrap" style="margin-bottom:32px">
+    <div class="diagram-title">配置図・平面図（母屋 + サウナ棟 + デッキ）</div>
+    <svg viewBox="0 0 920 560" style="width:100%;display:block;font-family:inherit">
+      <defs>
+        <pattern id="larch" width="6" height="6" patternUnits="userSpaceOnUse">
+          <rect width="6" height="6" fill="#e8dfc8"/>
+          <line x1="0" y1="3" x2="6" y2="3" stroke="#d8cfb8" stroke-width=".5"/>
+        </pattern>
+        <pattern id="myc" width="8" height="8" patternUnits="userSpaceOnUse">
+          <rect width="8" height="8" fill="#f5f0e8"/>
+          <circle cx="2" cy="2" r=".8" fill="#e8e0d0" opacity=".6"/>
+          <circle cx="6" cy="6" r=".8" fill="#e8e0d0" opacity=".6"/>
+        </pattern>
+        <pattern id="bisip" width="6" height="6" patternUnits="userSpaceOnUse">
+          <rect width="6" height="6" fill="#2a2520"/>
+          <line x1="0" y1="3" x2="6" y2="3" stroke="#1a1512" stroke-width=".4"/>
+        </pattern>
+        <pattern id="snow" width="10" height="10" patternUnits="userSpaceOnUse">
+          <rect width="10" height="10" fill="#eef0ec"/>
+        </pattern>
+      </defs>
+
+      <!-- Site / snow ground -->
+      <rect x="0" y="0" width="920" height="560" fill="url(#snow)" opacity=".5"/>
+
+      <!-- Trees (background) -->
+      <g fill="#b8c8b0" opacity=".4">
+        <polygon points="50,80 65,120 35,120"/><polygon points="50,110 70,160 30,160"/>
+        <polygon points="820,60 838,110 802,110"/><polygon points="820,100 845,155 795,155"/>
+        <polygon points="880,90 896,140 864,140"/>
+        <polygon points="30,200 48,250 12,250"/>
+        <polygon points="900,200 916,250 884,250"/>
+      </g>
+
+      <!-- ═══ MAIN BUILDING 9,000×6,000mm ═══ -->
+      <!-- 外壁（Bio-SIP）: 100mm = 8px at 1:80 → let's use 10px for visibility -->
+      <!-- Building outer footprint: 180×120 units (1:80: 9000/80=112.5px, 6000/80=75px) -->
+      <!-- Let me use: 9000mm = 270px (scale ~1:33), 6000mm = 180px -->
+      <!-- 600mm = 18px -->
+
+      <!-- Position: center-left of canvas -->
+      <!-- Building: x=80, y=140, w=270, h=180 -->
+
+      <!-- Deck (south, full width + east) -->
+      <rect x="70" y="320" width="298" height="72" fill="url(#larch)" stroke="#c4935a" stroke-width="1.5" opacity=".9"/>
+      <!-- Deck plank lines -->
+      <g stroke="#c4935a" stroke-width=".4" opacity=".3">
+        <line x1="70" y1="332" x2="368" y2="332"/>
+        <line x1="70" y1="344" x2="368" y2="344"/>
+        <line x1="70" y1="356" x2="368" y2="356"/>
+        <line x1="70" y1="368" x2="368" y2="368"/>
+        <line x1="70" y1="380" x2="368" y2="380"/>
+      </g>
+      <text x="219" y="362" text-anchor="middle" font-size="9" fill="#9a7a50">デッキ 27m²</text>
+
+      <!-- Building outer wall (charcoal) -->
+      <rect x="80" y="140" width="270" height="180" fill="url(#bisip)" stroke="#3a3028" stroke-width="2"/>
+
+      <!-- Building interior (mycelium walls) -->
+      <rect x="90" y="150" width="250" height="160" fill="url(#myc)"/>
+
+      <!-- North zone wall divider -->
+      <rect x="90" y="212" width="250" height="8" fill="#2a2520" opacity=".6"/>
+
+      <!-- Rooms: North zone (y=150 to 220, h=70mm = 2,400mm) -->
+
+      <!-- Genkan (west) 1,800mm = 54px -->
+      <rect x="90" y="152" width="54" height="60" fill="#ede8e0" opacity=".7"/>
+      <text x="117" y="182" text-anchor="middle" font-size="8" fill="#888">玄関</text>
+      <text x="117" y="193" text-anchor="middle" font-size="7" fill="#aaa">3.9m²</text>
+      <!-- Dog door indicator -->
+      <rect x="87" y="172" width="5" height="14" fill="#c8a455" rx="1"/>
+      <text x="86" y="183" text-anchor="end" font-size="7" fill="#c8a455">犬</text>
+
+      <!-- MBR (center) 4,200mm = 126px -->
+      <rect x="144" y="152" width="126" height="60" fill="#e8e4f0" opacity=".5"/>
+      <text x="207" y="179" text-anchor="middle" font-size="9" fill="#666">寝室</text>
+      <text x="207" y="192" text-anchor="middle" font-size="8" fill="#aaa">12.2m²</text>
+      <!-- Bed -->
+      <rect x="156" y="155" width="50" height="32" rx="2" fill="#ccc" opacity=".5"/>
+      <rect x="162" y="156" width="20" height="10" rx="2" fill="#aaa" opacity=".4"/>
+      <rect x="186" y="156" width="20" height="10" rx="2" fill="#aaa" opacity=".4"/>
+
+      <!-- Bath + WC (east) 3,000mm = 90px split -->
+      <rect x="270" y="152" width="44" height="60" fill="#d8eef8" opacity=".6"/>
+      <text x="292" y="180" text-anchor="middle" font-size="8" fill="#888">浴</text>
+      <text x="292" y="192" text-anchor="middle" font-size="7" fill="#aaa">2.5m²</text>
+      <!-- Shower icon -->
+      <circle cx="292" cy="168" r="8" fill="none" stroke="#5b8fd4" stroke-width="1" opacity=".5"/>
+      <line x1="292" y1="160" x2="292" y2="155" stroke="#5b8fd4" stroke-width="1" opacity=".5"/>
+
+      <!-- South zone: LDK (y=220 to 310) 4,800mm = 144px, full width -->
+      <rect x="90" y="220" width="250" height="90" fill="#f8f5ee" opacity=".3"/>
+      <text x="215" y="258" text-anchor="middle" font-size="11" fill="#555">LDK</text>
+      <text x="215" y="274" text-anchor="middle" font-size="9" fill="#999">37.5m²</text>
+
+      <!-- Kitchen -->
+      <rect x="90" y="222" width="80" height="14" fill="#888" opacity=".4" rx="1"/>
+      <rect x="90" y="238" width="40" height="18" rx="2" fill="#999" opacity=".3"/>
+      <text x="145" y="233" text-anchor="middle" font-size="7" fill="#777">キッチン</text>
+
+      <!-- Dining -->
+      <rect x="186" y="238" width="50" height="28" rx="2" fill="#c4935a" opacity=".25"/>
+      <text x="211" y="256" text-anchor="middle" font-size="7" fill="#888">ダイニング</text>
+
+      <!-- Sofa / Living -->
+      <rect x="254" y="234" width="80" height="40" rx="3" fill="#888" opacity=".2"/>
+      <text x="294" y="259" text-anchor="middle" font-size="7" fill="#888">リビング</text>
+
+      <!-- Wood stove -->
+      <circle cx="254" cy="222" r="7" fill="#c0392b" opacity=".5"/>
+      <text x="266" y="224" font-size="7" fill="#c0392b">薪ストーブ</text>
+
+      <!-- South wall: full-height windows -->
+      <g fill="#a8cce0" opacity=".7" stroke="#5b8fd4" stroke-width=".8">
+        <rect x="90" y="304" width="80" height="6"/>
+        <rect x="178" y="304" width="80" height="6"/>
+        <rect x="266" y="304" width="74" height="6"/>
+      </g>
+      <text x="215" y="317" text-anchor="middle" font-size="7" fill="#5b8fd4">南面 全開口アコーディオン</text>
+
+      <!-- Building dimensions -->
+      <line x1="80" y1="128" x2="350" y2="128" stroke="#888" stroke-width=".8"/>
+      <line x1="80" y1="124" x2="80" y2="132" stroke="#888" stroke-width=".8"/>
+      <line x1="350" y1="124" x2="350" y2="132" stroke="#888" stroke-width=".8"/>
+      <text x="215" y="122" text-anchor="middle" font-size="9" fill="#666">9,000mm</text>
+
+      <line x1="64" y1="140" x2="64" y2="320" stroke="#888" stroke-width=".8"/>
+      <line x1="60" y1="140" x2="68" y2="140" stroke="#888" stroke-width=".8"/>
+      <line x1="60" y1="320" x2="68" y2="320" stroke="#888" stroke-width=".8"/>
+      <text x="52" y="235" text-anchor="middle" font-size="9" fill="#666" transform="rotate(-90,52,235)">6,000mm</text>
+
+      <!-- 600mm grid dots on exterior -->
+      <g fill="#3a3028" opacity=".3">
+        <circle cx="80" cy="140" r="2"/><circle cx="98" cy="140" r="2"/><circle cx="116" cy="140" r="2"/>
+        <circle cx="134" cy="140" r="2"/><circle cx="152" cy="140" r="2"/><circle cx="170" cy="140" r="2"/>
+        <circle cx="188" cy="140" r="2"/><circle cx="206" cy="140" r="2"/><circle cx="224" cy="140" r="2"/>
+        <circle cx="242" cy="140" r="2"/><circle cx="260" cy="140" r="2"/><circle cx="278" cy="140" r="2"/>
+        <circle cx="296" cy="140" r="2"/><circle cx="314" cy="140" r="2"/><circle cx="332" cy="140" r="2"/>
+        <circle cx="350" cy="140" r="2"/>
+      </g>
+
+      <!-- ═══ CONNECTING WALKWAY ═══ -->
+      <rect x="368" y="320" width="80" height="48" fill="url(#larch)" stroke="#c4935a" stroke-width="1" opacity=".8"/>
+      <text x="408" y="349" text-anchor="middle" font-size="8" fill="#9a7a50">渡り廊下</text>
+      <line x1="368" y1="330" x2="448" y2="330" stroke="#c4935a" stroke-width=".4" opacity=".3"/>
+      <line x1="368" y1="342" x2="448" y2="342" stroke="#c4935a" stroke-width=".4" opacity=".3"/>
+      <line x1="368" y1="354" x2="448" y2="354" stroke="#c4935a" stroke-width=".4" opacity=".3"/>
+
+      <!-- ═══ SAUNA PAVILION 3,600×3,600mm ═══ -->
+      <!-- 3600mm = 108px at 1:33 -->
+      <!-- Position: x=448, y=268 -->
+      <rect x="448" y="268" width="108" height="108" fill="url(#bisip)" stroke="#3a3028" stroke-width="2"/>
+      <!-- Sauna interior -->
+      <rect x="458" y="278" width="88" height="88" fill="#2a1810" opacity=".8"/>
+
+      <!-- Sauna bench layout -->
+      <rect x="462" y="282" width="78" height="16" rx="2" fill="#5a3a20" opacity=".6"/>
+      <rect x="462" y="300" width="78" height="12" rx="2" fill="#5a3a20" opacity=".5"/>
+      <text x="502" y="330" text-anchor="middle" font-size="8" fill="#c8a455">フィンランドサウナ</text>
+      <text x="502" y="342" text-anchor="middle" font-size="7" fill="#9a7a50">薪ストーブ 90℃ / 4人</text>
+      <!-- Kiuas (stove) -->
+      <rect x="518" y="282" width="18" height="14" rx="2" fill="#c0392b" opacity=".7"/>
+
+      <!-- Changing room -->
+      <rect x="448" y="376" width="108" height="48" fill="#1e1814" stroke="#3a3028" stroke-width="1.5"/>
+      <text x="502" y="404" text-anchor="middle" font-size="8" fill="#888">脱衣室</text>
+
+      <!-- Outdoor shower -->
+      <circle cx="574" cy="380" r="10" fill="none" stroke="#5b8fd4" stroke-width="1.5" opacity=".6"/>
+      <text x="590" y="378" font-size="7" fill="#5b8fd4">外シャワー</text>
+
+      <!-- Sauna dimensions -->
+      <line x1="448" y1="256" x2="556" y2="256" stroke="#888" stroke-width=".8"/>
+      <text x="502" y="250" text-anchor="middle" font-size="8" fill="#888">3,600mm</text>
+
+      <!-- North arrow -->
+      <g transform="translate(860,50)">
+        <circle cx="0" cy="0" r="22" fill="none" stroke="#888" stroke-width="1"/>
+        <path d="M0,-18 L5,8 L0,4 L-5,8Z" fill="#1a1612"/>
+        <path d="M0,18 L5,-8 L0,-4 L-5,-8Z" fill="#888"/>
+        <text x="0" y="-24" text-anchor="middle" font-size="9" fill="#888">N</text>
+      </g>
+
+      <!-- Scale bar -->
+      <g transform="translate(720,520)">
+        <line x1="0" y1="0" x2="90" y2="0" stroke="#888" stroke-width="1"/>
+        <line x1="0" y1="-4" x2="0" y2="4" stroke="#888" stroke-width="1"/>
+        <line x1="45" y1="-3" x2="45" y2="3" stroke="#888" stroke-width=".8"/>
+        <line x1="90" y1="-4" x2="90" y2="4" stroke="#888" stroke-width="1"/>
+        <text x="0" y="14" text-anchor="middle" font-size="8" fill="#888">0</text>
+        <text x="45" y="14" text-anchor="middle" font-size="8" fill="#888">1,500</text>
+        <text x="90" y="14" text-anchor="middle" font-size="8" fill="#888">3,000mm</text>
+      </g>
+
+      <!-- Legend -->
+      <g transform="translate(620,180)">
+        <rect x="0" y="0" width="180" height="120" rx="3" fill="white" stroke="#e8e4dc" stroke-width="1"/>
+        <text x="90" y="18" text-anchor="middle" font-size="9" font-weight="700" fill="#333">凡例</text>
+        <rect x="10" y="26" width="16" height="10" fill="url(#bisip)"/>
+        <text x="32" y="35" font-size="8" fill="#555">Bio-SIP外壁（炭化）</text>
+        <rect x="10" y="42" width="16" height="10" fill="url(#myc)"/>
+        <text x="32" y="51" font-size="8" fill="#555">菌糸体内壁</text>
+        <rect x="10" y="58" width="16" height="10" fill="url(#larch)"/>
+        <text x="32" y="67" font-size="8" fill="#555">道産ラーチ床・デッキ</text>
+        <rect x="10" y="74" width="16" height="8" fill="#a8cce0" opacity=".7"/>
+        <text x="32" y="82" font-size="8" fill="#555">LOW-Eガラス</text>
+        <rect x="10" y="88" width="16" height="8" fill="#2a1810"/>
+        <text x="32" y="96" font-size="8" fill="#555">サウナ（薪ストーブ）</text>
+        <rect x="10" y="102" width="8" height="8" rx="4" fill="#c8a455"/>
+        <text x="32" y="110" font-size="8" fill="#c8a455">犬用ドア</text>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<!-- ══ 断面図 ══ -->
+<div class="section" id="section">
+  <div class="sec-label">SECTION 03</div>
+  <h2 class="sh">断面図 — 素材の重ね方</h2>
+
+  <div class="diagram-wrap" style="margin-bottom:32px">
+    <div class="diagram-title">N-S断面図 A-A（母屋）— 壁・基礎の構成</div>
+    <svg viewBox="0 0 920 380" style="width:100%;display:block;font-family:inherit">
+      <defs>
+        <pattern id="charwall" width="6" height="4" patternUnits="userSpaceOnUse">
+          <rect width="6" height="4" fill="#1e1c18"/>
+          <line x1="0" y1="2" x2="6" y2="2" stroke="#141210" stroke-width=".5"/>
+        </pattern>
+        <pattern id="mycwall" width="8" height="8" patternUnits="userSpaceOnUse">
+          <rect width="8" height="8" fill="#f0ece4"/>
+          <circle cx="2" cy="2" r="1" fill="#e0d8cc" opacity=".5"/>
+          <circle cx="6" cy="6" r="1" fill="#e0d8cc" opacity=".5"/>
+        </pattern>
+      </defs>
+
+      <!-- GL -->
+      <line x1="20" y1="260" x2="900" y2="260" stroke="#888" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <text x="22" y="256" font-size="8" fill="#888">GL ±0</text>
+
+      <!-- Ground -->
+      <rect x="20" y="260" width="880" height="40" fill="#c8c4b8" opacity=".2"/>
+
+      <!-- Frost line -->
+      <line x1="20" y1="296" x2="900" y2="296" stroke="#5b8fd4" stroke-width=".8" stroke-dasharray="4,3"/>
+      <text x="22" y="293" font-size="7" fill="#5b8fd4">凍結深度 −1,200mm</text>
+
+      <!-- SCREW PILES (4 visible) -->
+      <g fill="#2E7D32" stroke="#1B5E20" stroke-width="1">
+        <rect x="98" y="166" width="10" height="130"/>
+        <rect x="278" y="166" width="10" height="130"/>
+        <rect x="458" y="166" width="10" height="130"/>
+        <rect x="638" y="166" width="10" height="130"/>
+      </g>
+      <!-- Helical wings -->
+      <g fill="#388E3C" opacity=".7">
+        <ellipse cx="103" cy="200" rx="18" ry="4"/><ellipse cx="103" cy="240" rx="18" ry="4"/>
+        <ellipse cx="283" cy="200" rx="18" ry="4"/><ellipse cx="283" cy="240" rx="18" ry="4"/>
+        <ellipse cx="463" cy="200" rx="18" ry="4"/><ellipse cx="463" cy="240" rx="18" ry="4"/>
+        <ellipse cx="643" cy="200" rx="18" ry="4"/><ellipse cx="643" cy="240" rx="18" ry="4"/>
+      </g>
+      <!-- Base plates -->
+      <g fill="#555">
+        <rect x="85" y="162" width="36" height="6" rx="1"/>
+        <rect x="265" y="162" width="36" height="6" rx="1"/>
+        <rect x="445" y="162" width="36" height="6" rx="1"/>
+        <rect x="625" y="162" width="36" height="6" rx="1"/>
+      </g>
+
+      <!-- FLOOR -->
+      <rect x="80" y="148" width="590" height="16" fill="#c4935a" stroke="#9a7a50" stroke-width="1"/>
+      <text x="375" y="160" text-anchor="middle" font-size="8" fill="#7a6040">道産カラマツ 80mm</text>
+
+      <!-- BIO-SIP WALL STRUCTURE -->
+      <!-- North wall -->
+      <rect x="80" y="40" width="14" height="108" fill="url(#charwall)" stroke="#2a2520" stroke-width="1.5"/><!-- char exterior -->
+      <rect x="94" y="40" width="60" height="108" fill="#e8e0d0" opacity=".5"/><!-- OSB+core -->
+      <rect x="154" y="40" width="14" height="108" fill="url(#mycwall)" stroke="#d0c8b8" stroke-width="1"/><!-- mycelium int -->
+      <!-- South wall -->
+      <rect x="646" y="40" width="14" height="108" fill="url(#mycwall)" stroke="#d0c8b8" stroke-width="1"/>
+      <rect x="660" y="40" width="60" height="108" fill="#e8e0d0" opacity=".5"/>
+      <rect x="720" y="40" width="14" height="108" fill="url(#charwall)" stroke="#2a2520" stroke-width="1.5"/>
+
+      <!-- NORTH ZONE (bed) -->
+      <rect x="168" y="48" width="260" height="100" fill="#e8e4f0" opacity=".2"/>
+      <text x="298" y="100" text-anchor="middle" font-size="9" fill="#666">寝室 / 北ゾーン</text>
+      <text x="298" y="113" text-anchor="middle" font-size="8" fill="#aaa">天井高 2,400mm</text>
+
+      <!-- Interior wall (partition) -->
+      <rect x="428" y="48" width="10" height="100" fill="#d8d0c8" opacity=".7"/>
+
+      <!-- SOUTH ZONE (LDK) -->
+      <rect x="438" y="48" width="200" height="100" fill="#f5f0e8" opacity=".3"/>
+      <text x="538" y="100" text-anchor="middle" font-size="9" fill="#666">LDK / 南ゾーン</text>
+      <text x="538" y="113" text-anchor="middle" font-size="8" fill="#aaa">天井高 3,200mm</text>
+
+      <!-- ROOF (mono-pitch: north=2400, south=3200) -->
+      <polygon points="80,40 734,20 734,36 80,56" fill="#1a1816" stroke="#2a2820" stroke-width="1.5"/>
+      <!-- Galvalume ridge line -->
+      <line x1="80" y1="42" x2="734" y2="22" stroke="#888" stroke-width=".5"/>
+
+      <!-- SOUTH FULL-HEIGHT WINDOW -->
+      <rect x="660" y="56" width="60" height="92" fill="#a8cce0" opacity=".75"/>
+      <line x1="660" y1="104" x2="720" y2="104" stroke="#5b8fd4" stroke-width=".8" opacity=".5"/>
+      <text x="746" y="102" font-size="8" fill="#5b8fd4">南面</text>
+      <text x="746" y="113" font-size="8" fill="#5b8fd4">全開口</text>
+
+      <!-- DECK (south) -->
+      <rect x="640" y="148" width="180" height="16" fill="#c4935a" stroke="#9a7a50" stroke-width="1" opacity=".8"/>
+      <text x="730" y="160" text-anchor="middle" font-size="8" fill="#9a7a50">デッキ（同高さ）</text>
+
+      <!-- Height dimensions -->
+      <!-- Floor height from GL: 450mm -->
+      <line x1="56" y1="148" x2="56" y2="260" stroke="#888" stroke-width=".8"/>
+      <line x1="52" y1="148" x2="60" y2="148" stroke="#888" stroke-width=".8"/>
+      <line x1="52" y1="260" x2="60" y2="260" stroke="#888" stroke-width=".8"/>
+      <text x="44" y="208" text-anchor="middle" font-size="8" fill="#888" transform="rotate(-90,44,208)">450mm</text>
+
+      <!-- Ceiling height north: 2400mm -->
+      <line x1="840" y1="48" x2="840" y2="148" stroke="#888" stroke-width=".8"/>
+      <text x="860" y="102" text-anchor="middle" font-size="8" fill="#888" transform="rotate(90,860,102)">2,400</text>
+
+      <!-- South height: 3200mm -->
+      <line x1="880" y1="20" x2="880" y2="148" stroke="#888" stroke-width=".8"/>
+      <text x="900" y="88" text-anchor="middle" font-size="8" fill="#888" transform="rotate(90,900,88)">3,200mm</text>
+
+      <!-- Wall composition callout -->
+      <g transform="translate(40,40)">
+        <line x1="157" y1="30" x2="180" y2="60" stroke="#888" stroke-width=".8"/>
+        <rect x="180" y="55" width="160" height="80" rx="3" fill="#faf9f7" stroke="#e8e4dc" stroke-width="1"/>
+        <text x="260" y="72" text-anchor="middle" font-size="9" font-weight="700" fill="#333">壁構成（外→内）</text>
+        <text x="188" y="87" font-size="8" fill="#555">炭化コーティング 3mm</text>
+        <text x="188" y="99" font-size="8" fill="#555">Bio-SIP OSB 12mm</text>
+        <text x="188" y="111" font-size="8" fill="#555">Bio-SIP コア 76mm</text>
+        <text x="188" y="123" font-size="8" fill="#555">菌糸体パネル 30mm（露出）</text>
+      </g>
+
+      <!-- Material labels -->
+      <text x="87" y="35" font-size="7" fill="#888">Bio-SIP</text>
+      <text x="87" y="44" font-size="7" fill="#888">炭化外装</text>
+      <text x="155" y="35" font-size="7" fill="#7cb87a">菌糸体</text>
+      <text x="155" y="44" font-size="7" fill="#7cb87a">内壁露出</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ══ 素材 ══ -->
+<div class="section" id="material">
+  <div class="sec-label">SECTION 04</div>
+  <h2 class="sh">素材仕様</h2>
+
+  <table style="margin-bottom:24px">
+    <thead><tr><th>部位</th><th>素材</th><th>仕上げ</th><th>特性</th><th>理由</th></tr></thead>
+    <tbody>
+      <tr><td>外壁</td><td>Bio-SIP 100mm</td><td>炭化コーティング（黒）</td><td>λ=0.046 / Ua=0.37</td><td>森に溶け込む / 防腐 / 塗装不要</td></tr>
+      <tr><td>内壁</td><td>菌糸体パネル 50mm</td><td>露出仕上げ（クリーム）</td><td>λ≈0.04 / 吸音効果</td><td>世界唯一のテクスチャー / 素材の正直さ</td></tr>
+      <tr><td>床</td><td>道産カラマツ無垢 80mm</td><td>無塗装（オイル仕上げ）</td><td>節あり / 経年で飴色</td><td>犬の爪に強い / 断熱蓄熱</td></tr>
+      <tr><td>屋根</td><td>ガルバリウム鋼板</td><td>黒（マット）</td><td>耐用50年超</td><td>雪滑落 / メンテフリー</td></tr>
+      <tr><td>南面窓</td><td>三層LOW-E アコーディオン</td><td>ブラックフレーム</td><td>Uw=0.8 W/m²K</td><td>全開放で内外一体</td></tr>
+      <tr><td>基礎</td><td>スクリューパイル φ114</td><td>溶融亜鉛メッキ</td><td>L=2,200mm / 8本</td><td>1日施工 / 凍上ゼロ / 移設可能</td></tr>
+      <tr><td>接合部</td><td>TPU 3Dプリントクリップ</td><td>黒（内壁接合ライン）</td><td>スナップ嵌合</td><td>ビスゼロ / 解体・移設可能</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 素材詳細写真グリッド -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;border-radius:4px;overflow:hidden;margin-top:28px">
+    <div style="position:relative;height:200px;overflow:hidden;background:#0e0c0a">
+      <img src="../img/kumanoki_render_mycelium_detail.jpg" alt="菌糸体パネル内壁テクスチャー" style="width:100%;height:100%;object-fit:cover" onerror="this.src='../img/myco_lab_panel_done.jpg'">
+      <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.75));padding:12px 12px 8px">
+        <div style="font-size:8px;letter-spacing:.12em;color:#a0c8a0;font-weight:700">内壁 — 菌糸体パネル</div>
+        <div style="font-size:10px;color:#c8c0b0;margin-top:2px">λ≈0.04 / 吸音 / 世界唯一</div>
+      </div>
+    </div>
+    <div style="position:relative;height:200px;overflow:hidden;background:#0e0c0a">
+      <img src="../img/kumanoki_render_exterior_day.jpg" alt="炭化杉外壁 昼間" style="width:100%;height:100%;object-fit:cover" onerror="this.src='../img/kumanoki_render_aerial_winter.jpg'">
+      <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.75));padding:12px 12px 8px">
+        <div style="font-size:8px;letter-spacing:.12em;color:#c8a455;font-weight:700">外壁 — 炭化杉コーティング</div>
+        <div style="font-size:10px;color:#c8c0b0;margin-top:2px">防腐・塗装不要・森に溶け込む</div>
+      </div>
+    </div>
+    <div style="position:relative;height:200px;overflow:hidden;background:#0e0c0a">
+      <img src="../img/kumanoki_render_exterior_night.jpg" alt="夜間の外観" style="width:100%;height:100%;object-fit:cover" onerror="this.src='../img/integrated_exterior_night.jpg'">
+      <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.75));padding:12px 12px 8px">
+        <div style="font-size:8px;letter-spacing:.12em;color:#5b8fd4;font-weight:700">夜景 — スクリューパイル基礎</div>
+        <div style="font-size:10px;color:#c8c0b0;margin-top:2px">φ114mm × 8本 / 1日施工</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ サウナ ══ -->
+<div class="section" id="sauna">
+  <div class="sec-label">SECTION 05</div>
+  <h2 class="sh">サウナ棟</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+    <div>
+      <table>
+        <thead><tr><th>項目</th><th>仕様</th></tr></thead>
+        <tbody>
+          <tr><td>形式</td><td>フィンランド式薪サウナ</td></tr>
+          <tr><td>室温</td><td>80〜95℃</td></tr>
+          <tr><td>定員</td><td>4名</td></tr>
+          <tr><td>サウナ室</td><td>2,400×2,400mm = 5.8m²</td></tr>
+          <tr><td>脱衣室</td><td>2,400×1,800mm = 4.3m²</td></tr>
+          <tr><td>外気浴</td><td>デッキ 12m²（チェア×4）</td></tr>
+          <tr><td>外シャワー</td><td>冷水 / 本棟と共用配管</td></tr>
+          <tr><td>kiuas（サウナストーン）</td><td>Harvia 20 ES / 20kW薪</td></tr>
+          <tr><td>内壁</td><td>アスペン無垢（白木）</td></tr>
+          <tr><td>外壁</td><td>Bio-SIP 炭化（本棟と統一）</td></tr>
+          <tr><td>照明</td><td>ガラスファイバー星空天井</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="background:#0e0c0a;border-radius:6px;padding:32px;display:flex;flex-direction:column;justify-content:center">
+      <div style="font-size:9px;letter-spacing:.2em;color:#555;margin-bottom:12px">SAUNA FLOW</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:12px;color:#c8c0b0;font-size:12px">
+          <span style="color:#c8a455;font-size:16px">①</span>本棟からデッキへ（裸足・30秒）
+        </div>
+        <div style="width:1px;height:12px;background:#2a2520;margin-left:10px"></div>
+        <div style="display:flex;align-items:center;gap:12px;color:#c8c0b0;font-size:12px">
+          <span style="color:#c8a455;font-size:16px">②</span>脱衣室で脱ぐ → サウナ室へ
+        </div>
+        <div style="width:1px;height:12px;background:#2a2520;margin-left:10px"></div>
+        <div style="display:flex;align-items:center;gap:12px;color:#c8c0b0;font-size:12px">
+          <span style="color:#c0392b;font-size:16px">③</span>90℃ / 10〜15分
+        </div>
+        <div style="width:1px;height:12px;background:#2a2520;margin-left:10px"></div>
+        <div style="display:flex;align-items:center;gap:12px;color:#c8c0b0;font-size:12px">
+          <span style="color:#5b8fd4;font-size:16px">④</span>外シャワーで冷水 / 雪上ロール（冬）
+        </div>
+        <div style="width:1px;height:12px;background:#2a2520;margin-left:10px"></div>
+        <div style="display:flex;align-items:center;gap:12px;color:#c8c0b0;font-size:12px">
+          <span style="color:#4a9a5a;font-size:16px">⑤</span>デッキで外気浴・星を見る
+        </div>
+        <div style="width:1px;height:12px;background:#2a2520;margin-left:10px"></div>
+        <div style="display:flex;align-items:center;gap:12px;color:#c8c0b0;font-size:12px">
+          <span style="color:#c8a455;font-size:16px">↻</span>3セット繰り返す
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- サウナ写真 -->
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:3px;border-radius:4px;overflow:hidden;margin-top:24px">
+    <div style="position:relative;height:260px;overflow:hidden;background:#0e0c0a">
+      <img src="../img/kumanoki_render_interior_sauna.jpg" alt="薪サウナ室内" style="width:100%;height:100%;object-fit:cover" onerror="this.src='../img/kumanoki_render_deck_evening.jpg'">
+      <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.7));padding:16px 16px 12px">
+        <div style="font-size:9px;letter-spacing:.15em;color:#c0392b;font-weight:700">SAUNA 80〜95°C</div>
+        <div style="font-size:12px;color:#f0ece4;font-weight:700;margin-top:3px">Harvia 20 ES 薪キウアス / アスペン白木内壁 / 星空天井</div>
+      </div>
+    </div>
+    <div style="position:relative;height:260px;overflow:hidden;background:#0e0c0a">
+      <img src="../img/kumanoki_render_sauna_exterior.jpg" alt="サウナ棟外観" style="width:100%;height:100%;object-fit:cover" onerror="this.src='../img/kumanoki_render_deck_evening.jpg'">
+      <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.7));padding:12px 12px 8px">
+        <div style="font-size:8px;letter-spacing:.12em;color:#5b8fd4;font-weight:700">サウナ棟外観</div>
+        <div style="font-size:10px;color:#c8c0b0;margin-top:2px">本棟と同一外壁で統一感</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 収益 ══ -->
+<div class="section" id="finance">
+  <div class="sec-label">SECTION 06</div>
+  <h2 class="sh">収益シミュレーション</h2>
+
+  <div class="price-hero" style="margin-bottom:32px">
+    <div style="font-size:10px;letter-spacing:.25em;color:#555;margin-bottom:12px">1口あたり購入価格</div>
+    <div class="amount">¥280万</div>
+    <div style="font-size:13px;color:#888;margin-top:8px">従来型不動産比 <strong style="color:#c8a455">▼52%</strong> — オーナーが建てるから安い</div>
+    <div style="font-size:11px;color:#555;margin-top:4px">6口 × ¥280万 = 総額 ¥1,680万（材料費 ¥800万 + 設計・管理 ¥880万）</div>
+    <div style="display:flex;justify-content:center;gap:48px;margin-top:32px;padding-top:32px;border-top:1px solid #2a2520">
+      <div style="text-align:center"><div style="font-size:10px;color:#555;letter-spacing:.1em">年間宿泊売上</div><div style="font-size:28px;font-weight:900;color:#c8a455">¥195万</div><div style="font-size:10px;color:#555">¥65,000×30泊</div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:#555;letter-spacing:.1em">1口あたり配当</div><div style="font-size:28px;font-weight:900;color:#4a9a5a">¥16.3万</div><div style="font-size:10px;color:#555">利益50%還元 / 6口</div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:#555;letter-spacing:.1em">表面利回り</div><div style="font-size:28px;font-weight:900;color:#5b8fd4">5.8%</div><div style="font-size:10px;color:#555">¥280万基準・業界平均の2倍</div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:#555;letter-spacing:.1em">オーナー特典</div><div style="font-size:28px;font-weight:900;color:var(--gold)">5泊/年</div><div style="font-size:10px;color:#555">¥65,000相当 × 5</div></div>
+    </div>
+  </div>
+
+  <table>
+    <thead><tr><th>項目</th><th>材料費</th><th>備考</th></tr></thead>
+    <tbody>
+      <tr><td>スクリューパイル基礎（12本）</td><td>¥120万</td><td>母屋8本+サウナ4本（有資格者施工、1日）</td></tr>
+      <tr><td>Bio-SIPパネル材料（母屋）</td><td>¥160万</td><td>プレカット済み、オーナーが組み立て</td></tr>
+      <tr><td>菌糸体グローキット（6名分）</td><td>¥2万</td><td>おが粉+霊芝種菌+型枠×6セット</td></tr>
+      <tr><td>3Dプリント接合クリップ</td><td>¥3万</td><td>フィラメント代のみ、ビスゼロ設計</td></tr>
+      <tr><td>道産カラマツ床材</td><td>¥60万</td><td>80mm×54m²、オーナー施工</td></tr>
+      <tr><td>南面アコーディオン窓</td><td>¥120万</td><td>三層LOW-E、ブラックフレーム</td></tr>
+      <tr><td>薪サウナ棟（材料）</td><td>¥200万</td><td>Harvia kiuas込み、オーナー組立</td></tr>
+      <tr><td>デッキ・渡り廊下（材料）</td><td>¥50万</td><td>カラマツ、オーナー施工</td></tr>
+      <tr><td>薪ストーブ + 煙突</td><td>¥45万</td><td>Morso 2140 + 断熱二重煙突</td></tr>
+      <tr><td>電気・給排水設備</td><td>¥35万</td><td>有資格者が並走（最小限）</td></tr>
+      <tr><td>IoTセンサー（菌糸体モニタリング）</td><td>¥5万</td><td>温湿度センサー × 8点</td></tr>
+      <tr style="background:#f5faf5;font-weight:700"><td>材料費 合計</td><td>¥800万</td><td>在来工法比 <strong>▼70%</strong>（労務費ゼロ）</td></tr>
+      <tr style="background:#fdfaf0"><td>設計・監理・SOLUNA margin</td><td>¥880万</td><td>BUILD WEEKENDコーディネート含む</td></tr>
+      <tr style="background:#f5faf5;font-weight:900"><td>販売総額（6口）</td><td><strong>¥1,680万</strong></td><td>1口 ¥280万</td></tr>
+    </tbody>
+  </table>
+
+  <div class="hbox" style="margin-top:32px">
+    <h3>なぜ¥280万で成立するか</h3>
+    <p>労務費（通常¥500〜800万）をオーナーが「参加」という形で負担する。オーナーにとっては「安く買えた」ではなく「自分が建てた」。施工会社への中間マージンが発生しない。菌糸体内壁はオーナーが自宅で製造するため材料費のみ（¥2万/6名）。スクリューパイル基礎は業者の専門工事だが1日で完了。電気・給排水も最小構成で有資格者が並走。全ての設計がこの前提で最適化されている。</p>
+    <div class="tags">
+      <span class="tag tag-gold">労務費ゼロ（オーナー参加型）</span>
+      <span class="tag tag-green">菌糸体は自家製造</span>
+      <span class="tag tag-blue">ビスゼロで施工難度を下げる</span>
+      <span class="tag tag-gold">中間業者マージンゼロ</span>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+
+<footer style="background:#1a1612;border-top:1px solid #2a2520;padding:48px 32px 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">
+<div style="max-width:960px;margin:0 auto">
+<div style="display:flex;align-items:baseline;gap:14px;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid #2a2520">
+  <a href="/" style="font-size:12px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none">SOLUNA</a>
+  <span style="font-size:9px;color:#3a3028;letter-spacing:.08em">製造設計 · BUILDING MATERIALS · Enabler Inc.</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid #2a2520;border-left:1px solid #2a2520">
+  <div style="padding:20px 24px 28px;border-right:1px solid #2a2520;border-bottom:1px solid #2a2520">
+    <h4 style="font-size:8px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#5a4a38;margin-bottom:14px">製造ページ</h4>
+    <a href="/manufacturing/sekkei.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">Bio-SIP 製造設計書</a>
+    <a href="/manufacturing/cluster.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">CLUSTER ユニット群</a>
+    <a href="/manufacturing/cluster-living.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">CLUSTER LIVING</a>
+    <a href="/manufacturing/kumanoki.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">KUMANOKI V-01</a>
+    <a href="/manufacturing/mycelium-lab.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">菌糸体 Lab</a>
+    <a href="/manufacturing/3d-mold.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">3D Mold（クリップ接合）</a>
+    <a href="/manufacturing/myco-furniture.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">Myco Furniture</a>
+    <a href="/manufacturing/house.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">SOLUNA HOUSE S-01</a>
+  </div>
+  <div style="padding:20px 24px 28px;border-right:1px solid #2a2520;border-bottom:1px solid #2a2520">
+    <h4 style="font-size:8px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#5a4a38;margin-bottom:14px">建材・工法</h4>
+    <a href="/manufacturing/sekkei.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">菌糸体Bio-SIP 断熱パネル</a>
+    <a href="/manufacturing/kumanoki.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">炭化杉外壁（焼杉）</a>
+    <a href="/manufacturing/cluster.html#legal" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">スクリューパイル基礎</a>
+    <a href="/manufacturing/kumanoki.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">コードウッド（丸太積み）</a>
+    <a href="/manufacturing/cluster.html#cnc" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">北海道産カラマツ合板 CNC</a>
+    <a href="/manufacturing/cluster.html#winter" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">冬季性能 -25°C 対応</a>
+    <a href="/manufacturing/3d-mold.html" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">3Dプリント スナップフィット</a>
+  </div>
+  <div style="padding:20px 24px 28px;border-bottom:1px solid #2a2520">
+    <h4 style="font-size:8px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#5a4a38;margin-bottom:14px">SOLUNA</h4>
+    <a href="/" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">トップページ</a>
+    <a href="/collection" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">物件一覧</a>
+    <a href="/miruwa-grand" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">美留和グランド</a>
+    <a href="/kumaushi" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">KUMAUSHI BASE</a>
+    <a href="/buy" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">オーナーになる</a>
+    <a href="/contact" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">お問い合わせ</a>
+    <a href="mailto:info@solun.art" style="display:block;font-size:11px;color:#4a4030;text-decoration:none;line-height:2.1">info@solun.art</a>
+  </div>
+</div>
+<div style="padding-top:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:9px;color:#2a2520;letter-spacing:.1em">
+  <span>© 2025 SOLUNA / Enabler Inc. — BUILDING MATERIALS RESEARCH</span>
+  <span>北海道弟子屈 美留和ビレッジ · 2026.09 OPEN TARGET</span>
+</div>
+</div>
+</footer>
+
+<script src="/js/gate.js"></script>
+</body>
+</html>

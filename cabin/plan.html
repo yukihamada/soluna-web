@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/plan" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="Summer 2026 Plan — SOLUNA CABIN CLUB">2026 夏の計画 — SOLUNA CABIN CLUB</title>
+<meta content="2026年夏、北海道弟子屈に8棟ビレッジをつくる。HondaJetで4往復。美留和グランド→くまうし→7棟スケール。" data-en-content="Establish an 8-unit village in Teshikaga, Hokkaido in summer 2026. Four round trips via Honda Jet. Biruwa Grand → Kumaushi → 7-unit scale." name="description"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.35);
+  --gold-soft:rgba(200,164,85,.07);
+  --blue:#6688cc;
+  --bg:#040404;
+  --text:#f0ece4;
+  --text-dim:#555;
+  --line:#131313;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 28px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.8);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.03)}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--gold)}
+.nav-links{display:flex;gap:20px;align-items:center;font-size:10.5px}
+.nav-links a{color:#555;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links .cta{color:var(--gold);font-weight:700;border:1px solid rgba(200,164,85,.3);padding:7px 16px;border-radius:100px}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:600px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.45) saturate(.7);transform:scale(1.04);animation:zoom 14s ease-out forwards}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.6) 40%,transparent 70%)}
+.hero-body{position:relative;z-index:2;padding:0 32px 80px;max-width:900px;margin:0 auto;width:100%}
+.hero-eyebrow{font-size:9px;letter-spacing:.4em;color:var(--blue);text-transform:uppercase;font-weight:700;margin-bottom:18px;animation:fadeUp .8s .2s both}
+.hero h1{font-size:clamp(2.8rem,8vw,5rem);font-weight:800;letter-spacing:-.04em;line-height:1.02;margin-bottom:20px;animation:fadeUp .9s .4s both}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{color:rgba(240,236,228,.5);font-size:13px;line-height:2;max-width:480px;font-weight:300;animation:fadeUp 1s .6s both;margin-bottom:32px}
+.hero-badges{display:flex;gap:10px;flex-wrap:wrap;animation:fadeUp 1.1s .8s both}
+.badge{font-size:9px;letter-spacing:.12em;border:1px solid rgba(200,164,85,.2);color:rgba(200,164,85,.7);padding:6px 14px;border-radius:100px;font-weight:700}
+
+@keyframes zoom{from{transform:scale(1.04)}to{transform:scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes fly{0%{left:-8px;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:calc(100% + 8px);opacity:0}}
+@keyframes dash{to{stroke-dashoffset:0}}
+
+/* SECTION */
+.s{padding:100px 0}
+@media(max-width:600px){.s{padding:72px 0}}
+.w{max-width:740px;margin:0 auto;padding:0 24px}
+.ww{max-width:1000px;margin:0 auto;padding:0 24px}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:12px}
+.h2{font-size:clamp(1.8rem,4.5vw,2.8rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:8px}
+.lead{color:rgba(240,236,228,.45);font-size:13px;line-height:1.9;font-weight:300;margin-bottom:48px}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.r.in{opacity:1;transform:translateY(0)}
+
+/* ━━━ FLIGHT PLAN ━━━ */
+.flight-section{padding:100px 0;overflow:hidden}
+.flight-header{text-align:center;margin-bottom:72px}
+.flight-track{position:relative;max-width:900px;margin:0 auto;padding:0 24px}
+
+/* SVG path line */
+.flight-svg{width:100%;overflow:visible;margin-bottom:0}
+
+/* stops */
+.stops{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;margin-top:0}
+.stop{text-align:center;padding:0 8px;cursor:default}
+.stop-dot-wrap{display:flex;justify-content:center;margin-bottom:16px;position:relative}
+.stop-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--gold);background:#040404;position:relative;z-index:2;transition:all .3s}
+.stop-dot.done{background:var(--gold)}
+.stop-dot::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid var(--gold-dim);animation:pulse 2s ease infinite}
+.stop-num{font-size:8px;letter-spacing:.2em;color:#333;margin-bottom:8px;font-weight:700}
+.stop-date{font-size:11px;font-weight:800;color:var(--gold);margin-bottom:6px;letter-spacing:-.01em}
+.stop-place{font-size:14px;font-weight:800;margin-bottom:6px;letter-spacing:-.02em}
+.stop-desc{font-size:10px;color:#555;line-height:1.7}
+.stop-action{display:inline-block;margin-top:10px;font-size:9px;letter-spacing:.1em;border:1px solid rgba(200,164,85,.25);color:rgba(200,164,85,.7);padding:5px 12px;border-radius:100px;font-weight:700}
+
+@media(max-width:640px){
+  .stops{grid-template-columns:1fr 1fr;row-gap:48px}
+  .flight-svg{display:none}
+}
+
+/* ━━━ PHASE TIMELINE ━━━ */
+.timeline{position:relative;padding-left:0}
+.tl-line{position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--gold-dim) 10%,var(--gold-dim) 90%,transparent);transform:translateX(-50%)}
+@media(max-width:680px){.tl-line{left:18px}}
+
+.tl-item{display:grid;grid-template-columns:1fr 60px 1fr;gap:0;margin-bottom:0;align-items:start}
+.tl-item:nth-child(odd) .tl-content{grid-column:1;text-align:right;padding-right:40px}
+.tl-item:nth-child(odd) .tl-dot-col{grid-column:2}
+.tl-item:nth-child(odd) .tl-empty{grid-column:3}
+.tl-item:nth-child(even) .tl-empty{grid-column:1}
+.tl-item:nth-child(even) .tl-dot-col{grid-column:2}
+.tl-item:nth-child(even) .tl-content{grid-column:3;text-align:left;padding-left:40px}
+
+.tl-dot-col{display:flex;flex-direction:column;align-items:center;gap:0;padding-top:4px}
+.tl-dot{width:16px;height:16px;border-radius:50%;background:var(--gold);flex-shrink:0;box-shadow:0 0 16px rgba(200,164,85,.5)}
+.tl-connector{flex:1;width:1px;background:var(--gold-dim);min-height:60px}
+.tl-content{padding:0 0 80px}
+.tl-phase{font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:8px}
+.tl-date{font-size:11px;font-weight:800;color:var(--gold);margin-bottom:6px}
+.tl-title{font-size:18px;font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.tl-body{font-size:11.5px;color:#555;line-height:1.9}
+.tl-body strong{color:rgba(240,236,228,.7);font-weight:600}
+.tl-tag{display:inline-block;font-size:9px;letter-spacing:.1em;border:1px solid rgba(200,164,85,.2);color:rgba(200,164,85,.6);padding:4px 10px;border-radius:100px;font-weight:700;margin-top:10px}
+.tl-budget{margin-top:10px;font-size:13px;font-weight:800;color:var(--gold)}
+
+@media(max-width:680px){
+  .tl-item{grid-template-columns:36px 1fr}
+  .tl-item:nth-child(odd) .tl-content{grid-column:2;text-align:left;padding-right:0;padding-left:20px}
+  .tl-item:nth-child(odd) .tl-dot-col{grid-column:1}
+  .tl-item:nth-child(odd) .tl-empty{display:none}
+  .tl-item:nth-child(even) .tl-empty{display:none}
+  .tl-item:nth-child(even) .tl-dot-col{grid-column:1}
+  .tl-item:nth-child(even) .tl-content{grid-column:2;padding-left:20px}
+  .tl-connector{min-height:40px}
+}
+
+/* ━━━ SITE MAP ━━━ */
+.sites-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-bottom:2px}
+.site-card{position:relative;overflow:hidden;background:#0a0a0a;cursor:pointer}
+.site-card img{width:100%;height:260px;object-fit:cover;filter:brightness(.55) saturate(.7);transition:all .6s ease}
+.site-card:hover img{filter:brightness(.7) saturate(.9);transform:scale(1.03)}
+.site-card-body{position:absolute;bottom:0;left:0;right:0;padding:24px 20px;background:linear-gradient(to top,rgba(4,4,4,.95) 0%,transparent 100%)}
+.site-phase{font-size:8px;letter-spacing:.24em;color:var(--blue);font-weight:700;margin-bottom:6px}
+.site-name{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.site-sub{font-size:10px;color:#555;line-height:1.6}
+.site-status{position:absolute;top:16px;right:16px;font-size:8px;letter-spacing:.12em;font-weight:700;padding:5px 10px;border-radius:100px}
+.site-status.active{background:rgba(200,164,85,.15);color:var(--gold);border:1px solid rgba(200,164,85,.3)}
+.site-status.soon{background:rgba(102,136,204,.12);color:var(--blue);border:1px solid rgba(102,136,204,.25)}
+.site-status.later{background:rgba(255,255,255,.04);color:#444;border:1px solid rgba(255,255,255,.06)}
+
+@media(max-width:600px){.sites-grid{grid-template-columns:1fr}}
+
+/* ━━━ BUDGET ━━━ */
+.budget-table{width:100%;border-collapse:collapse;margin-bottom:32px}
+.budget-table tr{border-bottom:1px solid var(--line)}
+.budget-table td{padding:16px 0;font-size:12px}
+.budget-table td:first-child{color:#555}
+.budget-table td:last-child{text-align:right;font-weight:800;color:var(--gold)}
+.budget-table .total td{font-size:15px;color:var(--text);padding-top:20px}
+.budget-table .total td:last-child{color:var(--gold);font-size:18px}
+.budget-bar{height:3px;background:#111;border-radius:2px;margin-top:4px;overflow:hidden}
+.budget-bar-fill{height:100%;background:linear-gradient(to right,var(--gold),#e8c870);border-radius:2px;width:0;transition:width 1.2s ease}
+
+/* ━━━ ACTION ━━━ */
+.action-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
+@media(max-width:600px){.action-grid{grid-template-columns:1fr}}
+.action-card{background:#080808;border:1px solid var(--line);padding:24px 20px;border-radius:0}
+.action-num{font-size:28px;font-weight:800;color:var(--gold-dim);line-height:1;margin-bottom:12px;letter-spacing:-.04em}
+.action-dead{font-size:10px;letter-spacing:.1em;color:#c05050;margin-bottom:8px;font-weight:700}
+.action-title{font-size:14px;font-weight:800;margin-bottom:8px;letter-spacing:-.02em}
+.action-body{font-size:11px;color:#555;line-height:1.8}
+.action-link{font-size:10px;color:var(--gold);margin-top:10px;display:inline-block;border-bottom:1px solid var(--gold-dim)}
+
+/* ━━━ SOLUNAR CTA ━━━ */
+.solunar-cta{text-align:center;padding:100px 24px;border-top:1px solid var(--line)}
+.solunar-date{font-size:9px;letter-spacing:.32em;color:var(--blue);font-weight:700;margin-bottom:16px}
+.solunar-title{font-size:clamp(2rem,6vw,3.6rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:16px}
+.solunar-sub{color:#555;font-size:13px;line-height:1.9;margin-bottom:36px}
+.btn{display:inline-block;background:var(--gold);color:#040404;font-weight:800;font-size:11px;letter-spacing:.12em;padding:14px 28px;border-radius:100px;transition:all .2s}
+.btn:hover{background:#e8c870;transform:translateY(-1px)}
+.btn-ghost{display:inline-block;border:1px solid rgba(200,164,85,.3);color:var(--gold);font-weight:700;font-size:11px;letter-spacing:.12em;padding:14px 28px;border-radius:100px;margin-left:12px;transition:all .2s}
+.btn-ghost:hover{background:var(--gold-soft)}
+
+/* ━━━ SCROLL ━━━ */
+.scroll-indicator{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.3}
+.scroll-indicator span{font-size:8px;letter-spacing:.3em;color:var(--text)}
+.scroll-indicator i{width:1px;height:28px;background:var(--gold);animation:scrollDown 1.6s ease infinite}
+@keyframes scrollDown{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* divider */
+.divider{height:1px;background:var(--line);margin:0 24px}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<!-- ━━━ HERO ━━━ -->
+<section class="hero">
+<div class="hero-bg">
+<img alt="北海道の大地" data-en-alt="Hokkaido's Land" src="img/container_twin_aerial.webp"/>
+</div>
+<div class="hero-body">
+<div class="hero-eyebrow">2026 Summer Build Plan</div>
+<h1 data-en="Create This Summer.">この夏、<em data-en="8 Residences">8棟</em>つくる。</h1>
+<p class="hero-sub" data-en="30,000 tsubo in Teshikaga, Hokkaido. Four HondaJet round trips.
+Validate with one residence, experiment at Kumaushi Base, and scale across seven structures.">
+      北海道弟子屈の3万坪。HondaJet 4往復。<br/>
+      1棟で確かめ、くまうしで実験し、7棟でスケールする。
+    </p>
+<div class="hero-badges">
+<span class="badge" data-en="Biruwa Grand Phase 1">美留和グランド Phase 1</span>
+<span class="badge" data-en="Kumaushi Prairie Experimental Structure">熊牛原野 実験棟</span>
+<span class="badge" data-en="SOLUNAR 9/4–9/6 Deadline">SOLUNAR 9/4〜9/6 締切</span>
+<span class="badge" data-en="HondaJet × 4 Flights">HondaJet × 4フライト</span>
+</div>
+</div>
+<div class="scroll-indicator"><span>SCROLL</span><i></i></div>
+</section>
+<!-- ━━━ HONDAJET PHOTO ━━━ -->
+<div style="height:clamp(200px,28vw,340px);overflow:hidden;position:relative">
+<img alt="HondaJet" src="img/hondajet.webp" style="width:100%;height:100%;object-fit:cover;filter:brightness(.55) saturate(.7)"/>
+<div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,var(--bg) 100%)"></div>
+<div style="position:absolute;bottom:24px;left:32px">
+<span data-en="HONDA JET · 4 Flights · Teshikaga, Hokkaido" style="font-size:9px;letter-spacing:.35em;color:var(--gold);font-weight:700">HONDA JET · 4 FLIGHTS · 弟子屈</span>
+</div>
+</div>
+<!-- ━━━ FLIGHT PLAN ━━━ -->
+<section class="flight-section">
+<div class="flight-header">
+<div class="label">HondaJet Flight Plan</div>
+<div class="h2" data-en="Up to 4 On-Site Visits" style="text-align:center">4回の現地入りで<em data-en="Completed" style="font-style:normal;color:var(--gold)">完成</em>まで</div>
+</div>
+<div class="flight-track">
+<!-- SVG arc connecting the 4 stops -->
+<svg class="flight-svg" preserveaspectratio="none" style="height:60px;margin-bottom:-10px" viewbox="0 0 900 80">
+<defs>
+<marker id="arrow" markerheight="6" markerwidth="6" orient="auto" refx="5" refy="3">
+<path d="M0,0 L0,6 L6,3 z" fill="rgba(200,164,85,.5)"></path>
+</marker>
+</defs>
+<!-- arcs between stops -->
+<path d="M112,60 Q225,10 338,60" fill="none" stroke="rgba(200,164,85,.25)" stroke-dasharray="4 4" stroke-width="1"></path>
+<path d="M338,60 Q450,10 562,60" fill="none" stroke="rgba(200,164,85,.25)" stroke-dasharray="4 4" stroke-width="1"></path>
+<path d="M562,60 Q675,10 788,60" fill="none" stroke="rgba(200,164,85,.25)" stroke-dasharray="4 4" stroke-width="1"></path>
+<!-- plane icons (simple triangle) -->
+<text fill="rgba(200,164,85,.6)" font-size="14" text-anchor="middle" x="220" y="22">✈</text>
+<text fill="rgba(200,164,85,.6)" font-size="14" text-anchor="middle" x="450" y="22">✈</text>
+<text fill="rgba(200,164,85,.6)" font-size="14" text-anchor="middle" x="675" y="22">✈</text>
+</svg>
+<div class="stops">
+<div class="stop r">
+<div class="stop-dot-wrap"><div class="stop-dot done"></div></div>
+<div class="stop-num">FLIGHT 01</div>
+<div class="stop-date">6/4 〜 6/9</div>
+<div class="stop-place" data-en="Birawa Grand">美留和グランド</div>
+<div class="stop-desc" data-en="First Unit Construction Supervision, Dome Installation (72h) → If Successful, Immediate Order for 7 Units">1棟目 着工立会い<br/>ドーム設置（72h）<br/>→ 成功なら7棟即発注</div>
+<span class="stop-action" data-en="NESTING stay ✓ Available">NESTING泊 ✓ 空き</span>
+</div>
+<div class="stop r" style="transition-delay:.15s">
+<div class="stop-dot-wrap"><div class="stop-dot"></div></div>
+<div class="stop-num">FLIGHT 02</div>
+<div class="stop-date">7/3 〜 7/8</div>
+<div class="stop-place" data-en="Kumaushi Base">熊牛原野</div>
+<div class="stop-desc" data-en="Alternative Method 1-Unit Experimental Container or Log → Kumaushi Dojo Construction Commencement">別工法1棟 実験<br/>コンテナ or ログ<br/>→ くまうし道場 着工</div>
+<span class="stop-action" data-en="Tenkū Dojo Site">天空の道場 敷地</span>
+</div>
+<div class="stop r" style="transition-delay:.3s">
+<div class="stop-dot-wrap"><div class="stop-dot"></div></div>
+<div class="stop-num">FLIGHT 03</div>
+<div class="stop-date" data-en="8/18–8/24">8/18 〜 8/24</div>
+<div class="stop-place" data-en="Birawa Grand">美留和グランド</div>
+<div class="stop-desc" data-en="7 Structures Under Construction · Progress Check · V2H &amp; Starlink Setup · KAGI App Initialization">7棟建設 進捗確認<br/>V2H・Starlink設定<br/>KAGIアプリ初期化</div>
+<span class="stop-action" data-en="THE LODGE Stay ✓ Available">LODGE泊 ✓ 空き</span>
+</div>
+<div class="stop r" style="transition-delay:.45s">
+<div class="stop-dot-wrap"><div class="stop-dot"></div></div>
+<div class="stop-num">FLIGHT 04</div>
+<div class="stop-date" data-en="9/4–9/6">9/4 〜 9/6</div>
+<div class="stop-place">★ SOLUNAR</div>
+<div class="stop-desc" data-en="First Structure Completion Unveiling—NFT Owner Early Access Stay → Media Release">1棟目 完成披露<br/>NFTオーナー先行泊<br/>→ メディア公開</div>
+<span class="stop-action" data-en="Deadline—Critical Priority" style="border-color:rgba(200,164,85,.5);color:var(--gold)">締切・最重要</span>
+</div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+<!-- ━━━ PHASE TIMELINE ━━━ -->
+<section class="s">
+<div class="w">
+<div class="label r">Build Phases</div>
+<div class="h2 r" data-en="Phase-by-Phase Implementation Plan" style="margin-bottom:48px">フェーズ別 実行計画</div>
+</div>
+<div class="ww">
+<div class="timeline">
+<div class="tl-line"></div>
+<!-- Phase 0 -->
+<div class="tl-item r">
+<div class="tl-content">
+<div class="tl-phase">Phase 0</div>
+<div class="tl-date" data-en="April 14 → May 31">4月14日 → 5月31日</div>
+<div class="tl-title" data-en="Preparation &amp; Confirmation">準備・確認</div>
+<div class="tl-body" data-en="Contact by phone to confirm building approval status for Miruwa Grand. Request formal quotation from Dome House Japan for one structure. Meet with architect. Pay 50% deposit on May 1st, place order → 6–8 weeks manufacturing → delivery mid-June.">
+<strong data-en="Teshikaga Town Construction Department">弟子屈町建設課</strong> へ電話し美留和グランドの建築確認要否を確認。ドームハウスジャパンへ1棟の正式見積もり依頼。建築士と顔合わせ。5月1日に手付50%を払い発注→6〜8週製造→6月中旬納品。
+          </div>
+<div class="tl-budget" data-en="Preparation Fee ¥500,000">準備費 ¥50万</div>
+</div>
+<div class="tl-dot-col">
+<div class="tl-dot"></div>
+<div class="tl-connector"></div>
+</div>
+<div class="tl-empty"></div>
+</div>
+<!-- Phase 1 -->
+<div class="tl-item r" style="transition-delay:.1s">
+<div class="tl-empty"></div>
+<div class="tl-dot-col">
+<div class="tl-dot"></div>
+<div class="tl-connector"></div>
+</div>
+<div class="tl-content">
+<div class="tl-phase">Phase 1</div>
+<div class="tl-date" data-en="June 4 → September 4">6月4日 → 9月4日</div>
+<div class="tl-title" data-en="Birawa Grand Phase 1 Ahead">美留和グランド<br/>1棟先行</div>
+<div class="tl-body" data-en="June 4–9: On-site arrival via HondaJet. Witness foundation work and dome installation (72h). Pending success: July for interior finishes and V2H; August for sauna, hot tub, and Starlink configuration. Unveiling on SOLAR event day, September 4.">
+            6/4〜9 HondaJetで現地入り。基礎工事＋ドーム設置（72h）を立会い。うまくいけば<strong data-en="7 additional properties ordered on-site">その場で7棟追加発注</strong>。7月は内装・V2H。8月にサウナ・ホットタブ・Starlink設定。9/4のSOLUNAR当日に完成披露。
+          </div>
+<span class="tl-tag" data-en="NESTING / LODGE Fully Available">NESTING / LODGE 全空き</span>
+<div class="tl-budget" data-en="¥15.06M (Full Comfort)">¥1,506万（フルコンフォート）</div>
+</div>
+</div>
+<!-- Phase 2 -->
+<div class="tl-item r" style="transition-delay:.2s">
+<div class="tl-content">
+<div class="tl-phase">Phase 2</div>
+<div class="tl-date" data-en="July 3rd → Autumn">7月3日 → 秋</div>
+<div class="tl-title" data-en="Experimental construction using KUMAUSHI BASE methodology">熊牛原野<br/>別工法で実験</div>
+<div class="tl-body" data-en="July 3–8: Travel to Kumaushi Base via HondaJet. Build one structure using alternative method (container conversion or log cabin) distinct from EPS dome. Positioned on elevated plateau with 270-degree panoramic views. Experimental hub for jiu-jitsu, meditation, and fasting retreats.">
+            7/3〜8 HondaJetで熊牛原野へ。EPSドームとは異なる工法（コンテナ改装 or ログキャビン）で1棟建設。270度パノラマの高台に<strong data-en="Tensoku Dojo">天空の道場</strong>。柔術・瞑想・断食リトリートの実証拠点。
+          </div>
+<span class="tl-tag" data-en="Container, Log Cabin, or NESTING Type">コンテナ or ログ or NESTING型</span>
+<div class="tl-budget" data-en="¥5,000,000–¥9,000,000 (varies by construction method)">¥500〜900万（工法による）</div>
+</div>
+<div class="tl-dot-col">
+<div class="tl-dot"></div>
+<div class="tl-connector"></div>
+</div>
+<div class="tl-empty"></div>
+</div>
+<!-- Phase 3 -->
+<div class="tl-item r" style="transition-delay:.3s">
+<div class="tl-empty"></div>
+<div class="tl-dot-col">
+<div class="tl-dot"></div>
+<div class="tl-connector"></div>
+</div>
+<div class="tl-content">
+<div class="tl-phase">Phase 3</div>
+<div class="tl-date" data-en="October 2026 → Autumn 2027">2026年10月 → 2027年秋</div>
+<div class="tl-title" data-en="Biruwa Grand 7-Structure Scale">美留和グランド<br/>7棟スケール</div>
+<div class="tl-body" data-en="Streamline applications by leveraging Phase 1's building confirmation records. Eight building types—containers, domes, tower saunas, log cabins—converge in completion. Four structures open Golden Week 2027; all buildings operational by autumn.">
+            Phase 1の建築確認実績を活用して申請をスムーズ化。コンテナ・ドーム・タワーサウナ・ログキャビン…8種類の建物が集まる<strong data-en="8-Unit, 100-Person Village">8棟100人ビレッジ</strong>を完成。2027年GWに4棟、秋に全棟オープン。
+          </div>
+<div class="tl-budget" data-en="Approximately ¥100,000,000 (7 Units + Common Facilities)">約¥1.0億（7棟 + 共用施設）</div>
+</div>
+</div>
+<!-- Phase 4 -->
+<div class="tl-item r" style="transition-delay:.4s">
+<div class="tl-content">
+<div class="tl-phase" data-en="Existing · Operational">既存 · 稼働中</div>
+<div class="tl-date" style="color:var(--gold)">NOW</div>
+<div class="tl-title" data-en="TAPKOP Eco Village">TAPKOP<br/>エコビレッジ</div>
+<div class="tl-body" data-en="Fully operational PREMIUM Property. 4,000 tsubo · dome structure · working farm · atelier included. Exchange rate: SOLUNA VILLAGE 5 nights = TAPKOP 1 night.">
+            既に稼働中の PREMIUM 物件。4,000坪・ドーム棟・ファーム・アトリエ完備。SOLUNA VILLAGE 5泊 = TAPKOP 1泊の交換レート。
+          </div>
+<div class="tl-budget" data-en="¥11,800,000/Unit · 15 Nights Annually · PREMIUM" style="color:var(--gold)">¥1,180万/口 · 年15泊 · PREMIUM</div>
+</div>
+<div class="tl-dot-col">
+<div class="tl-dot" style="background:#222;box-shadow:none"></div>
+</div>
+<div class="tl-empty"></div>
+</div>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+<!-- ━━━ SITES ━━━ -->
+<section class="s">
+<div class="w">
+<div class="label r">4 Sites</div>
+<div class="h2 r" data-en="4 locations across Hokkaido">北海道 4拠点</div>
+<p class="lead r" data-en="Expanding progressively, centered on Teshikaga.">弟子屈を中心に、段階的に拡張していく。</p>
+</div>
+<div class="sites-grid r">
+<div class="site-card">
+<img alt="美留和グランド" data-en-alt="Birawa Grand" src="img/container_twin_aerial.webp"/>
+<div class="site-card-body">
+<div class="site-phase" data-en="Phase 1 · Accelerated Construction">Phase 1 · 先行着工</div>
+<div class="site-name">SOLUNA VILLAGE</div>
+<div class="site-sub" data-en="Biruwa Grand · 8 Properties, 100 Guests · ¥5.3M–">美留和グランド · 8棟100人 · ¥530万〜</div>
+</div>
+<span class="site-status active" data-en="Preparation for Construction Underway">着工準備中</span>
+</div>
+<div class="site-card">
+<img alt="熊牛原野" data-en-alt="Kumaushi Base" onerror="this.src='img/lodge_exterior.webp'" src="img/offgrid_winter.webp"/>
+<div class="site-card-body">
+<div class="site-phase" data-en="Phase 2 · Alternative Construction Method Trial">Phase 2 · 別工法実験</div>
+<div class="site-name" data-en="Kumaushi Base">熊牛原野</div>
+<div class="site-sub" data-en="3,000 Tsubo · Sky Dojo · BJJ Retreat">3,000坪 · 天空の道場 · BJJリトリート</div>
+</div>
+<span class="site-status soon" data-en="July Commencement">7月着工</span>
+</div>
+<div class="site-card">
+<img alt="TAPKOP" onerror="this.src='img/miruwa_aerial_wide.webp'" src="img/tapkop_exterior.webp"/>
+<div class="site-card-body">
+<div class="site-phase" data-en="★ PREMIUM · Operational">★ PREMIUM · 稼働中</div>
+<div class="site-name">TAPKOP</div>
+<div class="site-sub" data-en="4,000 tsubo · ¥11.8M per unit · 15 nights annually">4,000坪 · ¥1,180万/口 · 年15泊</div>
+</div>
+<span class="site-status active" data-en="Currently Operational">稼働中</span>
+</div>
+<div class="site-card">
+<img alt="美留和（既存）" data-en-alt="Birawa (Existing)" src="img/miruwa_aerial_wide.webp"/>
+<div class="site-card-body">
+<div class="site-phase" data-en="Existing Facilities · Currently Operating">既存施設 · 運営中</div>
+<div class="site-name" data-en="Biruwa (Current Base)">美留和（現拠点）</div>
+<div class="site-sub" data-en="Tower Sauna · NESTING · THE LODGE Operational">タワーサウナ · NESTING · LODGE 稼働中</div>
+</div>
+<span class="site-status active" data-en="In Operation">運営中</span>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+<!-- ━━━ BUDGET ━━━ -->
+<section class="s">
+<div class="w">
+<div class="label r">Budget</div>
+<div class="h2 r" data-en="Summer Budget Overview">夏の予算概要</div>
+<p class="lead r" data-en="Execution budget for Phase 1–2. Upon success, we advance to Phase 3 (approximately ¥100 million).">Phase 1〜2の実行コスト。成功すればPhase 3（約1億）に進む。</p>
+<table class="budget-table r">
+<tr>
+<td data-en="Phase 1 — Birawa Grand Single Residence (Full Comfort)">
+          Phase 1 — 美留和グランド 1棟（フルコンフォート）
+          <div class="budget-bar"><div class="budget-bar-fill" data-w="54"></div></div>
+</td>
+<td>¥1,506万</td>
+</tr>
+<tr>
+<td data-en="Phase 2 — Kumaushi Base Experimental Structure (Construction Method TBD)">
+          Phase 2 — 熊牛原野 実験棟（工法未確定）
+          <div class="budget-bar"><div class="budget-bar-fill" data-w="25"></div></div>
+</td>
+<td data-en="¥5–9 Million">¥500〜900万</td>
+</tr>
+<tr>
+<td data-en="Phase 0 — Architecture, Permits, Survey &amp; Preparation">
+          Phase 0 — 建築士・申請・調査・準備
+          <div class="budget-bar"><div class="budget-bar-fill" data-w="4"></div></div>
+</td>
+<td data-en="¥500,000–¥1,000,000">¥50〜100万</td>
+</tr>
+<tr>
+<td data-en="Phase 3 (Conditional) — Birawa Grand Remaining 7 Residences">
+          Phase 3（条件付き）— 美留和グランド残り7棟
+          <div class="budget-bar"><div class="budget-bar-fill" data-w="100" style="opacity:.25"></div></div>
+</td>
+<td data-en="Approximately ¥100M" style="color:#444">約¥1.0億</td>
+</tr>
+<tr class="total">
+<td data-en="Summer Implementation (Phase 0–2)">この夏の実行分（Phase 0〜2）</td>
+<td data-en="Approximately ¥21 Million">約 ¥2,100万</td>
+</tr>
+</table>
+<p class="r" data-en="* Phase 1: Tangible costs recoverable through NFT sale of one property (¥5.3M).
+      * Biruwa Grand bonding curve: 4 units sold → currently ¥5.3M. At full capacity: ¥14.8M." style="font-size:11px;color:#333;line-height:1.9">
+      * Phase 1で1棟NFT販売（¥530万）により実質コストは回収可能。<br/>
+      * 美留和グランドのボンディングカーブ: 4口売済 → 現在¥530万。完売時¥1,480万。
+    </p>
+</div>
+</section>
+<div class="divider"></div>
+<!-- ━━━ BUILD METHODS ━━━ -->
+<section class="s">
+<div class="w">
+<div class="label r">Construction Intelligence</div>
+<div class="h2 r" data-en="Build in Teshikaga, Hokkaido.">弟子屈で<em data-en="Brilliantly">天才的に</em>建てる。</div>
+<p class="lead r" data-en="Turn climate extremes—−20°C temperatures, heavy snowfall, and sparse population—into strategic advantages. By layering reclaimed materials with subsidies, we compress effective costs to one-fifth.">−20℃・豪雪・過疎という三重苦を逆手に取る。廃材＋補助金スタッキングで実質コストを1/5に圧縮できる。</p>
+</div>
+<!-- 3 Budget Scenarios -->
+<div class="ww r" style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px">
+<div style="padding:28px 24px;background:#060606;border:1px solid #111;border-radius:4px 0 0 4px">
+<div data-en="SCENARIO A · DIY Limit" style="font-size:9px;letter-spacing:.2em;color:#444;margin-bottom:8px;font-weight:700">SCENARIO A · DIY限界</div>
+<div data-en="¥1.8M" style="font-size:32px;font-weight:800;color:var(--text);letter-spacing:-.04em;line-height:1">¥180万</div>
+<div data-en="95% Recycled Materials / 80% DIY / 12–18 Month Timeline" style="font-size:9px;color:#333;margin-top:4px;margin-bottom:16px">廃材95% / DIY率80% / 工期12-18ヶ月</div>
+<div data-en="Land &amp; Property ¥300,000
+        Reclaimed Materials &amp; Foundation ¥200,000
+        Insulation (Straw) ¥150,000
+        Windows &amp; Fittings ¥250,000
+        Utilities (Water &amp; Electric) ¥400,000
+        Heating Stove &amp; Roof ¥500,000" style="font-size:10.5px;color:#3a3a3a;line-height:2">
+        土地・物件 ¥30万<br/>
+        廃材・基礎 ¥20万<br/>
+        断熱（ストロー）¥15万<br/>
+        窓・建具 ¥25万<br/>
+        設備（水・電）¥40万<br/>
+        暖房炉・屋根 ¥50万
+      </div>
+</div>
+<div style="padding:28px 24px;background:#080808;border:1px solid rgba(200,164,85,.2);position:relative">
+<div style="position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--gold);color:#040404;font-size:8px;font-weight:800;letter-spacing:.2em;padding:3px 10px">RECOMMENDED</div>
+<div data-en="SCENARIO B · Standard DIY" style="font-size:9px;letter-spacing:.2em;color:rgba(200,164,85,.7);margin-bottom:8px;font-weight:700;margin-top:8px">SCENARIO B · 標準DIY</div>
+<div data-en="¥3,200,000" style="font-size:32px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1">¥320万</div>
+<div data-en="50% Reclaimed Materials / 50% DIY / Professional Installation for Systems Only" style="font-size:9px;color:#555;margin-top:4px;margin-bottom:4px">廃材50% / DIY率50% / 設備のみプロ</div>
+<div data-en="Effective cost ¥800,000–¥1,200,000 after subsidy" style="font-size:12px;color:var(--gold);font-weight:700;margin-bottom:12px">補助金後 実質 ¥80〜120万</div>
+<div data-en="Vacant Property Acquisition ¥500,000
+        Foundation &amp; Structural Materials ¥450,000
+        Insulation &amp; Air Sealing ¥350,000
+        Windows (Low-E Triple) ¥400,000
+        Systems (Water, Electrical, Hot Water) ¥700,000
+        Roofing, Interior &amp; Other ¥800,000" style="font-size:10.5px;color:#3a3a3a;line-height:2">
+        空き家取得 ¥50万<br/>
+        基礎・構造材 ¥45万<br/>
+        断熱・気密 ¥35万<br/>
+        窓（Low-Eトリプル）¥40万<br/>
+        設備（水・電・給湯）¥70万<br/>
+        屋根・内装・他 ¥80万
+      </div>
+</div>
+<div style="padding:28px 24px;background:#060606;border:1px solid #111;border-radius:0 4px 4px 0">
+<div data-en="SCENARIO C · Full Subsidy" style="font-size:9px;letter-spacing:.2em;color:#444;margin-bottom:8px;font-weight:700">SCENARIO C · 補助金フル</div>
+<div data-en="¥5.5 Million" style="font-size:32px;font-weight:800;color:var(--text);letter-spacing:-.04em;line-height:1">¥550万</div>
+<div data-en="Professional Installation / ZEH Standard / Full Grant Stack" style="font-size:9px;color:#333;margin-top:4px;margin-bottom:4px">プロ施工 / ZEH水準 / 全補助金フルスタック</div>
+<div data-en="Effective cost ¥300,000–¥1,100,000 after ¥4,400,000 subsidy" style="font-size:12px;color:#88cc88;font-weight:700;margin-bottom:12px">補助金¥440万後 実質 ¥30〜110万</div>
+<div data-en="Vacant Property Acquisition ¥800,000
+Thermal Retrofit (ZEH) ¥1,200,000
+High-Performance Windows &amp; Ventilation ¥800,000
+Complete Systems Integration ¥1,000,000
+Solar 4kW + Battery Storage ¥1,400,000
+Interiors, Exterior, &amp; Other ¥300,000" style="font-size:10.5px;color:#3a3a3a;line-height:2">
+        空き家取得 ¥80万<br/>
+        断熱改修（ZEH）¥120万<br/>
+        高性能窓・換気 ¥80万<br/>
+        設備フル整備 ¥100万<br/>
+        太陽光4kW+蓄電池 ¥140万<br/>
+        内装・外構・他 ¥30万
+      </div>
+</div>
+</div>
+<!-- Subsidy Stack -->
+<div class="ww r" style="background:#050505;border:1px solid #0d0d0d;padding:28px 32px;margin-bottom:2px">
+<div data-en="Subsidy Stack—Maximum ¥4,400,000–¥5,200,000" style="font-size:9px;letter-spacing:.28em;color:var(--gold);font-weight:700;margin-bottom:16px;opacity:.8">補助金スタック — 最大¥440〜520万円</div>
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2px">
+<div style="text-align:center;padding:16px 12px;background:#070707;border:1px solid #111">
+<div data-en="¥1,000,000" style="font-size:17px;font-weight:800;color:#fff;margin-bottom:4px">¥100万</div>
+<div data-en="Hokkaido Relocation Support Fund" style="font-size:8.5px;color:#333;line-height:1.6">北海道<br/>移住支援金<br/><span data-en="Tokyo Metropolitan Area → Teshikaga, Hokkaido" style="color:#555">東京圏→弟子屈</span></div>
+</div>
+<div style="text-align:center;padding:16px 12px;background:#070707;border:1px solid #111">
+<div data-en="¥2,000,000" style="font-size:17px;font-weight:800;color:#fff;margin-bottom:4px">¥200万</div>
+<div data-en="Vacant Property Bank Renovation Subsidy" style="font-size:8.5px;color:#333;line-height:1.6">空き家バンク<br/>改修補助<br/><span data-en="Maximum ¥2,000,000" style="color:#555">上限¥200万</span></div>
+</div>
+<div style="text-align:center;padding:16px 12px;background:#070707;border:1px solid #111">
+<div style="font-size:17px;font-weight:800;color:#fff;margin-bottom:4px">¥60〜100万</div>
+<div data-en="ZEH Subsidy FY2026" style="font-size:8.5px;color:#333;line-height:1.6">ZEH補助金<br/>2026年度<br/><span data-en="April 1 — First Come, First Served" style="color:#555">4/1 先着</span></div>
+</div>
+<div style="text-align:center;padding:16px 12px;background:#070707;border:1px solid #111">
+<div style="font-size:17px;font-weight:800;color:#fff;margin-bottom:4px">¥80万</div>
+<div data-en="Green Renovation + Hokkaido Energy Efficiency" style="font-size:8.5px;color:#333;line-height:1.6">グリーンリノベ<br/>+北海道省エネ<br/><span data-en="Compatible with ZEH" style="color:#555">ZEHと併用可</span></div>
+</div>
+<div style="text-align:center;padding:16px 12px;background:#070707;border:1px solid #111;position:relative">
+<div style="font-size:17px;font-weight:800;color:#fff;margin-bottom:4px">¥20万</div>
+<div data-en="Battery Storage Subsidy (6 kWh or greater)" style="font-size:8.5px;color:#333;line-height:1.6">蓄電池補助<br/>（6kWh以上）<br/><span data-en="Ministry of Economy, Trade and Industry" style="color:#555">経産省</span></div>
+</div>
+</div>
+</div>
+<!-- 7 Construction Methods -->
+<div class="ww r" style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px">
+<div style="background:#060606;border:1px solid #111;overflow:hidden">
+<img alt="廃材建築" data-en-alt="Reclaimed Material Construction" src="img/offgrid_complete.webp" style="width:100%;height:90px;object-fit:cover;filter:brightness(.5)"/>
+<div style="padding:16px 20px">
+<div data-en="01 Reclaimed Material Sourcing" style="font-size:9px;color:#444;letter-spacing:.2em;font-weight:700;margin-bottom:8px">01 廃材調達</div>
+<div data-en="Zero-Cost Building Materials" style="font-size:13px;font-weight:700;color:#888;margin-bottom:6px">ゼロコスト建材</div>
+<div data-en="Over 20 demolition projects annually—Columns, beams, fixtures, floorboards available at ¥0–¥260,000" style="font-size:10px;color:#2a2a2a;line-height:1.8">年20件以上の解体案件<br/>柱・梁・サッシ・床板<br/>¥0〜26万で調達可</div>
+</div>
+</div>
+<div style="background:#060606;border:1px solid #111;overflow:hidden">
+<img alt="アースシェルター" src="img/offgrid_water_system.webp" style="width:100%;height:90px;object-fit:cover;filter:brightness(.5)"/>
+<div style="padding:16px 20px">
+<div data-en="02 Earth Shelter" style="font-size:9px;color:#444;letter-spacing:.2em;font-weight:700;margin-bottom:8px">02 アースシェルター</div>
+<div data-en="Earth maintains ±10°C annually" style="font-size:13px;font-weight:700;color:#888;margin-bottom:6px">土で年間±10℃</div>
+<div data-en="North Side 1,200 mm Earthwork EPDM Waterproofing ¥310k–¥600k" style="font-size:10px;color:#2a2a2a;line-height:1.8">北側1,200mm盛土<br/>EPDM防水<br/>¥31〜60万</div>
+</div>
+</div>
+<div style="background:#060606;border:1px solid #111;overflow:hidden">
+<img alt="土壁・断熱" data-en-alt="Earthen Walls &amp; Insulation" src="img/offgrid_shikkui_interior.webp" style="width:100%;height:90px;object-fit:cover;filter:brightness(.5)"/>
+<div style="padding:16px 20px">
+<div data-en="03 Strawbale Construction" style="font-size:9px;color:#444;letter-spacing:.2em;font-weight:700;margin-bottom:8px">03 ストローベイル</div>
+<div data-en="R-30 Insulation" style="font-size:13px;font-weight:700;color:#888;margin-bottom:6px">R-30断熱</div>
+<div data-en="450mm thick, sourced from local farmers ¥100/unit ¥140K–280K" style="font-size:10px;color:#2a2a2a;line-height:1.8">450mm厚<br/>地元農家から¥100/個<br/>¥14〜28万</div>
+</div>
+</div>
+<div style="background:#060606;border:1px solid rgba(200,164,85,.15);overflow:hidden">
+<img alt="ロケットマスヒーター" data-en-alt="Rocket Mass Heater" src="img/comfort_rocket_stove.webp" style="width:100%;height:90px;object-fit:cover;filter:brightness(.55)"/>
+<div style="padding:16px 20px">
+<div data-en="04 Rocket Heater" style="font-size:9px;color:rgba(200,164,85,.5);letter-spacing:.2em;font-weight:700;margin-bottom:8px">04 ロケットヒーター</div>
+<div data-en="Firewood Consumption 1/10" style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px">薪消費1/10</div>
+<div data-en="10x Efficiency of Standard Wood Stove · ¥350,000–¥1,000,000 · DIY" style="font-size:10px;color:#333;line-height:1.8">普通の薪ストーブの<br/>10倍効率<br/>¥3.5〜10万 DIY</div>
+</div>
+</div>
+<div style="background:#060606;border:1px solid #111;overflow:hidden">
+<img alt="太陽光パネル" data-en-alt="Solar Panels" src="img/offgrid_solar_thermal.webp" style="width:100%;height:90px;object-fit:cover;filter:brightness(.5)"/>
+<div style="padding:16px 20px">
+<div data-en="05 Pre-Owned Solar" style="font-size:9px;color:#444;letter-spacing:.2em;font-weight:700;margin-bottom:8px">05 中古太陽光</div>
+<div data-en="4kW · 70% Self-Sufficiency Rate" style="font-size:13px;font-weight:700;color:#888;margin-bottom:6px">4kW 自給率70%</div>
+<div data-en="Used Panels 16 units with 6kWh Battery Storage ¥350,000–¥630,000" style="font-size:10px;color:#2a2a2a;line-height:1.8">中古パネル16枚<br/>6kWh蓄電池付き<br/>¥35〜63万</div>
+</div>
+</div>
+<div style="background:#060606;border:1px solid #111;overflow:hidden">
+<img alt="パーマカルチャー温室" data-en-alt="Permaculture Greenhouse" src="img/comfort_greenhouse.webp" style="width:100%;height:90px;object-fit:cover;filter:brightness(.5)"/>
+<div style="padding:16px 20px">
+<div data-en="06 Permaculture" style="font-size:9px;color:#444;letter-spacing:.2em;font-weight:700;margin-bottom:8px">06 パーマカルチャー</div>
+<div data-en="90% Food Cost Reduction" style="font-size:13px;font-weight:700;color:#888;margin-bottom:6px">食費90%削減</div>
+<div data-en="Greenhouse 6×12m, DIY underground root vegetable storage ¥550K–1.5M" style="font-size:10px;color:#2a2a2a;line-height:1.8">温室6×12m DIY<br/>地下根菜貯蔵庫<br/>¥5.5〜15万</div>
+</div>
+</div>
+<div style="background:#060606;border:1px solid #111;overflow:hidden">
+<img alt="空き家・廃材物件" data-en-alt="Vacant Properties &amp; Reclaimed Materials" src="img/real_cabin.webp" style="width:100%;height:90px;object-fit:cover;filter:brightness(.5)"/>
+<div style="padding:16px 20px">
+<div data-en="07 Vacant Property Bank" style="font-size:9px;color:#444;letter-spacing:.2em;font-weight:700;margin-bottom:8px">07 空き家バンク</div>
+<div data-en="97 Properties Listed" style="font-size:13px;font-weight:700;color:#888;margin-bottom:6px">97件登録中</div>
+<div data-en="45+ Year Structures: ¥200k–¥800k | Free to ¥300k Material Removal | 2/3 Subsidy Coverage" style="font-size:10px;color:#2a2a2a;line-height:1.8">築45年超¥20〜80万<br/>廃材引き取り無料〜¥30万<br/>補助金2/3カバー</div>
+</div>
+</div>
+<div style="padding:20px;background:#070707;border:1px solid rgba(200,164,85,.1);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+<div data-en="Detailed Construction Methods, Design Drawings &amp; Subsidy Application Procedures" style="font-size:11px;color:#444;margin-bottom:10px;line-height:1.8">詳細な工法・設計図・<br/>補助金申請手順</div>
+<a data-en="View Complete Construction Guide →" href="https://teshikaga-build.fly.dev/" onmouseout="this.style.background='transparent'" onmouseover="this.style.background='rgba(200,164,85,.08)'" rel="noopener" style="font-size:9px;letter-spacing:.15em;color:var(--gold);border:1px solid rgba(200,164,85,.3);padding:8px 16px;border-radius:100px;transition:all .2s" target="_blank">建築完全ガイドを見る →</a>
+</div>
+</div>
+</section>
+<div class="divider"></div>
+<!-- ━━━ ACTION ITEMS ━━━ -->
+<section class="s">
+<div class="w">
+<div class="label r">Immediate Actions</div>
+<div class="h2 r" data-en="This Week's Tasks">今週やること</div>
+<p class="lead r" data-en="Must place order immediately to meet summer timeline.">発注まで動かないと夏に間に合わない。</p>
+</div>
+<div class="ww">
+<div class="action-grid r">
+<div class="action-card">
+<div class="action-num">01</div>
+<div class="action-dead" data-en="Deadline: April 15th (Tomorrow)">期限: 4月15日（明日）</div>
+<div class="action-title" data-en="Contact Teshikaga Town Construction Department">弟子屈町建設課に電話</div>
+<div class="action-body" data-en="Verify building permit requirements and urban planning zone for Birawa Grand. Confirm if EPS Dome 6m diameter (28m²) is eligible.">美留和グランドの建築確認要否・都市計画区域を確認。EPSドーム6m径（28m²）が対象かどうか。</div>
+<a class="action-link" href="tel:015-482-2913">☎ 015-482-2913</a>
+</div>
+<div class="action-card">
+<div class="action-num">02</div>
+<div class="action-dead" data-en="Deadline: April 17">期限: 4月17日</div>
+<div class="action-title" data-en="Request Quote from Dome House Japan">ドームハウスジャパンへ<br/>見積もり依頼</div>
+<div class="action-body" data-en="Formal quotation for one 6m-diameter EPS dome unit. Request referral of partnered architect. Order by May 1st for mid-June delivery.">6m径EPSドーム 1棟の正式見積もり。提携建築士の紹介も依頼。5/1発注で6月中旬納品。</div>
+<a class="action-link" href="https://domehouse.jp/contact/" target="_blank">domehouse.jp/contact →</a>
+</div>
+<div class="action-card">
+<div class="action-num">03</div>
+<div class="action-dead" data-en="Deadline: April 18">期限: 4月18日</div>
+<div class="action-title" data-en="Find an Architect">建築士を探す</div>
+<div class="action-body" data-en="Requires architect experienced in dome construction in Hokkaido. Arrange through DomeHouse JP partnership or Hokkaido Architects Association.">北海道でドーム建築経験のある建築士が必要。ドームハウスJP提携 or 北海道建築士会経由。</div>
+<a class="action-link" data-en="☎ 011-281-0310 (Hokkaido Architects Association)" href="tel:011-281-0310">☎ 011-281-0310（北海道建築士会）</a>
+</div>
+<div class="action-card">
+<div class="action-num">04</div>
+<div class="action-dead" data-en="Deadline: April 20th">期限: 4月20日</div>
+<div class="action-title" data-en="Rocket Mass Heater Order">ロケットマスヒーター<br/>発注</div>
+<div class="action-body" data-en="Manufacturing 12–16 weeks. Order by April 20 for delivery late July–early August. ¥250,000–¥350,000 per unit. Custom made-to-order product.">製造12〜16週。4/20発注で7月末〜8月頭に納品。¥25〜35万/基。カスタム受注製作品。</div>
+<a class="action-link" href="https://www.ecodesign.co.jp/" target="_blank">ecodesign.co.jp →</a>
+</div>
+<div class="action-card">
+<div class="action-num">05</div>
+<div class="action-dead" data-en="Deadline: May 1">期限: 5月1日</div>
+<div class="action-title" data-en="EPS Dome Order Placed">EPSドーム 発注</div>
+<div class="action-body" data-en="Order immediately upon building permit approval. 50% deposit (¥500,000). 6–8 weeks manufacturing → delivery to Birawa Grand in mid-June.">建築確認承認後に即発注。手付50%（¥50万）。6〜8週製造→6月中旬に美留和グランドへ搬入。</div>
+<a class="action-link" href="https://domehouse.jp/" target="_blank">domehouse.jp →</a>
+</div>
+<div class="action-card" style="background:rgba(200,164,85,.04);border-color:rgba(200,164,85,.15)">
+<div class="action-num" style="color:var(--gold)">★</div>
+<div class="action-dead" data-en="Deadline: September 4" style="color:var(--gold)">締切: 9月4日</div>
+<div class="action-title" data-en="SOLUNAR Completion Reveal">SOLUNAR 完成披露</div>
+<div class="action-body" data-en="First property unveiled to NFT owners and invited guests on SOLAR event day. Complete schedule consolidated here.">1棟目をSOLUNAR当日にNFTオーナー・招待ゲストへ初公開。全スケジュールがここに集約。</div>
+<a class="action-link" data-en="View Calendar →" href="calendar">カレンダーを確認 →</a>
+</div>
+</div>
+</div>
+</section>
+<!-- ━━━ SOLUNAR CTA ━━━ -->
+<div class="solunar-cta r">
+<div class="solunar-date" data-en="September 4–6, 2026">September 4〜6, 2026</div>
+<div class="solunar-title" data-en="SOLUNAR Showcases Completion">SOLUNAR で<br/>完成を見せる。</div>
+<p class="solunar-sub" data-en="NFT Owner Invitation. Spend the first night at Biruwa Grand upon completion of the first residence.">NFTオーナー招待。1棟目が完成した美留和グランドで、最初の夜を過ごす。</p>
+<a class="btn" data-en="Become an Owner ¥5.3M" href="miruwa-grand">オーナーになる ¥530万</a>
+<a class="btn-ghost" data-en="View Story Presentation" href="story">紙芝居を見る</a>
+</div>
+<script>
+// Intersection observer for reveal
+var obs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}
+  });
+},{threshold:.12});
+document.querySelectorAll('.r').forEach(function(el){obs.observe(el)});
+
+// Budget bars animate on reveal
+var barObs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.budget-bar-fill').forEach(function(bar){
+        var w = bar.getAttribute('data-w');
+        setTimeout(function(){bar.style.width = w + '%'},100);
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('.budget-table').forEach(function(el){barObs.observe(el)});
+</script>
+<script defer="" src="/track.js"></script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Unit, 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Biruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Biruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Birawa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Units Complimentary" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Purchase Cryptocurrency" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plan Collection" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Birawa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founder's Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+<script src="/js/gate.js"></script>
+</body>
+</html>

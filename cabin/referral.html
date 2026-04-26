@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/referral" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA — Owner Referral Program">SOLUNA — オーナー紹介プログラム</title>
+<meta content="SOLUNAオーナーが友人を紹介すると、双方に特典が付与されます。追加利用泊数・現金報酬・GOLDメンバーアップグレードなど。" data-en-content="When a SOLUNA Owner refers a friend, both receive benefits including additional stay nights, cash rewards, and GOLD Member upgrades." name="description"/>
+<meta content="SOLUNA — オーナー紹介プログラム" property="og:title"/>
+<meta content="友人をオーナーに。あなたにも特典を。紹介1件ごとに追加3泊＋成約金額の1%現金報酬。" property="og:description"/>
+<meta content="website" property="og:type"/>
+<meta content="noindex" name="robots"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.5);
+  --gold-soft:rgba(200,164,85,.08);
+  --green:#9bc46d;
+  --green-soft:rgba(155,196,109,.08);
+  --bg:#050505;
+  --bg-soft:#080808;
+  --line:#131313;
+  --line-soft:#0e0e0e;
+  --text:#f0ece4;
+  --text-dim:#777;
+  --text-soft:#444;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-feature-settings:'palt'}
+::selection{background:var(--gold);color:#000}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+
+.w{max-width:560px;margin:0 auto;padding:0 20px}
+.gold{color:var(--gold)}
+.green{color:var(--green)}
+
+/* Top nav */
+.tn{position:fixed;top:0;left:0;right:0;z-index:50;padding:14px 20px;background:rgba(5,5,5,.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
+.tn-inner{max-width:560px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.tn-logo{font-size:13px;font-weight:800;letter-spacing:.15em;color:var(--gold)}
+.tn-tag{font-size:9.5px;color:var(--text-soft);letter-spacing:.14em;text-transform:uppercase;margin-left:10px;font-weight:600}
+.tn-left{display:flex;align-items:baseline;gap:0}
+.tn-back{font-size:10.5px;color:var(--text-dim);display:flex;align-items:center;gap:4px;transition:color .2s}
+.tn-back:hover{color:var(--gold)}
+.tn-back::before{content:'←';font-size:11px}
+
+/* Sections */
+.s{padding:80px 0}
+@media(max-width:520px){.s{padding:60px 0}}
+.label{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-soft);margin-bottom:10px;font-weight:700}
+h2{font-size:clamp(1.4rem,3.8vw,2rem);font-weight:800;letter-spacing:-.025em;margin-bottom:14px;line-height:1.25}
+h3{font-size:13.5px;font-weight:700;line-height:1.4}
+p.sub{color:#666;font-size:13px;line-height:1.95;margin-bottom:24px}
+
+/* Reveal on scroll */
+.r{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.r.in{opacity:1;transform:translateY(0)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+
+/* Hero */
+.hero{padding:140px 20px 80px;text-align:center;background:radial-gradient(ellipse at top,rgba(200,164,85,.055),transparent 65%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:120px;background:linear-gradient(180deg,transparent,rgba(200,164,85,.3),transparent)}
+.hero .eyebrow{font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:20px;animation:fadeUp .7s .1s both}
+.hero h1{font-size:clamp(2rem,5.5vw,2.8rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:18px;animation:fadeUp .8s .2s both}
+.hero h1 .gold{font-weight:700}
+.hero .sub{color:rgba(240,236,228,.6);font-size:13.5px;line-height:1.9;margin-bottom:32px;font-weight:300;max-width:440px;margin-left:auto;margin-right:auto;animation:fadeUp .9s .35s both}
+.hero .cta-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;animation:fadeUp 1s .5s both}
+
+.cta-btn{display:inline-block;background:var(--gold);color:#050505;font-weight:700;font-size:13px;padding:16px 36px;border-radius:100px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 24px rgba(200,164,85,.18);letter-spacing:.03em}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(200,164,85,.28);color:#050505}
+.cta-ghost{display:inline-block;border:1px solid #262626;color:#888;font-weight:600;font-size:12px;padding:15px 28px;border-radius:100px;transition:all .2s;letter-spacing:.02em}
+.cta-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Tracking card */
+.track-card{background:#080808;border:1px solid #1c1c1c;border-radius:14px;padding:22px 24px;margin:0 20px;max-width:520px;margin-left:auto;margin-right:auto;animation:fadeUp 1.1s .65s both}
+.track-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#333;margin-bottom:14px;font-weight:700}
+.track-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#161616;border-radius:8px;overflow:hidden}
+.track-cell{background:#0a0a0a;padding:14px 12px;text-align:center}
+.track-cell .tv{font-size:17px;font-weight:800;color:var(--gold);font-feature-settings:'tnum';line-height:1}
+.track-cell .tk{font-size:9px;color:#444;margin-top:5px;line-height:1.4;letter-spacing:.04em}
+
+/* Benefits */
+.benefits-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+@media(max-width:500px){.benefits-grid{grid-template-columns:1fr}}
+.benefit-card{border:1px solid #171717;border-radius:14px;padding:22px 20px;background:var(--bg-soft);transition:border-color .3s}
+.benefit-card:hover{border-color:#252525}
+.benefit-card.referrer{border-color:rgba(200,164,85,.14);background:linear-gradient(160deg,rgba(200,164,85,.04),var(--bg-soft))}
+.benefit-card.referee{border-color:rgba(155,196,109,.12);background:linear-gradient(160deg,rgba(155,196,109,.03),var(--bg-soft))}
+.benefit-card .bc-head{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:7px}
+.benefit-card.referrer .bc-head{color:var(--gold)}
+.benefit-card.referee .bc-head{color:var(--green)}
+.bc-head .badge{font-size:8.5px;padding:3px 9px;border-radius:100px;font-weight:700;letter-spacing:.06em}
+.referrer .bc-head .badge{background:var(--gold-soft);border:1px solid var(--gold-dim);color:var(--gold)}
+.referee .bc-head .badge{background:var(--green-soft);border:1px solid rgba(155,196,109,.35);color:var(--green)}
+.benefit-list{display:flex;flex-direction:column;gap:0}
+.bl-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #0f0f0f;font-size:12px;line-height:1.65}
+.bl-item:last-child{border-bottom:none;padding-bottom:0}
+.bl-icon{flex-shrink:0;font-size:16px;margin-top:1px}
+.bl-body .bl-title{color:#ccc;font-weight:600;display:block;margin-bottom:2px;font-size:12px}
+.bl-body .bl-desc{color:#555;font-size:11px;line-height:1.6}
+
+/* How it works */
+.how-steps{margin-top:24px;display:flex;flex-direction:column;gap:0}
+.how-step{display:grid;grid-template-columns:40px 1fr;gap:16px;padding:22px 0;border-bottom:1px solid var(--line);align-items:start}
+.how-step:last-child{border-bottom:none}
+.how-num{width:36px;height:36px;border-radius:50%;background:var(--gold-soft);border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--gold);flex-shrink:0}
+.how-body strong{display:block;font-size:13.5px;font-weight:700;margin-bottom:5px;color:var(--text)}
+.how-body span{font-size:12px;color:#555;line-height:1.75}
+.how-body .how-detail{font-size:11px;color:#3a3a3a;margin-top:7px;padding:10px 12px;background:#080808;border:1px solid #161616;border-radius:8px;line-height:1.7}
+
+/* Referral box */
+.referral-section{padding:0 0 80px}
+.ref-box{background:#080808;border:1px solid #1e1e1e;border-radius:16px;padding:28px 24px;position:relative;overflow:hidden}
+.ref-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.5}
+.ref-box-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-soft);font-weight:700;margin-bottom:6px}
+.ref-box-sub{font-size:12px;color:#444;margin-bottom:20px;line-height:1.6}
+.ref-url-row{display:flex;gap:8px;margin-bottom:16px}
+.ref-url-row input{flex:1;padding:13px 14px;background:#0c0c0c;border:1px solid #222;border-radius:10px;color:#888;font-size:11.5px;font-family:inherit;outline:none;min-width:0;letter-spacing:.01em}
+.ref-url-row input:focus{border-color:rgba(200,164,85,.3)}
+.ref-copy-btn{flex-shrink:0;padding:13px 18px;background:var(--gold);color:#050505;font-weight:700;font-size:12px;border:none;border-radius:10px;cursor:pointer;font-family:inherit;letter-spacing:.04em;transition:opacity .2s,background .2s;white-space:nowrap}
+.ref-copy-btn:hover{opacity:.88}
+.ref-copy-btn.copied{background:#9bc46d;color:#050505}
+.share-row{display:flex;gap:8px;flex-wrap:wrap}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:100px;font-size:11.5px;font-weight:600;cursor:pointer;transition:all .2s;border:none;font-family:inherit;letter-spacing:.02em;text-decoration:none}
+.share-btn.line{background:#00B900;color:#fff}
+.share-btn.line:hover{background:#00a000}
+.share-btn.email{background:#1a1a1a;color:#aaa;border:1px solid #262626}
+.share-btn.email:hover{border-color:rgba(200,164,85,.35);color:var(--gold)}
+.share-btn.native{background:#131313;color:#777;border:1px solid #202020}
+.share-btn.native:hover{border-color:#2e2e2e;color:#aaa}
+.no-code-note{margin-top:18px;padding:14px 16px;background:#0a0a0a;border:1px solid #181818;border-radius:10px;font-size:11.5px;color:#555;line-height:1.7}
+.no-code-note a{color:var(--gold);font-size:11px}
+
+/* Toast */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a1a;border:1px solid #2a2a2a;color:var(--text);font-size:12px;padding:12px 22px;border-radius:100px;transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .35s;opacity:0;z-index:200;white-space:nowrap;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast .chk{color:var(--green);margin-right:6px}
+
+/* Testimonial */
+.testimonial{margin-top:18px;background:#080808;border:1px solid #171717;border-radius:14px;padding:24px 22px;position:relative}
+.testimonial::before{content:'「';font-size:48px;color:rgba(200,164,85,.12);position:absolute;top:10px;left:16px;line-height:1;font-weight:800}
+.testimonial blockquote{font-size:13.5px;color:#bbb;line-height:2;font-weight:300;position:relative;z-index:1;padding-left:8px}
+.testimonial .tq-attr{margin-top:14px;font-size:11px;color:#444;display:flex;align-items:center;gap:10px;padding-top:12px;border-top:1px solid #111}
+.tq-attr .tq-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;opacity:.5}
+
+/* FAQ */
+.faq{margin-top:18px}
+.faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.faq details:first-child{border-top:1px solid var(--line)}
+.faq summary{font-size:13px;font-weight:600;color:#bbb;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';color:var(--gold);font-size:18px;font-weight:300;transition:transform .3s;flex-shrink:0}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{font-size:12.5px;color:#666;line-height:2;margin-top:12px;padding-left:2px}
+
+/* Footer CTA */
+.footer-cta{padding:70px 20px 80px;text-align:center;background:radial-gradient(ellipse at center,rgba(200,164,85,.05),transparent 55%)}
+.footer-cta .label{margin-bottom:14px}
+.footer-cta h2{font-size:clamp(1.3rem,3.5vw,1.7rem);margin-bottom:10px}
+.footer-cta p{color:#555;font-size:12.5px;max-width:360px;margin:0 auto 24px;line-height:1.9}
+
+/* Divider */
+.div-line{border:none;border-top:1px solid #0e0e0e;margin:0}
+
+/* Footer */
+footer{padding:48px 20px 32px;max-width:560px;margin:0 auto}
+footer .f-copy{font-size:9px;color:#1e1e1e;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+footer .f-links{display:flex;justify-content:center;gap:18px;margin-bottom:12px;flex-wrap:wrap}
+footer .f-links a{font-size:10.5px;color:#333;transition:color .2s}
+footer .f-links a:hover{color:var(--gold)}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<!-- TOP NAV -->
+<nav class="tn">
+<div class="tn-inner">
+<div class="tn-left">
+<div class="tn-logo">SOLUNA</div>
+<span class="tn-tag" data-en="Owner Referral Program">オーナー紹介プログラム</span>
+</div>
+<a class="tn-back" data-en="Home" href="index">ホームへ</a>
+</div>
+</nav>
+<!-- HERO -->
+<section class="hero">
+<div class="w">
+<p class="eyebrow">SOLUNA REFERRAL PROGRAM</p>
+<h1 data-en="Invite Friends to Become Owners.">友人をオーナーに。<br/><span class="gold" data-en="Benefits for You Too.">あなたにも特典を。</span></h1>
+<p class="sub" data-en="When someone referred by a SOLUNA Owner becomes a Co-Owner, rewards are granted to both the referrer and the referred party.">SOLUNAオーナーが紹介した方が共同オーナーになると、紹介者・被紹介者の双方に特典が付与されます。</p>
+<div class="cta-row">
+<a class="cta-btn" data-en="Generate Referral Link" href="#ref-link">紹介リンクを発行する</a>
+<a class="cta-ghost" data-en="View Referral Benefits" href="#benefits">紹介特典を確認する</a>
+</div>
+</div>
+</section>
+<!-- TRACKING CARD -->
+<div class="w" style="margin-bottom:60px">
+<div class="track-card">
+<p class="track-label" data-en="Your Referral Performance">あなたの紹介実績</p>
+<div class="track-row" id="track-row">
+<div class="track-cell">
+<div class="tv" id="t-refs">0</div>
+<div class="tk" data-en="Number of Referrals">紹介数</div>
+</div>
+<div class="track-cell">
+<div class="tv" id="t-closed">0</div>
+<div class="tk" data-en="Completed">成約</div>
+</div>
+<div class="track-cell">
+<div class="tv" id="t-bonus">—</div>
+<div class="tk" data-en="Rewards Earned">獲得特典</div>
+</div>
+</div>
+</div>
+</div>
+<hr class="div-line"/>
+<!-- BENEFITS -->
+<section class="s" id="benefits">
+<div class="w">
+<div class="r">
+<p class="label" data-en="Referral Rewards">紹介特典</p>
+<h2 data-en="Benefits for Both,">双方に届く、<span class="gold" data-en="Premium Rewards">プレミアム特典</span></h2>
+<p class="sub" data-en="Rewards are automatically granted to both referrer and referred party once the agreement is confirmed.">成約が確定した時点で、紹介者・被紹介者の双方に自動的に特典が付与されます。</p>
+</div>
+<div class="benefits-grid r">
+<!-- 紹介者 -->
+<div class="benefit-card referrer">
+<div class="bc-head">
+<span data-en="Referrer">紹介者</span>
+<span class="badge" data-en="Your Rewards">あなたの特典</span>
+</div>
+<div class="benefit-list">
+<div class="bl-item">
+<span class="bl-icon">🏡</span>
+<div class="bl-body">
+<span class="bl-title" data-en="Additional Nights +3 nights/year">追加利用泊数 +3泊/年</span>
+<span class="bl-desc" data-en="Awarded per agreement. Added to your accommodation allocation from the following year onward.">成約1件ごとに付与。翌年度からの宿泊枠に加算されます。</span>
+</div>
+</div>
+<div class="bl-item">
+<span class="bl-icon">💰</span>
+<div class="bl-body">
+<span class="bl-title" data-en="Cash Reward: 1% of Transaction Amount">現金報酬 成約金額の1%</span>
+<span class="bl-desc" data-en="Example: ¥10,000,000 purchase → ¥100,000 reward. Transfer within 30 days of registration completion.">例: 1,000万円成約 → 10万円。登記完了後30日以内に振込。</span>
+</div>
+</div>
+<div class="bl-item">
+<span class="bl-icon">⭐</span>
+<div class="bl-body">
+<span class="bl-title" data-en="Upgrade to GOLD Member">GOLDメンバーへのアップグレード</span>
+<span class="bl-desc" data-en="Attain GOLD status with 3 or more successful referrals. Includes priority reservation privileges for all properties.">成約3件以上でGOLDステータス取得。全物件の優先予約権付き。</span>
+</div>
+</div>
+<div class="bl-item">
+<span class="bl-icon">🌺</span>
+<div class="bl-body">
+<span class="bl-title" data-en="Hawaii Properties Priority Booking Rights">ハワイ物件 優先予約権</span>
+<span class="bl-desc" data-en="GOLD and above members only. Secure peak season availability in advance.">GOLD以上のメンバー限定。ピークシーズンの枠を先行確保。</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 被紹介者 -->
+<div class="benefit-card referee">
+<div class="bc-head">
+<span data-en="Referred Party">紹介された方</span>
+<span class="badge" data-en="Your Friend's Benefits">ご友人の特典</span>
+</div>
+<div class="benefit-list">
+<div class="bl-item">
+<span class="bl-icon">💳</span>
+<div class="bl-body">
+<span class="bl-title" data-en="Deposit ¥100,000 → ¥50,000">手付金 ¥100,000 → ¥50,000</span>
+<span class="bl-desc" data-en="Applies only when referred. Automatically discounted to 50% at time of application.">紹介経由の場合のみ適用。申込時に自動で半額になります。</span>
+</div>
+</div>
+<div class="bl-item">
+<span class="bl-icon">📅</span>
+<div class="bl-body">
+<span class="bl-title" data-en="Same-Day Priority Viewing and Pre-Purchase Confirmation Setup">優先内覧・購入前確認の即日設定</span>
+<span class="bl-desc" data-en="Those flagged as referrals will receive priority scheduling.">紹介フラグが付いた方から優先的に日程をご案内します。</span>
+</div>
+</div>
+<div class="bl-item">
+<span class="bl-icon">📄</span>
+<div class="bl-body">
+<span class="bl-title" data-en="Early Access to Detailed Materials (Confidential Version)">詳細資料（非公開版）の先行送付</span>
+<span class="bl-desc" data-en="We provide advance access to the confidential version including revenue data and operational details.">収益データや運営詳細を含む非公開版を事前にお届けします。</span>
+</div>
+</div>
+<div class="bl-item">
+<span class="bl-icon">🎁</span>
+<div class="bl-body">
+<span class="bl-title" data-en="First-Year Management Fees Complimentary">初年度管理費 無料</span>
+<span class="bl-desc" data-en="Full exemption of annual management fees (normally ¥60,000/year) for the first year after move-in.">入居後1年間の管理費（通常¥60,000/年）を全額免除します。</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<hr class="div-line"/>
+<!-- HOW IT WORKS -->
+<section class="s">
+<div class="w">
+<div class="r">
+<p class="label" data-en="How to Use">ご利用の流れ</p>
+<h2 data-en="In 3 Steps">3ステップで<span class="gold" data-en="Complete">完結</span></h2>
+</div>
+<div class="how-steps r">
+<div class="how-step">
+<div class="how-num">①</div>
+<div class="how-body">
+<strong data-en="Generate Your Exclusive Link">あなたの専用リンクを発行</strong>
+<span data-en="Instantly generated with a single click. Your URL includes a unique identification code.">ボタンをクリックするだけで即時発行。URLはあなた専用の識別コードを含みます。</span>
+<div class="how-detail" data-en="The issued URL contains your referrer ID and automatically links when the referred party applies.">発行されたURLには紹介者IDが含まれており、被紹介者が申込むと自動で紐付けられます。</div>
+</div>
+</div>
+<div class="how-step">
+<div class="how-num">②</div>
+<div class="how-body">
+<strong data-en="Send to Friends">友人に送る</strong>
+<span data-en="Share via LINE, email, SNS, or any method you prefer. Simply copy and paste.">LINE・メール・SNSなど、どの方法でも構いません。コピーしてそのままペーストするだけです。</span>
+</div>
+</div>
+<div class="how-step">
+<div class="how-num">③</div>
+<div class="how-body">
+<strong data-en="Rewards Granted Upon Agreement">成約で特典が付与</strong>
+<span data-en="Confirmed once your friend executes the co-ownership agreement. Cash transfer or night allocation occurs within 30 days of registration completion.">友人が共同オーナー契約を結んだ時点で確定。登記完了後30日以内に現金振込または泊数付与が行われます。</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<hr class="div-line"/>
+<!-- REFERRAL LINK UI -->
+<section class="referral-section s" id="ref-link">
+<div class="w">
+<div class="r">
+<p class="label" data-en="Referral Link">紹介リンク</p>
+<h2 data-en="Your Exclusive URL">専用URLを<span class="gold" data-en="Issue Now">今すぐ発行</span></h2>
+<p class="sub" data-en="Copy your exclusive referral URL and share it with friends.">あなた専用の紹介URLをコピーして、友人にシェアしましょう。</p>
+</div>
+<div class="ref-box r" id="ref-box">
+<p class="ref-box-label" data-en="Your Exclusive Referral URL">あなたの専用紹介URL</p>
+<p class="ref-box-sub" data-en="Verifying Owner Code..." id="ref-box-sub">オーナーコードを確認中...</p>
+<div class="ref-url-row" id="ref-url-row" style="display:none">
+<input id="ref-url" readonly="" type="text"/>
+<button class="ref-copy-btn" data-en="Copy" id="copy-btn" onclick="copyRef()">コピー</button>
+</div>
+<div class="share-row" id="share-row" style="display:none">
+<a class="share-btn line" data-en="Share via LINE" href="#" id="line-btn" onclick="trackShare('line')">
+<svg fill="none" height="14" viewbox="0 0 40 40" width="14"><path d="M20 4C11.16 4 4 10.26 4 17.98c0 6.96 5.96 12.78 14.02 13.82l.98.21v4.97l4.28-3.48c.23.03.46.06.72.07C32.84 33.57 36 26.37 36 17.98 36 10.26 28.84 4 20 4z" fill="#fff"></path></svg>
+          LINEで送る
+        </a>
+<a class="share-btn email" data-en="Send by Email" href="#" id="email-btn" onclick="trackShare('email')">メールで送る</a>
+<button class="share-btn native" data-en="Other" onclick="shareNative()">その他</button>
+</div>
+<div class="no-code-note" data-en="* Owners can receive the code via email." id="no-code-note" style="display:none">
+        ※ オーナーの方はメールでコードを受け取れます。<br/>
+<a data-en="Contact info@enablerdao.com →" href="mailto:info@enablerdao.com?subject=紹介コードの発行をお願いします&amp;body=SOLUNAオーナーの紹介コードをお送りください。お名前：%0D%0A物件名：">info@enablerdao.com へ連絡する →</a>
+</div>
+</div>
+</div>
+</section>
+<hr class="div-line"/>
+<!-- TESTIMONIAL -->
+<section class="s">
+<div class="w">
+<div class="r">
+<p class="label" data-en="Owner Testimonials">オーナーの声</p>
+<div class="testimonial">
+<blockquote data-en="My friend decided immediately after I mentioned it. I also benefited from the reduced deposit, and I plan to use the three complimentary nights at Hawaii next year. SOLUNA is so easy to explain that I naturally recommend it to friends.">友人に話したら即決でした。自分も手付金が半額になって助かりましたし、紹介特典の3泊は来年のハワイで使うつもりです。SOLUNAは説明しやすいのでつい友人に勧めてしまう。</blockquote>
+<div class="tq-attr">
+<span class="tq-dot"></span>
+<span>K.T.  /  東京都港区  /  WHITE HOUSE 熱海オーナー</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<hr class="div-line"/>
+<!-- FAQ -->
+<section class="s">
+<div class="w">
+<div class="r">
+<p class="label" data-en="FAQ">よくある質問</p>
+<h2>FAQ</h2>
+</div>
+<div class="faq r">
+<details>
+<summary data-en="How many people can I refer?">紹介は何人まで可能ですか？</summary>
+<p data-en="There is no limit to the number of referrals. Rewards accumulate each time a referred party completes a purchase. Upgrade to GOLD membership status with 3 or more successful referrals and receive additional privileges.">紹介数に上限はありません。紹介された方が成約するたびに特典が積み上がります。3件以上の成約でGOLDメンバーへアップグレードされ、さらなる優遇が受けられます。</p>
+</details>
+<details>
+<summary data-en="How do I receive my cash reward?">現金報酬の受取方法を教えてください。</summary>
+<p data-en="Payment will be transferred to your pre-registered bank account within 30 days of registration completion. The reward is 1% of the agreement amount, with transfer fees covered by SOLUNA.">登記完了後30日以内に、事前にご登録いただいた銀行口座へ振込みます。成約金額の1%が対象で、振込手数料はSOLUNA側で負担します。</p>
+</details>
+<details>
+<summary data-en="Are referrals to family members eligible for rewards?">家族への紹介は特典の対象になりますか？</summary>
+<p data-en="Yes, you may refer. However, referrals to household members (those sharing the same residence registration) are not eligible. You may refer family members and relatives living separately.">対象となります。ただし、同居家族（住民票が同一世帯の方）への紹介は対象外です。別居の家族・親族はご紹介いただけます。</p>
+</details>
+</div>
+</div>
+</section>
+<!-- FOOTER CTA -->
+<div class="footer-cta">
+<div class="w">
+<p class="label" data-en="For Those Not Yet an Owner">まだオーナーでない方へ</p>
+<h2 data-en="First,">まずは<span class="gold" data-en="From Experience">体験から</span></h2>
+<p data-en="Experience SOLUNA's spaces firsthand before deciding to become an owner. Experience tours are complimentary.">SOLUNAの空間を実際に感じてから、オーナーかどうかをご検討ください。体験内覧は無料です。</p>
+<a class="cta-btn" data-en="View Tour Schedule" href="calendar">内覧日程を見る</a>
+</div>
+</div>
+<!-- FOOTER -->
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Birawa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Birawa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Mirukawa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase · Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Units for Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans Collection" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fees" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><!-- TOAST -->
+<div class="toast" id="toast"><span class="chk">✓</span> <span data-en="Copied" id="toast-msg">コピーしました</span></div>
+<script>
+// ─── State from URL params ───────────────────────────────────────
+const params = new URLSearchParams(location.search);
+const ownerCode = params.get('owner') || localStorage.getItem('soluna_owner_code') || '';
+const refs    = parseInt(params.get('refs')  || '0', 10);
+const closed  = parseInt(params.get('closed')|| '0', 10);
+const nights  = parseInt(params.get('nights')|| '0', 10);
+const cash    = parseInt(params.get('cash')  || '0', 10);
+
+// Populate tracking card
+document.getElementById('t-refs').textContent   = refs + '件';
+document.getElementById('t-closed').textContent = closed + '件';
+const bonusParts = [];
+if (nights > 0) bonusParts.push(nights + '泊');
+if (cash > 0)   bonusParts.push('¥' + cash.toLocaleString());
+document.getElementById('t-bonus').textContent = bonusParts.length ? bonusParts.join(' + ') : '—';
+
+// ─── Referral link setup ─────────────────────────────────────────
+const base = 'https://solun.art/';
+const refUrlEl   = document.getElementById('ref-url');
+const refUrlRow  = document.getElementById('ref-url-row');
+const shareRow   = document.getElementById('share-row');
+const noCodeNote = document.getElementById('no-code-note');
+const refBoxSub  = document.getElementById('ref-box-sub');
+
+function buildRefUrl(code) {
+  return base + '?ref=' + encodeURIComponent(code);
+}
+
+function initReferralUI(code) {
+  const url = buildRefUrl(code);
+  refUrlEl.value = url;
+  refUrlRow.style.display  = 'flex';
+  shareRow.style.display   = 'flex';
+  noCodeNote.style.display = 'none';
+  refBoxSub.textContent = 'あなた専用の紹介URLです。コピーして友人に送ってください。';
+
+  // LINE share
+  const lineText = encodeURIComponent('SOLUNAの共同オーナーになりませんか？\n北海道・熱海・ハワイで稼働中のリゾートを、1,000万円から正式に登記所有。紹介経由で手付金が半額になる特典つきです。\n\n' + url);
+  document.getElementById('line-btn').href = 'https://line.me/R/msg/text/?' + lineText;
+
+  // Email share
+  const subject = encodeURIComponent('SOLUNAオーナーになりませんか（手付金半額特典あり）');
+  const body = encodeURIComponent(
+    'こんにちは、\n\nSOLUNA という共同オーナー型リゾートをご紹介したくて連絡しました。\n' +
+    '北海道弟子屈・熱海・ハワイで稼働中で、1,000万円から正式に登記所有できます。\n\n' +
+    '私の紹介リンクからお申込みいただくと、手付金が¥100,000 → ¥50,000（半額）になる特典があります。\n\n' +
+    '詳細はこちら: ' + url + '\n\n' +
+    'ご興味があればぜひ話を聞いてみてください。'
+  );
+  document.getElementById('email-btn').href = 'mailto:?subject=' + subject + '&body=' + body;
+}
+
+if (ownerCode) {
+  localStorage.setItem('soluna_owner_code', ownerCode);
+  initReferralUI(ownerCode);
+} else {
+  refBoxSub.textContent = '';
+  refUrlRow.style.display  = 'none';
+  shareRow.style.display   = 'none';
+  noCodeNote.style.display = 'block';
+}
+
+// ─── Copy ────────────────────────────────────────────────────────
+function copyRef() {
+  const url = refUrlEl.value;
+  if (!url) return;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'コピー済 ✓';
+    btn.classList.add('copied');
+    showToast('コピーしました');
+    gtag('event', 'referral_link_copy', {ref_code: ownerCode});
+    setTimeout(() => { btn.textContent = 'コピー'; btn.classList.remove('copied'); }, 2500);
+  }).catch(() => {
+    refUrlEl.select();
+    document.execCommand('copy');
+    showToast('コピーしました');
+  });
+}
+
+function trackShare(method) {
+  gtag('event', 'referral_share', {method: method, ref_code: ownerCode});
+}
+
+// ─── Native share ────────────────────────────────────────────────
+function shareNative() {
+  const url = refUrlEl.value || base;
+  if (navigator.share) {
+    navigator.share({
+      title: 'SOLUNAオーナーになりませんか',
+      text: '手付金半額の紹介特典つきです。',
+      url: url
+    }).then(() => {
+      gtag('event', 'referral_share', {method: 'native', ref_code: ownerCode});
+    }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(url).then(() => showToast('URLをコピーしました'));
+  }
+}
+
+// ─── Toast ───────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ─── Scroll reveal ───────────────────────────────────────────────
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold: 0.07});
+document.querySelectorAll('.r').forEach(el => io.observe(el));
+</script>
+<script defer="" src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

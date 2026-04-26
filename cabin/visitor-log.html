@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLUNA — 訪問者ログ</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23c8a455'/></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--bg:#030303;--bg1:#080808;--bg2:#0d0d0d;--line:#111;--text:#e8e4dc;--dim:#555}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,monospace;font-size:12px;-webkit-font-smoothing:antialiased}
+a{color:var(--gold);text-decoration:none}
+
+.tn{position:fixed;top:0;left:0;right:0;z-index:50;padding:12px 20px;background:rgba(3,3,3,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.tn-logo{font-size:12px;font-weight:800;letter-spacing:.15em;color:var(--gold)}
+.tn-links{display:flex;gap:16px;font-size:11px;color:var(--dim)}
+.tn-links a{color:var(--dim)}
+.tn-links a:hover{color:var(--gold)}
+
+.wrap{max-width:1100px;margin:0 auto;padding:72px 16px 60px}
+
+/* ── Filters ── */
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;align-items:center}
+.filters select, .filters input{
+  background:var(--bg1);border:1px solid var(--line);border-radius:6px;
+  padding:8px 12px;color:var(--text);font-size:11px;font-family:inherit;outline:none;
+}
+.filters select:focus,.filters input:focus{border-color:var(--gold)}
+.btn{padding:8px 16px;background:var(--gold);color:#040404;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.04em}
+.btn:hover{opacity:.85}
+.btn-ghost{background:none;border:1px solid var(--line);color:var(--dim)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── Stats bar ── */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:24px}
+.stat{background:var(--bg1);border:1px solid var(--line);border-radius:10px;padding:14px 16px;text-align:center}
+.stat .v{font-size:22px;font-weight:800;color:var(--gold);margin-bottom:4px}
+.stat .l{font-size:10px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+
+/* ── Tabs ── */
+.tabs{display:flex;gap:2px;margin-bottom:20px;border-bottom:1px solid var(--line)}
+.tab{padding:10px 18px;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;transition:.2s;text-transform:uppercase}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ── Table ── */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;white-space:nowrap}
+thead th{padding:10px 14px;text-align:left;font-size:9px;letter-spacing:.15em;color:var(--dim);text-transform:uppercase;border-bottom:1px solid var(--line);background:var(--bg2);font-weight:600}
+tbody tr{border-bottom:1px solid #0a0a0a;transition:background .15s}
+tbody tr:hover{background:var(--bg1)}
+tbody td{padding:10px 14px;color:#aaa;vertical-align:middle}
+.email-cell{color:var(--gold);font-weight:600}
+.page-cell{color:#888;max-width:200px;overflow:hidden;text-overflow:ellipsis}
+.badge{display:inline-block;padding:2px 7px;border-radius:100px;font-size:9px;font-weight:700;letter-spacing:.05em}
+.badge-pv{background:rgba(100,140,200,.12);color:#6488c8}
+.badge-id{background:rgba(200,164,85,.12);color:var(--gold)}
+.badge-q{background:rgba(100,200,130,.12);color:#64c882}
+.badge-other{background:rgba(100,100,100,.1);color:#555}
+
+/* ── Journey panel ── */
+.panel{background:var(--bg1);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:20px}
+.panel h3{font-size:12px;font-weight:700;margin-bottom:14px;color:var(--text)}
+.journey-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;font-size:11px}
+.jtime{color:var(--dim);min-width:140px;flex-shrink:0}
+.jdot{width:6px;height:6px;border-radius:50%;background:var(--line);flex-shrink:0;margin-top:4px}
+.jdot.id{background:var(--gold)}
+.jdot.pv{background:#6488c8}
+.jdot.q{background:#64c882}
+.jpage{color:#888}
+
+.empty{text-align:center;padding:48px;color:var(--dim)}
+</style>
+  <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+
+<nav class="tn">
+  <span class="tn-logo">SOLUNA · 訪問者ログ</span>
+  <div class="tn-links">
+    <a href="admin">管理画面</a>
+    <a href="/">サイト</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- Filters -->
+  <div class="filters">
+    <select id="days-sel" onchange="load()">
+      <option value="7">過去 7日</option>
+      <option value="30" selected>過去 30日</option>
+      <option value="90">過去 90日</option>
+    </select>
+    <input type="text" id="email-filter" placeholder="メールで絞り込み…" oninput="renderAll()">
+    <button class="btn" onclick="load()">更新</button>
+    <button class="btn btn-ghost" onclick="exportCsv()">CSV出力</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat"><div class="v" id="s-sessions">—</div><div class="l">ユニーク訪問者</div></div>
+    <div class="stat"><div class="v" id="s-pvs">—</div><div class="l">ページビュー</div></div>
+    <div class="stat"><div class="v" id="s-identified">—</div><div class="l">メール取得済み</div></div>
+    <div class="stat"><div class="v" id="s-questions">—</div><div class="l">質問送信</div></div>
+    <div class="stat"><div class="v" id="s-purchases">—</div><div class="l">購入アクション</div></div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('visitors')">訪問者別</div>
+    <div class="tab" onclick="switchTab('events')">イベントログ</div>
+    <div class="tab" onclick="switchTab('questions')">質問一覧</div>
+    <div class="tab" onclick="switchTab('pages')">ページ別</div>
+  </div>
+
+  <!-- Visitors tab -->
+  <div id="tab-visitors">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>メール / セッション</th>
+          <th>最終訪問</th>
+          <th>ページビュー</th>
+          <th>閲覧ページ</th>
+          <th>流入元</th>
+          <th>デバイス</th>
+          <th>アクション</th>
+        </tr></thead>
+        <tbody id="t-visitors"><tr><td colspan="7" class="empty">読み込み中…</td></tr></tbody>
+      </table>
+    </div>
+    <div id="journey-container" style="margin-top:20px"></div>
+  </div>
+
+  <!-- Events tab -->
+  <div id="tab-events" style="display:none">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>日時</th>
+          <th>イベント</th>
+          <th>メール</th>
+          <th>ページ</th>
+          <th>デバイス</th>
+          <th>流入元</th>
+        </tr></thead>
+        <tbody id="t-events"><tr><td colspan="6" class="empty">読み込み中…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Questions tab -->
+  <div id="tab-questions" style="display:none">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>日時</th>
+          <th>名前</th>
+          <th>メール</th>
+          <th>物件</th>
+          <th>質問</th>
+          <th>ステータス</th>
+        </tr></thead>
+        <tbody id="t-questions"><tr><td colspan="6" class="empty">読み込み中…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pages tab -->
+  <div id="tab-pages" style="display:none">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>ページ</th>
+          <th>表示回数</th>
+          <th>ユニーク訪問者</th>
+        </tr></thead>
+        <tbody id="t-pages"><tr><td colspan="3" class="empty">読み込み中…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var API = 'https://kagi-server.fly.dev/api/v1/soluna';
+var allEvents = [];
+var allInquiries = [];
+var currentTab = 'visitors';
+
+// ── Load data ──────────────────────────────────────────────────
+async function load() {
+  var days = document.getElementById('days-sel').value;
+  var cutoff = new Date(Date.now() - days * 86400000).toISOString();
+
+  try {
+    // Track events
+    var evRes = await fetch(API + '/track/analytics?days=' + days);
+    var evData = await evRes.json();
+
+    // Raw events (via existing stats endpoint for now)
+    var rawRes = await fetch(API + '/track/stats?days=' + days);
+    var rawData = await rawRes.json();
+
+    // Inquiries
+    var iqRes = await fetch(API + '/inquiries');
+    var iqData = await iqRes.json();
+    allInquiries = Array.isArray(iqData) ? iqData : (iqData.inquiries || []);
+
+    // Use rawData to build event log
+    // The analytics endpoint returns aggregated data; we need to also
+    // fetch the raw page_view events from our custom track events.
+    // For now use the aggregated data + build a synthetic view.
+    buildVisitorView(evData, rawData);
+    buildEventLog(rawData);
+    buildInquiries();
+    buildPageView(evData);
+    updateStats(evData, rawData);
+
+  } catch(e) {
+    console.error('Load error', e);
+    showError('データの取得に失敗しました: ' + e.message);
+  }
+}
+
+function updateStats(evData, raw) {
+  var sessions = raw.sessions || evData.total_sessions || 0;
+  var pvs      = raw.total_events || 0;
+  document.getElementById('s-sessions').textContent   = sessions;
+  document.getElementById('s-pvs').textContent        = pvs;
+  document.getElementById('s-identified').textContent = (raw.identified_sessions || '—');
+  document.getElementById('s-questions').textContent  = allInquiries.length;
+  document.getElementById('s-purchases').textContent  = (raw.purchases || raw.funnel_complete || '—');
+}
+
+function badgeFor(event) {
+  if (event === 'page_view') return '<span class="badge badge-pv">ページビュー</span>';
+  if (event === 'visitor_identified') return '<span class="badge badge-id">メール取得</span>';
+  if (event === 'question_submit') return '<span class="badge badge-q">質問送信</span>';
+  return '<span class="badge badge-other">' + event + '</span>';
+}
+
+function buildVisitorView(evData, raw) {
+  // Build grouped by session from referrers / devices data
+  var sessions = evData.sessions || [];
+  var efilt = document.getElementById('email-filter').value.toLowerCase();
+
+  // If server returns sessions array
+  if (!sessions.length && evData.referrers) {
+    // Build simplified view from aggregated stats
+    var tb = document.getElementById('t-visitors');
+    tb.innerHTML = '<tr><td colspan="7" class="empty" style="color:#444">詳細な訪問者ログは近日対応予定。下の「イベントログ」タブで確認してください。</td></tr>';
+    return;
+  }
+
+  var rows = sessions.filter(function(s) {
+    if (!efilt) return true;
+    return (s.email||'').toLowerCase().includes(efilt) || (s.session_id||'').includes(efilt);
+  }).map(function(s) {
+    var email = s.email || '';
+    var label = email
+      ? '<span class="email-cell">' + esc(email) + '</span>'
+      : '<span style="color:#2a2a2a;font-size:10px">' + esc((s.session_id||'').slice(0,14)) + '…</span>';
+    var pages = (s.pages||[]).slice(0,3).map(function(p){return '<span style="font-size:10px;color:#555">'+esc(p)+'</span>'}).join(' › ');
+    var action = email
+      ? '<a href="mailto:' + esc(email) + '" style="font-size:10px">返信 →</a>'
+      : '';
+    return '<tr>'
+      + '<td>' + label + '</td>'
+      + '<td style="color:#444">' + fmt(s.last_seen||s.created_at) + '</td>'
+      + '<td style="color:#666">' + (s.pv_count||s.event_count||1) + '</td>'
+      + '<td class="page-cell">' + (pages||'—') + '</td>'
+      + '<td style="color:#444">' + esc(s.utm_source||'(direct)') + '</td>'
+      + '<td style="color:#444">' + esc(s.device||'—') + '</td>'
+      + '<td>' + action + '</td>'
+      + '</tr>';
+  });
+
+  document.getElementById('t-visitors').innerHTML = rows.length
+    ? rows.join('')
+    : '<tr><td colspan="7" class="empty">データなし</td></tr>';
+}
+
+function buildEventLog(raw) {
+  var events = raw.recent_events || [];
+  var efilt = document.getElementById('email-filter').value.toLowerCase();
+  if (!events.length) {
+    document.getElementById('t-events').innerHTML = '<tr><td colspan="6" class="empty" style="color:#2a2a2a">イベントログはサーバー側の拡張で利用可能になります</td></tr>';
+    return;
+  }
+  var rows = events.filter(function(e) {
+    if (!efilt) return true;
+    var meta = e.metadata || {};
+    return (meta.email||'').toLowerCase().includes(efilt);
+  }).map(function(e) {
+    var meta = {};
+    try { meta = JSON.parse(e.metadata||'{}'); } catch(_){}
+    return '<tr>'
+      + '<td style="color:#333">' + fmt(e.created_at) + '</td>'
+      + '<td>' + badgeFor(e.event) + '</td>'
+      + '<td class="email-cell">' + esc(meta.email||'—') + '</td>'
+      + '<td class="page-cell">' + esc(e.page||'—') + '</td>'
+      + '<td style="color:#444">' + esc(e.device||'—') + '</td>'
+      + '<td style="color:#444">' + esc(e.utm_source||'(direct)') + '</td>'
+      + '</tr>';
+  });
+  document.getElementById('t-events').innerHTML = rows.length
+    ? rows.join('')
+    : '<tr><td colspan="6" class="empty">データなし</td></tr>';
+}
+
+function buildInquiries() {
+  var efilt = document.getElementById('email-filter').value.toLowerCase();
+  var rows = allInquiries.filter(function(q) {
+    if (!efilt) return true;
+    return (q.email||'').toLowerCase().includes(efilt) || (q.name||'').toLowerCase().includes(efilt);
+  }).map(function(q) {
+    var status = q.status || 'new';
+    var sc = status === 'new' ? 'color:var(--gold)' : 'color:#555';
+    return '<tr>'
+      + '<td style="color:#444">' + fmt(q.created_at) + '</td>'
+      + '<td style="color:#888">' + esc(q.name||'—') + '</td>'
+      + '<td class="email-cell"><a href="mailto:' + esc(q.email||'') + '" title="返信する">' + esc(q.email||'—') + '</a></td>'
+      + '<td style="color:#666">' + esc(q.property||'—') + '</td>'
+      + '<td style="color:#888;max-width:300px;overflow:hidden;text-overflow:ellipsis">' + esc((q.message||q.content||'').slice(0,80)) + '</td>'
+      + '<td style="' + sc + ';font-size:10px;font-weight:700">' + esc(status) + '</td>'
+      + '</tr>';
+  });
+  document.getElementById('t-questions').innerHTML = rows.length
+    ? rows.join('')
+    : '<tr><td colspan="6" class="empty">質問なし</td></tr>';
+}
+
+function buildPageView(evData) {
+  var pages = evData.top_pages || [];
+  if (!pages.length && evData.referrers) {
+    // Build from daily data if page data not available
+    document.getElementById('t-pages').innerHTML = '<tr><td colspan="3" class="empty" style="color:#2a2a2a">ページ別データは近日対応</td></tr>';
+    return;
+  }
+  var rows = pages.map(function(p) {
+    return '<tr>'
+      + '<td style="color:#888">' + esc(p.page||p.path) + '</td>'
+      + '<td style="color:var(--gold);font-weight:700">' + (p.views||p.count||0) + '</td>'
+      + '<td style="color:#555">' + (p.sessions||p.unique||'—') + '</td>'
+      + '</tr>';
+  });
+  document.getElementById('t-pages').innerHTML = rows.length
+    ? rows.join('')
+    : '<tr><td colspan="3" class="empty">データなし</td></tr>';
+}
+
+function renderAll() {
+  // Re-filter existing data
+  load();
+}
+
+// ── Tab switch ─────────────────────────────────────────────────
+function switchTab(name) {
+  currentTab = name;
+  ['visitors','events','questions','pages'].forEach(function(t) {
+    document.getElementById('tab-' + t).style.display = t === name ? '' : 'none';
+  });
+  document.querySelectorAll('.tab').forEach(function(el,i) {
+    el.classList.toggle('active', ['visitors','events','questions','pages'][i] === name);
+  });
+}
+
+// ── CSV export ─────────────────────────────────────────────────
+function exportCsv() {
+  var rows = [['日時','名前','メール','物件','質問']];
+  allInquiries.forEach(function(q) {
+    rows.push([q.created_at||'', q.name||'', q.email||'', q.property||'', (q.message||q.content||'').replace(/\n/g,' ')]);
+  });
+  var csv = rows.map(function(r){ return r.map(function(c){ return '"'+String(c).replace(/"/g,'""')+'"'; }).join(','); }).join('\n');
+  var a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent('\uFEFF' + csv);
+  a.download = 'soluna-questions-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+
+// ── Utils ──────────────────────────────────────────────────────
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmt(s) {
+  if (!s) return '—';
+  var d = new Date(s);
+  return isNaN(d) ? s : d.toLocaleString('ja-JP',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+}
+function showError(msg) {
+  ['t-visitors','t-events','t-questions','t-pages'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = '<tr><td colspan="10" class="empty" style="color:#c0392b">' + esc(msg) + '</td></tr>';
+  });
+}
+
+// Init
+load();
+</script>
+<script src="/track.js" defer></script>
+</body>
+</html>

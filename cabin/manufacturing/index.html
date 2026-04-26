@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLUNA MANUFACTURING — 美留和ビレッジ 製造・建設ハブ</title>
+<meta name="description" content="菌糸体パネル・炭化木材・竹集成材・クラスター住居。弟子屈・美留和ビレッジで進行中の製造・建設プロジェクト一覧。">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--bg:#040404;--bg2:#070706;--bg3:#0c0b09;
+  --text:#d8d3c9;--dim:#555;--line:rgba(255,255,255,.06);
+  --green:#4a9a5a;--blue:#5b8fd4;--amber:#d4944a;--purple:#8b7ad4;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+
+/* HEADER */
+header{padding:22px 44px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:10px;font-weight:800;letter-spacing:.28em;color:var(--gold);text-decoration:none}
+.back{font-size:10px;letter-spacing:.1em;color:var(--dim);text-decoration:none}
+.back:hover{color:var(--text)}
+
+/* HERO */
+.hero{padding:80px 44px 60px;max-width:900px;margin:0 auto}
+.hero-label{font-size:9px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:20px}
+h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:-.02em;color:#f0ece4;line-height:1.1;margin-bottom:20px}
+.hero-sub{font-size:13px;line-height:1.9;color:var(--dim);max-width:580px;margin-bottom:12px}
+.hero-status{display:flex;gap:20px;flex-wrap:wrap;margin-top:32px;padding-top:32px;border-top:1px solid var(--line)}
+.hs{text-align:center}
+.hs .num{font-size:28px;font-weight:900;color:var(--gold)}
+.hs .lbl{font-size:9px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-top:4px}
+
+/* TIMELINE ALERT */
+.alert{margin:0 44px 48px;background:rgba(212,148,74,.06);border:1px solid rgba(212,148,74,.2);border-radius:12px;padding:20px 24px;display:flex;align-items:center;gap:16px}
+.alert-icon{font-size:20px;flex-shrink:0}
+.alert-text{font-size:12px;color:#d4944a;line-height:1.8}
+.alert-text strong{color:#e8aa5a}
+
+/* GRID */
+.grid-section{padding:0 44px 80px;max-width:1200px;margin:0 auto}
+.section-label{font-size:9px;letter-spacing:.3em;color:var(--dim);text-transform:uppercase;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:48px}
+
+.card{border:1px solid var(--line);border-radius:12px;padding:28px;text-decoration:none;color:var(--text);transition:border-color .2s,background .2s;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden}
+.card:hover{border-color:rgba(200,164,85,.3);background:rgba(200,164,85,.02)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:.6}
+.card.green::before{background:var(--green)}
+.card.blue::before{background:var(--blue)}
+.card.amber::before{background:var(--amber)}
+.card.purple::before{background:var(--purple)}
+.card.gold::before{background:var(--gold)}
+
+.card-tag{display:flex;align-items:center;gap:8px}
+.tag{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:100px}
+.tag.green{background:rgba(74,154,90,.1);color:var(--green);border:1px solid rgba(74,154,90,.2)}
+.tag.blue{background:rgba(91,143,212,.1);color:var(--blue);border:1px solid rgba(91,143,212,.2)}
+.tag.amber{background:rgba(212,148,74,.1);color:var(--amber);border:1px solid rgba(212,148,74,.2)}
+.tag.purple{background:rgba(139,122,212,.1);color:var(--purple);border:1px solid rgba(139,122,212,.2)}
+.tag.gold{background:rgba(200,164,85,.1);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+
+.status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dot-active{background:#4a9a5a;box-shadow:0 0 6px rgba(74,154,90,.5)}
+.dot-urgent{background:#d4944a;box-shadow:0 0 6px rgba(212,148,74,.5);animation:pulse 1.5s infinite}
+.dot-plan{background:#555}
+.dot-patent{background:var(--gold);box-shadow:0 0 6px rgba(200,164,85,.4)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.card h3{font-size:16px;font-weight:800;color:#f0ece4;letter-spacing:-.01em;line-height:1.3}
+.card p{font-size:12px;color:var(--dim);line-height:1.8}
+.card .specs{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.spec{font-size:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:6px;padding:4px 10px;color:#666}
+.card-arrow{margin-top:auto;font-size:10px;letter-spacing:.1em;color:var(--dim);display:flex;align-items:center;gap:6px;padding-top:12px;border-top:1px solid var(--line)}
+.card:hover .card-arrow{color:var(--gold)}
+
+/* TIMELINE */
+.timeline{margin-bottom:64px}
+.tl-row{display:grid;grid-template-columns:80px 1fr;gap:0;align-items:stretch}
+.tl-month{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--dim);padding:16px 16px 0 0;border-right:1px solid var(--line);text-align:right}
+.tl-items{padding:0 0 24px 24px;display:flex;flex-direction:column;gap:10px}
+.tl-item{font-size:12px;color:var(--dim);padding:8px 14px;border-radius:8px;background:var(--bg2);border:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.tl-item.urgent{border-color:rgba(212,148,74,.3);background:rgba(212,148,74,.04);color:#d4944a}
+.tl-item.done{opacity:.5}
+
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding:32px 44px;font-size:10px;color:var(--dim);letter-spacing:.1em;display:flex;align-items:center;justify-content:space-between}
+
+@media(max-width:640px){
+  header,footer{padding:18px 20px}
+  .hero{padding:48px 20px 40px}
+  .alert{margin:0 20px 40px}
+  .grid-section{padding:0 20px 60px}
+  .cards{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">SOLUNA</a>
+  <a href="/" class="back">← ホーム</a>
+</header>
+
+<div class="hero">
+  <div class="hero-label">Manufacturing Hub — 美留和ビレッジ 2026</div>
+  <h1>素材から建物まで、<br>全部自分たちで作る。</h1>
+  <p class="hero-sub">菌糸体パネル・炭化木材・竹集成材・ストローベイル壁。北海道弟子屈の廃棄素材を高付加価値建材に変換し、9.9m²クラスター住居を自力で建てる。</p>
+  <div class="hero-status">
+    <div class="hs"><div class="num">8</div><div class="lbl">進行中プロジェクト</div></div>
+    <div class="hs"><div class="num">7.2m²</div><div class="lbl">実験棟（建確不要）</div></div>
+    <div class="hs"><div class="num">¥0</div><div class="lbl">原材料コスト（廃棄物活用）</div></div>
+    <div class="hs"><div class="num">2026/8</div><div class="lbl">実験棟完成目標</div></div>
+  </div>
+</div>
+
+<div class="alert">
+  <div class="alert-icon">⚠️</div>
+  <div class="alert-text"><strong>今週がタイムリミット：</strong>菌糸体実験棟の種菌は5月第1週までに仕込む必要あり。培養に14〜21日かかるため、今週中に発注しないと8月完成がズレる。<br>→ <a href="mycelium-lab.html" style="color:inherit;text-decoration:underline">MYCELIUM LAB で詳細を確認</a></div>
+</div>
+
+<div class="grid-section">
+  <div class="section-label">建材プロジェクト — Materials</div>
+  <div class="cards">
+
+    <a href="mycelium-lab.html" class="card green">
+      <div class="card-tag"><span class="tag green">進行中</span><span class="status-dot dot-urgent"></span></div>
+      <h3>MYCELIUM LAB<br>菌糸体実験棟</h3>
+      <p>廃棄おが粉を培地にヒラタケ・霊芝菌糸体を培養し、壁パネルと家具を「育てる」。7.2m²、建築確認不要。</p>
+      <div class="specs">
+        <span class="spec">7.2m²</span><span class="spec">建確不要</span><span class="spec">2026/8完成</span><span class="spec">種菌注文済</span>
+      </div>
+      <div class="card-arrow">詳細を見る →</div>
+    </a>
+
+    <a href="../sumigaki.html" class="card gold">
+      <div class="card-tag"><span class="tag gold">特許出願中</span><span class="status-dot dot-patent"></span></div>
+      <h3>SUMIGAKI®<br>炭化 × 柿渋含浸</h3>
+      <p>北海道産カラマツをバーナー炭化し、柿渋タンニンを加温含浸。化学物質ゼロで30年以上ノーメンテナンス外壁材。</p>
+      <div class="specs">
+        <span class="spec">300-450°C炭化</span><span class="spec">Brix10-18°</span><span class="spec">¥4,200/m²〜</span>
+      </div>
+      <div class="card-arrow">製品・特許を見る →</div>
+    </a>
+
+    <a href="../take.html" class="card blue">
+      <div class="card-tag"><span class="tag blue">試験中</span><span class="status-dot dot-active"></span></div>
+      <h3>TAKE — 竹集成パネル<br>無接着剤熱圧縮</h3>
+      <p>国産孟宗竹を170°C×10MPaで熱圧縮。接着剤不使用、引張強度140MPa（OSBの2倍）。GBRC壁倍率試験交渉中。</p>
+      <div class="specs">
+        <span class="spec">140MPa引張</span><span class="spec">接着剤ゼロ</span><span class="spec">GBRC試験中</span>
+      </div>
+      <div class="card-arrow">仕様・試験状況 →</div>
+    </a>
+
+    <a href="../yakiita.html" class="card amber">
+      <div class="card-tag"><span class="tag amber">販売中</span><span class="status-dot dot-active"></span></div>
+      <h3>YAKIITA<br>焼き板外壁パネル</h3>
+      <p>SUMIGAKI®プロセス適用の焼きカラマツパネル。サンプルA4 ¥500〜、大ロット対応。</p>
+      <div class="specs">
+        <span class="spec">¥500サンプル</span><span class="spec">即納</span><span class="spec">道産カラマツ</span>
+      </div>
+      <div class="card-arrow">注文する →</div>
+    </a>
+
+    <a href="myco-furniture.html" class="card green">
+      <div class="card-tag"><span class="tag green">設計完了</span><span class="status-dot dot-plan"></span></div>
+      <h3>MYCO FURNITURE<br>型枠が家具になる</h3>
+      <p>合板CNCで型枠を切り出し → 菌糸体を14日培養 → 型枠解体で家具完成。端材ゼロ・廃棄ゼロのシステム。</p>
+      <div class="specs">
+        <span class="spec">合板2枚</span><span class="spec">14日培養</span><span class="spec">端材ゼロ</span>
+      </div>
+      <div class="card-arrow">製造プロセス →</div>
+    </a>
+
+    <a href="3d-mold.html" class="card purple">
+      <div class="card-tag"><span class="tag purple">設計完了</span><span class="status-dot dot-plan"></span></div>
+      <h3>3D PRINT MOLD<br>ビスゼロ接合システム</h3>
+      <p>3Dプリンタでモールドを出力し、おが粉×菌糸体でインターロックパネルを製造。OpenSCADコード公開中。</p>
+      <div class="specs">
+        <span class="spec">ビスゼロ</span><span class="spec">OpenSCAD</span><span class="spec">パラメトリック</span>
+      </div>
+      <div class="card-arrow">設計データ →</div>
+    </a>
+
+  </div>
+
+  <div class="section-label">建築プロジェクト — Architecture</div>
+  <div class="cards">
+
+    <a href="cluster.html" class="card amber">
+      <div class="card-tag"><span class="tag amber">建設準備中</span><span class="status-dot dot-active"></span></div>
+      <h3>CLUSTER<br>9.9m²×∞棟</h3>
+      <p>建築確認不要の9.9m²以下ユニット5種（SEED/EGG/TOWER/WING/ARCH）をデッキで接続するクラスター型住居。¥590万〜。</p>
+      <div class="specs">
+        <span class="spec">9.9m²以下</span><span class="spec">建確不要</span><span class="spec">¥590万〜</span>
+      </div>
+      <div class="card-arrow">設計・価格 →</div>
+    </a>
+
+    <a href="cluster-living.html" class="card amber">
+      <div class="card-tag"><span class="tag amber">設計完了</span><span class="status-dot dot-plan"></span></div>
+      <h3>CLUSTER LIVING<br>5棟フル生活仕様</h3>
+      <p>5棟構成で水・電気・トイレを完全オフグリッド自立。365日快適に過ごせる仕様。普通の別荘と比較して約1/3のコスト。</p>
+      <div class="specs">
+        <span class="spec">5棟構成</span><span class="spec">オフグリッド</span><span class="spec">365日対応</span>
+      </div>
+      <div class="card-arrow">生活仕様 →</div>
+    </a>
+
+    <a href="kumanoki.html" class="card blue">
+      <div class="card-tag"><span class="tag blue">設計中</span><span class="status-dot dot-plan"></span></div>
+      <h3>KUMANOKI V-01<br>美留和ビレッジ第1棟</h3>
+      <p>購入から入居まで「世界に存在しないプロセス」で作る最初の家。自然素材×自力建設×コミュニティ。</p>
+      <div class="specs">
+        <span class="spec">美留和501番1</span><span class="spec">2026夏着工</span>
+      </div>
+      <div class="card-arrow">設計書 →</div>
+    </a>
+
+    <a href="sekkei.html" class="card blue">
+      <div class="card-tag"><span class="tag blue">v2.0</span><span class="status-dot dot-plan"></span></div>
+      <h3>SOLUNA UNIT<br>製造設計書</h3>
+      <p>全ユニット共通の製造・組立設計書。CNCデータ、構造計算、材料リスト一式。</p>
+      <div class="specs">
+        <span class="spec">v2.0</span><span class="spec">CNCデータ付</span>
+      </div>
+      <div class="card-arrow">設計書を見る →</div>
+    </a>
+
+  </div>
+
+  <div class="section-label">2026年 実装タイムライン</div>
+  <div class="timeline">
+    <div class="tl-row">
+      <div class="tl-month">4月</div>
+      <div class="tl-items">
+        <div class="tl-item done">✓ GBRC（日本建築総合試験所）に竹パネル試験打診</div>
+        <div class="tl-item done">✓ 種菌メーカー（北海道きのこ）に問い合わせ</div>
+        <div class="tl-item done">✓ 弟子屈町建設課に建築確認相談</div>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-month">5月</div>
+      <div class="tl-items">
+        <div class="tl-item urgent">⚠ 【今週】種菌発注（ヒラタケ・霊芝）</div>
+        <div class="tl-item urgent">⚠ 【今週】おが粉調達（釧路・中標津製材所）</div>
+        <div class="tl-item">SUMIGAKI® 特許出願（弁理士相談）</div>
+        <div class="tl-item">GBRC 竹パネル試験 打ち合わせ</div>
+        <div class="tl-item">JA釧路太田 麦わらベイル予約（6月末締切）</div>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-month">6月</div>
+      <div class="tl-items">
+        <div class="tl-item">スクリューパイル基礎工事</div>
+        <div class="tl-item">CNC合板カット（型枠・家具パーツ）</div>
+        <div class="tl-item">菌糸体培養開始（1バッチ目）</div>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-month">7月</div>
+      <div class="tl-items">
+        <div class="tl-item">ストローベイル入荷（JA釧路太田）</div>
+        <div class="tl-item">MYCELIUM LAB 壁パネル完成・乾燥</div>
+        <div class="tl-item">Work Party Vol.1（基礎〜壁）</div>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-month">8月</div>
+      <div class="tl-items">
+        <div class="tl-item">MYCELIUM LAB 完成（7.2m²）</div>
+        <div class="tl-item">KUMANOKI V-01 着工</div>
+        <div class="tl-item">Work Party Vol.2（屋根〜仕上げ）</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>© 2026 SOLUNA合同会社 — SUMIGAKI® 特許出願中</span>
+  <a href="/workparty" style="color:var(--gold);text-decoration:none;font-size:10px;letter-spacing:.1em">WORK PARTY に参加する →</a>
+</footer>
+
+</body>
+</html>

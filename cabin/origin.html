@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/origin" rel="canonical"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title data-en="SOLUNA — Building a village from pristine wilderness.">SOLUNA — 原野から、村を建てる。</title>
+<meta content="北海道・美留和。32,337坪の原野に、100人の村をつくる。" data-en-content="Birawa, Hokkaido. Creating a village of 100 registered owners across 32,337 tsubo of pristine wilderness." name="description"/>
+<meta content="index,follow" name="robots"/>
+<meta content="SOLUNA — 原野から、村を建てる。" property="og:title"/>
+<meta content="北海道・美留和。32,337坪の原野に、100人の村をつくる。" property="og:description"/>
+<meta content="/img/village_aerial.webp" property="og:image"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c9a84c;
+  --gold-pale:#e8d5a3;
+  --dark:#080808;
+  --text:#e8e8e0;
+  --dim:#888880;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;
+  background:var(--dark);
+  color:var(--text);
+  font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ── Cursor ── */
+#cursor{
+  position:fixed;width:8px;height:8px;
+  background:var(--gold);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform .08s,opacity .3s;
+}
+#cursor-ring{
+  position:fixed;width:36px;height:36px;
+  border:1px solid rgba(201,168,76,.4);
+  border-radius:50%;pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform .22s cubic-bezier(.25,.46,.45,.94),width .3s,height .3s,opacity .3s;
+}
+body:hover #cursor{opacity:1}
+
+/* ── Progress bar ── */
+#progress{
+  position:fixed;top:0;left:0;height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  z-index:1000;width:0%;transition:width .1s linear;
+}
+
+/* ── NAV ── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:28px 48px;
+  mix-blend-mode:difference;
+}
+.nav-logo{
+  font-size:11px;letter-spacing:.35em;
+  color:#fff;text-decoration:none;
+  font-weight:300;
+}
+.nav-cta{
+  font-size:10px;letter-spacing:.3em;
+  color:#fff;text-decoration:none;
+  border:1px solid rgba(255,255,255,.3);
+  padding:10px 24px;
+  transition:background .3s,color .3s;
+}
+.nav-cta:hover{background:#fff;color:#000}
+
+/* ── SECTIONS ── */
+section{position:relative;width:100%}
+
+/* ── S1 HERO — THE LAND ── */
+#s1{
+  height:100vh;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+#topo-canvas{position:absolute;inset:0;opacity:.18}
+.hero-text{
+  position:relative;z-index:2;text-align:center;
+  padding:0 24px;
+}
+.coord{
+  font-size:10px;letter-spacing:.5em;color:var(--dim);
+  margin-bottom:48px;font-weight:300;
+}
+.hero-ja{
+  font-size:clamp(52px,8vw,120px);
+  font-weight:200;letter-spacing:-.01em;
+  line-height:1;
+  color:#fff;
+}
+.hero-sub{
+  margin-top:40px;font-size:13px;
+  letter-spacing:.25em;color:var(--dim);
+  font-weight:300;
+}
+.scroll-hint{
+  position:absolute;bottom:48px;left:50%;
+  transform:translateX(-50%);
+  display:flex;flex-direction:column;
+  align-items:center;gap:12px;
+  font-size:9px;letter-spacing:.4em;color:var(--dim);
+}
+.scroll-line{
+  width:1px;height:60px;
+  background:linear-gradient(to bottom,transparent,var(--gold));
+  animation:scrollPulse 2.5s ease-in-out infinite;
+}
+@keyframes scrollPulse{0%,100%{opacity:.2;transform:scaleY(.3)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ── S2 SILENCE ── */
+#s2{
+  min-height:100vh;display:flex;align-items:center;
+  justify-content:center;
+  background:#000;
+}
+.silence-wrap{
+  max-width:680px;padding:0 40px;
+  text-align:center;
+}
+.silence-word{
+  display:inline-block;
+  font-size:clamp(36px,5.5vw,80px);
+  font-weight:200;
+  line-height:1.3;
+  color:#fff;
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity 1.2s ease,transform 1.2s ease;
+  margin:0 8px;
+}
+.silence-word.vis{opacity:1;transform:none}
+.silence-break{display:block;height:1.2em}
+.silence-en{
+  margin-top:56px;font-size:12px;
+  letter-spacing:.35em;color:var(--dim);
+  opacity:0;transition:opacity 1.5s 1.5s ease;
+}
+.silence-en.vis{opacity:1}
+
+/* ── S3 NUMBERS ── */
+#s3{
+  min-height:100vh;
+  background:var(--dark);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.numbers-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;width:100%;max-width:1200px;
+}
+.num-cell{
+  padding:80px 60px;
+  border:1px solid rgba(255,255,255,.04);
+  opacity:0;transform:translateY(40px);
+  transition:opacity .9s ease,transform .9s ease;
+}
+.num-cell.vis{opacity:1;transform:none}
+.num-cell:nth-child(2){transition-delay:.15s}
+.num-cell:nth-child(3){transition-delay:.3s}
+.num-cell:nth-child(4){transition-delay:.45s}
+.num-big{
+  font-size:clamp(64px,10vw,140px);
+  font-weight:100;color:#fff;
+  letter-spacing:-.03em;line-height:1;
+}
+.num-unit{
+  font-size:20px;font-weight:200;
+  color:var(--gold);margin-left:4px;
+}
+.num-label{
+  margin-top:20px;font-size:11px;
+  letter-spacing:.3em;color:var(--dim);
+}
+.num-desc{
+  margin-top:12px;font-size:13px;
+  color:rgba(232,216,163,.5);
+  font-weight:300;line-height:1.7;
+}
+
+/* ── S4 TOPO MAP ── */
+#s4{
+  min-height:80vh;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+#map-canvas{position:absolute;inset:0}
+.map-overlay{
+  position:relative;z-index:2;
+  text-align:center;padding:0 40px;
+}
+.map-title{
+  font-size:clamp(28px,4vw,56px);
+  font-weight:200;letter-spacing:.1em;
+  color:#fff;margin-bottom:24px;
+}
+.map-sub{
+  font-size:12px;letter-spacing:.35em;
+  color:var(--dim);
+}
+
+/* ── S5 PROPERTIES ── */
+#s5{
+  background:#000;
+  padding:120px 0;overflow:hidden;
+}
+.props-header{
+  padding:0 80px;margin-bottom:80px;
+}
+.props-eyebrow{
+  font-size:10px;letter-spacing:.5em;
+  color:var(--gold);margin-bottom:24px;
+}
+.props-title{
+  font-size:clamp(32px,5vw,72px);
+  font-weight:200;color:#fff;
+  line-height:1.1;
+}
+.props-scroll{
+  display:flex;gap:0;overflow-x:auto;
+  padding:0 80px;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
+.props-scroll::-webkit-scrollbar{display:none}
+.prop-card{
+  flex:0 0 360px;
+  border:1px solid rgba(255,255,255,.06);
+  padding:56px 40px;
+  position:relative;overflow:hidden;
+  cursor:pointer;
+  transition:border-color .4s;
+}
+.prop-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,.8));
+  opacity:0;transition:opacity .4s;
+}
+.prop-card:hover{border-color:rgba(201,168,76,.4)}
+.prop-card:hover::before{opacity:1}
+.prop-number{
+  font-size:10px;letter-spacing:.4em;
+  color:var(--dim);margin-bottom:40px;
+}
+.prop-name{
+  font-size:26px;font-weight:200;
+  color:#fff;line-height:1.2;
+  margin-bottom:12px;
+}
+.prop-location{
+  font-size:11px;letter-spacing:.2em;
+  color:var(--dim);margin-bottom:40px;
+}
+.prop-price{
+  font-size:28px;font-weight:100;
+  color:var(--gold);
+}
+.prop-price-unit{
+  font-size:11px;color:var(--dim);
+  margin-left:4px;
+}
+.prop-nights{
+  margin-top:16px;font-size:11px;
+  letter-spacing:.2em;color:var(--dim);
+}
+.prop-bar{
+  position:absolute;bottom:0;left:0;
+  height:2px;background:var(--gold);
+  width:0%;transition:width .4s ease;
+}
+.prop-card:hover .prop-bar{width:100%}
+.prop-link{
+  position:absolute;bottom:40px;right:40px;
+  font-size:10px;letter-spacing:.3em;
+  color:var(--gold);
+  opacity:0;transform:translateX(-10px);
+  transition:opacity .3s,transform .3s;
+}
+.prop-card:hover .prop-link{opacity:1;transform:none}
+
+/* ── S6 MANIFESTO ── */
+#s6{
+  min-height:100vh;
+  background:var(--dark);
+  display:flex;align-items:center;justify-content:center;
+  padding:120px 40px;
+}
+.manifesto-wrap{
+  max-width:800px;width:100%;
+}
+.manifesto-eyebrow{
+  font-size:9px;letter-spacing:.6em;
+  color:var(--gold);margin-bottom:80px;
+}
+.manifesto-line{
+  font-size:clamp(28px,4vw,54px);
+  font-weight:200;
+  color:rgba(255,255,255,.12);
+  line-height:1.4;
+  transition:color 1.2s ease;
+  margin-bottom:.2em;
+}
+.manifesto-line.lit{color:#fff}
+.manifesto-line.em{color:var(--gold-pale)}
+.manifesto-space{height:1.4em}
+.manifesto-coda{
+  margin-top:80px;
+  font-size:13px;letter-spacing:.25em;
+  color:var(--dim);
+  opacity:0;transition:opacity 1.5s ease;
+}
+.manifesto-coda.vis{opacity:1}
+
+/* ── S7 FOUNDER ── */
+#s7{
+  background:#000;
+  padding:160px 80px;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:center;
+}
+.founder-img-wrap{
+  position:relative;
+}
+.founder-img{
+  width:100%;aspect-ratio:3/4;
+  object-fit:cover;
+  filter:grayscale(1) contrast(1.1);
+  opacity:0;
+  transform:scale(1.04);
+  transition:opacity 1.2s ease,transform 1.8s ease,filter 1.8s ease;
+}
+.founder-img.vis{
+  opacity:1;transform:scale(1);
+  filter:grayscale(.15) contrast(1.05);
+}
+.founder-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  height:40%;
+  background:linear-gradient(to top,rgba(0,0,0,.9),transparent);
+}
+.founder-text{}
+.founder-eyebrow{
+  font-size:9px;letter-spacing:.6em;
+  color:var(--gold);margin-bottom:48px;
+}
+.founder-name{
+  font-size:clamp(36px,5vw,72px);
+  font-weight:200;color:#fff;
+  line-height:1;margin-bottom:24px;
+}
+.founder-name-en{
+  font-size:16px;letter-spacing:.15em;
+  color:var(--dim);margin-bottom:48px;
+  font-weight:300;
+}
+.founder-bio{
+  font-size:15px;line-height:2;
+  color:rgba(232,232,224,.6);
+  margin-bottom:48px;
+}
+.founder-link{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:10px;letter-spacing:.35em;
+  color:var(--gold);text-decoration:none;
+  border-bottom:1px solid rgba(201,168,76,.3);
+  padding-bottom:8px;
+  transition:gap .3s,border-color .3s;
+}
+.founder-link:hover{gap:20px;border-color:var(--gold)}
+
+/* ── S8 SOUND ── */
+#s8{
+  min-height:60vh;
+  background:var(--dark);
+  display:flex;align-items:center;justify-content:center;
+  padding:120px 40px;overflow:hidden;
+}
+#sound-canvas{position:absolute;inset:0;opacity:.3}
+.sound-inner{
+  position:relative;z-index:2;text-align:center;
+}
+.sound-title{
+  font-size:clamp(24px,4vw,56px);
+  font-weight:200;color:#fff;
+  margin-bottom:24px;
+}
+.sound-sub{
+  font-size:12px;letter-spacing:.35em;
+  color:var(--dim);margin-bottom:56px;
+}
+.sound-btn{
+  display:inline-flex;align-items:center;gap:16px;
+  background:none;border:1px solid rgba(201,168,76,.4);
+  color:var(--gold);padding:18px 40px;
+  font-size:11px;letter-spacing:.3em;
+  cursor:pointer;
+  transition:background .3s,border-color .3s;
+}
+.sound-btn:hover{background:rgba(201,168,76,.08);border-color:var(--gold)}
+.sound-icon{font-size:18px}
+
+/* ── S9 CTA ── */
+#s9{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+#cta-canvas{position:absolute;inset:0}
+.cta-inner{
+  position:relative;z-index:2;
+  text-align:center;padding:0 40px;
+}
+.cta-eyebrow{
+  font-size:10px;letter-spacing:.5em;
+  color:var(--gold);margin-bottom:56px;
+}
+.cta-title{
+  font-size:clamp(44px,8vw,128px);
+  font-weight:100;color:#fff;
+  line-height:.9;letter-spacing:-.02em;
+  margin-bottom:80px;
+}
+.cta-title span{
+  display:block;
+}
+.cta-title .accent{
+  color:var(--gold);
+  font-weight:200;
+}
+.cta-actions{
+  display:flex;align-items:center;
+  justify-content:center;gap:24px;
+  flex-wrap:wrap;
+}
+.btn-primary{
+  display:inline-block;
+  background:var(--gold);
+  color:#000;
+  padding:20px 56px;
+  font-size:11px;letter-spacing:.35em;
+  text-decoration:none;
+  font-weight:500;
+  transition:background .3s,transform .2s;
+}
+.btn-primary:hover{background:var(--gold-pale);transform:translateY(-2px)}
+.btn-ghost{
+  display:inline-block;
+  border:1px solid rgba(255,255,255,.2);
+  color:#fff;
+  padding:20px 40px;
+  font-size:11px;letter-spacing:.35em;
+  text-decoration:none;
+  transition:border-color .3s,background .3s;
+}
+.btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.05)}
+
+/* ── FILM GRAIN ── */
+#grain{
+  position:fixed;inset:0;z-index:800;
+  pointer-events:none;opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  animation:grainAnim .12s steps(1) infinite;
+}
+@keyframes grainAnim{
+  0%{background-position:0 0}
+  10%{background-position:-5% -10%}
+  20%{background-position:-15% 5%}
+  30%{background-position:7% -25%}
+  40%{background-position:-5% 25%}
+  50%{background-position:-15% 10%}
+  60%{background-position:15% 0}
+  70%{background-position:0 15%}
+  80%{background-position:3% 35%}
+  90%{background-position:-10% 10%}
+  100%{background-position:0 0}
+}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  #nav{padding:20px 24px}
+  .numbers-grid{grid-template-columns:1fr}
+  #s7{grid-template-columns:1fr;padding:80px 24px;gap:40px}
+  .num-cell{padding:48px 28px}
+  .props-header{padding:0 24px}
+  .props-scroll{padding:0 24px}
+  .prop-card{flex:0 0 280px;padding:40px 28px}
+  .manifesto-wrap{padding:0}
+}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a data-en="Owners" href="owners">オーナーズ</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<div id="grain"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="progress"></div>
+<!-- S1: HERO -->
+<section id="s1">
+<canvas id="topo-canvas"></canvas>
+<div class="hero-text">
+<div class="coord" data-en="43°29′N 144°27′E — Teshikaga, Hokkaido, Birawa">43°29′N 144°27′E — 北海道 弟子屈町 美留和</div>
+<h1 class="hero-ja" id="heroText"></h1>
+<p class="hero-sub">SOLUNA — 2024</p>
+</div>
+<div class="scroll-hint">
+<span>SCROLL</span>
+<div class="scroll-line"></div>
+</div>
+</section>
+<!-- S2: SILENCE -->
+<section id="s2">
+<div class="silence-wrap">
+<p>
+<span class="silence-word" data-delay="0" data-en="This is,">これは、</span>
+<span class="silence-break"></span>
+<span class="silence-word" data-delay="300" data-en="Find serenity">静けさを</span>
+<span class="silence-break"></span>
+<span class="silence-word" data-delay="600" data-en="To own,">所有する、</span>
+<span class="silence-break"></span>
+<span class="silence-word" data-delay="1200" data-en="is the point.">ということだ。</span>
+</p>
+<p class="silence-en">To own silence, is to own everything.</p>
+</div>
+</section>
+<!-- S3: NUMBERS -->
+<section id="s3">
+<div class="numbers-grid">
+<div class="num-cell">
+<div class="num-big"><span class="count-up" data-target="32337">0</span><span class="num-unit">坪</span></div>
+<div class="num-label">TOTAL LAND</div>
+<div class="num-desc" data-en="Wilderness of Miruwa, Hokkaido. Approximately 2.3 times the area of Tokyo Dome.">北海道・美留和の原野。<br/>東京ドーム約2.3個分。</div>
+</div>
+<div class="num-cell">
+<div class="num-big"><span class="count-up" data-target="100">0</span><span class="num-unit">人</span></div>
+<div class="num-label">VILLAGE CAPACITY</div>
+<div class="num-desc" data-en="Up to 100 units. All participants become registered co-owners.">最大100口。<br/>全員が登記名義人になれる。</div>
+</div>
+<div class="num-cell">
+<div class="num-big"><span class="count-up" data-target="0">0</span><span class="num-unit"></span></div>
+<div class="num-label">MANAGEMENT COMPANIES</div>
+<div class="num-desc" data-en="No management company required. Owners drive the village.">管理会社は要らない。<br/>所有者が、村を動かす。</div>
+</div>
+<div class="num-cell">
+<div class="num-big">∞</div>
+<div class="num-label">YEARS TO HOLD</div>
+<div class="num-desc" data-en="Land never disappears. Buildings age. But land endures.">土地は消えない。<br/>建物は老いる。でも土地は残る。</div>
+</div>
+</div>
+</section>
+<!-- S4: TOPO MAP -->
+<section id="s4">
+<canvas id="map-canvas"></canvas>
+<div class="map-overlay">
+<div class="map-title" data-en="Paint the wilderness.">原野を、描け。</div>
+<div class="map-sub" data-en="The land exists there before you own it.">あなたが買う前から、その土地はそこにある</div>
+</div>
+</section>
+<!-- S5: PROPERTIES -->
+<section id="s5">
+<div class="props-header">
+<div class="props-eyebrow">THE PROPERTIES</div>
+<h2 class="props-title" data-en="Five properties. Five entrances.">5つの土地。<br/>5つの入口。</h2>
+</div>
+<div class="props-scroll" id="propsScroll">
+<div class="prop-card" onclick="location.href='/lodge'">
+<div class="prop-bar"></div>
+<div class="prop-number">01</div>
+<div class="prop-name">THE LODGE</div>
+<div class="prop-location" data-en="Miruwa, Teshikaga, Hokkaido">北海道 弟子屈 美留和</div>
+<div class="prop-price">¥1,000<span class="prop-price-unit" data-en="¥10,000~ per Unit">万〜/口</span></div>
+<div class="prop-nights" data-en="8 nights annually included in usage rights">年8泊 利用権付き</div>
+<div class="prop-link">VIEW →</div>
+</div>
+<div class="prop-card" onclick="location.href='/nesting'">
+<div class="prop-bar"></div>
+<div class="prop-number">02</div>
+<div class="prop-name">NESTING</div>
+<div class="prop-location" data-en="Miruwa, Teshikaga, Hokkaido">北海道 弟子屈 美留和</div>
+<div class="prop-price">¥1,300<span class="prop-price-unit" data-en="¥10,000~ per Unit">万〜/口</span></div>
+<div class="prop-nights" data-en="8 nights annually included in usage rights">年8泊 利用権付き</div>
+<div class="prop-link">VIEW →</div>
+</div>
+<div class="prop-card" onclick="location.href='/tapkop'">
+<div class="prop-bar"></div>
+<div class="prop-number">03</div>
+<div class="prop-name">TAPKOP</div>
+<div class="prop-location" data-en="Kusharo Lake, Teshikaga, Hokkaido">北海道 弟子屈 屈斜路湖畔</div>
+<div class="prop-price">¥3,900<span class="prop-price-unit" data-en="¥10,000~ per Unit">万〜/口</span></div>
+<div class="prop-nights" data-en="8 nights annually included in usage rights">年8泊 利用権付き</div>
+<div class="prop-link">VIEW →</div>
+</div>
+<div class="prop-card" onclick="location.href='/atami'">
+<div class="prop-bar"></div>
+<div class="prop-number">04</div>
+<div class="prop-name" data-en="WHITE HOUSE Atami">WHITE HOUSE 熱海</div>
+<div class="prop-location" data-en="Atami, Shizuoka Prefecture—Coastal">静岡県 熱海市 海岸</div>
+<div class="prop-price">¥1,000<span class="prop-price-unit" data-en="¥10,000~ per Unit">万〜/口</span></div>
+<div class="prop-nights" data-en="8 nights annually included in usage rights">年8泊 利用権付き</div>
+<div class="prop-link">VIEW →</div>
+</div>
+<div class="prop-card" onclick="location.href='/'">
+<div class="prop-bar"></div>
+<div class="prop-number">05</div>
+<div class="prop-name">SOLUNA VILLAGE</div>
+<div class="prop-location" data-en="Teshikaga, Hokkaido—Birawa Area—Entire Region">北海道 弟子屈 美留和 — 全域</div>
+<div class="prop-price">¥3,500<span class="prop-price-unit" data-en="¥10,000~ per Unit">万〜/口</span></div>
+<div class="prop-nights" data-en="Bonding curve collective investment">ボンディングカーブ型 共同出資</div>
+<div class="prop-link">VIEW →</div>
+</div>
+<div class="prop-card" style="background:rgba(201,168,76,.03);border-color:rgba(201,168,76,.15);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:16px;cursor:default;">
+<div style="font-size:10px;letter-spacing:.4em;color:var(--gold)">COMING SOON</div>
+<div data-en="Next Property" style="font-size:22px;font-weight:200;color:#fff">次の物件</div>
+<div data-en="Early Access for Registrants" style="font-size:12px;color:var(--dim)">登録者に先行案内</div>
+<a data-en="Early registration →" href="/faq" style="font-size:10px;letter-spacing:.3em;color:var(--gold);text-decoration:none;border:1px solid rgba(201,168,76,.3);padding:12px 24px;margin-top:8px;display:inline-block">
+        先行登録 →
+      </a>
+</div>
+</div>
+</section>
+<!-- S5.5: ARCHITECTURE -->
+<section id="s5b" style="background:#050505;padding:160px 0;overflow:hidden">
+<div style="padding:0 80px;margin-bottom:80px">
+<div style="font-size:10px;letter-spacing:.5em;color:var(--gold);margin-bottom:24px">THE ARCHITECTURE</div>
+<h2 data-en="D-shaped domes, containers, and traditional construction—a village where three structural systems converge." style="font-size:clamp(32px,5vw,72px);font-weight:200;color:#fff;line-height:1.1">
+      D型ドーム、コンテナ、<br/>在来工法——<br/>3つの構造が重なる村。
+    </h2>
+<p data-en="One hundred guests stay, perform, and create lasting records.
+      Diatomaceous earth walls absorb moisture, while plaster softens sound.
+      Container roofs transform sunlight into electricity." style="margin-top:32px;font-size:14px;color:var(--dim);max-width:520px;line-height:2">
+      100人が泊まり、演奏し、記録を残す。<br/>
+      珪藻土の壁が湿気を吸い、漆喰が音を柔らかくする。<br/>
+      コンテナの屋根が太陽を電気に変える。
+    </p>
+</div>
+<!-- SVG Village Plan -->
+<div style="padding:0 40px;overflow-x:auto">
+<svg id="villageSvg" style="width:100%;max-width:1100px;display:block;margin:0 auto" viewbox="0 0 1100 520" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="glow"><fegaussianblur result="b" stddeviation="3"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="20" id="grid" patternunits="userSpaceOnUse" width="20">
+<path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,.04)" stroke-width=".5"></path>
+</pattern>
+</defs>
+<!-- Background grid -->
+<rect fill="url(#grid)" height="520" width="1100"></rect>
+<!-- Land boundary -->
+<ellipse cx="550" cy="260" fill="rgba(20,18,12,.6)" rx="480" ry="210" stroke="rgba(201,168,76,.15)" stroke-dasharray="6 4" stroke-width="1"></ellipse>
+<!-- CONTAINERS — east wing (sleeping pods, 2-story, 32 units) -->
+<g id="containers">
+<text fill="rgba(201,168,76,.7)" font-family="Helvetica Neue" font-size="9" letter-spacing="3" x="720" y="60">CONTAINER PODS</text>
+<text data-en="Sleep × 32 Units / Solar Panel Roof" fill="rgba(136,136,128,.6)" font-family="Helvetica Neue" font-size="8" x="720" y="75">睡眠 × 32ユニット / 太陽光パネル屋根</text>
+<!-- Grid of containers 4x4 x2 rows -->
+<g id="cg">
+<script type="text/javascript">/* SVG doesn't execute JS */</script>
+</g>
+<!-- Draw 4x8 container grid manually -->
+<!-- Row 1 -->
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.4)" stroke-width=".8" width="80" x="690" y="90"></rect>
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.4)" stroke-width=".8" width="80" x="778" y="90"></rect>
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.4)" stroke-width=".8" width="80" x="866" y="90"></rect>
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.4)" stroke-width=".8" width="80" x="954" y="90"></rect>
+<!-- Row 2 -->
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.35)" stroke-width=".8" width="80" x="690" y="132"></rect>
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.35)" stroke-width=".8" width="80" x="778" y="132"></rect>
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.35)" stroke-width=".8" width="80" x="866" y="132"></rect>
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.35)" stroke-width=".8" width="80" x="954" y="132"></rect>
+<!-- Row 3 -->
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.3)" stroke-width=".8" width="80" x="690" y="180"></rect>
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.3)" stroke-width=".8" width="80" x="778" y="180"></rect>
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.3)" stroke-width=".8" width="80" x="866" y="180"></rect>
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.3)" stroke-width=".8" width="80" x="954" y="180"></rect>
+<!-- Row 4 -->
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.25)" stroke-width=".8" width="80" x="690" y="222"></rect>
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.25)" stroke-width=".8" width="80" x="778" y="222"></rect>
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.25)" stroke-width=".8" width="80" x="866" y="222"></rect>
+<rect fill="rgba(40,38,28,.8)" height="36" rx="2" stroke="rgba(201,168,76,.25)" stroke-width=".8" width="80" x="954" y="222"></rect>
+<!-- Solar panel indicators -->
+<line stroke="rgba(201,168,76,.2)" stroke-dasharray="3 3" stroke-width=".5" x1="690" x2="1034" y1="90" y2="90"></line>
+<text fill="rgba(201,168,76,.5)" font-family="Helvetica Neue" font-size="7" text-anchor="middle" x="856" y="86">⊙ SOLAR</text>
+</g>
+<!-- DOME — center stage -->
+<g id="dome">
+<ellipse cx="440" cy="220" fill="rgba(12,10,6,.9)" filter="url(#glow)" rx="120" ry="100" stroke="rgba(201,168,76,.6)" stroke-width="1.2"></ellipse>
+<!-- inner rings -->
+<ellipse cx="440" cy="220" fill="none" rx="90" ry="75" stroke="rgba(201,168,76,.25)" stroke-width=".6"></ellipse>
+<ellipse cx="440" cy="220" fill="none" rx="60" ry="50" stroke="rgba(201,168,76,.15)" stroke-width=".6"></ellipse>
+<!-- center stage -->
+<circle cx="440" cy="220" fill="rgba(201,168,76,.15)" r="18" stroke="rgba(201,168,76,.5)" stroke-width=".8"></circle>
+<text fill="rgba(201,168,76,.9)" font-family="Helvetica Neue" font-size="10" text-anchor="middle" x="440" y="224">DJ</text>
+<!-- label -->
+<text data-en="D-Type Dome" fill="rgba(201,168,76,.8)" font-family="Helvetica Neue" font-size="9" letter-spacing="3" text-anchor="middle" x="440" y="132">D型ドーム</text>
+<text data-en="Acoustics: 50-person capacity / Lime plaster walls" fill="rgba(136,136,128,.6)" font-family="Helvetica Neue" font-size="8" text-anchor="middle" x="440" y="147">音響 50人収容 / 漆喰壁</text>
+<!-- Acoustic markers -->
+<path d="M 330 220 Q 340 200 355 220 Q 340 240 330 220" fill="rgba(201,168,76,.1)" stroke="rgba(201,168,76,.2)" stroke-width=".6"></path>
+<path d="M 550 220 Q 540 200 525 220 Q 540 240 550 220" fill="rgba(201,168,76,.1)" stroke="rgba(201,168,76,.2)" stroke-width=".6"></path>
+</g>
+<!-- TRADITIONAL HALL — north (在来工法) -->
+<g id="hall">
+<rect fill="rgba(15,12,6,.85)" height="120" rx="4" stroke="rgba(232,216,163,.35)" stroke-width="1" width="260" x="160" y="80"></rect>
+<!-- Timber pattern inside -->
+<line stroke="rgba(232,216,163,.08)" stroke-width=".5" x1="200" x2="200" y1="80" y2="200"></line>
+<line stroke="rgba(232,216,163,.08)" stroke-width=".5" x1="240" x2="240" y1="80" y2="200"></line>
+<line stroke="rgba(232,216,163,.08)" stroke-width=".5" x1="280" x2="280" y1="80" y2="200"></line>
+<line stroke="rgba(232,216,163,.08)" stroke-width=".5" x1="320" x2="320" y1="80" y2="200"></line>
+<line stroke="rgba(232,216,163,.08)" stroke-width=".5" x1="360" x2="360" y1="80" y2="200"></line>
+<line stroke="rgba(232,216,163,.08)" stroke-width=".5" x1="160" x2="420" y1="120" y2="120"></line>
+<line stroke="rgba(232,216,163,.08)" stroke-width=".5" x1="160" x2="420" y1="160" y2="160"></line>
+<!-- Roof pitch indicator -->
+<polyline fill="none" points="160,80 290,50 420,80" stroke="rgba(232,216,163,.25)" stroke-width="1"></polyline>
+<text data-en="Traditional Craft Great Hall" fill="rgba(232,216,163,.75)" font-family="Helvetica Neue" font-size="9" letter-spacing="2" text-anchor="middle" x="290" y="110">在来工法 大広間</text>
+<text data-en="Dining &amp; gathering space: 100-person capacity / Diatomaceous earth interior walls" fill="rgba(136,136,128,.55)" font-family="Helvetica Neue" font-size="8" text-anchor="middle" x="290" y="126">食堂・集会 100人収容 / 珪藻土内壁</text>
+</g>
+<!-- SAUNA tower -->
+<g id="sauna">
+<rect fill="rgba(60,20,10,.7)" height="80" rx="3" stroke="rgba(200,80,40,.4)" stroke-width=".8" width="50" x="180" y="330"></rect>
+<!-- Steam -->
+<path d="M 195 330 Q 200 315 205 330" fill="none" stroke="rgba(200,80,40,.3)" stroke-width=".8"></path>
+<path d="M 210 330 Q 215 312 220 330" fill="none" stroke="rgba(200,80,40,.3)" stroke-width=".8"></path>
+<text data-en="Sauna" fill="rgba(200,80,40,.65)" font-family="Helvetica Neue" font-size="7.5" text-anchor="middle" x="205" y="395">サウナ</text>
+</g>
+<!-- FIRE PIT / Recording outdoor -->
+<g id="fire">
+<circle cx="540" cy="390" fill="rgba(8,6,2,.8)" r="28" stroke="rgba(180,120,40,.35)" stroke-dasharray="4 2" stroke-width=".8"></circle>
+<circle cx="540" cy="390" fill="rgba(40,20,5,.9)" r="12" stroke="rgba(200,100,20,.5)" stroke-width=".8"></circle>
+<text fill="rgba(200,120,40,.7)" font-family="Helvetica Neue" font-size="8" text-anchor="middle" x="540" y="394">🔥</text>
+<text data-en="Bonfire / Outdoor Recording" fill="rgba(136,136,128,.5)" font-family="Helvetica Neue" font-size="7.5" text-anchor="middle" x="540" y="430">焚き火 / 野外録音</text>
+</g>
+<!-- ENERGY flow arrows -->
+<g id="energy" opacity=".5">
+<!-- Solar → containers → hall -->
+<path d="M 860 90 Q 800 60 700 140" fill="none" marker-end="url(#arr)" stroke="rgba(201,168,76,.3)" stroke-dasharray="5 3" stroke-width=".8"></path>
+<!-- Label -->
+<text data-en="⚡ OFF-GRID Power" fill="rgba(201,168,76,.4)" font-family="Helvetica Neue" font-size="8" letter-spacing="2" x="620" y="340">⚡ OFF-GRID 電力</text>
+<text data-en="Container Roof Solar + Biomass Gasification Power Generation" fill="rgba(136,136,128,.4)" font-family="Helvetica Neue" font-size="7.5" x="620" y="355">コンテナ屋根太陽光 + 薪ガス化発電</text>
+</g>
+<!-- Legend -->
+<g id="legend" transform="translate(60, 430)">
+<rect fill="none" height="10" stroke="rgba(201,168,76,.5)" stroke-width=".8" width="10" x="0" y="0"></rect>
+<text data-en="Container sleeping pods" fill="rgba(136,136,128,.6)" font-family="Helvetica Neue" font-size="8" x="16" y="9">コンテナ睡眠ポッド</text>
+<rect fill="none" height="10" rx="5" stroke="rgba(201,168,76,.5)" stroke-width=".8" width="10" x="130" y="0"></rect>
+<text data-en="D-Type Dome" fill="rgba(136,136,128,.6)" font-family="Helvetica Neue" font-size="8" x="146" y="9">D型ドーム</text>
+<rect fill="none" height="10" rx="2" stroke="rgba(232,216,163,.35)" stroke-width=".8" width="10" x="240" y="0"></rect>
+<text data-en="Traditional Craft" fill="rgba(136,136,128,.6)" font-family="Helvetica Neue" font-size="8" x="256" y="9">在来工法</text>
+<rect fill="none" height="10" rx="2" stroke="rgba(200,80,40,.4)" stroke-width=".8" width="10" x="340" y="0"></rect>
+<text data-en="Sauna tower" fill="rgba(136,136,128,.6)" font-family="Helvetica Neue" font-size="8" x="356" y="9">サウナ塔</text>
+</g>
+<!-- Scale bar -->
+<g transform="translate(60, 460)">
+<line stroke="rgba(255,255,255,.2)" stroke-width=".8" x1="0" x2="100" y1="0" y2="0"></line>
+<line stroke="rgba(255,255,255,.2)" stroke-width=".8" x1="0" x2="0" y1="-4" y2="4"></line>
+<line stroke="rgba(255,255,255,.2)" stroke-width=".8" x1="100" x2="100" y1="-4" y2="4"></line>
+<text fill="rgba(136,136,128,.5)" font-family="Helvetica Neue" font-size="7.5" text-anchor="middle" x="50" y="15">100m</text>
+</g>
+</svg>
+</div>
+<!-- Feature cards -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;margin-top:80px;border:1px solid rgba(255,255,255,.04)">
+<div style="padding:48px 40px;border-right:1px solid rgba(255,255,255,.04)">
+<div style="font-size:28px;margin-bottom:20px">📦</div>
+<div data-en="Container Pod" style="font-size:13px;letter-spacing:.2em;color:var(--gold);margin-bottom:16px">コンテナポッド</div>
+<p data-en="ISO shipping containers stacked with monocrystalline silicon solar panels covering the entire roof (4kW per unit). Exterior walls: Cor-Ten steel. Interior walls: diatomaceous earth finish for humidity control and odor elimination. 32 units accommodate 64 guests." style="font-size:13px;line-height:2;color:var(--dim)">
+        ISO海上コンテナをスタック。屋根全面に単結晶シリコン太陽光パネル（4kW/棟）。壁外側：コルテン鋼。壁内側：珪藻土仕上げで調湿・消臭。32ユニット = 64名泊まれる。
+      </p>
+</div>
+<div style="padding:48px 40px;border-right:1px solid rgba(255,255,255,.04)">
+<div style="font-size:28px;margin-bottom:20px">🔵</div>
+<div data-en="D-Type Dome" style="font-size:13px;letter-spacing:.2em;color:var(--gold);margin-bottom:16px">D型ドーム</div>
+<p data-en="An 18m-diameter, 9m-height geodesic dome. Interior walls finished with lime plaster, natural reverberation with RT60 = 0.4 seconds. Approximately 250㎡ floor area. Accommodates DJs, live performances, film screenings, and meditation. Comfortably hosts 50 guests." style="font-size:13px;line-height:2;color:var(--dim)">
+        直径18m、高さ9mのジオデシックドーム。内壁に漆喰を塗り、RT60 = 0.4秒の自然響き。床面積約250㎡。DJ・ライブ・映画上映・瞑想まで。50人が心地よく入れる。
+      </p>
+</div>
+<div style="padding:48px 40px;border-right:1px solid rgba(255,255,255,.04)">
+<div style="font-size:28px;margin-bottom:20px">🪵</div>
+<div data-en="Traditional Craft Great Hall" style="font-size:13px;letter-spacing:.2em;color:var(--gold);margin-bottom:16px">在来工法 大広間</div>
+<p data-en="Hokkaido larch in traditional construction. Ceiling height 5 meters with exposed beams. Interior walls finished in diatomaceous earth (CO₂ sequestration and humidity control). Dining, meeting, and Work Party workspace for one hundred." style="font-size:13px;line-height:2;color:var(--dim)">
+        北海道産カラマツ在来工法。天井高5m、梁を現しで仕上げ。内壁は珪藻土塗り（CO₂固定・調湿）。100人の食事、会議、Work Partyの作業スペース。
+      </p>
+</div>
+<div style="padding:48px 40px">
+<div style="font-size:28px;margin-bottom:20px">⚡</div>
+<div data-en="Energy Composition" style="font-size:13px;letter-spacing:.2em;color:var(--gold);margin-bottom:16px">エネルギー構成</div>
+<p data-en="128kWh solar battery system. Biomass gasification generator (backup). Gravity-fed rainwater tank. Composting toilet. Power, water, and waste—all self-contained in complete off-grid design." style="font-size:13px;line-height:2;color:var(--dim)">
+        太陽光128kWh蓄電池。薪ガス化発電機（バックアップ）。重力式雨水タンク。コンポストトイレ。電力・水・廃棄——すべてオフグリッドで完結する。
+      </p>
+</div>
+</div>
+</section>
+<!-- S6: MANIFESTO -->
+<section id="s6">
+<div class="manifesto-wrap">
+<div class="manifesto-eyebrow">MANIFESTO</div>
+<div class="manifesto-line" data-en="Management company" data-order="0">管理会社は</div>
+<div class="manifesto-line" data-en="Unnecessary." data-order="1">要らない。</div>
+<div class="manifesto-space"></div>
+<div class="manifesto-line" data-en="Room Service Too" data-order="2">ルームサービスも</div>
+<div class="manifesto-line" data-en="Unnecessary." data-order="3">要らない。</div>
+<div class="manifesto-space"></div>
+<div class="manifesto-line" data-en="What is necessary—" data-order="4">必要なのは——</div>
+<div class="manifesto-space"></div>
+<div class="manifesto-line em" data-en="Land and" data-order="5">土地と、</div>
+<div class="manifesto-line em" data-en="For members only." data-order="6">仲間だけ。</div>
+<div class="manifesto-space"></div>
+<div class="manifesto-line" data-en="Your name inscribed" data-order="7">あなたの名前が</div>
+<div class="manifesto-line" data-en="Inscribed in the Registry." data-order="8">登記簿に刻まれる。</div>
+<div class="manifesto-space"></div>
+<div class="manifesto-line em" data-en="That alone is enough" data-order="9">それだけで、</div>
+<div class="manifesto-line em" data-en="It suffices." data-order="10">十分だ。</div>
+<div class="manifesto-coda">SOLUNA — A village built by 100 people who chose a different way.</div>
+</div>
+</section>
+<!-- S7: FOUNDER -->
+<section id="s7">
+<div class="founder-img-wrap">
+<img alt="濱田 優貴" class="founder-img" data-en-alt="Yuki Hamada" id="founderImg" src="https://yukihamada.jp/images/yuki.jpg"/>
+<div class="founder-overlay"></div>
+</div>
+<div class="founder-text">
+<div class="founder-eyebrow">FOUNDER</div>
+<div class="founder-name" data-en="Yuki Hamada">濱田 優貴</div>
+<div class="founder-name-en">Yuki Hamada</div>
+<p class="founder-bio" data-en="Former Mercari CPO. After transforming transactions for millions through technology, now reshaping the relationship between land and people. Creating a village in the Birawa wilderness of Hokkaido where 100 people can be registered owners.
+      Brazilian Jiu-Jitsu blue belt. Often found in the forest.">
+      元 Mercari CPO。テクノロジーで数百万人の取引を変えた後、今度は土地と人の関係を変えようとしている。北海道・美留和の原野に、100人が登記名義人になれる村をつくる。
+      柔術青帯。よく森にいる。
+    </p>
+<a class="founder-link" href="https://yukihamada.jp" rel="noopener" target="_blank">
+      yukihamada.jp <span>→</span>
+</a>
+</div>
+</section>
+<!-- S8: SOUND -->
+<section id="s8" style="position:relative">
+<canvas id="sound-canvas"></canvas>
+<div class="sound-inner">
+<div class="sound-title" data-en="The forest is reverb.">森が、リバーブだ。</div>
+<div class="sound-sub" data-en="Listen to the sounds of Birawa">美留和の音を聴く</div>
+<button class="sound-btn" id="soundBtn" onclick="toggleSound()">
+<span class="sound-icon">🌲</span>
+<span data-en="Play the Sounds of Birawa">美留和の音を再生</span>
+</button>
+</div>
+</section>
+<!-- S9: CTA -->
+<section id="s9">
+<canvas id="cta-canvas"></canvas>
+<div class="cta-inner">
+<div class="cta-eyebrow">YOUR NAME ON THE DEED</div>
+<div class="cta-title">
+<span data-en="Own your property">自分の土地を</span>
+<span class="accent" data-en="Own it.">持つ。</span>
+</div>
+<div class="cta-actions">
+<a class="btn-primary" data-en="View Properties" href="/">物件を見る</a>
+<a class="btn-ghost" data-en="FAQ" href="/faq">よくある質問</a>
+</div>
+</div>
+</section>
+<script defer="" src="/track.js"></script>
+<script>
+(function(){
+'use strict';
+
+/* ── Cursor ── */
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+function lerpCursor(){
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(lerpCursor);
+}
+lerpCursor();
+
+/* ── Progress ── */
+const prog = document.getElementById('progress');
+window.addEventListener('scroll',()=>{
+  const h = document.documentElement;
+  const pct = h.scrollTop/(h.scrollHeight-h.clientHeight)*100;
+  prog.style.width=pct+'%';
+});
+
+/* ── Hero typewriter ── */
+const heroEl = document.getElementById('heroText');
+const heroWords = ['原野から、','村を建てる。'];
+let wi=0,ci=0,writing=true;
+function typeHero(){
+  if(wi>=heroWords.length){return;}
+  const word = heroWords[wi];
+  if(writing){
+    heroEl.textContent = heroWords.slice(0,wi).join('')+word.slice(0,ci+1);
+    ci++;
+    if(ci>=word.length){wi++;ci=0;setTimeout(typeHero,wi<heroWords.length?300:0);return;}
+    setTimeout(typeHero,60+Math.random()*40);
+  }
+}
+setTimeout(typeHero,800);
+
+/* ── Topo canvas (S1) ── */
+const topoC = document.getElementById('topo-canvas');
+const topoCtx = topoC.getContext('2d');
+function resizeTopo(){
+  topoC.width=window.innerWidth;
+  topoC.height=window.innerHeight;
+  drawTopo();
+}
+function drawTopo(){
+  const w=topoC.width,h=topoC.height;
+  topoCtx.clearRect(0,0,w,h);
+  const layers=12;
+  for(let l=0;l<layers;l++){
+    topoCtx.beginPath();
+    const oy=(l/layers)*(h*1.5)-h*.25;
+    const amp=30+l*8;
+    const freq=0.003+l*0.0008;
+    topoCtx.moveTo(0,oy);
+    for(let x=0;x<=w;x+=4){
+      const y=oy+Math.sin(x*freq+l*1.3)*amp+Math.cos(x*freq*.7+l*.9)*amp*.5;
+      topoCtx.lineTo(x,y);
+    }
+    const alpha=0.3+l*0.05;
+    topoCtx.strokeStyle=`rgba(201,168,76,${alpha*.6})`;
+    topoCtx.lineWidth=.7;
+    topoCtx.stroke();
+  }
+}
+resizeTopo();
+window.addEventListener('resize',resizeTopo);
+
+/* ── Map canvas (S4) ── */
+const mapC = document.getElementById('map-canvas');
+const mapCtx = mapC.getContext('2d');
+function resizeMap(){
+  mapC.width=mapC.parentElement.offsetWidth;
+  mapC.height=mapC.parentElement.offsetHeight;
+  drawMap();
+}
+function drawMap(){
+  const w=mapC.width,h=mapC.height;
+  mapCtx.clearRect(0,0,w,h);
+  // Topographic contour lines
+  const cx=w/2,cy=h/2;
+  for(let r=30;r<Math.max(w,h);r+=28){
+    mapCtx.beginPath();
+    for(let a=0;a<=360;a+=3){
+      const rad=a*Math.PI/180;
+      const wobble=r+(Math.sin(a*.15)*18+Math.cos(a*.09)*12)*Math.sin(r*.03);
+      const x=cx+Math.cos(rad)*wobble;
+      const y=cy+Math.sin(rad)*wobble*.55;
+      a===0?mapCtx.moveTo(x,y):mapCtx.lineTo(x,y);
+    }
+    mapCtx.closePath();
+    const alpha=Math.min(.25, .04+r/Math.max(w,h)*.4);
+    mapCtx.strokeStyle=`rgba(201,168,76,${alpha})`;
+    mapCtx.lineWidth=.8;
+    mapCtx.stroke();
+  }
+  // Center point
+  mapCtx.beginPath();
+  mapCtx.arc(cx,cy,4,0,Math.PI*2);
+  mapCtx.fillStyle='rgba(201,168,76,.8)';
+  mapCtx.fill();
+  // Cross
+  mapCtx.strokeStyle='rgba(201,168,76,.4)';
+  mapCtx.lineWidth=1;
+  mapCtx.beginPath();mapCtx.moveTo(cx-20,cy);mapCtx.lineTo(cx+20,cy);mapCtx.stroke();
+  mapCtx.beginPath();mapCtx.moveTo(cx,cy-20);mapCtx.lineTo(cx,cy+20);mapCtx.stroke();
+}
+resizeMap();
+window.addEventListener('resize',resizeMap);
+
+/* ── Sound canvas (S8) ── */
+const sndC = document.getElementById('sound-canvas');
+const sndCtx = sndC.getContext('2d');
+let sndAnim;
+function resizeSound(){
+  sndC.width=sndC.parentElement.offsetWidth;
+  sndC.height=sndC.parentElement.offsetHeight;
+}
+function animSound(){
+  const w=sndC.width,h=sndC.height;
+  sndCtx.clearRect(0,0,w,h);
+  const t=Date.now()*.001;
+  const bars=80;
+  for(let i=0;i<bars;i++){
+    const x=(i/bars)*w;
+    const amp=(Math.sin(i*.18+t*1.2)+Math.sin(i*.08+t*.7)*.6)*.5+.5;
+    const bh=(amp*h*.35)+4;
+    const alpha=0.08+amp*.15;
+    sndCtx.fillStyle=`rgba(201,168,76,${alpha})`;
+    sndCtx.fillRect(x,h/2-bh/2,w/bars*.6,bh);
+  }
+  sndAnim=requestAnimationFrame(animSound);
+}
+resizeSound();
+animSound();
+window.addEventListener('resize',resizeSound);
+
+/* ── CTA stars canvas (S9) ── */
+const ctaC = document.getElementById('cta-canvas');
+const ctaCtx = ctaC.getContext('2d');
+let stars=[];
+function resizeCta(){
+  ctaC.width=ctaC.parentElement.offsetWidth;
+  ctaC.height=ctaC.parentElement.offsetHeight;
+  stars=Array.from({length:160},()=>({
+    x:Math.random()*ctaC.width,
+    y:Math.random()*ctaC.height,
+    r:Math.random()*1.2+.2,
+    o:Math.random(),
+    s:Math.random()*.5+.3
+  }));
+}
+function animCta(){
+  const w=ctaC.width,h=ctaC.height;
+  ctaCtx.clearRect(0,0,w,h);
+  const t=Date.now()*.001;
+  stars.forEach(s=>{
+    const flicker=Math.sin(t*s.s+s.x*.01)*0.4+0.6;
+    ctaCtx.beginPath();
+    ctaCtx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctaCtx.fillStyle=`rgba(255,255,255,${s.o*flicker})`;
+    ctaCtx.fill();
+  });
+  requestAnimationFrame(animCta);
+}
+resizeCta();
+animCta();
+window.addEventListener('resize',resizeCta);
+
+/* ── IntersectionObserver ── */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{
+    if(!en.isIntersecting) return;
+    const el=en.target;
+    // Silence words
+    if(el.classList.contains('silence-word')){
+      const d=parseInt(el.dataset.delay||0);
+      setTimeout(()=>el.classList.add('vis'),d);
+      io.unobserve(el);
+    }
+    // Silence en
+    if(el.classList.contains('silence-en')){
+      el.classList.add('vis');io.unobserve(el);
+    }
+    // Num cells
+    if(el.classList.contains('num-cell')){
+      el.classList.add('vis');io.unobserve(el);
+      // trigger count-up
+      el.querySelectorAll('.count-up').forEach(cu=>{
+        const target=parseInt(cu.dataset.target);
+        if(!target)return;
+        let n=0,dur=1800,st=null;
+        function step(ts){
+          if(!st)st=ts;
+          const p=Math.min((ts-st)/dur,1);
+          const ease=1-Math.pow(1-p,3);
+          cu.textContent=Math.round(ease*target).toLocaleString();
+          if(p<1)requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    }
+    // Manifesto lines
+    if(el.classList.contains('manifesto-line')){
+      const order=parseInt(el.dataset.order||0);
+      setTimeout(()=>el.classList.add('lit'),order*180);
+      io.unobserve(el);
+    }
+    if(el.classList.contains('manifesto-coda')){
+      setTimeout(()=>el.classList.add('vis'),2000);
+      io.unobserve(el);
+    }
+    // Founder img
+    if(el.id==='founderImg'){
+      el.classList.add('vis');io.unobserve(el);
+    }
+  });
+},{threshold:0.2});
+
+document.querySelectorAll('.silence-word,.silence-en,.num-cell,.manifesto-line,.manifesto-coda,#founderImg')
+  .forEach(el=>io.observe(el));
+
+/* ── Horizontal scroll drag (props) ── */
+const ps=document.getElementById('propsScroll');
+let isDragging=false,startX,scrollLeft;
+ps.addEventListener('mousedown',e=>{isDragging=true;startX=e.pageX-ps.offsetLeft;scrollLeft=ps.scrollLeft});
+ps.addEventListener('mouseleave',()=>isDragging=false);
+ps.addEventListener('mouseup',()=>isDragging=false);
+ps.addEventListener('mousemove',e=>{
+  if(!isDragging)return;e.preventDefault();
+  const x=e.pageX-ps.offsetLeft;
+  ps.scrollLeft=scrollLeft-(x-startX)*1.2;
+});
+
+/* ── Sound ── */
+let audioCtx=null,soundNodes=[];
+function toggleSound(){
+  const btn=document.getElementById('soundBtn');
+  if(soundNodes.length){
+    soundNodes.forEach(n=>{try{n.stop?n.stop():n.disconnect()}catch(e){}});
+    soundNodes=[];
+    if(audioCtx){audioCtx.close();audioCtx=null;}
+    btn.innerHTML='<span class="sound-icon">🌲</span><span>美留和の音を再生</span>';
+    return;
+  }
+  audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  // Wind noise
+  function makeNoise(freq,q,gain,type){
+    const buf=audioCtx.createBuffer(1,audioCtx.sampleRate*3,audioCtx.sampleRate);
+    const d=buf.getChannelData(0);
+    for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+    const src=audioCtx.createBufferSource();
+    src.buffer=buf;src.loop=true;
+    const bpf=audioCtx.createBiquadFilter();
+    bpf.type=type||'bandpass';bpf.frequency.value=freq;bpf.Q.value=q;
+    const g=audioCtx.createGain();g.gain.value=gain;
+    src.connect(bpf);bpf.connect(g);g.connect(audioCtx.destination);
+    src.start();
+    soundNodes.push(src,g);
+  }
+  makeNoise(280,.8,.04,'bandpass');  // wind
+  makeNoise(80,.5,.03,'lowpass');    // sub rumble
+  // birds (sine)
+  [1200,1600,2100].forEach((f,i)=>{
+    const osc=audioCtx.createOscillator();
+    osc.type='sine';osc.frequency.value=f;
+    const g=audioCtx.createGain();g.gain.value=0;
+    osc.connect(g);g.connect(audioCtx.destination);
+    osc.start();
+    soundNodes.push(osc,g);
+    // Chirp pattern
+    function chirp(){
+      const now=audioCtx.currentTime;
+      g.gain.setValueAtTime(0,now);
+      g.gain.linearRampToValueAtTime(.006,now+.05);
+      g.gain.linearRampToValueAtTime(0,now+.18);
+      setTimeout(chirp,2000+i*700+Math.random()*3000);
+    }
+    setTimeout(chirp,i*400+1000);
+  });
+  btn.innerHTML='<span class="sound-icon">🔇</span><span>停止</span>';
+}
+
+})();
+</script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-building, 100-person village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Birawa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Birawa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Birawa Village" href="village">美留和ビレッジ</a>
+<a data-en="Birawa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Shares" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Acquire units at no cost" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Architectural Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners only" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Special Commercial Law" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+</body>
+</html>

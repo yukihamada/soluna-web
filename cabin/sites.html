@@ -1,0 +1,1893 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA — Complete Site Map">SOLUNA — サイト全ページ一覧</title>
+<meta content="noindex,nofollow" name="robots"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --green:#6dbb88;
+  --blue:#7ab4e8;
+  --red:#e87a7a;
+  --bg:#040404;
+  --bg2:#080808;
+  --text:#f0ece4;
+  --dim:#555;
+  --line:#131313;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;font-size:12px}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* HEADER */
+.header{padding:20px 24px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:0;background:rgba(4,4,4,.96);backdrop-filter:blur(16px);z-index:100}
+.header-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
+.header-sub{font-size:10px;color:#2a2a2a;margin-top:2px;letter-spacing:.06em}
+.search-wrap{flex:1;max-width:360px;min-width:200px}
+.search{width:100%;background:#0c0c0c;border:1px solid #1a1a1a;border-radius:8px;padding:8px 12px;color:var(--text);font-size:11px;outline:none;transition:border-color .2s}
+.search:focus{border-color:rgba(200,164,85,.4)}
+.search::placeholder{color:#333}
+.header-count{font-size:10px;color:#2a2a2a;white-space:nowrap}
+
+/* PASSWORDS SECTION */
+.pass-section{background:#050505;border-bottom:1px solid var(--line);padding:16px 24px}
+.pass-grid{display:flex;flex-wrap:wrap;gap:16px;max-width:1200px}
+.pass-card{background:#0a0a0a;border:1px solid #141414;border-radius:10px;padding:12px 16px;min-width:200px;flex:1}
+.pass-card-title{font-size:9px;font-weight:700;letter-spacing:.2em;color:#333;text-transform:uppercase;margin-bottom:8px}
+.pass-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid #0d0d0d;font-size:11px}
+.pass-row:last-child{border-bottom:none;padding-bottom:0}
+.pass-key{color:#444}
+.pass-val{font-family:monospace;color:var(--gold);font-size:11px;cursor:pointer;user-select:all;background:#0f0f0f;padding:2px 6px;border-radius:4px;border:1px solid #1a1a1a}
+.pass-val:hover{background:#161616}
+.pass-val.blue{color:var(--blue)}
+.pass-val.green{color:var(--green)}
+.pass-val.red{color:var(--red)}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:200px 1fr;min-height:calc(100vh - 200px)}
+@media(max-width:768px){.layout{grid-template-columns:1fr}}
+
+/* SIDEBAR */
+.sidebar{border-right:1px solid var(--line);padding:16px 0;position:sticky;top:90px;height:calc(100vh - 90px);overflow-y:auto}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:#1a1a1a;border-radius:4px}
+.cat-link{display:block;padding:8px 16px;font-size:10.5px;color:#3a3a3a;cursor:pointer;transition:all .15s;letter-spacing:.04em;border-left:2px solid transparent}
+.cat-link:hover{color:var(--text);background:#080808;border-left-color:#2a2a2a}
+.cat-link.active{color:var(--gold);border-left-color:var(--gold);background:rgba(200,164,85,.04)}
+.cat-link .cnt{float:right;font-size:9px;color:#2a2a2a}
+@media(max-width:768px){.sidebar{display:none}}
+
+/* MAIN */
+.main{padding:0}
+.category{padding:20px 24px;border-bottom:1px solid #0a0a0a}
+.cat-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.cat-title{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#2a2a2a}
+.cat-badge{font-size:9px;background:#101010;color:#333;padding:2px 8px;border-radius:100px}
+.pages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px}
+
+/* PAGE CARD */
+.page-card{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;transition:border-color .15s,background .15s;display:flex;align-items:flex-start;gap:10px}
+.page-card:hover{border-color:#222;background:#0a0a0a}
+.page-card.hidden{display:none}
+.page-icon{font-size:16px;flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:#0d0d0d;border-radius:6px}
+.page-body{flex:1;min-width:0}
+.page-name{font-size:11.5px;font-weight:700;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.page-title{font-size:10px;color:#3a3a3a;line-height:1.5;margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.page-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tag{font-size:8.5px;padding:1px 6px;border-radius:100px;font-weight:700;letter-spacing:.04em;white-space:nowrap}
+.tag-pub{background:rgba(109,187,136,.1);color:var(--green);border:1px solid rgba(109,187,136,.2)}
+.tag-admin{background:rgba(232,122,122,.1);color:var(--red);border:1px solid rgba(232,122,122,.2)}
+.tag-owner{background:rgba(122,180,232,.1);color:var(--blue);border:1px solid rgba(122,180,232,.2)}
+.tag-draft{background:#0f0f0f;color:#333;border:1px solid #151515}
+.tag-pass{background:rgba(200,164,85,.08);color:#c8a455;border:1px solid rgba(200,164,85,.2)}
+.page-link{font-size:10px;color:#444;font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;margin-top:3px}
+.page-link:hover{color:var(--gold)}
+.page-desc{font-size:9.5px;color:#282828;line-height:1.55;margin-top:5px;padding-top:5px;border-top:1px solid #0e0e0e}
+.page-desc strong{color:#383838;font-weight:600}
+.page-persona{font-size:9.5px;color:rgba(200,164,85,.5);line-height:1.5;margin-top:3px;font-style:italic}
+
+/* NO RESULTS */
+.no-results{padding:60px 24px;text-align:center;color:#222;font-size:13px;display:none}
+
+/* FOOTER */
+.page-footer{padding:24px;text-align:center;font-size:9px;color:#1a1a1a;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div class="header">
+<div>
+<div class="header-logo">SOLUNA</div>
+<div class="header-sub" data-en="Internal Site Index — Complete Page Directory">Internal Site Index — 全ページ一覧</div>
+</div>
+<input class="search" id="search" oninput="filterPages(this.value)" placeholder="ページ名・URLで絞り込み..." type="text"/>
+<div class="header-count" data-en="131 Pages" id="count">131 ページ</div>
+</div>
+<!-- PASSWORDS -->
+<div class="pass-section">
+<div class="pass-grid">
+<div class="pass-card">
+<div class="pass-card-title">🔑 Admin / API</div>
+<div class="pass-row"><span class="pass-key">ADMIN_KEY (x-admin-key)</span><span class="pass-val">LIFEISART</span></div>
+<div class="pass-row"><span class="pass-key">DOCS_PASSWORD</span><span class="pass-val">SOLUNA2026fudotoku</span></div>
+<div class="pass-row"><span class="pass-key">OWNERS_PASSWORD</span><span class="pass-val">SOLUNA-OWNERS-2026</span></div>
+</div>
+<div class="pass-card">
+<div class="pass-card-title">👤 Neuro Portal (/neuro-portal)</div>
+<div class="pass-row"><span class="pass-key">yuki@hamada.tokyo</span><span class="pass-val green">soluna</span></div>
+<div class="pass-row"><span class="pass-key">mail@yukihamada.jp</span><span class="pass-val green">soluna</span></div>
+<div class="pass-row"><span class="pass-key">demo@soluna.art</span><span class="pass-val blue">demo</span></div>
+<div class="pass-row"><span class="pass-key">guest@soluna.art</span><span class="pass-val blue">guest</span></div>
+<div class="pass-row"><span class="pass-key">staff@soluna.art</span><span class="pass-val blue">staff</span></div>
+</div>
+<div class="pass-card">
+<div class="pass-card-title" data-en="🔗 External Services">🔗 外部サービス</div>
+<div class="pass-row"><span class="pass-key">Fly.io app</span><span class="pass-val blue">soluna-web</span></div>
+<div class="pass-row"><span class="pass-key">Beds24 Prop: atami</span><span class="pass-val">243406</span></div>
+<div class="pass-row"><span class="pass-key">Beds24 Prop: lodge</span><span class="pass-val">243408</span></div>
+<div class="pass-row"><span class="pass-key">Beds24 Prop: nesting</span><span class="pass-val">243409</span></div>
+<div class="pass-row"><span class="pass-key">Beds24 Prop: honolulu</span><span class="pass-val">243407</span></div>
+</div>
+<div class="pass-card">
+<div class="pass-card-title" data-en="☁️ Infrastructure">☁️ インフラ</div>
+<div class="pass-row"><span class="pass-key" data-en="Production URL">本番URL</span><span class="pass-val blue"><a href="https://soluna-web.fly.dev" style="color:inherit" target="_blank">soluna-web.fly.dev</a></span></div>
+<div class="pass-row"><span class="pass-key" data-en="Domain">ドメイン</span><span class="pass-val blue">solun.art</span></div>
+<div class="pass-row"><span class="pass-key">メール from</span><span class="pass-val">info@solun.art</span></div>
+<div class="pass-row"><span class="pass-key" data-en="Analytics">アナリティクス</span><span class="pass-val blue"><a href="https://enabler-analytics.fly.dev" style="color:inherit" target="_blank">enabler-analytics.fly.dev</a></span></div>
+</div>
+</div>
+</div>
+<div class="layout">
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+<a class="cat-link active" data-en="Properties" onclick="scrollTo('cat-main')">物件ページ <span class="cnt">11</span></a>
+<a class="cat-link" data-en="Purchase Flow" onclick="scrollTo('cat-flow')">購入フロー <span class="cnt">9</span></a>
+<a class="cat-link" data-en="For Owners" onclick="scrollTo('cat-owner')">オーナー向け <span class="cnt">8</span></a>
+<a class="cat-link" data-en="KUMAUSHI BASE Series" onclick="scrollTo('cat-kumaushi')">KUMAUSHI系 <span class="cnt">6</span></a>
+<a class="cat-link" data-en="Stories &amp; Blog" onclick="scrollTo('cat-story')">ストーリー・ブログ <span class="cnt">11</span></a>
+<a class="cat-link" data-en="Information &amp; Terms" onclick="scrollTo('cat-info')">情報・規約 <span class="cnt">7</span></a>
+<a class="cat-link" data-en="Marketing" onclick="scrollTo('cat-marketing')">マーケティング <span class="cnt">9</span></a>
+<a class="cat-link" data-en="Architecture &amp; Construction" onclick="scrollTo('cat-build')">建築・施工 <span class="cnt">7</span></a>
+<a class="cat-link" data-en="Materials &amp; Finishes" onclick="scrollTo('cat-materials')">素材・仕上げ <span class="cnt">17</span></a>
+<a class="cat-link" data-en="Architecture &amp; Structure Details" onclick="scrollTo('cat-build2')">建築・構造詳細 <span class="cnt">8</span></a>
+<a class="cat-link" data-en="Tools &amp; Staff" onclick="scrollTo('cat-tools')">ツール・スタッフ <span class="cnt">6</span></a>
+<a class="cat-link" data-en="Management &amp; Internal" onclick="scrollTo('cat-admin')">管理・内部 <span class="cnt">8</span></a>
+<a class="cat-link" data-en="Hawaii — Special Collection" onclick="scrollTo('cat-hawaii')">ハワイ・特殊 <span class="cnt">4</span></a>
+<a class="cat-link" data-en="Other" onclick="scrollTo('cat-misc')">その他 <span class="cnt">20</span></a>
+</div>
+<!-- MAIN CONTENT -->
+<div class="main" id="main">
+<!-- 物件ページ -->
+<div class="category" id="cat-main">
+<div class="cat-header">
+<span class="cat-title" data-en="Properties">物件ページ</span>
+<span class="cat-badge" data-en="Page 11">11 ページ</span>
+</div>
+<div class="pages-grid">
+<div class="page-card" data-search="index トップ top">
+<div class="page-icon">🏠</div>
+<div class="page-body">
+<div class="page-name" data-en="Home">トップページ</div>
+<div class="page-title" data-en="Hokkaido 100-Person Village—Known Only by Those Who Built It | ¥5.3M per unit and up">建てた人だけが知る、北海道100人ビレッジ | 1口¥530万〜</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Hero Landing Page. Concept, three property previews, operating results, news, and CTA. A/B test-ready copy."><strong data-en="Contents:">内容:</strong> ヒーローLP。コンセプト・物件プレビュー3件・稼働実績・ニュース・CTA。A/Bテスト対応コピー。</div>
+<div class="page-persona" data-en='"Resonate, rather than merely own." We open doors to undiscovered places for creators and entrepreneurs seeking authentic time.'>「所有するより、共鳴する。」本物の時間を求めるクリエイター・起業家に、まだ誰も知らない場所へのドアを開く。</div>
+<a class="page-link" href="index" target="_blank">index.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="collection 物件一覧">
+<div class="page-icon">📋</div>
+<div class="page-body">
+<div class="page-name" data-en="Properties">物件一覧</div>
+<div class="page-title" data-en="THE COLLECTION — All Properties">THE COLLECTION — 全物件</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Grid of 7–9 properties. Price, number of nights, images, spec tags, and CTA. Includes filtering functionality."><strong data-en="Contents:">内容:</strong> 全7〜9物件のグリッド。価格・泊数・画像・スペックタグ・CTA。フィルター機能付き。</div>
+<div class="page-persona" data-en="The choice itself is a declaration of lifestyle. For those drawn to a place's character over specifications.">「どれを選ぶか」という決断そのものがライフスタイルの表明。スペックより、場所の個性に惹かれる人へ。</div>
+<a class="page-link" href="collection" target="_blank">collection.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="tapkop">
+<div class="page-icon">🏔</div>
+<div class="page-body">
+<div class="page-name">TAPKOP</div>
+<div class="page-title" data-en="¥50,000,000 · 30 nights · FULL PACK only">¥5,000万 · 30泊 · FULL PACKのみ</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Pinnacle page of our 4,000-tsubo eco-village. Ainu heritage · Self-sufficiency · Timeline · Specifications · Management fees."><strong data-en="Contents:">内容:</strong> 4,000坪エコビレッジの最高峰ページ。アイヌ語由来・自給自足・タイムライン・スペック・管理費。</div>
+<div class="page-persona" data-en="The pride of being first at the finest place. Not an investment or vacation home, but an act of inscribing your philosophy into the earth.">「最高の場所に最初にいた人」という誇り。投資でも別荘でもなく、自分の哲学を大地に刻む行為。</div>
+<a class="page-link" href="tapkop" target="_blank">tapkop.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="lodge ロッジ 温泉">
+<div class="page-icon">🪵</div>
+<div class="page-body">
+<div class="page-name">THE LODGE</div>
+<div class="page-title" data-en="¥4,900,000 · 30 nights · ¥250,000/year management fee · Currently active">¥490万 · 30泊 · ¥25万/年管理費 · 稼働中</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Onsen Lodge with pH 9.2 Hot Spring Open-Air Bath. Occupancy 53.4% · Annual Revenue ¥8.72M · Dividend Estimates · Management Fee Breakdown."><strong data-en="Contents:">内容:</strong> pH9.2源泉温泉露天風呂付きロッジ。稼働率53.4%・年間売上¥872万・配当試算・管理費内訳リンク。</div>
+<div class="page-persona" data-en="'A place where thoughtful people retreat alone to hot springs.' Trust built on numbers; purchase decisions guided by intuition. Returns and experience in harmony.">「賢く生きる人が、温泉で一人になる場所」。数字で信頼し、感覚で購入を決める。リターンと体験の両立。</div>
+<a class="page-link" href="lodge" target="_blank">lodge.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="nesting ネスティング サウナ">
+<div class="page-icon">🌿</div>
+<div class="page-body">
+<div class="page-name">NESTING</div>
+<div class="page-title" data-en="¥13,000,000 · 30 nights · ¥250,000/year management fee · Operating">¥1,300万 · 30泊 · ¥25万/年管理費 · 稼働中</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Forest Sauna Retreat. Accommodation specifications, operational performance, maintenance fees, and FAQ."><strong data-en="Contents:">内容:</strong> 樹木の中のサウナ小屋。森の中の宿泊体験スペック・稼働実績・管理費・FAQ。</div>
+<div class="page-persona" data-en="For those who believe that caring for the body transforms the mind. Wellness is not a luxury—it is a life choice.">「体を整えることで、思考も変わる」という信念を持つ人へ。ウェルネスは贅沢ではなく、生き方の選択。</div>
+<a class="page-link" href="nesting" target="_blank">nesting.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="atami 熱海 white house">
+<div class="page-icon">🌊</div>
+<div class="page-body">
+<div class="page-name" data-en="WHITE HOUSE Atami">WHITE HOUSE 熱海</div>
+<div class="page-title" data-en="¥19,000,000 · 36 nights · Operating · ¥18,000,000 revenue achieved">¥1,900万 · 36泊 · 稼働中 · 売上¥1,800万実績</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Atami Ocean-View Villa. Operating revenue ¥18,000,000 · Timeline · Specifications · Management fees. Our most proven property."><strong data-en="Contents:">内容:</strong> 熱海海眺望ヴィラ。稼働実績¥1,800万・タイムライン・スペック・管理費。最も実績あり物件。</div>
+<div class="page-persona" data-en="A lifestyle flowing between city and seaside. Two hours from Tokyo, yet a world apart. Authentic legacy is our foundation of confidence.">「都市と海を行き来するライフスタイル」。東京から2時間、でも別世界。本物の実績が自信の源泉。</div>
+<a class="page-link" href="atami" target="_blank">atami.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="kumaushi 熊牛 base">
+<div class="page-icon">⛰</div>
+<div class="page-body">
+<div class="page-name">KUMAUSHI BASE</div>
+<div class="page-title" data-en="¥4,800,000 · 30 nights · ¥350,000/year management fees · Opening September 2026">¥480万 · 30泊 · ¥35万/年管理費 · 2026-09オープン</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="New property at Kumaushi Base. Opening scheduled September 2026. Specifications, timeline, management fees, and application call-to-action."><strong data-en="Contents:">内容:</strong> 熊牛原野の新物件。2026-09オープン予定。スペック・タイムライン・管理費・申込CTA。</div>
+<div class="page-persona" data-en="Pioneer spirit—being the first to stand in a place no one has yet reached. Pride and anticipation in owning before completion.">「まだ誰もいない場所に、最初に立つ」という開拓者精神。完成前に買うことへの誇りと期待感。</div>
+<a class="page-link" href="kumaushi" target="_blank">kumaushi.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="instant インスタントハウス">
+<div class="page-icon">🏕</div>
+<div class="page-body">
+<div class="page-name" data-en="Instant House">インスタントハウス</div>
+<div class="page-title" data-en="¥1,200,000 · 30 nights · Miruwa">¥120万 · 30泊 · 美留和</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="The most accessible entry property. Container housing's refined simplicity, specifications, and Beds24 booking integration."><strong data-en="Contents:">内容:</strong> 最もエントリーしやすい物件。コンテナハウスの簡素な美しさ・スペック・Beds24予約連携。</div>
+<div class="page-persona" data-en="The Lightness of Beginning. Become a villa owner for ¥1.2M. Designed for those who experience before committing.">「まずここから始める」という軽さ。120万で別荘オーナーになれる。試してから深める人向け。</div>
+<a class="page-link" href="instant" target="_blank">instant.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="village ビレッジ 100">
+<div class="page-icon">🌾</div>
+<div class="page-body">
+<div class="page-name" data-en="Miruwa Village">美留和ビレッジ</div>
+<div class="page-title" data-en="¥4.9M · 100 Plots · Opens Sept 2026">¥490万 · 100区画 · 2026-09オープン</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Village Concept for 100 Residents. Plot layout, community vision, September 2026 opening, and application CTA."><strong data-en="Contents:">内容:</strong> 100人で村を作るコンセプト。区画レイアウト・コミュニティビジョン・2026-09開業予定・申込CTA。</div>
+<div class="page-persona" data-en="A collective intention to build a village of one hundred. Not individual retreats, but participation in a new form of community.">「100人で村を作る」という集合的な意志。個人の別荘ではなく、新しい形の共同体への参加感。</div>
+<a class="page-link" href="village" target="_blank">village.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="founders ファウンダーズ hawaii ハワイ">
+<div class="page-icon">👑</div>
+<div class="page-body">
+<div class="page-name" data-en="Founder's Package">創業者パック</div>
+<div class="page-title" data-en="¥100M · 9 Properties · 276 Nights/Year FULL PACK">¥1億 · 9物件 · 276泊/年 FULL PACK</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="VIP Full Property Package. 9-property map, ROI projections, limited to 3 remaining spots, philosophical narrative, and application form."><strong data-en="Contents:">内容:</strong> VIP向け全物件FULL PACK。9物件マップ・ROI試算・残り3名限定・哲学的セリフ・申込フォーム。</div>
+<div class="page-persona" data-en="A sense of completeness as someone who possesses everything. Beyond investment returns—a redefinition of abundance as belonging in all nine locations.">「すべてを持つ人」としての完結感。投資リターンより、9つの場所すべてに居場所があるという豊かさの定義。</div>
+<a class="page-link" href="founders" target="_blank">founders.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="flagship 原野">
+<div class="page-icon">🌲</div>
+<div class="page-body">
+<div class="page-name" data-en="Flagship">フラッグシップ</div>
+<div class="page-title" data-en="Untamed land registered in your name.">あなたの名前で登記される、原野。</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Usage rights membership option. SOLUNA usage rights structure, legal framework, and SOLUNA's premier experience."><strong data-en="Contents:">内容:</strong> 個人名義登記の土地購入オプション。SOLUNA利用権型会員権スキーム・SOLUNA最高峰の体験。</div>
+<div class="page-persona" data-en="The instinctive desire to own land in one's own name. A return to the primitive form of ownership—the purest form of luxury.">「自分の名前で大地を持つ」という本能的な欲求。所有の原始的な形に戻る、最もシンプルな贅沢。</div>
+<a class="page-link" href="flagship" target="_blank">flagship.html →</a>
+</div>
+</div>
+</div>
+</div>
+<!-- 購入フロー -->
+<div class="category" id="cat-flow">
+<div class="cat-header">
+<span class="cat-title" data-en="Purchase Flow">購入フロー</span>
+<span class="cat-badge" data-en="9 Pages">9 ページ</span>
+</div>
+<div class="pages-grid">
+<div class="page-card" data-search="join 入口選択">
+<div class="page-icon">🚪</div>
+<div class="page-body">
+<div class="page-name" data-en="Choose Your Entry">入口選択</div>
+<div class="page-title" data-en="Tell us about yourself first">まずあなたについて教えてください</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Persona Branching Page. Three pathways: 'I want to stay,' 'I want to purchase,' or 'Still exploring.'"><strong data-en="Contents:">内容:</strong> ペルソナ分岐ページ。「宿泊したい」「購入したい」「まだ迷ってる」3択で動線を振り分ける。</div>
+<div class="page-persona" data-en="Simply answer our initial questions. No pressure, no rush. The reassurance of 'at your own pace.'">最初の問いに答えるだけでいい。圧力なし、焦らせない。「あなたのペースで」という安心感。</div>
+<a class="page-link" href="join" target="_blank">join.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="buy 購入フロー 申込">
+<div class="page-icon">📝</div>
+<div class="page-body">
+<div class="page-name" data-en="Purchase Flow (buy)">購入フロー (buy)</div>
+<div class="page-title" data-en="Co-Owner Application — Main Purchase Interface">共同オーナー申込 — メイン購入UI</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Property selection → Units → Payment method (bank/crypto) → Personal information → Submit. Multi-step form with progress bar."><strong data-en="Contents:">内容:</strong> 物件選択→口数→支払い方法(銀行/暗号資産)→個人情報→送信。ステップバー付き多段フォーム。</div>
+<div class="page-persona" data-en="The act of applying becomes the first step toward a new way of living. A smooth, frictionless form experience.">「申し込む」という行為が、新しい生き方へのファーストステップ。フォームが重くなく、なめらかに進む体験。</div>
+<a class="page-link" href="buy" target="_blank">buy.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="pay 手付金 支払い stripe">
+<div class="page-icon">💳</div>
+<div class="page-body">
+<div class="page-name" data-en="Deposit Payment">手付金支払い</div>
+<div class="page-title" data-en="Stripe Payment — ¥100,000 and up">Stripe決済 — ¥100,000〜</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Stripe Checkout Integration. Secure Position with ¥100,000 Deposit. Remaining Balance Processed After Pre-Purchase Confirmation."><strong data-en="Contents:">内容:</strong> Stripe Checkout統合。手付金¥10万でポジション確保、残金は購入前確認後に手続き。</div>
+<div class="page-persona" data-en="The lightness of securing a place for ¥100,000. Designed to make the first step toward a major decision as modest as possible.">「¥10万で場所を確保する」という軽さ。大きな決断への最初の一歩を、できるだけ小さく設計。</div>
+<a class="page-link" href="pay" target="_blank">pay.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="flow フロー サイトマップ">
+<div class="page-icon">🗺</div>
+<div class="page-body">
+<div class="page-name" data-en="Purchase Flow Guide">購入フロー説明</div>
+<div class="page-title" data-en="Site Map &amp; User Navigation">サイトマップ・ユーザー動線</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Full site architecture visualization. Three user journeys—owner, guest prospect, contractor—with step progress indicators."><strong data-en="Contents:">内容:</strong> 全ページ構成の可視化。オーナー/宿泊検討/施工社の3動線、ステップ進捗インジケーター。</div>
+<div class="page-persona" data-en="Integrity through clarity. Complete transparency about what exists where builds the foundation of trust.">「迷わせない」という誠実さ。どこに何があるか全部見せる透明性が信頼の基盤。</div>
+<a class="page-link" href="flow" target="_blank">flow.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="call ビデオ 購入前確認">
+<div class="page-icon">📹</div>
+<div class="page-body">
+<div class="page-name" data-en="Pre-Purchase Consultation Video Call">購入前確認 ビデオ通話</div>
+<div class="page-title" data-en="Daily.co WebRTC — Consultation with Manager">Daily.co WebRTC — 担当者説明</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Video consultation page via Daily.co WebRTC. Digital signature of purchase terms and staff presentation."><strong data-en="Contents:">内容:</strong> Daily.co WebRTCによるビデオ通話ページ。購入条件確認書の電子サイン・担当者説明。</div>
+<div class="page-persona" data-en="We sell only to those we meet and speak with. A balance of face-to-face reassurance and modern digital documentation.">「会って話す人」だけに売る。顔が見える安心感、書類のオンライン完結という現代感の両立。</div>
+<a class="page-link" href="call" target="_blank">call.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="status 購入ステータス">
+<div class="page-icon">📊</div>
+<div class="page-body">
+<div class="page-name" data-en="Purchase Status">購入ステータス</div>
+<div class="page-title" data-en="Progress Tracking: Deposit → Review → Contract → Registration">手付→確認→契約→登記 進捗確認</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Purchase process progress tracker. Four-step visualization · Calendar scheduling · Document review."><strong data-en="Contents:">内容:</strong> 購入プロセスの進捗トラッカー。4ステップ可視化・カレンダー予約・ドキュメント確認。</div>
+<div class="page-persona" data-en="Peace of mind knowing exactly where you stand. Transparent process dissolves anxiety around a significant investment.">「今どこにいるか」がわかる安心感。大きな買い物への不安を、透明なプロセスで溶かす。</div>
+<a class="page-link" href="status" target="_blank">status.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="thanks サンクス ありがとう">
+<div class="page-icon">🎉</div>
+<div class="page-body">
+<div class="page-name" data-en="Thank You Page">サンクスページ</div>
+<div class="page-title" data-en="Thank you for your purchase">ご購入ありがとうございます</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Confirmation page post-application. Next steps, community invitation, and email verification instructions."><strong data-en="Contents:">内容:</strong> 申込完了後の到着ページ。次のステップ案内・コミュニティ誘導・メール確認指示。</div>
+<div class="page-persona" data-en='"Welcome to this place." The warmth beyond the threshold. Expressed not as purchase, but as joining a community.'>「ようこそ、この場所に。」入口を超えた瞬間の温かさ。購入ではなく、仲間入りという表現に。</div>
+<a class="page-link" href="thanks" target="_blank">thanks.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="cancel キャンセル">
+<div class="page-icon">↩️</div>
+<div class="page-body">
+<div class="page-name" data-en="Cancellation">キャンセル</div>
+<div class="page-title" data-en="Reservation Cancellation Form">予約キャンセルフォーム</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Free cancellation policy before confirmation. Reason submission form and refund timeline details."><strong data-en="Contents:">内容:</strong> 購入前確認前はキャンセル無料ポリシー。理由入力フォーム・返金タイムライン説明。</div>
+<div class="page-persona" data-en="The assurance of always being able to return gives courage to move forward. Sincere respect without coercion.">「いつでも戻れる」という安心が、むしろ前に進む勇気をくれる。強引に引き止めない誠実さ。</div>
+<a class="page-link" href="cancel" target="_blank">cancel.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="approve 承認 譲渡">
+<div class="page-icon">✅</div>
+<div class="page-body">
+<div class="page-name" data-en="Equity Transfer Approval">持分譲渡承認</div>
+<div class="page-title" data-en="Approval for Co-ownership Transfer">共有持分譲渡に関するご承認</div>
+<div class="page-meta"><span class="tag tag-owner" data-en="Owner">オーナー</span></div>
+<div class="page-desc" data-en="Third-party transfer approval workflow for SOLUNA memberships. UI for obtaining consent from all existing owners."><strong data-en="Contents:">内容:</strong> 民法250条に基づく会員権の第三者譲渡承認フロー。既存オーナー全員の同意取得UI。</div>
+<div class="page-persona" data-en="Implementation of trust between Owners. A thoughtful process, ceremonial in its reception of new members.">オーナー同士の信頼関係の実装。新しい仲間を迎える儀式のような、丁寧なプロセス。</div>
+<a class="page-link" href="approve" target="_blank">approve.html →</a>
+</div>
+</div>
+</div>
+</div>
+<!-- オーナー向け -->
+<div class="category" id="cat-owner">
+<div class="cat-header">
+<span class="cat-title" data-en="For Owners">オーナー向け</span>
+<span class="cat-badge" data-en="8 Pages">8 ページ</span>
+<span class="tag tag-pass">OWNERS_PASSWORD: SOLUNA-OWNERS-2026</span>
+</div>
+<div class="pages-grid">
+<div class="page-card" data-search="owners オーナーズポータル">
+<div class="page-icon">🔐</div>
+<div class="page-body">
+<div class="page-name" data-en="Owners' Portal">オーナーズポータル</div>
+<div class="page-title" data-en="Owner Portal">オーナー専用ポータル</div>
+<div class="page-meta"><span class="tag tag-owner" data-en="Owner">オーナー</span><span class="tag tag-pass" data-en="Authentication Required">要認証</span></div>
+<div class="page-desc" data-en="Owners' Exclusive Dashboard. Password-protected hub for reservations, revenue, community, and guide access."><strong data-en="Contents:">内容:</strong> パスワード認証後のオーナー専用ダッシュボード。予約・収益・コミュニティ・ガイドへのリンクハブ。</div>
+<div class="page-persona" data-en='A VIP experience that whispers, "This place is for you." A threshold where owners confirm their pride with each visit.'>「ここはあなたのための場所」というVIP感。オーナーであることの誇りを毎回確認できる扉。</div>
+<a class="page-link" href="owners" target="_blank">owners.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="calendar カレンダー 予約">
+<div class="page-icon">📅</div>
+<div class="page-body">
+<div class="page-name" data-en="Schedule">スケジュール</div>
+<div class="page-title" data-en="2026 Owner Reservation Calendar">2026年 オーナー予約カレンダー</div>
+<div class="page-meta"><span class="tag tag-owner" data-en="Owner">オーナー</span></div>
+<div class="page-desc" data-en="Integrated Beds24 reservation calendar for all properties. Remaining annual nights display as owner benefit."><strong data-en="Contents:">内容:</strong> Beds24連携の全物件予約カレンダー。オーナー権利として使える年間泊数の残日数表示。</div>
+<div class="page-persona" data-en="A wealth of choice: 'Where shall I go this year?' The freedom of controlling your own time.">「今年、どこに行こう」という豊かな選択肢。自分の時間を自分でコントロールするという自由感。</div>
+<a class="page-link" href="calendar" target="_blank">calendar.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="management-fee 管理費">
+<div class="page-icon">💴</div>
+<div class="page-body">
+<div class="page-name" data-en="Management Fee Breakdown">管理費の内訳</div>
+<div class="page-title" data-en="Annual Management Fees by Property and Category">物件別・費目別 年間管理費</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Detailed management cost breakdown by category for all properties. Utilities, cleaning, insurance, reserve funds, and operational fees fully transparent."><strong data-en="Contents:">内容:</strong> 全物件の管理費を費目別に詳細開示。光熱費・清掃・保険・修繕積立・運営委託費を透明化。</div>
+<div class="page-persona" data-en="Honesty without concealment forms the foundation of trust. Transparency ensures only serious prospects remain.">「隠さない」という誠実さが信頼の土台。数字を出すことで、真剣な購入検討者だけが残る。</div>
+<a class="page-link" href="management-fee" target="_blank">management-fee.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="members メンバー 仲間">
+<div class="page-icon">👥</div>
+<div class="page-body">
+<div class="page-name" data-en="Member Directory">メンバー一覧</div>
+<div class="page-title" data-en="Forest Companions of Teshikaga">弟子屈の森の仲間たち</div>
+<div class="page-meta"><span class="tag tag-owner" data-en="Owner">オーナー</span></div>
+<div class="page-desc" data-en="Current Owners Directory. Names, photographs, attribute tags (Entrepreneur/Creator, etc.), and personal introductions."><strong data-en="Contents:">内容:</strong> 現オーナーのプロフィール一覧。名前・写真・属性タグ（起業家/クリエイター等）・自己紹介。</div>
+<div class="page-persona" data-en="A sense of pride: 'To share a place with people like these.' Community quality is integral to property value.">「こんな人たちと同じ場所を持つ」という誇り。コミュニティの質が、物件の価値の一部。</div>
+<a class="page-link" href="members" target="_blank">members.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="member メンバーページ">
+<div class="page-icon">👤</div>
+<div class="page-body">
+<div class="page-name" data-en="Member Page">メンバーページ</div>
+<div class="page-title" data-en="Personal Member Dashboard">個人メンバーダッシュボード</div>
+<div class="page-meta"><span class="tag tag-owner" data-en="Owner">オーナー</span></div>
+<div class="page-desc" data-en="Personal units owned, coupon balance, reservation history for this year, and profile management. Individual Owner Dashboard."><strong data-en="Contents:">内容:</strong> 個人の購入口数・クーポン残高・今年の予約履歴・プロフィール編集。個人オーナーダッシュボード。</div>
+<div class="page-persona" data-en="The satisfaction of grasping 'your SOLUNA' at a glance. A place to periodically confirm the reality of ownership.">「自分のSOLUNA」を一目で把握できる満足感。所有の実感を定期的に確認できる場所。</div>
+<a class="page-link" href="member" target="_blank">member.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="miruwa owners 美留和 オーナーズ">
+<div class="page-icon">🌿</div>
+<div class="page-body">
+<div class="page-name" data-en="Miruwa Grand Owners">美留和グランド オーナーズ</div>
+<div class="page-title" data-en="miruwa-owners — Owner Portal">miruwa-owners — オーナーポータル</div>
+<div class="page-meta"><span class="tag tag-owner" data-en="Owner">オーナー</span></div>
+<div class="page-desc" data-en="NESTING Grand Owner Portal. Reservations · Facilities · Recent Updates."><strong data-en="Contents:">内容:</strong> 美留和グランド専用オーナーポータル。予約状況・施設情報・近況アップデート。</div>
+<div class="page-persona" data-en="An exclusive inner sanctum for those with a place in our community. We cultivate a sense of belonging to a curated collective.">「美留和に場所を持つ人」専用の内側感。特定コミュニティへの帰属意識を育てる。</div>
+<a class="page-link" href="miruwa-owners" target="_blank">miruwa-owners.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="report レポート 月次">
+<div class="page-icon">📈</div>
+<div class="page-body">
+<div class="page-name" data-en="Monthly Report">月次レポート</div>
+<div class="page-title" data-en="March 2026 Transparency Report">2026年3月 透明レポート</div>
+<div class="page-meta"><span class="tag tag-owner" data-en="Owner">オーナー</span></div>
+<div class="page-desc" data-en="Monthly occupancy rates, revenue, cleaning records, maintenance status, and updates published with full transparency. Complete transparency in operations."><strong data-en="Contents:">内容:</strong> 月次の稼働率・売上・清掃記録・修繕状況・トピックを数値とともに公開。完全透明経営。</div>
+<div class="page-persona" data-en="The peace of mind in reviewing your asset status monthly. Trust is born from transparency.">「自分の資産が今どうなっているか」を毎月確認できる安心感。信頼は透明性から生まれる。</div>
+<a class="page-link" href="report" target="_blank">report.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="neuro portal ニューロ ポータル">
+<div class="page-icon">🧠</div>
+<div class="page-body">
+<div class="page-name">NEURO Portal</div>
+<div class="page-title" data-en="AI CABIN Owner Portal">AI CABIN オーナーポータル</div>
+<div class="page-meta"><span class="tag tag-owner" data-en="Owner">オーナー</span><span class="tag tag-pass" data-en="Login Required">要ログイン</span></div>
+<div class="page-meta" style="margin-top:3px"><span style="font-size:9px;color:#444;font-family:monospace">admin: yuki@hamada.tokyo / <span style="color:var(--gold)">soluna</span></span></div>
+<div class="page-desc" data-en="Smart Cabin Management Portal. AI automatically monitors and reports property status through sensor data, analysis, and alerts."><strong data-en="Contents:">内容:</strong> AIが自動で物件状態を監視・報告するスマートキャビン管理ポータル。センサーデータ・AI分析・アラート。</div>
+<div class="page-persona" data-en="A sense of advancement: technology protects place. The conviction that this is how real estate ownership should be in the future.">「テクノロジーが場所を守っている」という先進感。未来の不動産オーナーはこうあるべき、という確信。</div>
+<a class="page-link" href="neuro-portal" target="_blank">neuro-portal.html →</a>
+</div>
+</div>
+</div>
+</div>
+<!-- KUMAUSHI系 -->
+<div class="category" id="cat-kumaushi">
+<div class="cat-header">
+<span class="cat-title" data-en="KUMAUSHI Series">KUMAUSHI 系</span>
+<span class="cat-badge" data-en="Page 6">6 ページ</span>
+</div>
+<div class="pages-grid">
+<div class="page-card" data-search="kumaushi cabin 天空の道場">
+<div class="page-icon">🥋</div>
+<div class="page-body">
+<div class="page-name">KUMAUSHI CABIN</div>
+<div class="page-title" data-en="Sky Dojo — ¥9,000,000 per Unit">天空の道場 — ¥900万 1口</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<a class="page-link" href="kumaushi-cabin" target="_blank">kumaushi-cabin.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="kumaushi sips キャビン">
+<div class="page-icon">🏗</div>
+<div class="page-body">
+<div class="page-name">KUMAUSHI SIPs</div>
+<div class="page-title" data-en="High-Insulation Timber Cabins">高断熱木質キャビン</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<a class="page-link" href="kumaushi-sips" target="_blank">kumaushi-sips.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="kumaushi lite ライト 自力施工">
+<div class="page-icon">🔨</div>
+<div class="page-body">
+<div class="page-name">KUMAUSHI LITE</div>
+<div class="page-title" data-en="¥1,800,000 DIY-constructed SIPs Cabin">¥180万 自力施工SIPsキャビン</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<a class="page-link" href="kumaushi-lite" target="_blank">kumaushi-lite.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="kumaushi ops オペレーション">
+<div class="page-icon">⚙️</div>
+<div class="page-body">
+<div class="page-name">KUMAUSHI OPS</div>
+<div class="page-title" data-en="KUMAUSHI BASE Sky Dojo OPS">熊牛原野 天空の道場 OPS</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<a class="page-link" href="kumaushi-ops" target="_blank">kumaushi-ops.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="instant kumaushi 熊牛">
+<div class="page-icon">⛺</div>
+<div class="page-body">
+<div class="page-name" data-en="Instant House Kumaushi">Instant House 熊牛</div>
+<div class="page-title" data-en="Kumaushi Base Instant House">熊牛原野 Instant House</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<a class="page-link" href="instant-kumaushi" target="_blank">instant-kumaushi.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="k4 anatomy 解剖図">
+<div class="page-icon">📐</div>
+<div class="page-body">
+<div class="page-name" data-en="K4 Anatomy Diagram">K4 解剖図</div>
+<div class="page-title" data-en="KUMAUSHI BASE Layout &amp; Zone Map">KUMAUSHI BASE 配置・ゾーン図</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<a class="page-link" href="k4-anatomy" target="_blank">k4-anatomy.html →</a>
+</div>
+</div>
+</div>
+</div>
+<!-- ストーリー・ブログ -->
+<div class="category" id="cat-story">
+<div class="cat-header">
+<span class="cat-title" data-en="Stories &amp; Blog">ストーリー・ブログ</span>
+<span class="cat-badge" data-en="Page 11">11 ページ</span>
+</div>
+<div class="pages-grid">
+<div class="page-card" data-search="blog ブログ journal">
+<div class="page-icon">📰</div>
+<div class="page-body">
+<div class="page-name">SOLUNA Journal</div>
+<div class="page-title" data-en="Blog Posts">ブログ一覧</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Founder Yuki Hamada's Philosophy Blog. Exploring Sound, Place, Architecture &amp; Festivals. Currently 3 Essays."><strong data-en="Contents:">内容:</strong> ファウンダー濱田優貴による思想ブログ。音・場所・建築・フェスについて。現在3本。</div>
+<div class="page-persona" data-en="An experience of resonating with the philosophy of those who create places. Not purchasing a brand, but participating through shared conviction.">「場所を作る人の思想に共感する」という体験。ブランドを買うのではなく、思想に共鳴して参加する感覚。</div>
+<a class="page-link" href="blog" target="_blank">blog.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="blog-1 音から始まった">
+<div class="page-icon">🎵</div>
+<div class="page-body">
+<div class="page-name" data-en="Blog: It Began with Sound">Blog: 音から始まった</div>
+<div class="page-title" data-en="Why SOLUNA Was Born — Music and Place">SOLUNAが生まれた理由 — 音楽と場所</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Why create a retreat. A foundational essay exploring SOLUNA's core motivation through the relationship between music festivals and place."><strong data-en="Contents:">内容:</strong> なぜ別荘を作るのか。音楽フェスと場所の関係性、SOLUNAの根源的な動機を語る創業エッセイ。</div>
+<div class="page-persona" data-en='For those who feel music and lifestyle are intertwined. A selective invitation: "We welcome only those who resonate with our vision."'>音楽とライフスタイルが繋がっていると感じる人へ。「理由に共感した人だけが来てほしい」という選択的な招待。</div>
+<a class="page-link" href="blog-1" target="_blank">blog-1.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="blog-2 uta.live">
+<div class="page-icon">🏡</div>
+<div class="page-body">
+<div class="page-name" data-en="Blog: Why Create a Retreat">Blog: なぜ別荘を作るのか</div>
+<div class="page-title" data-en="What the Creator of uta.live Built Next">uta.liveを作った人間が次に作ったもの</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en='The path from uta.live to SOLUNA. Technology and place converge—our answer to the question of "next-generation luxury residence."'><strong data-en="Contents:">内容:</strong> uta.liveからSOLUNAへの道筋。テクノロジーと場所の融合、「次世代の別荘」という問いへの答え。</div>
+<div class="page-persona" data-en="For those who live in both the digital and physical worlds. Answering the longing for authentic spaces from those weary of screens.">テックとリアルの両方に生きる人へ。デジタルに疲れた人が求める「本物の場所」への渇望に応える。</div>
+<a class="page-link" href="blog-2" target="_blank">blog-2.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="blog-3 コーチェラ">
+<div class="page-icon">🌅</div>
+<div class="page-body">
+<div class="page-name" data-en="Blog: Four A.M. at Coachella">Blog: コーチェラの朝4時</div>
+<div class="page-title" data-en="Coachella at 4 AM and the dawn in Teshikaga, Hokkaido">コーチェラの朝4時と、弟子屈の夜明け</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="A poetic essay juxtaposing festival euphoria with Hokkaido's serenity. Exploring SOLUNA's vision of stepping beyond the ordinary."><strong data-en="Contents:">内容:</strong> フェスの高揚と北海道の静寂を並置する詩的エッセイ。SOLUNAが目指す「日常の外側」を描く。</div>
+<div class="page-persona" data-en="The resonance of 'capturing that 4 a.m. feeling in your own space.' Touching the hearts of festival-goers, travelers, and culture seekers.">「あの朝4時のような感覚を、自分の場所で持てたら」という共感。フェス民・旅人・感度層の核心に触れる。</div>
+<a class="page-link" href="blog-3" target="_blank">blog-3.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="tapkop story ストーリー">
+<div class="page-icon">🏔</div>
+<div class="page-body">
+<div class="page-name">TAPKOP Story</div>
+<div class="page-title" data-en="The Lake Sings.">湖は鳴っている。</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="A Poetic Narrative of TAPKOP. Depicting Ainu lands, the resonance of lakes, and self-sufficient living within silence through cinematic prose."><strong data-en="Contents:">内容:</strong> TAPKOPという場所の詩的物語。アイヌの大地・湖の音・静寂の中の自給自足を映像的文体で描く。</div>
+<div class="page-persona" data-en="The sensation of 'unnecessary things fall away here.' A narrative that moves those who believe in the power of place to commit their purchase.">「ここにいると、余計なものが落ちる」という感覚。場所の力を信じる人が、購入を決意するための物語。</div>
+<a class="page-link" href="tapkop-story" target="_blank">tapkop-story.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="lodge story ストーリー">
+<div class="page-icon">🪵</div>
+<div class="page-body">
+<div class="page-name">THE LODGE Story</div>
+<div class="page-title" data-en="Beyond the forest, there is light.">木の向こうに、光がある。</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="The Architecture and Story of THE LODGE. Warmth of wood, natural hot spring, and the interplay of light and shadow."><strong data-en="Contents:">内容:</strong> THE LODGEの建築と体験の物語。木の温もり・温泉・光と影のコントラスト。</div>
+<div class="page-persona" data-en="A transition from transient 'search and book' accommodation to the intimate sense of 'returning to your own place.'">日常の「検索して予約する」宿泊から離れ、「自分の場所に帰る」感覚への移行を促す。</div>
+<a class="page-link" href="lodge-story" target="_blank">lodge-story.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="nesting story ストーリー">
+<div class="page-icon">🌿</div>
+<div class="page-body">
+<div class="page-name">NESTING Story</div>
+<div class="page-title" data-en="The walls breathe.">壁が、呼吸している。</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="A sensory narrative on the architectural experience of NESTING. The relationship between natural materials, sauna, and silence."><strong data-en="Contents:">内容:</strong> NESTINGの建築体験を感覚的に語る物語。自然素材・サウナ・静寂の関係性。</div>
+<div class="page-persona" data-en="Written in the voice of those who experienced transformation—'After time in this space, my work changed.' What lies beyond wellness.">「こんな空間で過ごした後、仕事が変わった」という体験者が語るように書く。ウェルネスの先に何があるか。</div>
+<a class="page-link" href="nesting-story" target="_blank">nesting-story.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="atami story 熱海 ストーリー">
+<div class="page-icon">🌊</div>
+<div class="page-body">
+<div class="page-name" data-en="WHITE HOUSE Atami Story">WHITE HOUSE 熱海 Story</div>
+<div class="page-title" data-en="Waves are rhythm.">波がリズムだ。</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="A narrative poetically depicting Atami's sea, waves, and light. Speaking to the authentic respite urban dwellers seek on weekends."><strong data-en="Contents:">内容:</strong> 熱海の海・波・光を詩的に描く物語。都市生活者が週末に求める「本物の休息」を語る。</div>
+<div class="page-persona" data-en="Become another version of yourself in two hours from Tokyo. A message: those busiest need this place most.">東京から2時間で別の自分になれる。「忙しい人ほど、この場所が必要」というメッセージ。</div>
+<a class="page-link" href="atami-story" target="_blank">atami-story.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="story 美留和グランド 8人">
+<div class="page-icon">📖</div>
+<div class="page-body">
+<div class="page-name" data-en="Biruwa Grand Story">美留和グランド Story</div>
+<div class="page-title" data-en="A Story of Eight">8人だけの物語</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="A narrative created together by eight owners. The significance of an invitation-only community and the value of exclusivity."><strong data-en="Contents:">内容:</strong> 8人のオーナーが共に作る物語。紹介制コミュニティの意味と、少数であることの価値。</div>
+<div class="page-persona" data-en="Exclusivity is the essence of this place. Not for the masses—a destination known only to the select few.">「少数であることが、この場所の価値」。マス向けではない、選ばれた人だけが知る場所への憧れ。</div>
+<a class="page-link" href="story" target="_blank">story.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="dome story ドーム 球面">
+<div class="page-icon">🔮</div>
+<div class="page-body">
+<div class="page-name">DOME HOUSE Story</div>
+<div class="page-title" data-en="Stand at the center of the sphere.">球面の中心に立て。</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="The conceptual narrative of spherical architecture. A philosophy where geometry, celestial mechanics, and acoustics converge into unified space. Future property concept."><strong data-en="Contents:">内容:</strong> 球体建築の構想物語。幾何学・天体・音響が一体になった空間の哲学。将来物件のコンセプトページ。</div>
+<div class="page-persona" data-en="The sensation where architecture becomes philosophy. An advance experience for those within the convergence of art, music, and architecture.">「建築が思想になる」という感覚。アート・音楽・建築が交差する場所にいる人への先行体験。</div>
+<a class="page-link" href="dome-story" target="_blank">dome-story.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="zero story 地下 地球 建築">
+<div class="page-icon">🌍</div>
+<div class="page-body">
+<div class="page-name">SOLUNA ZERO Story</div>
+<div class="page-title" data-en="Architecture submerged in earth. Nothing remains above ground.">地球に潜る建築。地上には何もない。</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Underground and semi-subterranean architecture concept. The ultimate refuge—hidden from view, nestled into the earth itself."><strong data-en="Contents:">内容:</strong> 地下・半地下建築の構想。地上から見えない、地球の中に潜る究極の隠れ家コンセプト。</div>
+<div class="page-persona" data-en="The Yearning for Hidden Sanctuary. Those seeking to disappear from the world find their answer here.">「誰にも見つからない場所」への欲求。世界から消えたい瞬間を持つ人が、ここで答えを見つける。</div>
+<a class="page-link" href="zero-story" target="_blank">zero-story.html →</a>
+</div>
+</div>
+</div>
+</div>
+<!-- 情報・規約 -->
+<div class="category" id="cat-info">
+<div class="cat-header">
+<span class="cat-title" data-en="Information &amp; Terms">情報・規約</span>
+<span class="cat-badge" data-en="Page 7">7 ページ</span>
+</div>
+<div class="pages-grid">
+<div class="page-card" data-search="faq よくある質問">
+<div class="page-icon">❓</div>
+<div class="page-body">
+<div class="page-name">FAQ</div>
+<div class="page-title" data-en="FAQ">よくある質問</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="30+ items covering Purchase, Legal, Stays, Management Fees, and Cancellation. Sectioned organization with pricing structure explanations."><strong data-en="Contents:">内容:</strong> 購入・法律・滞在・管理費・キャンセルに関する30+項目。セクション分け・価格上昇の仕組み説明。</div>
+<div class="page-persona" data-en="We welcome questions rather than eliminate them. Honest answers attract sincere buyers.">「疑問をなくす」より「疑問を持つことを歓迎する」姿勢。正直な回答が、本気の購入者を引き寄せる。</div>
+<a class="page-link" href="faq" target="_blank">faq.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="terms 利用規約">
+<div class="page-icon">📄</div>
+<div class="page-body">
+<div class="page-name" data-en="Terms of Service">利用規約</div>
+<div class="page-title">Terms of Service</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Membership rights, usage terms, restrictions, withdrawal, and dispute resolution terms. Based on SOLUNA membership agreement."><strong data-en="Contents:">内容:</strong> 共同所有・宿泊利用・禁止事項・退会・紛争解決を規定。SOLUNA利用権型会員権ベース。</div>
+<div class="page-persona" data-en="Legal documents written with clarity. Revealing the design philosophy: 'Rules exist so everyone can use this place with ease.'">法的文書だが読みやすく。「ルールを作るのは、みんなが気持ちよく使うため」という設計思想を見せる。</div>
+<a class="page-link" href="terms" target="_blank">terms.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="privacy プライバシー">
+<div class="page-icon">🔒</div>
+<div class="page-body">
+<div class="page-name" data-en="Privacy Policy">プライバシーポリシー</div>
+<div class="page-title">Privacy Policy</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Privacy Policy. Data Collection, Use, Storage &amp; Third-Party Sharing. Includes Resend &amp; Beds24 Integrations."><strong data-en="Contents:">内容:</strong> 個人情報の取得・利用・保管・第三者提供に関するポリシー。Resend・Beds24との連携も記載。</div>
+<div class="page-persona" data-en="Integrity in Data Handling. Discerning users read this carefully. Designed for complete peace of mind.">データ扱いへの誠実さ。感度の高いユーザーは、ここを読む。読んで安心できる設計。</div>
+<a class="page-link" href="privacy" target="_blank">privacy.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="tokushoho 特商法">
+<div class="page-icon">⚖️</div>
+<div class="page-body">
+<div class="page-name" data-en="Specified Commercial Transaction Act">特定商取引法</div>
+<div class="page-title" data-en="Specified Commercial Transaction Act Disclosure">特定商取引法に基づく表記</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Statutory Disclosures. Sales operator, representative, location, contact, return terms, etc. Listed under Enabler Inc."><strong data-en="Contents:">内容:</strong> 法定記載事項。販売事業者・代表者・所在地・電話・返品条件等。Enabler Inc.名義で記載。</div>
+<div class="page-persona" data-en="Legal compliance fulfilled. Clearly displayed address and contact information build confidence in a company that stands behind its commitments.">法的義務の履行。でも住所や連絡先が明記されていることが「逃げない会社」への信頼感につながる。</div>
+<a class="page-link" href="tokushoho" target="_blank">tokushoho.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="company 会社情報 enabler">
+<div class="page-icon">🏢</div>
+<div class="page-body">
+<div class="page-name" data-en="Company Information">会社情報</div>
+<div class="page-title">SOLUNA / Enabler Inc.</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Enabler Inc. — Company Overview · Mission · Team · East Ventures Investment · Contact"><strong data-en="Contents:">内容:</strong> Enabler Inc. 会社概要・ミッション・チーム・East Ventures投資・問い合わせ先。</div>
+<div class="page-persona" data-en="Revealing who creates our homes builds trust. Connection flows from a company with a visible face.">「誰が作っているか」を見せることが、最大の信頼構築。顔の見える会社への親近感。</div>
+<a class="page-link" href="company" target="_blank">company.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="scheme スキーム 不動産特定共同事業 空き家">
+<div class="page-icon">📊</div>
+<div class="page-body">
+<div class="page-name" data-en="Investment Scheme (AKIYA CLUB)">投資スキーム (AKIYA CLUB)</div>
+<div class="page-title" data-en="⚠️ Recruitment Closed — Registration Application in Preparation">⚠️ 募集停止中 — 登録申請準備中</div>
+<div class="page-meta"><span class="tag tag-draft" data-en="Recruitment Closed">募集停止</span></div>
+<div class="page-desc" data-en="Explanation page for small-scale real estate syndication scheme. Currently recruitment suspended and application in preparation. Do not publish."><strong data-en="Contents:">内容:</strong> 小規模不動産特定共同事業スキームの説明ページ。現在は募集停止・申請準備中。公開しない。</div>
+<div class="page-persona" data-en="⚠️ This page is currently offline. External links prohibited until legal documentation is complete.">⚠️ このページは現在公開停止。法的整備完了まで外部リンク禁止。</div>
+<a class="page-link" href="scheme" target="_blank">scheme.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="contact お問い合わせ">
+<div class="page-icon">✉️</div>
+<div class="page-body">
+<div class="page-name" data-en="Contact">お問い合わせ</div>
+<div class="page-title">Contact</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Contact Form. Categorized by Purpose (Purchase Inquiry / Accommodation / Media / Other). info@solun.art"><strong data-en="Contents:">内容:</strong> お問い合わせフォーム。目的別（購入検討/宿泊/メディア/その他）振り分け。info@solun.art。</div>
+<div class="page-persona" data-en="An atmosphere where questions are always welcome. Thoughtful responses extend the brand experience.">「気軽に聞いていい」という空気。丁寧に返信することが、ブランドの延長線上にある。</div>
+<a class="page-link" href="contact" target="_blank">contact.html →</a>
+</div>
+</div>
+</div>
+</div>
+<!-- マーケティング -->
+<div class="category" id="cat-marketing">
+<div class="cat-header">
+<span class="cat-title" data-en="Marketing &amp; Landing Pages">マーケティング・LP</span>
+<span class="cat-badge" data-en="9 Pages">9 ページ</span>
+</div>
+<div class="pages-grid">
+<div class="page-card" data-search="network 紹介 リファーラル">
+<div class="page-icon">🔗</div>
+<div class="page-body">
+<div class="page-name" data-en="Referral Program">紹介プログラム</div>
+<div class="page-title" data-en="For Referrals — Deposit Waiver Benefit">ご紹介の方へ — 手付金免除特典</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Landing page for referrals. Explanation of referral benefits (deposit waiver) and application CTA."><strong data-en="Contents:">内容:</strong> 紹介された人向けランディング。紹介特典（手付金免除）の説明と申込CTA。</div>
+<div class="page-persona" data-en="The privilege of being introduced by someone who believes in you. Trust becomes the foundation for decision-making.">「あなたの友人が、あなたのことを思って送ってくれた」という特別感。信頼の連鎖が購入動機になる。</div>
+<a class="page-link" href="network" target="_blank">network.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="referral 紹介 オーナー">
+<div class="page-icon">🤝</div>
+<div class="page-body">
+<div class="page-name" data-en="Owner Referral Program">オーナー紹介プログラム</div>
+<div class="page-title" data-en="Invite Friends — Referral Bonus">友人を仲間に — 紹介ボーナス</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Owner Referral Program. Referral link generation, bonus conditions, and benefits for referrer and referred."><strong data-en="Contents:">内容:</strong> オーナー向け紹介プログラム説明。紹介リンク発行・ボーナス条件・紹介した人/された人の特典。</div>
+<div class="page-persona" data-en="The impulse to share this place with those you care about. Referral as a natural expression of wanting to share, not obligation.">「この場所を、あの人にも知ってほしい」という衝動。紹介は義務ではなく、分かち合いたい気持ちの自然な表れ。</div>
+<a class="page-link" href="referral" target="_blank">referral.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="plans プラン一覧">
+<div class="page-icon">📦</div>
+<div class="page-body">
+<div class="page-name" data-en="Plan Comparison">プラン比較</div>
+<div class="page-title" data-en="All Plans &amp; Products">全プラン・商品一覧</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Comprehensive plan comparison from 1-unit to FULL PACK. Cross-tabular overview of nights, pricing, cancellation terms, and benefits."><strong data-en="Contents:">内容:</strong> 1口〜FULL PACKまでの全プラン比較。泊数・価格・キャンセル条件・特典の横断比較テーブル。</div>
+<div class="page-persona" data-en="A place to discover your ideal engagement. Centered not on investment amount, but on what experiences you gain.">「自分に合う関わり方」を見つける場所。投資額より、どんな時間を手に入れるか、という問いを中心に。</div>
+<a class="page-link" href="plans" target="_blank">plans.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="hold 持っとくプラン 早期購入">
+<div class="page-icon">⏳</div>
+<div class="page-body">
+<div class="page-name" data-en="Keeper Plan">持っとくプラン</div>
+<div class="page-title" data-en="Earlier Purchase, Greater Value">早く買うほど、価値が上がる</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Bonding curve pricing model explained. How early adopters secure better value and the rationale behind it."><strong data-en="Contents:">内容:</strong> ボンディングカーブ価格設計の説明。早期購入者ほど安く取得できる仕組みと根拠。</div>
+<div class="page-persona" data-en="Not about capital appreciation, but accumulated experience. Those who stay today accumulate three years' worth of memories.">「今日の¥490万が、3年後には¥900万になる」ではなく、「今日持った人が、3年分の記憶を多く持てる」という時間軸。</div>
+<a class="page-link" href="hold" target="_blank">hold.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="pass パス サブスク 月額">
+<div class="page-icon">🎫</div>
+<div class="page-body">
+<div class="page-name">SOLUNA PASS</div>
+<div class="page-title" data-en="Accommodation Subscription from ¥9,800/month">月額¥9,800〜 宿泊サブスク</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Experience Before Purchase with Our Accommodation Subscription. Monthly Access to All Properties. Your Gateway to Ownership."><strong data-en="Contents:">内容:</strong> 購入前に体験できる宿泊サブスク。月額払いで全物件にアクセス。購入への入口として機能。</div>
+<div class="page-persona" data-en="An entry point for those who prefer to experience before deciding. Where experience becomes conviction. The authentic way to trial before purchase.">「まず泊まってから考える」という人のための入口。体験が確信になる。購入の前の、本物の試し方。</div>
+<a class="page-link" href="pass" target="_blank">pass.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="gift ギフト 贈り物">
+<div class="page-icon">🎁</div>
+<div class="page-body">
+<div class="page-name">SOLUNA Gift</div>
+<div class="page-title" data-en="Gifting place itself.">場所を、贈る。</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Gift stays, shares, and NFT passes. Gift certificate issuance and recipient invitation emails."><strong data-en="Contents:">内容:</strong> 宿泊体験・口数・NFTパスをギフトとして贈れるページ。ギフト券発行・贈り先への案内メール。</div>
+<div class="page-persona" data-en="The pinnacle of gifting experience over objects. The poetry of giving a Hokkaido night to someone. The answer for those uncertain in their gift-giving.">「モノより体験を贈る」時代の最高峰。北海道の夜を誰かに贈ることの詩情。プレゼント選びに迷う人の答え。</div>
+<a class="page-link" href="gift" target="_blank">gift.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="getfree NFT 無料取得">
+<div class="page-icon">🪙</div>
+<div class="page-body">
+<div class="page-name">GETFREE</div>
+<div class="page-title" data-en="Discover your connection to the place. Complimentary.">場所との縁を、無料で手に入れる</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="SOLUNA NFT Pass Free Acquisition Page. Solana wallet integration, free mint, your first step toward ownership."><strong data-en="Contents:">内容:</strong> SOLUNA NFTパス無料取得ページ。Solanaウォレット連携・無料ミント・所有感の最初の一歩。</div>
+<div class="page-persona" data-en="The wonder of 'connecting to this place without money.' NFT is not speculation—it's a certificate of belonging. Ownership that begins at zero cost.">「お金なしで、この場所と繋がれる」という驚き。NFTは投機ではなく、帰属証明。0円から始まる所有感。</div>
+<a class="page-link" href="getfree" target="_blank">getfree.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="crypto 暗号資産 USDC Solana">
+<div class="page-icon">₿</div>
+<div class="page-body">
+<div class="page-name" data-en="Cryptocurrency Payment">暗号資産払い</div>
+<div class="page-title" data-en="USDC / Solana / Phantom Compatible">USDC / Solana / Phantom 対応</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Purchase with USDC · SOL · Phantom Wallet. Payment Options for Web3-Native Users."><strong data-en="Contents:">内容:</strong> USDC・SOL・Phantomウォレットでの購入手順。Web3ネイティブ向け支払いオプション説明。</div>
+<div class="page-persona" data-en="A symbolic act of owning a real place through digital assets. An answer to the practical use crypto holders seek.">「デジタル資産で、リアルな場所を持つ」という象徴的な行為。暗号資産保有者が求める「使い道」への答え。</div>
+<a class="page-link" href="crypto" target="_blank">crypto.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="brochure パンフレット 冊子">
+<div class="page-icon">📖</div>
+<div class="page-body">
+<div class="page-name" data-en="Guide Booklet (PDF)">案内冊子 (PDF風)</div>
+<div class="page-title" data-en="Owner Guide Booklet — Print Version">オーナー案内冊子 — 印刷用</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Print &amp; PDF Guide. Properties overview, scheme explanation, purchase flow, and FAQ summary on a single page."><strong data-en="Contents:">内容:</strong> 印刷・PDF共有用の案内資料。物件一覧・スキーム説明・購入フロー・FAQ要約を1ページで。</div>
+<div class="page-persona" data-en="Creating tangible forms to share builds word-of-mouth. Trust extends beyond the digital to what one can hold in their hands.">「人に渡せる形」にすることで、口コミが生まれる。デジタルだけでなく、手に取れるものへの信頼感。</div>
+<a class="page-link" href="brochure" target="_blank">brochure.html →</a>
+</div>
+</div>
+</div>
+</div>
+<!-- 建築・施工 -->
+<div class="category" id="cat-build">
+<div class="cat-header">
+<span class="cat-title" data-en="Architecture &amp; Construction">建築・施工</span>
+<span class="cat-badge" data-en="Page 7">7 ページ</span>
+</div>
+<div class="pages-grid">
+<div class="page-card" data-search="construction 施工 仕様書">
+<div class="page-icon">🏗</div>
+<div class="page-body">
+<div class="page-name" data-en="Construction Specifications">施工仕様書</div>
+<div class="page-title" data-en="Owner Recruitment &amp; Property Details">オーナー募集・物件詳細資料</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Detailed disclosure of architectural specifications. Technical explanations of insulation, structure, systems, and energy design. Construction partner information."><strong data-en="Contents:">内容:</strong> 建築仕様の詳細開示。断熱・構造・設備・エネルギー設計の技術説明。施工パートナー情報。</div>
+<div class="page-persona" data-en="Understanding how something is made deepens your love for a place. Comprehension precedes ownership.">「どう作られているか」を知ることで、より深く場所を愛せる。所有の前に、理解がある。</div>
+<a class="page-link" href="construction" target="_blank">construction.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="design 建築設計書">
+<div class="page-icon">📐</div>
+<div class="page-body">
+<div class="page-name" data-en="Architectural Design Documentation">建築設計書</div>
+<div class="page-title" data-en="KUMAUSHI BASE · Biruwa Grand">熊牛原野・美留和グランド</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Design philosophy, floor plans, sections, and material choices explained. Collaborative record with the architect."><strong data-en="Contents:">内容:</strong> 設計思想・平面図・断面・素材選択の理由。建築家とのコラボレーション記録。</div>
+<div class="page-persona" data-en="Articulating 'why this form' conveys respect for the place. Those who read the design document are those who wish to engage deeply.">「なぜこの形か」を語ることで、場所への敬意が伝わる。設計書を読む人は、深く関わりたい人。</div>
+<a class="page-link" href="design" target="_blank">design.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="ops オペレーション instant house コンテナ">
+<div class="page-icon">⚙️</div>
+<div class="page-body">
+<div class="page-name">OPS (Instant House)</div>
+<div class="page-title" data-en="Container Procurement, Construction, and Day-of Operations Flow">コンテナ調達・施工・当日フロー</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Instant House construction operation details. Complete workflow: container sourcing, transport, installation, and finishing."><strong data-en="Contents:">内容:</strong> Instant Houseの施工オペレーション詳細。コンテナ調達先・輸送・設置・仕上げの全フロー。</div>
+<div class="page-persona" data-en="Transparency in our creation process builds trust. Integrity bridging DIY spirit and professional craftsmanship.">「どうやって作るか」を公開することが信頼になる。DIY精神と本格建築の間にある誠実さ。</div>
+<a class="page-link" href="ops" target="_blank">ops.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="systems システム 空調 セキュリティ">
+<div class="page-icon">🔧</div>
+<div class="page-body">
+<div class="page-name">SOLUNA SYSTEMS</div>
+<div class="page-title" data-en="Climate Control &amp; Security Installation Guide">空調・セキュリティ導入ガイド</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Integrated smart home systems for each property. Climate control, access, security monitoring, and energy management unified."><strong data-en="Contents:">内容:</strong> 各物件のスマートホームシステム。エアコン・鍵・監視・エネルギー管理の統合設計。</div>
+<div class="page-persona" data-en="The assurance that 'comfort is by design.' Trust in a place where technology works seamlessly and invisibly.">「快適さは設計されている」という安心感。テクノロジーが透明に働いている場所への信頼。</div>
+<a class="page-link" href="systems" target="_blank">systems.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="miruwa anatomy 美留和 解剖図">
+<div class="page-icon">📐</div>
+<div class="page-body">
+<div class="page-name" data-en="MIRUWA VILLAGE Architectural Plan">MIRUWA VILLAGE 解剖図</div>
+<div class="page-title" data-en="80 Containers × 240 Members">コンテナ80台 × 240名</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Miruwa Village layout, zone design, and container placement details. Spatial design for 100-person cohabitation."><strong data-en="Contents:">内容:</strong> 美留和ビレッジの配置図・ゾーン設計・コンテナ配置詳細。100人共生の空間設計。</div>
+<div class="page-persona" data-en="Ignite the imagination: 'My place exists within this map.' Reveal the physical design of the community.">「この地図の中に、自分の場所がある」という想像力を刺激する。コミュニティの物理的な設計を見せる。</div>
+<a class="page-link" href="miruwa-anatomy" target="_blank">miruwa-anatomy.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="container コンテナ 解剖">
+<div class="page-icon">📦</div>
+<div class="page-body">
+<div class="page-name" data-en="Container Unit Breakdown">コンテナ1台の解剖</div>
+<div class="page-title">MIRUWA VILLAGE 240</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Complete Interior Design Details for a Single Container. Anatomical diagrams of bedroom, bathroom, storage, insulation, and ventilation."><strong data-en="Contents:">内容:</strong> コンテナ1台の内部設計詳細。寝室・水回り・収納・断熱・換気の解剖図。</div>
+<div class="page-persona" data-en="The wonder that a 20-foot container contains such a universe. Admiration for the density of intimate space.">「20フィートのコンテナに、こんな宇宙が入る」という驚き。小さな空間の密度への賞賛。</div>
+<a class="page-link" href="container" target="_blank">container.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="offgrid オフグリッド">
+<div class="page-icon">☀️</div>
+<div class="page-body">
+<div class="page-name">OFFGRID</div>
+<div class="page-title" data-en="Living Beyond the Grid">電力会社に頼らない生き方</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Solar, battery storage, rainwater, and self-sufficient systems in detail. TAPKOP off-grid design documentation."><strong data-en="Contents:">内容:</strong> 太陽光・蓄電池・雨水・自給自足システムの詳細。TAPKOPのオフグリッド設計書。</div>
+<div class="page-persona" data-en="A philosophical choice to achieve independence from social infrastructure. Beyond ecology—a yearning for freedom.">「社会インフラから自立する」という哲学的な選択。エコより、自由への渇望。</div>
+<a class="page-link" href="offgrid" target="_blank">offgrid.html →</a>
+</div>
+</div>
+</div>
+</div>
+<!-- 素材・仕上げ -->
+<div class="category" id="cat-materials">
+<div class="cat-header">
+<span class="cat-title" data-en="Materials &amp; Finishes">素材・仕上げ</span>
+<span class="cat-badge" data-en="Page 17">17 ページ</span>
+</div>
+<div class="pages-grid">
+<div class="page-card" data-search="sips-lab SIPSパネル ラボ 断熱">
+<div class="page-icon">🧱</div>
+<div class="page-body">
+<div class="page-name">SIPS LAB</div>
+<div class="page-title" data-en="SIPS Panel Research Institute — Complete Variation Guide">SIPSパネル研究所 — バリエーション全解説</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="All 5 SIPS panel variants, material selection, DIY construction guide, waste material repurposing, and 7 furniture styles. Extensive photography."><strong data-en="Contents:">内容:</strong> SIPSパネル全5バリアント・素材選択・施工DIYガイド・廃材活用・家具7種。写真多数。</div>
+<a class="page-link" href="sips-lab" target="_blank">sips-lab.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="smartwindow スマートウィンドウ PDLC 調光">
+<div class="page-icon">🪟</div>
+<div class="page-body">
+<div class="page-name">SMART WINDOW</div>
+<div class="page-title" data-en="PDLC Glass — Electronically Switchable Transparency">PDLCガラス — 電気で透明/不透明</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Smart glass (PDLC) technology, pricing, installation, and demo video. ¥28,000 and up per panel. Small to large opening sizes."><strong data-en="Contents:">内容:</strong> 調光ガラス(PDLC)の仕組み・価格・施工・デモ動画。¥28,000〜/枚。小窓Sから大開口Lまで。</div>
+<a class="page-link" href="smartwindow" target="_blank">smartwindow.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="sips SIPSパネル 断熱 構造">
+<div class="page-icon">🏗</div>
+<div class="page-body">
+<div class="page-name" data-en="SIPS Panel Overview">SIPS パネル概要</div>
+<div class="page-title" data-en="High-Insulation, High-Airtight Structural Panels">高断熱・高気密 構造パネル</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="SIPs Panel Essentials. Thermal performance · Strength · Construction speed · Cost comparison. Hokkaido track record."><strong data-en="Contents:">内容:</strong> SIPsパネルの基本解説。断熱性能・強度・施工速度・コスト比較。北海道での実績。</div>
+<a class="page-link" href="sips" target="_blank">sips.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="sips-diy DIY 自分で組み立て">
+<div class="page-icon">🔨</div>
+<div class="page-body">
+<div class="page-name">SIPS DIY</div>
+<div class="page-title" data-en="Self-Assembly SIPs Cabin">自分で組み立てるSIPsキャビン</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Three-Day Owner Assembly Process for SIPs Panels. Tools required, procedures, considerations, and cost breakdown."><strong data-en="Contents:">内容:</strong> オーナー自身がSIPsパネルを組む3日間プロセス。必要工具・手順・注意点・コスト内訳。</div>
+<a class="page-link" href="sips-diy" target="_blank">sips-diy.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="hybrid-sips ハイブリッド 木造 SIPSミックス">
+<div class="page-icon">🌲</div>
+<div class="page-body">
+<div class="page-name">HYBRID SIPS</div>
+<div class="page-title" data-en="Timber Frame × SIPS Hybrid Construction Method">木軸×SIPSのハイブリッド工法</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Hybrid construction method combining traditional timber framing with SIPs. Optimal balance of cost, timeline, and thermal performance."><strong data-en="Contents:">内容:</strong> 在来木軸にSIPsを組み合わせたハイブリッド工法。コスト・工期・断熱の最適バランス。</div>
+<a class="page-link" href="hybrid-sips" target="_blank">hybrid-sips.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="louver ルーバー カラマツ 間伐材">
+<div class="page-icon">🪵</div>
+<div class="page-body">
+<div class="page-name" data-en="Japanese Larch Louvers">カラマツルーバー</div>
+<div class="page-title" data-en="Privacy Screen in Domestic Thinned Wood">国産間伐材のプライバシースクリーン</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Hokkaido Larch Thinned-Wood Louver Panels. DIY Installation in 30 Minutes. ¥6,000–10,000/m²"><strong data-en="Contents:">内容:</strong> 北海道カラマツ間伐材ルーバーパネル。DIY30分施工。¥6,000〜10,000/m²。</div>
+<a class="page-link" href="louver" target="_blank">louver.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="hinoki-deck ヒノキ デッキ 縁側">
+<div class="page-icon">🌿</div>
+<div class="page-body">
+<div class="page-name" data-en="Hinoki Deck">ヒノキデッキ</div>
+<div class="page-title" data-en="Engawa, Terrace &amp; Decking Materials">縁側・テラス・デッキ材</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Hinoki cypress deck and veranda design. Durability, fragrance, construction methods, and pricing."><strong data-en="Contents:">内容:</strong> ヒノキ材を使ったデッキ・縁側の設計。耐久性・香り・施工方法・価格。</div>
+<a class="page-link" href="hinoki-deck" target="_blank">hinoki-deck.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="shikkui 漆喰 壁 塗り壁">
+<div class="page-icon">🏠</div>
+<div class="page-body">
+<div class="page-name" data-en="Lime Mortar">漆喰</div>
+<div class="page-title" data-en="Traditional Lime Plaster — Humidity-Regulating &amp; Antibacterial">伝統の塗り壁 — 調湿・抗菌</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Lime plaster wall application guide. Humidity regulation, odor control, and antibacterial properties. Professional vs. DIY methods."><strong data-en="Contents:">内容:</strong> 漆喰塗り壁の施工ガイド。調湿・消臭・抗菌効果。プロ施工とDIYの違い。</div>
+<a class="page-link" href="shikkui" target="_blank">shikkui.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="keisodo 珪藻土 壁材 吸湿">
+<div class="page-icon">🟤</div>
+<div class="page-body">
+<div class="page-name" data-en="Diatomaceous Earth">珪藻土</div>
+<div class="page-title" data-en="Natural Material Plaster Walls — Moisture Absorption &amp; Release">天然素材の塗り壁 — 吸湿放湿</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Diatomaceous Earth Properties, Application Methods, and Color Options. VUILD Portfolio Photography at NESTING."><strong data-en="Contents:">内容:</strong> 珪藻土の特性・施工方法・色バリエーション。NestingでのVUILD実績写真。</div>
+<a class="page-link" href="keisodo" target="_blank">keisodo.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="kakishibu 柿渋 塗料 自然塗料">
+<div class="page-icon">🍂</div>
+<div class="page-body">
+<div class="page-name" data-en="Persimmon Tannin Paint">柿渋塗料</div>
+<div class="page-title" data-en="Traditional Natural Preservative &amp; Insect-Repellent Finish">古来の天然防腐・防虫塗料</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Persimmon tannin properties, application methods, and aging characteristics. Case studies in exterior and interior applications."><strong data-en="Contents:">内容:</strong> 柿渋の特性・施工方法・経年変化。外壁・内装への応用事例。</div>
+<a class="page-link" href="kakishibu" target="_blank">kakishibu.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="igusa 井草 畳 和室">
+<div class="page-icon">🌾</div>
+<div class="page-body">
+<div class="page-name" data-en="Rush &amp; Tatami">井草・畳</div>
+<div class="page-title" data-en="Japanese Flooring Materials — Humidity Regulation &amp; Fragrance">日本の床材 — 調湿・香り</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Igusa and tatami in contemporary architecture. Modular tatami, floating installation, and waterproofing solutions."><strong data-en="Contents:">内容:</strong> 井草・畳の現代建築への応用。モジュール畳・フローティング設置・防水処理。</div>
+<a class="page-link" href="igusa" target="_blank">igusa.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="komenuka 米ぬか ワックス 自然仕上げ">
+<div class="page-icon">🌾</div>
+<div class="page-body">
+<div class="page-name" data-en="Rice Bran Wax">米ぬかワックス</div>
+<div class="page-title" data-en="Polishing Floors with Culinary Byproducts">食用副産物で床を磨く</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Maintenance Methods for Solid Wood Floors Using Rice Bran. Floors Built to Last 100 Years with Annual Care."><strong data-en="Contents:">内容:</strong> 米ぬかを使った無垢材フロアのメンテナンス方法。年1回で100年もつ床。</div>
+<a class="page-link" href="komenuka" target="_blank">komenuka.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="sugi-clt 杉 CLT 集成材 構造材">
+<div class="page-icon">🌲</div>
+<div class="page-body">
+<div class="page-name" data-en="Cedar CLT">杉CLT</div>
+<div class="page-title" data-en="Domestic Japanese Cedar Laminated Panels">国産杉 集成材パネル</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Japanese Cedar CLT (Cross-Laminated Timber) Applications. Structural, interior, and exterior implementations."><strong data-en="Contents:">内容:</strong> 国産杉CLT(直交集成板)の使用事例。構造材・内装・外壁への応用。</div>
+<a class="page-link" href="sugi-clt" target="_blank">sugi-clt.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="take 竹 バンブー 素材">
+<div class="page-icon">🎋</div>
+<div class="page-body">
+<div class="page-name" data-en="Bamboo Material">竹素材</div>
+<div class="page-title" data-en="Fast-Growth Material — Architectural Use of Bamboo">急成長素材 — 竹の建築利用</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Using Bamboo as an Architectural Material. Applications for Flooring, Wall Panels &amp; Structural Elements with Pest Prevention."><strong data-en="Contents:">内容:</strong> 竹を建築素材として使う方法。床材・壁材・構造への応用と防虫処理。</div>
+<a class="page-link" href="take" target="_blank">take.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="take-sips 竹 SIPS バンブー 断熱">
+<div class="page-icon">🎋</div>
+<div class="page-body">
+<div class="page-name" data-en="Bamboo × SIPS">竹×SIPS</div>
+<div class="page-title" data-en="Bamboo Cladding + SIPs Panel Structure">竹外装 + SIPSパネル構造</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Hybrid construction combining bamboo cladding with SIPs panels. Tropical aesthetic + Hokkaido insulation."><strong data-en="Contents:">内容:</strong> 竹外装材とSIPsパネルを組み合わせたハイブリッド工法。熱帯的外観+北海道断熱。</div>
+<a class="page-link" href="take-sips" target="_blank">take-sips.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="yakiita 焼き板 外壁 炭化">
+<div class="page-icon">🪵</div>
+<div class="page-body">
+<div class="page-name" data-en="Charred Wood Cladding">焼き板</div>
+<div class="page-title" data-en="Charred Wood Exterior Finish">炭化木材による外壁仕上げ</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Shou sugi ban installation methodology. Durability, rot resistance, and pest prevention through carbonization. Exterior application case studies."><strong data-en="Contents:">内容:</strong> 焼き杉・焼き板の施工方法。炭化による耐久性・防腐・防虫の原理。外壁への応用事例。</div>
+<a class="page-link" href="yakiita" target="_blank">yakiita.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="materials 素材一覧 マテリアル">
+<div class="page-icon">📦</div>
+<div class="page-body">
+<div class="page-name" data-en="Materials Library">素材ライブラリ</div>
+<div class="page-title" data-en="SOLUNA MATERIALS Complete Catalog">SOLUNA MATERIALS 全カタログ</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Complete catalog of all materials used and recommended by SOLUNA. Curated links to individual material pages."><strong data-en="Contents:">内容:</strong> SOLUNAで使用・推奨する全素材のカタログ一覧。各素材ページへのリンク集。</div>
+<a class="page-link" href="materials" target="_blank">materials.html →</a>
+</div>
+</div>
+</div>
+</div>
+<!-- 管理・内部 -->
+<div class="category" id="cat-admin">
+<div class="cat-header">
+<span class="cat-title" data-en="Management &amp; Internal Tools">管理・内部ツール</span>
+<span class="cat-badge" data-en="8 Pages">8 ページ</span>
+<span class="tag tag-pass">ADMIN_KEY: LIFEISART</span>
+</div>
+<div class="pages-grid">
+<div class="page-card" data-search="admin ダッシュボード 管理者">
+<div class="page-icon">🛡</div>
+<div class="page-body">
+<div class="page-name">Admin Dashboard</div>
+<div class="page-title" data-en="Purchase Funnel CVR &amp; Access Analytics">購入ファネルCVR・アクセス解析</div>
+<div class="page-meta"><span class="tag tag-admin" data-en="Administrator">管理者</span><span class="tag tag-pass">ADMIN_KEY: LIFEISART</span></div>
+<div class="page-desc" data-en="Administrator dashboard. Purchase applications, conversion funnel, property-level analytics, daily page views. ADMIN_KEY required."><strong data-en="Contents:">内容:</strong> 管理者向け。購入申込一覧・CVRファネル・物件別アクセス数・日別PV。ADMIN_KEY必須。</div>
+<div class="page-persona" data-en="Internal Tool. Operational transparency management interface. Not designed for external personas.">内部ツール。ペルソナへの訴求は不要。運営の透明性維持のための管理インターフェース。</div>
+<a class="page-link" href="admin" target="_blank">admin.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="app PWA スマホ アプリ">
+<div class="page-icon">📱</div>
+<div class="page-body">
+<div class="page-name" data-en="PWA Application">PWAアプリ</div>
+<div class="page-title" data-en="Find &amp; Reserve Properties — SPA">物件を探す・予約する — SPA</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Email OTP-authenticated PWA. Properties, availability, reservations, and owner guides in one interface. Home screen installation supported."><strong data-en="Contents:">内容:</strong> メールOTP認証のPWA。物件一覧・空室確認・予約・オーナーガイドを1画面で。ホーム画面追加対応。</div>
+<div class="page-persona" data-en="A seamless connection to daily life—'Access your place instantly without installing an app.'">「アプリをインストールしなくても、自分の場所にすぐアクセスできる」という日常との接続感。</div>
+<a class="page-link" href="app" target="_blank">app.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="neuro dashboard ダッシュボード AI">
+<div class="page-icon">🧠</div>
+<div class="page-body">
+<div class="page-name">NEURO Dashboard</div>
+<div class="page-title" data-en="AI CABIN #01 Dashboard">AI CABIN #01 ダッシュボード</div>
+<div class="page-meta"><span class="tag tag-admin" data-en="Administrator">管理者</span></div>
+<div class="page-desc" data-en="Real-time monitoring of AI Sensor Cabin. Graph displays for temperature, humidity, power, and motion sensors."><strong data-en="Contents:">内容:</strong> AIセンサーキャビンのリアルタイム監視。温度・湿度・電力・人感センサーのグラフ表示。</div>
+<div class="page-persona" data-en="The Sensation of a Living Place. Technology deepens your connection to the space.">「場所がリアルタイムで呼吸している」という感覚。テクノロジーが場所への愛着を深める。</div>
+<a class="page-link" href="neuro-dashboard" target="_blank">neuro-dashboard.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="visitor log 訪問者ログ">
+<div class="page-icon">👁</div>
+<div class="page-body">
+<div class="page-name" data-en="Visitor Log">訪問者ログ</div>
+<div class="page-title" data-en="Access &amp; Viewing Logs">アクセス・閲覧ログ</div>
+<div class="page-meta"><span class="tag tag-admin" data-en="Administrator">管理者</span></div>
+<div class="page-desc" data-en="Site visitor logs including pages viewed, timestamps, and referrers. Accessible to administrators only."><strong data-en="Contents:">内容:</strong> サイト訪問者の閲覧ページ・時刻・リファラーのログ一覧。管理者のみ閲覧可。</div>
+<div class="page-persona" data-en="Internal analytics tool. Identify resonant content and refine your messaging accordingly.">内部ツール。どのページが響いているかを見て、コンテンツ改善に活用する。</div>
+<a class="page-link" href="visitor-log" target="_blank">visitor-log.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="agent 販売代理店">
+<div class="page-icon">🤝</div>
+<div class="page-body">
+<div class="page-name" data-en="Agency Partners">代理店パートナー</div>
+<div class="page-title" data-en="SOLUNA Sales Partner Program">SOLUNA 販売代理店プログラム</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Partner Portal for Resale Agents. Commission Rates · Support Structure · Application Form. For Real Estate Professionals."><strong data-en="Contents:">内容:</strong> 代理販売パートナーへの説明ページ。手数料率・サポート体制・申込フォーム。不動産業者向け。</div>
+<div class="page-persona" data-en="Appeal to agency pride: 'Introducing SOLUNA elevates your own brand.'">「SOLUNAを紹介することが、自分のブランドを高める」という代理店へのプライド訴求。</div>
+<a class="page-link" href="agent" target="_blank">agent.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="mint NFT オンチェーン Solana">
+<div class="page-icon">🪙</div>
+<div class="page-body">
+<div class="page-name">NFT Mint</div>
+<div class="page-title" data-en="Inscribe Your Connection to Place on the Blockchain">場所との縁を、ブロックチェーンに刻む</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Mint SOLUNA NFT on Solana. Phantom wallet integration, minting process, and proof of ownership."><strong data-en="Contents:">内容:</strong> Solana上でSOLUNA NFTをミント。Phantomウォレット連携・ミント手順・所有感の証明。</div>
+<div class="page-persona" data-en='"Proof of belonging, not ownership." NFTs are not tokens—they are a record of your relationship with this place.'>「所有権ではなく、所有感の証明」。NFTはトークンではなく、あなたとこの場所の関係性の記録。</div>
+<a class="page-link" href="mint" target="_blank">mint.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="book 宿泊予約 手付金">
+<div class="page-icon">📅</div>
+<div class="page-body">
+<div class="page-name" data-en="Accommodation Reservations">宿泊予約</div>
+<div class="page-title" data-en="Experience First, Decide Later.">泊まってから、決める。</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Accommodation booking form with Beds24 integration. Date selection · Guest count · Payment. Open to both owners and non-owners."><strong data-en="Contents:">内容:</strong> Beds24連携の宿泊予約フォーム。日程選択・人数・支払い。オーナー以外も宿泊可能なページ。</div>
+<div class="page-persona" data-en="Experience first, understand with your senses. Stay before you purchase—conviction emerges naturally. The most honest approach.">「まず体で知る」という入口。購入前に泊まることで、確信が生まれる。一番誠実な売り方。</div>
+<a class="page-link" href="book" target="_blank">book.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="slide スライド プレゼン">
+<div class="page-icon">🖼</div>
+<div class="page-body">
+<div class="page-name" data-en="Slide (Tower Sauna)">スライド（タワーサウナ）</div>
+<div class="page-title" data-en="Tower Sauna — SOLUNA Original Song">タワーサウナ — SOLUNA Original Song</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Full-screen lyric slideshow for SOLUNA's original composition 'Tower Sauna'—a distinct piece from 'Why We're Here' on song.html."><strong data-en="Contents:">内容:</strong> SOLUNAオリジナル楽曲「タワーサウナ」のフルスクリーン歌詞スライド。song.htmlの「ここにいる理由」とは別曲。</div>
+<div class="page-persona" data-en="Experience understanding 'Why SOLUNA?' page by page. A composition that moves by resonance rather than explanation.">「なぜSOLUNAか」を1枚1枚めくりながら腹落ちする体験。説明するより、共感させる構成。</div>
+<a class="page-link" href="slide" target="_blank">slide.html →</a>
+</div>
+</div>
+</div>
+</div>
+<!-- 建築・施工追加ページ -->
+<div class="category" id="cat-build2">
+<div class="cat-header">
+<span class="cat-title" data-en="Architecture &amp; Structure Details">建築・構造詳細</span>
+<span class="cat-badge" data-en="8 Pages">8 ページ</span>
+</div>
+<div class="pages-grid">
+<div class="page-card" data-search="blueprint ブループリント 設計図">
+<div class="page-icon">📐</div>
+<div class="page-body">
+<div class="page-name" data-en="Blueprint">ブループリント</div>
+<div class="page-title" data-en="Blueprints &amp; Specifications">設計図・仕様書一覧</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Property Downloads: Blueprints, Floor Plans &amp; Specifications."><strong data-en="Contents:">内容:</strong> 各物件の設計図・平面図・仕様書のダウンロードページ。</div>
+<a class="page-link" href="blueprint" target="_blank">blueprint.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="floorplans 間取り 平面図">
+<div class="page-icon">🗺</div>
+<div class="page-body">
+<div class="page-name" data-en="Floor Plans">間取り図</div>
+<div class="page-title" data-en="All Properties Floor Plans">全物件フロアプラン</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Floor Plans for All Properties. Scale Diagrams · Square Footage · Zoning Details."><strong data-en="Contents:">内容:</strong> 全物件の間取り・フロアプラン。スケール表示・面積・ゾーニング。</div>
+<a class="page-link" href="floorplans" target="_blank">floorplans.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="structural 構造 耐震 基礎">
+<div class="page-icon">🏗</div>
+<div class="page-body">
+<div class="page-name" data-en="Structural Details">構造詳細</div>
+<div class="page-title" data-en="Seismic Resistance, Foundation &amp; Structural Design">耐震・基礎・構造設計</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Seismic design rationale, foundation methods, and structural calculations. Hokkaido ground conditions and snow load resistance."><strong data-en="Contents:">内容:</strong> 耐震設計・基礎工法・構造計算の根拠。北海道の地盤・雪荷重への対応。</div>
+<a class="page-link" href="structural" target="_blank">structural.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="roofgrid ルーフグリッド 屋根">
+<div class="page-icon">🏠</div>
+<div class="page-body">
+<div class="page-name" data-en="Roof Grid">ルーフグリッド</div>
+<div class="page-title" data-en="Roof Design System">屋根設計システム</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Grid-system roof design. Integrated approach to solar utilization, rainwater harvesting, and thermal insulation."><strong data-en="Contents:">内容:</strong> グリッドシステムによる屋根設計。太陽光・雨水利用・断熱の統合設計。</div>
+<a class="page-link" href="roofgrid" target="_blank">roofgrid.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="offgrid-cabin オフグリッド キャビン コンパクト">
+<div class="page-icon">☀️</div>
+<div class="page-body">
+<div class="page-name">OFFGRID CABIN</div>
+<div class="page-title" data-en="Compact Off-Grid Design">コンパクト版オフグリッド設計</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Compact Off-Grid System for Small Spaces. Battery storage, solar panels, and rainwater harvesting integrated into a streamlined design."><strong data-en="Contents:">内容:</strong> 小規模向けオフグリッドシステム。蓄電池・ソーラー・雨水をコンパクトにまとめた設計。</div>
+<a class="page-link" href="offgrid-cabin" target="_blank">offgrid-cabin.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="renovation リノベーション 改修 既存">
+<div class="page-icon">🔧</div>
+<div class="page-body">
+<div class="page-name" data-en="Renovation">リノベーション</div>
+<div class="page-title" data-en="SOLUNA Conversion of Existing Buildings">既存建物のSOLUNA化</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Guide to renovating existing historic homes and villas to SOLUNA specifications. Thermal upgrades, systems modernization, and cost estimation."><strong data-en="Contents:">内容:</strong> 既存の古民家・別荘をSOLUNA仕様にリノベするガイド。断熱改修・設備更新・コスト試算。</div>
+<a class="page-link" href="renovation" target="_blank">renovation.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="village-materials ビレッジ 素材 外壁">
+<div class="page-icon">🌿</div>
+<div class="page-body">
+<div class="page-name" data-en="Village Materials">ビレッジ素材</div>
+<div class="page-title" data-en="Biruwa Village Exterior &amp; Interior Materials">美留和ビレッジ 外装・内装材</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Materials specifications for Miruwa Village exteriors and interiors. Sourcing, contractors, and cost breakdown."><strong data-en="Contents:">内容:</strong> 美留和ビレッジの外壁・内装に使用する素材一覧。調達先・施工業者・コスト。</div>
+<a class="page-link" href="village-materials" target="_blank">village-materials.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="kussharo-sauna 屈斜路 サウナ 湖">
+<div class="page-icon">🧖</div>
+<div class="page-body">
+<div class="page-name" data-en="Kusharo Sauna">屈斜路サウナ</div>
+<div class="page-title" data-en="Lakeside Sauna House">湖畔のサウナ小屋</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Sauna design and construction plan for the Kussharo Lake waterfront. Diving approach paths and wood-fired stove selection."><strong data-en="Contents:">内容:</strong> 屈斜路湖畔に設置するサウナの設計・施工プラン。湖へのダイブ動線・薪ストーブ選定。</div>
+<a class="page-link" href="kussharo-sauna" target="_blank">kussharo-sauna.html →</a>
+</div>
+</div>
+</div>
+</div>
+<!-- ツール・スタッフ -->
+<div class="category" id="cat-tools">
+<div class="cat-header">
+<span class="cat-title" data-en="Tools &amp; Staff">ツール・スタッフ向け</span>
+<span class="cat-badge" data-en="Page 6">6 ページ</span>
+</div>
+<div class="pages-grid">
+<div class="page-card" data-search="ask 相談 AI チャット 質問">
+<div class="page-icon">💬</div>
+<div class="page-body">
+<div class="page-name" data-en="Consult with AI">AIに相談</div>
+<div class="page-title" data-en="Ask SOLUNA">SOLUNA に質問する</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="AI Chat for instant answers about properties, purchases, and usage. Beyond FAQ — all questions welcome."><strong data-en="Contents:">内容:</strong> AIチャットで物件・購入・利用に関する質問に即答。FAQ以外の疑問もOK。</div>
+<a class="page-link" href="ask" target="_blank">ask.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="builder ビルダー 施工会社 パートナー">
+<div class="page-icon">🏗</div>
+<div class="page-body">
+<div class="page-name" data-en="For Builders">ビルダー向け</div>
+<div class="page-title" data-en="Construction Partner Guide">施工パートナー案内</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Partner guide for contractors and construction firms. SOLUNA specifications, ordering process, and qualification criteria."><strong data-en="Contents:">内容:</strong> 施工会社・工務店向けのパートナー案内。SOLUNA仕様・発注フロー・実績条件。</div>
+<a class="page-link" href="builder" target="_blank">builder.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="chat チャット コミュニティ リアルタイム">
+<div class="page-icon">💬</div>
+<div class="page-body">
+<div class="page-name" data-en="Community Chat">コミュニティチャット</div>
+<div class="page-title" data-en="Live Chat">リアルタイムチャット</div>
+<div class="page-meta"><span class="tag tag-owner" data-en="Members">会員</span></div>
+<div class="page-desc" data-en="Real-time chat for owners. Announcements · Conversation · Local information sharing."><strong data-en="Contents:">内容:</strong> オーナー向けリアルタイムチャット。告知・雑談・現地情報のシェア。</div>
+<a class="page-link" href="chat" target="_blank">chat.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="staff スタッフ 社内 連絡先">
+<div class="page-icon">👥</div>
+<div class="page-body">
+<div class="page-name" data-en="Staff Portal">スタッフポータル</div>
+<div class="page-title" data-en="Internal Information Management">社内向け情報管理</div>
+<div class="page-meta"><span class="tag tag-admin" data-en="Administrator">管理者</span></div>
+<div class="page-desc" data-en="Staff information portal. Contact information, manuals, checklists, and emergency response procedures."><strong data-en="Contents:">内容:</strong> スタッフ向け情報ポータル。連絡先・マニュアル・チェックリスト・緊急対応フロー。</div>
+<a class="page-link" href="staff" target="_blank">staff.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="training トレーニング 研修 スタッフ教育">
+<div class="page-icon">📚</div>
+<div class="page-body">
+<div class="page-name" data-en="Training">トレーニング</div>
+<div class="page-title" data-en="Staff Training &amp; Educational Materials">スタッフ研修・教育資料</div>
+<div class="page-meta"><span class="tag tag-admin" data-en="Administrator">管理者</span></div>
+<div class="page-desc" data-en="Staff training materials. Guest service, equipment operation, emergency response, and SOLUNA philosophy transmission."><strong data-en="Contents:">内容:</strong> スタッフ向け研修資料。接客・設備操作・緊急対応・SOLUNA哲学の伝達。</div>
+<a class="page-link" href="training" target="_blank">training.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="materials-admin 素材 管理 調達">
+<div class="page-icon">📋</div>
+<div class="page-body">
+<div class="page-name" data-en="Materials Management Tool">素材管理ツール</div>
+<div class="page-title" data-en="Procurement, Inventory &amp; Order Management">調達・在庫・発注管理</div>
+<div class="page-meta"><span class="tag tag-admin" data-en="Administrator">管理者</span></div>
+<div class="page-desc" data-en="Building materials and procurement management tool. Supplier directory, order status, and inventory tracking."><strong data-en="Contents:">内容:</strong> 建材・素材の調達管理ツール。サプライヤー一覧・発注ステータス・在庫追跡。</div>
+<a class="page-link" href="materials-admin" target="_blank">materials-admin.html →</a>
+</div>
+</div>
+</div>
+</div>
+<!-- ハワイ・特殊 -->
+<div class="category" id="cat-hawaii">
+<div class="cat-header">
+<span class="cat-title" data-en="Hawaii · Exclusive Properties">ハワイ・特殊物件</span>
+<span class="cat-badge" data-en="Page 4">4 ページ</span>
+</div>
+<div class="pages-grid">
+<div class="page-card" data-search="miruwa grand 美留和グランド 8棟">
+<div class="page-icon">🌲</div>
+<div class="page-body">
+<div class="page-name" data-en="Birowa Grand">美留和グランド</div>
+<div class="page-title" data-en="8-Residence 100-Person Village — ¥2 units ¥9.8M and up · Referral-based">8棟100人ビレッジ — ¥2口¥980万〜 · 紹介制</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Invitation-only 8-residence village. Plot map, community design, and participation starting at 2 units."><strong data-en="Contents:">内容:</strong> 紹介制限定の8棟ビレッジ。区画マップ・コミュニティ設計・2口からの参加条件。</div>
+<div class="page-persona" data-en="Rarity through invitation only. A sense of community belonging is the essence of its value.">「招待されなければ見えない場所」という希少性。コミュニティへの帰属感が価値の核心。</div>
+<a class="page-link" href="miruwa-grand" target="_blank">miruwa-grand.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="wakayama 和歌山 空き家">
+<div class="page-icon">🌊</div>
+<div class="page-body">
+<div class="page-name" data-en="Wakayama AKIYA">和歌山 AKIYA</div>
+<div class="page-title" data-en="Wakayama Vacant Property Renovation — 10 Properties">和歌山 空き家リノベ — 全10物件</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="New project: renovate and co-own 10 vacant homes in Wakayama. Properties list, pricing, and application."><strong data-en="Contents:">内容:</strong> 和歌山の空き家10件をリノベして共同所有する新プロジェクト。物件一覧・価格・申込。</div>
+<div class="page-persona" data-en="A story of restoration: transforming forgotten places into beloved ones. Breathing new life into vacant properties.">「誰かが忘れた場所を、誰かが愛する場所に変える」という再生の物語。空き家に命を吹き込む行為。</div>
+<a class="page-link" href="wakayama-akiya" target="_blank">wakayama-akiya.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="wakayama 和歌山 熊野古道">
+<div class="page-icon">⛩</div>
+<div class="page-body">
+<div class="page-name" data-en="Wakayama">和歌山</div>
+<div class="page-title" data-en="The spiritual essence of Kumano Kodo and coastal light. Sacred Ground Cabin">熊野古道の霊気と海の光。聖地キャビン</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Kumano Kodo Cabin Concept. Where sacred pilgrimage heritage, pristine nature, and traveler culture converge."><strong data-en="Contents:">内容:</strong> 熊野古道エリアのキャビンコンセプトページ。霊地・自然・巡礼者文化との融合を語る。</div>
+<div class="page-persona" data-en="A convergence of time: you stand where travelers have gathered for a thousand years. A page that touches the wanderer's soul.">「1000年前から人が訪れた場所に、今あなたがいる」という時間の重なり。旅人の魂に触れるページ。</div>
+<a class="page-link" href="wakayama" target="_blank">wakayama.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="blank AI executive retreat">
+<div class="page-icon">⬛</div>
+<div class="page-body">
+<div class="page-name">BLANK_</div>
+<div class="page-title" data-en="AI Executive Retreat / 2026.5.27–29 / Limited to 3 Participants">AI Executive Retreat / 2026.5.27–29 / 3名限定</div>
+<div class="page-meta"><span class="tag tag-draft" data-en="Limited Edition">限定</span></div>
+<div class="page-desc" data-en="Three-day retreat for AI-driven leaders. A sanctuary to step away from technology and reclaim essential thinking. Limited to 3 participants."><strong data-en="Contents:">内容:</strong> AI経営者向け3日間リトリート。テクノロジーから離れ、本質的な思考を取り戻す場。3名限定。</div>
+<div class="page-persona" data-en="A resonance with the paradox: the wisest minds periodically require a place to reset their thinking.">「最も賢い人ほど、たまに思考をリセットする場所を必要とする」という逆説の共感。</div>
+<a class="page-link" href="blank" target="_blank">blank.html →</a>
+</div>
+</div>
+</div>
+</div>
+<!-- その他 -->
+<div class="category" id="cat-misc">
+<div class="cat-header">
+<span class="cat-title" data-en="Other">その他</span>
+<span class="cat-badge" data-en="Page 20">20 ページ</span>
+</div>
+<div class="pages-grid">
+<div class="page-card" data-search="club k4 会員制 秘密基地">
+<div class="page-icon">🏰</div>
+<div class="page-body">
+<div class="page-name">CLUB K4</div>
+<div class="page-title" data-en="Members-Only Secret Base | Kumaushi Base">会員制秘密基地 | 熊牛原野</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="KUMAUSHI BASE Members-Only Clubhouse. Membership, Facilities Overview, Concept &amp; Application."><strong data-en="Contents:">内容:</strong> 熊牛原野の会員制クラブハウス。会員権・施設概要・コンセプト・申込。</div>
+<div class="page-persona" data-en="Exclusive access by invitation only. Belonging to this place becomes part of your identity.">「招待されなければ入れない」という希少性。場所への帰属が、アイデンティティの一部になる。</div>
+<a class="page-link" href="club-k4" target="_blank">club-k4.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="club k4 apply 入会">
+<div class="page-icon">📝</div>
+<div class="page-body">
+<div class="page-name" data-en="CLUB K4 Membership Application">CLUB K4 入会申し込み</div>
+<div class="page-title" data-en="CLUB K4 — Membership Application">CLUB K4 — 入会フォーム</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Membership application form for CLUB K4. Member information · Plan selection · Approval workflow."><strong data-en="Contents:">内容:</strong> CLUB K4への入会申込フォーム。会員情報・プラン選択・承認フロー。</div>
+<div class="page-persona" data-en="Applying marks the first step into a new community. Membership through curated selection brings anticipation and discernment.">「申し込む」ことで始まる、新しいコミュニティへの第一歩。入会は審査制という緊張感と期待感。</div>
+<a class="page-link" href="club-k4-apply" target="_blank">club-k4-apply.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="club k4 events イベント">
+<div class="page-icon">🎪</div>
+<div class="page-body">
+<div class="page-name" data-en="CLUB K4 Events">CLUB K4 イベント</div>
+<div class="page-title">EVENTS &amp; EXPERIENCES</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Events and experiential programs at CLUB K4. Outdoor music, workshops, retreats, and more."><strong data-en="Contents:">内容:</strong> CLUB K4で開催されるイベント・体験プログラム一覧。野外音楽・ワークショップ・合宿等。</div>
+<div class="page-persona" data-en="The vitality of discovering something new each time you return. Living through dynamic experiences rather than static ownership.">「自分の場所に、毎回違うものが生まれる」という躍動感。静的な所有より、動的な体験の積み重ね。</div>
+<a class="page-link" href="club-k4-events" target="_blank">club-k4-events.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="club k4 facility 施設">
+<div class="page-icon">🏟</div>
+<div class="page-body">
+<div class="page-name" data-en="CLUB K4 Facilities Guide">CLUB K4 施設案内</div>
+<div class="page-title" data-en="Complete 6-Zone Guide">6ゾーン完全ガイド</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Detailed 6-Zone Map. Functional overview of Field, Sauna, Studio, Dining Hall, Guest Lodges, and Atelier."><strong data-en="Contents:">内容:</strong> 6ゾーンの詳細マップ。フィールド・サウナ・スタジオ・食堂・宿泊棟・アトリエの機能説明。</div>
+<div class="page-persona" data-en="Inspire imagination of what becomes possible here. The diversity of spaces becomes the reason to return.">「ここで何ができるか」を想像させる。場所の多様性が、通い続ける理由になる。</div>
+<a class="page-link" href="club-k4-facility" target="_blank">club-k4-facility.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="club k4 member メンバーダッシュボード">
+<div class="page-icon">👤</div>
+<div class="page-body">
+<div class="page-name" data-en="CLUB K4 Member Dashboard">CLUB K4 メンバーダッシュボード</div>
+<div class="page-title" data-en="Members Portal">会員専用ポータル</div>
+<div class="page-meta"><span class="tag tag-owner" data-en="Members">会員</span></div>
+<div class="page-desc" data-en="Members-Only Dashboard. Remaining dates, reservations, event registrations, and member messaging."><strong data-en="Contents:">内容:</strong> 会員専用ダッシュボード。残日数・予約・イベント申込・メンバー間メッセージ。</div>
+<div class="page-persona" data-en="Your own door to your own place. A relationship with the space that begins anew each time.">「自分の場所の、自分専用の扉」という特別感。毎回ここから始まる、場所との関係。</div>
+<a class="page-link" href="club-k4-member" target="_blank">club-k4-member.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="community コミュニティ">
+<div class="page-icon">🌐</div>
+<div class="page-body">
+<div class="page-name" data-en="Community">コミュニティ</div>
+<div class="page-title" data-en="With Those Who Share Your Love for This Place">同じ場所を愛する人たちと</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="SOLUNA Owner Community Overview. LINE, Zoom, Slack, events, and owner spotlights."><strong data-en="Contents:">内容:</strong> SOLUNAオーナーコミュニティの概要。LINE・Zoom・Slack・イベント・オーナースポットライト。</div>
+<div class="page-persona" data-en="The serendipitous connection of sharing a place. Community quality transcends property value.">「同じ場所を持つ人と繋がる」という偶発的な縁。コミュニティの質が、物件の価値を超える。</div>
+<a class="page-link" href="community" target="_blank">community.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="studio スタジオ レコーディング">
+<div class="page-icon">🎙</div>
+<div class="page-body">
+<div class="page-name">SOLUNA STUDIO</div>
+<div class="page-title" data-en="Recording Sound Within the Forest.">森の中で、音を録る。</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="On-site Recording Facilities. Soundproofing, acoustic design, equipment list, and booking information. Specialized access for musicians."><strong data-en="Contents:">内容:</strong> 物件内レコーディング設備の紹介。防音・音響設計・機材リスト・予約方法。音楽家向け特別利用。</div>
+<div class="page-persona" data-en="The Certainty of Unique Acoustics. Sounds unavailable in urban studios exist here. Forest silence becomes music.">「都市のスタジオにはない音が、ここにある」という確信。森の静寂が、音楽に入る。</div>
+<a class="page-link" href="studio" target="_blank">studio.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="kits ハードウェア 民泊自動化">
+<div class="page-icon">🧰</div>
+<div class="page-body">
+<div class="page-name">SOLUNA KITS</div>
+<div class="page-title" data-en="Automating Place.">場所を、自動化する。</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Vacation rental and second home hardware kit lineup. Four types: smart lock, Wi-Fi, security, and audio."><strong data-en="Contents:">内容:</strong> 民泊・別荘向けハードウェアキット一覧。スマートロック・Wi-Fi・セキュリティ・音楽の4種。</div>
+<div class="page-persona" data-en='"Let systems handle management. Focus entirely on experience." Balancing efficiency with enrichment.'>「管理は仕組みに任せる。その分、体験に集中する」という効率と豊かさの両立。</div>
+<a class="page-link" href="kits" target="_blank">kits.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="kit music 音楽 スピーカー">
+<div class="page-icon">🎵</div>
+<div class="page-body">
+<div class="page-name">SOLUNA MUSIC KIT</div>
+<div class="page-title" data-en="A Home Where Music Lives.">音楽が住む家。</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Resort Audio System Package. Speakers, amplifiers, music integration, and professional installation."><strong data-en="Contents:">内容:</strong> 別荘向け音響システムパッケージ。スピーカー・アンプ・音楽連携・インストール対応。</div>
+<div class="page-persona" data-en="The ideal morning: waking to music flowing through your room. Designed to make sound an integral part of the space.">「朝起きたら音楽が流れている部屋」という理想の朝。音が空間の一部になる体験の設計。</div>
+<a class="page-link" href="kit-music" target="_blank">kit-music.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="kit security セキュリティ 防犯">
+<div class="page-icon">🔐</div>
+<div class="page-body">
+<div class="page-name">SOLUNA SECURITY KIT</div>
+<div class="page-title" data-en="Protect your home while away. Without cameras.">留守の家を、守る。カメラなしで。</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Sensor-based security that protects privacy. No cameras, anomaly detection, and owner notification."><strong data-en="Contents:">内容:</strong> プライバシーを守るセンサーベースのセキュリティ。カメラ不使用・異常検知・オーナー通知。</div>
+<div class="page-persona" data-en="Our philosophy: 'Sensing, not surveillance.' A place that honors privacy creates true peace of mind.">「監視ではなく、感知」という哲学。プライバシーを大切にする場所が、本当の安心を作る。</div>
+<a class="page-link" href="kit-security" target="_blank">kit-security.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="404 not found エラー">
+<div class="page-icon">⚠️</div>
+<div class="page-body">
+<div class="page-name">404 Not Found</div>
+<div class="page-title" data-en="Page Not Found">ページが見つかりません</div>
+<div class="page-meta"><span class="tag tag-admin" data-en="Administration">管理</span></div>
+<div class="page-desc" data-en="404 Error Page. Guiding lost users back to Home or Collections."><strong data-en="Contents:">内容:</strong> 404エラーページ。迷子になったユーザーをホームやコレクションへ誘導。</div>
+<div class="page-persona" data-en="A spirit where even being lost is welcome. Even error pages extend the brand experience.">「迷子も、ここでは歓迎される」という空気感。エラーページも、ブランドの延長線上にある。</div>
+<a class="page-link" href="404" target="_blank">404.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="kussharo sauna 屈斜路 サウナ">
+<div class="page-icon">🧖</div>
+<div class="page-body">
+<div class="page-name" data-en="Kussharo Sauna Club">屈斜路サウナクラブ</div>
+<div class="page-title" data-en="Dive into Japan's largest caldera lake">日本最大のカルデラ湖に飛び込む</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Lake Kussharo Sauna Experience page. Lake diving, aufguss, and winter outdoor bathing."><strong data-en="Contents:">内容:</strong> 屈斜路湖サウナ体験の特別ページ。湖への飛び込み・アウフグース・冬の外気浴体験。</div>
+<div class="page-persona" data-en="Singular Experiences Found Nowhere Else in the World. Embodied memories transform into place attachment.">「世界でここにしかない体験がある」という特異性。身体が記憶する体験は、場所への愛着になる。</div>
+<a class="page-link" href="kussharo-sauna" target="_blank">kussharo-sauna.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="tower sauna タワーサウナ">
+<div class="page-icon">🗼</div>
+<div class="page-body">
+<div class="page-name" data-en="Birowa Tower Sauna">美留和タワーサウナ</div>
+<div class="page-title" data-en="Tower Sauna Overlooking Lake Kusharo">屈斜路湖を望む塔上サウナ</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Four-Story Tower Sauna Design &amp; Experience. The flow of sauna, cold plunge, and open-air bathing with views of the lake and sky."><strong data-en="Contents:">内容:</strong> 4階建てタワーサウナの設計と体験。湖と空が見えるサウナ・水風呂・外気浴の流れ。</div>
+<div class="page-persona" data-en="The certainty that views from above transform thought. A place where body and perspective are liberated.">「高いところからの景色は、思考を変える」という確信。身体と視界が解放される場所。</div>
+<a class="page-link" href="tower-sauna" target="_blank">tower-sauna.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="workparty ワークパーティ">
+<div class="page-icon">🛠</div>
+<div class="page-body">
+<div class="page-name" data-en="Work Party">ワークパーティ</div>
+<div class="page-title" data-en="A place we create, a place we own.">自分たちで作る、自分たちの場所</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Event page where owners gather to co-create properties. Instant House event held June 6–7, 2026."><strong data-en="Contents:">内容:</strong> オーナーが集まって物件を一緒に作るイベントページ。2026/6/6〜6/7 Instant House開催。</div>
+<div class="page-persona" data-en="The architectural philosophy: 'A place created by your own hands is loved more deeply than anywhere else.' Participation fosters belonging.">「自分の手で作った場所は、誰よりも深く愛せる」という建築の哲学。参加が帰属感を生む。</div>
+<a class="page-link" href="workparty" target="_blank">workparty.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="miruwa photobook フォトブック">
+<div class="page-icon">📸</div>
+<div class="page-body">
+<div class="page-name">2026 Photobook</div>
+<div class="page-title" data-en="SOLUNA CABIN CLUB Photo Book">SOLUNA CABIN CLUB フォトブック</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="2026 Miruwa Photographic Archive. Seasonal, portrait, light, culinary, and sky photography showcasing SOLUNA's daily life."><strong data-en="Contents:">内容:</strong> 2026年の美留和の記録写真集。季節・人・光・食事・空の写真でSOLUNAの日常を見せる。</div>
+<div class="page-persona" data-en="Photography speaks louder than words. Seeing the faces of those who've been here creates the desire to belong.">「言葉より、写真が語る」。ここで過ごした人の顔を見て、自分もここにいたいと思う。</div>
+<a class="page-link" href="miruwa-photobook" target="_blank">miruwa-photobook.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="origin 原野 村を建てる">
+<div class="page-icon">🌱</div>
+<div class="page-body">
+<div class="page-name">ORIGIN</div>
+<div class="page-title" data-en="Building a village from wilderness.">原野から、村を建てる。</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="SOLUNA's Origin Story. Documentation from the first step to present, explaining why this wilderness was chosen and the construction journey."><strong data-en="Contents:">内容:</strong> SOLUNAの起源物語。なぜ原野を選んだか、最初の1歩から現在までの建設過程のドキュメント。</div>
+<div class="page-persona" data-en="Experience the meaning of creation from nothing. A sense of becoming part of history.">「ゼロから作ることの意味」を体感させる。参加者が「歴史の一部」になるという感覚。</div>
+<a class="page-link" href="origin" target="_blank">origin.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="neuro AI cabin">
+<div class="page-icon">🧠</div>
+<div class="page-body">
+<div class="page-name">SOLUNA NEURO</div>
+<div class="page-title" data-en="AI CABIN — Intelligence for your place">AI CABIN — 場所に知性を</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Smart Cabin Concept. AI-managed spaces featuring sensors, automation, and adaptive learning systems."><strong data-en="Contents:">内容:</strong> AIが場所を管理するスマートキャビンのコンセプトページ。センサー・自動化・学習の仕組み。</div>
+<div class="page-persona" data-en="Design Philosophy: Technology enriches place, never dominates people.">「テクノロジーは人を服従させるのではなく、場所を豊かにするために使う」という設計思想。</div>
+<a class="page-link" href="neuro" target="_blank">neuro.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="ichiki 市木 個人向け">
+<div class="page-icon">👤</div>
+<div class="page-body">
+<div class="page-name" data-en="For Ichiki (Personal Landing Page)">市木さんへ (個人向けLP)</div>
+<div class="page-title" data-en="Miruwa Project Overview">美留和プロジェクトご説明</div>
+<div class="page-meta"><span class="tag tag-draft" data-en="Private">非公開</span></div>
+<div class="page-desc" data-en="Customized Landing Page for select individuals. Exclusive documentation for the Miruwa Project. Not available to the public."><strong data-en="Contents:">内容:</strong> 特定個人向けカスタムLP。美留和プロジェクトの個別説明資料。一般公開しない。</div>
+<div class="page-persona" data-en="One-to-one communication. Personalized attention—crafted specifically for you—cultivates the deepest trust.">1対1のコミュニケーション。「あなたのために作った」という個別対応が最大の信頼感を生む。</div>
+<a class="page-link" href="ichiki" target="_blank">ichiki.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="plan 2026 夏の計画">
+<div class="page-icon">☀️</div>
+<div class="page-body">
+<div class="page-name" data-en="Summer 2026 Plans">2026 夏の計画</div>
+<div class="page-title" data-en="CABIN CLUB Summer 2026">CABIN CLUB 2026夏</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Summer 2026 Schedule. Owner events, opening timeline, work parties, and festival planning."><strong data-en="Contents:">内容:</strong> 2026年夏のオーナーイベント・開業スケジュール・ワークパーティ・フェス計画のまとめ。</div>
+<div class="page-persona" data-en="A concrete vision of the future: 'This summer, I have a reason to go here.' A destination worth writing on your calendar.">「今年の夏、ここに行く理由ができた」という具体的な未来のイメージ。カレンダーに記入したくなる。</div>
+<a class="page-link" href="plan" target="_blank">plan.html →</a>
+</div>
+</div>
+<div class="page-card" data-search="song 歌 音楽">
+<div class="page-icon">🎵</div>
+<div class="page-body">
+<div class="page-name">SONG</div>
+<div class="page-title" data-en="Reasons to Be Here">ここにいる理由</div>
+<div class="page-meta"><span class="tag tag-pub" data-en="Public">公開</span></div>
+<div class="page-desc" data-en="Original compositions inspired by SOLUNA, with lyrics and background narratives. A page where music functions as an integral part of the brand."><strong data-en="Contents:">内容:</strong> SOLUNAをテーマにした楽曲とその詞・背景ストーリー。音楽がブランドの一部として機能するページ。</div>
+<div class="page-persona" data-en="A poetic experience where place becomes music. Those who hear this space will remember it.">「場所が音楽になる」という詩的な体験。ここを聴いた人が、場所を思い出す。</div>
+<a class="page-link" href="song" target="_blank">song.html →</a>
+</div>
+</div>
+</div>
+</div>
+<div class="no-results" data-en="No matching page found" id="no-results">
+      一致するページが見つかりませんでした
+    </div>
+</div>
+</div>
+<div class="page-footer">SOLUNA Internal Site Index — Enabler Inc. — <span id="ts"></span></div>
+<script>
+document.getElementById('ts').textContent = new Date().toLocaleString('ja-JP');
+
+function filterPages(q) {
+  q = q.toLowerCase().trim();
+  const cards = document.querySelectorAll('.page-card');
+  let visible = 0;
+  cards.forEach(c => {
+    const text = (c.dataset.search + ' ' + c.textContent).toLowerCase();
+    if (!q || text.includes(q)) {
+      c.classList.remove('hidden');
+      visible++;
+    } else {
+      c.classList.add('hidden');
+    }
+  });
+  document.getElementById('count').textContent = visible + ' ページ';
+  document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+  // hide empty categories
+  document.querySelectorAll('.category').forEach(cat => {
+    const vis = cat.querySelectorAll('.page-card:not(.hidden)').length;
+    cat.style.display = vis === 0 && q ? 'none' : '';
+  });
+}
+
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+  document.querySelectorAll('.cat-link').forEach(l => l.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// Highlight active section on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.cat-link').forEach(l => {
+        l.classList.toggle('active', l.getAttribute('onclick').includes(id));
+      });
+    }
+  });
+}, {rootMargin:'-30% 0px -65% 0px'});
+document.querySelectorAll('.category[id]').forEach(s => observer.observe(s));
+</script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 100-Person Village, 8 Structures · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Biruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Miruwa Village" href="village">美留和ビレッジ</a>
+<a data-en="Birowa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Acquire Units for Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plan Collection" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plan" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="The Dome Story" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member Directory" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners Only" href="owners">オーナー専用</a>
+<a data-en="Biruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="The Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fee" href="management-fee">管理費</a>
+<a data-en="Personal Consultation" href="call">個別相談</a>
+<a data-en="Contact" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Service" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Law" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+</body>
+</html>

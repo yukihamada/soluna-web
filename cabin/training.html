@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA STAFF TRAINING — Referral Staff Training Materials">SOLUNA STAFF TRAINING — 紹介スタッフ向け研修資料</title>
+<meta content="SOLUNAを友達・知人に紹介するスタッフのための研修資料。物件説明トーク、FAQ対応、コミッション制度を網羅。" data-en-content="Training materials for staff introducing SOLUNA to friends and acquaintances. Covers property presentation talking points, FAQ responses, and commission structure." name="description"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'&gt;&lt;rect width='64' height='64' rx='14' fill='%23050505'/&gt;&lt;circle cx='32' cy='32' r='20' fill='none' stroke='%23c8a455' stroke-width='2.5'/&gt;&lt;circle cx='32' cy='20' r='5' fill='%23c8a455'/&gt;&lt;path d='M20 38 Q32 28 44 38' fill='none' stroke='%23c8a455' stroke-width='2' stroke-linecap='round'/&gt;&lt;path d='M24 44 Q32 36 40 44' fill='none' stroke='%23c8a455' stroke-width='1.5' stroke-linecap='round'/&gt;&lt;/svg&gt;" rel="icon"/>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.5);
+  --gold-soft:rgba(200,164,85,.08);
+  --bg:#040404;
+  --bg-soft:#080808;
+  --line:#131313;
+  --text:#f0ece4;
+  --text-dim:#777;
+  --text-soft:#444;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-feature-settings:'palt'}
+::selection{background:var(--gold);color:#000}
+a{color:var(--gold);text-decoration:none}
+
+/* Nav */
+.tn{position:sticky;top:0;z-index:50;padding:14px 20px;background:rgba(4,4,4,.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
+.tn-inner{max-width:760px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.tn-logo{font-size:12px;font-weight:800;letter-spacing:.2em;color:var(--gold)}
+.tn-badge{font-size:9.5px;color:#666;border:1px solid #1e1e1e;padding:4px 10px;border-radius:100px;letter-spacing:.08em}
+
+/* Layout */
+.w{max-width:760px;margin:0 auto;padding:0 20px}
+.gold{color:var(--gold)}
+
+/* Hero */
+.hero{padding:64px 20px 48px;max-width:760px;margin:0 auto;border-bottom:1px solid #111}
+.hero .label{font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--text-soft);margin-bottom:14px;font-weight:700}
+.hero h1{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:14px}
+.hero p{color:#666;font-size:13.5px;line-height:1.85}
+
+/* Section */
+.s{padding:56px 0;border-bottom:1px solid #0e0e0e}
+.s-label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--text-soft);margin-bottom:10px;font-weight:700}
+.s h2{font-size:clamp(1.2rem,3vw,1.6rem);font-weight:800;letter-spacing:-.025em;margin-bottom:18px;line-height:1.25}
+
+/* One-liner box */
+.oneliner{background:linear-gradient(135deg,rgba(200,164,85,.07),rgba(200,164,85,.02));border:1px solid rgba(200,164,85,.22);border-radius:14px;padding:28px 24px;margin-bottom:24px}
+.oneliner .ql{font-size:9px;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:10px}
+.oneliner .qt{font-size:1.15rem;font-weight:700;line-height:1.65;letter-spacing:-.01em}
+
+/* OK/NG examples */
+.eg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+@media(max-width:520px){.eg-grid{grid-template-columns:1fr}}
+.eg-box{border-radius:10px;padding:16px 18px}
+.eg-box.ng{background:#0e0707;border:1px solid #2a1212}
+.eg-box.ok{background:#070e07;border:1px solid #122a12}
+.eg-box .eg-label{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+.eg-box.ng .eg-label{color:#c05050}
+.eg-box.ok .eg-label{color:#50a850}
+.eg-box ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.eg-box li{font-size:12px;line-height:1.6;color:#aaa;padding-left:16px;position:relative}
+.eg-box li::before{position:absolute;left:0;top:.05em}
+.eg-box.ng li::before{content:'✗';color:#c05050}
+.eg-box.ok li::before{content:'✓';color:#50a850}
+
+/* Target list */
+.target-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+@media(max-width:520px){.target-grid{grid-template-columns:1fr}}
+.tcard{background:var(--bg-soft);border:1px solid #141414;border-radius:10px;padding:14px 16px;font-size:12.5px;line-height:1.6;color:#bbb;display:flex;gap:10px;align-items:flex-start}
+.tcard .ti{font-size:18px;flex-shrink:0;margin-top:1px}
+
+/* Property cards */
+.prop-list{display:flex;flex-direction:column;gap:16px;margin-top:18px}
+.pc{border:1px solid #171717;border-radius:14px;overflow:hidden;background:var(--bg-soft);transition:border-color .3s}
+.pc:hover{border-color:#252525}
+.pc-head{padding:20px 22px 16px;border-bottom:1px solid #111}
+.pc-head .pc-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.pc-head .pc-name{font-size:15px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.pc-head .pc-price{font-size:14px;font-weight:800;color:var(--gold);white-space:nowrap}
+.pc-head .pc-tagline{font-size:11.5px;color:#666;margin-top:6px;line-height:1.6}
+.pc-body{padding:18px 22px}
+.pc-script-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px}
+.pc-script{font-size:13px;line-height:1.9;color:#ccc;background:#050505;border-left:2px solid rgba(200,164,85,.3);padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:16px}
+.pc-faq{margin-top:4px}
+.pc-faq-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#444;font-weight:700;margin-bottom:10px}
+.pc-faq-item{padding:10px 0;border-bottom:1px solid #0e0e0e;font-size:12px}
+.pc-faq-item:last-child{border-bottom:none}
+.pc-faq-item .q{color:#888;margin-bottom:5px;font-weight:600}
+.pc-faq-item .a{color:#666;line-height:1.7}
+
+/* FAQ table */
+.faq-table{width:100%;border-collapse:collapse;margin-top:18px;font-size:12.5px}
+.faq-table th{text-align:left;font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-soft);padding:10px 14px;border-bottom:1px solid #141414;font-weight:700}
+.faq-table td{padding:14px;border-bottom:1px solid #0e0e0e;line-height:1.7;vertical-align:top}
+.faq-table td:first-child{color:#888;font-weight:600;width:35%;padding-right:20px}
+.faq-table td:last-child{color:#666}
+.faq-table tr:last-child td{border-bottom:none}
+@media(max-width:520px){
+  .faq-table,.faq-table tbody,.faq-table tr,.faq-table td{display:block}
+  .faq-table thead{display:none}
+  .faq-table td:first-child{color:var(--gold);font-size:11px;padding-bottom:4px;letter-spacing:.02em}
+  .faq-table td{padding:6px 14px}
+  .faq-table tr{padding:12px 0;border-bottom:1px solid #0e0e0e}
+}
+
+/* Commission */
+.comm-intro{font-size:14px;line-height:1.9;color:#aaa;margin-bottom:22px}
+.comm-intro strong{color:var(--gold)}
+.comm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+@media(max-width:520px){.comm-grid{grid-template-columns:1fr}}
+.comm-card{background:#070707;border:1px solid #171717;border-radius:10px;padding:16px;text-align:center}
+.comm-card .cc-prop{font-size:11px;color:#888;margin-bottom:6px;font-weight:600}
+.comm-card .cc-price{font-size:13px;color:#aaa;margin-bottom:6px}
+.comm-card .cc-comm{font-size:18px;font-weight:800;color:var(--gold)}
+.comm-card .cc-label{font-size:9px;color:#444;margin-top:4px;letter-spacing:.1em}
+.comm-note{font-size:11.5px;color:#555;line-height:1.85;margin-top:14px;padding:14px;background:#060606;border:1px solid #111;border-radius:8px}
+
+/* Checklist */
+.checklist{display:flex;flex-direction:column;gap:0;margin-top:18px;border:1px solid #171717;border-radius:14px;overflow:hidden}
+.cl-item{display:flex;align-items:center;gap:14px;padding:16px 20px;border-bottom:1px solid #0e0e0e;cursor:pointer;transition:background .2s;background:var(--bg-soft)}
+.cl-item:last-child{border-bottom:none}
+.cl-item:hover{background:#0c0c0c}
+.cl-item.done{background:#060906}
+.cl-checkbox{width:22px;height:22px;border-radius:6px;border:2px solid #2a2a2a;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;background:#0a0a0a}
+.cl-item.done .cl-checkbox{background:var(--gold);border-color:var(--gold)}
+.cl-checkbox svg{display:none;width:12px;height:12px}
+.cl-item.done .cl-checkbox svg{display:block}
+.cl-text{font-size:13px;line-height:1.5;color:#aaa;transition:color .2s}
+.cl-item.done .cl-text{color:#555;text-decoration:line-through}
+.cl-progress{margin-top:14px;height:3px;background:#111;border-radius:100px;overflow:hidden}
+.cl-progress-bar{height:100%;background:var(--gold);border-radius:100px;transition:width .4s ease}
+.cl-progress-label{font-size:10px;color:#555;margin-top:6px;text-align:right}
+
+/* Footer */
+footer{padding:48px 20px;border-top:1px solid #0e0e0e;text-align:center}
+footer .f-logo{font-size:12px;font-weight:800;letter-spacing:.2em;color:var(--gold);margin-bottom:14px}
+footer p{font-size:12px;color:#444;line-height:1.9}
+footer a{color:#666}
+footer a:hover{color:var(--gold)}
+
+/* Responsive table wrapper */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:18px;border:1px solid #141414;border-radius:12px}
+.table-wrap .faq-table{margin-top:0}
+
+/* Scroll indicator */
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.toc a{font-size:11px;color:#555;border:1px solid #1a1a1a;padding:6px 13px;border-radius:100px;background:#080808;transition:color .2s,border-color .2s}
+.toc a:hover{color:var(--gold);border-color:rgba(200,164,85,.3)}
+</style>
+</head>
+<body>
+<!-- Nav -->
+<nav class="tn">
+<div class="tn-inner">
+<div class="tn-logo">SOLUNA</div>
+<div class="tn-badge">STAFF TRAINING</div>
+</div>
+</nav>
+<!-- Hero -->
+<header class="hero">
+<div class="label">STAFF TRAINING MATERIAL</div>
+<h1>SOLUNA<br/><span class="gold" data-en="Referral Staff Training">紹介スタッフ研修</span></h1>
+<p data-en="Speak with confidence, even without real estate expertise. Your complete guide to explaining SOLUNA to friends.">不動産知識ゼロでも話せる。友達にSOLUNAを説明するための完全マニュアルです。</p>
+<nav aria-label="目次" class="toc">
+<a data-en="1. One-line Explanation" href="#sec-pitch">1. 一言説明</a>
+<a data-en="2. Target Audience" href="#sec-target">2. ターゲット像</a>
+<a data-en="3. Property Talk" href="#sec-props">3. 物件トーク</a>
+<a data-en="4. FAQ" href="#sec-faq">4. よくある質問</a>
+<a data-en="5. Commission" href="#sec-comm">5. コミッション</a>
+<a data-en="6. Checklist" href="#sec-check">6. チェックリスト</a>
+</nav>
+</header>
+<main>
+<!-- Section 1: Pitch -->
+<section class="s" id="sec-pitch">
+<div class="w">
+<div class="s-label">Section 01</div>
+<h2 data-en="Explain SOLUNA in One Sentence">SOLUNAを一言で説明する</h2>
+<div class="oneliner">
+<div class="ql">BEST PITCH</div>
+<div class="qt" data-en='"Service throughout Hokkaido and beyond"'>「北海道などに、<span class="gold" data-en="Possess your own personal sanctuary to return to">自分だけの帰り場所を持てる</span>サービスです」</div>
+</div>
+<div class="eg-grid">
+<div class="eg-box ng">
+<div class="eg-label" data-en="NG — Do Not Say">NG — 言ってはいけない</div>
+<ul>
+<li data-en='"Real estate investment"'>「不動産投資です」</li>
+<li data-en='"It is a resort membership right."'>「リゾート会員権です」</li>
+<li data-en='"It is an NFT."'>「NFTです」</li>
+<li data-en="&quot;It's a shared co-ownership model.&quot;">「共同購入のシェアリングです」</li>
+</ul>
+</div>
+<div class="eg-box ok">
+<div class="eg-label" data-en="OK — Say it this way">OK — こう言う</div>
+<ul>
+<li data-en='"A place to return to"'>「帰れる場所ができます」</li>
+<li data-en='"Like owning a vacation home with friends"'>「友達と持つ別荘のイメージです」</li>
+<li data-en='"Become an owner and enjoy 30 nights per year."'>「オーナーになると年30泊使えます」</li>
+<li data-en='"It feels like my own private sanctuary."'>「自分の場所、という感覚です」</li>
+</ul>
+</div>
+</div>
+<p data-en='SOLUNA is not an "investment product" but an "experience of owning a place." What resonates with people is the sense of having "a place to return to." Communicate this feeling before discussing figures or terms.' style="font-size:12.5px;color:#555;margin-top:20px;line-height:1.8;">
+      SOLUNAは「投資商品」ではなく「場所を持つ体験」です。相手に刺さるのは「帰れる場所」という感覚です。数字や制度の説明より先に、この感覚を届けましょう。
+    </p>
+</div>
+</section>
+<!-- Section 2: Target -->
+<section class="s" id="sec-target">
+<div class="w">
+<div class="s-label">Section 02</div>
+<h2 data-en="Perfect For">こんな人に刺さる</h2>
+<p data-en="Those matching any of the following criteria have a high probability of interest." style="font-size:13px;color:#555;margin-bottom:18px;line-height:1.8;">以下のいずれかに当てはまる人は高確率で興味を持ちます。</p>
+<div class="target-grid">
+<div class="tcard"><span class="ti">🏔️</span><span data-en="Those who love Hokkaido and the outdoors. People who desire to return to nature.">北海道好き・アウトドア好き。自然の中に帰りたいと思っている人。</span></div>
+<div class="tcard"><span class="ti">🏡</span><span data-en="Those who desire a vacation home but find it too expensive alone, and wish to share ownership with others.">別荘を持ちたいが一人では高い。誰かと分けて持ちたいと感じている人。</span></div>
+<div class="tcard"><span class="ti">💰</span><span data-en="Those intrigued by resort investment but hesitant about single-property acquisition. Those seeking to explore fractional ownership.">リゾート投資に興味があるが、一棟買いは怖い。小口で試したい人。</span></div>
+<div class="tcard"><span class="ti">✨</span><span data-en="Those who have stayed at SOLUNA and already appreciate its exceptional experience.">SOLUNAに泊まったことがある。体験済みで「ここいいな」と思っている人。</span></div>
+<div class="tcard"><span class="ti">🤸</span><span data-en="Individuals within sauna, outdoor, and martial arts communities. Those who prioritize lifestyle.">サウナ・アウトドア・柔術などのコミュニティにいる人。ライフスタイル重視層。</span></div>
+<div class="tcard"><span class="ti">📈</span><span data-en="Annual income of 10 million yen or more with discretionary spending capacity. Those who invest in quality.">年収1000万以上で可処分所得がある。良いものにお金を使える人。</span></div>
+<div class="tcard"><span class="ti">👨‍👩‍👧</span><span data-en="Those seeking to create a cherished family retreat. Parents who wish to leave their children with meaningful experiences.">家族に「帰れる場所を作りたい」と考えている人。子供に体験を残したい親。</span></div>
+<div class="tcard"><span class="ti">🎉</span><span data-en="Naturally social individuals who enjoy bringing friends together. Those who find it easy to propose shared experiences.">友達を巻き込みたい社交的な人。「一緒にやろう」と言いやすいタイプ。</span></div>
+</div>
+</div>
+</section>
+<!-- Section 3: Properties -->
+<section class="s" id="sec-props">
+<div class="w">
+<div class="s-label">Section 03</div>
+<h2 data-en="Property-Specific Talk Scripts">物件別トークスクリプト</h2>
+<p data-en="Select properties aligned with the prospect's profile and lifestyle. You may use the colloquial scripts exactly as provided." style="font-size:13px;color:#555;margin-bottom:4px;line-height:1.8;">相手のタイプに合わせて物件を選んで話しましょう。「口語スクリプト」をそのまま使ってOKです。</p>
+<div class="prop-list">
+<!-- THE LODGE -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-row">
+<div class="pc-name">THE LODGE</div>
+<div class="pc-price">¥490万</div>
+</div>
+<div class="pc-tagline" data-en="Teshikaga, Hokkaido / pH9.2 Hot Spring / 10 Units">北海道・弟子屈 / pH9.2 温泉付き / 10口</div>
+</div>
+<div class="pc-body">
+<div class="pc-script-label" data-en="Explain it this way">こう説明する</div>
+<div class="pc-script" data-en="&quot;You can own a property in Hokkaido with pH 9.2 hot springs for 4.9 million yen. With 10 owners sharing management duties, it's effortless. With 30 nights annually, the investment pays for itself in just 10 trips of 3 nights each.&quot;">「北海道でpH9.2の温泉に入れる場所が490万で持てます。10人で持つので管理も楽です。年30泊使えるので、3泊×10回行けば元が取れる計算です。」</div>
+<div class="pc-faq">
+<div class="pc-faq-label" data-en="Frequently Asked Questions About This Property">この物件でよく聞かれること</div>
+<div class="pc-faq-item">
+<div class="q" data-en="Are the hot springs authentic spring-sourced?">温泉って本当に源泉？</div>
+<div class="a" data-en="Yes. It features pristine hot spring water from Teshikaga in the Akan-Mashu area. With an alkaline pH of 9.2, it leaves your skin beautifully smooth.">はい。弟子屈（摩周湖エリア）の源泉かけ流しです。pH9.2のアルカリ性で肌がすべすべになります。</div>
+</div>
+<div class="pc-faq-item">
+<div class="q" data-en="Won't reservations be difficult with 10 people using it?">10人で使うと予約が取れないのでは？</div>
+<div class="a" data-en="You receive priority booking rights for 30 nights per year. Early seasonal reservations pose no difficulty.">年30泊の優先予約権があります。シーズンを早めに押さえれば問題ありません。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- NESTING -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-row">
+<div class="pc-name">NESTING</div>
+<div class="pc-price">¥890万</div>
+</div>
+<div class="pc-tagline" data-en="Teshikaga, Hokkaido / Designed by VUILD / Tower Sauna + Jacuzzi">北海道・弟子屈 / VUILD設計 / タワーサウナ+ジャグジー</div>
+</div>
+<div class="pc-body">
+<div class="pc-script-label" data-en="Explain it this way">こう説明する</div>
+<div class="pc-script" data-en='"An architect-designed mountain lodge with sauna. Designed by VUILD, an innovative startup from the University of Tokyo. The tower sauna and jacuzzi become your private sanctuary."'>「建築家設計のサウナ付き山荘です。VUILD（東大発スタートアップ）が設計しました。タワーサウナとジャグジーが自分の場所になります。」</div>
+<div class="pc-faq">
+<div class="pc-faq-label" data-en="Frequently Asked Questions About This Property">この物件でよく聞かれること</div>
+<div class="pc-faq-item">
+<div class="q" data-en="What is VUILD?">VUILDって何？</div>
+<div class="a" data-en="A startup founded by Tokyo University alumni, renowned for architectural design using digital fabrication. The building features exceptional design that has been featured in prestigious publications.">東大発のスタートアップで、デジタルファブリケーションを使った建築設計で有名です。雑誌にも掲載されるデザイン性の高い建物です。</div>
+</div>
+<div class="pc-faq-item">
+<div class="q" data-en="Can I recommend this to sauna enthusiasts?">サウナ好きに薦めていい？</div>
+<div class="a" data-en="It's outstanding. With both a tower sauna and jacuzzi, it's perfectly suited for sauna enthusiasts.">最高です。タワーサウナとジャグジーが揃っているので、サウナーには刺さります。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- インスタントハウス -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-row">
+<div class="pc-name" data-en="Instant House">インスタントハウス</div>
+<div class="pc-price" data-en="¥1,200,000">¥120万</div>
+</div>
+<div class="pc-tagline" data-en="Hokkaido · Teshikaga / Off-grid / Ideal for beginners">北海道・弟子屈 / オフグリッド / 入門に最適</div>
+</div>
+<div class="pc-body">
+<div class="pc-script-label" data-en="Explain it this way">こう説明する</div>
+<div class="pc-script" data-en="&quot;1.2 million yen—the most accessible entry point. An off-grid compact house with views of Hokkaido's pristine starry skies. Perfect for those wanting to experience first.&quot;">「120万です。これが一番入りやすい。オフグリッドのコンパクトハウスで、北海道の星空が見えます。まず試したい人に。」</div>
+<div class="pc-faq">
+<div class="pc-faq-label" data-en="Frequently Asked Questions About This Property">この物件でよく聞かれること</div>
+<div class="pc-faq-item">
+<div class="q" data-en="Isn't ¥1.2M too inexpensive? Is it really okay?">120万って安すぎない？大丈夫？</div>
+<div class="a" data-en="This offers the most accessible price point within the SOLUNA collection. Compact yet sufficient to experience Hokkaido's natural beauty. Perfect for those wishing to experience SOLUNA for the first time.">SOLUNAの中で最も入りやすい価格設定です。コンパクトですが北海道の自然を感じるには十分です。まず体験してみたい人向けです。</div>
+</div>
+<div class="pc-faq-item">
+<div class="q" data-en="Is off-grid living inconvenient?">オフグリッドって不便？</div>
+<div class="a" data-en='Powered by solar panels and battery storage. Wi-Fi is available. The appeal lies in the concept of "electricity costs nothing."'>太陽光と蓄電池で動いています。Wi-Fiもあります。「電気代なし」という面白さがあります。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- WHITE HOUSE 熱海 -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-row">
+<div class="pc-name" data-en="WHITE HOUSE Atami">WHITE HOUSE 熱海</div>
+<div class="pc-price">¥1,900万</div>
+</div>
+<div class="pc-tagline" data-en="Atami / 45 minutes by bullet train / Ocean view">熱海 / 新幹線45分 / 海ビュー</div>
+</div>
+<div class="pc-body">
+<div class="pc-script-label" data-en="Explain it this way">こう説明する</div>
+<div class="pc-script" data-en="&quot;It's a white house with ocean views, just 45 minutes from Tokyo by bullet train. Being in Atami makes it perfect for weekend retreats. It's an elegantly appointed property that's impressive when hosting international guests.&quot;">「東京から新幹線45分の海が見える白い家です。熱海なので週末も使いやすい。海外の友達を連れていける見栄えのいい物件です。」</div>
+<div class="pc-faq">
+<div class="pc-faq-label" data-en="Frequently Asked Questions About This Property">この物件でよく聞かれること</div>
+<div class="pc-faq-item">
+<div class="q" data-en="Isn't Atami crowded?">熱海って混んでいない？</div>
+<div class="a" data-en="As a SOLUNA owner, priority booking ensures reservations are accessible even during peak seasons.">SOLUNAオーナーとして優先予約できるので、混雑するシーズンでも予約が取りやすいです。</div>
+</div>
+<div class="pc-faq-item">
+<div class="q" data-en="Can I show it to international visitors?">海外の人にも見せられる？</div>
+<div class="a" data-en='Its refined design with a white aesthetic receives high acclaim from international guests. It perfectly balances "quintessential Japanese character" with "luxury sophistication."'>白を基調にした洗練されたデザインで、海外の方からも好評です。「日本らしさ」と「ラグジュアリー感」が両立しています。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- TAPKOP -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-row">
+<div class="pc-name">TAPKOP</div>
+<div class="pc-price">¥8,000万</div>
+</div>
+<div class="pc-tagline" data-en="Hokkaido, 9,000 tsubo / Dedicated Chef / Complete Privacy / Limited to 5 units">北海道・9,000坪 / 専任シェフ / 完全プライベート / 5口限定</div>
+</div>
+<div class="pc-body">
+<div class="pc-script-label" data-en="Explain it this way">こう説明する</div>
+<div class="pc-script" data-en="&quot;A completely private resort with a dedicated chef on 9,000 tsubo of forest. The name means 'hill' in Ainu, offering truly exceptional experiences. With only 5 units available, this is the time to secure yours.&quot;">「9,000坪の森に専任シェフ付きの完全プライベートリゾートです。アイヌ語で『丘』という意味で、本当に特別な体験ができます。5口しかないので、今のうちです。」</div>
+<div class="pc-faq">
+<div class="pc-faq-label" data-en="Frequently Asked Questions About This Property">この物件でよく聞かれること</div>
+<div class="pc-faq-item">
+<div class="q" data-en="Isn't 80 million yen too high?">8,000万は高すぎない？</div>
+<div class="a" data-en="Sharing a resort of this caliber—9,000 tsubo, dedicated chef, complete privacy—among five ownership units delivers extraordinary value per person. An equivalent private resort purchased individually would require hundreds of millions of yen.">これだけの規模（9,000坪、専任シェフ付き、完全プライベート）のリゾートを5人でシェアするので、一人あたりの体験価値は圧倒的です。同等のプライベートリゾートを個人で持つと数億円です。</div>
+</div>
+<div class="pc-faq-item">
+<div class="q" data-en="What does TAPKOP mean?">TAPKOPってどんな意味？</div>
+<div class="a" data-en="It means &quot;hill&quot; in Ainu, the language of Hokkaido's indigenous Ainu people. We honor the history and culture of the land.">アイヌ語で「丘」を意味します。北海道の先住民族アイヌの言葉で、その土地の歴史と文化を大切にしています。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- KUMAUSHI BASE -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-row">
+<div class="pc-name">KUMAUSHI BASE</div>
+<div class="pc-price" data-en="¥4,800,000">¥480万</div>
+</div>
+<div class="pc-tagline" data-en="Hokkaido / Pool + Sauna + Bar + Martial Arts Studio / Opening September 2026">北海道 / プール+サウナ+バー+柔術道場 / 2026年9月オープン</div>
+</div>
+<div class="pc-body">
+<div class="pc-script-label" data-en="Explain it this way">こう説明する</div>
+<div class="pc-script" data-en='"A resort featuring a pool, sauna, bar, and jiu-jitsu dojo. Opening in September—apply now for the most favorable rates. The community is exceptional."'>「プール・サウナ・バー・柔術道場があるリゾートです。9月オープン予定で、今申し込むと一番安く入れます。コミュニティが最高です。」</div>
+<div class="pc-faq">
+<div class="pc-faq-label" data-en="Frequently Asked Questions About This Property">この物件でよく聞かれること</div>
+<div class="pc-faq-item">
+<div class="q" data-en="Why isn't it open yet?">まだオープンしていないの？</div>
+<div class="a" data-en="Scheduled to open in September 2026. Apply now and secure pre-opening pricing. An exclusive privilege for early owners.">2026年9月オープン予定です。今申し込むとオープン前価格で入れます。先行オーナーの特権です。</div>
+</div>
+<div class="pc-faq-item">
+<div class="q" data-en="Is the jiu-jitsu dojo authentic?">柔術道場って本格的？</div>
+<div class="a" data-en="Yes. Because SOLUNA's representative is also a jiu-jitsu practitioner, the property features a full-fledged dojo. It's also used for jiu-jitsu community gatherings.">はい。SOLUNAの代表が柔術家でもあるため、本格的な道場が備わっています。柔術コミュニティの集まりにも使われます。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 美留和ビレッジ -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-row">
+<div class="pc-name" data-en="Mirowa Village">美留和ビレッジ</div>
+<div class="pc-price">¥490万</div>
+</div>
+<div class="pc-tagline" data-en="Teshikaga, Hokkaido / 100-Plot Community / Opens September 2026">北海道・弟子屈 / 100区画コミュニティ / 2026年9月オープン</div>
+</div>
+<div class="pc-body">
+<div class="pc-script-label" data-en="Explain it this way">こう説明する</div>
+<div class="pc-script" data-en="&quot;It's a 100-plot community-style destination. It will become the gathering place for SOLUNA members. Opening in September—now is the optimal entry point.&quot;">「100区画のコミュニティ型の場所です。SOLUNAのメンバーが集まる場所になります。9月オープンで今が最安値。」</div>
+<div class="pc-faq">
+<div class="pc-faq-label" data-en="Frequently Asked Questions About This Property">この物件でよく聞かれること</div>
+<div class="pc-faq-item">
+<div class="q" data-en="Isn't 100 plots a lot?">100区画って多くない？</div>
+<div class="a" data-en="SOLUNA's largest community space. Perfect for large gatherings, events, and retreats. Ideal for those seeking meaningful connections.">SOLUNAの中で最大のコミュニティスペースです。大人数で集まれるイベントや合宿に使えます。人と繋がりたい人には最適です。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- BEACH HOUSE (HONOLULU VILLA) -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-row">
+<div class="pc-name" data-en="BEACH HOUSE (Honolulu)">BEACH HOUSE（ホノルル）</div>
+<div class="pc-price" data-en="¥28,000,000">¥2,800万</div>
+</div>
+<div class="pc-tagline" data-en="Hawaii · Honolulu / Monthly usage / Opening November 2026">ハワイ・ホノルル / 月単位使用 / 2026年11月オープン</div>
+</div>
+<div class="pc-body">
+<div class="pc-script-label" data-en="Explain it this way">こう説明する</div>
+<div class="pc-script" data-en='"Own a Hawaii residence for 28 million yen. Usage available in monthly increments. Perfect for Hawaii enthusiasts."'>「ハワイの家が2,800万で持てます。1ヶ月単位で使えます。ハワイ好きな人に。」</div>
+<div class="pc-faq">
+<div class="pc-faq-label" data-en="Frequently Asked Questions About This Property">この物件でよく聞かれること</div>
+<div class="pc-faq-item">
+<div class="q" data-en="What does monthly unit mean?">1ヶ月単位とはどういう意味？</div>
+<div class="a" data-en="With a 30-day minimum stay requirement, this property is designed for month-long extended use. It's ideal for those planning extended residencies in Hawaii. It also serves as an excellent remote work base.">最低宿泊日数が30日のため、1ヶ月単位でまとめて使う物件です。ハワイへの長期滞在が目的の方向けです。リモートワーク拠点としても最適です。</div>
+</div>
+</div>
+</div>
+</div>
+<!-- HAWAII KAI HOUSE -->
+<div class="pc">
+<div class="pc-head">
+<div class="pc-row">
+<div class="pc-name">HAWAII KAI HOUSE</div>
+<div class="pc-price" data-en="¥38,000,000">¥3,800万</div>
+</div>
+<div class="pc-tagline" data-en="HAWAIKAI / Beachfront / Single-story / Opening November 2026">ハワイカイ / ビーチフロント / 平屋 / 2026年11月オープン</div>
+</div>
+<div class="pc-body">
+<div class="pc-script-label" data-en="Explain it this way">こう説明する</div>
+<div class="pc-script" data-en='"Beachfront at Hawaikai. A single-story residence where you can hear the sound of waves. The location is world-class as an investment."'>「ハワイカイのビーチフロント。波の音が聞こえる平屋です。投資としても最高クラスの立地です。」</div>
+<div class="pc-faq">
+<div class="pc-faq-label" data-en="Frequently Asked Questions About This Property">この物件でよく聞かれること</div>
+<div class="pc-faq-item">
+<div class="q" data-en="Where exactly is HAWAIKAI?">ハワイカイってどのあたり？</div>
+<div class="a" data-en="An exclusive residential enclave approximately 20 minutes by car from Honolulu. Nestled between marina and mountains, this serene setting is favored by Hawaii's most discerning residents.">ホノルルから車で約20分の高級住宅街です。マリーナと山に囲まれた静かなエリアで、富裕層に人気のエリアです。</div>
+</div>
+<div class="pc-faq-item">
+<div class="q" data-en="Will the asset value increase?">資産価値は上がりますか？</div>
+<div class="a" data-en="Hawaii Kai maintains stable demand and is an area within Hawaii where property values remain relatively resilient. However, SOLUNA's primary purpose is not appreciation, but rather to be used and enjoyed.">ハワイカイは需要が安定しており、ハワイの中でも資産価値が下がりにくいエリアです。ただしSOLUNAは値上がり目的ではなく「使うこと」が主目的です。</div>
+</div>
+</div>
+</div>
+</div>
+</div><!-- /prop-list -->
+</div>
+</section>
+<!-- Section 4: FAQ -->
+<section class="s" id="sec-faq">
+<div class="w">
+<div class="s-label">Section 04</div>
+<h2 data-en="FAQ &amp; Answers (General)">よくある質問と回答（汎用）</h2>
+<p data-en="These are universal example responses applicable to any property explanation." style="font-size:13px;color:#555;margin-bottom:4px;line-height:1.8;">どの物件の説明でも共通して使える回答例です。</p>
+<div class="table-wrap">
+<table class="faq-table">
+<thead>
+<tr>
+<th data-en="FAQ">よくある質問</th>
+<th data-en="Sample Responses">回答例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-en="Is this profitable as an investment?">投資として儲かりますか？</td>
+<td data-en="The purpose is not capital appreciation, but to have &quot;a place to return to.&quot; However, on nights you don't use it, you can monetize it through Airbnb and similar platforms to offset maintenance costs.">値上がり目的ではなく「帰れる場所を持つ」ことが目的です。ただし使わない夜はAirbnb等で収益化でき、維持費の一部を賄えます。</td>
+</tr>
+<tr>
+<td data-en="Can I sell it?">売却できますか？</td>
+<td data-en="Available for secondary trading as an NFT. You can transfer it to whoever desires it.">NFTとして二次流通できます。欲しい人に渡せます。</td>
+</tr>
+<tr>
+<td data-en="Can I use financing?">ローンは使えますか？</td>
+<td data-en="Currently, bank transfer is the only method. Installment plans are available upon consultation.">現状はお振込のみです。分割払いは要相談。</td>
+</tr>
+<tr>
+<td data-en="Are there maintenance fees?">維持費はかかりますか？</td>
+<td data-en="Monthly maintenance fees apply (¥30,000–¥120,000 per month depending on the property).">月額管理費があります（物件により¥3万〜¥12万/月）。</td>
+</tr>
+<tr>
+<td data-en="How many owners will share the property?">何人で持つんですか？</td>
+<td data-en="5 to 100 units depending on the property. For example, THE LODGE is 10 units.">物件により5〜100口。例えばTHE LODGEは10口です。</td>
+</tr>
+<tr>
+<td data-en="Won't reservations be difficult to secure?">予約が取れないのでは？</td>
+<td data-en="As an owner, you receive priority booking rights for 30 nights per year. You can secure peak seasons early without concern.">年30泊の優先予約権があります。シーズンは早めに押さえれば大丈夫です。</td>
+</tr>
+<tr>
+<td data-en="Is this legitimate?">怪しくないですか？</td>
+<td data-en="Operated by Enabler Inc. (Minato Ward, Tokyo). Headed by Yuki Hamada, former CEO of Mercari US. Backed by East Ventures, a renowned venture capital firm.">運営はEnablerDAO（東京港区）です。代表は元Mercari US CEOの濱田優貴です。East Ventures（著名VC）が出資しています。</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Section 5: Commission -->
+<section class="s" id="sec-comm">
+<div class="w">
+<div class="s-label">Section 05</div>
+<h2 data-en="Commission Structure">コミッション制度</h2>
+<p class="comm-intro" data-en="Once your application is confirmed, funds will be transferred to you.">申込が確定したら、<strong data-en="3% of the transaction price">成約価格の3%</strong>があなたへ振り込まれます。</p>
+<div class="comm-grid">
+<div class="comm-card">
+<div class="cc-prop">THE LODGE</div>
+<div class="cc-price">¥490万</div>
+<div class="cc-comm">¥14.7万</div>
+<div class="cc-label">3% commission</div>
+</div>
+<div class="comm-card">
+<div class="cc-prop">NESTING</div>
+<div class="cc-price">¥890万</div>
+<div class="cc-comm">¥26.7万</div>
+<div class="cc-label">3% commission</div>
+</div>
+<div class="comm-card">
+<div class="cc-prop" data-en="WHITE HOUSE Atami">WHITE HOUSE 熱海</div>
+<div class="cc-price">¥1,900万</div>
+<div class="cc-comm" data-en="¥570,000">¥57万</div>
+<div class="cc-label">3% commission</div>
+</div>
+<div class="comm-card">
+<div class="cc-prop" data-en="Instant House">インスタントハウス</div>
+<div class="cc-price" data-en="¥1,200,000">¥120万</div>
+<div class="cc-comm">¥3.6万</div>
+<div class="cc-label">3% commission</div>
+</div>
+<div class="comm-card">
+<div class="cc-prop">KUMAUSHI BASE</div>
+<div class="cc-price" data-en="¥4,800,000">¥480万</div>
+<div class="cc-comm">¥14.4万</div>
+<div class="cc-label">3% commission</div>
+</div>
+<div class="comm-card">
+<div class="cc-prop">TAPKOP</div>
+<div class="cc-price">¥8,000万</div>
+<div class="cc-comm" data-en="¥2,400,000">¥240万</div>
+<div class="cc-label">3% commission</div>
+</div>
+</div>
+<div class="comm-note" data-en="We will transfer funds by the end of the following month after confirming your purchase payment. Referral code issuance and verification can be handled via the Staff Dashboard (/staff) or by email.">
+<strong data-en="Payment Timing" style="color:#888;display:block;margin-bottom:6px;">支払いタイミング</strong>
+      購入代金の入金確認後、翌月末にお振込みします。<br/>
+      紹介コードの発行・確認はスタッフダッシュボード（/staff）またはメールにてご連絡ください。<br/>
+<span data-en="※Commission payments require a referral code. Please obtain your code before making any referrals." style="color:#333;font-size:11px;margin-top:8px;display:block;">※コミッションの支払いには紹介コードの紐付けが必要です。紹介する前に必ずコードを取得してください。</span>
+</div>
+</div>
+</section>
+<!-- Section 6: Checklist -->
+<section class="s" id="sec-check">
+<div class="w">
+<div class="s-label">Section 06</div>
+<h2 data-en="Training Checklist">研修チェックリスト</h2>
+<p data-en="Check items by clicking. Progress is saved in your browser." style="font-size:13px;color:#555;margin-bottom:4px;line-height:1.8;">クリックでチェックできます。進捗はブラウザに保存されます。</p>
+<div class="checklist" id="checklist">
+<div class="cl-item" data-key="pitch" onclick="toggleCheck(this)">
+<div class="cl-checkbox">
+<svg fill="none" stroke="#050505" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 12 12">
+<polyline points="2,6 5,9 10,3"></polyline>
+</svg>
+</div>
+<span class="cl-text" data-en="Can explain what SOLUNA is in one sentence">SOLUNAとは何かを一言で説明できる</span>
+</div>
+<div class="cl-item" data-key="props" onclick="toggleCheck(this)">
+<div class="cl-checkbox">
+<svg fill="none" stroke="#050505" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 12 12">
+<polyline points="2,6 5,9 10,3"></polyline>
+</svg>
+</div>
+<span class="cl-text" data-en="Articulate the price and three key characteristics of each property">各物件の価格と特徴を3つ言える</span>
+</div>
+<div class="cl-item" data-key="invest" onclick="toggleCheck(this)">
+<div class="cl-checkbox">
+<svg fill="none" stroke="#050505" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 12 12">
+<polyline points="2,6 5,9 10,3"></polyline>
+</svg>
+</div>
+<span class="cl-text" data-en="Can explain &quot;it's not for investment purposes&quot; in your own words">「投資目的ではない」と自分の言葉で説明できる</span>
+</div>
+<div class="cl-item" data-key="sent" onclick="toggleCheck(this)">
+<div class="cl-checkbox">
+<svg fill="none" stroke="#050505" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 12 12">
+<polyline points="2,6 5,9 10,3"></polyline>
+</svg>
+</div>
+<span class="cl-text" data-en="Sent referral link to a friend">紹介リンクを友達に送った</span>
+</div>
+<div class="cl-item" data-key="dashboard" onclick="toggleCheck(this)">
+<div class="cl-checkbox">
+<svg fill="none" stroke="#050505" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 12 12">
+<polyline points="2,6 5,9 10,3"></polyline>
+</svg>
+</div>
+<span class="cl-text" data-en="Logged into staff.html and confirmed the referral code">staff.html にログインして紹介コードを確認した</span>
+</div>
+</div>
+<div class="cl-progress">
+<div class="cl-progress-bar" id="progress-bar" style="width:0%"></div>
+</div>
+<div class="cl-progress-label" data-en="0 / 5 Complete" id="progress-label">0 / 5 完了</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-building 100-person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga, Hokkaido" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Mirowa Village" href="village">美留和ビレッジ</a>
+<a data-en="Birurawa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase · Join">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Obtain Units for Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hard Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Construction Plans" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owners Only" href="owners">オーナー専用</a>
+<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Founding Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Maintenance Fee" href="management-fee">管理費</a>
+<a data-en="Individual Consultation" href="call">個別相談</a>
+<a data-en="Contact Us" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script>
+// Checklist with localStorage
+const STORAGE_KEY = 'soluna_training_checks';
+
+function loadChecks() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  } catch(e) { return {}; }
+}
+
+function saveChecks(data) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+function updateProgress() {
+  const items = document.querySelectorAll('.cl-item');
+  const done = document.querySelectorAll('.cl-item.done').length;
+  const total = items.length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const bar = document.getElementById('progress-bar');
+  const label = document.getElementById('progress-label');
+  if (bar) bar.style.width = pct + '%';
+  if (label) label.textContent = done + ' / ' + total + ' 完了';
+}
+
+function toggleCheck(el) {
+  const key = el.dataset.key;
+  const checks = loadChecks();
+  if (el.classList.contains('done')) {
+    el.classList.remove('done');
+    delete checks[key];
+  } else {
+    el.classList.add('done');
+    checks[key] = true;
+  }
+  saveChecks(checks);
+  updateProgress();
+}
+
+// Init on load
+(function() {
+  const checks = loadChecks();
+  document.querySelectorAll('.cl-item').forEach(function(item) {
+    if (checks[item.dataset.key]) {
+      item.classList.add('done');
+    }
+  });
+  updateProgress();
+})();
+</script>
+<script src="/lang.js"></script>
+</body>
+</html>

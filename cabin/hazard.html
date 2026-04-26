@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA — Teshikaga, Hokkaido Hazard Information · Disaster Prevention Guide">SOLUNA — 弟子屈 ハザード情報 · 防災ガイド</title>
+<meta content="弟子屈町のハザードマップ・防災情報。火山（硫黄山）・洪水・土砂災害・地震・冬の気象・ヒグマ。SOLUNAオーナー向けリスク開示。" data-en-content="Teshikaga hazard maps and disaster prevention information. Volcanic activity (Mt. Atosanupuri), flooding, landslides, seismic activity, winter weather, and bear encounters. Risk disclosure for SOLUNA Owners." name="description"/>
+<link href="https://solun.art/hazard" rel="canonical"/>
+<meta content="弟子屈 ハザード情報 — SOLUNA" property="og:title"/>
+<meta content="火山・洪水・土砂・地震・冬の気象・ヒグマ。弟子屈町のリスクを正直に開示します。" property="og:description"/>
+<meta content="https://solun.art/img/kumaushi_aerial_dawn.webp" property="og:image"/>
+<meta content="https://solun.art/hazard" property="og:url"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;rect width='32' height='32' fill='%23060606'/&gt;&lt;text x='16' y='22' font-size='16' text-anchor='middle' fill='%23c8a455' font-family='Helvetica Neue,sans-serif' font-weight='700' letter-spacing='.1em'&gt;S&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060606;
+  --fg:#ece8df;
+  --border:#111;
+  --gold:#c8a455;
+  --serif:'Georgia','Times New Roman',serif;
+  --sans:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;
+  --low:#1e3a1e;
+  --low-text:#5db85d;
+  --mid-risk:#3a2e10;
+  --mid-text:#c89030;
+  --high:#3a1515;
+  --high-text:#c85050;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* GNAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px}
+.gnav-links a{color:#555;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.active{color:#999}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;display:block}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+
+/* PAGE HEAD */
+.page-head{padding:100px 40px 56px;max-width:760px;margin:0 auto}
+.page-eyebrow{font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:rgba(200,164,85,.45);font-weight:700;margin-bottom:18px}
+.page-title{font-family:var(--serif);font-size:clamp(2rem,6vw,3.8rem);font-weight:200;letter-spacing:-.04em;line-height:.95;color:var(--fg);margin-bottom:20px}
+.page-title em{font-style:italic;color:#222}
+.page-lead{font-size:13px;line-height:1.95;color:#3e3e3e;max-width:540px;letter-spacing:.02em}
+.page-lead strong{color:#555}
+
+/* DISCLAIMER */
+.disclaimer{max-width:760px;margin:0 auto;padding:0 40px 48px}
+.disclaimer-box{border:1px solid #181818;border-radius:10px;padding:18px 22px;background:#0a0a0a;display:flex;gap:14px;align-items:flex-start}
+.disclaimer-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.disclaimer-text{font-size:11.5px;line-height:1.8;color:#333;letter-spacing:.02em}
+
+/* RISK MATRIX */
+.matrix-section{max-width:760px;margin:0 auto;padding:0 40px 64px}
+.matrix-head{font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:#1e1e1e;font-weight:700;border-bottom:1px solid #0e0e0e;padding-bottom:8px;margin-bottom:24px}
+.risk-matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.risk-row{display:contents}
+.risk-cell{background:#080808;padding:20px 18px}
+.risk-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#222;margin-bottom:8px}
+.risk-name{font-size:12px;color:#3e3e3e;font-weight:600;margin-bottom:6px}
+.risk-badge{display:inline-block;font-size:8.5px;letter-spacing:.15em;font-weight:700;padding:3px 10px;border-radius:100px;text-transform:uppercase}
+.badge-low{background:var(--low);color:var(--low-text)}
+.badge-mid{background:var(--mid-risk);color:var(--mid-text)}
+.badge-note{background:#111;color:#333}
+@media(max-width:600px){.risk-matrix{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:400px){.risk-matrix{grid-template-columns:1fr}}
+
+/* SECTIONS */
+.haz-section{max-width:760px;margin:0 auto;padding:0 40px 64px}
+.haz-head{display:flex;align-items:center;gap:14px;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid #0e0e0e}
+.haz-icon{font-size:24px;line-height:1}
+.haz-title-wrap{}
+.haz-title{font-family:var(--serif);font-size:1.4rem;font-weight:200;letter-spacing:-.02em;color:var(--fg)}
+.haz-sub{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#2a2a2a;margin-top:3px}
+.haz-badge-row{margin-left:auto;flex-shrink:0}
+.haz-body{font-size:12.5px;line-height:2.1;color:#3a3a3a;margin-bottom:20px;letter-spacing:.02em}
+.haz-body strong{color:#555;font-weight:600}
+.haz-facts{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:20px 0}
+.haz-fact{background:#080808;padding:18px 16px}
+.haz-fact-label{font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:#1e1e1e;margin-bottom:6px}
+.haz-fact-val{font-size:12px;color:#3a3a3a;line-height:1.6}
+.haz-fact-val strong{color:#555}
+.haz-links{display:flex;flex-direction:column;gap:6px;margin-top:16px}
+.haz-link{display:inline-flex;align-items:center;gap:8px;font-size:10.5px;color:#222;border:1px solid #131313;border-radius:6px;padding:8px 12px;transition:all .2s;width:fit-content}
+.haz-link:hover{border-color:#2a2a2a;color:#444}
+.haz-link-label{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:#1a1a1a;margin-bottom:2px}
+.haz-link-url{font-size:10px;color:#2a2a2a}
+
+/* PROPERTY TABLE */
+.prop-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:11.5px}
+.prop-table th{background:#0a0a0a;color:#2e2e2e;padding:10px 14px;text-align:left;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;border:1px solid #111}
+.prop-table td{padding:12px 14px;border:1px solid #0e0e0e;color:#3a3a3a;background:#080808;vertical-align:top;line-height:1.6}
+.prop-table td:first-child{color:#4a4a4a;font-weight:600}
+
+/* EMERGENCY */
+.emergency-section{max-width:760px;margin:0 auto;padding:0 40px 100px}
+.emergency-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.em-card{background:#080808;padding:22px 20px}
+.em-label{font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:#1e1e1e;margin-bottom:8px}
+.em-name{font-size:12px;color:#3a3a3a;font-weight:600;margin-bottom:4px}
+.em-num{font-family:var(--serif);font-size:1.4rem;font-weight:200;color:#2e2e2e;letter-spacing:.05em}
+@media(max-width:500px){.emergency-grid{grid-template-columns:1fr}.haz-facts{grid-template-columns:1fr}}
+
+/* DIVIDER */
+.rule{height:1px;background:var(--border);max-width:760px;margin:0 auto 0;padding:0 40px}
+.rule-inner{height:1px;background:#0c0c0c}
+
+@media(max-width:680px){
+  .page-head,.haz-section,.matrix-section,.disclaimer,.emergency-section{padding-left:24px;padding-right:24px}
+  .page-head{padding-top:80px}
+}
+</style>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="/">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a data-en="Properties" href="collection">物件一覧</a>
+<a data-en="Activities" href="activities">アクティビティ</a>
+<a data-en="Events" href="calendar">イベント</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+</div>
+<button aria-label="メニュー" class="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</button>
+</nav>
+<!-- PAGE HEAD -->
+<div class="page-head">
+<div class="page-eyebrow" data-en="HAZARD MAP · Disaster Prevention Information · TESHIKAGA">HAZARD MAP · 防災情報 · TESHIKAGA</div>
+<h1 class="page-title" data-en="Risks, Honestly">リスクを<br/>正直に、<br/><em data-en="All.">全部。</em></h1>
+<p class="page-lead" data-en="SOLUNA holds properties in Teshikaga, Hokkaido. A place rich in nature and the existence of risks coexist. We disclose all information you should know before becoming an owner.">
+    SOLUNAは北海道弟子屈に物件を持つ。自然が豊かな場所であることと、リスクが存在することは両立する。<br/><strong data-en="Volcanic Activity · Flooding · Landslides · Earthquakes · Winter Weather · Brown Bears">火山・洪水・土砂・地震・冬の気象・ヒグマ</strong>——オーナーになる前に知っておくべき情報をすべて開示する。
+  </p>
+</div>
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+<div class="disclaimer-box">
+<div class="disclaimer-icon">ℹ️</div>
+<div class="disclaimer-text" data-en="Information on this page is based on public data from the Japan Meteorological Agency, official Teshikaga Town sources, and the Ministry of Land, Infrastructure, Transport and Tourism. Please always verify the latest information from official sources. Risk levels vary by season and weather conditions.">
+      このページの情報は気象庁・弟子屈町公式・国土交通省の公開データに基づきます。最新情報は各公式ソースを必ずご確認ください。リスクレベルは時期・気象条件によって変動します。
+    </div>
+</div>
+</div>
+<!-- RISK MATRIX -->
+<div class="matrix-section">
+<div class="matrix-head" data-en="RISK OVERVIEW — Comprehensive Risk Profile">RISK OVERVIEW — リスク全体像</div>
+<div class="risk-matrix">
+<div class="risk-cell">
+<div class="risk-label" data-en="Volcanoes">火山</div>
+<div class="risk-name" data-en="Atosanupuri (Sulfur Mountain)">硫黄山（アトサヌプリ）</div>
+<span class="risk-badge badge-low" data-en="LOW · Alert Level 1">LOW · 警戒レベル1</span>
+</div>
+<div class="risk-cell">
+<div class="risk-label" data-en="Flooding &amp; Inundation">洪水・浸水</div>
+<div class="risk-name" data-en="Lake Kutcharo &amp; River Flooding">屈斜路湖・河川氾濫</div>
+<span class="risk-badge badge-mid" data-en="MODERATE · Low-lying areas only">MODERATE · 低地のみ</span>
+</div>
+<div class="risk-cell">
+<div class="risk-label" data-en="Landslides">土砂災害</div>
+<div class="risk-name" data-en="Steep Slopes &amp; Debris Flows">急傾斜地・土石流</div>
+<span class="risk-badge badge-mid" data-en="MODERATE · Steep slopes only">MODERATE · 急斜面限定</span>
+</div>
+<div class="risk-cell">
+<div class="risk-label" data-en="Earthquakes">地震</div>
+<div class="risk-name" data-en="Pacific Plate Subduction">太平洋プレート沈み込み</div>
+<span class="risk-badge badge-mid" data-en="MODERATE · Hokkaido-Wide">MODERATE · 北海道全域</span>
+</div>
+<div class="risk-cell">
+<div class="risk-label" data-en="Winter Weather">冬の気象</div>
+<div class="risk-name" data-en="Snow Accumulation, Blizzards &amp; Freezing">積雪・吹雪・凍結</div>
+<span class="risk-badge badge-note" data-en="SEASONAL · Hokkaido Standard">SEASONAL · 北海道標準</span>
+</div>
+<div class="risk-cell">
+<div class="risk-label" data-en="Wildlife">野生動物</div>
+<div class="risk-name" data-en="Brown Bears (Ezo Brown Bears)">ヒグマ（エゾヒグマ）</div>
+<span class="risk-badge badge-note" data-en="PRESENT · Caution Advised">PRESENT · 要注意行動</span>
+</div>
+</div>
+</div>
+<!-- VOLCANO -->
+<div class="haz-section" id="volcano">
+<div class="haz-head">
+<div class="haz-icon">🌋</div>
+<div class="haz-title-wrap">
+<div class="haz-title" data-en="Atosanupuri (Sulfur Mountain)">硫黄山（アトサヌプリ）</div>
+<div class="haz-sub">Atosanuputuri · Active Volcano</div>
+</div>
+<div class="haz-badge-row"><span class="risk-badge badge-low">LOW RISK</span></div>
+</div>
+<p class="haz-body" data-en="An active volcano located in the central-eastern part of Teshikaga Town, adjacent to Kawayuonsen. Currently, there are no signs of eruption. The Japan Meteorological Agency monitors it 24/7 using seismometers, tiltmeters, GNSS, and surveillance cameras.">
+    弟子屈町の中央東部、川湯温泉の隣に位置する活火山。現在の<strong data-en="Volcanic Alert Level 1 (Note: Active volcano)">噴火警戒レベルは1（活火山であることに留意）</strong>で、噴火の兆候はない。気象庁が地震計・傾斜計・GNSS・監視カメラで24時間モニタリングしている。
+  </p>
+<p class="haz-body" data-en="The most recent eruption involved steam explosions creating small craters; no major eruptions are recorded. Currently, volcanic gases (sulfur compounds and water vapor) continue to be released near the crater rim. Access to the crater area is permitted only with certified ecotourism guides.">
+    最後の噴火は<strong data-en="300–400 years ago">300〜400年前</strong>（蒸気爆発による小クレーター形成）で、記録上の大規模噴火はない。現在も火口付近からは硫気（硫黄ガス・水蒸気）が継続的に噴出しており、火口周辺はエコツーリズム認定ガイド同行でのみ入山可能。
+  </p>
+<div class="haz-facts">
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Current Alert Level">現在の警戒レベル</div>
+<div class="haz-fact-val" data-en="— Note: Active volcano"><strong data-en="Level 1">レベル1</strong> — 活火山であることに留意</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Last Eruption">最後の噴火</div>
+<div class="haz-fact-val" data-en="(Phreatic eruption · minor scale)"><strong data-en="300–400 years ago">300〜400年前</strong>（蒸気爆発・小規模）</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Monitoring System">監視体制</div>
+<div class="haz-fact-val" data-en="JMA 24-hour Continuous Monitoring (Seismometer, Tiltmeter, GNSS)">気象庁24時間連続観測（地震計・傾斜計・GNSS）</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Distance from SOLUNA">SOLUNAとの距離</div>
+<div class="haz-fact-val" data-en="Biruwa &amp; TAPKOP: approx. 15km | Kumaushi Base: approx. 18km">美留和・TAPKOP：約15km<br/>熊牛原野：約18km</div>
+</div>
+</div>
+<table class="prop-table">
+<thead>
+<tr><th data-en="Properties">物件</th><th data-en="Distance from Atosanupuri">硫黄山からの距離</th><th data-en="Risk Assessment">リスク評価</th></tr>
+</thead>
+<tbody>
+<tr><td data-en="TAPKOP / Birawa Village">TAPKOP / 美留和ビレッジ</td><td data-en="Approximately 15 km (Northwest)">約15km（北西方向）</td><td data-en="Outside volcanic alert zone. Probability of gas and ash fall extremely low">噴火警戒区域外。ガス・降灰の可能性は極めて低い</td></tr>
+<tr><td data-en="KUMAUSHI BASE">熊牛原野BASE</td><td data-en="Approximately 18 km (north)">約18km（北方向）</td><td data-en="Same as above. Located away from prevailing wind direction (West-Southwest)">同上。卓越風向（西南西）からも遠ざかる方向</td></tr>
+</tbody>
+</table>
+<div class="haz-links">
+<div>
+<div class="haz-link-label" data-en="Official Information Sources">公式情報源</div>
+</div>
+<a class="haz-link" data-en="Japan Meteorological Agency — Mt. Atosanupuri Volcanic Activity Status ↗" href="https://www.data.jma.go.jp/vois/data/sapporo/104_Atosanupri/104_index.html" rel="noopener" target="_blank">気象庁 — アトサヌプリ火山活動状況 ↗</a>
+<a class="haz-link" data-en="Teshikaga, Hokkaido — Volcanic Activity Information ↗" href="https://www.town.teshikaga.hokkaido.jp/kurashi/soshikiichiran/somuka/10/2/405.html" rel="noopener" target="_blank">弟子屈町 — 火山情報 ↗</a>
+</div>
+</div>
+<div class="rule"><div class="rule-inner"></div></div>
+<!-- FLOOD -->
+<div class="haz-section" id="flood" style="padding-top:48px">
+<div class="haz-head">
+<div class="haz-icon">💧</div>
+<div class="haz-title-wrap">
+<div class="haz-title" data-en="Flooding &amp; Inundation">洪水・浸水</div>
+<div class="haz-sub">Flood · Inundation</div>
+</div>
+<div class="haz-badge-row"><span class="risk-badge badge-mid">MODERATE</span></div>
+</div>
+<p class="haz-body" data-en="Flooding risk exists from Lake Kussharo, Kawakami River, and tributaries of the Kushiro River. Risk is assessed; SOLUNA Properties are situated on elevated terrain and open plains, resulting in low direct inundation risk. However, caution is required regarding potential isolation from road flooding.">
+    屈斜路湖・川上川・釧路川支流の氾濫リスクが存在する。リスクは<strong data-en="Limited to lowlands and riverbank areas">低地・河川沿いに限定</strong>されており、SOLUNAの物件は台地・原野上に位置するため直接浸水リスクは低い。ただし道路冠水による孤立には注意が必要。
+  </p>
+<div class="haz-facts">
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Primary Risk Areas">主なリスクエリア</div>
+<div class="haz-fact-val" data-en="Lake Kutcharo Lowlands, Along Kawakami River, Parts of Teshikaga Urban Area">屈斜路湖周辺低地、川上川沿い、弟子屈市街地一部</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="SOLUNA Properties Topography">SOLUNA物件の地形</div>
+<div class="haz-fact-val" data-en="Located on plateau and open terrain (not low-lying). Direct inundation risk: Low">台地・原野上（低地ではない）。直接浸水リスク：低</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Situations to Be Aware Of">注意すべき状況</div>
+<div class="haz-fact-val" data-en="Road flooding during heavy rain → isolation. Particularly during spring snowmelt season">大雨時の道路冠水→孤立。特に春の融雪期</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Assessment Criteria">判断基準</div>
+<div class="haz-fact-val" data-en="Teshikaga Town Evacuation Information (Early evacuation at Alert Level 3 or higher)">弟子屈町避難情報（警戒レベル3以上で早期避難）</div>
+</div>
+</div>
+<div class="haz-links">
+<a class="haz-link" data-en="Teshikaga, Hokkaido — Flood &amp; Landslide Hazard Map (PDF) ↗" href="https://www.town.teshikaga.hokkaido.jp/kurashi/soshikiichiran/somuka/10/2/3470.html" rel="noopener" target="_blank">弟子屈町 — 洪水・土砂ハザードマップ（PDF）↗</a>
+<a class="haz-link" data-en="Ministry of Land, Infrastructure, Transport &amp; Tourism Hazard Map Portal ↗" href="https://disaportal.gsi.go.jp/" rel="noopener" target="_blank">国土交通省 ハザードマップポータル ↗</a>
+</div>
+</div>
+<div class="rule"><div class="rule-inner"></div></div>
+<!-- LANDSLIDE -->
+<div class="haz-section" id="landslide" style="padding-top:48px">
+<div class="haz-head">
+<div class="haz-icon">⛰️</div>
+<div class="haz-title-wrap">
+<div class="haz-title" data-en="Landslides">土砂災害</div>
+<div class="haz-sub">Landslide · Debris Flow</div>
+</div>
+<div class="haz-badge-row"><span class="risk-badge badge-mid" data-en="MODERATE (Steep slopes only)">MODERATE（急斜面限定）</span></div>
+</div>
+<p class="haz-body" data-en="Steep slope areas within Teshikaga Town are designated as landslide alert zones (Yellow Zones) and special alert zones (Red Zones). However, flat moorlands (Kumaushi and Birawa) are exempt. During heavy or prolonged rain, regularly check town information updates.">
+    弟子屈町内の急斜面エリアには土砂災害警戒区域（イエローゾーン）・特別警戒区域（レッドゾーン）が指定されている。<strong data-en="Primarily steep slopes surrounding Mount Mashu">摩周岳周辺の急傾斜地が主な対象</strong>で、平坦な原野（熊牛・美留和）は対象外。大雨・長雨時は町の情報を随時確認する。
+  </p>
+<div class="haz-facts">
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Primary Alert Zones">主な警戒区域</div>
+<div class="haz-fact-val" data-en="Steep slopes around Mashu Lake, select mountain areas">摩周湖周辺急斜面、一部山岳エリア</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Impact on SOLUNA Properties">SOLUNA物件への影響</div>
+<div class="haz-fact-val" data-en="Kumashio Plain and Birawa are level terrain. Direct risk: Low">熊牛原野・美留和は平坦地。直接リスク：低</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Timing of Caution">注意タイミング</div>
+<div class="haz-fact-val" data-en="Cumulative rainfall exceeding 100mm, hourly rainfall exceeding 30mm">連続雨量100mm超、1時間雨量30mm超</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Information Sources">確認先</div>
+<div class="haz-fact-val" data-en="Teshikaga Town Disaster Prevention Information · Soil Hazard Alert (Japan Meteorological Agency)">弟子屈町防災情報・土砂キキクル（気象庁）</div>
+</div>
+</div>
+<div class="haz-links">
+<a class="haz-link" data-en="Japan Meteorological Agency Landslide Risk Map ↗" href="https://www.jma.go.jp/bosai/risk/#elements:dosya" rel="noopener" target="_blank">気象庁 キキクル（土砂災害）↗</a>
+<a class="haz-link" data-en="Geospatial Information Authority Landslide Hazard Map ↗" href="https://disaportal.gsi.go.jp/hazardmap/maps/index.html?layerset=dosya" rel="noopener" target="_blank">国土地理院 土砂災害ハザードマップ ↗</a>
+</div>
+</div>
+<div class="rule"><div class="rule-inner"></div></div>
+<!-- EARTHQUAKE -->
+<div class="haz-section" id="earthquake" style="padding-top:48px">
+<div class="haz-head">
+<div class="haz-icon">📳</div>
+<div class="haz-title-wrap">
+<div class="haz-title" data-en="Earthquakes">地震</div>
+<div class="haz-sub">Earthquake · Seismic Risk</div>
+</div>
+<div class="haz-badge-row"><span class="risk-badge badge-mid">MODERATE</span></div>
+</div>
+<p class="haz-body" data-en="Eastern Hokkaido lies near the Pacific Plate subduction zone, presenting moderate seismic risk. However, no large-scale direct-type earthquakes have occurred since. The 2018 Hokkaido Iburi Eastern Earthquake (M6.7) epicenter was approximately 180 km from Teshikaga, with a seismic intensity of around 3 in Teshikaga.">
+    北海道東部は太平洋プレートの沈み込み帯に近く、中程度の地震リスクがある。ただし<strong data-en="The last significant shallow inland earthquake affecting the Teshikaga area occurred in 1967 (M6.5)">弟子屈周辺で最後に大きな被害を出した内陸浅発地震は1967年（M6.5）</strong>で、その後は大規模な直下型地震は発生していない。2018年の北海道胆振東部地震（M6.7）の震源は弟子屈から約180km離れており、弟子屈での震度は3程度だった。
+  </p>
+<div class="haz-facts">
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Major Seismic Sources">主な地震源</div>
+<div class="haz-fact-val" data-en="Pacific Plate Subduction (Kuril-Japan Trench)">太平洋プレート沈み込み（千島・日本海溝）</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Recent Damaging Earthquakes">直近の被害地震</div>
+<div class="haz-fact-val" data-en="1967 M6.5 (Shallow inland earthquake near Teshikaga)">1967年 M6.5（弟子屈近傍の内陸浅発地震）</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Probability of Major Earthquake Within 30 Years">30年以内の大地震確率</div>
+<div class="haz-fact-val" data-en="26% or higher across eastern Hokkaido (J-SHIS)">北海道東部全体で26%以上（J-SHIS）</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Seismic Standards for Properties">物件の耐震基準</div>
+<div class="haz-fact-val" data-en="All structures designed and constructed to 2000 Standard (New Seismic Code) or higher">全棟 2000年基準（新耐震）以上で設計・施工</div>
+</div>
+</div>
+<div class="haz-links">
+<a class="haz-link" data-en="J-SHIS Seismic Hazard Station (Search Teshikaga) ↗" href="https://www.j-shis.bosai.go.jp/shm" rel="noopener" target="_blank">J-SHIS 地震ハザードステーション（弟子屈を検索）↗</a>
+<a class="haz-link" data-en="Japan Meteorological Agency Earthquake Information (Real-Time) ↗" href="https://www.data.jma.go.jp/multi/quake/index.html?lang=ja" rel="noopener" target="_blank">気象庁 地震情報（リアルタイム）↗</a>
+</div>
+</div>
+<div class="rule"><div class="rule-inner"></div></div>
+<!-- WINTER WEATHER -->
+<div class="haz-section" id="winter" style="padding-top:48px">
+<div class="haz-head">
+<div class="haz-icon">❄️</div>
+<div class="haz-title-wrap">
+<div class="haz-title" data-en="Winter Weather">冬の気象</div>
+<div class="haz-sub">Winter Weather · Heavy Snow · Whiteout</div>
+</div>
+<div class="haz-badge-row"><span class="risk-badge badge-note">SEASONAL</span></div>
+</div>
+<p class="haz-body" data-en="Teshikaga experiences an inland Hokkaido climate where winter weather operates on an entirely different scale than Honshu. Driving in poor visibility caused by blizzards (whiteout conditions) is life-threatening. Winter visits require proper equipment and weather monitoring. SOLUNA properties are designed off-grid and built with winter use as a core consideration.">
+    弟子屈町は北海道内陸型の気候で、冬の気象は本州とは別次元。<strong data-en="Minimum temperatures can reach -20 to -25°C, with snowfall around 1 meter">最低気温はマイナス20〜25℃に達することがあり、積雪は1m前後</strong>。吹雪（ホワイトアウト）による視界不良での道路走行は命に関わる。冬に訪れる際は適切な装備と気象情報の確認が必須。一方、SOLUNAの物件はオフグリッド設計で冬期利用を前提に建てられている。
+  </p>
+<div class="haz-facts">
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Minimum Temperature (Record)">最低気温（記録）</div>
+<div class="haz-fact-val" data-en="Approximately −25℃ (particularly cold due to inland basin terrain)">−25℃前後（内陸盆地のため特に冷え込む）</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Snow Accumulation">積雪</div>
+<div class="haz-fact-val" data-en="50–100cm (peak winter). Snow removal varies by municipal and private roads">50〜100cm（冬期ピーク）。除雪は町道・私道で異なる</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Whiteout">ホワイトアウト</div>
+<div class="haz-fact-val" data-en="Visibility during blizzard: 0–10m. Driving poses life-threatening risks. Always check weather conditions">吹雪時の視界：0〜10m。走行は命の危険あり。必ず気象確認</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Essential Equipment">必須装備</div>
+<div class="haz-fact-val" data-en="Snow tires · chains · cold-weather gear · emergency provisions · batteries">スタッドレスタイヤ・チェーン・防寒具・非常食・バッテリー</div>
+</div>
+</div>
+<p class="haz-body" data-en=": Verify in advance via Hokkaido Development Bureau Road Information System (douro.hdb.go.jp).
+: Teshikaga AMeDAS data available on Japan Meteorological Agency website." style="margin-top:8px">
+<strong data-en="Road Closure Information">道路閉鎖情報</strong>：北海道開発局 道路情報システム（douro.hdb.go.jp）で事前確認を。<br/>
+<strong data-en="Weather Information">気象情報</strong>：弟子屈のアメダスは気象庁サイトから確認可能。
+  </p>
+<div class="haz-links">
+<a class="haz-link" data-en="Japan Meteorological Agency Snow Depth Map ↗" href="https://www.jma.go.jp/bosai/snow/" rel="noopener" target="_blank">気象庁 積雪深マップ ↗</a>
+<a class="haz-link" data-en="Hokkaido Development Bureau Road Information ↗" href="https://douro.hdb.go.jp/" rel="noopener" target="_blank">北海道開発局 道路情報 ↗</a>
+</div>
+</div>
+<div class="rule"><div class="rule-inner"></div></div>
+<!-- WILDLIFE -->
+<div class="haz-section" id="wildlife" style="padding-top:48px">
+<div class="haz-head">
+<div class="haz-icon">🐻</div>
+<div class="haz-title-wrap">
+<div class="haz-title" data-en="Brown Bears (Ezo Brown Bears)">ヒグマ（エゾヒグマ）</div>
+<div class="haz-sub">Brown Bear · Wildlife</div>
+</div>
+<div class="haz-badge-row"><span class="risk-badge badge-note" data-en="PRESENT · Caution Advised">PRESENT · 要注意行動</span></div>
+</div>
+<p class="haz-body" data-en="Teshikaga is a primary habitat for Asiatic black bears. An estimated 11,000+ bears inhabit Hokkaido, with documented sightings near SOLUNA Properties within Akan-Mashu National Park. While encounters cannot be entirely ruled out, head-on confrontations present the highest risk.">
+    弟子屈町はヒグマの主要な生息地。北海道全体で推定11,000頭以上が生息しており、阿寒摩周国立公園内のSOLUNA物件周辺でも出没する。絶対に遭遇しないとは言えないが、<strong data-en="Fatal accidents can be avoided through appropriate precautions">適切な行動を取れば致命的な事故は避けられる</strong>。出会い頭の遭遇が最も危険。
+  </p>
+<div class="haz-facts">
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Active Period">活動期</div>
+<div class="haz-fact-val" data-en="April – November (dormant in winter). Particularly spring (wild plant season) and autumn (acorn season)">4月〜11月（冬は冬眠）。特に春（山菜シーズン）と秋（ドングリ期）</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Hazardous Conditions">危険な状況</div>
+<div class="haz-fact-val" data-en="Head-on encounters · contact with cubs · meetings while carrying food">出会い頭・子熊との接触・食物を持った状態での遭遇</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Preventive Measures">予防措置</div>
+<div class="haz-fact-val" data-en="Bear bells · bear spray on hand. Proper food storage. Travel in groups">熊鈴・クマスプレー携帯。食料の適切な保管。複数人行動</div>
+</div>
+<div class="haz-fact">
+<div class="haz-fact-label" data-en="Bear Sighting Information">出没情報</div>
+<div class="haz-fact-val" data-en="Real-time updates available via official Teshikaga website and kumamap.com">弟子屈町公式・kumamap.com でリアルタイム確認可能</div>
+</div>
+</div>
+<p class="haz-body" data-en="During your stay at SOLUNA Properties: Keep all waste in sealed containers. Never leave food outdoors. Avoid solo walks on forest trails during early morning or dusk. Carry bear spray at all times (installation at properties under consideration)." style="margin-top:8px">
+    SOLUNAの物件滞在時：ゴミは必ず密閉容器で保管。食べ物を屋外に放置しない。単独での早朝・夕暮れ時の林道歩行は避ける。熊スプレーを常備（物件に備え付けを検討中）。
+  </p>
+<div class="haz-links">
+<a class="haz-link" href="https://kumamap.com/en" rel="noopener" target="_blank">Kumamap — ヒグマ出没マップ（リアルタイム）↗</a>
+<a class="haz-link" data-en="Teshikaga Town Official Site — Disaster Prevention &amp; Living Information ↗" href="https://www.town.teshikaga.hokkaido.jp/" rel="noopener" target="_blank">弟子屈町公式サイト — 防災・生活情報 ↗</a>
+</div>
+</div>
+<div class="rule"><div class="rule-inner"></div></div>
+<!-- EMERGENCY CONTACTS -->
+<div class="emergency-section" style="padding-top:48px">
+<div class="matrix-head" style="margin-bottom:20px">EMERGENCY CONTACTS — 緊急連絡先</div>
+<div class="emergency-grid">
+<div class="em-card">
+<div class="em-label" data-en="Police">警察</div>
+<div class="em-name" data-en="Teshikaga Police Station">弟子屈警察署</div>
+<div class="em-num">015-482-2110</div>
+</div>
+<div class="em-card">
+<div class="em-label" data-en="Fire &amp; Emergency Services">消防・救急</div>
+<div class="em-name" data-en="Teshikaga Fire Department">弟子屈消防署</div>
+<div class="em-num">015-482-2323</div>
+</div>
+<div class="em-card">
+<div class="em-label" data-en="Emergency (Nationwide)">緊急（全国共通）</div>
+<div class="em-name" data-en="Police / Fire Department · Emergency Medical Services">警察 / 消防・救急</div>
+<div class="em-num">110 / 119</div>
+</div>
+<div class="em-card">
+<div class="em-label" data-en="Teshikaga Town Office">弟子屈町役場</div>
+<div class="em-name" data-en="General Affairs Division (Disaster Prevention)">総務課（防災担当）</div>
+<div class="em-num">015-482-2913</div>
+</div>
+<div class="em-card">
+<div class="em-label" data-en="Weather &amp; Disaster Prevention Information">気象・防災情報</div>
+<div class="em-name" data-en="Japan Meteorological Agency (Hokkaido Region)">気象庁（北海道地方）</div>
+<div class="em-num">jma.go.jp/bosai</div>
+</div>
+<div class="em-card">
+<div class="em-label" data-en="Road Information">道路情報</div>
+<div class="em-name" data-en="Hokkaido Development Bureau">北海道開発局</div>
+<div class="em-num">0120-736-700</div>
+</div>
+</div>
+<div style="margin-top:40px;padding:24px;border:1px solid #111;border-radius:10px;background:#080808">
+<div style="font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#1e1e1e;margin-bottom:14px">ALL OFFICIAL HAZARD MAPS</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<a class="haz-link" data-en="🗾 Ministry of Land, Infrastructure, Transport &amp; Tourism Hazard Map Portal Site (Unified Search) ↗" href="https://disaportal.gsi.go.jp/" rel="noopener" target="_blank">🗾 国土交通省 ハザードマップポータルサイト（一元検索）↗</a>
+<a class="haz-link" data-en="🏔️ Teshikaga Town Flood &amp; Landslide Hazard Map (PDF) ↗" href="https://www.town.teshikaga.hokkaido.jp/kurashi/soshikiichiran/somuka/10/2/3470.html" rel="noopener" target="_blank">🏔️ 弟子屈町 洪水・土砂災害ハザードマップ（PDF）↗</a>
+<a class="haz-link" data-en="🌋 Japan Meteorological Agency Atosanupuri Volcanic Information ↗" href="https://www.data.jma.go.jp/vois/data/sapporo/104_Atosanupri/104_index.html" rel="noopener" target="_blank">🌋 気象庁 アトサヌプリ（硫黄山）火山情報 ↗</a>
+<a class="haz-link" data-en="📳 J-SHIS Earthquake Hazard Station ↗" href="https://www.j-shis.bosai.go.jp/shm" rel="noopener" target="_blank">📳 J-SHIS 地震ハザードステーション ↗</a>
+<a class="haz-link" data-en="⚠️ Japan Meteorological Agency Hazard Map — Real-time Heavy Rain, Landslide &amp; Flood Risk ↗" href="https://www.jma.go.jp/bosai/risk/" rel="noopener" target="_blank">⚠️ 気象庁 キキクル（大雨・土砂・洪水リスク リアルタイム）↗</a>
+</div>
+</div>
+</div>
+<script>
+document.querySelector('.gnav-ham')?.addEventListener('click', () => {
+  document.getElementById('gnav-links').classList.toggle('open');
+});
+</script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Properties">物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
+<a data-en="THE LODGE — Birawa" href="lodge-story">THE LODGE — 美留和</a>
+<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
+<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a data-en="Birawa Village" href="village">美留和ビレッジ</a>
+<a data-en="Miruwa Grand" href="miruwa-grand">美留和グランド</a>
+<a data-en="Instant House" href="instant">インスタントハウス</a>
+<a data-en="All Properties →" href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="workparty">Work Party</a>
+<a data-en="Long-term Ownership Plan" href="hold">長期保有プラン</a>
+<a data-en="NFT Units" href="mint">NFT 口数</a>
+<a data-en="Gift" href="gift">ギフト</a>
+<a data-en="Referral Program" href="referral">紹介制度</a>
+<a data-en="Acquire Units Free" href="getfree">無料で口数を得る</a>
+<a href="founders">Founders</a>
+<a href="pass">Season Pass</a>
+<a data-en="Crypto Purchase" href="crypto">Crypto 購入</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Hardware Kit" href="kits">ハードキット</a>
+<a data-en="Floor Plans" href="floorplans">間取り集</a>
+<a data-en="Design" href="design">デザイン</a>
+<a href="neuro">NEURO AI</a>
+<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
+<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
+<a data-en="Building Plans" href="construction">建築計画</a>
+<a data-en="Blueprint" href="blueprint">ブループリント</a>
+<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
+<a data-en="About the Dome" href="dome-story">ドームの話</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="Community" href="community">コミュニティ</a>
+<a data-en="Member List" href="members">メンバー一覧</a>
+<a data-en="Network" href="network">ネットワーク</a>
+<a data-en="Owner Exclusive" href="owners">オーナー専用</a>
+<a data-en="Biruwa Owner" href="miruwa-owners">美留和オーナー</a>
+<a data-en="Story" href="story">ストーリー</a>
+<a data-en="Our Story" href="origin">創業の話</a>
+<a data-en="Blog" href="blog">ブログ</a>
+<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a data-en="FAQ" href="faq">よくある質問</a>
+<a data-en="Brochure" href="brochure">パンフレット</a>
+<a data-en="Management Fees" href="management-fee">管理費</a>
+<a data-en="Private Consultation" href="call">個別相談</a>
+<a data-en="Inquiry" href="contact">お問い合わせ</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+<a data-en="Company Information" href="company">会社情報</a>
+<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
+<a data-en="Privacy" href="privacy">プライバシー</a>
+<a data-en="Terms of Use" href="terms">利用規約</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">
+<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
+<span class="sf-copy-links">
+<a href="privacy">Privacy</a>
+<a href="terms">Terms</a>
+<a data-en="Special Commercial Transaction Act" href="tokushoho">特商法</a>
+<a href="contact">Contact</a>
+</span>
+</div>
+</footer>
+<style>
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
+.sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0f0f0f;border-left:1px solid #0f0f0f}
+.sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
+.sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
+.sf-hd:hover{color:#c8a455}
+.sf-hd[aria-expanded="true"]{color:#c8a455}
+.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
+.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd a:hover{color:#c8a455}
+.sf-bd a:last-child{padding-bottom:16px}
+.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
+.sf-copy-links{display:flex;gap:16px}
+.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
+.sf-copy-links a:hover{color:#c8a455}
+@media(min-width:769px){
+  .sf-bd{max-height:none!important;overflow:visible}
+  .sf-ic{display:none}
+  .sf-hd{cursor:default;pointer-events:none}
+}
+@media(max-width:768px){
+  .sf-grid{grid-template-columns:1fr;border-left:none}
+  .sf-col{border-right:none}
+  .sf-brand{flex-direction:column;gap:6px}
+}
+</style>
+<script>
+function sfToggle(btn){
+  var bd=btn.nextElementSibling;
+  var open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
+}
+</script><script src="/lang.js"></script>
+</body>
+</html>
