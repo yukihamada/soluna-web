@@ -35,16 +35,14 @@
     };
     if (storedEmail) body.email = storedEmail;
     if (meta && Object.keys(meta).length) body.metadata = meta;
-    var blob = new Blob([JSON.stringify(body)], { type: 'application/json' });
     try {
-      if (navigator.sendBeacon) {
-        navigator.sendBeacon(API + '/track', blob);
-      } else {
-        fetch(API + '/track', { method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body), keepalive: true
-        }).catch(function(){});
-      }
+      fetch(API + '/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'omit',
+        body: JSON.stringify(body),
+        keepalive: true
+      }).catch(function(){});
     } catch(e) {}
   }
 
