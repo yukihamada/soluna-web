@@ -74,9 +74,15 @@ h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line
 
 /* HERO */
 .hero{position:relative;height:100svh;min-height:640px;overflow:hidden}
-.hero-bg{position:absolute;inset:0;z-index:0}
-.hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:slowzoom 12s ease-out forwards;filter:contrast(1.05) saturate(.85) brightness(.5)}
-.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.6) 30%,rgba(4,4,4,.1) 60%,rgba(4,4,4,.4) 100%);z-index:1}
+.hero-split{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;z-index:0}
+.hero-split-panel{position:relative;overflow:hidden}
+.hero-split-panel img{width:100%;height:100%;object-fit:cover;filter:contrast(1.05) saturate(.85) brightness(.45)}
+.hero-split-divider{position:absolute;top:0;left:50%;width:1px;height:100%;background:rgba(255,255,255,.18);z-index:3;pointer-events:none}
+.hero-split-tag{position:absolute;top:20px;left:50%;transform:translateX(-50%);font-size:7.5px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;padding:5px 16px;border-radius:100px;white-space:nowrap;z-index:4}
+.hero-split-tag.before{background:rgba(0,0,0,.75);color:#666;border:1px solid rgba(255,255,255,.1)}
+.hero-split-tag.after{background:rgba(74,143,192,.18);color:var(--accent);border:1px solid rgba(74,143,192,.4)}
+@media(max-width:600px){.hero-split{grid-template-columns:1fr}.hero-split-panel:first-child{display:none}}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.6) 30%,rgba(4,4,4,.0) 55%,rgba(4,4,4,.3) 100%);z-index:1}
 .hero-body{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:0 32px 72px;max-width:740px;margin:0 auto}
 .hero-eyebrow{font-size:9px;letter-spacing:.38em;color:var(--accent);text-transform:uppercase;font-weight:700;margin-bottom:16px;opacity:.85;animation:fadeUp .8s .2s both}
 .hero h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800;letter-spacing:-.04em;line-height:1.08;margin-bottom:20px;animation:fadeUp .9s .4s both}
@@ -280,7 +286,17 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 
 <!-- HERO -->
 <div class="hero">
-<div class="hero-bg"><img alt="瀬戸内海の島と海" src="img/kagawa_hero_real.jpg?v=2"/></div>
+<div class="hero-split">
+  <div class="hero-split-panel">
+    <img alt="実際の物件" src="img/kagawa_hero_real.jpg?v=2"/>
+    <span class="hero-split-tag before">実際の物件</span>
+  </div>
+  <div class="hero-split-panel">
+    <img alt="AI リノベーション後" src="img/kagawa_hero_render.jpg?v=2"/>
+    <span class="hero-split-tag after">AI リノベーション後</span>
+  </div>
+</div>
+<div class="hero-split-divider"></div>
 <div class="hero-body">
 <div class="hero-eyebrow">Kagawa Setouchi Akiya Renovation</div>
 <h1>瀬戸内の空き家を、<em>世界最高の島の拠点に。</em></h1>

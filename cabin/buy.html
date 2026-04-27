@@ -68,7 +68,7 @@ body{background:var(--bg);color:var(--text);font-family:'Hiragino Kaku Gothic Pr
   <div style="text-align:center;margin-bottom:40px">
     <div style="font-size:11px;letter-spacing:.22em;color:var(--gold);font-weight:800;margin-bottom:20px">SOLUNA OWNERS</div>
     <h1 style="font-size:28px;font-weight:300;letter-spacing:.05em;line-height:1.5;margin-bottom:12px" data-en="Enter your email to get started.">メールアドレスを入力して<br/>申し込みをはじめる。</h1>
-    <p style="font-size:13px;color:var(--muted);line-height:1.8" data-en="Log in with your email to get started.">メール認証でログインして、物件詳細・購入プランをご確認いただけます。</p>
+    <p style="font-size:13px;color:var(--muted);line-height:1.8" data-en="Log in with your email to get started. Free, no password required.">メールで認証するだけ。パスワード不要・無料・勧誘なし。<br>物件詳細・購入プランをその場で確認できます。</p>
   </div>
 
   <!-- Step 1: Email -->
@@ -130,12 +130,29 @@ body{background:var(--bg);color:var(--text);font-family:'Hiragino Kaku Gothic Pr
     </button>
   </div>
 
-  <!-- Step 3: Success -->
+  <!-- Step 3: Success + Deposit -->
   <div id="step-done" style="display:none;text-align:center">
     <div style="font-size:48px;margin-bottom:16px">✓</div>
     <div style="font-size:20px;font-weight:300;color:var(--gold2);margin-bottom:12px">ログイン完了</div>
-    <p style="font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:24px">ログインできました。物件詳細・購入プランをご確認ください。</p>
-    <a href="collection" style="display:inline-block;font-size:13px;color:var(--gold);text-decoration:none">物件を見る →</a>
+    <p style="font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:24px">ログインできました。手付金 ¥10万を支払って申込を確定するか、まず物件をご確認ください。</p>
+    <div style="background:#080808;border:1px solid rgba(200,164,85,.2);border-radius:12px;padding:24px;margin-bottom:20px;text-align:left">
+      <p style="font-size:9px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:10px">STEP 4 (任意)</p>
+      <p style="font-size:14px;font-weight:700;margin-bottom:8px;color:#f0ece4">手付金 ¥100,000 で申込を確定する</p>
+      <p style="font-size:12px;color:#555;line-height:1.8;margin-bottom:16px">Stripeでオンライン決済。購入完了時に物件代金に全額充当されます。</p>
+      <select id="deposit-prop" style="width:100%;padding:11px 14px;background:#0d0d0d;border:1px solid #1a1a1a;border-radius:8px;color:#888;font-size:13px;outline:none;margin-bottom:12px">
+        <option value="">物件を選択...</option>
+        <option value="tapkop">TAPKOP — 弟子屈 (¥80,000,000)</option>
+        <option value="lodge">THE LODGE — 美留和 (¥4,900,000/口)</option>
+        <option value="nesting">NESTING — 美留和 (¥8,900,000/口)</option>
+        <option value="atami">WHITE HOUSE — 熱海 (¥19,000,000/口)</option>
+        <option value="village">美留和ビレッジ (¥4,900,000/口)</option>
+        <option value="kumaushi">天空道場 — 熊牛原野 (¥4,800,000/口)</option>
+        <option value="instant">インスタントハウス (¥1,200,000/口)</option>
+      </select>
+      <button id="deposit-btn" onclick="startDeposit()" style="width:100%;padding:13px;background:#c8a455;color:#040404;border:none;border-radius:8px;font-weight:800;font-size:13px;cursor:pointer">手付金 ¥100,000 を支払う →</button>
+      <p id="deposit-err" style="display:none;font-size:11px;color:#c0392b;margin-top:8px"></p>
+    </div>
+    <a href="collection" style="display:inline-block;font-size:13px;color:var(--gold);text-decoration:none">まず物件を見る →</a>
   </div>
 
 </div>
@@ -356,6 +373,22 @@ function backToEmail() {
   btn.disabled = false;
   document.getElementById('btn1-text').textContent = '確認コードを送る →';
   document.getElementById('otp-input').value = '';
+}
+
+async function startDeposit(){
+  const prop = document.getElementById('deposit-prop').value;
+  const err = document.getElementById('deposit-err');
+  err.style.display = 'none';
+  if(!prop){err.textContent='物件を選択してください';err.style.display='block';return;}
+  const btn = document.getElementById('deposit-btn');
+  btn.disabled = true; btn.textContent = '処理中...';
+  try{
+    const email = localStorage.getItem('sln_email') || '';
+    const r = await fetch('/api/soluna/deposit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({property_slug:prop,email})});
+    const d = await r.json();
+    if(d.url){ if(window.sln)sln.track('purchase_click',{source:'buy_deposit',property:prop}); location.href=d.url; }
+    else { err.textContent = d.error||'エラーが発生しました'; err.style.display='block'; btn.disabled=false; btn.textContent='手付金 ¥100,000 を支払う →'; }
+  }catch(e){ err.textContent='接続エラー'; err.style.display='block'; btn.disabled=false; btn.textContent='手付金 ¥100,000 を支払う →'; }
 }
 </script>
 <script src="/lang.js"></script>

@@ -9,8 +9,9 @@
 <meta content="瀬戸内の島に空き家がある。小豆島のRC造ヴィラと、伊吹島の廃墟。ほぼタダで手に入るこれらを、世界最高水準の島の拠点に変えるというプロジェクトの話。" name="description"/>
 <meta content="¥1万の空き家を、世界最高の島の拠点にする話。 — SOLUNA Journal" property="og:title"/>
 <meta content="瀬戸内の島に空き家がある。小豆島のRC造ヴィラと、伊吹島の廃墟。ほぼタダで手に入るこれらを、世界最高水準の島の拠点に変えるというプロジェクトの話。" property="og:description"/>
-<meta content="img/kagawa_shodoshima_p01_after.jpg" property="og:image"/>
+<meta content="https://solun.art/img/kagawa_shodoshima_p01_after.jpg" property="og:image"/>
 <meta content="article" property="og:type"/>
+<meta content="https://solun.art/img/kagawa_shodoshima_p01_after.jpg" name="twitter:image"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
 <style>
@@ -244,7 +245,7 @@ img{display:block;max-width:100%}
 <div class="author-avatar">Y</div>
 <div>
 <div class="author-name">濱田 優貴</div>
-<div class="author-bio">Enabler Inc. CEO / 柔術茶帯 / SOLUNA創業者 / 瀬戸内空き家プロジェクト主宰</div>
+<div class="author-bio">Enabler Inc. CEO / 柔術青帯 / SOLUNA創業者 / 瀬戸内空き家プロジェクト主宰</div>
 </div>
 </div>
 <div class="related r">
@@ -266,6 +267,26 @@ const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersect
 document.querySelectorAll('.r').forEach(el=>io.observe(el));
 </script>
 <script defer src="/track.js"></script>
+<div style="background:#070707;border:1px solid #131313;border-radius:20px;padding:36px 32px;max-width:480px;margin:48px auto 0;text-align:center">
+<div style="font-size:9px;letter-spacing:.28em;color:#c8a455;text-transform:uppercase;margin-bottom:12px">SOLUNA JOURNAL</div>
+<p style="font-size:18px;font-weight:700;color:#f0ece0;margin:0 0 8px;line-height:1.4">続きをメールで受け取る</p>
+<p style="font-size:12px;color:#555;margin:0 0 20px;line-height:1.7">香川・瀬戸内の空き家再生、共同所有の実験。週1〜2通。いつでも解除できます。</p>
+<div style="display:flex;gap:8px;max-width:360px;margin:0 auto">
+<input id="b6-email" type="email" placeholder="your@email.com" style="flex:1;padding:12px 16px;background:#0d0d0d;border:1px solid #1f1f1f;border-radius:10px;color:#f0ece0;font-size:13px;outline:none"/>
+<button onclick="b6signup()" style="padding:12px 20px;background:#c8a455;color:#000;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap">登録 →</button>
+</div>
+<p id="b6-done" style="display:none;font-size:13px;color:#c8a455;margin-top:16px">✓ 登録しました。ログインリンクをメールで送りました。</p>
+</div>
+<script>
+async function b6signup(){
+var email=(document.getElementById('b6-email').value||'').trim();
+if(!email||!email.includes('@'))return;
+await fetch('/api/soluna/akiya-signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,source:'blog-6'})});
+document.getElementById('b6-done').style.display='block';
+if(window.sln) sln.track('email_signup',{source:'blog-6'});
+}
+</script>
+<script defer src="/js/sln-track.js"></script>
 <style>
 footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
 footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}

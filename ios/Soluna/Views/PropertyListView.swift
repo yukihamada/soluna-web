@@ -84,46 +84,30 @@ struct PropertyListView: View {
     }
 
     private var zamnaBanner: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 6) {
+        HStack(spacing: 12) {
+            Image(systemName: "music.note.house.fill")
+                .font(.system(size: 18))
+                .foregroundStyle(Color(hex: "c8a455"))
+            VStack(alignment: .leading, spacing: 2) {
                 Text("ZAMNA × SOLUNA FEST HAWAII 2026")
-                    .font(.system(size: 9, weight: .heavy))
-                    .tracking(1)
+                    .font(.system(size: 10, weight: .heavy))
+                    .tracking(0.5)
                     .foregroundStyle(Color(hex: "c8a455"))
-                Spacer()
-                Text("2026")
-                    .font(.system(size: 9, weight: .bold))
-                    .foregroundStyle(Color(hex: "c8a455").opacity(0.5))
-            }
-            Text("この木は覚えている")
-                .font(.system(size: 18, weight: .heavy))
-                .foregroundStyle(.white)
-            Text("WhoMadeWho · Mathame · Korolova · Oahu, Hawaii")
-                .font(.system(size: 11))
-                .foregroundStyle(.white.opacity(0.55))
-            HStack(spacing: 8) {
-                Label("詳細を見る", systemImage: "arrow.right")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(Color(hex: "050505"))
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 7)
-                    .background(Color(hex: "c8a455"))
-                    .clipShape(Capsule())
-                Text("日程調整中")
+                Text("WhoMadeWho · Mathame · Korolova · 日程調整中")
                     .font(.system(size: 10))
-                    .foregroundStyle(Color(hex: "c8a455").opacity(0.6))
+                    .foregroundStyle(.white.opacity(0.45))
             }
+            Spacer()
+            Image(systemName: "chevron.right")
+                .font(.system(size: 10))
+                .foregroundStyle(Color(hex: "c8a455").opacity(0.4))
         }
-        .padding(16)
-        .background(
-            LinearGradient(
-                colors: [Color(hex: "0d0b08"), Color(hex: "1a1306")],
-                startPoint: .topLeading, endPoint: .bottomTrailing
-            )
-        )
-        .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(hex: "c8a455").opacity(0.2), lineWidth: 1))
-        .clipShape(RoundedRectangle(cornerRadius: 14))
-        .padding(.top, 16)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background(Color(hex: "0d0b08"))
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(hex: "c8a455").opacity(0.15), lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .padding(.top, 12)
         .onTapGesture {
             if let url = URL(string: "https://solun.art/zamna") {
                 UIApplication.shared.open(url)

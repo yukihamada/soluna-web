@@ -1,704 +1,81 @@
 <!DOCTYPE html>
-
 <html lang="ja">
 <head>
 <meta charset="utf-8"/>
 <link href="https://solun.art/story" rel="canonical"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title data-en="Miruwa Grand — A Story for Eight Alone">美留和グランド — 8人だけの物語</title>
-<meta content="美留和グランド — 北海道、8人だけの秘密" property="og:title"/>
-<meta content="32,337坪の原野に、8枚のNFT。あなたの人生に、もうひとつの家を。" property="og:description"/>
-<meta content="/img/container_night_stars.webp" property="og:image"/>
+<title>SOLUNAの物語 — solun.art</title>
+<meta content="2019年、北海道の原野に立ったところから始まった。メルカリとNOT A HOTELで学んだことを、場所づくりに変えていく話。" name="description"/>
+<meta content="SOLUNAの物語 — solun.art" property="og:title"/>
+<meta content="2019年、北海道の原野に立ったところから始まった。メルカリとNOT A HOTELで学んだことを、場所づくりに変えていく話。" property="og:description"/>
+<meta content="https://solun.art/img/tapkop_aerial_village.webp" property="og:image"/>
+<meta content="https://solun.art/img/tapkop_aerial_village.webp" name="twitter:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23c8a455'/></svg>" rel="icon"/>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{padding-top:48px;width:100%;height:100%;overflow:hidden;background:#000;font-family:'Helvetica Neue',Arial,'Hiragino Kaku Gothic ProN',sans-serif;cursor:pointer;user-select:none}
-
-/* ── slides ── */
-.deck{position:relative;width:100%;height:100%}
-.slide{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;
-  transition:opacity .8s ease;overflow:hidden;
+:root{
+  --gold:#c8a455;--gold-dim:rgba(200,164,85,.5);--gold-soft:rgba(200,164,85,.08);
+  --bg:#050505;--bg-soft:#080808;--line:#131313;
+  --text:#f0ece4;--text-dim:#777;--text-soft:#444;
 }
-.slide.active{opacity:1;pointer-events:all}
-
-/* bg */
-.slide-bg{
-  position:absolute;inset:-5%;
-  background-size:cover;background-position:center;
-  animation:none;
-  transition:transform 8s ease;
-}
-.slide.active .slide-bg{transform:scale(1.05)}
-
-/* overlay gradients */
-.ov-dark{position:absolute;inset:0;background:rgba(0,0,0,.55)}
-.ov-bottom{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 50%)}
-.ov-top{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.6) 0%,transparent 40%)}
-.ov-left{position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.7) 0%,transparent 60%)}
-
-/* content */
-.slide-content{
-  position:relative;z-index:2;
-  text-align:center;padding:40px 24px;
-  max-width:800px;
-  opacity:0;transform:translateY(20px);
-  transition:opacity .9s .4s ease,transform .9s .4s ease;
-}
-.slide.active .slide-content{opacity:1;transform:translateY(0)}
-
-.slide-content.left-align{text-align:left;padding:40px 8%}
-.slide-content.bottom-align{position:absolute;bottom:80px;left:0;right:0;padding:0 8%}
-
-.label{
-  font-size:11px;letter-spacing:4px;text-transform:uppercase;
-  color:rgba(255,255,255,.6);margin-bottom:16px;
-}
-.label span{display:inline-block;width:28px;height:1px;background:rgba(255,255,255,.4);vertical-align:middle;margin-right:8px}
-
-h1.kicker{
-  font-size:clamp(32px,7vw,80px);
-  font-weight:700;line-height:1.15;
-  color:#fff;
-  text-shadow:0 2px 20px rgba(0,0,0,.5);
-  margin-bottom:20px;
-}
-h2.sub{
-  font-size:clamp(20px,4vw,42px);
-  font-weight:300;line-height:1.3;
-  color:rgba(255,255,255,.9);
-  margin-bottom:20px;
-}
-p.body{
-  font-size:clamp(14px,2vw,18px);
-  color:rgba(255,255,255,.75);
-  line-height:1.8;max-width:600px;margin:0 auto 24px;
-}
-p.body.left{margin:0 0 24px}
-
-.big-num{
-  font-size:clamp(60px,14vw,160px);
-  font-weight:800;line-height:1;
-  color:#fff;letter-spacing:-4px;
-  text-shadow:0 0 60px rgba(255,200,100,.3);
-  margin-bottom:8px;
-}
-.big-unit{font-size:clamp(14px,2.5vw,22px);color:rgba(255,255,255,.6);letter-spacing:2px;margin-bottom:20px}
-
-.tag{
-  display:inline-block;border:1px solid rgba(255,255,255,.35);
-  padding:6px 16px;font-size:12px;letter-spacing:2px;color:rgba(255,255,255,.8);
-  border-radius:100px;margin:4px;
-}
-
-/* scarcity meter */
-.meter-wrap{max-width:440px;margin:0 auto}
-.meter-label{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:10px;letter-spacing:1px}
-.meter-bar{height:4px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden}
-.meter-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#f59e0b,#ef4444);width:0;transition:width 1.2s .6s ease}
-.slide.active .meter-fill{width:50%}
-.nft-row{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}
-.nft-dot{
-  width:36px;height:36px;border-radius:8px;font-size:10px;letter-spacing:1px;
-  display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;
-}
-.nft-dot.sold{background:rgba(245,158,11,.25);border:1px solid rgba(245,158,11,.5);color:#f59e0b}
-.nft-dot.sold::after{content:'✓'}
-.nft-dot.avail{background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.3);color:rgba(255,255,255,.4)}
-.nft-dot.avail::after{content:'○'}
-
-/* CTA button */
-.cta-btn{
-  display:inline-block;
-  background:linear-gradient(135deg,#f59e0b,#d97706);
-  color:#000;font-weight:700;font-size:16px;
-  padding:16px 40px;border-radius:100px;
-  text-decoration:none;letter-spacing:1px;
-  margin-top:16px;
-  box-shadow:0 4px 24px rgba(245,158,11,.4);
-  transition:transform .2s,box-shadow .2s;
-}
-.cta-btn:hover{transform:scale(1.04);box-shadow:0 8px 32px rgba(245,158,11,.6)}
-
-/* split layout */
-.split{display:flex;align-items:stretch;height:100%;position:relative;z-index:2}
-.split-left{flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 6%;background:rgba(0,0,0,.5)}
-.split-right{width:45%;position:relative}
-.split-right img{width:100%;height:100%;object-fit:cover;opacity:.9}
-
-/* property grid */
-.prop-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:580px;margin:0 auto;width:100%}
-.prop-card{
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
-  border-radius:12px;padding:14px 16px;text-align:left;
-}
-.prop-card .pname{font-size:14px;font-weight:600;color:#fff;margin-bottom:4px}
-.prop-card .ploc{font-size:11px;color:rgba(255,255,255,.5);margin-bottom:8px;letter-spacing:1px}
-.prop-card .pstat{font-size:11px;letter-spacing:1px;padding:3px 10px;border-radius:100px;display:inline-block}
-.pstat.open{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.3)}
-.pstat.soon{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
-.pstat.plan{background:rgba(148,163,184,.1);color:rgba(148,163,184,.7);border:1px solid rgba(148,163,184,.2)}
-
-/* progress bar */
-#progress{
-  position:fixed;bottom:0;left:0;height:2px;
-  background:linear-gradient(90deg,#f59e0b,#ef4444);
-  transition:width .6s ease;z-index:100;
-}
-
-/* nav dots */
-#dots{
-  position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
-  display:flex;gap:6px;z-index:100;
-}
-.dot{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.3);transition:all .3s ease;cursor:pointer}
-.dot.on{width:20px;background:#f59e0b}
-
-/* arrows */
-#prev,#next{
-  position:fixed;top:50%;transform:translateY(-50%);
-  z-index:100;width:48px;height:48px;
-  border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
-  display:flex;align-items:center;justify-content:center;
-  color:#fff;font-size:18px;cursor:pointer;
-  transition:background .2s;backdrop-filter:blur(4px);
-}
-#prev{left:16px}
-#next{right:16px}
-#prev:hover,#next:hover{background:rgba(255,255,255,.2)}
-
-/* slide counter */
-#counter{
-  position:fixed;top:20px;right:20px;
-  font-size:12px;color:rgba(255,255,255,.4);
-  letter-spacing:2px;z-index:100;
-}
-
-/* logo */
-#logo{
-  position:fixed;top:20px;left:20px;z-index:100;
-  font-size:13px;letter-spacing:3px;color:rgba(255,255,255,.6);text-transform:uppercase;
-  text-decoration:none;
-}
-
-/* tap hint */
-#hint{
-  position:fixed;bottom:40px;right:20px;
-  font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1px;
-  z-index:100;animation:fade-hint 3s 2s forwards;
-}
-@keyframes fade-hint{to{opacity:0}}
-
-@media(max-width:640px){
-  #prev,#next{display:none}
-  .prop-grid{grid-template-columns:1fr}
-  .big-num{letter-spacing:-2px}
-}
-</style>
-<style id="gnav-css">
-.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-feature-settings:'palt'}
+::selection{background:var(--gold);color:#000}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
 .gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
 .gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
 .gnav-links a{color:#555;text-decoration:none;transition:color .2s}
 .gnav-links a:hover{color:#c8a455}
 .gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
 .gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
-.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
-.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
-@media(max-width:680px){
-  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
-  .gnav-links.open{display:flex}
-  .gnav-ham{display:flex}
+.hero{padding-top:48px;min-height:78vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url('img/tapkop_aerial_village.webp') center/cover no-repeat;opacity:.13}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,5,5,.3) 0%,rgba(5,5,5,.7) 100%)}
+.hero-inner{position:relative;z-index:1;max-width:680px;padding:80px 24px}
+.hero-eyebrow{font-size:9px;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:24px}
+.hero h1{font-size:clamp(2.6rem,6.5vw,4.2rem);font-weight:800;line-height:1.06;letter-spacing:-.04em;margin-bottom:28px}
+.hero p{font-size:15px;color:#666;line-height:2;max-width:480px;margin:0 auto}
+.wrap{max-width:760px;margin:0 auto;padding:80px 24px}
+.section-label{font-size:9px;letter-spacing:.35em;color:#2a2a2a;text-transform:uppercase;font-weight:700;margin-bottom:48px;padding-bottom:12px;border-bottom:1px solid #0f0f0f}
+.tl-item{display:grid;grid-template-columns:96px 1fr;gap:0 40px;margin-bottom:72px;align-items:start}
+.tl-left{text-align:right;padding-top:4px}
+.tl-year{font-size:12px;font-weight:800;color:var(--gold);letter-spacing:.06em;display:block}
+.tl-month{font-size:9px;color:#2a2a2a;letter-spacing:.06em;margin-top:3px;display:block}
+.tl-right{border-left:1px solid #131313;padding-left:32px;position:relative}
+.tl-right::before{content:'';width:7px;height:7px;background:var(--gold);border-radius:50%;position:absolute;left:-4px;top:7px}
+.tl-label{font-size:8px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.tl-title{font-size:1.15rem;font-weight:800;color:var(--text);line-height:1.25;margin-bottom:14px;letter-spacing:-.02em}
+.tl-body{font-size:13.5px;line-height:2.05;color:#666;margin-bottom:16px}
+.tl-body strong{color:#aaa;font-weight:600}
+.tl-img{width:100%;max-height:260px;object-fit:cover;border-radius:8px;margin-top:18px;opacity:.72;transition:opacity .3s}
+.tl-img:hover{opacity:1}
+.tl-tags{margin-top:12px}
+.tl-tag{display:inline-block;font-size:9px;letter-spacing:.1em;color:#2a2a2a;border:1px solid #181818;padding:4px 10px;border-radius:100px;margin-right:5px;margin-bottom:5px}
+.tl-tag.open{color:var(--gold);border-color:rgba(200,164,85,.3)}
+.future-band{background:#040404;border-top:1px solid #0d0d0d;padding:80px 24px}
+.future-inner{max-width:760px;margin:0 auto}
+.future-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(188px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px}
+.fc{background:var(--bg-soft);padding:26px 22px}
+.fc .yr{font-size:8px;letter-spacing:.22em;color:var(--gold);font-weight:700;margin-bottom:8px}
+.fc .place{font-size:13.5px;font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:-.01em}
+.fc .desc{font-size:11px;color:#3a3a3a;line-height:1.9}
+.cta-band{text-align:center;padding:80px 24px;background:radial-gradient(ellipse at 50% 50%,rgba(200,164,85,.06) 0%,transparent 70%)}
+.cta-band h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:16px}
+.cta-band p{font-size:13px;color:#555;margin-bottom:32px;line-height:2}
+.cta-band a{display:inline-block;padding:16px 36px;background:var(--gold);color:#040404;font-weight:800;font-size:13px;letter-spacing:.08em;border-radius:100px;transition:opacity .2s}
+.cta-band a:hover{opacity:.85}
+.r{opacity:0;transform:translateY(22px);transition:opacity .85s ease,transform .85s ease}
+.r.in{opacity:1;transform:none}
+@media(max-width:560px){
+  .tl-item{grid-template-columns:58px 1fr;gap:0 18px}
+  .tl-right{padding-left:18px}
+  .gnav-links{gap:12px;font-size:10px}
 }
-</style>
-<script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
-</head>
-<body>
-<nav class="gnav">
-<a class="gnav-logo" href="index">SOLUNA</a>
-<div class="gnav-links" id="gnav-links">
-<a data-en="Properties" href="collection">物件一覧</a>
-<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
-<a href="faq">FAQ</a>
-<a data-en="Owners" href="owners">オーナーズ</a>
-<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
-</div>
-<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
-<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
-<span style="font-size:9px;color:#3a3a3a">/</span>
-<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
-</button>
-<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
-<span></span><span></span><span></span>
-</div>
-</nav>
-<a href="miruwa-grand" id="logo">SOLUNA</a>
-<div id="counter">1 / 18</div>
-<div id="progress"></div>
-<div id="dots"></div>
-<div id="prev">‹</div>
-<div id="next">›</div>
-<div data-en="Tap to continue →" id="hint">タップで次へ →</div>
-<div class="deck" id="deck">
-<!-- 01 opener -->
-<div class="slide active" data-dur="5000">
-<div class="slide-bg" style="background-image:url('img/container_night_stars.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>MIRUWA GRAND</div>
-<h1 class="kicker" data-en="At the edge of Hokkaido, there exists a place known only to eight.">北海道の果てに、<br/>8人だけが知る<br/>場所がある。</h1>
-</div>
-</div>
-<!-- 02 location -->
-<div class="slide" data-dur="5000">
-<div class="slide-bg" style="background-image:url('img/container_twin_aerial.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>HOKKAIDO · TESHIKAGA</div>
-<h2 class="sub" data-en="Akan-Mashu National Park.">阿寒摩周国立公園。</h2>
-<h1 class="kicker" data-en="Japan's final frontier.">日本最後の<br/>フロンティア。</h1>
-<p class="body" data-en="Population approximately 6,000. When tourists depart at night, this sky becomes the finest in the world.">人口約6,000人。観光客がいなくなった夜、この空は世界一になる。</p>
-</div>
-</div>
-<!-- 03 land scale -->
-<div class="slide" data-dur="5000">
-<div class="slide-bg" style="background-image:url('img/offgrid_aerial_total.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>THE LAND</div>
-<div class="big-num">32,337</div>
-<div class="big-unit">坪</div>
-<p class="body" data-en="Approximately 2.3 times the size of Tokyo Dome. Entirely yours — all eight of you.">東京ドーム約2.3個分。<br/>すべて、あなたたち8人のもの。</p>
-</div>
-</div>
-<!-- 04 villa -->
-<div class="slide" data-dur="5500">
-<div class="slide-bg" style="background-image:url('img/container_exterior_winter.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>THE VILLA</div>
-<h1 class="kicker" data-en="Premium villas floating upon snow fields.">雪原に浮かぶ<br/>プレミアムヴィラ。</h1>
-<p class="body" data-en="Where container architecture's aesthetic meets Hokkaido's austere beauty. Enveloped in snow in winter, surrounded by verdant forest in summer.">コンテナ建築の美学と、北海道の厳しさが交差する場所。冬は雪に包まれ、夏は緑に囲まれる。</p>
-</div>
-</div>
-<!-- 05 interior -->
-<div class="slide" data-dur="5000">
-<div class="slide-bg" style="background-image:url('img/container_interior_luxury.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>INTERIOR</div>
-<h2 class="sub" data-en="Designed with urban sensibility,">都市の感性で設計された、</h2>
-<h1 class="kicker" data-en="A living room for pristine nature.">大自然の<br/>リビング。</h1>
-<p class="body" data-en="Watching the woodstove's flames while outside reads −15℃. This is winter's daily reality here.">薪ストーブの炎を見ながら、外は－15℃。<br/>それが、ここの冬の日常。</p>
-</div>
-</div>
-<!-- 06 tower sauna -->
-<div class="slide" data-dur="5500">
-<div class="slide-bg" style="background-image:url('img/sauna_tower.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>TOWER SAUNA</div>
-<h1 class="kicker" data-en="This sauna tower becomes the destination itself.">このサウナ塔が、<br/>目的になる。</h1>
-<p class="body" data-en="A wood-fired sauna tower rising from pristine snow fields. Boundless earth beneath, infinite cosmos above. People board flights simply to experience this.">雪原にそびえる薪サウナタワー。<br/>眼下に広がる大地、頭上に広がる宇宙。<br/>ここに来るためだけに、飛行機に乗る人がいる。</p>
-</div>
-</div>
-<!-- 07 sauna -->
-<div class="slide" data-dur="5500">
-<div class="slide-bg" style="background-image:url('img/pro_sauna_complete.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>PRIVATE SAUNA</div>
-<h1 class="kicker" data-en="Wood-fired sauna, ice bath, Milky Way.">薪サウナ、<br/>アイスバス、<br/>天の川。</h1>
-<p class="body" data-en="Neither slopes nor spa. A private sanctuary found nowhere else in Japan.">ゲレンデでも、スパでもない。<br/>日本でここにしかない、プライベートな整い。</p>
-</div>
-</div>
-<!-- 08 stars -->
-<div class="slide" data-dur="5500">
-<div class="slide-bg" style="background-image:url('img/comfort_stargazing.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>NIGHT SKY</div>
-<h1 class="kicker" data-en="Zero light pollution.">光害ゼロ。</h1>
-<h2 class="sub" data-en="The night when the Milky Way becomes your ceiling.">天の川が、屋根になる夜。</h2>
-<p class="body" data-en="Set down your smartphone and simply gaze at the sky. There are nights when such simplicity transforms a life.">スマートフォンを置いて、ただ空を見上げる。<br/>それだけで、人生が変わる夜がある。</p>
-</div>
-</div>
-<!-- 09 tapkop intro -->
-<div class="slide" data-dur="5500">
-<div class="slide-bg" style="background-image:url('img/tapkop_luxury.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>TAPKOP · TESHIKAGA</div>
-<h2 class="sub" data-en="Another door.">もうひとつの扉。</h2>
-<h1 class="kicker" data-en="TAPKOP.">タップコップ。</h1>
-<p class="body" data-en="On the same Teshikaga landscape, a space with an entirely different character awaits. Another private villa that faces the wilderness.">同じ弟子屈の大地に、まったく異なる表情を持つ空間がある。<br/>原野と向き合う、もう一つのプライベートヴィラ。</p>
-</div>
-</div>
-<!-- 10 tapkop interior -->
-<div class="slide" data-dur="5500">
-<div class="slide-bg" style="background-image:url('img/pro_tapkop_interior.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>TAPKOP · INTERIOR</div>
-<h1 class="kicker" data-en="Where rustic charm and refinement coexist.">野趣と洗練が、<br/>共存する場所。</h1>
-<p class="body" data-en="The warmth of timber and modern design. Beyond expansive windows lies only untouched forest.">ログの温もりと、モダンな設計。<br/>大きな窓の向こうに広がるのは、手つかずの森だけ。</p>
-</div>
-</div>
-<!-- 11 nesting exterior -->
-<div class="slide" data-dur="5500">
-<div class="slide-bg" style="background-image:url('img/nesting_exterior.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>NESTING</div>
-<h2 class="sub" data-en="Deep within the forest,">森の奥に、</h2>
-<h1 class="kicker" data-en="A sanctuary awaits.">隠れ家がある。</h1>
-<p class="body" data-en="NESTING — An exclusive private forest club for five. True respite begins in a place undiscovered by others.">NESTING — 5人だけのプライベートフォレストクラブ。<br/>誰にも見つからない場所で、本当の休暇が始まる。</p>
-</div>
-</div>
-<!-- 12 nesting night -->
-<div class="slide" data-dur="5500">
-<div class="slide-bg" style="background-image:url('img/nesting_night.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>NESTING · NIGHT</div>
-<h1 class="kicker" data-en="The night when the forest breathes.">森が、<br/>呼吸する夜。</h1>
-<p class="body" data-en="Dining, kitchen, living. A home enveloped entirely in wood, connected to the earth.">ダイニング、キッチン、リビング。<br/>すべてが木に包まれた、地球と繋がる家。</p>
-</div>
-</div>
-<!-- 13 morning -->
-<div class="slide" data-dur="5000">
-<div class="slide-bg" style="background-image:url('img/pro_morning_deck.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>THE MORNING</div>
-<h2 class="sub" data-en="Mornings undisturbed by anyone.">誰にも邪魔されない朝。</h2>
-<h1 class="kicker" data-en="Coffee and only the traces of deer.">コーヒーと、<br/>鹿の足跡だけ。</h1>
-</div>
-</div>
-<!-- 14 jet -->
-<div class="slide" data-dur="5500">
-<div class="slide-bg" style="background-image:url('img/pro_jet_cinematic.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>HONDAJET ELITE · OPTION</div>
-<h1 class="kicker" data-en="Door-to-door 3 hours from Tokyo.">東京から、<br/>ドアtoドア<br/>3時間。</h1>
-<p class="body" data-en="Private flight via HondaJet Elite. No airport queues. No layovers.">HondaJet Eliteでプライベートフライト。<br/>空港の行列も、乗り継ぎも、ない。</p>
-</div>
-</div>
-<!-- 10 NFT -->
-<div class="slide" data-dur="5500">
-<div class="slide-bg" style="background-image:url('img/container_night_stars.webp');filter:hue-rotate(200deg)"></div>
-<div class="ov-dark" style="background:rgba(0,0,0,.7)"></div>
-<div class="slide-content">
-<div class="label"><span></span>OWNERSHIP</div>
-<img alt="MIRUWA NFT" src="img/miruwa-nft.svg" style="width:180px;height:180px;margin-bottom:20px;border-radius:16px;box-shadow:0 0 60px rgba(245,158,11,.3)"/>
-<h1 class="kicker" data-en="Eight NFTs. That is your key.">8枚のNFT。<br/>それが、<br/>あなたの鍵。</h1>
-<p class="body" data-en="Perpetual ownership inscribed on the Solana blockchain. Trade, gift, or inherit freely.">Solanaブロックチェーン上に刻まれた、永続するオーナーシップ。売買も、贈与も、相続も自由。</p>
-</div>
-</div>
-<!-- 11 scarcity -->
-<div class="slide" data-dur="6000">
-<div class="slide-bg" style="background-image:url('img/bonfire_night.webp')"></div>
-<div class="ov-dark" style="background:rgba(0,0,0,.72)"></div>
-<div class="slide-content">
-<div class="label"><span></span>SCARCITY</div>
-<h1 class="kicker" data-en="Four have embarked on their journey.">4枚が、<br/>旅立った。</h1>
-<div class="meter-wrap" style="margin:24px 0">
-<div class="meter-label"><span data-en="Sold 4/8">販売済み 4/8</span><span data-en="Remaining">残り <strong data-en="4 units" style="color:#f59e0b">4枚</strong></span></div>
-<div class="meter-bar"><div class="meter-fill"></div></div>
-<div class="nft-row">
-<div class="nft-dot sold" title="#1"></div>
-<div class="nft-dot sold" title="#2"></div>
-<div class="nft-dot sold" title="#3"></div>
-<div class="nft-dot sold" title="#4"></div>
-<div class="nft-dot avail" title="#5"></div>
-<div class="nft-dot avail" title="#6"></div>
-<div class="nft-dot avail" title="#7"></div>
-<div class="nft-dot avail" title="#8"></div>
-</div>
-</div>
-<p class="body" data-en="No additional issuance. Only 8 units. Forever.">追加発行はない。8枚だけ。永遠に。</p>
-</div>
-</div>
-<!-- 12 portfolio -->
-<div class="slide" data-dur="6000">
-<div class="slide-bg" style="background-image:url('img/pro_village_cinematic.webp')"></div>
-<div class="ov-dark"></div>
-<div class="ov-bottom"></div>
-<div class="slide-content">
-<div class="label"><span></span>SOLUNA CABIN CLUB</div>
-<h2 class="sub" data-en="Owners are,">オーナーは、</h2>
-<h1 class="kicker" data-en="Travel the world with a global community.">世界中の<br/>仲間と旅する。</h1>
-<div class="prop-grid" style="margin-top:24px">
-<div class="prop-card">
-<div class="pname" data-en="Birowa Grand">美留和グランド</div>
-<div class="ploc">HOKKAIDO · TESHIKAGA</div>
-<span class="pstat open">NOW OPEN</span>
-</div>
-<div class="prop-card">
-<div class="pname" data-en="Tap Cop">タップコップ</div>
-<div class="ploc">HOKKAIDO · TESHIKAGA</div>
-<span class="pstat open">NOW OPEN</span>
-</div>
-<div class="prop-card">
-<div class="pname">NESTING</div>
-<div class="ploc">FOREST PRIVATE CLUB</div>
-<span class="pstat open">NOW OPEN</span>
-</div>
-<div class="prop-card">
-<div class="pname" data-en="KUMAUSHI BASE">熊牛ロッジ</div>
-<div class="ploc">HOKKAIDO · SHIRETOKO</div>
-<span class="pstat soon">2026 FALL</span>
-</div>
-<div class="prop-card">
-<div class="pname" data-en="Atami / Wakayama">熱海 / 和歌山</div>
-<div class="ploc">HONSHU</div>
-<span class="pstat plan">PLANNED</span>
-</div>
-<div class="prop-card">
-<div class="pname" data-en="Hawaii">ハワイ</div>
-<div class="ploc">HAWAII</div>
-<span class="pstat plan">2027</span>
-</div>
-</div>
-</div>
-</div>
-<!-- 13 CTA -->
-<div class="slide" data-dur="999999">
-<div class="slide-bg" style="background-image:url('img/container_living_fire.webp')"></div>
-<div class="ov-dark" style="background:rgba(0,0,0,.68)"></div>
-<div class="slide-content">
-<div class="label"><span></span>JOIN THE CLUB</div>
-<h1 class="kicker" data-en="You can become one of the remaining 96.">あなたは、<br/>残り96人の<br/>ひとりになれる。</h1>
-<p class="body" data-en="1 unit ¥4,900,000~ (bonding curve · current) 8 nights annually · Access to all properties · Limited to 100 owners · By referral">1口 ¥490万〜（ボンディングカーブ · 現在 <strong data-en="¥5,300,000" style="color:#c8a455">¥530万</strong>）<br/>年8泊 · 全物件共有 · 100人限定 · 紹介制</p>
-<div style="margin-top:8px">
-<span class="tag" data-en="🏔 32,337 tsubo">🏔 32,337坪</span>
-<span class="tag">✈ HondaJet</span>
-<span class="tag" data-en="🔥 Tower Sauna">🔥 タワーサウナ</span>
-<span class="tag">🌲 NESTING</span>
-<span class="tag" data-en="🏕 TAPKOP">🏕 タップコップ</span>
-<span class="tag" data-en="🌌 Milky Way">🌌 天の川</span>
-</div>
-<a class="cta-btn" data-en="Become an Owner →" href="miruwa-grand" onclick="event.stopPropagation()">
-        オーナーになる →
-      </a>
-</div>
-</div>
-</div><!-- /deck -->
-<script>
-var slides = Array.from(document.querySelectorAll('.slide'));
-var n = slides.length;
-var cur = 0;
-var timer = null;
-var autoplay = true;
-var startX = 0;
-
-function setSlide(i, dir) {
-  slides[cur].classList.remove('active');
-  cur = (i + n) % n;
-  slides[cur].classList.add('active');
-  updateUI();
-  scheduleNext();
-}
-
-function updateUI() {
-  document.getElementById('counter').textContent = (cur + 1) + ' / ' + n;
-  var pct = ((cur + 1) / n * 100).toFixed(1);
-  document.getElementById('progress').style.width = pct + '%';
-  document.querySelectorAll('.dot').forEach(function(d, i) {
-    d.classList.toggle('on', i === cur);
-  });
-}
-
-function scheduleNext() {
-  clearTimeout(timer);
-  if (!autoplay) return;
-  var dur = parseInt(slides[cur].dataset.dur) || 5000;
-  if (dur > 100000) return; // last slide
-  timer = setTimeout(function() { setSlide(cur + 1); }, dur);
-}
-
-// build dots
-var dotsEl = document.getElementById('dots');
-slides.forEach(function(_, i) {
-  var d = document.createElement('div');
-  d.className = 'dot' + (i === 0 ? ' on' : '');
-  d.addEventListener('click', function(e) {
-    e.stopPropagation();
-    autoplay = false;
-    setSlide(i);
-  });
-  dotsEl.appendChild(d);
-});
-
-// nav buttons
-document.getElementById('prev').addEventListener('click', function(e) {
-  e.stopPropagation();
-  autoplay = false;
-  setSlide(cur - 1);
-});
-document.getElementById('next').addEventListener('click', function(e) {
-  e.stopPropagation();
-  autoplay = false;
-  setSlide(cur + 1);
-});
-
-// click / tap anywhere
-document.addEventListener('click', function(e) {
-  if (e.target.closest('#prev,#next,#dots,.cta-btn,#logo')) return;
-  autoplay = false;
-  setSlide(cur + 1);
-});
-
-// swipe
-document.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; }, {passive:true});
-document.addEventListener('touchend', function(e) {
-  var dx = e.changedTouches[0].clientX - startX;
-  if (Math.abs(dx) > 50) {
-    autoplay = false;
-    setSlide(dx < 0 ? cur + 1 : cur - 1);
-  }
-}, {passive:true});
-
-// keyboard
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'ArrowRight' || e.key === ' ') { autoplay = false; setSlide(cur + 1); }
-  if (e.key === 'ArrowLeft') { autoplay = false; setSlide(cur - 1); }
-});
-
-// init
-updateUI();
-scheduleNext();
-</script>
-<script defer="" src="/track.js"></script>
-<style>
-footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
-footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
-@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
-footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
-footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
-footer .f-col a:hover{color:#c8a455}
-footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
-</style>
-<footer class="sln-footer">
-<div class="sf-brand">
-<span class="sf-logo">SOLUNA</span>
-<span class="sf-sub" data-en="Teshikaga, Hokkaido · 8-Building 100-Person Village · Enabler Inc.">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
-</div>
-<div class="sf-grid">
-<div class="sf-col">
-<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
-<span data-en="Properties">物件</span><span class="sf-ic">+</span>
-</button>
-<div class="sf-bd">
-<a data-en="TAPKOP — Teshikaga" href="tapkop-story">TAPKOP — 弟子屈</a>
-<a data-en="THE LODGE — Miruwa" href="lodge-story">THE LODGE — 美留和</a>
-<a data-en="NESTING — Miruwa" href="nesting-story">NESTING — 美留和</a>
-<a data-en="WHITE HOUSE — Atami" href="atami-story">WHITE HOUSE — 熱海</a>
-<a href="kumaushi">KUMAUSHI BASE</a>
-<a data-en="Birowa Village" href="village">美留和ビレッジ</a>
-<a data-en="Birowa Grand" href="miruwa-grand">美留和グランド</a>
-<a data-en="Instant House" href="instant">インスタントハウス</a>
-<a data-en="All Properties →" href="collection">全物件一覧 →</a>
-</div>
-</div>
-<div class="sf-col">
-<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
-<span data-en="Purchase &amp; Participate">購入・参加</span><span class="sf-ic">+</span>
-</button>
-<div class="sf-bd">
-<a data-en="Become an Owner" href="buy">オーナーになる</a>
-<a href="workparty">Work Party</a>
-<a data-en="Long-Term Ownership Plan" href="hold">長期保有プラン</a>
-<a data-en="NFT Units" href="mint">NFT 口数</a>
-<a data-en="Gift" href="gift">ギフト</a>
-<a data-en="Referral Program" href="referral">紹介制度</a>
-<a data-en="Acquire Shares Complimentary" href="getfree">無料で口数を得る</a>
-<a href="founders">Founders</a>
-<a href="pass">Season Pass</a>
-<a data-en="Purchase with Crypto" href="crypto">Crypto 購入</a>
-</div>
-</div>
-<div class="sf-col">
-<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
-<span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
-</button>
-<div class="sf-bd">
-<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
-<a data-en="Hard Kit" href="kits">ハードキット</a>
-<a data-en="Floor Plans" href="floorplans">間取り集</a>
-<a data-en="Design" href="design">デザイン</a>
-<a href="neuro">NEURO AI</a>
-<a data-en="Off-Grid" href="offgrid">オフグリッド</a>
-<a data-en="SIPs Insulation" href="sips">SIPs 断熱</a>
-<a data-en="Construction Plans" href="construction">建築計画</a>
-<a data-en="Blueprint" href="blueprint">ブループリント</a>
-<a data-en="Tower Sauna" href="tower-sauna">タワーサウナ</a>
-<a data-en="About the Dome" href="dome-story">ドームの話</a>
-</div>
-</div>
-<div class="sf-col">
-<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
-<span data-en="Community">コミュニティ</span><span class="sf-ic">+</span>
-</button>
-<div class="sf-bd">
-<a data-en="Community" href="community">コミュニティ</a>
-<a data-en="Member Directory" href="members">メンバー一覧</a>
-<a data-en="Network" href="network">ネットワーク</a>
-<a data-en="Owners Only" href="owners">オーナー専用</a>
-<a data-en="Miruwa Owner" href="miruwa-owners">美留和オーナー</a>
-<a data-en="Story" href="story">ストーリー</a>
-<a data-en="Our Story" href="origin">創業の話</a>
-<a data-en="Blog" href="blog">ブログ</a>
-<a data-en="SOLUNA Song" href="song">SOLUNA ソング</a>
-</div>
-</div>
-<div class="sf-col">
-<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
-<span data-en="Information &amp; Support">情報・サポート</span><span class="sf-ic">+</span>
-</button>
-<div class="sf-bd">
-<a data-en="FAQ" href="faq">よくある質問</a>
-<a data-en="Brochure" href="brochure">パンフレット</a>
-<a data-en="Maintenance Fee" href="management-fee">管理費</a>
-<a data-en="Private Consultation" href="call">個別相談</a>
-<a data-en="Contact Us" href="contact">お問い合わせ</a>
-<a href="mailto:info@solun.art">info@solun.art</a>
-<a data-en="Company Information" href="company">会社情報</a>
-<a data-en="Specified Commercial Transaction Act" href="tokushoho">特定商取引法</a>
-<a data-en="Privacy" href="privacy">プライバシー</a>
-<a data-en="Terms of Service" href="terms">利用規約</a>
-</div>
-</div>
-</div>
-<div class="sf-copy">
-<span>© 2025 Enabler Inc. — ★ Airbnb Super Host</span>
-<span class="sf-copy-links">
-<a href="privacy">Privacy</a>
-<a href="terms">Terms</a>
-<a data-en="Special Commercial Law" href="tokushoho">特商法</a>
-<a href="contact">Contact</a>
-</span>
-</div>
-</footer>
-<style>
-.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px;font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif}
+.sln-footer{background:#030303;border-top:1px solid #0d0d0d;padding:56px 24px 32px}
 .sf-brand{display:flex;align-items:baseline;gap:14px;margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid #0f0f0f}
 .sf-logo{font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455}
 .sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.06em}
@@ -706,35 +83,194 @@ footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:cente
 .sf-col{border-right:1px solid #0f0f0f;border-bottom:1px solid #0f0f0f}
 .sf-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-family:inherit;transition:color .2s}
 .sf-hd:hover{color:#c8a455}
-.sf-hd[aria-expanded="true"]{color:#c8a455}
-.sf-ic{font-size:14px;font-weight:300;line-height:1;transition:transform .25s;display:inline-block}
+.sf-ic{font-size:14px;transition:transform .2s;color:#2a2a2a}
 .sf-hd[aria-expanded="true"] .sf-ic{transform:rotate(45deg)}
-.sf-bd{overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
-.sf-bd a{display:block;padding:5px 18px;font-size:10.5px;color:#333;text-decoration:none;line-height:1.9;transition:color .2s}
+.sf-bd{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.sf-bd a{display:block;padding:7px 18px;font-size:11px;color:#2a2a2a;text-decoration:none;transition:color .2s}
 .sf-bd a:hover{color:#c8a455}
-.sf-bd a:last-child{padding-bottom:16px}
-.sf-copy{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:16px;border-top:1px solid #0f0f0f;font-size:9px;color:#1e1e1e;letter-spacing:.1em}
-.sf-copy-links{display:flex;gap:16px}
-.sf-copy-links a{color:#2a2a2a;text-decoration:none;transition:color .2s}
-.sf-copy-links a:hover{color:#c8a455}
-@media(min-width:769px){
-  .sf-bd{max-height:none!important;overflow:visible}
-  .sf-ic{display:none}
-  .sf-hd{cursor:default;pointer-events:none}
-}
-@media(max-width:768px){
-  .sf-grid{grid-template-columns:1fr;border-left:none}
-  .sf-col{border-right:none}
-  .sf-brand{flex-direction:column;gap:6px}
-}
+.sf-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:24px;border-top:1px solid #0d0d0d}
+@media(max-width:700px){.sf-grid{grid-template-columns:repeat(2,1fr)}.sf-hd{cursor:default;pointer-events:none}.sf-bd{max-height:none!important;overflow:visible}.sf-brand{flex-direction:column;gap:6px}}
 </style>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="/">SOLUNA</a>
+<div class="gnav-links">
+<a href="homes">物件</a>
+<a href="blog">Journal</a>
+<a href="scheme">スキーム</a>
+<a class="gnav-cta" href="buy">オーナーになる</a>
+</div>
+</nav>
+
+<section class="hero">
+<div class="hero-inner">
+<div class="hero-eyebrow">Our Story — 2019 to Now</div>
+<h1>場所は、<br>つくれる。</h1>
+<p>北海道の原野に立ったとき、ここに何かを作ると決めた。メルカリとNOT A HOTELで学んだことを、全部注いでいる。</p>
+</div>
+</section>
+
+<div class="wrap">
+<div class="section-label r">Timeline</div>
+
+<div class="tl-item r">
+<div class="tl-left"><span class="tl-year">2014</span><span class="tl-month">〜2021</span></div>
+<div class="tl-right">
+<div class="tl-label">Background</div>
+<div class="tl-title">メルカリ、7年間のCPO。</div>
+<div class="tl-body">2014年にメルカリへ参画。CPO / CINOとして、日本最大のフリマアプリの成長を牽引した。<br><br>ここで骨の髄まで刻まれた思想がある。<strong>「持っている人」と「使いたい人」を直接つなぐ。</strong>摩擦を消せば、流通は変わる。使用率が低いものを複数人でシェアすれば、コストは下がり、体験の密度は上がる。この構造が、後のSOLUNAの設計に直接つながっている。</div>
+<div class="tl-tags"><span class="tl-tag">Tokyo</span><span class="tl-tag">Marketplace</span><span class="tl-tag">CPO / CINO</span></div>
+</div>
+</div>
+
+<div class="tl-item r">
+<div class="tl-left"><span class="tl-year">2018</span><span class="tl-month">〜2024</span></div>
+<div class="tl-right">
+<div class="tl-label">Background</div>
+<div class="tl-title">NOT A HOTEL、共同創業。</div>
+<div class="tl-body">2018年にNOT A HOTELを共同創業。「年の一部しか使わない別荘」を共同所有に変えるモデルを最初に作った側にいた。<br><br>6年間の内側からの観察で確信したことがある。<strong>このモデルは正しい。でも、価格が高すぎる。</strong>1口数千万〜数億円では、使える人が限られる。SOLUNAはその答えだ——価格帯を下げ、空き家を素材に使い、新しい建築技術で「最高の場所」を作る。</div>
+<div class="tl-tags"><span class="tl-tag">NOT A HOTEL</span><span class="tl-tag">Co-ownership</span><span class="tl-tag">共同創業者</span></div>
+</div>
+</div>
+
+<div class="tl-item r">
+<div class="tl-left"><span class="tl-year">2019</span><span class="tl-month">秋頃</span></div>
+<div class="tl-right">
+<div class="tl-label">Acquisition #1</div>
+<div class="tl-title">熊牛原野、取得。温泉付き。</div>
+<div class="tl-body">北海道標茶町 字西熊牛原野。10,861㎡（約3,285坪）。地番92番2。<br><br>決め手は温泉だった。温泉名義変更料を払い、温泉権ごと取得した。阿寒国立公園の外縁部。鹿と熊と星だけがいる。この年に建築コンペのRFPを作成。<strong>予算1棟1億円、2棟＋管理棟</strong>の設計を始めた。柔術のDOJOと、温泉と、星空。それが天空道場の起点だ。</div>
+<div class="tl-tags"><span class="tl-tag">北海道標茶町</span><span class="tl-tag">10,861㎡</span><span class="tl-tag">温泉権付き</span></div>
+<img alt="熊牛原野" class="tl-img" loading="lazy" src="img/kumaushi_aerial_dawn.webp"/>
+</div>
+</div>
+
+<div class="tl-item r">
+<div class="tl-left"><span class="tl-year">2020</span><span class="tl-month">7月15日</span></div>
+<div class="tl-right">
+<div class="tl-label">Acquisition #2</div>
+<div class="tl-title">THE LODGE、¥980万で取得。</div>
+<div class="tl-body">川上郡弟子屈町字美留和 361番51。1,289㎡ + 木造2階建91㎡。<strong>売買代金¥9,800,000。引渡し令和2年7月15日。</strong><br><br>弟子屈の地元業者・有限会社大道開発の仲介。売主は愛知県の方。天然温泉が湧く敷地の一角。まずそのまま取得し、その後改装してAirbnbで稼働。現在は年間売上1,000万円を超えている。</div>
+<div class="tl-tags"><span class="tl-tag open">稼働中</span><span class="tl-tag">¥980万</span><span class="tl-tag">年売上1,000万+</span></div>
+<img alt="THE LODGE" class="tl-img" loading="lazy" src="img/lodge_exterior_snow.webp"/>
+</div>
+</div>
+
+<div class="tl-item r">
+<div class="tl-left"><span class="tl-year">2020</span><span class="tl-month">12月</span></div>
+<div class="tl-right">
+<div class="tl-label">Acquisition #3</div>
+<div class="tl-title">美留和の原野、3万坪。</div>
+<div class="tl-body">THE LODGEと同じ売主・市来宏さんから、5ヶ月後に再び購入。今度は規模が違った。<br><br>美留和 501番1ほか4筆。合計<strong>106,899㎡（約3万2,000坪）</strong>。原野。摩周湖が見える方向に林がある。ここにTAPKOPを建て、SOLUNAビレッジを作る構想が動き始めた。TAPKOPに9,000坪。残りの2万坪は<strong>森のままにしておく</strong>決断をした。</div>
+<div class="tl-tags"><span class="tl-tag">美留和</span><span class="tl-tag">106,899㎡</span><span class="tl-tag">同一売主から連続取得</span></div>
+<img alt="美留和の朝霧" class="tl-img" loading="lazy" src="img/miruwa_morning_mist.webp"/>
+</div>
+</div>
+
+<div class="tl-item r">
+<div class="tl-left"><span class="tl-year">2020</span><span class="tl-month">頃</span></div>
+<div class="tl-right">
+<div class="tl-label">Acquisition #4</div>
+<div class="tl-title">WHITE HOUSE 熱海、稼働開始。</div>
+<div class="tl-body">静岡県熱海市。プール付き、オーシャンビュー。東京から90分。<br><br>Airbnbで稼働を始め、スーパーホストとして実績を積んだ。<strong>年間売上1,800万円。</strong>この物件がSOLUNAの財務基盤の一部になり、次の投資を可能にした。「都市からのアクセス」と「非日常の体験」を両立できることを、数字で証明した最初の事例だ。</div>
+<div class="tl-tags"><span class="tl-tag open">稼働中</span><span class="tl-tag">静岡・熱海</span><span class="tl-tag">年売上1,800万</span></div>
+<img alt="WHITE HOUSE 熱海" class="tl-img" loading="lazy" src="img/atami.webp"/>
+</div>
+</div>
+
+<div class="tl-item r">
+<div class="tl-left"><span class="tl-year">2021</span></div>
+<div class="tl-right">
+<div class="tl-label">Milestone</div>
+<div class="tl-title">Enabler Inc.設立、テック＋場所へ。</div>
+<div class="tl-body">メルカリを退任し、Enabler Inc.の代表として本格移行。<br><br>予約システム、電子契約（Pon）、スマートホーム（KAGI）、AIチャット、コミュニティアプリ——すべてRustで自社開発した。<strong>「場所を作る会社」ではなく「場所と体験のプラットフォームを作る会社」</strong>として設計した。テクノロジーが、運営コストを下げ、体験の質を上げる。</div>
+<div class="tl-tags"><span class="tl-tag">Enabler Inc.</span><span class="tl-tag">Rust + Fly.io</span><span class="tl-tag">KAGI / Pon / SOLUNA App</span></div>
+</div>
+</div>
+
+<div class="tl-item r">
+<div class="tl-left"><span class="tl-year">2022</span><span class="tl-month">10月</span></div>
+<div class="tl-right">
+<div class="tl-label">Open</div>
+<div class="tl-title">TAPKOP オープン。East Ventures 出資。</div>
+<div class="tl-body">美留和 9,000坪。PAN-PROJECTS × VUILD 設計。釧路川をカヌーで下って敷地に入る。乗馬でチェックイン。<br><br>★5.0を維持。<strong>1泊¥340,000。年間売上2,200万円実績。</strong>この数字を評価してEast VenturesがEnabler Inc.に優先株5%・5,000万円出資（時価総額10億円評価）。「個人の趣味プロジェクト」から、VCがベットするスタートアップになった。</div>
+<div class="tl-tags"><span class="tl-tag open">稼働中 ★5.0</span><span class="tl-tag">年売上2,200万</span><span class="tl-tag">East Ventures ¥5,000万</span></div>
+<img alt="TAPKOP 空撮" class="tl-img" loading="lazy" src="img/tapkop_aerial_village.webp"/>
+</div>
+</div>
+
+<div class="tl-item r">
+<div class="tl-left"><span class="tl-year">2023</span><span class="tl-month">〜2024</span></div>
+<div class="tl-right">
+<div class="tl-label">Expansion</div>
+<div class="tl-title">香川・瀬戸内、空き家プロジェクト。</div>
+<div class="tl-body">弟子屈モデルを日本の空き家問題に適用する実験を開始。15物件以上をスクリーニング。<br><br><strong>P01: 小豆島 RC造4階建て、全室オーシャンビュー、¥4,580万（2023年リノベ済）。</strong>P15: 伊吹島の廃墟。取得費ほぼゼロ。改修費を全額体験に変えられる。<br><br>「取得コストが低いほど、体験への投資が増える」——この逆転の発想が、香川プロジェクトの核だ。</div>
+<div class="tl-tags"><span class="tl-tag">瀬戸内・小豆島</span><span class="tl-tag">伊吹島</span><span class="tl-tag">空き家再生</span></div>
+<img alt="香川・瀬戸内" class="tl-img" loading="lazy" src="img/kagawa_hero_real.jpg"/>
+</div>
+</div>
+
+<div class="tl-item r">
+<div class="tl-left"><span class="tl-year">2024</span><span class="tl-month">秋</span></div>
+<div class="tl-right">
+<div class="tl-label">Acquisition #5</div>
+<div class="tl-title">Hawaii Kai House 取得。ハワイへ。</div>
+<div class="tl-body">5827/5829 Kalanianaole Hwy, Honolulu, HI 96821。<br><br>動機はオーナーたちの声だった。「弟子屈には来られる。でも、冬に海があればいい。」北海道の夏とハワイの冬を、<strong>同じオーナーパスで使える設計</strong>にする。管理はHawaiian Joy LLC（Waikiki）。</div>
+<div class="tl-tags"><span class="tl-tag open">稼働中</span><span class="tl-tag">Hawaii Kai</span><span class="tl-tag">Oahu</span></div>
+<img alt="Hawaii" class="tl-img" loading="lazy" src="img/pro_hawaii_hero.webp"/>
+</div>
+</div>
+
+
+<div class="tl-item r">
+<div class="tl-left"><span class="tl-year">2026</span><span class="tl-month">9月</span></div>
+<div class="tl-right">
+<div class="tl-label">Open</div>
+<div class="tl-title">天空道場（熊牛原野）完成。Jiu-Jitsu × SOLUNA。</div>
+<div class="tl-body">2019年に取得した熊牛原野に、ついに道場が完成する。温泉、BJJ DOJO、サウナ、星空。<strong>1泊¥80,000。</strong><br><br>弟子屈の森の中で柔術を練り、温泉に入り、サウナで汗を流す。同じコミュニティが、同じ場所に帰ってくる夏になる。</div>
+<div class="tl-tags"><span class="tl-tag">2026年9月完成予定</span><span class="tl-tag">温泉 + BJJ DOJO</span><span class="tl-tag">Jiu-Jitsu × SOLUNA</span></div>
+<img alt="天空道場の星空" class="tl-img" loading="lazy" src="img/kumaushi_b_stars_exterior.webp"/>
+</div>
+</div>
+
+</div>
+
+<section class="future-band">
+<div class="future-inner">
+<div class="section-label r">Next — これからの場所</div>
+<div class="future-grid r">
+<div class="fc"><div class="yr">進行中</div><div class="place">香川・瀬戸内</div><div class="desc">小豆島P01 + 伊吹島P15。15物件スクリーニング中。空き家を「世界最高の島の拠点」に変える。</div></div>
+<div class="fc"><div class="yr">土地取得済み</div><div class="place">和歌山・熊野古道</div><div class="desc">熊野古道の入口。2028年着工予定。山と海と信仰の道が交わる場所に、現代のリトリートを。</div></div>
+<div class="fc"><div class="yr">交渉中</div><div class="place">白馬・八方</div><div class="desc">江戸〜明治期の古民家。土壁・囲炉裏・梁を残したまま現代のラグジュアリーに。2028年開業予定。</div></div>
+<div class="fc"><div class="yr">2026年秋</div><div class="place">美留和ビレッジ</div><div class="desc">3万坪の原野に、ストローベイル・コンテナ・菌糸体家具。新建築の実験場が動き始める。</div></div>
+</div>
+</div>
+</section>
+
+<section class="cta-band r">
+<h2>この物語に、加わる。</h2>
+<p>オーナーになることは、場所の共同制作者になることだ。<br>1口¥120万〜、年間30泊。管理はSOLUNAがすべてやる。</p>
+<a data-sln-track="purchase_click" href="buy">オーナーになる →</a>
+</section>
+
+<script defer src="/js/sln-track.js"></script>
+<footer class="sln-footer">
+<div style="max-width:1100px;margin:0 auto">
+<div class="sf-brand"><span class="sf-logo">SOLUNA</span><span class="sf-sub">北海道弟子屈 · Hawaii · 瀬戸内 · Enabler Inc.</span></div>
+<div class="sf-grid">
+<div class="sf-col"><button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)"><span>物件</span><span class="sf-ic">+</span></button><div class="sf-bd"><a href="homes">全物件一覧</a><a href="tapkop">TAPKOP</a><a href="lodge">THE LODGE</a><a href="atami">WHITE HOUSE 熱海</a><a href="kumaushi">天空道場</a></div></div>
+<div class="sf-col"><button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)"><span>スキーム</span><span class="sf-ic">+</span></button><div class="sf-bd"><a href="scheme">共同所有のしくみ</a><a href="story">SOLUNAの物語</a><a href="blog">Journal</a></div></div>
+<div class="sf-col"><button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)"><span>フェスト</span><span class="sf-ic">+</span></button><div class="sf-bd"><a href="zamna">SOLUNA FEST HAWAII</a></div></div>
+<div class="sf-col"><button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)"><span>購入・参加</span><span class="sf-ic">+</span></button><div class="sf-bd"><a href="buy">オーナーになる</a><a href="scheme">スキームを見る</a></div></div>
+<div class="sf-col"><button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)"><span>Legal</span><span class="sf-ic">+</span></button><div class="sf-bd"><a href="terms">Terms</a><a href="tokushoho">特商法</a><a href="contact">Contact</a></div></div>
+</div>
+<div class="sf-copy" style="margin-top:24px">© 2025 Enabler Inc. — ★ Airbnb Super Host</div>
+</div>
+</footer>
 <script>
-function sfToggle(btn){
-  var bd=btn.nextElementSibling;
-  var open=btn.getAttribute('aria-expanded')==='true';
-  btn.setAttribute('aria-expanded',open?'false':'true');
-  bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
-}
-</script><script src="/lang.js"></script>
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+function sfToggle(btn){var bd=btn.nextElementSibling;var open=btn.getAttribute('aria-expanded')==='true';btn.setAttribute('aria-expanded',open?'false':'true');bd.style.maxHeight=open?'0':bd.scrollHeight+'px';}
+</script>
 </body>
 </html>

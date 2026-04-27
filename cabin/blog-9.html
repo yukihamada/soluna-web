@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/blog-9" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ただいまと言える場所を、みんなで持つ — SOLUNA Journal</title>
+<meta content="「実家がない」と言った友人は、港区のタワマンの32階に住んでいた。メルカリからNOT A HOTELへ、そしてSOLUNAへ。なぜ太陽と月の名前をつけたのか、正直に書く。" name="description"/>
+<meta content="ただいまと言える場所を、みんなで持つ — SOLUNA Journal" property="og:title"/>
+<meta content="「実家がない」と言った友人は、港区のタワマンの32階に住んでいた。メルカリからNOT A HOTELへ、そしてSOLUNAへ。なぜ太陽と月の名前をつけたのか、正直に書く。" property="og:description"/>
+<meta content="https://solun.art/img/tapkop_communal_fire.webp" property="og:image"/>
+<meta content="article" property="og:type"/>
+<meta content="https://solun.art/img/tapkop_communal_fire.webp" name="twitter:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23c8a455'/></svg>" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.5);
+  --gold-soft:rgba(200,164,85,.08);
+  --bg:#050505;
+  --bg-soft:#080808;
+  --line:#131313;
+  --text:#f0ece4;
+  --text-dim:#777;
+  --text-soft:#444;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-feature-settings:'palt'}
+::selection{background:var(--gold);color:#000}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+.gold{color:var(--gold)}
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+.w{max-width:640px;margin:0 auto;padding:0 20px}
+.fi{width:100vw;margin-left:calc(-50vw + 50%);max-height:64vh;object-fit:cover;display:block}
+.article-header{padding:80px 0 40px}
+.cat-chip{display:inline-block;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700;border:1px solid var(--gold-dim);padding:5px 12px;border-radius:100px;margin-bottom:20px}
+.article-header h1{font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.12;margin-bottom:12px}
+.article-header .subh{font-size:clamp(1rem,2.5vw,1.2rem);font-weight:400;color:#555;line-height:1.5;margin-bottom:20px;font-style:italic}
+.byline{font-size:11.5px;color:#555;display:flex;gap:6px;align-items:center}
+.byline span{color:#333}
+.byline .sep{color:#222}
+.prose{padding:40px 0 64px}
+.prose p{font-size:15px;line-height:2.15;color:#c8c4bc;margin-bottom:26px}
+.prose strong{color:#f0ece4;font-weight:700}
+.prose h2{font-size:1.05rem;font-weight:800;margin:48px 0 16px;color:var(--gold);letter-spacing:.04em}
+.pq{border-left:3px solid var(--gold);margin:36px 0;padding:0 0 0 22px;font-size:1.2rem;font-style:italic;color:#bbb;line-height:1.85}
+.author-card{border-top:1px solid var(--line);padding:32px 0;margin-top:8px;display:grid;grid-template-columns:56px 1fr;gap:16px;align-items:start}
+.author-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#d4b56a,#a8843a);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#050505;flex-shrink:0}
+.author-name{font-size:14px;font-weight:700;margin-bottom:4px}
+.author-bio{font-size:11.5px;color:#555;line-height:1.7}
+.related{border-top:1px solid var(--line);padding:32px 0;margin-top:8px}
+.related .lbl{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-soft);font-weight:700;margin-bottom:14px}
+.related-links{display:flex;flex-wrap:wrap;gap:10px}
+.related-links a{font-size:12px;color:#555;border:1px solid #181818;padding:8px 14px;border-radius:6px;transition:border-color .2s,color .2s}
+.related-links a:hover{border-color:var(--gold);color:var(--gold)}
+.r{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.r.in{opacity:1;transform:translateY(0)}
+@media(max-width:520px){.article-header{padding:56px 0 28px}}
+</style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a href="collection">物件一覧</a>
+<a href="village">ヴィラ建築</a>
+<a href="blog">Journal</a>
+<a href="faq">FAQ</a>
+<a class="gnav-cta" href="buy">オーナーになる</a>
+</div>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+
+<div style="padding-top:57px">
+<img alt="弟子屈、TAPKOPの焚き火と星空" class="fi" loading="eager" src="img/tapkop_communal_fire.webp"/>
+</div>
+
+<div class="w">
+<header class="article-header">
+  <span class="cat-chip">FOUNDER'S NOTE</span>
+  <h1>ただいまと言える場所を、みんなで持つ</h1>
+  <p class="subh">太陽と月のあいだに、僕らは家を建てる</p>
+  <div class="byline">
+    <span>濱田 優貴</span>
+    <span class="sep">·</span>
+    <span>2026年4月</span>
+    <span class="sep">·</span>
+    <span>約4,000字</span>
+  </div>
+</header>
+
+<article class="prose">
+
+<div class="pq r">「実家がない」</div>
+
+<p class="r">ある夜、港区のタワマンの32階で、ある経営者がぽつりとそう言った。年商何十億の会社をやっていて、家族もいて、夜景は綺麗で、ワインは美味い。それでも彼はこう言ったのだ。「俺、帰れる場所がないんだよ」と。</p>
+
+<p class="r">僕は黙ってうなずいた。なぜならそれは、ここ数年、僕が東京で何度も聞いた言葉だったからだ。広尾でも、麻布でも、代官山でも、誰かが小さな声で同じことをつぶやく。年収も、フォロワー数も、肩書きも、何ひとつ「帰れる場所」をくれなかった。</p>
+
+<p class="r">僕がSOLUNAを始めた理由は、つきつめればこの一言に尽きる。</p>
+
+<div class="pq r">ただいまと言える場所を、みんなで持とう。</div>
+
+<h2 class="r">1. メルカリで学んだこと、NOT A HOTELで気づいたこと</h2>
+
+<p class="r">僕のキャリアは、いわゆる「スケールするプロダクト」と一緒に歩いてきた。</p>
+
+<p class="r">メルカリでは、CPO/CINOとしてアプリの成長を見届けた。ダウンロード数が一桁、二桁と増えていくのを毎朝ダッシュボードで眺める日々。日本最大のフリマアプリが、誰かの押し入れに眠っていた何かを、誰かの新しい暮らしに変えていく。「個人と個人が、信頼でつながる」。そのインフラを作ったという自負は、いまでも僕の背骨になっている。</p>
+
+<p class="r">そのあと、NOT A HOTELの共同創業に飛び込んだ。2018年から2024年まで、6年間。「家を、シェアして、旅するように暮らす」という思想に惹かれた。実際、宮崎の青島も、那須も、軽井沢も、水上も、息を呑むほど美しい。</p>
+
+<p class="r">ただ、走りながら、僕の中でだんだんと違う問いが大きくなっていった。</p>
+
+<div class="pq r">「これは、誰のための場所なんだろう?」</div>
+
+<p class="r">豪邸を1日単位で買えるのは素晴らしい。でも、僕がほしかったのは、もう少し違うものだった。豪華さじゃなくて、土の匂い。サービスじゃなくて、面倒見。所有じゃなくて、共同体。</p>
+
+<p class="r">NOT A HOTELを愛しているし、創業者たちは今でも友人だ。でも僕は、もう一つ違う方向の「家」を作る必要があった。だからEast VenturesにEnabler Inc.へ5,000万円・優先株5%で出資してもらい、自己資本も合わせてSOLUNAを立ち上げた。</p>
+
+<h2 class="r">2. SOL（太陽）とLUNA（月）——二つの光が同じ家を照らす</h2>
+
+<p class="r">新しいブランドの名前を決めるとき、僕は弟子屈にいた。</p>
+
+<p class="r">北海道、屈斜路湖のほとり。冬の夜、外気はマイナス15度。露天風呂から立ち上る湯気の向こうに、月が出ていた。あんなに大きな月は、東京では見たことがない。湖面が銀色に光って、近くの森から鹿の声がした。</p>
+
+<p class="r">朝になると、太陽が湖の向こうから昇ってきた。同じ場所が、まったく違う表情を見せる。昼は太陽が、夜は月が、同じ屋根を照らす。</p>
+
+<p class="r">ラテン語で太陽は「SOL」、月は「LUNA」。</p>
+
+<div class="pq r">SOLUNA。</div>
+
+<p class="r">人間にも、SOLの時間とLUNAの時間がある。社会で戦う昼の自分と、ひとりに戻る夜の自分。大切な人と笑う時間と、ひとりで星を見上げる時間。「I」の自分と「We」の自分。どちらかだけでは生きられない。両方を、同じ場所で迎え入れたかった。</p>
+
+<p class="r">ちなみに、Enablerは動詞だ。「Enable（可能にする）」が語源で、テクノロジーの会社。一方、SOLUNAは名詞。場所の名前であり、コミュニティの名前であり、誰かが「ただいま」と言える固有名詞。</p>
+
+<p class="r"><strong>動詞が場所を作り、名詞が人を迎える。</strong>この二段構えが、僕らのいまの全てだ。</p>
+
+<h2 class="r">3. 弟子屈の夜——TAPKOP、LODGE、天空道場</h2>
+
+<p class="r">弟子屈には、いま3つの拠点がある。TAPKOP（タプコプ）、THE LODGE、そして天空道場。</p>
+
+<p class="r">TAPKOPはアイヌ語で「丘」を意味する。摩周湖と屈斜路湖のあいだに広がる、もともと牧場だった土地だ。買ったとき、地元のおじいちゃんが「あんた、ここに何作るんだ」と聞いてきた。「フェスとサウナと、みんなが帰れる家です」と答えたら、しばらく黙って、「ええな」と笑ってくれた。</p>
+
+<p class="r">夜、TAPKOPの焚き火を囲むと、不思議なことが起きる。</p>
+
+<p class="r">普段は名刺交換から始まる人たちが、薪をくべながら、急に子供の頃の話をしはじめる。サウナで汗を流したあと、湖に飛び込んで、月明かりだけで戻ってくる。スマホは誰もさわらない。</p>
+
+<div class="pq r">「なんか、ここにいると自分に戻れる気がします」</div>
+
+<p class="r">東京から来た20代のクリエイターがそう言ったとき、僕は心の中でガッツポーズした。それだ。それを作りたかったんだ。シンプルで清潔で、余計なものが何もない。だからこそ、人は自分に戻れる。</p>
+
+<p class="r">THE LODGEは、もう少し静かな場所。一人で本を読んだり、原稿を書いたりするための家。天空道場は、柔術と瞑想のための畳のスペース。三つ揃って、SOLUNA弟子屈という一つの「集落」になっている。そして、熱海、ハワイ、瀬戸内海の伊吹島へ。それぞれの土地の表情で、僕らの「実家」は少しずつ増えている。</p>
+
+<h2 class="r">4. 「作る側」と「住む側」を、同じ人間にする</h2>
+
+<p class="r">不動産業界のいちばん歪んだところは、「作る人」と「住む人」が別の人間だということだ。</p>
+
+<p class="r">ディベロッパーは利回りで設計する。住む人は、決まった選択肢から選ぶ。間取りも、素材も、コミュニティのルールも、全部「作る側」が決めている。だから街には、似たような顔のマンションが並ぶ。</p>
+
+<p class="r">SOLUNAでは、これを反転させたかった。</p>
+
+<p class="r">1口から所有権が買える共同所有モデルにしたのは、「作る側」と「住む側」を同じ人間にするためだ。所有者は、ただのゲストじゃない。畑の区画を決める会議に出る。サウナの薪の種類について議論する。秋の収穫祭の音楽を選ぶ。</p>
+
+<p class="r"><strong>これは「投資」じゃない。「参加」だ。</strong></p>
+
+<p class="r">実際、いま空き家再生のプロジェクトも進めていて、菌類で作る断熱パネルや、CLT（Cross Laminated Timber）を工具なしで組める構造システムも開発中だ。Enablerのテクノロジー部門が淡々と研究している。技術で、地方の家を、もっと安く、もっと美しく、もっと長く生きさせる。</p>
+
+<p class="r">これも結局、「作る人=住む人」の延長線上にある。自分が住む家の構造を、自分たちのテクノロジーで作る。当たり前のことを、ようやく現代の手段でやり直しているだけだ。</p>
+
+<h2 class="r">5. AI時代の「I」と「We」</h2>
+
+<p class="r">僕はテクノロジーが大好きだ。Enablerでは毎日のようにAIをいじっているし、Rustで自分用のツールを書く時間が、いまだに人生で一番楽しい時間のひとつだ。</p>
+
+<p class="r">でも、AIが進めば進むほど、人間は「I」に閉じこもりやすくなる、と僕は感じている。</p>
+
+<p class="r">ChatGPTは僕より僕のことに詳しいかもしれない。でも、ChatGPTは僕に「お前、最近ちょっと顔色悪いぞ。今夜飲み行こう」とは言わない。AIに囲まれた「I」は、究極的に孤独だ。</p>
+
+<div class="pq r">だから「We」の場所が必要なんだ。</div>
+
+<p class="r">弟子屈で、肉を焼きながら、知らない誰かと「最近どう?」と話す。サウナで隣に座った人と、無言で水風呂に入る。柔術の道場で、お互いの首を絞めあったあとに笑う。あの体温と汗と、ちょっとした気まずさを含む時間こそが、「We」だ。</p>
+
+<p class="r">SOLUNAは、AIと正反対の場所を作っているわけじゃない。むしろ逆で、AI時代だからこそ、人間が「We」を持てる場所が必要だ、と思っている。Enablerの技術で運営を効率化し、浮いた時間と心の余白を、人と人がただ一緒にいる時間に投資する。</p>
+
+<p class="r">「I」を強くするためのテクノロジーと、「We」を取り戻すための場所。両輪じゃないと、人間は壊れる。</p>
+
+<h2 class="r">6. 青帯のまま、道場を建てた理由</h2>
+
+<p class="r">僕は柔術の青帯だ。茶帯でも黒帯でもない、まだまだ修行中の身。</p>
+
+<p class="r">それなのに、弟子屈に天空道場という畳の空間を作る。青帯のうちに道場を建てるのは、順番が違うと思う人もいるかもしれない。</p>
+
+<p class="r">でも、僕は逆だと思っている。</p>
+
+<p class="r">道場というのは、強い人のためにあるんじゃない。「強くなりたい人」のためにある場所だ。だったら、道場を建てるのに段位は関係ない。むしろ、まだ青帯の僕が「ここで一緒に強くなりませんか」と言うほうが、よっぽどフラットでいい。</p>
+
+<p class="r">これも、「作る側=住む側」の話とつながっている。完成された人間が完成された場所を提供するんじゃない。途中の人間が、途中の場所を、みんなで一緒に作っていく。</p>
+
+<p class="r">サウナも同じ。ポーカーも同じ。音楽フェスも同じ。サウナは自分で作った。ポーカーは賞金総額で日本人上位100位以内に入ったこともあるし、WSOPのサイドイベントでインマネもした。最近は曲も作り始めている。資格や肩書きからじゃなく、ただ好きだから深く入っていった。そしてその場所に、同じものが好きな人たちを呼んでいる。</p>
+
+<p class="r">人生の半分以上、僕は何かのプロダクトを「完成させて」リリースしてきた。リリース日を決めて、バグを潰して、KPIを追いかけてきた。SOLUNAは、その逆をやっている。<strong>完成させない。常に途中。住む人と一緒に、毎年少しずつ形を変えていく。</strong></p>
+
+<p class="r">それでいい。むしろ、それがいい。</p>
+
+<h2 class="r">7. ただいまと言える場所を、みんなで持つということ</h2>
+
+<p class="r">弟子屈は、「実家っぽい」場所じゃない。そういう温かみとは少し違う。北海道の大自然、摩周湖、星空、熊牛の原野——パワースポットという言葉も違う、でもとにかく最高の場所なのだ、というのが正直なところだ。</p>
+
+<p class="r">そこに行くと、人は説明のつかない何かに触れる。普段の肩書きや焦りが、ただ薄くなっていく。言葉にしにくいけど、確かにそういうことが起きる。</p>
+
+<p class="r">その感覚を、もっと多くの人に届けたくて、SOLUNAを作っている。</p>
+
+<div class="pq r">ただいまと言える場所を、みんなで持つ。</div>
+
+<p class="r">この一文には、僕がメルカリで学んだこと（個人と個人が信頼でつながる）も、NOT A HOTELで気づいたこと（豪華さの先にあるもの）も、Enablerでやっていること（テクノロジーで可能にする）も、SOLUNAで作ろうとしていること（SOLとLUNA、IとWe）も、全部入っている。</p>
+
+<p class="r">家は、買うものじゃなくていい。借りるものでもなくていい。みんなで持って、みんなで作って、みんなで途中のままでいい。</p>
+
+<p class="r">太陽が昇り、月が昇り、また太陽が昇る。その循環の中に、誰かの「ただいま」がある。誰かの「おかえり」がある。それだけで、人間はたぶん、大丈夫だ。</p>
+
+<p class="r" style="color:#888;margin-top:48px">東京のタワマンの32階で「帰れる場所がない」とつぶやくあなたへ。弟子屈に、熱海に、ハワイに——説明のつかない最高の場所がある。1口からでいい。1泊からでいい。一緒に、その場所を持ちませんか。</p>
+
+<p class="r" style="color:#555">僕は、そこで焚き火を焚いて待っている。</p>
+
+<div class="author-card r">
+  <div class="author-avatar">濱</div>
+  <div>
+    <div class="author-name">濱田 優貴</div>
+    <div class="author-bio">元メルカリ CPO/CINO、NOT A HOTEL 共同創業者（2018-2024）。現在、Enabler Inc. CEO 兼 SOLUNA 創設者。柔術青帯、サウナとポーカーと旅と音楽を愛する。北海道弟子屈の焚き火の前か、東京の道場の畳の上にいることが多い。</div>
+  </div>
+</div>
+
+<div class="related r">
+  <div class="lbl">あわせて読む</div>
+  <div class="related-links">
+    <a href="blog-7">メルカリとNOT A HOTELで学んだこと</a>
+    <a href="blog-8">なぜSOLUNAをやっているのか</a>
+    <a href="story">濱田優貴の履歴書</a>
+    <a href="scheme">SOLUNAの仕組み</a>
+  </div>
+</div>
+</article>
+</div>
+
+<script>
+const obs = new IntersectionObserver(es => {
+  es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }});
+}, {threshold: 0, rootMargin: '0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+setTimeout(() => document.querySelectorAll('.r:not(.in)').forEach(el => el.classList.add('in')), 3000);
+</script>
+<script defer src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

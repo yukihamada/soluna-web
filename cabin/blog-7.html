@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/blog-7" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>メルカリとNOT A HOTELで学んだこと、SOLUNAで試していること。 — SOLUNA Journal</title>
+<meta content="メルカリのCPOとして「持つ人と使いたい人をつなぐ」を考え、NOT A HOTELの共同創業で共同所有の可能性を知った。その次にやるべきことが、SOLUNAだった。" name="description"/>
+<meta content="メルカリとNOT A HOTELで学んだこと、SOLUNAで試していること。 — SOLUNA Journal" property="og:title"/>
+<meta content="メルカリのCPOとして「持つ人と使いたい人をつなぐ」を考え、NOT A HOTELの共同創業で共同所有の可能性を知った。その次にやるべきことが、SOLUNAだった。" property="og:description"/>
+<meta content="https://solun.art/img/tapkop_aerial_village.webp" property="og:image"/>
+<meta content="article" property="og:type"/>
+<meta content="https://solun.art/img/tapkop_aerial_village.webp" name="twitter:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.5);
+  --gold-soft:rgba(200,164,85,.08);
+  --bg:#050505;
+  --bg-soft:#080808;
+  --line:#131313;
+  --line-soft:#0e0e0e;
+  --text:#f0ece4;
+  --text-dim:#777;
+  --text-soft:#444;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-feature-settings:'palt'}
+::selection{background:var(--gold);color:#000}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+.gold{color:var(--gold)}
+
+/* Nav */
+.tn{position:fixed;top:0;left:0;right:0;z-index:50;padding:14px 20px;background:rgba(5,5,5,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
+.tn-inner{max-width:680px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.tn-logo{font-size:13px;font-weight:800;letter-spacing:.15em;color:var(--gold)}
+.tn-links{display:flex;gap:18px;font-size:11px}
+.tn-links a{color:var(--text-dim)}
+.tn-links a:hover{color:var(--gold)}
+
+/* Article layout */
+.w{max-width:640px;margin:0 auto;padding:0 20px}
+
+/* Hero image — full bleed */
+.fi{width:100vw;margin-left:calc(-50vw + 50%);max-height:60vh;object-fit:cover;display:block}
+
+/* Article header */
+.article-header{padding:80px 0 40px}
+.cat-chip{display:inline-block;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700;border:1px solid var(--gold-dim);padding:5px 12px;border-radius:100px;margin-bottom:20px}
+.article-header h1{font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.12;margin-bottom:18px}
+.byline{font-size:11.5px;color:#555;display:flex;gap:6px;align-items:center}
+.byline span{color:#333}
+.byline .sep{color:#222}
+
+/* Prose */
+.prose{padding:40px 0 64px}
+.prose p{font-size:15px;line-height:2.1;color:#c8c4bc;margin-bottom:24px}
+.prose strong{color:#f0ece4;font-weight:700}
+.prose h2{font-size:1.1rem;font-weight:800;margin:40px 0 16px;color:var(--gold);letter-spacing:.05em}
+
+/* Pull quote */
+.pq{border-left:3px solid var(--gold);margin:32px 0;padding:0 0 0 20px;font-size:1.15rem;font-style:italic;color:#bbb;line-height:1.8}
+
+/* Timeline card */
+.tl-card{background:var(--bg-soft);border:1px solid var(--line);border-radius:10px;padding:24px;margin:28px 0;display:grid;grid-template-columns:80px 1fr;gap:20px;align-items:start}
+.tl-year{font-size:28px;font-weight:800;color:var(--gold);letter-spacing:-.04em;line-height:1}
+.tl-sub{font-size:9px;letter-spacing:.14em;color:#444;text-transform:uppercase;margin-top:4px}
+.tl-body{}
+.tl-body h3{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:8px}
+.tl-body p{font-size:12.5px;color:#555;line-height:1.7;margin:0}
+
+/* Full-width inline image */
+.fi-inline{width:100vw;margin-left:calc(-50vw + 50%);max-height:60vh;object-fit:cover;display:block;margin-top:8px;margin-bottom:8px}
+
+/* Author card */
+.author-card{border-top:1px solid var(--line);padding:32px 0;margin-top:8px;display:grid;grid-template-columns:56px 1fr;gap:16px;align-items:start}
+.author-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#d4b56a,#a8843a);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#050505;flex-shrink:0}
+.author-name{font-size:14px;font-weight:700;margin-bottom:4px}
+.author-bio{font-size:11.5px;color:#555;line-height:1.7}
+
+/* Related */
+.related{border-top:1px solid var(--line);padding:32px 0;margin-top:8px}
+.related .lbl{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-soft);font-weight:700;margin-bottom:14px}
+.related-links{display:flex;flex-wrap:wrap;gap:10px}
+.related-links a{font-size:12px;color:#555;border:1px solid #181818;padding:8px 14px;border-radius:6px;transition:border-color .2s,color .2s}
+.related-links a:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Next article */
+.next-article{border-top:1px solid var(--line);padding:32px 0;text-align:right}
+.next-article .lbl{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-soft);font-weight:700;margin-bottom:8px}
+.next-article a{font-size:13.5px;font-weight:700;color:var(--gold)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.r{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.r.in{opacity:1;transform:translateY(0)}
+
+@media(max-width:520px){
+  .article-header{padding:60px 0 30px}
+  .tl-card{grid-template-columns:1fr}
+  .tl-year{font-size:22px}
+}
+</style>
+<style id="gnav-css">
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+</style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav class="gnav">
+<a class="gnav-logo" href="index">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a href="collection">物件一覧</a>
+<a href="village">ヴィラ建築</a>
+<a href="faq">FAQ</a>
+<a href="owners">オーナーズ</a>
+<a class="gnav-cta" href="buy">オーナーになる</a>
+</div>
+<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
+<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
+<span style="font-size:9px;color:#3a3a3a">/</span>
+<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
+</button>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+<span></span><span></span><span></span>
+</div>
+</nav>
+<div style="padding-top:57px">
+<img alt="北海道弟子屈、TAPKOPの空撮" class="fi" src="img/tapkop_aerial_village.webp"/>
+</div>
+<div class="w">
+<header class="article-header">
+<div class="cat-chip">VISION × HISTORY</div>
+<h1>メルカリとNOT A HOTELで学んだこと、SOLUNAで試していること。</h1>
+<div class="byline">
+<span>濱田 優貴</span>
+<span class="sep">·</span>
+<span>2026年4月</span>
+<span class="sep">·</span>
+<span>約8分</span>
+</div>
+</header>
+<article class="prose">
+<p><strong>日本全国に、空き家が1,000万戸ある。</strong></p>
+<p>そのうちの多くは、誰も住んでいないのに固定資産税だけが発生して、老朽化しながら朽ちていく。一方で、「別荘を持ちたい」という人はたくさんいる。持てないのは、価格が高いから、管理が面倒だから、一人で維持するコストが重いから——という理由がほとんどだ。</p>
+<p>この「持て余している場所」と「持ちたい人」を、もっとうまくつなぐことはできないか。そういうことをずっと考えてきた。</p>
+<p>考えてきた背景には、2つの経験がある。メルカリと、NOT A HOTELだ。</p>
+
+<h2>メルカリが教えてくれたこと</h2>
+
+<p>2014年から、メルカリのCPO（最高プロダクト責任者）として製品設計に関わった。あのプロダクトの核心は、シンプルだ。<strong>「持っている人」と「使いたい人」をつなぐ</strong>。それだけだ。</p>
+<p>フリマという概念は昔からあった。でも、スマートフォンのカメラと決済と評価システムを組み合わせることで、「売るのが面倒くさい」という摩擦がほぼゼロになった。摩擦がゼロになると、使われていなかったものが一気に流通し始めた。タンスの中の服が、本棚の本が、子供が使わなくなったおもちゃが。</p>
+<p>それと同じことが、不動産でも起きるはずだと思っていた。</p>
+<p>使われていない別荘、使われていない空き家、使いきれない土地——それらを「使いたい人」とつなぐ仕組みを、誰かが作るべきだと。ただ、不動産は服より複雑だ。法律があって、修繕が必要で、誰が管理するかという問題がある。だからこそ、まだ誰も解いていない。</p>
+
+<div class="pq">フリマが「使われていないもの」を動かしたように、共同所有は「使われていない場所」を動かせる。</div>
+
+<h2>NOT A HOTELで見えたこと</h2>
+
+<p>2018年から、NOT A HOTELの立ち上げに関わった。共同創業という立場で、6年間、プロダクトとビジネスを内側から見た。</p>
+<p>NAHの基本思想は正しかった。別荘を一人で持つのではなく、複数人で分割所有して、使わない時間は賃貸収益に変える。日本初の本格的な共同所有モデルで、それはたしかに機能した。</p>
+<p>ただ、2つのことが気になり続けた。</p>
+<p>ひとつは、価格だ。NAHの最安クラスでも、1口あたり2,000万円前後からスタートする。それは多くの人にとって届かない価格帯だ。共同所有という概念を、もっと多くの人に開きたい——そのためには、エントリーポイントを下げる必要がある。</p>
+<p>もうひとつは、建築の作り方だ。NAHの物件はどれも美しい。著名建築家が設計して、高品質な素材を使って、丁寧に作られている。でも、それはまったく新しい建物を建てるモデルだ。日本にある1,000万戸の空き家には手が届いていない。</p>
+
+<div class="tl-card r">
+<div>
+<div class="tl-year">2018</div>
+<div class="tl-sub">NOT A HOTEL 共同創業</div>
+</div>
+<div class="tl-body">
+<h3>共同所有モデルの可能性を確信した6年間</h3>
+<p>「別荘を分割して所有する」という概念が日本で機能することを証明した。同時に、「価格の壁」と「新築偏重」という2つの課題を内側から見た。</p>
+</div>
+</div>
+
+<h2>空き家 × 共同所有 という掛け算</h2>
+
+<p>SOLUNAはその2つの課題への回答として始まった。</p>
+<p>空き家を対象にする。すると取得価格が劇的に下がる。北海道弟子屈では、THE LODGEを980万円で取得した。東京の小さなワンルームより安い価格で、自然の中に立つ本格的な木造建築が手に入る。</p>
+<p>そこに共同所有モデルを適用する。8口に分割すれば、1口あたり122.5万円。手付金10万円から始められる。「別荘を持つ」という体験のエントリーポイントが、大幅に変わる。</p>
+<p>さらに、使われていない時間はBeds24で運用して、収益をオーナーに還元する。THE LODGEは年間1,000万円以上の稼働実績がある。この数字は誇張でも理想値でもなく、実績だ。</p>
+
+<h2>新しい建築手法を実験する場所としても</h2>
+
+<p>もうひとつ、SOLUNAで試したいことがある。<strong>建築の方法論を変えること</strong>だ。</p>
+<p>日本の空き家問題の根にあるのは、「古い建物には価値がない」という思い込みだ。新築を建てることが正しく、リノベーションは妥協だという価値観がある。でも、本当にそうか。</p>
+<p>北海道弟子屈の美留和ビレッジは、約10.7ヘクタール（3万坪以上）の原野だ。ここに、これまでとは違う建築手法で建物を作ろうとしている。麦わら（ストローベイル）、廃棄木材、地元の石材、菌類（マイコリウム）を使った素材——土地の持っているものを使って、建物を作る。</p>
+<p>輸送コストがかからない。廃棄されるはずのものが素材になる。完成した建物はその土地に固有の表情を持つ。そういう建築が、日本中の空き家再生にも応用できるはずだ。</p>
+
+<div class="pq">土地にあるものを使って建てる。それが一番安く、一番美しく、一番長持ちする。</div>
+
+<h2>弟子屈から始まって、どこへ向かうか</h2>
+
+<p>弟子屈で始まったSOLUNAは、今、複数の方向に動いている。</p>
+<p>香川・瀬戸内では、小豆島と伊吹島の空き家プロジェクトを進めている。島という立地は、「使うために意志が要る場所」を作り出す。気軽には来られないが、来れば深い体験がある。</p>
+<p>ハワイでは、ホノルルとハワイカイの2拠点を展開中だ。日本と海外をセットで持てるという体験は、既存のどの別荘サービスにもなかったものだ。</p>
+<p>和歌山の海岸線、白馬の山岳地帯——それぞれ違う自然環境と、違う建築手法の実験地として考えている。均質なリゾートを量産するのではなく、それぞれの場所の固有性を最大化すること。それがSOLUNAのやり方だ。</p>
+
+</article>
+</div>
+<img alt="弟子屈の夜明け、SOLUNA LODGEからの眺め" class="fi-inline" src="img/lodge_morning_view.webp"/>
+<div class="w">
+<article class="prose" style="padding-top:40px">
+
+<h2>空き家再生は、次の10年の最大のテーマだ</h2>
+
+<p>2030年には、日本の空き家率が20%を超えると言われている。5軒に1軒が空き家になる社会だ。それは問題として語られることが多いが、別の見方をすれば、「使われるのを待っている場所」が日本全国に膨大に存在するということでもある。</p>
+<p>その場所に、適切な人をつなぐ仕組みを作れば、地方の過疎は「課題」ではなく「機会」に変わる。メルカリが使われていないものを動かしたように、SOLUNAは使われていない場所を動かしたい。</p>
+<p>NAHで学んだ共同所有のモデルを、もっと多くの人が参加できる価格帯に落とす。弟子屈から始まった実験を、日本各地の空き家に適用していく。新しい建築手法と組み合わせることで、コストを下げながら体験の質を上げる。</p>
+<p><strong>それが、今SOLUNAがやっていることの全体像だ。</strong></p>
+<p>まだ実験の途中で、完成形はない。でも、方向性は決まっている。持て余されている場所を、最高の体験に変える。それを、共同所有というかたちで多くの人に開く。</p>
+
+</article>
+
+<div style="background:var(--bg-soft);border:1px solid var(--gold-dim);border-radius:10px;padding:28px;margin-bottom:40px" class="r">
+<div style="font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px">SOLUNA — STORY</div>
+<div style="font-size:15px;font-weight:700;margin-bottom:10px;color:var(--text)">これまでの歩みをタイムラインで読む</div>
+<div style="font-size:13px;color:#666;margin-bottom:18px;line-height:1.7">メルカリ・NAH・弟子屈・ハワイ——SOLUNAが生まれるまでの全史。</div>
+<a href="story" style="display:inline-block;background:var(--gold);color:#040404;font-size:12px;font-weight:800;letter-spacing:.06em;padding:12px 22px;border-radius:6px;text-decoration:none">ストーリーを読む →</a>
+</div>
+
+<div class="author-card r">
+<div class="author-avatar">Y</div>
+<div>
+<div class="author-name">濱田 優貴</div>
+<div class="author-bio">Enabler Inc. CEO / 元メルカリ CPO / NOT A HOTEL 共同創業者 / 柔術青帯</div>
+</div>
+</div>
+<div class="related r">
+<div class="lbl">関連リンク</div>
+<div class="related-links">
+<a href="story">→ SOLUNAの全史（タイムライン）</a>
+<a href="blog-4">→ 弟子屈3万坪を買った話</a>
+<a href="blog-5">→ なぜ別荘は共同で持つべきか</a>
+<a href="blog-6">→ ¥1万の空き家を世界最高の拠点に</a>
+<a href="collection">→ 全物件一覧</a>
+</div>
+</div>
+<div class="next-article r">
+<div class="lbl">次の記事</div>
+<a href="blog-6">¥1万の空き家を、世界最高の島の拠点にする話 →</a>
+</div>
+</div>
+<script>
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+<script defer src="/js/sln-track.js"></script>
+<div style="background:#070707;border:1px solid #131313;border-radius:20px;padding:36px 32px;max-width:480px;margin:48px auto 0;text-align:center">
+<div style="font-size:9px;letter-spacing:.28em;color:#c8a455;text-transform:uppercase;margin-bottom:12px">SOLUNA JOURNAL</div>
+<p style="font-size:18px;font-weight:700;color:#f0ece0;margin:0 0 8px;line-height:1.4">続きをメールで受け取る</p>
+<p style="font-size:12px;color:#555;margin:0 0 20px;line-height:1.7">空き家再生・共同所有・新しい建築方法の実験。週1〜2通。いつでも解除できます。</p>
+<div style="display:flex;gap:8px;max-width:360px;margin:0 auto">
+<input id="b7-email" type="email" placeholder="your@email.com" style="flex:1;padding:12px 16px;background:#0d0d0d;border:1px solid #1f1f1f;border-radius:10px;color:#f0ece0;font-size:13px;outline:none"/>
+<button onclick="b7signup()" style="padding:12px 20px;background:#c8a455;color:#000;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap">登録 →</button>
+</div>
+<p id="b7-done" style="display:none;font-size:13px;color:#c8a455;margin-top:16px">✓ 登録しました。ログインリンクをメールで送りました。</p>
+</div>
+<script>
+async function b7signup(){
+  const email=document.getElementById('b7-email').value.trim();
+  if(!email)return;
+  try{
+    await fetch('/api/soluna/akiya-signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,source:'blog-7'})});
+    if(window.sln)sln.track('email_signup',{source:'blog-7'});
+    document.getElementById('b7-done').style.display='block';
+    document.getElementById('b7-email').style.display='none';
+    document.querySelector('[onclick="b7signup()"]').style.display='none';
+  }catch(e){alert('エラーが発生しました。もう一度お試しください。');}
+}
+</script>
+<style>
+footer{padding:64px 20px 36px;max-width:1100px;margin:0 auto}
+footer .f-top{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-bottom:36px}
+@media(max-width:900px){footer .f-top{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){footer .f-top{grid-template-columns:1fr 1fr}}
+footer .f-col h4{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+footer .f-col p,footer .f-col a{display:block;font-size:11px;color:#333;line-height:2;text-decoration:none}
+footer .f-col a:hover{color:#c8a455}
+footer .f-copy{font-size:9px;color:#1a1a1a;letter-spacing:.18em;text-align:center;padding-top:18px;border-top:1px solid #111}
+</style>
+<style>
+.sln-footer{padding:48px 24px 28px;max-width:1200px;margin:60px auto 0;border-top:1px solid #0e0e0e}
+.sf-brand{display:flex;align-items:center;gap:10px;margin-bottom:32px}
+.sf-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455}
+.sf-sub{font-size:10px;color:#2a2a2a;letter-spacing:.04em}
+.sf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid #0d0d0d;border-left:1px solid #0d0d0d}
+.sf-col{border-right:1px solid #0d0d0d;border-bottom:1px solid #0d0d0d}
+.sf-hd{width:100%;background:none;border:none;color:#2e2e2e;font-size:9px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;padding:14px 16px;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:inherit}
+.sf-hd:hover{color:#555}
+.sf-ic{transition:transform .25s;font-size:14px;color:#222}
+.sf-hd[aria-expanded=true] .sf-ic{transform:rotate(45deg)}
+.sf-bd{display:none;padding:0 16px 16px}
+.sf-bd.open{display:block}
+.sf-bd a{display:block;font-size:10.5px;color:#252525;line-height:2.2;text-decoration:none;transition:color .15s}
+.sf-bd a:hover{color:#c8a455}
+.sf-copy{font-size:8.5px;color:#151515;letter-spacing:.16em;text-align:center;padding:20px 0 8px;border-top:1px solid #0a0a0a;margin-top:12px}
+@media(max-width:900px){.sf-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.sf-grid{grid-template-columns:1fr 1fr}}
+</style>
+<footer class="sln-footer">
+<div class="sf-brand">
+<span class="sf-logo">SOLUNA</span>
+<span class="sf-sub">北海道弟子屈 · 8棟100人ビレッジ · Enabler Inc.</span>
+</div>
+<div class="sf-grid">
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span>物件</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a href="tapkop-story">TAPKOP — 弟子屈</a>
+<a href="lodge-story">THE LODGE — 美留和</a>
+<a href="nesting-story">NESTING — 美留和</a>
+<a href="atami-story">WHITE HOUSE — 熱海</a>
+<a href="kumaushi">KUMAUSHI BASE</a>
+<a href="village">美留和ビレッジ</a>
+<a href="collection">全物件一覧 →</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span>サービス</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a href="scheme">仕組み</a>
+<a href="buy">オーナーになる</a>
+<a href="owners">オーナーズ</a>
+<a href="faq">FAQ</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span>コミュニティ</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a href="village">ヴィラ建築</a>
+<a href="zamna">SOLUNA FEST</a>
+<a href="sound">SOUND</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span>ジャーナル</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a href="blog">ブログ一覧</a>
+<a href="story">SOLUNAの歴史</a>
+<a href="blog-4">弟子屈3万坪の話</a>
+<a href="blog-5">共同所有とは</a>
+<a href="blog-6">香川空き家</a>
+<a href="blog-7">メルカリ×NAH×SOLUNA</a>
+</div>
+</div>
+<div class="sf-col">
+<button aria-expanded="false" class="sf-hd" onclick="sfToggle(this)">
+<span>会社</span><span class="sf-ic">+</span>
+</button>
+<div class="sf-bd">
+<a href="https://enablerdao.com">Enabler Inc.</a>
+<a href="mailto:info@solun.art">info@solun.art</a>
+</div>
+</div>
+</div>
+<div class="sf-copy">© 2026 Enabler Inc. — SOLUNA</div>
+</footer>
+<script>
+function sfToggle(btn){
+  const bd=btn.nextElementSibling;
+  const open=bd.classList.toggle('open');
+  btn.setAttribute('aria-expanded',open);
+}
+</script>
+</body>
+</html>

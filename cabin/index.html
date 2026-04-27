@@ -574,10 +574,11 @@ footer { position: relative; z-index: 10; padding: 28px 56px; display: flex; ali
 <header>
   <a href="/" class="logo">SOLUNA</a>
   <nav class="header-nav">
-    <a href="/zamna">Fest</a>
+    <a href="/scheme">Scheme</a>
     <a href="#places">Places</a>
+    <a href="/zamna">Fest</a>
     <a href="/blog">Journal</a>
-    <a href="/buy">Buy</a>
+    <a href="/buy" style="color:var(--gold)">Buy</a>
   </nav>
   <button class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
     <span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455">EN</span>
@@ -592,9 +593,9 @@ footer { position: relative; z-index: 10; padding: 28px 56px; display: flex; ali
   <div class="hero-content reveal">
     <p class="hero-eyebrow">SOLUNA</p>
     <h1 class="hero-title" data-en="Owning alone is heavy.">ひとりで持つと、<br>重い。</h1>
-    <p class="hero-sub" data-en="Co-own, and a villa becomes an asset.<br>Hokkaido, Atami, Wakayama, Hawaii —<br>a place to return to, shared with the right people.">
+    <p class="hero-sub" data-en="Co-own, and a villa becomes an asset.<br>From ¥1.2M per share · 30 nights/year · Hokkaido, Atami, Wakayama, Hawaii —<br>a place to return to, shared with the right people.">
       みんなで持てば、別荘は資産になる。<br>
-      北海道3万坪、熱海、和歌山、ハワイ ―<br>
+      <span style="color:var(--gold);font-weight:500">1口¥120万〜 · 年間30泊</span> · 北海道、熱海、和歌山、ハワイ ―<br>
       帰れる場所を、仲間と分け合う。
     </p>
     <form class="email-form" id="hero-form">
@@ -624,7 +625,7 @@ footer { position: relative; z-index: 10; padding: 28px 56px; display: flex; ali
 <!-- ──────── TRUST BAR ──────── -->
 <div class="trust-bar">
   <div class="trust-item"><span class="trust-num">11</span><span data-en="locations — Hokkaido · Atami · Wakayama · Hawaii">拠点 — 北海道・熱海・和歌山・Hawaii</span></div>
-  <div class="trust-item"><span class="trust-num">2023</span><span data-en="~ in operation">〜 運営中</span></div>
+  <div class="trust-item"><span class="trust-num">5+</span><span data-en="owners">オーナー参加中</span></div>
   <div class="trust-item"><span class="trust-num">¥1.2M</span><span data-en="~ from 1 share">〜 1口から参加</span></div>
   <div class="trust-item"><span class="trust-num">30</span><span data-en="nights / year">泊 / 年の滞在権</span></div>
   <div class="trust-item"><span class="trust-num">0</span><span data-en="No middleman">管理会社・仲介なし</span></div>
@@ -641,7 +642,7 @@ footer { position: relative; z-index: 10; padding: 28px 56px; display: flex; ali
       <div class="how-n">01</div>
       <div class="how-title">まず、泊まる</div>
       <div class="how-desc">WHITE HOUSE 熱海は今すぐ予約できる。泊まって場所を感じ、コミュニティを知る。買うかどうかは、そのあとでいい。</div>
-      <a href="/cabin" class="how-link" data-track="how_stay">宿泊を予約する →</a>
+      <a href="/atami" class="how-link" data-track="how_stay">宿泊を予約する →</a>
     </div>
     <div class="how-step reveal">
       <div class="how-n">02</div>
@@ -696,54 +697,54 @@ footer { position: relative; z-index: 10; padding: 28px 56px; display: flex; ali
   </div>
   <div class="places-grid">
     <!-- 公開中 -->
-    <a href="/atami" class="place-card reveal" data-track="nav_atami">
+    <a href="/atami" class="place-card reveal" data-track="nav_atami" data-sln-track="purchase_click">
       <img src="/img/atami.webp" alt="WHITE HOUSE 熱海" loading="eager">
-      <div class="place-tag" data-en="Open">公開中</div>
+      <div class="place-tag" data-en="Open · Available">公開中 · 申込可</div>
       <div class="place-info">
         <div class="place-name">WHITE HOUSE 熱海</div>
         <div class="place-loc">Atami, Shizuoka</div>
         <div class="place-price">¥19,000,000〜 / 36泊</div>
-        <div class="place-badges"><span class="place-badge">¥55,000/泊</span></div>
+        <div class="place-badges"><span class="place-badge">¥55,000/泊</span><span class="place-badge" style="background:rgba(155,196,109,.15);color:#9bc46d;border-color:rgba(155,196,109,.3)" data-en="Accepting">受付中</span></div>
       </div>
     </a>
-    <a href="/tapkop" class="place-card reveal" data-track="nav_tapkop">
+    <a href="/tapkop" class="place-card reveal" data-track="nav_tapkop" data-sln-track="purchase_click">
       <img src="/img/tapkop_real1.webp" alt="TAPKOP" loading="eager">
-      <div class="place-tag" data-en="Open">公開中</div>
+      <div class="place-tag" data-en="Open · Available">公開中 · 申込可</div>
       <div class="place-info">
         <div class="place-name">TAPKOP</div>
         <div class="place-loc">Hokkaido, Japan</div>
         <div class="place-price">¥80,000,000〜 / 30泊</div>
-        <div class="place-badges"><span class="place-badge" data-en="Dog OK">犬OK</span></div>
+        <div class="place-badges"><span class="place-badge" data-en="Dog OK">犬OK</span><span class="place-badge" style="background:rgba(155,196,109,.15);color:#9bc46d;border-color:rgba(155,196,109,.3)" data-en="Accepting">受付中</span></div>
       </div>
     </a>
-    <a href="/lodge" class="place-card reveal" data-track="nav_lodge">
+    <a href="/lodge" class="place-card reveal" data-track="nav_lodge" data-sln-track="purchase_click">
       <img src="/img/lodge_new1.webp" alt="THE LODGE" loading="lazy">
-      <div class="place-tag" data-en="Open">公開中</div>
+      <div class="place-tag" data-en="Open · Available">公開中 · 申込可</div>
       <div class="place-info">
         <div class="place-name">THE LODGE</div>
         <div class="place-loc">Hokkaido, Japan</div>
         <div class="place-price">¥4,900,000〜 / 30泊</div>
-        <div class="place-badges"><span class="place-badge" data-en="Dog OK">犬OK</span></div>
+        <div class="place-badges"><span class="place-badge" data-en="Dog OK">犬OK</span><span class="place-badge" style="background:rgba(155,196,109,.15);color:#9bc46d;border-color:rgba(155,196,109,.3)" data-en="Accepting">受付中</span></div>
       </div>
     </a>
-    <a href="/nesting" class="place-card reveal" data-track="nav_nesting">
+    <a href="/nesting" class="place-card reveal" data-track="nav_nesting" data-sln-track="purchase_click">
       <img src="/img/nesting_exterior.webp" alt="NESTING" loading="lazy">
-      <div class="place-tag" data-en="Open">公開中</div>
+      <div class="place-tag" data-en="Open · Available">公開中 · 申込可</div>
       <div class="place-info">
         <div class="place-name">NESTING</div>
         <div class="place-loc">Hokkaido, Japan</div>
         <div class="place-price">¥8,900,000〜 / 30泊</div>
-        <div class="place-badges"><span class="place-badge" data-en="Dog OK">犬OK</span></div>
+        <div class="place-badges"><span class="place-badge" data-en="Dog OK">犬OK</span><span class="place-badge" style="background:rgba(155,196,109,.15);color:#9bc46d;border-color:rgba(155,196,109,.3)" data-en="Accepting">受付中</span></div>
       </div>
     </a>
-    <a href="/instant" class="place-card reveal" data-track="nav_instant">
+    <a href="/instant" class="place-card reveal" data-track="nav_instant" data-sln-track="purchase_click">
       <img src="/img/instant_dome_snow.webp" alt="インスタントハウス" loading="lazy">
-      <div class="place-tag" data-en="Open">公開中</div>
+      <div class="place-tag" data-en="Open · Available">公開中 · 申込可</div>
       <div class="place-info">
         <div class="place-name" data-en="Instant House">インスタントハウス</div>
         <div class="place-loc">Hokkaido, Japan</div>
         <div class="place-price">¥1,200,000〜 / 30泊</div>
-        <div class="place-badges"><span class="place-badge">¥25,000/泊</span></div>
+        <div class="place-badges"><span class="place-badge">¥25,000/泊</span><span class="place-badge" style="background:rgba(155,196,109,.15);color:#9bc46d;border-color:rgba(155,196,109,.3)" data-en="Accepting">受付中</span></div>
       </div>
     </a>
     <!-- 建設・計画中 -->
@@ -859,19 +860,19 @@ footer { position: relative; z-index: 10; padding: 28px 56px; display: flex; ali
         <div class="faq-a" data-en="HONOLULU VILLA and HAWAII KAI HOUSE require a minimum 1-month stay. Not a hotel — your own place. Work, create, rest — all in Hawaii for a month. A sense of &#39;having a home&#39; in Hawaii.">HONOLULU VILLAとHAWAII KAI HOUSEは最低1ヶ月単位でのご利用です。ホテルを借りるのではなく、自分の場所として使う。仕事・創作・休養、すべてをハワイで完結させる1ヶ月。「帰ってくる場所」がハワイにもある、という感覚です。</div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" data-en="How do I join the BLANK program?">BLANKプログラムへの参加方法は？</button>
-        <div class="faq-a" data-en="BLANK is a small-group retreat (max 8 people) held at SOLUNA owner properties in Hokkaido, Hawaii, and Atami. Dates are announced first to email subscribers. See the BLANK section below.">BLANKは少人数制（8名以下）の実行合宿です。SOLUNAオーナーの物件（北海道・ハワイ・熱海）で開催。日程はメール登録者に先行案内します。詳細は下のBLANKセクションから。</div>
+        <button class="faq-q" data-en="Can I use a loan to purchase?">ローンで購入できますか？</button>
+        <div class="faq-a" data-en="Yes, some financial institutions accept real estate co-ownership as collateral. We can introduce you to partner banks. Cash purchases are also common.">共有持分不動産を担保にできる金融機関があります。提携先のご紹介も可能です。一括払いの方も多くいます。</div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" data-en="Can non-members attend the festival?">フェスはメンバー以外も参加できますか？</button>
-        <div class="faq-a" data-en="Yes. SOLUNA FEST HAWAII tickets will be available to the general public. However, early access, VIP areas, and after-parties are member-priority.">はい。SOLUNA FEST HAWAIIのチケットはメンバー以外の方にも一般販売予定です。ただし、先行アクセス・VIPエリア・アフターパーティはメンバー優先となります。</div>
+        <button class="faq-q" data-en="Can I resell my share?">持分は売却できますか？</button>
+        <div class="faq-a" data-en="Yes. You can sell your share to other SOLUNA members or external buyers at any time. We also have a matching service within the community.">はい。持分はSOLUNAメンバー内または外部に随時売却できます。コミュニティ内のマッチングサービスもあります。</div>
       </div>
       <div class="faq-item">
         <button class="faq-q" data-en="Can companies and teams use SOLUNA?">法人や複数人のチームで利用できますか？</button>
-        <div class="faq-a" data-en="Yes. Retreats, team building, offsite meetings — corporate use is available. We can arrange accommodation for your entire team. Contact us for details.">はい。合宿・チームビルディング・オフサイトミーティングなど、法人名義でのご利用も可能です。チーム全員の滞在を一括手配することもできます。詳細はお問い合わせください。</div>
+        <div class="faq-a" data-en="Yes. Retreats, team building, offsite meetings — corporate use is available. We can arrange accommodation for your entire team.">はい。合宿・チームビルディング・オフサイトミーティングなど、法人名義でのご利用も可能です。チーム全員の滞在を一括手配することもできます。</div>
       </div>
     </div>
-    <a href="mailto:info@solun.art" class="faq-contact" data-en="Learn more → info@solun.art">詳しく聞く → info@solun.art</a>
+    <a href="/scheme" class="faq-contact" data-en="Learn the full scheme →" data-sln-track="consultation_click">スキームを詳しく見る →</a>
   </div>
 </section>
 

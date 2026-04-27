@@ -240,10 +240,15 @@ struct InvestmentSim {
     let nights: Int
     let airbnbPriceYen: Int?
 
-    var perNightCost: Int { priceYen / nights }
-    var marketRate: Int? { airbnbPriceYen }
-    var annualValue: Int { stayPriceYen * nights }
-    var savingVsMarket: Int? { airbnbPriceYen.map { ($0 - stayPriceYen) * nights } }
+    var annualMarketValue: Int? { airbnbPriceYen.map { $0 * nights } }
+    var paybackYears: Double? { annualMarketValue.map { Double(priceYen) / Double($0) } }
+    var annualSaving: Int? { airbnbPriceYen.map { ($0 - stayPriceYen) * nights } }
+
+    static func man(_ yen: Int) -> String {
+        let man = yen / 10_000
+        return man >= 10_000 ? "¥\(man / 10_000)億\(man % 10_000 > 0 ? "\(man % 10_000)万" : "")"
+                             : "¥\(man)万"
+    }
 
     static let data: [String: InvestmentSim] = [
         "lodge":    InvestmentSim(priceYen: 4_900_000,  stayPriceYen: 35_000,  nights: 30, airbnbPriceYen: 52_000),
@@ -263,36 +268,46 @@ struct InvestmentSim {
 extension PropertyDetailView {
     @ViewBuilder
     func investmentCard(_ sim: InvestmentSim) -> some View {
-        let fmt = { (n: Int) -> String in
-            let s = NumberFormatter()
-            s.numberStyle = .decimal
-            return (s.string(from: NSNumber(value: n)) ?? "\(n)") + "円"
-        }
         VStack(alignment: .leading, spacing: 12) {
-            Text("投資シミュレーション")
-                .font(.system(size: 11, weight: .heavy))
-                .tracking(1)
-                .foregroundStyle(Color(hex: "c8a455"))
-
-            HStack(spacing: 0) {
-                simItem(title: "取得価格", value: fmt(sim.priceYen), sub: "1口")
-                Divider().background(Color.white.opacity(0.08)).frame(height: 44)
-                simItem(title: "年間\(sim.nights)泊", value: fmt(sim.stayPriceYen), sub: "1泊あたり")
-                if let saving = sim.savingVsMarket {
-                    Divider().background(Color.white.opacity(0.08)).frame(height: 44)
-                    simItem(title: "市場比 年間", value: fmt(saving), sub: "お得", accent: true)
+            HStack {
+                Text("投資シミュレーション")
+                    .font(.system(size: 11, weight: .heavy))
+                    .tracking(1)
+                    .foregroundStyle(Color(hex: "c8a455"))
+                Spacer()
+                if let years = sim.paybackYears {
+                    Text(String(format: "約%.1f年で市場価値回収", years))
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundStyle(Color(hex: "9bc46d"))
+                        .padding(.horizontal, 8).padding(.vertical, 3)
+                        .background(Color(hex: "9bc46d").opacity(0.12))
+                        .clipShape(Capsule())
                 }
             }
 
-            if let airbnb = sim.airbnbPriceYen {
-                HStack(spacing: 4) {
-                    Image(systemName: "info.circle")
-                        .font(.system(size: 10))
-                        .foregroundStyle(.gray)
-                    Text("Airbnb相場 \(fmt(airbnb))/泊 に対し、オーナー利用は \(fmt(sim.stayPriceYen))/泊")
-                        .font(.system(size: 10))
-                        .foregroundStyle(.gray)
+            HStack(spacing: 0) {
+                simItem(title: "取得価格", value: InvestmentSim.man(sim.priceYen), sub: "1口")
+                Divider().background(Color.white.opacity(0.08)).frame(height: 44)
+                simItem(title: "オーナー利用", value: InvestmentSim.man(sim.stayPriceYen), sub: "1泊")
+                if let airbnb = sim.airbnbPriceYen {
+                    Divider().background(Color.white.opacity(0.08)).frame(height: 44)
+                    simItem(title: "Airbnb相場", value: InvestmentSim.man(airbnb), sub: "1泊", accent: false, muted: true)
                 }
+            }
+
+            if let saving = sim.annualSaving {
+                HStack(spacing: 6) {
+                    Image(systemName: "checkmark.seal.fill")
+                        .font(.system(size: 11))
+                        .foregroundStyle(Color(hex: "9bc46d"))
+                    Text("年\(sim.nights)泊で市場比 \(InvestmentSim.man(saving)) お得（Airbnb換算）")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.8))
+                }
+                .padding(10)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color(hex: "9bc46d").opacity(0.08))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         }
         .padding(16)
@@ -302,14 +317,14 @@ extension PropertyDetailView {
         .padding(.bottom, 4)
     }
 
-    private func simItem(title: String, value: String, sub: String, accent: Bool = false) -> some View {
+    private func simItem(title: String, value: String, sub: String, accent: Bool = false, muted: Bool = false) -> some View {
         VStack(spacing: 3) {
             Text(title)
                 .font(.system(size: 9))
                 .foregroundStyle(.gray)
             Text(value)
                 .font(.system(size: 13, weight: .bold))
-                .foregroundStyle(accent ? Color(hex: "9bc46d") : .white)
+                .foregroundStyle(accent ? Color(hex: "9bc46d") : muted ? Color.gray : .white)
                 .minimumScaleFactor(0.7)
             Text(sub)
                 .font(.system(size: 9))

@@ -5824,7 +5824,7 @@ async function beds24Sync() {
   const token = await beds24GetToken();
   if (!token) return;
   try {
-    const r = await fetch("https://api.beds24.com/v2/bookings?includeGuests=true&status=confirmed,modified", {
+    const r = await fetch("https://api.beds24.com/v2/bookings?includeGuests=true&status=confirmed", {
       headers: { token }
     });
     const data = await r.json();
@@ -7673,7 +7673,7 @@ app.get("/api/soluna/bookings", async (req, res) => {
       if (token) {
         const propIds = ownedSlugs.map(s => SOLUNA_PROPERTIES[s]?.beds24_prop).filter(Boolean);
         for (const propId of propIds) {
-          const r = await fetch(`https://api.beds24.com/v2/bookings?status=confirmed,modified&dateFrom=${today}&dateTo=${futureDateStr}`, {
+          const r = await fetch(`https://api.beds24.com/v2/bookings?status=confirmed&dateFrom=${today}&dateTo=${futureDateStr}`, {
             headers: { token }
           });
           if (r.ok) {
@@ -7787,7 +7787,7 @@ app.get("/api/soluna/admin/beds24-bookings", async (req, res) => {
     const today = new Date().toISOString().slice(0,10).replace(/-/g,'');
     const future = new Date(); future.setDate(future.getDate() + 180);
     const futureStr = future.toISOString().slice(0,10).replace(/-/g,'');
-    const r = await fetch(`https://api.beds24.com/v2/bookings?status=confirmed,modified&dateFrom=${today}&dateTo=${futureStr}&includeGuests=true`, {
+    const r = await fetch(`https://api.beds24.com/v2/bookings?status=confirmed&dateFrom=${today}&dateTo=${futureStr}&includeGuests=true`, {
       headers: { token }
     });
     const d = await r.json();
@@ -7809,6 +7809,117 @@ app.get("/api/soluna/admin/beds24-bookings", async (req, res) => {
       };
     });
     res.json({ bookings });
+  } catch(e) {
+    res.status(502).json({ error: e.message });
+  }
+});
+
+// GET /api/soluna/admin/booking-analytics — channel & property breakdown (admin)
+app.get("/api/soluna/admin/booking-analytics", async (req, res) => {
+  if (req.headers["x-admin-key"] !== ADMIN_KEY) return res.status(403).json({ error: "forbidden" });
+  try {
+    const token = await beds24GetToken();
+    if (!token) return res.status(502).json({ error: "Beds24 unavailable" });
+    const monthsBack = Math.min(24, Math.max(1, parseInt(req.query.months || '6')));
+    const past = new Date(); past.setMonth(past.getMonth() - monthsBack);
+    const future = new Date(); future.setMonth(future.getMonth() + 3);
+    const fromStr = past.toISOString().slice(0,10).replace(/-/g,'');
+    const toStr   = future.toISOString().slice(0,10).replace(/-/g,'');
+    const r = await fetch(`https://api.beds24.com/v2/bookings?dateFrom=${fromStr}&dateTo=${toStr}`, { headers: { token } });
+    const d = await r.json();
+    const all = (d.data || []).filter(b => b.status !== 'cancelled');
+
+    const propNames = {243406:'WHITE HOUSE 熱海',243407:'HONOLULU VILLA',243408:'THE LODGE',243409:'NESTING',322965:'インスタントハウス A',322966:'インスタントハウス B'};
+    const normalizeChannel = (b) => {
+      const ch = (b.channelLabel || b.channel || b.apiSource || b.referer || '').toLowerCase();
+      if (ch.includes('airbnb')) return 'Airbnb';
+      if (ch.includes('booking')) return 'Booking.com';
+      if (ch === 'direct' || ch.length === 8) return 'Direct / SOLUNA';
+      return ch || 'その他';
+    };
+    const calcNights = (arrival, departure) => {
+      if (!arrival || !departure) return 0;
+      return Math.max(0, Math.round((new Date(departure) - new Date(arrival)) / 86400000));
+    };
+
+    const todayStr = new Date().toISOString().slice(0,10);
+    const byChannel = {}, byProp = {}, byMonth = {}, byPropChannel = {}, recent = [];
+    let totalNights = 0, totalLeadDays = 0, leadCount = 0;
+
+    for (const b of all) {
+      const ch = normalizeChannel(b);
+      const prop = propNames[b.propertyId] || `propId ${b.propertyId}`;
+      const month = (b.arrival || '').slice(0,7);
+      const price = b.price || 0;
+      const nights = calcNights(b.arrival, b.departure);
+      totalNights += nights;
+
+      if (!byChannel[ch]) byChannel[ch] = { count:0, revenue:0, nights:0 };
+      byChannel[ch].count++; byChannel[ch].revenue += price; byChannel[ch].nights += nights;
+
+      if (!byProp[prop]) byProp[prop] = { count:0, revenue:0, nights:0 };
+      byProp[prop].count++; byProp[prop].revenue += price; byProp[prop].nights += nights;
+
+      if (!byMonth[month]) byMonth[month] = { count:0, revenue:0, nights:0 };
+      byMonth[month].count++; byMonth[month].revenue += price; byMonth[month].nights += nights;
+
+      if (!byPropChannel[prop]) byPropChannel[prop] = {};
+      byPropChannel[prop][ch] = (byPropChannel[prop][ch] || 0) + 1;
+
+      if (b.arrival && b.bookingTime) {
+        const ld = Math.round((new Date(b.arrival) - new Date(b.bookingTime.slice(0,10))) / 86400000);
+        if (ld >= 0 && ld <= 365) { totalLeadDays += ld; leadCount++; }
+      }
+
+      recent.push({ id:b.id, prop, check_in:b.arrival, check_out:b.departure, nights,
+        guest:`${b.firstName||''} ${b.lastName||''}`.trim(), channel:ch,
+        status:b.status, revenue:price, booked_at:b.bookingTime });
+    }
+
+    recent.sort((a,b) => (b.booked_at||'') > (a.booked_at||'') ? 1 : -1);
+
+    // Stay distribution (all bookings)
+    const stayDist = {'1泊':0,'2泊':0,'3〜5泊':0,'6〜14泊':0,'15泊+':0};
+    for (const b of all) {
+      const n = calcNights(b.arrival, b.departure);
+      const k = n<=1?'1泊':n===2?'2泊':n<=5?'3〜5泊':n<=14?'6〜14泊':'15泊+';
+      stayDist[k]++;
+    }
+
+    // Weekly booking velocity (past 8 weeks, ALL bookings)
+    const vel8 = Array(8).fill(0);
+    for (const b of all) {
+      if (!b.bookingTime) continue;
+      const wk = Math.floor((Date.now() - new Date(b.bookingTime)) / (7*86400000));
+      if (wk >= 0 && wk < 8) vel8[7-wk]++;
+    }
+
+    // Status breakdown
+    const convStats = {};
+    for (const b of (d.data||[])) { // include cancelled for full funnel
+      convStats[b.status||'unknown'] = (convStats[b.status||'unknown']||0)+1;
+    }
+
+    const upcoming = all
+      .filter(b => b.arrival && b.arrival >= todayStr)
+      .map(b => ({
+        id:b.id, prop:propNames[b.propertyId]||`propId ${b.propertyId}`,
+        check_in:b.arrival, check_out:b.departure,
+        nights:calcNights(b.arrival,b.departure),
+        guest:`${b.firstName||''} ${b.lastName||''}`.trim(),
+        channel:normalizeChannel(b), status:b.status, revenue:b.price||0
+      }))
+      .sort((a,b) => a.check_in > b.check_in ? 1 : -1)
+      .slice(0,30);
+
+    const avgLeadDays = leadCount ? Math.round(totalLeadDays / leadCount) : 0;
+    const pastDays = Math.round((new Date() - past) / 86400000);
+    const periodDays = Math.round((future - past) / 86400000);
+
+    res.json({ byChannel, byProp, byPropChannel, byMonth, recent: recent.slice(0,50),
+      upcoming, total: all.length, totalNights, periodDays, pastDays, monthsBack,
+      avgLeadDays, stayDist, vel8, convStats,
+      periodFrom: past.toISOString().slice(0,10), periodTo: future.toISOString().slice(0,10) });
   } catch(e) {
     res.status(502).json({ error: e.message });
   }
@@ -7888,7 +7999,21 @@ app.post("/api/soluna/nah/grant", express.json(), async (req, res) => {
   res.json({ ok: true, granted_to: targetEmail });
 });
 
-// ── Beds24 Proxy (browser can't call Beds24 directly due to CORS) ─────────────
+// ── Beds24 General Proxy (admin only, CORS workaround) ───────────────────────
+// GET /api/soluna/admin/beds24/proxy?path=v2/properties
+app.get("/api/soluna/admin/beds24/proxy", async (req, res) => {
+  if (req.headers["x-admin-key"] !== ADMIN_KEY) return res.status(403).json({ error:"forbidden" });
+  try {
+    const token = await beds24GetToken();
+    if (!token) return res.status(502).json({ error:"Beds24 unavailable" });
+    const path = req.query.path || "v2/properties";
+    const qs = Object.entries(req.query).filter(([k])=>k!=="path").map(([k,v])=>`${k}=${encodeURIComponent(v)}`).join("&");
+    const url = `https://api.beds24.com/${path}${qs?"?"+qs:""}`;
+    const r = await fetch(url, { headers: { token } });
+    res.json(await r.json());
+  } catch(e) { res.status(502).json({ error: e.message }); }
+});
+
 // GET /api/beds24/bookings?propId=&dateFrom=&dateTo=
 app.get("/api/beds24/bookings", async (req, res) => {
   try {
@@ -8030,56 +8155,8 @@ app.post("/api/soluna/product-order", express.json(), async (req, res) => {
   res.json({ ok: true });
 });
 
-// GET /api/soluna/availability/:slug — blocked date ranges for a property (Beds24 + SOLUNA DB merged)
-app.get("/api/soluna/availability/:slug", async (req, res) => {
-  const slug = req.params.slug;
-  const prop = SOLUNA_PROPERTIES[slug];
-  if (!prop) return res.status(404).json({ error: "property not found" });
-
-  const now = new Date();
-  const from = now.toISOString().slice(0,7).replace('-','') + '01';
-  const toDate = new Date(now.getFullYear(), now.getMonth() + 6, 0);
-  const to = toDate.toISOString().slice(0,10).replace(/-/g,'');
-
-  const blocked = {}; // "YYYY-MM-DD" -> true
-
-  // 1) Beds24
-  if (prop.beds24_prop) {
-    try {
-      const bToken = await beds24GetToken();
-      if (bToken) {
-        const r = await fetch(`https://api.beds24.com/v2/bookings?propertyId=${prop.beds24_prop}&status=confirmed,modified&dateFrom=${from}&dateTo=${to}`, {
-          headers: { token: bToken }
-        });
-        if (r.ok) {
-          const d = await r.json();
-          (d.data || []).forEach(b => {
-            for (let dt = new Date(b.arrival); dt < new Date(b.departure); dt.setDate(dt.getDate()+1)) {
-              blocked[dt.toISOString().slice(0,10)] = true;
-            }
-          });
-        }
-      }
-    } catch(e) {}
-  }
-
-  // 2) SOLUNA DB confirmed bookings
-  try {
-    const rows = (await db.execute({
-      sql: "SELECT check_in, check_out FROM soluna_bookings WHERE property_slug=? AND status='confirmed' AND check_out >= date('now')",
-      args: [slug]
-    })).rows;
-    rows.forEach(b => {
-      for (let dt = new Date(b.check_in); dt < new Date(b.check_out); dt.setDate(dt.getDate()+1)) {
-        blocked[dt.toISOString().slice(0,10)] = true;
-      }
-    });
-  } catch(e) {}
-
-  res.json({ blocked: Object.keys(blocked).sort() });
-});
-
 // GET /api/soluna/availability/next — next available date per property (Beds24)
+// MUST be registered before /:slug to avoid "next" matching as a slug param
 let _availCache = null; // { data, expiresAt }
 app.get("/api/soluna/availability/next", async (req, res) => {
   if (_availCache && Date.now() < _availCache.expiresAt) {
@@ -8092,7 +8169,7 @@ app.get("/api/soluna/availability/next", async (req, res) => {
     const future = new Date(); future.setDate(future.getDate() + 90);
     const futureStr = future.toISOString().slice(0,10).replace(/-/g,'');
     // Fetch all bookings for next 90 days
-    const r = await fetch(`https://api.beds24.com/v2/bookings?status=confirmed,modified&dateFrom=${today}&dateTo=${futureStr}`, {
+    const r = await fetch(`https://api.beds24.com/v2/bookings?status=confirmed&dateFrom=${today}&dateTo=${futureStr}`, {
       headers: { token }
     });
     const d = await r.json();
@@ -8130,6 +8207,55 @@ app.get("/api/soluna/availability/next", async (req, res) => {
   }
 });
 
+// GET /api/soluna/availability/:slug — blocked date ranges for a property (Beds24 + SOLUNA DB merged)
+app.get("/api/soluna/availability/:slug", async (req, res) => {
+  const slug = req.params.slug;
+  const prop = SOLUNA_PROPERTIES[slug];
+  if (!prop) return res.status(404).json({ error: "property not found" });
+
+  const now = new Date();
+  const from = now.toISOString().slice(0,7).replace('-','') + '01';
+  const toDate = new Date(now.getFullYear(), now.getMonth() + 6, 0);
+  const to = toDate.toISOString().slice(0,10).replace(/-/g,'');
+
+  const blocked = {}; // "YYYY-MM-DD" -> true
+
+  // 1) Beds24
+  if (prop.beds24_prop) {
+    try {
+      const bToken = await beds24GetToken();
+      if (bToken) {
+        const r = await fetch(`https://api.beds24.com/v2/bookings?propertyId=${prop.beds24_prop}&status=confirmed&dateFrom=${from}&dateTo=${to}`, {
+          headers: { token: bToken }
+        });
+        if (r.ok) {
+          const d = await r.json();
+          (d.data || []).forEach(b => {
+            for (let dt = new Date(b.arrival); dt < new Date(b.departure); dt.setDate(dt.getDate()+1)) {
+              blocked[dt.toISOString().slice(0,10)] = true;
+            }
+          });
+        }
+      }
+    } catch(e) {}
+  }
+
+  // 2) SOLUNA DB confirmed bookings
+  try {
+    const rows = (await db.execute({
+      sql: "SELECT check_in, check_out FROM soluna_bookings WHERE property_slug=? AND status='confirmed' AND check_out >= date('now')",
+      args: [slug]
+    })).rows;
+    rows.forEach(b => {
+      for (let dt = new Date(b.check_in); dt < new Date(b.check_out); dt.setDate(dt.getDate()+1)) {
+        blocked[dt.toISOString().slice(0,10)] = true;
+      }
+    });
+  } catch(e) {}
+
+  res.json({ blocked: Object.keys(blocked).sort() });
+});
+
 // GET /api/soluna/owner/revenue — revenue summary for owned properties (owner only)
 app.get("/api/soluna/owner/revenue", async (req, res) => {
   const m = await solunaAuth(req);
@@ -8152,7 +8278,7 @@ app.get("/api/soluna/owner/revenue", async (req, res) => {
     const to = new Date(); to.setMonth(to.getMonth() + 3);
     const fromStr = from.toISOString().slice(0,10).replace(/-/g,'');
     const toStr = to.toISOString().slice(0,10).replace(/-/g,'');
-    const r = await fetch(`https://api.beds24.com/v2/bookings?status=confirmed,modified&dateFrom=${fromStr}&dateTo=${toStr}`, {
+    const r = await fetch(`https://api.beds24.com/v2/bookings?status=confirmed&dateFrom=${fromStr}&dateTo=${toStr}`, {
       headers: { token }
     });
     const d = await r.json();
@@ -9713,4 +9839,109 @@ initDb().then(() => {
 }).catch(err => {
   console.error("DB init failed:", err);
   process.exit(1);
+});
+
+// ── SOLUNA ADMIN: Purchases list ──────────────────────────────────────────────
+app.get("/api/soluna/admin/purchases", async (req, res) => {
+  const byKey = req.headers["x-admin-key"] === ADMIN_KEY;
+  const m = await solunaAuth(req);
+  if (!byKey && !isSolunaAdmin(m)) return res.status(403).json({ error: "forbidden" });
+  const r = await db.execute(
+    `SELECT p.id, p.property_slug, p.units, p.price_yen, p.status, p.ref_code, p.created_at,
+            m.email, m.name
+     FROM soluna_purchases p
+     LEFT JOIN soluna_members m ON m.id = p.member_id
+     ORDER BY p.created_at DESC`
+  );
+  res.json({ purchases: r.rows });
+});
+
+// PATCH /api/soluna/admin/purchases/:id — confirm or reject
+app.patch("/api/soluna/admin/purchases/:id", express.json(), async (req, res) => {
+  const byKey = req.headers["x-admin-key"] === ADMIN_KEY;
+  const m = await solunaAuth(req);
+  if (!byKey && !isSolunaAdmin(m)) return res.status(403).json({ error: "forbidden" });
+  const { status } = req.body; // "confirmed" or "rejected"
+  if (!["confirmed","rejected","pending"].includes(status)) return res.status(400).json({ error: "invalid status" });
+  const id = parseInt(req.params.id);
+  await db.execute({ sql: "UPDATE soluna_purchases SET status=? WHERE id=?", args: [status, id] });
+  res.json({ ok: true, id, status });
+});
+
+// POST /api/soluna/admin/blast — email blast to soluna_members
+app.post("/api/soluna/admin/blast", express.json(), async (req, res) => {
+  const byKey = req.headers["x-admin-key"] === ADMIN_KEY;
+  const m = await solunaAuth(req);
+  if (!byKey && !isSolunaAdmin(m)) return res.status(403).json({ error: "forbidden" });
+  if (!RESEND_API_KEY) return res.status(503).json({ error: "RESEND_API_KEY not set" });
+  const { subject, body, test_email, filter } = req.body;
+  if (!subject || !body) return res.status(400).json({ error: "subject and body required" });
+  let rows;
+  if (test_email) {
+    rows = [{ email: test_email }];
+  } else {
+    const result = await db.execute(`SELECT DISTINCT email FROM soluna_members WHERE email IS NOT NULL AND email != '' ORDER BY created_at DESC`);
+    rows = result.rows;
+  }
+  const html = `<div style="background:#050505;color:#f0ece4;font-family:'Helvetica Neue',sans-serif;padding:40px 32px;max-width:560px;margin:0 auto">
+  <p style="color:#c8a455;letter-spacing:.3em;font-size:10px;text-transform:uppercase;margin-bottom:20px">SOLUNA</p>
+  <h1 style="font-size:22px;font-weight:800;margin:0 0 24px;line-height:1.3;color:#f0ece4">${subject}</h1>
+  <div style="color:rgba(240,236,228,.7);font-size:15px;line-height:1.9;white-space:pre-line">${body}</div>
+  <div style="margin-top:36px;padding-top:24px;border-top:1px solid rgba(255,255,255,.07)">
+    <a href="https://solun.art/app" style="display:inline-block;padding:13px 28px;background:#c8a455;color:#050505;font-weight:800;text-decoration:none;border-radius:8px;font-size:13px;letter-spacing:.04em">SOLUNAを開く →</a>
+  </div>
+  <p style="color:rgba(255,255,255,.1);font-size:10px;margin-top:28px">© 2026 Enabler Inc. · SOLUNA · <a href="https://solun.art" style="color:rgba(200,164,85,.4)">solun.art</a></p>
+</div>`;
+  let sent = 0, failed = 0;
+  for (const row of rows) {
+    try {
+      const r = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+        body: JSON.stringify({ from: "SOLUNA <info@solun.art>", to: [row.email], subject, html }),
+      });
+      if (r.ok) sent++; else failed++;
+    } catch { failed++; }
+    await new Promise(r => setTimeout(r, 120));
+  }
+  res.json({ ok: true, sent, failed, total: rows.length, mode: test_email ? "test" : "live" });
+});
+
+// POST /api/soluna/deposit — Stripe checkout for ¥100,000 property deposit
+app.post("/api/soluna/deposit", express.json(), async (req, res) => {
+  if (!STRIPE_SECRET_KEY) return res.status(503).json({ error: "Payment not configured" });
+  const { property_slug, email, name } = req.body;
+  if (!property_slug || !email) return res.status(400).json({ error: "property_slug and email required" });
+  const prop = SOLUNA_PROPERTIES[property_slug];
+  if (!prop) return res.status(400).json({ error: "unknown property" });
+  try {
+    const stripe = require("stripe")(STRIPE_SECRET_KEY);
+    const origin = `${req.protocol}://${req.headers.host}`;
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      customer_email: email,
+      line_items: [{
+        price_data: {
+          currency: "jpy",
+          product_data: { name: `SOLUNA ${prop.name} — 手付金`, description: "共同所有権取得の手付金。購入完了時に購入代金に充当されます。" },
+          unit_amount: 100000,
+        },
+        quantity: 1,
+      }],
+      mode: "payment",
+      success_url: `${origin}/buy?deposited=true&property=${property_slug}&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/buy?property=${property_slug}`,
+      metadata: { property_slug, buyer_name: name || "", type: "soluna_deposit" },
+    });
+    // Record pending purchase
+    await db.execute({ sql: "INSERT OR IGNORE INTO soluna_members (email, name) VALUES (?,?)", args: [email, name||""] });
+    const memRow = await db.execute({ sql: "SELECT id FROM soluna_members WHERE email=?", args: [email] });
+    if (memRow.rows.length) {
+      await db.execute({
+        sql: "INSERT INTO soluna_purchases (member_id, property_slug, units, price_yen, status) VALUES (?,?,1,100000,'deposit')",
+        args: [memRow.rows[0].id, property_slug]
+      });
+    }
+    res.json({ url: session.url });
+  } catch(e) { res.status(500).json({ error: e.message }); }
 });

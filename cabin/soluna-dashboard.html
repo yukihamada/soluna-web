@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLUNA Dashboard</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--green:#4a9a5a;--red:#c0392b;--blue:#6688cc;
+  --bg:#030303;--s1:#070707;--s2:#0a0a0a;--line:#111;
+  --text:#f0ece4;--muted:#333;--dim:#1e1e1e;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--gold);text-decoration:none}
+button{cursor:pointer;font-family:inherit}
+
+/* ── GATE ── */
+#gate{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px}
+.gate-box{text-align:center;max-width:340px;width:100%}
+.gate-logo{font-size:11px;font-weight:800;letter-spacing:.28em;color:var(--gold);margin-bottom:32px}
+.gate-title{font-size:20px;font-weight:800;margin-bottom:6px}
+.gate-sub{font-size:11.5px;color:#2a2a2a;line-height:1.9;margin-bottom:24px}
+.gate-input{width:100%;padding:13px 16px;border:1px solid #1a1a1a;border-radius:10px;background:var(--s1);color:var(--text);font-size:14px;text-align:center;outline:none;transition:border-color .2s;margin-bottom:12px;letter-spacing:.06em}
+.gate-input:focus{border-color:rgba(200,164,85,.5)}
+.gate-btn{width:100%;background:var(--gold);color:#040404;font-weight:800;font-size:13px;padding:14px;border:none;border-radius:10px;letter-spacing:.04em;transition:opacity .2s}
+.gate-btn:hover{opacity:.85}
+.gate-err{font-size:11px;color:var(--red);margin-top:8px;min-height:16px}
+
+/* ── LAYOUT ── */
+#app{display:none}
+#app.ready{display:block}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(3,3,3,.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:13px 28px;display:flex;justify-content:space-between;align-items:center}
+.topbar-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.topbar-time{font-size:10px;color:#2a2a2a;font-family:monospace}
+.btn-sm{background:none;border:1px solid var(--dim);color:#2a2a2a;padding:5px 14px;border-radius:100px;font-size:9px;letter-spacing:.08em;transition:all .2s}
+.btn-sm:hover{border-color:#333;color:#666}
+.main{max-width:1280px;margin:0 auto;padding:32px 24px}
+
+/* ── TAB NAV ── */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--line);margin-bottom:32px}
+.tab{padding:10px 20px;font-size:11px;font-weight:700;letter-spacing:.06em;color:#2a2a2a;background:none;border:none;border-bottom:2px solid transparent;transition:all .2s;margin-bottom:-1px}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab:hover{color:#666}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ── SECTION ── */
+.sh{display:flex;align-items:center;justify-content:space-between;margin:0 0 16px}
+.sh h2{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.sh-action{font-size:10px;color:var(--gold);background:none;border:none;letter-spacing:.06em;padding:0}
+
+/* ── KPI GRID ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:32px}
+.kpi{background:var(--s1);border:1px solid var(--line);border-radius:14px;padding:22px 20px}
+.kpi-val{font-size:28px;font-weight:800;line-height:1;margin-bottom:6px}
+.kpi-val.gold{color:var(--gold)}
+.kpi-val.green{color:var(--green)}
+.kpi-val.blue{color:var(--blue)}
+.kpi-label{font-size:8.5px;color:#222;letter-spacing:.18em;text-transform:uppercase}
+.kpi-sub{font-size:10px;color:#222;margin-top:4px}
+.kpi-trend{font-size:9px;margin-top:6px}
+.kpi-trend.up{color:var(--green)}
+.kpi-trend.dn{color:var(--red)}
+
+/* ── TABLE ── */
+.t-wrap{background:var(--s1);border:1px solid var(--line);border-radius:14px;overflow:auto;margin-bottom:24px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+thead tr{background:var(--s2)}
+th{padding:11px 14px;text-align:left;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:#222;font-weight:700;white-space:nowrap}
+td{padding:12px 14px;border-top:1px solid #080808;color:#666;vertical-align:middle}
+td.em{color:#bbb;font-weight:600}
+tbody tr:hover{background:rgba(255,255,255,.01)}
+.pill{display:inline-block;padding:3px 10px;border-radius:100px;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.pill.confirmed{background:rgba(74,154,90,.15);color:var(--green);border:1px solid rgba(74,154,90,.2)}
+.pill.pending{background:rgba(200,164,85,.12);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.pill.deposit{background:rgba(102,136,204,.1);color:var(--blue);border:1px solid rgba(102,136,204,.2)}
+.pill.rejected{background:rgba(192,57,43,.1);color:var(--red);border:1px solid rgba(192,57,43,.2)}
+.pill.admin{background:rgba(200,164,85,.2);color:var(--gold);border:1px solid rgba(200,164,85,.3)}
+.pill.owner{background:rgba(74,154,90,.1);color:var(--green);border:1px solid rgba(74,154,90,.2)}
+.pill.member{background:rgba(255,255,255,.04);color:#444;border:1px solid #181818}
+
+/* ── FUNNEL ── */
+.funnel{display:flex;gap:8px;align-items:flex-end;height:120px;margin-bottom:24px;padding:0 4px}
+.funnel-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+.funnel-bar{width:100%;background:rgba(200,164,85,.15);border-radius:4px 4px 0 0;border:1px solid rgba(200,164,85,.2);transition:height .6s ease;position:relative;overflow:hidden}
+.funnel-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(200,164,85,.1),transparent)}
+.funnel-label{font-size:8px;color:#2a2a2a;letter-spacing:.08em;text-align:center;line-height:1.4}
+.funnel-val{font-size:11px;font-weight:700;color:var(--gold);text-align:center}
+
+/* ── FORM ── */
+.form-box{background:var(--s1);border:1px solid rgba(200,164,85,.2);border-radius:14px;padding:24px;margin-bottom:24px}
+.form-title{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.f-label{font-size:9px;color:#333;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;font-weight:700;display:block}
+.f-input{width:100%;background:var(--bg);border:1px solid #1a1a1a;border-radius:8px;padding:11px 14px;color:var(--text);font-size:12px;outline:none;transition:border-color .2s;margin-bottom:12px}
+.f-input:focus{border-color:rgba(200,164,85,.4)}
+textarea.f-input{height:120px;resize:vertical;line-height:1.7}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn-gold{background:var(--gold);color:#040404;border:none;border-radius:8px;padding:11px 22px;font-size:12px;font-weight:800;letter-spacing:.04em;transition:opacity .2s}
+.btn-gold:hover{opacity:.85}
+.btn-ghost{background:none;border:1px solid var(--line);color:#444;border-radius:8px;padding:11px 18px;font-size:11px;transition:all .2s}
+.btn-ghost:hover{border-color:#333;color:#777}
+.btn-red{background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.3);color:var(--red);border-radius:6px;padding:5px 12px;font-size:9px;font-weight:700;transition:all .2s}
+.btn-red:hover{background:rgba(192,57,43,.25)}
+.btn-green{background:rgba(74,154,90,.15);border:1px solid rgba(74,154,90,.3);color:var(--green);border-radius:6px;padding:5px 12px;font-size:9px;font-weight:700;transition:all .2s}
+.btn-green:hover{background:rgba(74,154,90,.25)}
+.msg{font-size:11px;margin-top:12px;padding:10px 14px;border-radius:8px;display:none}
+.msg.ok{background:rgba(74,154,90,.1);border:1px solid rgba(74,154,90,.2);color:var(--green)}
+.msg.err{background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.2);color:var(--red)}
+
+/* ── PROPERTY BADGE ── */
+.prop-badge{display:inline-block;padding:2px 8px;background:rgba(200,164,85,.08);border:1px solid rgba(200,164,85,.15);border-radius:100px;font-size:8.5px;color:var(--gold);font-weight:700;letter-spacing:.05em}
+
+/* ── MEMBER SELECTOR ── */
+select.type-sel{background:var(--bg);border:1px solid #1a1a1a;border-radius:6px;padding:4px 10px;color:#888;font-size:10px;outline:none;cursor:pointer;transition:border-color .2s}
+select.type-sel:focus{border-color:rgba(200,164,85,.4)}
+
+/* ── BOOKING CARD ── */
+.booking-card{background:var(--s1);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center}
+.booking-dates{text-align:center}
+.booking-checkin{font-size:18px;font-weight:800;color:var(--text);line-height:1}
+.booking-nights{font-size:9px;color:#2a2a2a;margin-top:3px;letter-spacing:.08em}
+.booking-prop{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px}
+.booking-guest{font-size:11px;color:#444}
+
+@media(max-width:768px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .f-row{grid-template-columns:1fr}
+  .main{padding:20px 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate">
+<div class="gate-box">
+  <div class="gate-logo">SOLUNA</div>
+  <div class="gate-title">管理ダッシュボード</div>
+  <p class="gate-sub">Admin Key を入力してください</p>
+  <input class="gate-input" id="key-input" type="password" placeholder="ADMIN_KEY" onkeydown="if(event.key==='Enter')gateLogin()"/>
+  <button class="gate-btn" onclick="gateLogin()">ログイン</button>
+  <div class="gate-err" id="gate-err"></div>
+</div>
+</div>
+
+<!-- APP -->
+<div id="app">
+<div class="topbar">
+  <span class="topbar-logo">SOLUNA DASHBOARD</span>
+  <div class="topbar-right">
+    <span class="topbar-time" id="clock"></span>
+    <button class="btn-sm" onclick="loadAll()">↻ 更新</button>
+    <button class="btn-sm" onclick="logout()">ログアウト</button>
+  </div>
+</div>
+
+<div class="main">
+  <!-- KPI ROW -->
+  <div class="kpi-grid" id="kpi-grid">
+    <div class="kpi"><div class="kpi-val gold" id="k-pv">—</div><div class="kpi-label">PV (30日)</div><div class="kpi-sub" id="k-pv-sub">読込中...</div></div>
+    <div class="kpi"><div class="kpi-val gold" id="k-members">—</div><div class="kpi-label">総メンバー数</div><div class="kpi-sub" id="k-members-sub">読込中...</div></div>
+    <div class="kpi"><div class="kpi-val" id="k-signups">—</div><div class="kpi-label">新規登録 (30日)</div><div class="kpi-sub" id="k-signups-sub">読込中...</div></div>
+    <div class="kpi"><div class="kpi-val" id="k-purchases">—</div><div class="kpi-label">購入申込</div><div class="kpi-sub" id="k-purchases-sub">読込中...</div></div>
+    <div class="kpi"><div class="kpi-val green" id="k-revenue">—</div><div class="kpi-label">確定収益 (累計)</div><div class="kpi-sub" id="k-revenue-sub">確定済み口数合計</div></div>
+    <div class="kpi"><div class="kpi-val blue" id="k-bookings">—</div><div class="kpi-label">今後の予約数</div><div class="kpi-sub" id="k-bookings-sub">読込中...</div></div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('funnel',this)">ファネル</button>
+    <button class="tab" onclick="showTab('members',this)">メンバー</button>
+    <button class="tab" onclick="showTab('purchases',this)">購入申込</button>
+    <button class="tab" onclick="showTab('bookings',this)">予約</button>
+    <button class="tab" onclick="showTab('blast',this)">メール配信</button>
+    <button class="tab" onclick="showTab('akiya',this)">空き家スコア</button>
+  </div>
+
+  <!-- TAB: FUNNEL -->
+  <div class="tab-panel active" id="tab-funnel">
+    <div class="sh"><h2>コンバージョンファネル (30日)</h2></div>
+    <div class="funnel" id="funnel-bars">
+      <div class="funnel-bar-wrap"><div class="funnel-bar" id="fb-pv" style="height:100%"></div><div class="funnel-val" id="fv-pv">—</div><div class="funnel-label">PV</div></div>
+      <div class="funnel-bar-wrap"><div class="funnel-bar" id="fb-signup" style="height:0%"></div><div class="funnel-val" id="fv-signup">—</div><div class="funnel-label">メール<br>登録</div></div>
+      <div class="funnel-bar-wrap"><div class="funnel-bar" id="fb-login" style="height:0%"></div><div class="funnel-val" id="fv-login">—</div><div class="funnel-label">ログイン</div></div>
+      <div class="funnel-bar-wrap"><div class="funnel-bar" id="fb-consult" style="height:0%"></div><div class="funnel-val" id="fv-consult">—</div><div class="funnel-label">相談<br>クリック</div></div>
+      <div class="funnel-bar-wrap"><div class="funnel-bar" id="fb-purchase" style="height:0%"></div><div class="funnel-val" id="fv-purchase">—</div><div class="funnel-label">購入<br>クリック</div></div>
+    </div>
+
+    <div class="sh" style="margin-top:32px"><h2>イベント詳細 (30日)</h2></div>
+    <div class="t-wrap">
+      <table>
+        <thead><tr><th>イベント</th><th>ページ</th><th>件数</th><th>ユニーク</th></tr></thead>
+        <tbody id="events-tbody"><tr><td colspan="4" style="color:#2a2a2a;text-align:center;padding:20px">読込中...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAB: MEMBERS -->
+  <div class="tab-panel" id="tab-members">
+    <div class="sh">
+      <h2>メンバー一覧</h2>
+      <input id="member-search" type="search" placeholder="メールで検索..." style="background:var(--s2);border:1px solid var(--line);border-radius:8px;padding:7px 12px;color:var(--text);font-size:11px;outline:none;width:240px" oninput="filterMembers()"/>
+    </div>
+    <div class="t-wrap">
+      <table>
+        <thead><tr><th>#</th><th>メール</th><th>名前</th><th>種別</th><th>登録日</th><th>変更</th></tr></thead>
+        <tbody id="members-tbody"><tr><td colspan="6" style="color:#2a2a2a;text-align:center;padding:20px">読込中...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAB: PURCHASES -->
+  <div class="tab-panel" id="tab-purchases">
+    <div class="sh"><h2>購入申込一覧</h2></div>
+    <div class="t-wrap">
+      <table>
+        <thead><tr><th>#</th><th>メール</th><th>物件</th><th>口数</th><th>金額</th><th>ステータス</th><th>申込日</th><th>操作</th></tr></thead>
+        <tbody id="purchases-tbody"><tr><td colspan="8" style="color:#2a2a2a;text-align:center;padding:20px">読込中...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAB: BOOKINGS -->
+  <div class="tab-panel" id="tab-bookings">
+    <div class="sh"><h2>今後の宿泊予約</h2><button class="btn-sm" onclick="loadBookings()">↻ Beds24同期</button></div>
+    <div id="bookings-list"></div>
+  </div>
+
+  <!-- TAB: BLAST -->
+  <div class="tab-panel" id="tab-blast">
+    <div class="form-box">
+      <div class="form-title">メール配信 — SOLUNAメンバー全員へ</div>
+      <div style="font-size:11px;color:#2a2a2a;margin-bottom:16px;line-height:1.8">登録済みメンバー全員にメールを配信します。まずテスト送信で確認してください。</div>
+      <label class="f-label">件名</label>
+      <input class="f-input" id="blast-subject" type="text" placeholder="SOLUNAからのお知らせ"/>
+      <label class="f-label">本文（改行可）</label>
+      <textarea class="f-input" id="blast-body" placeholder="こんにちは。SOLUNAからのお知らせです。&#10;&#10;..."></textarea>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <input class="f-input" id="blast-test" type="email" placeholder="テスト送信先メール" style="flex:1;min-width:200px;margin:0"/>
+        <button class="btn-ghost" onclick="sendBlast(true)">テスト送信</button>
+        <button class="btn-gold" onclick="sendBlast(false)" id="blast-btn">全員に配信</button>
+      </div>
+      <div class="msg" id="blast-msg"></div>
+      <div style="font-size:10px;color:#1a1a1a;margin-top:16px" id="blast-count"></div>
+    </div>
+  </div>
+
+  <!-- TAB: AKIYA SCOUT -->
+  <div class="tab-panel" id="tab-akiya">
+    <div class="form-box">
+      <div class="form-title">空き家スクリーニング — SOLUNAスコア</div>
+      <div style="font-size:11px;color:#2a2a2a;margin-bottom:20px;line-height:1.8">物件情報を入力してSOLUNAへの適合度を自動スコアリングします。</div>
+      <div class="f-row">
+        <div>
+          <label class="f-label">物件名 / 住所</label>
+          <input class="f-input" id="sc-address" type="text" placeholder="北海道川上郡弟子屈町..."/>
+        </div>
+        <div>
+          <label class="f-label">取得価格 (万円)</label>
+          <input class="f-input" id="sc-price" type="number" placeholder="980"/>
+        </div>
+      </div>
+      <div class="f-row">
+        <div>
+          <label class="f-label">構造</label>
+          <select class="f-input" id="sc-structure" style="margin-bottom:12px">
+            <option value="">選択...</option>
+            <option value="wood">木造</option>
+            <option value="rc">RC造</option>
+            <option value="steel">鉄骨</option>
+            <option value="land">土地のみ</option>
+          </select>
+        </div>
+        <div>
+          <label class="f-label">アクセス (最寄り駅から分)</label>
+          <input class="f-input" id="sc-access" type="number" placeholder="60"/>
+        </div>
+      </div>
+      <div class="f-row">
+        <div>
+          <label class="f-label">築年数</label>
+          <input class="f-input" id="sc-age" type="number" placeholder="30"/>
+        </div>
+        <div>
+          <label class="f-label">延床面積 (㎡)</label>
+          <input class="f-input" id="sc-area" type="number" placeholder="120"/>
+        </div>
+      </div>
+      <label class="f-label">ロケーション特性（複数選択可）</label>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px" id="loc-tags">
+        <label style="cursor:pointer"><input type="checkbox" value="sea" style="margin-right:4px"><span style="font-size:11px;color:#666">海近</span></label>
+        <label style="cursor:pointer"><input type="checkbox" value="mountain" style="margin-right:4px"><span style="font-size:11px;color:#666">山</span></label>
+        <label style="cursor:pointer"><input type="checkbox" value="onsen" style="margin-right:4px"><span style="font-size:11px;color:#666">温泉</span></label>
+        <label style="cursor:pointer"><input type="checkbox" value="forest" style="margin-right:4px"><span style="font-size:11px;color:#666">森</span></label>
+        <label style="cursor:pointer"><input type="checkbox" value="island" style="margin-right:4px"><span style="font-size:11px;color:#666">島</span></label>
+        <label style="cursor:pointer"><input type="checkbox" value="ski" style="margin-right:4px"><span style="font-size:11px;color:#666">スキー場近</span></label>
+        <label style="cursor:pointer"><input type="checkbox" value="beach" style="margin-right:4px"><span style="font-size:11px;color:#666">ビーチ</span></label>
+        <label style="cursor:pointer"><input type="checkbox" value="view" style="margin-right:4px"><span style="font-size:11px;color:#666">絶景</span></label>
+      </div>
+      <button class="btn-gold" onclick="scoreAkiya()">スコアリング実行</button>
+    </div>
+
+    <div id="score-result" style="display:none">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:24px" id="score-kpis"></div>
+      <div class="t-wrap">
+        <table>
+          <thead><tr><th>評価項目</th><th>スコア</th><th>コメント</th></tr></thead>
+          <tbody id="score-table"></tbody>
+        </table>
+      </div>
+      <div id="score-verdict" style="background:var(--s1);border-radius:14px;padding:24px;margin-top:16px;border:1px solid var(--line)"></div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+const API = "";
+let ADMIN_KEY = localStorage.getItem("sln_admin_key") || "";
+let membersData = [];
+
+// ── AUTH ──────────────────────────────────────────────────────
+async function gateLogin() {
+  const k = document.getElementById("key-input").value.trim();
+  document.getElementById("gate-err").textContent = "";
+  try {
+    const r = await fetch("/api/admin/kpi?days=7", { headers: { "x-admin-key": k } });
+    if (!r.ok) { document.getElementById("gate-err").textContent = "認証失敗。Admin Keyを確認してください。"; return; }
+    ADMIN_KEY = k;
+    localStorage.setItem("sln_admin_key", k);
+    document.getElementById("gate").style.display = "none";
+    document.getElementById("app").classList.add("ready");
+    loadAll();
+    startClock();
+  } catch(e) { document.getElementById("gate-err").textContent = "接続エラー。"; }
+}
+function logout() { localStorage.removeItem("sln_admin_key"); location.reload(); }
+if (ADMIN_KEY) {
+  fetch("/api/admin/kpi?days=7", { headers: { "x-admin-key": ADMIN_KEY } }).then(r => {
+    if (r.ok) { document.getElementById("gate").style.display="none"; document.getElementById("app").classList.add("ready"); loadAll(); startClock(); }
+  });
+}
+
+// ── CLOCK ──────────────────────────────────────────────────────
+function startClock() {
+  const el = document.getElementById("clock");
+  setInterval(() => { el.textContent = new Date().toLocaleString("ja-JP"); }, 1000);
+}
+
+// ── TABS ──────────────────────────────────────────────────────
+function showTab(id, btn) {
+  document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+  document.getElementById("tab-"+id).classList.add("active");
+  btn.classList.add("active");
+}
+
+// ── LOAD ALL ──────────────────────────────────────────────────
+function loadAll() { loadKpi(); loadFunnel(); loadMembers(); loadPurchases(); loadBookings(); }
+
+// ── KPI ──────────────────────────────────────────────────────
+async function loadKpi() {
+  const [kpi, mems, purch] = await Promise.all([
+    fetch("/api/admin/kpi?days=30", { headers: { "x-admin-key": ADMIN_KEY } }).then(r => r.json()),
+    fetch("/api/soluna/admin/members", { headers: { "x-admin-key": ADMIN_KEY } }).then(r => r.json()),
+    fetch("/api/soluna/admin/purchases", { headers: { "x-admin-key": ADMIN_KEY } }).then(r => r.json()),
+  ]);
+  // Members
+  const members = mems.members || [];
+  document.getElementById("k-members").textContent = members.length;
+  document.getElementById("k-members-sub").textContent = `新規30日: ${kpi.new_members || 0}人`;
+  document.getElementById("k-signups").textContent = kpi.new_emails || 0;
+  document.getElementById("k-signups-sub").textContent = "email_signups テーブル";
+  // Purchases
+  const purchases = purch.purchases || [];
+  document.getElementById("k-purchases").textContent = purchases.length;
+  const confirmed = purchases.filter(p => p.status === "confirmed");
+  const totalRevenue = confirmed.reduce((s, p) => s + (p.price_yen || 0), 0);
+  document.getElementById("k-purchases-sub").textContent = `確定: ${confirmed.length}件`;
+  document.getElementById("k-revenue").textContent = "¥" + (totalRevenue / 10000).toFixed(0) + "万";
+  document.getElementById("k-revenue-sub").textContent = `${confirmed.length}口 確定済み`;
+  // PV
+  if (kpi.pv) {
+    document.getElementById("k-pv").textContent = (kpi.pv.total_views || 0).toLocaleString();
+    document.getElementById("k-pv-sub").textContent = `今日: ${kpi.pv.today || 0}`;
+  }
+}
+
+// ── FUNNEL ──────────────────────────────────────────────────────
+async function loadFunnel() {
+  const kpi = await fetch("/api/admin/kpi?days=30", { headers: { "x-admin-key": ADMIN_KEY } }).then(r => r.json());
+  const funnel = {};
+  (kpi.funnel || []).forEach(f => { funnel[f.event] = { cnt: f.cnt, uniq: f.uniq }; });
+  const pv = kpi.pv?.total_views || 1;
+  const signup = funnel["email_signup"]?.cnt || 0;
+  const login = funnel["app_login"]?.cnt || 0;
+  const consult = funnel["consultation_click"]?.cnt || 0;
+  const purchase = funnel["purchase_click"]?.cnt || 0;
+  const maxVal = Math.max(pv, signup, login, consult, purchase, 1);
+  function setBar(id, valId, val) {
+    const h = Math.max(4, Math.round((val / maxVal) * 100));
+    document.getElementById(id).style.height = h + "%";
+    document.getElementById(valId).textContent = val.toLocaleString();
+  }
+  setBar("fb-pv","fv-pv", pv);
+  setBar("fb-signup","fv-signup", signup);
+  setBar("fb-login","fv-login", login);
+  setBar("fb-consult","fv-consult", consult);
+  setBar("fb-purchase","fv-purchase", purchase);
+  // Events table
+  const tbody = document.getElementById("events-tbody");
+  const events = (kpi.events || []).slice(0, 25);
+  if (!events.length) { tbody.innerHTML = '<tr><td colspan="4" style="color:#2a2a2a;text-align:center;padding:16px">データなし</td></tr>'; return; }
+  tbody.innerHTML = events.map(e => `
+    <tr>
+      <td class="em">${e.event}</td>
+      <td style="color:#3a3a3a;font-size:10px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.page||"—"}</td>
+      <td class="em">${Number(e.cnt).toLocaleString()}</td>
+      <td style="color:#2a2a2a">${Number(e.uniq).toLocaleString()}</td>
+    </tr>`).join("");
+}
+
+// ── MEMBERS ──────────────────────────────────────────────────────
+async function loadMembers() {
+  const data = await fetch("/api/soluna/admin/members", { headers: { "x-admin-key": ADMIN_KEY } }).then(r => r.json());
+  membersData = data.members || [];
+  renderMembers(membersData);
+}
+function renderMembers(list) {
+  const tbody = document.getElementById("members-tbody");
+  if (!list.length) { tbody.innerHTML = '<tr><td colspan="6" style="color:#2a2a2a;text-align:center;padding:16px">メンバーなし</td></tr>'; return; }
+  tbody.innerHTML = list.map(m => `
+    <tr>
+      <td style="color:#2a2a2a">${m.id}</td>
+      <td class="em">${m.email}</td>
+      <td style="color:#555">${m.name||"—"}</td>
+      <td><span class="pill ${m.member_type||'member'}">${labelFor(m.member_type)}</span></td>
+      <td style="color:#2a2a2a;font-size:10px">${fmtDate(m.created_at)}</td>
+      <td>
+        <select class="type-sel" onchange="updateMemberType(${m.id},this.value)">
+          <option value="member" ${m.member_type==='member'?'selected':''}>一般</option>
+          <option value="owner" ${m.member_type==='owner'?'selected':''}>オーナー</option>
+          <option value="admin" ${m.member_type==='admin'?'selected':''}>管理者</option>
+          <option value="vip" ${m.member_type==='vip'?'selected':''}>VIP</option>
+        </select>
+      </td>
+    </tr>`).join("");
+}
+function filterMembers() {
+  const q = document.getElementById("member-search").value.toLowerCase();
+  renderMembers(membersData.filter(m => (m.email||"").toLowerCase().includes(q) || (m.name||"").toLowerCase().includes(q)));
+}
+async function updateMemberType(id, type) {
+  await fetch(`/api/soluna/admin/members/${id}`, {
+    method: "PATCH", headers: { "Content-Type":"application/json","x-admin-key": ADMIN_KEY },
+    body: JSON.stringify({ member_type: type })
+  });
+}
+
+// ── PURCHASES ──────────────────────────────────────────────────────
+async function loadPurchases() {
+  const data = await fetch("/api/soluna/admin/purchases", { headers: { "x-admin-key": ADMIN_KEY } }).then(r => r.json());
+  const purchases = data.purchases || [];
+  document.getElementById("k-bookings").textContent = purchases.filter(p=>p.status==="confirmed").length;
+  const tbody = document.getElementById("purchases-tbody");
+  if (!purchases.length) { tbody.innerHTML = '<tr><td colspan="8" style="color:#2a2a2a;text-align:center;padding:16px">申込なし</td></tr>'; return; }
+  tbody.innerHTML = purchases.map(p => `
+    <tr id="pr-${p.id}">
+      <td style="color:#2a2a2a">${p.id}</td>
+      <td class="em">${p.email||"—"}</td>
+      <td><span class="prop-badge">${p.property_slug}</span></td>
+      <td style="color:#888">${p.units||1}口</td>
+      <td style="color:#888">¥${((p.price_yen||0)/10000).toFixed(0)}万</td>
+      <td><span class="pill ${p.status||'pending'}">${p.status||'pending'}</span></td>
+      <td style="color:#2a2a2a;font-size:10px">${fmtDate(p.created_at)}</td>
+      <td style="display:flex;gap:6px">
+        ${p.status!=='confirmed'?`<button class="btn-green" onclick="setPurchaseStatus(${p.id},'confirmed')">確定</button>`:""}
+        ${p.status!=='rejected'?`<button class="btn-red" onclick="setPurchaseStatus(${p.id},'rejected')">却下</button>`:""}
+      </td>
+    </tr>`).join("");
+}
+async function setPurchaseStatus(id, status) {
+  await fetch(`/api/soluna/admin/purchases/${id}`, {
+    method: "PATCH", headers: { "Content-Type":"application/json","x-admin-key": ADMIN_KEY },
+    body: JSON.stringify({ status })
+  });
+  loadPurchases(); loadKpi();
+}
+
+// ── BOOKINGS ──────────────────────────────────────────────────────
+async function loadBookings() {
+  document.getElementById("bookings-list").innerHTML = '<p style="color:#2a2a2a;font-size:11px;padding:12px">読込中...</p>';
+  try {
+    const [internal, beds24] = await Promise.all([
+      fetch("/api/soluna/admin/bookings", { headers: { "x-admin-key": ADMIN_KEY } }).then(r => r.json()),
+      fetch("/api/soluna/admin/beds24-bookings", { headers: { "x-admin-key": ADMIN_KEY } }).then(r => r.json()).catch(()=>[]),
+    ]);
+    const all = [...(Array.isArray(internal)?internal:[]), ...(Array.isArray(beds24)?beds24:[])];
+    document.getElementById("k-bookings").textContent = all.length;
+    document.getElementById("k-bookings-sub").textContent = `内部: ${(Array.isArray(internal)?internal:[]).length} / Beds24: ${(Array.isArray(beds24)?beds24:[]).length}`;
+    if (!all.length) { document.getElementById("bookings-list").innerHTML = '<p style="color:#2a2a2a;font-size:11px;padding:12px">予約なし</p>'; return; }
+    document.getElementById("bookings-list").innerHTML = all.slice(0,40).map(b => `
+      <div class="booking-card">
+        <div class="booking-dates">
+          <div class="booking-checkin">${fmtDateShort(b.check_in||b.arrival)}</div>
+          <div class="booking-nights">${b.nights||"?"}泊</div>
+        </div>
+        <div>
+          <div class="booking-prop">${b.property_name||b.property_slug||"不明"}</div>
+          <div class="booking-guest">${b.email||b.guest_name||"—"} · ${b.guests||b.numAdult||1}名</div>
+        </div>
+        <span class="pill confirmed">確定</span>
+      </div>`).join("");
+  } catch(e) { document.getElementById("bookings-list").innerHTML = `<p style="color:var(--red);font-size:11px;padding:12px">${e.message}</p>`; }
+}
+
+// ── EMAIL BLAST ──────────────────────────────────────────────────────
+async function sendBlast(isTest) {
+  const subject = document.getElementById("blast-subject").value.trim();
+  const body = document.getElementById("blast-body").value.trim();
+  const test_email = document.getElementById("blast-test").value.trim();
+  const msg = document.getElementById("blast-msg");
+  if (!subject || !body) { showMsg(msg, "件名と本文を入力してください", "err"); return; }
+  if (isTest && !test_email) { showMsg(msg, "テスト送信先メールを入力してください", "err"); return; }
+  if (!isTest && !confirm(`SOLUNAメンバー全員にメールを送信しますか？\n件名: ${subject}`)) return;
+  const btn = document.getElementById("blast-btn");
+  btn.disabled = true; btn.textContent = "送信中...";
+  try {
+    const r = await fetch("/api/soluna/admin/blast", {
+      method: "POST",
+      headers: { "Content-Type":"application/json","x-admin-key": ADMIN_KEY },
+      body: JSON.stringify({ subject, body, test_email: isTest ? test_email : undefined })
+    });
+    const d = await r.json();
+    if (d.ok) showMsg(msg, `✓ 送信完了: ${d.sent}件送信, ${d.failed}件失敗 (合計${d.total}件, モード: ${d.mode})`, "ok");
+    else showMsg(msg, `エラー: ${d.error}`, "err");
+  } catch(e) { showMsg(msg, `エラー: ${e.message}`, "err"); }
+  btn.disabled = false; btn.textContent = "全員に配信";
+}
+
+// ── AKIYA SCORING ──────────────────────────────────────────────────────
+function scoreAkiya() {
+  const price = parseFloat(document.getElementById("sc-price").value) || 0;
+  const structure = document.getElementById("sc-structure").value;
+  const access = parseFloat(document.getElementById("sc-access").value) || 999;
+  const age = parseFloat(document.getElementById("sc-age").value) || 0;
+  const area = parseFloat(document.getElementById("sc-area").value) || 0;
+  const locs = [...document.querySelectorAll("#loc-tags input:checked")].map(i => i.value);
+
+  const scores = [];
+
+  // 価格スコア (万円)
+  let priceScore, priceNote;
+  if (price <= 500) { priceScore = 5; priceNote = "非常に低コスト。改修費をフルに投じられる"; }
+  else if (price <= 1500) { priceScore = 4; priceNote = "低コスト。共同所有で高い口数分割が可能"; }
+  else if (price <= 3000) { priceScore = 3; priceNote = "適正価格帯。立地次第で十分採算"; }
+  else if (price <= 6000) { priceScore = 2; priceNote = "やや高い。収益シミュレーション要確認"; }
+  else { priceScore = 1; priceNote = "高額。高稼働率・高単価でないと厳しい"; }
+  scores.push({ label: "取得価格", score: priceScore, note: priceNote });
+
+  // アクセス
+  let accScore, accNote;
+  if (access <= 30) { accScore = 5; accNote = "アクセス良好。週末利用に最適"; }
+  else if (access <= 90) { accScore = 4; accNote = "許容範囲。車があれば問題なし"; }
+  else if (access <= 180) { accScore = 3; accNote = "少し遠い。「来る意志がある人」には強みになる"; }
+  else if (access <= 360) { accScore = 2; accNote = "遠い。リモートワーク長期滞在向き"; }
+  else { accScore = 1; accNote = "非常に遠い。特殊ニーズ専用"; }
+  scores.push({ label: "アクセス", score: accScore, note: accNote });
+
+  // 構造
+  let strScore, strNote;
+  if (structure === "rc") { strScore = 5; strNote = "RC造は耐久性が高く改修しやすい"; }
+  else if (structure === "steel") { strScore = 4; strNote = "鉄骨造。構造は安定している"; }
+  else if (structure === "wood") { strScore = age > 40 ? 2 : 3; strNote = age > 40 ? "築古木造。耐震診断必須" : "木造。適切に改修すれば問題なし"; }
+  else if (structure === "land") { strScore = 3; strNote = "土地のみ。建築コスト+期間を加味"; }
+  else { strScore = 3; strNote = "構造未評価"; }
+  scores.push({ label: "構造", score: strScore, note: strNote });
+
+  // 築年数
+  let ageScore, ageNote;
+  if (age <= 10) { ageScore = 5; ageNote = "新しい。改修コストが低い"; }
+  else if (age <= 25) { ageScore = 4; ageNote = "比較的新しい。設備更新程度で対応可"; }
+  else if (age <= 40) { ageScore = 3; ageNote = "中古。耐震・設備の見直しが必要"; }
+  else if (age <= 60) { ageScore = 2; ageNote = "古い。大規模改修を前提に計画する"; }
+  else { ageScore = 1; ageNote = "非常に古い。スケルトンリノベ前提"; }
+  scores.push({ label: "築年数", score: ageScore, note: ageNote });
+
+  // 面積
+  let areaScore, areaNore;
+  if (area >= 150) { areaScore = 5; areaNore = "広い。複数ゲスト対応可"; }
+  else if (area >= 80) { areaScore = 4; areaNore = "十分な広さ"; }
+  else if (area >= 50) { areaScore = 3; areaNore = "標準的。カップル・少人数向き"; }
+  else if (area >= 30) { areaScore = 2; areaNore = "狭い。1〜2名向け"; }
+  else { areaScore = 1; areaNore = "非常に狭い。倉庫・スタジオ転用向き"; }
+  scores.push({ label: "延床面積", score: areaScore, note: areaNore });
+
+  // ロケーションボーナス
+  const locBonus = locs.length;
+  const locBonusCapped = Math.min(locBonus, 5);
+  scores.push({ label: "ロケーション特性", score: locBonusCapped, note: locs.length ? locs.join(" / ") + "（" + locs.length + "項目）" : "特性なし" });
+
+  const total = scores.reduce((s, sc) => s + sc.score, 0);
+  const maxTotal = scores.length * 5;
+  const pct = Math.round((total / maxTotal) * 100);
+
+  // Estimated per-unit price & revenue
+  const unitPrice = Math.round(price / 8); // 8口分割想定
+  const annualRevPerNight = price > 0 ? Math.round(price * 10000 / 36) : 0; // 想定1泊単価
+
+  document.getElementById("score-kpis").innerHTML = `
+    <div class="kpi"><div class="kpi-val ${pct>=70?'green':pct>=50?'gold':'red'}">${pct}点</div><div class="kpi-label">総合スコア</div><div class="kpi-sub">${total}/${maxTotal}</div></div>
+    <div class="kpi"><div class="kpi-val gold">¥${unitPrice}万</div><div class="kpi-label">1口あたり (8分割)</div><div class="kpi-sub">手付金 ¥10万</div></div>
+    <div class="kpi"><div class="kpi-val">${pct>=70?"◎ 推奨":pct>=50?"○ 検討":"△ 要再検討"}</div><div class="kpi-label">SOLUNA判定</div></div>
+  `;
+
+  document.getElementById("score-table").innerHTML = scores.map(s => `
+    <tr>
+      <td class="em">${s.label}</td>
+      <td>${"⬛".repeat(s.score)}${"⬜".repeat(5-s.score)} <span style="color:var(--gold);font-weight:700;margin-left:6px">${s.score}/5</span></td>
+      <td style="color:#555;font-size:10px">${s.note}</td>
+    </tr>`).join("");
+
+  const verdict = pct >= 70
+    ? `<span style="color:var(--green);font-size:18px;font-weight:800">◎ SOLUNA推奨物件</span><p style="color:#666;font-size:12px;margin-top:8px;line-height:1.8">この物件はSOLUNAの基準を満たしています。現地視察・権利調査・改修費見積もりに進むことを推奨します。1口 ¥${unitPrice}万（8分割）でのオーナー募集が現実的です。</p>`
+    : pct >= 50
+    ? `<span style="color:var(--gold);font-size:18px;font-weight:800">○ 検討価値あり</span><p style="color:#666;font-size:12px;margin-top:8px;line-height:1.8">条件次第でSOLUNAとして成立する可能性があります。弱点となっているスコア項目を改善できるか確認してください。</p>`
+    : `<span style="color:var(--red);font-size:18px;font-weight:800">△ 現時点では優先度低</span><p style="color:#666;font-size:12px;margin-top:8px;line-height:1.8">現状の条件ではSOLUNAとして採算・体験品質を確保するのが難しいと判断します。価格交渉・改修費再検討・特定ニーズへの特化を検討してください。</p>`;
+  document.getElementById("score-verdict").innerHTML = verdict;
+  document.getElementById("score-result").style.display = "block";
+  document.getElementById("score-result").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+// ── UTILS ──────────────────────────────────────────────────────
+function labelFor(t) {
+  const m = { admin:"管理者", owner:"オーナー", member:"一般", vip:"VIP", staff:"スタッフ" };
+  return m[t] || t || "一般";
+}
+function fmtDate(s) { if (!s) return "—"; return s.slice(0,10); }
+function fmtDateShort(s) { if (!s) return "—"; const d = String(s).replace(/(\d{4})(\d{2})(\d{2})/,"$1-$2-$3"); return d.slice(5,10); }
+function showMsg(el, txt, type) {
+  el.textContent = txt; el.className = "msg "+type; el.style.display = "block";
+  if (type === "ok") setTimeout(() => { el.style.display="none"; }, 5000);
+}
+</script>
+</body>
+</html>

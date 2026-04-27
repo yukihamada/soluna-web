@@ -6,11 +6,31 @@ struct CommunityMessage: Codable, Identifiable {
     let display_name: String
     let member_type: String?
     let message: String
-    let is_ai: Bool?
+    let is_ai: IntBool?
     let reply_to_id: Int?
     let reply_preview: String?
+    let image_url: String?
     let created_at: String
     var reactions: [String: Int]?
+}
+
+// Server sends is_ai as 0/1 integer
+struct IntBool: Codable {
+    let value: Bool
+    init(from decoder: Decoder) throws {
+        let c = try decoder.singleValueContainer()
+        if let i = try? c.decode(Int.self) { value = i != 0 }
+        else { value = (try? c.decode(Bool.self)) ?? false }
+    }
+    func encode(to encoder: Encoder) throws {
+        var c = encoder.singleValueContainer()
+        try c.encode(value)
+    }
+}
+
+private struct SendMessageResponse: Codable {
+    let ok: Bool?
+    let message: CommunityMessage?
 }
 
 struct CommunityView: View {
@@ -19,7 +39,10 @@ struct CommunityView: View {
     @State private var inputText = ""
     @State private var isLoading = false
     @State private var isSending = false
+    @State private var sendError: String? = nil
     @State private var sseTask: Task<Void, Never>?
+    @State private var showLoginSheet = false
+    @FocusState private var focused: Bool
 
     private let baseURL = "https://solun.art"
     private let emojis = ["❤️","🔥","🌊","🏔️","🌺","🙏","👏","✨","🎶","🌿","🫧","🐻"]
@@ -83,35 +106,77 @@ struct CommunityView: View {
     // MARK: - Input bar
 
     private var inputBar: some View {
-        HStack(spacing: 10) {
-            TextField("メッセージを入力...", text: $inputText, axis: .vertical)
-                .font(.system(size: 14))
-                .foregroundStyle(.white)
-                .padding(10)
-                .background(Color(hex: "0f0f0f"))
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.white.opacity(0.08)))
-                .lineLimit(1...4)
-                .onSubmit { Task { await sendMessage() } }
-
-            Button {
-                Task { await sendMessage() }
-            } label: {
-                Image(systemName: isSending ? "hourglass" : "arrow.up.circle.fill")
-                    .font(.system(size: 28))
-                    .foregroundStyle(
-                        !inputText.trimmingCharacters(in: .whitespaces).isEmpty && !isSending
-                            ? Color(hex: "c8a455")
-                            : Color(hex: "c8a455").opacity(0.3)
-                    )
-            }
-            .disabled(inputText.trimmingCharacters(in: .whitespaces).isEmpty || isSending)
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        .background(Color(hex: "080808"))
-        .overlay(alignment: .top) {
+        VStack(spacing: 0) {
             Divider().background(Color.white.opacity(0.05))
+
+            if let err = sendError {
+                Text(err)
+                    .font(.system(size: 11))
+                    .foregroundStyle(Color.red.opacity(0.8))
+                    .padding(.horizontal, 16)
+                    .padding(.top, 6)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+
+            if authService.isLoggedIn {
+                HStack(spacing: 10) {
+                    TextField("メッセージを入力...", text: $inputText, axis: .vertical)
+                        .font(.system(size: 14))
+                        .foregroundStyle(.white)
+                        .padding(10)
+                        .background(Color(hex: "0f0f0f"))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.white.opacity(0.08)))
+                        .lineLimit(1...4)
+                        .focused($focused)
+                        .onSubmit { Task { await sendMessage() } }
+
+                    Button {
+                        Task { await sendMessage() }
+                    } label: {
+                        Image(systemName: isSending ? "hourglass" : "arrow.up.circle.fill")
+                            .font(.system(size: 28))
+                            .foregroundStyle(
+                                !inputText.trimmingCharacters(in: .whitespaces).isEmpty && !isSending
+                                    ? Color(hex: "c8a455")
+                                    : Color(hex: "c8a455").opacity(0.3)
+                            )
+                    }
+                    .disabled(inputText.trimmingCharacters(in: .whitespaces).isEmpty || isSending)
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 10)
+            } else {
+                Button { showLoginSheet = true } label: {
+                    HStack(spacing: 8) {
+                        Image(systemName: "person.crop.circle")
+                            .font(.system(size: 15))
+                        Text("ログインしてメッセージを送る")
+                            .font(.system(size: 13, weight: .semibold))
+                    }
+                    .foregroundStyle(Color(hex: "050505"))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(Color(hex: "c8a455"))
+                    .clipShape(Capsule())
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+            }
+        }
+        .background(Color(hex: "080808"))
+        .sheet(isPresented: $showLoginSheet) {
+            NavigationStack {
+                LoginView()
+                    .navigationTitle("ログイン")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button("閉じる") { showLoginSheet = false }
+                                .foregroundStyle(Color(hex: "c8a455"))
+                        }
+                    }
+            }
         }
     }
 
@@ -134,9 +199,15 @@ struct CommunityView: View {
     private func sendMessage() async {
         let text = inputText.trimmingCharacters(in: .whitespaces)
         guard !text.isEmpty else { return }
+        guard let token = authService.memberToken else {
+            showLoginSheet = true
+            return
+        }
         isSending = true
+        sendError = nil
         defer { isSending = false }
         inputText = ""
+        focused = false
 
         guard let url = URL(string: "\(baseURL)/api/soluna/community/message") else { return }
         let body: [String: Any] = ["message": text]
@@ -146,16 +217,29 @@ struct CommunityView: View {
         req.httpMethod = "POST"
         req.httpBody = bodyData
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        if let token = authService.memberToken {
-            req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        }
+        req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
-        if let (data, response) = try? await URLSession.shared.data(for: req),
-           let http = response as? HTTPURLResponse, http.statusCode == 200 || http.statusCode == 201,
-           let msg = try? JSONDecoder().decode(CommunityMessage.self, from: data) {
-            messages.append(msg)
-        } else {
-            await fetchMessages()
+        do {
+            let (data, response) = try await URLSession.shared.data(for: req)
+            let http = response as? HTTPURLResponse
+            let status = http?.statusCode ?? 0
+            if status == 200 || status == 201 {
+                if let wrapper = try? JSONDecoder().decode(SendMessageResponse.self, from: data),
+                   let msg = wrapper.message {
+                    await MainActor.run { messages.append(msg) }
+                } else {
+                    await fetchMessages()
+                }
+            } else if status == 429 {
+                let err = (try? JSONDecoder().decode([String: String].self, from: data))?["error"]
+                await MainActor.run { sendError = err ?? "送信が速すぎます"; inputText = text }
+            } else if status == 401 {
+                await MainActor.run { showLoginSheet = true; inputText = text }
+            } else {
+                await fetchMessages()
+            }
+        } catch {
+            await MainActor.run { sendError = "送信に失敗しました"; inputText = text }
         }
     }
 
@@ -237,7 +321,7 @@ struct MessageRow: View {
                         Text(msg.display_name)
                             .font(.system(size: 12, weight: .bold))
                             .foregroundStyle(.white)
-                        if msg.is_ai == true {
+                        if msg.is_ai?.value == true {
                             Text("AI")
                                 .font(.system(size: 8, weight: .heavy))
                                 .foregroundStyle(Color(hex: "c8a455"))

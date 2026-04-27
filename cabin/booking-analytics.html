@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<title>SOLUNA 予約ダッシュボード</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--gold2:#e8c47a;--gold3:rgba(200,164,85,.08);
+  --bg:#040404;--bg2:#070707;--bg3:#0b0b0b;
+  --text:#ede9e1;--line:#111;--line2:#0d0d0d;
+  --green:#3fc97a;--yellow:#d4a30f;--red:#e05050;--blue:#4a8fc0;
+  --airbnb:#ff5a5f;--bdc:#5599dd;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Helvetica Neue','Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased}
+.page{max-width:1300px;margin:0 auto;padding:24px 20px 60px}
+
+/* ── Typography ───────────────────────── */
+.label{font-size:7px;letter-spacing:.26em;color:#1e1e1e;text-transform:uppercase;font-weight:700}
+.dim{color:#2a2a2a}
+.gold{color:var(--gold)}
+
+/* ── Header ───────────────────────────── */
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+h1{font-size:13px;font-weight:800;letter-spacing:.16em;color:var(--gold)}
+.hdr-right{display:flex;align-items:center;gap:10px}
+.refresh-btn{font-size:8px;letter-spacing:.1em;padding:4px 12px;border:1px solid #181818;border-radius:100px;background:transparent;color:#2a2a2a;cursor:pointer;transition:all .15s}
+.refresh-btn:hover{border-color:#333;color:#555}
+.export-btn{font-size:8px;letter-spacing:.1em;padding:4px 12px;border:1px solid rgba(200,164,85,.2);border-radius:100px;background:transparent;color:rgba(200,164,85,.5);cursor:pointer;transition:all .15s}
+.export-btn:hover{border-color:rgba(200,164,85,.5);color:var(--gold)}
+.meta{font-size:9px;color:#1a1a1a;margin-bottom:18px}
+
+/* ── Period ───────────────────────────── */
+.period-row{display:flex;align-items:center;gap:5px;margin-bottom:22px;flex-wrap:wrap}
+.p-btn{font-size:8px;letter-spacing:.14em;padding:4px 13px;border-radius:100px;border:1px solid #141414;background:transparent;color:#222;cursor:pointer;transition:all .15s}
+.p-btn:hover{border-color:#333;color:#555}
+.p-btn.on{border-color:rgba(200,164,85,.4);color:var(--gold)}
+.p-range{font-size:8px;color:#1a1a1a;margin-left:6px}
+
+/* ── Card base ────────────────────────── */
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:9px;position:relative;overflow:hidden}
+.card-shine{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,164,85,.12),transparent)}
+
+/* ── KPI strip ────────────────────────── */
+.kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-bottom:16px}
+@media(max-width:1000px){.kpi-row{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:500px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
+.kpi{padding:14px 15px}
+.kpi-n{font-size:22px;font-weight:800;color:var(--gold);line-height:1;margin-bottom:2px;letter-spacing:-.02em}
+.kpi-n.sm{font-size:16px}
+.kpi-n.xs{font-size:13px}
+.kpi-s{font-size:9px;color:#2a2a2a;margin-bottom:3px;line-height:1.4}
+.kpi-l{font-size:7px;letter-spacing:.22em;color:#181818;text-transform:uppercase}
+.kpi-alert{position:absolute;top:10px;right:10px;width:6px;height:6px;border-radius:50%;background:var(--yellow)}
+
+/* ── Forecast strip ───────────────────── */
+.forecast-row{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px}
+@media(max-width:600px){.forecast-row{grid-template-columns:1fr}}
+.fc-card{padding:16px 18px}
+.fc-month{font-size:11px;font-weight:700;color:#444;margin-bottom:2px}
+.fc-rev{font-size:20px;font-weight:800;color:var(--gold);letter-spacing:-.02em;margin-bottom:4px}
+.fc-meta{font-size:9px;color:#2a2a2a;margin-bottom:10px}
+.fc-track{height:3px;background:#0c0c0c;border-radius:100px;overflow:hidden;margin-bottom:6px}
+.fc-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.fc-vs{font-size:8px;color:#1e1e1e}
+.fc-badge{display:inline-block;font-size:7px;padding:1px 7px;border-radius:100px;margin-bottom:6px}
+.fc-badge.hot{background:rgba(63,201,122,.1);color:var(--green);border:1px solid rgba(63,201,122,.2)}
+.fc-badge.warm{background:rgba(212,163,15,.08);color:var(--yellow);border:1px solid rgba(212,163,15,.15)}
+.fc-badge.cool{background:rgba(80,80,80,.1);color:#444;border:1px solid #181818}
+
+/* ── Two col ──────────────────────────── */
+.two-col{display:grid;grid-template-columns:1fr 370px;gap:12px;margin-bottom:16px;align-items:start}
+@media(max-width:900px){.two-col{grid-template-columns:1fr}}
+
+/* ── Property grid ────────────────────── */
+.prop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+@media(max-width:540px){.prop-grid{grid-template-columns:1fr}}
+.prop-card{padding:15px;cursor:pointer;transition:border-color .15s}
+.prop-card:hover,.prop-card.sel{border-color:rgba(200,164,85,.3)}
+.prop-card.sel{background:rgba(200,164,85,.025)}
+.pc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.pc-name{font-size:10px;font-weight:600;color:#444;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;margin-right:8px}
+.grade{font-size:8px;font-weight:800;padding:2px 7px;border-radius:4px;flex-shrink:0}
+.grade-a{background:rgba(63,201,122,.12);color:var(--green);border:1px solid rgba(63,201,122,.2)}
+.grade-b{background:rgba(200,164,85,.1);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.grade-c{background:rgba(80,80,80,.1);color:#444;border:1px solid #1a1a1a}
+.pc-occ{font-size:28px;font-weight:800;color:var(--gold);line-height:1;margin-bottom:5px}
+.occ-bar{height:3px;background:#0b0b0b;border-radius:100px;overflow:hidden;margin-bottom:10px}
+.occ-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.pc-stats{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px}
+.pc-stat{font-size:8px;color:#1e1e1e}
+.pc-stat b{color:#444;font-weight:600}
+
+/* ── Upcoming ─────────────────────────── */
+.up-panel{background:var(--bg2);border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.panel-hdr{padding:12px 16px;border-bottom:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between}
+.panel-ttl{font-size:8px;letter-spacing:.24em;color:#222;text-transform:uppercase;font-weight:700}
+.up-list{max-height:460px;overflow-y:auto}
+.up-list::-webkit-scrollbar{width:2px}
+.up-list::-webkit-scrollbar-thumb{background:#181818;border-radius:2px}
+.up-item{padding:10px 16px;border-bottom:1px solid #060606;display:flex;align-items:center;gap:10px}
+.up-item:last-child{border-bottom:none}
+.up-d{width:44px;flex-shrink:0;text-align:center}
+.up-d-day{font-size:17px;font-weight:800;color:var(--gold);line-height:1}
+.up-d-mon{font-size:7px;color:#2a2a2a;letter-spacing:.1em}
+.up-d-lbl{font-size:6px;padding:1px 5px;border-radius:3px;margin-top:2px;display:inline-block}
+.lbl-today{background:rgba(200,164,85,.25);color:var(--gold)}
+.lbl-soon{background:rgba(63,201,122,.12);color:var(--green);border:1px solid rgba(63,201,122,.2)}
+.lbl-far{background:transparent;color:#1e1e1e}
+.up-body{flex:1;min-width:0}
+.up-prop{font-size:10px;font-weight:600;color:#444;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:1px}
+.up-guest{font-size:9px;color:#222;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.up-r{text-align:right;flex-shrink:0}
+.up-rev{font-size:10px;color:#333;white-space:nowrap}
+.up-nights{font-size:8px;color:#1a1a1a;margin-top:1px}
+.up-empty{padding:28px;text-align:center;font-size:9px;color:#1a1a1a}
+
+/* ── 3-col mini panels ────────────────── */
+.tri-col{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:800px){.tri-col{grid-template-columns:1fr}}
+.mini-panel{padding:18px}
+.mp-title{font-size:7px;letter-spacing:.22em;color:#1e1e1e;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+
+/* Donut */
+.donut-wrap{display:flex;align-items:center;gap:16px}
+.donut{width:80px;height:80px;border-radius:50%;flex-shrink:0;position:relative}
+.donut-hole{position:absolute;inset:18px;background:var(--bg2);border-radius:50%}
+.donut-legend{display:flex;flex-direction:column;gap:5px;flex:1}
+.dl-row{display:flex;align-items:center;gap:6px;font-size:9px;color:#333}
+.dl-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.dl-pct{margin-left:auto;font-size:9px;font-weight:600;color:#444}
+
+/* Stay dist bars */
+.stay-bars{display:flex;flex-direction:column;gap:6px}
+.stay-row{display:flex;align-items:center;gap:8px}
+.stay-lbl{font-size:9px;color:#333;width:52px;flex-shrink:0}
+.stay-track{flex:1;height:4px;background:#0c0c0c;border-radius:100px;overflow:hidden}
+.stay-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.stay-cnt{font-size:9px;color:#222;width:24px;flex-shrink:0;text-align:right}
+
+/* Velocity sparkline */
+.spark-wrap{width:100%;height:52px;margin-bottom:8px}
+.spark-bottom{display:flex;justify-content:space-between;font-size:7px;color:#1a1a1a}
+.vel-peak{display:inline-block;font-size:18px;font-weight:800;color:var(--gold);line-height:1;margin-bottom:2px}
+
+/* Status funnel */
+.funnel-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.funnel-item{display:flex;align-items:center;gap:5px}
+.fn{font-size:16px;font-weight:800;color:var(--gold)}
+.fl{font-size:8px;color:#2a2a2a}
+.fa{font-size:10px;color:#1a1a1a;margin:0 2px}
+
+/* ── Section ──────────────────────────── */
+.section{margin-bottom:16px}
+.s-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--line2)}
+.s-ttl{font-size:8px;letter-spacing:.24em;color:#1e1e1e;text-transform:uppercase;font-weight:700}
+
+/* Two bars */
+.bars2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:700px){.bars2{grid-template-columns:1fr}}
+
+/* Bar panel */
+.bpanel{padding:16px 18px}
+.bar-row{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.bar-row:last-child{margin-bottom:0}
+.bar-lbl{font-size:9px;color:#444;width:140px;flex-shrink:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.bar-lbl:hover{color:var(--gold)}
+.bar-trk{flex:1;height:4px;background:#0b0b0b;border-radius:100px;overflow:hidden}
+.bar-f{height:100%;border-radius:100px;transition:width .6s cubic-bezier(.16,1,.3,1)}
+.f-gold{background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.f-airbnb{background:var(--airbnb)}
+.f-bdc{background:var(--bdc)}
+.f-green{background:var(--green)}
+.f-dim{background:#2a2a2a}
+.bar-v{font-size:9px;color:#2a2a2a;width:80px;flex-shrink:0;text-align:right}
+.bar-c{font-size:8px;color:#1e1e1e;width:52px;flex-shrink:0;text-align:right}
+
+/* ── Chart ────────────────────────────── */
+.chart-panel{padding:18px 20px}
+.chart-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.c-toggle{display:flex;gap:4px}
+.c-btn{font-size:7px;letter-spacing:.12em;padding:3px 9px;border-radius:100px;border:1px solid #141414;background:transparent;color:#1e1e1e;cursor:pointer;transition:all .15s}
+.c-btn.on{border-color:#2a2a2a;color:#555}
+.chart-area{display:flex;align-items:flex-end;gap:3px;height:90px;margin-bottom:5px}
+.m-col{flex:1;min-width:0;position:relative}
+.m-bar{border-radius:2px 2px 0 0;cursor:pointer;transition:opacity .15s;min-height:2px}
+.m-bar:hover{opacity:.7}
+.m-past{background:linear-gradient(to top,rgba(200,164,85,.45),rgba(200,164,85,.08))}
+.m-cur{background:linear-gradient(to top,rgba(200,164,85,.75),rgba(200,164,85,.25))}
+.m-future{background:rgba(200,164,85,.06);border:1px dashed #1a1a1a;border-bottom:none}
+.m-tip{position:absolute;bottom:calc(100%+5px);left:50%;transform:translateX(-50%);background:#0d0d0d;border:1px solid #1a1a1a;border-radius:5px;padding:6px 10px;white-space:nowrap;font-size:8px;color:#666;pointer-events:none;opacity:0;z-index:20;line-height:1.7;transition:opacity .1s}
+.m-col:hover .m-tip{opacity:1}
+.m-labels{display:flex;gap:3px}
+.m-lbl{flex:1;text-align:center;font-size:6px;color:#1a1a1a;overflow:hidden;white-space:nowrap}
+.m-lbl.cur{color:#444}
+
+/* ── Table ────────────────────────────── */
+.tbl-wrap{background:var(--bg2);border:1px solid var(--line);border-radius:9px;overflow:auto}
+.tbl-hdr{padding:10px 14px;border-bottom:1px solid var(--line2);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.filter-chip{font-size:7px;padding:2px 9px;border-radius:100px;border:1px solid #181818;color:#2a2a2a;cursor:pointer;background:transparent;letter-spacing:.06em;transition:all .15s}
+.filter-chip:hover{border-color:#333}
+.filter-chip.on{border-color:rgba(200,164,85,.4);color:var(--gold)}
+table{width:100%;border-collapse:collapse;min-width:740px}
+th{font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:#1a1a1a;padding:9px 12px;border-bottom:1px solid var(--line2);text-align:left;font-weight:700;white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{color:#333}
+td{font-size:10px;color:#3a3a3a;padding:7px 12px;border-bottom:1px solid #060606;white-space:nowrap;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.006)}
+td.hi{color:#666}
+td.gold{color:var(--gold)}
+.badge{display:inline-block;font-size:7px;font-weight:700;letter-spacing:.08em;padding:2px 7px;border-radius:100px;text-transform:uppercase;white-space:nowrap}
+.b-confirmed{background:rgba(63,201,122,.07);color:var(--green);border:1px solid rgba(63,201,122,.14)}
+.b-new{background:rgba(74,143,192,.07);color:var(--blue);border:1px solid rgba(74,143,192,.14)}
+.b-inquiry{background:rgba(212,163,15,.07);color:var(--yellow);border:1px solid rgba(212,163,15,.14)}
+.b-modified{background:rgba(155,114,207,.07);color:#9b72cf;border:1px solid rgba(155,114,207,.14)}
+.b-airbnb{background:rgba(255,90,95,.07);color:var(--airbnb);border:1px solid rgba(255,90,95,.14)}
+.b-bdc{background:rgba(85,153,221,.07);color:var(--bdc);border:1px solid rgba(85,153,221,.14)}
+.b-direct{background:rgba(63,201,122,.07);color:var(--green);border:1px solid rgba(63,201,122,.14)}
+.b-other{background:rgba(80,80,80,.08);color:#444;border:1px solid #181818}
+.sort-asc::after{content:' ↑'}
+.sort-desc::after{content:' ↓'}
+.r-hide{display:none}
+
+/* ── Auth overlay ─────────────────────── */
+.overlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:99}
+.auth{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:30px;width:280px;text-align:center}
+.auth h2{font-size:11px;letter-spacing:.16em;color:var(--gold);margin-bottom:5px}
+.auth p{font-size:9px;color:#2a2a2a;margin-bottom:18px}
+.auth input{width:100%;padding:9px 13px;background:var(--bg);border:1px solid #181818;border-radius:6px;color:var(--text);font-size:11px;outline:none;margin-bottom:10px}
+.auth input:focus{border-color:#252525}
+.auth button{width:100%;padding:9px;background:transparent;border:1px solid #181818;border-radius:6px;color:#444;font-size:10px;letter-spacing:.1em;cursor:pointer;transition:all .2s}
+.auth button:hover{border-color:rgba(200,164,85,.4);color:var(--gold)}
+.loading{text-align:center;padding:80px;color:#181818;font-size:9px;letter-spacing:.24em}
+.err{text-align:center;padding:40px;color:var(--red);font-size:11px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="overlay" id="overlay">
+  <div class="auth">
+    <h2>ADMIN ACCESS</h2>
+    <p>管理者キーを入力</p>
+    <input id="keyIn" type="password" placeholder="admin key" autocomplete="current-password"/>
+    <button onclick="doLogin()">アクセス</button>
+  </div>
+</div>
+
+<div class="page">
+  <div class="hdr">
+    <h1>SOLUNA 予約ダッシュボード</h1>
+    <div class="hdr-right">
+      <button class="refresh-btn" onclick="load()">↺ 更新</button>
+      <button class="export-btn" onclick="exportCSV()">↓ CSV</button>
+    </div>
+  </div>
+  <div class="meta" id="metaLine">—</div>
+
+  <div class="period-row">
+    <button class="p-btn" onclick="setPeriod(3,this)">3M</button>
+    <button class="p-btn on" onclick="setPeriod(6,this)">6M</button>
+    <button class="p-btn" onclick="setPeriod(12,this)">12M</button>
+    <button class="p-btn" onclick="setPeriod(24,this)">24M</button>
+    <span class="p-range" id="pRange"></span>
+  </div>
+
+  <div id="main"><div class="loading">LOADING…</div></div>
+</div>
+
+<script>
+const KEY='sln_akey';
+let adminKey=localStorage.getItem(KEY)||'', period=6, lastD=null;
+let propFilter=null, chFilter=null, chartMode='revenue';
+let sortCol=null, sortDir=1;
+
+document.getElementById('keyIn').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+function doLogin(){
+  const v=document.getElementById('keyIn').value.trim();
+  if(!v)return;
+  adminKey=v; localStorage.setItem(KEY,v);
+  document.getElementById('overlay').style.display='none';
+  load();
+}
+function setPeriod(m,btn){
+  period=m; propFilter=null; chFilter=null; sortCol=null;
+  document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on'); load();
+}
+
+// ── Formatters ─────────────────────────────────────────────
+function yen(n){return(n===null||n===undefined)?'—':'¥'+Math.round(n).toLocaleString('ja-JP');}
+function yenS(n){
+  if(n===null||n===undefined)return'—';
+  if(n>=1e6)return'¥'+(n/1e6).toFixed(1)+'M';
+  if(n>=1e3)return'¥'+Math.round(n/1e3)+'K';
+  return yen(n);
+}
+function fmtD(s){
+  if(!s)return'—';
+  const m=String(s).match(/(\d{4})[^\d]?(\d{2})[^\d]?(\d{2})/);
+  return m?`${m[1]}/${m[2]}/${m[3]}`:s;
+}
+function chCls(ch){
+  if(!ch)return'other';
+  const l=ch.toLowerCase();
+  if(l.includes('airbnb'))return'airbnb';
+  if(l.includes('booking'))return'bdc';
+  if(l.includes('direct')||l.includes('soluna'))return'direct';
+  return'other';
+}
+function chFill(ch){
+  const l=(ch||'').toLowerCase();
+  if(l.includes('airbnb'))return'f-airbnb';
+  if(l.includes('booking'))return'f-bdc';
+  if(l.includes('direct')||l.includes('soluna'))return'f-green';
+  return'f-dim';
+}
+function stsCls(s){return['confirmed','new','inquiry','modified'].includes(s)?`b-${s}`:'b-other';}
+function daysFrom(d){return Math.round((new Date(d)-new Date())/86400000);}
+
+// ── Load ───────────────────────────────────────────────────
+async function load(){
+  document.getElementById('main').innerHTML='<div class="loading">LOADING…</div>';
+  try{
+    const r=await fetch(`/api/soluna/admin/booking-analytics?months=${period}`,{headers:{'x-admin-key':adminKey}});
+    if(r.status===403){localStorage.removeItem(KEY);document.getElementById('overlay').style.display='flex';return;}
+    lastD=await r.json();
+    if(lastD.error){document.getElementById('main').innerHTML=`<div class="err">${lastD.error}</div>`;return;}
+    render(lastD);
+  }catch(e){document.getElementById('main').innerHTML=`<div class="err">${e.message}</div>`;}
+}
+
+// ── Render ─────────────────────────────────────────────────
+function render(d){
+  const now=new Date(), curM=now.toISOString().slice(0,7);
+  document.getElementById('metaLine').textContent=`更新: ${now.toLocaleString('ja-JP')}  /  ${d.periodFrom} ～ ${d.periodTo}`;
+  document.getElementById('pRange').textContent=`${d.periodFrom} ～ ${d.periodTo}`;
+
+  const totalRev=Object.values(d.byChannel).reduce((s,c)=>s+c.revenue,0);
+  const cnt=d.total, nights=d.totalNights||0;
+  const avgUnit=cnt?Math.round(totalRev/cnt):0;
+  const avgStay=cnt?(nights/cnt).toFixed(1):0;
+  const revpar=d.pastDays?Math.round(totalRev/d.pastDays):0;
+  const directCnt=(d.byChannel['Direct / SOLUNA']||{}).count||0;
+  const directPct=cnt?Math.round(directCnt/cnt*100):0;
+  const occ=d.pastDays?Math.round(nights/d.pastDays*100):0;
+
+  // Props sorted by revenue
+  const props=Object.entries(d.byProp).sort((a,b)=>b[1].revenue-a[1].revenue);
+  const maxPropRev=(props[0]||[,{revenue:1}])[1].revenue||1;
+
+  // Channels sorted by count
+  const chs=Object.entries(d.byChannel).sort((a,b)=>b[1].count-a[1].count);
+  const maxChCnt=(chs[0]||[,{count:1}])[1].count||1;
+
+  // ── FORECAST (next 3 months from byMonth) ──────────────
+  const fmx=Math.max(1,...[1,2,3].map(i=>{
+    const dt=new Date(now.getFullYear(),now.getMonth()+i,1);
+    return(d.byMonth[dt.toISOString().slice(0,7)]||{revenue:0}).revenue;
+  }));
+  const fcCards=[1,2,3].map(i=>{
+    const dt=new Date(now.getFullYear(),now.getMonth()+i,1);
+    const key=dt.toISOString().slice(0,7);
+    const mv=d.byMonth[key]||{count:0,revenue:0,nights:0};
+    const pct=Math.round(mv.revenue/fmx*100)||0;
+    const mon=`${dt.getMonth()+1}月`;
+    const badge=mv.count>=15?'hot':mv.count>=8?'warm':'cool';
+    const btext=mv.count>=15?'繁忙':mv.count>=8?'普通':'空き多';
+    return `<div class="card fc-card">
+      <div class="card-shine"></div>
+      <div class="fc-month">${key} <span class="fc-badge ${badge}">${btext}</span></div>
+      <div class="fc-rev">${yenS(mv.revenue)}</div>
+      <div class="fc-meta">${mv.count}件 · ${mv.nights}泊</div>
+      <div class="fc-track"><div class="fc-fill" style="width:${pct}%"></div></div>
+      <div class="fc-vs">${yenS(mv.revenue)} / 最高比 ${pct}%</div>
+    </div>`;
+  }).join('');
+
+  // ── PROPERTY CARDS ────────────────────────────────────
+  const propCards=props.map(([name,v])=>{
+    const occP=d.pastDays?Math.min(100,Math.round(v.nights/d.pastDays*100)):0;
+    const rv2=d.pastDays?Math.round(v.revenue/d.pastDays):0;
+    const avgS=v.count?(v.nights/v.count).toFixed(1):0;
+    const topCh=Object.entries((d.byPropChannel||{})[name]||{}).sort((a,b)=>b[1]-a[1])[0];
+    const topN=topCh?topCh[0].replace(' / SOLUNA',''):'—';
+    const score=(v.revenue/Math.max(totalRev,1))*40+(occP/100)*40+(Math.min(v.nights/v.count||0,7)/7)*20;
+    const grade=score>40?'a':score>15?'b':'c';
+    const short=name.replace('WHITE HOUSE ','WH ').replace('インスタントハウス','IH');
+    return `<div class="card prop-card ${propFilter===name?'sel':''}" onclick="fProp('${name.replace(/'/g,"\\'")}')">
+      <div class="card-shine"></div>
+      <div class="pc-top">
+        <div class="pc-name">${short}</div>
+        <span class="grade grade-${grade}">${grade.toUpperCase()}</span>
+      </div>
+      <div class="pc-occ">${occP}%</div>
+      <div class="occ-bar"><div class="occ-fill" style="width:${occP}%"></div></div>
+      <div class="pc-stats">
+        <div class="pc-stat"><b>${yenS(v.revenue)}</b> 売上</div>
+        <div class="pc-stat"><b>${yen(rv2)}</b>/日</div>
+        <div class="pc-stat"><b>${v.count}</b>件 <b>${v.nights}</b>泊</div>
+        <div class="pc-stat"><b>${avgS}</b>泊 avg</div>
+        <div class="pc-stat" style="grid-column:1/-1;margin-top:1px"><b style="color:#333">${topN}</b></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // ── UPCOMING ─────────────────────────────────────────
+  const upHtml=(d.upcoming||[]).length?
+    (d.upcoming||[]).map(b=>{
+      const df=daysFrom(b.check_in);
+      const dayN=fmtD(b.check_in).slice(8);
+      const monN=fmtD(b.check_in).slice(5,7)+'月';
+      const lbl=df===0?`<span class="up-d-lbl lbl-today">TODAY</span>`:
+               df<=7?`<span class="up-d-lbl lbl-soon">${df}日後</span>`:
+               df<=30?`<span class="up-d-lbl lbl-far">${df}日後</span>`:'';
+      const chb=`<span class="badge b-${chCls(b.channel)}" style="font-size:6px">${b.channel||'Direct'}</span>`;
+      return`<div class="up-item">
+        <div class="up-d"><div class="up-d-day">${dayN}</div><div class="up-d-mon">${monN}</div>${lbl}</div>
+        <div class="up-body">
+          <div class="up-prop">${b.prop}</div>
+          <div class="up-guest">${b.guest||'—'} ${chb}</div>
+        </div>
+        <div class="up-r"><div class="up-rev">${b.revenue===0?'¥0':yen(b.revenue)}</div><div class="up-nights">${b.nights}泊</div></div>
+      </div>`;
+    }).join('')
+  :'<div class="up-empty">今後の予約なし</div>';
+
+  // ── DONUT (channel mix) ───────────────────────────────
+  const COLORS={Airbnb:'#ff5a5f','Booking.com':'#5599dd','Direct / SOLUNA':'#3fc97a','その他':'#333'};
+  const chTotal=chs.reduce((s,[,v])=>s+v.count,0)||1;
+  let ang=0;
+  const stops=chs.map(([n,v])=>{
+    const deg=v.count/chTotal*360;
+    const s=`${COLORS[n]||'#333'} ${ang}deg ${ang+deg}deg`;
+    ang+=deg;return s;
+  });
+  const donutBg=`conic-gradient(from -90deg,${stops.join(',')})`;
+  const donutLegend=chs.map(([n,v])=>`
+    <div class="dl-row"><div class="dl-dot" style="background:${COLORS[n]||'#333'}"></div>
+    <span>${n.replace(' / SOLUNA','')}</span>
+    <span class="dl-pct">${Math.round(v.count/chTotal*100)}%</span></div>`).join('');
+
+  // ── STAY DISTRIBUTION ────────────────────────────────
+  const stayD=d.stayDist||{};
+  const stayMax=Math.max(1,...Object.values(stayD));
+  const stayBars=Object.entries(stayD).map(([k,v])=>`
+    <div class="stay-row">
+      <span class="stay-lbl">${k}</span>
+      <div class="stay-track"><div class="stay-fill" style="width:${Math.round(v/stayMax*100)}%"></div></div>
+      <span class="stay-cnt">${v}</span>
+    </div>`).join('');
+
+  // ── VELOCITY SPARKLINE ───────────────────────────────
+  const vel=d.vel8||Array(8).fill(0);
+  const velMax=Math.max(1,...vel);
+  const W=200,H=50,pts=vel.map((v,i)=>{
+    const x=i*(W/(vel.length-1));
+    const y=H-Math.round(v/velMax*(H-4))-2;
+    return`${x},${y}`;
+  }).join(' ');
+  const velThis=vel[vel.length-1]||0, velPrev=vel[vel.length-2]||0;
+  const velTrend=velThis>velPrev?'↑':'↓';
+  const velCol=velThis>velPrev?'var(--green)':'var(--red)';
+  const sparkSVG=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" preserveAspectRatio="none">
+    <defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="rgba(200,164,85,.2)"/>
+      <stop offset="100%" stop-color="rgba(200,164,85,.7)"/>
+    </linearGradient></defs>
+    <polyline points="${pts}" fill="none" stroke="url(#sg)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    ${vel.map((v,i)=>{
+      const x=i*(W/(vel.length-1));
+      const y=H-Math.round(v/velMax*(H-4))-2;
+      return`<circle cx="${x}" cy="${y}" r="2" fill="rgba(200,164,85,.6)"/>`;
+    }).join('')}
+  </svg>`;
+
+  // ── STATUS FUNNEL ────────────────────────────────────
+  const conv=d.convStats||{};
+  const funnelHtml=[
+    {k:'inquiry',l:'問い合わせ',c:'var(--yellow)'},{k:'new',l:'仮予約',c:'var(--blue)'},{k:'confirmed',l:'確定',c:'var(--green)'}
+  ].map((f,i,a)=>`
+    <div class="funnel-item">
+      <span class="fn" style="color:${f.c}">${conv[f.k]||0}</span>
+      <span class="fl">${f.l}</span>
+    </div>${i<a.length-1?'<span class="fa">→</span>':''}`).join('');
+
+  // ── MONTHLY CHART ────────────────────────────────────
+  function buildChart(mode){
+    const ms=[];
+    for(let i=-d.monthsBack;i<=3;i++){
+      const dt=new Date(now.getFullYear(),now.getMonth()+i,1);
+      const key=dt.toISOString().slice(0,7);
+      const mv=d.byMonth[key]||{count:0,revenue:0,nights:0};
+      ms.push({key,lbl:`${dt.getMonth()+1}月`,...mv,isPast:key<curM,isCur:key===curM});
+    }
+    const vals=ms.map(m=>mode==='count'?m.count:mode==='nights'?m.nights:m.revenue);
+    const mx=Math.max(1,...vals);
+    return`<div class="chart-area" id="chartBars">${ms.map((m,i)=>{
+      const h=Math.max(2,Math.round(vals[i]/mx*86));
+      const cls=m.isCur?'m-cur':m.isPast?'m-past':'m-future';
+      return`<div class="m-col"><div class="m-bar ${cls}" style="height:${h}px">
+        <div class="m-tip">${m.key}<br>${m.count}件 · ${m.nights}泊<br>${yen(m.revenue)}</div>
+      </div></div>`;
+    }).join('')}</div>
+    <div class="m-labels">${ms.map(m=>`<span class="m-lbl ${m.isCur?'cur':''}">${m.lbl}</span>`).join('')}</div>`;
+  }
+
+  // ── TABLE ────────────────────────────────────────────
+  function tRows(pf,cf){
+    let rows=lastD.recent||[];
+    return rows.map(b=>{
+      const hide=(pf&&b.prop!==pf)||(cf&&b.channel!==cf);
+      const lead=b.booked_at&&b.check_in?Math.round((new Date(b.check_in)-new Date(b.booked_at))/86400000):null;
+      return`<tr class="${hide?'r-hide':''}">
+        <td class="hi">${fmtD(b.booked_at)}</td>
+        <td class="hi">${b.guest||'—'}</td>
+        <td style="${b.prop===propFilter?'color:var(--gold)':''}">${b.prop}</td>
+        <td>${fmtD(b.check_in)}</td><td>${fmtD(b.check_out)}</td>
+        <td>${b.nights||'—'}</td>
+        <td>${lead!==null?lead+'日':'—'}</td>
+        <td><span class="badge b-${chCls(b.channel)}">${b.channel||'その他'}</span></td>
+        <td class="${b.revenue>0?'gold':''}">${b.revenue===0?'¥0':yen(b.revenue)}</td>
+        <td><span class="badge ${stsCls(b.status)}">${b.status||'—'}</span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ── HTML ─────────────────────────────────────────────
+  document.getElementById('main').innerHTML=`
+
+  <!-- KPI -->
+  <div class="kpi-row">
+    <div class="card kpi"><div class="card-shine"></div>
+      <div class="kpi-n">${cnt}</div><div class="kpi-s">${yenS(totalRev)} 総売上</div><div class="kpi-l">BOOKINGS</div>
+    </div>
+    <div class="card kpi"><div class="card-shine"></div>
+      <div class="kpi-n sm">${yen(avgUnit)}</div><div class="kpi-s">avg ${avgStay}泊/件</div><div class="kpi-l">AVG UNIT</div>
+    </div>
+    <div class="card kpi"><div class="card-shine"></div>
+      <div class="kpi-n sm">${yen(revpar)}</div><div class="kpi-s">Revenue/Available Room/Day</div><div class="kpi-l">RevPAR</div>
+    </div>
+    <div class="card kpi"><div class="card-shine"></div>
+      <div class="kpi-n">${nights}</div><div class="kpi-s">総泊数 / 稼働率 ${occ}%</div><div class="kpi-l">NIGHTS</div>
+    </div>
+    <div class="card kpi"><div class="card-shine"></div>
+      <div class="kpi-n">${d.avgLeadDays||0}<span style="font-size:11px;color:#555">日</span></div>
+      <div class="kpi-s">予約→宿泊 平均</div><div class="kpi-l">LEAD TIME</div>
+    </div>
+    <div class="card kpi"><div class="card-shine"></div>
+      <div class="kpi-n">${directPct}%</div><div class="kpi-s">Direct / SOLUNA</div><div class="kpi-l">DIRECT RATE</div>
+    </div>
+  </div>
+
+  <!-- FORECAST -->
+  <div class="section">
+    <div class="s-head"><div class="s-ttl">REVENUE FORECAST — 直近3ヶ月の確定予約売上</div></div>
+    <div class="forecast-row">${fcCards}</div>
+  </div>
+
+  <!-- Property cards + Upcoming -->
+  <div class="two-col">
+    <div>
+      <div class="s-head"><div class="s-ttl">物件別パフォーマンス</div><span style="font-size:7px;color:#1a1a1a">クリックでフィルター</span></div>
+      <div class="prop-grid">${propCards}</div>
+    </div>
+    <div class="up-panel">
+      <div class="panel-hdr"><div class="panel-ttl">UPCOMING CHECK-INS</div><span style="font-size:7px;color:#1e1e1e">${(d.upcoming||[]).length}件</span></div>
+      <div class="up-list">${upHtml}</div>
+    </div>
+  </div>
+
+  <!-- 3-col mini -->
+  <div class="tri-col">
+    <div class="card mini-panel"><div class="card-shine"></div>
+      <div class="mp-title">チャンネルMIX</div>
+      <div class="donut-wrap">
+        <div class="donut" style="background:${donutBg}"><div class="donut-hole"></div></div>
+        <div class="donut-legend">${donutLegend}</div>
+      </div>
+    </div>
+    <div class="card mini-panel"><div class="card-shine"></div>
+      <div class="mp-title">滞在期間 分布</div>
+      <div class="stay-bars">${stayBars}</div>
+    </div>
+    <div class="card mini-panel"><div class="card-shine"></div>
+      <div class="mp-title">週別 予約ペース（過去8週）</div>
+      <div class="vel-peak">${velThis}<span style="font-size:12px;color:${velCol};margin-left:4px">${velTrend}</span></div>
+      <div style="font-size:8px;color:#1e1e1e;margin-bottom:8px">今週の予約数（対先週${velPrev}件）</div>
+      <div class="spark-wrap">${sparkSVG}</div>
+      <div class="spark-bottom"><span>8週前</span><span>今週</span></div>
+    </div>
+  </div>
+
+  <!-- Status funnel + channel/prop bars -->
+  <div class="section">
+    <div class="s-head">
+      <div class="s-ttl">ステータス フォーネル</div>
+      ${(conv.cancelled)?`<span style="font-size:8px;color:#333">キャンセル: ${conv.cancelled}件</span>`:''}
+    </div>
+    <div class="card" style="padding:14px 18px;margin-bottom:16px">
+      <div class="card-shine"></div>
+      <div class="funnel-row">${funnelHtml}</div>
+    </div>
+  </div>
+
+  <div class="bars2">
+    <div class="section">
+      <div class="s-head">
+        <div class="s-ttl">チャンネル別</div>
+        ${chFilter?`<button class="filter-chip on" onclick="fCh(null)">× ${chFilter}</button>`:''}
+      </div>
+      <div class="card bpanel">
+        <div class="card-shine"></div>
+        ${chs.map(([n,v])=>`<div class="bar-row">
+          <span class="bar-lbl" onclick="fCh('${n.replace(/'/g,"\\'")}')"\
+            style="${chFilter===n?'color:var(--gold)':''}">${n}</span>
+          <div class="bar-trk"><div class="bar-f ${chFill(n)}" style="width:${Math.round(v.count/maxChCnt*100)}%"></div></div>
+          <span class="bar-v">${yenS(v.revenue)}</span>
+          <span class="bar-c">${v.count}件</span>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="section">
+      <div class="s-head">
+        <div class="s-ttl">物件別 売上</div>
+        ${propFilter?`<button class="filter-chip on" onclick="fProp(null)">× ${propFilter}</button>`:''}
+      </div>
+      <div class="card bpanel">
+        <div class="card-shine"></div>
+        ${props.map(([n,v])=>`<div class="bar-row">
+          <span class="bar-lbl" onclick="fProp('${n.replace(/'/g,"\\'")}')"\
+            style="${propFilter===n?'color:var(--gold)':''}">${n.replace('WHITE HOUSE ','WH ').replace('インスタントハウス','IH')}</span>
+          <div class="bar-trk"><div class="bar-f f-gold" style="width:${Math.round(v.revenue/maxPropRev*100)}%"></div></div>
+          <span class="bar-v">${yenS(v.revenue)}</span>
+          <span class="bar-c">${v.count}件</span>
+        </div>`).join('')}
+      </div>
+    </div>
+  </div>
+
+  <!-- Monthly chart -->
+  <div class="section">
+    <div class="s-head">
+      <div class="s-ttl">月別推移</div>
+      <div class="c-toggle">
+        <button class="c-btn ${chartMode==='revenue'?'on':''}" onclick="swChart('revenue',this)">売上</button>
+        <button class="c-btn ${chartMode==='nights'?'on':''}" onclick="swChart('nights',this)">泊数</button>
+        <button class="c-btn ${chartMode==='count'?'on':''}" onclick="swChart('count',this)">件数</button>
+      </div>
+    </div>
+    <div class="card chart-panel" id="chartWrap"><div class="card-shine"></div>${buildChart(chartMode)}</div>
+  </div>
+
+  <!-- Table -->
+  <div class="section">
+    <div class="s-head">
+      <div class="s-ttl">全予約 — ${cnt}件</div>
+      <div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap">
+        ${propFilter?`<button class="filter-chip on" onclick="fProp(null)">× ${propFilter.slice(0,14)}</button>`:''}
+        ${chFilter?`<button class="filter-chip on" onclick="fCh(null)">× ${chFilter}</button>`:''}
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th onclick="sortTable('booked_at')">予約日</th>
+          <th onclick="sortTable('guest')">ゲスト</th>
+          <th onclick="sortTable('prop')">物件</th>
+          <th onclick="sortTable('check_in')">チェックイン</th>
+          <th>チェックアウト</th>
+          <th onclick="sortTable('nights')">泊</th>
+          <th onclick="sortTable('lead')">リードタイム</th>
+          <th onclick="sortTable('channel')">チャンネル</th>
+          <th onclick="sortTable('revenue')">金額</th>
+          <th>状態</th>
+        </tr></thead>
+        <tbody id="tBody">${tRows(propFilter,chFilter)}</tbody>
+      </table>
+    </div>
+  </div>
+  `;
+}
+
+// ── Interactions ───────────────────────────────────────────
+function fProp(name){propFilter=propFilter===name?null:name;chFilter=null;render(lastD);}
+function fCh(name){chFilter=chFilter===name?null:name;propFilter=null;render(lastD);}
+
+function swChart(mode,btn){
+  chartMode=mode;
+  document.querySelectorAll('.c-btn').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  if(!lastD)return;
+  const now=new Date(),curM=now.toISOString().slice(0,7);
+  const ms=[];
+  for(let i=-lastD.monthsBack;i<=3;i++){
+    const dt=new Date(now.getFullYear(),now.getMonth()+i,1);
+    const key=dt.toISOString().slice(0,7);
+    const mv=lastD.byMonth[key]||{count:0,revenue:0,nights:0};
+    ms.push({key,lbl:`${dt.getMonth()+1}月`,...mv,isPast:key<curM,isCur:key===curM});
+  }
+  const vals=ms.map(m=>mode==='count'?m.count:mode==='nights'?m.nights:m.revenue);
+  const mx=Math.max(1,...vals);
+  document.getElementById('chartBars').innerHTML=ms.map((m,i)=>{
+    const h=Math.max(2,Math.round(vals[i]/mx*86));
+    const cls=m.isCur?'m-cur':m.isPast?'m-past':'m-future';
+    return`<div class="m-col"><div class="m-bar ${cls}" style="height:${h}px">
+      <div class="m-tip">${m.key}<br>${m.count}件·${m.nights}泊<br>${yen(m.revenue)}</div>
+    </div></div>`;
+  }).join('');
+}
+
+function sortTable(col){
+  if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=1;}
+  if(!lastD)return;
+  const tbody=document.getElementById('tBody');
+  if(!tbody)return;
+  const rows=[...tbody.querySelectorAll('tr')].filter(r=>!r.classList.contains('r-hide'));
+  const allRows=[...tbody.querySelectorAll('tr')];
+  const colMap={booked_at:0,guest:1,prop:2,check_in:3,nights:5,lead:6,channel:7,revenue:8};
+  const ci=colMap[col]??0;
+  rows.sort((a,b)=>{
+    const av=a.cells[ci]?.textContent.trim()||'';
+    const bv=b.cells[ci]?.textContent.trim()||'';
+    const an=parseFloat(av.replace(/[¥,]/g,''));
+    const bn=parseFloat(bv.replace(/[¥,]/g,''));
+    const cmp=isNaN(an)||isNaN(bn)?av.localeCompare(bv,undefined,{numeric:true}):an-bn;
+    return cmp*sortDir;
+  });
+  rows.forEach(r=>tbody.appendChild(r));
+  document.querySelectorAll('th').forEach(t=>{t.className='';});
+  const thIdx=Object.keys(colMap).indexOf(col);
+  // find th by onclick
+  document.querySelectorAll('th').forEach(t=>{
+    if(t.getAttribute('onclick')===`sortTable('${col}')`)
+      t.className=sortDir===1?'sort-asc':'sort-desc';
+  });
+}
+
+// ── CSV Export ─────────────────────────────────────────────
+function exportCSV(){
+  if(!lastD)return;
+  const hdr=['予約ID','予約日','ゲスト','物件','チェックイン','チェックアウト','泊数','リードタイム(日)','チャンネル','金額(円)','状態'];
+  const rows=lastD.recent.map(b=>{
+    const lead=b.booked_at&&b.check_in?Math.round((new Date(b.check_in)-new Date(b.booked_at))/86400000):'';
+    return[b.id,fmtD(b.booked_at),b.guest,b.prop,fmtD(b.check_in),fmtD(b.check_out),b.nights,lead,b.channel,b.revenue,b.status];
+  });
+  const csv=[hdr,...rows].map(r=>r.map(x=>`"${String(x??'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`soluna-${lastD.periodFrom}-${lastD.periodTo}.csv`;
+  a.click();
+}
+
+if(adminKey){document.getElementById('overlay').style.display='none';load();}
+</script>
+</body>
+</html>

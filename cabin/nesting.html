@@ -196,6 +196,18 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
   .prose p{font-size:14px}
   h2{letter-spacing:-.025em}
 }
+/* BOOKING WIDGET */
+.bw{background:#050505;border-top:1px solid rgba(176,136,221,.15);border-bottom:1px solid #0d0d0d;padding:28px 0}
+.bw-inner{max-width:860px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.bw-label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--purple);font-weight:800;margin-bottom:6px}
+.bw-field{display:flex;flex-direction:column;flex:1;min-width:130px}
+.bw-field input{background:#0a0a0a;border:1px solid #1a1a1a;color:var(--text);font-size:13px;padding:11px 14px;border-radius:8px;outline:none;transition:border .2s;-webkit-appearance:none;color-scheme:dark}
+.bw-field input:focus{border-color:var(--purple)}
+.bw-btn{background:var(--purple);color:#040404;font-weight:800;font-size:12px;padding:13px 24px;border-radius:100px;border:none;cursor:pointer;transition:opacity .2s;letter-spacing:.04em;white-space:nowrap;flex-shrink:0}
+.bw-btn:hover{opacity:.85}
+.bw-direct{font-size:10px;color:#6dbb88;background:rgba(109,187,136,.07);border:1px solid rgba(109,187,136,.2);padding:10px 16px;border-radius:100px;white-space:nowrap;font-weight:700;flex-shrink:0}
+.bw-discount{font-size:9px;letter-spacing:.06em;color:#6dbb88;margin-top:2px;font-weight:700}
+@media(max-width:600px){.bw-inner{gap:10px}}
 </style>
 <style id="gnav-css">
 .gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
@@ -273,6 +285,28 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 </div>
 </div>
 <div class="hero-scroll">SCROLL</div>
+</div>
+<!-- BOOKING WIDGET — NESTING (稼働中) -->
+<div class="bw">
+  <div class="bw-inner">
+    <div style="flex-shrink:0;margin-right:4px">
+      <div style="font-size:11px;font-weight:800;color:var(--text);letter-spacing:.04em">NESTING 弟子屈</div>
+      <div style="font-size:9px;color:var(--purple);letter-spacing:.18em;font-weight:700;margin-top:2px">稼働中 · ¥50,000/泊〜</div>
+    </div>
+    <div class="bw-field">
+      <div class="bw-label">チェックイン</div>
+      <input id="bw-in" type="date"/>
+    </div>
+    <div class="bw-field">
+      <div class="bw-label">チェックアウト</div>
+      <input id="bw-out" type="date"/>
+    </div>
+    <button class="bw-btn" onclick="bookNesting()">空室を確認する →</button>
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <a class="bw-direct" href="/app" data-sln-track="direct_book_click">SOLUNAで直接予約</a>
+      <div class="bw-discount">OTA手数料なし · メンバー割引あり</div>
+    </div>
+  </div>
 </div>
 <!-- NUMBERS BAR -->
 <div class="numbers">
@@ -1049,6 +1083,24 @@ function sfToggle(btn){
   btn.setAttribute('aria-expanded',open?'false':'true');
   bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
 }
+function bookNesting(){
+  var ci=document.getElementById('bw-in').value;
+  var co=document.getElementById('bw-out').value;
+  if(!ci||!co){alert('チェックイン・チェックアウト日を選んでください');return;}
+  window.location.href='https://book.beds24.com/booking2.php?propid=243409&checkin='+ci.replace(/-/g,'')+'&checkout='+co.replace(/-/g,'');
+}
+(function(){
+  var ci=document.getElementById('bw-in');
+  var co=document.getElementById('bw-out');
+  if(!ci||!co) return;
+  var t=new Date(); t.setDate(t.getDate()+1);
+  var fmt=function(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+  ci.min=fmt(t); co.min=fmt(t);
+  ci.addEventListener('change',function(){
+    var m=new Date(ci.value); m.setDate(m.getDate()+1);
+    co.min=fmt(m); if(co.value<=ci.value){co.value=fmt(m);}
+  });
+})();
 </script><!-- IMAGE MODAL -->
 <div class="modal" id="modal" onclick="this.classList.remove('active')">
 <img alt="" id="modalImg" src=""/>

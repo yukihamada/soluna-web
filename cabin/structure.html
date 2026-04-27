@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/structure" rel="canonical"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<title data-en="SOLUNA STRUCTURE — Tool-Free CLT Construction System">SOLUNA STRUCTURE — 工具不要の構造システム</title>
+<meta name="description" content="CLTパネル × CNCインターロック接合 × 3Dプリントコネクター。構造計算された、工具不要で組み立てられる建築システム。空き家再生・オフグリッドキャビンのための次世代工法。"/>
+<meta property="og:title" content="SOLUNA STRUCTURE — 工具不要の構造システム"/>
+<meta property="og:description" content="CLT × CNC接合 × 3Dプリント。ビス不要、接着剤不要、重機不要。構造計算された建築キット。"/>
+<meta property="og:image" content="/img/tapkop_aerial_village.webp"/>
+<meta property="og:url" content="https://solun.art/structure"/>
+<link href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23c8a455'/></svg>" rel="icon"/>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.35);
+  --gold-soft:rgba(200,164,85,.07);
+  --bg:#050505;
+  --text:#f0ece4;
+  --dim:#3a3a3a;
+  --line:#111;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--gold);color:#000}
+
+/* NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888}
+@media(max-width:700px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:600px;overflow:hidden;display:flex;align-items:flex-end}
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.45) saturate(.7)}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#050505 0%,rgba(5,5,5,.5) 50%,transparent 100%)}
+.hero-body{position:relative;z-index:2;padding:0 32px 80px;max-width:760px;margin:0 auto;width:100%}
+.hero-tag{display:inline-block;background:rgba(200,164,85,.1);border:1px solid var(--gold-dim);color:var(--gold);font-size:9px;font-weight:800;letter-spacing:.22em;padding:6px 16px;border-radius:100px;margin-bottom:20px;text-transform:uppercase;animation:fu .7s .1s both}
+.hero h1{font-size:clamp(2.2rem,6.5vw,4rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:18px;animation:fu .9s .3s both}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{font-size:14px;color:rgba(240,236,228,.6);line-height:1.9;max-width:520px;margin-bottom:32px;animation:fu 1s .5s both}
+.hero-pills{display:flex;flex-wrap:wrap;gap:8px;animation:fu 1.1s .7s both}
+.hero-pill{background:rgba(255,255,255,.04);border:1px solid #1a1a1a;color:#666;font-size:10px;letter-spacing:.08em;padding:6px 14px;border-radius:100px}
+.hero-pill.on{border-color:var(--gold-dim);color:var(--gold)}
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTIONS */
+.s{padding:96px 0}
+.w{max-width:720px;margin:0 auto;padding:0 24px}
+.ww{max-width:1000px;margin:0 auto;padding:0 24px}
+.label{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:14px}
+h2{font-size:clamp(1.7rem,4vw,2.8rem);font-weight:800;letter-spacing:-.035em;line-height:1.15;margin-bottom:16px}
+.gold{color:var(--gold)}
+p.body{font-size:13.5px;color:#666;line-height:2.05;max-width:580px}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+.r.in{opacity:1;transform:translateY(0)}
+
+/* TECH GRID */
+.tech-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:48px}
+@media(max-width:700px){.tech-grid{grid-template-columns:1fr}}
+.tech-card{background:#080808;border:1px solid var(--line);padding:32px 28px;position:relative;overflow:hidden}
+.tech-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);opacity:0;transition:opacity .4s}
+.tech-card:hover::before{opacity:1}
+.tech-num{font-size:10px;color:var(--gold);font-weight:800;letter-spacing:.2em;margin-bottom:16px}
+.tech-card h3{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:12px;line-height:1.3}
+.tech-card p{font-size:12px;color:#555;line-height:1.9}
+.tech-badge{display:inline-block;font-size:8.5px;font-weight:800;letter-spacing:.14em;padding:4px 10px;border-radius:100px;margin-top:14px;text-transform:uppercase}
+.badge-now{background:rgba(80,200,120,.1);border:1px solid rgba(80,200,120,.3);color:#50c878}
+.badge-proto{background:rgba(200,164,85,.1);border:1px solid var(--gold-dim);color:var(--gold)}
+.badge-next{background:rgba(255,255,255,.04);border:1px solid #1a1a1a;color:#444}
+
+/* DIAGRAM */
+.diagram{margin:48px 0;background:#080808;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.diagram-header{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.diagram-dot{width:8px;height:8px;border-radius:50%}
+.d1{background:#c8a455}.d2{background:#3a3a3a}.d3{background:#1a1a1a}
+.diagram-title{font-size:10px;color:#555;letter-spacing:.12em;font-family:monospace}
+.diagram-body{padding:28px 24px;font-family:monospace;font-size:12px;line-height:2;color:#666}
+.diagram-body .hi{color:var(--gold)}
+.diagram-body .ok{color:#50c878}
+.diagram-body .ng{color:#c85050}
+.diagram-body .arrow{color:#333}
+
+/* STEPS */
+.steps{margin-top:48px;display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:24px;padding:28px 0;border-bottom:1px solid var(--line)}
+.step:first-child{padding-top:0}
+.step:last-child{border-bottom:none}
+.step-n{font-size:9px;font-weight:800;color:var(--gold);letter-spacing:.2em;min-width:28px;padding-top:3px}
+.step-body h3{font-size:14px;font-weight:800;margin-bottom:8px;letter-spacing:-.01em}
+.step-body p{font-size:12px;color:#555;line-height:1.9}
+.step-tag{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--gold);background:var(--gold-soft);padding:3px 10px;border-radius:100px;display:inline-block;margin-top:8px}
+
+/* SPEC TABLE */
+.spec{border:1px solid var(--line);margin-top:40px;overflow:hidden}
+.spec-row{display:grid;grid-template-columns:160px 1fr;border-bottom:1px solid var(--line);font-size:12px}
+.spec-row:last-child{border-bottom:none}
+.spec-k{padding:14px 18px;color:var(--dim);font-weight:700;background:#070707;font-size:10px;letter-spacing:.06em;display:flex;align-items:center}
+.spec-v{padding:14px 18px;color:#666;line-height:1.7}
+.spec-v strong{color:var(--gold)}
+@media(max-width:600px){.spec-row{grid-template-columns:1fr}.spec-k{border-bottom:1px solid var(--line)}}
+
+/* COMPARISON */
+.comp{margin-top:48px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:11.5px}
+th{font-size:9px;letter-spacing:.14em;font-weight:800;text-transform:uppercase;color:var(--dim);padding:12px 16px;text-align:left;background:#070707;border-bottom:1px solid var(--line)}
+td{padding:12px 16px;border-bottom:1px solid var(--line);color:#555;vertical-align:top}
+tr:last-child td{border-bottom:none}
+.td-name{color:var(--text);font-weight:700;white-space:nowrap}
+.td-on{color:#50c878;font-weight:700}
+.td-half{color:var(--gold);font-weight:700}
+.td-off{color:#333}
+.td-hl{background:rgba(200,164,85,.04)}
+
+/* COLLAB */
+.collab-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:40px}
+@media(max-width:600px){.collab-grid{grid-template-columns:1fr}}
+.collab-card{background:#080808;border:1px solid var(--line);padding:24px 22px}
+.collab-card h4{font-size:12px;font-weight:800;margin-bottom:6px;letter-spacing:.03em}
+.collab-card p{font-size:11px;color:#555;line-height:1.8}
+.collab-card a{color:var(--gold);font-size:10px}
+
+/* CTA */
+.cta-section{background:#080808;border-top:1px solid var(--line);padding:96px 0;text-align:center}
+.cta-btn{display:inline-block;background:var(--gold);color:#050505;font-weight:800;font-size:12.5px;padding:16px 40px;border-radius:100px;letter-spacing:.04em;transition:opacity .2s;margin:6px}
+.cta-btn:hover{opacity:.85;color:#050505}
+.cta-ghost{display:inline-block;border:1px solid var(--gold-dim);color:var(--gold);font-weight:700;font-size:12px;padding:15px 36px;border-radius:100px;letter-spacing:.04em;margin:6px;transition:all .2s}
+.cta-ghost:hover{background:var(--gold-soft)}
+
+/* FOOTER */
+footer{padding:48px 24px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center;max-width:1000px;margin:0 auto}
+footer p{font-size:10px;color:#2a2a2a}
+.ft-links{display:flex;gap:20px}
+.ft-links a{font-size:10px;color:#333;transition:color .2s}
+.ft-links a:hover{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<nav class="gnav">
+  <a class="gnav-logo" href="index">SOLUNA</a>
+  <div class="gnav-links" id="gnav-links">
+    <a href="materials">建材</a>
+    <a href="village">ビレッジ</a>
+    <a href="homes">物件</a>
+    <a href="scheme">スキーム</a>
+    <a class="gnav-cta" href="buy">オーナーになる</a>
+  </div>
+  <div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg">
+    <img src="img/tapkop_aerial_village.webp" alt="SOLUNA STRUCTURE" loading="eager"/>
+  </div>
+  <div class="hero-body">
+    <div class="hero-tag" data-en="CONSTRUCTION SYSTEM">構造システム</div>
+    <h1 data-en="No tools.<br/><em>No limits.</em>">工具不要。<br/><em>構造計算あり。</em></h1>
+    <p class="hero-sub" data-en="CLT panels × CNC interlocking joints × 3D-printed connectors. A building kit that assembles without screws, bolts, or adhesive — and is structurally engineered to last.">CLTパネル × CNCインターロック接合 × 3Dプリントコネクター。ビス不要、接着剤不要、重機不要。構造計算された、組み立てキットとしての建築。</p>
+    <div class="hero-pills">
+      <span class="hero-pill on" data-en="CLT Structural Panels">CLT 構造パネル</span>
+      <span class="hero-pill on" data-en="CNC Interlocking Joints">CNC インターロック接合</span>
+      <span class="hero-pill on" data-en="3D-Printed Connectors">3D プリントコネクター</span>
+      <span class="hero-pill" data-en="Tool-Free Assembly">工具不要組み立て</span>
+      <span class="hero-pill" data-en="Structural Calculation Included">構造計算付き</span>
+    </div>
+  </div>
+</div>
+
+<!-- WHY -->
+<div class="s">
+  <div class="w">
+    <p class="label r" data-en="THE PROBLEM">課題</p>
+    <h2 class="r" data-en="Traditional construction is why <em class='gold'>abandoned houses stay abandoned.</em>">伝統的な工法が、<em class="gold">空き家を空き家のままにする。</em></h2>
+    <p class="body r" style="margin-top:16px" data-en="Heavy equipment, licensed contractors, weeks of work, millions in cost. Small-scale renovation becomes economically irrational. The result: 8.49 million vacant homes across Japan, and rising.">重機、有資格職人、数週間の工期、数百万円のコスト。小規模改修が経済的に成立しない。結果、日本全国849万戸の空き家、増加中。</p>
+    <p class="body r" style="margin-top:12px" data-en="We are building a different system. One where a small crew can assemble a structurally sound cabin in a day — anywhere, including remote islands.">別のシステムを作る。少人数で、1日で、離島にも山にも、構造的に安全なキャビンを建てられるシステム。</p>
+
+    <div class="diagram r">
+      <div class="diagram-header">
+        <div class="diagram-dot d1"></div>
+        <div class="diagram-dot d2"></div>
+        <div class="diagram-dot d3"></div>
+        <div class="diagram-title">SOLUNA STRUCTURE — 工法比較</div>
+      </div>
+      <div class="diagram-body">
+<span class="hi">従来工法</span>　　　　　<span class="ng">✗ 重機必要</span>　　<span class="ng">✗ 熟練職人必要</span>　　<span class="ng">✗ 数週間〜数ヶ月</span><br/>
+<span class="arrow">│</span><br/>
+<span class="arrow">├──</span> 2×4工法　　　　　<span class="ng">✗ ビス数千本</span>　　<span class="ng">✗ 現地加工</span><br/>
+<span class="arrow">├──</span> 在来木軸工法　　　<span class="ng">✗ 棟梁技術依存</span>　<span class="ng">✗ 接合部が弱点</span><br/>
+<span class="arrow">└──</span> コンテナ転用　　　<span class="ng">✗ 断熱が難</span>　　　<span class="ng">✗ 重量制限</span><br/>
+<br/>
+<span class="hi">SOLUNA STRUCTURE</span>　　<span class="ok">✓ 手で組める</span>　　<span class="ok">✓ 工具不要</span>　　<span class="ok">✓ 1日で建つ</span><br/>
+<span class="arrow">│</span><br/>
+<span class="arrow">├──</span> CLTパネル　　　　 <span class="ok">✓ JAS認定材</span>　　 <span class="ok">✓ 構造計算確立</span><br/>
+<span class="arrow">├──</span> CNCインターロック　<span class="ok">✓ 接着剤不要</span>　　<span class="ok">✓ 解体・再利用可</span><br/>
+<span class="arrow">└──</span> 3Dプリントコネクタ <span class="ok">✓ 設計自由</span>　　　<span class="hi">▲ 認定整備中</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TECH STACK -->
+<div class="s" style="padding-top:0;border-top:1px solid var(--line)">
+  <div class="ww">
+    <div class="w" style="margin-bottom:0;padding-bottom:0">
+      <p class="label r" data-en="THE SYSTEM">システム構成</p>
+      <h2 class="r" data-en="Three layers, one kit.">3つの層、ひとつのキット。</h2>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card r">
+        <div class="tech-num">LAYER 01</div>
+        <h3 data-en="CLT Structural Panels">CLT 構造パネル</h3>
+        <p data-en="Cross Laminated Timber — JAS-certified in Japan since 2016. Multiple wood grain layers bonded perpendicular to each other for two-way structural integrity. 3× stiffer than equivalent steel per unit weight. Prefabricated off-site, delivered to exact dimensions.">直交集成板。2016年JAS規格制定済みの実績ある構造材。繊維方向を直交させて積層、両方向に高い構造性能。単位重量あたりの剛性は鋼材の3倍。工場でプレカット、寸法通りに搬入。</p>
+        <div class="tech-badge badge-now" data-en="CODE COMPLIANT TODAY">今日から法準拠</div>
+      </div>
+      <div class="tech-card r">
+        <div class="tech-num">LAYER 02</div>
+        <h3 data-en="CNC Interlocking Joints">CNC インターロック接合</h3>
+        <p data-en="Half-lap, dovetail, and wedge joints milled by CNC router into CLT panel edges. No screws, no adhesive, no fasteners. Panels slide together and lock by geometry alone. Validated at pavilion scale by ICD Stuttgart and IBOIS EPFL. Tsugite (University of Tokyo) provides open-source design software.">ハーフラップ・ダブテール・くさびをCNCルーターでCLT端部に刻む。ビス・接着剤・金物不要。パネル同士がジオメトリだけで噛み合いロック。ICD Stuttgart・IBOIS EPFLでパビリオン規模の実証済み。</p>
+        <div class="tech-badge badge-now" data-en="PROVEN AT SCALE">パビリオン規模で実証</div>
+      </div>
+      <div class="tech-card r">
+        <div class="tech-num">LAYER 03</div>
+        <h3 data-en="3D-Printed Connectors">3D プリントコネクター</h3>
+        <p data-en="SLS PA12-CF (carbon-fiber reinforced nylon) structural nodes printed to exact geometry. Wedge-lock or pin connection — no installation tools. Under 10m² (no building confirmation required), structural use is viable today. 2026 MLIT reform creates a certification pathway for larger structures.">SLS PA12-CF（炭素繊維強化ナイロン）製ノード。くさびロックまたはピン接続、工具不要。10m²以下（建築確認不要）では今日から構造利用可能。2026年国交省告示改正で大型構造への道が開く。</p>
+        <div class="tech-badge badge-proto" data-en="10m² PROTOTYPE NOW">10m²プロト 今から可能</div>
+      </div>
+    </div>
+
+    <!-- Spec -->
+    <div class="spec r" style="max-width:720px;margin:48px auto 0">
+      <div class="spec-row">
+        <div class="spec-k">対象規模</div>
+        <div class="spec-v"><strong>10m²以下</strong>（建築確認不要）→ 今日から実験可能<br/><span style="font-size:11px;color:#444">200m²以下平屋 → 2026年告示改正後の認定ルートへ</span></div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-k">コネクター材料</div>
+        <div class="spec-v"><strong>SLS PA12-CF</strong>（炭素繊維強化ナイロン、耐荷重71MPa）<br/><span style="font-size:11px;color:#444">外注先: DMM.make / JLC3DP / Craftcloud Japan</span></div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-k">設計ツール</div>
+        <div class="spec-v"><strong>Tsugite</strong>（東大、無料）、<strong>compas_wood</strong>（IBOIS EPFL、OSS）、<strong>Manis</strong>（FEM解析統合、OSS）</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-k">構造計算</div>
+        <div class="spec-v">CLT: 2016年告示（国交省）準拠<br/>コネクター: FEMシミュレーション + 試験体引張試験 → 大臣認定申請</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-k">組み立て</div>
+        <div class="spec-v"><strong>木槌1本</strong>、またはゼロ工具。2〜4人 × 1日でキャビン1棟。</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-k">解体・再利用</div>
+        <div class="spec-v">接着剤不使用のため<strong>完全解体・移設・再組み立て可能</strong>。廃棄ゼロ設計。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARISON TABLE -->
+<div class="s" style="border-top:1px solid var(--line)">
+  <div class="ww">
+    <p class="label r" data-en="COMPARISON">工法比較</p>
+    <h2 class="r" data-en="Why this combination?">なぜこの組み合わせか。</h2>
+    <div class="comp r">
+      <table>
+        <tr>
+          <th>工法</th>
+          <th>工具不要</th>
+          <th>構造認定</th>
+          <th>解体再利用</th>
+          <th>離島搬入</th>
+          <th>コスト/m²</th>
+        </tr>
+        <tr>
+          <td class="td-name">在来木軸工法</td>
+          <td class="td-off">✗</td>
+          <td class="td-on">◎</td>
+          <td class="td-off">✗</td>
+          <td class="td-off">困難</td>
+          <td>¥200K+</td>
+        </tr>
+        <tr>
+          <td class="td-name">CLT + 金物（現行）</td>
+          <td class="td-off">△</td>
+          <td class="td-on">◎</td>
+          <td class="td-half">△</td>
+          <td class="td-half">可</td>
+          <td>¥150〜250K</td>
+        </tr>
+        <tr class="td-hl">
+          <td class="td-name" style="color:var(--gold)">CLT + CNC + 3Dプリント<br/><span style="font-size:9px;color:var(--gold);opacity:.6">← SOLUNA STRUCTURE</span></td>
+          <td class="td-on">◎</td>
+          <td class="td-half">○ (10m² / 2026+)</td>
+          <td class="td-on">◎</td>
+          <td class="td-on">◎</td>
+          <td>未確定</td>
+        </tr>
+        <tr>
+          <td class="td-name">コンクリート3D印刷<br/><span style="font-size:9px;color:#333">Serendix等</span></td>
+          <td class="td-off">✗（機械必要）</td>
+          <td class="td-half">△（大臣認定）</td>
+          <td class="td-off">✗</td>
+          <td class="td-off">困難</td>
+          <td>¥110K〜</td>
+        </tr>
+        <tr>
+          <td class="td-name">コンテナ転用</td>
+          <td class="td-half">△</td>
+          <td class="td-half">△</td>
+          <td class="td-on">◎</td>
+          <td class="td-half">可（重い）</td>
+          <td>¥80〜150K</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ROADMAP -->
+<div class="s" style="border-top:1px solid var(--line)">
+  <div class="w">
+    <p class="label r" data-en="ROADMAP">ロードマップ</p>
+    <h2 class="r" data-en="From prototype to standard.">プロトタイプから、スタンダードへ。</h2>
+    <div class="steps">
+      <div class="step r">
+        <div class="step-n">01</div>
+        <div class="step-body">
+          <h3 data-en="Prototype Pod — Under 10m² (2026)">プロトタイプポッド — 10m²以下（2026年）</h3>
+          <p data-en="Build the first SOLUNA STRUCTURE pod at Biruwa Village or Ibukijima. CLT panels + CNC half-lap joints + 3D-printed PA12-CF connectors. Assemble with 4 people in one day. Document every joint, load, and weather exposure.">美留和ビレッジまたは伊吹島で第1号ポッドを建設。CLT + CNCハーフラップ + 3Dプリント PA12-CFコネクター。4人1日で組み立て。全接合部の荷重・気候データを記録。</p>
+          <span class="step-tag">美留和 or 伊吹島</span>
+        </div>
+      </div>
+      <div class="step r">
+        <div class="step-n">02</div>
+        <div class="step-body">
+          <h3 data-en="Structural Testing + University Partnership (2026–2027)">構造試験 + 大学連携（2026〜2027年）</h3>
+          <p data-en="Conduct tensile, compression, and cyclic loading tests on 3D-printed connectors with a partner university (Tokyo, Keio, or Waseda). Accumulate data for Ministerial Approval (大臣認定) under the 2026 regulatory reform framework.">大学（東京大・慶應・早稲田）と連携し3Dプリントコネクターの引張・圧縮・繰り返し載荷試験を実施。2026年告示改正の「強度指定制度」に向けたデータを蓄積。</p>
+          <span class="step-tag">大臣認定データ蓄積</span>
+        </div>
+      </div>
+      <div class="step r">
+        <div class="step-n">03</div>
+        <div class="step-body">
+          <h3 data-en="SOLUNA BUILD KIT — Certified System (2027+)">SOLUNA BUILD KIT — 認定システム（2027年〜）</h3>
+          <p data-en="A certified modular building kit. CLT panels, 3D-printed connectors, and assembly manual — shipped to a site. A team of 4 assembles a 30m² cabin in a weekend. Designed for abandoned house renovation and new off-grid construction.">認定された建築キット。CLTパネル + 3Dプリントコネクター + 組み立てマニュアル。現場に届いたら4人で週末にキャビン完成。空き家リノベと新築オフグリッドキャビンの両方に対応。</p>
+          <span class="step-tag">製品化 · 販売 · 量産</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OPEN SOURCE -->
+<div class="s" style="border-top:1px solid var(--line);background:#070707">
+  <div class="ww">
+    <p class="label r" data-en="OPEN SOURCE STACK">オープンソーススタック</p>
+    <h2 class="r" data-en="Built on proven research.">実証済みの研究の上に作る。</h2>
+    <div class="collab-grid" style="margin-top:40px">
+      <div class="collab-card r">
+        <h4>Tsugite — 東京大学</h4>
+        <p>ボクセルベースの木材接合部インタラクティブ設計ツール。SNAPフィット式の完全工具不要接合部をパラメトリックに設計。CNC出力まで一気通貫。</p>
+        <a href="https://ma-la.com/tsugite.html" target="_blank">ma-la.com/tsugite.html →</a>
+      </div>
+      <div class="collab-card r">
+        <h4>compas_wood + Manis — IBOIS EPFL</h4>
+        <p>木材板接合部ソルバー。Grasshopper上でジョイントジオメトリ → CNCツールパス → FEM構造解析まで統合。オープンソース（GitHub）。</p>
+        <a href="https://github.com/ibois-epfl" target="_blank">github.com/ibois-epfl →</a>
+      </div>
+      <div class="collab-card r">
+        <h4>SE構法 — NCN（参照モデル）</h4>
+        <p>集成材 + 専用SE金物 + 構造計算パッケージの商業的成功例。SOLUNAが目指す「3Dプリントコネクター版SE構法」の先行モデル。</p>
+        <a href="https://ncn-se.co.jp" target="_blank">ncn-se.co.jp →</a>
+      </div>
+      <div class="collab-card r">
+        <h4>MX3D + 竹中工務店（WAAM）</h4>
+        <p>Wire Arc Additive Manufacturingによるステンレス製構造ノード。認定に最も近い3D印刷構造部材。大規模構造向け、SOLUNAの将来方向として参照。</p>
+        <a href="https://mx3d.com" target="_blank">mx3d.com →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="w">
+    <p class="label" style="text-align:center" data-en="JOIN THE BUILD">一緒に作る</p>
+    <h2 class="r" style="text-align:center;margin-bottom:14px" data-en="This system doesn't exist yet.<br/>We're building it.">このシステムは、<br/>まだ存在しない。<br/><em class="gold">一緒に作る。</em></h2>
+    <p class="r" style="text-align:center;color:#555;font-size:13px;max-width:480px;margin:0 auto 36px;line-height:2" data-en="Looking for structural engineers, CLT fabricators, CNC specialists, and 3D printing labs to co-develop the first prototype. Contact us.">構造エンジニア、CLT加工業者、CNCスペシャリスト、3Dプリントラボを探しています。最初のプロトタイプを一緒に作りましょう。</p>
+    <a class="cta-btn r" href="mailto:mail@yukihamada.jp?subject=SOLUNA STRUCTURE 協働について" data-en="Collaborate with Us →">協働する →</a>
+    <a class="cta-ghost r" href="scheme" data-en="SOLUNA Scheme →">SOLUNAの仕組み →</a>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Enabler Inc. — SOLUNA</p>
+  <div class="ft-links">
+    <a href="index">Home</a>
+    <a href="materials">建材</a>
+    <a href="village">ビレッジ</a>
+    <a href="scheme">スキーム</a>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(es => {
+  es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }});
+}, {threshold: 0, rootMargin: '0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+setTimeout(() => document.querySelectorAll('.r:not(.in)').forEach(el => el.classList.add('in')), 3000);
+</script>
+<script defer src="/track.js"></script>
+<script src="/lang.js"></script>
+</body>
+</html>

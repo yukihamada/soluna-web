@@ -85,6 +85,19 @@ h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line
 .gold{color:var(--gold)}
 .accent{color:var(--accent)}
 
+/* BOOKING WIDGET */
+.bw{background:#050505;border-top:1px solid var(--accent-dim);border-bottom:1px solid #0d0d0d;padding:36px 0}
+.bw-inner{max-width:860px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.bw-label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:6px}
+.bw-field{display:flex;flex-direction:column;flex:1;min-width:140px}
+.bw-field input{background:#0a0a0a;border:1px solid #1a1a1a;color:var(--text);font-size:13px;padding:12px 16px;border-radius:8px;outline:none;transition:border .2s;-webkit-appearance:none;color-scheme:dark}
+.bw-field input:focus{border-color:var(--accent)}
+.bw-btn{background:var(--accent);color:#040404;font-weight:800;font-size:12px;padding:13px 28px;border-radius:100px;border:none;cursor:pointer;transition:opacity .2s;letter-spacing:.04em;white-space:nowrap;flex-shrink:0}
+.bw-btn:hover{opacity:.85}
+.bw-or{font-size:11px;color:#333}
+.bw-app{color:var(--accent);font-size:11px;font-weight:700;border:1px solid var(--accent-dim);padding:12px 20px;border-radius:100px;white-space:nowrap;transition:all .2s}
+.bw-app:hover{background:var(--accent-soft)}
+@media(max-width:600px){.bw-inner{gap:12px}.bw-or{display:none}}
 /* PROGRESS BAR */
 .progress-banner{background:#050505;border-top:1px solid #0d0d0d;border-bottom:1px solid #0d0d0d;padding:60px 0}
 .progress-steps{display:flex;align-items:center;max-width:760px;margin:0 auto;padding:0 24px;position:relative}
@@ -288,6 +301,28 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 </div>
 </div>
 <div class="hero-scroll">SCROLL</div>
+</div>
+<!-- BOOKING WIDGET — WHITE HOUSE 熱海 (稼働中) -->
+<div class="bw">
+  <div class="bw-inner">
+    <div style="flex-shrink:0;margin-right:8px">
+      <div style="font-size:11px;font-weight:800;color:var(--text);letter-spacing:.04em">WHITE HOUSE 熱海</div>
+      <div style="font-size:9px;color:var(--accent);letter-spacing:.18em;font-weight:700;margin-top:2px">稼働中 · ¥55,000/泊</div>
+    </div>
+    <div class="bw-field">
+      <div class="bw-label">チェックイン</div>
+      <input id="bw-in" type="date"/>
+    </div>
+    <div class="bw-field">
+      <div class="bw-label">チェックアウト</div>
+      <input id="bw-out" type="date"/>
+    </div>
+    <button class="bw-btn" onclick="bookAtami()">空室を確認する →</button>
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <a class="bw-app" href="/app" data-sln-track="direct_book_click" style="background:rgba(109,187,136,.07);border-color:rgba(109,187,136,.25);color:#6dbb88">SOLUNAで直接予約</a>
+      <div style="font-size:9px;color:#6dbb88;margin-top:3px;font-weight:700;letter-spacing:.06em">OTA手数料なし · メンバー割引あり</div>
+    </div>
+  </div>
 </div>
 <!-- STATUS PROGRESS BANNER -->
 <div class="progress-banner" id="overview">
@@ -899,6 +934,28 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 }
 </style>
 <script>
+(function(){
+  var today=new Date();
+  var fmt=function(d){return d.toISOString().slice(0,10)};
+  var d1=new Date(today); d1.setDate(d1.getDate()+1);
+  var d2=new Date(today); d2.setDate(d2.getDate()+2);
+  var ci=document.getElementById('bw-in');
+  var co=document.getElementById('bw-out');
+  if(ci){ci.value=fmt(d1); ci.min=fmt(d1);}
+  if(co){co.value=fmt(d2); co.min=fmt(d2);}
+  if(ci) ci.addEventListener('change',function(){
+    var m=new Date(ci.value); m.setDate(m.getDate()+1);
+    co.min=fmt(m); if(co.value<=ci.value){co.value=fmt(m);}
+  });
+})();
+function bookAtami(){
+  var ci=document.getElementById('bw-in').value;
+  var co=document.getElementById('bw-out').value;
+  if(!ci||!co){alert('チェックイン・チェックアウト日を選んでください');return;}
+  var cin=ci.replace(/-/g,'');
+  var cout=co.replace(/-/g,'');
+  window.location.href='https://book.beds24.com/booking2.php?propid=243406&checkin='+cin+'&checkout='+cout;
+}
 function sfToggle(btn){
   var bd=btn.nextElementSibling;
   var open=btn.getAttribute('aria-expanded')==='true';
