@@ -3,225 +3,483 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
-<title>SOLUNA PROGRESS — 作業ダッシュボード</title>
+<title>SOLUNA PROGRESS</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--gold:#c8a455;--bg:#050505;--bg2:#0a0a0a;--bg3:#0e0e0e;--text:#f0ece4;--dim:#444;--line:#111;--green:#3fc97a;--yellow:#d4a30f;--red:#e05050;--blue:#4a8fc0}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,'Helvetica Neue','Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;padding:24px}
-h1{font-size:16px;font-weight:800;letter-spacing:.12em;color:var(--gold);margin-bottom:4px}
-.updated{font-size:10px;color:#333;margin-bottom:32px;letter-spacing:.08em}
-.section{margin-bottom:32px}
-.section-title{font-size:9px;letter-spacing:.28em;color:#222;text-transform:uppercase;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
-.item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #080808}
+:root{
+  --gold:#c8a455;--bg:#040404;--bg2:#080808;--bg3:#0c0c0c;
+  --text:#e8e4dc;--dim:#555;--line:#111;--line2:#0d0d0d;
+  --green:#3fc97a;--yellow:#d4a30f;--red:#e05050;--blue:#4a8fc0;--purple:#9b72cf
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Helvetica Neue','Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;padding:28px 24px 80px;max-width:960px;margin:0 auto}
+
+/* ── Header ── */
+.hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2px;flex-wrap:wrap;gap:8px}
+h1{font-size:12px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
+.hdr-date{font-size:9px;color:#1e1e1e;letter-spacing:.08em}
+.hdr-sub{font-size:8px;color:#181818;margin-bottom:28px;letter-spacing:.06em}
+
+/* ── Section ── */
+.sec{margin-bottom:28px}
+.sec-ttl{font-size:7px;letter-spacing:.28em;color:#1e1e1e;text-transform:uppercase;font-weight:700;margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+
+/* ── Priority KPIs ── */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:28px}
+@media(max-width:600px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--bg2);border:1px solid var(--line);border-radius:7px;padding:14px 13px}
+.kpi-n{font-size:24px;font-weight:800;color:var(--gold);line-height:1;margin-bottom:2px}
+.kpi-l{font-size:8px;letter-spacing:.14em;color:#222;text-transform:uppercase}
+.kpi-sub{font-size:9px;color:#1a1a1a;margin-top:3px}
+.kpi-n.urgent{color:var(--red)}
+.kpi-n.ok{color:var(--green)}
+
+/* ── Item list ── */
+.item{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid var(--line2)}
 .item:last-child{border-bottom:none}
-.badge{flex-shrink:0;font-size:8px;font-weight:800;letter-spacing:.12em;padding:3px 10px;border-radius:100px;text-transform:uppercase;margin-top:2px}
-.badge.done{background:rgba(63,201,122,.1);color:var(--green);border:1px solid rgba(63,201,122,.2)}
-.badge.sent{background:rgba(74,143,192,.1);color:var(--blue);border:1px solid rgba(74,143,192,.2)}
-.badge.pending{background:rgba(212,163,15,.1);color:var(--yellow);border:1px solid rgba(212,163,15,.2)}
-.badge.waiting{background:rgba(80,80,80,.2);color:#444;border:1px solid #111}
-.badge.live{background:rgba(63,201,122,.12);color:var(--green);border:1px solid rgba(63,201,122,.25)}
-.item-body{flex:1}
-.item-title{font-size:12px;font-weight:700;margin-bottom:3px;letter-spacing:-.01em}
-.item-sub{font-size:11px;color:#333;line-height:1.6}
-.item-sub a{color:#2a5a7a;text-decoration:none}
+.badge{flex-shrink:0;font-size:7px;font-weight:800;letter-spacing:.1em;padding:2px 9px;border-radius:100px;text-transform:uppercase;margin-top:2px;white-space:nowrap}
+.done {background:rgba(63,201,122,.08);color:var(--green);border:1px solid rgba(63,201,122,.18)}
+.sent {background:rgba(74,143,192,.08);color:var(--blue);border:1px solid rgba(74,143,192,.18)}
+.replied{background:rgba(63,201,122,.15);color:#5de08e;border:1px solid rgba(63,201,122,.3)}
+.waiting{background:rgba(212,163,15,.08);color:var(--yellow);border:1px solid rgba(212,163,15,.18)}
+.unsent{background:rgba(224,80,80,.06);color:var(--red);border:1px solid rgba(224,80,80,.15)}
+.todo {background:rgba(200,164,85,.07);color:var(--gold);border:1px solid rgba(200,164,85,.18)}
+.live {background:rgba(63,201,122,.1);color:var(--green);border:1px solid rgba(63,201,122,.22)}
+.wip  {background:rgba(155,114,207,.08);color:var(--purple);border:1px solid rgba(155,114,207,.18)}
+
+.item-body{flex:1;min-width:0}
+.item-title{font-size:11.5px;font-weight:700;margin-bottom:2px;color:#aaa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item-sub{font-size:10px;color:#3d3d3d;line-height:1.65}
+.item-sub a{color:#1e3a5a;text-decoration:none}
 .item-sub a:hover{color:var(--blue)}
-.ts{font-size:10px;color:#1e1e1e;flex-shrink:0;white-space:nowrap;margin-top:2px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:32px}
-@media(max-width:640px){.grid{grid-template-columns:1fr}}
-.stat-card{background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:16px}
-.stat-num{font-size:20px;font-weight:800;color:var(--gold);margin-bottom:2px}
-.stat-label{font-size:9px;letter-spacing:.18em;color:#333;text-transform:uppercase}
+.ts{font-size:9px;color:#181818;flex-shrink:0;white-space:nowrap;margin-top:2px}
+
+/* ── Priority flags ── */
+.pri{display:inline-block;font-size:8px;font-weight:800;margin-right:5px}
+.pri.p1{color:var(--red)}
+.pri.p2{color:var(--yellow)}
+.pri.p3{color:#333}
+
+/* ── Vendor table ── */
+.vtbl{width:100%;border-collapse:collapse;font-size:10px}
+.vtbl th{font-size:7px;letter-spacing:.2em;color:#1a1a1a;text-transform:uppercase;padding:6px 10px;border-bottom:1px solid var(--line);text-align:left;font-weight:700}
+.vtbl td{padding:7px 10px;border-bottom:1px solid var(--line2);color:#3a3a3a;vertical-align:top}
+.vtbl tr:last-child td{border-bottom:none}
+.vtbl td.name{color:#888;font-weight:700}
+.vtbl td.country{font-size:8px;color:#222}
+.vtbl td.use{font-size:9px;color:#444}
+.vtbl td.score{text-align:center}
+.star{color:var(--gold)}
+.star.dim{color:#181818}
+
+/* ── Timeline ── */
+.tl{display:flex;flex-direction:column;gap:0}
+.tl-item{display:flex;gap:14px;padding:8px 0;border-bottom:1px solid var(--line2)}
+.tl-item:last-child{border-bottom:none}
+.tl-date{font-size:9px;color:#2a2a2a;white-space:nowrap;min-width:70px;margin-top:1px}
+.tl-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.tl-dot.done{background:var(--green)}
+.tl-dot.active{background:var(--gold);box-shadow:0 0 6px rgba(200,164,85,.5)}
+.tl-dot.future{background:#181818;border:1px solid #2a2a2a}
+.tl-body{flex:1}
+.tl-title{font-size:11px;font-weight:700;color:#666;margin-bottom:1px}
+.tl-sub{font-size:10px;color:#3a3a3a;line-height:1.5}
+
+/* ── Collapsible ── */
+.sec-toggle{cursor:pointer;display:flex;align-items:center;gap:6px;width:100%;background:none;border:none;padding:0;margin:0;font-family:inherit}
+.sec-toggle .sec-ttl{margin-bottom:0;padding-bottom:0;border-bottom:none;flex:1}
+.sec-arrow{font-size:8px;color:#1a1a1a;transition:transform .2s}
+.sec-toggle[aria-expanded="false"] .sec-arrow{transform:rotate(-90deg)}
+.sec-body{overflow:hidden;transition:max-height .25s ease;max-height:9999px}
+.sec-body.collapsed{max-height:0}
+
+/* ── Two col ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.two-col{grid-template-columns:1fr}}
+
+/* ── Action card ── */
+.action-card{background:var(--bg2);border:1px solid var(--line);border-radius:7px;padding:14px}
+.action-card.urgent{border-color:rgba(224,80,80,.2)}
+.action-week{font-size:8px;letter-spacing:.2em;color:#222;margin-bottom:10px;text-transform:uppercase;font-weight:700}
 </style>
 </head>
 <body>
-<h1>SOLUNA PROGRESS</h1>
-<div class="updated">最終更新: 2026-04-27 — 濱田優貴セッション</div>
-
-<!-- STATS -->
-<div class="grid">
-  <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">送信済みメール</div></div>
-  <div class="stat-card"><div class="stat-num">12</div><div class="stat-label">今日の変更ファイル数</div></div>
-  <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">新規ページ</div></div>
-  <div class="stat-card"><div class="stat-num">8</div><div class="stat-label">デプロイ回数（本日）</div></div>
+<div class="hdr">
+  <h1>SOLUNA PROGRESS</h1>
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <a href="/booking-analytics" style="font-size:8px;color:#4a7a9a;letter-spacing:.08em;border:1px solid #1a2a3a;padding:3px 10px;border-radius:100px;white-space:nowrap">📊 予約ダッシュボード</a>
+    <div class="hdr-date">2026-04-27 · 濱田優貴</div>
+  </div>
 </div>
+<div class="hdr-sub">TAPKOP / 天空の道場 / 美留和ビレッジ — 建材・資材・施策の進捗</div>
 
-<!-- EMAILS -->
-<div class="section">
-  <div class="section-title">📧 送信済みメール</div>
-  <div class="item">
-    <span class="badge sent">SENT</span>
-    <div class="item-body">
-      <div class="item-title">Mogu srl（イタリア）— マイセリウム吸音パネル</div>
-      <div class="item-sub">宛先: sales@mogu.bio / 件名: Mycelium acoustic panels inquiry — SOLUNA project, Hokkaido Japan<br/>内容: 天空道場向け商業パネル見積もり依頼、日本への国際配送確認</div>
-    </div>
-    <div class="ts">2026-04-27</div>
+<!-- KPI -->
+<div class="kpi-row">
+  <div class="kpi">
+    <div class="kpi-n urgent">5</div>
+    <div class="kpi-l">返信待ち業者</div>
+    <div class="kpi-sub">Mogu/BIOHM/GROWN/ウッドピア/東大TLO</div>
   </div>
-  <div class="item">
-    <span class="badge sent">SENT</span>
-    <div class="item-body">
-      <div class="item-title">BIOHM（英国）— マイセリウム断熱パネル</div>
-      <div class="item-sub">宛先: hello@biohm.co.uk / 件名: Mycelium insulation panels — off-grid dojo project<br/>内容: 壁・天井断熱、プロトタイプ試作、研究連携の可能性</div>
-    </div>
-    <div class="ts">2026-04-27</div>
+  <div class="kpi">
+    <div class="kpi-n">2</div>
+    <div class="kpi-l">未送信メール</div>
+    <div class="kpi-sub">MYMORI・銘建工業</div>
   </div>
-  <div class="item">
-    <span class="badge sent">SENT</span>
-    <div class="item-body">
-      <div class="item-title">GROWN.bio（オランダ）— GIYキット</div>
-      <div class="item-sub">宛先: sales@grown.bio / 件名: Mycelium grow kit / panels inquiry — Japan project<br/>内容: 日本への発送可否、断熱用途の基質、B2Bオプション</div>
-    </div>
-    <div class="ts">2026-04-27</div>
+  <div class="kpi">
+    <div class="kpi-n ok">3</div>
+    <div class="kpi-l">新規ページ LIVE</div>
+    <div class="kpi-sub">blog-9 / founding / structure</div>
   </div>
-  <div class="item">
-    <span class="badge sent">SENT</span>
-    <div class="item-body">
-      <div class="item-title">協同組合オホーツクウッドピア（北海道北見）— CLTパネル</div>
-      <div class="item-sub">宛先: info@okhotsk-woodpia.or.jp<br/>内容: 北海道産CLT価格・小ロット対応・弟子屈への搬入</div>
-    </div>
-    <div class="ts">2026-04-27</div>
-  </div>
-  <div class="item">
-    <span class="badge sent">SENT</span>
-    <div class="item-body">
-      <div class="item-title">東京大学TLO — Tsugite 商用ライセンス</div>
-      <div class="item-sub">宛先: shigeta@todaitlo.jp<br/>内容: Tsugiteの商用利用ライセンス取得、技術相談、CNC加工業者連携</div>
-    </div>
-    <div class="ts">2026-04-27</div>
-  </div>
-  <div class="item">
-    <span class="badge waiting">WAITING</span>
-    <div class="item-body">
-      <div class="item-title">MYMORI（日本・武蔵野美術大学発）</div>
-      <div class="item-sub">サイト: <a href="https://my-mori.com/" target="_blank">my-mori.com</a> / まだメール未送信（問い合わせフォーム経由）</div>
-    </div>
-    <div class="ts">—</div>
-  </div>
-  <div class="item">
-    <span class="badge waiting">WAITING</span>
-    <div class="item-body">
-      <div class="item-title">銘建工業（岡山）— CLT</div>
-      <div class="item-sub">問い合わせ: <a href="https://www.meikenkogyo.com/contact" target="_blank">meikenkogyo.com/contact</a> / まだ送信未</div>
-    </div>
-    <div class="ts">—</div>
+  <div class="kpi">
+    <div class="kpi-n" style="font-size:16px;color:#555">2026-09</div>
+    <div class="kpi-l">村オープン目標</div>
+    <div class="kpi-sub">美留和ビレッジ · 天空の道場</div>
   </div>
 </div>
 
-<!-- PAGES CREATED/UPDATED -->
-<div class="section">
-  <div class="section-title">📄 ページ変更・作成</div>
+<!-- TODAY'S ACTIONS -->
+<div class="sec">
+  <div class="sec-ttl">⚡ 今週のアクション</div>
+  <div class="two-col">
+    <div class="action-card urgent">
+      <div class="action-week">🔴 今すぐ</div>
+      <div class="item" style="padding:6px 0">
+        <span class="badge unsent">UNSENT</span>
+        <div class="item-body">
+          <div class="item-title">MYMORI へ問い合わせ送信</div>
+          <div class="item-sub">武蔵野美術大学発 日本産菌糸体パネル — <a href="https://my-mori.com/" target="_blank">my-mori.com</a><br/>問い合わせフォームから送信（日本語対応）</div>
+        </div>
+      </div>
+      <div class="item" style="padding:6px 0">
+        <span class="badge unsent">UNSENT</span>
+        <div class="item-body">
+          <div class="item-title">銘建工業（岡山）へ問い合わせ</div>
+          <div class="item-sub">日本最大級CLTメーカー / <a href="https://www.meikenkogyo.com/contact" target="_blank">meikenkogyo.com/contact</a><br/>北海道・弟子屈への搬入可否・小ロット対応確認</div>
+        </div>
+      </div>
+    </div>
+    <div class="action-card">
+      <div class="action-week">🟡 今週中</div>
+      <div class="item" style="padding:6px 0">
+        <span class="badge todo">TODO</span>
+        <div class="item-body">
+          <div class="item-title">structure.html — 業者リスト・マイセリウムセクション追加</div>
+          <div class="item-sub">調査済みの全業者・連絡先・単価をページに反映</div>
+        </div>
+      </div>
+      <div class="item" style="padding:6px 0">
+        <span class="badge todo">TODO</span>
+        <div class="item-body">
+          <div class="item-title">founding.html → index.html からリンク追加</div>
+          <div class="item-sub">トップページに創設メンバー募集セクション or バナー追加</div>
+        </div>
+      </div>
+      <div class="item" style="padding:6px 0">
+        <span class="badge todo">TODO</span>
+        <div class="item-body">
+          <div class="item-title">Beds24 最低2泊設定（ダッシュボードで手動）</div>
+          <div class="item-sub">Lodge / Nesting / Atami — 1泊予約47%削減 · OTA手数料削減<br/>設定先: <a href="https://beds24.com" target="_blank">beds24.com</a> → Properties → Room Types → Min Stay</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MATERIALS PIPELINE -->
+<div class="sec">
+  <div class="sec-ttl">🪵 資材・業者パイプライン</div>
+  <table class="vtbl">
+    <thead>
+      <tr>
+        <th>業者</th>
+        <th>国</th>
+        <th>カテゴリ / 用途</th>
+        <th>状態</th>
+        <th>コスト感</th>
+        <th>本命度</th>
+        <th>次のアクション</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:rgba(63,201,122,.015)">
+        <td class="name">MYMORI <span style="color:var(--green);font-size:8px">◀ 本命</span></td>
+        <td class="country">🇯🇵 日本</td>
+        <td class="use">🍄 菌糸体パネル<br/><span style="font-size:8px;color:#222">吸音・断熱・国内調達</span></td>
+        <td><span class="badge unsent">UNSENT</span></td>
+        <td style="font-size:9px;color:#2a2a2a">未確認<br/><span style="font-size:8px;color:#181818">国内→送料安</span></td>
+        <td class="score"><span class="star">★★★</span></td>
+        <td style="font-size:9px;color:var(--red);font-weight:700">→ 今すぐ送信</td>
+      </tr>
+      <tr>
+        <td class="name">Mogu srl</td>
+        <td class="country">🇮🇹 伊</td>
+        <td class="use">🍄 菌糸体吸音パネル<br/><span style="font-size:8px;color:#222">商業用・実績豊富</span></td>
+        <td><span class="badge waiting">WAITING</span></td>
+        <td style="font-size:9px;color:#2a2a2a">€150–300/㎡ 推定<br/><span style="font-size:8px;color:#181818">国際送料+関税あり</span></td>
+        <td class="score"><span class="star">★★★</span></td>
+        <td style="font-size:9px;color:#2a2a2a">1-2週後フォロー</td>
+      </tr>
+      <tr>
+        <td class="name">BIOHM</td>
+        <td class="country">🇬🇧 英</td>
+        <td class="use">🍄 菌糸体断熱パネル<br/><span style="font-size:8px;color:#222">壁・天井断熱、研究連携可</span></td>
+        <td><span class="badge waiting">WAITING</span></td>
+        <td style="font-size:9px;color:#2a2a2a">研究段階→コスト未定<br/><span style="font-size:8px;color:#181818">試作が現実的</span></td>
+        <td class="score"><span class="star">★★</span><span class="star dim">★</span></td>
+        <td style="font-size:9px;color:#2a2a2a">研究連携で試作検討</td>
+      </tr>
+      <tr>
+        <td class="name">GROWN.bio</td>
+        <td class="country">🇳🇱 蘭</td>
+        <td class="use">🍄 GIYキット<br/><span style="font-size:8px;color:#222">自分で育てる・DIY向き</span></td>
+        <td><span class="badge waiting">WAITING</span></td>
+        <td style="font-size:9px;color:#2a2a2a">€50–100/kit<br/><span style="font-size:8px;color:#181818">大量は難しい</span></td>
+        <td class="score"><span class="star dim">★</span><span class="star dim">★★</span></td>
+        <td style="font-size:9px;color:#2a2a2a">日本発送可否確認</td>
+      </tr>
+      <tr style="background:rgba(200,164,85,.015)">
+        <td class="name">オホーツクウッドピア <span style="color:var(--gold);font-size:8px">◀ 本命</span></td>
+        <td class="country">🇯🇵 北海道北見</td>
+        <td class="use">🪵 CLT構造材<br/><span style="font-size:8px;color:#222">北海道産・弟子屈近郊</span></td>
+        <td><span class="badge waiting">WAITING</span></td>
+        <td style="font-size:9px;color:#2a2a2a">¥80,000–120,000/㎥<br/><span style="font-size:8px;color:#181818">国産・近距離→有利</span></td>
+        <td class="score"><span class="star">★★★</span></td>
+        <td style="font-size:9px;color:#2a2a2a">小ロット・搬入確認待ち</td>
+      </tr>
+      <tr>
+        <td class="name">銘建工業</td>
+        <td class="country">🇯🇵 岡山</td>
+        <td class="use">🪵 CLT（国内最大手）<br/><span style="font-size:8px;color:#222">実績・品質◎、岡山→北海道</span></td>
+        <td><span class="badge unsent">UNSENT</span></td>
+        <td style="font-size:9px;color:#2a2a2a">¥90,000–140,000/㎥<br/><span style="font-size:8px;color:#181818">長距離搬送コスト増</span></td>
+        <td class="score"><span class="star">★★</span><span class="star dim">★</span></td>
+        <td style="font-size:9px;color:var(--red);font-weight:700">→ 今すぐ送信</td>
+      </tr>
+      <tr>
+        <td class="name">東京大学TLO</td>
+        <td class="country">🇯🇵 東京</td>
+        <td class="use">⚙️ Tsugiteライセンス<br/><span style="font-size:8px;color:#222">工具不要木組みAI・CNC連携</span></td>
+        <td><span class="badge waiting">WAITING</span></td>
+        <td style="font-size:9px;color:#2a2a2a">ライセンス料未定<br/><span style="font-size:8px;color:#181818">CNC加工費別途</span></td>
+        <td class="score"><span class="star">★★</span><span class="star dim">★</span></td>
+        <td style="font-size:9px;color:#2a2a2a">shigeta@todaitlo.jp 返信待ち</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- EMAIL LOG -->
+<div class="sec">
+  <button class="sec-toggle" aria-expanded="false" onclick="tog(this)">
+    <div class="sec-ttl" style="border-bottom:1px solid var(--line);padding-bottom:7px">📧 メール送受信ログ <span style="color:#1a1a1a;font-size:8px">(7件)</span></div>
+    <span class="sec-arrow">▼</span>
+  </button>
+  <div class="sec-body collapsed">
+
+  <div class="item">
+    <span class="badge sent">SENT</span>
+    <div class="item-body">
+      <div class="item-title">Mogu srl (sales@mogu.bio) — 菌糸体吸音パネル見積もり</div>
+      <div class="item-sub">件名: Mycelium acoustic panels inquiry — SOLUNA project, Hokkaido Japan<br/>天空道場向け商業パネル見積もり・国際配送確認</div>
+    </div>
+    <div class="ts">04-27<br/>5日経過</div>
+  </div>
+  <div class="item">
+    <span class="badge sent">SENT</span>
+    <div class="item-body">
+      <div class="item-title">BIOHM (hello@biohm.co.uk) — 菌糸体断熱パネル</div>
+      <div class="item-sub">件名: Mycelium insulation panels — off-grid dojo project<br/>壁・天井断熱・プロトタイプ試作・研究連携</div>
+    </div>
+    <div class="ts">04-27<br/>5日経過</div>
+  </div>
+  <div class="item">
+    <span class="badge sent">SENT</span>
+    <div class="item-body">
+      <div class="item-title">GROWN.bio (sales@grown.bio) — GIYキット</div>
+      <div class="item-sub">件名: Mycelium grow kit / panels inquiry — Japan project<br/>日本発送可否・断熱基質・B2Bオプション</div>
+    </div>
+    <div class="ts">04-27<br/>5日経過</div>
+  </div>
+  <div class="item">
+    <span class="badge sent">SENT</span>
+    <div class="item-body">
+      <div class="item-title">協同組合オホーツクウッドピア (info@okhotsk-woodpia.or.jp) — CLT</div>
+      <div class="item-sub">北海道産CLT価格・小ロット対応・弟子屈搬入</div>
+    </div>
+    <div class="ts">04-27<br/>5日経過</div>
+  </div>
+  <div class="item">
+    <span class="badge sent">SENT</span>
+    <div class="item-body">
+      <div class="item-title">東京大学TLO (shigeta@todaitlo.jp) — Tsugiteライセンス</div>
+      <div class="item-sub">商用利用ライセンス取得・技術相談・CNC加工業者連携</div>
+    </div>
+    <div class="ts">04-27<br/>5日経過</div>
+  </div>
+  <div class="item">
+    <span class="badge unsent">UNSENT</span>
+    <div class="item-body">
+      <div class="item-title">MYMORI — 問い合わせフォーム送信予定</div>
+      <div class="item-sub">サイト: <a href="https://my-mori.com/" target="_blank">my-mori.com</a> / 武蔵野美術大学発・日本産菌糸体<br/><strong style="color:var(--red)">→ 今すぐ送信</strong></div>
+    </div>
+    <div class="ts">未送信</div>
+  </div>
+  <div class="item">
+    <span class="badge unsent">UNSENT</span>
+    <div class="item-body">
+      <div class="item-title">銘建工業 — 問い合わせフォーム送信予定</div>
+      <div class="item-sub">フォーム: <a href="https://www.meikenkogyo.com/contact" target="_blank">meikenkogyo.com/contact</a><br/><strong style="color:var(--red)">→ 今すぐ送信</strong></div>
+    </div>
+    <div class="ts">未送信</div>
+  </div>
+</div>
+
+<!-- PROPERTY TIMELINE -->
+<div class="sec">
+  <div class="sec-ttl">🏗️ 物件・建設タイムライン + ブロッカー</div>
+  <div class="tl">
+    <div class="tl-item">
+      <div class="tl-date">稼働中</div>
+      <div class="tl-dot done"></div>
+      <div class="tl-body">
+        <div class="tl-title">THE LODGE / NESTING / WHITE HOUSE 熱海</div>
+        <div class="tl-sub">Lodge 53.4%稼働 ¥872万/年 · Nesting 30.1% ¥437万/年 · 熱海 予約受付中<br/>
+        <span style="color:var(--yellow);font-size:9px">▶ Beds24最低2泊設定 → 手動で今すぐ設定推奨</span></div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2026-06-07</div>
+      <div class="tl-dot active"></div>
+      <div class="tl-body">
+        <div class="tl-title">ワークパーティ — インスタントハウス美留和</div>
+        <div class="tl-sub">6/6(土)建設 · 6/7(日)試泊 · 参加者募集中<br/>
+        <span style="color:var(--green);font-size:9px">ブロッカーなし ✓</span></div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2026-09 目標</div>
+      <div class="tl-dot future"></div>
+      <div class="tl-body">
+        <div class="tl-title">SOLUNAビレッジ（美留和）— ¥490万/口 · 30口</div>
+        <div class="tl-sub">構造: CLT + Tsugite木組み · 断熱: 菌糸体パネル検討中</div>
+        <div style="margin-top:5px;display:flex;flex-wrap:wrap;gap:4px">
+          <span style="font-size:8px;background:rgba(224,80,80,.08);color:var(--red);border:1px solid rgba(224,80,80,.15);padding:2px 7px;border-radius:100px">🔴 CLT業者確定</span>
+          <span style="font-size:8px;background:rgba(224,80,80,.08);color:var(--red);border:1px solid rgba(224,80,80,.15);padding:2px 7px;border-radius:100px">🔴 建築確認申請</span>
+          <span style="font-size:8px;background:rgba(212,163,15,.08);color:var(--yellow);border:1px solid rgba(212,163,15,.15);padding:2px 7px;border-radius:100px">🟡 資金調達（口数販売）</span>
+          <span style="font-size:8px;background:rgba(80,80,80,.1);color:#444;border:1px solid #181818;padding:2px 7px;border-radius:100px">⬜ 施工業者選定</span>
+        </div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2026-09 目標</div>
+      <div class="tl-dot future"></div>
+      <div class="tl-body">
+        <div class="tl-title">天空の道場（熊牛原野）— ¥480万/口 · ¥80,000/泊</div>
+        <div class="tl-sub">柔術・武道道場 + オフグリッド · 菌糸体吸音パネル予定 · 工事費用推計: ¥1,500〜2,000万</div>
+        <div style="margin-top:5px;display:flex;flex-wrap:wrap;gap:4px">
+          <span style="font-size:8px;background:rgba(224,80,80,.08);color:var(--red);border:1px solid rgba(224,80,80,.15);padding:2px 7px;border-radius:100px">🔴 Mogu/BIOHM返信待ち（資材確定）</span>
+          <span style="font-size:8px;background:rgba(224,80,80,.08);color:var(--red);border:1px solid rgba(224,80,80,.15);padding:2px 7px;border-radius:100px">🔴 地番・権利確認</span>
+          <span style="font-size:8px;background:rgba(212,163,15,.08);color:var(--yellow);border:1px solid rgba(212,163,15,.15);padding:2px 7px;border-radius:100px">🟡 口数販売開始（未）</span>
+          <span style="font-size:8px;background:rgba(80,80,80,.1);color:#444;border:1px solid #181818;padding:2px 7px;border-radius:100px">⬜ 電力・水道計画</span>
+        </div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2026-07</div>
+      <div class="tl-dot future"></div>
+      <div class="tl-body">
+        <div class="tl-title">SOLUNA FEST HAWAII 2026 — ZAMNA × SOLUNA</div>
+        <div class="tl-sub">Moanalua Gardens, Oahu · チケット・タレント交渉中<br/>
+        <span style="color:var(--yellow);font-size:9px">🟡 会場契約 / タレントBooking / チケット販売開始</span></div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2026-11</div>
+      <div class="tl-dot future"></div>
+      <div class="tl-body">
+        <div class="tl-title">HONOLULU VILLA / HAWAII KAI HOUSE — オープン</div>
+        <div class="tl-sub">月単位予約(min 30泊) · Beds24登録予定<br/>
+        <span style="color:var(--yellow);font-size:9px">🟡 ビザ・短期賃貸規制確認 / 内装工事スケジュール</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div><!-- /sec-body email -->
+</div>
+
+<!-- PAGES -->
+<div class="sec">
+  <button class="sec-toggle" aria-expanded="false" onclick="tog(this)">
+    <div class="sec-ttl" style="border-bottom:1px solid var(--line);padding-bottom:7px">📄 ページ・機能変更ログ (2026-04-27) <span style="color:#1a1a1a;font-size:8px">(6件)</span></div>
+    <span class="sec-arrow">▼</span>
+  </button>
+  <div class="sec-body collapsed">
+  <div class="item">
+    <span class="badge live">LIVE</span>
+    <div class="item-body">
+      <div class="item-title">直接予約CTA — atami / lodge / nesting / instant</div>
+      <div class="item-sub">「SOLUNAで直接予約 · OTA手数料なし」バナー追加 / lodge・nestingに日付ピッカー予約ウィジェット新設</div>
+    </div>
+    <div class="ts">今日</div>
+  </div>
+  <div class="item">
+    <span class="badge live">LIVE</span>
+    <div class="item-body">
+      <div class="item-title">booking-analytics.html — 予約ダッシュボード + 変更履歴 + スナップショット比較</div>
+      <div class="item-sub">RevPAR / 稼働率 / リードタイム / チャンネル構成 / 月次チャート / CSV出力 / 施策ログ</div>
+    </div>
+    <div class="ts">今日</div>
+  </div>
   <div class="item">
     <span class="badge live">LIVE</span>
     <div class="item-body">
       <div class="item-title">blog-9.html — 「ただいまと言える場所を、みんなで持つ」</div>
-      <div class="item-sub">新規作成 / Opusで執筆 / blog.htmlに追加済み / <a href="/blog-9" target="_blank">solun.art/blog-9 →</a><br/>修正: タイトル変更・NAH物件名・OTP error fix・道場時制・サウナ/ポーカー事実修正</div>
+      <div class="item-sub"><a href="/blog-9" target="_blank">solun.art/blog-9 →</a> / blog一覧にも追加済み</div>
     </div>
     <div class="ts">今日</div>
   </div>
   <div class="item">
     <span class="badge live">LIVE</span>
     <div class="item-body">
-      <div class="item-title">founding.html — 創設メンバー募集ページ</div>
-      <div class="item-sub">新規作成 / 友人ペルソナ向け / フォーム付き / <a href="/founding" target="_blank">solun.art/founding →</a></div>
+      <div class="item-title">founding.html — 創設メンバー募集 / structure.html — CLT構造システム</div>
+      <div class="item-sub"><a href="/founding" target="_blank">solun.art/founding</a> · <a href="/structure" target="_blank">solun.art/structure</a></div>
     </div>
     <div class="ts">今日</div>
   </div>
   <div class="item">
     <span class="badge live">LIVE</span>
     <div class="item-body">
-      <div class="item-title">structure.html — CLT工具不要構造システム</div>
-      <div class="item-sub">新規作成（前セッション）/ 業者情報は structure.html に追加予定 / <a href="/structure" target="_blank">solun.art/structure →</a></div>
-    </div>
-    <div class="ts">前回</div>
-  </div>
-  <div class="item">
-    <span class="badge live">LIVE</span>
-    <div class="item-body">
-      <div class="item-title">kagawa-akiya.html — ヒーロー Before/After スプリット</div>
-      <div class="item-sub">「実際の物件」「AIリノベーション後」左右分割表示に変更 / <a href="/kagawa-akiya" target="_blank">solun.art/kagawa-akiya →</a></div>
+      <div class="item-title">kagawa-akiya.html — ヒーロー Before/After スプリット + ゲート解除率計測</div>
+      <div class="item-sub"><a href="/kagawa-akiya" target="_blank">solun.art/kagawa-akiya →</a></div>
     </div>
     <div class="ts">今日</div>
   </div>
   <div class="item">
-    <span class="badge done">FIXED</span>
-    <div class="item-body">
-      <div class="item-title">server.js — /api/soluna/availability/next が404返す バグ修正</div>
-      <div class="item-sub">原因: Express ルート順序。/:slug が /next より先に登録されていた → /next を前に移動</div>
-    </div>
-    <div class="ts">今日</div>
-  </div>
-  <div class="item">
-    <span class="badge done">FIXED</span>
-    <div class="item-body">
-      <div class="item-title">atami.html — 宿泊予約ウィジェット追加</div>
-      <div class="item-sub">Beds24 propId=243406 / チェックイン・アウト日付ピッカー / bookAtami() 関数</div>
-    </div>
-    <div class="ts">前回</div>
-  </div>
-  <div class="item">
-    <span class="badge done">FIXED</span>
-    <div class="item-body">
-      <div class="item-title">全96ファイル — 柔術茶帯 → 青帯 一括修正</div>
-      <div class="item-sub">sed で mass replace / blog-9, story, scheme, agent, brochure など全対象</div>
-    </div>
-    <div class="ts">前回</div>
-  </div>
-  <div class="item">
-    <span class="badge done">FIXED</span>
-    <div class="item-body">
-      <div class="item-title">East Ventures 出資情報 修正（全ファイル）</div>
-      <div class="item-sub">TAPKOPへの出資ではなく Enabler Inc. へ / 10% → 5% / 時価総額 5億 → 10億</div>
-    </div>
-    <div class="ts">前回</div>
-  </div>
-</div>
-
-<!-- TODO -->
-<div class="section">
-  <div class="section-title">⏳ 残タスク / 次のアクション</div>
-  <div class="item">
-    <span class="badge pending">TODO</span>
+    <span class="badge wip">PENDING</span>
     <div class="item-body">
       <div class="item-title">structure.html — 業者リスト・マイセリウムセクション追加</div>
-      <div class="item-sub">調査済みの業者・連絡先・コスト・ステップをページに反映</div>
+      <div class="item-sub">調査済み業者・連絡先・コスト・次のステップをページに反映予定</div>
     </div>
     <div class="ts">次回</div>
-  </div>
-  <div class="item">
-    <span class="badge pending">TODO</span>
-    <div class="item-body">
-      <div class="item-title">MYMORI・銘建工業へのメール送信</div>
-      <div class="item-sub">問い合わせフォーム経由またはメールアドレス調査後に送信</div>
-    </div>
-    <div class="ts">次回</div>
-  </div>
-  <div class="item">
-    <span class="badge pending">TODO</span>
-    <div class="item-body">
-      <div class="item-title">founding.html — index.html からのリンク追加</div>
-      <div class="item-sub">トップページにCreating Members募集セクションまたはリンクを追加</div>
-    </div>
-    <div class="ts">確認後</div>
-  </div>
-  <div class="item">
-    <span class="badge pending">TODO</span>
-    <div class="item-body">
-      <div class="item-title">kagawa-akiya.html — 販売中物件の写真に更新</div>
-      <div class="item-sub">ユーザー要望: 販売中の具体的な物件写真を使う。どの物件(P01〜P18)か指定待ち</div>
-    </div>
-    <div class="ts">指定待ち</div>
-  </div>
-  <div class="item">
-    <span class="badge waiting">WAITING</span>
-    <div class="item-body">
-      <div class="item-title">業者からの返信待ち（Mogu / BIOHM / GROWN.bio / ウッドピア / 東大TLO）</div>
-      <div class="item-sub">返信が来たらこのダッシュボードを更新 + 次のアクション（見積り、電話、試作）</div>
-    </div>
-    <div class="ts">1〜2週間</div>
   </div>
 </div>
 
-<div style="font-size:10px;color:#1a1a1a;padding-top:16px;border-top:1px solid #080808">
-このページは <a href="https://solun.art" style="color:#1e1e1e">SOLUNA</a> の開発ダッシュボードです。外部には公開していません。
+  </div><!-- /sec-body pages -->
 </div>
+
+<div style="font-size:9px;color:#333;padding-top:14px;border-top:1px solid #0e0e0e;letter-spacing:.06em;display:flex;gap:16px;flex-wrap:wrap">
+<a href="/booking-analytics" style="color:#4a7a9a">📊 予約ダッシュボード</a>
+<a href="/homes" style="color:#4a7a9a">🏡 物件一覧</a>
+<a href="/structure" style="color:#4a7a9a">🪵 構造ページ</a>
+<a href="/founding" style="color:#4a7a9a">🤝 創設メンバー</a>
+</div>
+<script>
+function tog(btn){
+  const open=btn.getAttribute('aria-expanded')==='true';
+  btn.setAttribute('aria-expanded',open?'false':'true');
+  const body=btn.nextElementSibling;
+  body.classList.toggle('collapsed',open);
+}
+</script>
 </body>
 </html>
