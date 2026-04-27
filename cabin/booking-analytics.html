@@ -223,6 +223,35 @@ td.gold{color:var(--gold)}
 .sort-desc::after{content:' ↓'}
 .r-hide{display:none}
 
+/* ── Delta chip ──────────────────────── */
+.kpi-delta{font-size:9px;font-weight:700;margin-top:4px;display:inline-flex;align-items:center;gap:3px}
+.kpi-delta.up{color:var(--green)}
+.kpi-delta.dn{color:var(--red)}
+.kpi-delta.flat{color:#2a2a2a}
+.snap-bar{display:flex;align-items:center;gap:8px;margin-bottom:16px;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);border-radius:8px;flex-wrap:wrap}
+.snap-label{font-size:8px;color:#2a2a2a;letter-spacing:.1em}
+.snap-date{font-size:8px;color:#1a1a1a}
+.snap-btn{font-size:7px;letter-spacing:.1em;padding:3px 10px;border:1px solid #181818;border-radius:100px;background:transparent;color:#2a2a2a;cursor:pointer;transition:all .15s}
+.snap-btn:hover{border-color:rgba(200,164,85,.4);color:var(--gold)}
+.snap-btn.clear{border-color:rgba(224,80,80,.15);color:#3a1a1a}
+.snap-btn.clear:hover{border-color:rgba(224,80,80,.4);color:var(--red)}
+
+/* ── Changelog ───────────────────────── */
+.changelog{background:var(--bg2);border:1px solid var(--line);border-radius:9px;margin-top:16px;overflow:hidden}
+.cl-head{padding:12px 14px;border-bottom:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between}
+.cl-head-title{font-size:8px;letter-spacing:.22em;color:#222;text-transform:uppercase;font-weight:700}
+.cl-item{display:flex;gap:14px;padding:10px 14px;border-bottom:1px solid #070707;align-items:flex-start}
+.cl-item:last-child{border-bottom:none}
+.cl-date{font-size:8px;color:#1a1a1a;white-space:nowrap;flex-shrink:0;margin-top:1px;letter-spacing:.04em}
+.cl-tag{flex-shrink:0;font-size:7px;font-weight:700;letter-spacing:.1em;padding:2px 8px;border-radius:100px;margin-top:1px}
+.cl-tag.feat{background:rgba(74,143,192,.08);color:var(--blue);border:1px solid rgba(74,143,192,.15)}
+.cl-tag.fix{background:rgba(63,201,122,.08);color:var(--green);border:1px solid rgba(63,201,122,.15)}
+.cl-tag.data{background:rgba(200,164,85,.07);color:var(--gold);border:1px solid rgba(200,164,85,.15)}
+.cl-body{flex:1}
+.cl-title{font-size:11px;font-weight:700;color:#555;margin-bottom:2px}
+.cl-sub{font-size:10px;color:#222;line-height:1.6}
+.cl-impact{font-size:9px;color:#1a3a1a;margin-top:3px;padding:4px 8px;background:rgba(63,201,122,.04);border-left:2px solid rgba(63,201,122,.15);border-radius:0 4px 4px 0}
+
 /* ── Auth overlay ─────────────────────── */
 .overlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:99}
 .auth{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:30px;width:280px;text-align:center}
@@ -264,14 +293,119 @@ td.gold{color:var(--gold)}
     <span class="p-range" id="pRange"></span>
   </div>
 
+  <div class="snap-bar" id="snapBar" style="display:none">
+    <div style="flex:1">
+      <div class="snap-label">スナップショット比較中</div>
+      <div class="snap-date" id="snapDate">—</div>
+    </div>
+    <button class="snap-btn" onclick="saveSnap()">↻ 今の数字で更新</button>
+    <button class="snap-btn clear" onclick="clearSnap()">✕ 比較解除</button>
+  </div>
+  <div id="snapSaveHint" style="display:none;margin-bottom:12px">
+    <button class="snap-btn" onclick="saveSnap()" style="font-size:8px;padding:5px 14px">📌 現在の数字をスナップショット保存（次回との比較用）</button>
+  </div>
+
   <div id="main"><div class="loading">LOADING…</div></div>
+
+  <!-- CHANGELOG -->
+  <div class="changelog" id="changelog" style="display:none">
+    <div class="cl-head">
+      <div class="cl-head-title">変更履歴 / CHANGELOG</div>
+      <span style="font-size:8px;color:#1a1a1a">施策一覧 — 数値への影響を追跡</span>
+    </div>
+    <div class="cl-item">
+      <div class="cl-date">2026-04-27</div>
+      <span class="cl-tag feat">FEAT</span>
+      <div class="cl-body">
+        <div class="cl-title">直接予約CTA追加 — atami / lodge / nesting / instant</div>
+        <div class="cl-sub">「SOLUNAで直接予約 · OTA手数料なし」バナーを全物件ページに追加。Beds24ウィジェットをlodge・nestingにも展開。instant.htmlの宿泊リンクをenabler.fun → Beds24(propId=322965)に更新。</div>
+        <div class="cl-impact">期待効果: Direct / SOLUNAチャンネル比率 ↑ · OTA手数料（¥539K/年）削減</div>
+      </div>
+    </div>
+    <div class="cl-item">
+      <div class="cl-date">2026-04-27</div>
+      <span class="cl-tag feat">FEAT</span>
+      <div class="cl-body">
+        <div class="cl-title">booking-analytics.html 新規作成 — 予約ダッシュボード</div>
+        <div class="cl-sub">RevPAR / 稼働率 / リードタイム / 直接予約率 / 月次チャート / CSVエクスポート / 物件グレード(A/B/C) / 次回チェックインパネル</div>
+        <div class="cl-impact">管理: 数値ベースの意思決定が可能に</div>
+      </div>
+    </div>
+    <div class="cl-item">
+      <div class="cl-date">2026-04-27</div>
+      <span class="cl-tag data">DATA</span>
+      <div class="cl-body">
+        <div class="cl-title">収益構造分析 — OTA依存度96% · 手数料¥539K/年</div>
+        <div class="cl-sub">Airbnb 82% / Booking.com 14% / Direct 4%。1泊予約47%。平均リードタイム46日。</div>
+        <div class="cl-impact">課題特定: 最低2泊設定 / オフピーク値引き / 繁忙期値上げ をBeds24ダッシュボードで設定推奨</div>
+      </div>
+    </div>
+    <div class="cl-item">
+      <div class="cl-date">2026-04-27</div>
+      <span class="cl-tag fix">FIX</span>
+      <div class="cl-body">
+        <div class="cl-title">kagawa-akiya.html ヒーロー Before/After スプリット · blog-9 / founding 新規ページ</div>
+        <div class="cl-sub">ペルソナ最適化: A(投資家) / B(空き家) / C(フェス) / D(建築)。kagawaゲート解除率計測開始。</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-const KEY='sln_akey';
-let adminKey=localStorage.getItem(KEY)||'', period=6, lastD=null;
+const KEY='sln_akey', SNAP_KEY='sln_snap';
+let adminKey=localStorage.getItem(KEY)||'', period=6, lastD=null, snapD=null;
 let propFilter=null, chFilter=null, chartMode='revenue';
 let sortCol=null, sortDir=1;
+
+function saveSnap(){
+  if(!lastD)return;
+  const snap={ts:new Date().toISOString(),period,
+    total:lastD.total,totalNights:lastD.totalNights,
+    totalRev:Object.values(lastD.byChannel).reduce((s,c)=>s+c.revenue,0),
+    revpar:lastD.pastDays?Math.round(Object.values(lastD.byChannel).reduce((s,c)=>s+c.revenue,0)/lastD.pastDays):0,
+    avgLead:Math.round(lastD.avgLeadDays||0),
+    directRate:calcDirectRate(lastD)
+  };
+  localStorage.setItem(SNAP_KEY, JSON.stringify(snap));
+  snapD=snap; renderSnapBar();
+}
+function clearSnap(){
+  localStorage.removeItem(SNAP_KEY); snapD=null; renderSnapBar();
+  if(lastD)render(lastD);
+}
+function loadSnap(){
+  const s=localStorage.getItem(SNAP_KEY);
+  snapD=s?JSON.parse(s):null;
+}
+function renderSnapBar(){
+  const bar=document.getElementById('snapBar');
+  const hint=document.getElementById('snapSaveHint');
+  if(snapD){
+    bar.style.display='flex';
+    hint.style.display='none';
+    document.getElementById('snapDate').textContent=
+      `基準: ${new Date(snapD.ts).toLocaleString('ja-JP')} (${snapD.period}M)`;
+  } else {
+    bar.style.display='none';
+    hint.style.display='block';
+  }
+}
+function calcDirectRate(d){
+  const total=Object.values(d.byChannel).reduce((s,c)=>s+c.revenue,0)||1;
+  const dir=Object.entries(d.byChannel).filter(([k])=>k.toLowerCase().includes('direct')||k.toLowerCase().includes('soluna')).reduce((s,[,v])=>s+v.revenue,0);
+  return Math.round(dir/total*100);
+}
+function delta(now,prev,isPercent){
+  if(prev===undefined||prev===null)return'';
+  if(prev===0)return'';
+  const d=now-prev;
+  if(Math.abs(d)<0.5)return'<span class="kpi-delta flat">—</span>';
+  const pct=Math.round(d/Math.abs(prev)*100);
+  const cls=d>0?'up':'dn';
+  const sign=d>0?'▲':'▼';
+  if(isPercent)return`<span class="kpi-delta ${cls}">${sign}${Math.abs(d)}pt</span>`;
+  return`<span class="kpi-delta ${cls}">${sign}${Math.abs(pct)}%</span>`;
+}
 
 document.getElementById('keyIn').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 function doLogin(){
@@ -320,6 +454,7 @@ function daysFrom(d){return Math.round((new Date(d)-new Date())/86400000);}
 
 // ── Load ───────────────────────────────────────────────────
 async function load(){
+  loadSnap(); renderSnapBar();
   document.getElementById('main').innerHTML='<div class="loading">LOADING…</div>';
   try{
     const r=await fetch(`/api/soluna/admin/booking-analytics?months=${period}`,{headers:{'x-admin-key':adminKey}});
@@ -327,6 +462,7 @@ async function load(){
     lastD=await r.json();
     if(lastD.error){document.getElementById('main').innerHTML=`<div class="err">${lastD.error}</div>`;return;}
     render(lastD);
+    document.getElementById('changelog').style.display='block';
   }catch(e){document.getElementById('main').innerHTML=`<div class="err">${e.message}</div>`;}
 }
 
@@ -531,23 +667,35 @@ function render(d){
   <!-- KPI -->
   <div class="kpi-row">
     <div class="card kpi"><div class="card-shine"></div>
-      <div class="kpi-n">${cnt}</div><div class="kpi-s">${yenS(totalRev)} 総売上</div><div class="kpi-l">BOOKINGS</div>
+      <div class="kpi-n">${cnt}</div><div class="kpi-s">${yenS(totalRev)} 総売上</div>
+      ${snapD?delta(cnt,snapD.total):''}
+      <div class="kpi-l">BOOKINGS</div>
     </div>
     <div class="card kpi"><div class="card-shine"></div>
-      <div class="kpi-n sm">${yen(avgUnit)}</div><div class="kpi-s">avg ${avgStay}泊/件</div><div class="kpi-l">AVG UNIT</div>
+      <div class="kpi-n sm">${yen(avgUnit)}</div><div class="kpi-s">avg ${avgStay}泊/件</div>
+      ${snapD?delta(avgUnit,snapD.totalRev&&snapD.total?Math.round(snapD.totalRev/snapD.total):null):''}
+      <div class="kpi-l">AVG UNIT</div>
     </div>
     <div class="card kpi"><div class="card-shine"></div>
-      <div class="kpi-n sm">${yen(revpar)}</div><div class="kpi-s">Revenue/Available Room/Day</div><div class="kpi-l">RevPAR</div>
+      <div class="kpi-n sm">${yen(revpar)}</div><div class="kpi-s">Revenue/Available Room/Day</div>
+      ${snapD?delta(revpar,snapD.revpar):''}
+      <div class="kpi-l">RevPAR</div>
     </div>
     <div class="card kpi"><div class="card-shine"></div>
-      <div class="kpi-n">${nights}</div><div class="kpi-s">総泊数 / 稼働率 ${occ}%</div><div class="kpi-l">NIGHTS</div>
+      <div class="kpi-n">${nights}</div><div class="kpi-s">総泊数 / 稼働率 ${occ}%</div>
+      ${snapD?delta(nights,snapD.totalNights):''}
+      <div class="kpi-l">NIGHTS</div>
     </div>
     <div class="card kpi"><div class="card-shine"></div>
       <div class="kpi-n">${d.avgLeadDays||0}<span style="font-size:11px;color:#555">日</span></div>
-      <div class="kpi-s">予約→宿泊 平均</div><div class="kpi-l">LEAD TIME</div>
+      <div class="kpi-s">予約→宿泊 平均</div>
+      ${snapD?delta(d.avgLeadDays||0,snapD.avgLead):''}
+      <div class="kpi-l">LEAD TIME</div>
     </div>
     <div class="card kpi"><div class="card-shine"></div>
-      <div class="kpi-n">${directPct}%</div><div class="kpi-s">Direct / SOLUNA</div><div class="kpi-l">DIRECT RATE</div>
+      <div class="kpi-n">${directPct}%</div><div class="kpi-s">Direct / SOLUNA</div>
+      ${snapD?delta(directPct,snapD.directRate,true):''}
+      <div class="kpi-l">DIRECT RATE</div>
     </div>
   </div>
 
@@ -752,7 +900,7 @@ function exportCSV(){
   a.click();
 }
 
-if(adminKey){document.getElementById('overlay').style.display='none';load();}
+if(adminKey){document.getElementById('overlay').style.display='none';loadSnap();renderSnapBar();load();}
 </script>
 </body>
 </html>
