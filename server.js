@@ -9945,3 +9945,27 @@ app.post("/api/soluna/deposit", express.json(), async (req, res) => {
     res.json({ url: session.url });
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
+
+app.post("/api/soluna/admin/send-email", express.json(), async (req, res) => {
+  const key = req.headers["x-admin-key"];
+  if (key !== ADMIN_KEY) return res.status(401).json({ error: "Unauthorized" });
+  if (!RESEND_API_KEY) return res.status(503).json({ error: "RESEND_API_KEY not set" });
+  const { to, subject, body } = req.body;
+  if (!to || !subject || !body) return res.status(400).json({ error: "to, subject, body required" });
+  try {
+    const r = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "Yuki Hamada <yuki@solun.art>",
+        reply_to: ["mail@yukihamada.jp"],
+        to: [to],
+        subject,
+        text: body,
+      }),
+    });
+    const d = await r.json();
+    if (!r.ok) return res.status(r.status).json(d);
+    res.json({ ok: true, id: d.id });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
