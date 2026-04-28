@@ -372,6 +372,62 @@ body.admin-mode #ops-section{display:block}
         <div class="ops-date">美留和 106,899m² 開発計画中</div>
       </div>
 
+      <!-- 鈴工 CLT返信 -->
+      <div class="ops-card urgent">
+        <span class="ops-card-tag urgent">要返信</span>
+        <div class="ops-card-title">鈴工・鈴木さん CLT仕様確認</div>
+        <div class="ops-card-sub">
+          2026-04-27 返信受領。電話希望（080-4404-6744）<br>
+          質問: CLT 12mmは3層で12mmか？<br>
+          → 回答: 各層12mm（外面杉CLT12mm + コア籾殻120mm + 内面竹12mm）<br>
+          現在地: 東京（港区三田）
+        </div>
+        <button class="ops-card-action" onclick="window.open('mailto:hiroyuki.suzuki@suzuko-inc.com','_blank')">→ 返信メールを書く</button>
+        <div class="ops-date">2026-04-28 対応要</div>
+      </div>
+
+      <!-- 弟子屈町建設課 -->
+      <div class="ops-card urgent">
+        <span class="ops-card-tag urgent">要返信</span>
+        <div class="ops-card-title">弟子屈町建設課 地番回答</div>
+        <div class="ops-card-sub">
+          担当: 鈴木敬章主任（015-482-2941）<br>
+          要求: 建設予定地の地番<br>
+          → ビレッジ: 美留和501番1ほか / LODGE: 美留和361番51 / 熊牛: 標茶町字西熊牛原野92番2
+        </div>
+        <button class="ops-card-action" onclick="window.open('mailto:kensetsu@town.teshikaga.hokkaido.jp','_blank')">→ 返信する</button>
+        <div class="ops-date">2026-04-23 受領、対応要</div>
+      </div>
+
+      <!-- GitHub APIキー露出 -->
+      <div class="ops-card done-card">
+        <span class="ops-card-tag done-tag">対応済み</span>
+        <div class="ops-card-title">GitHub Google APIキー露出 → 削除済み</div>
+        <div class="ops-card-sub">
+          gen_kumaushi_wide.py からハードコードキーを削除・コミット済み<br>
+          <strong style="color:#e05555">要: Google Cloud Console でキーをローテーション</strong><br>
+          AIzaSyAg-uxbO... を無効化 → 新キー発行
+        </div>
+        <button class="ops-card-action" onclick="window.open('https://console.cloud.google.com/apis/credentials','_blank')">→ APIキーをローテーション</button>
+        <div class="ops-date">2026-04-28 コード修正済み</div>
+      </div>
+
+      <!-- SOLUNA戦略・サイト改善 -->
+      <div class="ops-card inprogress">
+        <span class="ops-card-tag inprogress">実施中</span>
+        <div class="ops-card-title">SOLUNA 戦略・サイト改善（2026-04-28）</div>
+        <div class="ops-card-sub">
+          ✅ 競合分析: NAH / ZAMNA / リゾートトラスト<br>
+          ✅ Opus戦略立案: 「定額型別荘所有」ポジショニング確定<br>
+          ✅ 法的リスク洗い出し: 利益還元・DAO・NAH批判 → 全削除<br>
+          ✅ index.html 5ペルソナ改善（キーワード・ヒーロー・OG・CTA）<br>
+          🔲 不特法第3号事業者許可 申請開始（2026 Q3目標）<br>
+          🔲 顧問弁護士契約（TMI / 西村あさひクラス）<br>
+          🔲 ZAMNA株式交渉（9月フェスト後3ヶ月以内）
+        </div>
+        <div class="ops-date">2026-04-28 進行中</div>
+      </div>
+
     </div>
 
     <!-- 建材提携候補 -->
@@ -1567,5 +1623,7 @@ function copyText(t, btn){
 }
 </script>
 <script src="/track.js" defer></script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
 </body>
 </html>
