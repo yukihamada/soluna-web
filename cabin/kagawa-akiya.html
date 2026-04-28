@@ -9,7 +9,7 @@
 <meta content="香川の空き家・低価格物件をリノベーション。¥1万〜¥4,580万の18物件。遍路古家・居酒屋古民家・猫の島廃墟・大正築100年古民家・島の激安一軒家・漁港前・3棟セット。瀬戸内の島々にSOLUNA拠点を。" name="description"/>
 <meta content="香川・瀬戸内 空き家リノベ 全18物件 | SOLUNA AKIYA CLUB" property="og:title"/>
 <meta content="小豆島¥1万〜。遍路古家・居酒屋古民家・直島古家・豊島更地・父母ヶ浜海沿い・漁港前・3棟セット。瀬戸内の島々にSOLUNA拠点を作る。" property="og:description"/>
-<meta content="https://solun.art/img/kagawa_shodoshima_p01_after.jpg?v=2" property="og:image"/>
+<meta content="https://solun.art/img/kagawa_mitoyo_p04_before.jpg?v=2" property="og:image"/>
 <meta content="https://solun.art/kagawa-akiya" property="og:url"/>
 <meta content="website" property="og:type"/>
 <meta content="summary_large_image" name="twitter:card"/>
@@ -179,6 +179,17 @@ h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line
 .gstrip img:hover{flex:2.5;filter:brightness(1)}
 @media(max-width:600px){.gstrip{height:200px}}
 
+/* PROPERTY PHOTO GALLERY (実際の物件) */
+.prop-gallery-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;overflow:hidden}
+.pgal-item{position:relative;overflow:hidden;aspect-ratio:3/4;cursor:pointer}
+.pgal-item img{width:100%;height:100%;object-fit:cover;filter:brightness(.7) saturate(.8);transition:transform .5s ease,filter .4s}
+.pgal-item:hover img{transform:scale(1.06);filter:brightness(.9) saturate(1)}
+.pgal-cap{position:absolute;bottom:0;left:0;right:0;padding:10px 12px 12px;background:linear-gradient(transparent,rgba(0,0,0,.8));display:flex;flex-direction:column;gap:3px}
+.pgal-num{font-size:7.5px;font-weight:800;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+.pgal-loc{font-size:10px;font-weight:600;color:rgba(255,255,255,.8);letter-spacing:-.01em}
+@media(max-width:900px){.prop-gallery-strip{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:500px){.prop-gallery-strip{grid-template-columns:repeat(2,1fr)}}
+
 /* FULLWIDTH IMAGE */
 .fi{width:100vw;margin-left:calc(-50vw + 50%);height:55vh;min-height:320px;object-fit:cover;display:block}
 @media(max-width:600px){.fi{height:48vw;min-height:240px}}
@@ -288,11 +299,11 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <div class="hero">
 <div class="hero-split">
   <div class="hero-split-panel">
-    <img alt="実際の物件" src="img/kagawa_hero_real.jpg?v=2"/>
-    <span class="hero-split-tag before">実際の物件</span>
+    <img alt="三豊 茅葺古民家 — 実際の物件" src="img/kagawa_mitoyo_p04_before.jpg?v=2"/>
+    <span class="hero-split-tag before">実際の物件 · P04 三豊</span>
   </div>
   <div class="hero-split-panel">
-    <img alt="AI リノベーション後" src="img/kagawa_hero_render.jpg?v=2"/>
+    <img alt="AI リノベーション後イメージ" src="img/kagawa_hero_render.jpg?v=2"/>
     <span class="hero-split-tag after">AI リノベーション後</span>
   </div>
 </div>
@@ -303,7 +314,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <p class="hero-sub">小豆島・直島・豊島・伊吹島・三豊・さぬき・高松・坂出・東かがわ。¥1万から取得できる18物件を厳選。白漆喰×海ガラス、遍路古家×縁側、醤油蔵×港ガラス、1933年築高台古民家。瀬戸内のど真ん中にSOLUNA拠点を。</p>
 <div style="display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp 1.1s .8s both">
 <a class="cta-btn" href="#properties">全18物件を見る</a>
-<a class="cta-ghost" href="scheme" style="border-color:rgba(74,143,192,.3);color:var(--accent)">投資スキーム</a>
+<a class="cta-ghost" href="scheme" style="border-color:rgba(74,143,192,.3);color:var(--accent)">所有スキーム</a>
 </div>
 </div>
 </div>
@@ -317,6 +328,41 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <div class="num"><div class="num-v">¥100万</div><div class="num-l">1口出資額</div></div>
 <div class="num-div"></div>
 <div class="num"><div class="num-v">20泊/年</div><div class="num-l">利用権</div></div>
+</div>
+
+<!-- ACTUAL PROPERTY PHOTOS GALLERY -->
+<div style="padding:64px 0 0;background:#030303;border-bottom:1px solid #0a0a0a">
+  <div class="ww" style="margin-bottom:28px">
+    <p class="label" style="color:#2a2a2a;letter-spacing:.28em;font-size:8px;margin-bottom:8px">Real Properties · 実際の物件写真</p>
+    <h2 style="font-size:clamp(1.4rem,3vw,2rem);letter-spacing:-.03em;color:#e8e0d0;font-weight:800">これが、実際の物件です。</h2>
+    <p style="font-size:13px;color:#444;line-height:1.9;margin-top:8px;max-width:560px">AIレンダリングの前に、現地の素材感を見てほしい。朽ちた美しさ、瀬戸内の湿度、昭和の記憶。ここから始まる。</p>
+  </div>
+  <div class="prop-gallery-strip">
+    <div class="pgal-item">
+      <img src="img/kagawa_mitoyo_p04_before.jpg?v=2" alt="P04 三豊 茅葺古民家" loading="lazy">
+      <div class="pgal-cap"><span class="pgal-num">P04</span><span class="pgal-loc">三豊 · 茅葺古民家</span></div>
+    </div>
+    <div class="pgal-item">
+      <img src="img/kagawa_shodoshima_p01_before.jpg?v=2" alt="P01 小豆島 RC4階建" loading="lazy">
+      <div class="pgal-cap"><span class="pgal-num">P01</span><span class="pgal-loc">小豆島 · RC4階建</span></div>
+    </div>
+    <div class="pgal-item">
+      <img src="img/kagawa_shodoshima_p02_before.jpg?v=2" alt="P02 小豆島 山の上古家" loading="lazy">
+      <div class="pgal-cap"><span class="pgal-num">P02</span><span class="pgal-loc">小豆島 · 山の上古家</span></div>
+    </div>
+    <div class="pgal-item">
+      <img src="img/kagawa_naoshima_p03_before.jpg?v=2" alt="P03 直島 木造古民家" loading="lazy">
+      <div class="pgal-cap"><span class="pgal-num">P03</span><span class="pgal-loc">直島 · 木造古民家</span></div>
+    </div>
+    <div class="pgal-item">
+      <img src="img/kagawa_sanuki_p06_before.jpg?v=2" alt="P06 さぬき 遍路古家" loading="lazy">
+      <div class="pgal-cap"><span class="pgal-num">P06</span><span class="pgal-loc">さぬき · 遍路古家</span></div>
+    </div>
+    <div class="pgal-item">
+      <img src="img/kagawa_kanonji_p08_before.jpg?v=2" alt="P08 観音寺 田んぼ横古屋" loading="lazy">
+      <div class="pgal-cap"><span class="pgal-num">P08</span><span class="pgal-loc">観音寺 · 田んぼ横</span></div>
+    </div>
+  </div>
 </div>
 
 <!-- P01 MAIN: 小豆島 RC プール -->
@@ -363,7 +409,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <div class="price-row"><span class="k">構造</span><span class="v">RC4階建 · 1972年築 · 建物277㎡ · 土地665㎡</span></div>
 <div class="price-row"><span class="k">住所</span><span class="v">香川県小豆郡小豆島町神浦</span></div>
 <div class="price-row"><span class="k">特徴</span><span class="v">プール付・ルーフトップBBQ・プライベートビーチ・2023年リノベ済</span></div>
-<div class="price-row"><span class="k">想定利回り</span><span class="v gold">年6〜12%（稼働率連動）</span></div>
+<div class="price-row"><span class="k">年間運営収益</span><span class="v gold">実績ベース（個別説明）</span></div>
 <div class="price-row"><span class="k">年間利用権</span><span class="v gold">20泊/年（優先予約）</span></div>
 <div class="reno-breakdown">
 <div class="reno-label">リノベ工事内訳</div>
@@ -1832,7 +1878,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 </div>
 </div>
 <div class="r" style="margin-top:12px;padding:16px 20px;background:rgba(74,143,192,.04);border:1px solid rgba(74,143,192,.15);border-radius:10px;font-size:11px;color:#555;line-height:2">
-配当は確約ではなく、宿泊稼働率に連動します。主な価値は「年20泊の利用権」。配当はボーナスとお考えください。芸術祭期間（春・夏・秋 各約55日）での高稼働を想定。1泊¥80,000 × 稼働率で試算。保守30%（年¥130万）、中間50%（年¥220万）、楽観70%（年¥300万）。1口¥525万に対して中間シナリオで年率4.2%。
+運営収益のオーナーシェアは確約ではなく、宿泊稼働率に連動します。主な価値は「年20泊の利用権」。運営収益はボーナスとお考えください。芸術祭期間（春・夏・秋 各約55日）での高稼働を想定。詳細な収益シミュレーションは個別説明会にてご案内します。
 </div>
 </div>
 </div>
@@ -1935,7 +1981,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 </div>
 
 <div class="r" style="text-align:center;margin-top:20px">
-<a class="cta-ghost" href="scheme" style="border-color:rgba(74,143,192,.3);color:var(--accent)">投資スキームを見る</a>
+<a class="cta-ghost" href="scheme" style="border-color:rgba(74,143,192,.3);color:var(--accent)">所有スキームを見る</a>
 </div>
 </div>
 <div class="r" style="font-size:11px;color:#2a2a2a;line-height:2;margin-top:36px">
@@ -2102,5 +2148,7 @@ function submitConsult(){
   });
 }
 </script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
 </body>
 </html>

@@ -159,14 +159,14 @@ img{display:block;max-width:100%}
 <article class="prose" style="padding-top:40px">
 <h2 data-en="Fractional Ownership Structure Based on Japanese Civil Code Article 250">SOLUNA利用権型会員権の設計</h2>
 <p data-en="SOLUNA is neither a hotel nor a private rental. It operates through fractional co-ownership in unit shares. TAPKOP is structured at ¥10 million per unit, with 3.9 units (¥39 million) per property. All owners are registered and legally co-own the real estate.">SOLUNAは「ホテル」でも「民泊」でもない。<strong data-en="Direct Acquisition of Co-ownership Shares Under Japanese Civil Code Article 250">SOLUNAの利用権型会員権</strong>だ。共同所有権を1口単位で取得する構造で、TAPKOPは1口1,000万円、3.9口（3,900万円）の物件として設定している。所有者全員が登記に名前を連ね、法的に不動産を共有する。</p>
-<p data-en="Revenue is straightforward. We distribute 50% of annual accommodation revenue as dividends proportional to ownership stakes. With TAPKOP's projected 65% occupancy at an average rate of ¥75,000 per night, annual revenue reaches approximately ¥17.8 million, with total dividends of ¥8.9 million—roughly ¥2.28 million per unit. This is more than real estate yield alone. You also receive usage rights and participate in all decisions regarding the property.">収益の仕組みはシンプルだ。年間宿泊売上の50%をオーナー持分比率に応じて配当する。TAPKOP想定稼働率65%、平均単価¥75,000/泊で計算すると年間売上は約1,780万円、配当総額は890万円、1口あたり約228万円——<strong data-en="8.1% Yield">利回り8.1%</strong>に相当する。ただしこれは不動産の利回りだけじゃない。自分が使える権利が付いていて、場所に関するすべての意思決定に参加できる。</p>
+<p data-en="Revenue is straightforward. TAPKOP's annual operating revenue (based on actual performance) is explained individually at our consultation sessions. Per-unit operating revenue details are shared at that time. Beyond financials, you receive usage rights and participate in all decisions regarding the property.">収益の仕組みはシンプルだ。TAPKOPの年間運営収益（実績ベース）は過去の稼働実績として個別にご説明しています。1口あたりの運営収益については相談会にてお伝えします。ただしこれは不動産の運営収益だけじゃない。自分が使える権利が付いていて、場所に関するすべての意思決定に参加できる。</p>
 <p data-en="We designed the payment layer entirely in-house. The frontend integrates Stripe Elements with custom dark UI and an Apple Pay Payment Request Button. We have also implemented Solana USDC payments—treasury `DK29rBGCvP83LUNjUGVM6xt6qPy6rycBFopXbFkg9XvQ`, USDC mint `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v`, with support for Phantom, Backpack, and Solflare (`window.solana` / `window.backpack` detection). Pre-purchase verification calls are implemented via Daily.co WebRTC.">決済レイヤーも自前で設計した。フロントはStripe Elements（カスタムダークUI）にApple Pay用のPayment Request Buttonを統合している。さらにSolana USDC決済も実装している——treasury `DK29rBGCvP83LUNjUGVM6xt6qPy6rycBFopXbFkg9XvQ`、USDC mint `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v`、Phantom / Backpack / Solflare対応（`window.solana` / `window.backpack`のdetectionで分岐）。購入前確認のビデオ通話はDaily.co WebRTCで実装した。</p>
 <div class="pq" data-en="East Ventures invested 5%. I invested too. My philosophy is unifying the creator and owner roles.">East Venturesが5%出資した。自分も出資した。「作る側」と「所有する側」を同一にするのが、自分の流儀だ。</div>
 <h2 data-en="What Happens on TAPKOP's Deck">TAPKOPのデッキで起きること</h2>
 <p data-en="9,000 tsubo of grounds. Hokkaido's night sky, unobstructed by anything. We deploy Koe's speaker system here and perform as DJs. Rust firmware on the ESP32-S3 synchronizes multiple speakers via UDP multicast (239.42.42.1:4242) with NTP precision—a system designed to rival L-Acoustics line arrays takes the stage. Singing through the night on uta.live. The next morning, jujutsu training, then restoration at NES's natural hot springs.">9,000坪の敷地。遮るものが何もない北海道の夜空。ここにKoeのスピーカーシステムを展開して、DJをやる。ESP32-S3上のRustファームウェアがUDPマルチキャスト（239.42.42.1:4242）で複数スピーカーをNTP同期させる——L-Acousticsのラインアレイに対抗するために設計したシステムが、ここで本番を迎える。uta.liveで朝まで歌う。翌朝は柔術の稽古をして、NESの天然温泉で整える。</p>
 <p data-en="With place, sound, and light, cinema is possible. We are making films. SOLUNA possesses all three.">場所と音と光があれば、映画も撮れる。映画は撮っている。SOLUNAには全部ある。</p>
 <div class="pq" data-en="With place, sound, and light, you can make cinema. SOLUNA has all three.">場所と音と光があれば、映画は撮れる。SOLUNAには全部ある。</div>
-<p data-en="To those engaging as co-owners, I wish to convey that it transcends the 8.1% yield alone. Your name is inscribed in the registry. On your land, these experiences unfold. Creating a product and creating a place are, to me, the same act. Design the context, liberate the experience—that is all.">共同オーナーとして関わる人に伝えたいのは、「利回り8.1%」だけじゃないということだ。あなたの名前が登記に乗り、あなたの場所で、こういうことが起きる。プロダクトを作ることと、場所を作ることは、自分の中では同じ行為だ。文脈を設計して、体験を解放する——それだけのことだ。</p>
+<p data-en="To those engaging as co-owners, I wish to convey that it transcends annual operating revenue alone. Your name is inscribed in the registry. On your land, these experiences unfold. Creating a product and creating a place are, to me, the same act. Design the context, liberate the experience—that is all.">共同オーナーとして関わる人に伝えたいのは、「年間運営収益」だけじゃないということだ。あなたの名前が登記に乗り、あなたの場所で、こういうことが起きる。プロダクトを作ることと、場所を作ることは、自分の中では同じ行為だ。文脈を設計して、体験を解放する——それだけのことだ。</p>
 </article>
 </div>
 <img alt="村の夜景" class="fi-inline" data-en-alt="Village nocturne" src="img/village_night.webp"/>
@@ -346,5 +346,11 @@ function sfToggle(btn){
   bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
 }
 </script><script src="/lang.js"></script>
+
+<div style="margin:40px auto 0;max-width:680px;padding:14px 20px;border-top:1px solid #1a1a1a;text-align:center;">
+<a href="https://yukihamada.jp/#blog" target="_blank" rel="noopener" style="font-size:11px;color:#c8a455;text-decoration:none;opacity:.8;">この記事は <strong>yukihamada.jp</strong> のブログアプリでも読めます ↗</a>
+</div>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
 </body>
 </html>
