@@ -415,6 +415,13 @@ async function initDb() {
       message     TEXT NOT NULL,
       created_at  TEXT DEFAULT (datetime('now'))
     )`,
+    `CREATE TABLE IF NOT EXISTS construction_records (
+      id         TEXT NOT NULL,
+      type       TEXT NOT NULL,
+      data       TEXT NOT NULL,
+      updated_at TEXT DEFAULT (datetime('now')),
+      PRIMARY KEY (id, type)
+    )`,
     `CREATE TABLE IF NOT EXISTS task_comments (
       id          INTEGER PRIMARY KEY AUTOINCREMENT,
       task_key    TEXT NOT NULL,
@@ -6750,6 +6757,48 @@ app.post("/api/track", express.json(), async (req, res) => {
 });
 
 // GET /api/admin/kpi — funnel summary (admin only)
+// ── API: Construction records (admin) ────────────────────────────────────────
+app.get("/api/admin/construction/:type", async (req, res) => {
+  if (req.headers["x-admin-key"] !== ADMIN_KEY) return res.status(401).json({ error: "unauthorized" });
+  try {
+    const { type } = req.params;
+    const rows = await db.execute({ sql: "SELECT id, data, updated_at FROM construction_records WHERE type = ? ORDER BY updated_at DESC", args: [type] });
+    res.json(rows.rows.map(r => ({ id: r.id, ...JSON.parse(r.data), updated_at: r.updated_at })));
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post("/api/admin/construction/:type", express.json(), async (req, res) => {
+  if (req.headers["x-admin-key"] !== ADMIN_KEY) return res.status(401).json({ error: "unauthorized" });
+  try {
+    const { type } = req.params;
+    const { id, ...data } = req.body;
+    if (!id) return res.status(400).json({ error: "id required" });
+    await db.execute({ sql: "INSERT OR REPLACE INTO construction_records (id, type, data, updated_at) VALUES (?, ?, ?, datetime('now'))", args: [id, type, JSON.stringify(data)] });
+    res.json({ ok: true });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+app.patch("/api/admin/construction/:type/:id", express.json(), async (req, res) => {
+  if (req.headers["x-admin-key"] !== ADMIN_KEY) return res.status(401).json({ error: "unauthorized" });
+  try {
+    const { type, id } = req.params;
+    const row = await db.execute({ sql: "SELECT data FROM construction_records WHERE type = ? AND id = ?", args: [type, id] });
+    const existing = row.rows[0] ? JSON.parse(row.rows[0].data) : {};
+    const merged = { ...existing, ...req.body };
+    await db.execute({ sql: "INSERT OR REPLACE INTO construction_records (id, type, data, updated_at) VALUES (?, ?, ?, datetime('now'))", args: [id, type, JSON.stringify(merged)] });
+    res.json({ ok: true, data: merged });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+app.delete("/api/admin/construction/:type/:id", async (req, res) => {
+  if (req.headers["x-admin-key"] !== ADMIN_KEY) return res.status(401).json({ error: "unauthorized" });
+  try {
+    const { type, id } = req.params;
+    await db.execute({ sql: "DELETE FROM construction_records WHERE type = ? AND id = ?", args: [type, id] });
+    res.json({ ok: true });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 app.get("/api/admin/kpi", async (req, res) => {
   if (req.headers["x-admin-key"] !== ADMIN_KEY) return res.status(401).json({ error: "unauthorized" });
   const days = Math.min(parseInt(req.query.days||"30"), 365);
@@ -9547,6 +9596,8 @@ const GATED_PAGES = new Set([
   "offgrid","offgrid-cabin",
   // Purchase action pages (have their own auth flow but still gate URL)
   "pay","referral",
+  // Admin-only (checked again below with email guard)
+  "strategy",
   //
   // NOTE: manufacturing/*, design, plan, management-fee, buy
   //       use CLIENT-SIDE partial gate via /js/gate.js
@@ -9567,6 +9618,7 @@ const GATED_PAGE_LABELS = {
   "offgrid":"オフグリッド設計","offgrid-cabin":"オフグリッドキャビン",
   "management-fee":"管理費詳細","plan":"事業計画","plans":"プラン一覧",
   "buy":"オーナーになる","pay":"お支払い","referral":"紹介プログラム",
+  "strategy":"ポジショニング戦略（非公開）",
 };
 
 function authGatePage(pageKey, returnPath) {
@@ -9671,6 +9723,16 @@ app.use(async (req, res, next) => {
 
   if (!member) {
     return res.status(401).setHeader("Content-Type","text/html; charset=UTF-8").send(authGatePage(pageKey, returnPath));
+  }
+
+  // strategy page: admin-only (mail@yukihamada.jp)
+  if (key === "strategy" && member.email !== "mail@yukihamada.jp") {
+    return res.status(403).setHeader("Content-Type","text/html; charset=UTF-8").send(
+      `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>403</title>
+      <style>body{background:#080806;color:#888;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
+      p{font-size:.85rem;letter-spacing:.05em}</style></head>
+      <body><p>このページへのアクセス権限がありません</p></body></html>`
+    );
   }
 
   // Log the view (fire-and-forget)
