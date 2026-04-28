@@ -13,12 +13,7 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:#e8e8e4;font-family:'Inter',sans-serif;min-height:100vh}
 
-/* ── Auth gate ── */
-#auth-gate{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
-#auth-gate .logo{font-size:1.1rem;font-weight:800;letter-spacing:.2em;color:var(--gold)}
-#auth-gate p{font-size:.8rem;color:rgba(255,255,255,.4)}
-#auth-gate a{color:var(--gold);font-size:.85rem}
-#content{display:none}
+#content{display:block}
 
 /* ── Layout ── */
 #sidebar{position:fixed;top:0;left:0;width:220px;height:100vh;background:rgba(8,8,6,.97);border-right:1px solid var(--line);overflow-y:auto;padding:24px 0;z-index:100}
@@ -105,13 +100,6 @@ td.warn{color:var(--gold)}
 </style>
 </head>
 <body>
-
-<!-- Auth gate -->
-<div id="auth-gate">
-  <div class="logo">SOLUNA <span style="font-size:.7rem;letter-spacing:.06em;font-weight:400;color:rgba(255,255,255,.3)">STRATEGY</span></div>
-  <p>このページは <strong style="color:#fff">mail@yukihamada.jp</strong> 専用です</p>
-  <a href="/app">→ ログインする</a>
-</div>
 
 <!-- Main content -->
 <div id="content">
@@ -605,29 +593,8 @@ td.warn{color:var(--gold)}
 <script>
 (function(){
 
-// ── Auth ─────────────────────────────────────────────────────────────────────
-var token = localStorage.getItem('sln_token');
-if (!token) { showGate(); return; }
-
-fetch('/api/soluna/me', { headers: {'x-sln-token': token} })
-  .then(function(r){ return r.json(); })
-  .then(function(d){
-    if (d.email === 'mail@yukihamada.jp') {
-      document.getElementById('auth-gate').style.display = 'none';
-      document.getElementById('content').style.display = 'block';
-      initSidebar();
-    } else {
-      showGate('このページは mail@yukihamada.jp 専用です');
-    }
-  })
-  .catch(function(){ showGate(); });
-
-function showGate(msg){
-  if (msg) {
-    var p = document.querySelector('#auth-gate p');
-    if (p) p.textContent = msg;
-  }
-}
+// Server-side auth already verified. Just init sidebar.
+initSidebar();
 
 // ── Sidebar active ────────────────────────────────────────────────────────────
 function initSidebar(){
@@ -654,11 +621,11 @@ window.shareSection = function(sectionId, title){
   var el = document.getElementById(sectionId);
   if (!el) return;
   var content = el.innerHTML;
-  var token = localStorage.getItem('sln_token');
 
   fetch('/api/strategy/share', {
     method: 'POST',
-    headers: {'Content-Type':'application/json','x-sln-token': token||''},
+    headers: {'Content-Type':'application/json'},
+    credentials: 'same-origin',
     body: JSON.stringify({ title: title, content: content, expires_days: 30 })
   })
   .then(function(r){ return r.json(); })
