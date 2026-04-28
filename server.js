@@ -937,7 +937,7 @@ app.use(express.json());
 // CORS for cabin static site calling our API
 app.use((req, res, next) => {
   const origin = req.headers.origin || "";
-  if (origin.includes("soluna-teshikaga") || origin.includes("solun.art") || origin.includes("localhost")) {
+  if (origin.includes("soluna-teshikaga") || origin.includes("solun.art") || origin.includes("yukihamada.jp") || origin.includes("localhost")) {
     res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE,OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization,stripe-signature");
@@ -10075,6 +10075,78 @@ app.get("/docs/:slug", async (req, res) => {
 app.get("/futami", (_req, res) => res.sendFile(path.join(STATIC_DIR, "futami", "index.html")));
 app.get("/futami/", (_req, res) => res.sendFile(path.join(STATIC_DIR, "futami", "index.html")));
 app.use("/futami-img", express.static(path.join(STATIC_DIR, "futami-img"), { maxAge: "7d" }));
+
+// ── Standalone Login Page ─────────────────────────────────────────────────────
+app.get('/login', (req, res) => {
+  const next = (req.query.next || '/').replace(/[^a-zA-Z0-9/_\-\.]/g, '');
+  res.setHeader('Content-Type', 'text/html; charset=UTF-8');
+  res.send(`<!DOCTYPE html><html lang="ja"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SOLUNA ログイン</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#080806;color:#c8c0b0;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.card{max-width:400px;width:100%;background:#0e0c0a;border:1px solid #2a2520;border-radius:12px;padding:40px 32px}
+.logo{font-size:10px;font-weight:800;letter-spacing:.3em;color:#c8a455;margin-bottom:32px}
+h1{font-size:1.2rem;font-weight:800;color:#f0ece4;margin-bottom:8px}
+.sub{font-size:.78rem;color:rgba(255,255,255,.35);margin-bottom:28px;line-height:1.6}
+label{display:block;font-size:.65rem;letter-spacing:.15em;color:#555;text-transform:uppercase;margin-bottom:6px}
+input{width:100%;background:#080806;border:1px solid #2a2520;color:#c8c0b0;padding:12px 14px;border-radius:6px;font-size:.85rem;outline:none;margin-bottom:12px}
+input:focus{border-color:#c8a455}
+.btn{width:100%;background:#c8a455;color:#080806;font-weight:800;font-size:.8rem;letter-spacing:.1em;padding:14px;border:none;border-radius:6px;cursor:pointer;transition:background .15s}
+.btn:hover{background:#d4b068}
+.msg{margin-top:12px;font-size:.78rem;min-height:18px;text-align:center}
+.msg.ok{color:#4a9a5a}.msg.err{color:#c0392b}
+#step2{display:none}
+.back{font-size:.72rem;color:#555;text-decoration:underline;cursor:pointer;background:none;border:none;margin-top:10px;display:block;text-align:center}
+</style>
+</head><body>
+<div class="card">
+  <div class="logo">SOLUNA</div>
+  <h1>ログイン</h1>
+  <p class="sub">メールアドレスにワンタイムコードを送信します。</p>
+  <div id="step1">
+    <label>メールアドレス</label>
+    <input type="email" id="email" placeholder="your@email.com" autocomplete="email">
+    <button class="btn" onclick="sendOtp()">コードを送信</button>
+    <div class="msg" id="msg1"></div>
+  </div>
+  <div id="step2">
+    <label>確認コード（6桁）</label>
+    <input type="text" id="code" placeholder="000000" maxlength="6" inputmode="numeric">
+    <button class="btn" onclick="verify()">ログイン</button>
+    <button class="back" onclick="document.getElementById('step1').style.display='';document.getElementById('step2').style.display='none'">← メールを変更</button>
+    <div class="msg" id="msg2"></div>
+  </div>
+</div>
+<script>
+const NEXT=${JSON.stringify(next)};
+async function sendOtp(){
+  const email=document.getElementById('email').value.trim();
+  if(!email){setMsg('msg1','err','メールアドレスを入力');return;}
+  setMsg('msg1','','送信中...');
+  const r=await fetch('/api/soluna/otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
+  const d=await r.json();
+  if(r.ok){document.getElementById('step1').style.display='none';document.getElementById('step2').style.display='';setMsg('msg2','','');}
+  else setMsg('msg1','err',d.error||'エラーが発生しました');
+}
+async function verify(){
+  const email=document.getElementById('email').value.trim();
+  const code=document.getElementById('code').value.trim();
+  if(!code){setMsg('msg2','err','コードを入力');return;}
+  setMsg('msg2','','確認中...');
+  const r=await fetch('/api/soluna/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,code})});
+  const d=await r.json();
+  if(r.ok){localStorage.setItem('sln_token',d.token);setMsg('msg2','ok','ログイン完了');setTimeout(()=>location.href=NEXT,500);}
+  else setMsg('msg2','err',d.error||'コードが正しくありません');
+}
+function setMsg(id,cls,txt){const el=document.getElementById(id);el.className='msg'+(cls?' '+cls:'');el.textContent=txt;}
+document.getElementById('email').addEventListener('keydown',e=>{if(e.key==='Enter')sendOtp();});
+document.getElementById('code').addEventListener('keydown',e=>{if(e.key==='Enter')verify();});
+</script>
+</body></html>`);
+});
 
 // ── Strategy Share ────────────────────────────────────────────────────────────
 const { randomUUID } = require('crypto');
