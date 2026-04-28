@@ -10152,7 +10152,9 @@ document.getElementById('code').addEventListener('keydown',e=>{if(e.key==='Enter
 const { randomUUID } = require('crypto');
 
 app.post('/api/strategy/share', async (req, res) => {
-  const token = req.headers['x-sln-token'];
+  const cookTok = parseCookies(req).sln_tok;
+  const hdrTok = req.headers['x-sln-token'];
+  const token = cookTok || hdrTok;
   if (!token) return res.status(401).json({ error: 'unauthorized' });
   try {
     const row = await db.execute({ sql: 'SELECT m.email FROM soluna_sessions s JOIN soluna_members m ON s.member_id=m.id WHERE s.token=? AND s.expires_at>datetime("now")', args: [token] });
