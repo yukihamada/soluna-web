@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SOLUNA — ポジショニング戦略</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--bg:#080806;--surface:rgba(255,255,255,.04);--line:rgba(255,255,255,.08);--red:#e05555;--green:#4a9a5a;--blue:#6688cc}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:#e8e8e4;font-family:'Inter',sans-serif;min-height:100vh}
+
+/* ── Auth gate ── */
+#auth-gate{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+#auth-gate .logo{font-size:1.1rem;font-weight:800;letter-spacing:.2em;color:var(--gold)}
+#auth-gate p{font-size:.8rem;color:rgba(255,255,255,.4)}
+#auth-gate a{color:var(--gold);font-size:.85rem}
+#content{display:none}
+
+/* ── Layout ── */
+#sidebar{position:fixed;top:0;left:0;width:220px;height:100vh;background:rgba(8,8,6,.97);border-right:1px solid var(--line);overflow-y:auto;padding:24px 0;z-index:100}
+#sidebar .s-logo{padding:0 20px 20px;font-size:.8rem;font-weight:800;letter-spacing:.2em;color:var(--gold);border-bottom:1px solid var(--line);margin-bottom:12px}
+#sidebar .s-logo span{display:block;font-size:.6rem;font-weight:400;color:rgba(255,255,255,.3);letter-spacing:.06em;margin-top:3px}
+.s-item{display:block;padding:9px 20px;font-size:.75rem;color:rgba(255,255,255,.55);cursor:pointer;transition:all .15s;text-decoration:none;border-left:2px solid transparent}
+.s-item:hover,.s-item.active{color:#fff;background:rgba(255,255,255,.04);border-left-color:var(--gold)}
+.s-group{font-size:.58rem;letter-spacing:.14em;color:rgba(200,164,85,.5);font-weight:700;padding:14px 20px 5px;text-transform:uppercase}
+
+#main{margin-left:220px;padding:40px 48px;max-width:1100px}
+
+/* ── Section ── */
+.section{margin-bottom:60px;scroll-margin-top:24px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.section-title{font-size:1.25rem;font-weight:800;letter-spacing:.03em}
+.section-title .num{font-size:.7rem;color:var(--gold);font-weight:600;letter-spacing:.1em;display:block;margin-bottom:4px}
+.share-btn{background:rgba(200,164,85,.1);border:1px solid rgba(200,164,85,.25);border-radius:6px;color:var(--gold);font-size:.7rem;font-weight:600;padding:6px 12px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.share-btn:hover{background:rgba(200,164,85,.2)}
+
+/* ── Cards ── */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin-bottom:14px}
+.card.urgent{border-color:rgba(224,85,85,.3)}
+.card.good{border-color:rgba(74,154,90,.3)}
+.card h3{font-size:.92rem;font-weight:700;margin-bottom:8px;color:#fff}
+.card p,.card li{font-size:.82rem;color:rgba(255,255,255,.7);line-height:1.75}
+.card ul{padding-left:1.2em}
+
+/* ── Table ── */
+.tbl-wrap{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse}
+th{background:rgba(200,164,85,.08);color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:10px 14px;text-align:left;border-bottom:1px solid var(--line)}
+td{padding:10px 14px;font-size:.8rem;color:rgba(255,255,255,.75);border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;line-height:1.6}
+tr:hover td{background:rgba(255,255,255,.02)}
+td strong{color:#fff}
+td.good{color:var(--green)}
+td.bad{color:var(--red)}
+td.warn{color:var(--gold)}
+
+/* ── Tags ── */
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:700;letter-spacing:.06em;margin:1px}
+.tag.red{background:rgba(224,85,85,.15);color:var(--red)}
+.tag.green{background:rgba(74,154,90,.12);color:var(--green)}
+.tag.gold{background:rgba(200,164,85,.12);color:var(--gold)}
+.tag.blue{background:rgba(102,136,204,.12);color:var(--blue)}
+
+/* ── Stat row ── */
+.stat-row{display:flex;gap:16px;flex-wrap:wrap;margin:16px 0}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 18px;flex:1;min-width:150px}
+.stat .val{font-size:1.4rem;font-weight:800;color:var(--gold);line-height:1}
+.stat .lbl{font-size:.68rem;color:rgba(255,255,255,.4);margin-top:5px}
+
+/* ── Roadmap ── */
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:1px;background:var(--line)}
+.tl-item{position:relative;margin-bottom:20px}
+.tl-item::before{content:'';position:absolute;left:-24px;top:4px;width:8px;height:8px;border-radius:50%;background:var(--gold);border:2px solid var(--bg)}
+.tl-q{font-size:.7rem;font-weight:700;letter-spacing:.1em;color:var(--gold);margin-bottom:6px}
+.tl-title{font-size:.88rem;font-weight:700;color:#fff;margin-bottom:4px}
+.tl-items{font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.8}
+.tl-items .done{color:rgba(74,154,90,.8)}
+.tl-items .todo{color:rgba(255,255,255,.5)}
+
+/* ── Share toast ── */
+#share-toast{position:fixed;bottom:24px;right:24px;background:rgba(74,154,90,.9);color:#fff;padding:12px 20px;border-radius:8px;font-size:.82rem;font-weight:600;z-index:9000;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none}
+#share-toast.show{opacity:1;transform:translateY(0)}
+
+/* ── Mobile ── */
+@media(max-width:900px){
+  #sidebar{display:none}
+  #main{margin-left:0;padding:24px 16px}
+}
+
+/* ── Moat ── */
+.moat-row{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.moat-row:last-child{border-bottom:none}
+.moat-rank{font-size:1.4rem;font-weight:800;color:var(--gold);width:32px;flex-shrink:0;line-height:1.2}
+.moat-body h4{font-size:.88rem;font-weight:700;color:#fff;margin-bottom:4px}
+.moat-body p{font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.65}
+
+/* ── Positioning box ── */
+.pos-box{background:linear-gradient(135deg,rgba(200,164,85,.08),rgba(200,164,85,.03));border:1px solid rgba(200,164,85,.25);border-radius:14px;padding:28px 32px;margin:20px 0;text-align:center}
+.pos-box .main{font-size:1.15rem;font-weight:700;color:#fff;line-height:1.5;margin-bottom:12px}
+.pos-box .sub{font-size:.82rem;color:rgba(255,255,255,.5);font-style:italic;line-height:1.6}
+</style>
+</head>
+<body>
+
+<!-- Auth gate -->
+<div id="auth-gate">
+  <div class="logo">SOLUNA <span style="font-size:.7rem;letter-spacing:.06em;font-weight:400;color:rgba(255,255,255,.3)">STRATEGY</span></div>
+  <p>このページは <strong style="color:#fff">mail@yukihamada.jp</strong> 専用です</p>
+  <a href="/app">→ ログインする</a>
+</div>
+
+<!-- Main content -->
+<div id="content">
+
+<!-- Sidebar -->
+<div id="sidebar">
+  <div class="s-logo">SOLUNA<span>STRATEGY 2026</span></div>
+  <div class="s-group">戦略</div>
+  <a class="s-item" href="#positioning">01 ポジショニング</a>
+  <a class="s-item" href="#strategy">02 戦略5本</a>
+  <a class="s-item" href="#legal">03 法的リスク</a>
+  <a class="s-item" href="#moat">04 モート</a>
+  <a class="s-item" href="#roadmap">05 ロードマップ</a>
+  <div class="s-group">競合分析</div>
+  <a class="s-item" href="#comp-nah">NOT A HOTEL</a>
+  <a class="s-item" href="#comp-zamna">ZAMNA</a>
+  <a class="s-item" href="#comp-rt">リゾートトラスト</a>
+  <a class="s-item" href="#comp-pacaso">Pacaso ★</a>
+  <a class="s-item" href="#comp-tokyu">東急ハーヴェスト</a>
+  <a class="s-item" href="#comp-habitas">HABITAS</a>
+  <div class="s-group">実行</div>
+  <a class="s-item" href="#action">今すぐやること</a>
+</div>
+
+<!-- Main -->
+<div id="main">
+
+  <div style="margin-bottom:36px">
+    <div style="font-size:.65rem;letter-spacing:.2em;color:var(--gold);font-weight:700;margin-bottom:8px">SOLUNA · CONFIDENTIAL · 2026-04-28</div>
+    <h1 style="font-size:1.8rem;font-weight:800;line-height:1.2;margin-bottom:10px">ポジショニング戦略</h1>
+    <p style="font-size:.85rem;color:rgba(255,255,255,.45);line-height:1.7">6社競合分析 + Opus戦略 + 法的リスク対応 + 12ヶ月ロードマップ</p>
+  </div>
+
+  <!-- ── 01 Positioning ── -->
+  <div class="section" id="positioning">
+    <div class="section-header">
+      <div class="section-title"><span class="num">01</span>ポジショニング定義</div>
+      <button class="share-btn" onclick="shareSection('positioning','ポジショニング定義')">🔗 Share</button>
+    </div>
+
+    <div class="pos-box">
+      <div class="main">「土地と建築と運営を一体で設計する、定額型・別荘所有プラットフォーム」</div>
+      <div class="sub">Place（弟子屈10.7ha）× Building（SIPsパネル）× Operation（KAGI+Pon+Beds24）の三位一体</div>
+    </div>
+
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>軸</th><th>NAH</th><th>ZAMNA</th><th>リゾトラ</th><th>Pacaso</th><th style="color:#fff">SOLUNA</th></tr></thead>
+      <tbody>
+        <tr><td>主役</td><td>建築家</td><td>音楽IP</td><td>会員権</td><td>LLCテック</td><td><strong>オーナーの暮らし</strong></td></tr>
+        <tr><td>最低価格</td><td>〜1,000万</td><td>$120/枚</td><td>数十万〜</td><td>$500K（約7,500万）</td><td class="good"><strong>780万円</strong>（Pacasoの1/10）</td></tr>
+        <tr><td>透明性</td><td class="bad">低（密室）</td><td>中</td><td class="bad">低</td><td>中</td><td class="good"><strong>高（公開カレンダー）</strong></td></tr>
+        <tr><td>世界観</td><td>洗練・閉鎖</td><td>享楽・刹那</td><td>保守・高齢</td><td>テック・無機質</td><td><strong>犬・サウナ・柔術・自然</strong></td></tr>
+        <tr><td>法的スキーム</td><td>共有登記</td><td>ホテル運営</td><td>タイムシェア</td><td>LLC持分</td><td><strong>共有登記（東急と同じ）</strong></td></tr>
+        <tr><td>稼働実績</td><td>非公開</td><td>年16万人</td><td>非公開</td><td>GMV $164M</td><td class="good"><strong>TAPKOP 年2,200万・熱海 1,800万</strong></td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="card good" style="margin-top:16px">
+      <h3>SOLUNAだけの1行サマリー</h3>
+      <p>「日本版Pacasoではなく、Pacaso×東急ハーヴェスト×Habitasの良いとこ取り。<strong style="color:#fff">$1.5B Pacasoの1/10価格で、同じ体験を景気耐性つきで提供する</strong>。」</p>
+    </div>
+  </div>
+
+  <!-- ── 02 Strategy ── -->
+  <div class="section" id="strategy">
+    <div class="section-header">
+      <div class="section-title"><span class="num">02</span>戦略5本（法的クリーン版）</div>
+      <button class="share-btn" onclick="shareSection('strategy','戦略5本')">🔗 Share</button>
+    </div>
+
+    <div class="card">
+      <h3>🥇 戦略1：「定額型別荘所有」カテゴリ創造 <span class="tag gold">最優先</span></h3>
+      <ul>
+        <li>NAH批判をやめ、<strong>カテゴリ自体を定義して第一想起を取る</strong></li>
+        <li>Forbes・日経クロストレンド・Casa Brutusで「定額型別荘」特集を仕掛ける</li>
+        <li>Google「北海道 別荘 所有」「定額 別荘」でSEO 1位を狙う</li>
+        <li>NAHは「カテゴリの先輩」として敬意で扱う（訴訟回避＋上品PR）</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>🏛 戦略2：不特法第3号事業者許可取得 → 唯一「数字を語れる」事業者に</h3>
+      <ul>
+        <li>許可取得自体が<strong>最大の参入障壁</strong>（後発はほぼ来られない）</li>
+        <li>2026 Q3に申請開始（資本金1億が条件 → East Venturesへ追加コミット依頼）</li>
+        <li>2027 Q3取得目標 → 以降は重要事項説明書付きで稼働実績・分配の仕組みを公式公開</li>
+        <li>それまで：個別説明会モデルのみで数値共有（広告には出さない）</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>🎪 戦略3：ZAMNAとの段階的統合（9月フェスト後3ヶ月以内に着手）</h3>
+      <ul>
+        <li>9/5-6フェスト成功後、<strong>3ヶ月以内</strong>に株式交渉へ踏み込む</li>
+        <li>フェーズ1: 業務提携（運営代行・物件相互送客）</li>
+        <li>フェーズ2: 株式持ち合い20%以下（East Ventures優先株条項確認後）</li>
+        <li>フェーズ3: 持株会社化（両社株主合意後）</li>
+        <li>ZAMNA 5大陸展開時の「日本＋アジア拠点」としてSOLUNA物件を提供</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>🌲 戦略4：SIPsパネル建材のIP化</h3>
+      <ul>
+        <li>杉CLT + 籾殻断熱ボード + 竹集成材のSIPsを商標・意匠・特許で保護</li>
+        <li>鈴工とのJV会社設立（弟子屈に法人）→ 長期固定価格契約</li>
+        <li>J-クレジット認証取得、北大・東大農学部との共同研究</li>
+        <li>カーボンクレジット単体で年商1億目標（2027 Q2）</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>👥 戦略5：「SOLUNA Members」会員制クラブ（DAOではなく契約ベース）</h3>
+      <ul>
+        <li>DAOトークンは金商法で死んでいる → <strong>物理会員カード＋会員規約の議決権</strong>で同じ体験を実現</li>
+        <li>柔術・サウナ・犬の3部会をオーナー主導で運営</li>
+        <li>年4回のオーナー総会（弟子屈で年1回は植樹祭）</li>
+        <li>公式リセールマーケット（Pon基盤）で取引手数料5%が継続収益に</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-top:8px">
+      <h3>📋 Pacasoから学んだ追加施策</h3>
+      <ul>
+        <li><strong>自社ファイナンス</strong>: ノンバンク提携で「780万円→月8万円×120回」払いを用意（Pacasoは2025年Q4から自社mortgage開始）</li>
+        <li><strong>個人投資家ラウンド</strong>: 不特法小規模特例で1口100万円のSOLUNA優先株セール（Pacasoは$72.5M/17,500人をReg A+で取得）</li>
+        <li><strong>地元関係構築</strong>: 弟子屈・熱海でStop-Pacaso型反発を防ぐため、地元雇用・地元食材・地元イベントを最初から設計</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── 03 Legal ── -->
+  <div class="section" id="legal">
+    <div class="section-header">
+      <div class="section-title"><span class="num">03</span>法的リスク・言い換え対応表</div>
+      <button class="share-btn" onclick="shareSection('legal','法的リスク対応表')">🔗 Share</button>
+    </div>
+
+    <div class="card urgent">
+      <h3>⚠️ 即時対応が必要な表現（すでに公開中の素材を確認）</h3>
+      <ul>
+        <li><span class="tag red">対応済</span> index.html — <code>別荘投資</code>キーワード → <code>定額別荘</code>に変更</li>
+        <li><span class="tag red">対応済</span> index.html — <code>使われない時間は賃貸に</code> → <code>使わない日もプロが管理する</code></li>
+        <li><span class="tag gold">要確認</span> blog-2.html — <code>利回り8.1%</code> <code>配当する</code> → 個別相談ページのみに移動</li>
+        <li><span class="tag gold">要確認</span> 全ページ — <code>DAOトークン</code> <code>ファンド</code> → 削除</li>
+        <li><span class="tag gold">要確認</span> agent.html — <code>NOT A HOTELを作った本人が</code> → 競業避止リスク、トーンを「業界経験者として」に</li>
+      </ul>
+    </div>
+
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>NG表現</th><th>リスク</th><th>OK言い換え</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--red)">「利益還元50%」</strong></td><td>金商法・不特法</td><td>許可取得後のみ重要事項説明書で開示。それまでは「個別にご説明します」</td></tr>
+        <tr><td><strong style="color:var(--red)">「年利○%」「利回り○%」</strong></td><td>断定的判断・宅建業法</td><td>「過去物件の年間運営実績（実績値）」</td></tr>
+        <tr><td><strong style="color:var(--red)">「投資」「ファンド」「リターン」</strong></td><td>金商法</td><td>「所有」「運営委託」</td></tr>
+        <tr><td><strong style="color:var(--red)">「DAOトークン」</strong></td><td>金商法・資金決済法</td><td>「会員権」「メンバーシップ」「議決権」</td></tr>
+        <tr><td><strong style="color:var(--red)">「NAH内部告発者」</strong></td><td>競業避止・営業秘密</td><td>「業界経験者として」</td></tr>
+        <tr><td><strong style="color:var(--red)">「コモンズ」「みんなで持つ」</strong></td><td>共同事業性→不特法</td><td>「ご自身の持分として所有」</td></tr>
+        <tr><td><strong style="color:var(--red)">「NAHを殺す」「NAH難民」</strong></td><td>名誉毀損・PR</td><td>社外では絶対使わない</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="card good" style="margin-top:16px">
+      <h3>✅ 安全な表現（Pacasoの設計を参考）</h3>
+      <ul>
+        <li>「共有持分を不動産登記します（登記簿に氏名が載ります）」</li>
+        <li>「使わない日はオーナー自身がAirbnb等で貸し出せます」（自分で運営→自己利用物件として不特法回避）</li>
+        <li>「TAPKOP 2024年の年間運営収益 ○○万円（実績）」（過去実績の開示は問題なし）</li>
+        <li>「年間30泊の滞在権がつきます」</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── 04 Moat ── -->
+  <div class="section" id="moat">
+    <div class="section-header">
+      <div class="section-title"><span class="num">04</span>競合が真似できないモート</div>
+      <button class="share-btn" onclick="shareSection('moat','SOLUNAのモート（堀）')">🔗 Share</button>
+    </div>
+
+    <div class="card" style="padding:24px 28px">
+      <div class="moat-row">
+        <div class="moat-rank">①</div>
+        <div class="moat-body">
+          <h4>弟子屈10.7ha（106,899㎡）の土地 <span class="tag green">永久・複製不可</span></h4>
+          <p>NAHもPacasoもリゾートトラストも「ここ」には来ない。美留和ビレッジ3万坪＋熊牛温泉は物理的参入障壁。10.7haは圧倒的に広い。</p>
+        </div>
+      </div>
+      <div class="moat-row">
+        <div class="moat-rank">②</div>
+        <div class="moat-body">
+          <h4>SIPsパネル建材IP（商標＋意匠＋特許） <span class="tag gold">構築中</span></h4>
+          <p>杉CLT+籾殻+竹のSIPsパネルを特許化 → 鈴工との独占ライセンス。建材コスト30-50%削減＋他社へのライセンス収益。</p>
+        </div>
+      </div>
+      <div class="moat-row">
+        <div class="moat-rank">③</div>
+        <div class="moat-body">
+          <h4>不特法第3号事業者許可 <span class="tag blue">2027目標</span></h4>
+          <p>取得後は業界で唯一「数字を語れる」合法事業者。後発の参入コストが跳ね上がる。許可取得済みという事実がVC・銀行への最大の信頼材料。</p>
+        </div>
+      </div>
+      <div class="moat-row">
+        <div class="moat-rank">④</div>
+        <div class="moat-body">
+          <h4>価格構造（780万〜）→ Pacasoの1/10 <span class="tag green">永久優位</span></h4>
+          <p>Pacasoは銀行・VC・個人投資家の手前、$500K以下に降りられない。2025年売上-32%の理由は金利高騰による上位層の萎縮。SOLUNAは景気耐性が圧倒的に強い。</p>
+        </div>
+      </div>
+      <div class="moat-row">
+        <div class="moat-rank">⑤</div>
+        <div class="moat-body">
+          <h4>濱田さんの業界知見＋Mercari/East Venturesネットワーク</h4>
+          <p>富裕層×若手起業家×柔術コミュニティのクロス。NAHを内側から6年作ってきた経験。NAHもPacasoも同じ人材は持っていない。</p>
+        </div>
+      </div>
+      <div class="moat-row" style="border:none">
+        <div class="moat-rank">⑥</div>
+        <div class="moat-body">
+          <h4>ZAMNA×SOLUNAのブランド連携（2026年9月〜）</h4>
+          <p>ZAMNAの5大陸16万人ファンベースへのアクセス。フェスティバル文化とリゾート所有の融合は世界で前例がない。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 05 Roadmap ── -->
+  <div class="section" id="roadmap">
+    <div class="section-header">
+      <div class="section-title"><span class="num">05</span>12ヶ月ロードマップ</div>
+      <button class="share-btn" onclick="shareSection('roadmap','12ヶ月ロードマップ')">🔗 Share</button>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-q">Q2 2026（4-6月） — 法的基盤を固める</div>
+        <div class="tl-items">
+          <div class="done">✅ index.html NG表現削除・5ペルソナ改善</div>
+          <div class="done">✅ GitHub APIキー露出対応</div>
+          <div class="done">✅ 鈴工・鈴木さん返信（CLT仕様確認）</div>
+          <div class="done">✅ 弟子屈町建設課 地番回答</div>
+          <div class="todo">🔲 顧問弁護士契約（TMI/西村あさひクラス）</div>
+          <div class="todo">🔲 全公開ページのNG表現スクリーニング（blog-2.html等）</div>
+          <div class="todo">🔲 SIPsパネル商標出願</div>
+          <div class="todo">🔲 Google Cloud APIキーローテーション</div>
+          <div class="todo">🔲 Honolulu Villa（Ward Village #3902）引渡し・発表（6月）</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-q">Q3 2026（7-9月） — カテゴリ創造</div>
+        <div class="tl-items">
+          <div class="todo">🔲 Forbes・日経クロストレンド・Casa Brutus メディア露出</div>
+          <div class="todo">🔲 <strong style="color:#fff">ZAMNA×SOLUNA HAWAII フェスト（9/5-6）</strong></div>
+          <div class="todo">🔲 フェスト直後にZAMNA株式交渉開始（3ヶ月以内）</div>
+          <div class="todo">🔲 VILLAGE 3万坪ローンチ発表</div>
+          <div class="todo">🔲 不特法第3号事業者許可申請（資本金1億→East Ventures相談）</div>
+          <div class="todo">🔲 第1棟SIPsプロトタイプ竣工</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-q">Q4 2026（10-12月） — 拡大基盤</div>
+        <div class="tl-items">
+          <div class="todo">🔲 ZAMNA連携正式発表（株式持ち合い20%以下）</div>
+          <div class="todo">🔲 鈴工JV会社設立（弟子屈法人）</div>
+          <div class="todo">🔲 公式リセールマーケット（Pon基盤）リリース</div>
+          <div class="todo">🔲 SOLUNA Members クラブ規約整備</div>
+          <div class="todo">🔲 オーナー総会第1回（弟子屈12月）</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-q">Q1 2027（1-3月） — スケール準備</div>
+        <div class="tl-items">
+          <div class="todo">🔲 不特法許可取得（目標）</div>
+          <div class="todo">🔲 稼働実績・分配の仕組みを公式公開（重要事項説明書付き）</div>
+          <div class="todo">🔲 海外1拠点（トゥルム or ドバイ）ZAMNA連携物件準備</div>
+          <div class="todo">🔲 Series A（評価額20-30億想定）</div>
+          <div class="todo">🔲 J-クレジット認証取得プロセス開始</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Comp: NAH ── -->
+  <div class="section" id="comp-nah">
+    <div class="section-header">
+      <div class="section-title"><span class="num">競合</span>NOT A HOTEL</div>
+      <button class="share-btn" onclick="shareSection('comp-nah','競合分析：NOT A HOTEL')">🔗 Share</button>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="val">376億</div><div class="lbl">累計契約高</div></div>
+      <div class="stat"><div class="val">748名</div><div class="lbl">オーナー数</div></div>
+      <div class="stat"><div class="val">223億</div><div class="lbl">累計調達額</div></div>
+      <div class="stat"><div class="val">13拠点</div><div class="lbl">物件数</div></div>
+    </div>
+    <div class="card">
+      <h3>ビジネスモデル</h3>
+      <p>スター建築家（BIG・Snøhetta・Jean Nouvel等）設計の別荘を共有持分登記で販売。完売後建設。管理費サブスク＋サブリース（NFT宿泊権）。NIGO/Pharrellがアドバイザー兼投資家。IEO「NAC」で20億円（国内過去最大）。</p>
+    </div>
+    <div class="card">
+      <h3>SOLUNAからの攻め方</h3>
+      <ul>
+        <li><strong>批判しない</strong>。NAHは「カテゴリの先輩」として扱い、競業避止・名誉毀損リスクを徹底回避</li>
+        <li>NAHを選ばなかった層（価格・透明性・カレンダー）が自然に流れてくる設計を作る</li>
+        <li>価格：NAH最安1,000万に対しSOLUNA LODGE 780万→エントリー層を完全独占</li>
+        <li>カレンダー公開：NAHは会員限定、SOLUNAはログイン不要→透明性で差別化</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── Comp: ZAMNA ── -->
+  <div class="section" id="comp-zamna">
+    <div class="section-header">
+      <div class="section-title"><span class="num">競合</span>ZAMNA</div>
+      <button class="share-btn" onclick="shareSection('comp-zamna','競合分析：ZAMNA')">🔗 Share</button>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="val">16万人</div><div class="lbl">年間来場者</div></div>
+      <div class="stat"><div class="val">10都市+</div><div class="lbl">2026年展開</div></div>
+      <div class="stat"><div class="val">2017</div><div class="lbl">設立（トゥルム）</div></div>
+    </div>
+    <div class="card">
+      <h3>ビジネスモデル</h3>
+      <p>メキシコ・トゥルム11haのジャングル×セノーテで電子音楽フェス。Afterlife・Keinemusik等の独立イベント×ホテル×不動産×グローバルライセンス。2026年9月ハワイ初上陸（SOLUNAコラボ）。</p>
+    </div>
+    <div class="card good">
+      <h3>SOLUNAとの関係（競合ではなくパートナー）</h3>
+      <ul>
+        <li>ZAMNAは5大陸展開時に各都市の「滞在拠点」を必要とする → SOLUNAが唯一提供できる</li>
+        <li>9月フェスト直後3ヶ月以内に株式持ち合い交渉へ</li>
+        <li>「SOLUNA × ZAMNA Residences」ブランドでアジア・ハワイ拠点を共同展開</li>
+        <li>ZAMNAチケット16万人がそのままSOLUNAの見込み客</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── Comp: リゾトラ ── -->
+  <div class="section" id="comp-rt">
+    <div class="section-header">
+      <div class="section-title"><span class="num">競合</span>リゾートトラスト</div>
+      <button class="share-btn" onclick="shareSection('comp-rt','競合分析：リゾートトラスト')">🔗 Share</button>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="val">2,493億</div><div class="lbl">売上（FY2025）</div></div>
+      <div class="stat"><div class="val">14.5万</div><div class="lbl">ホテル会員数</div></div>
+      <div class="stat"><div class="val">70%</div><div class="lbl">業界シェア</div></div>
+      <div class="stat"><div class="val">31年</div><div class="lbl">売上No.1継続</div></div>
+    </div>
+    <div class="card">
+      <h3>SOLUNAへの示唆</h3>
+      <ul>
+        <li>リゾトラは「会員制ホテル」、SOLUNAは「自分の家（登記所有）」→ 根本的にカテゴリが違う</li>
+        <li>リゾトラの顧客は高齢・保守層 → SOLUNAは30-50代テック/起業家層で重複しない</li>
+        <li>リゾトラのメディカル事業（500億）はSOLUNAの将来参考軸（熊牛温泉×健康）</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── Comp: Pacaso ── -->
+  <div class="section" id="comp-pacaso">
+    <div class="section-header">
+      <div class="section-title"><span class="num">競合★</span>Pacaso（最重要）</div>
+      <button class="share-btn" onclick="shareSection('comp-pacaso','競合分析：Pacaso（最重要）')">🔗 Share</button>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="val">$1.5B</div><div class="lbl">時価総額（2025.10）</div></div>
+      <div class="stat"><div class="val">$318M</div><div class="lbl">累計調達</div></div>
+      <div class="stat"><div class="val">$164M</div><div class="lbl">GMV（2024年）</div></div>
+      <div class="stat"><div class="val">-32%</div><div class="lbl">2025年上半期売上</div></div>
+    </div>
+    <div class="card">
+      <h3>ビジネスモデル</h3>
+      <p>物件ごとに個別LLC設立→1/8〜1/2を販売。最低$500K（約7,500万円）から。元Zillow CEO Spencer Rascoffが創業。SoftBank・Maveronが投資家。2025年Q4から自社モーゲージ開始。IPO準備中（PCSO）。</p>
+    </div>
+    <div class="card urgent">
+      <h3>⚠️ Pacasoの問題点（SOLUNAが避けるべきこと）</h3>
+      <ul>
+        <li><span class="tag red">要注意</span> <strong>12以上の市町村でタイムシェア規制</strong> → 地元住民の反発（"Stop Pacaso Now"）。St. Helenaとは訴訟→和解（既存4物件のみ、新規追加禁止）</li>
+        <li><span class="tag red">要注意</span> 2025年売上 <strong>-32%</strong>（金利上昇×$500K高額単価の景気感応度）→ SOLUNAの780万円は景気耐性◎</li>
+        <li><span class="tag red">要注意</span> リセール時の<strong>流動性問題</strong>→ 顧客不満が増加中</li>
+      </ul>
+    </div>
+    <div class="card good">
+      <h3>✅ Pacasoから今すぐ真似すべき施策</h3>
+      <ul>
+        <li><strong>「不動産であり証券ではない」の法的明文化</strong>: 弁護士意見書で「共有登記＝不特法対象外」を証明し、VC・行政・買い手に提示</li>
+        <li><strong>自社ファイナンス</strong>: ノンバンク提携で「780万円→月8万円×120回」払いを用意 → 購入ハードル劇的低下</li>
+        <li><strong>Reg A+型個人投資家ラウンド</strong>: 不特法小規模特例で1口100万円の優先株セール（Pacasoは$72.5M/17,500人）</li>
+        <li><strong>公式リセールマーケット</strong>: 最初から実装（取引手数料5%が継続収益に）</li>
+        <li><strong>地元関係構築を最優先</strong>: 弟子屈・熱海・ハワイでStop-Pacaso型反発を防ぐ</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>SOLUNAとPacasoの最大の差</h3>
+      <p>Pacasoは4年でGMV累計$500M+達成、それでも純損失継続。<strong style="color:#fff">高級フラクショナル単独では儲からない</strong>。SOLUNAは運営手数料+SIPs建材販売+KAGI SaaS+ZAMNAフェスの複線収益が正解。</p>
+    </div>
+  </div>
+
+  <!-- ── Comp: 東急 ── -->
+  <div class="section" id="comp-tokyu">
+    <div class="section-header">
+      <div class="section-title"><span class="num">競合</span>東急ハーヴェストクラブ</div>
+      <button class="share-btn" onclick="shareSection('comp-tokyu','競合分析：東急ハーヴェストクラブ')">🔗 Share</button>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="val">20施設</div><div class="lbl">全国</div></div>
+      <div class="stat"><div class="val">2,000室</div><div class="lbl">総室数</div></div>
+      <div class="stat"><div class="val">30-36泊</div><div class="lbl">年間配布泊数</div></div>
+    </div>
+    <div class="card">
+      <h3>ビジネスモデル</h3>
+      <p>共有制（不動産持分登記）と預託制（利用権のみ）の2種。SOLUNAの法的スキームは東急共有制と同じ構造。1施設100名以上のオーナーで「自分の家感」が薄い。</p>
+    </div>
+    <div class="card good">
+      <h3>SOLUNAへの示唆</h3>
+      <ul>
+        <li>「共有制＝日本で確立した合法スキーム」の安心材料 → SOLUNAは東急と同じ法構造</li>
+        <li>東急の弱点（100人/物件・均質・高齢層・Wi-Fi弱い）がSOLUNAの強み（5-10口・犬/サウナ/柔術・30-50代）</li>
+        <li><strong>絶対に真似してはいけない：預託制</strong>（償還義務がBSに乗ると倒産リスク）</li>
+        <li>VIALA箱根翡翠（数千万円）→ SOLUNAの780-7,800万円は東急の価格帯にぴったり</li>
+        <li>二次流通対応：東急翡翠は流動性が強み → <strong>SOLUNAも公式リセールを最初から実装</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── Comp: HABITAS ── -->
+  <div class="section" id="comp-habitas">
+    <div class="section-header">
+      <div class="section-title"><span class="num">競合</span>HABITAS</div>
+      <button class="share-btn" onclick="shareSection('comp-habitas','競合分析：HABITAS')">🔗 Share</button>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="val">10リゾート</div><div class="lbl">4大陸展開</div></div>
+      <div class="stat"><div class="val">$485M</div><div class="lbl">調達（サウジPIF含む）</div></div>
+      <div class="stat"><div class="val">2024</div><div class="lbl">Ennismore傘下入り</div></div>
+    </div>
+    <div class="card">
+      <h3>ビジネスモデル</h3>
+      <p>Burning Man文化発のライフスタイルホテルブランド。「Aman+Club Med+SoHo House+Burning Man」。音楽・ウェルネス・アート・冒険を体験プログラムに統合。2024年にAccor傘下Ennismoreへ運営委託。</p>
+    </div>
+    <div class="card">
+      <h3>SOLUNAへの示唆</h3>
+      <ul>
+        <li><strong>体験のpillars化</strong>: Habitasの「music/wellness/art/adventure/food」→ SOLUNAは「dog/sauna/jiujitsu/forest/onsen/music」を6本柱として物件設計に体系反映</li>
+        <li><strong>建築手法の参考</strong>: フラットパック・3Dプリント・現地素材で6-9ヶ月建設・2年ROI → SIPsパネルの設計指標に</li>
+        <li><strong>国家戦略連携</strong>: HabitasはサウジPIF $400M獲得 → SOLUNAは観光庁・北海道庁・弟子屈町と連携して補助金・特区指定を狙う</li>
+        <li><strong>絶対に真似してはいけない</strong>: ホテル運営に深入りすると結局Accorに運営委託する未来になる。SOLUNAはフラクショナル販売プラットフォームとして軽く立ち回る</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── Action ── -->
+  <div class="section" id="action">
+    <div class="section-header">
+      <div class="section-title"><span class="num">実行</span>今すぐやること（優先順位順）</div>
+      <button class="share-btn" onclick="shareSection('action','今すぐやること')">🔗 Share</button>
+    </div>
+
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>優先度</th><th>タスク</th><th>期限</th><th>担当</th><th>ステータス</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag red">🔴 緊急</span></td><td>Google Cloud APIキーローテーション（AIzaSyAg...を無効化）</td><td>今日</td><td>濱田</td><td>🔲 未対応</td></tr>
+        <tr><td><span class="tag red">🔴 緊急</span></td><td>顧問弁護士契約（不動産特化＋金商法対応）</td><td>今週中</td><td>濱田</td><td>🔲 未対応</td></tr>
+        <tr><td><span class="tag red">🔴 緊急</span></td><td>blog-2.html等の利回り・配当表現を個別説明会ページのみに移動</td><td>今週中</td><td>開発</td><td>🔲 未対応</td></tr>
+        <tr><td><span class="tag gold">🟡 重要</span></td><td>鈴工・鈴木さんへの電話（CLT仕様確認・JV相談）</td><td>今週</td><td>濱田</td><td>✅ 返信済み</td></tr>
+        <tr><td><span class="tag gold">🟡 重要</span></td><td>弟子屈町建設課・事前相談の日程調整</td><td>今週</td><td>濱田</td><td>✅ 地番送付済み</td></tr>
+        <tr><td><span class="tag gold">🟡 重要</span></td><td>East Venturesへの法的リスク報告＋不特法申請の資本金相談</td><td>来週</td><td>濱田</td><td>🔲 未対応</td></tr>
+        <tr><td><span class="tag blue">🔵 通常</span></td><td>SIPsパネル商標出願（杉CLT+籾殻+竹）</td><td>今月中</td><td>開発+弁護士</td><td>🔲 未対応</td></tr>
+        <tr><td><span class="tag blue">🔵 通常</span></td><td>公式リセールマーケット（Pon基盤）設計</td><td>Q3</td><td>開発</td><td>🔲 計画中</td></tr>
+        <tr><td><span class="tag blue">🔵 通常</span></td><td>Forbes・日経クロストレンド・Casa Brutusへの企画提案</td><td>Q3</td><td>PR</td><td>🔲 計画中</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div style="padding:32px 0;border-top:1px solid var(--line);font-size:.72rem;color:rgba(255,255,255,.2);line-height:1.8">
+    SOLUNA CONFIDENTIAL — 作成: 2026-04-28 — Claude Opus 4.7 分析<br>
+    競合データソース: Pacaso SEC filings, Bloomberg, The Real Deal, 各社公式
+  </div>
+
+</div><!-- /main -->
+</div><!-- /content -->
+
+<!-- Share toast -->
+<div id="share-toast">🔗 リンクをコピーしました</div>
+
+<script>
+(function(){
+
+// ── Auth ─────────────────────────────────────────────────────────────────────
+var token = localStorage.getItem('sln_token');
+if (!token) { showGate(); return; }
+
+fetch('/api/soluna/me', { headers: {'x-sln-token': token} })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    if (d.email === 'mail@yukihamada.jp') {
+      document.getElementById('auth-gate').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+      initSidebar();
+    } else {
+      showGate('このページは mail@yukihamada.jp 専用です');
+    }
+  })
+  .catch(function(){ showGate(); });
+
+function showGate(msg){
+  if (msg) {
+    var p = document.querySelector('#auth-gate p');
+    if (p) p.textContent = msg;
+  }
+}
+
+// ── Sidebar active ────────────────────────────────────────────────────────────
+function initSidebar(){
+  var items = document.querySelectorAll('.s-item');
+  var sections = document.querySelectorAll('.section');
+
+  function onScroll(){
+    var scrollY = window.scrollY + 80;
+    var active = null;
+    sections.forEach(function(s){
+      if (s.offsetTop <= scrollY) active = s.id;
+    });
+    items.forEach(function(item){
+      var href = item.getAttribute('href');
+      item.classList.toggle('active', href === '#'+active);
+    });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+}
+
+// ── Share section ─────────────────────────────────────────────────────────────
+window.shareSection = function(sectionId, title){
+  var el = document.getElementById(sectionId);
+  if (!el) return;
+  var content = el.innerHTML;
+  var token = localStorage.getItem('sln_token');
+
+  fetch('/api/strategy/share', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json','x-sln-token': token||''},
+    body: JSON.stringify({ title: title, content: content, expires_days: 30 })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    if (d.url) {
+      var url = location.origin + d.url;
+      navigator.clipboard.writeText(url).then(function(){
+        showToast('🔗 ' + url + ' をコピーしました');
+      }).catch(function(){
+        showToast('URL: ' + url);
+      });
+    } else {
+      showToast('⚠️ エラー: ' + (d.error||'不明'));
+    }
+  })
+  .catch(function(e){ showToast('⚠️ ' + e.message); });
+};
+
+function showToast(msg){
+  var t = document.getElementById('share-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3500);
+}
+
+})();
+</script>
+</body>
+</html>

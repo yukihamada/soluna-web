@@ -422,6 +422,13 @@ async function initDb() {
       message     TEXT NOT NULL,
       created_at  TEXT DEFAULT (datetime('now'))
     )`,
+    `CREATE TABLE IF NOT EXISTS strategy_shares (
+      id         TEXT PRIMARY KEY,
+      title      TEXT NOT NULL,
+      content    TEXT NOT NULL,
+      created_at TEXT DEFAULT (datetime('now')),
+      expires_at TEXT
+    )`,
     // ── Music platform tables ──
     `CREATE TABLE IF NOT EXISTS users (
       id          TEXT PRIMARY KEY,
@@ -936,6 +943,19 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   if (req.hostname === "www.solun.art") {
     return res.redirect(301, `https://solun.art${req.originalUrl}`);
+  }
+  next();
+});
+
+// ── .html → clean URL 301 redirect (SEO canonical URLs) ──────────────────────
+app.use((req, res, next) => {
+  if (req.method === "GET" && req.path.endsWith(".html") && req.path !== "/index.html") {
+    const clean = req.path.slice(0, -5);
+    const qs = req.query && Object.keys(req.query).length
+      ? "?" + new URLSearchParams(req.query).toString() : "";
+    const host = req.hostname || "solun.art";
+    const proto = req.headers["x-forwarded-proto"] || "https";
+    return res.redirect(301, `${proto}://${host}${clean}${qs}`);
   }
   next();
 });
@@ -2430,7 +2450,7 @@ function share(){
 </body></html>`);
 });
 
-const customRoutes = ["/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/schedule", "/vip", "/lineup", "/info", "/guide", "/artist-lounge", "/vip-lounge", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press", "/hotel-plan", "/music", "/tickets", "/tickets/success", "/rights", "/developers", "/artist", "/contests", "/festivals", "/live", "/community", "/vision", "/vision-ja", "/pitch", "/proposal", "/sponsor-reiwa"];
+const customRoutes = ["/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/admin/construction", "/schedule", "/vip", "/lineup", "/info", "/guide", "/artist-lounge", "/vip-lounge", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press", "/hotel-plan", "/music", "/tickets", "/tickets/success", "/rights", "/developers", "/artist", "/contests", "/festivals", "/live", "/community", "/vision", "/vision-ja", "/pitch", "/proposal", "/sponsor-reiwa"];
 // /blank is served from cabin/blank/index.html via express.static
 // NOTE: /privacy, /terms, /mint removed — served from cabin static files instead
 
@@ -6303,6 +6323,7 @@ initSolunaDb().catch(e => console.error("soluna DB init error:", e));
     { slug:"tsugaike",      name:"栂池高原ガラス山荘",     location:"長野県 白馬村 · 栂池エリア",         price:14800000, stay_price:55000,  nights:40, units:5,   mgmt:250000,  airbnb_price:null,   beds24_prop:0,      beds24_room:0,      img:"cabin_morning.webp",                desc:"来場者36万人・高品質宿ゼロの穴場エリア。高原植生とブナ林の絶景ガラス山荘。",             tags:JSON.stringify(["高原植生","ブナ林","スキー","白馬より割安"]),          page_url:"/tsugaike",        status:"plan",  open_from:"2027-12-01", sort_order:13, score:4, region:"mountain",          min_nights:1,  max_guests:8,  area_sqm:140,  land_sqm:450,    lat:36.7592, lng:137.8721, video:null },
     { slug:"nakadori",      name:"中通島 世界遺産古民家",  location:"長崎県 新上五島町 · 中通島",         price:5800000,  stay_price:35000,  nights:30, units:4,   mgmt:80000,   airbnb_price:null,   beds24_prop:0,      beds24_room:0,      img:"wakayama_akiya_exterior.webp",      desc:"ユネスコ世界遺産・頭ヶ島天主堂至近。潜伏キリシタンの歴史と古民家の組み合わせは世界唯一。",tags:JSON.stringify(["世界遺産","潜伏キリシタン","古民家","超希少"]),         page_url:"/nakadori",        status:"plan",  open_from:"2027-06-01", sort_order:14, score:3, region:"sea",               min_nights:1,  max_guests:8,  area_sqm:130,  land_sqm:550,    lat:32.9927, lng:129.1140, video:null },
     { slug:"naru",          name:"奈留島プライベートヴィラ",location:"長崎県 五島市 · 奈留島",            price:4200000,  stay_price:30000,  nights:30, units:3,   mgmt:60000,   airbnb_price:null,   beds24_prop:0,      beds24_room:0,      img:"kussharo_sup_morning.jpg",          desc:"競合施設ゼロの秘境島。「テレビにも雑誌にも出ない島」で過ごす、本物の孤島体験。",         tags:JSON.stringify(["競合ゼロ","秘境","離島","最安値候補"]),               page_url:"/naru",            status:"plan",  open_from:"2027-06-01", sort_order:15, score:3, region:"sea",               min_nights:1,  max_guests:6,  area_sqm:90,   land_sqm:310,    lat:32.7099, lng:128.8545, video:null },
+    { slug:"kussharo",      name:"屈斜路ビレッジ",         location:"北海道 弟子屈町 · 釧路川沿い",       price:null,     stay_price:null,   nights:30, units:200, mgmt:null,    airbnb_price:null,   beds24_prop:0,      beds24_room:0,      img:"kussharo_sup.jpg",                  desc:"釧路川沿い3万坪。カルデラ源流の清流・地熱・白樺林に囲まれた次世代コミュニティビレッジ。",tags:JSON.stringify(["釧路川沿い","3万坪","カルデラ源流","地熱湧水"]),       page_url:"/kussharo",        status:"plan",  open_from:null,        sort_order:16, score:5, region:"hokkaido mountain", min_nights:1,  max_guests:8,  area_sqm:50,   land_sqm:99174,  lat:43.5488, lng:144.3945, video:null },
   ];
   for (const p of props) {
     await db.execute({
@@ -6365,6 +6386,18 @@ db.execute("ALTER TABLE soluna_properties ADD COLUMN land_sqm REAL").catch(() =>
 db.execute("ALTER TABLE soluna_properties ADD COLUMN lat REAL").catch(() => {});
 db.execute("ALTER TABLE soluna_properties ADD COLUMN lng REAL").catch(() => {});
 db.execute("ALTER TABLE soluna_properties ADD COLUMN video TEXT").catch(() => {});
+// Voice memo table
+db.execute(`CREATE TABLE IF NOT EXISTS soluna_voice_memos (
+  id TEXT PRIMARY KEY,
+  member_id INTEGER,
+  email TEXT,
+  filename TEXT NOT NULL,
+  duration_sec REAL,
+  share_type TEXT NOT NULL DEFAULT 'self',
+  playback_type TEXT NOT NULL DEFAULT 'unlimited',
+  play_count INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT (datetime('now'))
+)`).catch(() => {});
 // Seed: ensure admin email is a member and has NAH owner access
 (async () => {
   const OWNER_EMAIL = "mail@yukihamada.jp";
@@ -9652,15 +9685,200 @@ app.use(async (req, res, next) => {
   res.sendFile(filePath);
 });
 
+// ── Voice Memo API ────────────────────────────────────────────────────────────
+const VOICE_DIR = path.join('/data', 'voice');
+try { fs.mkdirSync(VOICE_DIR, { recursive: true }); } catch {}
+
+const voiceUpload = multer({
+  storage: multer.diskStorage({
+    destination: VOICE_DIR,
+    filename: (req, file, cb) => cb(null, `${Date.now()}-${Math.random().toString(36).slice(2)}.webm`),
+  }),
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+  fileFilter: (req, file, cb) => cb(null, file.mimetype.startsWith('audio/')),
+});
+
+// POST /api/voice-memo — upload recording
+app.post('/api/voice-memo', voiceUpload.single('audio'), async (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'no audio' });
+  const { share_type = 'self', playback_type = 'unlimited', duration_sec } = req.body;
+  const id = `vm_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+
+  // Identify member from session token
+  const token = parseCookies(req).sln_tok || req.headers['x-sln-token'] || '';
+  let member = null;
+  if (token) {
+    const r = await db.execute({
+      sql: `SELECT s.member_id, m.email FROM soluna_sessions s JOIN soluna_members m ON m.id=s.member_id WHERE s.token=? AND s.expires_at>datetime('now')`,
+      args: [token],
+    }).catch(() => null);
+    member = r && r.rows[0] ? r.rows[0] : null;
+  }
+
+  await db.execute({
+    sql: `INSERT INTO soluna_voice_memos (id,member_id,email,filename,duration_sec,share_type,playback_type) VALUES (?,?,?,?,?,?,?)`,
+    args: [id, member?.member_id || null, member?.email || null, req.file.filename, parseFloat(duration_sec) || null, share_type, playback_type],
+  });
+
+  // Notify Yuki if share_type is 'yuki' or 'all'
+  if ((share_type === 'yuki' || share_type === 'all') && RESEND_KEY) {
+    const from_email = member?.email || '(未ログイン)';
+    fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${RESEND_KEY}` },
+      body: JSON.stringify({
+        from: 'SOLUNA <info@solun.art>',
+        to: [ADMIN_EMAIL],
+        subject: `🎙️ 新着ボイスメモ — ${from_email}`,
+        html: `<p>${from_email} からボイスメモが届きました。</p><p>共有範囲: ${share_type} / 再生: ${playback_type}</p><p><a href="https://solun.art/voice">確認する</a></p>`,
+      }),
+    }).catch(() => {});
+  }
+
+  res.json({ ok: true, id });
+});
+
+// GET /api/voice-memos — list memos accessible to current user
+app.get('/api/voice-memos', async (req, res) => {
+  const token = parseCookies(req).sln_tok || req.headers['x-sln-token'] || '';
+  let member = null;
+  if (token) {
+    const r = await db.execute({ sql: `SELECT s.member_id,m.email FROM soluna_sessions s JOIN soluna_members m ON m.id=s.member_id WHERE s.token=? AND s.expires_at>datetime('now')`, args: [token] }).catch(() => null);
+    member = r?.rows[0] || null;
+  }
+  const isAdmin = member?.email === ADMIN_EMAIL;
+
+  let rows;
+  if (isAdmin) {
+    rows = (await db.execute(`SELECT id,email,share_type,playback_type,play_count,duration_sec,created_at FROM soluna_voice_memos ORDER BY created_at DESC LIMIT 100`)).rows;
+  } else if (member) {
+    rows = (await db.execute({
+      sql: `SELECT id,email,share_type,playback_type,play_count,duration_sec,created_at FROM soluna_voice_memos WHERE member_id=? OR share_type='all' ORDER BY created_at DESC LIMIT 50`,
+      args: [member.member_id],
+    })).rows;
+  } else {
+    rows = (await db.execute(`SELECT id,email,share_type,playback_type,play_count,duration_sec,created_at FROM soluna_voice_memos WHERE share_type='all' ORDER BY created_at DESC LIMIT 20`)).rows;
+  }
+  res.json(rows);
+});
+
+// POST /api/transcribe — transcribe audio via Whisper (OpenAI or Groq)
+const transcribeUpload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 25*1024*1024 } });
+app.post('/api/transcribe', transcribeUpload.single('audio'), async (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'no audio' });
+  try {
+    const GROQ_KEY = process.env.GROQ_API_KEY || '';
+    const OAI_KEY = process.env.OPENAI_API_KEY || '';
+    let result = null;
+
+    if (GROQ_KEY) {
+      // Groq Whisper (fast, free tier)
+      const { FormData: FD, Blob: BlobPoly } = await import('node-fetch').catch(() => ({}));
+      const form = new (global.FormData || (await import('undici').then(m=>m.FormData)))();
+      form.append('file', new Blob([req.file.buffer], { type: req.file.mimetype }), 'audio.webm');
+      form.append('model', 'whisper-large-v3-turbo');
+      form.append('language', 'ja');
+      const r = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${GROQ_KEY}` },
+        body: form,
+      });
+      if (r.ok) { const d = await r.json(); result = d.text; }
+    } else if (OAI_KEY) {
+      const form = new (await import('undici').then(m=>m.FormData))();
+      form.append('file', new Blob([req.file.buffer], { type: req.file.mimetype }), 'audio.webm');
+      form.append('model', 'whisper-1');
+      const r = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${OAI_KEY}` },
+        body: form,
+      });
+      if (r.ok) { const d = await r.json(); result = d.text; }
+    }
+
+    if (result) return res.json({ text: result });
+    res.status(503).json({ error: 'no transcription service configured' });
+  } catch(e) {
+    console.error('transcribe error', e.message);
+    res.status(500).json({ error: 'transcription failed' });
+  }
+});
+
+// GET /api/voice-memo/:id — stream audio (respects once/unlimited)
+app.get('/api/voice-memo/:id', async (req, res) => {
+  const row = (await db.execute({ sql: `SELECT * FROM soluna_voice_memos WHERE id=?`, args: [req.params.id] }).catch(() => null))?.rows[0];
+  if (!row) return res.status(404).json({ error: 'not found' });
+
+  // Access check
+  const token = parseCookies(req).sln_tok || req.headers['x-sln-token'] || '';
+  let member = null;
+  if (token) {
+    const r = await db.execute({ sql: `SELECT s.member_id,m.email FROM soluna_sessions s JOIN soluna_members m ON m.id=s.member_id WHERE s.token=? AND s.expires_at>datetime('now')`, args: [token] }).catch(() => null);
+    member = r?.rows[0] || null;
+  }
+  const isOwner = member?.member_id === row.member_id;
+  const isAdmin = member?.email === ADMIN_EMAIL;
+  if (row.share_type === 'self' && !isOwner && !isAdmin) return res.status(403).json({ error: 'no access' });
+  if (row.share_type === 'yuki' && !isAdmin && !isOwner) return res.status(403).json({ error: 'no access' });
+
+  // Once-only check
+  if (row.playback_type === 'once' && row.play_count >= 1 && !isOwner && !isAdmin)
+    return res.status(410).json({ error: 'already played' });
+
+  await db.execute({ sql: `UPDATE soluna_voice_memos SET play_count=play_count+1 WHERE id=?`, args: [row.id] });
+
+  const filePath = path.join(VOICE_DIR, row.filename);
+  if (!fs.existsSync(filePath)) return res.status(404).json({ error: 'file missing' });
+  res.setHeader('Content-Type', 'audio/webm');
+  res.setHeader('Content-Disposition', 'inline');
+  fs.createReadStream(filePath).pipe(res);
+});
+
+// ── BioGrid patent document (basic auth) ─────────────────────────────────────
+const BIOGRID_PASS = process.env.BIOGRID_PASSWORD || "BioPatent2026";
+function biogridAuth(req, res, next) {
+  const auth = req.headers.authorization;
+  if (auth && auth.startsWith("Basic ")) {
+    const [, pass] = Buffer.from(auth.slice(6), "base64").toString().split(":");
+    if (pass === BIOGRID_PASS) return next();
+  }
+  res.setHeader("WWW-Authenticate", 'Basic realm="BioGrid Patent Document"');
+  res.status(401).send("このページはパスワードが必要です。");
+}
+app.use("/biogrid", biogridAuth);
+
 // ── Cabin static files (main SOLUNA website — served from /cabin dir) ────────
 // Must come BEFORE the SPA fallback so .html files are served directly
+
+// ?embed=1 のとき内部ナビを消すCSS/JSをインジェクト
+const EMBED_STRIP = `<style>
+.gnav,.navbar,.site-header,nav[class*="nav"],header[class*="header"]{display:none!important}
+body{padding-top:0!important;margin-top:0!important}
+</style><script>document.documentElement.classList.add('embedded')</script>`;
+
+function serveWithEmbed(filePath, res) {
+  let html = fs.readFileSync(filePath, "utf8");
+  html = html.replace("</head>", EMBED_STRIP + "</head>");
+  res.setHeader("Content-Type", "text/html; charset=utf-8");
+  res.send(html);
+}
+
 if (fs.existsSync(CABIN_DIR)) {
+  // 301 redirect: /foo.html → /foo (SEO: canonical clean URLs)
+  app.use((req, res, next) => {
+    if (req.method === "GET" && req.path.endsWith(".html") && req.path !== "/index.html") {
+      const clean = req.path.slice(0, -5) + (req.query && Object.keys(req.query).length ? "?" + new URLSearchParams(req.query).toString() : "");
+      return res.redirect(301, clean);
+    }
+    next();
+  });
   app.use(express.static(CABIN_DIR, { maxAge: "0", etag: false }));
   // cabin 内の .html を拡張子なしでも serve (/start → /start.html)
   app.get("/:page", (req, res, next) => {
     const p = path.join(CABIN_DIR, req.params.page + ".html");
-    if (fs.existsSync(p)) return res.sendFile(p);
-    next();
+    if (!fs.existsSync(p)) return next();
+    if (req.query.embed === "1") return serveWithEmbed(p, res);
+    return res.sendFile(p);
   });
   console.log("✓ Cabin static files served from /cabin");
 }
@@ -9795,6 +10013,33 @@ app.get("/docs/:slug", async (req, res) => {
 app.get("/futami", (_req, res) => res.sendFile(path.join(STATIC_DIR, "futami", "index.html")));
 app.get("/futami/", (_req, res) => res.sendFile(path.join(STATIC_DIR, "futami", "index.html")));
 app.use("/futami-img", express.static(path.join(STATIC_DIR, "futami-img"), { maxAge: "7d" }));
+
+// ── Strategy Share ────────────────────────────────────────────────────────────
+const { randomUUID } = require('crypto');
+
+app.post('/api/strategy/share', async (req, res) => {
+  const token = req.headers['x-sln-token'];
+  if (!token) return res.status(401).json({ error: 'unauthorized' });
+  try {
+    const row = await db.execute({ sql: 'SELECT m.email FROM soluna_sessions s JOIN soluna_members m ON s.member_id=m.id WHERE s.token=? AND s.expires_at>datetime("now")', args: [token] });
+    if (!row.rows.length || row.rows[0].email !== 'mail@yukihamada.jp') return res.status(403).json({ error: 'forbidden' });
+    const { title, content, expires_days = 30 } = req.body;
+    if (!title || !content) return res.status(400).json({ error: 'title and content required' });
+    const id = randomUUID();
+    const expiresAt = new Date(Date.now() + expires_days * 86400000).toISOString();
+    await db.execute({ sql: 'INSERT INTO strategy_shares (id, title, content, expires_at) VALUES (?,?,?,?)', args: [id, title, content, expiresAt] });
+    res.json({ id, url: `/s/${id}` });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+app.get('/s/:id', async (req, res) => {
+  try {
+    const row = await db.execute({ sql: 'SELECT title, content FROM strategy_shares WHERE id=? AND (expires_at IS NULL OR expires_at>datetime("now"))', args: [req.params.id] });
+    if (!row.rows.length) return res.status(404).send('<h1>このリンクは有効期限切れか存在しません</h1>');
+    const { title, content } = row.rows[0];
+    res.send(`<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title} — SOLUNA Strategy</title><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#080806;color:#e8e8e4;font-family:'Inter',sans-serif;padding:40px 24px;max-width:860px;margin:0 auto}h1,h2,h3{color:#c8a455;margin:1.5em 0 .5em}p,li{line-height:1.75;margin:.5em 0;font-size:.93rem}table{width:100%;border-collapse:collapse;margin:1em 0}th,td{padding:8px 12px;border:1px solid rgba(255,255,255,.1);text-align:left;font-size:.85rem}th{background:rgba(200,164,85,.1);color:#c8a455}.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;margin:.2em;background:rgba(200,164,85,.15);color:#c8a455}footer{margin-top:3em;padding-top:1em;border-top:1px solid rgba(255,255,255,.08);font-size:.75rem;color:rgba(255,255,255,.3)}</style></head><body>${content}<footer>Shared from <a href="https://solun.art" style="color:#c8a455">SOLUNA</a> Strategy</footer></body></html>`);
+  } catch(e) { res.status(500).send('<h1>Error</h1>'); }
+});
 
 // ── 404 fallback ─────────────────────────────────────────────────────────────
 app.get("*", (_req, res) => {
