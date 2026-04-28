@@ -3,1106 +3,898 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SOLUNA</title>
-<meta name="description" content="SOLUNA — 場所を持つ、ということ。北海道・熱海・和歌山・ハワイに根を張るコミュニティ。">
-<meta property="og:title" content="SOLUNA">
-<meta property="og:description" content="帰ってくる場所が、ある。">
-<meta property="og:image" content="https://solun.art/img/tapkop_aerial_village.webp">
+<title>SOLUNA — 北海道・熱海・ハワイの別荘を持つ新しい形</title>
+<meta name="description" content="SOLUNAは定額型別荘所有プラットフォーム。TAPKOP年間稼働実績2,200万円、熱海WHITE HOUSE 1,800万円。1口780万円〜、年間30泊の滞在権と仲間が手に入る。北海道・熱海・ハワイ。">
+<meta name="keywords" content="SOLUNA,共同別荘,北海道リゾート,熱海別荘,ハワイ,TAPKOP,共同所有,リゾートコミュニティ,定額別荘,フェス">
+<meta property="og:title" content="SOLUNA — 土地と建築と運営を一体で設計する別荘所有プラットフォーム">
+<meta property="og:description" content="北海道3万坪・熱海・ハワイ。1口780万円〜で共有持分を登記所有。年間30泊の滞在権＋プロによる通年管理。TAPKOP稼働実績 年2,200万円。ZAMNA HAWAII 2026年9月コラボ開催。">
+<meta property="og:image" content="https://solun.art/img/tapkop_real2.webp">
 <meta property="og:url" content="https://solun.art/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SOLUNA">
+<meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://solun.art/img/pro_hawaii_hero.webp">
+<meta name="twitter:title" content="SOLUNA — 帰ってくる場所が、ある。">
+<meta name="twitter:description" content="北海道3万坪・熱海・ハワイ。犬・サウナ・柔術・焚き火。1口780万円〜、年間30泊の滞在権つき共有持分所有。ZAMNA×SOLUNAハワイフェス 2026年9月開催。">
+<meta name="twitter:image" content="https://solun.art/img/tapkop_real2.webp">
 <link rel="canonical" href="https://solun.art/">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23050505'/><circle cx='32' cy='32' r='20' fill='none' stroke='%23c8a455' stroke-width='2.5'/><circle cx='32' cy='20' r='5' fill='%23c8a455'/><path d='M20 38 Q32 28 44 38' fill='none' stroke='%23c8a455' stroke-width='2' stroke-linecap='round'/><path d='M24 44 Q32 36 40 44' fill='none' stroke='%23c8a455' stroke-width='1.5' stroke-linecap='round'/></svg>">
+<link rel="alternate" hreflang="ja" href="https://solun.art/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://solun.art/#website","url":"https://solun.art/","name":"SOLUNA","description":"定額型別荘所有プラットフォーム — 北海道・熱海・ハワイ","inLanguage":"ja-JP"},{"@type":"Organization","@id":"https://solun.art/#organization","name":"SOLUNA","url":"https://solun.art/","logo":{"@type":"ImageObject","url":"https://solun.art/img/tapkop_real2.webp"},"description":"土地と建築と運営を一体で設計する定額型別荘所有プラットフォーム。北海道3万坪・熱海・ハワイ。1口780万円〜、年間30泊の滞在権つき共有持分所有。ZAMNA×SOLUNAハワイフェス 2026年9月開催。","foundingDate":"2020","areaServed":["JP","US"],"knowsAbout":["共有別荘","定額型別荘所有","リゾート","ZAMNA HAWAII","共同所有不動産"]}]}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23050505'/><circle cx='32' cy='32' r='20' fill='none' stroke='%23c8a455' stroke-width='2.5'/><circle cx='32' cy='20' r='5' fill='%23c8a455'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
-<script defer src="/js/sln-track.js"></script>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--bg:#080806}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:'Inter',sans-serif;color:#fff}
 
-:root {
-  --gold: #c8a455;
-  --gold-dim: rgba(200,164,85,0.12);
-  --bg: #080806;
-  --text: #d4cfc6;
-  --text-bright: #f4f0ea;
-  --sub: #4e4a44;
-  --sub-mid: #7a7468;
-  --border: rgba(200,164,85,0.08);
+/* ── Wallpaper ── */
+#wallpaper{position:fixed;inset:0;z-index:0}
+.slide{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  opacity:0;transition:opacity 2.2s ease-in-out;
+  will-change:transform,opacity;
 }
-
-html { background: var(--bg); scroll-behavior: smooth; }
-body {
-  background: var(--bg); color: var(--text);
-  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  min-height: 100vh; overflow-x: hidden;
-}
-
-/* ── Header ── */
-header {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 22px 44px;
-  background: linear-gradient(to bottom, rgba(8,8,6,0.88) 0%, transparent 100%);
-}
-.logo { font-size: 11px; font-weight: 700; letter-spacing: 0.32em; color: var(--gold); text-decoration: none; }
-.header-nav { display: flex; gap: 28px; }
-.header-nav a {
-  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--sub-mid); text-decoration: none; transition: color 0.25s;
-}
-.header-nav a:hover { color: var(--gold); }
-@media (max-width: 600px) { .header-nav { display: none; } }
-
-/* ── Reveal ── */
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.85s ease, transform 0.85s ease; }
-.reveal.in { opacity: 1; transform: translateY(0); }
-
-/* ══════════════════════════
-   HERO
-══════════════════════════ */
-#hero {
-  position: relative; height: 100vh; min-height: 640px;
-  display: flex; align-items: center; justify-content: center; overflow: hidden;
-}
-#hero-bg {
-  position: absolute; inset: 0;
-  background-image: url('/img/tapkop_real2.webp');
-  background-size: cover; background-position: center 55%;
-  filter: brightness(0.35) saturate(0.65); will-change: transform;
-}
-#hero::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(to bottom, rgba(8,8,6,0.2) 0%, rgba(8,8,6,0.5) 55%, var(--bg) 100%);
-}
-.hero-content {
-  position: relative; z-index: 10;
-  text-align: center; padding: 0 24px; max-width: 820px;
-}
-.hero-eyebrow { font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); opacity: 0.65; margin-bottom: 28px; }
-.hero-title {
-  font-family: 'Shippori Mincho B1', serif;
-  font-size: clamp(28px, 4.5vw, 58px);
-  font-weight: 800; line-height: 1.22; color: var(--text-bright);
-  letter-spacing: 0.04em; margin-bottom: 22px;
-}
-.hero-sub {
-  font-size: clamp(13px, 1.3vw, 16px); color: var(--sub-mid); font-weight: 300;
-  line-height: 2.0; letter-spacing: 0.04em; margin-bottom: 44px;
+.slide.active{opacity:1;z-index:2}
+.slide.out{opacity:0;z-index:3}
+@keyframes kb1{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.12) translate(-2%,-1.5%)}}
+@keyframes kb2{0%{transform:scale(1.1) translate(1.5%,1%)}100%{transform:scale(1) translate(0,0)}}
+@keyframes kb3{0%{transform:scale(1.06) translate(-1%,1%)}100%{transform:scale(1.13) translate(2%,-1%)}}
+.slide.active{animation-duration:11s;animation-timing-function:ease-in-out;animation-fill-mode:both}
+#wallpaper-overlay{
+  position:absolute;inset:0;z-index:10;
+  background:linear-gradient(180deg,rgba(0,0,0,.52) 0%,rgba(0,0,0,.15) 40%,rgba(0,0,0,.62) 100%);
 }
 
-/* Email signup */
-.email-form {
-  display: flex; gap: 0; max-width: 400px; margin: 0 auto 32px;
-  border: 1px solid rgba(200,164,85,0.3); border-radius: 4px; overflow: hidden;
+/* ── Menu bar ── */
+#menubar{
+  position:fixed;top:0;left:0;right:0;height:28px;z-index:500;
+  background:rgba(0,0,0,.72);backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;padding:0 16px;gap:20px;
 }
-.email-form input {
-  flex: 1; padding: 13px 18px;
-  background: rgba(8,8,6,0.6); color: var(--text-bright);
-  border: none; outline: none;
-  font-size: 13px; font-family: 'Inter', sans-serif;
-  letter-spacing: 0.02em;
+#menubar .logo{font-size:.8rem;font-weight:700;letter-spacing:.18em;color:var(--gold)}
+#menubar .mlbl{font-size:.7rem;color:rgba(255,255,255,.65);cursor:pointer}
+#menubar .mlbl:hover{color:#fff}
+#clock{margin-left:auto;font-size:.7rem;color:rgba(255,255,255,.65);font-variant-numeric:tabular-nums}
+.akiya-item{
+  display:block;padding:9px 18px;font-size:.75rem;color:rgba(255,255,255,.82);
+  text-decoration:none;transition:background .12s;white-space:nowrap;
 }
-.email-form input::placeholder { color: var(--sub-mid); }
-.email-form button {
-  padding: 13px 22px;
-  background: var(--gold); color: #080806;
-  border: none; cursor: pointer; font-size: 10px;
-  font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-  transition: background 0.25s; white-space: nowrap;
-  font-family: 'Inter', sans-serif;
-}
-.email-form button:hover { background: #d4b066; }
-.email-sent { font-size: 12px; color: var(--gold); letter-spacing: 0.06em; opacity: 0; transition: opacity 0.4s; }
-.email-sent.show { opacity: 1; }
+.akiya-item:hover{background:rgba(200,164,85,.18);color:#fff}
 
-.hero-pillars {
-  display: inline-flex;
-  border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+/* ── Desktop icons ── */
+#desktop-icons{
+  position:fixed;top:36px;right:12px;z-index:100;
+  display:grid;grid-template-columns:76px;gap:2px;
 }
-.hero-pillar {
-  padding: 12px 28px; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--sub-mid); text-decoration: none; border-right: 1px solid var(--border);
-  transition: background 0.25s, color 0.25s;
+.dicon{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:8px 6px;border-radius:10px;cursor:pointer;
+  transition:background .15s,transform .15s;
 }
-.hero-pillar:last-child { border-right: none; }
-.hero-pillar:hover { background: var(--gold-dim); color: var(--gold); }
+.dicon:hover{background:rgba(255,255,255,.13);transform:scale(1.08)}
+.dicon .em{font-size:1.9rem;line-height:1}
+.dicon .lbl{font-size:.6rem;color:rgba(255,255,255,.88);text-align:center;
+  text-shadow:0 1px 4px rgba(0,0,0,1);white-space:nowrap}
 
-.scroll-hint {
-  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
-  z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0.3;
-}
-.scroll-hint span { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sub-mid); }
-.scroll-line {
-  width: 1px; height: 40px;
-  background: linear-gradient(to bottom, var(--gold), transparent);
-  animation: pulse 2.2s ease infinite;
-}
-@keyframes pulse { 0%,100%{opacity:.25} 50%{opacity:.85} }
-
-/* ══════════════════════════
-   FEST
-══════════════════════════ */
-#fest {
-  position: relative; height: 100vh; min-height: 580px;
-  display: flex; align-items: flex-end; overflow: hidden;
-  text-decoration: none; color: var(--text); cursor: pointer;
-  border-top: 1px solid var(--border);
-}
-#fest-bg {
-  position: absolute; inset: 0;
-  background-image: url('/img/pro_hawaii_hero.webp');
-  background-size: cover; background-position: center 38%;
-  filter: brightness(0.42) saturate(0.72);
-  transition: transform 1s ease, filter 0.6s ease;
-}
-#fest:hover #fest-bg { transform: scale(1.03); filter: brightness(0.55) saturate(0.88); }
-#fest::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(8,8,6,0.96) 0%, rgba(8,8,6,0.35) 55%, transparent 100%);
-}
-.fest-content {
-  position: relative; z-index: 10;
-  padding: 0 56px 64px; width: 100%;
-  display: grid; grid-template-columns: 1fr auto; align-items: flex-end; gap: 32px;
-}
-.fest-label { font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); opacity: 0.55; margin-bottom: 16px; }
-.fest-title {
-  font-family: 'Shippori Mincho B1', serif;
-  font-size: clamp(30px, 4.5vw, 68px);
-  font-weight: 800; line-height: 1.08; letter-spacing: 0.02em;
-  color: var(--text-bright); margin-bottom: 12px;
-}
-.fest-meta { font-size: 12px; color: var(--sub-mid); font-weight: 300; letter-spacing: 0.05em; margin-bottom: 20px; }
-.fest-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
-.tag {
-  font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--sub-mid); border: 1px solid var(--gold-dim); border-radius: 100px; padding: 4px 13px;
-  transition: color 0.3s, border-color 0.3s;
-}
-#fest:hover .tag { color: rgba(200,164,85,0.7); border-color: rgba(200,164,85,0.3); }
-
-/* Fest email form — stops click propagation */
-.fest-signup { display: flex; flex-direction: column; gap: 10px; }
-.fest-signup-label { font-size: 10px; letter-spacing: 0.1em; color: var(--sub-mid); }
-.fest-email-row {
-  display: flex; gap: 0;
-  border: 1px solid rgba(200,164,85,0.25); border-radius: 4px; overflow: hidden;
-  max-width: 340px;
-}
-.fest-email-row input {
-  flex: 1; padding: 11px 16px;
-  background: rgba(8,8,6,0.7); color: var(--text-bright);
-  border: none; outline: none; font-size: 12px; font-family: 'Inter', sans-serif;
-}
-.fest-email-row input::placeholder { color: var(--sub); }
-.fest-email-row button {
-  padding: 11px 18px;
-  background: rgba(200,164,85,0.15); color: var(--gold);
-  border: none; border-left: 1px solid rgba(200,164,85,0.25);
-  cursor: pointer; font-size: 9px; font-weight: 600;
-  letter-spacing: 0.18em; text-transform: uppercase; font-family: 'Inter', sans-serif;
-  transition: background 0.25s;
-}
-.fest-email-row button:hover { background: rgba(200,164,85,0.28); }
-.fest-sent { font-size: 11px; color: var(--gold); opacity: 0; transition: opacity 0.4s; letter-spacing: 0.06em; }
-.fest-sent.show { opacity: 1; }
-
-.fest-arrow {
-  width: 48px; height: 48px; flex-shrink: 0;
-  border: 1px solid var(--border); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; color: var(--sub-mid); align-self: center;
-  transition: all 0.35s ease;
-}
-#fest:hover .fest-arrow { border-color: var(--gold); color: var(--gold); transform: translateX(5px); }
-
-/* ══════════════════════════
-   LIFE GALLERY
-══════════════════════════ */
-#life { border-bottom: 1px solid var(--border); }
-.life-header { padding: 72px 56px 40px; }
-.life-hed { font-family: 'Shippori Mincho B1', serif; font-size: clamp(20px, 2.6vw, 34px); font-weight: 700; color: var(--text-bright); letter-spacing: 0.04em; margin-top: 10px; }
-.life-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 380px 300px;
-  gap: 2px; background: var(--border);
-}
-.life-img { overflow: hidden; position: relative; }
-.life-img.feature { grid-row: 1 / 3; }
-.life-img img {
-  width: 100%; height: 100%; object-fit: cover;
-  filter: brightness(0.75) saturate(0.82);
-  transition: transform 0.9s ease, filter 0.5s ease;
-}
-.life-img:hover img { transform: scale(1.05); filter: brightness(0.92) saturate(0.95); }
-.life-cap {
-  position: absolute; bottom: 14px; left: 16px; z-index: 10;
-  font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(244,240,234,0.5); pointer-events: none;
-}
-@media (max-width: 768px) {
-  .life-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: 260px 260px; }
-  .life-img.feature { grid-row: auto; }
-  .life-header { padding: 48px 20px 32px; }
-}
-@media (max-width: 480px) {
-  .life-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 200px 200px 200px; }
+/* ── Caption ── */
+#caption{
+  position:fixed;bottom:74px;left:20px;z-index:100;
+  font-size:.66rem;color:rgba(255,255,255,.38);
+  text-shadow:0 1px 4px rgba(0,0,0,.9);
 }
 
-/* ══════════════════════════
-   HOW IT WORKS
-══════════════════════════ */
-#how { padding: 88px 56px 80px; border-bottom: 1px solid var(--border); }
-.how-header { margin-bottom: 52px; }
-.how-hed { font-family: 'Shippori Mincho B1', serif; font-size: clamp(22px, 2.6vw, 36px); font-weight: 700; color: var(--text-bright); letter-spacing: 0.04em; margin-top: 10px; }
-.how-steps {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 1px; background: var(--border); border: 1px solid var(--border);
+/* ── Hero copy ── */
+#hero{
+  position:fixed;bottom:100px;left:0;right:0;z-index:150;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:0 24px;
+  pointer-events:none;
+  animation:heroIn 1.2s ease both;
 }
-.how-step { padding: 44px 36px 40px; background: var(--bg); transition: background 0.3s; }
-.how-step:hover { background: rgba(200,164,85,0.025); }
-.how-n {
-  font-family: 'Shippori Mincho B1', serif; font-size: 64px; font-weight: 800;
-  color: rgba(200,164,85,0.14); line-height: 1; margin-bottom: 24px; letter-spacing: -0.02em;
+@keyframes heroIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+#hero-tag{
+  font-size:.65rem;letter-spacing:.28em;color:var(--gold);
+  font-weight:600;margin-bottom:10px;
+  text-shadow:0 2px 12px rgba(0,0,0,.9);
 }
-.how-title { font-size: 15px; font-weight: 600; color: var(--text-bright); letter-spacing: 0.04em; margin-bottom: 12px; }
-.how-desc { font-size: 13px; color: var(--sub-mid); line-height: 1.9; font-weight: 300; max-width: 280px; }
-.how-link {
-  display: inline-block; margin-top: 20px;
-  font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--gold); border-bottom: 1px solid rgba(200,164,85,0.3); padding-bottom: 2px;
-  text-decoration: none; transition: border-color 0.25s;
+#hero h1{
+  font-size:clamp(1.8rem,4.5vw,3.2rem);font-weight:700;
+  color:#fff;line-height:1.18;letter-spacing:.04em;
+  text-shadow:0 3px 24px rgba(0,0,0,.85);
+  margin-bottom:12px;
 }
-.how-link:hover { border-color: var(--gold); }
-@media (max-width: 768px) {
-  #how { padding: 64px 20px 56px; }
-  .how-steps { grid-template-columns: 1fr; }
-  .how-step { padding: 32px 24px; }
+#hero-sub{
+  font-size:clamp(.72rem,1.4vw,.88rem);color:rgba(255,255,255,.7);
+  font-weight:400;line-height:1.6;
+  text-shadow:0 2px 10px rgba(0,0,0,.9);
+  max-width:560px;margin-bottom:22px;
 }
+#hero-ctas{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;pointer-events:all}
+.hcta{
+  background:rgba(0,0,0,.45);
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:8px;color:rgba(255,255,255,.88);
+  font-size:.78rem;font-weight:600;
+  padding:10px 20px;cursor:pointer;
+  backdrop-filter:blur(12px);
+  transition:background .18s,border-color .18s,transform .18s;
+  font-family:'Inter',sans-serif;letter-spacing:.02em;
+}
+.hcta:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.5);transform:translateY(-2px)}
+.hcta.primary{
+  background:var(--gold);border-color:var(--gold);
+  color:#000;font-weight:700;
+}
+.hcta.primary:hover{background:#e8c97a;border-color:#e8c97a}
 
-/* ══════════════════════════
-   PLACES
-══════════════════════════ */
-#places { padding: 96px 56px 80px; border-bottom: 1px solid var(--border); }
-.sh { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; gap: 24px; }
-.sh-left {}
-.sh-label { font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); opacity: 0.55; margin-bottom: 10px; }
-.sh-title {
-  font-family: 'Shippori Mincho B1', serif;
-  font-size: clamp(22px, 2.8vw, 38px); font-weight: 700;
-  color: var(--text-bright); letter-spacing: 0.04em; margin-bottom: 10px;
-}
-.sh-body { font-size: 13px; color: var(--sub-mid); font-weight: 300; line-height: 1.85; max-width: 460px; }
-.sh-link {
-  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--sub-mid); text-decoration: none;
-  border-bottom: 1px solid var(--border); padding-bottom: 2px;
-  transition: color 0.25s, border-color 0.25s; white-space: nowrap; flex-shrink: 0;
-}
-.sh-link:hover { color: var(--gold); border-color: rgba(200,164,85,0.4); }
+@media(max-width:767px){#hero{display:none}}
 
-/* dual CTA in section header */
-.sh-ctas { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; flex-shrink: 0; }
-.sh-link-sub { opacity: 0.6; }
+/* ── Dock (Windowsタスクバー) ── */
+#dock{
+  position:fixed;bottom:0;left:0;right:0;width:100%;height:52px;
+  transform:none;z-index:500;
+  display:flex;align-items:center;gap:1px;
+  background:rgba(12,12,16,.92);backdrop-filter:blur(28px) saturate(180%);
+  border-top:1px solid rgba(255,255,255,.1);border-radius:0;
+  padding:0 6px;
+}
+.dkicon{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  min-width:44px;height:48px;padding:4px 8px;border-radius:6px;cursor:pointer;
+  transition:background .15s;flex-shrink:0;position:relative;
+}
+.dkicon:hover{background:rgba(255,255,255,.1)}
+.dkicon .em{font-size:1.5rem;line-height:1}
+.dkicon .lbl{font-size:.5rem;color:rgba(255,255,255,.5);white-space:nowrap}
+/* running indicator */
+.dkicon.running::after{
+  content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);
+  width:16px;height:3px;border-radius:2px;background:rgba(200,164,85,.9);
+}
+#start-btn{
+  width:44px;height:48px;padding:0;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;margin-right:4px;
+}
+#start-btn .em{
+  width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:1.25rem;
+  background:linear-gradient(135deg,rgba(200,164,85,.28),rgba(200,164,85,.12));
+  border:1px solid rgba(200,164,85,.35);transition:background .2s;
+}
+#start-btn:hover .em{background:rgba(200,164,85,.22)}
+#start-btn.open .em{background:linear-gradient(135deg,#c8a455,#e8c97a);color:#000}
+.dock-sep{width:1px;height:28px;background:rgba(255,255,255,.12);margin:0 4px;flex-shrink:0}
+/* 中央に dock-apps をまとめる */
+#dock-apps{display:flex;align-items:center;gap:1px;margin:0 auto}
+#dock-minimized{display:flex;align-items:center;gap:1px}
 
-/* trust bar */
-.trust-bar {
-  display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap;
-  padding: 18px 44px; border-bottom: 1px solid var(--border);
-  background: rgba(200,164,85,0.015);
+/* ── Start menu (Windowsスタイル・下から上) ── */
+#startmenu{
+  display:none;
+  position:fixed;
+  bottom:56px;left:4px;
+  width:340px;max-height:calc(100vh - 80px);
+  z-index:600;
+  overflow-y:auto;
+  background:rgba(16,16,22,.96);backdrop-filter:blur(40px) saturate(200%);
+  border:1px solid rgba(255,255,255,.14);border-radius:10px;
+  padding:16px;box-shadow:0 -4px 40px rgba(0,0,0,.8),0 20px 60px rgba(0,0,0,.6);
 }
-.trust-item {
-  font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--sub); display: flex; align-items: center; gap: 8px;
+#startmenu.open{display:block;animation:smIn .2s ease forwards}
+#startmenu.closing{animation:smOut .16s ease forwards}
+@keyframes smIn{
+  from{opacity:0;transform:translateY(16px)}
+  to  {opacity:1;transform:translateY(0)}
 }
-.trust-num { font-family: 'Shippori Mincho B1', serif; font-size: 17px; color: var(--sub-mid); letter-spacing: 0.04em; }
+@keyframes smOut{
+  from{opacity:1;transform:translateY(0)}
+  to  {opacity:0;transform:translateY(16px)}
+}
+#start-search{
+  width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);
+  border-radius:10px;padding:10px 14px;color:#fff;font-size:.88rem;outline:none;
+  box-sizing:border-box;margin-bottom:16px;font-family:Inter,sans-serif;
+}
+#start-search::placeholder{color:rgba(255,255,255,.32)}
+#start-grid{display:flex;flex-direction:column;gap:1px}
+.sgroup-header{
+  font-size:.58rem;letter-spacing:.12em;color:rgba(200,164,85,.75);
+  font-weight:700;padding:14px 12px 5px;text-transform:uppercase;
+}
+.sgroup-header:first-child{padding-top:4px}
+.sitem{
+  display:flex;align-items:center;gap:12px;
+  padding:9px 12px;border-radius:6px;cursor:pointer;transition:background .15s;
+}
+.sitem:hover{background:rgba(255,255,255,.08)}
+.sitem .em{font-size:1.35rem;width:26px;text-align:center;flex-shrink:0}
+.sitem .lbl{font-size:.82rem;color:rgba(255,255,255,.9);line-height:1.3}
 
-/* ownership explainer */
-.ownership-note {
-  display: flex; gap: 24px; flex-wrap: wrap;
-  padding: 20px 24px; margin-bottom: 40px;
-  border: 1px solid var(--border); border-radius: 4px;
-  background: rgba(200,164,85,0.03);
+/* ── Windows ── */
+.win{
+  position:fixed;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 22px 60px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.1);
+  animation:winPop .18s ease;min-width:320px;
 }
-.own-item { display: flex; flex-direction: column; gap: 4px; }
-.own-num { font-family: 'Shippori Mincho B1', serif; font-size: 22px; color: var(--gold); }
-.own-desc { font-size: 10px; color: var(--sub-mid); letter-spacing: 0.06em; line-height: 1.6; }
-
-.places-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 1px; background: var(--border); border: 1px solid var(--border);
+@keyframes winPop{from{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.winbar{
+  height:36px;display:flex;align-items:center;padding:0 10px;gap:8px;
+  background:rgba(26,26,26,.97);backdrop-filter:blur(20px);
+  cursor:move;flex-shrink:0;user-select:none;
 }
-.place-card {
-  position: relative; overflow: hidden; aspect-ratio: 3/4;
-  background: var(--bg); text-decoration: none; color: var(--text); display: block;
-}
-.place-card img {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  transition: transform 0.85s ease, filter 0.5s ease;
-  filter: brightness(0.46) saturate(0.68);
-}
-.place-card:hover img { transform: scale(1.06); filter: brightness(0.62) saturate(0.88); }
-.place-card::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(8,8,6,0.94) 0%, rgba(8,8,6,0.05) 58%, transparent 100%);
-}
-.place-card.upcoming img { filter: brightness(0.30) saturate(0.42); }
-.place-card.upcoming:hover img { filter: brightness(0.46) saturate(0.62); }
-.place-tag {
-  position: absolute; top: 18px; left: 18px; z-index: 10;
-  font-size: 7px; letter-spacing: 0.2em; text-transform: uppercase;
-  background: rgba(8,8,6,0.72); border: 1px solid rgba(200,164,85,0.25);
-  color: var(--gold); border-radius: 100px; padding: 4px 11px;
-}
-.place-tag.coming { color: var(--sub-mid); border-color: var(--border); }
-.place-info { position: absolute; bottom: 0; left: 0; right: 0; z-index: 10; padding: 18px 20px 24px; }
-.place-name { font-family: 'Shippori Mincho B1', serif; font-size: clamp(14px, 1.4vw, 19px); font-weight: 700; color: var(--text-bright); margin-bottom: 3px; }
-.place-loc { font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sub-mid); margin-bottom: 7px; }
-.place-price { font-size: 10px; color: var(--gold); opacity: 0.82; line-height: 1.6; }
-.place-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 7px; }
-.place-badge {
-  font-size: 7px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--sub-mid); border: 1px solid var(--gold-dim); border-radius: 100px;
-  padding: 2px 8px; transition: border-color 0.3s, color 0.3s;
-}
-.place-card:hover .place-badge { color: rgba(200,164,85,0.7); border-color: rgba(200,164,85,0.3); }
-.place-card.span2 { grid-column: span 2; aspect-ratio: 16/7; }
-
-/* ══════════════════════════
-   MEMBER ARCHETYPES
-══════════════════════════ */
-#members { padding: 80px 56px 72px; border-bottom: 1px solid var(--border); }
-.members-hed { font-family: 'Shippori Mincho B1', serif; font-size: clamp(20px, 2.4vw, 32px); font-weight: 700; color: var(--text-bright); letter-spacing: 0.04em; margin-top: 10px; margin-bottom: 44px; }
-.members-grid {
-  display: grid; grid-template-columns: repeat(5, 1fr);
-  gap: 1px; background: var(--border); border: 1px solid var(--border);
-}
-.member-card {
-  padding: 36px 22px; background: var(--bg);
-  display: flex; flex-direction: column; gap: 14px;
-  transition: background 0.3s;
-}
-.member-card:hover { background: rgba(200,164,85,0.03); }
-.member-icon { font-size: 26px; }
-.member-title { font-size: 11px; font-weight: 600; color: var(--text-bright); letter-spacing: 0.06em; line-height: 1.5; }
-.member-desc { font-size: 11px; color: var(--sub-mid); line-height: 1.75; font-weight: 300; }
-.member-tags-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
-.member-tag-sm { font-size: 7px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sub); border: 1px solid var(--border); border-radius: 100px; padding: 2px 8px; }
-@media (max-width: 960px) { .members-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 768px) { #members { padding: 64px 20px 56px; } .members-grid { grid-template-columns: repeat(2, 1fr); } }
-
-/* ══════════════════════════
-   COMMUNITY
-══════════════════════════ */
-#community { position: relative; padding: 112px 56px 0; overflow: hidden; }
-#community-bg {
-  position: absolute; inset: 0;
-  background-image: url('/img/kumaushi_dojo_interior_mats.webp');
-  background-size: cover; background-position: center 30%;
-  filter: brightness(0.16) saturate(0.45);
-}
-#community::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(to bottom, var(--bg) 0%, rgba(8,8,6,0.55) 20%, rgba(8,8,6,0.55) 75%, var(--bg) 100%);
-  z-index: 1;
-}
-.community-inner { position: relative; z-index: 10; max-width: 700px; padding-bottom: 96px; }
-.community-title { font-family: 'Shippori Mincho B1', serif; font-size: clamp(26px, 3.2vw, 52px); font-weight: 700; line-height: 1.45; letter-spacing: 0.04em; color: var(--text-bright); margin-bottom: 20px; }
-.community-body { font-size: 14px; line-height: 2.0; color: var(--sub-mid); font-weight: 300; max-width: 520px; margin-bottom: 40px; }
-.keywords { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 52px; }
-.keyword { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sub-mid); border: 1px solid var(--border); border-radius: 100px; padding: 6px 16px; }
-.community-cta { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sub-mid); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 2px; transition: color 0.25s, border-color 0.25s; }
-.community-cta:hover { color: var(--gold); border-color: rgba(200,164,85,0.4); }
-
-/* ══════════════════════════
-   BLANK
-══════════════════════════ */
-#blank {
-  position: relative; height: 100vh; min-height: 560px;
-  display: flex; align-items: flex-end; overflow: hidden;
-  text-decoration: none; color: var(--text); cursor: pointer;
-  border-top: 1px solid var(--border);
-}
-#blank-bg {
-  position: absolute; inset: 0;
-  background-image: url('/img/kumaushi_b_mist_rooftop_meditation.webp');
-  background-size: cover; background-position: center 30%;
-  filter: brightness(0.38) saturate(0.55);
-  transition: transform 1s ease, filter 0.6s ease;
-}
-#blank:hover #blank-bg { transform: scale(1.03); filter: brightness(0.5) saturate(0.7); }
-#blank::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(8,8,6,0.97) 0%, rgba(8,8,6,0.3) 60%, transparent 100%);
-}
-.blank-content {
-  position: relative; z-index: 10;
-  padding: 0 56px 72px; width: 100%;
-  display: grid; grid-template-columns: 1fr auto; align-items: flex-end; gap: 32px;
-}
-.blank-label { font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); opacity: 0.55; margin-bottom: 16px; }
-.blank-title {
-  font-family: 'Shippori Mincho B1', serif;
-  font-size: clamp(48px, 8vw, 110px);
-  font-weight: 800; line-height: 1.0; letter-spacing: 0.06em;
-  color: var(--text-bright); margin-bottom: 14px;
-}
-.blank-sub { font-size: 14px; color: var(--sub-mid); font-weight: 300; letter-spacing: 0.04em; line-height: 1.85; margin-bottom: 22px; max-width: 460px; }
-.blank-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-#blank:hover .tag { color: rgba(200,164,85,0.7); border-color: rgba(200,164,85,0.3); }
-.blank-arrow {
-  width: 48px; height: 48px; flex-shrink: 0;
-  border: 1px solid var(--border); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; color: var(--sub-mid); align-self: center;
-  transition: all 0.35s ease;
-}
-#blank:hover .blank-arrow { border-color: var(--gold); color: var(--gold); transform: translateX(5px); }
-
-/* Access note (HondaJet) */
-.access-bar {
-  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-  padding: 16px 24px; margin-top: 40px;
-  border: 1px solid var(--border); border-radius: 4px;
-  background: rgba(200,164,85,0.025);
-}
-.access-item {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 10px; color: var(--sub-mid); letter-spacing: 0.06em;
-}
-.access-item::before { content: '—'; color: var(--sub); }
-.access-item:first-child::before { display: none; }
-
-
-/* ── Footer ── */
-footer { position: relative; z-index: 10; padding: 28px 56px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); }
-.footer-logo { font-size: 10px; font-weight: 700; letter-spacing: 0.28em; color: var(--gold); opacity: 0.45; }
-.footer-links { display: flex; gap: 22px; }
-.footer-links a { font-size: 9px; letter-spacing: 0.14em; color: var(--sub); text-decoration: none; transition: color 0.25s; }
-.footer-links a:hover { color: var(--sub-mid); }
-.footer-copy { font-size: 9px; color: var(--sub); letter-spacing: 0.08em; }
-
-/* ══════════════════════════
-   FAQ
-══════════════════════════ */
-#faq { padding: 80px 56px 72px; border-bottom: 1px solid var(--border); background: rgba(200,164,85,0.012); }
-.faq-inner { max-width: 680px; }
-.faq-title { font-family: 'Shippori Mincho B1', serif; font-size: clamp(20px, 2.4vw, 32px); font-weight: 700; color: var(--text-bright); letter-spacing: 0.04em; margin-bottom: 44px; }
-.faq-list { border-top: 1px solid var(--border); }
-.faq-item { border-bottom: 1px solid var(--border); }
-.faq-q {
-  width: 100%; text-align: left; padding: 20px 0;
-  font-size: 14px; color: var(--text); background: none; border: none; cursor: pointer;
-  display: flex; justify-content: space-between; align-items: center; gap: 16px;
-  font-family: 'Inter', sans-serif; letter-spacing: 0.02em; line-height: 1.5;
-  transition: color 0.25s;
-}
-.faq-q:hover { color: var(--text-bright); }
-.faq-q::after { content: '+'; color: var(--gold); font-size: 20px; font-weight: 300; flex-shrink: 0; }
-.faq-item.open .faq-q::after { content: '−'; }
-.faq-a {
-  font-size: 13px; color: var(--sub-mid); line-height: 2.0; padding-bottom: 22px;
-  max-width: 580px;
-  overflow: hidden; max-height: 0; transition: max-height 0.35s ease, padding-bottom 0.35s ease;
-}
-.faq-item.open .faq-a { max-height: 200px; }
-.faq-contact {
-  display: inline-block; margin-top: 44px;
-  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--sub-mid); text-decoration: none;
-  border-bottom: 1px solid var(--border); padding-bottom: 3px;
-  transition: color 0.25s, border-color 0.25s;
-}
-.faq-contact:hover { color: var(--gold); border-color: rgba(200,164,85,0.4); }
-@media (max-width: 768px) { #faq { padding: 64px 20px 56px; } }
-
-/* BLANK inline signup */
-.blank-form-row {
-  display: flex; gap: 0; max-width: 320px; margin-top: 20px;
-  border: 1px solid rgba(200,164,85,0.2); border-radius: 4px; overflow: hidden;
-}
-.blank-form-row input {
-  flex: 1; padding: 10px 14px;
-  background: rgba(8,8,6,0.8); color: var(--text-bright);
-  border: none; outline: none; font-size: 12px; font-family: 'Inter', sans-serif;
-}
-.blank-form-row input::placeholder { color: var(--sub); }
-.blank-form-row button {
-  padding: 10px 16px; background: rgba(200,164,85,0.12); color: var(--gold);
-  border: none; border-left: 1px solid rgba(200,164,85,0.2);
-  cursor: pointer; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase;
-  font-family: 'Inter', sans-serif; transition: background 0.25s; white-space: nowrap;
-}
-.blank-form-row button:hover { background: rgba(200,164,85,0.24); }
-.blank-signup-sent { font-size: 10px; color: var(--gold); letter-spacing: 0.08em; margin-top: 8px; opacity: 0; transition: opacity 0.4s; }
-.blank-signup-sent.show { opacity: 1; }
-
-.fest-context { font-size: 11px; color: var(--sub); font-weight: 300; letter-spacing: 0.04em; margin-bottom: 20px; line-height: 1.8; max-width: 420px; }
+.wbtn{width:13px;height:13px;border-radius:50%;border:none;cursor:pointer;flex-shrink:0;transition:filter .15s}
+.wbtn:hover{filter:brightness(1.3)}
+.wtitle{flex:1;text-align:center;font-size:.72rem;color:rgba(255,255,255,.5);
+  overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-family:Inter,sans-serif}
+.winbody{flex:1;background:#0a0a0a;overflow:hidden}
+.winbody iframe{width:100%;height:100%;border:none;display:block}
+.win.minimized .winbody{display:none}
+.win.minimized{height:36px!important}
 
 /* ── Mobile ── */
-@media (max-width: 960px) {
-  .places-grid { grid-template-columns: repeat(3, 1fr); }
+@media(max-width:767px){
+  #menubar,#desktop-icons,#dock,#startmenu,#caption,#hero{display:none!important}
+  #mobile-view{display:flex!important}
+  #wallpaper-overlay{background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.22) 45%,rgba(0,0,0,.75) 100%)}
 }
-@media (max-width: 768px) {
-  header { padding: 16px 20px; }
-  .fest-content { padding: 0 24px 52px; grid-template-columns: 1fr; }
-  .fest-arrow { display: none; }
-  #places, #community { padding: 64px 20px 56px; }
-  .sh { flex-direction: column; align-items: flex-start; gap: 14px; }
-  .ownership-note { gap: 16px; }
-  .places-grid { grid-template-columns: repeat(2, 1fr); }
-  footer { padding: 24px 20px; flex-direction: column; gap: 10px; text-align: center; }
-  .footer-links { justify-content: center; }
+#mobile-view{
+  display:none;
+  position:fixed;inset:0;z-index:200;
+  flex-direction:column;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
 }
-@media (max-width: 540px) {
-  .places-grid { grid-template-columns: repeat(2, 1fr); }
-  .place-card { aspect-ratio: 2/3; }
-  .hero-pillar { padding: 11px 14px; font-size: 8px; }
-  .email-form { flex-direction: column; border-radius: 4px; }
-  .email-form input, .email-form button { border-right: none; }
-  .email-form button { border-top: 1px solid rgba(200,164,85,0.3); }
+/* モバイルヒーロー */
+#m-hero{
+  padding:env(safe-area-inset-top,20px) 20px 28px;
+  padding-top:max(env(safe-area-inset-top),52px);
+  text-align:center;
+}
+#m-hero .m-tag{font-size:.6rem;letter-spacing:.24em;color:var(--gold);font-weight:700;margin-bottom:10px}
+#m-hero h1{font-size:1.55rem;font-weight:700;color:#fff;line-height:1.22;
+  text-shadow:0 2px 16px rgba(0,0,0,.9);margin-bottom:10px}
+#m-hero p{font-size:.75rem;color:rgba(255,255,255,.72);line-height:1.65;
+  text-shadow:0 1px 8px rgba(0,0,0,.9);margin-bottom:20px;padding:0 4px}
+.m-ctas{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:4px}
+.mcta{
+  background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.28);
+  border-radius:8px;color:rgba(255,255,255,.9);font-size:.75rem;font-weight:600;
+  padding:10px 18px;cursor:pointer;backdrop-filter:blur(12px);
+  font-family:'Inter',sans-serif;text-decoration:none;display:inline-block;
+}
+.mcta.primary{background:var(--gold);border-color:var(--gold);color:#000;font-weight:700}
+/* モバイルカードリスト */
+#m-apps{padding:16px 16px calc(env(safe-area-inset-bottom,0px) + 20px)}
+.mcard{
+  display:flex;align-items:center;gap:14px;padding:13px 16px;
+  background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;cursor:pointer;text-decoration:none;
+  backdrop-filter:blur(12px);transition:background .15s;margin-bottom:8px;
+}
+.mcard:hover,.mcard:active{background:rgba(200,164,85,.18)}
+.mcard .em{font-size:1.6rem;flex-shrink:0;width:32px;text-align:center}
+.mcard .lbl{font-size:.88rem;font-weight:600;color:#fff}
+/* モバイルグループヘッダー */
+.mgroup-header{
+  font-size:.58rem;letter-spacing:.14em;color:rgba(200,164,85,.8);
+  font-weight:700;padding:18px 4px 6px;text-transform:uppercase;
+}
+.mgroup-header:first-child{padding-top:4px}
+/* モバイル言語ボタン */
+#m-lang-btn{
+  background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.2);border-radius:6px;
+  color:rgba(255,255,255,.7);font-size:.65rem;padding:4px 10px;cursor:pointer;
+  font-family:'Inter',sans-serif;margin-top:4px;
 }
 </style>
 </head>
 <body>
 
-<header>
-  <a href="/" class="logo">SOLUNA</a>
-  <nav class="header-nav">
-    <a href="/scheme">Scheme</a>
-    <a href="#places">Places</a>
-    <a href="/zamna">Fest</a>
-    <a href="/blog">Journal</a>
-    <a href="/buy" style="color:var(--gold)">Buy</a>
-  </nav>
-  <button class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
-    <span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455">EN</span>
-    <span style="font-size:9px;color:#3a3a3a">/</span>
-    <span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455">JA</span>
-  </button>
-</header>
-
-<!-- ──────── HERO ──────── -->
-<section id="hero">
-  <div id="hero-bg"></div>
-  <div class="hero-content reveal">
-    <p class="hero-eyebrow">SOLUNA</p>
-    <h1 class="hero-title" data-en="Owning alone is heavy.">ひとりで持つと、<br>重い。</h1>
-    <p class="hero-sub" data-en="Co-own, and a villa becomes an asset.<br>From ¥1.2M per share · 30 nights/year · Hokkaido, Atami, Wakayama, Hawaii —<br>a place to return to, shared with the right people.">
-      みんなで持てば、別荘は資産になる。<br>
-      <span style="color:var(--gold);font-weight:500">1口¥120万〜 · 年間30泊</span> · 北海道、熱海、和歌山、ハワイ ―<br>
-      帰れる場所を、仲間と分け合う。
-    </p>
-    <form class="email-form" id="hero-form">
-      <input type="email" placeholder="メールアドレスで登録" required autocomplete="email">
-      <button type="submit" data-en="Join">参加する</button>
-    </form>
-    <p class="email-sent" id="hero-sent" data-en="✓ Registered. We&#39;ll keep you updated.">✓ 登録しました。最新情報をお届けします。</p>
-    <div class="hero-pillars">
-      <a href="/zamna"  class="hero-pillar" data-track="hero_fest">Fest</a>
-      <a href="#places"  class="hero-pillar" data-track="hero_places">Places</a>
-      <a href="/blog"  class="hero-pillar" data-track="hero_blog">Journal</a>
-    </div>
-    <div style="margin-top:20px;animation:fadeUp 1.1s 1s both">
-      <a href="https://line.me/ti/g2/SOLUNA_COMMUNITY" target="_blank" rel="noopener" data-sln-track="line_click" style="display:inline-flex;align-items:center;gap:8px;font-size:11px;color:rgba(212,207,198,0.5);letter-spacing:0.08em;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#06C755'" onmouseout="this.style.color='rgba(212,207,198,0.5)'">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.070 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-        LINEで相談する
-      </a>
-    </div>
-  </div>
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
-</section>
-
-
-<!-- ──────── TRUST BAR ──────── -->
-<div class="trust-bar">
-  <div class="trust-item"><span class="trust-num">11</span><span data-en="locations — Hokkaido · Atami · Wakayama · Hawaii">拠点 — 北海道・熱海・和歌山・Hawaii</span></div>
-  <div class="trust-item"><span class="trust-num">5+</span><span data-en="owners">オーナー参加中</span></div>
-  <div class="trust-item"><span class="trust-num">¥1.2M</span><span data-en="~ from 1 share">〜 1口から参加</span></div>
-  <div class="trust-item"><span class="trust-num">30</span><span data-en="nights / year">泊 / 年の滞在権</span></div>
-  <div class="trust-item"><span class="trust-num">0</span><span data-en="No middleman">管理会社・仲介なし</span></div>
+<!-- Wallpaper -->
+<div id="wallpaper">
+  <div id="wallpaper-overlay"></div>
 </div>
 
-<!-- ──────── HOW IT WORKS ──────── -->
-<section id="how">
-  <div class="how-header reveal">
-    <p class="sh-label">参加するまでの3つのステップ</p>
-    <h2 class="how-hed">共同保有型リゾートとは、何か。</h2>
-  </div>
-  <div class="how-steps">
-    <div class="how-step reveal">
-      <div class="how-n">01</div>
-      <div class="how-title">まず、泊まる</div>
-      <div class="how-desc">WHITE HOUSE 熱海は今すぐ予約できる。泊まって場所を感じ、コミュニティを知る。買うかどうかは、そのあとでいい。</div>
-      <a href="/atami" class="how-link" data-track="how_stay">宿泊を予約する →</a>
-    </div>
-    <div class="how-step reveal">
-      <div class="how-n">02</div>
-      <div class="how-title">コミュニティを知る</div>
-      <div class="how-desc">フェス、BLANK合宿、オーナー同士のつながり。場所だけでなく、ここに集まる人たちを知る時間。何度来てもいい。</div>
-    </div>
-    <div class="how-step reveal">
-      <div class="how-n">03</div>
-      <div class="how-title">口数を持つ</div>
-      <div class="how-desc">1口 ¥1.2M〜。その場所の年間30泊があなたのものになる。管理会社なし、仲介なし。場所が、資産になる。</div>
-      <a href="/buy" class="how-link" data-sln-track="purchase_click">口数を購入する →</a>
-    </div>
-  </div>
-</section>
+<!-- Menu bar -->
+<div id="menubar">
+  <span class="logo">SOLUNA</span>
+  <span class="mlbl" data-open="collection" data-ja="物件"       data-en="Properties">物件</span>
+  <span class="mlbl" data-open="scheme"     data-ja="スキーム"    data-en="How It Works">スキーム</span>
+  <span class="mlbl" id="mb-akiya" data-ja="空き家"    data-en="Vacant Houses" style="position:relative">空き家 ▾</span>
+  <span class="mlbl" data-open="zamna"      data-ja="フェス"      data-en="Festival">フェス</span>
+  <span class="mlbl" data-open="community"  data-ja="コミュニティ" data-en="Community">コミュニティ</span>
+  <span id="clock"></span>
+</div>
+<!-- 空き家サブメニュー -->
+<div id="akiya-submenu" style="display:none;position:fixed;top:28px;z-index:600;
+  background:rgba(16,16,20,.97);backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,.12);border-radius:0 0 10px 10px;
+  padding:6px 0;min-width:160px;box-shadow:0 8px 28px rgba(0,0,0,.7)">
+  <a class="akiya-item" href="/kagawa-akiya">🌊 香川の空き家</a>
+  <a class="akiya-item" href="/wakayama-akiya">🌲 和歌山の空き家</a>
+  <a class="akiya-item" href="/kussharo">🦢 弟子屈の空き家</a>
+  <a class="akiya-item" href="/atami-akiya">🏖️ 熱海の空き家</a>
+</div>
 
-<!-- ──────── PLACES ──────── -->
-<section id="places">
-  <div class="sh reveal">
-    <div class="sh-left">
-      <p class="sh-label" data-en="02 — PLACES · Join a place">01 — PLACES · 場所に参加する</p>
-      <h2 class="sh-title" data-en="Have a place of your own.">場所を持つ。</h2>
-      <p class="sh-body" data-en="Some places you buy and return to, others you try by staying first.<br>Wherever you start, you connect to the same community.">買って帰ってくる場所もあれば、まず泊まってみる場所もある。<br>どこから始めても、同じコミュニティにつながる。</p>
-    </div>
-    <div class="sh-ctas">
-      <a href="/homes" class="sh-link" data-track="nav_places_buy" data-en="Buy a share →">口数を購入する →</a>
-      <a href="/cabin" class="sh-link sh-link-sub" data-track="nav_places_stay" data-en="Stay first →">まず泊まる →</a>
-    </div>
-  </div>
-  <div class="access-bar reveal">
-    <span class="access-item" data-en="Pet-friendly">犬と一緒に滞在できる</span>
-    <span class="access-item" data-en="90 min from New Chitose Airport">新千歳空港から最短90分</span>
-    <span class="access-item" data-en="Honolulu ↔ New Chitose community flight (HondaJet)">ホノルル ↔ 新千歳 コミュニティ専用フライト（HondaJet）</span>
-    <span class="access-item" data-en="Available for corporate &amp; team use">法人・チームでの利用可</span>
-  </div>
-  <div class="ownership-note reveal">
-    <div class="own-item">
-      <span class="own-num">1口</span>
-      <span class="own-desc" data-en="Co-ownership resort<br>from 1 share">から始められる<br>共同保有型リゾート</span>
-    </div>
-    <div class="own-item">
-      <span class="own-num">30泊</span>
-      <span class="own-desc" data-en="nights/year included<br>in 1 share">／年の滞在権が<br>1口に含まれる</span>
-    </div>
-    <div class="own-item">
-      <span class="own-num">¥1.2M〜</span>
-      <span class="own-desc" data-en="Starting from<br>minimum share">最小口数からの<br>参加が可能</span>
-    </div>
-    <div class="own-item">
-      <span class="own-num">11</span>
-      <span class="own-desc" data-en="locations (5 open +<br>6 planned)">拠点（5公開中 +<br>6計画・建設中）</span>
-    </div>
-  </div>
-  <div class="places-grid">
-    <!-- 公開中 -->
-    <a href="/atami" class="place-card reveal" data-track="nav_atami" data-sln-track="purchase_click">
-      <img src="/img/atami.webp" alt="WHITE HOUSE 熱海" loading="eager">
-      <div class="place-tag" data-en="Open · Available">公開中 · 申込可</div>
-      <div class="place-info">
-        <div class="place-name">WHITE HOUSE 熱海</div>
-        <div class="place-loc">Atami, Shizuoka</div>
-        <div class="place-price">¥19,000,000〜 / 36泊</div>
-        <div class="place-badges"><span class="place-badge">¥55,000/泊</span><span class="place-badge" style="background:rgba(155,196,109,.15);color:#9bc46d;border-color:rgba(155,196,109,.3)" data-en="Accepting">受付中</span></div>
-      </div>
-    </a>
-    <a href="/tapkop" class="place-card reveal" data-track="nav_tapkop" data-sln-track="purchase_click">
-      <img src="/img/tapkop_real1.webp" alt="TAPKOP" loading="eager">
-      <div class="place-tag" data-en="Open · Available">公開中 · 申込可</div>
-      <div class="place-info">
-        <div class="place-name">TAPKOP</div>
-        <div class="place-loc">Hokkaido, Japan</div>
-        <div class="place-price">¥80,000,000〜 / 30泊</div>
-        <div class="place-badges"><span class="place-badge" data-en="Dog OK">犬OK</span><span class="place-badge" style="background:rgba(155,196,109,.15);color:#9bc46d;border-color:rgba(155,196,109,.3)" data-en="Accepting">受付中</span></div>
-      </div>
-    </a>
-    <a href="/lodge" class="place-card reveal" data-track="nav_lodge" data-sln-track="purchase_click">
-      <img src="/img/lodge_new1.webp" alt="THE LODGE" loading="lazy">
-      <div class="place-tag" data-en="Open · Available">公開中 · 申込可</div>
-      <div class="place-info">
-        <div class="place-name">THE LODGE</div>
-        <div class="place-loc">Hokkaido, Japan</div>
-        <div class="place-price">¥4,900,000〜 / 30泊</div>
-        <div class="place-badges"><span class="place-badge" data-en="Dog OK">犬OK</span><span class="place-badge" style="background:rgba(155,196,109,.15);color:#9bc46d;border-color:rgba(155,196,109,.3)" data-en="Accepting">受付中</span></div>
-      </div>
-    </a>
-    <a href="/nesting" class="place-card reveal" data-track="nav_nesting" data-sln-track="purchase_click">
-      <img src="/img/nesting_exterior.webp" alt="NESTING" loading="lazy">
-      <div class="place-tag" data-en="Open · Available">公開中 · 申込可</div>
-      <div class="place-info">
-        <div class="place-name">NESTING</div>
-        <div class="place-loc">Hokkaido, Japan</div>
-        <div class="place-price">¥8,900,000〜 / 30泊</div>
-        <div class="place-badges"><span class="place-badge" data-en="Dog OK">犬OK</span><span class="place-badge" style="background:rgba(155,196,109,.15);color:#9bc46d;border-color:rgba(155,196,109,.3)" data-en="Accepting">受付中</span></div>
-      </div>
-    </a>
-    <a href="/instant" class="place-card reveal" data-track="nav_instant" data-sln-track="purchase_click">
-      <img src="/img/instant_dome_snow.webp" alt="インスタントハウス" loading="lazy">
-      <div class="place-tag" data-en="Open · Available">公開中 · 申込可</div>
-      <div class="place-info">
-        <div class="place-name" data-en="Instant House">インスタントハウス</div>
-        <div class="place-loc">Hokkaido, Japan</div>
-        <div class="place-price">¥1,200,000〜 / 30泊</div>
-        <div class="place-badges"><span class="place-badge">¥25,000/泊</span><span class="place-badge" style="background:rgba(155,196,109,.15);color:#9bc46d;border-color:rgba(155,196,109,.3)" data-en="Accepting">受付中</span></div>
-      </div>
-    </a>
-    <!-- 建設・計画中 -->
-    <a href="/village" class="place-card upcoming reveal" data-track="nav_village">
-      <img src="/img/village_aerial.webp" alt="SOLUNAビレッジ" loading="lazy">
-      <div class="place-tag coming">2026-09 Open</div>
-      <div class="place-info">
-        <div class="place-name" data-en="SOLUNA Village">SOLUNAビレッジ</div>
-        <div class="place-loc">Hokkaido, Japan</div>
-        <div class="place-price">¥4,900,000〜 / 30泊</div>
-        <div class="place-badges"><span class="place-badge">¥30,000/泊</span></div>
-      </div>
-    </a>
-    <a href="/kumaushi" class="place-card upcoming reveal" data-track="nav_kumaushi">
-      <img src="/img/kumaushi_dojo_interior_mats.webp" alt="天空の道場" loading="lazy">
-      <div class="place-tag coming">2026-09 Open</div>
-      <div class="place-info">
-        <div class="place-name" data-en="Sky Dojo">天空の道場</div>
-        <div class="place-loc">熊牛原野 — Hokkaido</div>
-        <div class="place-price">¥4,800,000〜 / 30泊</div>
-        <div class="place-badges"><span class="place-badge">¥80,000/泊</span><span class="place-badge" data-en="Dog OK">犬OK</span></div>
-      </div>
-    </a>
-    <a href="/wakayama" class="place-card upcoming reveal" data-track="nav_wakayama">
-      <img src="/img/village_arc_sunset.webp" alt="和歌山" loading="lazy">
-      <div class="place-tag coming" data-en="Planned">計画中</div>
-      <div class="place-info">
-        <div class="place-name">SOLUNA 和歌山</div>
-        <div class="place-loc">Wakayama, Japan</div>
-        <div class="place-price" data-en="Details coming soon">詳細近日公開</div>
-        <div class="place-badges"><span class="place-badge" data-en="Planned">建設予定</span></div>
-      </div>
-    </a>
-    <a href="/atami-hill" class="place-card upcoming reveal" data-track="nav_atami_hill">
-      <img src="/img/atami_cliff_view.webp" alt="熱海の上" loading="lazy">
-      <div class="place-tag coming" data-en="Planned">計画中</div>
-      <div class="place-info">
-        <div class="place-name">SOLUNA 熱海 II</div>
-        <div class="place-loc">Atami — Hilltop</div>
-        <div class="place-price" data-en="Details coming soon">詳細近日公開</div>
-        <div class="place-badges"><span class="place-badge" data-en="Planned">建設予定</span></div>
-      </div>
-    </a>
-    <a href="/collection" class="place-card upcoming reveal" data-track="nav_honolulu">
-      <img src="/img/property-honolulu.webp" alt="HONOLULU VILLA" loading="lazy">
-      <div class="place-tag coming" data-en="2026-11 Open · Monthly">2026-11 Open · 月単位</div>
-      <div class="place-info">
-        <div class="place-name">HONOLULU VILLA</div>
-        <div class="place-loc">Honolulu, Hawaii</div>
-        <div class="place-price">¥28,000,000〜 / 30泊</div>
-        <div class="place-badges"><span class="place-badge">¥85,000/泊</span></div>
-      </div>
-    </a>
-    <a href="/hawaii-kai" class="place-card upcoming span2 reveal" data-track="nav_hawaii_kai">
-      <img src="/img/property-honolulu-4.webp" alt="HAWAII KAI HOUSE" loading="lazy">
-      <div class="place-tag coming" data-en="2026-11 Open · Monthly">2026-11 Open · 月単位</div>
-      <div class="place-info">
-        <div class="place-name">HAWAII KAI HOUSE</div>
-        <div class="place-loc">Hawaii Kai, Oahu</div>
-        <div class="place-price">¥38,000,000〜 / 30泊</div>
-        <div class="place-badges"><span class="place-badge">¥120,000/泊</span></div>
-      </div>
-    </a>
-  </div>
-</section>
+<!-- Desktop icons (right side) -->
+<div id="desktop-icons"></div>
 
-<!-- ──────── LIFE ──────── -->
-<section id="life">
-  <div class="life-header reveal">
-    <p class="sh-label" data-en="SOLUNA in photos">写真で見るSOLUNA</p>
-    <h2 class="life-hed" data-en="Real places. Real time.">実際の場所で、実際の時間を。</h2>
-  </div>
-  <div class="life-grid">
-    <div class="life-img feature">
-      <img src="/img/tapkop_real4.webp" alt="TAPKOP" loading="lazy">
-      <span class="life-cap">TAPKOP — Hokkaido</span>
-    </div>
-    <div class="life-img">
-      <img src="/img/kumaushi_fire_circle.webp" alt="" loading="lazy">
-      <span class="life-cap" data-en="A night by the fire — Hokkaido">焚き火の夜 — Hokkaido</span>
-    </div>
-    <div class="life-img">
-      <img src="/img/atami_bbq_deck.webp" alt="" loading="lazy">
-      <span class="life-cap">WHITE HOUSE 熱海</span>
-    </div>
-    <div class="life-img">
-      <img src="/img/lodge_new2.webp" alt="" loading="lazy">
-      <span class="life-cap">THE LODGE</span>
-    </div>
-    <div class="life-img">
-      <img src="/img/kumaushi_winter_stars.webp" alt="" loading="lazy">
-      <span class="life-cap" data-en="Winter night in Hokkaido">北海道の冬の夜</span>
-    </div>
-  </div>
-</section>
+<!-- Caption -->
+<div id="caption"></div>
 
-<!-- ──────── FAQ ──────── -->
-<section id="faq">
-  <div class="faq-inner reveal">
-    <p class="sh-label" style="margin-bottom:14px" data-en="FAQ">よくある質問</p>
-    <h2 class="faq-title" data-en="About co-ownership retreats.">共同保有型リゾートについて。</h2>
-    <div class="faq-list">
-      <div class="faq-item">
-        <button class="faq-q" data-en="What can I do with one share?">1口を買うと何ができますか？</button>
-        <div class="faq-a" data-en="Owning one share gives you 30 nights per year at that property. Book stays through the SOLUNA app. No management company or broker — direct connection with community members. More shares = more nights.">1口の保有で、その物件の年間30泊の滞在権が得られます。滞在はSOLUNAアプリで予約。管理会社や仲介は介在せず、コミュニティメンバーと直接つながります。口数を増やすほど滞在泊数が増えます。</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" data-en="Can I stay without buying a property?">物件を購入せずに泊まることはできますか？</button>
-        <div class="faq-a" data-en="Yes. Some properties like WHITE HOUSE Atami are available for non-owner bookings. Stay first, feel the community, then decide whether to buy.">はい。WHITE HOUSE 熱海など一部物件は、オーナーでなくても宿泊予約が可能です。まず泊まってコミュニティを感じてから、購入を検討することもできます。</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" data-en="What does &#39;monthly&#39; mean for Hawaii properties?">ハワイ物件の「月単位」とはどういう意味ですか？</button>
-        <div class="faq-a" data-en="HONOLULU VILLA and HAWAII KAI HOUSE require a minimum 1-month stay. Not a hotel — your own place. Work, create, rest — all in Hawaii for a month. A sense of &#39;having a home&#39; in Hawaii.">HONOLULU VILLAとHAWAII KAI HOUSEは最低1ヶ月単位でのご利用です。ホテルを借りるのではなく、自分の場所として使う。仕事・創作・休養、すべてをハワイで完結させる1ヶ月。「帰ってくる場所」がハワイにもある、という感覚です。</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" data-en="Can I use a loan to purchase?">ローンで購入できますか？</button>
-        <div class="faq-a" data-en="Yes, some financial institutions accept real estate co-ownership as collateral. We can introduce you to partner banks. Cash purchases are also common.">共有持分不動産を担保にできる金融機関があります。提携先のご紹介も可能です。一括払いの方も多くいます。</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" data-en="Can I resell my share?">持分は売却できますか？</button>
-        <div class="faq-a" data-en="Yes. You can sell your share to other SOLUNA members or external buyers at any time. We also have a matching service within the community.">はい。持分はSOLUNAメンバー内または外部に随時売却できます。コミュニティ内のマッチングサービスもあります。</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" data-en="Can companies and teams use SOLUNA?">法人や複数人のチームで利用できますか？</button>
-        <div class="faq-a" data-en="Yes. Retreats, team building, offsite meetings — corporate use is available. We can arrange accommodation for your entire team.">はい。合宿・チームビルディング・オフサイトミーティングなど、法人名義でのご利用も可能です。チーム全員の滞在を一括手配することもできます。</div>
-      </div>
-    </div>
-    <a href="/scheme" class="faq-contact" data-en="Learn the full scheme →" data-sln-track="consultation_click">スキームを詳しく見る →</a>
+<!-- Hero copy -->
+<div id="hero">
+  <div id="hero-tag" data-ja="北海道3万坪 · 熱海 · ハワイ  ·  780万円〜 · 年間30泊 · 登記所有" data-en="Hokkaido 30,000 tsubo · Atami · Hawaii  ·  From ¥7.8M · 30 nights/yr · Registered ownership">北海道3万坪 · 熱海 · ハワイ  ·  780万円〜 · 年間30泊 · 登記所有</div>
+  <h1 id="hero-copy" data-ja="帰ってくる場所が、ある。" data-en="A place that's always yours.">帰ってくる場所が、ある。</h1>
+  <p id="hero-sub" data-ja="だから10人で持つ。コストは10分の1、使わない日もプロが管理する。犬を連れて、サウナに入って、また来たいと思える場所。" data-en="So share it with 10 — a tenth of the cost, professionally managed year-round. A place with dogs, saunas, and wild nature. One you'll keep coming back to.">だから10人で持つ。コストは10分の1、使わない日もプロが管理する。犬を連れて、サウナに入って、また来たいと思える場所。</p>
+  <div id="hero-ctas">
+    <button class="hcta primary" data-open="collection" data-ja="物件を見る →" data-en="Browse Properties →">物件を見る →</button>
+    <button class="hcta" data-open="scheme" data-ja="📅 稼働カレンダーを見る" data-en="📅 View Open Calendar">📅 稼働カレンダーを見る</button>
+    <button class="hcta" data-open="zamna" data-ja="🎪 ZAMNA HAWAII" data-en="🎪 ZAMNA HAWAII">🎪 ZAMNA HAWAII</button>
   </div>
-</section>
+</div>
 
-<!-- ──────── FEST ──────── -->
-<a id="fest" href="/zamna" data-track="nav_fest">
-  <div id="fest-bg"></div>
-  <div class="fest-content reveal">
-    <div class="fest-left">
-      <p class="fest-label" data-en="01 — Fest · Where you meet">02 — FEST · 出会いの場</p>
-      <h2 class="fest-title">SOLUNA FEST<br>HAWAII 2026</h2>
-      <p class="fest-meta" data-en="ZAMNA × SOLUNA &amp;nbsp;·&amp;nbsp; Date TBD &amp;nbsp;·&amp;nbsp; Moanalua Gardens, Oahu">ZAMNA × SOLUNA &nbsp;·&nbsp; 日程未定 &nbsp;·&nbsp; Moanalua Gardens, Oahu</p>
-      <p class="fest-context" data-en="ZAMNA, born in Mexico, is the world&#39;s leading outdoor electronic festival. Their first Hawaii show with SOLUNA. Tickets open to non-members.">ZAMNAはメキシコ発、世界が注目するアウトドア・エレクトロニック・フェス。SOLUNAとの初のハワイ公演。チケットはメンバー以外も購入可能。</p>
-      <div class="fest-tags">
-        <span class="tag">Underground Electronic</span>
-        <span class="tag">Outdoor</span>
-        <span class="tag">Hawaii 2026</span>
-        <span class="tag">ZAMNA × SOLUNA</span>
-      </div>
-      <div class="fest-signup" id="fest-signup-area">
-        <p class="fest-signup-label" data-en="Be first to know the date">日程発表を最初に受け取る</p>
-        <div class="fest-email-row" id="fest-form-row">
-          <input type="email" placeholder="your@email.com" id="fest-email" autocomplete="email">
-          <button type="button" id="fest-submit" data-en="Notify me">通知を受け取る</button>
-        </div>
-        <p class="fest-sent" id="fest-sent" data-en="✓ Registered">✓ 登録しました</p>
-      </div>
-    </div>
-    <div class="fest-arrow">→</div>
-  </div>
-</a>
-
-<!-- ──────── BLANK ──────── -->
-<a id="blank" href="/blank" data-track="nav_blank">
-  <div id="blank-bg"></div>
-  <div class="blank-content reveal">
+<!-- Start menu -->
+<div id="startmenu">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+    <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#c8a455,#e8c97a);display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#000;font-weight:700;flex-shrink:0">S</div>
     <div>
-      <p class="blank-label" data-en="04 — BLANK · A retreat for people who execute">03 — BLANK · 実行する人のための合宿</p>
-      <h2 class="blank-title">BLANK</h2>
-      <p class="blank-sub" data-en="Don&#39;t think. Decide. Move. Execute.<br>A small-group retreat at SOLUNA owner properties.">
-        考えもしない。ただ決める。進める。実行する。<br>
-        実行し、思考をとめ、遊び、また進める。SOLUNAオーナーの物件で行われる、少人数の合宿。
-      </p>
-      <div class="blank-tags">
-        <span class="tag" data-en="Small group">少人数</span>
-        <span class="tag" data-en="Self-awareness">自己認識</span>
-        <span class="tag" data-en="AI">AI活用</span>
-        <span class="tag" data-en="Martial arts">武道</span>
-        <span class="tag" data-en="Product">プロダクト</span>
-      </div>
-      <div class="blank-form-row" id="blank-form-row">
-        <input type="email" id="blank-email" placeholder="日程の案内を受け取る" autocomplete="email">
-        <button type="button" id="blank-submit" data-en="Sign up">登録</button>
-      </div>
-      <p class="blank-signup-sent" id="blank-sent">✓ 登録しました</p>
+      <div style="font-size:.78rem;font-weight:700;color:#fff">SOLUNA</div>
+      <div style="font-size:.65rem;color:rgba(255,255,255,.4)">RESORT · FESTIVAL</div>
     </div>
-    <div class="blank-arrow">→</div>
   </div>
-</a>
+  <input id="start-search" type="text" placeholder="🔍 検索...">
+  <div id="sm-all-apps" style="font-size:.6rem;color:rgba(255,255,255,.32);margin:10px 0 6px;letter-spacing:.08em">すべてのアプリ</div>
+  <div id="start-grid"></div>
+</div>
 
-<!-- ──────── COMMUNITY ──────── -->
-<section id="community">
-  <div id="community-bg"></div>
-  <div class="community-inner reveal">
-    <p class="sh-label" style="margin-bottom:18px" data-en="03 — Community · Why we built this">04 — Community · なぜ作っているか</p>
-    <h2 class="community-title" data-en="Building community through<br>music, martial arts, and architecture.">音楽と武道と建築で、<br>コミュニティをつくる。</h2>
-    <p class="community-body" data-en="SOLUNA is not a travel service or a real estate product.<br>An experiment in a new way of living — bringing home revitalization,<br>technology, and human connection into one place.">
-      SOLUNAは旅行サービスでも不動産商品でもない。<br>
-      家の再生とテクノロジーと人のつながりを<br>
-      ひとつの場所に集めた、新しい暮らし方の実験。
-    </p>
-    <div class="keywords">
-      <span class="keyword" data-en="Home revival">家再生</span>
-      <span class="keyword" data-en="Architecture">建築</span>
-      <span class="keyword" data-en="Technology">テクノロジー</span>
-      <span class="keyword" data-en="Music">音楽</span>
-      <span class="keyword" data-en="Art">アート</span>
-      <span class="keyword" data-en="Martial arts">武道</span>
-    </div>
-    <a href="/soluna-app" class="community-cta" data-track="nav_app" data-en="Soluna App — Sync music in real time →">
-      Soluna App — 音楽をリアルタイムで同期する →
-    </a>
+<!-- Dock (Windowsタスクバー) -->
+<div id="dock">
+  <div id="start-btn">
+    <div class="em">⊞</div>
   </div>
+  <div class="dock-sep"></div>
+  <div id="dock-apps"></div>
+  <div class="dock-sep" id="min-sep" style="display:none"></div>
+  <div id="dock-minimized"></div>
+  <!-- 右端: 言語切り替え + 時計 -->
+  <div style="margin-left:auto;display:flex;align-items:center;gap:4px;flex-shrink:0">
+    <button id="lang-btn" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:5px;color:rgba(255,255,255,.7);font-size:.62rem;padding:3px 8px;cursor:pointer;transition:background .15s;font-family:inherit">EN</button>
+    <div id="taskbar-clock" style="padding:0 10px;font-size:.65rem;color:rgba(255,255,255,.55);text-align:right;line-height:1.4"></div>
+  </div>
+</div>
 
-  <footer>
-    <div class="footer-logo">SOLUNA</div>
-    <div class="footer-links">
-      <a href="/zamna">Fest</a>
-      <a href="#places">Places</a>
-      <a href="/blank">BLANK</a>
-      <a href="/soluna-app">App</a>
-      <a href="mailto:info@solun.art">Contact</a>
+<!-- Mobile view -->
+<div id="mobile-view">
+  <!-- ヒーロー -->
+  <div id="m-hero">
+    <div class="m-tag" id="m-tag" data-ja="北海道 · 熱海 · ハワイ" data-en="Hokkaido · Atami · Hawaii">北海道 · 熱海 · ハワイ</div>
+    <h1 id="m-copy" data-ja="帰ってくる場所が、ある。" data-en="A place that's always yours.">帰ってくる場所が、ある。</h1>
+    <p id="m-sub" data-ja="北海道3万坪の大地、熱海、ハワイ。犬を連れて、サウナに入って、柔術を練習して、焚き火で話す。1口780万円〜、年間30泊。それがSOLUNA。" data-en="30,000 tsubo of Hokkaido wilderness, Atami, Hawaii. Bring your dog, hit the sauna, train jiu-jitsu, sit around the fire. From ¥7.8M, 30 nights/year. That's SOLUNA.">北海道3万坪の大地、熱海、ハワイ。犬を連れて、サウナに入って、柔術を練習して、焚き火で話す。1口780万円〜、年間30泊。それがSOLUNA。</p>
+    <div class="m-ctas">
+      <a href="/collection" class="mcta primary" id="m-cta1" data-ja="物件を見る →" data-en="Browse Properties →">物件を見る →</a>
+      <a href="/scheme" class="mcta" id="m-cta2" data-ja="スキームを知る" data-en="How It Works">スキームを知る</a>
     </div>
-    <div class="footer-copy">solun.art</div>
-  </footer>
-</section>
+    <div class="m-ctas" style="margin-top:6px">
+      <a href="/zamna" class="mcta primary" style="font-size:.74rem">🎪 ZAMNA×SOLUNA HAWAII Sep 2026</a>
+    </div>
+    <div class="m-ctas" style="margin-top:6px">
+      <a href="/kagawa-akiya" class="mcta" id="m-cta3" data-ja="🏠 空き家を探す" data-en="🏠 Vacant Houses">🏠 空き家を探す</a>
+      <a href="/calendar" class="mcta" data-ja="📅 カレンダー" data-en="📅 Calendar">📅 カレンダー</a>
+    </div>
+    <button id="m-lang-btn">EN</button>
+  </div>
+  <!-- アプリ一覧 -->
+  <div id="m-apps"></div>
+</div>
 
 <script>
 (function(){
-  const API_BASE = '';
+'use strict';
 
-  // Analytics
-  const SID = (() => {
-    let v = sessionStorage.getItem('sln_sid');
-    if (!v) { v = Math.random().toString(36).slice(2)+Date.now().toString(36); sessionStorage.setItem('sln_sid',v); }
-    return v;
-  })();
-  window._sln_track = function(event, extra) {
-    try {
-      fetch('https://kagi-server.fly.dev/api/v1/soluna/track', {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify(Object.assign({ event, session_id: SID, page:'index' }, extra||{})),
-        keepalive: true
-      }).catch(()=>{});
-    } catch(e){}
-  };
-  _sln_track('page_view');
+// ── Data ────────────────────────────────────────────────────────────────────
 
-  document.querySelectorAll('[data-track]').forEach(function(el) {
-    el.addEventListener('click', function() { _sln_track(el.dataset.track); });
-  });
+var PHOTOS = [
+  {src:'/img/kumaushi_spring_panorama.webp',   cap:'熊牛 春の大地',           en:'Kumaushi · Spring Fields'},
+  {src:'/img/kussharo_night_aerial.jpg',        cap:'屈斜路湖 夜空',           en:'Lake Kussharo · Night Sky'},
+  {src:'/img/container_night_stars.webp',       cap:'Stars · SOLUNA',          en:'Stars · SOLUNA'},
+  {src:'/img/miruwa_sunset_panorama.webp',      cap:'美留和 夕暮れ',           en:'Miruwa · Sunset'},
+  {src:'/img/tapkop_real2.webp',                cap:'TAPKOP',                  en:'TAPKOP'},
+  {src:'/img/kumaushi_b_bonfire_night.webp',    cap:'焚き火の夜',              en:'Bonfire Night'},
+  {src:'/img/integrated_summer_aerial.jpg',     cap:'ビレッジ 俯瞰',           en:'Village · Aerial'},
+  {src:'/img/atami_sunset_ocean.webp',          cap:'熱海 オーシャンビュー',   en:'Atami · Ocean View'},
+  {src:'/img/lodge_hot_spring_night.webp',      cap:'The Lodge · 夜の温泉',    en:'The Lodge · Night Onsen'},
+  {src:'/img/kumaushi_c_fireflies_night.webp',  cap:'蛍の夜',                  en:'Firefly Night'},
+  {src:'/img/kagawa_hero_real.jpg',             cap:'香川 空き家',             en:'Kagawa · Vacant House'},
+];
 
-  // ── Hero email form ──
-  var heroForm = document.getElementById('hero-form');
-  var heroSent = document.getElementById('hero-sent');
-  heroForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    var email = heroForm.querySelector('input').value.trim();
-    if (!email) return;
-    fetch('/api/email', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ email: email, locale: 'ja' })
-    }).then(function() {
-      heroForm.style.display = 'none';
-      heroSent.classList.add('show');
-      _sln_track('email_signup_hero', { email: email });
-      if(window.sln) sln.track('email_signup', {source:'index_hero'});
-    }).catch(function() {
-      heroSent.textContent = 'エラーが発生しました。後ほど再試行ください。';
-      heroSent.classList.add('show');
-    });
-  });
+// group: 'resort'=共同所有, 'akiya'=空き家, 'fest'=フェス, 'more'=その他
+var APPS = [
+  // ── 共同所有リゾート ──
+  {id:'collection',em:'🏡', lbl:'物件一覧',        en:'Properties',     url:'/collection',    dock:true,  group:'resort'},
+  {id:'scheme',    em:'🗺️', lbl:'スキーム',        en:'How It Works',   url:'/scheme',        dock:true,  group:'resort'},
+  {id:'buy',       em:'💰', lbl:'購入・申込',       en:'Buy / Apply',    url:'/buy',           dock:true,  group:'resort'},
+  {id:'village',   em:'🏘️', lbl:'ビレッジ',        en:'Village',        url:'/village',       dock:false, group:'resort'},
+  {id:'tapkop',    em:'🏔️', lbl:'TAPKOP',          en:'TAPKOP',         url:'/tapkop',        dock:false, group:'resort'},
+  {id:'invest',    em:'📋', lbl:'オーナー向け資料',   en:'Owner Info',     url:'/investor',      dock:false, group:'resort'},
+  // ── 空き家プロジェクト ──
+  {id:'kagawa',    em:'🌊', lbl:'香川の空き家',    en:'Kagawa House',   url:'/kagawa-akiya',  dock:false, group:'akiya'},
+  {id:'wakayama',  em:'🌲', lbl:'和歌山の空き家',  en:'Wakayama House', url:'/wakayama-akiya',dock:false, group:'akiya'},
+  {id:'teshikaga', em:'🦢', lbl:'弟子屈の空き家',  en:'Teshikaga House',url:'/kussharo',      dock:false, group:'akiya'},
+  {id:'atami-akiya',em:'🏖️',lbl:'熱海の空き家',   en:'Atami House',    url:'/atami-akiya',   dock:false, group:'akiya'},
+  // ── ZAMNA フェス ──
+  {id:'zamna',     em:'🎪', lbl:'ZAMNA HAWAII',   en:'ZAMNA HAWAII',   url:'/zamna',         dock:true,  group:'fest'},
+  {id:'lineup',    em:'🎤', lbl:'ラインナップ',    en:'Lineup',         url:'/lineup',        dock:false, group:'fest'},
+  {id:'tickets',   em:'🎫', lbl:'チケット',        en:'Tickets',        url:'/tickets',       dock:false, group:'fest'},
+  // ── その他 ──
+  {id:'app',       em:'📱', lbl:'アプリ',          en:'Member App',     url:'/app',           dock:true,  group:'more'},
+  {id:'community', em:'💬', lbl:'コミュニティ',    en:'Community',      url:'/community',     dock:false, group:'more'},
+  {id:'blog',      em:'📝', lbl:'ブログ',          en:'Blog',           url:'/blog',          dock:false, group:'more'},
+  {id:'sound',     em:'🎵', lbl:'サウンド',        en:'Sound',          url:'/sound',         dock:false, group:'more'},
+  {id:'faq',       em:'❓', lbl:'FAQ',             en:'FAQ',            url:'/faq',           dock:false, group:'more'},
+];
 
-  // ── Fest email form (stops click propagation so it doesn't nav to /zamna) ──
-  var festSubmit = document.getElementById('fest-submit');
-  var festEmail  = document.getElementById('fest-email');
-  var festSent   = document.getElementById('fest-sent');
-  var festFormRow = document.getElementById('fest-form-row');
+var KB = ['kb1','kb2','kb3'];
+var curSlide = 0, prevSlide = -1;
+var slideEls = [];
+var topZ = 200, winOffset = 0;
+var startOpen = false;
+var wins = {};
+var currentLang = localStorage.getItem('soluna_lang') || 'ja';
 
-  document.getElementById('fest-signup-area').addEventListener('click', function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-  });
-  festSubmit.addEventListener('click', function(e) {
-    e.stopPropagation(); e.preventDefault();
-    var email = festEmail.value.trim();
-    if (!email || !email.includes('@')) return;
-    fetch('/api/email', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ email: email, locale: 'ja' })
-    }).then(function() {
-      festFormRow.style.display = 'none';
-      festSent.classList.add('show');
-      _sln_track('email_signup_fest', { email: email });
-      if(window.sln) sln.track('email_signup', {source:'index_fest'});
-    }).catch(function() {
-      festSent.textContent = 'エラー。後ほど再試行ください。';
-      festSent.classList.add('show');
-    });
-  });
+function t(app){ return currentLang === 'en' ? (app.en || app.lbl) : app.lbl; }
+function tCap(ph){ return currentLang === 'en' ? (ph.en || ph.cap) : ph.cap; }
 
-  // ── FAQ accordion ──
-  document.querySelectorAll('.faq-q').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var item = btn.closest('.faq-item');
-      var wasOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(function(el){ el.classList.remove('open'); });
-      if (!wasOpen) item.classList.add('open');
-    });
-  });
+// ── Wallpaper ────────────────────────────────────────────────────────────────
 
-  // ── BLANK email signup ──
-  var blankSubmit = document.getElementById('blank-submit');
-  if (blankSubmit) {
-    blankSubmit.addEventListener('click', function(e) {
-      e.stopPropagation();
-      e.preventDefault();
-      var email = document.getElementById('blank-email').value.trim();
-      if (!email) return;
-      fetch('/api/email', {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ email: email, tag: 'blank', locale: 'ja' })
-      }).then(function() {
-        document.getElementById('blank-form-row').style.display = 'none';
-        var sent = document.getElementById('blank-sent');
-        sent.classList.add('show');
-      }).catch(function(){
-        var sent = document.getElementById('blank-sent');
-        sent.classList.add('show');
-      });
-    });
-    document.getElementById('blank-email').addEventListener('click', function(e){ e.stopPropagation(); });
-    document.getElementById('blank-email').addEventListener('keydown', function(e){
-      e.stopPropagation();
-      if (e.key === 'Enter') { e.preventDefault(); blankSubmit.click(); }
-    });
+var wallpaperEl = document.getElementById('wallpaper');
+var captionEl   = document.getElementById('caption');
+var overlayEl   = document.getElementById('wallpaper-overlay');
+
+// Create slide divs
+PHOTOS.forEach(function(ph, i){
+  var el = document.createElement('div');
+  el.className = 'slide';
+  el.style.backgroundImage = "url('" + ph.src + "')";
+  el.style.animationName = KB[i % 3];
+  slideEls.push(el);
+  wallpaperEl.insertBefore(el, overlayEl);
+});
+
+function showSlide(idx){
+  // Freeze outgoing
+  if (prevSlide >= 0 && slideEls[prevSlide]) {
+    var outEl = slideEls[prevSlide];
+    var frozen = window.getComputedStyle(outEl).transform;
+    outEl.style.transform = frozen;
+    outEl.style.animationName = 'none';
+    outEl.classList.remove('active');
+    outEl.classList.add('out');
+    setTimeout(function(){
+      outEl.classList.remove('out');
+      outEl.style.transform = '';
+      outEl.style.animationName = KB[prevSlide % 3];
+    }, 2600);
   }
-
-  // ── Reveal on scroll ──
-  var io = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  prevSlide = curSlide;
+  curSlide = idx;
+  var el = slideEls[curSlide];
+  el.style.animationName = 'none';
+  el.style.transform = '';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      el.style.animationName = KB[curSlide % 3];
+      el.classList.add('active');
     });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(function(el, i) {
-    el.style.transitionDelay = (i % 3) * 70 + 'ms';
-    io.observe(el);
+  });
+  if (captionEl) captionEl.textContent = tCap(PHOTOS[curSlide]);
+}
+
+// Shuffle order
+var order = PHOTOS.map(function(_,i){return i});
+for(var i=order.length-1;i>0;i--){
+  var j=Math.floor(Math.random()*(i+1)); var tmp=order[i]; order[i]=order[j]; order[j]=tmp;
+}
+showSlide(order[0]);
+var orderIdx = 0;
+setInterval(function(){
+  orderIdx = (orderIdx+1) % order.length;
+  showSlide(order[orderIdx]);
+}, 9000);
+
+// ── Clock ─────────────────────────────────────────────────────────────────────
+var clockEl = document.getElementById('clock');
+function updateClock(){
+  if(!clockEl) return;
+  clockEl.textContent = new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});
+}
+updateClock(); setInterval(updateClock, 10000);
+
+// ── Build desktop icons & dock ────────────────────────────────────────────────
+var desktopIconsEl = document.getElementById('desktop-icons');
+var dockAppsEl     = document.getElementById('dock-apps');
+var startGridEl    = document.getElementById('start-grid');
+var mobileAppsEl   = document.getElementById('m-apps');
+
+var GROUP_LABELS = {
+  resort: {ja:'共同所有リゾート', en:'Co-ownership Resort'},
+  akiya:  {ja:'空き家プロジェクト', en:'Vacant House Projects'},
+  fest:   {ja:'ZAMNA フェス', en:'ZAMNA Festival'},
+  more:   {ja:'その他', en:'More'},
+};
+
+function buildUI(){
+  desktopIconsEl.innerHTML = '';
+  dockAppsEl.innerHTML = '';
+  startGridEl.innerHTML = '';
+  mobileAppsEl.innerHTML = '';
+
+  var lastGroup = null;
+  var lastMGroup = null;
+
+  APPS.forEach(function(app){
+    var label = t(app);
+
+    // Dock
+    if (app.dock) {
+      var dk = document.createElement('div');
+      dk.className = 'dkicon';
+      dk.setAttribute('data-app-id', app.id);
+      dk.innerHTML = '<span class="em">'+app.em+'</span><span class="lbl">'+label+'</span>';
+      dk.addEventListener('click', (function(a){ return function(){ openWin(a.url, t(a), a.em, a.id); }; })(app));
+      dockAppsEl.appendChild(dk);
+    } else {
+      // Desktop icons (non-dock only)
+      var d = document.createElement('div');
+      d.className = 'dicon';
+      d.innerHTML = '<span class="em">'+app.em+'</span><span class="lbl">'+label+'</span>';
+      d.addEventListener('click', (function(a){ return function(){ openWin(a.url, t(a), a.em, a.id); }; })(app));
+      desktopIconsEl.appendChild(d);
+    }
+
+    // Start menu with group headers
+    if (app.group !== lastGroup) {
+      lastGroup = app.group;
+      var gh = document.createElement('div');
+      gh.className = 'sgroup-header';
+      gh.textContent = currentLang === 'en' ? GROUP_LABELS[app.group].en : GROUP_LABELS[app.group].ja;
+      startGridEl.appendChild(gh);
+    }
+    var si = document.createElement('div');
+    si.className = 'sitem';
+    si.setAttribute('data-lbl', label);
+    si.innerHTML = '<span class="em">'+app.em+'</span><span class="lbl">'+label+'</span>';
+    si.addEventListener('click', (function(a){ return function(){
+      openWin(a.url, t(a), a.em, a.id);
+      closeStart();
+    }; })(app));
+    startGridEl.appendChild(si);
+
+    // Mobile list with group headers
+    if (app.group !== lastMGroup) {
+      lastMGroup = app.group;
+      var mgh = document.createElement('div');
+      mgh.className = 'mgroup-header';
+      mgh.textContent = currentLang === 'en' ? GROUP_LABELS[app.group].en : GROUP_LABELS[app.group].ja;
+      mobileAppsEl.appendChild(mgh);
+    }
+    var mc = document.createElement('a');
+    mc.className = 'mcard';
+    mc.href = app.url;
+    mc.innerHTML = '<span class="em">'+app.em+'</span><span class="lbl">'+label+'</span>';
+    mobileAppsEl.appendChild(mc);
   });
 
-  // ── Hero parallax ──
-  var heroBg = document.getElementById('hero-bg');
-  window.addEventListener('scroll', function() {
-    var y = window.scrollY;
-    if (y < window.innerHeight * 1.2) {
-      heroBg.style.transform = 'translateY(' + (y * 0.18) + 'px)';
+  // Menubar labels
+  document.querySelectorAll('.mlbl[data-ja]').forEach(function(el){
+    el.textContent = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-ja');
+  });
+
+  // Start menu labels
+  var smAllApps = document.getElementById('sm-all-apps');
+  var smSearch  = document.getElementById('start-search');
+  if (smAllApps) smAllApps.textContent = currentLang === 'en' ? 'All Apps' : 'すべてのアプリ';
+  if (smSearch)  smSearch.placeholder   = currentLang === 'en' ? '🔍 Search...' : '🔍 検索...';
+
+  // Lang button
+  var lb = document.getElementById('lang-btn');
+  if (lb) lb.textContent = currentLang === 'en' ? '日本語' : 'EN';
+
+  // Hero copy (desktop)
+  document.querySelectorAll('#hero [data-ja]').forEach(function(el){
+    el.textContent = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-ja');
+  });
+
+  // Hero copy (mobile)
+  document.querySelectorAll('#m-hero [data-ja]').forEach(function(el){
+    el.textContent = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-ja');
+  });
+  var mlb = document.getElementById('m-lang-btn');
+  if (mlb) mlb.textContent = currentLang === 'en' ? '日本語' : 'EN';
+}
+
+buildUI();
+
+// ── Hero CTA clicks ───────────────────────────────────────────────────────────
+document.querySelectorAll('.hcta[data-open]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var id = btn.getAttribute('data-open');
+    var app = APPS.find(function(a){ return a.id === id; });
+    if (app) openWin(app.url, t(app), app.em, app.id);
+  });
+});
+
+// ── 空き家サブメニュー ────────────────────────────────────────────────────────
+var akiyaBtn    = document.getElementById('mb-akiya');
+var akiyaMenu   = document.getElementById('akiya-submenu');
+var akiyaOpen   = false;
+if (akiyaBtn && akiyaMenu) {
+  akiyaBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    akiyaOpen = !akiyaOpen;
+    akiyaMenu.style.display = akiyaOpen ? 'block' : 'none';
+    if (akiyaOpen) {
+      var r = akiyaBtn.getBoundingClientRect();
+      akiyaMenu.style.left = r.left + 'px';
     }
-  }, { passive: true });
+  });
+  document.addEventListener('click', function(){ akiyaOpen=false; akiyaMenu.style.display='none'; });
+}
+
+// ── Menu bar clicks ───────────────────────────────────────────────────────────
+document.querySelectorAll('.mlbl[data-open]').forEach(function(el){
+  el.addEventListener('click', function(){
+    var id = el.getAttribute('data-open');
+    var app = APPS.find(function(a){ return a.id === id; });
+    if (app) openWin(app.url, app.lbl, app.em, app.id);
+  });
+});
+
+// ── Start menu ────────────────────────────────────────────────────────────────
+var startMenuEl = document.getElementById('startmenu');
+var startBtnEl  = document.getElementById('start-btn');
+var searchEl    = document.getElementById('start-search');
+
+function positionStartMenu(){
+  // Windows style: fixed bottom-left above taskbar (set via CSS, no dynamic calc needed)
+  startMenuEl.style.maxHeight = (window.innerHeight - 80) + 'px';
+}
+
+function toggleStart(){
+  startOpen = !startOpen;
+  startMenuEl.classList.toggle('open', startOpen);
+  startBtnEl.classList.toggle('open', startOpen);
+  startBtnEl.querySelector('.em').textContent = startOpen ? '✕' : '⊞';
+  if (startOpen) { positionStartMenu(); searchEl.value=''; filterStart(''); searchEl.focus(); }
+}
+function closeStart(){
+  if (!startOpen) return;
+  startOpen = false;
+  startBtnEl.classList.remove('open');
+  startBtnEl.querySelector('.em').textContent = '⊞';
+  startMenuEl.classList.add('closing');
+  startMenuEl.classList.remove('open');
+  setTimeout(function(){ startMenuEl.classList.remove('closing'); }, 180);
+}
+
+startBtnEl.addEventListener('click', toggleStart);
+
+searchEl.addEventListener('input', function(){ filterStart(this.value); });
+function filterStart(q){
+  q = q.toLowerCase();
+  document.querySelectorAll('.sitem').forEach(function(el){
+    var lbl = el.getAttribute('data-lbl') || '';
+    el.style.display = (!q || lbl.includes(q)) ? '' : 'none';
+  });
+}
+document.addEventListener('click', function(e){
+  if (startOpen && !startMenuEl.contains(e.target) && !startBtnEl.contains(e.target)){
+    closeStart();
+  }
+});
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape' && startOpen) closeStart();
+});
+
+// ── Language toggle ───────────────────────────────────────────────────────────
+function toggleLang(){
+  currentLang = currentLang === 'ja' ? 'en' : 'ja';
+  localStorage.setItem('soluna_lang', currentLang);
+  buildUI();
+}
+var langBtnEl = document.getElementById('lang-btn');
+if (langBtnEl) langBtnEl.addEventListener('click', toggleLang);
+var mLangBtnEl = document.getElementById('m-lang-btn');
+if (mLangBtnEl) mLangBtnEl.addEventListener('click', toggleLang);
+
+// ── Taskbar clock ────────────────────────────────────────────────────────────
+var taskbarClockEl = document.getElementById('taskbar-clock');
+function updateTaskbarClock(){
+  if (!taskbarClockEl) return;
+  var now = new Date();
+  var h = now.getHours(), m = now.getMinutes();
+  var mo = now.getMonth()+1, d = now.getDate();
+  taskbarClockEl.innerHTML =
+    (h<10?'0':'')+h+':'+(m<10?'0':'')+m+'<br>'+mo+'/'+d;
+}
+updateTaskbarClock();
+setInterval(updateTaskbarClock, 30000);
+
+// ── Hash routing helpers ──────────────────────────────────────────────────────
+function findAppById(appId){
+  return APPS.find(function(a){ return a.id === appId; });
+}
+function pushHash(appId, title){
+  history.pushState({appId:appId}, title||'SOLUNA', '/#'+appId);
+}
+function getFrontAppId(){
+  var maxZ = 0, appId = null;
+  Object.keys(wins).forEach(function(id){
+    var w = wins[id];
+    if (!w.min && w.appId && parseInt(w.el.style.zIndex)||0 > maxZ){
+      maxZ = parseInt(w.el.style.zIndex)||0;
+      appId = w.appId;
+    }
+  });
+  return appId;
+}
+
+// ── Window manager ────────────────────────────────────────────────────────────
+function openWin(url, title, em, appId){
+  topZ++;
+  var off = (winOffset % 10) * 28;
+  winOffset++;
+  var vw = window.innerWidth, vh = window.innerHeight;
+  var ww = Math.min(980, vw - 60);
+  var wh = Math.min(660, vh - 100);
+  var x = 48 + off, y = 36 + off;
+
+  var id = 'w' + Date.now();
+
+  // Create window element
+  var el = document.createElement('div');
+  el.className = 'win';
+  el.id = id;
+  el.style.cssText = 'left:'+x+'px;top:'+y+'px;width:'+ww+'px;height:'+wh+'px;z-index:'+topZ;
+
+  var bar = document.createElement('div');
+  bar.className = 'winbar';
+  bar.innerHTML =
+    '<button class="wbtn" style="background:#ff5f57" title="閉じる"></button>'+
+    '<button class="wbtn" style="background:#febc2e" title="最小化"></button>'+
+    '<button class="wbtn" style="background:#28c840" title="最大化"></button>'+
+    '<span class="wtitle">'+em+' '+title+'</span>';
+
+  var body = document.createElement('div');
+  body.className = 'winbody';
+  body.style.height = (wh - 36) + 'px';
+  var embedUrl = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'embed=1';
+  body.innerHTML = '<iframe src="'+embedUrl+'" loading="lazy"></iframe>';
+
+  el.appendChild(bar);
+  el.appendChild(body);
+  document.body.appendChild(el);
+
+  wins[id] = {el:el, body:body, bar:bar, url:url, title:title, em:em, x:x, y:y, w:ww, h:wh, min:false, appId:appId||null};
+
+  // Push hash URL
+  if (appId) pushHash(appId, title);
+
+  // Buttons
+  var btns = bar.querySelectorAll('.wbtn');
+  btns[0].addEventListener('click', function(e){ e.stopPropagation(); closeWin(id); });
+  btns[1].addEventListener('click', function(e){ e.stopPropagation(); toggleMin(id); });
+  btns[2].addEventListener('click', function(e){ e.stopPropagation(); maximizeWin(id); });
+
+  // Drag
+  bar.addEventListener('mousedown', function(e){
+    if (e.target.tagName === 'BUTTON') return;
+    bringToFront(id);
+    var startX = e.clientX, startY = e.clientY;
+    var ox = wins[id].x, oy = wins[id].y;
+    function onMove(e2){
+      var nx = ox + e2.clientX - startX;
+      var ny = oy + e2.clientY - startY;
+      wins[id].x = nx; wins[id].y = ny;
+      el.style.left = nx+'px'; el.style.top = ny+'px';
+    }
+    function onUp(){ document.removeEventListener('mousemove',onMove); document.removeEventListener('mouseup',onUp); }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+    e.preventDefault();
+  });
+
+  el.addEventListener('mousedown', function(){ bringToFront(id); });
+  return id;
+}
+
+function bringToFront(id){
+  topZ++;
+  if (wins[id]) {
+    wins[id].el.style.zIndex = topZ;
+    if (wins[id].appId) pushHash(wins[id].appId, wins[id].title);
+  }
+  if (startOpen) closeStart();
+}
+
+function closeWin(id){
+  if (!wins[id]) return;
+  wins[id].el.remove();
+  delete wins[id];
+  updateDockMinimized();
+  // Update URL: show frontmost or reset to /
+  var front = getFrontAppId();
+  if (front) pushHash(front, '');
+  else history.pushState({}, 'SOLUNA', '/');
+}
+
+function toggleMin(id){
+  if (!wins[id]) return;
+  var w = wins[id];
+  w.min = !w.min;
+  w.el.classList.toggle('minimized', w.min);
+  if (!w.min) bringToFront(id);
+  updateDockMinimized();
+}
+
+function maximizeWin(id){
+  if (!wins[id]) return;
+  var w = wins[id];
+  var el = w.el;
+  if (el.style.left === '0px' && el.style.top === '28px') {
+    el.style.left = w.ox+'px'; el.style.top = w.oy+'px';
+    el.style.width = w.ow+'px'; el.style.height = w.oh+'px';
+    w.body.style.height = (w.oh - 36)+'px';
+  } else {
+    w.ox = w.x; w.oy = w.y; w.ow = w.w; w.oh = w.h;
+    el.style.left='0'; el.style.top='28px';
+    el.style.width = window.innerWidth+'px'; el.style.height = (window.innerHeight-28)+'px';
+    w.body.style.height = (window.innerHeight-64)+'px';
+  }
+}
+
+function updateDockMinimized(){
+  var minSep = document.getElementById('min-sep');
+  var minDock = document.getElementById('dock-minimized');
+  minDock.innerHTML = '';
+  var hasMins = false;
+  Object.keys(wins).forEach(function(id){
+    var w = wins[id];
+    if (!w.min) return;
+    hasMins = true;
+    var dk = document.createElement('div');
+    dk.className = 'dkicon';
+    dk.style.opacity = '.7';
+    dk.innerHTML = '<span class="em">'+w.em+'</span><span class="lbl" style="color:var(--gold)">'+w.title+'</span>';
+    dk.addEventListener('click', function(){ toggleMin(id); });
+    minDock.appendChild(dk);
+  });
+  minSep.style.display = hasMins ? '' : 'none';
+}
+
+// ── Hash routing: init + back button ─────────────────────────────────────────
+var initHash = location.hash.replace(/^#/, '');
+if (initHash) {
+  var initApp = findAppById(initHash);
+  if (initApp) openWin(initApp.url, initApp.lbl, initApp.em, initApp.id);
+}
+
+window.addEventListener('popstate', function(){
+  var hash = location.hash.replace(/^#/, '');
+  if (!hash) return;
+  var already = Object.keys(wins).some(function(id){ return wins[id].appId === hash; });
+  if (!already) {
+    var app = findAppById(hash);
+    if (app) openWin(app.url, app.lbl, app.em, app.id);
+  }
+});
+
 })();
 </script>
-<script src="/lang.js"></script>
 </body>
 </html>
