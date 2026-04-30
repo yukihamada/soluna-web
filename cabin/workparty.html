@@ -123,6 +123,7 @@ footer{border-top:1px solid #0d0d0d;padding:36px 24px;text-align:center;font-siz
 footer a{color:#2a2a2a}
 </style>
 <script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+<script defer src="/js/sln-track.js"></script>
 </head>
 <body>
 <nav>
@@ -721,6 +722,7 @@ async function submitWP() {
     if (res.ok) {
       document.getElementById('wp-form-inner').style.display = 'none';
       document.getElementById('wp-thanks').style.display = 'block';
+      if (window.sln) sln.track('consultation_click', { source: 'workparty', property: 'workparty_2026_0606' });
     } else { throw new Error(); }
   } catch(e) {
     const subj = encodeURIComponent('ワークパーティ参加申込 6/6');
@@ -734,5 +736,8 @@ async function submitWP() {
 <script defer="" src="/chat-widget.js"></script>
 <script defer="" src="/track.js"></script>
 <script src="/lang.js"></script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
 </body>
 </html>
