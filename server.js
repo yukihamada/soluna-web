@@ -1910,6 +1910,9 @@ app.get("/opengraph-image", (_req, res) => {
   }
 });
 
+// ── Health check ──────────────────────────────────────────────────────────────
+app.get("/api/health", (req, res) => res.json({ ok: true, ts: Date.now() }));
+
 // ── Static assets ─────────────────────────────────────────────────────────────
 app.use("/_next",  express.static(path.join(STATIC_DIR, "_next"), { maxAge: "365d", immutable: true }));
 app.use("/assets", express.static(path.join(STATIC_DIR, "assets")));
@@ -6474,8 +6477,8 @@ const SOLUNA_PROPERTIES = {
   atami:   { name: "WHITE HOUSE 熱海",    slug: "atami",    nights: 36, units:  6, price: 19000000, mgmt:  500000, stay_price:  55000, airbnb_price:  90000, beds24_prop: 243406, beds24_room: 512691, page_url: "/atami",    location: "静岡県 熱海市 · オーシャンビュー",      tags: ["オーシャンビュー","全面ガラス","新幹線45分","温泉"],  img: "property-atami.webp",                desc: "相模湾を一望するガラス張りの白邸。東京から新幹線で45分の近さ。" },
   kumaushi:{ name: "KUMAUSHI BASE",       slug: "kumaushi", nights: 30, units: 20, price:  4800000, mgmt:   80000, stay_price:  80000, airbnb_price: 100000, beds24_prop: 0,      beds24_room: 0,      page_url: "/kumaushi", open_from: "2026-09-01", location: "北海道 弟子屈町 · 熊牛原野",          tags: ["プール","サウナ","バー","DJ","柔術"],                img: "kumaushi_aerial_dawn.webp",           desc: "プール・サウナ・バー・柔術道場。アクティブなコミュニティリゾート。9月グランドオープン予定。" },
   village: { name: "美留和ビレッジ",      slug: "village",  nights: 30, units:100, price:  4900000, mgmt:   80000, stay_price:  30000, airbnb_price:  38000, beds24_prop: 0,      beds24_room: 0,      page_url: "/village",  open_from: "2026-09-01", location: "北海道 弟子屈町 · 美留和",            tags: ["100区画","コミュニティ","広大な敷地","自然農"],       img: "village_aerial.webp",                desc: "100区画の広大なコミュニティ。自然農・薪ストーブ・共同サウナ。9月グランドオープン予定。" },
-  honolulu:{ name: "HONOLULU BEACH VILLA", slug: "honolulu", nights: 30, units:  8, price: 28000000, mgmt:  400000, stay_price:  90000, airbnb_price: 150000, cleaning_fee: 150000, beds24_prop: 243407, beds24_room: 0,      page_url: "/honolulu", min_nights: 30, open_from: "2026-11-01", location: "ハワイ州 ホノルル · 5827 Kalanianaʻole Hwy", tags: ["オーシャンビュー","プール","ラナイ","共同所有","1ヶ月単位"],      img: "property-honolulu.webp",             desc: "ハワイカイのビーチハウス。ハナウマ湾まで5分、ワイキキまで20分。チェックイン15:00〜22:00、チェックアウト11:00。" },
-  maui:    { name: "HAWAII KAI HOUSE",   slug: "maui",     nights: 30, units:  6, price: 38000000, mgmt:  600000, stay_price:  60000, airbnb_price: 175000, cleaning_fee: 150000, beds24_prop: 244738, beds24_room: 0,      page_url: null, min_nights: 30, open_from: "2026-11-01", location: "ハワイ州 ホノルル · ハワイカイ",       tags: ["ビーチフロント","オーシャンビュー","プライベート","1ヶ月単位"],   img: "pro_hawaii_hero.webp",               desc: "ハワイカイのビーチフロント平屋。波音が聞こえる絶景ロケーション。共同所有で持つ、世界最高クラスのヴァケーション体験。11月グランドオープン予定。" },
+  honolulu:{ name: "HONOLULU BEACH VILLA", slug: "honolulu", nights: 30, units:  8, price: 28000000, mgmt:  400000, stay_price:  85000, airbnb_price: 150000, cleaning_fee: 150000, beds24_prop: 243407, beds24_room: 0,      page_url: "/honolulu", min_nights: 30, open_from: "2026-11-01", location: "ハワイ州 ホノルル · 5827 Kalanianaʻole Hwy", tags: ["オーシャンビュー","プール","ラナイ","共同所有","1ヶ月単位"],      img: "property-honolulu.webp",             desc: "ハワイカイのビーチハウス。ハナウマ湾まで5分、ワイキキまで20分。チェックイン15:00〜22:00、チェックアウト11:00。" },
+  maui:    { name: "HAWAII KAI HOUSE",   slug: "maui",     nights: 30, units:  6, price: 38000000, mgmt:  600000, stay_price: 120000, airbnb_price: 175000, cleaning_fee: 150000, beds24_prop: 244738, beds24_room: 0,      page_url: null, min_nights: 30, open_from: "2026-11-01", location: "ハワイ州 ホノルル · ハワイカイ",       tags: ["ビーチフロント","オーシャンビュー","プライベート","1ヶ月単位"],   img: "pro_hawaii_hero.webp",               desc: "ハワイカイのビーチフロント平屋。波音が聞こえる絶景ロケーション。共同所有で持つ、世界最高クラスのヴァケーション体験。11月グランドオープン予定。" },
 };
 
 // GET /api/soluna/properties — active/soon properties from DB (fallback to SOLUNA_PROPERTIES)
@@ -6841,7 +6844,7 @@ app.get("/api/soluna/admin/dashboard", async (req, res) => {
     const memberId = sess.rows[0].member_id;
     const mem = await db.execute({ sql: "SELECT email, member_type FROM soluna_members WHERE id=?", args: [memberId] });
     const m = mem.rows[0];
-    if (!m || (m.member_type !== "admin" && m.email !== "mail@yukihamada.jp")) return res.status(403).json({ error: "forbidden" });
+    if (!m || m.member_type !== "admin") return res.status(403).json({ error: "forbidden" });
 
     const [funnel, recentMembers, recentConsults, recentPurchases] = await Promise.all([
       db.execute({ sql: `SELECT event, COUNT(*) cnt, COUNT(DISTINCT session_id) uniq FROM soluna_events WHERE created_at > datetime('now', '-30 days') GROUP BY event ORDER BY cnt DESC LIMIT 30` }),
@@ -7429,6 +7432,32 @@ app.post("/api/soluna/coupon/issue", express.json(), async (req, res) => {
     sql: "INSERT INTO soluna_coupons (code,member_id,property_slug,nights_total,valid_until) VALUES (?,?,?,?,?)",
     args: [code, mid, property_slug, nights_total, valid_until || null],
   });
+  if (RESEND_API_KEY && mid) {
+    const propName = SOLUNA_PROPERTIES[property_slug]?.name || property_slug;
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>",
+        to: [email],
+        subject: `【SOLUNA】滞在クーポンが発行されました — ${propName}`,
+        html: `<div style="font-family:sans-serif;background:#040404;color:#f0ece4;padding:36px 28px;max-width:480px;margin:0 auto">
+  <div style="font-size:10px;letter-spacing:.34em;color:#c8a455;font-weight:700;margin-bottom:20px">SOLUNA</div>
+  <h2 style="font-size:20px;font-weight:800;margin:0 0 16px">クーポンが発行されました</h2>
+  <div style="background:#111;border:1px solid #222;border-radius:10px;padding:18px;margin-bottom:24px">
+    <div style="font-size:10px;color:#555;letter-spacing:.2em;margin-bottom:10px">COUPON DETAILS</div>
+    <table style="width:100%;font-size:13px;border-collapse:collapse">
+      <tr><td style="color:#666;padding:4px 0;width:80px">物件</td><td style="color:#f0ece4;font-weight:700">${esc(propName)}</td></tr>
+      <tr><td style="color:#666;padding:4px 0">コード</td><td style="color:#c8a455;font-weight:700;letter-spacing:.1em">${esc(code)}</td></tr>
+      <tr><td style="color:#666;padding:4px 0">泊数</td><td style="color:#f0ece4">${nights_total}泊</td></tr>
+      ${valid_until ? `<tr><td style="color:#666;padding:4px 0">有効期限</td><td style="color:#f0ece4">${esc(valid_until)}</td></tr>` : ''}
+    </table>
+  </div>
+  <a href="https://solun.art/app" style="display:inline-block;background:#c8a455;color:#040404;font-weight:800;font-size:13px;padding:14px 28px;border-radius:100px;text-decoration:none">アプリで予約する →</a>
+</div>`,
+      }),
+    }).catch(() => {});
+  }
   res.json({ ok: true, code });
 });
 
@@ -7484,6 +7513,11 @@ app.post("/api/soluna/booking", express.json(), async (req, res) => {
   if (isNaN(d_in) || isNaN(d_out)) return res.status(400).json({ error: "日付が不正です" });
   const coupon = (await db.execute({ sql: "SELECT * FROM soluna_coupons WHERE id=? AND member_id=?", args: [coupon_id, m.member_id] })).rows[0];
   if (!coupon) return res.status(404).json({ error: "クーポンが見つかりません" });
+  // Block booking before property open date
+  const propCheck = SOLUNA_PROPERTIES[coupon.property_slug];
+  if (propCheck?.open_from && check_in < propCheck.open_from) {
+    return res.status(400).json({ error: `この物件は${propCheck.open_from}以降の予約が可能です` });
+  }
   const nights = Math.round((d_out - d_in) / 86400000);
   if (nights <= 0 || nights > 90) return res.status(400).json({ error: "日程が不正です（最大90泊）" });
   const remaining = coupon.nights_total - coupon.nights_used;
@@ -7502,16 +7536,43 @@ app.post("/api/soluna/booking", express.json(), async (req, res) => {
   await db.execute({ sql: "UPDATE soluna_coupons SET nights_used=nights_used+? WHERE id=?", args: [nights, coupon_id] });
   const propData = SOLUNA_PROPERTIES[coupon.property_slug];
   if (propData) pushToBeds24(propData, check_in, check_out, guests, m.name, m.email).catch(() => {});
-  // notify admin
   if (RESEND_API_KEY) {
+    const propLabel = propData2.name || coupon.property_slug;
+    // member confirmation
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: "SOLUNA <info@solun.art>",
+        to: [m.email],
+        subject: `【SOLUNA予約確定】${propLabel} ${check_in}〜${check_out}`,
+        html: `<div style="font-family:sans-serif;background:#040404;color:#f0ece4;padding:36px 28px;max-width:480px;margin:0 auto">
+  <div style="font-size:10px;letter-spacing:.34em;color:#c8a455;font-weight:700;margin-bottom:20px">SOLUNA</div>
+  <h2 style="font-size:20px;font-weight:800;margin:0 0 20px">予約が確定しました</h2>
+  <div style="background:#111;border:1px solid #222;border-radius:10px;padding:18px;margin-bottom:24px">
+    <div style="font-size:10px;color:#555;letter-spacing:.2em;margin-bottom:10px">BOOKING DETAILS</div>
+    <table style="width:100%;font-size:13px;border-collapse:collapse">
+      <tr><td style="color:#666;padding:4px 0;width:80px">物件</td><td style="color:#f0ece4;font-weight:700">${esc(propLabel)}</td></tr>
+      <tr><td style="color:#666;padding:4px 0">チェックイン</td><td style="color:#f0ece4">${esc(check_in)}</td></tr>
+      <tr><td style="color:#666;padding:4px 0">チェックアウト</td><td style="color:#f0ece4">${esc(check_out)}</td></tr>
+      <tr><td style="color:#666;padding:4px 0">泊数</td><td style="color:#f0ece4">${nights}泊</td></tr>
+      <tr><td style="color:#666;padding:4px 0">人数</td><td style="color:#f0ece4">${guests}名</td></tr>
+    </table>
+  </div>
+  <a href="https://solun.art/app" style="display:inline-block;background:#c8a455;color:#040404;font-weight:800;font-size:13px;padding:14px 28px;border-radius:100px;text-decoration:none">チェックインガイドを確認 →</a>
+  <p style="font-size:11px;color:#333;margin-top:24px">ご不明な点は info@solun.art までお問い合わせください。</p>
+</div>`,
+      }),
+    }).catch(() => {});
+    // admin notification
     fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
       body: JSON.stringify({
         from: "SOLUNA <info@solun.art>",
         to: ["mail@yukihamada.jp"],
-        subject: `【SOLUNA予約】${coupon.property_slug} ${check_in}〜${check_out}`,
-        html: `<p><b>予約確定</b></p><p>メール: ${esc(m.email)}<br>物件: ${esc(coupon.property_slug)}<br>チェックイン: ${esc(check_in)}<br>チェックアウト: ${esc(check_out)}<br>泊数: ${nights}泊<br>人数: ${guests}名</p>`,
+        subject: `【SOLUNA予約】${propLabel} ${check_in}〜${check_out}`,
+        html: `<p><b>予約確定</b></p><p>メール: ${esc(m.email)}<br>物件: ${esc(propLabel)}<br>チェックイン: ${esc(check_in)}<br>チェックアウト: ${esc(check_out)}<br>泊数: ${nights}泊<br>人数: ${guests}名</p>`,
       }),
     }).catch(() => {});
   }
@@ -7843,7 +7904,7 @@ const MEMBER_TYPE_LABELS = {
 };
 
 function isSolunaAdmin(m) {
-  return m && (m.member_type === 'admin' || m.email === 'mail@yukihamada.jp');
+  return m && m.member_type === 'admin';
 }
 
 // GET /api/soluna/admin/members — list all members (admin only)
@@ -7876,7 +7937,7 @@ app.patch("/api/soluna/admin/members/:id", express.json(), async (req, res) => {
 // GET /api/soluna/admin/chat-logs — all chat logs (admin)
 app.get("/api/soluna/admin/chat-logs", async (req, res) => {
   const m = await solunaAuth(req);
-  if (!m || (m.member_type !== "admin" && m.email !== "mail@yukihamada.jp")) return res.status(403).json({ error: "forbidden" });
+  if (!m || m.member_type !== "admin") return res.status(403).json({ error: "forbidden" });
   const limit = Math.min(Number(req.query.limit) || 100, 500);
   const offset = Number(req.query.offset) || 0;
   const [r, cnt] = await Promise.all([
@@ -8562,6 +8623,31 @@ A: /buy ページから申し込めます。ログイン後、物件を選んで
 
 ## コミッション制度
 友人を紹介した場合、成約価格の3%が紹介者に支払われます。紹介コードは /staff ページで取得できます。
+
+## 購入後のフロー
+1. 購入申込（/buy）→ pending ステータス
+2. 担当者が内容確認・決済処理（1〜3営業日）
+3. confirmed になると滞在クーポン（年間泊数分）が発行される
+4. クーポンをアプリで認証 → 予約可能になる
+5. メールでクーポンコード・詳細が届く
+
+## 空き家・地方リノベプロジェクト
+- 香川・瀬戸内「AKIYA CLUB」: 小豆島RC Villa・直島古家・豊島更地・三豊茅葺など全18物件
+  詳細: solun.art/kagawa-akiya
+- 和歌山リノベ: 計画中（詳細は solun.art/wakayama-akiya）
+
+## NOT A HOTEL (NAH) 連携
+- SOLUNA購入オーナーはNOT A HOTELの全施設も利用可能
+- アプリの「検索」タブで NAH 物件を予約可能
+- アクセス条件: 確定済み購入またはクーポン所持
+
+## 月額管理費（目安）
+- インスタントハウス: ¥3万/月
+- THE LODGE: ¥10万/月
+- NESTING: ¥15万/月
+- TAPKOP: ¥120万/月（全体）
+- WHITE HOUSE 熱海: ¥50万/月（全体）
+- ローン対応可能（THE LODGE実績あり・銀行融資）
 
 ## 現在地: ${memberInfo}
 `;
@@ -10050,7 +10136,7 @@ app.post("/api/soluna/docs/disclose", express.json(), async (req, res) => {
 // Admin: manufacturing page view logs
 app.get("/api/soluna/admin/page-views", async (req, res) => {
   const m = await solunaAuth(req);
-  if (!m || m.email !== "mail@yukihamada.jp") return res.status(403).json({ error: "admin only" });
+  if (!m || m.member_type !== "admin") return res.status(403).json({ error: "admin only" });
   const r = await db.execute({
     sql: "SELECT id, email, page, ip, viewed_at FROM soluna_page_views ORDER BY id DESC LIMIT 500",
     args: [],
