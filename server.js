@@ -932,6 +932,17 @@ async function initDb() {
 
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(compression());
+// rawBody capture — runs before json parsing, stores buffer on req for signature verification
+app.use('/api/line/webhook', (req, res, next) => {
+  const chunks = [];
+  req.on('data', c => chunks.push(c));
+  req.on('end', () => {
+    req.rawBody = Buffer.concat(chunks);
+    try { req.body = JSON.parse(req.rawBody.toString('utf8')); } catch { req.body = {}; }
+    next();
+  });
+  req.on('error', next);
+});
 app.use(express.json());
 
 // CORS for cabin static site calling our API
@@ -2457,7 +2468,7 @@ function share(){
 </body></html>`);
 });
 
-const customRoutes = ["/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/admin/construction", "/schedule", "/vip", "/lineup", "/info", "/guide", "/artist-lounge", "/vip-lounge", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press", "/hotel-plan", "/music", "/tickets", "/tickets/success", "/rights", "/developers", "/artist", "/contests", "/festivals", "/live", "/community", "/vision", "/vision-ja", "/pitch", "/proposal", "/sponsor-reiwa"];
+const customRoutes = ["/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/admin/construction", "/schedule", "/vip", "/lineup", "/info", "/guide", "/artist-lounge", "/vip-lounge", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press", "/hotel-plan", "/music", "/tickets", "/tickets/success", "/rights", "/developers", "/artist", "/contests", "/festivals", "/live", "/community", "/vision", "/vision-ja", "/pitch", "/proposal", "/sponsor-reiwa", "/lab"];
 // /blank is served from cabin/blank/index.html via express.static
 // NOTE: /privacy, /terms, /mint removed — served from cabin static files instead
 
@@ -6353,6 +6364,12 @@ db.batch([
 ]).catch(e => console.error("index creation error:", e));
 // Migration: add nah_access column if not exists
 // Page view logs for manufacturing pages
+db.execute(`CREATE TABLE IF NOT EXISTS site_settings (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL,
+  updated_at TEXT DEFAULT (datetime('now'))
+)`).catch(() => {});
+
 db.execute(`CREATE TABLE IF NOT EXISTS soluna_page_views (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   member_id INTEGER,
@@ -6865,8 +6882,24 @@ app.post("/api/soluna/akiya-signup", express.json(), async (req, res) => {
         body: JSON.stringify({
           from: "SOLUNA <info@solun.art>",
           to: [email],
-          subject: "SOLUNA AKIYA CLUB — 登録完了・メンバーログイン",
-          html: `<div style="font-family:sans-serif;background:#040404;color:#f0ece4;padding:40px 32px;max-width:520px;margin:0 auto">
+          subject: source === 'zamna'
+            ? "ZAMNA × SOLUNA FEST HAWAII 2026 — 先行登録完了"
+            : source === 'hero' || source === 'index'
+            ? "SOLUNA — 登録完了・共同所有の詳細はこちら"
+            : "SOLUNA AKIYA CLUB — 登録完了・メンバーログイン",
+          html: source === 'zamna' ? `<div style="font-family:sans-serif;background:#040404;color:#f0ece4;padding:40px 32px;max-width:520px;margin:0 auto">
+  <div style="font-size:10px;letter-spacing:.34em;color:#c8a455;font-weight:700;margin-bottom:28px">ZAMNA × SOLUNA</div>
+  <h1 style="font-size:24px;font-weight:800;letter-spacing:-.02em;margin:0 0 12px;line-height:1.2">先行登録、完了。<br/>チケット先行購入権を確保しました。</h1>
+  <p style="font-size:13px;color:#666;line-height:2;margin:0 0 28px">2026年9月5日（土）<br/>Oahu, Hawaii · 限定300名</p>
+  <div style="background:#111;border:1px solid #222;border-radius:12px;padding:20px;margin-bottom:28px">
+    <div style="font-size:10px;letter-spacing:.2em;color:#555;margin-bottom:12px">EVENT DETAILS</div>
+    <div style="font-size:13px;color:#f0ece4;line-height:2">🎵 ZAMNA Collective（テクノ / EDM）<br/>🏝 Oahu, Hawaii<br/>👥 限定300名<br/>🏨 宿泊先：先行登録後にご案内</div>
+  </div>
+  <p style="font-size:13px;color:#888;line-height:1.8;margin:0 0 24px">詳細が決まり次第、先行登録者に最速でお知らせします。<br/>チケットは先行登録者のみ先行購入可能です。</p>
+  <a href="${loginUrl}" style="display:inline-block;background:#c8a455;color:#040404;font-weight:800;font-size:13px;padding:16px 36px;border-radius:100px;text-decoration:none;letter-spacing:.04em">SOLUNAメンバーとしてログイン →</a>
+  <p style="font-size:11px;color:#333;margin-top:16px">パスワード不要。有効期間7日間。</p>
+  <p style="color:#1a1a1a;font-size:10px;margin-top:32px">© 2026 SOLUNA · EnablerDAO</p>
+</div>` : `<div style="font-family:sans-serif;background:#040404;color:#f0ece4;padding:40px 32px;max-width:520px;margin:0 auto">
   <div style="font-size:10px;letter-spacing:.34em;color:#c8a455;font-weight:700;margin-bottom:28px">SOLUNA AKIYA CLUB</div>
   <h1 style="font-size:24px;font-weight:800;letter-spacing:-.02em;margin:0 0 12px;line-height:1.2">登録しました。<br/>最新情報をお届けします。</h1>
   <p style="font-size:13px;color:#666;line-height:2;margin:0 0 32px">香川・瀬戸内の空き家リノベ情報、新物件追加、説明会のご案内を<br/>いち早くお届けします。</p>
@@ -7222,6 +7255,7 @@ app.post("/api/soluna/register", express.json(), async (req, res) => {
                <p><a href="${esc(BASE_URL)}/cabin/portal.html">管理: ${esc(BASE_URL)}/cabin/portal.html</a></p>`,
       }),
     }).catch(() => {});
+    linePushAdmin(`🏠 新規購入申込\n${m.email}\n${prop.name} ${units}口 ¥${price.toLocaleString()}`).catch(() => {});
   }
   // 支払い方法に応じてレスポンスを変える
   const paymentMethod = req.body.payment_method || "inquiry"; // "stripe" | "bank_transfer" | "inquiry"
@@ -7481,6 +7515,8 @@ app.post("/api/soluna/booking", express.json(), async (req, res) => {
       }),
     }).catch(() => {});
   }
+  const propData2 = SOLUNA_PROPERTIES[coupon.property_slug] || {};
+  linePushAdmin(`📅 新規予約\n${m.email}\n${propData2.name || coupon.property_slug}\n${check_in}〜${check_out} ${nights}泊`).catch(() => {});
   res.json({ ok: true, check_in, check_out, nights, property_slug: coupon.property_slug });
 });
 
@@ -8449,7 +8485,7 @@ app.post("/api/soluna/chat", express.json(), async (req, res) => {
 ### WHITE HOUSE 熱海（静岡県熱海市）※現存・予約可
 - 価格: ¥1,900万/口（6口制）
 - 年間: 36泊の滞在権
-- 特徴: 相模湾オーシャンビュー・全面ガラス・東京から新幹線45分・温泉
+- 特徴: 相模湾オーシャンビュー・全面ガラス・東京から新幹線45分・温泉・サウナ
 - 実績: 稼働率40%・年間売上¥1,502万・平均単価¥102,851/泊
 
 ### TAPKOP（弟子屈・阿寒摩周国立公園）
@@ -8477,8 +8513,28 @@ app.post("/api/soluna/chat", express.json(), async (req, res) => {
 
 ## よくある質問と回答
 
+## ZAMNA × SOLUNA FEST HAWAII 2026
+日時: 2026年9月5日（土）/ 場所: オアフ島ハワイ / 定員: 限定300名
+音楽: ZAMNA Collective（テクノ / EDM）/ 宿泊: 先行登録後に案内（HONOLULU VILLAは11月オープンのためフェスト時期は別途手配）
+先行登録（チケット先行購入権）: https://solun.art/zamna
+ZAMNAはメキシコ・トゥルム発のテクノ/EDMフェスティバル。自然×音楽のコンセプトでSOLUNAとコラボ。
+
+## Work Party（自然建築体験）
+直近: **2026年6月6日(土)〜7日(日)** / 場所: 北海道・弟子屈町美留和 / **無料**（作業が参加費）/ 定員8名（先着）
+内容: サウナ煙突接続・バレルバス配管・デッキ板貼り・Hue照明セットアップ・KAGIスマートロック設定
+2日目の夜は完成した棟に全員で試泊。道具・食事は全て提供。
+SIPsパネル素材: 杉CLT + 籾殻断熱ボード + 竹集成材。スクリューパイル基礎・H鋼フレーム・Starlink・太陽光パネル設置済み。
+申込: https://solun.art/workparty（残り少ない）
+
+## 投資・リターン実績
+- East Ventures 5,000万円出資済み / 登記所有 / 2020年創業
+- THE LODGE: ¥490万購入で年間¥35,000×30泊=¥105万収益（表面利回り約21%）
+- インスタントハウス: ¥120万購入で年間¥25,000×30泊=¥75万収益（表面利回り約62%）
+- TAPKOP: ¥8,000万/口で年間¥340,000×30泊=最大¥1,020万収益
+- ローン対応可能（THE LODGE実績あり）/ 銀行ローン対象
+
 **Q: 投資として儲かりますか？**
-A: 値上がり目的のサービスではありません。「帰れる場所を持つ」ことが目的です。ただし使わない夜はAirbnbで収益化でき、オーナーには収益を分配しています（THE LODGE実績：年間配当¥62万相当）。
+A: 値上がり目的のサービスではありません。「帰れる場所を持つ」ことが目的です。ただし使わない夜はAirbnbで収益化でき、オーナーには収益を分配しています（THE LODGE実績：年間配当¥62万相当）。インスタントハウスは表面利回り約62%。East Ventures 5,000万円出資済み。
 
 **Q: 売却できますか？**
 A: NFTとして二次流通できます。欲しい人に渡すことができます。
@@ -8937,21 +8993,44 @@ app.post("/api/soluna/community/react", express.json(), async (req, res) => {
   res.json({ ok: true, reactions });
 });
 
-// LINE: broadcast community message to linked users
+// LINE: broadcast community message to linked users (Flex card)
 async function lineBroadcastCommunity(senderName, text) {
   if (!LINE_CHANNEL_ACCESS_TOKEN) return;
   try {
-    // Get all members with LINE user IDs linked
     const r = await db.execute(`SELECT line_user_id FROM soluna_members WHERE line_user_id IS NOT NULL AND line_user_id != ''`);
     if (!r.rows.length) return;
     const userIds = r.rows.map(row => row.line_user_id);
-    // Multicast
+    const short = text.slice(0, 120) + (text.length > 120 ? "…" : "");
     await fetch("https://api.line.me/v2/bot/message/multicast", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
       body: JSON.stringify({
-        to: userIds.slice(0, 150), // LINE multicast max 150
-        messages: [{ type: "text", text: `💬 ${senderName}: ${text.slice(0, 200)}` }]
+        to: userIds.slice(0, 150),
+        messages: [{
+          type: "flex", altText: `${senderName}: ${short}`,
+          contents: {
+            type: "bubble", size: "kilo",
+            body: {
+              type: "box", layout: "vertical", paddingAll: "14px", spacing: "sm",
+              contents: [
+                { type: "box", layout: "horizontal", spacing: "sm", contents: [
+                  { type: "text", text: "💬", size: "sm", flex: 0 },
+                  { type: "text", text: senderName, weight: "bold", size: "sm", color: "#c8a455", flex: 1 },
+                  { type: "text", text: "コミュニティ", size: "xxs", color: "#444", align: "end", flex: 0 }
+                ]},
+                { type: "text", text: short, size: "sm", color: "#d0c8bc", wrap: true, margin: "sm" },
+              ]
+            },
+            footer: {
+              type: "box", layout: "vertical", paddingAll: "10px",
+              contents: [{
+                type: "button", action: { type: "uri", label: "チャットを開く", uri: "https://solun.art/chat" },
+                style: "primary", color: "#c8a455", height: "sm"
+              }]
+            },
+            styles: { body: { backgroundColor: "#0d0d0d" }, footer: { backgroundColor: "#0a0a0a" } }
+          }
+        }]
       })
     });
   } catch {}
@@ -8964,14 +9043,16 @@ function verifyLineSignature(req, res, buf) {
 }
 
 // LINE Webhook — receives messages from LINE users
-app.post("/api/line/webhook", express.json({ verify: verifyLineSignature }), async (req, res) => {
-  // Verify LINE signature
-  if (LINE_CHANNEL_SECRET && req.rawBody) {
-    const crypto = require("crypto");
-    const sig = req.headers["x-line-signature"];
-    const expected = crypto.createHmac("SHA256", LINE_CHANNEL_SECRET).update(req.rawBody).digest("base64");
-    if (sig !== expected) return res.status(401).json({ error: "invalid signature" });
-  }
+app.post("/api/line/webhook", async (req, res) => {
+  // Verify LINE signature (required — reject if secret missing or sig mismatch)
+  if (!LINE_CHANNEL_SECRET) return res.status(503).end();
+  const sig = req.headers["x-line-signature"];
+  if (!sig || !req.rawBody) return res.status(401).json({ error: "missing signature" });
+  const crypto = require("crypto");
+  const expected = crypto.createHmac("SHA256", LINE_CHANNEL_SECRET).update(req.rawBody).digest("base64");
+  const sigBuf = Buffer.from(sig, 'utf8');
+  const expBuf = Buffer.from(expected, 'utf8');
+  if (sigBuf.length !== expBuf.length || !crypto.timingSafeEqual(sigBuf, expBuf)) return res.status(401).json({ error: "invalid signature" });
   res.status(200).json({ ok: true });
   const events = req.body?.events || [];
   for (const ev of events) {
@@ -8985,7 +9066,38 @@ app.post("/api/line/webhook", express.json({ verify: verifyLineSignature }), asy
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
           body: JSON.stringify({
             replyToken: ev.replyToken,
-            messages: [{ type: "text", text: "SOLUNAへようこそ！\n\nLINE通知を受け取るには、登録メールアドレスを入力してください。\n例: your@email.com" }]
+            messages: [{
+              type: "flex", altText: "SOLUNAへようこそ！",
+              contents: {
+                type: "bubble",
+                hero: {
+                  type: "box", layout: "vertical", paddingAll: "24px", backgroundColor: "#0a0a0a",
+                  contents: [
+                    { type: "text", text: "◐ SOLUNA", size: "xs", color: "#c8a455", weight: "bold", letterSpacing: "4px" },
+                    { type: "text", text: "ようこそ", size: "xxl", weight: "bold", color: "#f4f0ea", margin: "sm" },
+                    { type: "text", text: "共同所有型リゾートクラブ", size: "xs", color: "#666", margin: "xs" }
+                  ]
+                },
+                body: {
+                  type: "box", layout: "vertical", paddingAll: "20px", spacing: "sm", backgroundColor: "#111",
+                  contents: [
+                    { type: "text", text: "何に興味がありますか？", size: "sm", color: "#888", margin: "none" },
+                    { type: "separator", margin: "md", color: "#222" },
+                    { type: "button", action: { type: "message", label: "🏔 物件を見る（北海道・熱海・ハワイ）", text: "物件" }, style: "secondary", height: "sm", margin: "md" },
+                    { type: "button", action: { type: "message", label: "🎵 ZAMNA FEST HAWAII 2026", text: "フェス" }, style: "secondary", height: "sm", margin: "sm" },
+                    { type: "button", action: { type: "message", label: "🔨 Work Party（自然建築体験）", text: "ワークパーティ" }, style: "secondary", height: "sm", margin: "sm" },
+                    { type: "button", action: { type: "message", label: "💰 投資・利回りについて", text: "利回りについて教えてください" }, style: "secondary", height: "sm", margin: "sm" },
+                  ]
+                },
+                footer: {
+                  type: "box", layout: "vertical", paddingAll: "14px", backgroundColor: "#0a0a0a",
+                  contents: [
+                    { type: "text", text: "アカウント連携: メールアドレスを送ってください", size: "xs", color: "#444", wrap: true, align: "center" }
+                  ]
+                },
+                styles: { hero: { backgroundColor: "#0a0a0a" }, body: { backgroundColor: "#111" }, footer: { backgroundColor: "#0a0a0a" } }
+              }
+            }]
           })
         }).catch(() => {});
       }
@@ -8996,17 +9108,24 @@ app.post("/api/line/webhook", express.json({ verify: verifyLineSignature }), asy
       if (text.includes("@") && text.includes(".")) {
         const email = text.toLowerCase();
         try {
-          const member = (await db.execute({ sql: "SELECT id FROM soluna_members WHERE email=?", args: [email] })).rows[0];
+          const member = (await db.execute({ sql: "SELECT id, email FROM soluna_members WHERE email=?", args: [email] })).rows[0];
           if (member) {
-            await db.execute({ sql: "UPDATE soluna_members SET line_user_id=? WHERE id=?", args: [lineUserId, member.id] }).catch(() => {});
+            // Send OTP to email for verification before linking
+            const otp = Math.floor(100000 + Math.random() * 900000).toString();
+            const exp = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+            await db.execute({ sql: "INSERT INTO soluna_otps (email, code, expires_at) VALUES (?,?,?)", args: [`line:${lineUserId}:${member.email}`, otp, exp] }).catch(() => {});
+            if (RESEND_API_KEY) {
+              fetch("https://api.resend.com/emails", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+                body: JSON.stringify({ from: "SOLUNA <info@solun.art>", to: [member.email], subject: "LINE連携の確認コード", html: `<p>LINEアカウントとの連携を確認します。</p><p>確認コード: <b>${otp}</b></p><p>LINEで上記6桁を送信してください。10分間有効です。</p>` }),
+              }).catch(() => {});
+            }
             if (LINE_CHANNEL_ACCESS_TOKEN) {
               await fetch(`https://api.line.me/v2/bot/message/reply`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
-                body: JSON.stringify({
-                  replyToken: ev.replyToken,
-                  messages: [{ type: "text", text: "✅ 連携完了！\n\nSOLUNAコミュニティのメッセージをLINEでお知らせします。\nsolun.art/chat でチャットに参加できます。" }]
-                })
+                body: JSON.stringify({ replyToken: ev.replyToken, messages: [{ type: "text", text: `${member.email} に確認コードを送りました。\n6桁のコードをLINEで送信してください。` }] })
               }).catch(() => {});
             }
           } else {
@@ -9014,10 +9133,40 @@ app.post("/api/line/webhook", express.json({ verify: verifyLineSignature }), asy
               await fetch(`https://api.line.me/v2/bot/message/reply`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
-                body: JSON.stringify({
-                  replyToken: ev.replyToken,
-                  messages: [{ type: "text", text: "メールアドレスが見つかりませんでした。\nまずsolun.artでログインしてください。" }]
-                })
+                body: JSON.stringify({ replyToken: ev.replyToken, messages: [{ type: "text", text: "メールアドレスが見つかりませんでした。\nまずsolun.artでログインしてください。" }] })
+              }).catch(() => {});
+            }
+          }
+        } catch {}
+      } else if (/^\d{6}$/.test(text)) {
+        // 6桁OTP → LINE連携確認
+        const lineUserId2 = ev.source.userId;
+        try {
+          const otpRow = (await db.execute({
+            sql: "SELECT * FROM soluna_otps WHERE email LIKE ? AND code=? AND used=0 AND expires_at > datetime('now') ORDER BY id DESC LIMIT 1",
+            args: [`line:${lineUserId2}:%`, text]
+          })).rows[0];
+          if (otpRow) {
+            await db.execute({ sql: "UPDATE soluna_otps SET used=1 WHERE id=?", args: [otpRow.id] });
+            const parts = otpRow.email.split(":");
+            const memberEmail = parts.slice(2).join(":");  // line:{userId}:{email}
+            const mem = (await db.execute({ sql: "SELECT id FROM soluna_members WHERE email=? OR email=?", args: [memberEmail, memberEmail] })).rows[0];
+            if (mem) {
+              await db.execute({ sql: "UPDATE soluna_members SET line_user_id=? WHERE id=?", args: [lineUserId2, mem.id] });
+              if (LINE_CHANNEL_ACCESS_TOKEN && ev.replyToken) {
+                await fetch("https://api.line.me/v2/bot/message/reply", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
+                  body: JSON.stringify({ replyToken: ev.replyToken, messages: [{ type: "text", text: "✅ LINE連携完了！\n\n予約リマインダーやコミュニティ通知がここに届きます。\n\nヘルプ — コマンド一覧\n物件 — 物件一覧\n予約状況 — 予約確認" }] })
+                }).catch(() => {});
+              }
+            }
+          } else {
+            if (LINE_CHANNEL_ACCESS_TOKEN && ev.replyToken) {
+              await fetch("https://api.line.me/v2/bot/message/reply", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
+                body: JSON.stringify({ replyToken: ev.replyToken, messages: [{ type: "text", text: "コードが無効か期限切れです。\nもう一度メールアドレスを送ってください。" }] })
               }).catch(() => {});
             }
           }
@@ -9191,23 +9340,365 @@ app.post("/api/line/webhook", express.json({ verify: verifyLineSignature }), asy
           if (TG_TOKEN && TG_CHAT) sendTg(TG_CHAT, `🚪 LINE退会 ${member.email}`).catch(() => {});
           await lineReply([{ type: "text", text: "退会処理が完了しました。\n\nご利用ありがとうございました。またいつでもお待ちしています。\nsolun.art" }]);
 
+        } else if (cmdLow === "空き" || cmdLow === "空き日程" || cmdLow === "空き状況" || cmdLow === "availability") {
+          const availableProps = Object.values(SOLUNA_PROPERTIES).filter(p => p.name && p.stay_price && p.beds24_prop && p.beds24_prop !== 0);
+          const lines = availableProps.map(p => `🏔 ${p.name}\nsolun.art/${p.slug}`).join("\n\n");
+          await lineReply([{
+            type: "flex", altText: "空き状況確認",
+            contents: {
+              type: "bubble",
+              body: {
+                type: "box", layout: "vertical", paddingAll: "16px", spacing: "md",
+                contents: [
+                  { type: "text", text: "空き日程の確認", weight: "bold", size: "lg", color: "#c8a455" },
+                  { type: "text", text: "アプリから各物件のカレンダーでご確認いただけます。", size: "sm", color: "#888", wrap: true, margin: "sm" },
+                  ...availableProps.slice(0, 6).map(p => ({
+                    type: "button",
+                    action: { type: "uri", label: `🏔 ${p.name}`, uri: `https://solun.art/${p.slug}` },
+                    style: "secondary", height: "sm", margin: "sm"
+                  }))
+                ]
+              },
+              styles: { body: { backgroundColor: "#0a0a0a" } }
+            }
+          }], [["予約状況", "予約状況"], ["物件一覧", "物件"]]);
+
+        } else if (cmdLow === "ガイド" || cmdLow === "チェックイン" || cmdLow === "guide") {
+          const upcoming = (await db.execute({
+            sql: `SELECT b.*, c.property_slug FROM soluna_bookings b
+                  LEFT JOIN soluna_coupons c ON c.id = b.coupon_id
+                  WHERE b.member_id=? AND b.check_in >= date('now') AND b.status != 'cancelled'
+                  ORDER BY b.check_in LIMIT 1`,
+            args: [member.id]
+          })).rows[0];
+          if (!upcoming) {
+            await lineReply([{ type: "text", text: "直近の予約が見つかりません。\n予約状況をご確認ください。" }],
+              [["予約状況", "予約状況"], ["物件一覧", "物件"]]);
+          } else {
+            const prop = SOLUNA_PROPERTIES[upcoming.property_slug] || {};
+            await lineReply([{
+              type: "flex", altText: "チェックインガイド",
+              contents: {
+                type: "bubble",
+                hero: { type: "image", url: `https://solun.art/img/${prop.img || 'og.jpg'}`, size: "full", aspectRatio: "20:13", aspectMode: "cover" },
+                body: {
+                  type: "box", layout: "vertical", paddingAll: "16px", spacing: "sm",
+                  contents: [
+                    { type: "text", text: "チェックインガイド", weight: "bold", size: "sm", color: "#c8a455" },
+                    { type: "text", text: prop.name || upcoming.property_slug, weight: "bold", size: "lg", color: "#f0ece4" },
+                    { type: "text", text: `${upcoming.check_in} チェックイン`, size: "sm", color: "#888", margin: "xs" },
+                  ]
+                },
+                footer: {
+                  type: "box", layout: "vertical", paddingAll: "12px",
+                  contents: [
+                    { type: "button", action: { type: "uri", label: "ガイドを開く", uri: `https://solun.art/app` }, style: "primary", color: "#c8a455", height: "sm" }
+                  ]
+                },
+                styles: { body: { backgroundColor: "#0a0a0a" }, footer: { backgroundColor: "#0a0a0a" } }
+              }
+            }]);
+          }
+
+        } else if (cmdLow === "フェス" || cmdLow === "zamna" || cmdLow === "ザムナ" || cmdLow === "ハワイ" || cmdLow === "hawaii") {
+          await lineReply([{
+            type: "flex", altText: "ZAMNA × SOLUNA FEST HAWAII 2026",
+            contents: {
+              type: "bubble",
+              hero: {
+                type: "box", layout: "vertical", paddingAll: "28px", backgroundColor: "#050505",
+                contents: [
+                  { type: "text", text: "ZAMNA × SOLUNA", size: "xs", color: "#c8a455", weight: "bold", letterSpacing: "3px" },
+                  { type: "text", text: "FEST HAWAII", size: "xxl", weight: "bold", color: "#f4f0ea", margin: "xs" },
+                  { type: "text", text: "2026", size: "lg", color: "#c8a455", weight: "bold", margin: "none" }
+                ]
+              },
+              body: {
+                type: "box", layout: "vertical", paddingAll: "20px", spacing: "sm", backgroundColor: "#111",
+                contents: [
+                  { type: "box", layout: "horizontal", spacing: "md", contents: [
+                    { type: "text", text: "日時", size: "xs", color: "#555", flex: 2 },
+                    { type: "text", text: "2026年9月5日（土）", size: "xs", color: "#f0ece4", flex: 5, weight: "bold" }
+                  ]},
+                  { type: "box", layout: "horizontal", spacing: "md", margin: "sm", contents: [
+                    { type: "text", text: "場所", size: "xs", color: "#555", flex: 2 },
+                    { type: "text", text: "Oahu, Hawaii", size: "xs", color: "#f0ece4", flex: 5 }
+                  ]},
+                  { type: "box", layout: "horizontal", spacing: "md", margin: "sm", contents: [
+                    { type: "text", text: "定員", size: "xs", color: "#555", flex: 2 },
+                    { type: "text", text: "限定300名", size: "xs", color: "#c8a455", flex: 5, weight: "bold" }
+                  ]},
+                  { type: "box", layout: "horizontal", spacing: "md", margin: "sm", contents: [
+                    { type: "text", text: "音楽", size: "xs", color: "#555", flex: 2 },
+                    { type: "text", text: "ZAMNA Collective（テクノ/EDM）", size: "xs", color: "#f0ece4", flex: 5, wrap: true }
+                  ]},
+                  { type: "separator", margin: "lg", color: "#222" },
+                  { type: "text", text: "先行登録者のみチケット先行購入権", size: "xs", color: "#c8a455", margin: "lg", align: "center" }
+                ]
+              },
+              footer: {
+                type: "box", layout: "vertical", paddingAll: "12px", spacing: "sm", backgroundColor: "#0a0a0a",
+                contents: [
+                  { type: "button", action: { type: "uri", label: "先行登録する → solun.art/zamna", uri: "https://solun.art/zamna" }, style: "primary", color: "#c8a455", height: "sm" }
+                ]
+              },
+              styles: { hero: { backgroundColor: "#050505" }, body: { backgroundColor: "#111" }, footer: { backgroundColor: "#0a0a0a" } }
+            }
+          }], [["物件", "物件"], ["予約状況", "予約状況"], ["アプリ", "https://solun.art/app"]]);
+
+        } else if (cmdLow === "ワークパーティ" || cmdLow === "work party" || cmdLow === "workparty" || cmdLow === "diy" || cmdLow === "建築") {
+          await lineReply([{
+            type: "flex", altText: "Work Party — 自然建築体験",
+            contents: {
+              type: "bubble",
+              body: {
+                type: "box", layout: "vertical", paddingAll: "20px", spacing: "sm", backgroundColor: "#111",
+                contents: [
+                  { type: "text", text: "🔨 Work Party", weight: "bold", size: "lg", color: "#c8a455" },
+                  { type: "text", text: "自然建築体験イベント", size: "xs", color: "#666", margin: "xs" },
+                  { type: "separator", margin: "lg", color: "#222" },
+                  { type: "text", text: "北海道弟子屈で実際の建築に参加", size: "sm", color: "#f0ece4", margin: "lg", wrap: true },
+                  { type: "box", layout: "vertical", margin: "md", spacing: "sm", contents: [
+                    { type: "text", text: "• 版築（土の壁造成）", size: "xs", color: "#888" },
+                    { type: "text", text: "• コードウッドサウナ建築", size: "xs", color: "#888" },
+                    { type: "text", text: "• ストローベイル施工", size: "xs", color: "#888" },
+                    { type: "text", text: "• SIPsパネル（杉CLT＋籾殻断熱）", size: "xs", color: "#888" }
+                  ]},
+                ]
+              },
+              footer: {
+                type: "box", layout: "vertical", paddingAll: "12px", backgroundColor: "#0a0a0a",
+                contents: [
+                  { type: "button", action: { type: "uri", label: "詳細・申込 → solun.art/workparty", uri: "https://solun.art/workparty" }, style: "primary", color: "#c8a455", height: "sm" }
+                ]
+              },
+              styles: { body: { backgroundColor: "#111" }, footer: { backgroundColor: "#0a0a0a" } }
+            }
+          }], [["物件", "物件"], ["ソルに質問", "Work Partyについて詳しく教えてください"]]);
+
+        } else if (cmdLow === "チャット" || cmdLow === "コミュニティ") {
+          await lineReply([{
+            type: "flex", altText: "コミュニティチャット",
+            contents: {
+              type: "bubble",
+              body: {
+                type: "box", layout: "vertical", paddingAll: "20px", spacing: "md",
+                contents: [
+                  { type: "text", text: "💬 コミュニティチャット", weight: "bold", size: "lg", color: "#c8a455" },
+                  { type: "text", text: "メンバー同士でリアルタイムにつながりましょう。", size: "sm", color: "#888", wrap: true, margin: "sm" },
+                ]
+              },
+              footer: {
+                type: "box", layout: "vertical", paddingAll: "12px",
+                contents: [
+                  { type: "button", action: { type: "uri", label: "チャットを開く", uri: "https://solun.art/chat" }, style: "primary", color: "#c8a455", height: "sm" }
+                ]
+              },
+              styles: { body: { backgroundColor: "#0a0a0a" }, footer: { backgroundColor: "#0a0a0a" } }
+            }
+          }]);
+
         } else {
-          // 通常メッセージ → コミュニティチャットへ転送
+          // AI (ソル) が回答
           const displayName = member.name || member.email.split("@")[0];
-          const ins = await db.execute({
-            sql: `INSERT INTO soluna_community_messages (member_id, display_name, member_type, message, is_ai) VALUES (?,?,?,?,0)`,
-            args: [member.id, `${displayName} (LINE)`, member.member_type || "member", text]
-          });
-          broadcastCommunity({ type: "message", id: Number(ins.lastInsertRowid), member_id: member.id, display_name: `${displayName} (LINE)`, member_type: member.member_type || "member", message: text, is_ai: 0, created_at: new Date().toISOString() });
-          await lineReply(
-            [{ type: "text", text: `✓ チャットに投稿しました` }],
-            [["チャットを開く", "ヘルプ"], ["予約状況", "予約状況"], ["物件一覧", "物件"]]
-          );
+          if (text.length < 120) {
+            // 短文はAIに回答させる
+            lineAiReply(lineUserId, ev.replyToken, text, member).catch(() => {});
+          } else {
+            // 長文はコミュニティチャットへ転送
+            const ins = await db.execute({
+              sql: `INSERT INTO soluna_community_messages (member_id, display_name, member_type, message, is_ai) VALUES (?,?,?,?,0)`,
+              args: [member.id, `${displayName}`, member.member_type || "member", text]
+            });
+            broadcastCommunity({ type: "message", id: Number(ins.lastInsertRowid), member_id: member.id, display_name: displayName, member_type: member.member_type || "member", message: text, is_ai: 0, created_at: new Date().toISOString() });
+            await lineReply(
+              [{ type: "text", text: `✓ コミュニティに投稿しました\n\n「ソル、〇〇を教えて」のようにソルに質問することもできます。` }],
+              [["チャットを開く", "チャット"], ["予約状況", "予約状況"], ["物件一覧", "物件"]]
+            );
+          }
         }
       }
     }
   }
 });
+
+// LINE: AI reply as ソル
+async function lineAiReply(lineUserId, replyToken, question, member) {
+  const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+  if (!LINE_CHANNEL_ACCESS_TOKEN) return;
+
+  // Fetch member's bookings for context
+  let ctxBookings = "";
+  try {
+    const bs = (await db.execute({ sql: "SELECT property_slug,check_in,check_out,status FROM soluna_bookings WHERE member_id=? ORDER BY check_in DESC LIMIT 3", args: [member.id] })).rows;
+    if (bs.length) ctxBookings = "\nメンバー予約: " + bs.map(b => `${b.property_slug} ${b.check_in}〜${b.check_out}(${b.status})`).join(", ");
+  } catch {}
+
+  let reply = "";
+  if (ANTHROPIC_API_KEY) {
+    try {
+      const r = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01" },
+        body: JSON.stringify({
+          model: "claude-haiku-4-5-20251001",
+          max_tokens: 400,
+          system: `あなたはSOLUNA（共同所有型リゾートクラブ）のLINEアシスタント「ソル」です。日本語で親切・簡潔に答えてください。250文字以内で。
+
+【物件一覧】
+▼北海道 弟子屈町
+・TAPKOP ¥8,000万/口(5口)│阿寒摩周国立公園9,000坪│専任シェフ・バレルバス・サウナ│年30泊│泊¥34万│年収益最大¥5,100万
+・THE LODGE ¥490万/口(10口)│年30泊│泊¥3.5万│利回り約21%
+・NESTING ¥890万/口(10口)│年30泊│泊¥5万
+・インスタントハウス ¥120万/口│年30泊│泊¥2.5万│利回り約62%
+・天空の道場(KUMAUSHI) ¥480万/口│武道場・自然体験│2026年9月オープン
+・美留和ビレッジ ¥490万/口│2026年9月オープン
+▼熱海
+・WHITE HOUSE 熱海 ¥1,900万/口│年36泊│泊¥5.5万
+▼ハワイ(2026年11月オープン)
+・HONOLULU VILLA ¥2,800万/口│月単位滞在│泊¥8.5万
+・HAWAII KAI HOUSE ¥3,800万/口│月単位滞在│泊¥12万
+
+【投資・リターン】
+East Ventures 5,000万円出資済み・登記所有・2020年創業・表面利回り約27%(物件によって異なる)
+
+【ZAMNA × SOLUNA FEST HAWAII 2026】
+日時: 2026年9月5日(土)│場所: オアフ島ハワイ│定員: 限定300名│音楽: ZAMNA Collective(テクノ/EDM)│宿泊: SOLUNA提携先を案内予定(先行登録後)│先行登録: solun.art/zamna ← 先行登録者のみチケット先行購入権あり
+※HONOLULU VILLAは2026年11月オープン予定のため、フェスト時期(9月)の宿泊先は先行登録者に別途ご案内
+
+【Work Party（自然建築体験）】
+北海道弟子屈で版築・コードウッドサウナ・ストローベイル施工体験│SIPsパネル: 杉CLT+籾殻断熱+竹集成材│詳細: solun.art/workparty
+
+【予約・アプリ】solun.art/app
+
+メンバー: ${member.email}(${member.member_type || 'member'})${ctxBookings}
+
+---質問の文脈でペルソナを判断---
+投資・利回り・口数・ROI → 具体的な数字で回答、East Ventures実績を添える
+DIY・建築・素材・コードウッド・ストローベイル・SIPs → Work Party情報と自然建材スペック
+フェス・ZAMNA・ハワイ・テクノ・EDM → ZAMNA FESTの日程・定員・登録リンクを必ず伝える
+空き家・移住・地方・瀬戸内・和歌山 → 空き家リノベプロジェクトと体験施工を案内`,
+          messages: [{ role: "user", content: question }]
+        })
+      });
+      const data = await r.json();
+      reply = data.content?.[0]?.text || "";
+    } catch {}
+  }
+
+  if (!reply) reply = "少々お待ちください。詳細は solun.art/app でご確認いただけます。";
+
+  await fetch("https://api.line.me/v2/bot/message/reply", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
+    body: JSON.stringify({
+      replyToken,
+      messages: [{
+        type: "flex", altText: reply.slice(0, 50),
+        contents: {
+          type: "bubble",
+          header: {
+            type: "box", layout: "horizontal", paddingAll: "12px", backgroundColor: "#0a0a0a", spacing: "sm",
+            contents: [
+              { type: "text", text: "ソル", weight: "bold", size: "sm", color: "#c8a455", flex: 0 },
+              { type: "text", text: " SOLUNA AI", size: "xs", color: "#555", margin: "sm" }
+            ]
+          },
+          body: {
+            type: "box", layout: "vertical", paddingAll: "16px",
+            contents: [{ type: "text", text: reply, size: "sm", color: "#e8e0cc", wrap: true }]
+          },
+          footer: {
+            type: "box", layout: "horizontal", paddingAll: "10px", spacing: "sm",
+            contents: [
+              { type: "button", action: { type: "message", label: "予約", text: "予約状況" }, style: "secondary", height: "sm", flex: 1 },
+              { type: "button", action: { type: "message", label: "物件", text: "物件" }, style: "secondary", height: "sm", flex: 1 },
+              { type: "button", action: { type: "uri", label: "アプリ", uri: "https://solun.art/app" }, style: "primary", color: "#c8a455", height: "sm", flex: 1 },
+            ]
+          },
+          styles: { header: { backgroundColor: "#0a0a0a" }, body: { backgroundColor: "#111" }, footer: { backgroundColor: "#0a0a0a" } }
+        }
+      }]
+    })
+  }).catch(() => {});
+}
+
+// LINE: push message to admin (if they have line_user_id linked)
+async function linePushAdmin(text) {
+  if (!LINE_CHANNEL_ACCESS_TOKEN) return;
+  try {
+    const admin = (await db.execute({ sql: "SELECT line_user_id FROM soluna_members WHERE member_type='admin' AND line_user_id IS NOT NULL AND line_user_id != '' LIMIT 1" })).rows[0];
+    if (!admin) return;
+    await fetch("https://api.line.me/v2/bot/message/push", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
+      body: JSON.stringify({ to: admin.line_user_id, messages: [{ type: "text", text }] })
+    });
+  } catch {}
+}
+
+// LINE: push check-in reminder to members checking in tomorrow
+async function lineCheckinReminders() {
+  if (!LINE_CHANNEL_ACCESS_TOKEN) return;
+  try {
+    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+    const tStr = tomorrow.toISOString().slice(0, 10);
+    const bookings = (await db.execute({
+      sql: `SELECT b.*, sm.line_user_id, sm.name as mname
+            FROM soluna_bookings b
+            JOIN soluna_members sm ON sm.id = b.member_id
+            WHERE b.check_in = ? AND b.status = 'confirmed' AND sm.line_user_id IS NOT NULL AND sm.line_user_id != ''`,
+      args: [tStr]
+    })).rows;
+    for (const b of bookings) {
+      const prop = SOLUNA_PROPERTIES[b.property_slug] || {};
+      await fetch("https://api.line.me/v2/bot/message/push", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}` },
+        body: JSON.stringify({
+          to: b.line_user_id,
+          messages: [{
+            type: "flex", altText: `明日チェックインです — ${prop.name || b.property_slug}`,
+            contents: {
+              type: "bubble",
+              hero: { type: "image", url: `https://solun.art/img/${prop.img || 'og.jpg'}`, size: "full", aspectRatio: "20:13", aspectMode: "cover" },
+              body: {
+                type: "box", layout: "vertical", paddingAll: "16px", spacing: "sm",
+                contents: [
+                  { type: "text", text: "🌅 明日チェックインです", weight: "bold", size: "md", color: "#c8a455" },
+                  { type: "text", text: prop.name || b.property_slug, weight: "bold", size: "lg", color: "#f0ece4", margin: "sm" },
+                  { type: "box", layout: "horizontal", margin: "md", spacing: "md", contents: [
+                    { type: "box", layout: "vertical", contents: [
+                      { type: "text", text: "チェックイン", size: "xxs", color: "#555" },
+                      { type: "text", text: b.check_in, size: "sm", color: "#f0ece4", weight: "bold" }
+                    ]},
+                    { type: "box", layout: "vertical", contents: [
+                      { type: "text", text: "チェックアウト", size: "xxs", color: "#555" },
+                      { type: "text", text: b.check_out, size: "sm", color: "#f0ece4", weight: "bold" }
+                    ]},
+                  ]},
+                  { type: "text", text: "チェックインガイドをご確認ください。良いご滞在を！", size: "sm", color: "#888", wrap: true, margin: "md" },
+                ]
+              },
+              footer: {
+                type: "box", layout: "vertical", paddingAll: "12px",
+                contents: [{ type: "button", action: { type: "uri", label: "ガイドを開く", uri: "https://solun.art/app" }, style: "primary", color: "#c8a455", height: "sm" }]
+              },
+              styles: { body: { backgroundColor: "#0a0a0a" }, footer: { backgroundColor: "#0a0a0a" } }
+            }
+          }]
+        })
+      }).catch(() => {});
+    }
+    if (bookings.length) console.log(`[LINE] Sent ${bookings.length} check-in reminders for ${tStr}`);
+  } catch(e) { console.error("[LINE] checkin reminder error:", e.message); }
+}
+
+// Schedule check-in reminder daily at 9am JST (0am UTC)
+setInterval(() => {
+  const now = new Date();
+  if (now.getUTCHours() === 0 && now.getUTCMinutes() < 5) lineCheckinReminders().catch(() => {});
+}, 5 * 60 * 1000);
 
 // AI reply to community
 async function aiCommunityReply(userMessage, userName) {
@@ -9296,19 +9787,17 @@ const SOLUNA_KB = {
 
 登録・購入は https://solun.art から`,
 
-  festival: `SOLUNA FEST HAWAII 2026
-日程: 2026年9月4日（金）〜6日（日）
-会場: Moanalua Gardens, Oahu, Hawaii
-ジャンル: アンダーグラウンドエレクトロニック
-年齢制限: 21歳以上（ID必須）
+  festival: `ZAMNA × SOLUNA FEST HAWAII 2026
+日時: 2026年9月5日（土）オアフ島ハワイ
+音楽: ZAMNA Collective（テクノ / EDM）
+定員: 限定300名
+宿泊: HONOLULU VILLA 宿泊可（SOLUNA物件）
+先行登録: https://solun.art/zamna ← 先行登録者のみチケット先行購入権あり
+詳細: 詳細が決まり次第、先行登録者に最速でお知らせ
 
-チケット:
-- Day 1: $120
-- Day 2: $180
-- 2日券: $280
-- VIP: $1,000+
-
-公式サイト: https://solun.art/tickets`,
+ZAMNAはメキシコ・トゥルム発のテクノ/EDMフェスティバル。自然と音楽を融合したコンセプトでSOLUNAとコラボ。
+注意: HONOLULU VILLA / HAWAII KAI HOUSEは2026年11月オープン予定。フェスト(9月)時点では未開業。フェスト参加者の宿泊先は先行登録後に別途ご案内。
+11月以降のハワイ滞在はSOLUNA物件（月単位）が利用可能。`,
 
   contact: `お問い合わせ
 メール: info@solun.art
@@ -9321,7 +9810,7 @@ function solunaContext(query) {
   const parts = [];
   if (q.match(/物件|lodge|nesting|tapkop|kumaushi|熱海|atami|ハワイ|honolulu|maui|villa/)) parts.push(SOLUNA_KB.resort);
   if (q.match(/方法|どうやって|購入|予約|仕組み|how|buy|book|join|member|口数/)) parts.push(SOLUNA_KB.howto);
-  if (q.match(/fest|festival|フェス|ticket|チケット|hawaii.*fest|concert/)) parts.push(SOLUNA_KB.festival);
+  if (q.match(/fest|festival|フェス|ticket|チケット|hawaii.*fest|concert|zamna|ザムナ|テクノ|edm/)) parts.push(SOLUNA_KB.festival);
   if (parts.length === 0) { parts.push(SOLUNA_KB.resort); parts.push(SOLUNA_KB.howto); }
   return parts.join("\n\n");
 }
@@ -9567,6 +10056,28 @@ app.get("/api/soluna/admin/page-views", async (req, res) => {
     args: [],
   });
   res.json({ views: r.rows });
+});
+
+// ── Pages listing API (desk.html auto-populate) ──────────────────────────────
+app.get("/api/pages", (req, res) => {
+  const result = [];
+  try {
+    const files = fs.readdirSync(CABIN_DIR).filter(f => f.endsWith(".html") && !f.startsWith("_"));
+    files.forEach(f => {
+      const st = fs.statSync(path.join(CABIN_DIR, f));
+      result.push({ path: "/" + f.slice(0, -5), filename: f, dir: "cabin", mtime: st.mtimeMs });
+    });
+  } catch {}
+  const DOCS_DIR = path.join(__dirname, "docs");
+  try {
+    const files = fs.readdirSync(DOCS_DIR).filter(f => f.endsWith(".html") && !f.startsWith("_"));
+    files.forEach(f => {
+      const st = fs.statSync(path.join(DOCS_DIR, f));
+      result.push({ path: "/docs/" + f.slice(0, -5), filename: f, dir: "docs", mtime: st.mtimeMs });
+    });
+  } catch {}
+  result.sort((a, b) => b.mtime - a.mtime);
+  res.json({ pages: result, total: result.length });
 });
 
 app.all("/api/*", (_req, res) => {
@@ -9908,6 +10419,19 @@ function biogridAuth(req, res, next) {
   res.status(401).send("このページはパスワードが必要です。");
 }
 app.use("/biogrid", biogridAuth);
+
+// ── Docs static HTML files (/docs/*.html) ────────────────────────────────────
+const DOCS_STATIC_DIR = path.join(__dirname, "docs");
+if (fs.existsSync(DOCS_STATIC_DIR)) {
+  // Serve /docs/*.html before the global .html→clean-URL 301 redirect
+  app.use("/docs", express.static(DOCS_STATIC_DIR, { maxAge: "0", etag: false }));
+  // Also serve without .html extension: /docs/01_godo_kaisha_teikan
+  app.get("/docs/:file([^/]+)", (req, res, next) => {
+    const p = path.join(DOCS_STATIC_DIR, req.params.file + ".html");
+    if (fs.existsSync(p)) return res.sendFile(p);
+    next();
+  });
+}
 
 // ── Cabin static files (main SOLUNA website — served from /cabin dir) ────────
 // Must come BEFORE the SPA fallback so .html files are served directly
@@ -10349,4 +10873,105 @@ app.post("/api/soluna/admin/send-email", express.json(), async (req, res) => {
     if (!r.ok) return res.status(r.status).json(d);
     res.json({ ok: true, id: d.id });
   } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// ── Site Settings (wallpaper etc.) ────────────────────────────────────────────
+app.get("/api/site-settings", async (req, res) => {
+  try {
+    const r = await db.execute("SELECT key, value FROM site_settings");
+    const settings = {};
+    for (const row of r.rows) { try { settings[row.key] = JSON.parse(row.value); } catch { settings[row.key] = row.value; } }
+    res.json(settings);
+  } catch(e) { res.json({}); }
+});
+
+app.patch("/api/admin/site-settings", express.json(), async (req, res) => {
+  const auth = (req.headers.authorization || "").replace("Bearer ", "");
+  if (!auth) return res.status(401).json({ error: "Unauthorized" });
+  const ADMIN_EMAILS = ['mail@yukihamada.jp', 'yuki@hamada.tokyo'];
+  try {
+    const sr = await db.execute(
+      "SELECT sm.email FROM soluna_sessions ss JOIN soluna_members sm ON ss.member_id = sm.id WHERE ss.token = ? AND ss.expires_at > ?",
+      [auth, Date.now()]
+    );
+    if (!sr.rows.length || !ADMIN_EMAILS.includes(sr.rows[0].email)) return res.status(403).json({ error: "Forbidden" });
+  } catch(e) { return res.status(500).json({ error: e.message }); }
+  const { key, value } = req.body;
+  if (!key) return res.status(400).json({ error: "key required" });
+  try {
+    await db.execute(
+      "INSERT INTO site_settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = CURRENT_TIMESTAMP",
+      [key, JSON.stringify(value)]
+    );
+    res.json({ ok: true });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// ── Community: pin/unpin (admin) ──────────────────────────────────────────────
+db.execute("ALTER TABLE soluna_community_messages ADD COLUMN pinned INTEGER DEFAULT 0").catch(()=>{});
+
+// Seed community messages if empty
+db.execute("SELECT COUNT(*) as cnt FROM soluna_community_messages").then(function(r){
+  var cnt = (r.rows && r.rows[0] && (r.rows[0].cnt || r.rows[0][0])) || 0;
+  if(parseInt(cnt) > 0) return;
+  var seeds = [
+    [0, 'SOLUNA', 'admin', 'SOLUNAコミュニティへようこそ！🌟\n\nここは北海道・熱海・ハワイのSOLUNAオーナーたちが集まる場所です。物件のこと、次の滞在の計画、村づくりのアイデアなど、なんでも気軽に話しかけてください！\n— 濱田優貴 & SOLUNA チーム', 1],
+    [1, '田中 K.', 'member', 'TAPKOP先週行ってきました。サウナ→湖→焚き火のループが最高すぎて、帰りたくなかった笑。次の予約いつ入れよう', 0],
+    [2, '佐藤 M.', 'member', '熱海のWHITE HOUSE、東京から新幹線で45分なのがほんとに便利。週末サクッと行けるの最高です。家族に大好評でした🏖', 0],
+    [1, '田中 K.', 'member', '美留和ビレッジ9月オープン楽しみすぎる。Work Party参加する人いますか？', 0],
+    [3, '鈴木 A.', 'member', '参加します！木材加工ワークショップ特に興味あり。薪ストーブの煙突施工も体験できるって聞いて。', 0],
+    [0, 'SOLUNA', 'admin', '【お知らせ】美留和ビレッジ Work Party の参加者募集中です。9月5〜7日。詳細は /workparty をご覧ください 🏗️', 1],
+  ];
+  var p = Promise.resolve();
+  seeds.forEach(function(s){
+    p = p.then(function(){
+      return db.execute(
+        "INSERT INTO soluna_community_messages (member_id, display_name, member_type, message, is_ai) VALUES (?,?,?,?,?)", s
+      ).catch(function(){});
+    });
+  });
+}).catch(function(){});
+
+app.patch("/api/soluna/community/pin/:id", express.json(), async (req, res) => {
+  const auth = (req.headers.authorization || "").replace("Bearer ", "");
+  const ADMIN_EMAILS = ['mail@yukihamada.jp', 'yuki@hamada.tokyo'];
+  try {
+    const sr = await db.execute(
+      "SELECT sm.email FROM soluna_sessions ss JOIN soluna_members sm ON ss.member_id=sm.id WHERE ss.token=? AND ss.expires_at>?",
+      [auth, Date.now()]
+    );
+    if (!sr.rows.length || !ADMIN_EMAILS.includes(sr.rows[0].email)) return res.status(403).json({ error:"Forbidden" });
+  } catch(e) { return res.status(500).json({ error: e.message }); }
+  const { pinned } = req.body;
+  await db.execute("UPDATE soluna_community_messages SET pinned=? WHERE id=?", [pinned?1:0, req.params.id]);
+  res.json({ ok: true });
+});
+
+app.get("/api/soluna/community/pinned", async (_req, res) => {
+  try {
+    const r = await db.execute("SELECT * FROM soluna_community_messages WHERE pinned=1 AND deleted=0 ORDER BY id DESC LIMIT 5");
+    res.json(r.rows);
+  } catch(e) { res.json([]); }
+});
+
+// ── Admin notifications ───────────────────────────────────────────────────────
+app.get("/api/admin/notifications", async (req, res) => {
+  const auth = (req.headers.authorization || "").replace("Bearer ", "");
+  const ADMIN_EMAILS = ['mail@yukihamada.jp', 'yuki@hamada.tokyo'];
+  try {
+    const sr = await db.execute(
+      "SELECT sm.email FROM soluna_sessions ss JOIN soluna_members sm ON ss.member_id=sm.id WHERE ss.token=? AND ss.expires_at>?",
+      [auth, Date.now()]
+    );
+    if (!sr.rows.length || !ADMIN_EMAILS.includes(sr.rows[0].email)) return res.status(403).json({ error:"Forbidden" });
+  } catch(e) { return res.status(403).json({ error:"Forbidden" }); }
+  const since = req.query.since || new Date(Date.now()-24*60*60*1000).toISOString();
+  try {
+    const [purchases, meetings] = await Promise.all([
+      db.execute("SELECT id,'purchase' as type,email as title,created_at FROM soluna_purchases WHERE created_at>? ORDER BY id DESC LIMIT 10",[since]),
+      db.execute("SELECT id,'meeting' as type,name||' — '||meeting_type as title,created_at FROM meeting_requests WHERE created_at>? ORDER BY id DESC LIMIT 10",[since]).catch(()=>({rows:[]})),
+    ]);
+    const all=[...purchases.rows,...meetings.rows].sort((a,b)=>a.created_at<b.created_at?1:-1).slice(0,20);
+    res.json(all);
+  } catch(e) { res.json([]); }
 });

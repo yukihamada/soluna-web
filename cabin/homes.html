@@ -160,7 +160,7 @@ footer{padding:44px 6vw;border-top:1px solid var(--border);display:flex;justify-
 <a class="active" href="homes">MODEL VILLAGE</a>
 <a href="sound">SOUND</a>
 <a href="faq">FAQ</a>
-<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+<a class="gnav-cta" data-en="Become an Owner" href="buy" data-sln-track="purchase_click">オーナーになる</a>
 </div>
 <button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
 <span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
@@ -779,7 +779,7 @@ footer{padding:44px 6vw;border-top:1px solid var(--border);display:flex;justify-
 <span data-en="Purchase · Participate">購入・参加</span><span class="sf-ic">+</span>
 </button>
 <div class="sf-bd">
-<a data-en="Become an Owner" href="buy">オーナーになる</a>
+<a data-en="Become an Owner" href="buy" data-sln-track="purchase_click">オーナーになる</a>
 <a href="workparty">Work Party</a>
 <a data-en="Long-term ownership plan" href="hold">長期保有プラン</a>
 <a data-en="NFT Units" href="mint">NFT 口数</a>
@@ -898,5 +898,8 @@ const io = new IntersectionObserver(entries=>{
 document.querySelectorAll('.r').forEach(el=>io.observe(el));
 </script>
 <script src="/lang.js"></script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
 </body>
 </html>

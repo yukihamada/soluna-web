@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ZAMNA × SOLUNA FEST HAWAII 2026</title>
-<meta name="description" content="2026, Oahu, Hawaii. Date TBD. Register for early access.">
+<meta name="description" content="ZAMNA × SOLUNA FEST HAWAII 2026年9月、オアフ島ハワイ。テクノ × 自然 × 共同所有リゾート。先行登録受付中。">
 <meta property="og:title" content="ZAMNA × SOLUNA FEST HAWAII 2026">
-<meta property="og:description" content="2026, Oahu, Hawaii. Date TBD.">
+<meta property="og:description" content="2026年9月、Oahu, Hawaii。テクノミュージック × 北海道・ハワイのリゾートコミュニティ。先行登録受付中。">
 <meta property="og:image" content="https://solun.art/img/pro_hawaii_hero.webp">
 <meta property="og:url" content="https://solun.art/zamna">
 <meta name="twitter:card" content="summary_large_image">
@@ -82,7 +82,7 @@ h1 span{color:var(--gold)}
 <div class="wrap">
   <div class="eyebrow">ZAMNA × SOLUNA FEST HAWAII 2026</div>
   <h1>この木は<br><span>覚えている</span></h1>
-  <div class="date">Oahu, Hawaii &nbsp;·&nbsp; 2026</div>
+  <div class="date">Oahu, Hawaii &nbsp;·&nbsp; 2026年9月5日（土）</div>
 
   <div class="countdown" id="countdown">
     <div class="cd-unit"><div class="cd-num" id="cd-d">--</div><div class="cd-label">Days</div></div>
@@ -95,12 +95,33 @@ h1 span{color:var(--gold)}
   </div>
 
   <div class="form-wrap">
+    <p style="font-size:11px;color:rgba(200,164,85,.75);letter-spacing:.1em;margin-bottom:14px;font-weight:600">先行登録者のみチケット先行購入権あり</p>
     <div class="form-row">
       <input class="input" id="email" type="email" placeholder="your@email.com" autocomplete="email">
-      <button class="btn" onclick="register()">Notify Me</button>
+      <button class="btn" onclick="register()">登録 →</button>
     </div>
-    <div class="note">詳細が決まり次第、最速でお知らせします</div>
+    <div class="note">詳細が決まり次第、先行登録者に最速でお知らせします</div>
     <div class="done" id="done">🌺 &nbsp;登録完了。ハワイでお会いしましょう。</div>
+  </div>
+
+
+  <div style="margin-top:48px;display:flex;gap:32px;justify-content:center;flex-wrap:wrap;opacity:.55">
+    <div style="text-align:center">
+      <div style="font-size:9px;letter-spacing:.18em;color:rgba(200,164,85,.7);margin-bottom:4px">MUSIC</div>
+      <div style="font-size:11px;color:#f0ece4">ZAMNA Collective</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:9px;letter-spacing:.18em;color:rgba(200,164,85,.7);margin-bottom:4px">VENUE</div>
+      <div style="font-size:11px;color:#f0ece4">Oahu, Hawaii</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:9px;letter-spacing:.18em;color:rgba(200,164,85,.7);margin-bottom:4px">CAPACITY</div>
+      <div style="font-size:11px;color:#f0ece4">限定300名</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:9px;letter-spacing:.18em;color:rgba(200,164,85,.7);margin-bottom:4px">STAY</div>
+      <div style="font-size:11px;color:#f0ece4">HONOLULU VILLA 宿泊可</div>
+    </div>
   </div>
 </div>
 
@@ -116,9 +137,9 @@ h1 span{color:var(--gold)}
   }
 })();
 
-// Countdown to 2026-11-07 00:00 HST (Hawaii UTC-10)
+// Countdown to 2026-09-05 00:00 HST (Hawaii UTC-10)
 (function tick(){
-  var target=new Date('2026-11-07T10:00:00Z').getTime();
+  var target=new Date('2026-09-05T10:00:00Z').getTime();
   function update(){
     var diff=target-Date.now();
     if(diff<=0){document.getElementById('countdown').style.display='none';return;}
@@ -151,5 +172,8 @@ async function register(){
 }
 document.getElementById('email').addEventListener('keydown',function(e){if(e.key==='Enter')register()});
 </script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
 </body>
 </html>

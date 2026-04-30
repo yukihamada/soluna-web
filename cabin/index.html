@@ -222,6 +222,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
   box-shadow:0 22px 60px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.1);
   animation:winPop .18s ease;min-width:320px;
 }
+/* Resize handles */
+.rh{position:absolute;z-index:20;}
+.rh-n{top:-3px;left:8px;right:8px;height:6px;cursor:n-resize}
+.rh-s{bottom:-3px;left:8px;right:8px;height:6px;cursor:s-resize}
+.rh-e{right:-3px;top:8px;bottom:8px;width:6px;cursor:e-resize}
+.rh-w{left:-3px;top:8px;bottom:8px;width:6px;cursor:w-resize}
+.rh-ne{top:-4px;right:-4px;width:12px;height:12px;cursor:ne-resize}
+.rh-nw{top:-4px;left:-4px;width:12px;height:12px;cursor:nw-resize}
+.rh-se{bottom:-4px;right:-4px;width:12px;height:12px;cursor:se-resize}
+.rh-sw{bottom:-4px;left:-4px;width:12px;height:12px;cursor:sw-resize}
 @keyframes winPop{from{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
 .winbar{
   height:36px;display:flex;align-items:center;padding:0 10px;gap:8px;
@@ -270,6 +280,21 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 .mcta.primary{background:var(--gold);border-color:var(--gold);color:#000;font-weight:700}
 /* モバイルカードリスト */
 #m-apps{padding:16px 16px calc(env(safe-area-inset-bottom,0px) + 20px)}
+/* Property image grid (resort group) */
+.m-prop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.m-prop-card{
+  position:relative;border-radius:12px;overflow:hidden;
+  aspect-ratio:4/3;cursor:pointer;text-decoration:none;display:block;
+}
+.m-prop-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.m-prop-card:active img{transform:scale(1.04)}
+.m-prop-card .overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 55%);
+  padding:8px;display:flex;flex-direction:column;justify-content:flex-end;
+}
+.m-prop-card .ptag{font-size:.52rem;letter-spacing:.1em;color:var(--gold);font-weight:700;margin-bottom:2px}
+.m-prop-card .pname{font-size:.72rem;font-weight:700;color:#fff;line-height:1.2}
 .mcard{
   display:flex;align-items:center;gap:14px;padding:13px 16px;
   background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.1);
@@ -292,6 +317,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
   font-family:'Inter',sans-serif;margin-top:4px;
 }
 </style>
+<script defer src="/js/sln-admin.js"></script>
 </head>
 <body>
 
@@ -330,12 +356,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 <!-- Hero copy -->
 <div id="hero">
   <div id="hero-tag" data-ja="北海道3万坪 · 熱海 · ハワイ  ·  780万円〜 · 年間30泊 · 登記所有" data-en="Hokkaido 30,000 tsubo · Atami · Hawaii  ·  From ¥7.8M · 30 nights/yr · Registered ownership">北海道3万坪 · 熱海 · ハワイ  ·  780万円〜 · 年間30泊 · 登記所有</div>
-  <h1 id="hero-copy" data-ja="帰ってくる場所が、ある。" data-en="A place that's always yours.">帰ってくる場所が、ある。</h1>
-  <p id="hero-sub" data-ja="だから10人で持つ。コストは10分の1、使わない日もプロが管理する。犬を連れて、サウナに入って、また来たいと思える場所。" data-en="So share it with 10 — a tenth of the cost, professionally managed year-round. A place with dogs, saunas, and wild nature. One you'll keep coming back to.">だから10人で持つ。コストは10分の1、使わない日もプロが管理する。犬を連れて、サウナに入って、また来たいと思える場所。</p>
+  <h1 id="hero-copy" data-ja="別荘コストを、10分の1に。" data-en="A place that's always yours.">別荘コストを、10分の1に。</h1>
+  <p id="hero-sub" data-ja="10口シェアで登記所有。780万円から、年間30泊。使わない日はプロが運営して収益化 — 稼働実績 TAPKOP年2,200万円（表面利回り約27%）。" data-en="Registered ownership from ¥7.8M — 30 nights/year, professionally managed year-round. TAPKOP operational revenue: ¥22M/yr (~27% yield).">10口シェアで登記所有。780万円から、年間30泊。使わない日はプロが運営して収益化 — 稼働実績 TAPKOP年2,200万円（表面利回り約27%）。</p>
+  <p id="hero-trust" style="font-size:.6rem;color:rgba(255,255,255,.38);margin:-8px 0 14px;letter-spacing:.08em">East Ventures 5,000万円出資 · 登記所有 · 2020年創業 · <span style="color:rgba(200,164,85,.6);cursor:pointer" onclick="if(typeof openWin==='function')openWin('/scheme','スキーム','🗺️','scheme')">スキームを詳しく →</span></p>
   <div id="hero-ctas">
-    <button class="hcta primary" data-open="collection" data-ja="物件を見る →" data-en="Browse Properties →">物件を見る →</button>
-    <button class="hcta" data-open="scheme" data-ja="📅 稼働カレンダーを見る" data-en="📅 View Open Calendar">📅 稼働カレンダーを見る</button>
-    <button class="hcta" data-open="zamna" data-ja="🎪 ZAMNA HAWAII" data-en="🎪 ZAMNA HAWAII">🎪 ZAMNA HAWAII</button>
+    <button class="hcta primary" data-open="collection" data-sln-track="purchase_click" data-ja="物件を見る →" data-en="Browse Properties →">物件を見る →</button>
+    <button class="hcta" style="background:rgba(200,164,85,.18);border-color:rgba(200,164,85,.5);color:#e8c97a;font-weight:600" data-open="call" data-sln-track="consultation_click" data-ja="💬 まず話を聞く" data-en="💬 Free Consultation">💬 まず話を聞く</button>
+    <button class="hcta" data-open="invest" data-sln-track="consultation_click" data-ja="📋 投資家向け資料" data-en="📋 Investor Deck">📋 投資家向け資料</button>
+    <button class="hcta" data-open="zamna" data-sln-track="property_view" data-ja="🎪 ZAMNA HAWAII '26" data-en="🎪 ZAMNA Hawaii Sep '26">🎪 ZAMNA HAWAII '26</button>
   </div>
 </div>
 
@@ -374,18 +402,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
   <!-- ヒーロー -->
   <div id="m-hero">
     <div class="m-tag" id="m-tag" data-ja="北海道 · 熱海 · ハワイ" data-en="Hokkaido · Atami · Hawaii">北海道 · 熱海 · ハワイ</div>
-    <h1 id="m-copy" data-ja="帰ってくる場所が、ある。" data-en="A place that's always yours.">帰ってくる場所が、ある。</h1>
-    <p id="m-sub" data-ja="北海道3万坪の大地、熱海、ハワイ。犬を連れて、サウナに入って、柔術を練習して、焚き火で話す。1口780万円〜、年間30泊。それがSOLUNA。" data-en="30,000 tsubo of Hokkaido wilderness, Atami, Hawaii. Bring your dog, hit the sauna, train jiu-jitsu, sit around the fire. From ¥7.8M, 30 nights/year. That's SOLUNA.">北海道3万坪の大地、熱海、ハワイ。犬を連れて、サウナに入って、柔術を練習して、焚き火で話す。1口780万円〜、年間30泊。それがSOLUNA。</p>
+    <h1 id="m-copy" data-ja="別荘コストを、10分の1に。" data-en="A place that's always yours.">別荘コストを、10分の1に。</h1>
+    <p id="m-sub" data-ja="780万円〜の登記所有、年間30泊。使わない日はプロが収益化。稼働実績 TAPKOP年2,200万円（利回り約27%）。" data-en="Registered ownership from ¥7.8M, 30 nights/yr. Professionally managed. TAPKOP: ¥22M/yr (~27% yield).">780万円〜の登記所有、年間30泊。使わない日はプロが収益化。稼働実績 TAPKOP年2,200万円（利回り約27%）。</p>
     <div class="m-ctas">
       <a href="/collection" class="mcta primary" id="m-cta1" data-ja="物件を見る →" data-en="Browse Properties →">物件を見る →</a>
       <a href="/scheme" class="mcta" id="m-cta2" data-ja="スキームを知る" data-en="How It Works">スキームを知る</a>
     </div>
     <div class="m-ctas" style="margin-top:6px">
-      <a href="/zamna" class="mcta primary" style="font-size:.74rem">🎪 ZAMNA×SOLUNA HAWAII Sep 2026</a>
+      <a href="/kagawa-akiya" class="mcta" id="m-cta3" data-ja="🏠 空き家を探す" data-en="🏠 Vacant Houses">🏠 空き家を探す</a>
+      <a href="/brochure" class="mcta" data-ja="📋 オーナー資料" data-en="📋 Owner Info">📋 オーナー資料</a>
     </div>
     <div class="m-ctas" style="margin-top:6px">
-      <a href="/kagawa-akiya" class="mcta" id="m-cta3" data-ja="🏠 空き家を探す" data-en="🏠 Vacant Houses">🏠 空き家を探す</a>
-      <a href="/calendar" class="mcta" data-ja="📅 カレンダー" data-en="📅 Calendar">📅 カレンダー</a>
+      <a href="/zamna" class="mcta primary" style="font-size:.74rem">🎪 ZAMNA×SOLUNA HAWAII 2026年9月</a>
     </div>
     <button id="m-lang-btn">EN</button>
   </div>
@@ -421,7 +449,7 @@ var APPS = [
   {id:'buy',       em:'💰', lbl:'購入・申込',       en:'Buy / Apply',    url:'/buy',           dock:true,  group:'resort'},
   {id:'village',   em:'🏘️', lbl:'ビレッジ',        en:'Village',        url:'/village',       dock:false, group:'resort'},
   {id:'tapkop',    em:'🏔️', lbl:'TAPKOP',          en:'TAPKOP',         url:'/tapkop',        dock:false, group:'resort'},
-  {id:'invest',    em:'📋', lbl:'オーナー向け資料',   en:'Owner Info',     url:'/investor',      dock:false, group:'resort'},
+  {id:'invest',    em:'📋', lbl:'オーナー向け資料',   en:'Owner Info',     url:'/brochure',      dock:false, group:'resort'},
   // ── 空き家プロジェクト ──
   {id:'kagawa',    em:'🌊', lbl:'香川の空き家',    en:'Kagawa House',   url:'/kagawa-akiya',  dock:false, group:'akiya'},
   {id:'wakayama',  em:'🌲', lbl:'和歌山の空き家',  en:'Wakayama House', url:'/wakayama-akiya',dock:false, group:'akiya'},
@@ -433,6 +461,8 @@ var APPS = [
   {id:'tickets',   em:'🎫', lbl:'チケット',        en:'Tickets',        url:'/tickets',       dock:false, group:'fest'},
   // ── その他 ──
   {id:'app',       em:'📱', lbl:'アプリ',          en:'Member App',     url:'/app',           dock:true,  group:'more'},
+  {id:'avail',     em:'📅', lbl:'空き状況',        en:'Availability',   url:'/avail',         dock:true,  group:'more'},
+  {id:'media',     em:'🎬', lbl:'メディア',        en:'Media Player',   url:'/media',         dock:true,  group:'more'},
   {id:'community', em:'💬', lbl:'コミュニティ',    en:'Community',      url:'/community',     dock:false, group:'more'},
   {id:'blog',      em:'📝', lbl:'ブログ',          en:'Blog',           url:'/blog',          dock:false, group:'more'},
   {id:'sound',     em:'🎵', lbl:'サウンド',        en:'Sound',          url:'/sound',         dock:false, group:'more'},
@@ -534,6 +564,24 @@ function buildUI(){
   startGridEl.innerHTML = '';
   mobileAppsEl.innerHTML = '';
 
+  // Mobile: property image grid at top
+  var PROP_CARDS = [
+    {url:'/tapkop',    img:'/img/tapkop_real2.webp',            tag:'北海道',     name:'TAPKOP'},
+    {url:'/lodge',     img:'/img/lodge_exterior_snow.webp',     tag:'北海道',     name:'THE LODGE'},
+    {url:'/atami',     img:'/img/atami_sunset_ocean.webp',      tag:'熱海',       name:'WHITE HOUSE'},
+    {url:'/honolulu',  img:'/img/property-honolulu.webp',       tag:'ハワイ',     name:'HONOLULU'},
+  ];
+  var propGrid = document.createElement('div');
+  propGrid.className = 'm-prop-grid';
+  PROP_CARDS.forEach(function(p){
+    var a = document.createElement('a');
+    a.className = 'm-prop-card'; a.href = p.url;
+    a.innerHTML = '<img src="'+p.img+'" alt="'+p.name+'" loading="lazy">'
+      +'<div class="overlay"><div class="ptag">'+p.tag+'</div><div class="pname">'+p.name+'</div></div>';
+    propGrid.appendChild(a);
+  });
+  mobileAppsEl.appendChild(propGrid);
+
   var lastGroup = null;
   var lastMGroup = null;
 
@@ -567,7 +615,7 @@ function buildUI(){
     }
     var si = document.createElement('div');
     si.className = 'sitem';
-    si.setAttribute('data-lbl', label);
+    si.setAttribute('data-lbl', label+' '+app.id+' '+app.url);
     si.innerHTML = '<span class="em">'+app.em+'</span><span class="lbl">'+label+'</span>';
     si.addEventListener('click', (function(a){ return function(){
       openWin(a.url, t(a), a.em, a.id);
@@ -685,12 +733,28 @@ function closeStart(){
 startBtnEl.addEventListener('click', toggleStart);
 
 searchEl.addEventListener('input', function(){ filterStart(this.value); });
+searchEl.addEventListener('keydown', function(e){
+  if(e.key !== 'Enter') return;
+  var q = this.value.trim().toLowerCase();
+  if(!q) return;
+  // Find first visible sitem
+  var first = document.querySelector('.sitem:not([style*="none"])');
+  if(first){ first.click(); return; }
+  // Property search fallback: find matching app
+  var match = APPS.find(function(a){
+    return (a.lbl+a.id+a.url).toLowerCase().includes(q);
+  });
+  if(match){ openWin(match.url,t(match),match.em,match.id); closeStart(); }
+});
 function filterStart(q){
   q = q.toLowerCase();
   document.querySelectorAll('.sitem').forEach(function(el){
     var lbl = el.getAttribute('data-lbl') || '';
     el.style.display = (!q || lbl.includes(q)) ? '' : 'none';
   });
+  // Show "open in new window" suggestion when searching external content
+  var hint = document.getElementById('sm-search-hint');
+  if(hint) hint.style.display = q ? '' : 'none';
 }
 document.addEventListener('click', function(e){
   if (startOpen && !startMenuEl.contains(e.target) && !startBtnEl.contains(e.target)){
@@ -774,7 +838,33 @@ function openWin(url, title, em, appId){
   body.className = 'winbody';
   body.style.height = (wh - 36) + 'px';
   var embedUrl = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'embed=1';
-  body.innerHTML = '<iframe src="'+embedUrl+'" loading="lazy"></iframe>';
+  body.innerHTML = '<iframe src="'+embedUrl+'" loading="lazy" allow="autoplay; encrypted-media; fullscreen; clipboard-write"></iframe>';
+
+  // Resize handles
+  ['n','s','e','w','ne','nw','se','sw'].forEach(function(dir){
+    var h = document.createElement('div');
+    h.className = 'rh rh-'+dir;
+    h.addEventListener('mousedown', function(e){
+      e.stopPropagation(); e.preventDefault();
+      var sx=e.clientX, sy=e.clientY;
+      var w=wins[id], ox=w.x, oy=w.y, ow=w.w, oh=w.h;
+      function onMove(e2){
+        var dx=e2.clientX-sx, dy=e2.clientY-sy;
+        var nx=ox,ny=oy,nw=ow,nh=oh;
+        if(dir.indexOf('e')>=0) nw=Math.max(320,ow+dx);
+        if(dir.indexOf('s')>=0) nh=Math.max(200,oh+dy);
+        if(dir.indexOf('w')>=0){nw=Math.max(320,ow-dx);nx=ox+ow-nw;}
+        if(dir.indexOf('n')>=0){nh=Math.max(200,oh-dy);ny=oy+oh-nh;}
+        w.x=nx;w.y=ny;w.w=nw;w.h=nh;
+        el.style.cssText='left:'+nx+'px;top:'+ny+'px;width:'+nw+'px;height:'+nh+'px;z-index:'+el.style.zIndex;
+        body.style.height=(nh-36)+'px';
+      }
+      function onUp(){document.removeEventListener('mousemove',onMove);document.removeEventListener('mouseup',onUp);}
+      document.addEventListener('mousemove',onMove);
+      document.addEventListener('mouseup',onUp);
+    });
+    el.appendChild(h);
+  });
 
   el.appendChild(bar);
   el.appendChild(body);
@@ -895,6 +985,316 @@ window.addEventListener('popstate', function(){
 });
 
 })();
+
+// ── PWA Service Worker ────────────────────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('/sw.js').catch(function(){});
+  });
+}
+
+// ── Wallpaper Picker (admin only) ─────────────────────────────────────────────
+(function(){
+  var ADMIN_EMAILS = ['mail@yukihamada.jp', 'yuki@hamada.tokyo'];
+  var ALL_PHOTOS = [
+    // 北海道・弟子屈
+    {src:'/img/kumaushi_spring_panorama.webp',       cap:'熊牛 春の大地',           cat:'hokkaido'},
+    {src:'/img/kussharo_night_aerial.jpg',            cap:'屈斜路湖 夜空',           cat:'hokkaido'},
+    {src:'/img/kumaushi_aerial_dawn.webp',            cap:'熊牛 夜明け',             cat:'hokkaido'},
+    {src:'/img/kumaushi_b_bonfire_night.webp',        cap:'焚き火の夜',              cat:'hokkaido'},
+    {src:'/img/kumaushi_c_fireflies_night.webp',      cap:'蛍の夜',                  cat:'hokkaido'},
+    {src:'/img/kumaushi_b_morning_mist.webp',         cap:'熊牛 朝霧',               cat:'hokkaido'},
+    {src:'/img/kumaushi_c_hokkaido_sunset_wide.webp', cap:'北海道 夕暮れ',           cat:'hokkaido'},
+    {src:'/img/kumaushi_b_spring_wildflowers.webp',   cap:'野花 春',                 cat:'hokkaido'},
+    {src:'/img/kumaushi_b_stars_exterior.webp',       cap:'星空 熊牛',               cat:'hokkaido'},
+    {src:'/img/kumaushi_b_autumn_building.webp',      cap:'紅葉の道場',              cat:'hokkaido'},
+    {src:'/img/kumaushi_winter_stars.webp',           cap:'冬の星空',                cat:'hokkaido'},
+    {src:'/img/kumaushi_c_snow_dome_night.webp',      cap:'雪のドーム 夜',           cat:'hokkaido'},
+    {src:'/img/kumaushi_c_sauna_exterior_snow.webp',  cap:'雪のサウナ',              cat:'hokkaido'},
+    {src:'/img/kumaushi_s_earth_sky.webp',            cap:'大地と空',                cat:'hokkaido'},
+    {src:'/img/kumaushi_s_summit_silhouette.webp',    cap:'峰のシルエット',          cat:'hokkaido'},
+    {src:'/img/kumaushi_sips_exterior_winter.webp',   cap:'冬の外観',                cat:'hokkaido'},
+    {src:'/img/kumaushi_sips_barrel_sauna_snow.webp', cap:'雪のバレルサウナ',        cat:'hokkaido'},
+    {src:'/img/kussharo_lake_dawn.jpg',               cap:'屈斜路湖 夜明け',         cat:'hokkaido'},
+    {src:'/img/miruwa_sunset_panorama.webp',          cap:'美留和 夕暮れ',           cat:'hokkaido'},
+    {src:'/img/miruwa_morning_mist.webp',             cap:'美留和 朝霧',             cat:'hokkaido'},
+    {src:'/img/miruwa_winter_mixed.webp',             cap:'美留和 冬景色',           cat:'hokkaido'},
+    {src:'/img/container_night_stars.webp',           cap:'Stars · SOLUNA',          cat:'hokkaido'},
+    // TAPKOP
+    {src:'/img/tapkop_real2.webp',                    cap:'TAPKOP',                  cat:'tapkop'},
+    {src:'/img/tapkop_real1.webp',                    cap:'TAPKOP 外観',             cat:'tapkop'},
+    {src:'/img/tapkop_lake_mashu_view.webp',          cap:'摩周湖の眺め',            cat:'tapkop'},
+    {src:'/img/tapkop_communal_fire.webp',            cap:'焚き火 TAPKOP',           cat:'tapkop'},
+    {src:'/img/tapkop_forest_path.webp',              cap:'森の小道',                cat:'tapkop'},
+    {src:'/img/tapkop_greenhouse_morning.webp',       cap:'温室 朝',                 cat:'tapkop'},
+    {src:'/img/tapkop_aerial_village.webp',           cap:'TAPKOP 空撮',             cat:'tapkop'},
+    {src:'/img/tapkop_cabin_interior.webp',           cap:'TAPKOP インテリア',       cat:'tapkop'},
+    // ビレッジ
+    {src:'/img/integrated_summer_aerial.jpg',         cap:'ビレッジ 俯瞰',           cat:'village'},
+    {src:'/img/village_arc_sunset.webp',              cap:'ビレッジ 夕暮れ',         cat:'village'},
+    {src:'/img/village_night_milkyway.webp',          cap:'天の川 ビレッジ',         cat:'village'},
+    {src:'/img/village_bonfire_stage.webp',           cap:'焚き火ステージ',          cat:'village'},
+    {src:'/img/village_wide_aerial.webp',             cap:'ビレッジ 全景',           cat:'village'},
+    {src:'/img/village_aerial.webp',                  cap:'村 空撮',                 cat:'village'},
+    {src:'/img/village_snow_aerial.webp',             cap:'雪の村 空撮',             cat:'village'},
+    {src:'/img/village_stage_view.webp',              cap:'ステージの眺め',          cat:'village'},
+    {src:'/img/integrated_deck_evening.jpg',          cap:'デッキ 夕暮れ',           cat:'village'},
+    {src:'/img/integrated_exterior_night.jpg',        cap:'外観 夜',                 cat:'village'},
+    // 熱海・その他物件
+    {src:'/img/atami_sunset_ocean.webp',              cap:'熱海 オーシャン',         cat:'resort'},
+    {src:'/img/atami_cliff_view.webp',                cap:'熱海 崖上',               cat:'resort'},
+    {src:'/img/atami.webp',                           cap:'熱海',                    cat:'resort'},
+    {src:'/img/lodge_hot_spring_night.webp',          cap:'The Lodge 夜の温泉',      cat:'resort'},
+    {src:'/img/lodge_exterior_snow.webp',             cap:'The Lodge 雪',            cat:'resort'},
+    {src:'/img/lodge_morning_view.webp',              cap:'The Lodge 朝',            cat:'resort'},
+    {src:'/img/lodge_great_room.webp',                cap:'The Lodge リビング',      cat:'resort'},
+    {src:'/img/nesting_exterior.webp',                cap:'NESTING 外観',            cat:'resort'},
+    {src:'/img/nesting_night.webp',                   cap:'NESTING 夜',              cat:'resort'},
+    {src:'/img/nesting_forest_bath.webp',             cap:'森の湯',                  cat:'resort'},
+    {src:'/img/property-honolulu.webp',               cap:'HONOLULU VILLA',          cat:'resort'},
+    // アウトドア・サウナ
+    {src:'/img/winter_sauna.webp',                    cap:'冬のサウナ',              cat:'outdoor'},
+    {src:'/img/winter_dome.webp',                     cap:'冬のドーム',              cat:'outdoor'},
+    {src:'/img/winter_village.webp',                  cap:'冬のビレッジ',            cat:'outdoor'},
+    {src:'/img/bonfire_night.webp',                   cap:'焚き火',                  cat:'outdoor'},
+    {src:'/img/comfort_stargazing.webp',              cap:'星空観察',                cat:'outdoor'},
+    {src:'/img/outdoor_cinema_night.webp',            cap:'野外シネマ',              cat:'outdoor'},
+    {src:'/img/offgrid_stove_night.webp',             cap:'薪ストーブ 夜',           cat:'outdoor'},
+    {src:'/img/kumaushi_fire_circle.webp',            cap:'焚き火サークル',          cat:'outdoor'},
+    {src:'/img/kumaushi_winter_outdoor_roll.webp',    cap:'冬のロール',              cat:'outdoor'},
+    {src:'/img/winter_sauna_snowroll.jpg',            cap:'雪のロール サウナ',       cat:'outdoor'},
+    {src:'/img/real_sauna_tower.webp',                cap:'サウナタワー',            cat:'outdoor'},
+    // インテリア・ライフスタイル
+    {src:'/img/cabin_morning.webp',                   cap:'キャビン 朝',             cat:'interior'},
+    {src:'/img/bjj_cabin_lifestyle.webp',             cap:'柔術 キャビン',           cat:'interior'},
+    {src:'/img/kumaushi_sips_interior_living.webp',   cap:'インテリア リビング',     cat:'interior'},
+    {src:'/img/lodge_wood_interior.webp',             cap:'木のインテリア',          cat:'interior'},
+    {src:'/img/nesting_living.webp',                  cap:'NESTING リビング',        cat:'interior'},
+    {src:'/img/offgrid_shikkui_interior.webp',        cap:'漆喰インテリア',          cat:'interior'},
+    {src:'/img/kumaushi_s_tatami_light.webp',         cap:'畳の光',                  cat:'interior'},
+    {src:'/img/pro_tapkop_interior.webp',             cap:'TAPKOP インテリア Pro',   cat:'interior'},
+    {src:'/img/pro_sauna_inside.webp',                cap:'サウナ 内側',             cat:'interior'},
+    {src:'/img/village_kitchen_fire.jpg',             cap:'囲炉裏キッチン',          cat:'interior'},
+  ];
+
+  // Build picker UI
+  var pickerStyle = document.createElement('style');
+  pickerStyle.textContent = [
+    '#wp-picker-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);z-index:9999;align-items:center;justify-content:center;}',
+    '#wp-picker-overlay.open{display:flex;}',
+    '#wp-picker{background:#0d0c0a;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:20px;width:min(760px,96vw);max-height:86vh;display:flex;flex-direction:column;gap:12px;}',
+    '#wp-picker-header{display:flex;align-items:center;justify-content:space-between;}',
+    '#wp-picker-title{font-size:13px;font-weight:700;letter-spacing:.14em;color:#c8a455;}',
+    '#wp-sel-count{font-size:11px;color:#888;}',
+    '#wp-picker-mode{display:flex;gap:6px;}',
+    '.wp-mode-btn{padding:6px 14px;border:1px solid #333;border-radius:6px;background:transparent;color:#888;font-size:11px;cursor:pointer;transition:all .2s;}',
+    '.wp-mode-btn.on{border-color:#c8a455;color:#c8a455;background:rgba(200,164,85,.08);}',
+    '#wp-cats{display:flex;gap:6px;flex-wrap:wrap;}',
+    '.wp-cat-btn{padding:4px 12px;border:1px solid #222;border-radius:20px;background:transparent;color:#666;font-size:10px;cursor:pointer;transition:all .2s;}',
+    '.wp-cat-btn.on{border-color:#c8a455;color:#c8a455;background:rgba(200,164,85,.08);}',
+    '#wp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;overflow-y:auto;flex:1;min-height:200px;}',
+    '.wp-thumb{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:all .18s;}',
+    '.wp-thumb:hover{transform:scale(1.04);}',
+    '.wp-thumb.sel{border-color:#c8a455;box-shadow:0 0 0 2px rgba(200,164,85,.5);}',
+    '.wp-thumb.sel::after{content:"✓";position:absolute;top:4px;right:5px;background:#c8a455;color:#000;font-size:9px;font-weight:800;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:16px;text-align:center;}',
+    '.wp-thumb img{width:100%;height:100%;object-fit:cover;}',
+    '.wp-thumb-cap{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.85));padding:5px 6px;font-size:9px;color:#ccc;}',
+    '#wp-picker-actions{display:flex;gap:8px;justify-content:space-between;align-items:center;}',
+    '#wp-actions-right{display:flex;gap:8px;}',
+    '#wp-save-btn{background:#c8a455;color:#000;border:none;border-radius:8px;padding:9px 22px;font-size:12px;font-weight:700;cursor:pointer;}',
+    '#wp-reset-btn{background:transparent;color:#555;border:1px solid #2a2a2a;border-radius:8px;padding:9px 14px;font-size:11px;cursor:pointer;}',
+    '#wp-cancel-btn{background:transparent;color:#555;border:1px solid #2a2a2a;border-radius:8px;padding:9px 14px;font-size:11px;cursor:pointer;}',
+    '#wp-selall-btn{background:transparent;color:#888;border:1px solid #2a2a2a;border-radius:8px;padding:9px 14px;font-size:11px;cursor:pointer;}',
+    '#wp-trigger{position:fixed;bottom:80px;right:16px;background:rgba(13,12,10,.85);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:500;font-size:16px;backdrop-filter:blur(8px);transition:opacity .2s;}',
+    '#wp-trigger:hover{background:rgba(200,164,85,.2);}',
+    '#wp-ctx-menu{display:none;position:fixed;background:rgba(16,16,20,.97);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:6px 0;z-index:9000;box-shadow:0 8px 32px rgba(0,0,0,.6);min-width:140px;}',
+    '#wp-ctx-menu.open{display:block;}',
+    '#wp-ctx-item{padding:8px 16px;font-size:12px;color:#ccc;cursor:pointer;display:flex;align-items:center;gap:8px;}',
+    '#wp-ctx-item:hover{background:rgba(255,255,255,.06);color:#fff;}',
+  ].join('');
+  document.head.appendChild(pickerStyle);
+
+  var overlay = document.createElement('div'); overlay.id = 'wp-picker-overlay';
+  overlay.innerHTML = [
+    '<div id="wp-picker">',
+    '  <div id="wp-picker-header">',
+    '    <div id="wp-picker-title">🖼 壁紙を選択</div>',
+    '    <span id="wp-sel-count"></span>',
+    '  </div>',
+    '  <div id="wp-picker-mode">',
+    '    <button class="wp-mode-btn on" data-mode="slideshow">スライドショー（複数選択）</button>',
+    '    <button class="wp-mode-btn" data-mode="fixed">固定（1枚）</button>',
+    '  </div>',
+    '  <div id="wp-cats">',
+    '    <button class="wp-cat-btn on" data-cat="all">すべて</button>',
+    '    <button class="wp-cat-btn" data-cat="hokkaido">北海道・弟子屈</button>',
+    '    <button class="wp-cat-btn" data-cat="tapkop">TAPKOP</button>',
+    '    <button class="wp-cat-btn" data-cat="village">ビレッジ</button>',
+    '    <button class="wp-cat-btn" data-cat="resort">物件</button>',
+    '    <button class="wp-cat-btn" data-cat="outdoor">アウトドア</button>',
+    '    <button class="wp-cat-btn" data-cat="interior">インテリア</button>',
+    '  </div>',
+    '  <div id="wp-grid"></div>',
+    '  <div id="wp-picker-actions">',
+    '    <button id="wp-selall-btn">全選択</button>',
+    '    <div id="wp-actions-right">',
+    '      <button id="wp-reset-btn">デフォルトに戻す</button>',
+    '      <button id="wp-cancel-btn">キャンセル</button>',
+    '      <button id="wp-save-btn">保存</button>',
+    '    </div>',
+    '  </div>',
+    '</div>',
+  ].join('');
+  document.body.appendChild(overlay);
+
+  // Context menu on right-click desktop
+  var ctxMenu = document.createElement('div'); ctxMenu.id = 'wp-ctx-menu';
+  ctxMenu.innerHTML = '<div id="wp-ctx-item">🖼 壁紙を変更...</div>';
+  document.body.appendChild(ctxMenu);
+
+  // Trigger button (gear icon)
+  var trigger = document.createElement('div'); trigger.id = 'wp-trigger'; trigger.textContent = '🖼';
+  trigger.title = '壁紙を変更'; document.body.appendChild(trigger);
+  trigger.style.display = 'none';
+
+  var wpMode = 'slideshow';
+  var wpSelected = PHOTOS.map(function(p){ return p.src; });
+  var wpCat = 'all';
+
+  function updateSelCount() {
+    var n = document.querySelectorAll('.wp-thumb.sel').length;
+    var el = document.getElementById('wp-sel-count');
+    if (el) el.textContent = n ? n + '枚選択中' : '';
+  }
+
+  function buildGrid(selected, cat) {
+    var grid = document.getElementById('wp-grid'); grid.innerHTML = '';
+    var filtered = cat === 'all' ? ALL_PHOTOS : ALL_PHOTOS.filter(function(p){ return p.cat === cat; });
+    filtered.forEach(function(ph) {
+      var div = document.createElement('div'); div.className = 'wp-thumb';
+      if (selected.indexOf(ph.src) >= 0) div.classList.add('sel');
+      div.innerHTML = '<img loading="lazy" src="' + ph.src + '"><div class="wp-thumb-cap">' + ph.cap + '</div>';
+      div.addEventListener('click', function(){
+        if (wpMode === 'fixed') {
+          document.querySelectorAll('.wp-thumb').forEach(function(t){ t.classList.remove('sel'); });
+          div.classList.add('sel');
+        } else {
+          div.classList.toggle('sel');
+        }
+        updateSelCount();
+      });
+      grid.appendChild(div);
+    });
+    updateSelCount();
+  }
+
+  function openPicker() {
+    buildGrid(wpSelected, wpCat);
+    document.querySelectorAll('.wp-mode-btn').forEach(function(b){ b.classList.toggle('on', b.dataset.mode === wpMode); });
+    document.querySelectorAll('.wp-cat-btn').forEach(function(b){ b.classList.toggle('on', b.dataset.cat === wpCat); });
+    overlay.classList.add('open');
+  }
+
+  document.querySelectorAll('.wp-mode-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      wpMode = b.dataset.mode;
+      document.querySelectorAll('.wp-mode-btn').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      if (wpMode === 'fixed') {
+        var sels = document.querySelectorAll('.wp-thumb.sel');
+        if (sels.length > 1) { sels.forEach(function(s,i){ if(i>0) s.classList.remove('sel'); }); }
+        updateSelCount();
+      }
+    });
+  });
+
+  document.querySelectorAll('.wp-cat-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      wpCat = b.dataset.cat;
+      document.querySelectorAll('.wp-cat-btn').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      var curSel = Array.from(document.querySelectorAll('.wp-thumb.sel')).map(function(t){ return t.querySelector('img').getAttribute('src'); });
+      buildGrid(curSel, wpCat);
+    });
+  });
+
+  document.getElementById('wp-cancel-btn').addEventListener('click', function(){ overlay.classList.remove('open'); });
+  document.getElementById('wp-selall-btn').addEventListener('click', function(){
+    var thumbs = document.querySelectorAll('.wp-thumb');
+    var allSel = Array.from(thumbs).every(function(t){ return t.classList.contains('sel'); });
+    thumbs.forEach(function(t){ allSel ? t.classList.remove('sel') : t.classList.add('sel'); });
+    updateSelCount();
+  });
+  document.getElementById('wp-reset-btn').addEventListener('click', function(){
+    var tok = localStorage.getItem('sln_token');
+    if (!tok) return;
+    fetch('/api/admin/site-settings', { method:'PATCH', headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+tok }, body: JSON.stringify({ key:'wallpaper', value: null }) })
+      .then(function(){ overlay.classList.remove('open'); applyWallpaper(null); })
+      .catch(function(){});
+  });
+
+  document.getElementById('wp-save-btn').addEventListener('click', function(){
+    var sels = Array.from(document.querySelectorAll('.wp-thumb.sel')).map(function(t){ return t.querySelector('img').getAttribute('src'); });
+    if (!sels.length) { alert('写真を選んでください'); return; }
+    var tok = localStorage.getItem('sln_token');
+    if (!tok) return;
+    var setting = { mode: wpMode, photos: sels };
+    fetch('/api/admin/site-settings', { method:'PATCH', headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+tok }, body: JSON.stringify({ key:'wallpaper', value: setting }) })
+      .then(function(r){ return r.json(); })
+      .then(function(d){ if(d.ok){ overlay.classList.remove('open'); applyWallpaper(setting); wpSelected = sels; } else { alert('保存失敗'); } })
+      .catch(function(){ alert('通信エラー'); });
+  });
+
+  function applyWallpaper(setting) {
+    // Remove existing slides
+    slideEls.forEach(function(el){ if(el.parentNode) el.parentNode.removeChild(el); });
+    slideEls.length = 0; curSlide = 0; prevSlide = -1;
+    var photos = (setting && setting.photos && setting.photos.length) ? setting.photos.map(function(src){ return {src:src,cap:'',en:''}; }) : PHOTOS;
+    photos.forEach(function(ph, i){
+      var el = document.createElement('div'); el.className = 'slide';
+      el.style.backgroundImage = "url('" + ph.src + "')";
+      el.style.animationName = KB[i % 3];
+      slideEls.push(el);
+      wallpaperEl.insertBefore(el, overlayEl);
+    });
+    if (setting && setting.mode === 'fixed') {
+      if (slideEls[0]) slideEls[0].classList.add('active');
+    } else {
+      showSlide(0);
+    }
+  }
+
+  // Right-click on desktop/wallpaper
+  document.getElementById('wallpaper').addEventListener('contextmenu', function(e){
+    e.preventDefault();
+    ctxMenu.style.left = e.clientX + 'px'; ctxMenu.style.top = e.clientY + 'px';
+    ctxMenu.classList.add('open');
+  });
+  document.addEventListener('click', function(){ ctxMenu.classList.remove('open'); });
+  document.getElementById('wp-ctx-item').addEventListener('click', function(){ ctxMenu.classList.remove('open'); openPicker(); });
+
+  trigger.addEventListener('click', openPicker);
+
+  // Close overlay clicking outside
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) overlay.classList.remove('open'); });
+
+  // Load setting from server and check admin
+  var tok = localStorage.getItem('sln_token');
+  fetch('/api/site-settings').then(function(r){ return r.json(); }).then(function(settings){
+    if (settings.wallpaper) { applyWallpaper(settings.wallpaper); wpSelected = settings.wallpaper.photos || PHOTOS.map(function(p){ return p.src; }); wpMode = settings.wallpaper.mode || 'slideshow'; }
+  }).catch(function(){});
+
+  if (tok) {
+    fetch('/api/soluna/me', { headers:{ Authorization:'Bearer '+tok } }).then(function(r){ return r.json(); }).then(function(d){
+      if (d && d.member && ADMIN_EMAILS.indexOf(d.member.email) >= 0) {
+        trigger.style.display = 'flex';
+        ctxMenu.style.display = ''; // allow right-click
+      }
+    }).catch(function(){});
+  }
+})();
 </script>
+<script defer src="/js/sln-track.js"></script>
+<script src="/js/dc.js"></script>
 </body>
 </html>
