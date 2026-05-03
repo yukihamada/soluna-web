@@ -17,32 +17,38 @@ const PHOTOS = [
   { src: "/images/03_drone_show.jpg",      caption: "Drone Show" },
 ];
 
-// ── Apps (persona-focused) ────────────────────────────────────────────────────
+// ── Apps ─────────────────────────────────────────────────────────────────────
 const APPS = [
-  // Persona A: Investor
+  // 別荘投資
   { id: "materials", icon: "🏡", label: "物件一覧",     url: "/materials" },
   { id: "buy",       icon: "💰", label: "購入・申込",   url: "/buy" },
   { id: "scheme",    icon: "🗺️", label: "スキーム",     url: "/scheme" },
   { id: "investor",  icon: "📊", label: "投資家向け",   url: "/investor" },
-  // Persona B: Akiya owner
+  { id: "tapkop",    icon: "🏔️", label: "TAPKOP",       url: "/tapkop" },
+  { id: "nesting",   icon: "🪵", label: "THE NEST",     url: "/nesting" },
+  // 空き家活用
   { id: "kagawa",    icon: "🌊", label: "香川 空き家",  url: "/kagawa-akiya" },
-  // Persona C: Festival
+  { id: "wakayama",  icon: "🌿", label: "和歌山 空き家", url: "/wakayama-akiya" },
+  // フェスティバル
   { id: "zamna",     icon: "🎪", label: "ZAMNA HAWAII", url: "/zamna" },
   { id: "tickets",   icon: "🎫", label: "チケット",     url: "/tickets" },
-  // Community / utility
+  { id: "lineup",    icon: "🎤", label: "ラインナップ", url: "/lineup" },
+  // コミュニティ
   { id: "community", icon: "💬", label: "コミュニティ", url: "/community" },
   { id: "app",       icon: "📱", label: "アプリ",       url: "/app" },
   { id: "village",   icon: "🏘️", label: "ビレッジ",     url: "/village" },
+  { id: "guide",     icon: "📖", label: "ガイド",       url: "/guide" },
+  { id: "faq",       icon: "❓", label: "FAQ",          url: "/faq" },
 ];
 
 const DOCK_IDS = ["materials", "buy", "zamna", "tickets", "community"];
 
-// ── Categories (shared: menu bar dropdowns + start menu) ──────────────────────
+// ── Categories (menu bar dropdowns + start menu) ──────────────────────────────
 const CATEGORIES = [
-  { id: "invest", label: "物件・投資",     emoji: "🏡", ids: ["materials", "buy", "scheme", "investor"] },
-  { id: "akiya",  label: "空き家活用",     emoji: "🌊", ids: ["kagawa"] },
-  { id: "fest",   label: "フェスティバル", emoji: "🎪", ids: ["zamna", "tickets"] },
-  { id: "comm",   label: "コミュニティ",   emoji: "💬", ids: ["community", "app", "village"] },
+  { id: "invest", label: "物件・投資",     emoji: "🏡", ids: ["materials", "buy", "scheme", "investor", "tapkop", "nesting"] },
+  { id: "akiya",  label: "空き家活用",     emoji: "🌊", ids: ["kagawa", "wakayama"] },
+  { id: "fest",   label: "フェスティバル", emoji: "🎪", ids: ["zamna", "tickets", "lineup"] },
+  { id: "comm",   label: "コミュニティ",   emoji: "💬", ids: ["community", "app", "village", "guide", "faq"] },
 ];
 
 // ── Dock groups (dividers between each group) ─────────────────────────────────
@@ -309,8 +315,6 @@ export default function Home() {
   const filteredApps = APPS.filter(a =>
     !search || a.label.includes(search) || a.id.includes(search.toLowerCase())
   );
-  const dockApps = APPS.filter(a => DOCK_IDS.includes(a.id));
-  const desktopApps = APPS.filter(a => !DOCK_IDS.includes(a.id));
   const kbAnims = ["kb1","kb2","kb3"];
 
   // ── Mobile ────────────────────────────────────────────────────────────────
@@ -383,7 +387,7 @@ export default function Home() {
           display:"flex",alignItems:"center",padding:"0 16px",gap:20}}>
           <span style={{fontFamily:"Anton,sans-serif",fontSize:".8rem",
             letterSpacing:".15em",color:"#c9a962"}}>SOLUNA</span>
-          {CATEGORIES.filter(c => c.id !== "akiya").map(cat => {
+          {CATEGORIES.map(cat => {
             const isOpen = activeMenu === cat.id;
             const catApps = cat.ids.map(id => APPS.find(a => a.id === id)).filter(Boolean) as typeof APPS;
             return (
@@ -410,18 +414,6 @@ export default function Home() {
           })}
           <span style={{marginLeft:"auto",fontSize:".72rem",
             color:"rgba(255,255,255,.7)",fontVariantNumeric:"tabular-nums"}}>{clock}</span>
-        </div>
-
-        {/* ── Desktop icons (right side) ── */}
-        <div style={{position:"absolute",top:36,right:12,zIndex:50,
-          display:"grid",gridTemplateColumns:"80px",gap:2}}>
-          {desktopApps.map(app => (
-            <div key={app.id} className="desk-icon"
-              onClick={e => { e.stopPropagation(); openWin(app.url, app.label); }}>
-              <span className="di-emoji">{app.icon}</span>
-              <span className="di-label">{app.label}</span>
-            </div>
-          ))}
         </div>
 
         {/* ── Caption ── */}
