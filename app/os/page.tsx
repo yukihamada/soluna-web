@@ -74,7 +74,7 @@ export default function OsPage() {
     const inIframe = window.self !== window.top;
     setIsFrame(inIframe);
     if (!inIframe) {
-      window.location.replace("/?open=os");
+      window.location.replace("/");
     }
   }, []);
 
