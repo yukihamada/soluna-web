@@ -2471,7 +2471,7 @@ function share(){
 </body></html>`);
 });
 
-const customRoutes = ["/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/admin/construction", "/schedule", "/vip", "/lineup", "/info", "/guide", "/artist-lounge", "/vip-lounge", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press", "/hotel-plan", "/music", "/tickets", "/tickets/success", "/rights", "/developers", "/artist", "/contests", "/festivals", "/live", "/community", "/vision", "/vision-ja", "/pitch", "/proposal", "/sponsor-reiwa", "/lab"];
+const customRoutes = ["/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/admin/construction", "/schedule", "/vip", "/lineup", "/info", "/guide", "/artist-lounge", "/vip-lounge", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press", "/hotel-plan", "/music", "/tickets", "/tickets/success", "/rights", "/developers", "/artist", "/contests", "/festivals", "/live", "/community", "/vision", "/vision-ja", "/pitch", "/proposal", "/sponsor-reiwa", "/lab", "/os"];
 // /blank is served from cabin/blank/index.html via express.static
 // NOTE: /privacy, /terms, /mint removed — served from cabin static files instead
 
@@ -10145,13 +10145,28 @@ app.get("/api/soluna/admin/page-views", async (req, res) => {
 });
 
 // ── Pages listing API (desk.html auto-populate) ──────────────────────────────
-app.get("/api/pages", (req, res) => {
+// Internal pages excluded from public /api/pages listing
+const INTERNAL_PAGE_SLUGS = new Set([
+  'admin','agent','member','owners','report','status','progress',
+  'booking-analytics','visitor-log','management-fee','staff',
+  'soluna-dashboard','neuro-dashboard','kaisha','kaisha-teikan',
+  'kaisha-shinsei','kaisha-haraikomi','kaisha-checklist','kaisha-status',
+  'plan','sites','slide','strategy','network','approve',
+]);
+
+app.get("/api/pages", async (req, res) => {
+  // Admins see all pages; others see public pages only
+  const m = await solunaAuth(req).catch(() => null);
+  const isAdmin = m && m.member_type === 'admin';
+
   const result = [];
   try {
     const files = fs.readdirSync(CABIN_DIR).filter(f => f.endsWith(".html") && !f.startsWith("_"));
     files.forEach(f => {
+      const slug = f.slice(0, -5);
+      if (!isAdmin && INTERNAL_PAGE_SLUGS.has(slug)) return;
       const st = fs.statSync(path.join(CABIN_DIR, f));
-      result.push({ path: "/" + f.slice(0, -5), filename: f, dir: "cabin", mtime: st.mtimeMs });
+      result.push({ path: "/" + slug, filename: f, dir: "cabin", mtime: st.mtimeMs });
     });
   } catch {}
   const DOCS_DIR = path.join(__dirname, "docs");
@@ -10159,7 +10174,13 @@ app.get("/api/pages", (req, res) => {
     const files = fs.readdirSync(DOCS_DIR).filter(f => f.endsWith(".html") && !f.startsWith("_"));
     files.forEach(f => {
       const st = fs.statSync(path.join(DOCS_DIR, f));
-      result.push({ path: "/docs/" + f.slice(0, -5), filename: f, dir: "docs", mtime: st.mtimeMs });
+      let title = f.slice(0, -5).replace(/^\d+_/, "").replace(/_/g, " ");
+      try {
+        const head = fs.readFileSync(path.join(DOCS_DIR, f), "utf8").slice(0, 2000);
+        const m = head.match(/<title[^>]*>([^<]+)<\/title>/i);
+        if (m) title = m[1].replace(/\s*—.*$/, "").replace(/\s*\|.*$/, "").trim();
+      } catch {}
+      result.push({ path: "/docs/" + f.slice(0, -5), filename: f, dir: "docs", mtime: st.mtimeMs, title });
     });
   } catch {}
   result.sort((a, b) => b.mtime - a.mtime);
@@ -10168,6 +10189,15 @@ app.get("/api/pages", (req, res) => {
 
 app.all("/api/*", (_req, res) => {
   res.status(404).json({ error: "Not found" });
+});
+
+// ── Auth-gated sensitive files ────────────────────────────────────────────────
+const GATED_IMG_FILES = new Set(['teshikaga_97_detail.pdf']);
+app.get("/img/:file", async (req, res, next) => {
+  if (!GATED_IMG_FILES.has(req.params.file)) return next();
+  const m = await solunaAuth(req).catch(() => null);
+  if (!m || m.member_type !== 'admin') return res.status(403).json({ error: "forbidden" });
+  res.sendFile(path.join(__dirname, "cabin", "img", req.params.file));
 });
 
 // ── Cabin images (/img/* — served from cabin/img/, fallback to teshikaga CDN) ─
