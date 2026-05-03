@@ -37,6 +37,14 @@ const APPS = [
 
 const DOCK_IDS = ["materials", "buy", "zamna", "community", "tickets"];
 
+// ── Start menu categories ─────────────────────────────────────────────────────
+const CATEGORIES = [
+  { label: "別荘投資",       emoji: "🏡", ids: ["materials", "buy", "scheme", "investor"] },
+  { label: "空き家活用",     emoji: "🌊", ids: ["kagawa"] },
+  { label: "フェスティバル", emoji: "🎪", ids: ["zamna", "tickets"] },
+  { label: "コミュニティ",   emoji: "💬", ids: ["community", "app", "village"] },
+];
+
 interface Win {
   id: string;
   title: string;
@@ -134,6 +142,18 @@ const CSS = `
     font-family:Inter,sans-serif; }
 
   .menu-divider { width:1px; height:32px; background:rgba(255,255,255,.15); margin:0 4px; }
+
+  .cat-header {
+    display:flex; align-items:center; gap:8px;
+    font-size:.6rem; letter-spacing:.12em; color:rgba(255,255,255,.35);
+    font-family:Inter,sans-serif; margin:0 0 8px; text-transform:uppercase;
+  }
+  .cat-header::after {
+    content:''; flex:1; height:1px; background:rgba(255,255,255,.08);
+  }
+  .start-row {
+    display:flex; flex-wrap:wrap; gap:4px; margin-bottom:18px;
+  }
 
   .mobile-card {
     display:flex; align-items:center; gap:14px; padding:14px 16px;
@@ -397,22 +417,47 @@ export default function Home() {
           <div className="start-menu" onClick={e => e.stopPropagation()}>
             <input
               className="start-search"
-              placeholder="🔍 アプリを検索..."
+              placeholder="🔍 検索..."
               value={search}
               onChange={e => setSearch(e.target.value)}
               autoFocus
             />
-            <div style={{fontSize:".65rem",color:"rgba(255,255,255,.4)",
-              marginBottom:12,fontFamily:"Inter,sans-serif"}}>すべてのアプリ</div>
-            <div className="start-grid">
-              {filteredApps.map(app => (
-                <div key={app.id} className="start-item"
-                  onClick={() => { openWin(app.url, app.label); setStartOpen(false); setSearch(""); }}>
-                  <span className="start-item-em">{app.icon}</span>
-                  <span className="start-item-lbl">{app.label}</span>
-                </div>
-              ))}
-            </div>
+
+            {search ? (
+              /* Search results — flat grid */
+              <div className="start-grid">
+                {filteredApps.map(app => (
+                  <div key={app.id} className="start-item"
+                    onClick={() => { openWin(app.url, app.label); setStartOpen(false); setSearch(""); }}>
+                    <span className="start-item-em">{app.icon}</span>
+                    <span className="start-item-lbl">{app.label}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              /* Categorized view */
+              <div>
+                {CATEGORIES.map(cat => {
+                  const catApps = cat.ids.map(id => APPS.find(a => a.id === id)).filter(Boolean) as typeof APPS;
+                  return (
+                    <div key={cat.label}>
+                      <div className="cat-header">
+                        <span>{cat.emoji}</span>{cat.label}
+                      </div>
+                      <div className="start-row">
+                        {catApps.map(app => (
+                          <div key={app.id} className="start-item"
+                            onClick={() => { openWin(app.url, app.label); setStartOpen(false); }}>
+                            <span className="start-item-em">{app.icon}</span>
+                            <span className="start-item-lbl">{app.label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
 
