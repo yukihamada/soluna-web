@@ -1,23 +1,26 @@
 FROM node:22-bookworm-slim
 
-# chromaprint (fpcalc) for audio fingerprinting
+# apt: stable layer — only rebuilds if packages change
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libchromaprint-tools \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# install only server deps
+# server deps: cached until server-package.json changes
 COPY server-package.json package.json
 RUN npm install --omit=dev
 
-# static files (built by Next.js)
-COPY out/ out/
+# docs: rarely changes
+COPY docs/ docs/
 
-# cabin static site (SOLUNA main website HTML files)
+# cabin HTML files: large but changes less often than out/
 COPY cabin/ cabin/
 
-# server entry point
+# Next.js static output: pre-built in CI, changes every deploy
+COPY out/ out/
+
+# server entry: often changes — last so other layers stay cached
 COPY server.js .
 
 EXPOSE 3000
