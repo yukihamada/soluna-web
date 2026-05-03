@@ -2471,7 +2471,7 @@ function share(){
 </body></html>`);
 });
 
-const customRoutes = ["/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/admin/construction", "/schedule", "/vip", "/lineup", "/info", "/guide", "/artist-lounge", "/vip-lounge", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press", "/hotel-plan", "/music", "/tickets", "/tickets/success", "/rights", "/developers", "/artist", "/contests", "/festivals", "/live", "/community", "/vision", "/vision-ja", "/pitch", "/proposal", "/sponsor-reiwa", "/lab", "/os"];
+const customRoutes = ["/", "/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/admin/construction", "/schedule", "/vip", "/lineup", "/info", "/guide", "/artist-lounge", "/vip-lounge", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press", "/hotel-plan", "/music", "/tickets", "/tickets/success", "/rights", "/developers", "/artist", "/contests", "/festivals", "/live", "/community", "/vision", "/vision-ja", "/pitch", "/proposal", "/sponsor-reiwa", "/lab", "/os"];
 // /blank is served from cabin/blank/index.html via express.static
 // NOTE: /privacy, /terms, /mint removed — served from cabin static files instead
 
@@ -10200,6 +10200,9 @@ app.get("/img/:file", async (req, res, next) => {
   res.sendFile(path.join(__dirname, "cabin", "img", req.params.file));
 });
 
+// ── Legal documents (/contracts/* — served from contracts/ dir) ──────────────
+app.use("/contracts", express.static(path.join(__dirname, "contracts"), { maxAge: "0", etag: false, extensions: ["html"] }));
+
 // ── Cabin images (/img/* — served from cabin/img/, fallback to teshikaga CDN) ─
 app.use("/img", express.static(path.join(__dirname, "cabin", "img"), { maxAge: "7d" }));
 app.get("/img/*", (req, res) => {
@@ -10217,7 +10220,7 @@ const GATED_PAGES = new Set([
   // Owner / member content
   "owners","miruwa-owners","members","miruwa-photobook",
   // Short spec pages — entire page IS the detail, no overview
-  "blueprint","structural","floorplans","scheme","systems",
+  "blueprint","structural","floorplans","systems",
   "sips","sips-diy","sips-lab","hybrid-sips","take-sips",
   "village-materials","miruwa-anatomy","k4-anatomy",
   "offgrid","offgrid-cabin",
