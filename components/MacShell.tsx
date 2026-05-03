@@ -46,7 +46,7 @@ const PAGE_TITLES: Record<string, string> = {
 };
 
 // These pages render their own full-screen desktop UI
-const EXCLUDED = new Set(["/", "/os"]);
+const EXCLUDED = new Set(["/"]);
 
 function Clock() {
   const [time, setTime] = useState("");
