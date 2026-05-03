@@ -17,29 +17,25 @@ const PHOTOS = [
   { src: "/images/03_drone_show.jpg",      caption: "Drone Show" },
 ];
 
-// ── Apps ─────────────────────────────────────────────────────────────────────
+// ── Apps (persona-focused) ────────────────────────────────────────────────────
 const APPS = [
-  { id: "village",    icon: "🏘️",  label: "ビレッジ",     url: "/village" },
-  { id: "materials",  icon: "🏡",  label: "物件",         url: "/materials" },
-  { id: "collection", icon: "📦",  label: "コレクション", url: "/collection" },
-  { id: "zamna",      icon: "🎪",  label: "ZAMNA",        url: "/zamna" },
-  { id: "kagawa",     icon: "🌊",  label: "香川空き家",   url: "/kagawa-akiya" },
-  { id: "tapkop",     icon: "🏔️",  label: "TAPKOP",       url: "/tapkop" },
-  { id: "buy",        icon: "💰",  label: "購入",         url: "/buy" },
-  { id: "app",        icon: "📱",  label: "アプリ",       url: "/app" },
-  { id: "scheme",     icon: "🗺️",  label: "スキーム",     url: "/scheme" },
-  { id: "sound",      icon: "🎵",  label: "サウンド",     url: "/sound" },
-  { id: "blog",       icon: "📝",  label: "ブログ",       url: "/blog" },
-  { id: "faq",        icon: "❓",  label: "FAQ",          url: "/faq" },
-  { id: "community",  icon: "💬",  label: "コミュニティ", url: "/community" },
-  { id: "os",         icon: "🌐",  label: "プラットフォーム", url: "/os" },
-  { id: "invest",     icon: "📈",  label: "投資家向け",   url: "/investor" },
-  { id: "lineup",     icon: "🎤",  label: "ラインナップ", url: "/lineup" },
-  { id: "tickets",    icon: "🎫",  label: "チケット",     url: "/tickets" },
-  { id: "lab",        icon: "🍄",  label: "Lab",          url: "/lab" },
+  // Persona A: Investor
+  { id: "materials", icon: "🏡", label: "物件一覧",     url: "/materials" },
+  { id: "buy",       icon: "💰", label: "購入・申込",   url: "/buy" },
+  { id: "scheme",    icon: "🗺️", label: "スキーム",     url: "/scheme" },
+  { id: "investor",  icon: "📊", label: "投資家向け",   url: "/investor" },
+  // Persona B: Akiya owner
+  { id: "kagawa",    icon: "🌊", label: "香川 空き家",  url: "/kagawa-akiya" },
+  // Persona C: Festival
+  { id: "zamna",     icon: "🎪", label: "ZAMNA HAWAII", url: "/zamna" },
+  { id: "tickets",   icon: "🎫", label: "チケット",     url: "/tickets" },
+  // Community / utility
+  { id: "community", icon: "💬", label: "コミュニティ", url: "/community" },
+  { id: "app",       icon: "📱", label: "アプリ",       url: "/app" },
+  { id: "village",   icon: "🏘️", label: "ビレッジ",     url: "/village" },
 ];
 
-const DOCK_IDS = ["village", "materials", "os", "buy", "app", "blog", "community"];
+const DOCK_IDS = ["materials", "buy", "zamna", "community", "tickets"];
 
 interface Win {
   id: string;
@@ -164,14 +160,23 @@ export default function Home() {
   const dragRef = useRef<{id:string; sx:number; sy:number; ox:number; oy:number}|null>(null);
   const winOffsetRef = useRef(0);
 
-  // Mount
+  // Mount + ?open=<id> auto-open
   useEffect(() => {
     setMounted(true);
     setIsMobile(window.innerWidth < 768);
     const onResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", onResize);
+    const params = new URLSearchParams(window.location.search);
+    const openId = params.get("open");
+    if (openId) {
+      const app = APPS.find(a => a.id === openId);
+      if (app) {
+        setTimeout(() => openWin(app.url + "?frame=1", app.label), 100);
+        window.history.replaceState({}, "", "/");
+      }
+    }
     return () => window.removeEventListener("resize", onResize);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Clock
   useEffect(() => {
@@ -204,7 +209,7 @@ export default function Home() {
     return () => clearInterval(t);
   }, [advance]);
 
-  // Open window — always creates new
+  // Open window — always creates new, always adds ?frame=1 for iframe content
   const openWin = useCallback((url: string, title: string) => {
     const z = topZ + 1;
     setTopZ(z);
@@ -217,7 +222,10 @@ export default function Home() {
     const x = 48 + offset;
     const y = 36 + offset;
     const id = `win-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-    setWins(ws => [...ws, { id, title, url, x, y, w: ww, h: wh, z, min: false }]);
+    const frameUrl = url.startsWith("/") && !url.includes("frame=1")
+      ? url + (url.includes("?") ? "&frame=1" : "?frame=1")
+      : url;
+    setWins(ws => [...ws, { id, title, url: frameUrl, x, y, w: ww, h: wh, z, min: false }]);
   }, [topZ]);
 
   // Drag
@@ -320,10 +328,15 @@ export default function Home() {
           display:"flex",alignItems:"center",padding:"0 16px",gap:20}}>
           <span style={{fontFamily:"Anton,sans-serif",fontSize:".8rem",
             letterSpacing:".15em",color:"#c9a962"}}>SOLUNA</span>
-          {["ビレッジ","フェス","物件","コミュニティ","投資家向け"].map((lbl,i) => (
-            <span key={i} onClick={e => {
+          {[
+            { lbl: "物件", id: "materials" },
+            { lbl: "スキーム", id: "scheme" },
+            { lbl: "ZAMNA", id: "zamna" },
+            { lbl: "コミュニティ", id: "community" },
+          ].map(({lbl, id}) => (
+            <span key={id} onClick={e => {
                 e.stopPropagation();
-                const app = APPS.find(a => a.label === lbl || a.label.startsWith(lbl.slice(0,2)));
+                const app = APPS.find(a => a.id === id);
                 if (app) openWin(app.url, app.label);
               }}
               style={{fontSize:".72rem",color:"rgba(255,255,255,.7)",cursor:"pointer"}}>

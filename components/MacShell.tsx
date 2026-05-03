@@ -66,8 +66,17 @@ export default function MacShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [dockHover, setDockHover] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isFrame, setIsFrame] = useState(false);
+  const [shellReady, setShellReady] = useState(false);
+
+  useEffect(() => {
+    const frame = new URLSearchParams(window.location.search).get("frame") === "1";
+    setIsFrame(frame);
+    setShellReady(true);
+  }, []);
 
   if (EXCLUDED.has(pathname)) return <>{children}</>;
+  if (!shellReady || isFrame) return <>{children}</>;
 
   const slug = pathname.split("/").filter(Boolean).join(" ").replace(/-/g, " ");
   const title = PAGE_TITLES[pathname] ?? (slug || "SOLUNA");
