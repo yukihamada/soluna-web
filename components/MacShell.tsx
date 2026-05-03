@@ -4,23 +4,18 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV = [
-  { label: "Home",        href: "/" },
-  { label: "Festivals",   href: "/festivals" },
-  { label: "Lineup",      href: "/lineup" },
-  { label: "Lab",         href: "/lab" },
-  { label: "Vision",      href: "/vision" },
-  { label: "Community",   href: "/community" },
-  { label: "Tickets",     href: "/tickets" },
+  { label: "Home",       href: "/" },
+  { label: "物件",       href: "/materials" },
+  { label: "フェス",     href: "/zamna" },
+  { label: "コミュニティ", href: "/community" },
 ];
 
 const DOCK = [
-  { icon: "🏠", label: "Home",       href: "/" },
-  { icon: "🎪", label: "Festivals",  href: "/festivals" },
-  { icon: "🎤", label: "Lineup",     href: "/lineup" },
-  { icon: "🍄", label: "Lab",        href: "/lab" },
-  { icon: "💬", label: "Community",  href: "/community" },
-  { icon: "🎫", label: "Tickets",    href: "/tickets" },
-  { icon: "👤", label: "Login",      href: "/login" },
+  { icon: "🏠", label: "Home",    href: "/" },
+  { icon: "🏡", label: "物件",    href: "/materials" },
+  { icon: "🎪", label: "フェス",  href: "/zamna" },
+  { icon: "💬", label: "Chat",   href: "/community" },
+  { icon: "👤", label: "Login",  href: "/login" },
 ];
 
 const PAGE_TITLES: Record<string, string> = {
