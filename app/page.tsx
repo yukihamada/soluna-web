@@ -35,14 +35,21 @@ const APPS = [
   { id: "village",   icon: "🏘️", label: "ビレッジ",     url: "/village" },
 ];
 
-const DOCK_IDS = ["materials", "buy", "zamna", "community", "tickets"];
+const DOCK_IDS = ["materials", "buy", "zamna", "tickets", "community"];
 
-// ── Start menu categories ─────────────────────────────────────────────────────
+// ── Categories (shared: menu bar dropdowns + start menu) ──────────────────────
 const CATEGORIES = [
-  { label: "別荘投資",       emoji: "🏡", ids: ["materials", "buy", "scheme", "investor"] },
-  { label: "空き家活用",     emoji: "🌊", ids: ["kagawa"] },
-  { label: "フェスティバル", emoji: "🎪", ids: ["zamna", "tickets"] },
-  { label: "コミュニティ",   emoji: "💬", ids: ["community", "app", "village"] },
+  { id: "invest", label: "物件・投資",     emoji: "🏡", ids: ["materials", "buy", "scheme", "investor"] },
+  { id: "akiya",  label: "空き家活用",     emoji: "🌊", ids: ["kagawa"] },
+  { id: "fest",   label: "フェスティバル", emoji: "🎪", ids: ["zamna", "tickets"] },
+  { id: "comm",   label: "コミュニティ",   emoji: "💬", ids: ["community", "app", "village"] },
+];
+
+// ── Dock groups (dividers between each group) ─────────────────────────────────
+const DOCK_GROUPS = [
+  ["materials", "buy"],
+  ["zamna", "tickets"],
+  ["community"],
 ];
 
 interface Win {
@@ -155,6 +162,33 @@ const CSS = `
     display:flex; flex-wrap:wrap; gap:4px; margin-bottom:18px;
   }
 
+  .mb-menu-item {
+    position:relative; display:flex; align-items:center; height:100%;
+  }
+  .mb-menu-btn {
+    font-size:.72rem; color:rgba(255,255,255,.7); cursor:pointer;
+    padding:2px 8px; border-radius:4px; transition:background .1s, color .1s;
+    white-space:nowrap;
+  }
+  .mb-menu-btn:hover, .mb-menu-btn.open { background:rgba(255,255,255,.12); color:#fff; }
+  .mb-dropdown {
+    position:absolute; top:calc(100% + 4px); left:0;
+    background:rgba(10,10,10,.94); backdrop-filter:blur(24px) saturate(180%);
+    border:1px solid rgba(255,255,255,.1); border-radius:10px;
+    padding:6px; min-width:190px; z-index:600;
+    animation:menuIn .14s ease;
+    box-shadow:0 16px 48px rgba(0,0,0,.8);
+  }
+  .mb-drop-item {
+    display:flex; align-items:center; gap:10px; padding:7px 12px;
+    border-radius:7px; cursor:pointer; transition:background .12s;
+  }
+  .mb-drop-item:hover { background:rgba(201,169,98,.15); }
+  .mb-drop-icon { font-size:1.1rem; }
+  .mb-drop-lbl { font-size:.78rem; color:rgba(255,255,255,.85); font-family:Inter,sans-serif; }
+
+  .dock-sep { width:1px; height:36px; background:rgba(255,255,255,.13); margin:0 6px; }
+
   .mobile-card {
     display:flex; align-items:center; gap:14px; padding:14px 16px;
     background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.1);
@@ -172,6 +206,7 @@ export default function Home() {
   const [topZ, setTopZ] = useState(200);
   const [clock, setClock] = useState("--:--");
   const [startOpen, setStartOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -316,7 +351,7 @@ export default function Home() {
         style={{position:"fixed",inset:0,background:"#000"}}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
-        onClick={() => { if (startOpen) setStartOpen(false); }}
+        onClick={() => { if (startOpen) setStartOpen(false); setActiveMenu(null); }}
       >
         {/* ── Wallpaper slideshow ── */}
         <div style={{position:"absolute",inset:0,overflow:"hidden",zIndex:0}}>
@@ -348,21 +383,31 @@ export default function Home() {
           display:"flex",alignItems:"center",padding:"0 16px",gap:20}}>
           <span style={{fontFamily:"Anton,sans-serif",fontSize:".8rem",
             letterSpacing:".15em",color:"#c9a962"}}>SOLUNA</span>
-          {[
-            { lbl: "物件", id: "materials" },
-            { lbl: "スキーム", id: "scheme" },
-            { lbl: "ZAMNA", id: "zamna" },
-            { lbl: "コミュニティ", id: "community" },
-          ].map(({lbl, id}) => (
-            <span key={id} onClick={e => {
-                e.stopPropagation();
-                const app = APPS.find(a => a.id === id);
-                if (app) openWin(app.url, app.label);
-              }}
-              style={{fontSize:".72rem",color:"rgba(255,255,255,.7)",cursor:"pointer"}}>
-              {lbl}
-            </span>
-          ))}
+          {CATEGORIES.filter(c => c.id !== "akiya").map(cat => {
+            const isOpen = activeMenu === cat.id;
+            const catApps = cat.ids.map(id => APPS.find(a => a.id === id)).filter(Boolean) as typeof APPS;
+            return (
+              <div key={cat.id} className="mb-menu-item">
+                <span
+                  className={`mb-menu-btn${isOpen ? " open" : ""}`}
+                  onClick={e => { e.stopPropagation(); setActiveMenu(isOpen ? null : cat.id); setStartOpen(false); }}
+                >
+                  {cat.label} ▾
+                </span>
+                {isOpen && (
+                  <div className="mb-dropdown" onClick={e => e.stopPropagation()}>
+                    {catApps.map(app => (
+                      <div key={app.id} className="mb-drop-item"
+                        onClick={() => { openWin(app.url, app.label); setActiveMenu(null); }}>
+                        <span className="mb-drop-icon">{app.icon}</span>
+                        <span className="mb-drop-lbl">{app.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
           <span style={{marginLeft:"auto",fontSize:".72rem",
             color:"rgba(255,255,255,.7)",fontVariantNumeric:"tabular-nums"}}>{clock}</span>
         </div>
@@ -488,12 +533,20 @@ export default function Home() {
 
           <div className="menu-divider" />
 
-          {/* Dock apps */}
-          {dockApps.map(app => (
-            <div key={app.id} className="dock-icon"
-              onClick={() => openWin(app.url, app.label)}>
-              <span className="di-dock-em">{app.icon}</span>
-              <span className="di-dock-lbl">{app.label}</span>
+          {/* Dock apps — grouped with separators */}
+          {DOCK_GROUPS.map((groupIds, gi) => (
+            <div key={gi} style={{display:"flex",alignItems:"center"}}>
+              {gi > 0 && <div className="dock-sep" />}
+              {groupIds.map(id => {
+                const app = APPS.find(a => a.id === id);
+                if (!app) return null;
+                return (
+                  <div key={id} className="dock-icon" onClick={() => openWin(app.url, app.label)}>
+                    <span className="di-dock-em">{app.icon}</span>
+                    <span className="di-dock-lbl">{app.label}</span>
+                  </div>
+                );
+              })}
             </div>
           ))}
 
