@@ -221,23 +221,14 @@ export default function Home() {
   const dragRef = useRef<{id:string; sx:number; sy:number; ox:number; oy:number}|null>(null);
   const winOffsetRef = useRef(0);
 
-  // Mount + ?open=<id> auto-open
+  // Mount
   useEffect(() => {
     setMounted(true);
     setIsMobile(window.innerWidth < 768);
     const onResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", onResize);
-    const params = new URLSearchParams(window.location.search);
-    const openId = params.get("open");
-    if (openId) {
-      const app = APPS.find(a => a.id === openId);
-      if (app) {
-        setTimeout(() => openWin(app.url + "?frame=1", app.label), 100);
-        window.history.replaceState({}, "", "/");
-      }
-    }
     return () => window.removeEventListener("resize", onResize);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   // Clock
   useEffect(() => {
