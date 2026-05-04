@@ -238,7 +238,7 @@ export default function PitchPage() {
     <main style={{ background: "#080808", color: "#fff", overflowX: "hidden", fontFamily: "'Noto Sans JP','Inter',sans-serif" }}>
 
       {/* ── Fixed progress + audio ── */}
-      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200 }}>
+      <div style={{ position: "fixed", top: 28, left: 0, right: 0, zIndex: 200 }}>
         <div style={{ height: 2, background: "#111" }}>
           <div style={{ height: "100%", background: gold, width: `${scrollPct * 100}%`, transition: "width 0.1s linear" }} />
         </div>
@@ -246,16 +246,11 @@ export default function PitchPage() {
 
       {/* ── Audio button ── */}
       <button onClick={toggleAudio}
-        style={{ position: "fixed", bottom: 28, right: 28, zIndex: 200, background: audioOn ? gold : "rgba(255,255,255,0.08)", border: `1px solid ${audioOn ? gold : "rgba(255,255,255,0.15)"}`, color: audioOn ? "#000" : "rgba(255,255,255,0.6)", borderRadius: 999, padding: "10px 18px", fontSize: 11, letterSpacing: "0.2em", cursor: "pointer", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: 8 }}>
+        style={{ position: "fixed", bottom: 90, right: 28, zIndex: 200, background: audioOn ? gold : "rgba(255,255,255,0.08)", border: `1px solid ${audioOn ? gold : "rgba(255,255,255,0.15)"}`, color: audioOn ? "#000" : "rgba(255,255,255,0.6)", borderRadius: 999, padding: "10px 18px", fontSize: 11, letterSpacing: "0.2em", cursor: "pointer", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: 8 }}>
         <span style={{ fontSize: 14 }}>{audioOn ? "♫" : "♩"}</span>
         {audioOn ? "音楽 ON" : "音楽を再生"}
       </button>
 
-      {/* ── Fixed nav ── */}
-      <nav style={{ position: "fixed", top: 2, left: 0, right: 0, zIndex: 100, padding: "14px 28px", display: "flex", justifyContent: "space-between", alignItems: "center", background: "linear-gradient(to bottom, rgba(8,8,8,0.95), transparent)" }}>
-        <Link href="/" style={{ fontSize: 10, letterSpacing: "0.35em", color: dimmed, textDecoration: "none" }}>SOLUNA FEST HAWAII</Link>
-        <span style={{ fontSize: 10, letterSpacing: "0.3em", color: "rgba(201,169,98,0.5)" }}>INTERNAL · TEAM ONLY</span>
-      </nav>
 
       {/* ══════════════════════════════════════════════
           S0 — YUKI'S OPENING  (audio zone 0)

@@ -126,7 +126,7 @@ function TLItem({ time, label, sub }: { time: string; label: string; sub: string
 function ProgressBar() {
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  return <motion.div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, background: "#c9a962", scaleX, transformOrigin: "0%", zIndex: 100 }} />;
+  return <motion.div style={{ position: "fixed", top: 28, left: 0, right: 0, height: 2, background: "#c9a962", scaleX, transformOrigin: "0%", zIndex: 100 }} />;
 }
 
 /* ─── Section heading ─────────────────────────────────────── */
@@ -156,17 +156,6 @@ export default function VisionJaPage() {
     <main style={{ background: "#080808", color: "#fff", overflowX: "hidden", fontFamily: "'Noto Sans JP','Hiragino Kaku Gothic ProN',sans-serif" }}>
       <ProgressBar />
 
-      {/* ── ナビ ── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, padding: "20px 32px", display: "flex", justifyContent: "space-between", alignItems: "center", background: "linear-gradient(to bottom, rgba(8,8,8,0.9), transparent)" }}>
-        <Link href="/" className="font-display" style={{ fontSize: 11, letterSpacing: "0.25em", color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>SOLUNA FEST HAWAII</Link>
-        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          <Link href="/vision" style={{ fontSize: 9, letterSpacing: "0.25em", color: "rgba(255,255,255,0.3)", textDecoration: "none" }}>EN</Link>
-          <a href="https://zamnahawaii.ticketblox.com" target="_blank" rel="noreferrer"
-            style={{ fontSize: 10, letterSpacing: "0.25em", color: "#c9a962", border: "1px solid rgba(201,169,98,0.4)", padding: "7px 18px", borderRadius: 999, textDecoration: "none" }}>
-            チケット
-          </a>
-        </div>
-      </nav>
 
       {/* ══════════════════════════════
           第一幕 — 虚空（背景に群衆写真）
