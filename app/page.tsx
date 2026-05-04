@@ -20,7 +20,6 @@ const APPS = [
   { id: "properties",   icon: "🏡", label: "物件一覧",           url: "/properties" },
   { id: "buy",          icon: "💰", label: "購入・申込",         url: "/buy" },
   { id: "scheme",       icon: "🗺️", label: "スキーム",           url: "/scheme" },
-  { id: "investor",     icon: "📊", label: "投資家向け",         url: "/investor" },
   { id: "founders",     icon: "🌟", label: "創業者パック",       url: "/founders" },
   { id: "collection",   icon: "🗂️", label: "コレクション",       url: "/collection" },
   { id: "homes",        icon: "🏠", label: "カタログビレッジ",   url: "/homes" },
@@ -109,7 +108,7 @@ const APPS = [
 ];
 
 const CATEGORIES = [
-  { id: "invest", label: "別荘投資",      emoji: "🏡", ids: ["properties","buy","scheme","investor","founders","collection","homes","hold","plan","brochure","getfree","referral","gift","mint","crypto","pass"] },
+  { id: "invest", label: "別荘投資",      emoji: "🏡", ids: ["properties","buy","scheme","founders","collection","homes","hold","plan","brochure","getfree","referral","gift","mint","crypto","pass"] },
   { id: "props",  label: "物件",          emoji: "🏠", ids: ["tapkop","lodge","nesting","instant","atami","kumaushi","honolulu","village","miruwa-grand","kussharo","tapkop-story","lodge-story","nesting-story","atami-story","dome-story"] },
   { id: "akiya",  label: "空き家活用",    emoji: "🌊", ids: ["kagawa","wakayama","boso","hakuba","sanin","akiya","workparty","renovation"] },
   { id: "fest",   label: "フェスティバル",emoji: "🎪", ids: ["zamna","tickets","lineup","schedule"] },
@@ -128,7 +127,7 @@ const PERSONA_CONFIG: Record<string, {
 }> = {
   invest: {
     label: "投資家", emoji: "💰",
-    dockIds: ["properties","buy","scheme","investor"],
+    dockIds: ["properties","buy","scheme"],
     heroLine1: "別荘を持つ、", heroLine2: "新しい形。",
     heroDesc: "10口シェアで登記所有。780万円から、年間30泊。\n使わない期間はプロが管理・運営をサポートします。",
     btns: [{ label: "物件を見る →", primary: true, id: "properties" }, { label: "スキームを詳しく", id: "scheme" }],
@@ -160,7 +159,9 @@ const PAGE_TITLES: Record<string, string> = Object.fromEntries(APPS.map(a => [a.
 
 interface Win {
   id: string; title: string; url: string;
-  x: number; y: number; w: number; h: number; z: number; min: boolean;
+  x: number; y: number; w: number; h: number; z: number;
+  min: boolean; max: boolean;
+  sx?: number; sy?: number; sw?: number; sh?: number; // saved bounds for restore
 }
 
 
@@ -168,7 +169,7 @@ export default function Home() {
   const [curSlide, setCurSlide]   = useState(0);
   const [prevSlide, setPrevSlide] = useState<number | null>(null);
   const [wins, setWins]           = useState<Win[]>([]);
-  const [topZ, setTopZ]           = useState(200);
+  const [topZ, setTopZ]           = useState(1000);
   const [clock, setClock]         = useState("--:--");
   const [menuOpen, setMenuOpen]   = useState(false);
   const [search, setSearch]       = useState("");
@@ -186,8 +187,17 @@ export default function Home() {
   const [loginMsg, setLoginMsg]   = useState<{text:string;ok:boolean}|null>(null);
   const [loginLoading, setLoginLoading] = useState(false);
 
+  const [dockHidden, setDockHidden] = useState(false);
+  const dockHideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const showDock  = () => { if (dockHideTimer.current) clearTimeout(dockHideTimer.current); setDockHidden(false); };
+  const startHide = () => { dockHideTimer.current = setTimeout(() => setDockHidden(true), 2500); };
+
   const slideRefs  = useRef<(HTMLDivElement | null)[]>([]);
-  const dragRef    = useRef<{ id:string; sx:number; sy:number; ox:number; oy:number } | null>(null);
+  const dragState  = useRef<{
+    type: 'move' | 'resize'; id: string; edge: string;
+    startX: number; startY: number;
+    origX: number; origY: number; origW: number; origH: number;
+  } | null>(null);
   const winOffset  = useRef(0);
   const winsRef    = useRef<Win[]>([]);
   const kbAnims    = ["kb1","kb2","kb3"];
@@ -209,10 +219,10 @@ export default function Home() {
     const z = topZ + 1; setTopZ(z);
     const off = (winOffset.current % 6) * 28; winOffset.current++;
     const iw = window.innerWidth, ih = window.innerHeight;
-    const ww = Math.min(1020, iw - 40), wh = Math.min(700, ih - 80);
+    const ww = Math.min(760, Math.round(iw * 0.65)), wh = Math.min(540, Math.round(ih * 0.62));
     const frameUrl = url + (url.includes("?") ? "&frame=1" : "?frame=1");
     const id = `w-${Date.now()}`;
-    setWins(ws => [...ws, { id, title, url: frameUrl, x: 40 + off, y: 28 + off, w: ww, h: wh, z, min: false }]);
+    setWins(ws => [...ws, { id, title, url: frameUrl, x: 40 + off, y: 28 + off, w: ww, h: wh, z, min: false, max: false }]);
     if (!fromPopstate) pushUrl(url, title);
     setMenuOpen(false); setSearch("");
   }, [topZ, pushUrl]);
@@ -371,17 +381,57 @@ export default function Home() {
   }, []);
   useEffect(() => { const t = setInterval(advance, 9000); return () => clearInterval(t); }, [advance]);
 
-  // ── Drag ─────────────────────────────────────────────────────────────────────
+  // ── Drag & Resize (document-level, iframe-safe) ──────────────────────────────
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const s = dragState.current; if (!s) return;
+      const dx = e.clientX - s.startX, dy = e.clientY - s.startY;
+      const IW = window.innerWidth, IH = window.innerHeight;
+      setWins(ws => ws.map(w => {
+        if (w.id !== s.id) return w;
+        if (s.type === 'move') {
+          return { ...w,
+            x: Math.max(0, Math.min(IW - w.w, s.origX + dx)),
+            y: Math.max(28, Math.min(IH - 36, s.origY + dy)) };
+        }
+        // resize
+        let nx = w.x, ny = w.y, nw = w.w, nh = w.h;
+        if (s.edge.includes('e')) nw = Math.max(320, s.origW + dx);
+        if (s.edge.includes('s')) nh = Math.max(200, s.origH + dy);
+        if (s.edge.includes('w')) { nw = Math.max(320, s.origW - dx); nx = nw === 320 ? s.origX + s.origW - 320 : s.origX + dx; }
+        if (s.edge.includes('n')) { nh = Math.max(200, s.origH - dy); ny = nh === 200 ? s.origY + s.origH - 200 : s.origY + dy; }
+        return { ...w, x: nx, y: ny, w: nw, h: nh };
+      }));
+    };
+    const onUp = () => { if (dragState.current) { dragState.current = null; document.body.classList.remove('dragging'); } };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+    return () => { document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
+  }, []);
+
   const startDrag = (e: React.MouseEvent, id: string) => {
-    if ((e.target as HTMLElement).tagName === "BUTTON") return;
-    const w = wins.find(w => w.id === id); if (!w) return;
-    dragRef.current = { id, sx: e.clientX, sy: e.clientY, ox: w.x, oy: w.y };
-    bringToFront(id); e.preventDefault();
+    if ((e.target as HTMLElement).tagName === 'BUTTON') return;
+    const w = winsRef.current.find(w => w.id === id); if (!w || w.max) return;
+    bringToFront(id);
+    dragState.current = { type: 'move', id, edge: '', startX: e.clientX, startY: e.clientY, origX: w.x, origY: w.y, origW: w.w, origH: w.h };
+    document.body.classList.add('dragging');
+    e.preventDefault();
   };
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (!dragRef.current) return;
-    const { id, sx, sy, ox, oy } = dragRef.current;
-    setWins(ws => ws.map(w => w.id === id ? { ...w, x: ox + e.clientX - sx, y: oy + e.clientY - sy } : w));
+
+  const startResize = (e: React.MouseEvent, id: string, edge: string) => {
+    const w = winsRef.current.find(w => w.id === id); if (!w || w.max) return;
+    bringToFront(id);
+    dragState.current = { type: 'resize', id, edge, startX: e.clientX, startY: e.clientY, origX: w.x, origY: w.y, origW: w.w, origH: w.h };
+    document.body.classList.add('dragging');
+    e.preventDefault(); e.stopPropagation();
+  };
+
+  const toggleMax = (id: string) => {
+    setWins(ws => ws.map(w => {
+      if (w.id !== id) return w;
+      if (!w.max) return { ...w, max: true, sx: w.x, sy: w.y, sw: w.w, sh: w.h, x: 0, y: 28, w: window.innerWidth, h: window.innerHeight - 28 };
+      return { ...w, max: false, x: w.sx ?? 60, y: w.sy ?? 60, w: w.sw ?? 760, h: w.sh ?? 540 };
+    }));
   };
 
   const filteredApps = APPS.filter(a =>
@@ -435,8 +485,6 @@ export default function Home() {
     <>
       <div
         style={{ position:"fixed", inset:0, background:"#000" }}
-        onMouseMove={onMouseMove}
-        onMouseUp={() => { dragRef.current = null; }}
         onClick={() => { if (menuOpen) setMenuOpen(false); }}
       >
         {/* Wallpaper */}
@@ -556,25 +604,48 @@ export default function Home() {
         )}
 
         {/* ── Windows ── */}
-        {wins.map(win => (
+        {wins.map(win => {
+          const isTop = wins.length > 0 && win.z === Math.max(...wins.map(w => w.z));
+          return (
           <div key={win.id}
-            className={`win${win.min ? " minimized" : ""}`}
-            style={{ left:win.x, top:win.y, width:win.w, height:win.min ? 36 : win.h, zIndex:win.z }}
+            className={`win${win.min?" minimized":""}${win.max?" maximized":""}${isTop?" win-active":""}`}
+            style={{ left:win.max?0:win.x, top:win.max?28:win.y,
+              width:win.max?"100vw":win.w,
+              height:win.min?36:win.max?`calc(100vh - 28px)`:win.h,
+              zIndex:win.z }}
             onMouseDown={() => bringToFront(win.id)}
           >
-            <div className="win-bar" onMouseDown={e => startDrag(e, win.id)}>
+            {/* Title bar */}
+            <div className="win-bar"
+              onMouseDown={e => startDrag(e, win.id)}
+              onDoubleClick={() => toggleMax(win.id)}>
               <button className="win-btn" style={{ background:"#ff5f57" }} onClick={() => closeWin(win.id)} />
               <button className="win-btn" style={{ background:"#febc2e" }} onClick={() => toggleMin(win.id)} />
-              <button className="win-btn" style={{ background:"#28c840" }} />
+              <button className="win-btn" style={{ background:"#28c840" }} onClick={() => toggleMax(win.id)} />
               <span className="win-title">{win.title}</span>
             </div>
+
+            {/* Body */}
             {!win.min && (
-              <div className="win-body" style={{ height: win.h - 36 }}>
+              <div className="win-body">
                 <iframe src={win.url} title={win.title} loading="lazy" />
               </div>
             )}
+
+            {/* Resize handles */}
+            {!win.min && !win.max && <>
+              <div className="rh rh-n"  onMouseDown={e => startResize(e, win.id, 'n')} />
+              <div className="rh rh-s"  onMouseDown={e => startResize(e, win.id, 's')} />
+              <div className="rh rh-e"  onMouseDown={e => startResize(e, win.id, 'e')} />
+              <div className="rh rh-w"  onMouseDown={e => startResize(e, win.id, 'w')} />
+              <div className="rh rh-nw" onMouseDown={e => startResize(e, win.id, 'nw')} />
+              <div className="rh rh-ne" onMouseDown={e => startResize(e, win.id, 'ne')} />
+              <div className="rh rh-sw" onMouseDown={e => startResize(e, win.id, 'sw')} />
+              <div className="rh rh-se" onMouseDown={e => startResize(e, win.id, 'se')} />
+            </>}
           </div>
-        ))}
+          );
+        })}
 
         {/* ── All-apps panel ── */}
         {menuOpen && (
@@ -678,13 +749,25 @@ export default function Home() {
         )}
 
         {/* ── Dock ── */}
+        {/* dock hover trigger zone */}
+        <div style={{ position:"absolute", bottom:0, left:0, right:0, height:dockHidden ? 12 : 80,
+          zIndex:399, pointerEvents:"all" }}
+          onMouseEnter={showDock} onMouseLeave={startHide} />
+        {dockHidden && (
+          <div style={{ position:"absolute", bottom:3, left:"50%", transform:"translateX(-50%)",
+            width:64, height:4, borderRadius:2, background:"rgba(255,255,255,.18)", zIndex:401,
+            pointerEvents:"none" }} />
+        )}
         <div
-          style={{ position:"absolute", bottom:8, left:"50%", transform:"translateX(-50%)",
+          style={{ position:"absolute", bottom:8, left:"50%",
+            transform: dockHidden ? "translateX(-50%) translateY(calc(100% + 16px))" : "translateX(-50%)",
+            transition:"transform .3s cubic-bezier(.4,0,.2,1)",
             zIndex:400, display:"flex", alignItems:"center",
             background:"rgba(0,0,0,.5)", backdropFilter:"blur(28px) saturate(180%)",
             border:"1px solid rgba(255,255,255,.11)", borderRadius:22,
             padding:"6px 12px" }}
           onClick={e => e.stopPropagation()}
+          onMouseEnter={showDock} onMouseLeave={startHide}
         >
           {dockApps.map(app => {
             const isActive = wins.some(w =>
