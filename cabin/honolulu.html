@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/honolulu" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SOLUNA ホノルル — ハワイを登記所有。¥2,800万/口、年間30泊。</title>
+<meta content="ハワイ州ホノルル・5827 Kalanianaʻole Hwy。プール、ラナイ、ハナウマ湾5分。¥2,800万/口で年間30泊（月単位）の登記所有権。2026年11月オープン予定。" name="description"/>
+<meta content="SOLUNA ホノルル — ハワイを登記所有。¥2,800万/口、年間30泊。" property="og:title"/>
+<meta content="プール、ラナイ、ハナウマ湾5分。¥2,800万/口で年間30泊の登記所有権。2026年11月オープン。" property="og:description"/>
+<meta content="/img/property-honolulu.webp" property="og:image"/>
+<meta content="https://solun.art/honolulu" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23c8a455'/></svg>" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.4);
+  --gold-soft:rgba(200,164,85,.07);
+  --accent:#5ab4f0;
+  --accent-dim:rgba(90,180,240,.3);
+  --accent-soft:rgba(90,180,240,.07);
+  --bg:#040404;
+  --text:#f0ece4;
+  --text-dim:#666;
+  --line:#131313;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--accent);color:#000}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:13px 28px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.03);transition:opacity .3s}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--gold)}
+.nav-links{display:flex;gap:20px;align-items:center;font-size:10.5px}
+.nav-links a{color:#555;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links .cta{color:var(--gold);font-weight:700;border:1px solid rgba(200,164,85,.3);padding:7px 16px;border-radius:100px;transition:all .2s}
+.nav-links .cta:hover{background:var(--gold);color:#040404}
+@media(max-width:600px){.nav-links a:not(.cta){display:none}}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:640px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:slowzoom 12s ease-out forwards;filter:contrast(1.05) saturate(.9) brightness(.55)}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.55) 35%,rgba(4,4,4,.05) 65%,rgba(4,4,4,.4) 100%);z-index:1}
+.hero-body{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:0 32px 72px;max-width:740px;margin:0 auto}
+.hero-eyebrow{font-size:9px;letter-spacing:.38em;color:var(--accent);text-transform:uppercase;font-weight:700;margin-bottom:16px;opacity:.85;animation:fadeUp .8s .2s both}
+.hero h1{font-size:clamp(2.4rem,7vw,4.2rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:20px;animation:fadeUp .9s .4s both}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-badge{display:inline-block;background:rgba(90,180,240,.12);border:1px solid rgba(90,180,240,.4);color:var(--accent);font-size:9px;font-weight:800;letter-spacing:.18em;padding:6px 16px;border-radius:100px;margin-bottom:16px;animation:fadeUp .8s .1s both;text-transform:uppercase}
+.hero-stats{display:flex;align-items:center;gap:0;margin-bottom:22px;animation:fadeUp 1s .55s both;flex-wrap:wrap;row-gap:10px}
+.hero-stat{text-align:left;padding:0 18px}
+.hero-stat:first-child{padding-left:0}
+.hero-stat-v{display:block;font-size:14px;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.03em}
+.hero-stat-l{display:block;font-size:9px;color:rgba(240,236,228,.35);margin-top:4px;letter-spacing:.06em}
+.hero-stat-div{width:1px;height:26px;background:rgba(255,255,255,.06);flex-shrink:0}
+@media(max-width:600px){.hero-stat{padding:0 10px}.hero-stat-v{font-size:12px}}
+.hero-sub{color:rgba(240,236,228,.55);font-size:13px;line-height:2;max-width:500px;font-weight:300;animation:fadeUp 1s .7s both;margin-bottom:28px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp 1.1s .9s both}
+.hero-scroll{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:8px;color:#333;letter-spacing:.3em;z-index:2;animation:bounce 3s ease infinite}
+
+@keyframes slowzoom{from{transform:scale(1.06)}to{transform:scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-7px)}}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease}
+.r.in{opacity:1;transform:translateY(0)}
+.r2{opacity:0;transition:opacity 1.2s ease}
+.r2.in{opacity:1}
+
+/* SECTION */
+.s{padding:100px 0}
+@media(max-width:600px){.s{padding:72px 0}}
+.w{max-width:700px;margin:0 auto;padding:0 24px}
+.ww{max-width:980px;margin:0 auto;padding:0 24px}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:12px}
+h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+.sub{color:#555;font-size:13px;line-height:2.05;max-width:560px;margin-bottom:24px}
+.gold{color:var(--gold)}
+.accent{color:var(--accent)}
+
+/* PURCHASE WIDGET */
+.pw{background:#050505;border-top:1px solid var(--accent-dim);border-bottom:1px solid #0d0d0d;padding:36px 0}
+.pw-inner{max-width:860px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.pw-label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:6px}
+.pw-info{display:flex;flex-direction:column;flex-shrink:0;margin-right:8px}
+.pw-btn{background:var(--gold);color:#040404;font-weight:800;font-size:12px;padding:13px 28px;border-radius:100px;border:none;cursor:pointer;transition:opacity .2s;letter-spacing:.04em;white-space:nowrap;flex-shrink:0}
+.pw-btn:hover{opacity:.85}
+.pw-or{font-size:11px;color:#333}
+@media(max-width:600px){.pw-inner{gap:12px}.pw-or{display:none}}
+
+/* FULLWIDTH IMAGE */
+.fi{width:100vw;margin-left:calc(-50vw + 50%);height:65vh;min-height:360px;object-fit:cover;display:block}
+@media(max-width:600px){.fi{height:52vw;min-height:260px}}
+
+/* SPEC TABLE */
+.spec{border:1px solid #111;border-radius:16px;overflow:hidden;margin:18px 0;background:#060606}
+.spec-row{display:grid;grid-template-columns:160px 1fr;border-bottom:1px solid #0e0e0e;font-size:12px}
+.spec-row:last-child{border-bottom:none}
+.spec-row .k{padding:16px 18px;color:#3a3a3a;font-weight:700;letter-spacing:.04em;background:#050505;font-size:10.5px;display:flex;align-items:center}
+.spec-row .v{padding:16px 18px;color:#999;line-height:1.7}
+.spec-row .v strong{color:var(--accent);font-weight:700}
+@media(max-width:600px){.spec-row{grid-template-columns:1fr}.spec-row .k{padding:12px 16px 4px;background:transparent;font-size:9.5px}.spec-row .v{padding:4px 16px 14px}}
+
+/* GALLERY GRID */
+.hn-grid{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:3px;height:600px;margin:20px 0}
+@media(max-width:700px){.hn-grid{grid-template-columns:1fr;height:auto}}
+.hn-grid-main{grid-row:1/3;position:relative;overflow:hidden;cursor:pointer}
+.hn-grid-main img{width:100%;height:100%;object-fit:cover;filter:brightness(.85);transition:transform .6s,filter .4s}
+.hn-grid-main:hover img{transform:scale(1.03);filter:brightness(1)}
+.hn-grid-side{position:relative;overflow:hidden;cursor:pointer}
+.hn-grid-side img{width:100%;height:100%;object-fit:cover;filter:brightness(.85);transition:transform .6s,filter .4s}
+.hn-grid-side:hover img{transform:scale(1.04);filter:brightness(1)}
+.hn-grid-cap{position:absolute;bottom:0;left:0;right:0;padding:12px 14px;background:linear-gradient(to top,rgba(4,4,4,.85),transparent);font-size:9.5px;color:#888;letter-spacing:.05em}
+
+/* CTA BUTTONS */
+.cta-btn{display:inline-block;background:var(--gold);color:#040404;font-weight:800;font-size:12.5px;padding:16px 40px;border-radius:100px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 28px rgba(200,164,85,.2);letter-spacing:.04em}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(200,164,85,.32);color:#040404}
+.cta-ghost{display:inline-block;border:1px solid #252525;color:#666;font-size:12px;padding:15px 28px;border-radius:100px;margin-left:10px;transition:all .2s;font-weight:500}
+.cta-ghost:hover{border-color:rgba(90,180,240,.5);color:var(--accent)}
+
+/* BENEFIT GRID */
+.benefit-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin:20px 0}
+@media(max-width:700px){.benefit-grid{grid-template-columns:1fr}}
+.benefit-card{padding:28px 24px;background:#070707;border:1px solid #0f0f0f;position:relative;overflow:hidden}
+.benefit-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:var(--accent);opacity:.35}
+.benefit-card .bnum{font-size:36px;font-weight:800;color:#111;position:absolute;bottom:14px;right:16px;letter-spacing:-.04em}
+.benefit-card h3{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.benefit-card p{font-size:12.5px;color:#666;line-height:1.95}
+
+/* NUMBERS */
+.numbers{background:#030303;border-top:1px solid #0c0c0c;border-bottom:1px solid #0c0c0c;padding:52px 24px}
+.num-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:820px;margin:0 auto;text-align:center}
+@media(max-width:600px){.num-grid{grid-template-columns:repeat(2,1fr);gap:28px}}
+.num-grid .v{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.04em}
+.num-grid .l{font-size:9px;color:#333;letter-spacing:.14em;text-transform:uppercase;margin-top:8px;line-height:1.6;font-weight:600}
+
+/* FAQ */
+.faq-item{border-bottom:1px solid #0e0e0e;padding:20px 0;cursor:pointer}
+.faq-item:last-child{border-bottom:none}
+.faq-q{display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:13px;font-weight:600;color:#aaa;transition:color .2s}
+.faq-item:hover .faq-q{color:var(--text)}
+.faq-a{font-size:12.5px;color:#555;line-height:2;max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s;opacity:0;margin-top:0}
+.faq-item.open .faq-a{max-height:400px;opacity:1;margin-top:14px}
+.faq-icon{font-size:18px;color:#333;transition:transform .3s;flex-shrink:0}
+.faq-item.open .faq-icon{transform:rotate(45deg);color:var(--accent)}
+
+/* REGISTER SECTION */
+.register-section{background:radial-gradient(ellipse at center,rgba(90,180,240,.06) 0%,transparent 70%);border-top:1px solid #0d0d0d;padding:120px 0}
+
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:999;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(8px)}
+.modal.active{display:flex}
+.modal img{max-width:94vw;max-height:94vh;object-fit:contain;border-radius:4px}
+
+/* FOOTER */
+footer{padding:60px 24px 36px;max-width:700px;margin:0 auto;text-align:center}
+footer .logo{font-size:10px;font-weight:800;letter-spacing:.2em;color:var(--gold);margin-bottom:16px}
+footer nav a{font-size:10.5px;color:#333;margin:0 10px}
+footer nav a:hover{color:var(--gold)}
+footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
+
+/* TIMELINE */
+.timeline{max-width:600px;margin:24px auto 0;padding:0 24px}
+.tl-item{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid #0c0c0c;position:relative}
+.tl-item:last-child{border-bottom:none}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:#111;border:2px solid #222;flex-shrink:0;margin-top:4px}
+.tl-item.done .tl-dot{background:var(--accent);border-color:var(--accent)}
+.tl-item.active .tl-dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px rgba(90,180,240,.15)}
+.tl-year{font-size:10px;font-weight:800;color:#2a2a2a;letter-spacing:.08em;width:56px;flex-shrink:0;margin-top:2px}
+.tl-item.done .tl-year,.tl-item.active .tl-year{color:var(--accent)}
+.tl-content h4{font-size:13px;font-weight:700;color:#888;margin-bottom:4px;line-height:1.4}
+.tl-item.done .tl-content h4,.tl-item.active .tl-content h4{color:var(--text)}
+.tl-content p{font-size:11.5px;color:#3a3a3a;line-height:1.85}
+.tl-item.active .tl-content p{color:#555}
+
+/* PROP SCROLL */
+.prop-scroll{display:flex;gap:12px;overflow-x:auto;padding:20px 0 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.prop-scroll::-webkit-scrollbar{display:none}
+.prop-card{flex-shrink:0;width:260px;background:#070707;border:1px solid #111;border-radius:14px;overflow:hidden;transition:border-color .3s}
+.prop-card:hover{border-color:rgba(200,164,85,.3)}
+.prop-card-img{height:160px;object-fit:cover;width:100%;filter:brightness(.8);transition:filter .4s}
+.prop-card:hover .prop-card-img{filter:brightness(.95)}
+.prop-card-body{padding:16px}
+.prop-card-loc{font-size:8.5px;color:#333;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.prop-card-name{font-size:14px;font-weight:800;color:var(--text);margin-bottom:6px;line-height:1.3}
+.prop-card-status{display:inline-block;font-size:8px;font-weight:800;letter-spacing:.1em;padding:3px 10px;border-radius:100px;margin-bottom:8px}
+.status-active{background:rgba(155,196,109,.15);color:#9bc46d;border:1px solid rgba(155,196,109,.3)}
+.status-soon{background:rgba(90,180,240,.12);color:var(--accent);border:1px solid rgba(90,180,240,.3)}
+
+@media(max-width:600px){nav .nav-links{display:none}}
+</style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="/">SOLUNA</a>
+  <div class="nav-links">
+    <a href="/scheme">スキーム</a>
+    <a href="/properties">物件一覧</a>
+    <a class="cta" href="/buy">オーナーになる</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg">
+    <img alt="SOLUNA HONOLULU BEACH VILLA — ハワイ州ホノルル、プール付き一棟ヴィラ" loading="eager" src="img/property-honolulu.webp"/>
+  </div>
+  <div class="hero-body">
+    <div class="hero-badge">HAWAII · 2026年11月オープン予定</div>
+    <div class="hero-eyebrow">SOLUNA · HONOLULU · Hawaii · ハワイ州ホノルル</div>
+    <h1>ハワイも、<br/><em>登記所有できる。</em></h1>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-v">¥2,800万/口</span>
+        <span class="hero-stat-l">購入価格（全8口）</span>
+      </div>
+      <div class="hero-stat-div"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-v">30泊/年</span>
+        <span class="hero-stat-l">月単位・最短30泊</span>
+      </div>
+      <div class="hero-stat-div"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-v">¥85,000/泊</span>
+        <span class="hero-stat-l">滞在単価</span>
+      </div>
+      <div class="hero-stat-div"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-v">ハナウマ湾5分</span>
+        <span class="hero-stat-l">世界屈指のシュノーケル</span>
+      </div>
+    </div>
+    <p class="hero-sub">プール、ラナイ、オーシャンビュー。<br/>ハワイのヴィラをSOLUNAオーナーシップで持つ。</p>
+    <div class="hero-cta">
+      <a class="cta-btn" href="#register" data-sln-track="purchase_click">オーナー登録はこちら →</a>
+      <a class="cta-ghost" href="#overview">詳細を見る →</a>
+    </div>
+  </div>
+  <div class="hero-scroll">SCROLL</div>
+</div>
+
+<!-- PURCHASE WIDGET -->
+<div class="pw">
+  <div class="pw-inner">
+    <div class="pw-info">
+      <div style="font-size:11px;font-weight:800;color:var(--text);letter-spacing:.04em">HONOLULU BEACH VILLA</div>
+      <div style="font-size:9px;color:var(--accent);letter-spacing:.18em;font-weight:700;margin-top:2px">2026年11月オープン · ¥85,000/泊 · 月単位</div>
+    </div>
+    <div style="display:flex;flex-direction:column;flex:1;min-width:160px">
+      <div class="pw-label">購入価格/口</div>
+      <div style="font-size:22px;font-weight:800;color:var(--gold);letter-spacing:-.02em;line-height:1.1">¥2,800万</div>
+      <div style="font-size:9.5px;color:#3a3a3a;margin-top:4px">全8口 · 不動産登記持分</div>
+    </div>
+    <div style="display:flex;flex-direction:column;flex:1;min-width:160px">
+      <div class="pw-label">実質コスト/泊</div>
+      <div style="font-size:22px;font-weight:800;color:#888;letter-spacing:-.02em;line-height:1.1">約¥203,000</div>
+      <div style="font-size:9px;color:#2a2a2a;margin-top:4px">※取得費÷10年+管理費÷30泊</div>
+    </div>
+    <a class="pw-btn" href="#register" data-sln-track="purchase_click">購入相談 →</a>
+  </div>
+</div>
+
+<!-- STATUS BANNER -->
+<div style="background:#050505;border-bottom:1px solid #0d0d0d;padding:48px 0" id="overview">
+  <div class="ww">
+    <p class="label r" style="text-align:center;color:#2a2a2a;margin-bottom:28px">Current Status · 現在のステータス</p>
+    <div class="r" style="display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;max-width:640px;margin:0 auto;position:relative">
+      <div style="position:absolute;left:calc(64px);right:calc(64px);height:1px;background:#1a1a1a;top:16px;z-index:0"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;flex:1;position:relative;z-index:1">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--accent);border:2px solid var(--accent);color:#040404;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-bottom:10px;box-shadow:0 0 0 6px rgba(90,180,240,.1)">1</div>
+        <div style="font-size:9.5px;font-weight:700;color:var(--accent);text-align:center">物件取得済</div>
+        <div style="font-size:8px;color:#333;text-align:center;margin-top:2px">2026年完了</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;flex:1;position:relative;z-index:1">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--accent);border:2px solid var(--accent);color:#040404;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-bottom:10px;box-shadow:0 0 0 6px rgba(90,180,240,.15)">2</div>
+        <div style="font-size:9.5px;font-weight:700;color:var(--accent);text-align:center">オーナー募集中</div>
+        <div style="font-size:8px;color:rgba(90,180,240,.5);text-align:center;margin-top:2px">現在ここ</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;flex:1;position:relative;z-index:1">
+        <div style="width:32px;height:32px;border-radius:50%;background:#050505;border:2px solid #1a1a1a;color:#333;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-bottom:10px">3</div>
+        <div style="font-size:9.5px;font-weight:700;color:#2a2a2a;text-align:center">運用開始</div>
+        <div style="font-size:8px;color:#222;text-align:center;margin-top:2px">2026年11月予定</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;flex:1;position:relative;z-index:1">
+        <div style="width:32px;height:32px;border-radius:50%;background:#050505;border:2px solid #1a1a1a;color:#333;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-bottom:10px">4</div>
+        <div style="font-size:9.5px;font-weight:700;color:#2a2a2a;text-align:center">フル稼働</div>
+        <div style="font-size:8px;color:#222;text-align:center;margin-top:2px">2027年〜</div>
+      </div>
+    </div>
+    <p class="r" style="text-align:center;font-size:12px;color:#2a2a2a;max-width:500px;margin:28px auto 0;line-height:2">全8口を募集中。2026年11月オープン予定。先にオーナー登録した方が優先的に口数を確保できます。</p>
+  </div>
+</div>
+
+<!-- STATEMENT -->
+<div style="padding:100px 24px;text-align:center;background:radial-gradient(ellipse at center,rgba(90,180,240,.05) 0%,transparent 70%)">
+  <p class="r" style="font-size:clamp(1.1rem,3vw,1.7rem);font-weight:300;line-height:1.95;color:#aaa;max-width:620px;margin:0 auto">
+    ハワイは<strong style="color:var(--text);font-weight:700">「来てみて終わり」</strong>の場所ではない。<br/>
+    ここを<strong style="color:var(--text);font-weight:700">自分のヴィラとして持つ</strong>日から、<br/>
+    <span style="color:#555;font-size:.82em">日本にいる350日の意味が変わる。<br/>「次はいつ帰ろうか」——それだけで、毎日が豊かになる。</span>
+  </p>
+  <div class="r" style="margin-top:36px;font-size:10px;color:#333;letter-spacing:.2em">— 濱田 優貴 / SOLUNA</div>
+</div>
+
+<!-- HERO IMAGE GRID -->
+<div class="ww r2" style="max-width:980px;margin:0 auto;padding:0 24px">
+  <div class="hn-grid">
+    <div class="hn-grid-main" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src='img/property-honolulu.webp'">
+      <img alt="HONOLULU BEACH VILLA — プール・ラナイ" src="img/property-honolulu.webp"/>
+      <div class="hn-grid-cap">プール · ラナイ · オーシャンビュー</div>
+    </div>
+    <div class="hn-grid-side" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src='img/property-honolulu-2.webp'">
+      <img alt="HONOLULU BEACH VILLA — ヴィラ内部" src="img/property-honolulu-2.webp"/>
+      <div class="hn-grid-cap">ヴィラ内部</div>
+    </div>
+    <div class="hn-grid-side" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src='img/property-honolulu-3.webp'">
+      <img alt="HONOLULU BEACH VILLA — ロケーション" src="img/property-honolulu-3.webp"/>
+      <div class="hn-grid-cap">ロケーション</div>
+    </div>
+  </div>
+</div>
+
+<!-- LOCATION SECTION -->
+<div class="s" id="location" style="background:#030303;border-top:1px solid #0a0a0a;padding:80px 0">
+  <div class="ww">
+    <p class="label r" style="text-align:center;color:#2a2a2a">Location · 場所</p>
+    <h2 class="r" style="text-align:center;margin-bottom:8px">ハワイ州<span class="accent">ホノルル</span></h2>
+    <p class="r" style="text-align:center;color:#333;font-size:12px;max-width:500px;margin:0 auto 28px">5827 Kalanianaʻole Hwy, Honolulu, HI 96821。ハナウマ湾まで車5分、ワイキキまで20分。</p>
+    <!-- Map -->
+    <div class="r" style="position:relative;border-radius:14px;overflow:hidden;max-width:860px;margin:0 auto 24px;border:1px solid #111">
+      <iframe allowfullscreen="" height="400" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://maps.google.com/maps?q=21.296,-157.698&t=k&z=13&ie=UTF8&iwloc=&output=embed"
+        style="border:0;display:block;filter:grayscale(1) invert(0.9) contrast(0.9) brightness(0.3)" width="100%"></iframe>
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;text-align:center">
+        <div style="width:12px;height:12px;background:var(--accent);border-radius:50%;border:2px solid #040404;box-shadow:0 0 0 6px rgba(90,180,240,.2);margin:0 auto 10px"></div>
+        <div style="background:rgba(4,4,4,.88);backdrop-filter:blur(12px);border:1px solid rgba(90,180,240,.3);border-radius:10px;padding:10px 18px">
+          <div style="font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.06em">SOLUNA HONOLULU</div>
+          <div style="font-size:9.5px;color:#555;margin-top:3px">Hawaii Kai · Kalanianaʻole Hwy</div>
+        </div>
+      </div>
+    </div>
+    <!-- Access grid -->
+    <div class="r" style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;max-width:860px;margin:0 auto">
+      <div style="padding:20px 18px;background:#070707;border:1px solid #0f0f0f;border-radius:12px 0 0 12px">
+        <div style="font-size:9px;color:#2a2a2a;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:10px">HANAUMA BAY</div>
+        <div style="font-size:20px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:6px">5分</div>
+        <div style="font-size:11px;color:#3a3a3a;line-height:1.7">世界屈指のシュノーケルスポット<br/>車で5分のアクセス</div>
+      </div>
+      <div style="padding:20px 18px;background:#070707;border:1px solid #0f0f0f">
+        <div style="font-size:9px;color:#2a2a2a;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:10px">WAIKIKI</div>
+        <div style="font-size:20px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:6px">20分</div>
+        <div style="font-size:11px;color:#3a3a3a;line-height:1.7">ワイキキビーチ・高級ショッピング<br/>ダイアモンドヘッド</div>
+      </div>
+      <div style="padding:20px 18px;background:#070707;border:1px solid #0f0f0f;border-radius:0 12px 12px 0">
+        <div style="font-size:9px;color:#2a2a2a;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:10px">OCEAN VIEW</div>
+        <div style="font-size:20px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:6px">180°</div>
+        <div style="font-size:11px;color:#3a3a3a;line-height:1.7">太平洋パノラマビュー<br/>ラナイから水平線まで</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HIGHLIGHTS -->
+<div class="s" style="padding:80px 0">
+  <div class="ww">
+    <p class="label r" style="color:#2a2a2a;margin-bottom:8px">Why Honolulu · ホノルルを選ぶ理由</p>
+    <h2 class="r" style="margin-bottom:28px">日本人が最も<span class="accent">帰りたいハワイ</span>の拠点</h2>
+    <div class="r" style="display:grid;grid-template-columns:1fr 1fr;gap:3px;max-width:860px;margin:0 auto">
+      <div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f">
+        <div style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:10px;letter-spacing:.06em">プライベートプール・ラナイ</div>
+        <p style="font-size:12.5px;color:#555;line-height:2">専用プールとラナイ（テラス）付き一棟ヴィラ。プライベート空間でハワイの陽光を独占できる。ホテルのプールサイドとは違う、自分の庭としての解放感。</p>
+      </div>
+      <div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f">
+        <div style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:10px;letter-spacing:.06em">ハナウマ湾 5分</div>
+        <p style="font-size:12.5px;color:#555;line-height:2">世界自然遺産・ハナウマ湾まで車で5分。朝イチのシュノーケルに出かけ、昼にはプールサイドでのんびりするライフスタイル。ここを拠点にすると、ハワイが変わる。</p>
+      </div>
+      <div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f">
+        <div style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:10px;letter-spacing:.06em">ワイキキ・DFSまで20分</div>
+        <p style="font-size:12.5px;color:#555;line-height:2">観光の喧騒から適切な距離を保ちつつ、ワイキキの利便性へのアクセスを確保。仕事仲間を招いて合宿、家族で長期滞在、どちらにも対応できるロケーション。</p>
+      </div>
+      <div style="padding:28px 24px;background:#070707;border:1px solid #0f0f0f">
+        <div style="font-size:11px;font-weight:800;color:var(--accent);margin-bottom:10px;letter-spacing:.06em">月単位・長期滞在設計</div>
+        <p style="font-size:12.5px;color:#555;line-height:2">最短1ヶ月（30泊）単位で滞在できる設計。年間30泊の権利を「ひと月まとめて使う」スタイルが最高の体験になる。ハワイに「もう一つの家」を持つ感覚。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SPEC TABLE -->
+<div class="s" style="background:#030303;border-top:1px solid #0a0a0a;padding:80px 0">
+  <div class="ww">
+    <p class="label r" style="text-align:center;color:#2a2a2a">Specifications · 物件詳細</p>
+    <h2 class="r" style="text-align:center;margin-bottom:28px">物件<span class="accent">スペック</span></h2>
+    <div class="spec r" style="max-width:860px;margin:0 auto">
+      <div class="spec-row">
+        <div class="k">物件名</div>
+        <div class="v"><strong>HONOLULU BEACH VILLA</strong></div>
+      </div>
+      <div class="spec-row">
+        <div class="k">所在地</div>
+        <div class="v">5827 Kalanianaʻole Hwy, Honolulu, HI 96821, USA<br/><span style="font-size:10px;color:#3a3a3a">ハワイカイ・ハナウマ湾5分・ワイキキ20分</span></div>
+      </div>
+      <div class="spec-row">
+        <div class="k">購入価格</div>
+        <div class="v"><strong>¥2,800万/口</strong>（全8口）</div>
+      </div>
+      <div class="spec-row">
+        <div class="k">年間滞在権</div>
+        <div class="v"><strong>30泊/年</strong>（月単位、最短1ヶ月30泊）</div>
+      </div>
+      <div class="spec-row">
+        <div class="k">滞在単価</div>
+        <div class="v">¥85,000/泊（月単位換算）</div>
+      </div>
+      <div class="spec-row">
+        <div class="k">管理費</div>
+        <div class="v">¥400,000/月（物件維持・プロ運営含む）</div>
+      </div>
+      <div class="spec-row">
+        <div class="k">実質コスト/泊</div>
+        <div class="v"><strong style="color:var(--gold)">約¥203,000</strong><br/><span style="font-size:10px;color:#3a3a3a">（¥2,800万÷10年+¥400万×12）÷30泊 の概算</span></div>
+      </div>
+      <div class="spec-row">
+        <div class="k">設備</div>
+        <div class="v">プール、ラナイ（テラス）、全室エアコン、フルキッチン、BBQエリア</div>
+      </div>
+      <div class="spec-row">
+        <div class="k">眺望</div>
+        <div class="v">太平洋オーシャンビュー（180°パノラマ）</div>
+      </div>
+      <div class="spec-row">
+        <div class="k">オープン予定</div>
+        <div class="v"><strong style="color:var(--accent)">2026年11月</strong></div>
+      </div>
+      <div class="spec-row">
+        <div class="k">オーナーシップ</div>
+        <div class="v">不動産登記持分（米国法人経由）、売却・相続可能</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY STRIP -->
+<div class="ww r2" style="max-width:980px;margin:32px auto 0;padding:0 24px">
+  <div style="display:flex;gap:3px;overflow:hidden;height:300px;margin:18px 0">
+    <img alt="HONOLULU BEACH VILLA — プールサイド" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/property-honolulu-2.webp" style="flex:1;object-fit:cover;min-width:0;cursor:pointer;filter:brightness(.85);transition:flex .5s ease,filter .4s" onmouseover="this.style.flex='2.5';this.style.filter='brightness(1)'" onmouseout="this.style.flex='1';this.style.filter='brightness(.85)'"/>
+    <img alt="HONOLULU BEACH VILLA — ラナイ" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/property-honolulu-3.webp" style="flex:1;object-fit:cover;min-width:0;cursor:pointer;filter:brightness(.85);transition:flex .5s ease,filter .4s" onmouseover="this.style.flex='2.5';this.style.filter='brightness(1)'" onmouseout="this.style.flex='1';this.style.filter='brightness(.85)'"/>
+    <img alt="HONOLULU BEACH VILLA — ハワイカイ" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/property-honolulu-4.webp" style="flex:1;object-fit:cover;min-width:0;cursor:pointer;filter:brightness(.85);transition:flex .5s ease,filter .4s" onmouseover="this.style.flex='2.5';this.style.filter='brightness(1)'" onmouseout="this.style.flex='1';this.style.filter='brightness(.85)'"/>
+  </div>
+</div>
+
+<!-- NUMBERS -->
+<div class="numbers">
+  <div class="num-grid r">
+    <div>
+      <div class="v">5分</div>
+      <div class="l">ハナウマ湾<br/>車でのアクセス</div>
+    </div>
+    <div>
+      <div class="v">8口</div>
+      <div class="l">総口数<br/>限定</div>
+    </div>
+    <div>
+      <div class="v">180°</div>
+      <div class="l">太平洋<br/>パノラマビュー</div>
+    </div>
+    <div>
+      <div class="v">Nov 26</div>
+      <div class="l">2026年11月<br/>オープン予定</div>
+    </div>
+  </div>
+</div>
+
+<!-- FACILITIES -->
+<div class="s" style="padding:80px 0">
+  <div class="ww">
+    <p class="label r" style="text-align:center;color:#2a2a2a">Facilities · 施設</p>
+    <h2 class="r" style="text-align:center;margin-bottom:6px">一棟まるごと<span class="accent">プライベートヴィラ</span></h2>
+    <div class="benefit-grid r">
+      <div class="benefit-card">
+        <h3>PRIVATE POOL</h3>
+        <p>専用プール完備。チェックインからチェックアウトまで、プールは独占利用。他のゲストと鉢合わせることなく、ハワイの陽光を独り占めできる。</p>
+        <div class="bnum">01</div>
+      </div>
+      <div class="benefit-card">
+        <h3>LANAI TERRACE</h3>
+        <p>ラナイ（テラス）から太平洋の水平線を望む。朝のコーヒー、夕暮れのサンセットビュー、夜の星空まで、ハワイのすべての時間帯を最高の場所で過ごす。</p>
+        <div class="bnum">02</div>
+      </div>
+      <div class="benefit-card">
+        <h3>FULL KITCHEN</h3>
+        <p>フルキッチン完備。近くのホールフーズやタイムズスーパーで食材を調達し、自炊でハワイライフを満喫。BBQエリアでアウトドアクッキングも可能。</p>
+        <div class="bnum">03</div>
+      </div>
+      <div class="benefit-card">
+        <h3>HANAUMA BAY ACCESS</h3>
+        <p>世界的シュノーケルスポット・ハナウマ湾まで車で5分。早朝予約の入場チケットを取り、朝イチのシュノーケルを体験してから戻ってくる——そんな朝が日常になる。</p>
+        <div class="bnum">04</div>
+      </div>
+      <div class="benefit-card">
+        <h3>CONCIERGE SERVICE</h3>
+        <p>SOLUNAコンシェルジュがハワイ滞在をサポート。チェックイン手続き、アクティビティ手配、レストラン予約。言語の壁なく、ハワイを深く体験できる。</p>
+        <div class="bnum">05</div>
+      </div>
+      <div class="benefit-card">
+        <h3>PRO MANAGEMENT</h3>
+        <p>滞在していない期間はプロが運用。Airbnbはじめ各OTAに掲載し、ハワイを訪れる富裕層ゲストに高単価で提供。オーナーの収益に還元される。</p>
+        <div class="bnum">06</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="s" style="background:#030303;border-top:1px solid #0a0a0a;padding:80px 0">
+  <div class="ww">
+    <p class="label r" style="text-align:center;color:#2a2a2a">Timeline · スケジュール</p>
+    <h2 class="r" style="text-align:center;margin-bottom:6px">2026年11月、<span class="accent">ハワイが始まる。</span></h2>
+    <div class="timeline r">
+      <div class="tl-item done">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2026年<br/>春</div>
+        <div class="tl-content">
+          <h4>物件取得完了</h4>
+          <p>ホノルル・ハワイカイエリアに物件を取得。法人スキーム設立、米国側の法務・会計体制を整備。</p>
+        </div>
+      </div>
+      <div class="tl-item active">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2026年<br/>5〜10月</div>
+        <div class="tl-content">
+          <h4>オーナー募集 · リノベーション</h4>
+          <p>全8口のオーナーを募集。内装リノベーション・プール整備・IOT設備（スマートロック、監視カメラ）設置。</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2026年<br/>11月</div>
+        <div class="tl-content">
+          <h4>グランドオープン</h4>
+          <p>オーナー向けオープンセレモニー開催。最初の滞在権行使が始まる。Airbnb / VRBO掲載でプロ運営スタート。</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2027年〜</div>
+        <div class="tl-content">
+          <h4>フル稼働 · 収益還元</h4>
+          <p>通年稼働。ハワイKaiエリアの高需要期（12〜3月）の稼働率向上で収益最大化。オーナーへ年次レポートと収益分配。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER SECTION -->
+<div class="register-section" id="register">
+  <div class="w">
+    <p class="label r" style="text-align:center;color:#2a2a2a">Purchase · オーナー登録</p>
+    <h2 class="r" style="text-align:center;margin-bottom:6px">ハワイを、<br/><span class="accent">自分のものにする。</span></h2>
+    <p class="r" style="text-align:center;color:#555;font-size:13px;max-width:480px;margin:0 auto 32px;line-height:2">全8口限定。2026年11月オープン予定。まず購入相談からでも。詳細資料（スキーム説明・ローン対応・契約書ドラフト）をお送りします。</p>
+
+    <!-- Benefits box -->
+    <div class="r" style="background:#060606;border:1px solid #111;border-radius:20px;padding:36px 32px;margin-bottom:28px;max-width:600px;margin-left:auto;margin-right:auto">
+      <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(90,180,240,.5);font-weight:700;margin-bottom:24px">オーナー特典</div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:flex-start;gap:14px">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(90,180,240,.15);border:1px solid rgba(90,180,240,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+            <svg fill="none" height="10" viewBox="0 0 16 16" width="10"><polyline points="3,8 7,12 13,4" stroke="#5ab4f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/></svg>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">年間30泊の滞在権（月単位）</div>
+            <div style="font-size:12px;color:#444;line-height:1.7">年間30泊分を好きな月にまとめて使用できる。ハワイでの長期滞在ライフスタイルに最適。</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:14px">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(90,180,240,.15);border:1px solid rgba(90,180,240,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+            <svg fill="none" height="10" viewBox="0 0 16 16" width="10"><polyline points="3,8 7,12 13,4" stroke="#5ab4f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/></svg>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">不動産登記持分（売却・相続可）</div>
+            <div style="font-size:12px;color:#444;line-height:1.7">ハワイの不動産として登記。日本の別荘と同様、売却も相続も可能な実物資産として保有できる。</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:14px">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(90,180,240,.15);border:1px solid rgba(90,180,240,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+            <svg fill="none" height="10" viewBox="0 0 16 16" width="10"><polyline points="3,8 7,12 13,4" stroke="#5ab4f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/></svg>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">プロ運営による収益化</div>
+            <div style="font-size:12px;color:#444;line-height:1.7">使わない期間はプロが高稼働で運営。Airbnb実績に基づく収益をオーナーに還元。</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:14px">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(90,180,240,.15);border:1px solid rgba(90,180,240,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+            <svg fill="none" height="10" viewBox="0 0 16 16" width="10"><polyline points="3,8 7,12 13,4" stroke="#5ab4f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/></svg>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">SOLUNAメンバーシップ（日本物件も使える）</div>
+            <div style="font-size:12px;color:#444;line-height:1.7">北海道・熱海のSOLUNA物件を同じメンバーシップで利用可能。日本とハワイを行き来するライフスタイルが実現する。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="r" style="text-align:center">
+      <a class="cta-btn" href="/buy" data-sln-track="purchase_click" style="font-size:14px;padding:18px 48px">オーナー登録・購入相談 →</a>
+      <p style="font-size:11px;color:#2a2a2a;margin-top:16px;line-height:1.8">相談は完全無料。詳細資料（スキーム・契約・ローン対応）をお送りします。<br/>返信は通常2営業日以内。</p>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="s" style="padding:80px 0">
+  <div class="w">
+    <p class="label r" style="text-align:center;color:#2a2a2a">FAQ</p>
+    <h2 class="r" style="text-align:center;margin-bottom:36px">よくある質問</h2>
+    <div class="r">
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span>ハワイの不動産を日本人が登記所有できますか？</span><span class="faq-icon">+</span></div>
+        <div class="faq-a">はい。アメリカでは外国人による不動産所有は合法です。SOLUNAでは米国法人（LLC等）を経由した持分スキームを採用し、日本語でのサポートのもと安全に登記持分を取得できます。詳細は購入相談時にご説明します。</div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span>月単位とはどういう意味ですか？</span><span class="faq-icon">+</span></div>
+        <div class="faq-a">年間30泊の滞在権を、最短1ヶ月（30泊）まとめて使う形式です。例えば「12月の1ヶ月間ハワイで過ごす」という使い方が想定されています。日割りで分散して使うことも可能ですが、1ヶ月単位での予約が最も体験として豊かです。</div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span>管理費はどのくらいかかりますか？</span><span class="faq-icon">+</span></div>
+        <div class="faq-a">¥400,000/月（年間¥480万）です。物件維持費、プロ運営費、コンシェルジュ費用を含みます。この管理費はプロ運営による収益で一部相殺される仕組みです。</div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span>ローンで購入できますか？</span><span class="faq-icon">+</span></div>
+        <div class="faq-a">日本の金融機関による海外不動産担保ローンの利用を検討できます。また、SOLUNAは提携金融機関への紹介も行っています。詳細は購入相談時にご案内します。</div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span>使わない期間の収益はどうなりますか？</span><span class="faq-icon">+</span></div>
+        <div class="faq-a">SOLUNAがAirbnb・VRBO等でプロ運営し、収益をオーナーに分配します。ハワイKaiエリアは年間を通じて需要が高く、特に12〜3月の高需要期は高単価での稼働が見込まれます。年次レポートで収益状況をご報告します。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OTHER PROPERTIES -->
+<div class="s" style="background:#030303;border-top:1px solid #0a0a0a;padding:72px 0">
+  <div class="ww">
+    <p class="label r" style="color:#2a2a2a;margin-bottom:8px">Other Properties · 他の物件</p>
+    <h2 class="r" style="margin-bottom:6px">SOLUNAの<span class="gold">全拠点</span></h2>
+    <p class="r" style="color:#333;font-size:12px;margin-bottom:28px;line-height:1.8">北海道・熱海・ハワイ。SOLUNAオーナーシップは全物件で使えます。</p>
+    <div class="prop-scroll r">
+      <a class="prop-card" href="/tapkop" style="text-decoration:none">
+        <img alt="TAPKOP" class="prop-card-img" src="img/tapkop_lake_mashu_view.webp"/>
+        <div class="prop-card-body">
+          <div class="prop-card-loc">北海道 · 弟子屈</div>
+          <div class="prop-card-name">TAPKOP</div>
+          <span class="prop-card-status status-active">稼働中 · ¥8,000万/口</span>
+        </div>
+      </a>
+      <a class="prop-card" href="/atami" style="text-decoration:none">
+        <img alt="WHITE HOUSE 熱海" class="prop-card-img" src="img/atami_cliff_view.webp"/>
+        <div class="prop-card-body">
+          <div class="prop-card-loc">静岡 · 熱海</div>
+          <div class="prop-card-name">WHITE HOUSE 熱海</div>
+          <span class="prop-card-status status-active">稼働中 · ¥1,900万/口</span>
+        </div>
+      </a>
+      <a class="prop-card" href="/lodge" style="text-decoration:none">
+        <img alt="THE LODGE" class="prop-card-img" src="img/lodge_great_room.webp"/>
+        <div class="prop-card-body">
+          <div class="prop-card-loc">北海道 · 美留和</div>
+          <div class="prop-card-name">THE LODGE</div>
+          <span class="prop-card-status status-active">稼働中 · ¥490万/口</span>
+        </div>
+      </a>
+      <a class="prop-card" href="/kumaushi" style="text-decoration:none">
+        <img alt="KUMAUSHI BASE" class="prop-card-img" src="img/kumaushi_aerial_dawn.webp"/>
+        <div class="prop-card-body">
+          <div class="prop-card-loc">北海道 · 熊牛原野</div>
+          <div class="prop-card-name">KUMAUSHI BASE</div>
+          <span class="prop-card-status status-soon" style="background:rgba(200,164,85,.1);color:#c8a455;border:1px solid rgba(200,164,85,.3)">2026年9月 · ¥480万/口</span>
+        </div>
+      </a>
+      <div class="prop-card" style="border-color:rgba(90,180,240,.35)">
+        <img alt="HAWAII KAI HOUSE" class="prop-card-img" src="img/pro_hawaii_hero.webp"/>
+        <div class="prop-card-body">
+          <div class="prop-card-loc">ハワイ · ハワイカイ</div>
+          <div class="prop-card-name">HAWAII KAI HOUSE</div>
+          <span class="prop-card-status status-soon" style="background:rgba(90,180,240,.1);color:#5ab4f0;border:1px solid rgba(90,180,240,.3)">2026年11月 · ¥3,800万/口</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="logo">SOLUNA</div>
+  <nav>
+    <a href="/scheme">スキーム</a>
+    <a href="/properties">物件一覧</a>
+    <a href="/buy">オーナーになる</a>
+    <a href="/community">コミュニティ</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+  <p class="copy">© 2025 Enabler Inc. All rights reserved.</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal" onclick="this.classList.remove('active')">
+  <img alt="Gallery" src=""/>
+</div>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.r').forEach(el => observer.observe(el));
+document.querySelectorAll('.r2').forEach(el => observer.observe(el));
+</script>
+<script defer src="/js/sln-chat-btn.js"></script>
+</body>
+</html>
