@@ -398,14 +398,14 @@ export default function Home() {
             <h1 style={{ fontFamily:"Anton,sans-serif", fontSize:"clamp(2.8rem,7vw,5rem)",
               letterSpacing:".04em", lineHeight:.95, color:"#fff",
               textShadow:"0 4px 24px rgba(0,0,0,.7)", margin:"0 0 16px" }}>
-              別荘コストを、<br />
-              <span style={{ color:"#c9a962" }}>10分の1に。</span>
+              別荘を持つ、<br />
+              <span style={{ color:"#c9a962" }}>新しい形。</span>
             </h1>
             <p style={{ fontSize:".82rem", color:"rgba(255,255,255,.55)",
               lineHeight:1.7, marginBottom:28, fontFamily:"Inter,sans-serif",
               textShadow:"0 2px 8px rgba(0,0,0,.8)" }}>
               10口シェアで登記所有。780万円から、年間30泊。<br />
-              使わない日はプロが運営して収益化。
+              使わない期間はプロが管理・運営をサポートします。
             </p>
             <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap" }}>
               <button className="hero-btn hero-btn-primary"
