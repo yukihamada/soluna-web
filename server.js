@@ -10555,11 +10555,18 @@ if (fs.existsSync(DOCS_STATIC_DIR)) {
 // ── Cabin static files (main SOLUNA website — served from /cabin dir) ────────
 // Must come BEFORE the SPA fallback so .html files are served directly
 
-// ?embed=1 のとき内部ナビを消すCSS/JSをインジェクト
+// ?embed=1 のとき内部ナビ/ヒーロー背景を消すCSS/JSをインジェクト
 const EMBED_STRIP = `<style>
-.gnav,.navbar,.site-header,nav[class*="nav"],header[class*="header"]{display:none!important}
-body{padding-top:0!important;margin-top:0!important}
-</style><script>document.documentElement.classList.add('embedded')</script>`;
+.gnav,.navbar,.site-header,nav,nav[class*="nav"],header[class*="header"],footer,.footer,[class*="footer"]{display:none!important}
+body{padding-top:0!important;margin-top:0!important;background:#070707!important;overflow-x:hidden}
+html{background:#070707!important}
+/* hero 背景画像を除去 */
+.hero,.hero-section,.hero-wrap,.hero-container,.main-hero,[class*="-hero"],[class*="hero-"]{background-image:none!important;min-height:auto!important;padding-top:40px!important}
+/* 固定オーバーレイ除去 */
+.overlay,.bg-overlay,[class*="overlay"]{display:none!important}
+/* スクロールバー非表示 */
+::-webkit-scrollbar{display:none}
+</style><script>document.documentElement.classList.add('embedded');document.documentElement.classList.add('in-window')</script>`;
 
 function serveWithEmbed(filePath, res) {
   let html = fs.readFileSync(filePath, "utf8");
