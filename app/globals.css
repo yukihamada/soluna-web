@@ -583,18 +583,36 @@ body.home-page { overflow: hidden; }
 .di-lbl { font-size:.58rem; color:rgba(255,255,255,.6); font-family:Inter,sans-serif; white-space:nowrap; }
 
 .win { position:fixed; border-radius:12px; overflow:hidden; display:flex; flex-direction:column;
-  box-shadow:0 24px 64px rgba(0,0,0,.75), 0 0 0 1px rgba(255,255,255,.1);
-  animation:winPop .18s ease; }
+  box-shadow:0 8px 32px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08);
+  animation:winPop .18s ease; transition:box-shadow .15s; }
+.win-active { box-shadow:0 28px 72px rgba(0,0,0,.88), 0 0 0 1px rgba(255,255,255,.18) !important; }
+.win.maximized { border-radius:0 !important; }
+
+/* Drag: synchronously disable iframe pointer events + force cursor */
+body.dragging { user-select:none; cursor:grabbing !important; }
+body.dragging iframe { pointer-events:none !important; }
+body.dragging .win-bar { cursor:grabbing !important; }
 .win-bar { height:36px; display:flex; align-items:center; padding:0 10px; gap:8px;
-  background:rgba(28,28,28,.96); backdrop-filter:blur(20px);
-  cursor:move; flex-shrink:0; user-select:none; }
-.win-btn { width:13px; height:13px; border-radius:50%; border:none; cursor:pointer; flex-shrink:0; }
-.win-title { flex:1; text-align:center; font-size:.72rem; color:rgba(255,255,255,.5);
+  background:rgba(28,28,28,.97); backdrop-filter:blur(20px);
+  cursor:move; flex-shrink:0; user-select:none; border-bottom:1px solid rgba(255,255,255,.06); }
+.win-btn { width:13px; height:13px; border-radius:50%; border:none; cursor:pointer; flex-shrink:0; transition:filter .1s; }
+.win-btn:hover { filter:brightness(1.25); }
+.win-title { flex:1; text-align:center; font-size:.72rem; color:rgba(255,255,255,.45);
   font-family:Inter,sans-serif; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
 .win-body { flex:1; background:#0a0a0a; overflow:hidden; }
 .win-body iframe { width:100%; height:100%; border:none; display:block; }
-.win.minimized { height:36px !important; }
+.win.minimized { overflow:hidden; }
 .win.minimized .win-body { display:none; }
+/* Resize handles */
+.rh { position:absolute; z-index:10; }
+.rh-n  { top:-3px;   left:8px;  right:8px;  height:6px;  cursor:n-resize; }
+.rh-s  { bottom:-3px;left:8px;  right:8px;  height:6px;  cursor:s-resize; }
+.rh-e  { right:-3px; top:8px;   bottom:8px; width:6px;   cursor:e-resize; }
+.rh-w  { left:-3px;  top:8px;   bottom:8px; width:6px;   cursor:w-resize; }
+.rh-nw { top:-3px;   left:-3px; width:12px; height:12px; cursor:nw-resize; }
+.rh-ne { top:-3px;   right:-3px;width:12px; height:12px; cursor:ne-resize; }
+.rh-sw { bottom:-3px;left:-3px; width:12px; height:12px; cursor:sw-resize; }
+.rh-se { bottom:-3px;right:-3px;width:12px; height:12px; cursor:se-resize; }
 
 .menu-panel {
   position:fixed; bottom:76px; left:50%; transform:translateX(-50%);
