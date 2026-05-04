@@ -3,55 +3,71 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
 const PHOTOS = [
-  { src: "/images/fest/golden_hour.jpg" },
-  { src: "/images/fest/ceremony.jpg" },
-  { src: "/images/fest/crowd.jpg" },
-  { src: "/images/fest/dj_stage.jpg" },
-  { src: "/images/fest/drones.jpg" },
-  { src: "/images/hero_bg.jpg" },
-  { src: "/images/artist_life.jpg" },
-  { src: "/images/01_sunrise_rave.jpg" },
+  { src: "/img/tapkop_lake_mashu_view.webp" },   // TAPKOP 屈斜路湖
+  { src: "/img/kumaushi_aerial_dawn.webp" },      // KUMAUSHI 夜明け
+  { src: "/img/atami_sunset_ocean.webp" },        // 熱海 サンセット
+  { src: "/img/lodge_exterior_snow.webp" },       // LODGE 雪景色
+  { src: "/img/nesting_night.webp" },             // NESTING 夜
+  { src: "/img/village_arc_sunset.webp" },        // ビレッジ 夕暮れ
+  { src: "/img/property-honolulu.webp" },         // ホノルル
+  { src: "/img/pro_hawaii_hero.webp" },           // ハワイカイ
+  { src: "/images/fest/golden_hour.jpg" },        // ZAMNA ゴールデンアワー
+  { src: "/images/fest/crowd.jpg" },              // フェス
 ];
 
 const APPS = [
   // 別荘投資
-  { id: "properties", icon: "🏡", label: "物件一覧",         url: "/properties" },
-  { id: "buy",        icon: "💰", label: "購入・申込",       url: "/buy" },
-  { id: "scheme",     icon: "🗺️", label: "スキーム",         url: "/scheme" },
-  { id: "investor",   icon: "📊", label: "投資家向け",       url: "/investor" },
+  { id: "properties", icon: "🏡", label: "物件一覧",          url: "/properties" },
+  { id: "buy",        icon: "💰", label: "購入・申込",        url: "/buy" },
+  { id: "scheme",     icon: "🗺️", label: "スキーム",          url: "/scheme" },
+  { id: "investor",   icon: "📊", label: "投資家向け",        url: "/investor" },
+  { id: "founders",   icon: "🌟", label: "創業者パック",      url: "/founders" },
+  { id: "collection", icon: "🗂️", label: "コレクション",      url: "/collection" },
   // 物件
-  { id: "tapkop",     icon: "🏔️", label: "TAPKOP",           url: "/tapkop" },
-  { id: "lodge",      icon: "🌲", label: "THE LODGE",        url: "/lodge" },
-  { id: "nesting",    icon: "🪵", label: "NESTING",          url: "/nesting" },
-  { id: "instant",    icon: "🔮", label: "インスタントハウス", url: "/instant" },
-  { id: "atami",      icon: "🌊", label: "WHITE HOUSE 熱海", url: "/atami" },
-  { id: "kumaushi",   icon: "⛰️", label: "KUMAUSHI BASE",    url: "/kumaushi" },
-  { id: "honolulu",   icon: "🌺", label: "HONOLULU VILLA",   url: "/honolulu" },
-  { id: "village",    icon: "🏘️", label: "美留和ビレッジ",   url: "/village" },
-  // 空き家
-  { id: "kagawa",     icon: "🎨", label: "香川 空き家",      url: "/kagawa-akiya" },
-  { id: "wakayama",   icon: "🌿", label: "和歌山 空き家",    url: "/wakayama-akiya" },
-  // フェス
-  { id: "zamna",      icon: "🎪", label: "ZAMNA HAWAII",     url: "/zamna" },
-  { id: "tickets",    icon: "🎫", label: "チケット",         url: "/tickets" },
-  { id: "lineup",     icon: "🎤", label: "ラインナップ",     url: "/lineup" },
+  { id: "tapkop",     icon: "🏔️", label: "TAPKOP",            url: "/tapkop" },
+  { id: "lodge",      icon: "🌲", label: "THE LODGE",         url: "/lodge" },
+  { id: "nesting",    icon: "🪵", label: "NESTING",           url: "/nesting" },
+  { id: "instant",    icon: "🔮", label: "インスタントハウス",url: "/instant" },
+  { id: "atami",      icon: "🌊", label: "WHITE HOUSE 熱海",  url: "/atami" },
+  { id: "kumaushi",   icon: "⛰️", label: "KUMAUSHI BASE",     url: "/kumaushi" },
+  { id: "honolulu",   icon: "🌺", label: "HONOLULU VILLA",    url: "/honolulu" },
+  { id: "village",    icon: "🏘️", label: "美留和ビレッジ",    url: "/village" },
+  // 空き家活用
+  { id: "kagawa",     icon: "🎨", label: "香川 空き家",       url: "/kagawa-akiya" },
+  { id: "wakayama",   icon: "🌿", label: "和歌山 空き家",     url: "/wakayama-akiya" },
+  { id: "boso",       icon: "🐚", label: "房総 空き家",       url: "/boso-akiya" },
+  // フェスティバル
+  { id: "zamna",      icon: "🎪", label: "ZAMNA HAWAII",      url: "/zamna" },
+  { id: "tickets",    icon: "🎫", label: "チケット",          url: "/tickets" },
+  { id: "lineup",     icon: "🎤", label: "ラインナップ",      url: "/lineup" },
+  { id: "schedule",   icon: "📅", label: "スケジュール",      url: "/schedule" },
   // コミュニティ
-  { id: "community",  icon: "💬", label: "コミュニティ",     url: "/community" },
-  { id: "app",        icon: "📱", label: "メンバーアプリ",   url: "/app" },
-  { id: "guide",      icon: "📖", label: "ガイド",           url: "/guide" },
-  { id: "faq",        icon: "❓", label: "FAQ",              url: "/faq" },
-  { id: "login",      icon: "👤", label: "ログイン",         url: "/login" },
+  { id: "community",  icon: "💬", label: "コミュニティ",      url: "/community" },
+  { id: "app",        icon: "📱", label: "メンバーアプリ",    url: "/app" },
+  { id: "owners",     icon: "🔑", label: "オーナー専用",      url: "/owners" },
+  { id: "guide",      icon: "📖", label: "ガイド",            url: "/guide" },
+  // ストーリー・情報
+  { id: "story",      icon: "📜", label: "ストーリー",        url: "/story" },
+  { id: "blog",       icon: "✍️", label: "ブログ",            url: "/blog" },
+  { id: "origin",     icon: "🌱", label: "創業の話",          url: "/origin" },
+  { id: "village-c",  icon: "🛖", label: "ビレッジ構想",      url: "/village-concept" },
+  // サポート
+  { id: "faq",        icon: "❓", label: "FAQ",               url: "/faq" },
+  { id: "press",      icon: "📰", label: "プレス",            url: "/press" },
+  { id: "safety",     icon: "🛡️", label: "安全・注意事項",    url: "/safety" },
+  { id: "login",      icon: "👤", label: "ログイン",          url: "/login" },
 ];
 
 const CATEGORIES = [
-  { id: "invest", label: "別荘投資",    emoji: "🏡", ids: ["properties","buy","scheme","investor"] },
-  { id: "props",  label: "物件",        emoji: "🏠", ids: ["tapkop","lodge","nesting","instant","atami","kumaushi","honolulu","village"] },
-  { id: "akiya",  label: "空き家活用",  emoji: "🌊", ids: ["kagawa","wakayama"] },
-  { id: "fest",   label: "フェスティバル", emoji: "🎪", ids: ["zamna","tickets","lineup"] },
-  { id: "comm",   label: "コミュニティ", emoji: "💬", ids: ["community","app","guide","faq","login"] },
+  { id: "invest", label: "別荘投資",      emoji: "🏡", ids: ["properties","buy","scheme","investor","founders","collection"] },
+  { id: "props",  label: "物件",          emoji: "🏠", ids: ["tapkop","lodge","nesting","instant","atami","kumaushi","honolulu","village"] },
+  { id: "akiya",  label: "空き家活用",    emoji: "🌊", ids: ["kagawa","wakayama","boso"] },
+  { id: "fest",   label: "フェスティバル",emoji: "🎪", ids: ["zamna","tickets","lineup","schedule"] },
+  { id: "comm",   label: "コミュニティ",  emoji: "💬", ids: ["community","app","owners","guide"] },
+  { id: "about",  label: "ストーリー・情報",emoji: "📖", ids: ["story","blog","origin","village-c","faq","press","safety","login"] },
 ];
 
-const DOCK_IDS = ["properties", "zamna", "community"];
+const DOCK_IDS = ["properties", "scheme", "zamna", "buy"];
 
 const PAGE_TITLES: Record<string, string> = Object.fromEntries(APPS.map(a => [a.url, a.label]));
 
