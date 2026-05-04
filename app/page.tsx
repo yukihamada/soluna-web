@@ -169,7 +169,7 @@ export default function Home() {
   const [curSlide, setCurSlide]   = useState(0);
   const [prevSlide, setPrevSlide] = useState<number | null>(null);
   const [wins, setWins]           = useState<Win[]>([]);
-  const [topZ, setTopZ]           = useState(1000);
+  const [topZ, setTopZ]           = useState(100);
   const [clock, setClock]         = useState("--:--");
   const [menuOpen, setMenuOpen]   = useState(false);
   const [search, setSearch]       = useState("");
@@ -220,7 +220,7 @@ export default function Home() {
     const off = (winOffset.current % 6) * 28; winOffset.current++;
     const iw = window.innerWidth, ih = window.innerHeight;
     const ww = Math.min(760, Math.round(iw * 0.65)), wh = Math.min(540, Math.round(ih * 0.62));
-    const frameUrl = url + (url.includes("?") ? "&frame=1" : "?frame=1");
+    const frameUrl = url + (url.includes("?") ? "&embed=1" : "?embed=1");
     const id = `w-${Date.now()}`;
     setWins(ws => [...ws, { id, title, url: frameUrl, x: 40 + off, y: 28 + off, w: ww, h: wh, z, min: false, max: false }]);
     if (!fromPopstate) pushUrl(url, title);
@@ -609,10 +609,13 @@ export default function Home() {
           return (
           <div key={win.id}
             className={`win${win.min?" minimized":""}${win.max?" maximized":""}${isTop?" win-active":""}`}
-            style={{ left:win.max?0:win.x, top:win.max?28:win.y,
-              width:win.max?"100vw":win.w,
-              height:win.min?36:win.max?`calc(100vh - 28px)`:win.h,
-              zIndex:win.z }}
+            style={{
+              left:   win.max ? 0       : `${win.x}px`,
+              top:    win.max ? "28px"  : `${win.y}px`,
+              width:  win.max ? "100%"  : `${win.w}px`,
+              height: win.min ? "36px"  : win.max ? "calc(100% - 28px)" : `${win.h}px`,
+              zIndex: win.z,
+            }}
             onMouseDown={() => bringToFront(win.id)}
           >
             {/* Title bar */}
