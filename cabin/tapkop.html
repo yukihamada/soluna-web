@@ -436,13 +436,13 @@ h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line
 <h3 style="color:var(--ripple)">Membership<br/>Ownership</h3>
 <p style="color:#2a4a5a;font-size:12px;margin:10px 0 0;line-height:1.8">会員権証書（購入者名義）で<br/>法的に守られた共同所有</p>
 <div class="sc-price" style="color:var(--ripple)">¥3,900万〜</div>
-<p class="sc-note">1口 · 年8泊 · 会員権の正式登録<br/>オーナー不在時は稼働収益を分配</p>
+<p class="sc-note">1口 · 年8泊 · 会員権の正式登録<br/>不在時はSOLUNA管理代行・他物件との泊数交換も可</p>
 <ul>
 <li>年間利用権（泊数・条件は要相談）</li>
 <li>会員権の正式登録（購入者の名義）</li>
 <li>¥340,000〜/泊で稼働中の物件にオーナーとして滞在</li>
-<li>オーナー不在時の稼働収益を口数割りで分配</li>
-<li>運営・清掃・予約対応はSOLUNA一括</li>
+<li>不在時はSOLUNA管理代行（予約・清掃・ゲスト対応）</li>
+<li>未使用泊数は他のSOLUNA物件との交換も可能</li>
 </ul>
 <a class="sc-btn-lake" href="#contact" onclick="openChat('会員権（¥3,900万〜/口・年8泊）について相談したいです。'); return false;">会員権を取得する</a>
 </div>
@@ -527,11 +527,11 @@ h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line
 </div>
 <div class="faq-item r">
 <button class="faq-q" onclick="toggleFaq(this)">会員権¥3,900万〜の内訳は？<span class="faq-icon">+</span></button>
-<div class="faq-a"><div class="faq-a-inner">会員権には：①会員権の正式登録（購入者名義）②年8泊の滞在権 ③オーナー不在時の稼働収益分配 ④SOLUNA運営管理サービス が含まれます。登記費用・管理費は別途。詳しくはお問い合わせください。</div></div>
+<div class="faq-a"><div class="faq-a-inner">会員権には：①会員権の正式登録（購入者名義）②年8泊の滞在権 ③他のSOLUNA物件との泊数交換権 ④SOLUNA運営管理サービス が含まれます。登記費用・管理費は別途。詳しくはお問い合わせください。</div></div>
 </div>
 <div class="faq-item r">
 <button class="faq-q" onclick="toggleFaq(this)">オーナー不在の時は誰が運営しますか？<span class="faq-icon">+</span></button>
-<div class="faq-a"><div class="faq-a-inner">SOLUNA / Enabler Inc.が予約受付・清掃・ゲスト対応を一括管理します。稼働した収益は口数割りでオーナーに分配されます。オーナーは何もしなくてOKです。</div></div>
+<div class="faq-a"><div class="faq-a-inner">SOLUNA / Enabler Inc.が予約受付・清掃・ゲスト対応を一括管理します。不在時の管理は完全お任せ。未使用泊数は他のSOLUNA物件と交換可能です。</div></div>
 </div>
 <div class="faq-item r">
 <button class="faq-q" onclick="toggleFaq(this)">現地見学は可能ですか？<span class="faq-icon">+</span></button>
@@ -805,5 +805,8 @@ async function sendChatMsg(){
 </script>
 <script defer src="/track.js"></script>
 <script src="/lang.js"></script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
 </body>
 </html>

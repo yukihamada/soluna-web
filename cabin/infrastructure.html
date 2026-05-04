@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>建築設備 完全設計 — インスタントハウス 熊牛</title>
+<meta name="description" content="基礎・換気・床暖・地下熱・RO水・浄化槽・キッチン・食洗機。40ftコンテナ住宅の全設備設計図。">
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--bg:#070604;--card:#0d0b08;--card2:#111009;
+  --border:rgba(200,164,85,.12);--border2:rgba(255,255,255,.06);
+  --green:#4ecb8d;--blue:#5aa0e6;--red:#e65a5a;--orange:#e88040;
+}
+html,body{background:var(--bg);color:#e8e0cc;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#0a0906 0%,#0d0c08 40%,#080804 100%);
+  border-bottom:1px solid var(--border);
+  padding:56px 24px 48px;max-width:760px;margin:0 auto;
+}
+.hero-tag{font-size:9px;letter-spacing:.28em;color:var(--gold);opacity:.7;text-transform:uppercase;margin-bottom:12px}
+.hero-title{font-size:clamp(1.6rem,6vw,3rem);font-weight:900;line-height:1.05;color:#e8e0cc;margin-bottom:16px}
+.hero-lead{font-size:13px;color:#7a6a50;line-height:1.9;max-width:520px}
+.hero-answer{
+  background:rgba(200,164,85,.08);border:1px solid rgba(200,164,85,.2);
+  border-radius:12px;padding:16px 20px;margin-top:24px;
+  font-size:13px;color:#c8b888;line-height:1.7;
+}
+.hero-answer strong{color:var(--gold)}
+
+/* SYSTEM NAV */
+.sysnav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(7,6,4,.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border2);
+  padding:0 16px;display:flex;gap:0;overflow-x:auto;
+}
+.sysnav::-webkit-scrollbar{display:none}
+.sn{
+  font-size:10px;color:#5a4a30;padding:13px 14px;white-space:nowrap;
+  cursor:pointer;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;
+  text-decoration:none;display:block;
+}
+.sn:hover,.sn.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* SECTION */
+.sys-section{padding:48px 24px;max-width:760px;margin:0 auto;border-bottom:1px solid var(--border2)}
+.sys-section:last-child{border-bottom:none}
+.sys-num{font-size:9px;letter-spacing:.2em;color:var(--gold);opacity:.6;text-transform:uppercase;margin-bottom:6px}
+.sys-title{font-size:clamp(1.2rem,4vw,1.8rem);font-weight:800;color:#e8e0cc;margin-bottom:8px;
+  display:flex;align-items:center;gap:12px}
+.sys-icon{font-size:1.6rem}
+.sys-lead{font-size:13px;color:#7a6a50;line-height:1.8;max-width:560px;margin-bottom:28px}
+
+/* VERDICT BADGE */
+.verdict{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;
+  margin-bottom:20px;
+}
+.verdict-ok{background:rgba(78,203,141,.12);color:var(--green);border:1px solid rgba(78,203,141,.25)}
+.verdict-ng{background:rgba(230,90,90,.1);color:var(--red);border:1px solid rgba(230,90,90,.2)}
+.verdict-best{background:rgba(200,164,85,.1);color:var(--gold);border:1px solid var(--border)}
+
+/* SPEC TABLE */
+.spec-table{
+  width:100%;border-collapse:collapse;margin:16px 0;font-size:12px;
+}
+.spec-table th{
+  background:rgba(200,164,85,.06);color:var(--gold);font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;padding:8px 14px;text-align:left;border-bottom:1px solid var(--border);
+}
+.spec-table td{
+  padding:10px 14px;border-bottom:1px solid var(--border2);color:#c8b080;
+  vertical-align:top;line-height:1.5;
+}
+.spec-table tr:last-child td{border-bottom:none}
+.spec-table td:first-child{color:#8a7a60;font-size:11px;white-space:nowrap;min-width:120px}
+
+/* DIAGRAM */
+.diagram{
+  background:rgba(0,0,0,.4);border:1px solid var(--border2);border-radius:14px;
+  padding:20px;margin:20px 0;font-size:11px;color:#8a7a60;line-height:1.9;
+  font-family:'Courier New',monospace;overflow-x:auto;white-space:pre;
+}
+
+/* COST CARD */
+.cost-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:16px 20px;margin:16px 0;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.cost-label{font-size:11px;color:#6a5a40;margin-bottom:2px}
+.cost-val{font-size:1.2rem;font-weight:900;color:var(--gold)}
+.cost-note{font-size:11px;color:#5a4a30;flex:1}
+
+/* STEP LIST */
+.step-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step-item{
+  display:flex;align-items:flex-start;gap:12px;
+  background:rgba(255,255,255,.02);border:1px solid var(--border2);
+  border-radius:10px;padding:12px 14px;
+}
+.step-num{
+  width:22px;height:22px;border-radius:50%;background:rgba(200,164,85,.12);
+  color:var(--gold);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+}
+.step-body{}
+.step-title{font-size:12px;font-weight:700;color:#c8b080;margin-bottom:3px}
+.step-desc{font-size:11px;color:#5a4a30;line-height:1.6}
+
+/* COMPARISON */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+@media(max-width:520px){.compare-grid{grid-template-columns:1fr}}
+.compare-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.compare-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.compare-badge{font-size:9px;padding:2px 8px;border-radius:8px;font-weight:700}
+.cmp-rec{background:rgba(78,203,141,.1);color:var(--green);border:1px solid rgba(78,203,141,.2)}
+.cmp-ng{background:rgba(230,90,90,.08);color:var(--red);border:1px solid rgba(230,90,90,.15)}
+.cmp-alt{background:rgba(90,160,230,.08);color:var(--blue);border:1px solid rgba(90,160,230,.15)}
+.compare-name{font-size:12px;font-weight:700;color:#c8b080}
+.compare-list{font-size:11px;color:#5a4a30;line-height:1.8}
+.compare-price{font-size:13px;font-weight:800;color:var(--gold);margin-top:8px}
+
+/* INFO BOX */
+.info-box{
+  border-radius:12px;padding:14px 18px;margin:16px 0;
+  font-size:12px;line-height:1.7;
+}
+.info-warn{background:rgba(232,128,64,.08);border:1px solid rgba(232,128,64,.2);color:#d09060}
+.info-tip{background:rgba(78,203,141,.06);border:1px solid rgba(78,203,141,.15);color:#6ab890}
+.info-note{background:rgba(200,164,85,.06);border:1px solid var(--border);color:#8a7a60}
+
+/* TOTAL */
+.total-section{
+  background:linear-gradient(135deg,var(--card),rgba(10,8,4,1));
+  border:1px solid rgba(200,164,85,.2);border-radius:16px;
+  padding:28px;margin:24px 0;
+}
+.total-rows{display:flex;flex-direction:column;gap:8px}
+.total-row{display:flex;justify-content:space-between;font-size:12px;color:#7a6a50;padding:6px 0;border-bottom:1px solid var(--border2)}
+.total-row:last-child{border-bottom:none;font-weight:800;color:#e8d0a0;font-size:14px;padding-top:12px}
+.total-row span:last-child{color:var(--gold)}
+
+/* FOOTER */
+.fnav{border-top:1px solid var(--border2);padding:24px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.fnav a{font-size:11px;color:#5a4a30;text-decoration:none;padding:6px 14px;border:1px solid var(--border2);border-radius:20px}
+.fnav a:hover{color:var(--gold);border-color:var(--border)}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div style="max-width:760px;margin:0 auto">
+<div class="hero">
+  <div class="hero-tag">INFRASTRUCTURE — 建築設備 完全設計</div>
+  <h1 class="hero-title">基礎から<br>キッチンまで</h1>
+  <p class="hero-lead">
+    置き石ではダメ。北海道弟子屈は凍結深度80〜120cm、冬季 -25℃の極寒地。
+    基礎・換気・床暖・地下熱・RO水・浄化槽・キッチン——全設備の設計書。
+  </p>
+  <div class="hero-answer">
+    <strong>Q: 置き石だけで大丈夫？</strong><br>
+    <strong>A: NG。</strong>凍上（frost heave）により毎年10〜30cmずれる。弟子屈での正解は
+    <strong>スクリューパイル Ø150mm × L2400mm</strong>（凍結深度120cm以深まで打ち込む）。
+    購入リストに含まれているが、長さを1800mm→<strong>2400mm</strong>に変更推奨。
+  </div>
+</div>
+</div>
+
+<!-- SYSTEM NAV -->
+<nav class="sysnav">
+  <a class="sn" href="#foundation">⚓ 基礎</a>
+  <a class="sn" href="#ventilation">🌀 換気</a>
+  <a class="sn" href="#floor-heat">🔥 床暖</a>
+  <a class="sn" href="#geothermal">🌏 地下熱</a>
+  <a class="sn" href="#water">💧 RO水</a>
+  <a class="sn" href="#toilet">🚽 トイレ</a>
+  <a class="sn" href="#kitchen">🍳 キッチン</a>
+  <a class="sn" href="#cost">💰 総費用</a>
+</nav>
+
+<!-- 01 基礎 -->
+<div class="sys-section" id="foundation">
+  <div class="sys-num">01 FOUNDATION</div>
+  <h2 class="sys-title"><span class="sys-icon">⚓</span>基礎設計</h2>
+  <p class="sys-lead">
+    弟子屈の凍結深度は80〜120cm（国交省基準）。置き石・コンクリートブロックは凍上で毎冬動く。
+    40ftコンテナ（自重約2.5t）にはスクリューパイルが最適解。
+  </p>
+
+  <div class="verdict verdict-ng">❌ 置き石 — 凍上リスクあり、不可</div>
+  <div class="verdict verdict-best">✅ スクリューパイル — 弟子屈環境の正解</div>
+
+  <div class="compare-grid">
+    <div class="compare-card">
+      <div class="compare-head"><span class="compare-badge cmp-ng">NG</span><span class="compare-name">置き石 / 独立基礎</span></div>
+      <div class="compare-list">
+        ✗ 凍上で毎年3〜30cm移動<br>
+        ✗ コンテナが傾く<br>
+        ✗ 扉が開かなくなる<br>
+        ✗ 配管・電気が破損<br>
+        ✗ 法的に建築基礎として認められない
+      </div>
+      <div class="compare-price">費用: ¥30,000〜<br>（後から直す費用が莫大）</div>
+    </div>
+    <div class="compare-card">
+      <div class="compare-head"><span class="compare-badge cmp-rec">✅ 推奨</span><span class="compare-name">スクリューパイル</span></div>
+      <div class="compare-list">
+        ✓ 凍結深度以深まで打ち込む<br>
+        ✓ コンクリート不要・工期1日<br>
+        ✓ 引き抜き強度 9.8kN/本<br>
+        ✓ 後から再施工可能<br>
+        ✓ 農村地域建築規制をクリア
+      </div>
+      <div class="compare-price">費用: ¥320,000〜（材工共）</div>
+    </div>
+  </div>
+
+  <table class="spec-table">
+    <tr><th>項目</th><th>仕様</th></tr>
+    <tr><td>パイル径</td><td>Ø150mm（1800mm→2400mmに変更推奨）</td></tr>
+    <tr><td>打設深度</td><td>GL-2400mm（凍結深度120cm + 安全余裕280cm）</td></tr>
+    <tr><td>本数</td><td>8本（コンテナ四隅 + 中間支持）</td></tr>
+    <tr><td>パイル間隔</td><td>長辺: 3050mm等間隔、短辺: 2438mm</td></tr>
+    <tr><td>ベースプレート</td><td>200×200mm t9 溶接式（コンテナ底部接合）</td></tr>
+    <tr><td>防錆処理</td><td>溶融亜鉛めっき（HDZ35相当）</td></tr>
+    <tr><td>施工業者</td><td>道東杭工業（釧路）/ 北海道スクリューパイル協会</td></tr>
+    <tr><td>工期</td><td>1日（施工） + 測量半日</td></tr>
+  </table>
+
+  <div class="diagram">
+  地面面
+  ─┬─────────────────────────────────┐
+   │      コンテナ底面                    │
+   │   ┌──────────────────────────┐    │
+   │   │  GL±0 ベースプレート      │    │
+   │   └───────────┬──────────────┘    │
+   │               │ Ø150mmパイル        │
+   │         GL-80 │ ─ ─凍結深度─ ─    │
+   │               │                    │
+   │               │                    │
+   │         GL-240│ パイル先端         │
+  ─┴───────────────────────────────────┘
+       支持地盤（弟子屈：粘性土/砂礫層）
+  </div>
+
+  <div class="info-warn">⚠️ 購入リストのパイル長L1800mm → <strong>L2400mmに変更</strong>してください。弟子屈の実測凍結深度は平均120cmあり、L1800では凍上リスクが残ります。差額は1本あたり+¥4,000程度。</div>
+
+  <div class="cost-card">
+    <div><div class="cost-label">基礎工事 総額</div><div class="cost-val">¥380,000</div></div>
+    <div class="cost-note">スクリューパイル8本（L2400mm・材工共）¥320,000 + ベースプレート¥32,000 + 測量¥28,000</div>
+  </div>
+</div>
+
+<!-- 02 換気 -->
+<div class="sys-section" id="ventilation">
+  <div class="sys-num">02 VENTILATION</div>
+  <h2 class="sys-title"><span class="sys-icon">🌀</span>換気設計</h2>
+  <p class="sys-lead">
+    焼肉対応 + -25℃の熱損失ゼロ換気。キーワードは全熱交換（ERV）+焼肉用大風量排気フード。
+    2系統換気（居室換気 + 焼肉排気）が必要。
+  </p>
+
+  <div class="diagram">
+  【換気系統図】
+
+  ① 全熱交換換気（常時）
+     外気 →[フィルター]→[熱交換コア]→ 給気
+     排気 →[熱交換コア]→[フィルター]→ 外気
+     熱交換率: 80%以上 / 換気量: 50m³/h
+
+  ② 焼肉排気フード（使用時）
+     炭/ガスコンロ → キャノピーフード → 排気
+     排気量: 200-300m³/h（回転数可変）
+     補給: ガラリ（外壁通気口）から自然補給
+
+  ③ 厨房用排気ファン（常時補助）
+     流し台・ゴミ箱周辺 → 排気
+     排気量: 30m³/h
+  </div>
+
+  <table class="spec-table">
+    <tr><th>機器</th><th>仕様・機種</th><th>価格</th></tr>
+    <tr><td>全熱交換換気</td><td>Panasonic FY-12VBD2 または同等品<br>換気量 45m³/h、熱交換率82%<br>φ100パイプ接続、天井埋込型</td><td>¥68,000</td></tr>
+    <tr><td>焼肉排気フード</td><td>業務用キャノピーフード W900×D600<br>ステンレス製、油脂フィルター付き<br>インバータファン 200m³/h可変</td><td>¥85,000</td></tr>
+    <tr><td>排気ダクト</td><td>Ø200mm ステンレスフレキ × 5m + 外壁貫通セット</td><td>¥22,000</td></tr>
+    <tr><td>外壁給気ガラリ</td><td>Ø150 防虫網付き × 2箇所</td><td>¥8,000</td></tr>
+    <tr><td>CO検知器</td><td>Netatmo または矢崎 YP-775 一酸化炭素検知器</td><td>¥15,000</td></tr>
+  </table>
+
+  <div class="info-tip">✅ 居室気積 = 12.0 × 2.3 × 2.5 = 69m³。建築基準法の0.5回/h換気では35m³/h。全熱交換換気45m³/hで法定値をクリア。焼肉時は排気フード追加で240m³/h体制。</div>
+
+  <div class="cost-card">
+    <div><div class="cost-label">換気システム 総額</div><div class="cost-val">¥198,000</div></div>
+    <div class="cost-note">全熱交換換気 + 焼肉フード + ダクト一式。施工費別途¥60,000〜。</div>
+  </div>
+</div>
+
+<!-- 03 床暖 -->
+<div class="sys-section" id="floor-heat">
+  <div class="sys-num">03 FLOOR HEATING</div>
+  <h2 class="sys-title"><span class="sys-icon">🔥</span>床暖房設計</h2>
+  <p class="sys-lead">
+    -25℃の弟子屈では床暖房必須。薪ストーブの熱を温水として床下に循環させる
+    「薪ストーブ + 温水床暖房」ハイブリッドが最も効率的。
+  </p>
+
+  <div class="diagram">
+  【温水床暖システム】
+
+  薪ストーブ
+  （バックボイラー付き）
+      ↓ 80℃湯水
+  ヘッダー分配器
+    ├─ 床暖パイプゾーンA（食事エリア）
+    ├─ 床暖パイプゾーンB（くつろぎエリア）
+    └─ 補助ラジエーター（窓際）
+      ↓ 50℃戻り水
+  膨張タンク → 薪ストーブへ循環
+
+  補助: プロパンガスボイラー（薪が少ない時）
+  </div>
+
+  <table class="spec-table">
+    <tr><th>機器</th><th>仕様</th><th>価格</th></tr>
+    <tr><td>薪ストーブ</td><td>Jøtul F 100 またはネスター・マーティン H43<br>バックボイラー（温水コイル）付き仕様<br>放熱量 8〜12kW、背面コイル 5kW取出可</td><td>¥420,000</td></tr>
+    <tr><td>床暖パイプ</td><td>架橋ポリエチレン管 Ø10mm × 300m<br>200mm間隔蛇行配管（40ft床全体）</td><td>¥38,000</td></tr>
+    <tr><td>断熱下地</td><td>スタイロフォームAT 50mm（床下全面）<br>アルミ反射シート付き</td><td>¥45,000</td></tr>
+    <tr><td>ヘッダー</td><td>3回路ヘッダー + 流量調節弁</td><td>¥22,000</td></tr>
+    <tr><td>循環ポンプ</td><td>グランドフォス UPS 15-50 または同等</td><td>¥28,000</td></tr>
+    <tr><td>膨張タンク</td><td>18L密閉式膨張タンク</td><td>¥12,000</td></tr>
+    <tr><td>補助ボイラー</td><td>パーパス 給湯器 GX-H2400AW3<br>24号 プロパン対応（薪不在時バックアップ）</td><td>¥85,000</td></tr>
+    <tr><td>仕上げ床材</td><td>杉無垢フローリング 15mm厚（床暖対応品）</td><td>¥72,000</td></tr>
+  </table>
+
+  <div class="info-note">💡 設計値: 暖房負荷 = U値0.14 × 床面積28m² × 温度差40℃ ≒ 157W/m²。薪ストーブコイル出力5kW + 床暖蓄熱で対応可能。薪消費量は乾燥広葉樹で約3m³/冬。</div>
+
+  <div class="cost-card">
+    <div><div class="cost-label">床暖房システム 総額</div><div class="cost-val">¥722,000</div></div>
+    <div class="cost-note">薪ストーブ（設置費込み）+ 床暖一式 + 補助ボイラー。施工費別途¥80,000〜。</div>
+  </div>
+</div>
+
+<!-- 04 地下熱 -->
+<div class="sys-section" id="geothermal">
+  <div class="sys-num">04 GEOTHERMAL</div>
+  <h2 class="sys-title"><span class="sys-icon">🌏</span>地下熱設計</h2>
+  <p class="sys-lead">
+    弟子屈の地中温度は年間を通じて7〜9℃。冬でも安定した熱源。
+    地中熱ヒートポンプ（GSHP）で冬暖房・夏冷房・給湯を一台で賄える。
+    熊牛の広大な敷地では水平ループが最もコスパが高い。
+  </p>
+
+  <div class="compare-grid">
+    <div class="compare-card">
+      <div class="compare-head"><span class="compare-badge cmp-rec">✅ 推奨</span><span class="compare-name">水平ループGSHP</span></div>
+      <div class="compare-list">
+        ✓ 深さ1.5m × 200m ループ配管<br>
+        ✓ 敷地が広いので設置可能<br>
+        ✓ 掘削費が垂直の1/3<br>
+        ✓ COP 3.5〜4.5（暖房時）<br>
+        ✓ 夏は地中冷却で自然冷房も可
+      </div>
+      <div class="compare-price">¥650,000〜（材工共）</div>
+    </div>
+    <div class="compare-card">
+      <div class="compare-head"><span class="compare-badge cmp-alt">代替</span><span class="compare-name">垂直ボアホールGSHP</span></div>
+      <div class="compare-list">
+        ✓ 敷地面積が少なくて済む<br>
+        ✓ 性能安定性が高い<br>
+        ✗ ボーリング費が高い<br>
+        ✗ 100m × 2本で¥1.5M〜<br>
+        ✗ 弟子屈では過剰
+      </div>
+      <div class="compare-price">¥1,500,000〜</div>
+    </div>
+  </div>
+
+  <table class="spec-table">
+    <tr><th>項目</th><th>仕様</th></tr>
+    <tr><td>方式</td><td>水平クローズドループ（Ø32mm HDPEパイプ × 200m）</td></tr>
+    <tr><td>設置深度</td><td>GL-1.5m（凍結深度以深）</td></tr>
+    <tr><td>採熱量</td><td>約5kW（弟子屈地中温度7℃基準）</td></tr>
+    <tr><td>ヒートポンプ機種</td><td>三菱電機 CAHV-P45YA2 または同等<br>暖房能力5.0kW、COP3.9、冷媒R32</td></tr>
+    <tr><td>循環液</td><td>不凍液（プロピレングリコール20%水溶液）</td></tr>
+    <tr><td>給湯連携</td><td>暖房/給湯切替対応（DHW優先制御）</td></tr>
+    <tr><td>電力</td><td>最大消費電力1.3kW（COP3.9で5kW取出）</td></tr>
+  </table>
+
+  <div class="info-tip">✅ 年間暖房費シミュレーション: 灯油ボイラー換算で¥120,000/年 → GSHPで¥38,000/年（電気代）。10年で¥820,000の節約。初期投資¥650,000の回収期間 約8年。</div>
+
+  <div class="diagram">
+  【熱交換ループ平面図 — 熊牛 天空の道場】
+
+  コンテナ設置エリア
+  ┌────────────────────────────┐
+  │  □ コンテナ                    │ 5m
+  └────────────────────────────┘
+  ↕ 水平ループ設置エリア（約400m²）
+  ┌────────────────────────────────────────────┐
+  │ ~~~~~~~ 往き管(Ø32mm) ~~~~~~~~~~~~~~~~~~~~ │
+  │ ~~~~~~~ 戻り管(Ø32mm) ~~~~~~~~~~~~~~~~~~~~ │  1.5m深
+  │ ~~~~~~~~~~~~~~~ 200mループ ~~~~~~~~~~~~ │
+  └────────────────────────────────────────────┘
+  総掘削面積: 400m² / 深さ1.5m / 重機1台1日
+  </div>
+
+  <div class="cost-card">
+    <div><div class="cost-label">地中熱ヒートポンプ 総額</div><div class="cost-val">¥950,000</div></div>
+    <div class="cost-note">水平ループ掘削・配管¥450,000 + ヒートポンプ本体¥380,000 + 施工¥120,000。10年で回収。</div>
+  </div>
+</div>
+
+<!-- 05 RO水 -->
+<div class="sys-section" id="water">
+  <div class="sys-num">05 WATER SYSTEM</div>
+  <h2 class="sys-title"><span class="sys-icon">💧</span>RO水・給水設計</h2>
+  <p class="sys-lead">
+    熊牛原野は公共水道なし。地下水（井戸）を掘り、ROフィルターで飲料水に浄化する。
+    地下水は雨水と地下浸透水で豊富。10〜15m程度で取水可能と推定。
+  </p>
+
+  <div class="diagram">
+  【給水フロー】
+
+  地下水 (GL-10〜15m)
+      ↓ 水中ポンプ
+  プレフィルター (50μm 粗ごみ除去)
+      ↓
+  活性炭フィルター (塩素・有機物除去)
+      ↓
+  RO膜 (0.0001μm 逆浸透膜 / 95%以上除去)
+      ↓              ↓ 廃水（濃縮水）→ 浄化槽前段へ
+  純水タンク (500L)
+      ↓ 加圧ポンプ 0.3MPa
+  ┌──────────────────────┐
+  │ 飲料水 / 調理水 / シャワー │
+  └──────────────────────┘
+
+  *廃水率: RO膜の廃水は給水量の40〜50%。
+   廃水は浄化槽に流し、排水処理して循環。
+  </div>
+
+  <table class="spec-table">
+    <tr><th>機器</th><th>仕様</th><th>価格</th></tr>
+    <tr><td>井戸掘削</td><td>パーカッション工法 深さ15m<br>Ø150mm 塩ビケーシング + スクリーン<br>弟子屈対応業者: 道東ボーリング</td><td>¥280,000</td></tr>
+    <tr><td>水中ポンプ</td><td>川本ポンプ US-506 200W<br>最大揚程15m、吐出量50L/min</td><td>¥45,000</td></tr>
+    <tr><td>プレフィルター</td><td>ポリプロピレン糸巻きカートリッジ 50μm</td><td>¥8,000</td></tr>
+    <tr><td>活性炭フィルター</td><td>ブロック活性炭 5μm、12インチ</td><td>¥12,000</td></tr>
+    <tr><td>RO膜本体</td><td>Filmtec BW30-2540 または iSpring RCC7<br>処理量 100L/日（200L/日機種推奨）<br>TDS除去率 97%+</td><td>¥38,000</td></tr>
+    <tr><td>貯水タンク</td><td>ポリエチレン槽 500L × 1（純水用）<br>+ 原水タンク 1000L × 1</td><td>¥42,000</td></tr>
+    <tr><td>加圧ポンプ</td><td>家庭用加圧ポンプ ポンパー THP-250<br>設定圧 0.3MPa</td><td>¥35,000</td></tr>
+    <tr><td>凍結防止</td><td>配管保温材 + 電気ヒーターテープ 30W/m × 10m</td><td>¥18,000</td></tr>
+    <tr><td>水質検査</td><td>北海道立衛生研究所での初回水質分析</td><td>¥25,000</td></tr>
+  </table>
+
+  <div class="info-warn">⚠️ 井戸水は初回および定期的な水質検査が必須（食品衛生法）。焼肉営業用飲用水は特に大腸菌・硝酸態窒素を確認すること。弟子屈は農地由来の硝酸塩に注意。RO膜で99%除去可能。</div>
+
+  <div class="cost-card">
+    <div><div class="cost-label">給水システム 総額</div><div class="cost-val">¥503,000</div></div>
+    <div class="cost-note">井戸掘削¥280,000 + RO機器一式¥150,000 + タンク¥42,000 + その他¥31,000</div>
+  </div>
+</div>
+
+<!-- 06 トイレ -->
+<div class="sys-section" id="toilet">
+  <div class="sys-num">06 TOILET & SEWAGE</div>
+  <h2 class="sys-title"><span class="sys-icon">🚽</span>トイレ・排水設計</h2>
+  <p class="sys-lead">
+    公共下水道なし。合併処理浄化槽 + コンポストトイレのハイブリッドが最適。
+    焼肉営業（飲食店）の排水基準は浄化槽必須（グリストラップ含む）。
+  </p>
+
+  <div class="compare-grid">
+    <div class="compare-card">
+      <div class="compare-head"><span class="compare-badge cmp-rec">✅ 推奨</span><span class="compare-name">合併処理浄化槽（5人槽）</span></div>
+      <div class="compare-list">
+        ✓ トイレ + 台所 + 風呂 全排水処理<br>
+        ✓ BOD除去率 90%以上<br>
+        ✓ 飲食店営業許可に対応<br>
+        ✓ 弟子屈町の補助金対象<br>
+        ✓ 年1回法定点検で維持
+      </div>
+      <div class="compare-price">¥580,000〜（設置工事込み）</div>
+    </div>
+    <div class="compare-card">
+      <div class="compare-head"><span class="compare-badge cmp-alt">参考</span><span class="compare-name">コンポストトイレ単体</span></div>
+      <div class="compare-list">
+        ✓ 電気不要モデルあり<br>
+        ✓ 下水処理不要<br>
+        ✗ 飲食店排水には別途設備必要<br>
+        ✗ 臭気管理が難しい<br>
+        ✗ 点検・維持が複雑
+      </div>
+      <div class="compare-price">¥150,000〜</div>
+    </div>
+  </div>
+
+  <table class="spec-table">
+    <tr><th>機器</th><th>仕様</th><th>価格</th></tr>
+    <tr><td>合併処理浄化槽</td><td>クボタ Kubota KZ5 5人槽 または同等<br>合併処理型 BOD除去率 90%以上<br>弟子屈町届出・設置工事込み</td><td>¥480,000</td></tr>
+    <tr><td>グリストラップ</td><td>厨房排水用 容量15L 3槽式<br>飲食店営業許可に必須</td><td>¥45,000</td></tr>
+    <tr><td>便器</td><td>TOTO CS897B タンクレス洗浄便座一体型<br>ウォシュレット付 / 節水4.8L/回</td><td>¥85,000</td></tr>
+    <tr><td>排水管</td><td>塩ビVP管 Ø100mm × 12m + 継手<br>GL-0.8m勾配1/100配管（凍結防止）</td><td>¥28,000</td></tr>
+    <tr><td>凍結防止帯</td><td>電気式凍結防止ヒーター 40W/m × 12m</td><td>¥15,000</td></tr>
+    <tr><td>浄化槽ブロワー</td><td>フジクリーン工業 CX-80<br>年間電力 45kWh（省エネ型）</td><td>¥22,000</td></tr>
+    <tr><td>汚泥引き抜き（年1回）</td><td>道東衛生 または同等業者<br>法定点検 + 汚泥清掃</td><td>¥35,000/年</td></tr>
+  </table>
+
+  <div class="info-note">💡 弟子屈町は合併処理浄化槽への補助金制度あり（最大¥100,000〜200,000）。設置前に弟子屈町建設課（015-482-2945）に相談すること。</div>
+
+  <div class="cost-card">
+    <div><div class="cost-label">排水システム 総額</div><div class="cost-val">¥675,000</div></div>
+    <div class="cost-note">浄化槽+設置¥480,000 + グリストラップ¥45,000 + 便器¥85,000 + 配管¥65,000</div>
+  </div>
+</div>
+
+<!-- 07 キッチン -->
+<div class="sys-section" id="kitchen">
+  <div class="sys-num">07 KITCHEN</div>
+  <h2 class="sys-title"><span class="sys-icon">🍳</span>キッチン・食洗機設計</h2>
+  <p class="sys-lead">
+    焼肉古今コンテナ用途（飲食店）と宿泊客用キッチンの2用途対応。
+    炭火+ガス火のダブル熱源、食洗機は業務用グレード推奨。
+  </p>
+
+  <table class="spec-table">
+    <tr><th>機器</th><th>仕様</th><th>価格</th></tr>
+    <tr><td>焼肉コンロ台（業務用）</td><td>マルゼン MGK-066 業務用ガスコンロ<br>2口 + 炭火スペース組み込み<br>ステンレス天板 900×600mm</td><td>¥95,000</td></tr>
+    <tr><td>炭火グリル</td><td>炭火焼肉グリル ロストル付き × 2台<br>遠赤外線セラミックプレート付き</td><td>¥48,000</td></tr>
+    <tr><td>業務用シンク</td><td>2槽ステンレスシンク 1500×600mm<br>食品衛生法対応、蛇口2本付き</td><td>¥58,000</td></tr>
+    <tr><td>食洗機</td><td>パナソニック NP-TZ300（家庭用大型）<br>食器点数 40点・乾燥機能付き・省エネ<br>または業務用: ホシザキ JWE-300TUB（食器洗浄機）</td><td>¥85,000〜¥380,000</td></tr>
+    <tr><td>冷蔵庫</td><td>ホシザキ HR-63AT3 業務用小型冷蔵庫<br>60L × 1台（肉・野菜保管）</td><td>¥88,000</td></tr>
+    <tr><td>プロパンガス設備</td><td>LP配管工事 + ガスメーター + レギュレーター<br>弟子屈ガス（道東地区対応）施工</td><td>¥65,000</td></tr>
+    <tr><td>換気扇（キッチン）</td><td>三菱 VD-15ZY13 天井埋込換気扇<br>風量 150m³/h、低騒音タイプ</td><td>¥18,000</td></tr>
+    <tr><td>作業台</td><td>ステンレス作業台 1200×600mm + バックガード付き</td><td>¥42,000</td></tr>
+  </table>
+
+  <div class="info-note">💡 食洗機の選択: 宿泊用コテージには家庭用NP-TZ300（¥85,000）で十分。焼肉古今コンテナ（飲食店営業）には業務用ホシザキJWE-300TUB（¥380,000）推奨。業務用は1ラック60秒洗浄、回転率が全然違う。</div>
+
+  <div class="diagram">
+  【キッチン平面レイアウト — 焼肉古今コンテナ】
+
+  コンテナ幅 2300mm
+  ┌─────────────────────────────────┐
+  │  ┌──────────┐  ┌────────────┐  │
+  │  │ 焼肉グリル  │  │ガスコンロ台│  │ 厨房エリア
+  │  │  × 2台    │  │  炭火兼用  │  │
+  │  └──────────┘  └────────────┘  │
+  │                                  │
+  │  ┌─────────────────────────────┐  │
+  │  │  2槽シンク  │食洗機│  作業台  │  │ 調理補助
+  │  └─────────────────────────────┘  │
+  └─────────────────────────────────┘
+       ↑ グリストラップ（床下）
+       ↑ 換気フード（天井）
+  </div>
+
+  <div class="cost-card">
+    <div><div class="cost-label">キッチン設備 総額</div><div class="cost-val">¥499,000</div></div>
+    <div class="cost-note">業務用食洗機採用時。家庭用食洗機なら¥204,000。設置・配管工事別途¥80,000〜。</div>
+  </div>
+</div>
+
+<!-- 総費用 -->
+<div class="sys-section" id="cost" style="border-bottom:none">
+  <div class="sys-num">08 TOTAL COST</div>
+  <h2 class="sys-title"><span class="sys-icon">💰</span>設備工事 総費用</h2>
+
+  <div class="total-section">
+    <div class="total-rows">
+      <div class="total-row"><span>01 基礎（スクリューパイルL2400mm）</span><span>¥380,000</span></div>
+      <div class="total-row"><span>02 換気（全熱交換 + 焼肉フード）</span><span>¥258,000</span></div>
+      <div class="total-row"><span>03 床暖房（薪コイル + 温水配管）</span><span>¥802,000</span></div>
+      <div class="total-row"><span>04 地中熱ヒートポンプ（水平ループ）</span><span>¥950,000</span></div>
+      <div class="total-row"><span>05 RO水システム（井戸 + ROフィルター）</span><span>¥503,000</span></div>
+      <div class="total-row"><span>06 トイレ・排水（浄化槽 + グリストラップ）</span><span>¥675,000</span></div>
+      <div class="total-row"><span>07 キッチン・食洗機（業務用仕様）</span><span>¥579,000</span></div>
+      <div class="total-row"><span>施工管理費（各工程の現場立会・調整）</span><span>¥200,000</span></div>
+      <div class="total-row"><span>電気工事（幹線・分電盤・コンセント配線）</span><span>¥180,000</span></div>
+      <div class="total-row"><span><strong>設備工事 合計</strong></span><span><strong>¥4,527,000</strong></span></div>
+    </div>
+  </div>
+
+  <div class="info-note">
+    💡 <strong>建物本体（購入リスト¥6.2M）+ 設備工事（¥4.5M）= 総額約¥10.7M</strong>で完成。<br>
+    地中熱ヒートポンプは省略可能（代替: 灯油ボイラー ¥200,000）で¥3.3Mに圧縮も可能。<br>
+    焼肉古今としての飲食店営業には 浄化槽・グリストラップ・業務用食洗機は省略不可。
+  </div>
+
+  <div style="margin-top:24px">
+    <a href="/shopping" style="display:inline-flex;align-items:center;gap:8px;background:rgba(200,164,85,.1);border:1px solid var(--gold);border-radius:10px;padding:12px 20px;color:var(--gold);text-decoration:none;font-size:13px;font-weight:600">
+      🛒 購入リスト（建物本体 ¥6.2M）を見る →
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<nav class="fnav">
+  <a href="/instant">インスタントハウス</a>
+  <a href="/interior">インテリア・断熱</a>
+  <a href="/loop">循環システム</a>
+  <a href="/shopping">購入リスト</a>
+  <a href="/kokon">焼肉古今</a>
+  <a href="/permit">許認可ガイド</a>
+  <a href="/plans">プランと費用</a>
+  <a href="/desk">🖥 デスクトップ</a>
+  <a href="/">SOLUNA TOP</a>
+</nav>
+
+<script src="/js/dc.js"></script>
+</body>
+</html>

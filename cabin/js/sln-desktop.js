@@ -434,6 +434,19 @@
     setupDrag(win);
     setupResize(win, id);
     win.addEventListener('mousedown', () => focusWin(id));
+
+    const iframe = win.querySelector(`#sln-iframe-${id}`);
+    if (iframe) {
+      iframe.addEventListener('load', function() {
+        try {
+          const doc = iframe.contentDocument;
+          const s = doc.createElement('style');
+          s.textContent = '.gnav{display:none!important}body{padding-top:0!important;padding-bottom:0!important}';
+          doc.head.appendChild(s);
+        } catch(e) {}
+      });
+    }
+
     return win;
   }
 

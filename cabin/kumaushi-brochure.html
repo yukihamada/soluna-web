@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KUMAUSHI BASE — オーナー案内冊子 | SOLUNA</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-d:#8a6a20;
+  --bg:#050505;
+  --ink:#111;
+  --dim:#777;
+  --line:#e8e8e8;
+  --cream:#faf8f3;
+}
+body{background:#1a1a1a;font-family:'Helvetica Neue',-apple-system,'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:'palt';line-height:1.7}
+img{display:block;width:100%;object-fit:cover}
+
+/* SCREEN NAV */
+.snav{padding:14px 24px;display:flex;justify-content:space-between;align-items:center;background:#111;border-bottom:1px solid #222;position:sticky;top:0;z-index:99}
+.snav-logo{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--gold)}
+.snav-btns{display:flex;gap:10px;align-items:center}
+.snav-btns a{font-size:11px;color:#555;text-decoration:none}
+.print-btn{font-size:11px;font-weight:700;padding:8px 18px;background:var(--gold);color:#000;border:none;border-radius:100px;cursor:pointer;font-family:inherit;letter-spacing:.05em}
+@media print{.snav{display:none}}
+
+/* A4 PAGE */
+.page{
+  width:210mm;
+  min-height:297mm;
+  margin:24px auto;
+  background:#fff;
+  color:var(--ink);
+  position:relative;
+  overflow:hidden;
+  page-break-after:always;
+  box-shadow:0 12px 60px rgba(0,0,0,.5);
+}
+@media print{
+  body{background:#fff}
+  .page{margin:0;box-shadow:none;page-break-after:always}
+  @page{size:A4 portrait;margin:0}
+}
+
+/* ─── COVER ──────────────────────────────────── */
+.cover{position:relative;height:297mm;display:flex;flex-direction:column}
+.cover-img{position:absolute;inset:0}
+.cover-img img{height:100%;width:100%;object-fit:cover}
+.cover-ov{position:absolute;inset:0;background:linear-gradient(170deg,rgba(0,0,0,.18) 0%,rgba(0,0,0,.06) 30%,rgba(0,0,0,.72) 75%,rgba(0,0,0,.9) 100%)}
+.cover-logo{position:absolute;top:38px;left:44px;z-index:2;font-size:12px;font-weight:800;letter-spacing:.22em;color:#fff}
+.cover-date{position:absolute;top:38px;right:44px;z-index:2;font-size:8px;color:rgba(255,255,255,.35);letter-spacing:.14em}
+.cover-body{position:relative;z-index:2;margin-top:auto;padding:40px 44px 44px}
+.cover-eyebrow{font-size:8.5px;letter-spacing:.38em;color:rgba(200,164,85,.9);text-transform:uppercase;font-weight:700;margin-bottom:12px}
+.cover-title{font-size:44px;font-weight:900;letter-spacing:-.04em;line-height:1.07;color:#fff;margin-bottom:10px}
+.cover-title em{font-style:normal;color:var(--gold)}
+.cover-sub{font-size:12.5px;color:rgba(255,255,255,.62);line-height:1.85;max-width:360px;margin-bottom:26px;font-weight:300}
+.cover-pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{font-size:8.5px;font-weight:700;padding:5px 14px;border-radius:100px;letter-spacing:.07em}
+.pill-gold{background:var(--gold);color:#000}
+.pill-out{border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.75)}
+.cover-stripe{position:absolute;left:0;bottom:0;right:0;height:4px;background:linear-gradient(to right,var(--gold) 0%,#e8c878 50%,var(--gold) 100%)}
+
+/* ─── INNER PAGES ────────────────────────────── */
+.inner{padding:0;display:flex;flex-direction:column}
+.pg-header{display:flex;justify-content:space-between;align-items:center;padding:20px 44px 0;border-bottom:2px solid var(--gold)}
+.pg-header-label{font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-d);font-weight:700}
+.pg-header-logo{font-size:10px;font-weight:800;letter-spacing:.16em;color:#ccc}
+.pg-num{position:absolute;bottom:22px;right:44px;font-size:9px;color:#bbb;letter-spacing:.12em}
+.pg-stripe{height:2px;background:linear-gradient(to right,var(--gold),#e8c878,var(--gold))}
+
+/* sections */
+.sec{padding:24px 44px;border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:none}
+.sec-lbl{font-size:7.5px;letter-spacing:.3em;text-transform:uppercase;color:#bbb;font-weight:700;margin-bottom:6px}
+.sec-title{font-size:19px;font-weight:800;letter-spacing:-.03em;color:#111;margin-bottom:5px}
+.sec-sub{font-size:11px;color:#777;line-height:1.9;max-width:480px}
+
+/* two-col */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.two-col-l{padding:24px 22px 24px 44px;border-right:1px solid var(--line)}
+.two-col-r{padding:24px 44px 24px 22px}
+
+/* photo grid */
+.pgrid{display:grid;gap:2px}
+.pgrid.g2{grid-template-columns:1fr 1fr}
+.pgrid.g3{grid-template-columns:2fr 1fr 1fr}
+.pgrid.g2t{grid-template-columns:1fr 1fr;grid-template-rows:140px 140px}
+.pgrid img{height:150px;object-fit:cover}
+.pgrid.tall img{height:190px}
+.pgrid.g2t img{height:auto}
+@media print{.pgrid img{height:130px}.pgrid.tall img{height:170px}}
+
+/* spec table */
+.stbl{width:100%;border-collapse:collapse;font-size:11px;margin-top:10px}
+.stbl tr{border-bottom:1px solid #f0f0f0}
+.stbl tr:last-child{border:none}
+.stbl td{padding:7px 4px;vertical-align:top}
+.stbl td:first-child{color:#aaa;width:38%;font-size:10px;padding-right:8px;font-weight:600}
+.stbl td:last-child{color:#333;font-weight:600}
+.stbl td strong{color:var(--gold-d)}
+
+/* numbers bar */
+.num-bar{display:flex;background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.num-item{flex:1;text-align:center;padding:14px 8px;border-right:1px solid var(--line)}
+.num-item:last-child{border-right:none}
+.num-item .nv{font-size:20px;font-weight:900;color:var(--gold-d);letter-spacing:-.03em;line-height:1}
+.num-item .nk{font-size:8px;color:#aaa;margin-top:4px;line-height:1.5;font-weight:600}
+
+/* concept cards */
+.concept-row{display:flex;border-bottom:1px solid var(--line);min-height:80px}
+.concept-row:last-child{border-bottom:none}
+.concept-tag{width:90px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;border-right:1px solid var(--line)}
+.concept-tag.ta{background:#f0faf4;color:#1a7a34}
+.concept-tag.tb{background:#eff6ff;color:#1a50a0}
+.concept-tag.tc{background:#f8f4ff;color:#5a20a0}
+.concept-body{padding:14px 20px;flex:1}
+.concept-body h4{font-size:13px;font-weight:800;color:#111;margin-bottom:3px}
+.concept-body .en{font-size:8.5px;color:#aaa;letter-spacing:.1em;margin-bottom:6px}
+.concept-body p{font-size:10.5px;color:#555;line-height:1.75}
+.concept-specs{display:flex;gap:16px;margin-top:8px}
+.concept-spec{font-size:9px;color:#999}
+.concept-spec strong{color:var(--gold-d);font-size:11px}
+.concept-img-wrap{width:130px;flex-shrink:0}
+.concept-img-wrap img{height:100%;object-fit:cover}
+
+/* experience grid */
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.exp-card{position:relative;overflow:hidden}
+.exp-card img{height:120px;object-fit:cover;filter:brightness(.75);transition:filter .3s}
+.exp-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 60%)}
+.exp-body{position:absolute;bottom:0;left:0;right:0;padding:12px 14px}
+.exp-tag{font-size:7.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:100px;display:inline-block;margin-bottom:5px}
+.exp-title{font-size:13px;font-weight:800;color:#fff;line-height:1.2}
+.exp-desc{font-size:10px;color:rgba(255,255,255,.6);margin-top:3px;line-height:1.55}
+
+/* ownership */
+.own-box{background:var(--cream);border:1px solid var(--line);border-radius:8px;padding:18px 22px;margin-top:10px}
+.own-box h4{font-size:13px;font-weight:800;color:#111;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.own-row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px dashed #eee;font-size:11px}
+.own-row:last-child{border-bottom:none}
+.own-key{color:#888;font-size:10px}
+.own-val{font-weight:700;color:#333}
+.own-val.hi{color:var(--gold-d);font-size:13px}
+
+/* ROI table */
+.roi-tbl{width:100%;border-collapse:collapse;font-size:10.5px;margin-top:10px}
+.roi-tbl th{background:var(--cream);padding:7px 10px;text-align:left;font-size:9px;letter-spacing:.06em;color:#999;border:1px solid var(--line);font-weight:700}
+.roi-tbl td{padding:7px 10px;border:1px solid var(--line);color:#444;vertical-align:top}
+.roi-tbl td strong{color:var(--gold-d);font-weight:800}
+
+/* timeline */
+.tl{position:relative;padding-left:22px;margin:12px 0}
+.tl::before{content:'';position:absolute;left:5px;top:4px;bottom:4px;width:1px;background:linear-gradient(to bottom,var(--gold),rgba(200,164,85,.15))}
+.tl-item{position:relative;margin-bottom:18px}
+.tl-dot{position:absolute;left:-21px;top:3px;width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--gold)}
+.tl-dot.done{background:var(--gold)}
+.tl-date{font-size:8px;color:var(--gold-d);font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.tl-title{font-size:12px;font-weight:700;color:#222;margin-bottom:2px}
+.tl-desc{font-size:10.5px;color:#888;line-height:1.6}
+
+/* contact box */
+.contact-box{background:#111;border-radius:8px;padding:22px 28px;color:#fff;margin-top:14px}
+.contact-box .c-lbl{font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px}
+.contact-box .c-name{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.contact-box .c-items{display:flex;gap:20px;flex-wrap:wrap;margin-top:10px}
+.contact-box .c-item{font-size:10.5px;color:#888}
+.contact-box .c-item strong{color:#ccc;font-weight:700}
+
+/* legal */
+.legal{font-size:8.5px;color:#aaa;line-height:1.7;padding:12px 44px;border-top:1px solid var(--line);margin-top:auto}
+
+/* NOTE box */
+.note{background:#fffbf0;border-left:3px solid var(--gold);padding:10px 16px;font-size:10.5px;color:#666;line-height:1.75;margin-top:12px}
+.note strong{color:var(--gold-d)}
+
+/* facility icons */
+.fac-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.fac{background:var(--cream);border-radius:8px;padding:10px 8px;text-align:center;border:1px solid var(--line)}
+.fac-icon{font-size:1.3rem;margin-bottom:4px}
+.fac-name{font-size:8.5px;color:#555;font-weight:700;line-height:1.3}
+</style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+
+<!-- SCREEN NAV -->
+<div class="snav">
+  <div class="snav-logo">SOLUNA</div>
+  <div class="snav-btns">
+    <a href="kumaushi">← 物件ページへ</a>
+    <button class="print-btn" onclick="window.print()">PDFとして保存</button>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="page">
+  <div class="cover">
+    <div class="cover-img">
+      <img src="/img/k4_ext_ushape.webp" alt="KUMAUSHI BASE — コンテナ12台コの字構成、270°パノラマ草原">
+    </div>
+    <div class="cover-ov"></div>
+    <div class="cover-logo">SOLUNA</div>
+    <div class="cover-date">2026年5月 改訂版</div>
+    <div class="cover-body">
+      <div class="cover-eyebrow">OWNER'S BROCHURE · 熊牛原野 · 北海道弟子屈</div>
+      <div class="cover-title">KUMAUSHI<br><em>BASE</em></div>
+      <p class="cover-sub">北海道の草原に、全部ある場所をつくる。<br>プール・バー・DJ・柔術・サウナ。<br>民家がないから、何でもできる。</p>
+      <div class="cover-pills">
+        <span class="pill pill-gold">1口 ¥480万</span>
+        <span class="pill pill-out">20口限定</span>
+        <span class="pill pill-out">年30泊</span>
+        <span class="pill pill-out">2026年10月オープン</span>
+        <span class="pill pill-out">持分会員権登録</span>
+      </div>
+    </div>
+    <div class="cover-stripe"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2: 物件概要 ═══════════════ -->
+<div class="page inner">
+  <div class="pg-stripe"></div>
+  <div class="pg-header">
+    <div class="pg-header-label">Property Overview · 物件概要</div>
+    <div class="pg-header-logo">SOLUNA</div>
+  </div>
+
+  <div class="num-bar">
+    <div class="num-item"><div class="nv">¥480万</div><div class="nk">1口価格<br>20口限定</div></div>
+    <div class="num-item"><div class="nv">100名</div><div class="nk">最大オーナー数<br>永遠に増えない</div></div>
+    <div class="num-item"><div class="nv">年30泊</div><div class="nk">滞在権付き<br>1泊¥80,000相当</div></div>
+    <div class="num-item"><div class="nv">3,000坪</div><div class="nk">土地面積<br>全設備込み</div></div>
+    <div class="num-item"><div class="nv">12台</div><div class="nk">コンテナ数<br>コの字配置</div></div>
+  </div>
+
+  <div class="pgrid g3">
+    <img src="/img/k4_ref_aerial_day.webp" alt="空撮 昼" style="height:160px">
+    <img src="/img/k4_pool_infinity.webp" alt="インフィニティプール" style="height:160px">
+    <img src="/img/k4_night.webp" alt="夜景" style="height:160px">
+  </div>
+
+  <div class="two-col">
+    <div class="two-col-l">
+      <div class="sec-lbl">Location & Specs</div>
+      <div class="sec-title">物件スペック</div>
+      <table class="stbl">
+        <tr><td>所在地</td><td><strong>北海道川上郡弟子屈町 熊牛原野</strong></td></tr>
+        <tr><td>GPS</td><td>43°22′27.7″N 144°30′31.6″E</td></tr>
+        <tr><td>土地面積</td><td><strong>約3,000坪（約9,917m²）</strong>高台270°パノラマ</td></tr>
+        <tr><td>建物</td><td><strong>コンテナ12台</strong>（非対称コの字 + 2段積み）</td></tr>
+        <tr><td>PTFE膜</td><td>電動折りたたみ式 中央コートヤード 120m²</td></tr>
+        <tr><td>プール</td><td>温水インフィニティ 6m×2.4m / 38℃</td></tr>
+        <tr><td>エネルギー</td><td>太陽光35kW + Powerwall×2（40kWh）</td></tr>
+        <tr><td>通信</td><td>Starlink（電柱ゼロ・電力会社ゼロ）</td></tr>
+        <tr><td>アクセス</td><td>釧路空港から車1時間 / 摩周駅から車30分</td></tr>
+        <tr><td>運用開始</td><td><strong>2026年10月</strong></td></tr>
+      </table>
+    </div>
+    <div class="two-col-r">
+      <div class="sec-lbl">Ownership</div>
+      <div class="sec-title">オーナーシップ</div>
+      <div class="own-box">
+        <h4>1口の権利内容</h4>
+        <div class="own-row"><span class="own-key">購入価格</span><span class="own-val hi">¥4,800,000</span></div>
+        <div class="own-row"><span class="own-key">持分比率</span><span class="own-val">1/20（5%）</span></div>
+        <div class="own-row"><span class="own-key">年間滞在権</span><span class="own-val">30泊（¥80,000/泊相当）</span></div>
+        <div class="own-row"><span class="own-key">登記</span><span class="own-val">不動産持分登記あり</span></div>
+        <div class="own-row"><span class="own-key">収益配当</span><span class="own-val">あり（保証なし）</span></div>
+        <div class="own-row"><span class="own-key">管理費</span><span class="own-val">年¥240,000〜（別途）</span></div>
+        <div class="own-row"><span class="own-key">口数上限</span><span class="own-val">20口（永遠に増えない）</span></div>
+      </div>
+      <div class="note">
+        <strong>近隣民家ゼロ</strong>の草原。深夜稽古、爆音、焚き火——全部できる。半径2kmに民家なし。
+      </div>
+    </div>
+  </div>
+  <div class="pg-num">2</div>
+</div>
+
+<!-- ═══════════════ PAGE 3: 全施設 ═══════════════ -->
+<div class="page inner">
+  <div class="pg-stripe"></div>
+  <div class="pg-header">
+    <div class="pg-header-label">Facilities · 全12施設</div>
+    <div class="pg-header-logo">SOLUNA</div>
+  </div>
+
+  <div class="sec" style="padding-bottom:16px">
+    <div class="sec-lbl">Everything in One Place</div>
+    <div class="sec-title">全部ある、草原の秘密基地</div>
+    <p class="sec-sub">都市のホテルが1施設ずつ提供することを、熊牛原野は全部同じ場所に詰め込む。</p>
+    <div class="fac-grid">
+      <div class="fac"><div class="fac-icon">🥋</div><div class="fac-name">天空の道場<br>BJJ・グラップリング</div></div>
+      <div class="fac"><div class="fac-icon">♾️</div><div class="fac-name">インフィニティ<br>プール 38℃</div></div>
+      <div class="fac"><div class="fac-icon">🎧</div><div class="fac-name">DJブース<br>Funktion-One音響</div></div>
+      <div class="fac"><div class="fac-icon">🍾</div><div class="fac-name">バー<br>ウイスキー・クラフト</div></div>
+      <div class="fac"><div class="fac-icon">🧖</div><div class="fac-name">フィンランド式<br>サウナ</div></div>
+      <div class="fac"><div class="fac-icon">🧊</div><div class="fac-name">水風呂<br>天然湧水</div></div>
+      <div class="fac"><div class="fac-icon">💨</div><div class="fac-name">シーシャ<br>ルーフデッキ</div></div>
+      <div class="fac"><div class="fac-icon">🎱</div><div class="fac-name">ビリヤード9ft<br>電子ダーツ</div></div>
+      <div class="fac"><div class="fac-icon">🔥</div><div class="fac-name">大型焚き火<br>専用エリア</div></div>
+      <div class="fac"><div class="fac-icon">🏍️</div><div class="fac-name">ガレージ<br>ハーレー・EV</div></div>
+      <div class="fac"><div class="fac-icon">🏔️</div><div class="fac-name">270°パノラマ<br>阿寒岳・摩周湖</div></div>
+      <div class="fac"><div class="fac-icon">⚡</div><div class="fac-name">太陽光35kW<br>完全オフグリッド</div></div>
+    </div>
+  </div>
+
+  <div class="pgrid g2" style="gap:2px">
+    <img src="/img/k4_dj_booth.webp" alt="DJブース" style="height:130px">
+    <img src="/img/k4_bar_interior.webp" alt="バー" style="height:130px">
+  </div>
+  <div class="pgrid g3" style="gap:2px">
+    <img src="/img/k4_dojo_center.webp" alt="道場" style="height:110px">
+    <img src="/img/k4_int_bath.webp" alt="水風呂・サウナ" style="height:110px">
+    <img src="/img/k4_garage_vehicles.webp" alt="ガレージ" style="height:110px">
+  </div>
+
+  <div class="sec" style="padding-top:16px;padding-bottom:16px">
+    <div class="sec-lbl">The Freedom of Zero Neighbors</div>
+    <p style="font-size:11.5px;color:#555;line-height:1.85">
+      半径2kmに民家がゼロ。深夜3時にDJを流しても、翌朝6時から道場で叫んでも、草原で巨大な焚き火を焚いても——<strong style="color:#333">誰からもクレームが来ない。</strong>それが熊牛原野の最大の価値だ。
+    </p>
+  </div>
+
+  <div class="num-bar">
+    <div class="num-item"><div class="nv">−20°C</div><div class="nk">冬の最低気温<br>でも稽古できる</div></div>
+    <div class="num-item"><div class="nv">2km</div><div class="nk">最寄り民家まで<br>爆音可</div></div>
+    <div class="num-item"><div class="nv">24h</div><div class="nk">稽古・パーティー<br>制限なし</div></div>
+    <div class="num-item"><div class="nv">270°</div><div class="nk">阿寒岳・摩周湖<br>星空パノラマ</div></div>
+  </div>
+  <div class="pg-num">3</div>
+</div>
+
+<!-- ═══════════════ PAGE 4: 天空の道場 ═══════════════ -->
+<div class="page inner">
+  <div class="pg-stripe"></div>
+  <div class="pg-header">
+    <div class="pg-header-label">The Sky Dojo · 天空の道場</div>
+    <div class="pg-header-logo">SOLUNA</div>
+  </div>
+
+  <div class="sec" style="padding-bottom:14px">
+    <div class="sec-lbl">40ft Container Dojo — 3 Architectural Concepts</div>
+    <div class="sec-title">設計士が二度見する道場をつくる</div>
+    <p class="sec-sub">40ftコンテナ × 4号建築物 × 建築士費用ゼロ。3案とも建築主自身で申請完結。</p>
+  </div>
+
+  <div>
+    <div class="concept-row">
+      <div class="concept-tag ta">PLAN A<br>EARTH</div>
+      <div class="concept-body">
+        <h4>アース・ドージョ — 地下ピット型</h4>
+        <div class="en">UNDERGROUND DOJO · SKYLIGHT NIGHT VIEW</div>
+        <p>地面を1.5m掘り下げてコンテナを埋設。天井高が<strong>2.4mから4.1mへ</strong>一気に拡大。雪原にスカイライトだけが光る。稽古中、頭上から北海道の星空が見える。地熱効果で冬の床暖房不要。</p>
+        <div class="concept-specs">
+          <div class="concept-spec">天井高 <strong>4.1m</strong></div>
+          <div class="concept-spec">マット <strong>28.8㎡</strong></div>
+          <div class="concept-spec">概算 <strong>¥7.5M〜</strong></div>
+          <div class="concept-spec">断熱 <strong>UA値0.15</strong></div>
+        </div>
+      </div>
+      <div class="concept-img-wrap">
+        <img src="/img/concept_a_earth_dojo.jpg" alt="地下ピット型道場">
+      </div>
+    </div>
+    <div class="concept-row">
+      <div class="concept-tag tb">PLAN B<br>WING</div>
+      <div class="concept-body">
+        <h4>ウィング・ドージョ — 油圧開閉屋根型</h4>
+        <div class="en">HYDRAULIC WING · OPEN AIR / SEALED DOJO</div>
+        <p>屋根を左右に油圧で跳ね上げると<strong>完全オープンエア</strong>に。夏は空の下でスパー。冬は閉じて密閉断熱。<strong>90秒</strong>でフルオープン。同じ箱が季節で全く異なる道場体験を提供する。</p>
+        <div class="concept-specs">
+          <div class="concept-spec">夏天井 <strong>∞（全天開放）</strong></div>
+          <div class="concept-spec">開閉 <strong>90秒</strong></div>
+          <div class="concept-spec">概算 <strong>¥8.5M〜</strong></div>
+        </div>
+      </div>
+      <div class="concept-img-wrap">
+        <img src="/img/concept_b_wing_dojo.jpg" alt="ウィング開閉型道場">
+      </div>
+    </div>
+    <div class="concept-row">
+      <div class="concept-tag tc">PLAN C<br>SPLIT</div>
+      <div class="concept-body">
+        <h4>スプリット・ドージョ — 2層観客席型</h4>
+        <div class="en">SPLIT LEVEL · SPECTATOR DOJO FOR EVENTS</div>
+        <p>コンテナを稽古フロア（1F）として使い、前面に<strong>キャンチレバー観客デッキ（2F）</strong>を追加。試合・昇格審査・セミナーで8〜12名が見下ろす本格的なイベント道場。</p>
+        <div class="concept-specs">
+          <div class="concept-spec">観客席 <strong>8〜12名</strong></div>
+          <div class="concept-spec">用途 <strong>試合・審査・セミナー</strong></div>
+          <div class="concept-spec">概算 <strong>¥7.0M〜</strong></div>
+        </div>
+      </div>
+      <div class="concept-img-wrap">
+        <img src="/img/concept_c_split_dojo.jpg" alt="2層観客席型道場">
+      </div>
+    </div>
+  </div>
+
+  <div class="exp-grid">
+    <div class="exp-card">
+      <img src="/img/dojo_bonfire_night.jpg" alt="焚き火の夜の稽古">
+      <div class="exp-overlay"></div>
+      <div class="exp-body">
+        <span class="exp-tag" style="background:rgba(255,120,40,.2);color:#ff9a50">焚き火稽古</span>
+        <div class="exp-title">深夜、焚き火で組む</div>
+        <div class="exp-desc">民家ゼロ。時間制限なし。</div>
+      </div>
+    </div>
+    <div class="exp-card">
+      <img src="/img/kumaushi_c_belt_ceremony.webp" alt="昇格式 夕焼け">
+      <div class="exp-overlay"></div>
+      <div class="exp-body">
+        <span class="exp-tag" style="background:rgba(200,164,85,.2);color:#c8a455">昇格式</span>
+        <div class="exp-title">阿寒岳を背に帯を締める</div>
+        <div class="exp-desc">生涯の記憶になる昇格式。</div>
+      </div>
+    </div>
+    <div class="exp-card">
+      <img src="/img/dojo_international_seminar.jpg" alt="国際BJJセミナー">
+      <div class="exp-overlay"></div>
+      <div class="exp-body">
+        <span class="exp-tag" style="background:rgba(90,143,212,.2);color:#7ab0e8">国際セミナー</span>
+        <div class="exp-title">世界から黒帯が来る</div>
+        <div class="exp-desc">¥1.8M/回の収益試算。</div>
+      </div>
+    </div>
+    <div class="exp-card">
+      <img src="/img/dojo_sauna_to_mat.jpg" alt="サウナ→道場">
+      <div class="exp-overlay"></div>
+      <div class="exp-body">
+        <span class="exp-tag" style="background:rgba(255,70,70,.2);color:#ff8878">整え×組む</span>
+        <div class="exp-title">サウナから道場へ30秒</div>
+        <div class="exp-desc">世界唯一のBJJサウナ体験。</div>
+      </div>
+    </div>
+  </div>
+  <div class="pg-num">4</div>
+</div>
+
+<!-- ═══════════════ PAGE 5: オーナーシップ詳細 ═══════════════ -->
+<div class="page inner">
+  <div class="pg-stripe"></div>
+  <div class="pg-header">
+    <div class="pg-header-label">Ownership Scheme · 投資スキーム</div>
+    <div class="pg-header-logo">SOLUNA</div>
+  </div>
+
+  <div class="pgrid g2" style="gap:2px">
+    <img src="/img/kumaushi_aerial_dawn.webp" alt="夜明け空撮" style="height:140px">
+    <img src="/img/k4_ref_interior_court.webp" alt="中庭イメージ" style="height:140px">
+  </div>
+
+  <div class="two-col" style="border-top:1px solid var(--line)">
+    <div class="two-col-l" style="padding-top:20px">
+      <div class="sec-lbl">Investment Structure</div>
+      <div class="sec-title" style="font-size:16px">1口オーナーの権利</div>
+      <div class="own-box">
+        <h4>オーナーシップ詳細</h4>
+        <div class="own-row"><span class="own-key">購入価格</span><span class="own-val hi">¥4,800,000</span></div>
+        <div class="own-row"><span class="own-key">持分</span><span class="own-val">1/20（5%） 会員権登録</span></div>
+        <div class="own-row"><span class="own-key">年間滞在権</span><span class="own-val">30泊（非連続可）</span></div>
+        <div class="own-row"><span class="own-key">予約優先</span><span class="own-val">オーナー専用枠</span></div>
+        <div class="own-row"><span class="own-key">収益配当</span><span class="own-val">年1回（非稼働日分）</span></div>
+        <div class="own-row"><span class="own-key">管理費（年）</span><span class="own-val">¥240,000〜（1口分）</span></div>
+        <div class="own-row"><span class="own-key">登記種別</span><span class="own-val">不動産持分登記</span></div>
+        <div class="own-row"><span class="own-key">出口</span><span class="own-val">第三者への譲渡可</span></div>
+      </div>
+      <div class="note" style="margin-top:10px">
+        <strong>1泊¥80,000相当</strong>の施設を年30泊使用すると、滞在価値だけで年間¥2,400,000。管理費を差し引いても実質的な投資価値は高い。
+      </div>
+    </div>
+    <div class="two-col-r" style="padding-top:20px">
+      <div class="sec-lbl">Revenue Simulation</div>
+      <div class="sec-title" style="font-size:16px">収益シミュレーション</div>
+      <table class="roi-tbl">
+        <tr>
+          <th>項目</th>
+          <th>年間想定（参考値）</th>
+        </tr>
+        <tr>
+          <td>非オーナー利用日<br><span style="font-size:9px;color:#aaa">（1日 ¥500,000〜 / グループ貸切）</span></td>
+          <td><strong>200日 × ¥400,000</strong><br>= ¥80,000,000 / 物件全体</td>
+        </tr>
+        <tr>
+          <td>BJJセミナー</td>
+          <td>年3回 × ¥1,800,000<br>= ¥5,400,000</td>
+        </tr>
+        <tr>
+          <td>合計（物件全体）</td>
+          <td><strong>¥85,400,000 / 年</strong><br><span style="color:#aaa;font-size:9px">（参考値、保証なし）</span></td>
+        </tr>
+        <tr style="background:#faf8f0">
+          <td>1口分（5%）</td>
+          <td><strong style="font-size:13px">¥4,270,000 / 年</strong></td>
+        </tr>
+        <tr style="background:#faf8f0">
+          <td>管理費控除後（概算）</td>
+          <td><strong style="font-size:13px">¥4,030,000 / 年</strong></td>
+        </tr>
+        <tr style="background:#fdf9ed">
+          <td>投資回収期間（概算）</td>
+          <td><strong style="color:var(--gold-d);font-size:13px">約1.2年</strong><br><span style="color:#aaa;font-size:9px">（利用価値含む参考値）</span></td>
+        </tr>
+      </table>
+      <div class="note">
+        ※ 収益は保証なし。市場・稼働状況による変動あり。税務上の取り扱いは専門家にご確認ください。
+      </div>
+    </div>
+  </div>
+
+  <div class="num-bar">
+    <div class="num-item"><div class="nv">¥2.4M</div><div class="nk">年間滞在価値<br>（¥80K × 30泊）</div></div>
+    <div class="num-item"><div class="nv">1/20</div><div class="nk">持分比率<br>不動産登記</div></div>
+    <div class="num-item"><div class="nv">20口</div><div class="nk">最大口数<br>永遠に増えない</div></div>
+    <div class="num-item"><div class="nv">1.2年</div><div class="nk">概算回収期間<br>（利用価値含む参考値）</div></div>
+  </div>
+  <div class="pg-num">5</div>
+</div>
+
+<!-- ═══════════════ PAGE 6: スケジュール・問い合わせ ═══════════════ -->
+<div class="page inner">
+  <div class="pg-stripe"></div>
+  <div class="pg-header">
+    <div class="pg-header-label">Schedule & Contact · スケジュール・申込</div>
+    <div class="pg-header-logo">SOLUNA</div>
+  </div>
+
+  <div class="two-col">
+    <div class="two-col-l" style="padding-top:22px">
+      <div class="sec-lbl">BUILD TIMELINE</div>
+      <div class="sec-title" style="font-size:16px">建設・オープンまで</div>
+      <div class="tl" style="margin-top:14px">
+        <div class="tl-item">
+          <div class="tl-dot done"></div>
+          <div class="tl-date">2026 MAY</div>
+          <div class="tl-title">コンセプト確定 · 先行受付開始</div>
+          <div class="tl-desc">建築3案から選定。地盤調査・事前相談着手。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">2026 JUN</div>
+          <div class="tl-title">弟子屈町建築課 事前相談</div>
+          <div class="tl-desc">4号建築物確認・配置図提出。申請費用¥5,000〜10,000。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">2026 JUL</div>
+          <div class="tl-title">コンテナ発注 + 基礎工事</div>
+          <div class="tl-desc">40ftコンテナ12台調達（¥80〜120万/台）。掘削・防水工事。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">2026 AUG–SEP</div>
+          <div class="tl-title">コンテナ設置 + 内装 + 設備工事</div>
+          <div class="tl-desc">クレーン設置・PTFE膜・プール・サウナ・電気配線。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">2026 OCT</div>
+          <div class="tl-title">KUMAUSHI BASE オープン</div>
+          <div class="tl-desc">オーナー初稽古・初パーティー。天空の道場稼働開始。</div>
+        </div>
+      </div>
+
+      <div class="sec-lbl" style="margin-top:10px">HOW TO BUY</div>
+      <div style="border-left:2px solid var(--gold);padding-left:14px;margin-top:8px">
+        <div style="font-size:9px;font-weight:700;color:var(--gold-d);margin-bottom:2px">STEP 01</div>
+        <div style="font-size:12px;font-weight:700;margin-bottom:3px">問い合わせ・面談</div>
+        <div style="font-size:10.5px;color:#666;margin-bottom:12px">代表・濱田より48時間以内に返信。ビデオ面談か現地視察をご案内。</div>
+        <div style="font-size:9px;font-weight:700;color:var(--gold-d);margin-bottom:2px">STEP 02</div>
+        <div style="font-size:12px;font-weight:700;margin-bottom:3px">売買契約 + 手付金（10%）</div>
+        <div style="font-size:10.5px;color:#666;margin-bottom:12px">不動産売買契約書に署名。手付金を銀行振込。融資対応可。</div>
+        <div style="font-size:9px;font-weight:700;color:var(--gold-d);margin-bottom:2px">STEP 03</div>
+        <div style="font-size:12px;font-weight:700;margin-bottom:3px">残金決済 + 持分登記</div>
+        <div style="font-size:10.5px;color:#666">残代金を振込。持分登記完了。オーナーとして予約開始。</div>
+      </div>
+    </div>
+
+    <div class="two-col-r" style="padding-top:22px">
+      <div class="sec-lbl">CONTACT</div>
+      <div class="sec-title" style="font-size:16px">お問い合わせ</div>
+      <div class="contact-box">
+        <div class="c-lbl">SOLUNA / 株式会社イネブラ</div>
+        <div class="c-name">濱田 優貴（代表）</div>
+        <div style="font-size:10px;color:#777;margin-top:2px">BJJ青帯 / 元メルカリ CPO</div>
+        <div class="c-items">
+          <div class="c-item"><strong>Mail</strong><br>mail@yukihamada.jp</div>
+          <div class="c-item"><strong>Tel</strong><br>090-7409-0407</div>
+          <div class="c-item"><strong>Web</strong><br>solun.art/kumaushi</div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <div class="sec-lbl">QR CODE</div>
+        <div style="display:flex;gap:14px;margin-top:8px;align-items:flex-start">
+          <div style="background:#f5f5f5;border:1px solid #ddd;border-radius:8px;padding:12px;width:90px;height:90px;display:flex;align-items:center;justify-content:center">
+            <svg viewBox="0 0 100 100" style="width:66px;height:66px;opacity:.6" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="0" width="40" height="40" rx="4" fill="#111"/>
+              <rect x="60" y="0" width="40" height="40" rx="4" fill="#111"/>
+              <rect x="0" y="60" width="40" height="40" rx="4" fill="#111"/>
+              <rect x="8" y="8" width="24" height="24" rx="2" fill="#fff"/>
+              <rect x="68" y="8" width="24" height="24" rx="2" fill="#fff"/>
+              <rect x="8" y="68" width="24" height="24" rx="2" fill="#fff"/>
+              <rect x="14" y="14" width="12" height="12" fill="#111"/>
+              <rect x="74" y="14" width="12" height="12" fill="#111"/>
+              <rect x="14" y="74" width="12" height="12" fill="#111"/>
+              <rect x="60" y="60" width="8" height="8" fill="#111"/>
+              <rect x="72" y="60" width="8" height="8" fill="#111"/>
+              <rect x="84" y="60" width="8" height="8" fill="#111"/>
+              <rect x="60" y="72" width="8" height="8" fill="#111"/>
+              <rect x="84" y="72" width="8" height="8" fill="#111"/>
+              <rect x="60" y="84" width="8" height="8" fill="#111"/>
+              <rect x="72" y="84" width="8" height="8" fill="#111"/>
+              <rect x="84" y="84" width="8" height="8" fill="#111"/>
+            </svg>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:10.5px;color:#555;line-height:1.8">このQRコードをスキャンすると物件ページ<strong style="color:#333">（solun.art/kumaushi）</strong>に直接アクセスできます。最新の写真・動画・オーナー登録フォームをご確認ください。</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px;background:var(--cream);border-radius:8px;padding:14px 18px;border:1px solid var(--line)">
+        <div class="sec-lbl" style="margin-bottom:6px">立地アクセス</div>
+        <table class="stbl" style="font-size:10px">
+          <tr><td>釧路空港</td><td><strong>車 約1時間</strong>（高速利用）</td></tr>
+          <tr><td>摩周駅</td><td>車 約30分（JR釧網本線）</td></tr>
+          <tr><td>女満別空港</td><td>車 約1時間30分</td></tr>
+          <tr><td>最寄りコンビニ</td><td>弟子屈市街（車15分）</td></tr>
+          <tr><td>温泉</td><td>川湯温泉（車15分）</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="legal">
+    ※ 本資料に記載の収益・価格・面積等はすべて参考値であり、将来の収益を保証するものではありません。不動産の購入にあたっては、重要事項説明書をよくお読みください。管理費は別途発生します。記載内容は予告なく変更される場合があります。本資料の無断転載・配布を禁じます。© 2026 株式会社イネブラ / SOLUNA
+  </div>
+  <div class="pg-num">6</div>
+</div>
+
+<script>
+// Print on load if ?print=1
+if(location.search.includes('print=1')) { setTimeout(function(){ window.print(); }, 800); }
+</script>
+</body>
+</html>

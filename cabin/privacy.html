@@ -69,15 +69,15 @@ footer{border-top:1px solid var(--line);padding:40px 24px;text-align:center;colo
 <li data-en="Name, Email Address &amp; Phone Number">氏名、メールアドレス、電話番号</li>
 <li data-en="Address (if required for registration procedures)">住所（登記手続きに必要な場合）</li>
 <li data-en="Preferred Properties &amp; Purchase Intent Information">希望物件・購入意向情報</li>
-<li data-en="Bank Account Information (for revenue distribution transfers)">銀行口座情報（収益分配のための振込先）</li>
-<li data-en="Solana Wallet Address (for USDC Settlement &amp; Distribution)">Solanaウォレットアドレス（USDC決済・分配の場合）</li>
+<li data-en="Bank Account Information (for payment processing and refunds)">銀行口座情報（決済・返金処理のための振込先）</li>
+<li data-en="Solana Wallet Address (for crypto payment processing)">Solanaウォレットアドレス（暗号資産決済の場合）</li>
 <li data-en="Access Logs (IP Address, Browser Information, Referrer URL)">アクセスログ（IPアドレス、ブラウザ情報、参照元URL）</li>
 </ul>
 <h2 data-en="3. Purposes of Use">3. 利用目的</h2>
 <ul>
 <li data-en="Execution of real estate share purchase agreements and registration procedures">不動産持分の売買契約の締結および登記手続き</li>
 <li data-en="Accommodation Booking &amp; Local Guide Arrangements">宿泊予約・現地案内の手配</li>
-<li data-en="Revenue Distribution Transfers">収益分配の振込</li>
+<li data-en="Accommodation booking and payment processing">宿泊予約・口数購入の決済処理</li>
 <li data-en="Service Communications &amp; Newsletter Distribution">サービスに関するご連絡・メールマガジンの配信</li>
 <li data-en="Surveys and Marketing Research">アンケート・マーケティング調査</li>
 <li data-en="Statistical analysis for service improvement (non-identifying format)">サービス改善のための統計分析（個人を特定しない形式）</li>
@@ -248,5 +248,8 @@ function sfToggle(btn){
 </script><script>document.getElementById('gnav-ham').onclick=function(){document.getElementById('gnav-links').classList.toggle('open')};</script>
 <script defer="" src="/track.js"></script>
 <script src="/lang.js"></script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
 </body>
 </html>

@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ストローベイル断熱設計 — SOLUNA Instant House</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080806;--card:#0c0c0a;--card2:#0f0f0d;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.04);
+  --gold:#c8a455;--gold2:rgba(200,164,85,.14);--gold3:rgba(200,164,85,.06);
+  --text:#d8d0bc;--dim:#555;--dim2:#333;
+  --straw:#c8a830;--straw2:rgba(200,168,48,.15);
+  --lime:#e8e0cc;--lime2:rgba(232,224,204,.08);
+  --steel:#5a8a9a;--green:#4ecb8d;--red:#e65a5a;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;line-height:1.7;min-height:100%}
+body{padding-bottom:80px}
+
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:rgba(8,8,6,.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--gold);text-decoration:none}
+.nav-links{display:flex;gap:18px}
+.nav-links a{font-size:11px;color:var(--dim);text-decoration:none}
+.nav-links a:hover{color:var(--text)}
+
+/* HERO */
+.hero{padding:60px 24px 44px;max-width:780px;margin:0 auto}
+.tag{font-size:9px;letter-spacing:.3em;color:var(--straw);font-weight:700;text-transform:uppercase;margin-bottom:12px}
+.hero h1{font-size:clamp(24px,5vw,38px);font-weight:900;color:#fff;line-height:1.15;margin-bottom:16px}
+.hero-sub{font-size:13px;color:var(--dim);line-height:1.9;max-width:560px}
+
+/* HEAT20 BADGE */
+.heat-bar{display:flex;gap:3px;max-width:780px;margin:0 auto 48px;padding:0 24px}
+.hb{flex:1;padding:16px 14px;border-radius:6px;text-align:center;border:1px solid transparent}
+.hb-label{font-size:9px;letter-spacing:.2em;font-weight:700;text-transform:uppercase;margin-bottom:6px}
+.hb-ua{font-size:18px;font-weight:900;margin-bottom:2px}
+.hb-note{font-size:9px;opacity:.6}
+.hb.std{background:#0c0c0a;border-color:var(--border);color:#444}
+.hb.g1{background:#0c1010;border-color:rgba(78,203,141,.12);color:rgba(78,203,141,.5)}
+.hb.g2{background:#0c1410;border-color:rgba(78,203,141,.2);color:rgba(78,203,141,.7)}
+.hb.g3{background:#0c1a10;border-color:rgba(78,203,141,.35);color:var(--green)}
+.hb.straw{background:rgba(200,168,48,.08);border-color:rgba(200,168,48,.3);color:var(--straw)}
+.hb.active-label{font-size:8px;letter-spacing:.15em;color:var(--straw);font-weight:700;display:block;margin-top:4px}
+
+/* SECTION */
+.s{max-width:780px;margin:0 auto;padding:0 24px 56px}
+.s-tag{font-size:9px;letter-spacing:.3em;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:14px}
+.s-title{font-size:20px;font-weight:900;color:#fff;margin-bottom:6px}
+.s-sub{font-size:12px;color:var(--dim);margin-bottom:28px;line-height:1.8}
+
+/* DIAGRAM */
+.dw{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 24px;margin-bottom:20px;overflow-x:auto}
+.dw svg{display:block;margin:0 auto;max-width:100%}
+.dc{font-size:11px;color:var(--dim);text-align:center;margin-top:14px;line-height:1.7}
+
+/* IMAGE CARDS - CSS art illustrations */
+.img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:32px}
+.img-card{border-radius:14px;overflow:hidden;aspect-ratio:4/3;position:relative;cursor:default}
+.img-label{position:absolute;bottom:0;left:0;right:0;padding:10px 14px;background:linear-gradient(transparent,rgba(0,0,0,.8));font-size:11px;color:rgba(255,255,255,.7);font-weight:600}
+
+/* straw bale house SVG illustrations */
+.scene{width:100%;height:100%}
+
+/* LAYERS */
+.layer-row{display:flex;flex-direction:column;gap:2px;margin-bottom:28px}
+.layer{display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:8px;border:1px solid var(--border)}
+.layer-color{width:36px;height:36px;border-radius:6px;flex-shrink:0}
+.layer-info{flex:1}
+.layer-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
+.layer-detail{font-size:11px;color:var(--dim);line-height:1.7}
+.layer-r{flex-shrink:0;text-align:right}
+.layer-rv{font-size:14px;font-weight:800;color:var(--straw)}
+.layer-rk{font-size:9px;color:var(--dim)}
+
+/* CALC TABLE */
+.calc{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:24px}
+.calc th{text-align:left;font-size:9px;letter-spacing:.2em;font-weight:700;color:var(--dim);padding:8px 12px;border-bottom:1px solid var(--border)}
+.calc td{padding:10px 12px;border-bottom:1px solid var(--border2);color:var(--text)}
+.calc .total td{font-weight:800;color:#fff;border-top:1px solid rgba(200,168,48,.3);background:rgba(200,168,48,.04)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.gold{color:var(--straw)}
+
+/* DETAIL CARDS */
+.dc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-bottom:32px}
+.dcard{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px}
+.dcard-tag{font-size:9px;letter-spacing:.2em;color:var(--straw);font-weight:700;text-transform:uppercase;margin-bottom:8px}
+.dcard-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:8px}
+.dcard-body{font-size:11px;color:var(--dim);line-height:1.9}
+.dcard-body strong{color:var(--text)}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:3px;margin-bottom:32px}
+.step{display:flex;gap:16px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px}
+.sn{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--straw2);border:1px solid rgba(200,168,48,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--straw)}
+.st{font-size:13px;font-weight:800;color:#fff;margin-bottom:4px}
+.sd{font-size:11px;color:var(--dim);line-height:1.8}
+.sw{font-size:10px;color:rgba(200,168,48,.55);margin-top:6px}
+
+.note{background:var(--straw2);border:1px solid rgba(200,168,48,.2);border-radius:10px;padding:14px 18px;font-size:11px;color:rgba(200,168,48,.8);line-height:1.8;margin-bottom:24px}
+.warn{background:rgba(230,90,90,.05);border:1px solid rgba(230,90,90,.15);border-radius:10px;padding:14px 18px;font-size:11px;color:var(--red);line-height:1.8;margin-bottom:24px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">SOLUNA</a>
+  <div class="nav-links">
+    <a href="/foundation">基礎設計</a>
+    <a href="/ops">施工ガイド</a>
+    <a href="/workparty">Work Party</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="tag">Instant House — 断熱設計書 v1.0</div>
+  <h1>ストローベイル＋漆喰<br>外断熱システム</h1>
+  <p class="hero-sub">北海道が誇る農業副産物で、日本最高クラスの断熱性能を実現する。麦わら450mm＋漆喰30mmの壁はUA値0.11。Work Partyで全員が体験できる、世界最古の断熱工法。</p>
+</div>
+
+<!-- HEAT20 BAR -->
+<div class="heat-bar">
+  <div class="hb std">
+    <div class="hb-label">省エネ基準</div>
+    <div class="hb-ua">0.46</div>
+    <div class="hb-note">UA値 W/(m²·K)</div>
+  </div>
+  <div class="hb g1">
+    <div class="hb-label">HEAT20 G1</div>
+    <div class="hb-ua">0.34</div>
+    <div class="hb-note">UA値 W/(m²·K)</div>
+  </div>
+  <div class="hb g2">
+    <div class="hb-label">HEAT20 G2</div>
+    <div class="hb-ua">0.28</div>
+    <div class="hb-note">UA値 W/(m²·K)</div>
+  </div>
+  <div class="hb g3">
+    <div class="hb-label">HEAT20 G3</div>
+    <div class="hb-ua">0.20</div>
+    <div class="hb-note">UA値 W/(m²·K)</div>
+  </div>
+  <div class="hb straw">
+    <div class="hb-label">ストローベイル</div>
+    <div class="hb-ua">0.11</div>
+    <div class="hb-note">UA値 W/(m²·K)</div>
+    <span class="active-label">← ここ</span>
+  </div>
+</div>
+
+<!-- WHAT IS HEAT20 -->
+<div class="s">
+  <div class="s-tag">HEAT20 G3とは</div>
+  <div class="s-title">数字の意味</div>
+  <div class="s-sub">UA値（外皮平均熱貫流率）は「建物全体から1㎡・1℃の温度差で1秒間に逃げる熱量」。小さいほど高性能。G3は2020年省エネ基準の2.3倍の断熱性能で、業界最高クラスの認定値。</div>
+
+  <div class="dw">
+    <svg width="700" height="180" viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg">
+      <!-- scale bar -->
+      <rect x="40" y="60" width="620" height="24" fill="#0c0c0a" rx="4"/>
+
+      <!-- performance zones -->
+      <rect x="40" y="60" width="140" height="24" fill="#1a1a18" rx="4"/>
+      <rect x="180" y="60" width="120" height="24" fill="#0c1210" rx="2"/>
+      <rect x="300" y="60" width="100" height="24" fill="#0c1810" rx="2"/>
+      <rect x="400" y="60" width="80" height="24" fill="#0c2010" rx="2"/>
+      <rect x="480" y="60" width="180" height="24" fill="rgba(200,168,48,.12)" rx="2"/>
+
+      <!-- labels above -->
+      <text x="110" y="50" font-size="10" fill="#333" font-family="Helvetica Neue" text-anchor="middle">省エネ基準</text>
+      <text x="240" y="50" font-size="10" fill="rgba(78,203,141,.4)" font-family="Helvetica Neue" text-anchor="middle">G1</text>
+      <text x="350" y="50" font-size="10" fill="rgba(78,203,141,.55)" font-family="Helvetica Neue" text-anchor="middle">G2</text>
+      <text x="440" y="50" font-size="10" fill="rgba(78,203,141,.7)" font-family="Helvetica Neue" text-anchor="middle">G3</text>
+      <text x="570" y="50" font-size="10" fill="#c8a830" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">ストローベイル</text>
+
+      <!-- UA values -->
+      <text x="110" y="77" font-size="10" fill="#333" font-family="Helvetica Neue" text-anchor="middle">0.46</text>
+      <text x="240" y="77" font-size="10" fill="rgba(78,203,141,.5)" font-family="Helvetica Neue" text-anchor="middle">0.34</text>
+      <text x="350" y="77" font-size="10" fill="rgba(78,203,141,.65)" font-family="Helvetica Neue" text-anchor="middle">0.28</text>
+      <text x="440" y="77" font-size="10" fill="rgba(78,203,141,.8)" font-family="Helvetica Neue" text-anchor="middle">0.20</text>
+      <text x="570" y="77" font-size="10" fill="#c8a830" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">0.11</text>
+
+      <!-- BETTER arrow -->
+      <line x1="660" y1="60" x2="660" y2="84" stroke="#333" stroke-width="1"/>
+      <text x="668" y="75" font-size="9" fill="#333" font-family="Helvetica Neue" transform="rotate(90,668,75)">← 高性能</text>
+
+      <!-- concrete comparison -->
+      <text x="40" y="120" font-size="11" fill="#2a2a28" font-family="Helvetica Neue">体感イメージ：</text>
+      <text x="40" y="140" font-size="11" fill="#555" font-family="Helvetica Neue">省エネ基準</text>
+      <text x="120" y="140" font-size="11" fill="#444" font-family="Helvetica Neue">→ 暖房をかけ続けないと寒い</text>
+      <text x="40" y="158" font-size="11" fill="rgba(78,203,141,.6)" font-family="Helvetica Neue">G3</text>
+      <text x="60" y="158" font-size="11" fill="#555" font-family="Helvetica Neue">→ 朝に一度炊けば昼まで暖かい</text>
+      <text x="40" y="176" font-size="11" fill="#c8a830" font-family="Helvetica Neue" font-weight="700">ストローベイル</text>
+      <text x="134" y="176" font-size="11" fill="#666" font-family="Helvetica Neue">→ 暖房なしでも室温が下がりにくい（魔法瓶）</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ILLUSTRATION SCENES -->
+<div class="s">
+  <div class="s-tag">完成イメージ</div>
+  <div class="s-title">外観・断面・内観</div>
+  <div class="s-sub">漆喰仕上げのコンテナ。白い壁と深い庇。SOLUNAの自然素材哲学を体現する。</div>
+
+  <div class="img-grid">
+    <!-- Scene 1: Exterior -->
+    <div class="img-card">
+      <svg class="scene" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+        <!-- sky -->
+        <rect width="320" height="240" fill="#0a0a14"/>
+        <!-- stars -->
+        <g fill="#fff" opacity=".4">
+          <circle cx="30" cy="20" r="1"/><circle cx="80" cy="10" r=".8"/><circle cx="130" cy="25" r="1.2"/>
+          <circle cx="200" cy="8" r=".7"/><circle cx="250" cy="18" r="1"/><circle cx="290" cy="12" r=".8"/>
+          <circle cx="55" cy="45" r=".6"/><circle cx="170" cy="35" r=".9"/><circle cx="310" cy="40" r="1"/>
+        </g>
+        <!-- trees silhouette -->
+        <g fill="#0a140a">
+          <polygon points="0,160 20,80 40,160"/><polygon points="10,160 35,70 60,160"/>
+          <polygon points="260,160 285,75 310,160"/><polygon points="280,160 300,85 320,160"/>
+          <polygon points="130,155 148,95 166,155"/><polygon points="140,155 160,88 180,155"/>
+        </g>
+        <!-- ground -->
+        <rect x="0" y="170" width="320" height="70" fill="#0c100a"/>
+        <!-- snow on ground -->
+        <ellipse cx="160" cy="172" rx="160" ry="6" fill="rgba(200,220,220,.06)"/>
+
+        <!-- container with straw walls -->
+        <!-- straw texture - thick walls -->
+        <rect x="30" y="85" width="260" height="95" fill="#4a3808" rx="3"/>
+        <!-- straw texture lines -->
+        <g stroke="#5a4810" stroke-width="1" opacity=".6">
+          <line x1="30" y1="97" x2="290" y2="97"/>
+          <line x1="30" y1="109" x2="290" y2="109"/>
+          <line x1="30" y1="121" x2="290" y2="121"/>
+          <line x1="30" y1="133" x2="290" y2="133"/>
+          <line x1="30" y1="145" x2="290" y2="145"/>
+          <line x1="30" y1="157" x2="290" y2="157"/>
+          <line x1="30" y1="169" x2="290" y2="169"/>
+        </g>
+        <!-- lime plaster over straw - warm white -->
+        <rect x="34" y="89" width="252" height="87" fill="#c8bfa0" rx="2"/>
+        <!-- plaster texture (slight roughness) -->
+        <rect x="34" y="89" width="252" height="87" fill="url(#plastergrad)" rx="2" opacity=".3"/>
+        <defs>
+          <linearGradient id="plastergrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#fff" stop-opacity=".2"/>
+            <stop offset="50%" stop-color="#000" stop-opacity=".05"/>
+            <stop offset="100%" stop-color="#000" stop-opacity=".15"/>
+          </linearGradient>
+          <linearGradient id="warmlight" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#c8a455" stop-opacity=".0"/>
+            <stop offset="40%" stop-color="#c8a455" stop-opacity=".15"/>
+            <stop offset="100%" stop-color="#c8a455" stop-opacity=".0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- deep eave (庇) -->
+        <rect x="10" y="78" width="300" height="12" fill="#2a2018" rx="2"/>
+        <rect x="10" y="78" width="300" height="4" fill="#3a3020" rx="1"/>
+        <!-- roof -->
+        <rect x="10" y="66" width="300" height="16" fill="#1a1810" rx="3"/>
+
+        <!-- window glow -->
+        <rect x="90" y="105" width="50" height="38" fill="rgba(200,164,85,.25)" rx="2"/>
+        <rect x="92" y="107" width="46" height="34" fill="rgba(200,164,85,.15)" rx="1"/>
+        <!-- window warm light spill -->
+        <ellipse cx="115" cy="176" rx="30" ry="8" fill="rgba(200,164,85,.08)"/>
+
+        <!-- door -->
+        <rect x="160" y="110" width="36" height="66" fill="#1a1208" rx="2"/>
+        <rect x="162" y="112" width="32" height="62" fill="#251a0a" rx="1"/>
+
+        <!-- snow on roof -->
+        <ellipse cx="160" cy="68" rx="150" ry="5" fill="rgba(200,220,230,.12)"/>
+
+        <!-- warm glow from window on snow -->
+        <rect x="34" y="89" width="252" height="87" fill="url(#warmlight)" rx="2"/>
+
+        <!-- label -->
+        <rect x="0" y="210" width="320" height="30" fill="rgba(0,0,0,.5)"/>
+        <text x="160" y="229" font-size="10" fill="rgba(200,168,48,.8)" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">外観 — 漆喰仕上げ・深庇</text>
+      </svg>
+      <div class="img-label">完成外観イメージ（冬）</div>
+    </div>
+
+    <!-- Scene 2: Cross-section -->
+    <div class="img-card">
+      <svg class="scene" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="240" fill="#0a0a08"/>
+        <text x="160" y="22" font-size="10" fill="rgba(200,168,48,.6)" font-family="Helvetica Neue" text-anchor="middle" font-weight="700" letter-spacing="3">壁断面</text>
+
+        <!-- LAYERS from outside to inside -->
+        <!-- lime plaster outer -->
+        <rect x="20" y="35" width="28" height="170" fill="#c8bfa0" rx="2"/>
+        <text x="34" y="220" font-size="8" fill="#8a8070" font-family="Helvetica Neue" text-anchor="middle">漆喰</text>
+        <text x="34" y="230" font-size="8" fill="#6a6060" font-family="Helvetica Neue" text-anchor="middle">30mm</text>
+
+        <!-- metal mesh -->
+        <rect x="48" y="35" width="6" height="170" fill="none" stroke="#6a8a7a" stroke-width="1"/>
+        <g stroke="#6a8a7a" stroke-width=".5" opacity=".6">
+          <line x1="48" y1="45" x2="54" y2="45"/><line x1="48" y1="55" x2="54" y2="55"/>
+          <line x1="48" y1="65" x2="54" y2="65"/><line x1="48" y1="75" x2="54" y2="75"/>
+          <line x1="48" y1="85" x2="54" y2="85"/><line x1="48" y1="95" x2="54" y2="95"/>
+          <line x1="48" y1="105" x2="54" y2="105"/><line x1="48" y1="115" x2="54" y2="115"/>
+          <line x1="48" y1="125" x2="54" y2="125"/><line x1="48" y1="135" x2="54" y2="135"/>
+          <line x1="48" y1="145" x2="54" y2="145"/><line x1="48" y1="155" x2="54" y2="155"/>
+          <line x1="48" y1="165" x2="54" y2="165"/><line x1="48" y1="175" x2="54" y2="175"/>
+          <line x1="48" y1="185" x2="54" y2="185"/><line x1="48" y1="195" x2="54" y2="195"/>
+        </g>
+        <text x="51" y="220" font-size="7" fill="#4a6a5a" font-family="Helvetica Neue" text-anchor="middle">金属</text>
+        <text x="51" y="229" font-size="7" fill="#4a6a5a" font-family="Helvetica Neue" text-anchor="middle">メッシュ</text>
+
+        <!-- STRAW BALE - main -->
+        <rect x="54" y="35" width="130" height="170" fill="#3a2c06"/>
+        <!-- straw texture -->
+        <g stroke="#5a4810" stroke-width="1.5" opacity=".5">
+          <line x1="54" y1="50" x2="184" y2="50"/>
+          <line x1="54" y1="68" x2="184" y2="68"/>
+          <line x1="54" y1="86" x2="184" y2="86"/>
+          <line x1="54" y1="104" x2="184" y2="104"/>
+          <line x1="54" y1="122" x2="184" y2="122"/>
+          <line x1="54" y1="140" x2="184" y2="140"/>
+          <line x1="54" y1="158" x2="184" y2="158"/>
+          <line x1="54" y1="176" x2="184" y2="176"/>
+          <line x1="54" y1="194" x2="184" y2="194"/>
+        </g>
+        <!-- straw fibers -->
+        <g stroke="#8a6820" stroke-width=".5" opacity=".4">
+          <line x1="60" y1="35" x2="65" y2="205"/><line x1="78" y1="35" x2="74" y2="205"/>
+          <line x1="95" y1="35" x2="100" y2="205"/><line x1="113" y1="35" x2="108" y2="205"/>
+          <line x1="130" y1="35" x2="135" y2="205"/><line x1="148" y1="35" x2="143" y2="205"/>
+          <line x1="165" y1="35" x2="170" y2="205"/><line x1="178" y1="35" x2="174" y2="205"/>
+        </g>
+        <text x="119" y="220" font-size="8" fill="#8a7030" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">ストローベイル</text>
+        <text x="119" y="230" font-size="8" fill="#6a5820" font-family="Helvetica Neue" text-anchor="middle">450mm · R-30〜35</text>
+
+        <!-- container steel -->
+        <rect x="184" y="35" width="8" height="170" fill="#3a4a52"/>
+        <text x="188" y="222" font-size="7" fill="#3a5060" font-family="Helvetica Neue" text-anchor="middle">鉄</text>
+
+        <!-- styrofoam inner -->
+        <rect x="192" y="35" width="24" height="170" fill="#0a1820"/>
+        <!-- foam texture -->
+        <g fill="rgba(100,160,200,.15)">
+          <circle cx="197" cy="45" r="2"/><circle cx="205" cy="52" r="1.5"/><circle cx="211" cy="43" r="2"/>
+          <circle cx="198" cy="60" r="1.5"/><circle cx="208" cy="65" r="2"/><circle cx="213" cy="57" r="1.5"/>
+          <circle cx="196" cy="78" r="2"/><circle cx="204" cy="74" r="1.5"/><circle cx="211" cy="82" r="2"/>
+        </g>
+        <text x="204" y="220" font-size="8" fill="#2a4a60" font-family="Helvetica Neue" text-anchor="middle">スタイロ</text>
+        <text x="204" y="230" font-size="8" fill="#1a3a50" font-family="Helvetica Neue" text-anchor="middle">30mm</text>
+
+        <!-- inner wall -->
+        <rect x="216" y="35" width="12" height="170" fill="#1a1410"/>
+        <text x="222" y="222" font-size="7" fill="#3a3020" font-family="Helvetica Neue" text-anchor="middle">OSB</text>
+
+        <!-- interior space -->
+        <rect x="228" y="35" width="72" height="170" fill="#0e0c0a"/>
+        <!-- warm interior glow -->
+        <rect x="228" y="35" width="72" height="170" fill="rgba(200,164,85,.04)"/>
+        <text x="264" y="125" font-size="10" fill="rgba(200,164,85,.3)" font-family="Helvetica Neue" text-anchor="middle">室内</text>
+        <text x="264" y="140" font-size="9" fill="rgba(200,164,85,.2)" font-family="Helvetica Neue" text-anchor="middle">20°C</text>
+
+        <!-- outside temp label -->
+        <text x="34" y="32" font-size="9" fill="#333" font-family="Helvetica Neue" text-anchor="middle">外気</text>
+        <text x="34" y="30" font-size="0" fill="#333">-25°C</text>
+        <text x="264" y="32" font-size="9" fill="rgba(200,164,85,.5)" font-family="Helvetica Neue" text-anchor="middle">室内 20°C</text>
+
+        <!-- temp gradient arrow -->
+        <defs>
+          <linearGradient id="tempgrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#4a8aff" stop-opacity=".3"/>
+            <stop offset="100%" stop-color="#c8a455" stop-opacity=".3"/>
+          </linearGradient>
+        </defs>
+        <rect x="20" y="27" width="280" height="4" fill="url(#tempgrad)" rx="2"/>
+      </svg>
+      <div class="img-label">壁断面 — 外→内の層構成</div>
+    </div>
+
+    <!-- Scene 3: Work Party building straw walls -->
+    <div class="img-card">
+      <svg class="scene" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="240" fill="#080a06"/>
+        <!-- sky daytime -->
+        <rect width="320" height="130" fill="#0a1206"/>
+        <!-- trees bg -->
+        <g fill="#060c04">
+          <polygon points="0,130 15,70 30,130"/><polygon points="15,130 32,60 49,130"/>
+          <polygon points="270,130 288,65 306,130"/><polygon points="285,130 305,72 320,130"/>
+        </g>
+        <!-- ground -->
+        <rect x="0" y="148" width="320" height="92" fill="#0c100a"/>
+
+        <!-- container structure visible -->
+        <rect x="40" y="60" width="240" height="90" fill="#1a2828" stroke="#2a3a3a" stroke-width="1" rx="1" opacity=".7"/>
+
+        <!-- straw bales stacked (WiP) -->
+        <!-- left side bales -->
+        <g fill="#4a3808" stroke="#5a4810" stroke-width="1">
+          <rect x="20" y="110" width="24" height="36" rx="1"/>
+          <rect x="20" y="76" width="24" height="36" rx="1"/>
+          <!-- bale ties -->
+          <line x1="20" y1="128" x2="44" y2="128"/>
+          <line x1="20" y1="94" x2="44" y2="94"/>
+          <line x1="32" y1="110" x2="32" y2="146"/>
+          <line x1="32" y1="76" x2="32" y2="112"/>
+        </g>
+        <!-- right side bales (more stacked) -->
+        <g fill="#4a3808" stroke="#5a4810" stroke-width="1">
+          <rect x="256" y="110" width="24" height="36" rx="1"/>
+          <rect x="256" y="76" width="24" height="36" rx="1"/>
+          <rect x="256" y="42" width="24" height="36" rx="1"/>
+          <line x1="256" y1="128" x2="280" y2="128"/>
+          <line x1="256" y1="94" x2="280" y2="94"/>
+          <line x1="256" y1="60" x2="280" y2="60"/>
+          <line x1="268" y1="110" x2="268" y2="146"/>
+          <line x1="268" y1="76" x2="268" y2="112"/>
+          <line x1="268" y1="42" x2="268" y2="78"/>
+        </g>
+
+        <!-- people figures (stick art) working -->
+        <!-- person 1: lifting bale -->
+        <g stroke="rgba(200,168,48,.7)" stroke-width="1.5" fill="none">
+          <circle cx="90" cy="122" r="6" fill="rgba(200,168,48,.3)" stroke="rgba(200,168,48,.7)"/>
+          <line x1="90" y1="128" x2="90" y2="155"/>
+          <line x1="90" y1="135" x2="75" y2="145"/>
+          <line x1="90" y1="135" x2="105" y2="130"/>
+          <line x1="90" y1="155" x2="80" y2="172"/>
+          <line x1="90" y1="155" x2="100" y2="172"/>
+          <!-- bale being carried -->
+          <rect x="100" y="128" width="20" height="14" fill="rgba(74,56,8,.8)" stroke="#5a4810" stroke-width="1" rx="1"/>
+        </g>
+        <!-- person 2: plastering -->
+        <g stroke="rgba(200,168,48,.7)" stroke-width="1.5" fill="none">
+          <circle cx="200" cy="115" r="6" fill="rgba(200,168,48,.3)" stroke="rgba(200,168,48,.7)"/>
+          <line x1="200" y1="121" x2="200" y2="148"/>
+          <line x1="200" y1="130" x2="218" y2="122"/>
+          <line x1="200" y1="130" x2="185" y2="125"/>
+          <line x1="200" y1="148" x2="192" y2="165"/>
+          <line x1="200" y1="148" x2="208" y2="165"/>
+          <!-- trowel -->
+          <rect x="218" y="118" width="12" height="8" fill="rgba(200,200,200,.3)" stroke="rgba(200,200,200,.5)" stroke-width="1" rx="1"/>
+        </g>
+        <!-- person 3: measuring -->
+        <g stroke="rgba(200,168,48,.6)" stroke-width="1.5" fill="none">
+          <circle cx="150" cy="130" r="6" fill="rgba(200,168,48,.3)" stroke="rgba(200,168,48,.7)"/>
+          <line x1="150" y1="136" x2="150" y2="163"/>
+          <line x1="150" y1="143" x2="165" y2="138"/>
+          <line x1="150" y1="143" x2="135" y2="148"/>
+          <line x1="150" y1="163" x2="143" y2="180"/>
+          <line x1="150" y1="163" x2="157" y2="180"/>
+        </g>
+
+        <!-- pile of bales waiting -->
+        <g fill="#3a2c06" stroke="#4a3808" stroke-width=".5">
+          <rect x="60" y="168" width="22" height="16" rx="1"/>
+          <rect x="83" y="168" width="22" height="16" rx="1"/>
+          <rect x="106" y="168" width="22" height="16" rx="1"/>
+          <rect x="62" y="155" width="22" height="16" rx="1"/>
+          <rect x="85" y="155" width="22" height="16" rx="1"/>
+        </g>
+
+        <!-- speech -->
+        <rect x="110" y="96" width="76" height="20" fill="rgba(200,168,48,.08)" rx="10" stroke="rgba(200,168,48,.2)" stroke-width="1"/>
+        <text x="148" y="110" font-size="9" fill="rgba(200,168,48,.7)" font-family="Helvetica Neue" text-anchor="middle">Work Party!</text>
+
+        <!-- label -->
+        <rect x="0" y="210" width="320" height="30" fill="rgba(0,0,0,.6)"/>
+        <text x="160" y="229" font-size="10" fill="rgba(200,168,48,.8)" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">施工中 — ベイルを積んで漆喰を塗る</text>
+      </svg>
+      <div class="img-label">Work Party 施工イメージ</div>
+    </div>
+
+    <!-- Scene 4: Base detail -->
+    <div class="img-card">
+      <svg class="scene" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="240" fill="#080806"/>
+        <text x="160" y="20" font-size="10" fill="rgba(200,168,48,.6)" font-family="Helvetica Neue" text-anchor="middle" font-weight="700" letter-spacing="2">ベース詳細（地面との接点）</text>
+
+        <!-- ground -->
+        <rect x="0" y="170" width="320" height="70" fill="#0c0e0a"/>
+        <!-- ground texture -->
+        <g fill="#141612">
+          <circle cx="50" cy="182" r="3"/><circle cx="100" cy="178" r="2"/><circle cx="160" cy="185" r="3"/>
+          <circle cx="220" cy="176" r="2"/><circle cx="270" cy="183" r="3"/><circle cx="290" cy="175" r="2"/>
+        </g>
+        <text x="160" y="165" font-size="9" fill="#2a2a28" font-family="Helvetica Neue" text-anchor="middle">地面（GL±0）</text>
+
+        <!-- container raised on H-beam -->
+        <rect x="60" y="60" width="200" height="80" fill="#1a2828" stroke="#2a3a3a" stroke-width="1" rx="1"/>
+        <text x="160" y="105" font-size="9" fill="#2a3a3a" font-family="Helvetica Neue" text-anchor="middle">コンテナ鉄板</text>
+
+        <!-- H-beam -->
+        <rect x="50" y="140" width="220" height="8" fill="#c8a455" opacity=".7" rx="1"/>
+        <rect x="50" y="148" width="220" height="6" fill="#8a7030" rx="1"/>
+        <rect x="50" y="154" width="220" height="8" fill="#c8a455" opacity=".7" rx="1"/>
+
+        <!-- Stone base (keep straw off ground) -->
+        <g fill="#2a2420" stroke="#3a3430" stroke-width="1">
+          <!-- left stone base -->
+          <rect x="52" y="162" width="60" height="12" rx="2"/>
+          <rect x="56" y="158" width="52" height="8" rx="2"/>
+          <!-- right stone base -->
+          <rect x="208" y="162" width="60" height="12" rx="2"/>
+          <rect x="212" y="158" width="52" height="8" rx="2"/>
+        </g>
+        <text x="82" y="188" font-size="8" fill="#4a4038" font-family="Helvetica Neue" text-anchor="middle">石積み基礎台</text>
+        <text x="238" y="188" font-size="8" fill="#4a4038" font-family="Helvetica Neue" text-anchor="middle">石積み基礎台</text>
+
+        <!-- straw bale start position (300mm above ground) -->
+        <rect x="30" y="87" width="30" height="55" fill="#3a2c06" rx="1" stroke="#4a3808" stroke-width="1"/>
+        <rect x="260" y="87" width="30" height="55" fill="#3a2c06" rx="1" stroke="#4a3808" stroke-width="1"/>
+
+        <!-- arrow: gap between ground and first bale -->
+        <line x1="10" y1="162" x2="10" y2="142" stroke="#4a6a4a" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="4" y="155" font-size="8" fill="#4a6a4a" font-family="Helvetica Neue" text-anchor="middle" transform="rotate(-90,4,155)">300mm</text>
+        <text x="4" y="155" font-size="0" fill="#4a6a4a">↑浮かす</text>
+
+        <!-- moisture barrier label -->
+        <rect x="60" y="135" width="100" height="1" fill="rgba(78,203,141,.5)"/>
+        <text x="165" y="134" font-size="8" fill="rgba(78,203,141,.5)" font-family="Helvetica Neue">← 防湿シート</text>
+
+        <!-- annotation lines -->
+        <line x1="30" y1="95" x2="16" y2="80" stroke="#4a3808" stroke-width=".7"/>
+        <text x="8" y="78" font-size="8" fill="#5a4818" font-family="Helvetica Neue" text-anchor="middle">ベイル</text>
+        <text x="8" y="88" font-size="8" fill="#4a3808" font-family="Helvetica Neue" text-anchor="middle">1段目</text>
+
+        <text x="160" y="230" font-size="10" fill="rgba(200,168,48,.6)" font-family="Helvetica Neue" text-anchor="middle">地盤面から300mm浮かす ＝ 腐朽ゼロ</text>
+      </svg>
+      <div class="img-label">ベース詳細 — 地面から浮かす</div>
+    </div>
+  </div>
+</div>
+
+<!-- THERMAL CALC -->
+<div class="s">
+  <div class="s-tag">熱計算</div>
+  <div class="s-title">UA値 0.11 の根拠</div>
+  <div class="s-sub">各層の熱抵抗（R値）を積み上げ、逆数を取るとUA値になる。数字が小さいほど熱を通しにくい。</div>
+
+  <div class="layer-row">
+    <div class="layer">
+      <div class="layer-color" style="background:#c8bfa0;border:1px solid #a09880"></div>
+      <div class="layer-info">
+        <div class="layer-name">漆喰（外側）30mm</div>
+        <div class="layer-detail">熱伝導率 λ = 0.50 W/(m·K)。透湿性があり、ストローベイルとの相性最良。</div>
+      </div>
+      <div class="layer-r"><div class="layer-rv">0.06</div><div class="layer-rk">m²·K/W</div></div>
+    </div>
+    <div class="layer" style="background:rgba(74,56,8,.15);border-color:rgba(90,72,16,.4)">
+      <div class="layer-color" style="background:#4a3808;border:1px solid #6a5010"></div>
+      <div class="layer-info">
+        <div class="layer-name">ストローベイル 450mm ★</div>
+        <div class="layer-detail">熱伝導率 λ = 0.06 W/(m·K)。空気を多量に含む麦わらの断熱効果。北海道仕様は厚み450mmを推奨。</div>
+      </div>
+      <div class="layer-r"><div class="layer-rv" style="font-size:20px">7.50</div><div class="layer-rk">m²·K/W</div></div>
+    </div>
+    <div class="layer">
+      <div class="layer-color" style="background:#3a4a52;border:1px solid #2a3a42"></div>
+      <div class="layer-info">
+        <div class="layer-name">コンテナ鉄板 2mm</div>
+        <div class="layer-detail">熱伝導率 λ = 50 W/(m·K)（鉄）。ほぼ断熱性ゼロ。構造体として使う。</div>
+      </div>
+      <div class="layer-r"><div class="layer-rv">0.00</div><div class="layer-rk">m²·K/W</div></div>
+    </div>
+    <div class="layer">
+      <div class="layer-color" style="background:#0a1820;border:1px solid #1a3040"></div>
+      <div class="layer-info">
+        <div class="layer-name">スタイロフォーム XPS 30mm（内側）</div>
+        <div class="layer-detail">熱伝導率 λ = 0.028 W/(m·K)。結露防止の気密・防湿層として機能。薄くても効果大。</div>
+      </div>
+      <div class="layer-r"><div class="layer-rv">1.07</div><div class="layer-rk">m²·K/W</div></div>
+    </div>
+    <div class="layer">
+      <div class="layer-color" style="background:#1a1410;border:1px solid #2a2418"></div>
+      <div class="layer-info">
+        <div class="layer-name">内装OSB合板 12mm</div>
+        <div class="layer-detail">熱伝導率 λ = 0.13 W/(m·K)。仕上げ面。SOLUNAは現し仕上げ。</div>
+      </div>
+      <div class="layer-r"><div class="layer-rv">0.09</div><div class="layer-rk">m²·K/W</div></div>
+    </div>
+    <div class="layer">
+      <div class="layer-color" style="background:#0c0c0a;border:1px solid #1a1a18"></div>
+      <div class="layer-info">
+        <div class="layer-name">表面熱抵抗（内外合計）</div>
+        <div class="layer-detail">外表面0.04 + 内表面0.11。空気の薄い境界層による断熱。</div>
+      </div>
+      <div class="layer-r"><div class="layer-rv">0.15</div><div class="layer-rk">m²·K/W</div></div>
+    </div>
+  </div>
+
+  <table class="calc">
+    <thead>
+      <tr><th>項目</th><th class="num">R値合計</th><th class="num">UA値</th><th>HEAT20判定</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>合計熱抵抗</td><td class="num gold">8.87 m²·K/W</td><td class="num gold">0.11 W/(m²·K)</td><td style="color:var(--straw);font-weight:700">★ G3（0.20）を大幅クリア</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">比較：一般的な新築住宅（省エネ基準・UA値0.46）の4倍の断熱性能。真冬の弟子屈（外気-25°C）で薪ストーブを一度焚けば、翌朝まで室温15°C以上を維持できるレベル。</div>
+</div>
+
+<!-- DETAIL POINTS -->
+<div class="s">
+  <div class="s-tag">設計のポイント</div>
+  <div class="s-title">4つの重要詳細</div>
+
+  <div class="dc-grid">
+    <div class="dcard">
+      <div class="dcard-tag">ポイント 01</div>
+      <div class="dcard-title">ベース — 地面から300mm浮かす</div>
+      <div class="dcard-body">麦わらの天敵は水分。地面からの湿気と跳ね返り雨水を遮断するため、石積みまたはコンクリートブロックで<strong>地盤面から300mm以上</strong>浮かせてベイルを積む。防湿シートをH鋼天端に敷いてからベイルを置く。</div>
+    </div>
+    <div class="dcard">
+      <div class="dcard-tag">ポイント 02</div>
+      <div class="dcard-title">庇 — 600mm以上の出を確保</div>
+      <div class="dcard-body">漆喰が濡れ続けると剥離する。コンテナ上部に<strong>庇（ひさし）を600mm以上</strong>張り出させ、壁面に直接雨が当たらないようにする。角材+ガルバリウム鋼板で簡単に作れる。Work Party前日に施工。</div>
+    </div>
+    <div class="dcard">
+      <div class="dcard-tag">ポイント 03</div>
+      <div class="dcard-title">金属メッシュ — ベイル全面を覆う</div>
+      <div class="dcard-body">漆喰の付着と動物・虫の侵入を防ぐため、<strong>ステンレス金属メッシュ（10mm目）</strong>でベイル全面を覆ってからU字ピンで留める。漆喰はメッシュに食い込んで剥がれにくくなる。</div>
+    </div>
+    <div class="dcard">
+      <div class="dcard-tag">ポイント 04</div>
+      <div class="dcard-title">漆喰 — 2度塗り、Work Party後に</div>
+      <div class="dcard-body"><strong>1度目（荒塗り）</strong>をWork Party 6/6に施工。乾燥に最低2週間必要。<strong>2度目（仕上げ）</strong>は6月下旬の第2回Work Partyで。漆喰はCO₂を吸収して年々硬化し、20〜30年持つ。</div>
+    </div>
+  </div>
+
+  <div class="dw">
+    <!-- corner detail SVG -->
+    <svg width="640" height="200" viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg">
+      <text x="320" y="18" font-size="10" fill="rgba(200,168,48,.6)" font-family="Helvetica Neue" text-anchor="middle" font-weight="700" letter-spacing="2">コーナー詳細（上から見た平面）</text>
+
+      <!-- container corner (top view) -->
+      <rect x="220" y="30" width="200" height="150" fill="#1a2828" stroke="#2a3a3a" stroke-width="1.5" rx="1"/>
+      <text x="320" y="112" font-size="10" fill="#1e3030" font-family="Helvetica Neue" text-anchor="middle">コンテナ内部</text>
+
+      <!-- straw bale wall - left -->
+      <rect x="100" y="30" width="120" height="150" fill="#3a2c06"/>
+      <g stroke="#5a4810" stroke-width="1" opacity=".5">
+        <line x1="100" y1="54" x2="220" y2="54"/><line x1="100" y1="78" x2="220" y2="78"/>
+        <line x1="100" y1="102" x2="220" y2="102"/><line x1="100" y1="126" x2="220" y2="126"/>
+        <line x1="100" y1="150" x2="220" y2="150"/>
+      </g>
+      <text x="160" y="108" font-size="9" fill="#6a5820" font-family="Helvetica Neue" text-anchor="middle" transform="rotate(0)">ストローベイル</text>
+
+      <!-- straw bale wall - top -->
+      <rect x="220" y="30" width="200" height="120" fill="none"/>
+      <rect x="220" y="30" width="200" height="120" fill="#3a2c06" x="220" y="30" width="200" height="0"/>
+
+      <!-- top wall -->
+      <rect x="100" y="30" width="320" height="0"/>
+      <rect x="220" y="30" width="200" height="0"/>
+
+      <!-- top straw wall -->
+      <rect x="100" y="30" width="340" height="60" fill="#3a2c06" opacity="0"/>
+      <!-- straw top wall -->
+      <rect x="220" y="30" width="200" height="90" fill="#3a2c06" opacity="0"/>
+
+      <!-- lime plaster outline -->
+      <rect x="84" y="14" width="136" height="166" fill="none" stroke="#c8bfa0" stroke-width="3" rx="2"/>
+
+      <!-- corner junction detail -->
+      <rect x="84" y="14" width="40" height="40" fill="#c8bfa0" opacity=".15" rx="2"/>
+      <text x="104" y="40" font-size="9" fill="#c8bfa0" font-family="Helvetica Neue" text-anchor="middle">コーナー</text>
+      <text x="104" y="52" font-size="9" fill="#c8bfa0" font-family="Helvetica Neue" text-anchor="middle">補強材</text>
+
+      <!-- steel frame guide for bales -->
+      <rect x="216" y="26" width="8" height="158" fill="#c8a455" opacity=".4" rx="1"/>
+      <text x="212" y="24" font-size="8" fill="rgba(200,164,85,.5)" font-family="Helvetica Neue" text-anchor="end">角材レール</text>
+
+      <!-- annotations right side -->
+      <line x1="420" y1="105" x2="500" y2="80" stroke="#333" stroke-width=".7"/>
+      <text x="504" y="78" font-size="9" fill="#2a2a28" font-family="Helvetica Neue">コンテナ鉄板</text>
+
+      <line x1="84" y1="105" x2="40" y2="80" stroke="#4a3808" stroke-width=".7"/>
+      <text x="4" y="78" font-size="9" fill="#4a3808" font-family="Helvetica Neue">漆喰30mm</text>
+
+      <text x="148" y="192" font-size="9" fill="#6a5820" font-family="Helvetica Neue" text-anchor="middle">120mmの厚み差がコーナーの冷橋を防ぐ</text>
+
+      <!-- right side info -->
+      <text x="460" y="140" font-size="9" fill="#333" font-family="Helvetica Neue" text-anchor="middle">↑ ベイルを</text>
+      <text x="460" y="152" font-size="9" fill="#333" font-family="Helvetica Neue" text-anchor="middle">コンテナに</text>
+      <text x="460" y="164" font-size="9" fill="#333" font-family="Helvetica Neue" text-anchor="middle">密着させる</text>
+    </svg>
+    <div class="dc">コーナー部はベイルを互い違いに積んで（レンガ積み）コーナー補強材で押さえる。冷橋（ヒートブリッジ）が発生しない唯一の角部処理。</div>
+  </div>
+</div>
+
+<!-- SCHEDULE -->
+<div class="s">
+  <div class="s-tag">施工スケジュール</div>
+  <div class="s-title">2026年 6〜9月 フェーズ計画</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="sn">今</div>
+      <div>
+        <div class="st">弟子屈周辺の農家に麦わら50束を予約</div>
+        <div class="sd">収穫後の麦わらが農家に積まれている時期。1束¥200〜500。電話一本で確保できる。弟子屈町農協（015-482-2111）経由が確実。50束で約¥1〜2.5万。</div>
+        <div class="sw">🌾 農協 or 農家直接 / ¥1〜2.5万</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">5月</div>
+      <div>
+        <div class="st">庇・フレーム材料を発注・現地搬入</div>
+        <div class="sd">角材（垂木45×45）、ガルバリウム鋼板、ステンレスメッシュ、スタイロフォーム30mm、防湿シート、漆喰材料（セメント+石灰）を調達。すべてAmazon or カインズ弟子屈で入手可能。</div>
+        <div class="sw">🛒 ¥7〜10万</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">6/5</div>
+      <div>
+        <div class="st">前日：庇施工 + スタイロフォーム内貼り</div>
+        <div class="sd">WP参加者到着前に濱田さんと1〜2人で先行作業。コンテナ上部に角材+ガルバ庇を取付け（3時間）。コンテナ内側壁にスタイロフォームを両面テープ+ビス留め（3時間）。</div>
+        <div class="sw">🛠 2人・1日</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">6/6</div>
+      <div>
+        <div class="st">Work Party Day 1：ベイル積み + メッシュ張り</div>
+        <div class="sd">全員でベイルを積み上げる（午前3時間）。角材レールに沿って積むだけで、特別な技術不要。午後はステンレスメッシュをU字ピンで固定。夕方に漆喰1度目（荒塗り）を塗り始める。</div>
+        <div class="sw">🌾 8人・1日 / 一番楽しい工程</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">6/28</div>
+      <div>
+        <div class="st">第2回WP：漆喰仕上げ塗り</div>
+        <div class="sd">1度目の荒塗りが乾燥（2〜3週間）してから仕上げ塗り。厚さ15〜20mm。コテで波模様や仕上げ感を出せる。これが一番「作った感」が出る工程。4〜5人で1日。</div>
+        <div class="sw">🏺 5人・1日 / ¥2〜3万（漆喰材料）</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">9月</div>
+      <div>
+        <div class="st">秋WP：外構・植栽・最終仕上げ</div>
+        <div class="sd">漆喰の白壁が完全乾燥。周囲に石を敷いてベイルの雨水跳ね返りを防ぐ。ハーブや低木を植えると漆喰の美しさが引き立つ。写真撮影・Airbnb掲載開始。</div>
+        <div class="sw">🌿 完成・本番稼働</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn">⚠ 漆喰は一度目の荒塗りから最低2週間乾燥が必要。6/6に仕上げ塗りまで終えようとしない。焦って塗り重ねると割れる原因になる。</div>
+</div>
+
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

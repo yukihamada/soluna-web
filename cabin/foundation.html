@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>基礎設計書 — スクリューパイル ボルト接合 | SOLUNA Instant House</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080806;--card:#0c0c0a;--border:rgba(255,255,255,.07);
+  --gold:#c8a455;--gold2:rgba(200,164,85,.15);--gold3:rgba(200,164,85,.06);
+  --text:#d8d0bc;--dim:#555;--steel:#7ab8d4;--concrete:#8a8070;
+  --bolt:#e8c84a;--green:#4ecb8d;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;line-height:1.7;min-height:100%}
+body{padding:0 0 80px}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:rgba(8,8,6,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--gold);text-decoration:none}
+.nav-links{display:flex;gap:20px}
+.nav-links a{font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:.05em}
+.nav-links a:hover{color:var(--text)}
+
+/* HERO */
+.hero{padding:56px 24px 40px;max-width:760px;margin:0 auto}
+.hero-tag{font-size:9px;letter-spacing:.3em;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:12px}
+.hero h1{font-size:clamp(22px,5vw,34px);font-weight:900;color:#fff;line-height:1.2;margin-bottom:14px}
+.hero-sub{font-size:13px;color:var(--dim);line-height:1.9;max-width:540px}
+
+/* SPEC BAR */
+.spec-bar{display:flex;flex-wrap:wrap;gap:2px;padding:0 24px;max-width:760px;margin:0 auto 40px}
+.sb{flex:1;min-width:120px;background:var(--card);border:1px solid var(--border);padding:14px 16px;border-radius:4px}
+.sb-k{font-size:9px;letter-spacing:.2em;color:var(--dim);font-weight:700;text-transform:uppercase;margin-bottom:4px}
+.sb-v{font-size:14px;font-weight:800;color:var(--gold)}
+
+/* SECTION */
+.s{max-width:760px;margin:0 auto;padding:0 24px 48px}
+.s-label{font-size:9px;letter-spacing:.3em;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:16px}
+.s-title{font-size:18px;font-weight:900;color:#fff;margin-bottom:20px}
+
+/* SVG diagrams */
+.diagram-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px;overflow-x:auto}
+.diagram-wrap svg{display:block;margin:0 auto;max-width:100%}
+.d-caption{font-size:11px;color:var(--dim);text-align:center;margin-top:12px;letter-spacing:.05em}
+
+/* DETAIL CARDS */
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:32px}
+.dc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px}
+.dc-num{font-size:9px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin-bottom:8px}
+.dc-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:8px}
+.dc-body{font-size:11px;color:var(--dim);line-height:1.9}
+.dc-body strong{color:var(--text)}
+
+/* PARTS TABLE */
+.parts-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:32px}
+.parts-table th{text-align:left;font-size:9px;letter-spacing:.2em;font-weight:700;color:var(--dim);padding:8px 12px;border-bottom:1px solid var(--border)}
+.parts-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.03);color:var(--text)}
+.parts-table tr:hover td{background:rgba(255,255,255,.02)}
+.tag{display:inline-block;font-size:9px;padding:2px 7px;border-radius:100px;font-weight:700}
+.tag-buy{background:rgba(200,164,85,.12);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.tag-cut{background:rgba(78,203,141,.1);color:var(--green);border:1px solid rgba(78,203,141,.2)}
+.tag-weld{background:rgba(122,184,212,.1);color:var(--steel);border:1px solid rgba(122,184,212,.2)}
+.price{color:var(--gold);font-weight:700}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:2px;margin-bottom:32px}
+.step{display:flex;gap:16px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px 18px}
+.step-n{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--gold2);border:1px solid rgba(200,164,85,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--gold);margin-top:1px}
+.step-body{}
+.step-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:4px}
+.step-desc{font-size:11px;color:var(--dim);line-height:1.8}
+.step-tool{font-size:10px;color:rgba(200,164,85,.6);margin-top:6px}
+
+/* ALERT */
+.alert{background:rgba(230,90,90,.06);border:1px solid rgba(230,90,90,.15);border-radius:10px;padding:14px 18px;font-size:11px;color:#e65a5a;line-height:1.8;margin-bottom:24px}
+.note{background:var(--gold3);border:1px solid rgba(200,164,85,.15);border-radius:10px;padding:14px 18px;font-size:11px;color:rgba(200,164,85,.8);line-height:1.8;margin-bottom:24px}
+
+/* TOTAL */
+.total-box{background:var(--card);border:2px solid rgba(200,164,85,.3);border-radius:16px;padding:24px;margin-bottom:32px}
+.total-rows{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.tr-row{display:flex;justify-content:space-between;font-size:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.tr-row:last-child{border:none}
+.tr-label{color:var(--dim)}
+.tr-val{color:var(--text);font-weight:700}
+.total-line{display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;border-top:1px solid rgba(200,164,85,.2)}
+.total-label{font-size:12px;color:var(--dim);font-weight:700;letter-spacing:.1em}
+.total-num{font-size:22px;font-weight:900;color:var(--gold)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">SOLUNA</a>
+  <div class="nav-links">
+    <a href="/ops">施工ガイド</a>
+    <a href="/workparty">Work Party</a>
+    <a href="/instant">物件詳細</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Instant House — 基礎設計書 v1.0</div>
+  <h1>スクリューパイル<br>ボルト接合基礎</h1>
+  <p class="hero-sub">溶接不要。現地で六角レンチとインパクトドライバーだけで組める。パイル6本 + H鋼2本 + コンテナ直置き。工期：半日。</p>
+</div>
+
+<div class="spec-bar">
+  <div class="sb"><div class="sb-k">パイル本数</div><div class="sb-v">6本</div></div>
+  <div class="sb"><div class="sb-k">工期</div><div class="sb-v">半日</div></div>
+  <div class="sb"><div class="sb-k">必要人数</div><div class="sb-v">2〜3人</div></div>
+  <div class="sb"><div class="sb-k">溶接</div><div class="sb-v">不要</div></div>
+  <div class="sb"><div class="sb-k">概算費用</div><div class="sb-v">¥18〜25万</div></div>
+</div>
+
+<!-- OVERVIEW DIAGRAM -->
+<div class="s">
+  <div class="s-label">全体構成図</div>
+  <div class="s-title">断面・俯瞰</div>
+
+  <div class="diagram-wrap">
+    <!-- ELEVATION VIEW -->
+    <svg width="680" height="340" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#555"/>
+        </marker>
+      </defs>
+
+      <!-- ground line -->
+      <line x1="40" y1="200" x2="640" y2="200" stroke="#2a2a28" stroke-width="2"/>
+      <text x="44" y="215" font-size="10" fill="#333" font-family="Helvetica Neue">GL ±0</text>
+
+      <!-- underground fill -->
+      <rect x="40" y="200" width="600" height="120" fill="#0e0e0c"/>
+      <!-- ground texture dots -->
+      <g fill="#1a1a18">
+        <circle cx="80" cy="220" r="2"/><circle cx="120" cy="230" r="1.5"/><circle cx="160" cy="215" r="2"/>
+        <circle cx="220" cy="225" r="1.5"/><circle cx="280" cy="218" r="2"/><circle cx="340" cy="228" r="1.5"/>
+        <circle cx="400" cy="222" r="2"/><circle cx="460" cy="215" r="1.5"/><circle cx="520" cy="225" r="2"/>
+        <circle cx="580" cy="218" r="1.5"/><circle cx="100" cy="245" r="1.5"/><circle cx="200" cy="250" r="2"/>
+        <circle cx="300" cy="242" r="1.5"/><circle cx="450" cy="248" r="2"/><circle cx="560" cy="244" r="1.5"/>
+      </g>
+
+      <!-- CONTAINER -->
+      <rect x="80" y="100" width="520" height="72" fill="#0f1a20" stroke="#7ab8d4" stroke-width="1.5" rx="2"/>
+      <!-- container ribs -->
+      <g stroke="#1a2a35" stroke-width="1">
+        <line x1="180" y1="100" x2="180" y2="172"/>
+        <line x1="280" y1="100" x2="280" y2="172"/>
+        <line x1="380" y1="100" x2="380" y2="172"/>
+        <line x1="480" y1="100" x2="480" y2="172"/>
+      </g>
+      <!-- container label -->
+      <text x="340" y="141" font-size="12" fill="#7ab8d4" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">中古コンテナ 20ft（6058×2438mm）</text>
+      <!-- corner castings -->
+      <rect x="80" y="100" width="16" height="16" fill="#2a4a5a" stroke="#7ab8d4" stroke-width="1" rx="1"/>
+      <rect x="584" y="100" width="16" height="16" fill="#2a4a5a" stroke="#7ab8d4" stroke-width="1" rx="1"/>
+      <rect x="80" y="156" width="16" height="16" fill="#2a4a5a" stroke="#7ab8d4" stroke-width="1" rx="1"/>
+      <rect x="584" y="156" width="16" height="16" fill="#2a4a5a" stroke="#7ab8d4" stroke-width="1" rx="1"/>
+      <text x="100" y="95" font-size="9" fill="#7ab8d4" font-family="Helvetica Neue">コーナーキャスティング</text>
+
+      <!-- H-BEAM (left) -->
+      <rect x="75" y="172" width="530" height="7" fill="#c8a455" opacity=".9"/>
+      <rect x="75" y="179" width="530" height="5" fill="#a07830" opacity=".7"/>
+      <rect x="75" y="184" width="530" height="7" fill="#c8a455" opacity=".9"/>
+      <!-- H-beam label -->
+      <text x="48" y="182" font-size="9" fill="#c8a455" font-family="Helvetica Neue" text-anchor="end">H鋼</text>
+      <text x="48" y="192" font-size="9" fill="#555" font-family="Helvetica Neue" text-anchor="end">100×100</text>
+
+      <!-- BOLTS on H-beam (container to H-beam) -->
+      <!-- 4 corner bolts + 2 mid bolts -->
+      <g fill="#e8c84a">
+        <circle cx="96" cy="186" r="4"/><circle cx="584" cy="186" r="4"/>
+        <circle cx="96" cy="172" r="4"/><circle cx="584" cy="172" r="4"/>
+        <circle cx="340" cy="172" r="4"/><circle cx="340" cy="191" r="4"/>
+      </g>
+      <text x="340" y="162" font-size="9" fill="#e8c84a" font-family="Helvetica Neue" text-anchor="middle">M16ボルト</text>
+
+      <!-- PILE 1 - left front -->
+      <rect x="86" y="191" width="14" height="9" fill="#c8a455" opacity=".6"/>
+      <!-- base plate -->
+      <rect x="80" y="191" width="26" height="5" fill="#8a6828" rx="1"/>
+      <!-- pile shaft -->
+      <rect x="91" y="196" width="8" height="100" fill="#6a6a6a"/>
+      <!-- spiral -->
+      <ellipse cx="95" cy="248" rx="18" ry="4" fill="none" stroke="#4a4a4a" stroke-width="2"/>
+      <ellipse cx="95" cy="268" rx="18" ry="4" fill="none" stroke="#4a4a4a" stroke-width="2"/>
+      <ellipse cx="95" cy="288" rx="14" ry="3" fill="none" stroke="#3a3a3a" stroke-width="1.5"/>
+
+      <!-- PILE 2 - center front -->
+      <rect x="333" y="191" width="14" height="9" fill="#c8a455" opacity=".6"/>
+      <rect x="327" y="191" width="26" height="5" fill="#8a6828" rx="1"/>
+      <rect x="338" y="196" width="8" height="100" fill="#6a6a6a"/>
+      <ellipse cx="342" cy="248" rx="18" ry="4" fill="none" stroke="#4a4a4a" stroke-width="2"/>
+      <ellipse cx="342" cy="268" rx="18" ry="4" fill="none" stroke="#4a4a4a" stroke-width="2"/>
+      <ellipse cx="342" cy="288" rx="14" ry="3" fill="none" stroke="#3a3a3a" stroke-width="1.5"/>
+
+      <!-- PILE 3 - right front -->
+      <rect x="580" y="191" width="14" height="9" fill="#c8a455" opacity=".6"/>
+      <rect x="574" y="191" width="26" height="5" fill="#8a6828" rx="1"/>
+      <rect x="585" y="196" width="8" height="100" fill="#6a6a6a"/>
+      <ellipse cx="589" cy="248" rx="18" ry="4" fill="none" stroke="#4a4a4a" stroke-width="2"/>
+      <ellipse cx="589" cy="268" rx="18" ry="4" fill="none" stroke="#4a4a4a" stroke-width="2"/>
+      <ellipse cx="589" cy="288" rx="14" ry="3" fill="none" stroke="#3a3a3a" stroke-width="1.5"/>
+
+      <!-- depth indicator -->
+      <line x1="40" y1="200" x2="40" y2="295" stroke="#333" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr)"/>
+      <text x="35" y="250" font-size="9" fill="#555" font-family="Helvetica Neue" text-anchor="end">900mm</text>
+      <text x="35" y="260" font-size="9" fill="#555" font-family="Helvetica Neue" text-anchor="end">以深</text>
+
+      <!-- height indicator -->
+      <line x1="640" y1="172" x2="640" y2="200" stroke="#333" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="645" y="188" font-size="9" fill="#555" font-family="Helvetica Neue">300mm</text>
+
+      <!-- LEGEND -->
+      <g transform="translate(460,10)">
+        <rect x="0" y="0" width="8" height="8" fill="#0f1a20" stroke="#7ab8d4" stroke-width="1"/>
+        <text x="12" y="8" font-size="9" fill="#7ab8d4" font-family="Helvetica Neue">コンテナ</text>
+        <rect x="0" y="16" width="8" height="8" fill="#c8a455" opacity=".9"/>
+        <text x="12" y="24" font-size="9" fill="#c8a455" font-family="Helvetica Neue">H鋼 / ベースプレート</text>
+        <circle cx="4" cy="36" r="4" fill="#e8c84a"/>
+        <text x="12" y="40" font-size="9" fill="#e8c84a" font-family="Helvetica Neue">M16ボルト</text>
+        <rect x="0" y="48" width="8" height="16" fill="#6a6a6a"/>
+        <text x="12" y="58" font-size="9" fill="#888" font-family="Helvetica Neue">スクリューパイル</text>
+      </g>
+    </svg>
+    <div class="d-caption">正面断面図 — パイル3本が見えている（背面にも同配置でもう3本）</div>
+  </div>
+
+  <!-- PLAN VIEW -->
+  <div class="diagram-wrap">
+    <svg width="580" height="280" viewBox="0 0 580 280" xmlns="http://www.w3.org/2000/svg">
+      <!-- container outline -->
+      <rect x="60" y="40" width="460" height="200" fill="#0c1820" stroke="#7ab8d4" stroke-width="1.5" rx="2"/>
+      <!-- container label -->
+      <text x="290" y="145" font-size="11" fill="#2a4050" font-family="Helvetica Neue" text-anchor="middle">コンテナ 20ft</text>
+      <text x="290" y="160" font-size="10" fill="#1a3040" font-family="Helvetica Neue" text-anchor="middle">6058 × 2438 mm</text>
+
+      <!-- H-beam lines (2本) -->
+      <rect x="50" y="80" width="480" height="12" fill="none" stroke="#c8a455" stroke-width="2" stroke-dasharray="8,4" rx="1"/>
+      <rect x="50" y="188" width="480" height="12" fill="none" stroke="#c8a455" stroke-width="2" stroke-dasharray="8,4" rx="1"/>
+      <text x="42" y="90" font-size="9" fill="#c8a455" font-family="Helvetica Neue" text-anchor="end">H鋼①</text>
+      <text x="42" y="200" font-size="9" fill="#c8a455" font-family="Helvetica Neue" text-anchor="end">H鋼②</text>
+
+      <!-- 6 PILES -->
+      <!-- 左列 -->
+      <circle cx="90" cy="86" r="12" fill="#1a1a18" stroke="#e8c84a" stroke-width="2"/>
+      <circle cx="90" cy="194" r="12" fill="#1a1a18" stroke="#e8c84a" stroke-width="2"/>
+      <!-- 中央列 -->
+      <circle cx="290" cy="86" r="12" fill="#1a1a18" stroke="#e8c84a" stroke-width="2"/>
+      <circle cx="290" cy="194" r="12" fill="#1a1a18" stroke="#e8c84a" stroke-width="2"/>
+      <!-- 右列 -->
+      <circle cx="490" cy="86" r="12" fill="#1a1a18" stroke="#e8c84a" stroke-width="2"/>
+      <circle cx="490" cy="194" r="12" fill="#1a1a18" stroke="#e8c84a" stroke-width="2"/>
+
+      <!-- pile numbers -->
+      <text x="90" y="90" font-size="10" fill="#e8c84a" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">①</text>
+      <text x="290" y="90" font-size="10" fill="#e8c84a" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">②</text>
+      <text x="490" y="90" font-size="10" fill="#e8c84a" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">③</text>
+      <text x="90" y="198" font-size="10" fill="#e8c84a" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">④</text>
+      <text x="290" y="198" font-size="10" fill="#e8c84a" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">⑤</text>
+      <text x="490" y="198" font-size="10" fill="#e8c84a" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">⑥</text>
+
+      <!-- dimensions -->
+      <line x1="90" y1="260" x2="290" y2="260" stroke="#333" stroke-width="1"/>
+      <line x1="90" y1="255" x2="90" y2="265" stroke="#333" stroke-width="1"/>
+      <line x1="290" y1="255" x2="290" y2="265" stroke="#333" stroke-width="1"/>
+      <text x="190" y="275" font-size="10" fill="#555" font-family="Helvetica Neue" text-anchor="middle">≒2000mm</text>
+
+      <line x1="290" y1="260" x2="490" y2="260" stroke="#333" stroke-width="1"/>
+      <line x1="490" y1="255" x2="490" y2="265" stroke="#333" stroke-width="1"/>
+      <text x="390" y="275" font-size="10" fill="#555" font-family="Helvetica Neue" text-anchor="middle">≒2000mm</text>
+
+      <line x1="540" y1="86" x2="540" y2="194" stroke="#333" stroke-width="1"/>
+      <line x1="535" y1="86" x2="545" y2="86" stroke="#333" stroke-width="1"/>
+      <line x1="535" y1="194" x2="545" y2="194" stroke="#333" stroke-width="1"/>
+      <text x="558" y="144" font-size="10" fill="#555" font-family="Helvetica Neue" text-anchor="middle">≒</text>
+      <text x="558" y="156" font-size="10" fill="#555" font-family="Helvetica Neue" text-anchor="middle">1800</text>
+    </svg>
+    <div class="d-caption">俯瞰図（平面） — パイル6本の配置。①③④⑥が四隅、②⑤が中央補強</div>
+  </div>
+</div>
+
+<!-- JOINT DETAIL -->
+<div class="s">
+  <div class="s-label">接合部詳細</div>
+  <div class="s-title">3つの接合ポイント</div>
+
+  <div class="diagram-wrap">
+    <svg width="660" height="300" viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- JOINT A: Pile → Baseplate → H-beam -->
+      <text x="110" y="20" font-size="11" fill="#c8a455" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">接合部 A</text>
+      <text x="110" y="33" font-size="9" fill="#555" font-family="Helvetica Neue" text-anchor="middle">パイル天端 → H鋼</text>
+
+      <!-- pile -->
+      <rect x="98" y="200" width="24" height="80" fill="#5a5a5a" rx="2"/>
+      <!-- spiral wings -->
+      <ellipse cx="110" cy="250" rx="36" ry="6" fill="none" stroke="#4a4a4a" stroke-width="2"/>
+      <ellipse cx="110" cy="270" rx="36" ry="6" fill="none" stroke="#3a3a3a" stroke-width="2"/>
+
+      <!-- base plate (factory welded to pile) -->
+      <rect x="72" y="178" width="76" height="10" fill="#8a6828" rx="1"/>
+      <text x="158" y="186" font-size="9" fill="#8a6828" font-family="Helvetica Neue">ベースプレート</text>
+      <text x="158" y="196" font-size="9" fill="#555" font-family="Helvetica Neue">150×150×9mm</text>
+      <text x="158" y="206" font-size="9" fill="#555" font-family="Helvetica Neue">（工場溶接済み）</text>
+
+      <!-- shim plate -->
+      <rect x="72" y="170" width="76" height="8" fill="#333" rx="1" opacity=".8"/>
+      <text x="158" y="177" font-size="9" fill="#555" font-family="Helvetica Neue">シムプレート（高さ調整）</text>
+
+      <!-- H-beam flange bottom -->
+      <rect x="60" y="148" width="100" height="10" fill="#c8a455" opacity=".9" rx="1"/>
+      <!-- H-beam web -->
+      <rect x="106" y="110" width="8" height="48" fill="#a07830"/>
+      <!-- H-beam flange top -->
+      <rect x="60" y="100" width="100" height="10" fill="#c8a455" opacity=".9" rx="1"/>
+      <text x="170" y="130" font-size="9" fill="#c8a455" font-family="Helvetica Neue">H鋼 100×100×6×8</text>
+
+      <!-- bolts A (4 bolts through base plate and H-beam) -->
+      <g fill="#e8c84a" stroke="#c8a455" stroke-width="1">
+        <circle cx="82" cy="158" r="5"/>
+        <circle cx="138" cy="158" r="5"/>
+        <circle cx="82" cy="163" r="5"/>
+        <circle cx="138" cy="163" r="5"/>
+      </g>
+      <text x="18" y="163" font-size="9" fill="#e8c84a" font-family="Helvetica Neue">M16</text>
+      <text x="18" y="173" font-size="9" fill="#e8c84a" font-family="Helvetica Neue">×4本</text>
+
+      <!-- JOINT B: H-beam → Container corner casting -->
+      <text x="340" y="20" font-size="11" fill="#c8a455" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">接合部 B（四隅）</text>
+      <text x="340" y="33" font-size="9" fill="#555" font-family="Helvetica Neue" text-anchor="middle">コーナーキャスティング固定</text>
+
+      <!-- container bottom corner -->
+      <rect x="270" y="80" width="140" height="60" fill="#0f1a20" stroke="#7ab8d4" stroke-width="1.5" rx="2"/>
+      <text x="340" y="115" font-size="9" fill="#2a4050" font-family="Helvetica Neue" text-anchor="middle">コンテナ底部</text>
+      <!-- corner casting hole -->
+      <rect x="278" y="88" width="22" height="14" fill="#0a1018" stroke="#7ab8d4" stroke-width="1" rx="1"/>
+      <text x="270" y="75" font-size="9" fill="#7ab8d4" font-family="Helvetica Neue">コーナーキャスティング</text>
+      <text x="270" y="65" font-size="9" fill="#555" font-family="Helvetica Neue">ISO 1161 / 穴131×50mm</text>
+
+      <!-- H-beam under container -->
+      <rect x="258" y="140" width="164" height="8" fill="#c8a455" opacity=".9" rx="1"/>
+      <rect x="304" y="148" width="8" height="32" fill="#a07830"/>
+      <rect x="258" y="180" width="164" height="8" fill="#c8a455" opacity=".9" rx="1"/>
+
+      <!-- twist lock bolt -->
+      <rect x="282" y="130" width="14" height="18" fill="#e8c84a" rx="2"/>
+      <text x="308" y="142" font-size="9" fill="#e8c84a" font-family="Helvetica Neue">ツイストロック</text>
+      <text x="308" y="152" font-size="9" fill="#555" font-family="Helvetica Neue">またはM20アンカーボルト</text>
+
+      <!-- JOINT C: H-beam mid span support -->
+      <text x="560" y="20" font-size="11" fill="#c8a455" font-family="Helvetica Neue" text-anchor="middle" font-weight="700">接合部 C（中央）</text>
+      <text x="560" y="33" font-size="9" fill="#555" font-family="Helvetica Neue" text-anchor="middle">中央パイル → H鋼</text>
+
+      <!-- H-beam -->
+      <rect x="450" y="100" width="220" height="10" fill="#c8a455" opacity=".9" rx="1"/>
+      <rect x="446" y="100" width="228" height="10" fill="none" stroke="#c8a455" stroke-width="1"/>
+      <rect x="506" y="110" width="8" height="32" fill="#a07830"/>
+      <rect x="450" y="142" width="220" height="10" fill="#c8a455" opacity=".9" rx="1"/>
+
+      <!-- pile (center) -->
+      <rect x="552" y="152" width="20" height="120" fill="#5a5a5a" rx="2"/>
+
+      <!-- clamp bracket -->
+      <rect x="536" y="108" width="52" height="36" fill="none" stroke="#e8c84a" stroke-width="2" rx="2"/>
+      <text x="600" y="120" font-size="9" fill="#e8c84a" font-family="Helvetica Neue">クランプブラケット</text>
+      <text x="600" y="132" font-size="9" fill="#555" font-family="Helvetica Neue">（U字ボルト×2）</text>
+      <text x="600" y="144" font-size="9" fill="#555" font-family="Helvetica Neue">M12×2本</text>
+
+      <!-- u-bolts -->
+      <path d="M 544,110 Q 536,126 544,142" fill="none" stroke="#e8c84a" stroke-width="2.5"/>
+      <path d="M 576,110 Q 584,126 576,142" fill="none" stroke="#e8c84a" stroke-width="2.5"/>
+    </svg>
+    <div class="d-caption">接合部 A：パイル天端のベースプレート（工場溶接済）にH鋼をボルト締め / B：コーナーキャスティングにツイストロック固定 / C：中央パイルはUボルトクランプ</div>
+  </div>
+</div>
+
+<!-- PARTS LIST -->
+<div class="s">
+  <div class="s-label">部材リスト</div>
+  <div class="s-title">全購入品と現場カット品</div>
+
+  <table class="parts-table">
+    <thead>
+      <tr>
+        <th>品目</th>
+        <th>仕様</th>
+        <th>数量</th>
+        <th>価格</th>
+        <th>調達</th>
+        <th>備考</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>スクリューパイル</strong></td>
+        <td>φ76 × L1200mm 翼径200mm</td>
+        <td>6本</td>
+        <td class="price">¥6〜9万</td>
+        <td><span class="tag tag-buy">発注</span></td>
+        <td>ベースプレート溶接済み品を指定</td>
+      </tr>
+      <tr>
+        <td><strong>H形鋼</strong></td>
+        <td>H-100×100×6×8 L6100mm</td>
+        <td>2本</td>
+        <td class="price">¥2.5〜3万</td>
+        <td><span class="tag tag-buy">発注</span></td>
+        <td>釧路の鉄鋼店。M16穴あけ加工を依頼</td>
+      </tr>
+      <tr>
+        <td><strong>M16ボルトセット</strong></td>
+        <td>M16×60mm SUS304 ナット+ワッシャ付</td>
+        <td>24本</td>
+        <td class="price">¥8,000</td>
+        <td><span class="tag tag-buy">Amazon</span></td>
+        <td>各接合部4本×6箇所</td>
+      </tr>
+      <tr>
+        <td><strong>ツイストロック</strong></td>
+        <td>ISO コンテナ用 コーナー固定</td>
+        <td>4個</td>
+        <td class="price">¥1.2万</td>
+        <td><span class="tag tag-buy">Amazon</span></td>
+        <td>コンテナ4隅の固定。なければM20アンカーで代替</td>
+      </tr>
+      <tr>
+        <td><strong>Uボルトクランプ</strong></td>
+        <td>M12 パイプ径φ76用</td>
+        <td>4個</td>
+        <td class="price">¥4,000</td>
+        <td><span class="tag tag-buy">モノタロウ</span></td>
+        <td>中央パイル②⑤をH鋼に固定</td>
+      </tr>
+      <tr>
+        <td><strong>シムプレート</strong></td>
+        <td>鋼板 t=1mm / 2mm / 3mm 各種</td>
+        <td>セット</td>
+        <td class="price">¥3,000</td>
+        <td><span class="tag tag-buy">カインズ</span></td>
+        <td>パイル高さのレベル調整用（±10mm吸収）</td>
+      </tr>
+      <tr>
+        <td><strong>水平器</strong></td>
+        <td>600mm以上推奨</td>
+        <td>1本</td>
+        <td class="price">¥2,000</td>
+        <td><span class="tag tag-buy">カインズ</span></td>
+        <td>H鋼のレベル確認に必須</td>
+      </tr>
+      <tr>
+        <td><strong>Tバーハンドル</strong></td>
+        <td>鉄パイプ φ34×1200mm + クロス溶接</td>
+        <td>1セット</td>
+        <td class="price">¥3,000</td>
+        <td><span class="tag tag-cut">現地製作</span></td>
+        <td>ホームセンターのパイプ2本で自作可</td>
+      </tr>
+      <tr>
+        <td><strong>延長パイプ</strong></td>
+        <td>φ34mm 900mm（パイル差込み用）</td>
+        <td>2本</td>
+        <td class="price">¥2,000</td>
+        <td><span class="tag tag-cut">カインズ</span></td>
+        <td>深く打つ時にパイルに差して延長</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="total-box">
+    <div class="total-rows">
+      <div class="tr-row"><span class="tr-label">スクリューパイル ×6</span><span class="tr-val">¥6〜9万</span></div>
+      <div class="tr-row"><span class="tr-label">H形鋼 ×2本（穴あけ込み）</span><span class="tr-val">¥2.5〜3万</span></div>
+      <div class="tr-row"><span class="tr-label">ボルト・クランプ・シム類</span><span class="tr-val">¥2.5万</span></div>
+      <div class="tr-row"><span class="tr-label">工具類（水平器・Tバー等）</span><span class="tr-val">¥1万</span></div>
+    </div>
+    <div class="total-line">
+      <span class="total-label">基礎工事 合計</span>
+      <span class="total-num">¥12〜15万</span>
+    </div>
+  </div>
+
+  <div class="note">コンテナ本体（中古¥15〜30万）・クレーン（¥10〜15万）は別途。コンテナ搬入とパイル打設を同日にまとめると効率的。</div>
+</div>
+
+<!-- STEPS -->
+<div class="s">
+  <div class="s-label">施工手順</div>
+  <div class="s-title">当日の流れ（3人・半日）</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-n">1</div>
+      <div class="step-body">
+        <div class="step-title">位置出し（30分）</div>
+        <div class="step-desc">コンテナ設置予定位置の四隅をスプレーでマーキング。長辺6000mm・短辺2400mmを巻尺で計測。対角線を測って直角確認（対角2本が同じ長さ = 直角）。パイル打設位置（6点）にピンを刺す。</div>
+        <div class="step-tool">🛠 巻尺 / スプレー / ピン</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">2</div>
+      <div class="step-body">
+        <div class="step-title">地盤確認（15分）</div>
+        <div class="step-desc">6点それぞれに鉄筋φ13を足で踏み込んで刺す。腰くらいまで入るなら軟弱地盤 → 全部ねじ込める。岩盤や玉石に当たる感触があれば位置を10cm単位でずらして再試行。</div>
+        <div class="step-tool">🛠 鉄筋 φ13×1000mm</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">3</div>
+      <div class="step-body">
+        <div class="step-title">パイル打設・6本（3時間）</div>
+        <div class="step-desc">Tバーに2人が付いてぐるぐる回す。1本30〜40分。先端が900mm以深に到達したら完了。打設後、全天端の高さをレーザーレベルで計測してメモ。最も高いパイルを基準にシムで揃える。</div>
+        <div class="step-tool">🛠 Tバー / 延長パイプ / レーザーレベル</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">4</div>
+      <div class="step-body">
+        <div class="step-title">H鋼設置・レベル調整（1時間）</div>
+        <div class="step-desc">H鋼をパイル天端のベースプレートの上に渡す。シムプレートを挟んで高さを調整（目標：H鋼天端が全点で±3mm以内）。水平器で確認。OKならM16ボルト各4本を締める。中央パイルはUボルトクランプで固定。</div>
+        <div class="step-tool">🛠 M16レンチ（24mm） / 水平器600mm / インパクトドライバー</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">5</div>
+      <div class="step-body">
+        <div class="step-title">コンテナ搬入・ボルト固定（1時間）</div>
+        <div class="step-desc">ユニック車でコンテナを吊り上げH鋼の上に降ろす。コーナーキャスティング4点にツイストロックを差し込んで90度回転させ固定。最後にもう一度水平器で傾きを確認して完了。</div>
+        <div class="step-tool">🛠 ユニック車（手配済） / ツイストロック</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert">⚠ 地盤が湿地・泥炭層の場合はパイルが規定深度（900mm）まで入らないことがある。その場合は延長パイプを追加して1200mm以深を目指すか、パイル径を大きくする（φ100以上）こと。</div>
+</div>
+
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

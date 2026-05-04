@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4ゾーンコンテナ小屋 設計図 — SOLUNA Instant House</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080806;--card:#0c0c0a;--b:rgba(255,255,255,.07);--b2:rgba(255,255,255,.04);
+  --gold:#c8a455;--text:#d8d0bc;--dim:#555;
+  --green:#4ecb8d;--blue:#5ab0e6;--red:#e65a5a;--orange:#e8963a;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;line-height:1.7;min-height:100%}
+body{padding-bottom:100px}
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:rgba(8,8,6,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--b)}
+.nl{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--gold);text-decoration:none}
+.nls{display:flex;gap:16px}
+.nls a{font-size:10px;color:var(--dim);text-decoration:none}
+.nls a:hover{color:var(--text)}
+
+.hero{padding:60px 24px 44px;max-width:880px;margin:0 auto}
+.tag{font-size:9px;letter-spacing:.3em;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:12px}
+h1{font-size:clamp(26px,5vw,40px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:16px;letter-spacing:-.02em}
+.sub{font-size:13px;color:var(--dim);line-height:1.9;max-width:600px;margin-bottom:32px}
+
+/* PLAN TABS */
+.tabs{display:flex;gap:6px;max-width:880px;margin:0 auto;padding:0 24px 32px;flex-wrap:wrap}
+.tab{padding:10px 18px;border-radius:10px;border:1px solid var(--b);background:var(--card);color:var(--dim);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;text-align:center}
+.tab:hover{border-color:var(--gold);color:var(--gold)}
+.tab.active{background:rgba(200,164,85,.1);border-color:var(--gold);color:var(--gold)}
+.plan{display:none;max-width:880px;margin:0 auto;padding:0 24px}
+.plan.active{display:block}
+
+/* PLAN HEADER */
+.ph{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:32px}
+.pc{background:var(--card);border:1px solid var(--b);border-radius:12px;padding:14px;text-align:center}
+.pc-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--dim);margin-bottom:5px}
+.pc-val{font-size:18px;font-weight:900}
+.pc-note{font-size:9px;color:var(--dim);margin-top:2px}
+
+/* DIAGRAM */
+.dw{background:var(--card);border:1px solid var(--b);border-radius:16px;padding:24px 20px;margin-bottom:24px;overflow-x:auto}
+.dw svg{display:block;margin:0 auto}
+.dc{font-size:11px;color:var(--dim);text-align:center;margin-top:10px;line-height:1.7}
+
+/* SECTIONS */
+.sec{margin-bottom:40px}
+.sec-title{font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--b)}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:16px}
+.tbl th{text-align:left;padding:8px 12px;color:var(--dim);font-weight:600;font-size:9px;letter-spacing:.1em;border-bottom:1px solid var(--b);text-transform:uppercase}
+.tbl td{padding:9px 12px;border-bottom:1px solid var(--b2);vertical-align:top;line-height:1.6}
+.tbl td:first-child{color:var(--dim);white-space:nowrap;width:28%}
+.tbl .total td{font-weight:700;border-top:1px solid var(--b);border-bottom:none;padding-top:12px}
+.hi{color:var(--green)!important;font-weight:700}
+.w{color:var(--gold)!important;font-weight:600}
+.x{color:var(--red)!important}
+
+/* ROOM GRID */
+.room-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px}
+.room-card{background:var(--card);border:1px solid var(--b);border-radius:12px;padding:16px}
+.room-icon{font-size:20px;margin-bottom:8px}
+.room-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:6px}
+.room-size{font-size:18px;font-weight:900;color:var(--green);margin-bottom:4px}
+.room-detail{font-size:10px;color:var(--dim);line-height:1.8}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:9px;font-weight:700;margin-left:6px}
+.bg{background:rgba(78,203,141,.1);color:var(--green);border:1px solid rgba(78,203,141,.2)}
+.bo{background:rgba(200,164,85,.1);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.br{background:rgba(230,90,90,.1);color:var(--red);border:1px solid rgba(230,90,90,.2)}
+
+/* LEGAL */
+.legal-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+.lg{flex:1;min-width:140px;background:var(--card);border:1px solid var(--b);border-radius:10px;padding:14px}
+.lg-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:5px}
+.lg-val{font-size:13px;font-weight:700}
+.lg-note{font-size:9px;color:var(--dim);margin-top:3px;line-height:1.5}
+
+/* COST */
+.cost-summary{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:24px}
+.cs{background:var(--card);border:1px solid var(--b);border-radius:10px;padding:14px;text-align:center}
+.cs-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:6px}
+.cs-val{font-size:20px;font-weight:900}
+
+@media(max-width:580px){.ph{grid-template-columns:repeat(2,1fr)}.tabs{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nl" href="/instant">INSTANT HOUSE</a>
+  <div class="nls">
+    <a href="/foundation">基礎</a>
+    <a href="/insulation">断熱</a>
+    <a href="/offgrid">設備</a>
+    <a href="/cottage">4室設計</a>
+    <a href="/workparty">WP 6/6</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="tag">INSTANT HOUSE — MIRUWA 2026 / 4ゾーン設計</div>
+  <h1>LDK + 寝室2 + 水まわり<br>コンテナ4室設計書</h1>
+  <p class="sub">20ft×4 / 40ft×4 / 40ft×2 の3プランを計算。建築確認なし、溶接なし、重機なし。スクリューパイル基礎の上に完全オフグリッドで建てる。</p>
+</div>
+
+<!-- HERO PHOTO -->
+<div style="max-width:880px;margin:-8px auto 32px;padding:0 24px">
+  <div style="border-radius:16px;overflow:hidden;height:320px;position:relative">
+    <img src="/img/soluna_container_4unit_plan.webp" alt="4ユニットコンテナ配置" style="width:100%;height:100%;object-fit:cover;object-position:center">
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,6,.8) 0%,transparent 60%)"></div>
+    <div style="position:absolute;bottom:20px;left:20px;font-size:11px;color:rgba(200,164,85,.9);font-weight:700;letter-spacing:.1em">北海道 弟子屈 / 美留和 — 2026年建設予定</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showPlan('p20')">📦 20ft × 4本<br><span style="font-size:9px;font-weight:400;color:var(--dim)">55.5m² コンパクト</span></div>
+  <div class="tab" onclick="showPlan('p40')">📦 40ft × 4本<br><span style="font-size:9px;font-weight:400;color:var(--dim)">112.8m² 広々</span></div>
+  <div class="tab" onclick="showPlan('p40x2')">📦 40ft × 2本<br><span style="font-size:9px;font-weight:400;color:var(--dim)">56.4m² 最シンプル</span></div>
+</div>
+
+<!-- ==================== PLAN A: 20ft × 4 ==================== -->
+<div class="plan active" id="p20">
+
+  <div class="ph">
+    <div class="pc"><div class="pc-label">総床面積</div><div class="pc-val" style="color:var(--green)">55.5 m²</div><div class="pc-note">約33.5畳</div></div>
+    <div class="pc"><div class="pc-label">建築確認</div><div class="pc-val" style="color:var(--green)">不要</div><div class="pc-note">200m²未満</div></div>
+    <div class="pc"><div class="pc-label">基礎杭数</div><div class="pc-val" style="color:var(--gold)">12本</div><div class="pc-note">3×4グリッド</div></div>
+    <div class="pc"><div class="pc-label">コンテナ費</div><div class="pc-val" style="color:var(--text)">¥80〜120万</div><div class="pc-note">中古4本</div></div>
+    <div class="pc"><div class="pc-label">構造工事</div><div class="pc-val" style="color:var(--text)">¥120〜180万</div><div class="pc-note">杭+H鋼+開口</div></div>
+    <div class="pc"><div class="pc-label">外断熱</div><div class="pc-val" style="color:var(--text)">¥40〜60万</div><div class="pc-note">ストローベイル</div></div>
+  </div>
+
+  <!-- FLOOR PLAN SVG -->
+  <div class="sec">
+    <div class="sec-title">平面図 — 田の字配置（2×2）</div>
+    <div class="dw">
+      <svg viewBox="0 0 620 380" width="620" height="380" xmlns="http://www.w3.org/2000/svg" style="font-family:'Helvetica Neue',sans-serif">
+
+        <!-- NORTH ARROW -->
+        <g transform="translate(570,30)">
+          <circle cx="0" cy="0" r="16" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)"/>
+          <path d="M 0,-12 L 5,6 L 0,2 L -5,6 Z" fill="rgba(200,164,85,.6)"/>
+          <text x="0" y="25" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="9" font-weight="700">N</text>
+        </g>
+
+        <!-- STRAW BALE OUTLINE -->
+        <rect x="52" y="42" width="460" height="230" rx="12" fill="rgba(200,168,48,.05)" stroke="rgba(200,168,48,.2)" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="60" y="57" fill="rgba(200,168,48,.3)" font-size="8">ストローベイル 450mm</text>
+
+        <!-- Dimension lines total -->
+        <line x1="70" y1="32" x2="494" y2="32" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+        <line x1="70" y1="28" x2="70" y2="36" stroke="rgba(255,255,255,.12)"/>
+        <line x1="494" y1="28" x2="494" y2="36" stroke="rgba(255,255,255,.12)"/>
+        <text x="282" y="28" text-anchor="middle" fill="rgba(255,255,255,.25)" font-size="9">11.8m（外壁）</text>
+
+        <line x1="500" y1="60" x2="500" y2="252" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+        <line x1="496" y1="60" x2="504" y2="60" stroke="rgba(255,255,255,.12)"/>
+        <line x1="496" y1="252" x2="504" y2="252" stroke="rgba(255,255,255,.12)"/>
+        <text x="518" y="158" text-anchor="middle" fill="rgba(255,255,255,.25)" font-size="9" transform="rotate(90,518,158)">4.7m</text>
+
+        <!-- ====== CONTAINERS ====== -->
+        <!-- SW: LDK (south-west) -->
+        <rect x="70" y="60" width="212" height="96" rx="3" fill="rgba(78,203,141,.06)" stroke="rgba(78,203,141,.35)" stroke-width="1.5"/>
+        <!-- Container corrugation hints -->
+        <g stroke="rgba(78,203,141,.08)" stroke-width=".7">
+          <line x1="100" y1="60" x2="100" y2="156"/><line x1="130" y1="60" x2="130" y2="156"/>
+          <line x1="160" y1="60" x2="160" y2="156"/><line x1="190" y1="60" x2="190" y2="156"/>
+          <line x1="220" y1="60" x2="220" y2="156"/><line x1="250" y1="60" x2="250" y2="156"/>
+        </g>
+        <text x="176" y="98" text-anchor="middle" fill="rgba(78,203,141,.8)" font-size="13" font-weight="700">LDK</text>
+        <text x="176" y="114" text-anchor="middle" fill="rgba(78,203,141,.5)" font-size="9">5.9 × 2.35m = 13.9m²</text>
+        <text x="176" y="126" text-anchor="middle" fill="rgba(78,203,141,.4)" font-size="8">キッチン・ダイニング・リビング</text>
+        <!-- South windows (LDK) -->
+        <rect x="90" y="152" width="50" height="6" rx="1" fill="rgba(90,176,230,.5)" stroke="rgba(90,176,230,.7)"/>
+        <rect x="155" y="152" width="50" height="6" rx="1" fill="rgba(90,176,230,.5)" stroke="rgba(90,176,230,.7)"/>
+        <rect x="220" y="152" width="40" height="6" rx="1" fill="rgba(90,176,230,.5)" stroke="rgba(90,176,230,.7)"/>
+        <!-- Entry door (south) -->
+        <rect x="132" y="154" width="20" height="4" fill="rgba(200,164,85,.6)"/>
+        <text x="142" y="168" text-anchor="middle" fill="rgba(200,164,85,.4)" font-size="7">玄関</text>
+
+        <!-- SE: Water (south-east) -->
+        <rect x="282" y="60" width="212" height="96" rx="3" fill="rgba(90,140,220,.06)" stroke="rgba(90,140,220,.35)" stroke-width="1.5"/>
+        <g stroke="rgba(90,140,220,.08)" stroke-width=".7">
+          <line x1="310" y1="60" x2="310" y2="156"/><line x1="340" y1="60" x2="340" y2="156"/>
+          <line x1="370" y1="60" x2="370" y2="156"/><line x1="400" y1="60" x2="400" y2="156"/>
+          <line x1="430" y1="60" x2="430" y2="156"/><line x1="460" y1="60" x2="460" y2="156"/>
+        </g>
+        <text x="388" y="98" text-anchor="middle" fill="rgba(90,140,220,.8)" font-size="13" font-weight="700">水まわり</text>
+        <text x="388" y="114" text-anchor="middle" fill="rgba(90,140,220,.5)" font-size="9">5.9 × 2.35m = 13.9m²</text>
+        <text x="388" y="126" text-anchor="middle" fill="rgba(90,140,220,.4)" font-size="8">シャワー・トイレ・洗面・ランドリー</text>
+        <!-- Small windows (Water) -->
+        <rect x="310" y="60" width="20" height="5" rx="1" fill="rgba(90,176,230,.3)" stroke="rgba(90,176,230,.5)"/>
+        <rect x="450" y="60" width="20" height="5" rx="1" fill="rgba(90,176,230,.3)" stroke="rgba(90,176,230,.5)"/>
+
+        <!-- NW: Bed1 (north-west) -->
+        <rect x="70" y="156" width="212" height="96" rx="3" fill="rgba(200,164,85,.06)" stroke="rgba(200,164,85,.3)" stroke-width="1.5"/>
+        <g stroke="rgba(200,164,85,.08)" stroke-width=".7">
+          <line x1="100" y1="156" x2="100" y2="252"/><line x1="130" y1="156" x2="130" y2="252"/>
+          <line x1="160" y1="156" x2="160" y2="252"/><line x1="190" y1="156" x2="190" y2="252"/>
+          <line x1="220" y1="156" x2="220" y2="252"/><line x1="250" y1="156" x2="250" y2="252"/>
+        </g>
+        <text x="176" y="196" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="13" font-weight="700">寝室 1</text>
+        <text x="176" y="212" text-anchor="middle" fill="rgba(200,164,85,.5)" font-size="9">5.9 × 2.35m = 13.9m²</text>
+        <text x="176" y="224" text-anchor="middle" fill="rgba(200,164,85,.4)" font-size="8">ダブルベッド + 収納</text>
+        <!-- North windows -->
+        <rect x="90" y="248" width="40" height="6" rx="1" fill="rgba(90,176,230,.3)" stroke="rgba(90,176,230,.5)"/>
+        <rect x="210" y="248" width="50" height="6" rx="1" fill="rgba(90,176,230,.3)" stroke="rgba(90,176,230,.5)"/>
+
+        <!-- NE: Bed2 (north-east) -->
+        <rect x="282" y="156" width="212" height="96" rx="3" fill="rgba(200,164,85,.04)" stroke="rgba(200,164,85,.25)" stroke-width="1.5"/>
+        <g stroke="rgba(200,164,85,.06)" stroke-width=".7">
+          <line x1="310" y1="156" x2="310" y2="252"/><line x1="340" y1="156" x2="340" y2="252"/>
+          <line x1="370" y1="156" x2="370" y2="252"/><line x1="400" y1="156" x2="400" y2="252"/>
+          <line x1="430" y1="156" x2="430" y2="252"/><line x1="460" y1="156" x2="460" y2="252"/>
+        </g>
+        <text x="388" y="196" text-anchor="middle" fill="rgba(200,164,85,.7)" font-size="13" font-weight="700">寝室 2</text>
+        <text x="388" y="212" text-anchor="middle" fill="rgba(200,164,85,.5)" font-size="9">5.9 × 2.35m = 13.9m²</text>
+        <text x="388" y="224" text-anchor="middle" fill="rgba(200,164,85,.4)" font-size="8">シングル×2 or ダブル</text>
+        <rect x="320" y="248" width="40" height="6" rx="1" fill="rgba(90,176,230,.3)" stroke="rgba(90,176,230,.5)"/>
+        <rect x="430" y="248" width="40" height="6" rx="1" fill="rgba(90,176,230,.3)" stroke="rgba(90,176,230,.5)"/>
+
+        <!-- INTERIOR DOOR OPENINGS -->
+        <!-- LDK ↔ Water (E-W: short wall, between x=282) -->
+        <rect x="278" y="88" width="8" height="30" rx="2" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+        <text x="282" y="80" text-anchor="middle" fill="rgba(255,255,255,.25)" font-size="7">開口</text>
+        <!-- LDK ↔ Bed1 (N-S: long wall, at y=156) -->
+        <rect x="150" y="152" width="30" height="8" rx="2" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+        <!-- Water ↔ Bed2 (N-S) -->
+        <rect x="360" y="152" width="30" height="8" rx="2" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+        <!-- Bed1 ↔ Bed2 (E-W) -->
+        <rect x="278" y="185" width="8" height="30" rx="2" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+
+        <!-- DIMENSION LABELS per container -->
+        <text x="176" y="56" text-anchor="middle" fill="rgba(255,255,255,.15)" font-size="8">← 5.9m →</text>
+        <text x="388" y="56" text-anchor="middle" fill="rgba(255,255,255,.15)" font-size="8">← 5.9m →</text>
+        <text x="58" y="108" fill="rgba(255,255,255,.15)" font-size="8" transform="rotate(-90,58,108)">2.35m</text>
+        <text x="58" y="204" fill="rgba(255,255,255,.15)" font-size="8" transform="rotate(-90,58,204)">2.35m</text>
+
+        <!-- LEGEND -->
+        <g transform="translate(30,296)">
+          <rect x="0" y="0" width="8" height="8" fill="rgba(90,176,230,.4)"/>
+          <text x="12" y="8" fill="rgba(255,255,255,.3)" font-size="8">窓</text>
+          <rect x="40" y="0" width="8" height="8" fill="rgba(200,164,85,.5)"/>
+          <text x="52" y="8" fill="rgba(255,255,255,.3)" font-size="8">玄関</text>
+          <rect x="90" y="0" width="8" height="8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.2)"/>
+          <text x="102" y="8" fill="rgba(255,255,255,.3)" font-size="8">開口部（扉）</text>
+          <rect x="200" y="0" width="8" height="8" fill="none" stroke="rgba(200,168,48,.3)" stroke-dasharray="2,1"/>
+          <text x="212" y="8" fill="rgba(255,255,255,.3)" font-size="8">ストローベイル外壁</text>
+        </g>
+
+        <!-- SOLAR annotation -->
+        <text x="282" y="298" text-anchor="middle" fill="rgba(200,164,85,.3)" font-size="9">☀️ 南面にLDK / 大窓で冬の日射取得</text>
+
+        <!-- SCALE -->
+        <g transform="translate(30,320)">
+          <line x1="0" y1="8" x2="40" y2="8" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+          <line x1="0" y1="4" x2="0" y2="12" stroke="rgba(255,255,255,.2)"/>
+          <line x1="40" y1="4" x2="40" y2="12" stroke="rgba(255,255,255,.2)"/>
+          <text x="20" y="22" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="8">1m</text>
+        </g>
+      </svg>
+      <p class="dc">田の字（2×2）配置。南面にLDK・水まわり（各5.9m幅）、北面に寝室1・2。開口部は扉（900mm）または引き込み戸。</p>
+    </div>
+  </div>
+
+  <!-- FOUNDATION PLAN -->
+  <div class="sec">
+    <div class="sec-title">基礎図 — スクリューパイル 12本</div>
+    <div class="dw">
+      <svg viewBox="0 0 560 260" width="560" height="260" xmlns="http://www.w3.org/2000/svg" style="font-family:'Helvetica Neue',sans-serif">
+        <!-- H-beam grid (E-W beams) -->
+        <!-- y=60: south H-beam -->
+        <line x1="60" y1="80" x2="500" y2="80" stroke="rgba(100,130,150,.4)" stroke-width="6" stroke-linecap="round"/>
+        <!-- y=130: middle H-beam -->
+        <line x1="60" y1="145" x2="500" y2="145" stroke="rgba(100,130,150,.4)" stroke-width="6" stroke-linecap="round"/>
+        <!-- y=200: north H-beam -->
+        <line x1="60" y1="210" x2="500" y2="210" stroke="rgba(100,130,150,.4)" stroke-width="6" stroke-linecap="round"/>
+
+        <!-- H-beam labels -->
+        <text x="510" y="83" fill="rgba(100,130,150,.5)" font-size="8">H鋼（南）</text>
+        <text x="510" y="148" fill="rgba(100,130,150,.5)" font-size="8">H鋼（中）</text>
+        <text x="510" y="213" fill="rgba(100,130,150,.5)" font-size="8">H鋼（北）</text>
+
+        <!-- Container boundaries (dashed) -->
+        <rect x="60" y="80" width="210" height="65" fill="rgba(78,203,141,.04)" stroke="rgba(78,203,141,.2)" stroke-width="1" stroke-dasharray="4,3"/>
+        <rect x="270" y="80" width="230" height="65" fill="rgba(90,140,220,.04)" stroke="rgba(90,140,220,.2)" stroke-width="1" stroke-dasharray="4,3"/>
+        <rect x="60" y="145" width="210" height="65" fill="rgba(200,164,85,.04)" stroke="rgba(200,164,85,.2)" stroke-width="1" stroke-dasharray="4,3"/>
+        <rect x="270" y="145" width="230" height="65" fill="rgba(200,164,85,.03)" stroke="rgba(200,164,85,.15)" stroke-width="1" stroke-dasharray="4,3"/>
+
+        <text x="165" y="118" text-anchor="middle" fill="rgba(78,203,141,.4)" font-size="9">LDK</text>
+        <text x="385" y="118" text-anchor="middle" fill="rgba(90,140,220,.4)" font-size="9">水まわり</text>
+        <text x="165" y="183" text-anchor="middle" fill="rgba(200,164,85,.4)" font-size="9">寝室1</text>
+        <text x="385" y="183" text-anchor="middle" fill="rgba(200,164,85,.4)" font-size="9">寝室2</text>
+
+        <!-- PILES: 3 rows × 4 columns = 12 -->
+        <!-- x positions: 60, 200, 340(5.9+5.9×60%), 500 ... actually let me use: 60, 200, 360, 500 -->
+        <!-- Representing: west edge, 1st mid, 2nd mid, east edge -->
+        <!-- More accurately: x=60(0m), x=200(~2.95m), x=360(~5.9m shared), x=500(~11.8m) -->
+        <!-- And y=80(south), y=145(middle), y=210(north) -->
+
+        <!-- Pile definitions: (x, y, label) -->
+        <!-- Row South (y=80) -->
+        <g>
+          <!-- P1: SW corner -->
+          <circle cx="60" cy="80" r="9" fill="rgba(200,164,85,.2)" stroke="rgba(200,164,85,.6)" stroke-width="1.5"/>
+          <text x="60" y="84" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="7" font-weight="700">①</text>
+          <!-- P2: S mid-left -->
+          <circle cx="200" cy="80" r="9" fill="rgba(200,164,85,.2)" stroke="rgba(200,164,85,.6)" stroke-width="1.5"/>
+          <text x="200" y="84" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="7" font-weight="700">②</text>
+          <!-- P3: S mid-right (shared E edge of LDK / W edge of Water) -->
+          <circle cx="360" cy="80" r="9" fill="rgba(200,164,85,.2)" stroke="rgba(200,164,85,.6)" stroke-width="1.5"/>
+          <text x="360" y="84" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="7" font-weight="700">③</text>
+          <!-- P4: SE corner -->
+          <circle cx="500" cy="80" r="9" fill="rgba(200,164,85,.2)" stroke="rgba(200,164,85,.6)" stroke-width="1.5"/>
+          <text x="500" y="84" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="7" font-weight="700">④</text>
+        </g>
+        <!-- Row Middle (y=145) -->
+        <g>
+          <circle cx="60" cy="145" r="9" fill="rgba(200,164,85,.2)" stroke="rgba(200,164,85,.6)" stroke-width="1.5"/>
+          <text x="60" y="149" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="7" font-weight="700">⑤</text>
+          <circle cx="200" cy="145" r="9" fill="rgba(200,164,85,.2)" stroke="rgba(200,164,85,.6)" stroke-width="1.5"/>
+          <text x="200" y="149" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="7" font-weight="700">⑥</text>
+          <circle cx="360" cy="145" r="9" fill="rgba(200,164,85,.2)" stroke="rgba(200,164,85,.6)" stroke-width="1.5"/>
+          <text x="360" y="149" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="7" font-weight="700">⑦</text>
+          <circle cx="500" cy="145" r="9" fill="rgba(200,164,85,.2)" stroke="rgba(200,164,85,.6)" stroke-width="1.5"/>
+          <text x="500" y="149" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="7" font-weight="700">⑧</text>
+        </g>
+        <!-- Row North (y=210) -->
+        <g>
+          <circle cx="60" cy="210" r="9" fill="rgba(200,164,85,.2)" stroke="rgba(200,164,85,.6)" stroke-width="1.5"/>
+          <text x="60" y="214" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="7" font-weight="700">⑨</text>
+          <circle cx="200" cy="210" r="9" fill="rgba(200,164,85,.2)" stroke="rgba(200,164,85,.6)" stroke-width="1.5"/>
+          <text x="200" y="214" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="7" font-weight="700">⑩</text>
+          <circle cx="360" cy="210" r="9" fill="rgba(200,164,85,.2)" stroke="rgba(200,164,85,.6)" stroke-width="1.5"/>
+          <text x="360" y="214" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="7" font-weight="700">⑪</text>
+          <circle cx="500" cy="210" r="9" fill="rgba(200,164,85,.2)" stroke="rgba(200,164,85,.6)" stroke-width="1.5"/>
+          <text x="500" y="214" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="7" font-weight="700">⑫</text>
+        </g>
+
+        <!-- Span dimensions -->
+        <line x1="60" y1="240" x2="200" y2="240" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+        <text x="130" y="252" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="8">2.95m</text>
+        <line x1="200" y1="240" x2="360" y2="240" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+        <text x="280" y="252" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="8">2.95m</text>
+        <line x1="360" y1="240" x2="500" y2="240" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+        <text x="430" y="252" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="8">2.95m</text>
+        <text x="30" y="83" fill="rgba(255,255,255,.15)" font-size="7" transform="rotate(-90,30,83)">2.35m</text>
+        <text x="30" y="148" fill="rgba(255,255,255,.15)" font-size="7" transform="rotate(-90,30,148)">2.35m</text>
+      </svg>
+      <p class="dc">3×4=12本のスクリューパイル（φ76×L1200）。H鋼3本がE-W方向に通り、コンテナ4本を受ける。最大スパン2.95m → H-150で十分。</p>
+    </div>
+
+    <table class="tbl">
+      <tr><th>項目</th><th>仕様</th></tr>
+      <tr><td>パイル規格</td><td>φ76mm × L1200mm スクリューパイル（マルチポスト相当）</td></tr>
+      <tr><td>本数</td><td class="hi">12本（3行×4列）</td></tr>
+      <tr><td>最大スパン</td><td>E-W方向 2.95m / N-S方向 2.35m</td></tr>
+      <tr><td>H鋼サイズ</td><td class="w">H-150×150×7×10（E-W方向3本、各11.8m）</td></tr>
+      <tr><td>コンテナ固定</td><td>コーナーキャスティング → ツイストロック / 中間部 → Uボルトクランプ</td></tr>
+      <tr><td>レベル調整</td><td>パイル先端のナットで±50mm調整（水平確保）</td></tr>
+      <tr><td>1本あたり費用</td><td>¥15,000〜20,000（材料+施工）</td></tr>
+      <tr><td>杭工事費合計</td><td class="w">¥180,000〜240,000</td></tr>
+    </table>
+  </div>
+
+  <!-- OPENINGS -->
+  <div class="sec">
+    <div class="sec-title">構造開口部（コンテナ間接続）</div>
+    <table class="tbl">
+      <tr><th>開口</th><th>位置</th><th>サイズ</th><th>補強方法</th><th>費用目安</th></tr>
+      <tr><td>① LDK ↔ 水まわり</td><td>短辺（2.35m壁）中央</td><td class="w">W900 × H2000mm</td><td>上部に角形鋼管 100×100mm ヘッダー溶接</td><td>¥40,000〜60,000</td></tr>
+      <tr><td>② LDK ↔ 寝室1</td><td>長辺（5.9m壁）中央部</td><td class="w">W900 × H2000mm</td><td>コーナーポスト間に角パイプヘッダー</td><td>¥50,000〜70,000</td></tr>
+      <tr><td>③ 水まわり ↔ 寝室2</td><td>長辺中央部</td><td class="w">W900 × H2000mm</td><td>同上</td><td>¥50,000〜70,000</td></tr>
+      <tr><td>④ 寝室1 ↔ 寝室2</td><td>短辺中央</td><td class="w">W900 × H2000mm</td><td>ヘッダー溶接</td><td>¥40,000〜60,000</td></tr>
+      <tr><td>⑤ LDK 玄関</td><td>長辺南面</td><td class="w">W900 × H2000mm</td><td>開口のみ（コーナーポスト間）</td><td>¥20,000〜30,000</td></tr>
+      <tr class="total"><td colspan="4">開口工事 合計</td><td class="w">¥200,000〜290,000</td></tr>
+    </table>
+    <p style="font-size:10px;color:var(--dim);line-height:1.8">短辺（2.35m）の開口は比較的簡単。長辺の開口はコンテナの構造上の縦通材を活かしながらカット。すべて鉄工所・溶接業者に依頼（自作不可）。</p>
+  </div>
+
+  <!-- ROOM SPECS -->
+  <div class="sec">
+    <div class="sec-title">各室仕様</div>
+    <div class="room-grid">
+      <div class="room-card">
+        <div class="room-icon">🛋️</div>
+        <div class="room-name">LDK</div>
+        <div class="room-size">13.9 m² <span style="font-size:12px;font-weight:400;color:var(--dim)">≈ 8.4畳</span></div>
+        <div class="room-detail">
+          南向き大窓（ペアLow-E）<br>
+          IHコンロ + ミニキッチン<br>
+          ダイニングテーブル4人用<br>
+          ソファ + 薪ストーブ or 電気暖房<br>
+          玄関 + 土間スペース
+        </div>
+      </div>
+      <div class="room-card">
+        <div class="room-icon">🚿</div>
+        <div class="room-name">水まわり</div>
+        <div class="room-size">13.9 m² <span style="font-size:12px;font-weight:400;color:var(--dim)">≈ 8.4畳</span></div>
+        <div class="room-detail">
+          シャワーブース（1400×900mm）<br>
+          バイオトイレ（Separett）<br>
+          洗面台 + 鏡<br>
+          洗濯機置場<br>
+          RO浄水器 + UV殺菌<br>
+          太陽熱温水シャワー接続
+        </div>
+      </div>
+      <div class="room-card">
+        <div class="room-icon">🛏️</div>
+        <div class="room-name">寝室 1</div>
+        <div class="room-size">13.9 m² <span style="font-size:12px;font-weight:400;color:var(--dim)">≈ 8.4畳</span></div>
+        <div class="room-detail">
+          ダブルベッド（140×200cm）<br>
+          クローゼット（奥行600mm）<br>
+          北向き + 東窓<br>
+          LDKから直接アクセス<br>
+          オーナー室 想定
+        </div>
+      </div>
+      <div class="room-card">
+        <div class="room-icon">🛏️</div>
+        <div class="room-name">寝室 2</div>
+        <div class="room-size">13.9 m² <span style="font-size:12px;font-weight:400;color:var(--dim)">≈ 8.4畳</span></div>
+        <div class="room-detail">
+          シングル×2 or ダブル×1<br>
+          クローゼット<br>
+          北向き + 西窓<br>
+          水まわりから直接アクセス<br>
+          ゲスト室 想定
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COST -->
+  <div class="sec">
+    <div class="sec-title">概算工事費</div>
+    <table class="tbl">
+      <tr><th>項目</th><th>仕様</th><th>費用</th></tr>
+      <tr><td>20ft コンテナ ×4</td><td>中古・整備済（防錆塗装済）</td><td>¥800,000〜1,200,000</td></tr>
+      <tr><td>スクリューパイル ×12</td><td>φ76×L1200mm 材工込</td><td>¥180,000〜240,000</td></tr>
+      <tr><td>H鋼 ×3本（E-W方向）</td><td>H-150×150、各11.8m</td><td>¥120,000〜160,000</td></tr>
+      <tr><td>コンテナ開口工事 ×5か所</td><td>切断・ヘッダー溶接・枠取付</td><td>¥200,000〜290,000</td></tr>
+      <tr><td>ストローベイル断熱（外周）</td><td>外壁面積 約80m²</td><td>¥300,000〜500,000</td></tr>
+      <tr><td>屋根防水・断熱</td><td>ウレタン吹付 or 断熱ボード</td><td>¥150,000〜250,000</td></tr>
+      <tr><td>窓・ドア工事</td><td>南面ペアLow-E × 3、他単板 × 4</td><td>¥200,000〜350,000</td></tr>
+      <tr><td>内装（床・天井・壁）</td><td>OSB + 漆喰 or 木材仕上</td><td>¥300,000〜500,000</td></tr>
+      <tr><td>電気配線工事</td><td>オフグリッド（EcoFlow接続）</td><td>¥80,000〜120,000</td></tr>
+      <tr><td>給排水工事</td><td>RO + 太陽熱温水 + バイオトイレ</td><td>¥100,000〜150,000</td></tr>
+      <tr class="total"><td colspan="2">構造・仕上工事 合計</td><td class="w">¥2,430,000〜3,760,000</td></tr>
+      <tr><td>オフグリッド設備</td><td>（別ページ参照）</td><td class="hi">¥265,000</td></tr>
+      <tr class="total"><td colspan="2"><strong>総計</strong></td><td class="hi" style="font-size:15px">¥2,700,000〜4,000,000</td></tr>
+    </table>
+    <p style="font-size:10px;color:var(--dim)">比較: 在来工法 55m² ≈ ¥5,500,000〜11,000,000 / コンテナ工法は <strong style="color:var(--green)">50〜75% 安い</strong></p>
+  </div>
+
+</div><!-- END PLAN A -->
+
+<!-- ==================== PLAN B: 40ft × 4 ==================== -->
+<div class="plan" id="p40">
+  <div class="ph">
+    <div class="pc"><div class="pc-label">総床面積</div><div class="pc-val" style="color:var(--green)">112.8 m²</div><div class="pc-note">約68畳 広々</div></div>
+    <div class="pc"><div class="pc-label">建築確認</div><div class="pc-val" style="color:var(--green)">不要</div><div class="pc-note">200m²未満</div></div>
+    <div class="pc"><div class="pc-label">基礎杭数</div><div class="pc-val" style="color:var(--gold)">16本</div><div class="pc-note">4×4グリッド</div></div>
+    <div class="pc"><div class="pc-label">コンテナ費</div><div class="pc-val" style="color:var(--text)">¥160〜240万</div><div class="pc-note">中古4本</div></div>
+    <div class="pc"><div class="pc-label">輸送難易度</div><div class="pc-val" style="color:var(--red)">要確認</div><div class="pc-note">農道12m車</div></div>
+    <div class="pc"><div class="pc-label">各室面積</div><div class="pc-val" style="color:var(--green)">28.2 m²</div><div class="pc-note">約17畳/室</div></div>
+  </div>
+
+  <div class="dw">
+    <svg viewBox="0 0 680 320" width="680" height="320" xmlns="http://www.w3.org/2000/svg" style="font-family:'Helvetica Neue',sans-serif">
+      <!-- Straw bale outline -->
+      <rect x="30" y="30" width="590" height="226" rx="12" fill="rgba(200,168,48,.04)" stroke="rgba(200,168,48,.18)" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <!-- LDK (SW) 40ft -->
+      <rect x="50" y="48" width="268" height="96" rx="3" fill="rgba(78,203,141,.06)" stroke="rgba(78,203,141,.35)" stroke-width="1.5"/>
+      <text x="184" y="90" text-anchor="middle" fill="rgba(78,203,141,.8)" font-size="13" font-weight="700">LDK</text>
+      <text x="184" y="106" text-anchor="middle" fill="rgba(78,203,141,.5)" font-size="9">12.0 × 2.35m = 28.2m²（約17畳）</text>
+      <text x="184" y="120" text-anchor="middle" fill="rgba(78,203,141,.4)" font-size="8">余裕のリビング + フルキッチン</text>
+      <!-- South windows -->
+      <rect x="60" y="140" width="60" height="6" rx="1" fill="rgba(90,176,230,.5)" stroke="rgba(90,176,230,.6)"/>
+      <rect x="160" y="140" width="80" height="6" rx="1" fill="rgba(90,176,230,.5)" stroke="rgba(90,176,230,.6)"/>
+      <rect x="280" y="140" width="20" height="6" rx="1" fill="rgba(90,176,230,.5)" stroke="rgba(90,176,230,.6)"/>
+
+      <!-- Water (SE) 40ft -->
+      <rect x="328" y="48" width="268" height="96" rx="3" fill="rgba(90,140,220,.06)" stroke="rgba(90,140,220,.35)" stroke-width="1.5"/>
+      <text x="462" y="90" text-anchor="middle" fill="rgba(90,140,220,.8)" font-size="13" font-weight="700">水まわり</text>
+      <text x="462" y="106" text-anchor="middle" fill="rgba(90,140,220,.5)" font-size="9">12.0 × 2.35m = 28.2m²</text>
+      <text x="462" y="120" text-anchor="middle" fill="rgba(90,140,220,.4)" font-size="8">バス・シャワー・トイレ・洗面・ランドリー</text>
+
+      <!-- Bed1 (NW) 40ft -->
+      <rect x="50" y="144" width="268" height="96" rx="3" fill="rgba(200,164,85,.06)" stroke="rgba(200,164,85,.3)" stroke-width="1.5"/>
+      <text x="184" y="186" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="13" font-weight="700">寝室 1</text>
+      <text x="184" y="202" text-anchor="middle" fill="rgba(200,164,85,.5)" font-size="9">12.0 × 2.35m = 28.2m²</text>
+      <text x="184" y="216" text-anchor="middle" fill="rgba(200,164,85,.4)" font-size="8">ダブルベッド + ソファ + 書斎コーナー</text>
+
+      <!-- Bed2 (NE) 40ft -->
+      <rect x="328" y="144" width="268" height="96" rx="3" fill="rgba(200,164,85,.04)" stroke="rgba(200,164,85,.22)" stroke-width="1.5"/>
+      <text x="462" y="186" text-anchor="middle" fill="rgba(200,164,85,.7)" font-size="13" font-weight="700">寝室 2</text>
+      <text x="462" y="202" text-anchor="middle" fill="rgba(200,164,85,.5)" font-size="9">12.0 × 2.35m = 28.2m²</text>
+      <text x="462" y="216" text-anchor="middle" fill="rgba(200,164,85,.4)" font-size="8">シングル×2 + ワーキングスペース</text>
+
+      <!-- Door openings -->
+      <rect x="316" y="76" width="14" height="36" rx="2" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.15)"/>
+      <rect x="316" y="170" width="14" height="36" rx="2" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.15)"/>
+      <rect x="140" y="138" width="40" height="10" rx="2" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.15)"/>
+      <rect x="420" y="138" width="40" height="10" rx="2" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.15)"/>
+
+      <!-- Dimensions -->
+      <line x1="50" y1="268" x2="318" y2="268" stroke="rgba(255,255,255,.1)"/>
+      <text x="184" y="280" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="9">12.0m</text>
+      <line x1="328" y1="268" x2="596" y2="268" stroke="rgba(255,255,255,.1)"/>
+      <text x="462" y="280" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="9">12.0m</text>
+
+      <text x="20" y="96" fill="rgba(255,255,255,.15)" font-size="8" transform="rotate(-90,20,96)">2.35m</text>
+      <text x="20" y="192" fill="rgba(255,255,255,.15)" font-size="8" transform="rotate(-90,20,192)">2.35m</text>
+
+      <text x="340" y="302" text-anchor="middle" fill="rgba(255,255,255,.15)" font-size="9">全体 24.0m × 4.7m = 112.8m²</text>
+
+      <!-- Warning note -->
+      <rect x="420" y="292" width="200" height="18" rx="4" fill="rgba(230,90,90,.08)" stroke="rgba(230,90,90,.2)"/>
+      <text x="520" y="305" text-anchor="middle" fill="rgba(230,90,90,.5)" font-size="8">⚠ 24m長 → 農道での輸送を事前確認</text>
+    </svg>
+    <p class="dc">40ft×4の田の字。各室28m²（17畳）と余裕のある広さ。ただし全長24m。輸送経路（農道の幅・カーブ）を事前に運送会社と確認必須。</p>
+  </div>
+
+  <table class="tbl">
+    <tr><th>項目</th><th>20ft×4 比較</th><th>40ft×4</th></tr>
+    <tr><td>各室面積</td><td>13.9m²（8.4畳）</td><td class="hi">28.2m²（17畳）</td></tr>
+    <tr><td>総床面積</td><td>55.5m²</td><td class="hi">112.8m²</td></tr>
+    <tr><td>建築確認</td><td class="hi">不要</td><td class="hi">不要（200m²未満）</td></tr>
+    <tr><td>コンテナ費</td><td>¥80〜120万</td><td class="w">¥160〜240万（2倍）</td></tr>
+    <tr><td>基礎（杭）</td><td>12本</td><td class="w">16本（H鋼スパン対応）</td></tr>
+    <tr><td>輸送</td><td class="hi">普通トラック</td><td class="x">長尺特殊車（農道要確認）</td></tr>
+    <tr><td>建設費合計目安</td><td>¥270〜400万</td><td class="w">¥480〜720万</td></tr>
+    <tr><td>坪単価</td><td class="hi">¥54〜80万/坪</td><td>¥54〜80万/坪（同等）</td></tr>
+  </table>
+</div><!-- END PLAN B -->
+
+<!-- ==================== PLAN C: 40ft × 2 ==================== -->
+<div class="plan" id="p40x2">
+  <div class="ph">
+    <div class="pc"><div class="pc-label">総床面積</div><div class="pc-val" style="color:var(--green)">56.4 m²</div><div class="pc-note">約34畳</div></div>
+    <div class="pc"><div class="pc-label">建築確認</div><div class="pc-val" style="color:var(--green)">不要</div><div class="pc-note">200m²未満</div></div>
+    <div class="pc"><div class="pc-label">基礎杭数</div><div class="pc-val" style="color:var(--green)">8本</div><div class="pc-note">最小構成</div></div>
+    <div class="pc"><div class="pc-label">コンテナ費</div><div class="pc-val" style="color:var(--green)">¥80〜120万</div><div class="pc-note">中古2本</div></div>
+    <div class="pc"><div class="pc-label">開口カット</div><div class="pc-val" style="color:var(--green)">2か所</div><div class="pc-note">最少</div></div>
+    <div class="pc"><div class="pc-label">おすすめ度</div><div class="pc-val" style="color:var(--green)">★★★</div><div class="pc-note">ベストバリュー</div></div>
+  </div>
+
+  <div class="dw">
+    <svg viewBox="0 0 620 360" width="620" height="360" xmlns="http://www.w3.org/2000/svg" style="font-family:'Helvetica Neue',sans-serif">
+      <!-- North arrow -->
+      <g transform="translate(580,30)">
+        <circle cx="0" cy="0" r="14" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)"/>
+        <path d="M 0,-10 L 4,5 L 0,1 L -4,5 Z" fill="rgba(200,164,85,.6)"/>
+        <text x="0" y="22" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="8" font-weight="700">N</text>
+      </g>
+
+      <!-- Straw bale -->
+      <rect x="30" y="30" width="520" height="130" rx="10" fill="rgba(200,168,48,.04)" stroke="rgba(200,168,48,.18)" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <rect x="30" y="190" width="520" height="130" rx="10" fill="rgba(200,168,48,.04)" stroke="rgba(200,168,48,.18)" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <!-- CONTAINER A: LDK + Water (top, parallel) -->
+      <!-- LDK zone: 7.2m -->
+      <rect x="50" y="50" width="244" height="90" rx="3" fill="rgba(78,203,141,.07)" stroke="rgba(78,203,141,.4)" stroke-width="1.5"/>
+      <text x="172" y="86" text-anchor="middle" fill="rgba(78,203,141,.9)" font-size="13" font-weight="700">LDK</text>
+      <text x="172" y="102" text-anchor="middle" fill="rgba(78,203,141,.5)" font-size="8">7.2m × 2.35m = 16.9m²</text>
+      <text x="172" y="114" text-anchor="middle" fill="rgba(78,203,141,.4)" font-size="8">キッチン・ダイニング・リビング</text>
+      <!-- South windows LDK -->
+      <rect x="60" y="137" width="50" height="6" rx="1" fill="rgba(90,176,230,.5)" stroke="rgba(90,176,230,.6)"/>
+      <rect x="140" y="137" width="60" height="6" rx="1" fill="rgba(90,176,230,.5)" stroke="rgba(90,176,230,.6)"/>
+      <rect x="230" y="137" width="40" height="6" rx="1" fill="rgba(90,176,230,.5)" stroke="rgba(90,176,230,.6)"/>
+      <!-- Entry -->
+      <rect x="130" y="139" width="20" height="4" fill="rgba(200,164,85,.6)"/>
+
+      <!-- Divider line (internal partition) -->
+      <line x1="294" y1="50" x2="294" y2="140" stroke="rgba(255,255,255,.2)" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="294" y="45" text-anchor="middle" fill="rgba(255,255,255,.15)" font-size="7">内部仕切壁</text>
+
+      <!-- Water zone: 4.8m -->
+      <rect x="294" y="50" width="226" height="90" rx="3" fill="rgba(90,140,220,.07)" stroke="rgba(90,140,220,.4)" stroke-width="1.5"/>
+      <text x="407" y="86" text-anchor="middle" fill="rgba(90,140,220,.9)" font-size="13" font-weight="700">水まわり</text>
+      <text x="407" y="102" text-anchor="middle" fill="rgba(90,140,220,.5)" font-size="8">4.8m × 2.35m = 11.3m²</text>
+      <text x="407" y="114" text-anchor="middle" fill="rgba(90,140,220,.4)" font-size="8">シャワー・トイレ・洗面・洗濯</text>
+
+      <!-- Container A label -->
+      <rect x="44" y="44" width="480" height="102" rx="6" fill="none" stroke="rgba(100,130,150,.3)" stroke-width="1.5"/>
+      <text x="540" y="56" fill="rgba(100,130,150,.5)" font-size="8">Container A</text>
+      <text x="540" y="66" fill="rgba(100,130,150,.4)" font-size="7">40ft (12m)</text>
+
+      <!-- CONTAINER B: Bed1 + Bed2 (bottom) -->
+      <!-- Bed1 zone: 6m -->
+      <rect x="50" y="210" width="244" height="90" rx="3" fill="rgba(200,164,85,.07)" stroke="rgba(200,164,85,.35)" stroke-width="1.5"/>
+      <text x="172" y="248" text-anchor="middle" fill="rgba(200,164,85,.9)" font-size="13" font-weight="700">寝室 1</text>
+      <text x="172" y="264" text-anchor="middle" fill="rgba(200,164,85,.5)" font-size="8">6.0m × 2.35m = 14.1m²</text>
+      <text x="172" y="276" text-anchor="middle" fill="rgba(200,164,85,.4)" font-size="8">ダブルベッド + 収納</text>
+      <rect x="60" y="297" width="40" height="6" rx="1" fill="rgba(90,176,230,.3)" stroke="rgba(90,176,230,.4)"/>
+      <rect x="190" y="297" width="50" height="6" rx="1" fill="rgba(90,176,230,.3)" stroke="rgba(90,176,230,.4)"/>
+
+      <!-- Divider -->
+      <line x1="294" y1="210" x2="294" y2="300" stroke="rgba(255,255,255,.2)" stroke-width="2" stroke-dasharray="4,3"/>
+
+      <!-- Bed2 zone: 6m -->
+      <rect x="294" y="210" width="226" height="90" rx="3" fill="rgba(200,164,85,.04)" stroke="rgba(200,164,85,.25)" stroke-width="1.5"/>
+      <text x="407" y="248" text-anchor="middle" fill="rgba(200,164,85,.8)" font-size="13" font-weight="700">寝室 2</text>
+      <text x="407" y="264" text-anchor="middle" fill="rgba(200,164,85,.5)" font-size="8">6.0m × 2.35m = 14.1m²</text>
+      <text x="407" y="276" text-anchor="middle" fill="rgba(200,164,85,.4)" font-size="8">シングル×2 or ダブル</text>
+      <rect x="310" y="297" width="40" height="6" rx="1" fill="rgba(90,176,230,.3)" stroke="rgba(90,176,230,.4)"/>
+      <rect x="430" y="297" width="40" height="6" rx="1" fill="rgba(90,176,230,.3)" stroke="rgba(90,176,230,.4)"/>
+
+      <!-- Container B label -->
+      <rect x="44" y="204" width="480" height="102" rx="6" fill="none" stroke="rgba(100,130,150,.3)" stroke-width="1.5"/>
+      <text x="540" y="216" fill="rgba(100,130,150,.5)" font-size="8">Container B</text>
+      <text x="540" y="226" fill="rgba(100,130,150,.4)" font-size="7">40ft (12m)</text>
+
+      <!-- Door openings between A and B -->
+      <!-- LDK side (A bottom) to Bed1 (B top) -->
+      <rect x="140" y="155" width="36" height="14" rx="2" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+      <text x="158" y="175" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="7">開口①</text>
+      <!-- Water side (A bottom) to Bed2 (B top) -->
+      <rect x="370" y="155" width="36" height="14" rx="2" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+      <text x="388" y="175" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="7">開口②</text>
+
+      <!-- Gap label -->
+      <text x="310" y="165" text-anchor="middle" fill="rgba(255,255,255,.15)" font-size="8">↕ 2コンテナ間（H鋼接続）</text>
+
+      <!-- Dimensions -->
+      <line x1="50" y1="334" x2="520" y2="334" stroke="rgba(255,255,255,.1)"/>
+      <line x1="50" y1="330" x2="50" y2="338" stroke="rgba(255,255,255,.1)"/>
+      <line x1="520" y1="330" x2="520" y2="338" stroke="rgba(255,255,255,.1)"/>
+      <text x="285" y="348" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="9">12.0m</text>
+      <text x="285" y="358" text-anchor="middle" fill="rgba(255,255,255,.15)" font-size="8">（コンテナ2本を並列配置、N-S方向に2本分 = 4.7m幅）</text>
+
+      <text x="285" y="25" text-anchor="middle" fill="rgba(78,203,141,.5)" font-size="9" font-weight="700">★ 最推奨: 開口わずか2か所・基礎8本・シンプル構造</text>
+    </svg>
+    <p class="dc">40ft×2本を並列に配置。内部仕切りで4ゾーン分割。コンテナ間の開口カットは2か所のみ。基礎杭は8本で済む最シンプル構成。</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">なぜ 40ft×2 が最もスマートか</div>
+    <table class="tbl">
+      <tr><th>比較項目</th><th>20ft×4</th><th>40ft×4</th><th>40ft×2 ★</th></tr>
+      <tr><td>コンテナ台数</td><td>4本</td><td>4本</td><td class="hi">2本</td></tr>
+      <tr><td>コンテナ費</td><td>¥80〜120万</td><td>¥160〜240万</td><td class="hi">¥80〜120万</td></tr>
+      <tr><td>基礎杭数</td><td>12本</td><td>16本</td><td class="hi">8本</td></tr>
+      <tr><td>開口カット</td><td>5か所</td><td>5か所</td><td class="hi">2か所（最少）</td></tr>
+      <tr><td>輸送難易度</td><td>普通</td><td class="x">要確認</td><td>普通</td></tr>
+      <tr><td>総床面積</td><td>55.5m²</td><td>112.8m²</td><td>56.4m²</td></tr>
+      <tr><td>工事複雑度</td><td>中</td><td>高</td><td class="hi">低</td></tr>
+      <tr><td>建設費目安</td><td>¥270〜400万</td><td>¥480〜720万</td><td class="hi">¥240〜360万</td></tr>
+      <tr><td>建築確認</td><td class="hi">不要</td><td class="hi">不要</td><td class="hi">不要</td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">各室仕様（40ft×2）</div>
+    <div class="room-grid">
+      <div class="room-card">
+        <div class="room-icon">🛋️</div>
+        <div class="room-name">LDK</div>
+        <div class="room-size">16.9 m²</div>
+        <div class="room-detail">7.2m × 2.35m<br>フルキッチン（900mm幅）<br>4人ダイニング + ソファ<br>薪ストーブ or ペレット<br>南大窓 × 3</div>
+      </div>
+      <div class="room-card">
+        <div class="room-icon">🚿</div>
+        <div class="room-name">水まわり</div>
+        <div class="room-size">11.3 m²</div>
+        <div class="room-detail">4.8m × 2.35m<br>シャワー（1400×900）<br>バイオトイレ<br>洗面台・洗濯機<br>LDKと同コンテナ内仕切</div>
+      </div>
+      <div class="room-card">
+        <div class="room-icon">🛏️</div>
+        <div class="room-name">寝室 1</div>
+        <div class="room-size">14.1 m²</div>
+        <div class="room-detail">6.0m × 2.35m<br>ダブルベッド + 収納<br>北・東窓<br>LDKから開口①で接続</div>
+      </div>
+      <div class="room-card">
+        <div class="room-icon">🛏️</div>
+        <div class="room-name">寝室 2</div>
+        <div class="room-size">14.1 m²</div>
+        <div class="room-detail">6.0m × 2.35m<br>シングル×2 or ダブル<br>北・西窓<br>水まわりから開口②で接続</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">概算工事費（40ft×2）</div>
+    <table class="tbl">
+      <tr><th>項目</th><th>費用</th></tr>
+      <tr><td>40ft コンテナ ×2（中古）</td><td>¥800,000〜1,200,000</td></tr>
+      <tr><td>スクリューパイル ×8（φ76×L1200）</td><td>¥120,000〜160,000</td></tr>
+      <tr><td>H鋼 ×2本（E-W、各12m）</td><td>¥100,000〜140,000</td></tr>
+      <tr><td>コンテナ間開口 ×2か所</td><td>¥80,000〜120,000</td></tr>
+      <tr><td>内部仕切り工事（LDK/水まわり分割）</td><td>¥60,000〜100,000</td></tr>
+      <tr><td>ストローベイル断熱（外周）</td><td>¥280,000〜420,000</td></tr>
+      <tr><td>屋根防水・断熱</td><td>¥130,000〜200,000</td></tr>
+      <tr><td>窓・ドア</td><td>¥180,000〜300,000</td></tr>
+      <tr><td>内装（床・壁・天井）</td><td>¥280,000〜450,000</td></tr>
+      <tr><td>電気・給排水</td><td>¥150,000〜220,000</td></tr>
+      <tr class="total"><td>構造・仕上合計</td><td class="w">¥2,180,000〜3,310,000</td></tr>
+      <tr><td>オフグリッド設備</td><td class="hi">¥265,000</td></tr>
+      <tr class="total"><td><strong>総計</strong></td><td class="hi" style="font-size:15px">¥2,450,000〜3,600,000</td></tr>
+    </table>
+  </div>
+</div><!-- END PLAN C -->
+
+<!-- ==================== COMMON: LEGAL + THERMAL ==================== -->
+<div style="max-width:880px;margin:40px auto 0;padding:0 24px 64px">
+  <div class="sec-title" style="font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px;padding-bottom:8px;border-bottom:1px solid var(--b)">法的確認（全プラン共通）</div>
+
+  <div class="legal-row">
+    <div class="lg">
+      <div class="lg-label">建築確認申請</div>
+      <div class="lg-val" style="color:var(--green)">不要</div>
+      <div class="lg-note">都市計画区域外 + 非木造200m²未満。弟子屈町への事前確認推奨。</div>
+    </div>
+    <div class="lg">
+      <div class="lg-label">農地転用</div>
+      <div class="lg-val" style="color:var(--orange)">地目による</div>
+      <div class="lg-note">農地（田・畑）なら農業委員会へ転用届出。雑種地・山林・原野は不要。</div>
+    </div>
+    <div class="lg">
+      <div class="lg-label">旅館業法許可</div>
+      <div class="lg-val" style="color:var(--orange)">営業なら必要</div>
+      <div class="lg-note">有料宿泊施設として使う場合は簡易宿所許可（弟子屈町保健所）。</div>
+    </div>
+    <div class="lg">
+      <div class="lg-label">消防法届出</div>
+      <div class="lg-val" style="color:var(--orange)">宿泊なら必要</div>
+      <div class="lg-note">煙感知器・消火器の設置届出。釧路消防署に事前相談。</div>
+    </div>
+    <div class="lg">
+      <div class="lg-label">建築基準法</div>
+      <div class="lg-val" style="color:var(--gold)">技術基準は適用</div>
+      <div class="lg-note">確認不要でも構造・換気（0.5回/h以上）・採光（1/7以上）の基準は守る義務。</div>
+    </div>
+  </div>
+
+  <div class="sec-title" style="font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin:32px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--b)">熱性能（20ft×4 / 40ft×2 共通）</div>
+  <table class="tbl">
+    <tr><th>部位</th><th>面積</th><th>U値</th><th>熱損失</th></tr>
+    <tr><td>外壁（ストローベイル）</td><td>約64m²</td><td class="hi">0.11 W/m²K</td><td>7.0 W/K</td></tr>
+    <tr><td>窓（トリプルLow-E）</td><td>約12m²</td><td class="w">0.8 W/m²K</td><td>9.6 W/K</td></tr>
+    <tr><td>屋根（断熱ボード）</td><td>約56m²</td><td>0.15 W/m²K</td><td>8.4 W/K</td></tr>
+    <tr><td>床（断熱マット）</td><td>約56m²</td><td>0.25 W/m²K</td><td>14.0 W/K</td></tr>
+    <tr class="total"><td colspan="2">UA値 = 39.0 / 55.5m²</td><td class="hi">UA = 0.70</td><td class="hi">HEAT20 G1相当</td></tr>
+  </table>
+  <p style="font-size:10px;color:var(--dim);line-height:1.9">窓をトリプル(U=0.5)にし窓面積を8m²に絞ると UA = 0.52 → G1/G2境界。北海道では窓面積の最小化が最重要。南面大窓は日射取得で冬の暖房負荷を相殺できる。</p>
+</div>
+
+<script>
+function showPlan(id) {
+  document.querySelectorAll('.plan').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+</script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

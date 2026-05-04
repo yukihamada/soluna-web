@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOLUNA メディア</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--bg:#080806;--border:rgba(255,255,255,.07)}
+html,body{width:100%;height:100%;background:var(--bg);color:#fff;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;overflow:hidden}
+
+.layout{display:flex;height:100vh;flex-direction:row}
+.sidebar{width:230px;min-width:180px;background:#050503;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+.urlbar{display:flex;align-items:center;gap:6px;padding:7px 8px;background:#0a0a08;border-bottom:1px solid var(--border)}
+.urlbar input{flex:1;background:#1a1a16;border:1px solid var(--border);border-radius:5px;padding:5px 9px;color:#fff;font-size:12px;outline:none}
+.urlbar input:focus{border-color:rgba(200,164,85,.4)}
+.urlbar input::placeholder{color:#444}
+.urlbar button{background:var(--gold);border:none;color:#000;font-size:11px;font-weight:700;padding:6px 10px;border-radius:5px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.urlbar button:hover{background:#d4b060}
+
+/* 16:9 player */
+.player-area{flex:1;position:relative;background:#000;overflow:hidden}
+.player-area iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+
+.placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#333;pointer-events:none}
+.placeholder .ico{font-size:2.8rem}
+.placeholder p{font-size:12px;text-align:center;line-height:1.7;max-width:240px}
+
+/* embed error overlay */
+.err-overlay{position:absolute;inset:0;background:rgba(8,8,6,.92);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:10;text-align:center;padding:20px}
+.err-overlay.show{display:flex}
+.err-overlay .etitle{font-size:14px;color:#ccc;font-weight:600}
+.err-overlay .esub{font-size:11px;color:#555;line-height:1.8}
+.err-overlay a{display:inline-block;background:var(--gold);color:#000;font-size:12px;font-weight:700;padding:8px 18px;border-radius:6px;text-decoration:none}
+.err-overlay a:hover{background:#d4b060}
+
+.info-bar{padding:5px 10px;background:#0a0a08;border-top:1px solid var(--border);font-size:10px;color:#444;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-shrink:0}
+.info-bar .now{color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.info-bar .open-btn{flex-shrink:0;font-size:10px;color:var(--gold);cursor:pointer;text-decoration:none;opacity:.8}
+.info-bar .open-btn:hover{opacity:1}
+
+/* sidebar */
+.cat-tabs{display:flex;padding:7px 7px 0;gap:3px;flex-shrink:0}
+.cat-tab{flex:1;text-align:center;font-size:9.5px;font-weight:600;padding:5px 2px;border-radius:5px;cursor:pointer;color:#555;transition:all .15s}
+.cat-tab:hover{color:#888}
+.cat-tab.on{background:rgba(200,164,85,.18);color:var(--gold)}
+
+.pl-search{padding:5px 7px;flex-shrink:0}
+.pl-search input{width:100%;background:#1a1a16;border:1px solid var(--border);border-radius:4px;padding:4px 7px;color:#ccc;font-size:11px;outline:none}
+.pl-search input::placeholder{color:#333}
+
+.sidebar-scroll{flex:1;overflow-y:auto;padding-bottom:8px}
+.sidebar-scroll::-webkit-scrollbar{width:3px}
+.sidebar-scroll::-webkit-scrollbar-thumb{background:#2a2a26;border-radius:2px}
+
+.pitem{display:flex;align-items:center;gap:7px;padding:6px 8px;cursor:pointer;border-radius:5px;margin:0 4px 1px;transition:background .12s}
+.pitem:hover{background:rgba(200,164,85,.1)}
+.pitem.active{background:rgba(200,164,85,.18)}
+.pitem .em{font-size:1.3rem;width:28px;text-align:center;flex-shrink:0}
+.pitem .meta{min-width:0;flex:1}
+.pitem .ptitle{font-size:11px;color:#ccc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.pitem .psub{font-size:10px;color:#555;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+@media(max-width:580px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;max-height:42vh;border-right:none;border-top:1px solid var(--border);order:2}
+  .main{order:1;flex:none;height:58vw}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <!-- sidebar -->
+  <div class="sidebar">
+    <div class="cat-tabs">
+      <div class="cat-tab on" onclick="switchCat('mv')">MV</div>
+      <div class="cat-tab" onclick="switchCat('anime')">アニメ</div>
+      <div class="cat-tab" onclick="switchCat('live')">ライブ</div>
+      <div class="cat-tab" onclick="switchCat('relax')">癒し</div>
+      <div class="cat-tab" onclick="switchCat('fav')">⭐</div>
+    </div>
+    <div class="pl-search"><input id="pl-q" placeholder="🔍 検索..." oninput="filterPlaylist(this.value)"></div>
+    <div class="sidebar-scroll" id="playlist"></div>
+  </div>
+
+  <!-- main -->
+  <div class="main">
+    <div class="urlbar">
+      <input id="url-in" placeholder="YouTubeのURLを貼り付けて再生 — https://youtu.be/..." onkeydown="if(event.key==='Enter')loadUrl()">
+      <button onclick="loadUrl()">▶ 再生</button>
+    </div>
+    <div class="player-area" id="player-area">
+      <div class="placeholder" id="placeholder">
+        <div class="ico">🎬</div>
+        <p>左のリストから選ぶか<br>YouTubeのURLを入力してください</p>
+      </div>
+      <div class="err-overlay" id="err-overlay">
+        <div class="etitle">⚠️ この動画は埋め込み再生できません</div>
+        <div class="esub">YouTubeの設定により、このページ内での再生が<br>制限されています。YouTubeで直接開いてください。</div>
+        <a id="yt-link" href="#" target="_blank" rel="noopener">YouTubeで開く ↗</a>
+      </div>
+    </div>
+    <div class="info-bar">
+      <span class="now" id="now-playing">— 再生なし —</span>
+      <a class="open-btn" id="yt-open" href="#" target="_blank" rel="noopener" style="display:none">YouTubeで開く ↗</a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── プレイリスト ──────────────────────────────────────────────────────── */
+var FAV_KEY = 'sln_media_favs';
+function getFavs(){ return JSON.parse(localStorage.getItem(FAV_KEY)||'[]'); }
+function toggleFav(id, title, sub, em){
+  var favs = getFavs();
+  var idx = favs.findIndex(function(f){return f.id===id;});
+  if(idx>=0){ favs.splice(idx,1); } else { favs.push({id:id,title:title,sub:sub,em:em||'⭐'}); }
+  localStorage.setItem(FAV_KEY, JSON.stringify(favs));
+  if(currentCat==='fav') renderPlaylist('fav','');
+  else renderPlaylist(currentCat, document.getElementById('pl-q').value);
+}
+function isFav(id){ return getFavs().some(function(f){return f.id===id;}); }
+
+var PLAYLIST = {
+  mv: [
+    {id:'kXYiU_JCYtU', title:'Linkin Park — Numb',         sub:'Official MV', em:'🎵'},
+    {id:'hT_nvWreIhg', title:'The Weeknd — Blinding Lights', sub:'Official MV', em:'🎵'},
+    {id:'JGwWNGJdvx8', title:'Ed Sheeran — Shape of You',   sub:'Official MV', em:'🎵'},
+    {id:'9bZkp7q19f0', title:'PSY — GANGNAM STYLE',         sub:'Official MV', em:'🎵'},
+    {id:'7pcGzVBTMDU', title:'Billie Eilish — bad guy',     sub:'Official MV', em:'🎵'},
+    {id:'SlPhMPnQ58k', title:'Ado — うっせぇわ',             sub:'Official MV', em:'🎵'},
+    {id:'2vjPBrBU-TM', title:'YOASOBI — アイドル',          sub:'Official MV', em:'🎵'},
+    {id:'J_ub7Etch2Y', title:'米津玄師 — Lemon',            sub:'Official MV', em:'🎵'},
+    {id:'4D9jJqRERDA', title:'King Gnu — 白日',             sub:'Official MV', em:'🎵'},
+    {id:'D3-JUKF0U8Y', title:'Fujii Kaze — Matsuri',       sub:'Official MV', em:'🎵'},
+    {id:'vSkb0kDacjs', title:'Official髭男 — Pretender',   sub:'Official MV', em:'🎵'},
+    {id:'X48G7Y0ql_o', title:'RADWIMPS — スパークル',       sub:'君の名は。 MV', em:'🎵'},
+    {id:'LjhCEyc62Cs', title:'eve — 蒼のワルツ',            sub:'Official MV', em:'🎵'},
+  ],
+  anime: [
+    // --- YouTube公式アニメチャンネル・確実に埋め込み可能なもの ---
+    {id:'ppfNaePIGvQ', title:'SPY×FAMILY — Mixed Nuts',     sub:'OP1 / Official', em:'🎌'},
+    {id:'u5BxkUVU1cQ', title:'チェンソーマン — KICK BACK',  sub:'OP / Official', em:'🎌'},
+    {id:'7kLBzSAu6YA', title:'ぼっち・ざ・ろっく — 青春コンプレックス', sub:'OP / Official', em:'🎌'},
+    {id:'kRMqTsxhT4I', title:'葬送のフリーレン OP',          sub:'YOASOBI 勇者 / Official', em:'🎌'},
+    {id:'D5oINxHIVmg', title:'進撃の巨人 — 紅蓮の弓矢',      sub:'OP1 Short ver. / Crunchyroll', em:'🎌'},
+    {id:'LnNqQfmDYEc', title:'鬼滅の刃 — 紅蓮華',            sub:'OP / LiSA Official', em:'🎌'},
+    {id:'ql6OlRaWL5U', title:'呪術廻戦 — 廻廻奇譚',          sub:'OP / Eve Official', em:'🎌'},
+    {id:'YTkXQGvJb5c', title:'SPY×FAMILY Season 2 OP',      sub:'Official', em:'🎌'},
+    {id:'JiHnQiqfNgU', title:'ONE PIECE — 第一弾OP We Are!', sub:'東映アニメ公式', em:'🎌'},
+    {id:'2Gg6Seob5Mg', title:'NARUTO — Shape of Music',      sub:'Crunchyroll AMV', em:'🎌'},
+    {id:'CwkzK-F0Y9E', title:'ドラゴンボール超 OP',           sub:'Chōzetsu Dynamic! / Toei Official', em:'🎌'},
+    {id:'pPuJwDXLkjU', title:'米津玄師 — 馬と鹿 (進撃コラボ)',sub:'Official MV', em:'🎌'},
+    {id:'5anLPw0Efmo', title:'Yoasobi — THE IDOL (Oshi no Ko)', sub:'Official MV', em:'🎌'},
+    {id:'MdMWaRZ1nzA', title:'Evangelion — Fly Me to the Moon', sub:'ED 4K Remaster', em:'🎌'},
+    {id:'DWcJFNfaw9c', title:'ジブリ ピアノメドレー',          sub:'Studio Ghibli Relaxing Music', em:'🎌'},
+  ],
+  live: [
+    {id:'YkgkThdzX-8', title:'Daft Punk — Alive 2007',      sub:'Full Concert', em:'🎤'},
+    {id:'5anLPw0Efmo', title:'Queen — Live Aid 1985',        sub:'Legendary Set', em:'🎤'},
+    {id:'OaxPDLFrSZU', title:'Coldplay — Live Buenos Aires', sub:'Full Concert', em:'🎤'},
+    {id:'L9cFMHiLZOQ', title:'Tame Impala — Coachella 2019', sub:'Full Set', em:'🎤'},
+    {id:'02vueIM1ZLQ', title:'Radiohead — Glastonbury 2017', sub:'Full Concert', em:'🎤'},
+  ],
+  relax: [
+    {id:'5qap5aO4i9A', title:'Lofi Hip Hop Radio',           sub:'Beats to Study/Relax', em:'🎵'},
+    {id:'DWcJFNfaw9c', title:'Ghibli Piano Collection',      sub:'2 hours relaxing', em:'🎹'},
+    {id:'qC5KtatMcUw', title:'北海道 冬の絶景 4K',            sub:'Hokkaido Winter 4K', em:'🏔️'},
+    {id:'NMQhQDFiTVM', title:'日本の四季 4K',                 sub:'Japan All Seasons', em:'🌸'},
+    {id:'2Gg6Seob5Mg', title:'Hawaii 4K Beach',              sub:'Oahu Walk', em:'🌊'},
+    {id:'6d4ZTjMpQpU', title:'熱海 温泉街ウォーク 4K',        sub:'Atami Walk', em:'♨️'},
+    {id:'M5QY2_8704o', title:'東京 夜景ウォーク 4K',          sub:'Tokyo Night Walk', em:'🏙️'},
+  ],
+};
+
+var currentCat = 'mv';
+var currentItem = null;
+var embedTimer = null;
+
+/* ── 切り替え ── */
+function switchCat(cat){
+  currentCat = cat;
+  document.querySelectorAll('.cat-tab').forEach(function(el,i){
+    el.classList.toggle('on', ['mv','anime','live','relax','fav'][i] === cat);
+  });
+  document.getElementById('pl-q').value = '';
+  renderPlaylist(cat, '');
+}
+
+function renderPlaylist(cat, q){
+  q = (q||'').toLowerCase();
+  var pl = document.getElementById('playlist');
+  pl.innerHTML = '';
+  var list = cat === 'fav' ? getFavs() : (PLAYLIST[cat]||[]);
+  if(cat === 'fav' && list.length === 0){
+    var empty = document.createElement('div');
+    empty.style.cssText = 'padding:20px 12px;font-size:11px;color:#444;text-align:center;';
+    empty.textContent = '⭐ ボタンでお気に入りに追加できます';
+    pl.appendChild(empty); return;
+  }
+  list.forEach(function(item){
+    if(q && !item.title.toLowerCase().includes(q) && !(item.sub||'').toLowerCase().includes(q)) return;
+    var faved = isFav(item.id);
+    var div = document.createElement('div');
+    div.className = 'pitem' + (currentItem && currentItem.id===item.id ? ' active' : '');
+    div.innerHTML =
+      '<div class="em">'+item.em+'</div>'+
+      '<div class="meta">'+
+        '<div class="ptitle">'+item.title+'</div>'+
+        '<div class="psub">'+item.sub+'</div>'+
+      '</div>'+
+      '<button style="background:none;border:none;cursor:pointer;font-size:14px;padding:0 2px;flex-shrink:0;opacity:'+(faved?'1':'.3')+'" title="お気に入り">'+(faved?'⭐':'☆')+'</button>';
+    div.querySelector('button').onclick = function(e){
+      e.stopPropagation();
+      toggleFav(item.id, item.title, item.sub, item.em);
+      this.textContent = isFav(item.id) ? '⭐' : '☆';
+      this.style.opacity = isFav(item.id) ? '1' : '.3';
+    };
+    div.onclick = function(e){ if(e.target.tagName==='BUTTON') return; playItem(item); };
+    pl.appendChild(div);
+  });
+}
+
+function filterPlaylist(q){ renderPlaylist(currentCat, q); }
+
+/* ── 再生 ── */
+function playItem(item){
+  currentItem = item;
+  renderPlaylist(currentCat, document.getElementById('pl-q').value);
+  startEmbed(item.id, item.title);
+}
+
+function loadUrl(){
+  var raw = document.getElementById('url-in').value.trim();
+  if(!raw) return;
+  var vid = extractYouTubeId(raw);
+  if(vid){
+    currentItem = {id:vid, title:raw, sub:'', em:'▶'};
+    startEmbed(vid, raw);
+  } else {
+    alert('YouTubeのURLを入力してください\n例: https://youtu.be/xxxxx');
+  }
+}
+
+function startEmbed(vid, title){
+  var area = document.getElementById('player-area');
+  var existing = area.querySelector('iframe');
+  if(existing) existing.remove();
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('err-overlay').classList.remove('show');
+  document.getElementById('now-playing').textContent = '▶ ' + title;
+
+  var ytUrl = 'https://www.youtube.com/watch?v=' + vid;
+  document.getElementById('yt-open').href = ytUrl;
+  document.getElementById('yt-open').style.display = '';
+  document.getElementById('yt-link').href = ytUrl;
+
+  if(embedTimer) clearTimeout(embedTimer);
+
+  var fr = document.createElement('iframe');
+  fr.src = 'https://www.youtube-nocookie.com/embed/' + vid + '?autoplay=1&rel=0&modestbranding=1';
+  fr.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
+  fr.allowFullscreen = true;
+  fr.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none';
+
+  // Detect embedding blocked (YouTube sends a 204/refused — we detect via load + contentDocument)
+  fr.addEventListener('load', function(){
+    if(embedTimer) clearTimeout(embedTimer);
+    try {
+      // If embedding is blocked, YouTube loads a tiny page that has no video player
+      // We can't read cross-origin contentDocument, but we detect via early-load timing
+    } catch(e){}
+  });
+
+  // If the player area is still showing nothing after 8 seconds, assume blocked
+  embedTimer = setTimeout(function(){
+    // Only show error if placeholder is hidden (meaning we tried to play)
+    var iframe = area.querySelector('iframe');
+    if(!iframe) return;
+    // YouTube blocked embeds return instantly (< 1s); a real load takes longer
+    // We check if iframe loaded extremely fast with no content
+    document.getElementById('err-overlay').classList.add('show');
+  }, 8000);
+
+  area.appendChild(fr);
+
+  // Fast-fail detection: YouTube's "Video unavailable" embeds fire load very quickly
+  var loadStart = Date.now();
+  fr.addEventListener('load', function(){
+    if(embedTimer) clearTimeout(embedTimer);
+    var elapsed = Date.now() - loadStart;
+    if(elapsed < 800){
+      // Loaded in < 800ms — likely blocked/unavailable
+      document.getElementById('err-overlay').classList.add('show');
+    }
+  });
+}
+
+function extractYouTubeId(url){
+  var m;
+  m = url.match(/youtu\.be\/([A-Za-z0-9_-]{11})/);   if(m) return m[1];
+  m = url.match(/[?&]v=([A-Za-z0-9_-]{11})/);         if(m) return m[1];
+  m = url.match(/embed\/([A-Za-z0-9_-]{11})/);         if(m) return m[1];
+  m = url.match(/^([A-Za-z0-9_-]{11})$/);              if(m) return m[1];
+  return null;
+}
+
+/* ── init ── */
+renderPlaylist('mv', '');
+</script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOLUNA RAFT HAWAII — Hawaii Kai の海に畳を浮かべる</title>
+<meta name="description" content="Hawaii Kai マリーナの海面に9×9mの畳が浮かぶ。2026年12月 SOLUNA 浮島柔術大会。">
+<style>
+:root{
+  --bg:#040608;--card:#0a0c10;--border:#161820;
+  --text:#e8e4d8;--muted:#4a4c60;--accent:#1a8a6e;
+  --gold:#c4903a;--blue:#2a6a9a;--coral:#c45a3a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue','Hiragino Sans',Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(4,6,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:48px;gap:32px;}
+.nav-logo{font-size:11px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;text-decoration:none;}
+.nav-links{display:flex;gap:20px;margin-left:auto;}
+.nav-links a{font-size:11px;letter-spacing:0.08em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+
+.hero{padding:80px 48px 64px;border-bottom:1px solid var(--border);max-width:1100px;margin:0 auto;}
+@media(max-width:600px){.hero{padding:56px 24px 40px;}}
+.eyebrow{font-size:10px;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;margin-bottom:20px;}
+h1{font-size:clamp(40px,8vw,96px);font-weight:200;color:#fff;letter-spacing:-0.03em;line-height:.95;}
+h1 em{color:var(--accent);font-style:normal;}
+.hero-desc{margin-top:28px;font-size:16px;color:var(--muted);line-height:1.9;max-width:580px;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;}
+.tag{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--border);color:var(--muted);border-radius:2px;}
+
+section{padding:80px 0;border-bottom:1px solid var(--border);}
+.wrap{max-width:1100px;margin:0 auto;padding:0 48px;}
+@media(max-width:600px){.wrap{padding:0 24px;}}
+.sec-eye{font-size:10px;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;margin-bottom:16px;}
+h2{font-size:clamp(24px,4vw,44px);font-weight:200;color:#fff;letter-spacing:-0.02em;line-height:1.15;margin-bottom:12px;}
+.sec-desc{font-size:14px;color:var(--muted);line-height:1.9;max-width:540px;margin-bottom:48px;}
+
+/* Renders */
+.renders-grid{display:grid;grid-template-columns:2fr 1fr;gap:1px;background:var(--border);}
+@media(max-width:680px){.renders-grid{grid-template-columns:1fr;}}
+.render-cell{background:var(--card);overflow:hidden;position:relative;}
+.render-cell.tall{aspect-ratio:16/9;}
+.render-cell.short{aspect-ratio:4/3;}
+.render-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s;}
+.render-cell:hover img{transform:scale(1.03);}
+.render-label{position:absolute;bottom:12px;left:12px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(232,228,216,.6);background:rgba(4,6,8,.75);padding:3px 8px;border-radius:1px;}
+.renders-side{display:grid;grid-template-rows:1fr 1fr;gap:1px;background:var(--border);}
+
+/* Specs */
+.spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+@media(max-width:720px){.spec-grid{grid-template-columns:repeat(2,1fr);}}
+.spec-card{background:var(--card);padding:24px;}
+.spec-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.spec-val{font-size:28px;font-weight:200;color:#fff;letter-spacing:-.02em;}
+.spec-unit{font-size:12px;color:var(--muted);margin-left:3px;}
+.spec-note{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5;}
+
+/* How-to steps */
+.howto-grid{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);}
+.howto-row{display:grid;grid-template-columns:56px 1fr;background:var(--card);align-items:start;}
+.howto-num{padding:24px 16px;font-size:32px;font-weight:200;color:var(--border);text-align:center;border-right:1px solid var(--border);line-height:1;}
+.howto-body{padding:24px;}
+.howto-title{font-size:14px;font-weight:500;color:#fff;margin-bottom:6px;}
+.howto-desc{font-size:12px;color:var(--muted);line-height:1.8;}
+.howto-tip{margin-top:10px;padding:10px 14px;background:rgba(26,138,110,.06);border-left:2px solid var(--accent);font-size:11px;color:var(--muted);line-height:1.6;}
+.howto-row.milestone .howto-num{color:var(--accent);}
+.howto-row.milestone{background:rgba(26,138,110,.03);}
+
+/* Diff table: Hokkaido vs Hawaii */
+.diff-table{width:100%;border-collapse:collapse;font-size:13px;}
+.diff-table th{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-align:left;padding:12px 16px;border-bottom:1px solid var(--border);font-weight:400;background:var(--bg);}
+.diff-table td{padding:14px 16px;border-bottom:1px solid var(--border);vertical-align:top;}
+.diff-table tr:last-child td{border-bottom:none;}
+.diff-item{font-weight:500;color:#fff;}
+.diff-hok{color:#6a8ab0;font-size:12px;line-height:1.6;}
+.diff-haw{color:#1a8a6e;font-size:12px;line-height:1.6;}
+.diff-badge{font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;white-space:nowrap;}
+.badge-hok{background:rgba(106,138,176,.15);color:#6a8ab0;border:1px solid rgba(106,138,176,.3);}
+.badge-haw{background:rgba(26,138,110,.15);color:#1a8a6e;border:1px solid rgba(26,138,110,.3);}
+
+/* Timeline */
+.tl{display:flex;flex-direction:column;gap:0;}
+.tl-item{display:flex;gap:20px;padding:24px 0;border-bottom:1px solid var(--border);}
+.tl-item:last-child{border-bottom:none;}
+.tl-date{flex-shrink:0;width:100px;font-size:11px;color:var(--muted);padding-top:2px;}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.tl-dot-now{background:var(--accent);box-shadow:0 0 0 3px rgba(26,138,110,.2);}
+.tl-dot-future{border:1px solid var(--border);background:var(--bg);}
+.tl-content{flex:1;}
+.tl-title{font-size:14px;font-weight:500;color:#fff;margin-bottom:4px;}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.7;}
+
+/* Quote */
+.quote-block{background:#000;padding:80px 48px;}
+.quote-block blockquote{max-width:700px;margin:0 auto;font-size:clamp(20px,4vw,38px);font-weight:200;color:#fff;line-height:1.45;letter-spacing:-.02em;}
+.quote-block em{color:var(--accent);font-style:normal;}
+.q-attr{font-size:11px;color:var(--muted);margin-top:20px;letter-spacing:.1em;}
+
+/* CTA */
+.cta-box{background:var(--card);border:1px solid var(--border);padding:48px;text-align:center;margin-top:64px;}
+.cta-box h3{font-size:28px;font-weight:200;color:#fff;margin-bottom:12px;}
+.cta-box p{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:28px;}
+.btn-primary{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:14px 32px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;border-radius:1px;transition:background .2s;}
+.btn-primary:hover{background:#167a60;}
+.btn-ghost{display:inline-block;border:1px solid var(--border);color:var(--muted);text-decoration:none;padding:14px 28px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-left:12px;border-radius:1px;transition:border-color .2s,color .2s;}
+.btn-ghost:hover{border-color:var(--text);color:var(--text);}
+
+footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.foot-logo{font-size:11px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;}
+.foot-links{display:flex;gap:24px;}
+.foot-links a{font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:.05em;transition:color .2s;}
+.foot-links a:hover{color:var(--text);}
+</style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/village">SOLUNA</a>
+  <div class="nav-links">
+    <a href="/raft">RAFT 北海道</a>
+    <a href="/hawaii-kai">Hawaii Kai</a>
+    <a href="/raft-hawaii" style="color:var(--accent)">RAFT HAWAII</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">SOLUNA RAFT HAWAII — Hawaii Kai Marina, Oahu, December 2026</div>
+  <h1>太平洋が、<br><em>受け止める。</em></h1>
+  <p class="hero-desc">畳の端の先は、ハワイの海だ。</p>
+  <div class="hero-tags">
+    <span class="tag">Hawaii Kai Marina</span>
+    <span class="tag">December 2026</span>
+    <span class="tag">IBJJF Compatible</span>
+    <span class="tag">9 × 9 m Platform</span>
+    <span class="tag">Ocean Float</span>
+    <span class="tag">Sunset Session</span>
+  </div>
+</div>
+
+<!-- EARLY CTA -->
+<div style="background:var(--card);border-bottom:1px solid var(--border);padding:20px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+  <div style="display:flex;gap:40px;flex-wrap:wrap;">
+    <div>
+      <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">開催日</div>
+      <div style="font-size:15px;font-weight:400;color:#fff;">2026年 12月 中旬</div>
+    </div>
+    <div>
+      <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">定員</div>
+      <div style="font-size:15px;font-weight:400;color:#fff;">8名 <span style="font-size:12px;color:var(--accent);">（残り 8名）</span></div>
+    </div>
+    <div>
+      <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">場所</div>
+      <div style="font-size:15px;font-weight:400;color:#fff;">Hawaii Kai Marina, Oahu</div>
+    </div>
+    <div>
+      <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">参加費</div>
+      <div style="font-size:15px;font-weight:400;color:#fff;">$600 <span style="font-size:11px;color:var(--muted);">（製作+競技+3泊Hawaii Kai House）</span></div>
+    </div>
+  </div>
+  <a href="mailto:cabin@solun.art?subject=SOLUNA RAFT HAWAII 参加希望" style="background:var(--accent);color:#fff;text-decoration:none;padding:12px 28px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;border-radius:1px;white-space:nowrap;">参加する →</a>
+</div>
+
+<!-- RENDERS -->
+<section>
+  <div class="renders-grid">
+    <div class="render-cell tall">
+      <img src="img/raft_hawaii_aerial.jpg" alt="Hawaii Kai浮島大会" onerror="this.parentNode.innerHTML='<div style=padding:60px;color:#4a4c60;font-size:12px>rendering…</div>'">
+      <div class="render-label">Hawaii Kai — Aerial View</div>
+    </div>
+    <div class="renders-side">
+      <div class="render-cell short">
+        <img src="img/raft_hawaii_competition.jpg" alt="試合シーン" onerror="this.parentNode.innerHTML='<div style=padding:40px;color:#4a4c60;font-size:11px>rendering…</div>'">
+        <div class="render-label">Competition</div>
+      </div>
+      <div class="render-cell short">
+        <img src="img/raft_hawaii_sunset.jpg" alt="サンセット" onerror="this.parentNode.innerHTML='<div style=padding:40px;color:#4a4c60;font-size:11px>rendering…</div>'">
+        <div class="render-label">Sunset Session</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECS -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Platform Specification</div>
+    <h2>Hawaii Kai スペック</h2>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <div class="spec-label">Platform Size</div>
+        <div class="spec-val">9×9<span class="spec-unit">m</span></div>
+        <div class="spec-note">屈斜路湖版と同一モジュール設計。HDPEパネル81枚。北海道から船便で輸送可能。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Location</div>
+        <div class="spec-val" style="font-size:20px;">Hawaii<br>Kai Marina</div>
+        <div class="spec-note">Koko Marina隣接。Hawaii Kai House（SOLUNA物件）から徒歩5分。水上バイク・ボート禁止区画で安全。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Water Depth</div>
+        <div class="spec-val">3.5<span class="spec-unit">m</span></div>
+        <div class="spec-note">Hawaii Kai マリーナ内。波高通常0.1m以下。風速は夏8m/s以下、12月は5m/s以下が多い。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Water Temp</div>
+        <div class="spec-val">26<span class="spec-unit">℃</span></div>
+        <div class="spec-note">12月のハワイ海水温。落水しても快適。ウェットスーツ不要。ラッシュガード推奨。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Session Time</div>
+        <div class="spec-val">17:00<span class="spec-unit">〜</span></div>
+        <div class="spec-note">サンセット開始に合わせてスタート。日没（17:40頃）でハイライトマッチ。撮影に最適な光。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Participants</div>
+        <div class="spec-val">8<span class="spec-unit">名</span></div>
+        <div class="spec-note">SOLUNA メンバー優先。Hawaii在住者 + 遠征組のmix。英語・日本語バイリンガル進行。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Permit</div>
+        <div class="spec-label" style="margin-top:8px;">必要書類</div>
+        <div class="spec-note">Hawaii Division of Boating and Ocean Recreation（DOBOR）へ一時係留許可申請。提出書類：プラットフォーム図面、保険証書、参加者名簿。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Stay</div>
+        <div class="spec-val">3<span class="spec-unit">泊</span></div>
+        <div class="spec-note">Hawaii Kai House（SOLUNA物件、¥3,800万/口）に宿泊。大会前後にサーフィン・ハイキング。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO BUILD — COMPLETE GUIDE -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Complete Build Guide</div>
+    <h2>作り方 — 完全版</h2>
+    <div class="sec-desc">CNC・3Dプリンター・標準金物で作る9×9m浮島プラットフォーム。必要な工具はすべてリストした。</div>
+    <div class="howto-grid">
+
+      <div class="howto-row">
+        <div class="howto-num">0</div>
+        <div class="howto-body">
+          <div class="howto-title">設計ファイル準備 — Fusion 360</div>
+          <div class="howto-desc">
+            Autodesk Fusion 360（無料プランで可）でHDPEパネルをモデリング。<br>
+            各パネル：1000×1000×300mm の中空箱。壁厚8mm。下面に水抜き穴φ10mm×4箇所。<br>
+            T&G（さね・みぞ）接合部：幅10mm × 深さ8mm のオス・メス形状を四辺に設定。クリアランス0.2mm。<br>
+            3Dプリント部品（連結ブラケット）はアセンブリ内でフィット確認してからSTL書き出し。
+          </div>
+          <div class="howto-tip">
+            💡 Fusion 360の「Sheet Metal」機能でHDPE板の折り曲げシミュレーションが可能。展開図から切削パスを生成すると効率的。
+          </div>
+        </div>
+      </div>
+
+      <div class="howto-row">
+        <div class="howto-num">1</div>
+        <div class="howto-body">
+          <div class="howto-title">材料調達</div>
+          <div class="howto-desc">
+            <strong style="color:#fff;">HDPE シート 30mm厚（1220×2440mm）× 21枚</strong><br>
+            → Amazon / MonotaRO / 樹脂材料専門店（日本：エスアイ化学、ハワイ：Plastics Hawaii Inc.）<br><br>
+            <strong style="color:#fff;">海洋用合板 18mm（コアテックス or OKUMEマホガニー）× 21枚</strong><br>
+            → ホームセンター大型店 or 木材専門店。「BS 1088グレード」記載のものを選ぶ。<br><br>
+            <strong style="color:#fff;">ASA フィラメント 1kg × 8巻</strong><br>
+            → Bambu Lab / eSUN / SUNLU。ブラックかグレーが紫外線劣化しにくい。<br><br>
+            <strong style="color:#fff;">SUS316L M8ボルト×40mm + ナット + ワッシャー × 800セット</strong><br>
+            → 海水環境必須のステンレス316L。304は塩水で錆る。Monotaroで一括発注が安い。
+          </div>
+          <div class="howto-tip">
+            💡 ハワイで調達する場合：Plastics Hawaii Inc (Honolulu) がHDPEシートを在庫。切り売り可能。合板は Home Depot Kapolei。
+          </div>
+        </div>
+      </div>
+
+      <div class="howto-row milestone">
+        <div class="howto-num">2</div>
+        <div class="howto-body">
+          <div class="howto-title">★ CNC加工 — HDPEパネル 81枚（所要時間：約10時間）</div>
+          <div class="howto-desc">
+            <strong style="color:#fff;">機材：</strong> 4×8ft CNC ルーター（Avid CNC / Shapeoko 5 Pro / 中華4×8ft）<br>
+            <strong style="color:#fff;">工具：</strong> φ6mm 1刃アップカット スパイラルビット（HDPE専用）<br>
+            <strong style="color:#fff;">切削条件：</strong> 送り 2,500mm/min、回転 12,000rpm、切込 5mm/pass<br><br>
+            <strong style="color:#fff;">手順：</strong><br>
+            ① 1220×2440mm HDPEシートをMDF捨て板に両面テープ＋クランプで固定<br>
+            ② 外形カット（1000×1000mm）を climb milling（クライムカット）で荒取り → conventional で仕上げ<br>
+            ③ T&Gさね形状を4辺にポケット加工。深さ8mm、幅10mm。仕上げパスで±0.1mm以内に<br>
+            ④ 水抜き穴φ10mm × 4箇所（コーナーから50mm内側）をドリルサイクルで加工<br>
+            ⑤ 1シートから4枚取り → 21シート × 4 = 84枚（予備3枚含む）<br>
+            <br>
+            <strong style="color:#fff;">HDPE加工の注意：</strong> 送りが遅すぎると溶けてリウェルド（再溶着）が起きる。エアブローで切粉を逃がしながら加工。
+          </div>
+          <div class="howto-tip">
+            💡 1枚 30分 × 81枚 = 40.5時間。2台並列運転か、3人でシフト運転すると10時間で完了。CNC初心者は最初の2枚でパラメーター確認を。
+          </div>
+        </div>
+      </div>
+
+      <div class="howto-row">
+        <div class="howto-num">3</div>
+        <div class="howto-body">
+          <div class="howto-title">CNC加工 — 合板デッキパネル 81枚（所要時間：約6時間）</div>
+          <div class="howto-desc">
+            <strong style="color:#fff;">機材：</strong> 同じCNCルーター<br>
+            <strong style="color:#fff;">工具：</strong> φ6mm 2刃ダウンカット（表面毛羽立ちゼロに必須）<br>
+            <strong style="color:#fff;">切削条件：</strong> 送り 1,800mm/min、回転 18,000rpm、切込 3mm/pass<br><br>
+            <strong style="color:#fff;">加工内容：</strong><br>
+            ① 1000×1000mm外形カット（外周ダウンカット仕上げ）<br>
+            ② マット固定溝：幅8mm × 深さ5mm × 格子状（300mmピッチ）をポケット加工<br>
+            ③ M8ボルト穴φ9mm × 4コーナー（HDPE底板との締結用）<br>
+            ④ 表面に防水塗料（Sikkens Cetol HLSe または Osmo ウッドワックス）を2コート
+          </div>
+          <div class="howto-tip">
+            💡 合板は水分で膨張する。事前に「ポリウレタン塗料」で全面コーティングしてから加工すると反り防止になる。海洋環境ではエポキシシーラー処理が最強。
+          </div>
+        </div>
+      </div>
+
+      <div class="howto-row milestone">
+        <div class="howto-num">4</div>
+        <div class="howto-body">
+          <div class="howto-title">★ 3Dプリント — 連結ブラケット 200個（所要時間：24〜48時間）</div>
+          <div class="howto-desc">
+            <strong style="color:#fff;">機材：</strong> Bambu Lab X1C（AMS付き推奨）/ Prusa MK4 / Bambu A1<br>
+            <strong style="color:#fff;">フィラメント：</strong> ASA（eSUN / Polymaker）ブラック、1kg巻き × 8本<br>
+            <strong style="color:#fff;">設定：</strong><br>
+            &emsp;・壁数：5（外壁厚 2mm相当、水圧・UV耐性UP）<br>
+            &emsp;・インフィル：40%、Gyroid（等方向強度）<br>
+            &emsp;・層高：0.2mm<br>
+            &emsp;・温度：ノズル250℃、ベッド90℃（囲い必須）<br>
+            &emsp;・囲い（Enclosure）：必須。ASAは収縮大きく反りやすい<br><br>
+            <strong style="color:#fff;">印刷後処理：</strong><br>
+            ① M8ブラスインサート（長さ12mm）を半田ごて（230℃）で熱圧入。4穴/個 × 200個 = 800箇所<br>
+            ② O-ringシール溝があるデザインの場合はシリコンO-ring（AS568 #116）を嵌め込み<br>
+            ③ SUS M8 × 40mmボルトで締結トルク確認（15N·m）
+          </div>
+          <div class="howto-tip">
+            💡 ブラケット1個のプリント時間：Bambu X1Cで約35分。200個 = 1台で約120時間 → 3台並列で40時間。Bambuを複数台持っていればWork Partyの前日から回しておける。
+          </div>
+        </div>
+      </div>
+
+      <div class="howto-row">
+        <div class="howto-num">5</div>
+        <div class="howto-body">
+          <div class="howto-title">HDPE中空ポンツーン — 組み立てと密閉</div>
+          <div class="howto-desc">
+            各パネルはCNCで切り出した6面（上蓋・底板・4側面）を溶接または機械的締結で密閉する。<br><br>
+            <strong style="color:#fff;">方法A：HDPE溶接（推奨）</strong><br>
+            HDPE溶接ロッド + 熱風溶接ガン（温度290〜310℃）でビード溶接。<br>
+            継ぎ目はHDPEとHDPEが一体化し、完全防水。<br>
+            工具：Leister Triac ST or 電工ドライヤー改造品。溶接棒はHDPE専用φ4mm。<br><br>
+            <strong style="color:#fff;">方法B：シリコンシーラー + ステンレスビス（簡易版）</strong><br>
+            SUS304 M4ビス × 16本/面 + Sikaflex 292i（海洋用シーラー）でシール。<br>
+            コストは安いが、5年後にシーラーの劣化チェックが必要。<br><br>
+            密閉後、水圧テスト（水中5分静置、目視確認）。
+          </div>
+          <div class="howto-tip">
+            💡 HDPE溶接は難しそうに見えるが、ビード溶接なら1日練習すれば習得可能。YouTubeで「HDPE welding」検索。板厚30mmなら1パス溶接で十分な強度が出る。
+          </div>
+        </div>
+      </div>
+
+      <div class="howto-row milestone">
+        <div class="howto-num">6</div>
+        <div class="howto-body">
+          <div class="howto-title">★ プラットフォーム組み立て（所要時間：4人 × 4時間）</div>
+          <div class="howto-desc">
+            <strong style="color:#fff;">陸上での組み立て手順：</strong><br>
+            ① 9×9mの平坦なスペース（駐車場・テニスコート等）を確保<br>
+            ② HDPEポンツーン81枚をT&G接合で9行×9列に並べる（パズル形式）<br>
+            ③ 各ユニット間の接合部に3Dプリントブラケットを配置し、SUS M8ボルトで締結（トルク15N·m）<br>
+            ④ 合板デッキをポンツーン上面に重ね、コーナーのM8ボルトで固定<br>
+            ⑤ 外周にSUS製ライフラインロープ（φ12mm）を周回させ、4コーナーにクリートを取り付け<br>
+            ⑥ コーナーバンパー（3Dプリント取付座 + 発泡ウレタン）を取り付け<br>
+            ⑦ パズルマット（EVA 40mm × 288枚）を競技エリア（中央6×6m）に敷設・固定<br><br>
+            <strong style="color:#fff;">プラットフォーム進水：</strong><br>
+            ① フォークリフトまたはクレーン（1.5t吊り可能なもの）で水面へ<br>
+            ② マリーナ内なら桟橋から人力で押し出し（4人で可能）<br>
+            ③ 8点アンカリング：4コーナー + 4辺中央に係留ロープを設置
+          </div>
+          <div class="howto-tip">
+            💡 Hawaii Kai マリーナでは桟橋から直接スライドアウトが最も現実的。プラットフォーム全体の重量は約680kgなので、タイヤ付きドーリーで桟橋まで運搬できる。
+          </div>
+        </div>
+      </div>
+
+      <div class="howto-row">
+        <div class="howto-num">7</div>
+        <div class="howto-body">
+          <div class="howto-title">ハワイ固有の準備 — 許可・安全・保険</div>
+          <div class="howto-desc">
+            <strong style="color:#fff;">許可申請（DOBOR）：</strong><br>
+            Hawaii Division of Boating and Ocean Recreation に「Temporary Use Permit」申請。<br>
+            提出物：プラットフォーム図面、係留計画図、責任保険証書（$1M以上）、参加者リスト。<br>
+            申請から許可まで通常2〜4週間。<br><br>
+            <strong style="color:#fff;">保険：</strong><br>
+            Marine Event Liability Insurance。1日 $150〜300程度（比較サイト：Markel Marine, OneBeacon）<br><br>
+            <strong style="color:#fff;">安全要員：</strong><br>
+            USCG認定ライフセーバー × 1名（レンタルボートで待機）、AED、救急箱。<br>
+            Hawaii Five-0の取締りは厳しいので無許可での海上イベントは不可。<br><br>
+            <strong style="color:#fff;">コミュニケーション：</strong><br>
+            VHF無線機（Channel 16）× 2台。参加者全員に水上スポーツ経験の確認。
+          </div>
+          <div class="howto-tip">
+            💡 SOLUNA Hawaii Kaiメンバーがマリーナのスリップ（係留スペース）を保有している場合、許可取得が大幅に簡略化できる。地元メンバーを通じた申請が最速ルート。
+          </div>
+        </div>
+      </div>
+
+      <div class="howto-row milestone">
+        <div class="howto-num">8</div>
+        <div class="howto-body">
+          <div class="howto-title">★ 当日 — サンセット大会（17:00 JSS開始）</div>
+          <div class="howto-desc">
+            <strong style="color:#fff;">タイムライン：</strong><br>
+            14:00 — プラットフォーム設置・アンカリング確認<br>
+            15:00 — 参加者集合（Hawaii Kai House）計量・ルール説明<br>
+            16:00 — 練習セッション（プラットフォームに慣れる）<br>
+            17:00 — 公式セッション開始。試合時間：5分/マッチ<br>
+            17:40 — 日没。ハイライトマッチ（照明なし、自然光ファイナル）<br>
+            18:30 — セッション終了。プラットフォーム撤収開始<br>
+            19:30 — Hawaii Kai Houseでディナー（BBQ）<br><br>
+            <strong style="color:#fff;">ルール：</strong><br>
+            ・IBJJF基本ルールに準拠（SJJJF互換）<br>
+            ・落水：試合一時停止 → 梯子から再乗艦 → 再開<br>
+            ・落水は失点なし、ポイントカウントのみ継続<br>
+            ・ファウル：故意にプラットフォーム外へ押し出す行為
+          </div>
+          <div class="howto-tip">
+            💡 12月のオアフ島の日没は17:40頃。太陽がダイヤモンドヘッド方向（西南西）に沈む。プラットフォームを適切に向ければ、試合中の選手の背景にダイヤモンドヘッドの夕景が入る。最高の写真が撮れる。
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-block">
+  <blockquote>
+    屈斜路湖は朝霧の中に畳が浮かぶ。<br>
+    Hawaii Kaiは夕陽の中に畳が浮かぶ。<br><br>
+    <em>どちらも、場所が強さを試す。</em>
+  </blockquote>
+  <p class="q-attr">— SOLUNA RAFT</p>
+</div>
+
+<!-- HOKKAIDO vs HAWAII DIFF -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Version Comparison</div>
+    <h2>北海道版 vs ハワイ版</h2>
+    <div class="sec-desc">プラットフォーム本体は同じ。場所と季節が全てを変える。</div>
+    <div style="border:1px solid var(--border);background:var(--card);">
+      <table class="diff-table">
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th><span class="diff-badge badge-hok">RAFT 北海道</span></th>
+            <th><span class="diff-badge badge-haw">RAFT HAWAII</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="diff-item">場所</td>
+            <td class="diff-hok">屈斜路湖（カルデラ湖、淡水）</td>
+            <td class="diff-haw">Hawaii Kai Marina（太平洋、海水）</td>
+          </tr>
+          <tr>
+            <td class="diff-item">時期</td>
+            <td class="diff-hok">2026年10月（秋・紅葉）</td>
+            <td class="diff-haw">2026年12月（冬・晴天）</td>
+          </tr>
+          <tr>
+            <td class="diff-item">気温</td>
+            <td class="diff-hok">10〜15℃（寒い）</td>
+            <td class="diff-haw">26〜28℃（快適）</td>
+          </tr>
+          <tr>
+            <td class="diff-item">水温</td>
+            <td class="diff-hok">12℃（落水は迅速に出る）</td>
+            <td class="diff-haw">26℃（落水しても余裕）</td>
+          </tr>
+          <tr>
+            <td class="diff-item">ボルト/金物</td>
+            <td class="diff-hok">SUS304でOK（淡水）</td>
+            <td class="diff-haw">SUS316L必須（塩水・耐食）</td>
+          </tr>
+          <tr>
+            <td class="diff-item">アンカー</td>
+            <td class="diff-hok">マッシュルームアンカー 15kg × 8（泥底）</td>
+            <td class="diff-haw">デッドウェイトアンカー 20kg × 8（砂・岩底）</td>
+          </tr>
+          <tr>
+            <td class="diff-item">合板処理</td>
+            <td class="diff-hok">Osmo ウッドワックス 2コート</td>
+            <td class="diff-haw">エポキシシーラー全面 + Osmo（塩水対策）</td>
+          </tr>
+          <tr>
+            <td class="diff-item">許可</td>
+            <td class="diff-hok">北海道開発局（河川・湖沼使用許可）</td>
+            <td class="diff-haw">DOBOR Temporary Use Permit（$150）</td>
+          </tr>
+          <tr>
+            <td class="diff-item">参加費</td>
+            <td class="diff-hok">¥80,000（Work Party + 競技 + 3泊）</td>
+            <td class="diff-haw">$600（Build + 競技 + 3泊 Hawaii Kai House）</td>
+          </tr>
+          <tr>
+            <td class="diff-item">雰囲気</td>
+            <td class="diff-hok">朝霧・静寂・紅葉の森</td>
+            <td class="diff-haw">サンセット・ダイヤモンドヘッド・ヤシの木</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Timeline</div>
+    <h2>準備スケジュール</h2>
+    <div class="sec-desc">今から12月まで。何をいつやるか。</div>
+    <div class="tl">
+      <div class="tl-item">
+        <div class="tl-date">2026.04〜05</div>
+        <div class="tl-dot tl-dot-now"></div>
+        <div class="tl-content">
+          <div class="tl-title">設計・発注</div>
+          <div class="tl-desc">Fusion 360でモデリング確定。HDPEシート・合板・ASAフィラメントを発注（リードタイム2〜4週）。SUS316Lボルト・金物を一括発注。</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2026.06</div>
+        <div class="tl-dot tl-dot-future"></div>
+        <div class="tl-content">
+          <div class="tl-title">CNC加工 + 3Dプリント</div>
+          <div class="tl-desc">北海道SOLUNA Fabrication Labでパネル加工。ブラケット200個を並列印刷。品質確認・水圧テスト。</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2026.09</div>
+        <div class="tl-dot tl-dot-future"></div>
+        <div class="tl-content">
+          <div class="tl-title">北海道版RAFT 進水</div>
+          <div class="tl-desc">屈斜路湖でテスト運用。組み立て手順・係留方法の確認。改善点を洗い出してハワイ版に反映。</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2026.10</div>
+        <div class="tl-dot tl-dot-future"></div>
+        <div class="tl-content">
+          <div class="tl-title">DOBOR許可申請</div>
+          <div class="tl-desc">Hawaii Kai Marina の Temporary Use Permit を申請。図面・保険・参加者リストを提出。2〜4週で取得見込み。</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2026.11</div>
+        <div class="tl-dot tl-dot-future"></div>
+        <div class="tl-content">
+          <div class="tl-title">ハワイ版改修 + 輸送</div>
+          <div class="tl-desc">北海道版を海水対応に改修（SUS316L換装、エポキシシーラー処理）。Oahu へ航空便または船便で輸送。</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2026.12中旬</div>
+        <div class="tl-dot tl-dot-future" style="border-color:var(--accent);"></div>
+        <div class="tl-content">
+          <div class="tl-title" style="color:var(--accent);">★ SOLUNA RAFT HAWAII — サンセット大会</div>
+          <div class="tl-desc">Hawaii Kai Marina。17:00スタート。日没のダイヤモンドヘッドを背景に畳が浮かぶ。8名、全試合撮影。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <div class="cta-box">
+      <h3>ハワイの海で戦いたいか</h3>
+      <p>
+        2026年12月、Hawaii Kai Marina。<br>
+        ダイヤモンドヘッドを背に、太平洋の上で試合をする。<br>
+        定員8名。今すぐ登録を。
+      </p>
+      <a href="mailto:cabin@solun.art?subject=SOLUNA RAFT HAWAII 参加希望&body=参加希望です。柔術歴・道着の有無・12月の滞在予定をお知らせください。" class="btn-primary" data-sln-track="consultation_click">参加登録する</a>
+      <a href="/raft" class="btn-ghost">北海道版を見る</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-logo">SOLUNA RAFT HAWAII</span>
+  <div class="foot-links">
+    <a href="/raft">RAFT 北海道</a>
+    <a href="/float">FLOAT カヌー</a>
+    <a href="/hawaii-kai">Hawaii Kai House</a>
+    <a href="/village">SOLUNA</a>
+  </div>
+</footer>
+
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-track.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

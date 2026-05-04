@@ -259,6 +259,7 @@ body{color:var(--text);font-family:-apple-system,'Helvetica Neue','Hiragino Sans
 
 <!-- Messages + FAB -->
 <div style="flex:1;position:relative;overflow:hidden;display:flex;flex-direction:column">
+  <div id="pinned-bar" style="display:none;padding:6px 12px;background:rgba(200,164,85,.08);border-bottom:1px solid rgba(200,164,85,.15);font-size:13px;color:#c8a455;cursor:pointer;"></div>
   <div class="msgs" id="msgs">
     <div class="empty" id="empty">
       <div class="empty-icon">🏔</div>
@@ -415,6 +416,7 @@ async function initChat() {
   await loadMessages();
   connectSSE();
   requestNotificationPermission();
+  loadPinnedBar();
 }
 
 // ── MESSAGES ─────────────────────────────────────────────────────────
@@ -555,7 +557,8 @@ function buildMsgEl(msg, prev) {
     </button>
     ${isMine || myMemberType === "admin" ? `<button class="act-btn del" onclick="deleteMsg(${msg.id})" title="削除">
       <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-    </button>` : ""}`;
+    </button>` : ""}
+    ${myMemberType === "admin" ? `<button class="act-btn" onclick="pinMsg(${msg.id},${msg.pinned?0:1})" title="${msg.pinned?'ピン解除':'ピン留め'}" style="font-size:13px">${msg.pinned?'📌':'📍'}</button>` : ""}`;
   row.appendChild(actBar);
 
   group.appendChild(row);
@@ -788,6 +791,36 @@ function applyReactions(msgId, data) {
 }
 
 // ── DELETE ────────────────────────────────────────────────────────────
+async function pinMsg(id, pinned) {
+  try {
+    const r = await fetch(`${API}/api/soluna/community/pin/${id}`, {
+      method:"PATCH", headers:{ Authorization:`Bearer ${token}`, "Content-Type":"application/json" },
+      body: JSON.stringify({ pinned })
+    });
+    if (!r.ok) throw new Error("ピン留め失敗");
+    showToast(pinned ? "📌 ピン留めしました" : "ピン解除しました");
+    // reload pinned bar if exists
+    if (document.getElementById("pinned-bar")) loadPinnedBar();
+  } catch(e) { showToast(e.message); }
+}
+
+async function loadPinnedBar() {
+  try {
+    const pins = await fetch(`${API}/api/soluna/community/pinned`).then(r=>r.json());
+    const bar = document.getElementById("pinned-bar");
+    if (!bar) return;
+    if (!pins.length) { bar.style.display="none"; return; }
+    bar.style.display="";
+    bar.innerHTML = pins.map(p =>
+      `<div style="display:flex;gap:6px;align-items:center;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);">
+        <span style="font-size:11px;color:#c8a455;flex-shrink:0">📌</span>
+        <span style="font-size:11px;color:#ccc;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escHtml((p.message||'').slice(0,80))}</span>
+        <span style="font-size:10px;color:#555;flex-shrink:0">${p.display_name}</span>
+      </div>`
+    ).join('');
+  } catch(e) {}
+}
+
 async function deleteMsg(id) {
   if (!confirm("このメッセージを削除しますか？")) return;
   try {
@@ -881,5 +914,8 @@ document.getElementById("send-btn").disabled = true;
 document.getElementById("input-box").disabled = true;
 if (token) initChat();
 </script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
 </body>
 </html>

@@ -95,11 +95,44 @@ struct CommunityView: View {
             .background(Color(hex: "050505"))
             .navigationTitle("コミュニティ")
             .navigationBarTitleDisplayMode(.inline)
+            .safeAreaInset(edge: .top, spacing: 0) {
+                zamnaBanner
+            }
             .task {
                 await fetchMessages()
                 startSSE()
             }
             .onDisappear { sseTask?.cancel() }
+        }
+    }
+
+    // MARK: - ZAMNA Banner
+
+    private var zamnaBanner: some View {
+        Button {
+            if let url = URL(string: "https://solun.art/zamna") {
+                UIApplication.shared.open(url)
+            }
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: "music.note.house.fill")
+                    .font(.system(size: 13))
+                    .foregroundStyle(Color(hex: "c8a455"))
+                Text("ZAMNA × SOLUNA FEST HAWAII 2026 — WhoMadeWho · Mathame · Korolova")
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundStyle(Color(hex: "c8a455"))
+                    .lineLimit(1)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 9))
+                    .foregroundStyle(Color(hex: "c8a455").opacity(0.5))
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
+            .background(Color(hex: "0d0b08"))
+            .overlay(alignment: .bottom) {
+                Divider().background(Color(hex: "c8a455").opacity(0.1))
+            }
         }
     }
 
@@ -325,9 +358,17 @@ struct MessageRow: View {
                             Text("AI")
                                 .font(.system(size: 8, weight: .heavy))
                                 .foregroundStyle(Color(hex: "c8a455"))
-                                .padding(.horizontal, 5)
-                                .padding(.vertical, 1)
+                                .padding(.horizontal, 5).padding(.vertical, 1)
                                 .background(Color(hex: "c8a455").opacity(0.15))
+                                .clipShape(Capsule())
+                        }
+                        if msg.member_type == "owner" || msg.member_type == "admin" {
+                            Text("OWNER")
+                                .font(.system(size: 7, weight: .heavy))
+                                .foregroundStyle(Color(hex: "c8a455"))
+                                .padding(.horizontal, 5).padding(.vertical, 1)
+                                .background(Color(hex: "c8a455").opacity(0.12))
+                                .overlay(Capsule().stroke(Color(hex: "c8a455").opacity(0.3), lineWidth: 0.5))
                                 .clipShape(Capsule())
                         }
                         Text(formatTime(msg.created_at))

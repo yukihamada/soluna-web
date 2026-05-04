@@ -2,6 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<style id="__hb">body{display:none!important}</style>
+<script>(function(){var A=['mail@yukihamada.jp','yuki@hamada.tokyo'],t=localStorage.getItem('sln_token');if(!t){location.replace('/');return;}fetch('/api/soluna/me',{headers:{Authorization:'Bearer '+t}}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d&&d.member&&A.indexOf(d.member.email)>=0){var s=document.getElementById('__hb');if(s)s.remove();}else{location.replace('/');}}).catch(function(){location.replace('/');});})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SOLUNA NEURO Dashboard — AI CABIN #01</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%234aeadc'/></svg>">
@@ -641,5 +643,7 @@ setTimeout(addLogEntry, rand(3000,6000));
 
 })();
 </script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
 </body>
 </html>

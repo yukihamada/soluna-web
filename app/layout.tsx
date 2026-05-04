@@ -11,22 +11,22 @@ export const viewport: Viewport = {
 const GA_MEASUREMENT_ID = "G-XWZTCMLK4M";
 
 export const metadata: Metadata = {
-  title: "SOLUNA — Festival Experience Platform | SOLUNA FEST HAWAII 2026",
+  title: "SOLUNA — 別荘共同所有・フェス体験 | 北海道・熱海・ハワイ 780万円〜",
   description:
-    "Drop a track, get a radio channel. Vote for the next headliner. SOLUNA FEST HAWAII — Sep 4–6, 2026, Oahu.",
+    "10口シェアで登記所有。北海道3万坪・熱海・ハワイの別荘を780万円から所有。使わない期間はプロが管理。ZAMNA HAWAII 2026も開催。",
   metadataBase: new URL("https://solun.art"),
   openGraph: {
-    title: "SOLUNA — Festival Experience Platform",
-    description: "Drop a track, get a radio channel. Vote for the next headliner. SOLUNA FEST HAWAII Sep 4–6, 2026.",
+    title: "SOLUNA — 別荘共同所有・フェス体験",
+    description: "10口シェアで登記所有。北海道・熱海・ハワイの別荘を780万円から。ZAMNA HAWAII 2026開催。",
     type: "website",
     url: "https://solun.art",
     siteName: "SOLUNA",
-    locale: "en_US",
+    locale: "ja_JP",
   },
   twitter: {
     card: "summary_large_image",
-    title: "SOLUNA — Festival Experience Platform",
-    description: "Drop a track, get a radio channel. Vote for the next headliner. SOLUNA FEST HAWAII Sep 4–6, 2026.",
+    title: "SOLUNA — 別荘共同所有・フェス体験",
+    description: "10口シェアで登記所有。北海道・熱海・ハワイの別荘を780万円から。ZAMNA HAWAII 2026開催。",
     site: "@solaborig",
   },
   robots: { index: true, follow: true },
@@ -38,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

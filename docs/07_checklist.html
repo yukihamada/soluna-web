@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>申請チェックリスト — 天空の道場 開業ロードマップ</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;color:#111;font-family:'Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3',Meiryo,sans-serif;font-size:10.5pt;line-height:1.8;max-width:760px;margin:0 auto;padding:32px 20px}
+@media print{body{padding:12px;font-size:9.5pt}}
+h1{font-size:16pt;font-weight:bold;text-align:center;margin-bottom:4px;letter-spacing:.08em}
+.sub{text-align:center;font-size:9.5pt;color:#666;margin-bottom:24px}
+h2{font-size:12pt;font-weight:bold;margin:24px 0 10px;padding:5px 10px;background:#222;color:#fff;letter-spacing:.05em}
+h3{font-size:11pt;font-weight:bold;margin:16px 0 6px;color:#444;border-bottom:1px solid #ddd;padding-bottom:4px}
+table{width:100%;border-collapse:collapse;margin:8px 0}
+table th,table td{border:1px solid #ddd;padding:7px 10px;font-size:9.5pt;vertical-align:top}
+table th{background:#f5f5f5;font-weight:bold}
+.cb-cell{width:26px;text-align:center}
+.cb{width:16px;height:16px;border:1.5px solid #555;display:inline-block;vertical-align:middle}
+.status-open{color:#1a7a3a;font-weight:bold}
+.status-warn{color:#cc7700;font-weight:bold}
+.status-wait{color:#555}
+.cost-total{background:#f0f0f0;font-weight:bold}
+.phase{
+  display:inline-block;font-size:8pt;font-weight:bold;
+  padding:1px 7px;border-radius:10px;margin-right:6px;white-space:nowrap;
+}
+.p0{background:#e8e8e8;color:#333}
+.p1{background:#ffe0c0;color:#993300}
+.p2{background:#d0e8ff;color:#003399}
+.p3{background:#d0ffe0;color:#006600}
+.p4{background:#f0d0ff;color:#660099}
+.priority{font-size:8pt;color:#cc0000;font-weight:bold}
+.note{font-size:8.5pt;color:#666;margin-top:4px;font-style:italic}
+.timeline-visual{
+  display:flex;gap:0;margin:16px 0;overflow-x:auto;
+}
+.tl-box{
+  flex:1;min-width:120px;border:1px solid #ddd;text-align:center;
+  padding:10px 6px;font-size:9pt;
+}
+.tl-box:not(:last-child){border-right:none}
+.tl-box.current{background:#fff3e0;border-color:#ff9800}
+.tl-month{font-size:10pt;font-weight:bold;color:#333;display:block;margin-bottom:4px}
+.tl-items{font-size:8pt;color:#555;line-height:1.6;text-align:left}
+</style>
+</head>
+<body>
+
+<h1>開業ロードマップ & 申請チェックリスト</h1>
+<p class="sub">SOLUNA 天空の道場 — グランピング + 焼肉古今 熊牛</p>
+
+<!-- TIMELINE VISUAL -->
+<div class="timeline-visual">
+  <div class="tl-box current">
+    <span class="tl-month">Month 0<br>（今すぐ）</span>
+    <div class="tl-items">✦ 合同会社設立<br>✦ YKK窓発注<br>✦ 建築士手配</div>
+  </div>
+  <div class="tl-box">
+    <span class="tl-month">Month 1</span>
+    <div class="tl-items">✦ 建築確認申請<br>✦ スクリューパイル<br>✦ コンテナ発注</div>
+  </div>
+  <div class="tl-box">
+    <span class="tl-month">Month 2</span>
+    <div class="tl-items">✦ 衛生責任者取得<br>✦ 建設工事<br>✦ 消防設備設置</div>
+  </div>
+  <div class="tl-box">
+    <span class="tl-month">Month 3</span>
+    <div class="tl-items">✦ 簡易宿所申請<br>✦ 飲食店許可申請<br>✦ 消防検査</div>
+  </div>
+  <div class="tl-box">
+    <span class="tl-month">Month 3+<br>（開業）</span>
+    <div class="tl-items">✦ 許可証受取<br>✦ 試験営業<br>✦ 予約受付開始</div>
+  </div>
+</div>
+
+<!-- PHASE 0 -->
+<h2>📋 フェーズ 0 — 法人設立（今すぐ）</h2>
+<table>
+  <tr><th class="cb-cell">✓</th><th>タスク</th><th>提出先</th><th>費用</th><th>期間</th></tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td><strong>合同会社SOLUNA 設立定款作成</strong> <span class="priority">★最優先</span><br>
+    <span class="note">定款01参照 / 印鑑作成も同時に / 法務局電子申請推奨</span></td>
+    <td>釧路地方法務局</td>
+    <td>¥60,000</td>
+    <td>2〜3週間</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>会社実印・銀行印・角印 作成</td>
+    <td>印鑑店</td>
+    <td>¥15,000</td>
+    <td>即日〜3日</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>法人口座開設（住信SBIまたはPayPay銀行）</td>
+    <td>各銀行</td>
+    <td>¥0</td>
+    <td>1〜2週間</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>YKK APW430 トリプル窓 発注 <span class="priority">★納期6週間</span><br>
+    <span class="note">窓が最長納期のため全工程の中で最優先発注</span></td>
+    <td>YKK代理店</td>
+    <td>¥260,000</td>
+    <td>6週間</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>建築士事務所 選定・依頼（釧路または帯広）<br>
+    <span class="note">4号建築物申請 + グランピング用途 + 構造設計込みで依頼</span></td>
+    <td>建築士事務所</td>
+    <td>¥150,000</td>
+    <td>即時契約</td>
+  </tr>
+</table>
+
+<!-- PHASE 1 -->
+<h2>🏗 フェーズ 1 — 建築確認 & 資材調達（Month 1）</h2>
+<table>
+  <tr><th class="cb-cell">✓</th><th>タスク</th><th>提出先</th><th>費用</th><th>期間</th></tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td><strong>建築確認申請（4号建築物）</strong> <span class="priority">★必須</span><br>
+    <span class="note">コンテナはスクリューパイルに固定 = 建築物 = 申請必須</span></td>
+    <td>弟子屈町建築課</td>
+    <td>申請費含む上記</td>
+    <td>3〜4週間</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>スクリューパイル施工業者 現地調査・見積り<br>
+    <span class="note">道東杭工業(釧路) / 凍結深度1.2m以上 / 材工共</span></td>
+    <td>施工業者</td>
+    <td>¥280,000〜</td>
+    <td>要相談</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>40ftコンテナ 発注（中古A品）<br>
+    <span class="note">コンテナ.jp / 釧路港または帯広デポ受取 / ユニック込み配送手配</span></td>
+    <td>コンテナ業者</td>
+    <td>¥430,000</td>
+    <td>3〜4週間</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>プレカット木材発注（2×6フレーム + 切妻屋根）<br>
+    <span class="note">寸法図を渡してコメリプロ/製材所でカット。現場加工ゼロ。</span></td>
+    <td>コメリプロ/製材所</td>
+    <td>¥166,000</td>
+    <td>2週間</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>合併処理浄化槽 設置申請（弟子屈町環境課）<br>
+    <span class="note">補助金対象か確認。設置工事は建設工事と並行。</span></td>
+    <td>弟子屈町環境課</td>
+    <td>¥85,000〜</td>
+    <td>2〜3週間</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>弟子屈町地域振興課 農村特区申請相談<br>
+    <span class="note">「農村滞在型観光施設」として届出 + 補助金（最大¥1,000,000）確認</span></td>
+    <td>弟子屈町役場</td>
+    <td>¥0</td>
+    <td>要相談</td>
+  </tr>
+</table>
+
+<!-- PHASE 2 -->
+<h2>🔨 フェーズ 2 — 建設工事 & 資格取得（Month 2）</h2>
+<table>
+  <tr><th class="cb-cell">✓</th><th>タスク</th><th>提出先</th><th>費用</th><th>期間</th></tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>スクリューパイル施工 + コンテナ設置</td>
+    <td>施工業者</td>
+    <td>含む上記</td>
+    <td>2〜3日</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>外付け木フレーム組立 + 藁ベール充填 + ガルバリウム屋根<br>
+    <span class="note">DIY可能 / 週末2〜3回で完成見込み</span></td>
+    <td>DIY</td>
+    <td>¥315,000</td>
+    <td>2〜3週間</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>コンテナ窓開口加工（溶接工外注）</td>
+    <td>溶接業者</td>
+    <td>¥69,000</td>
+    <td>1〜2日</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>内装工事（PUスプレー + 漆喰 + 無垢床）<br>
+    <span class="note">漆喰はDIY / PUスプレーは業者発注</span></td>
+    <td>DIY + 一部業者</td>
+    <td>¥320,000</td>
+    <td>1〜2週間</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>設備工事（電気 + 給排水 + 暖房）<br>
+    <span class="note">電気は第2種電気工事士要 / 給排水は専門業者 / 薪ストーブ設置</span></td>
+    <td>各専門業者</td>
+    <td>¥580,000</td>
+    <td>3〜5日</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td><strong>食品衛生責任者 養成講習受講</strong> <span class="priority">★</span><br>
+    <span class="note">釧路市食品衛生協会 / 1日講習 / 受講後即日資格証発行</span></td>
+    <td>釧路市食品衛生協会</td>
+    <td>¥10,000</td>
+    <td>1日</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>消防用設備設置 + 設置届出<br>
+    <span class="note">煙感知器・消火器・誘導灯・CO警報器 / 消防設備士による設置</span></td>
+    <td>弟子屈消防署</td>
+    <td>¥30,000</td>
+    <td>1〜2日</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>農家レストラン特例確認 申請<br>
+    <span class="note">書類06を釧路農業改良普及センターに提出</span></td>
+    <td>釧路農改センター</td>
+    <td>¥0</td>
+    <td>2〜3週間</td>
+  </tr>
+</table>
+
+<!-- PHASE 3 -->
+<h2>📝 フェーズ 3 — 許認可申請（Month 3）</h2>
+<table>
+  <tr><th class="cb-cell">✓</th><th>タスク</th><th>提出先</th><th>費用</th><th>期間</th></tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>消防法令適合通知書 取得<br>
+    <span class="note">消防署の現地検査 → 合格 → 通知書発行。宿所申請の必須添付書類。</span></td>
+    <td>弟子屈消防署</td>
+    <td>¥0</td>
+    <td>1〜2週間</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td><strong>簡易宿所営業許可 申請</strong> <span class="priority">★</span><br>
+    <span class="note">書類02 + 消防通知書 + 建築確認済証 + 平面図 / 収入証紙¥22,000</span></td>
+    <td>釧路保健所</td>
+    <td>¥22,000</td>
+    <td>2〜4週間</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td><strong>飲食店営業許可 申請</strong> <span class="priority">★</span><br>
+    <span class="note">書類03 + 衛生責任者資格証 + 施設平面図（厨房詳細） / 収入証紙¥20,000</span></td>
+    <td>釧路保健所</td>
+    <td>¥20,000</td>
+    <td>2〜4週間</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>食品衛生責任者 選任届 提出<br>
+    <span class="note">書類04 / 飲食店許可申請と同時提出</span></td>
+    <td>釧路保健所</td>
+    <td>¥0</td>
+    <td>同時</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>Starlink 設置・開通確認<br>
+    <span class="note">starlink.com / 弟子屈エリア住所で申込 / 月額¥6,600</span></td>
+    <td>Starlink</td>
+    <td>¥75,000</td>
+    <td>1〜2週間</td>
+  </tr>
+  <tr>
+    <td class="cb-cell"><div class="cb"></div></td>
+    <td>SOLUNAアプリ予約機能 開放（メンバー向け）</td>
+    <td>社内</td>
+    <td>¥0</td>
+    <td>—</td>
+  </tr>
+</table>
+
+<!-- COST SUMMARY -->
+<h2>💰 費用総まとめ</h2>
+<table>
+  <tr><th>カテゴリ</th><th style="text-align:right">概算費用</th><th>備考</th></tr>
+  <tr><td>法人設立・登記</td><td style="text-align:right">¥75,000</td><td>印鑑含む</td></tr>
+  <tr><td>建築確認申請</td><td style="text-align:right">¥150,000</td><td>建築士手数料込</td></tr>
+  <tr><td>許可申請手数料</td><td style="text-align:right">¥42,000</td><td>簡易宿所+飲食店</td></tr>
+  <tr><td>食品衛生責任者講習</td><td style="text-align:right">¥10,000</td><td>1日取得</td></tr>
+  <tr><td>消防設備</td><td style="text-align:right">¥30,000</td><td>設置費含む</td></tr>
+  <tr><td>建設・設備工事（建物本体）</td><td style="text-align:right">¥6,210,000</td><td>購入リスト参照</td></tr>
+  <tr><td>その他（謄本・諸経費）</td><td style="text-align:right">¥18,000</td><td></td></tr>
+  <tr class="cost-total"><td>申請費用のみ合計</td><td style="text-align:right">¥310,000</td><td>工事費別</td></tr>
+  <tr class="cost-total"><td><strong>全体合計（概算）</strong></td><td style="text-align:right"><strong>¥6,520,000</strong></td><td>工事費含む</td></tr>
+</table>
+
+<!-- CONTACT LIST -->
+<h2>📞 連絡先一覧</h2>
+<table>
+  <tr><th>窓口</th><th>電話</th><th>担当内容</th></tr>
+  <tr><td>釧路保健所</td><td>0154-43-9189</td><td>簡易宿所・飲食店許可</td></tr>
+  <tr><td>弟子屈消防署</td><td>015-482-2200</td><td>消防設備届・適合通知書</td></tr>
+  <tr><td>弟子屈町建設課</td><td>015-482-2945</td><td>建築確認申請</td></tr>
+  <tr><td>弟子屈町地域振興課</td><td>015-482-2901</td><td>農村特区・補助金</td></tr>
+  <tr><td>弟子屈町環境課</td><td>015-482-2911</td><td>浄化槽設置届</td></tr>
+  <tr><td>釧路地方法務局</td><td>0154-31-5000</td><td>合同会社設立登記</td></tr>
+  <tr><td>釧路農業改良普及センター</td><td>0154-43-9311</td><td>農家レストラン特例</td></tr>
+  <tr><td>釧路市食品衛生協会</td><td>0154-41-2326</td><td>食品衛生責任者講習</td></tr>
+</table>
+
+<p style="text-align:center;font-size:9pt;color:#999;margin-top:24px">
+SOLUNA 合同会社 / 令和　年　月　日作成 / cabin/permit.html より
+</p>
+
+</body>
+</html>

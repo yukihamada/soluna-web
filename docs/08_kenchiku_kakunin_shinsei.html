@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>建築確認申請書（第四号様式）— SOLUNA 天空の道場 A棟</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;color:#111;font-family:'Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3',Meiryo,'MS PGothic',sans-serif;font-size:10.5pt;line-height:1.8;max-width:760px;margin:0 auto;padding:32px 24px}
+@media print{
+  body{padding:12px;max-width:100%}
+  .no-print{display:none}
+  .page-break{page-break-before:always}
+}
+h1{font-size:15pt;font-weight:bold;text-align:center;letter-spacing:.2em;margin-bottom:2px}
+h2{font-size:11pt;font-weight:bold;margin:18px 0 6px;padding:4px 8px;background:#f0f0f0;border-left:3px solid #333}
+h3{font-size:10.5pt;font-weight:bold;margin:14px 0 4px}
+.subtitle{font-size:9.5pt;text-align:center;color:#444;margin-bottom:2px}
+.form-num{font-size:9pt;text-align:right;margin-bottom:12px;color:#555}
+.date-line{text-align:right;margin-bottom:14px;font-size:10.5pt}
+.to-line{margin-bottom:14px;font-size:11pt;font-weight:bold}
+
+table.main{width:100%;border-collapse:collapse;margin:8px 0 16px}
+table.main th,table.main td{border:1px solid #333;padding:6px 10px;vertical-align:top;font-size:10pt}
+table.main th{background:#f5f5f5;font-weight:bold;white-space:nowrap;width:36%}
+table.main td .note{font-size:8.5pt;color:#666;margin-top:2px}
+.write{border-bottom:1px solid #666;min-height:20px;display:inline-block;min-width:180px}
+.seal{width:52px;height:52px;border:1px solid #333;display:inline-flex;align-items:center;justify-content:center;font-size:8pt;color:#888;vertical-align:middle;margin-left:12px}
+.check-row{display:flex;gap:16px;flex-wrap:wrap;margin:2px 0}
+.cb{width:13px;height:13px;border:1px solid #333;display:inline-block;vertical-align:middle;margin-right:4px}
+.checked{background:#111}
+
+/* SIGN BLOCK */
+.sign-block{margin-top:24px;border:1px solid #333;padding:12px}
+.sign-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sign-row{margin-bottom:6px}
+.sign-label{font-size:9.5pt;color:#444;margin-bottom:2px}
+.sign-line{border-bottom:1px solid #333;min-height:22px;margin-bottom:2px}
+
+/* NOTE BOX */
+.note-box{background:#fafafa;border:1px solid #ccc;padding:12px 14px;margin:16px 0;font-size:9.5pt;color:#555;line-height:1.7}
+.warn-box{background:#fff8f0;border:1px solid #e0a040;padding:10px 14px;margin:12px 0;font-size:9pt;color:#7a4a00}
+
+/* ATTACHMENTS */
+.attach-list{list-style:none;margin:0;padding:0}
+.attach-list li{border-bottom:1px solid #eee;padding:6px 4px;font-size:10pt;display:flex;gap:8px;align-items:center}
+.attach-list li:last-child{border-bottom:none}
+.att-num{font-weight:bold;min-width:24px;color:#444}
+.att-status{font-size:9pt;padding:1px 8px;border-radius:4px;white-space:nowrap}
+.att-ok{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
+.att-need{background:#fff3e0;color:#e65100;border:1px solid #ffcc80}
+
+/* NAV */
+.nav-bar{background:#1a1a14;padding:10px 16px;margin:-32px -24px 24px;display:flex;align-items:center;gap:16px}
+.nav-bar a{color:#c8a455;text-decoration:none;font-size:10pt}
+.nav-bar a:hover{color:#e8c070}
+
+.footer{margin-top:40px;padding-top:16px;border-top:1px solid #ccc;font-size:9pt;color:#888;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="nav-bar no-print">
+  <a href="/permit">← 許認可ガイド</a>
+  <a href="/docs/09_kenchiku_drawings">📐 図面セット →</a>
+  <a href="#" onclick="window.print();return false">🖨 印刷</a>
+</div>
+
+<!-- ============================================================ -->
+<!-- 表紙 -->
+<!-- ============================================================ -->
+<p class="form-num">建築基準法施行規則　第三条の四　第四号様式</p>
+<p class="subtitle">建築基準法第6条第1項（第４号）の規定による申請</p>
+<h1>建築確認申請書</h1>
+<p class="subtitle" style="margin-bottom:20px">（正　本）</p>
+
+<p class="date-line">令和　 7　年　 5　月　　　日</p>
+
+<p class="to-line">北海道知事　殿<br>
+<span style="font-size:9.5pt;font-weight:normal">（釧路総合振興局 建設指導課 経由）</span></p>
+
+<p style="margin-bottom:16px;font-size:10pt">建築基準法第６条第１項の規定により、下記のとおり確認を申請します。</p>
+
+<!-- ============================================================ -->
+<!-- 1. 建築主 -->
+<!-- ============================================================ -->
+<h2>第１　建築主</h2>
+<table class="main">
+  <tr>
+    <th>住所</th>
+    <td>〒108-0073　東京都港区三田二丁目7番1号<br>THE RESIDENCE三田 1913号室</td>
+  </tr>
+  <tr>
+    <th>氏名（法人名）</th>
+    <td>濱田　優貴　　　　<span class="seal">印</span>
+      <div class="note">※法人で申請する場合：合同会社SOLUNA　代表社員　濱田優貴</div>
+    </td>
+  </tr>
+  <tr>
+    <th>電話番号</th>
+    <td>090-7409-0407</td>
+  </tr>
+</table>
+
+<!-- ============================================================ -->
+<!-- 2. 代理者 -->
+<!-- ============================================================ -->
+<h2>第２　代理者（建築士事務所）</h2>
+<table class="main">
+  <tr>
+    <th>事務所名称</th>
+    <td><span class="write" style="min-width:280px"></span>　建築士事務所</td>
+  </tr>
+  <tr>
+    <th>登録番号</th>
+    <td>北海道知事登録 第　<span class="write" style="min-width:80px"></span>　号</td>
+  </tr>
+  <tr>
+    <th>担当建築士氏名</th>
+    <td><span class="write" style="min-width:180px"></span>　　<span class="seal">印</span></td>
+  </tr>
+  <tr>
+    <th>建築士免許番号</th>
+    <td>一級建築士 / 二級建築士　第　<span class="write" style="min-width:80px"></span>　号</td>
+  </tr>
+  <tr>
+    <th>事務所住所・電話</th>
+    <td><span class="write" style="min-width:320px"></span></td>
+  </tr>
+</table>
+<div class="warn-box">⚠️ 担当建築士事務所が決まり次第、上記を記入。カイトー商会（0120-527-133）またはジオロテック（0154-64-6120）に紹介依頼済。</div>
+
+<!-- ============================================================ -->
+<!-- 3. 工事監理者 -->
+<!-- ============================================================ -->
+<h2>第３　工事監理者</h2>
+<table class="main">
+  <tr>
+    <th>氏名・事務所</th>
+    <td>第２に同じ（設計者が兼任）</td>
+  </tr>
+</table>
+
+<!-- ============================================================ -->
+<!-- 4. 工事施工者 -->
+<!-- ============================================================ -->
+<h2>第４　工事施工者（予定）</h2>
+<table class="main">
+  <tr>
+    <th>建設業者名</th>
+    <td><span class="write" style="min-width:240px"></span>　（スクリューパイル・コンテナ据付工事）</td>
+  </tr>
+  <tr>
+    <th>住所・電話</th>
+    <td><span class="write" style="min-width:320px"></span></td>
+  </tr>
+</table>
+
+<!-- ============================================================ -->
+<!-- 5. 建築物の概要 -->
+<!-- ============================================================ -->
+<h2>第５　確認を申請する建築物の概要</h2>
+
+<h3>（1）建築物の名称・用途</h3>
+<table class="main">
+  <tr>
+    <th>建築物の名称</th>
+    <td>天空の道場 A棟（SOLUNA KUMAUSHI BASE グランピング棟）</td>
+  </tr>
+  <tr>
+    <th>主要用途</th>
+    <td>宿泊施設（旅館業法上の簡易宿所）<br>
+      <div class="note">建築基準法 別表第一（い）欄：ホテル又は旅館</div>
+    </td>
+  </tr>
+</table>
+
+<h3>（2）建築物の所在地</h3>
+<table class="main">
+  <tr>
+    <th>地番（登記地番）</th>
+    <td><strong>北海道川上郡標茶町字西熊牛原野西四線　第92番2</strong></td>
+  </tr>
+  <tr>
+    <th>地目</th>
+    <td>原野</td>
+  </tr>
+  <tr>
+    <th>敷地面積</th>
+    <td>10,861 ㎡（約3,285坪）</td>
+  </tr>
+</table>
+
+<h3>（3）用途地域・地域地区</h3>
+<table class="main">
+  <tr>
+    <th>都市計画区域の内外</th>
+    <td>
+      <div class="check-row">
+        <label><span class="cb"></span>都市計画区域内（市街化区域）</label>
+        <label><span class="cb checked"></span><strong>都市計画区域内（市街化調整区域）</strong></label>
+        <label><span class="cb"></span>都市計画区域外</label>
+      </div>
+      <div class="note">標茶町：市街化調整区域。農振農用地区域外（原野）のため農地転用不要。<br>都市計画法34条12号（土地所有者の自己用建築）に基づく建築可能。</div>
+    </td>
+  </tr>
+  <tr>
+    <th>用途地域</th>
+    <td>指定なし（市街化調整区域）</td>
+  </tr>
+  <tr>
+    <th>防火地域</th>
+    <td>指定なし</td>
+  </tr>
+  <tr>
+    <th>建ぺい率の限度</th>
+    <td>指定なし（建築基準法第53条対象外区域）</td>
+  </tr>
+  <tr>
+    <th>容積率の限度</th>
+    <td>指定なし</td>
+  </tr>
+</table>
+
+<h3>（4）接道</h3>
+<table class="main">
+  <tr>
+    <th>前面道路の種別</th>
+    <td>農道（標茶町道　西四線）</td>
+  </tr>
+  <tr>
+    <th>前面道路の幅員</th>
+    <td>約 4.0 m</td>
+  </tr>
+</table>
+
+<h3>（5）建築物の構造・規模</h3>
+<table class="main">
+  <tr>
+    <th>構造種別</th>
+    <td>
+      <div class="check-row">
+        <label><span class="cb"></span>木造</label>
+        <label><span class="cb checked"></span><strong>鉄骨造（鋼製コンテナ）</strong></label>
+        <label><span class="cb"></span>鉄筋コンクリート造</label>
+        <label><span class="cb"></span>その他</label>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <th>基礎の種類</th>
+    <td>ねじ込み式鋼管杭（スクリューパイル）φ114.3mm × L3,000mm　8本打設</td>
+  </tr>
+  <tr>
+    <th>階数</th>
+    <td>地上 1 階　地下 0 階</td>
+  </tr>
+  <tr>
+    <th>建築面積</th>
+    <td><strong>29.74 ㎡</strong>　（12.192m × 2.438m）</td>
+  </tr>
+  <tr>
+    <th>延べ面積</th>
+    <td><strong>29.74 ㎡</strong>　（1階のみ）</td>
+  </tr>
+  <tr>
+    <th>高さ</th>
+    <td>2.60 m（コンテナ外法高さ）</td>
+  </tr>
+  <tr>
+    <th>軒の高さ</th>
+    <td>2.60 m</td>
+  </tr>
+  <tr>
+    <th>建ぺい率</th>
+    <td>29.74 ÷ 10,861 ≒ <strong>0.27 ％</strong>（制限なし）</td>
+  </tr>
+  <tr>
+    <th>容積率</th>
+    <td>29.74 ÷ 10,861 ≒ <strong>0.27 ％</strong>（制限なし）</td>
+  </tr>
+</table>
+
+<h3>（6）工事種別</h3>
+<table class="main">
+  <tr>
+    <th>工事種別</th>
+    <td>
+      <div class="check-row">
+        <label><span class="cb checked"></span><strong>新築</strong></label>
+        <label><span class="cb"></span>増築</label>
+        <label><span class="cb"></span>改築</label>
+        <label><span class="cb"></span>移転</label>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <th>着工予定年月日</th>
+    <td>令和　 7　年　 6　月　（確認済証交付後、速やかに着工）</td>
+  </tr>
+  <tr>
+    <th>完了予定年月日</th>
+    <td>令和　 7　年　 9　月</td>
+  </tr>
+</table>
+
+<h3>（7）申請区分</h3>
+<table class="main">
+  <tr>
+    <th>申請区分</th>
+    <td>
+      <div class="check-row">
+        <label><span class="cb"></span>第1号</label>
+        <label><span class="cb"></span>第2号</label>
+        <label><span class="cb"></span>第3号</label>
+        <label><span class="cb checked"></span><strong>第4号（木造以外 2階以下 延床200㎡以下）</strong></label>
+      </div>
+    </td>
+  </tr>
+</table>
+
+<!-- ============================================================ -->
+<!-- 6. 添付図書 -->
+<!-- ============================================================ -->
+<h2>第６　添付図書</h2>
+<ul class="attach-list">
+  <li>
+    <span class="att-num">1</span>
+    <span style="flex:1">付近見取図（縮尺 1/5,000 以上）</span>
+    <span class="att-status att-ok">✓ 別紙参照</span>
+  </li>
+  <li>
+    <span class="att-num">2</span>
+    <span style="flex:1">配置図（縮尺 1/200 以上）　― 敷地内の建物位置・方位・隣地境界・前面道路</span>
+    <span class="att-status att-ok">✓ 図面 No.01</span>
+  </li>
+  <li>
+    <span class="att-num">3</span>
+    <span style="flex:1">各階平面図（縮尺 1/50 以上）　― 1F平面図（間取り・寸法・用途区分）</span>
+    <span class="att-status att-ok">✓ 図面 No.02</span>
+  </li>
+  <li>
+    <span class="att-num">4</span>
+    <span style="flex:1">立面図 2面（縮尺 1/50 以上）　― 南面・東面</span>
+    <span class="att-status att-ok">✓ 図面 No.03</span>
+  </li>
+  <li>
+    <span class="att-num">5</span>
+    <span style="flex:1">断面図 1面（縮尺 1/50 以上）　― 桁行方向断面</span>
+    <span class="att-status att-ok">✓ 図面 No.04</span>
+  </li>
+  <li>
+    <span class="att-num">6</span>
+    <span style="flex:1">基礎伏図（縮尺 1/50 以上）　― スクリューパイル配置・仕様</span>
+    <span class="att-status att-ok">✓ 図面 No.05</span>
+  </li>
+  <li>
+    <span class="att-num">7</span>
+    <span style="flex:1">使用構造材料一覧表　― コンテナ鋼材仕様・スクリューパイル仕様</span>
+    <span class="att-status att-ok">✓ 別紙参照</span>
+  </li>
+  <li>
+    <span class="att-num">8</span>
+    <span style="flex:1">土地登記簿謄本（地番確認用）</span>
+    <span class="att-status att-need">要取得</span>
+  </li>
+  <li>
+    <span class="att-num">9</span>
+    <span style="flex:1">公図（地番図）― 法務局取得</span>
+    <span class="att-status att-need">要取得</span>
+  </li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- 7. 使用構造材料一覧表 -->
+<!-- ============================================================ -->
+<h2>第７　使用構造材料一覧表</h2>
+<table class="main">
+  <tr>
+    <th>主要構造部材</th>
+    <th style="width:auto">仕様・規格</th>
+  </tr>
+  <tr>
+    <td>コンテナ本体（外壁・屋根・床）</td>
+    <td>ISO規格 40ft ドライコンテナ（CSC認定品）<br>
+        材質：コールテン鋼（降伏強度 355N/mm²）<br>
+        外寸：12,192mm（L）× 2,438mm（W）× 2,591mm（H）<br>
+        床：積載荷重 3t/軸（公的認証品）</td>
+  </tr>
+  <tr>
+    <td>基礎（スクリューパイル）</td>
+    <td>ねじ込み式鋼管杭　φ114.3mm × 肉厚 4.5mm × L3,000mm<br>
+        材質：STKM13A（機械構造用炭素鋼管）<br>
+        打設本数：8本、設計鉛直耐力 ≥ 40kN/本<br>
+        コーナー部：コンテナ角フィッティングにベースプレート溶接固定</td>
+  </tr>
+  <tr>
+    <td>内装材（断熱）</td>
+    <td>硬質ウレタンフォーム 吹付 t=80mm（λ=0.023W/mK）</td>
+  </tr>
+  <tr>
+    <td>内装壁・天井</td>
+    <td>針葉樹合板 t=12mm（JAS F☆☆☆☆）＋OSBボード t=12mm</td>
+  </tr>
+  <tr>
+    <td>床仕上</td>
+    <td>LIXILラシッサ Dフロア （複合フローリング）<br>
+        防湿シート t=0.2mm 上敷き根太60×45@303 合板t=12+t=9 上張り</td>
+  </tr>
+  <tr>
+    <td>開口部（サッシ）</td>
+    <td>LIXIL APW430　樹脂窓 Low-E トリプルガラス（Uw≤0.90）<br>
+        開口箇所：プラズマ切断による鋼板開口＋枠溶接補強</td>
+  </tr>
+  <tr>
+    <td>換気設備</td>
+    <td>24時間換気（機械換気第一種）<br>
+        換気量：居室部 ≥ 0.5回/h、浴室部 ≥ 1.0回/h</td>
+  </tr>
+  <tr>
+    <td>給水</td>
+    <td>井戸水（既設）または地下水引込み<br>飲料用：逆浸透膜浄水器 設置</td>
+  </tr>
+  <tr>
+    <td>排水</td>
+    <td>合併処理浄化槽 5人槽（JISA3302準拠）+ 地下浸透</td>
+  </tr>
+  <tr>
+    <td>電気</td>
+    <td>太陽光発電 5kW（Longi Hi-MO6×10枚）<br>
+        蓄電池：EcoFlow DELTA Pro × 2台（7.2kWh）<br>
+        非常用電源：Honda EU28i（2.8kVA）</td>
+  </tr>
+  <tr>
+    <td>暖房</td>
+    <td>薪ストーブ（HARVIA M3 / 出力6kW）× 1台</td>
+  </tr>
+</table>
+
+<!-- ============================================================ -->
+<!-- 8. 署名欄 -->
+<!-- ============================================================ -->
+<div class="sign-block">
+  <div class="sign-grid">
+    <div>
+      <div class="sign-row">
+        <div class="sign-label">建築主　住所</div>
+        <div class="sign-line">〒108-0073　東京都港区三田二丁目7番1号 THE RESIDENCE三田1913号室</div>
+      </div>
+      <div class="sign-row">
+        <div class="sign-label">建築主　氏名</div>
+        <div class="sign-line">濱田　優貴</div>
+        <div style="display:inline-block"><span class="seal">印</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="sign-row">
+        <div class="sign-label">設計者（代理者）</div>
+        <div class="sign-line"></div>
+      </div>
+      <div class="sign-row">
+        <div class="sign-label">建築士氏名・登録番号</div>
+        <div class="sign-line"></div>
+        <div style="display:inline-block"><span class="seal">印</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="note-box" style="margin-top:24px">
+  <strong>申請先：</strong>釧路総合振興局 建設指導課（〒085-8588 釧路市浦見4丁目1番5号）<br>
+  電話：0154-43-9168（建設指導係）<br>
+  <br>
+  <strong>申請手数料（4号建築物）：</strong><br>
+  ・延べ面積 30㎡以下 → 北海道建築確認申請手数料条例による（約 ¥6,000〜¥10,000）<br>
+  ・建築士事務所への依頼費込み概算：¥150,000 前後<br>
+  <br>
+  <strong>審査期間：</strong>受理後 3〜4週間（標準処理期間）<br>
+  <strong>着工条件：</strong>確認済証の交付を受けた後でなければ着工不可（建築基準法第6条第1項）
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE 2: 付近見取図 -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h2 style="margin-top:32px">【別紙】付近見取図　縮尺：1/10,000（参考）</h2>
+<p style="font-size:9.5pt;color:#555;margin:6px 0 12px">北海道川上郡標茶町字西熊牛原野西四線 第92番2</p>
+
+<svg viewBox="0 0 700 400" width="100%" style="border:1px solid #ccc;background:#f9f8f4;font-family:sans-serif">
+  <!-- 道路 -->
+  <rect x="0" y="160" width="700" height="40" fill="#ddd" stroke="#aaa"/>
+  <text x="350" y="184" text-anchor="middle" font-size="11" fill="#555">標茶町道　西四線（農道 幅員約4m）</text>
+  <!-- 方位矢 -->
+  <g transform="translate(650,50)">
+    <polygon points="0,0 -8,30 0,22 8,30" fill="#333"/>
+    <text x="0" y="-4" text-anchor="middle" font-size="12" fill="#333">N</text>
+  </g>
+  <!-- 敷地 -->
+  <rect x="80" y="220" width="350" height="140" fill="rgba(200,164,85,.12)" stroke="#c8a455" stroke-width="2"/>
+  <text x="255" y="285" text-anchor="middle" font-size="13" fill="#8a6020" font-weight="bold">【申請地】第92番2</text>
+  <text x="255" y="302" text-anchor="middle" font-size="11" fill="#a07030">10,861㎡（原野）</text>
+  <!-- 建物 -->
+  <rect x="170" y="240" width="70" height="25" fill="#c8a455" stroke="#8a6020" stroke-width="1.5"/>
+  <text x="205" y="256" text-anchor="middle" font-size="9" fill="#5a3a00">A棟（申請）</text>
+  <!-- 隣地 -->
+  <rect x="0" y="220" width="78" height="140" fill="#ececec" stroke="#aaa"/>
+  <text x="39" y="295" text-anchor="middle" font-size="10" fill="#777">隣地</text>
+  <rect x="432" y="220" width="268" height="140" fill="#ececec" stroke="#aaa"/>
+  <text x="566" y="295" text-anchor="middle" font-size="10" fill="#777">原野</text>
+  <rect x="80" y="0" width="350" height="158" fill="#ececec" stroke="#aaa"/>
+  <text x="255" y="80" text-anchor="middle" font-size="10" fill="#777">原野（農地なし）</text>
+  <!-- 凡例 -->
+  <rect x="20" y="20" width="12" height="12" fill="rgba(200,164,85,.3)" stroke="#c8a455"/>
+  <text x="38" y="31" font-size="10" fill="#555">申請地 92番2</text>
+  <rect x="20" y="38" width="12" height="12" fill="#c8a455"/>
+  <text x="38" y="49" font-size="10" fill="#555">申請建築物（A棟）</text>
+</svg>
+
+<div class="footer no-print">
+  書類番号：08　建築確認申請書（第四号様式）<br>
+  作成日：2026年5月　　次の書類 → <a href="/docs/09_kenchiku_drawings">図面セット（配置図・平面図・立面図・断面図・基礎伏図）</a>
+</div>
+
+</body>
+</html>

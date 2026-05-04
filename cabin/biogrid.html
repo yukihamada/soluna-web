@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BioGrid / BioBreath — 特許開示書類</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--bg:#0a0a08;--card:#141412;--border:#2a2a26}
+body{background:var(--bg);color:#e8e6e0;font-family:'Helvetica Neue',Arial,sans-serif;line-height:1.7;font-size:15px}
+a{color:var(--gold);text-decoration:none}
+
+/* ── header ── */
+header{background:linear-gradient(135deg,#0f0f0c,#1a1a14);border-bottom:1px solid var(--border);padding:36px 40px 28px;position:sticky;top:0;z-index:100}
+.logo{font-size:.75rem;letter-spacing:.25em;color:var(--gold);font-weight:700;margin-bottom:8px}
+h1{font-size:1.55rem;font-weight:700;color:#fff;letter-spacing:.04em;margin-bottom:4px}
+.subtitle{font-size:.82rem;color:#888;letter-spacing:.05em}
+.badge{display:inline-block;background:rgba(200,164,85,.15);border:1px solid rgba(200,164,85,.35);color:var(--gold);font-size:.7rem;padding:3px 10px;border-radius:20px;margin-top:10px;letter-spacing:.08em}
+
+/* ── layout ── */
+.wrap{max-width:1100px;margin:0 auto;padding:48px 40px}
+section{margin-bottom:56px}
+h2{font-size:1.15rem;font-weight:700;color:var(--gold);letter-spacing:.08em;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+h3{font-size:.95rem;font-weight:700;color:#d0ccc0;margin:22px 0 10px}
+
+/* ── cards ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px 28px;margin-bottom:16px}
+.card.gold{border-color:rgba(200,164,85,.4);background:rgba(200,164,85,.05)}
+.card.red{border-color:rgba(220,80,80,.35);background:rgba(220,80,80,.04)}
+.card.green{border-color:rgba(80,180,80,.35);background:rgba(80,180,80,.04)}
+
+/* ── status pills ── */
+.pill{display:inline-block;font-size:.68rem;padding:2px 9px;border-radius:20px;font-weight:700;letter-spacing:.05em;margin-left:8px;vertical-align:middle}
+.pill.ok{background:rgba(80,200,80,.2);color:#60e060;border:1px solid rgba(80,200,80,.35)}
+.pill.warn{background:rgba(240,180,40,.15);color:#e8b840;border:1px solid rgba(240,180,40,.3)}
+.pill.no{background:rgba(220,60,60,.15);color:#e06060;border:1px solid rgba(220,60,60,.3)}
+.pill.future{background:rgba(80,140,240,.15);color:#80b0ff;border:1px solid rgba(80,140,240,.3)}
+
+/* ── table ── */
+table{width:100%;border-collapse:collapse;font-size:.84rem;margin:12px 0}
+th{background:#1c1c18;color:#aaa;font-weight:600;text-align:left;padding:10px 14px;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid #1c1c18;vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums;color:#a0c8a0}
+
+/* ── figure ── */
+.fig-wrap{background:#fff;border-radius:10px;overflow:hidden;margin:16px 0;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.fig-label{background:#111;color:#888;font-size:.78rem;padding:8px 16px;border-bottom:1px solid #222}
+.fig-wrap img{width:100%;display:block}
+
+/* ── claim box ── */
+.claim{background:#0d0d0b;border-left:3px solid var(--gold);padding:16px 20px;border-radius:0 8px 8px 0;margin:12px 0;font-size:.88rem;color:#ccc;font-style:italic;line-height:1.8}
+
+/* ── step timeline ── */
+.steps{list-style:none}
+.steps li{display:flex;gap:16px;margin-bottom:16px}
+.step-num{width:28px;height:28px;border-radius:50%;background:rgba(200,164,85,.2);border:1px solid rgba(200,164,85,.4);color:var(--gold);font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body{flex:1}
+.step-title{font-weight:600;color:#e0dcd4;font-size:.9rem}
+.step-desc{font-size:.82rem;color:#888;margin-top:3px}
+
+/* ── alert ── */
+.alert{border-radius:8px;padding:14px 18px;font-size:.84rem;margin:16px 0}
+.alert.info{background:rgba(80,140,240,.1);border:1px solid rgba(80,140,240,.25);color:#90b8f8}
+.alert.warn{background:rgba(240,160,40,.08);border:1px solid rgba(240,160,40,.25);color:#e0b060}
+
+/* ── footer ── */
+footer{border-top:1px solid var(--border);padding:28px 40px;text-align:center;font-size:.75rem;color:#555}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">SOLUNA × ENABLER</div>
+  <h1>BioGrid / BioBreath — 発明開示書</h1>
+  <div class="subtitle">Invention Disclosure — Confidential Patent Filing Material</div>
+  <div><span class="badge">CONFIDENTIAL — 弁理士相談用</span> <span class="badge">2026-04-28</span> <span class="badge">発明者: 濱田優貴</span></div>
+</header>
+
+<div class="wrap">
+
+<!-- ── エグゼクティブサマリー ── -->
+<section>
+  <h2>エグゼクティブサマリー</h2>
+  <div class="card gold">
+    <h3 style="margin-top:0;color:var(--gold)">本書の目的</h3>
+    <p>本書は特許出願の優先日確保を目的とした発明開示書です。下記2件の発明について、先行技術との差異・実現性・出願戦略を整理しました。弁理士によるクレームドラフトおよびJ-PlatPat先行技術調査のご依頼です。</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+    <div class="card green">
+      <div style="font-size:.7rem;color:#60c060;letter-spacing:.1em;font-weight:700;margin-bottom:8px">出願A — 今すぐ出願可能</div>
+      <div style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:6px">熱交換結露水を<br>MFC電解液として再利用する換気システム</div>
+      <div style="font-size:.8rem;color:#888">実現性 ✅ 新規性 ✅高<br>先行技術なしの可能性大</div>
+    </div>
+    <div class="card green">
+      <div style="font-size:.7rem;color:#60c060;letter-spacing:.1em;font-weight:700;margin-bottom:8px">出願B — 今すぐ出願可能</div>
+      <div style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:6px">空気清浄フィルター捕集有機物を<br>MFC燃料として生物分解する方法</div>
+      <div style="font-size:.8rem;color:#888">実現性 ✅ 新規性 ✅高<br>廃棄物ゼロという差別化</div>
+    </div>
+  </div>
+
+  <div class="alert warn" style="margin-top:16px">
+    ⚠️ <strong>出願Cは実験後:</strong> 生物電気フィンガープリント（BEF）位置認証は概念として新規性があるが、特許実施例に必要な実験データが未取得。仮出願後に実験データを追加して正式出願。
+  </div>
+</section>
+
+<!-- ── 発明A ── -->
+<section>
+  <h2>発明A — 熱交換結露水 × MFC電解液</h2>
+
+  <div class="card">
+    <h3 style="margin-top:0">技術原理（確実に成立）</h3>
+    <p>全熱交換換気装置は室内外の温度差により必然的に結露水を生成する。この結露水（pH 6〜8）はMFCのNafion膜が必要とするプロトン伝導用水分として機能する。外部からの水補給なしにMFCを長期継続動作させることが可能。</p>
+    <div style="background:#0a0a0a;border-radius:8px;padding:16px;margin-top:14px;font-family:monospace;font-size:.82rem;color:#80c080">
+      熱交換換気 → 結露水生成（必然）<br>
+      結露水（pH6〜8） → Nafion膜の水分補給<br>
+      Nafion膜湿潤 → プロトン伝導効率維持<br>
+      → MFC連続動作（外部給水ゼロ）
+    </div>
+  </div>
+
+  <h3>特許請求の範囲（案）</h3>
+  <div class="claim">
+    請求項1: 熱交換型換気装置の熱交換素子表面に生じる結露水を、微生物燃料電池（MFC）のプロトン交換膜または電解質層への水分供給源として利用することにより、外部からの補水を不要とすることを特徴とする換気システム。
+  </div>
+  <div class="claim">
+    請求項2（従属）: 請求項1において、前記MFCが生成する電力を、換気制御回路・環境センサー・無線通信モジュールのうち少なくとも一つの駆動電源として用いることを特徴とするシステム。
+  </div>
+  <div class="claim">
+    請求項3（従属）: 請求項1において、前記熱交換素子が全熱交換素子であり、換気風量に比例して生成される結露水量がMFCの連続動作に必要な水分量以上であることを特徴とするシステム。
+  </div>
+
+  <h3>先行技術との差異</h3>
+  <table>
+    <tr><th>先行技術</th><th>差異</th><th>状況</th></tr>
+    <tr><td>MFC一般（排水処理用）</td><td>液体廃水を燃料とする。結露水利用の記載なし</td><td><span class="pill ok">差異あり</span></td></tr>
+    <tr><td>熱交換換気（HEX）一般</td><td>結露水は排水処理。MFCへの転用記載なし</td><td><span class="pill ok">差異あり</span></td></tr>
+    <tr><td>MFC水分管理研究</td><td>外部給水によるMFC性能維持。結露水利用なし</td><td><span class="pill ok">差異あり</span></td></tr>
+  </table>
+  <div class="alert info">J-PlatPatでの検索推奨キーワード: 「微生物燃料電池 結露水」「MFC 熱交換器 電解液」「MFC 換気 補水」</div>
+</section>
+
+<!-- ── 発明B ── -->
+<section>
+  <h2>発明B — HEPAフィルター捕集物 × MFC燃料</h2>
+
+  <div class="card">
+    <h3 style="margin-top:0">技術原理（成立・ただし発電量は微小）</h3>
+    <p>HEPAフィルターに捕集される有機物（花粉・カビ胞子・細菌細胞体など）はMFCのアノード側で電気活性菌（Geobacter属等）により酸化分解され、電子を放出する。フィルター交換時に廃棄せず菌床に投入することで廃棄物ゼロを実現。</p>
+    <div class="alert warn" style="margin-top:12px">
+      ⚠️ <strong>正直な注記:</strong> 発電量への貢献は微小（年間フィルター1枚あたり数グラムの有機物）。本発明の核心は「廃棄物ゼロ」「生物分解による環境負荷低減」であり、発電量の過大主張は避ける。
+    </div>
+  </div>
+
+  <h3>特許請求の範囲（案）</h3>
+  <div class="claim">
+    請求項1: 空気清浄フィルターが捕集した有機物質を、微生物燃料電池の炭素源として供給し生物電気化学的に分解することにより、フィルター廃棄物を電気エネルギーに変換することを特徴とするフィルターリサイクル方法。
+  </div>
+  <div class="claim">
+    請求項2（従属）: 請求項1において、前記有機物質が花粉、黴胞子、微生物細胞体のうち少なくとも一つを含み、前記微生物燃料電池の電気活性菌が前記有機物質を酸化分解することを特徴とする方法。
+  </div>
+  <div class="claim">
+    請求項3（従属）: 請求項1において、前記フィルターの使用済み交換品を前記微生物燃料電池の菌床槽に直接投入することにより、フィルター廃棄物の固形廃棄を不要とすることを特徴とするシステム。
+  </div>
+
+  <table>
+    <tr><th>先行技術</th><th>差異</th><th>状況</th></tr>
+    <tr><td>HEPAフィルター一般</td><td>廃棄のみ。MFCへの投入記載なし</td><td><span class="pill ok">差異あり</span></td></tr>
+    <tr><td>MFC燃料（汚泥・排水）</td><td>液体燃料。固体フィルター捕集物の利用なし</td><td><span class="pill ok">差異あり</span></td></tr>
+    <tr><td>生ゴミMFC</td><td>食品廃棄物を燃料。空気清浄フィルター捕集物との区別あり</td><td><span class="pill ok">差異あり</span></td></tr>
+  </table>
+  <div class="alert info">J-PlatPatでの検索推奨キーワード: 「空気清浄 フィルター 微生物燃料電池」「HEPA 廃棄物 電気分解」「フィルター 生物電気化学」</div>
+</section>
+
+<!-- ── 発明C（将来） ── -->
+<section>
+  <h2>発明C — 生物電気フィンガープリント位置認証 <span class="pill future">実験後に出願</span></h2>
+  <div class="card">
+    <p>土壌微生物群の種類・比率は地点ごとに固有であり、MFCの電気出力パターン（電圧・電流・経時変化）が地点固有の識別情報となる。これを位置認証に使う概念は新規性があるが、<strong>特許実施例として必要な再現性データが現時点では未取得</strong>。</p>
+    <div style="margin-top:12px;font-size:.84rem;color:#888">
+      必要な実験: 同一地点で7日間のMFC出力記録 → 類似度 &gt;0.90 の再現性確認 → 異なる地点との識別実験
+    </div>
+  </div>
+</section>
+
+<!-- ── 図面 ── -->
+<section>
+  <h2>図面（全4図）</h2>
+
+  <div class="fig-wrap">
+    <div class="fig-label">【図1】BioGridパネル断面構造図 — MFC積層構造・電気化学反応・出力仕様</div>
+    <img src="/biogrid/fig1_biogrid_panel.svg" alt="Fig1">
+  </div>
+
+  <div class="fig-wrap">
+    <div class="fig-label">【図2】BioBreath壁掛け換気ユニット — 結露水フロー・フィルター有機物フロー・太陽光電源</div>
+    <img src="/biogrid/fig2_biobreath_unit.svg" alt="Fig2">
+  </div>
+
+  <div class="fig-wrap">
+    <div class="fig-label">【図3】エネルギーハーベスト回路図 — MFC+太陽光ハイブリッド・BQ25504・nRF52840・電力収支</div>
+    <img src="/biogrid/fig3_circuit.svg" alt="Fig3">
+  </div>
+
+  <div class="fig-wrap">
+    <div class="fig-label">【図4】自律制御ループ — 生物電気フィードバック・フィルター廃棄物フロー・全体システム</div>
+    <img src="/biogrid/fig4_control_loop.svg" alt="Fig4">
+  </div>
+</section>
+
+<!-- ── BOM ── -->
+<section>
+  <h2>部品表（BOM）— プロトタイプ1台</h2>
+  <table>
+    <tr><th>部品</th><th>型番</th><th>用途</th><th>単価</th></tr>
+    <tr><td>エネルギーハーベストIC</td><td>TI BQ25504</td><td>MFC昇圧（50mV→3.3V）</td><td class="num">¥480</td></tr>
+    <tr><td>スーパーキャパシタ</td><td>10F / 5.5V</td><td>蓄電バッファ</td><td class="num">¥320</td></tr>
+    <tr><td>BLE+NFCマイコン</td><td>Nordic nRF52840</td><td>制御・無線送信</td><td class="num">¥680</td></tr>
+    <tr><td>CO2センサー</td><td>Sensirion SCD40</td><td>室内空気質計測</td><td class="num">¥3,200</td></tr>
+    <tr><td>炭素繊維フェルト電極</td><td>300×300mm ×2</td><td>MFCアノード・カソード</td><td class="num">¥2,400</td></tr>
+    <tr><td>Nafion膜 N117</td><td>300×300mm</td><td>プロトン交換膜（PEM）</td><td class="num">¥3,800</td></tr>
+    <tr><td>薄膜ソーラー</td><td>250×400mm 30W</td><td>換気ファン主電源</td><td class="num">¥4,800</td></tr>
+    <tr><td>HEPAフィルター H13</td><td>200×200mm</td><td>空気清浄・捕集物→MFC</td><td class="num">¥1,800</td></tr>
+    <tr><td>全熱交換コア</td><td>200mm角</td><td>熱交換・結露水→MFC</td><td class="num">¥6,500</td></tr>
+    <tr><td>竹合板・フレーム</td><td>カスタム</td><td>筐体</td><td class="num">¥4,000</td></tr>
+    <tr><td style="font-weight:700">合計</td><td></td><td></td><td class="num" style="font-weight:700;color:var(--gold)">¥27,980</td></tr>
+  </table>
+</section>
+
+<!-- ── 弁理士へのお願い ── -->
+<section>
+  <h2>弁理士へのお願い</h2>
+
+  <div class="card gold" style="margin-bottom:20px">
+    <h3 style="margin-top:0;color:var(--gold)">依頼内容</h3>
+    <ol style="padding-left:20px;font-size:.88rem;line-height:2">
+      <li>J-PlatPatによる先行技術調査（発明A・Bそれぞれ）</li>
+      <li>仮出願による優先日確保（今月中を希望）</li>
+      <li>上記クレーム案のレビューと権利範囲の最大化</li>
+      <li>国際出願（PCT）の要否と費用感のご意見</li>
+    </ol>
+  </div>
+
+  <ul class="steps">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">先行技術調査（1〜2週間）</div>
+        <div class="step-desc">「微生物燃料電池 結露水」「HEPA フィルター MFC 燃料」等でJ-PlatPat・Google Patents検索。新規性確認後にクレーム修正。</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">仮出願 / 国内出願（優先日確保）</div>
+        <div class="step-desc">先行技術調査と並行して仮出願可能であれば今月中に実施希望。発明A・Bを1出願 or 分割出願のご判断をお願いします。</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">プロトタイプ実験（3ヶ月）</div>
+        <div class="step-desc">MFCと結露水・フィルター捕集物の実験データを取得。発明Cの実施例補強および正式出願のデータとして活用。</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">PCT出願（優先日から12ヶ月以内）</div>
+        <div class="step-desc">米国・EU・中国への展開を想定。HVAC市場（住宅・ホテル向け）へのライセンスを想定。費用感のご相談。</div>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<!-- ── 先行技術調査結果 ── -->
+<section>
+  <h2>先行技術調査結果（実施済み）</h2>
+
+  <div class="card green" style="margin-bottom:16px">
+    <h3 style="margin-top:0;color:#60c060">調査実施日: 2026-04-28 / 調査手段: Google Patents・日本語Web検索</h3>
+    <p style="font-size:.85rem;color:#aaa">Google Patentsにて英語・日本語キーワードで検索。J-PlatPat直接検索は弁理士に別途依頼。</p>
+  </div>
+
+  <h3>発明A — 結露水 × MFC</h3>
+  <table>
+    <tr><th>検索キーワード</th><th>ヒット特許</th><th>内容</th><th>判定</th></tr>
+    <tr>
+      <td>"microbial fuel cell" "condensate water" "heat exchanger"</td>
+      <td>US6723461B2</td>
+      <td><strong>水素</strong>燃料電池の水分管理。MFCとは別物。</td>
+      <td><span class="pill ok">無関係</span></td>
+    </tr>
+    <tr>
+      <td>"microbial fuel cell" "condensation water" electrolyte</td>
+      <td>GB2443492A</td>
+      <td><strong>水素</strong>FCの排ガス凝縮水回収システム。</td>
+      <td><span class="pill ok">無関係</span></td>
+    </tr>
+    <tr>
+      <td>特許「微生物燃料電池」「結露水」OR「凝縮水」換気</td>
+      <td>CN203907580U</td>
+      <td>工業用蒸気復水システム。燃料電池との組み合わせなし。</td>
+      <td><span class="pill ok">無関係</span></td>
+    </tr>
+  </table>
+  <div class="alert info" style="margin-top:8px">
+    ✅ <strong>ヒットなし（組み合わせとして）:</strong> 既存特許はすべて水素燃料電池（PEMFC/SOFC）の水管理。「熱交換型換気の結露水 → MFC（微生物燃料電池）の電解液」という組み合わせは先行技術なしの可能性が高い。
+  </div>
+
+  <h3 style="margin-top:20px">発明B — HEPAフィルター廃棄物 × MFC</h3>
+  <table>
+    <tr><th>検索キーワード</th><th>ヒット文献</th><th>内容</th><th>判定</th></tr>
+    <tr>
+      <td>"microbial fuel cell" "HEPA" OR "air purifier" OR "air filter" organic fuel</td>
+      <td>一般MFC文献多数</td>
+      <td>排水・汚泥・食品廃棄物をMFC燃料とする研究は豊富。空気清浄フィルターとの組み合わせなし。</td>
+      <td><span class="pill warn">原理は既知</span></td>
+    </tr>
+    <tr>
+      <td>"microbial fuel cell" filter organic waste fuel recycling</td>
+      <td>CN101719555A</td>
+      <td>藻類+MFCで排水処理。空気清浄との組み合わせなし。</td>
+      <td><span class="pill ok">無関係</span></td>
+    </tr>
+    <tr>
+      <td>MFCバイオフィルター研究</td>
+      <td>学術論文複数</td>
+      <td>MFCとバイオフィルターの組み合わせで有機物除去。ただし<strong>空気清浄フィルターとは別もの</strong>（液体系）。</td>
+      <td><span class="pill warn">発想は近い</span></td>
+    </tr>
+  </table>
+  <div class="alert info" style="margin-top:8px">
+    ✅ <strong>組み合わせとしてヒットなし:</strong> 「有機廃棄物をMFCで分解して電力化」という原理は先行技術あり。ただし「空気清浄フィルターの捕集物（花粉・カビ胞子）をMFC燃料として使う」という特定の組み合わせは発見されず。
+  </div>
+
+  <h3 style="margin-top:20px">弁理士への追加依頼事項（J-PlatPat IPC分類検索）</h3>
+  <table>
+    <tr><th>発明</th><th>IPC分類</th><th>組み合わせ検索</th></tr>
+    <tr><td>MFC一般</td><td>H01M8/16, C12N1/00</td><td>—</td></tr>
+    <tr><td>換気・熱交換</td><td>F24F1/00, F28B9/00</td><td>H01M8/16 AND F28B9/00 ← 重要</td></tr>
+    <tr><td>空気清浄</td><td>B01D46/00, F24F8/00</td><td>H01M8/16 AND B01D46/00 ← 重要</td></tr>
+  </table>
+</section>
+
+<!-- ── 実験プロトコル ── -->
+<section>
+  <h2>実験プロトコル（概念実証 — 4週間）</h2>
+
+  <div class="card" style="margin-bottom:16px">
+    <p style="margin:0;font-size:.88rem;color:#aaa">詳細プロトコルは <code style="color:var(--gold)">experiment_protocol.md</code> を参照。以下は要点。</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div class="card green">
+      <div style="font-size:.7rem;color:#60c060;font-weight:700;margin-bottom:8px">Week 1-2 / 発明A検証</div>
+      <ul style="font-size:.82rem;color:#aaa;padding-left:18px;line-height:1.9">
+        <li>標準MFC（NaCl電解液 + 酢酸）を組み立て動作確認</li>
+        <li>エアコン/ペルチェで結露水を採取</li>
+        <li>結露水をそのまま電解液として使用</li>
+        <li>期待値: OCV 0.3〜0.7V / 電流 0.1〜1mA</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <div style="font-size:.7rem;color:#60c060;font-weight:700;margin-bottom:8px">Week 2-3 / 発明B検証</div>
+      <ul style="font-size:.82rem;color:#aaa;padding-left:18px;line-height:1.9">
+        <li>空気清浄機フィルター1〜2週間使用後の廃棄物を採取</li>
+        <li>蒸留水に懸濁・上清を抽出</li>
+        <li>MFCの炭素源として投入</li>
+        <li>Controlと比較: 電圧・電流・経時変化を記録</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3 style="margin-top:0">実験コスト（最低構成 ¥5,000）</h3>
+    <table>
+      <tr><th>部品</th><th>代替品</th><th>価格</th></tr>
+      <tr><td>カーボンフェルト電極</td><td>備長炭 / 電池炭素棒でも可</td><td class="num">¥2,000</td></tr>
+      <tr><td>Nafion膜（PEM）</td><td><strong>素焼き植木鉢底部（100均）でプロトタイプ可</strong></td><td class="num">¥110</td></tr>
+      <tr><td>スーパーキャパシタ 10F</td><td>—</td><td class="num">¥500</td></tr>
+      <tr><td>マルチメーター + 配線</td><td>—</td><td class="num">¥1,500</td></tr>
+      <tr><td>食塩・重曹・土壌</td><td>—</td><td class="num">¥300</td></tr>
+      <tr><td style="font-weight:700">最低構成合計</td><td></td><td class="num" style="font-weight:700;color:var(--gold)">¥4,410</td></tr>
+    </table>
+    <div class="alert warn" style="margin-top:12px;margin-bottom:0">
+      ⚠️ BQ25504・nRF52840は第2フェーズで追加。まず「電圧が出るか」の概念実証を優先。
+    </div>
+  </div>
+</section>
+
+<!-- ── 発明者情報 ── -->
+<section>
+  <h2>発明者情報</h2>
+  <div class="card">
+    <table style="font-size:.88rem">
+      <tr><td style="color:#888;width:120px">発明者</td><td>濱田 優貴（ハマダ ユウキ）</td></tr>
+      <tr><td style="color:#888">所属</td><td>株式会社Enabler / SOLUNA（共同所有型リゾート事業）</td></tr>
+      <tr><td style="color:#888">メール</td><td><a href="mailto:mail@yukihamada.jp">mail@yukihamada.jp</a></td></tr>
+      <tr><td style="color:#888">電話</td><td>090-7409-0407</td></tr>
+      <tr><td style="color:#888">住所</td><td>〒108-0073 東京都港区三田2-7-1 THE RESIDENCE三田 1913号室</td></tr>
+      <tr><td style="color:#888">背景</td><td>元Mercari CPO / NOT A HOTEL共同創業 / IOT・リゾート事業</td></tr>
+      <tr><td style="color:#888">開示日</td><td>2026年4月28日</td></tr>
+    </table>
+  </div>
+</section>
+
+</div>
+<footer>CONFIDENTIAL — 弁理士相談専用資料 ／ 本書の無断転載・二次利用を禁じます ／ ©2026 濱田優貴</footer>
+<script src="/js/dc.js"></script>
+</body>
+</html>

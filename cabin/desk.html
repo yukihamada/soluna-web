@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOLUNA — デスクトップ</title>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--bg:#0a0a0e;--card:#141418;--card2:#1a1a20;
+  --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.04);
+  --text:#e8e0cc;--muted:#5a5660;--blue:#5aa0e6;--green:#4ecb8d;--red:#e65a5a;--purple:#9070d0;
+}
+html,body{background:var(--bg);color:var(--text);font-family:-apple-system,'Helvetica Neue',sans-serif;height:100%;overflow-x:hidden}
+body{
+  background:
+    radial-gradient(ellipse 120% 60% at 20% 10%,rgba(200,164,85,.04) 0%,transparent 60%),
+    radial-gradient(ellipse 80% 80% at 80% 90%,rgba(90,160,230,.04) 0%,transparent 60%),
+    #090910;
+  min-height:100vh;
+}
+
+/* ── MENUBAR ── */
+.menubar{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  background:rgba(10,10,14,.85);backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;height:38px;
+}
+.menubar-left{display:flex;align-items:center;gap:14px}
+.menubar-logo{font-size:13px;font-weight:800;color:var(--gold);letter-spacing:.08em}
+.menubar-link{font-size:12px;color:var(--muted);cursor:pointer;transition:color .15s;background:none;border:none;font-family:inherit}
+.menubar-link:hover{color:var(--text)}
+.menubar-right{display:flex;align-items:center;gap:14px}
+.clock{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* ── SEARCH ── */
+.search-wrap{
+  position:fixed;top:46px;left:50%;transform:translateX(-50%);z-index:400;
+  width:min(520px,90vw);
+}
+.search-box{
+  width:100%;background:rgba(20,20,28,.92);backdrop-filter:blur(30px);
+  border:1px solid rgba(200,164,85,.2);border-radius:14px;
+  padding:10px 16px 10px 40px;
+  font-size:14px;color:var(--text);outline:none;
+  box-shadow:0 8px 40px rgba(0,0,0,.5);
+  transition:border-color .2s;
+}
+.search-box::placeholder{color:var(--muted)}
+.search-box:focus{border-color:rgba(200,164,85,.4)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none}
+.search-count{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted)}
+
+/* ── SITEMAP LAYOUT ── */
+.desktop{
+  padding:90px 28px 120px;
+  display:flex;flex-direction:column;gap:20px;
+  max-width:1200px;margin:0 auto;
+  position:relative;z-index:1;
+}
+.sm-section{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.sm-head{font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--muted);padding:13px 18px 10px;border-bottom:1px solid var(--border2);text-transform:uppercase}
+.sm-section .files-grid{display:grid;padding:10px 14px 14px}
+.sm-section[data-admin-only]{display:none}
+
+/* ── FOLDER ── */
+.folder{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  cursor:pointer;transition:border-color .2s,background .2s,transform .1s;
+  overflow:hidden;
+}
+.folder:hover{border-color:rgba(200,164,85,.25);background:var(--card2);transform:translateY(-1px)}
+.folder.open{border-color:rgba(200,164,85,.35);background:var(--card2);grid-column:1/-1}
+.folder-head{display:flex;align-items:center;gap:10px;padding:14px 16px}
+.folder-icon{font-size:1.6rem;flex-shrink:0}
+.folder-info{flex:1;min-width:0}
+.folder-name{font-size:12px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.folder-count{font-size:10px;color:var(--muted);margin-top:2px}
+.folder-chevron{font-size:12px;color:var(--muted);flex-shrink:0;transition:transform .2s}
+.folder.open .folder-chevron{transform:rotate(90deg);color:var(--gold)}
+.folder-tag{font-size:8px;padding:1px 6px;border-radius:8px;margin-left:4px;font-weight:700;vertical-align:middle}
+.tag-new{background:rgba(78,203,141,.15);color:var(--green);border:1px solid rgba(78,203,141,.25)}
+.tag-hot{background:rgba(230,90,90,.12);color:var(--red);border:1px solid rgba(230,90,90,.2)}
+
+/* ── FILES GRID ── */
+.files-grid{
+  display:none;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:8px;padding:4px 16px 16px;
+}
+.folder.open .files-grid{display:grid}
+.file-card{
+  background:rgba(255,255,255,.03);border:1px solid var(--border2);
+  border-radius:10px;padding:10px 12px;
+  cursor:pointer;color:inherit;text-decoration:none;display:block;
+  transition:background .15s,border-color .15s;
+  user-select:none;
+}
+.file-card:hover{background:rgba(200,164,85,.06);border-color:rgba(200,164,85,.2)}
+.file-card.hidden{display:none}
+.fc-icon{font-size:1rem;margin-bottom:4px;display:block}
+.fc-name{font-size:11px;font-weight:600;color:#c8b888;line-height:1.3;margin-bottom:2px}
+.fc-desc{font-size:9px;color:var(--muted);line-height:1.4}
+.fc-badge{display:inline-block;font-size:8px;padding:1px 5px;border-radius:5px;margin-top:4px}
+.fb-new{background:rgba(78,203,141,.12);color:var(--green);border:1px solid rgba(78,203,141,.2)}
+.fb-doc{background:rgba(90,160,230,.1);color:var(--blue);border:1px solid rgba(90,160,230,.2)}
+.fb-gold{background:rgba(200,164,85,.1);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.fb-red{background:rgba(230,90,90,.1);color:var(--red);border:1px solid rgba(230,90,90,.2)}
+.fb-pdf{background:rgba(220,60,60,.1);color:#e07070;border:1px solid rgba(220,60,60,.2)}
+.file-card[data-pdf]{border-style:dashed}
+.file-card[data-pdf]:hover{border-color:rgba(220,80,80,.4);background:rgba(220,60,60,.06)}
+
+/* ── NO RESULT ── */
+.no-result{grid-column:1/-1;text-align:center;padding:60px 0;font-size:13px;color:var(--muted);display:none}
+.no-result.show{display:block}
+
+/* ── DOCK ── */
+.dock{
+  position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:flex-end;gap:8px;z-index:2500;
+  background:rgba(14,14,20,.7);backdrop-filter:blur(30px) saturate(180%);
+  border:1px solid rgba(255,255,255,.1);border-radius:20px;
+  padding:10px 16px;
+  box-shadow:0 8px 40px rgba(0,0,0,.5);
+}
+.dock-item{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  cursor:pointer;text-decoration:none;
+  transition:transform .15s;padding:2px 6px;
+  background:none;border:none;color:inherit;font-family:inherit;
+}
+.dock-item:hover{transform:translateY(-6px)}
+.dock-item:hover .dock-icon{font-size:2rem}
+.dock-icon{font-size:1.5rem;transition:font-size .15s}
+.dock-label{font-size:8px;color:var(--muted);white-space:nowrap;letter-spacing:.02em}
+.dock-sep{width:1px;height:36px;background:rgba(255,255,255,.1);margin:0 4px;align-self:center}
+/* Dock indicator dot */
+.dock-item.has-win .dock-label::before{content:'•';color:var(--gold);margin-right:2px;font-size:10px}
+
+/* ═══════════════════════════════════════════════════
+   MAC WINDOW SYSTEM
+═══════════════════════════════════════════════════ */
+#win-layer{
+  position:fixed;inset:0;pointer-events:none;z-index:2000;overflow:hidden;
+}
+.mac-window{
+  position:absolute;
+  width:min(900px,92vw);
+  height:min(650px,80vh);
+  min-width:320px;min-height:200px;
+  background:#1a1a1e;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;
+  box-shadow:0 24px 80px rgba(0,0,0,.8),0 0 0 1px rgba(0,0,0,.3);
+  display:flex;flex-direction:column;
+  pointer-events:all;
+  overflow:hidden;
+  transition:box-shadow .15s;
+}
+.mac-window.focused{
+  box-shadow:0 32px 100px rgba(0,0,0,.9),0 0 0 1px rgba(200,164,85,.15);
+}
+.mac-window.minimized{
+  height:38px;overflow:hidden;
+  resize:none;
+}
+.mac-window.maximized{
+  top:38px!important;left:0!important;
+  width:100vw!important;height:calc(100vh - 38px)!important;
+  border-radius:0;
+}
+
+/* titlebar */
+.win-bar{
+  height:38px;flex-shrink:0;
+  background:rgba(26,26,30,1);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;padding:0 12px;gap:10px;
+  cursor:grab;user-select:none;
+  -webkit-app-region:drag;
+}
+.win-bar:active{cursor:grabbing}
+.win-btns{display:flex;gap:6px;flex-shrink:0}
+.win-btn{
+  width:14px;height:14px;border-radius:50%;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;line-height:1;flex-shrink:0;
+  transition:filter .1s;
+}
+.win-btn:hover{filter:brightness(.8)}
+.w-close{background:#ff5f57}
+.w-min{background:#febc2e}
+.w-max{background:#28c840}
+.win-btn svg{opacity:0;transition:opacity .15s}
+.win-bar:hover .win-btn svg{opacity:1}
+
+.win-title{
+  flex:1;text-align:center;font-size:12px;font-weight:600;
+  color:rgba(255,255,255,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  pointer-events:none;
+}
+.win-loading{
+  position:absolute;top:38px;left:0;right:0;bottom:0;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg);color:var(--muted);font-size:12px;
+  pointer-events:none;transition:opacity .2s;
+}
+.win-loading.done{opacity:0}
+
+/* iframe body */
+.win-body{flex:1;overflow:hidden;position:relative;background:var(--bg)}
+.win-iframe{width:100%;height:100%;border:none;display:block;background:var(--bg)}
+
+/* resize handle */
+.win-resize{
+  position:absolute;right:0;bottom:0;
+  width:18px;height:18px;cursor:se-resize;
+  background:linear-gradient(135deg,transparent 60%,rgba(255,255,255,.1) 100%);
+  border-radius:0 0 12px 0;
+}
+</style>
+</head>
+<body>
+
+<!-- MENUBAR -->
+<div class="menubar">
+  <div class="menubar-left">
+    <a href="/" class="menubar-logo" style="text-decoration:none;color:var(--gold);cursor:pointer">◐ SOLUNA</a>
+    <span class="menubar-link" style="color:var(--muted);font-size:11px">サイトマップ</span>
+    <button class="menubar-link" onclick="closeAllWins()">ウィンドウを全閉</button>
+  </div>
+  <div class="menubar-right">
+    <span id="win-count" style="font-size:11px;color:var(--muted)"></span>
+    <span id="persona-badge" style="display:none;font-size:9px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:8px;background:rgba(200,164,85,.15);color:var(--gold);border:1px solid rgba(200,164,85,.25)"></span>
+    <span class="clock" id="clock"></span>
+    <a href="/" style="font-size:11px;color:var(--muted);text-decoration:none" class="menubar-link">← TOP</a>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input class="search-box" id="search" type="text" placeholder="ページを検索... (Cmd+K)" oninput="doSearch()">
+  <span class="search-count" id="search-count"></span>
+</div>
+
+<!-- WINDOW LAYER -->
+<div id="win-layer"></div>
+
+<!-- SITEMAP -->
+<div class="desktop" id="desktop">
+  <div class="no-result" id="no-result">検索結果なし</div>
+
+  <!-- ─── 会社設立ステータス (admin のみ JS で注入) ─── -->
+  <div id="f-kaisha-status" style="display:none;grid-column:1/-1"></div>
+
+  <!-- ─── 共同所有リゾート ─── -->
+  <div class="sm-section" id="sm-resort">
+    <div class="sm-head">🏔️ 共同所有リゾート</div>
+    <div class="files-grid">
+      <div class="file-card" data-url="/scheme" data-title="スキーム"><span class="fc-icon">🗺️</span><div class="fc-name">スキーム</div><div class="fc-desc">共同所有の仕組みを知る</div></div>
+      <div class="file-card" data-url="/collection" data-title="物件一覧"><span class="fc-icon">🏡</span><div class="fc-name">物件一覧</div><div class="fc-desc">全物件まとめビュー</div></div>
+      <div class="file-card" data-url="/tapkop" data-title="TAPKOP"><span class="fc-icon">🌿</span><div class="fc-name">TAPKOP</div><div class="fc-desc">北海道弟子屈 / ¥8,000万</div><span class="fc-badge fb-gold">稼働中</span></div>
+      <div class="file-card" data-url="/atami" data-title="WHITE HOUSE 熱海"><span class="fc-icon">🌊</span><div class="fc-name">WHITE HOUSE 熱海</div><div class="fc-desc">熱海 / ¥1,900万 / 36泊/年</div><span class="fc-badge fb-gold">稼働中</span></div>
+      <div class="file-card" data-url="/lodge" data-title="THE LODGE"><span class="fc-icon">🏕</span><div class="fc-name">THE LODGE</div><div class="fc-desc">弟子屈 / ¥490万 / 30泊/年</div></div>
+      <div class="file-card" data-url="/nesting" data-title="NESTING"><span class="fc-icon">🪺</span><div class="fc-name">NESTING</div><div class="fc-desc">弟子屈 / ¥890万 / 30泊/年</div></div>
+      <div class="file-card" data-url="/instant" data-title="インスタントハウス"><span class="fc-icon">📦</span><div class="fc-name">インスタントハウス</div><div class="fc-desc">弟子屈 / ¥120万 / 30泊/年</div><span class="fc-badge fb-new">NEW</span></div>
+      <div class="file-card" data-url="/kumaushi" data-title="天空の道場（熊牛）"><span class="fc-icon">⛩️</span><div class="fc-name">天空の道場（熊牛）</div><div class="fc-desc">北海道 / ¥480万 / 2026-09開業</div><span class="fc-badge fb-new">建設中</span></div>
+      <div class="file-card" data-url="/village" data-title="SOLUNAビレッジ"><span class="fc-icon">🏘️</span><div class="fc-name">SOLUNAビレッジ</div><div class="fc-desc">北海道美留和 / ¥490万 / 2026-09</div></div>
+      <div class="file-card" data-url="/honolulu" data-title="HONOLULU VILLA"><span class="fc-icon">🌺</span><div class="fc-name">HONOLULU VILLA</div><div class="fc-desc">ハワイ / ¥2,800万 / 30泊/年</div></div>
+      <div class="file-card" data-url="/hawaii-kai" data-title="HAWAII KAI HOUSE"><span class="fc-icon">🏄</span><div class="fc-name">HAWAII KAI HOUSE</div><div class="fc-desc">ハワイ / ¥3,800万 / 30泊/年</div></div>
+      <div class="file-card" data-url="/buy" data-title="購入・申込"><span class="fc-icon">💰</span><div class="fc-name">購入・申込</div><div class="fc-desc">口数購入・申込フォーム</div></div>
+    </div>
+  </div>
+
+  <!-- ─── 空き家プロジェクト ─── -->
+  <div class="sm-section" id="sm-akiya">
+    <div class="sm-head">🏚️ 空き家プロジェクト</div>
+    <div class="files-grid">
+      <div class="file-card" data-url="/akiya" data-title="空き家リノベ ハブ"><span class="fc-icon">🗺️</span><div class="fc-name">空き家リノベ ハブ</div><div class="fc-desc">全29物件 · 地域別一覧</div><span class="fc-badge fb-new">NEW</span></div>
+      <div class="file-card" data-url="/kagawa-akiya" data-title="香川・瀬戸内"><span class="fc-icon">🌊</span><div class="fc-name">香川 / 瀬戸内</div><div class="fc-desc">小豆島・直島ほか18物件 / ¥1万〜</div></div>
+      <div class="file-card" data-url="/wakayama-akiya" data-title="和歌山"><span class="fc-icon">🌲</span><div class="fc-name">和歌山 / 熊野</div><div class="fc-desc">那智勝浦・龍神ほか10物件</div></div>
+      <div class="file-card" data-url="/hakuba-kominka" data-title="白馬八方 古民家"><span class="fc-icon">🏔️</span><div class="fc-name">白馬 / 古民家</div><div class="fc-desc">築80年農家 / ¥980万/口 / 2028年</div></div>
+    </div>
+  </div>
+
+  <!-- ─── ZAMNA フェス ─── -->
+  <div class="sm-section" id="sm-fest">
+    <div class="sm-head">🎪 ZAMNA HAWAII フェス</div>
+    <div class="files-grid">
+      <div class="file-card" data-url="/zamna" data-title="ZAMNA HAWAII"><span class="fc-icon">🎪</span><div class="fc-name">ZAMNA HAWAII '26</div><div class="fc-desc">2026年9月 ハワイ開催</div><span class="fc-badge fb-gold">先行受付</span></div>
+      <div class="file-card" data-url="/lineup" data-title="ラインナップ"><span class="fc-icon">🎤</span><div class="fc-name">ラインナップ</div><div class="fc-desc">出演アーティスト一覧</div></div>
+      <div class="file-card" data-url="/tickets" data-title="チケット"><span class="fc-icon">🎫</span><div class="fc-name">チケット</div><div class="fc-desc">購入・早割情報</div></div>
+    </div>
+  </div>
+
+  <!-- ─── その他 ─── -->
+  <div class="sm-section" id="sm-more">
+    <div class="sm-head">📱 その他</div>
+    <div class="files-grid">
+      <div class="file-card" data-url="/app" data-title="メンバーアプリ"><span class="fc-icon">📱</span><div class="fc-name">メンバーアプリ</div><div class="fc-desc">OTPログイン・予約・ガイド</div></div>
+      <div class="file-card" data-url="/avail" data-title="空き状況"><span class="fc-icon">📅</span><div class="fc-name">空き状況</div><div class="fc-desc">物件別 空き日程カレンダー</div></div>
+      <div class="file-card" data-url="/community" data-title="コミュニティ"><span class="fc-icon">💬</span><div class="fc-name">コミュニティ</div><div class="fc-desc">メンバー同士のチャット</div></div>
+      <div class="file-card" data-url="/media" data-title="メディア"><span class="fc-icon">🎬</span><div class="fc-name">メディア</div><div class="fc-desc">動画・フォトギャラリー</div></div>
+      <div class="file-card" data-url="/blog" data-title="ブログ"><span class="fc-icon">📝</span><div class="fc-name">ブログ</div><div class="fc-desc">最新情報・レポート</div></div>
+      <div class="file-card" data-url="/faq" data-title="FAQ"><span class="fc-icon">❓</span><div class="fc-name">FAQ</div><div class="fc-desc">よくある質問</div></div>
+      <div class="file-card" data-url="/sound" data-title="サウンド"><span class="fc-icon">🎵</span><div class="fc-name">サウンド</div><div class="fc-desc">SOLUNAの音楽</div></div>
+      <div class="file-card" data-url="/plan" data-title="全体計画"><span class="fc-icon">📋</span><div class="fc-name">全体計画</div><div class="fc-desc">プロジェクト進捗・ロードマップ</div></div>
+    </div>
+  </div>
+
+  <!-- ─── 申請書類 (admin のみ、API自動取得) ─── -->
+  <div class="sm-section" id="sm-docs" data-admin-only="1">
+    <div class="sm-head">📄 申請書類</div>
+    <div class="files-grid" id="docs-files">
+      <div style="padding:8px;font-size:11px;color:var(--muted)">読み込み中...</div>
+    </div>
+  </div>
+
+
+<!-- DOCK -->
+<div class="dock">
+  <button class="dock-item" onclick="openWin('/','SOLUNA TOP')"><span class="dock-icon">◐</span><span class="dock-label">TOP</span></button>
+  <button class="dock-item" onclick="openWin('/app','SOLUNAアプリ')"><span class="dock-icon">📱</span><span class="dock-label">アプリ</span></button>
+  <button class="dock-item" onclick="openWin('/avail','空き状況')"><span class="dock-icon">📅</span><span class="dock-label">空き状況</span></button>
+  <div class="dock-sep"></div>
+  <button class="dock-item" onclick="openWin('/instant','インスタントハウス')"><span class="dock-icon">📦</span><span class="dock-label">即席ハウス</span></button>
+  <button class="dock-item" onclick="openWin('/kokon','焼肉古今')"><span class="dock-icon">🔥</span><span class="dock-label">古今</span></button>
+  <button class="dock-item" onclick="openWin('/permit','許認可ガイド')"><span class="dock-icon">📋</span><span class="dock-label">許認可</span></button>
+  <div class="dock-sep"></div>
+  <button class="dock-item" onclick="openWin('/shopping','購入リスト')"><span class="dock-icon">🛒</span><span class="dock-label">購入リスト</span></button>
+  <button class="dock-item" onclick="openWin('/docs/07_checklist','申請チェックリスト')"><span class="dock-icon">✅</span><span class="dock-label">申請CL</span></button>
+  <div class="dock-sep"></div>
+  <button class="dock-item" onclick="openWin('/buy','口数購入')"><span class="dock-icon">💰</span><span class="dock-label">購入</span></button>
+  <button class="dock-item" onclick="openWin('/community','コミュニティ')"><span class="dock-icon">💬</span><span class="dock-label">コミュニティ</span></button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// CLOCK
+// ═══════════════════════════════════════════════════
+function updateClock(){
+  var d=new Date(),h=d.getHours().toString().padStart(2,'0'),m=d.getMinutes().toString().padStart(2,'0');
+  var days=['日','月','火','水','木','金','土'];
+  document.getElementById('clock').textContent=days[d.getDay()]+' '+h+':'+m;
+}
+updateClock();setInterval(updateClock,15000);
+
+// ── URL sync: open the path if we landed on /desk?open=... or directly on a sub-path ──
+(function(){
+  var path=location.pathname.replace(/\/$/,'');
+  // If URL is not /desk itself, auto-open that page in a window
+  if(path && path!='/desk' && path!=''){
+    var title=path.replace(/^\//,'').replace(/-/g,' ')||'ページ';
+    setTimeout(function(){openWin(path,title);},200);
+  }
+})();
+
+// Browser back/forward: open or restore the window
+window.addEventListener('popstate',function(e){
+  var s=e.state;
+  if(!s) return;
+  if(s.win && s.win!=='/desk'){
+    var ex=document.querySelector('.mac-window[data-url="'+s.win+'"]');
+    if(ex){focusWin(ex);unminimize(ex);}
+    else{openWin(s.win,s.title||s.win);}
+  }
+});
+
+// ═══════════════════════════════════════════════════
+// PERSONA — ?persona=guest|architect|owner|admin
+// ═══════════════════════════════════════════════════
+(function initPersona(){
+  var PERSONAS = [
+    {key:'guest',    label:'一般（初めて）', icon:'👤'},
+    {key:'architect',label:'建築設計',      icon:'🏗'},
+    {key:'owner',    label:'オーナー',      icon:'🏠'},
+    {key:'admin',    label:'管理者',        icon:'⚙️'}
+  ];
+  var COLORS = {
+    admin:    {bg:'rgba(230,90,90,.15)',   color:'#e07070', border:'rgba(230,90,90,.3)'},
+    architect:{bg:'rgba(90,160,230,.15)',  color:'#5aa0e6', border:'rgba(90,160,230,.3)'},
+    owner:    {bg:'rgba(200,164,85,.15)',  color:'#c8a455', border:'rgba(200,164,85,.3)'},
+    guest:    {bg:'rgba(255,255,255,.07)', color:'#7a7680', border:'rgba(255,255,255,.12)'},
+    member:   {bg:'rgba(78,203,141,.12)',  color:'#4ecb8d', border:'rgba(78,203,141,.25)'}
+  };
+
+  // URL param overrides login state (for preview)
+  var urlParam = new URLSearchParams(location.search).get('persona');
+  var isDirectURL = (function(){
+    var p = location.pathname.replace(/\/$/,'');
+    return p && p !== '/desk' && p !== '';
+  })();
+
+  function applyPersona(type){
+    var badge = document.getElementById('persona-badge');
+    var col = COLORS[type] || COLORS.guest;
+    var p = PERSONAS.find(function(p){return p.key===type;}) || PERSONAS[0];
+    badge.textContent = p.icon + ' ' + p.label;
+    badge.style.background = col.bg;
+    badge.style.color = col.color;
+    badge.style.borderColor = col.border;
+    badge.style.display = 'inline';
+
+    // Hide admin-only blocks for non-admin personas
+    if(type !== 'admin'){
+      document.querySelectorAll('[data-admin-only]').forEach(function(el){ el.style.display = 'none'; });
+    } else {
+      // Show and inject admin-only kaisha-status widget
+      document.querySelectorAll('[data-admin-only]').forEach(function(el){ el.style.display = ''; });
+      var ks = document.getElementById('f-kaisha-status');
+      if(ks && !ks._injected){
+        ks._injected = true;
+        ks.className = 'sm-section';
+        ks.style.cssText = 'border-color:rgba(200,164,85,.25);background:var(--card2)';
+        ks.innerHTML = '<div class="sm-head">🏢 合同会社SOLUNA 設立ステータス <span style="font-size:9px;padding:2px 7px;border-radius:8px;background:rgba(200,164,85,.12);color:var(--gold);border:1px solid rgba(200,164,85,.25);margin-left:6px;text-transform:none;letter-spacing:0;font-weight:700">進行中</span> <span style="float:right;font-weight:400;text-transform:none;letter-spacing:0;font-size:9px;color:var(--muted)">¥60,000のみ · <a href="/plan" style="color:var(--gold)">📋 全体計画 →</a></span></div>'
+          + '<div class="files-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">'
+          + '<div style="background:rgba(78,203,141,.08);border:1px solid rgba(78,203,141,.2);border-radius:10px;padding:10px 12px;font-size:11px"><div style="color:var(--green);font-weight:700;margin-bottom:4px">✓ 完了</div><div style="color:var(--text)">書類テンプレ作成</div><div style="color:var(--muted);font-size:10px;margin-top:2px">定款・登記申請書・払込証明書</div></div>'
+          + '<div style="background:rgba(78,203,141,.08);border:1px solid rgba(78,203,141,.2);border-radius:10px;padding:10px 12px;font-size:11px"><div style="color:var(--green);font-weight:700;margin-bottom:4px">✓ 完了</div><div style="color:var(--text)">本店住所確定</div><div style="color:var(--muted);font-size:10px;margin-top:2px">標茶町字西熊牛原野92番2</div></div>'
+          + '<div class="file-card" data-url="/kaisha" data-title="設立ウィザード" style="background:rgba(200,164,85,.08);border:1px solid rgba(200,164,85,.3);border-radius:10px;padding:10px 12px;font-size:11px;cursor:pointer"><div style="color:var(--gold);font-weight:700;margin-bottom:4px">→ 次のステップ</div><div style="color:var(--text)">申請者ID取得 + 資本金払込</div><div style="color:var(--muted);font-size:10px;margin-top:2px">この2つが完了すれば申請できる</div></div>'
+          + '<div class="file-card" data-url="https://www.touki-kyoutaku-online.moj.go.jp/" data-title="申請者ID登録" style="background:rgba(90,160,230,.08);border:1px solid rgba(90,160,230,.2);border-radius:10px;padding:10px 12px;font-size:11px;cursor:pointer"><div style="color:#5aa0e6;font-weight:700;margin-bottom:4px">→ 外部サイト</div><div style="color:var(--text)">申請者ID登録（無料・5分）</div><div style="color:var(--muted);font-size:10px;margin-top:2px">登記・供託オンライン申請システム</div></div>'
+          + '<div style="background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:10px;padding:10px 12px;font-size:11px"><div style="color:var(--muted);font-weight:700;margin-bottom:4px">⬜ 待機中</div><div style="color:var(--text)">資本金 ¥1,000,000 払込</div><div style="color:var(--muted);font-size:10px;margin-top:2px">銀行口座に振込 + 通帳写真</div></div>'
+          + '<div style="background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:10px;padding:10px 12px;font-size:11px"><div style="color:var(--muted);font-weight:700;margin-bottom:4px">⬜ 待機中</div><div style="color:var(--text)">かんたん申請 + 電子署名</div><div style="color:var(--muted);font-size:10px;margin-top:2px">iPhone × マイナポータル</div></div>'
+          + '<div style="background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:10px;padding:10px 12px;font-size:11px"><div style="color:var(--muted);font-weight:700;margin-bottom:4px">⬜ 待機中</div><div style="color:var(--text)">登録免許税 ¥60,000 納付</div><div style="color:var(--muted);font-size:10px;margin-top:2px">Pay-easy で電子納付</div></div>'
+          + '<div style="background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:10px;padding:10px 12px;font-size:11px"><div style="color:var(--muted);font-weight:700;margin-bottom:4px">⬜ 完了予定</div><div style="color:var(--text)">審査 → 法人設立完了</div><div style="color:var(--muted);font-size:10px;margin-top:2px">通常1〜2週間後</div></div>'
+          + '</div>';
+      }
+    }
+
+    // Persona-specific highlight: scroll to relevant section
+    if(!isDirectURL && type === 'admin'){
+      var ds = document.getElementById('sm-docs');
+      if(ds) setTimeout(function(){ds.scrollIntoView({behavior:'smooth',block:'start'});},300);
+    }
+
+    // Inject floating persona switcher (visible only when ?persona= is set)
+    if(urlParam) injectSwitcher(type);
+  }
+
+  function injectSwitcher(current){
+    var sw = document.createElement('div');
+    sw.id = 'persona-switcher';
+    sw.style.cssText = 'position:fixed;bottom:80px;right:16px;z-index:3000;background:rgba(14,14,20,.92);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;box-shadow:0 8px 32px rgba(0,0,0,.6);font-size:11px;color:#7a7680;display:flex;flex-direction:column;gap:6px;min-width:150px';
+    sw.innerHTML = '<div style="font-size:9px;letter-spacing:.1em;color:#5a5660;font-weight:700;margin-bottom:2px">ペルソナ切替</div>'
+      + PERSONAS.map(function(p){
+          var active = p.key === current;
+          var col = COLORS[p.key]||COLORS.guest;
+          return '<a href="/desk?persona='+p.key+'" style="display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:8px;text-decoration:none;'
+            + (active ? 'background:'+col.bg+';color:'+col.color+';border:1px solid '+col.border+';font-weight:700' : 'color:#7a7680;border:1px solid transparent')
+            + '">'
+            + p.icon + ' ' + p.label
+            + (active ? ' <span style="margin-left:auto;font-size:9px">← 現在</span>' : '')
+            + '</a>';
+        }).join('')
+      + '<div style="border-top:1px solid rgba(255,255,255,.06);margin-top:4px;padding-top:4px">'
+      + '<a href="/?persona='+current+'" style="color:#5a5660;text-decoration:none;font-size:10px">TOPページで見る →</a>'
+      + '</div>';
+    document.body.appendChild(sw);
+  }
+
+  // Always fetch login state first
+  var tok = localStorage.getItem('sln_token');
+  if(tok){
+    fetch('/api/soluna/me',{headers:{Authorization:'Bearer '+tok}})
+      .then(function(r){return r.ok?r.json():null;})
+      .then(function(d){
+        var actualType = (d&&d.member&&d.member.member_type)||'guest';
+        // ?persona= preview is admin-only
+        var valid = PERSONAS.find(function(p){return p.key===urlParam;});
+        if(urlParam && valid && actualType==='admin'){
+          applyPersona(urlParam);
+        } else {
+          applyPersona(actualType);
+        }
+      })
+      .catch(function(){ applyPersona('guest'); });
+  } else {
+    applyPersona('guest');
+  }
+})();
+
+// ═══════════════════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════════════════
+function doSearch(){
+  var q=document.getElementById('search').value.toLowerCase().trim();
+  var count=0;
+  document.querySelectorAll('.sm-section').forEach(function(section){
+    var files=section.querySelectorAll('.file-card');
+    var anyVisible=false;
+    if(!q){
+      files.forEach(f=>f.classList.remove('hidden'));
+      section.style.display='';return;
+    }
+    files.forEach(function(f){
+      var text=(f.textContent+' '+(f.dataset.url||'')+' '+(f.dataset.title||'')).toLowerCase();
+      if(text.includes(q)){f.classList.remove('hidden');anyVisible=true;count++;}
+      else{f.classList.add('hidden');}
+    });
+    section.style.display=anyVisible?'':'none';
+  });
+  var nr=document.getElementById('no-result');
+  nr.classList.toggle('show',q&&count===0);
+  document.getElementById('search-count').textContent=q?count+'件':'';
+}
+
+// ═══════════════════════════════════════════════════
+// WINDOW MANAGER
+// ═══════════════════════════════════════════════════
+var winZ=100;
+var dragState=null;
+var resizeState=null;
+var openWindows=[];
+
+function updateWinCount(){
+  var c=document.querySelectorAll('.mac-window').length;
+  document.getElementById('win-count').textContent=c?c+'個のウィンドウ':'';
+}
+
+function openWin(url,title){
+  // Bring existing to front
+  var existing=document.querySelector('.mac-window[data-url="'+url+'"]');
+  if(existing){focusWin(existing);unminimize(existing);history.pushState({win:url,title:title},'',url);return;}
+
+  var layer=document.getElementById('win-layer');
+  var offset=60+(openWindows.length%8)*30;
+  var topOff=50+(openWindows.length%6)*24;
+
+  var w=document.createElement('div');
+  w.className='mac-window focused';
+  w.dataset.url=url;
+  w.dataset.title=title;
+  w.style.left=offset+'px';
+  w.style.top=topOff+'px';
+  w.style.zIndex=++winZ;
+
+  w.innerHTML=
+    '<div class="win-bar">'
+    +'<div class="win-btns">'
+    +'<button class="win-btn w-close" onclick="closeWin(this.closest(\'.mac-window\'))" title="閉じる">'
+    +'<svg viewBox="0 0 10 10" width="8" height="8"><line x1="2" y1="2" x2="8" y2="8" stroke="rgba(0,0,0,.7)" stroke-width="1.5"/><line x1="8" y1="2" x2="2" y2="8" stroke="rgba(0,0,0,.7)" stroke-width="1.5"/></svg>'
+    +'</button>'
+    +'<button class="win-btn w-min" onclick="toggleMin(this.closest(\'.mac-window\'))" title="最小化">'
+    +'<svg viewBox="0 0 10 10" width="8" height="8"><line x1="2" y1="5" x2="8" y2="5" stroke="rgba(0,0,0,.7)" stroke-width="1.5"/></svg>'
+    +'</button>'
+    +'<button class="win-btn w-max" onclick="toggleMax(this.closest(\'.mac-window\'))" title="最大化">'
+    +'<svg viewBox="0 0 10 10" width="8" height="8"><polyline points="7,3 7,7 3,7" fill="none" stroke="rgba(0,0,0,.7)" stroke-width="1.5"/><polyline points="3,3 3,7" fill="none" stroke="rgba(0,0,0,.7)" stroke-width="1.5"/></svg>'
+    +'</button>'
+    +'</div>'
+    +'<span class="win-title">'+title+'</span>'
+    +'<div style="width:54px;flex-shrink:0"></div>'/* balance */
+    +'</div>'
+    +'<div class="win-body">'
+    +'<div class="win-loading" id="wl-'+winZ+'">読み込み中...</div>'
+    +'<iframe src="'+url+'?embed=1" class="win-iframe" onload="ifrLoaded(this)" loading="lazy"></iframe>'
+    +'</div>'
+    +'<div class="win-resize"></div>';
+
+  layer.appendChild(w);
+  openWindows.push(w);
+  history.pushState({win:url,title:title},'',url);
+
+  // drag
+  w.querySelector('.win-bar').addEventListener('mousedown',function(e){
+    if(e.target.closest('.win-btn')) return;
+    focusWin(w);
+    var rect=w.getBoundingClientRect();
+    dragState={win:w,ox:e.clientX-rect.left,oy:e.clientY-rect.top};
+  });
+
+  // resize
+  w.querySelector('.win-resize').addEventListener('mousedown',function(e){
+    e.stopPropagation();
+    var rect=w.getBoundingClientRect();
+    resizeState={win:w,ox:e.clientX,oy:e.clientY,ow:rect.width,oh:rect.height};
+  });
+
+  // focus on click
+  w.addEventListener('mousedown',function(){focusWin(w);});
+
+  unfocusAll();
+  w.classList.add('focused');
+  updateWinCount();
+}
+
+function ifrLoaded(iframe){
+  var loading=iframe.parentNode.querySelector('.win-loading');
+  if(loading) loading.classList.add('done');
+}
+
+function focusWin(w){
+  unfocusAll();
+  w.style.zIndex=++winZ;
+  w.classList.add('focused');
+  history.replaceState({win:w.dataset.url,title:w.dataset.title},'',w.dataset.url);
+}
+function unfocusAll(){
+  document.querySelectorAll('.mac-window').forEach(function(w){w.classList.remove('focused');});
+}
+function closeWin(w){
+  w.remove();
+  openWindows=openWindows.filter(function(x){return x!==w;});
+  updateWinCount();
+  // Update URL to topmost remaining window or back to /desk
+  var wins=document.querySelectorAll('.mac-window');
+  if(wins.length){
+    var top=Array.from(wins).sort(function(a,b){return (+b.style.zIndex)-(+a.style.zIndex);})[0];
+    history.replaceState({win:top.dataset.url,title:top.dataset.title},'',top.dataset.url);
+  } else {
+    history.replaceState({win:'/desk',title:'SOLUNA Desk'},'','/desk');
+  }
+}
+function closeAllWins(){
+  document.querySelectorAll('.mac-window').forEach(function(w){w.remove();});
+  openWindows=[];updateWinCount();
+}
+function toggleMin(w){
+  w.classList.toggle('minimized');
+  if(!w.classList.contains('minimized')) focusWin(w);
+}
+function unminimize(w){
+  w.classList.remove('minimized');focusWin(w);
+}
+var maxedWin=null;
+function toggleMax(w){
+  if(w.classList.contains('maximized')){
+    w.classList.remove('maximized');
+    w.style.left=w.dataset.prevLeft||'60px';
+    w.style.top=w.dataset.prevTop||'60px';
+    w.style.width=w.dataset.prevW||'';
+    w.style.height=w.dataset.prevH||'';
+    maxedWin=null;
+  } else {
+    if(maxedWin) toggleMax(maxedWin);
+    var r=w.getBoundingClientRect();
+    w.dataset.prevLeft=w.style.left;w.dataset.prevTop=w.style.top;
+    w.dataset.prevW=w.style.width;w.dataset.prevH=w.style.height;
+    w.classList.add('maximized');
+    maxedWin=w;
+    focusWin(w);
+  }
+}
+
+// Mouse move: drag + resize
+document.addEventListener('mousemove',function(e){
+  if(dragState){
+    var w=dragState.win;
+    if(w.classList.contains('maximized')) return;
+    var nx=e.clientX-dragState.ox;
+    var ny=Math.max(38,e.clientY-dragState.oy);
+    w.style.left=nx+'px';w.style.top=ny+'px';
+  }
+  if(resizeState){
+    var w=resizeState.win;
+    var dx=e.clientX-resizeState.ox,dy=e.clientY-resizeState.oy;
+    var nw=Math.max(320,resizeState.ow+dx),nh=Math.max(200,resizeState.oh+dy);
+    w.style.width=nw+'px';w.style.height=nh+'px';
+  }
+});
+document.addEventListener('mouseup',function(){dragState=null;resizeState=null;});
+
+// Double-click title bar to maximize
+document.addEventListener('dblclick',function(e){
+  var bar=e.target.closest('.win-bar');
+  if(bar&&!e.target.closest('.win-btn')){toggleMax(bar.closest('.mac-window'));}
+});
+
+// ═══════════════════════════════════════════════════
+// AUTO-POPULATE NEW PAGES FROM API
+// ═══════════════════════════════════════════════════
+var KNOWN_PATHS = new Set();
+document.querySelectorAll('.file-card[data-url]').forEach(function(c){KNOWN_PATHS.add(c.dataset.url);});
+
+// ── docs フォルダ用アイコン・バッジ辞書 ──────────────────────────
+var DOCS_META = {
+  '01_godo_kaisha_teikan':    {icon:'⚖️', badge:'法務局',   cls:'fb-doc'},
+  '02_kantan_jukusho':        {icon:'🏨', badge:'釧路保健所', cls:'fb-doc'},
+  '03_inshokuteri':           {icon:'🍽', badge:'釧路保健所', cls:'fb-doc'},
+  '04_eisei_sekinin':         {icon:'🧼', badge:'保健所添付', cls:'fb-doc'},
+  '05_bousai':                {icon:'🚒', badge:'弟子屈消防', cls:'fb-doc'},
+  '06_nokanin_restaurant':    {icon:'🌿', badge:'農改センター',cls:'fb-doc'},
+  '07_checklist':             {icon:'✅', badge:'印刷可',     cls:'fb-gold'},
+  '08_kenchiku_kakunin_shinsei':{icon:'🏗', badge:'提出用',  cls:'fb-gold'},
+  '09_kenchiku_drawings':     {icon:'📐', badge:'印刷可',    cls:'fb-gold'},
+};
+function docsIcon(slug){ return (DOCS_META[slug]||{}).icon||'📄'; }
+function docsBadge(slug){ var m=DOCS_META[slug]; return m?'<span class="fc-badge '+m.cls+'">'+m.badge+'</span>':''; }
+
+fetch('/api/pages').then(function(r){return r.json();}).then(function(data){
+  var pages=data.pages||[];
+
+  // ── 申請書類（docs/ を番号順で自動表示）──
+  var docs=pages.filter(function(p){return p.dir==='docs';});
+  docs.sort(function(a,b){return a.filename.localeCompare(b.filename);});
+  var docsGrid=document.getElementById('docs-files');
+  if(docsGrid){
+    docsGrid.innerHTML='';
+    docs.forEach(function(p){
+      var slug=p.filename.replace('.html','');
+      var title=p.title||slug.replace(/^\d+_/,'').replace(/_/g,' ');
+      var el=document.createElement('div');
+      el.className='file-card';
+      el.dataset.url=p.path;
+      el.dataset.title=title;
+      el.innerHTML='<span class="fc-icon">'+docsIcon(slug)+'</span>'
+        +'<div class="fc-name">'+title+'</div>'
+        +'<div class="fc-desc">'+new Date(p.mtime).toLocaleDateString('ja-JP')+'</div>'
+        +docsBadge(slug);
+      docsGrid.appendChild(el);
+    });
+    if(!docs.length) docsGrid.innerHTML='<div style="padding:8px;font-size:11px;color:#5a5660">書類なし</div>';
+  }
+}).catch(function(){
+  var dg=document.getElementById('docs-files');
+  if(dg) dg.innerHTML='<div style="padding:8px;font-size:11px;color:#5a5660">読み込み失敗</div>';
+});
+
+// ═══════════════════════════════════════════════════
+// EVENT DELEGATION: file-card clicks → open window
+// ═══════════════════════════════════════════════════
+document.getElementById('desktop').addEventListener('click',function(e){
+  var card=e.target.closest('.file-card[data-url]');
+  if(!card) return;
+  var url=card.dataset.url;
+  var title=card.dataset.title||card.querySelector('.fc-name')&&card.querySelector('.fc-name').textContent||url;
+  if(card.dataset.pdf){openWin(url,title);}  // PDFs render in browser iframe
+  else{openWin(url,title);}
+});
+
+// ═══════════════════════════════════════════════════
+// KEYBOARD SHORTCUTS
+// ═══════════════════════════════════════════════════
+document.addEventListener('keydown',function(e){
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){
+    e.preventDefault();
+    document.getElementById('search').focus();
+    document.getElementById('search').select();
+  }
+  if(e.key==='Escape'){
+    if(document.activeElement===document.getElementById('search')){
+      document.getElementById('search').value='';doSearch();
+      document.getElementById('search').blur();
+    } else {
+      // close top window
+      var wins=document.querySelectorAll('.mac-window');
+      if(wins.length){
+        var top=Array.from(wins).sort(function(a,b){return (+b.style.zIndex)-(+a.style.zIndex);})[0];
+        closeWin(top);
+      }
+    }
+  }
+  // Cmd+W = close frontmost window
+  if((e.metaKey||e.ctrlKey)&&e.key==='w'){
+    e.preventDefault();
+    var wins=document.querySelectorAll('.mac-window.focused');
+    if(wins.length) closeWin(wins[0]);
+  }
+});
+</script>
+</body>
+</html>

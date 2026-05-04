@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>許認可ガイド — 民泊・飲食店・グランピング申請完全版 | SOLUNA 天空の道場</title>
+<meta name="description" content="北海道弟子屈・天空の道場をグランピング＋飲食店として合法運営するための申請書類・フロー・窓口を完全網羅。">
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--bg:#080806;--card:#0f0f0d;--card2:#13120f;
+  --border:rgba(255,255,255,.07);--green:#4ecb8d;--red:#e65a5a;--blue:#5aa0e6;--purple:#9070d0;
+}
+html,body{background:var(--bg);color:#e8e0cc;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+
+/* HERO */
+.hero{
+  padding:48px 24px 40px;max-width:760px;margin:0 auto;
+  border-bottom:1px solid var(--border);
+}
+.back{font-size:11px;color:#4a4a40;text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:20px}
+.back:hover{color:var(--gold)}
+h1{font-size:clamp(1.6rem,6vw,2.8rem);font-weight:900;line-height:1.1;color:#e8e0cc;margin-bottom:8px}
+.hero-sub{font-size:13px;color:#6a6050;line-height:1.7;margin-bottom:24px}
+
+/* STATUS BADGES */
+.status-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.badge{font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px}
+.badge-ok{background:rgba(78,203,141,.1);color:var(--green);border:1px solid rgba(78,203,141,.2)}
+.badge-warn{background:rgba(200,164,85,.1);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.badge-info{background:rgba(90,160,230,.1);color:var(--blue);border:1px solid rgba(90,160,230,.2)}
+
+/* 3-LAYER BOX */
+.layer-box{
+  background:var(--card);border:1px solid rgba(200,164,85,.2);
+  border-radius:16px;padding:24px;margin-bottom:32px;
+}
+.layer-title{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.08em;margin-bottom:16px}
+.layers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:560px){.layers{grid-template-columns:1fr}}
+.layer{
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:10px;padding:14px;text-align:center;
+}
+.layer-num{font-size:1.6rem;font-weight:900;margin-bottom:4px}
+.layer-label{font-size:11px;color:#8a7a60;margin-bottom:6px}
+.layer-desc{font-size:10px;color:#5a5040;line-height:1.5}
+.layer-n1 .layer-num{color:var(--gold)}
+.layer-n2 .layer-num{color:var(--green)}
+.layer-n3 .layer-num{color:var(--blue)}
+
+/* SECTION */
+section{padding:40px 24px;max-width:760px;margin:0 auto;border-bottom:1px solid var(--border)}
+.sec-tag{font-size:9px;letter-spacing:.22em;color:var(--gold);opacity:.7;margin-bottom:8px;text-transform:uppercase}
+.sec-title{font-size:1.3rem;font-weight:800;color:#e8e0cc;margin-bottom:20px}
+
+/* TIMELINE */
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl-item{
+  display:grid;grid-template-columns:80px 1fr;gap:16px;
+  padding:16px 0;border-bottom:1px solid rgba(255,255,255,.03);
+}
+.tl-item:last-child{border-bottom:none}
+.tl-time{
+  display:flex;flex-direction:column;align-items:center;
+}
+.tl-month{
+  font-size:10px;font-weight:700;color:var(--gold);
+  background:rgba(200,164,85,.1);border:1px solid rgba(200,164,85,.2);
+  border-radius:8px;padding:3px 8px;white-space:nowrap;
+}
+.tl-line{flex:1;width:1px;background:var(--border);margin:6px auto 0}
+.tl-content{}
+.tl-title{font-size:13px;font-weight:700;color:#c8b888;margin-bottom:4px}
+.tl-body{font-size:11px;color:#6a5a40;line-height:1.6}
+.tl-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tl-tag{
+  font-size:9px;padding:2px 8px;border-radius:8px;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);color:#5a5040;
+}
+
+/* DOC CARDS */
+.doc-grid{display:flex;flex-direction:column;gap:8px}
+.doc-card{
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:14px 16px;text-decoration:none;transition:border-color .2s;
+}
+.doc-card:hover{border-color:rgba(200,164,85,.3)}
+.doc-num{
+  font-size:1.1rem;font-weight:900;color:var(--gold);
+  background:rgba(200,164,85,.08);border:1px solid rgba(200,164,85,.15);
+  border-radius:8px;width:40px;height:40px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.doc-info{}
+.doc-name{font-size:12px;font-weight:700;color:#c8b888}
+.doc-sub{font-size:10px;color:#5a5040;margin-top:2px}
+.doc-badges{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
+.doc-badge{font-size:8px;padding:1px 6px;border-radius:6px}
+.db-red{background:rgba(230,90,90,.1);color:var(--red);border:1px solid rgba(230,90,90,.2)}
+.db-green{background:rgba(78,203,141,.1);color:var(--green);border:1px solid rgba(78,203,141,.2)}
+.db-blue{background:rgba(90,160,230,.1);color:var(--blue);border:1px solid rgba(90,160,230,.2)}
+.db-gold{background:rgba(200,164,85,.1);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.doc-arrow{font-size:14px;color:#4a4030}
+
+/* OFFICE TABLE */
+.office-list{display:flex;flex-direction:column;gap:8px}
+.office{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:16px;
+}
+.office-name{font-size:12px;font-weight:700;color:#c8b888;margin-bottom:8px}
+.office-row{display:flex;gap:10px;font-size:11px;color:#6a5a40;margin-bottom:4px;line-height:1.5}
+.office-icon{flex-shrink:0}
+
+/* COST TABLE */
+.cost-table{width:100%;border-collapse:collapse}
+.cost-table th{font-size:10px;color:#5a5040;text-align:left;padding:8px 10px;border-bottom:1px solid var(--border)}
+.cost-table td{font-size:11px;color:#8a7a60;padding:10px;border-bottom:1px solid rgba(255,255,255,.03)}
+.cost-table tr:last-child td{border-bottom:none;color:var(--gold);font-weight:700;font-size:12px}
+.cost-table .num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* GENIUS NOTE */
+.genius{
+  background:linear-gradient(135deg,#0a0806,#100a06);
+  border:1px solid rgba(200,164,85,.25);border-radius:14px;
+  padding:20px;margin:20px 0;
+  position:relative;overflow:hidden;
+}
+.genius::before{
+  content:'💡';position:absolute;right:16px;top:12px;font-size:2rem;opacity:.2;
+}
+.genius-title{font-size:11px;color:var(--gold);font-weight:700;margin-bottom:8px}
+.genius-body{font-size:12px;color:#8a7a60;line-height:1.75}
+
+/* FOOTER NAV */
+.fnav{
+  border-top:1px solid var(--border2, var(--border));
+  padding:24px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
+}
+.fnav a{font-size:11px;color:#5a4a30;text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:20px}
+.fnav a:hover{color:var(--gold);border-color:var(--border)}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <a class="back" href="/cabin/kokon.html">← 焼肉古今 熊牛に戻る</a>
+  <h1>許認可ガイド</h1>
+  <p class="hero-sub">
+    天空の道場をグランピング・飲食店として合法運営するための<br>
+    申請書類・フロー・窓口を完全網羅した実務マニュアル。
+  </p>
+  <div class="status-row">
+    <span class="badge badge-ok">✓ 合同会社設立</span>
+    <span class="badge badge-ok">✓ グランピング届出</span>
+    <span class="badge badge-ok">✓ 飲食店許可</span>
+    <span class="badge badge-warn">要確認 農家レストラン特例</span>
+    <span class="badge badge-info">総費用 約¥160,000〜</span>
+  </div>
+
+  <!-- 3-LAYER STRUCTURE -->
+  <div class="layer-box">
+    <div class="layer-title">⚡ 天才的3層構造 — 規制を最小化する設計</div>
+    <div class="layers">
+      <div class="layer layer-n1">
+        <div class="layer-num">①</div>
+        <div class="layer-label">合同会社設立</div>
+        <div class="layer-desc">会員制施設 = 不特定多数への宿泊提供でない → 旅館業法の射程を縮小</div>
+      </div>
+      <div class="layer layer-n2">
+        <div class="layer-num">②</div>
+        <div class="layer-label">グランピング届出</div>
+        <div class="layer-desc">簡易宿所として届出 → 農村特区で年365日営業可・180日制限なし</div>
+      </div>
+      <div class="layer layer-n3">
+        <div class="layer-num">③</div>
+        <div class="layer-label">農家レストラン特例</div>
+        <div class="layer-desc">自家農産物使用の食事提供 → 飲食店許可の要件を大幅緩和</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <p class="sec-tag">TIMELINE</p>
+  <div class="sec-title">申請スケジュール（目安）</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-time"><span class="tl-month">Month 0</span><div class="tl-line"></div></div>
+      <div class="tl-content">
+        <div class="tl-title">合同会社設立</div>
+        <div class="tl-body">定款作成 → 公証人認証（不要・合同会社は） → 法務局登記申請。オンライン申請で収入印紙不要。</div>
+        <div class="tl-tags"><span class="tl-tag">登録免許税 ¥60,000</span><span class="tl-tag">2〜3週間</span><span class="tl-tag">法務局</span></div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time"><span class="tl-month">Month 1</span><div class="tl-line"></div></div>
+      <div class="tl-content">
+        <div class="tl-title">建築確認申請（4号建築物）</div>
+        <div class="tl-body">コンテナ設置前に申請必須。弟子屈町建築課へ。建築士に依頼。グランピング用途で申請。</div>
+        <div class="tl-tags"><span class="tl-tag">申請費 ¥150,000（建築士込）</span><span class="tl-tag">3〜4週間</span><span class="tl-tag">弟子屈町建築課</span></div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time"><span class="tl-month">Month 1〜2</span><div class="tl-line"></div></div>
+      <div class="tl-content">
+        <div class="tl-title">食品衛生責任者資格取得</div>
+        <div class="tl-body">釧路市で1日講習。受講後即資格取得。飲食店許可申請の必須添付書類。</div>
+        <div class="tl-tags"><span class="tl-tag">受講料 ¥10,000</span><span class="tl-tag">1日</span><span class="tl-tag">釧路市食品衛生協会</span></div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time"><span class="tl-month">Month 2</span><div class="tl-line"></div></div>
+      <div class="tl-content">
+        <div class="tl-title">消防設備設置・検査</div>
+        <div class="tl-body">煙感知器・消火器・誘導灯設置 → 弟子屈消防署の立入検査 → 消防法令適合通知書取得。</div>
+        <div class="tl-tags"><span class="tl-tag">設備費 ¥30,000〜</span><span class="tl-tag">設置後1週間で検査</span><span class="tl-tag">弟子屈消防署</span></div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time"><span class="tl-month">Month 2〜3</span><div class="tl-line"></div></div>
+      <div class="tl-content">
+        <div class="tl-title">簡易宿所営業許可申請（グランピング）</div>
+        <div class="tl-body">建築確認済証・消防通知書を添付して釧路保健所へ。実地検査後に許可証発行。</div>
+        <div class="tl-tags"><span class="tl-tag">申請手数料 ¥22,000</span><span class="tl-tag">実地検査あり</span><span class="tl-tag">釧路保健所</span></div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time"><span class="tl-month">Month 3</span><div class="tl-line"></div></div>
+      <div class="tl-content">
+        <div class="tl-title">飲食店営業許可申請</div>
+        <div class="tl-body">厨房設備完成後に釧路保健所へ申請。食品衛生責任者資格証・施設平面図添付。</div>
+        <div class="tl-tags"><span class="tl-tag">申請手数料 ¥20,000</span><span class="tl-tag">設備検査あり</span><span class="tl-tag">釧路保健所</span></div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time"><span class="tl-month">Month 3+</span></div>
+      <div class="tl-content">
+        <div class="tl-title">✅ 開業</div>
+        <div class="tl-body">合同会社 + グランピング許可 + 飲食店許可が揃えば完全合法営業開始。SOLUNAメンバー向け予約開放。</div>
+        <div class="tl-tags"><span class="tl-tag">年365日営業可</span><span class="tl-tag">会員制で収益最大化</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENTS -->
+<section id="docs">
+  <p class="sec-tag">DOCUMENTS</p>
+  <div class="sec-title">申請書類一覧</div>
+  <div class="doc-grid">
+
+    <a class="doc-card" href="/docs/01_godo_kaisha_teikan.html" target="_blank">
+      <div class="doc-num">01</div>
+      <div class="doc-info">
+        <div class="doc-name">合同会社 定款草案</div>
+        <div class="doc-sub">SOLUNA合同会社 設立定款 / 法務局提出用</div>
+        <div class="doc-badges"><span class="doc-badge db-red">最優先</span><span class="doc-badge db-gold">法務局</span></div>
+      </div>
+      <span class="doc-arrow">→</span>
+    </a>
+
+    <a class="doc-card" href="/docs/02_kantan_jukusho.html" target="_blank">
+      <div class="doc-num">02</div>
+      <div class="doc-info">
+        <div class="doc-name">簡易宿所営業許可申請書</div>
+        <div class="doc-sub">旅館業法 / グランピング施設 / 北海道知事宛（釧路保健所経由）</div>
+        <div class="doc-badges"><span class="doc-badge db-red">必須</span><span class="doc-badge db-gold">釧路保健所</span></div>
+      </div>
+      <span class="doc-arrow">→</span>
+    </a>
+
+    <a class="doc-card" href="/docs/03_inshokuteri.html" target="_blank">
+      <div class="doc-num">03</div>
+      <div class="doc-info">
+        <div class="doc-name">飲食店営業許可申請書</div>
+        <div class="doc-sub">食品衛生法 / 焼肉古今 熊牛店 / 釧路保健所提出</div>
+        <div class="doc-badges"><span class="doc-badge db-red">必須</span><span class="doc-badge db-gold">釧路保健所</span></div>
+      </div>
+      <span class="doc-arrow">→</span>
+    </a>
+
+    <a class="doc-card" href="/docs/04_eisei_sekinin.html" target="_blank">
+      <div class="doc-num">04</div>
+      <div class="doc-info">
+        <div class="doc-name">食品衛生責任者 選任届</div>
+        <div class="doc-sub">食品衛生法第51条 / 飲食店許可申請の添付書類</div>
+        <div class="doc-badges"><span class="doc-badge db-green">1日取得可</span><span class="doc-badge db-blue">添付書類</span></div>
+      </div>
+      <span class="doc-arrow">→</span>
+    </a>
+
+    <a class="doc-card" href="/docs/05_bousai.html" target="_blank">
+      <div class="doc-num">05</div>
+      <div class="doc-info">
+        <div class="doc-name">消防設備設置届出書</div>
+        <div class="doc-sub">消防法 / 煙感知器・消火器・誘導灯 / 弟子屈消防署</div>
+        <div class="doc-badges"><span class="doc-badge db-red">先行必須</span><span class="doc-badge db-gold">弟子屈消防署</span></div>
+      </div>
+      <span class="doc-arrow">→</span>
+    </a>
+
+    <a class="doc-card" href="/docs/06_nokanin_restaurant.html" target="_blank">
+      <div class="doc-num">06</div>
+      <div class="doc-info">
+        <div class="doc-name">農家レストラン特例確認書</div>
+        <div class="doc-sub">農林水産省通知 / 自家農産物使用確認 / 釧路農業改良普及センター</div>
+        <div class="doc-badges"><span class="doc-badge db-green">許可簡略化</span><span class="doc-badge db-blue">農業事務所</span></div>
+      </div>
+      <span class="doc-arrow">→</span>
+    </a>
+
+    <a class="doc-card" href="/docs/07_checklist.html" target="_blank">
+      <div class="doc-num">07</div>
+      <div class="doc-info">
+        <div class="doc-name">申請チェックリスト＆タイムライン</div>
+        <div class="doc-sub">全書類・手続き・費用・期限の統合管理シート</div>
+        <div class="doc-badges"><span class="doc-badge db-blue">管理用</span><span class="doc-badge db-gold">印刷可</span></div>
+      </div>
+      <span class="doc-arrow">→</span>
+    </a>
+
+    <a class="doc-card" href="/docs/08_kenchiku_kakunin_shinsei" target="_blank" style="border-color:rgba(200,164,85,.4)">
+      <div class="doc-num" style="color:var(--gold)">08</div>
+      <div class="doc-info">
+        <div class="doc-name">建築確認申請書（第四号様式）</div>
+        <div class="doc-sub">建築基準法第6条 / 40ftコンテナ鉄骨造平屋 / 釧路総合振興局 建設指導課提出</div>
+        <div class="doc-badges"><span class="doc-badge db-red">最優先</span><span class="doc-badge db-gold">釧路総合振興局</span></div>
+      </div>
+      <span class="doc-arrow">→</span>
+    </a>
+
+    <a class="doc-card" href="/docs/09_kenchiku_drawings" target="_blank" style="border-color:rgba(200,164,85,.4)">
+      <div class="doc-num" style="color:var(--gold)">09</div>
+      <div class="doc-info">
+        <div class="doc-name">建築図面セット（配置図・平面図・立面図・断面図・基礎伏図）</div>
+        <div class="doc-sub">縮尺 1/50〜1/200 / SVGデータ付き / スクリューパイル仕様・荷重計算含む</div>
+        <div class="doc-badges"><span class="doc-badge db-red">最優先</span><span class="doc-badge db-gold">印刷可</span></div>
+      </div>
+      <span class="doc-arrow">→</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- OFFICE INFO -->
+<section id="offices">
+  <p class="sec-tag">OFFICES</p>
+  <div class="sec-title">申請窓口一覧</div>
+  <div class="office-list">
+    <div class="office">
+      <div class="office-name">📍 釧路保健所（釧路振興局保健環境部 食品・環境衛生担当）</div>
+      <div class="office-row"><span class="office-icon">🏛</span>釧路市浦見4丁目1番5号</div>
+      <div class="office-row"><span class="office-icon">📞</span>0154-43-9189</div>
+      <div class="office-row"><span class="office-icon">🕐</span>平日 8:45〜17:30</div>
+      <div class="office-row"><span class="office-icon">📋</span>担当：簡易宿所・飲食店営業許可、食品衛生責任者選任届</div>
+    </div>
+    <div class="office">
+      <div class="office-name">🚒 弟子屈消防署</div>
+      <div class="office-row"><span class="office-icon">🏛</span>北海道川上郡弟子屈町弟子屈原野47線37番</div>
+      <div class="office-row"><span class="office-icon">📞</span>015-482-2200</div>
+      <div class="office-row"><span class="office-icon">📋</span>担当：消防設備設置届、消防法令適合通知書</div>
+    </div>
+    <div class="office">
+      <div class="office-name">🏗 弟子屈町 建設課建築係</div>
+      <div class="office-row"><span class="office-icon">🏛</span>北海道川上郡弟子屈町字弟子屈39番地</div>
+      <div class="office-row"><span class="office-icon">📞</span>015-482-2945</div>
+      <div class="office-row"><span class="office-icon">📋</span>担当：建築確認申請（4号建築物）</div>
+    </div>
+    <div class="office">
+      <div class="office-name">⚖ 釧路地方法務局</div>
+      <div class="office-row"><span class="office-icon">🏛</span>釧路市幸町10丁目3番地</div>
+      <div class="office-row"><span class="office-icon">📞</span>0154-31-5000</div>
+      <div class="office-row"><span class="office-icon">📋</span>担当：合同会社設立登記</div>
+    </div>
+    <div class="office">
+      <div class="office-name">🌾 釧路農業改良普及センター</div>
+      <div class="office-row"><span class="office-icon">🏛</span>釧路市幸町10丁目2番地</div>
+      <div class="office-row"><span class="office-icon">📞</span>0154-43-6800</div>
+      <div class="office-row"><span class="office-icon">📋</span>担当：農家レストラン特例・農地転用相談</div>
+    </div>
+  </div>
+</section>
+
+<!-- COST SUMMARY -->
+<section id="cost">
+  <p class="sec-tag">COST</p>
+  <div class="sec-title">申請費用まとめ</div>
+  <table class="cost-table">
+    <tr><th>項目</th><th class="num">費用</th><th>備考</th></tr>
+    <tr><td>合同会社設立（登録免許税）</td><td class="num">¥60,000</td><td>資本金の0.7%（最低額）</td></tr>
+    <tr><td>建築確認申請（建築士手数料込）</td><td class="num">¥150,000</td><td>4号申請 釧路の建築士事務所</td></tr>
+    <tr><td>食品衛生責任者 受講料</td><td class="num">¥10,000</td><td>釧路市食品衛生協会 1日講習</td></tr>
+    <tr><td>消防設備（感知器・消火器・誘導灯）</td><td class="num">¥30,000</td><td>設置費含む</td></tr>
+    <tr><td>簡易宿所 許可申請手数料</td><td class="num">¥22,000</td><td>北海道収入証紙</td></tr>
+    <tr><td>飲食店 許可申請手数料</td><td class="num">¥20,000</td><td>北海道収入証紙</td></tr>
+    <tr><td>その他（謄本・印鑑等）</td><td class="num">¥18,000</td><td>諸経費</td></tr>
+    <tr><td><strong>合計</strong></td><td class="num"><strong>¥310,000</strong></td><td>追加設備・工事費別</td></tr>
+  </table>
+
+  <div class="genius">
+    <div class="genius-title">💡 天才的な節約ポイント</div>
+    <div class="genius-body">
+      <strong>合同会社 vs 株式会社</strong>：株式会社は登録免許税最低¥150,000 + 定款認証¥52,000。合同会社は¥60,000のみ。差額¥140,000以上の節約。法的な経営自由度は合同会社の方が高く、SOLUNA会員制モデルに最適。
+      <br><br>
+      <strong>農家レストラン特例</strong>：通常の飲食店許可で必要な設備基準（2槽シンク等）の一部が緩和。畑を5坪でも確保すれば適用可能。自家野菜 + 古今の肉という組み合わせはブランドとしても最強。
+      <br><br>
+      <strong>グランピング × 農村特区</strong>：みんぱく法の180日制限は農村地域特区では撤廃。弟子屈町役場の地域振興課に「農村滞在型観光施設」として相談すれば、補助金（最大¥1,000,000）も狙える。
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<nav class="fnav">
+  <a href="/kokon">焼肉古今 熊牛</a>
+  <a href="/shopping">購入リスト</a>
+  <a href="/interior">インテリア</a>
+  <a href="/loop">循環システム</a>
+  <a href="/cottage">コテージ棟</a>
+  <a href="/plans">プランと費用</a>
+  <a href="/instant">インスタントハウス</a>
+  <a href="/desk">🖥 デスクトップ</a>
+  <a href="/">SOLUNA TOP</a>
+</nav>
+
+<script src="/js/dc.js"></script>
+</body>
+</html>

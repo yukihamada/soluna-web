@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>払込証明書 — 合同会社SOLUNA</title>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--bg:#0a0a0e;--border:rgba(255,255,255,.08);--text:#e8e0cc;--muted:#5a5660}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Hiragino Sans',sans-serif;min-height:100vh}
+.toolbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(20,20,24,.95);border-bottom:1px solid var(--border);gap:8px;flex-wrap:wrap}
+.toolbar-left{font-size:12px;font-weight:700;color:var(--gold)}
+.toolbar-left small{display:block;font-size:10px;color:var(--muted);font-weight:400;margin-top:1px}
+.btn-print{background:var(--gold);color:#000;border:none;border-radius:8px;padding:8px 18px;font-size:12px;font-weight:700;cursor:pointer}
+.btn-wizard{background:transparent;border:1px solid rgba(200,164,85,.3);color:var(--gold);border-radius:8px;padding:8px 14px;font-size:12px;cursor:pointer;text-decoration:none;font-family:inherit}
+.doc{max-width:720px;margin:0 auto;padding:16px}
+.doc-paper{background:#fff;color:#111;border-radius:12px;padding:40px 48px;font-family:'Hiragino Mincho ProN','Yu Mincho',serif;font-size:11pt;line-height:1.9}
+.doc-paper h1{font-size:16pt;text-align:center;border-bottom:2px solid #000;padding-bottom:.5em;margin-bottom:2em}
+.doc-paper table{width:100%;border-collapse:collapse;margin:1.5em 0}
+.doc-paper th,.doc-paper td{border:1px solid #888;padding:10px;text-align:center}
+.doc-paper th{background:#f5f5f5;font-size:10.5pt}
+.doc-paper hr{border:none;border-top:1px solid #ccc;margin:2em 0}
+@media print{
+  .toolbar{display:none}
+  .doc{padding:0;max-width:none}
+  .doc-paper{padding:20mm;border-radius:0}
+}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <div class="toolbar-left">
+    💳 払込証明書 — 合同会社SOLUNA
+    <small>通帳コピーを添付して法務局に提出</small>
+  </div>
+  <div style="display:flex;gap:8px">
+    <a href="/kaisha" class="btn-wizard">🧙 ウィザードで生成</a>
+    <button class="btn-print" onclick="window.print()">🖨 印刷</button>
+  </div>
+</div>
+
+<div class="doc">
+  <div class="doc-paper">
+    <h1>払込証明書</h1>
+
+    <p>下記の者が当会社に対する出資の履行として次の金額を払い込んだことを証明します。</p>
+
+    <table>
+      <tr><th>社員氏名</th><th>出資金額</th></tr>
+      <tr><td>濱田優貴</td><td>金1,000,000円</td></tr>
+    </table>
+
+    <p><strong>合計　金1,000,000円</strong></p>
+    <p>払込日　令和　　年　　月　　日</p>
+
+    <hr>
+
+    <p>この払込みは合同会社SOLUNAの設立に際して行われたものであり、上記金額が代表社員名義の銀行口座に入金されたことを確認しました。</p>
+    <br>
+    <p>令和　　年　　月　　日</p>
+    <br>
+    <p>合同会社SOLUNA<br>
+    代表社員　濱田優貴　㊞</p>
+
+    <hr>
+
+    <div style="background:#fffbe6;border-left:4px solid #f0c040;padding:12px 16px;font-size:10pt;color:#555">
+      📎 <strong>添付書類</strong>：資本金（¥1,000,000）が入金されている通帳のコピー（入金日・金額が確認できるページ）をこの書類の後に添付してください。<br><br>
+      💡 <strong>注意</strong>：入金の名義は代表社員（濱田優貴）の個人口座で構いません。法人口座開設は登記完了後です。
+    </div>
+  </div>
+</div>
+<script src="/js/dc.js"></script>
+</body>
+</html>

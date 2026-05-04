@@ -61,12 +61,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 #menubar .mlbl{font-size:.7rem;color:rgba(255,255,255,.65);cursor:pointer}
 #menubar .mlbl:hover{color:#fff}
 #clock{margin-left:auto;font-size:.7rem;color:rgba(255,255,255,.65);font-variant-numeric:tabular-nums}
-.akiya-item{
-  display:block;padding:9px 18px;font-size:.75rem;color:rgba(255,255,255,.82);
-  text-decoration:none;transition:background .12s;white-space:nowrap;
-}
-.akiya-item:hover{background:rgba(200,164,85,.18);color:#fff}
-
 /* ── Desktop icons ── */
 #desktop-icons{
   position:fixed;top:36px;right:12px;z-index:100;
@@ -328,23 +322,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 
 <!-- Menu bar -->
 <div id="menubar">
-  <span class="logo">SOLUNA</span>
+  <a class="logo" href="/" style="text-decoration:none;color:inherit;cursor:pointer">SOLUNA</a>
   <span class="mlbl" data-open="collection" data-ja="物件"       data-en="Properties">物件</span>
   <span class="mlbl" data-open="scheme"     data-ja="スキーム"    data-en="How It Works">スキーム</span>
-  <span class="mlbl" id="mb-akiya" data-ja="空き家"    data-en="Vacant Houses" style="position:relative">空き家 ▾</span>
+  <span class="mlbl" data-open="akiya"      data-ja="空き家"      data-en="Vacant Houses">空き家</span>
   <span class="mlbl" data-open="zamna"      data-ja="フェス"      data-en="Festival">フェス</span>
   <span class="mlbl" data-open="community"  data-ja="コミュニティ" data-en="Community">コミュニティ</span>
   <span id="clock"></span>
-</div>
-<!-- 空き家サブメニュー -->
-<div id="akiya-submenu" style="display:none;position:fixed;top:28px;z-index:600;
-  background:rgba(16,16,20,.97);backdrop-filter:blur(24px);
-  border:1px solid rgba(255,255,255,.12);border-radius:0 0 10px 10px;
-  padding:6px 0;min-width:160px;box-shadow:0 8px 28px rgba(0,0,0,.7)">
-  <a class="akiya-item" href="/kagawa-akiya">🌊 香川の空き家</a>
-  <a class="akiya-item" href="/wakayama-akiya">🌲 和歌山の空き家</a>
-  <a class="akiya-item" href="/kussharo">🦢 弟子屈の空き家</a>
-  <a class="akiya-item" href="/atami-akiya">🏖️ 熱海の空き家</a>
 </div>
 
 <!-- Desktop icons (right side) -->
@@ -355,14 +339,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 
 <!-- Hero copy -->
 <div id="hero">
-  <div id="hero-tag" data-ja="北海道3万坪 · 熱海 · ハワイ  ·  780万円〜 · 年間30泊 · 登記所有" data-en="Hokkaido 30,000 tsubo · Atami · Hawaii  ·  From ¥7.8M · 30 nights/yr · Registered ownership">北海道3万坪 · 熱海 · ハワイ  ·  780万円〜 · 年間30泊 · 登記所有</div>
+  <div id="hero-tag" data-ja="TAPKOP 年2,200万円稼働 · 熱海 年1,800万円稼働 · 780万円〜 · 年間30泊 · 登記所有" data-en="TAPKOP ¥22M/yr revenue · Atami ¥18M/yr · From ¥7.8M · 30 nights/yr · Registered ownership">TAPKOP 年2,200万円稼働 · 熱海 年1,800万円稼働 · 780万円〜 · 年間30泊 · 登記所有</div>
   <h1 id="hero-copy" data-ja="別荘コストを、10分の1に。" data-en="A place that's always yours.">別荘コストを、10分の1に。</h1>
-  <p id="hero-sub" data-ja="10口シェアで登記所有。780万円から、年間30泊。使わない日はプロが運営して収益化 — 稼働実績 TAPKOP年2,200万円（表面利回り約27%）。" data-en="Registered ownership from ¥7.8M — 30 nights/year, professionally managed year-round. TAPKOP operational revenue: ¥22M/yr (~27% yield).">10口シェアで登記所有。780万円から、年間30泊。使わない日はプロが運営して収益化 — 稼働実績 TAPKOP年2,200万円（表面利回り約27%）。</p>
-  <p id="hero-trust" style="font-size:.6rem;color:rgba(255,255,255,.38);margin:-8px 0 14px;letter-spacing:.08em">East Ventures 5,000万円出資 · 登記所有 · 2020年創業 · <span style="color:rgba(200,164,85,.6);cursor:pointer" onclick="if(typeof openWin==='function')openWin('/scheme','スキーム','🗺️','scheme')">スキームを詳しく →</span></p>
+  <p id="hero-sub" data-ja="10口シェアで登記所有。なぜ10分の1なのか — まずスキームを知ってください。" data-en="Registered ownership from ¥7.8M. Why 1/10th the cost? Start with How It Works.">10口シェアで登記所有。なぜ10分の1なのか — まずスキームを知ってください。</p>
+  <p id="hero-trust" style="font-size:.6rem;color:rgba(255,255,255,.38);margin:-8px 0 14px;letter-spacing:.08em">East Ventures 出資 · 登記所有 · 2020年創業 · <span style="color:rgba(200,164,85,.6);cursor:pointer" onclick="if(typeof openWin==='function')openWin('/scheme','スキーム','🗺️','scheme')">スキームを詳しく →</span></p>
   <div id="hero-ctas">
-    <button class="hcta primary" data-open="collection" data-sln-track="purchase_click" data-ja="物件を見る →" data-en="Browse Properties →">物件を見る →</button>
+    <button class="hcta primary" data-open="scheme" data-sln-track="consultation_click" data-ja="スキームを知る →" data-en="How It Works →">スキームを知る →</button>
+    <button class="hcta" data-open="collection" data-sln-track="purchase_click" data-ja="物件を見る" data-en="Browse Properties">物件を見る</button>
     <button class="hcta" style="background:rgba(200,164,85,.18);border-color:rgba(200,164,85,.5);color:#e8c97a;font-weight:600" data-open="call" data-sln-track="consultation_click" data-ja="💬 まず話を聞く" data-en="💬 Free Consultation">💬 まず話を聞く</button>
-    <button class="hcta" data-open="invest" data-sln-track="consultation_click" data-ja="📋 投資家向け資料" data-en="📋 Investor Deck">📋 投資家向け資料</button>
     <button class="hcta" data-open="zamna" data-sln-track="property_view" data-ja="🎪 ZAMNA HAWAII '26" data-en="🎪 ZAMNA Hawaii Sep '26">🎪 ZAMNA HAWAII '26</button>
   </div>
 </div>
@@ -401,19 +385,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 <div id="mobile-view">
   <!-- ヒーロー -->
   <div id="m-hero">
-    <div class="m-tag" id="m-tag" data-ja="北海道 · 熱海 · ハワイ" data-en="Hokkaido · Atami · Hawaii">北海道 · 熱海 · ハワイ</div>
+    <div class="m-tag" id="m-tag" data-ja="TAPKOP 年2,200万稼働 · 熱海 1,800万稼働" data-en="TAPKOP ¥22M/yr · Atami ¥18M/yr">TAPKOP 年2,200万稼働 · 熱海 1,800万稼働</div>
     <h1 id="m-copy" data-ja="別荘コストを、10分の1に。" data-en="A place that's always yours.">別荘コストを、10分の1に。</h1>
-    <p id="m-sub" data-ja="780万円〜の登記所有、年間30泊。使わない日はプロが収益化。稼働実績 TAPKOP年2,200万円（利回り約27%）。" data-en="Registered ownership from ¥7.8M, 30 nights/yr. Professionally managed. TAPKOP: ¥22M/yr (~27% yield).">780万円〜の登記所有、年間30泊。使わない日はプロが収益化。稼働実績 TAPKOP年2,200万円（利回り約27%）。</p>
+    <p id="m-sub" data-ja="なぜ10分の1？ — まずスキームを読んでください。780万円〜の登記所有、年間30泊。" data-en="Why 1/10th? Start with How It Works. Registered ownership from ¥7.8M, 30 nights/yr.">なぜ10分の1？ — まずスキームを読んでください。780万円〜の登記所有、年間30泊。</p>
     <div class="m-ctas">
-      <a href="/collection" class="mcta primary" id="m-cta1" data-ja="物件を見る →" data-en="Browse Properties →">物件を見る →</a>
-      <a href="/scheme" class="mcta" id="m-cta2" data-ja="スキームを知る" data-en="How It Works">スキームを知る</a>
+      <a href="/scheme" class="mcta primary" id="m-cta1" data-ja="スキームを知る →" data-en="How It Works →">スキームを知る →</a>
+      <a href="/collection" class="mcta" id="m-cta2" data-ja="物件を見る" data-en="Browse Properties">物件を見る</a>
     </div>
     <div class="m-ctas" style="margin-top:6px">
-      <a href="/kagawa-akiya" class="mcta" id="m-cta3" data-ja="🏠 空き家を探す" data-en="🏠 Vacant Houses">🏠 空き家を探す</a>
-      <a href="/brochure" class="mcta" data-ja="📋 オーナー資料" data-en="📋 Owner Info">📋 オーナー資料</a>
+      <a href="/call" class="mcta" id="m-cta3" data-ja="💬 まず話を聞く" data-en="💬 Free Consultation" data-sln-track="consultation_click">💬 まず話を聞く</a>
+      <a href="/akiya" class="mcta" data-ja="🏚️ 空き家リノベ" data-en="🏚️ Akiya Club">🏚️ 空き家リノベ</a>
     </div>
     <div class="m-ctas" style="margin-top:6px">
-      <a href="/zamna" class="mcta primary" style="font-size:.74rem">🎪 ZAMNA×SOLUNA HAWAII 2026年9月</a>
+      <a href="/zamna" class="mcta" style="font-size:.74rem">🎪 ZAMNA×SOLUNA HAWAII 2026年9月</a>
     </div>
     <button id="m-lang-btn">EN</button>
   </div>
@@ -443,18 +427,21 @@ var PHOTOS = [
 
 // group: 'resort'=共同所有, 'akiya'=空き家, 'fest'=フェス, 'more'=その他
 var APPS = [
-  // ── 共同所有リゾート ──
-  {id:'collection',em:'🏡', lbl:'物件一覧',        en:'Properties',     url:'/collection',    dock:true,  group:'resort'},
+  // ── 共同所有リゾート（スキーム理解 → 物件閲覧 → 購入の順） ──
   {id:'scheme',    em:'🗺️', lbl:'スキーム',        en:'How It Works',   url:'/scheme',        dock:true,  group:'resort'},
+  {id:'collection',em:'🏡', lbl:'物件一覧',        en:'Properties',     url:'/collection',    dock:true,  group:'resort'},
+  {id:'tapkop',    em:'🏔️', lbl:'TAPKOP',          en:'TAPKOP',         url:'/tapkop',        dock:false, group:'resort'},
+  {id:'kumaushi',  em:'⛩️', lbl:'KUMAUSHI BASE',   en:'Kumaushi Base',  url:'/kumaushi',      dock:false, group:'resort'},
   {id:'buy',       em:'💰', lbl:'購入・申込',       en:'Buy / Apply',    url:'/buy',           dock:true,  group:'resort'},
   {id:'village',   em:'🏘️', lbl:'ビレッジ',        en:'Village',        url:'/village',       dock:false, group:'resort'},
-  {id:'tapkop',    em:'🏔️', lbl:'TAPKOP',          en:'TAPKOP',         url:'/tapkop',        dock:false, group:'resort'},
   {id:'invest',    em:'📋', lbl:'オーナー向け資料',   en:'Owner Info',     url:'/brochure',      dock:false, group:'resort'},
   // ── 空き家プロジェクト ──
-  {id:'kagawa',    em:'🌊', lbl:'香川の空き家',    en:'Kagawa House',   url:'/kagawa-akiya',  dock:false, group:'akiya'},
-  {id:'wakayama',  em:'🌲', lbl:'和歌山の空き家',  en:'Wakayama House', url:'/wakayama-akiya',dock:false, group:'akiya'},
-  {id:'teshikaga', em:'🦢', lbl:'弟子屈の空き家',  en:'Teshikaga House',url:'/kussharo',      dock:false, group:'akiya'},
-  {id:'atami-akiya',em:'🏖️',lbl:'熱海の空き家',   en:'Atami House',    url:'/atami-akiya',   dock:false, group:'akiya'},
+  {id:'akiya',     em:'🏚️', lbl:'空き家リノベ',    en:'Akiya Club',     url:'/akiya',         dock:false, group:'akiya'},
+  {id:'kagawa',    em:'🌊', lbl:'香川 / 瀬戸内',   en:'Kagawa Setouchi',url:'/kagawa-akiya',  dock:false, group:'akiya'},
+  {id:'wakayama',  em:'🌲', lbl:'和歌山 / 熊野',   en:'Wakayama Kumano',url:'/wakayama-akiya',dock:false, group:'akiya'},
+  {id:'boso',      em:'🌿', lbl:'房総半島',         en:'Boso Peninsula', url:'/boso-akiya',    dock:false, group:'akiya'},
+  {id:'sanin',     em:'🏯', lbl:'山陰 / 島根',      en:'Sanin Shimane',  url:'/sanin-akiya',   dock:false, group:'akiya'},
+  {id:'hakuba',    em:'🏔️', lbl:'北アルプス',       en:'Hakuba Alps',    url:'/hakuba-akiya',  dock:false, group:'akiya'},
   // ── ZAMNA フェス ──
   {id:'zamna',     em:'🎪', lbl:'ZAMNA HAWAII',   en:'ZAMNA HAWAII',   url:'/zamna',         dock:true,  group:'fest'},
   {id:'lineup',    em:'🎤', lbl:'ラインナップ',    en:'Lineup',         url:'/lineup',        dock:false, group:'fest'},
@@ -467,6 +454,7 @@ var APPS = [
   {id:'blog',      em:'📝', lbl:'ブログ',          en:'Blog',           url:'/blog',          dock:false, group:'more'},
   {id:'sound',     em:'🎵', lbl:'サウンド',        en:'Sound',          url:'/sound',         dock:false, group:'more'},
   {id:'faq',       em:'❓', lbl:'FAQ',             en:'FAQ',            url:'/faq',           dock:false, group:'more'},
+  {id:'desk',      em:'🗺️', lbl:'サイトマップ',    en:'Site Map',       url:'/desk',          dock:true,  group:'more'},
 ];
 
 var KB = ['kb1','kb2','kb3'];
@@ -677,22 +665,6 @@ document.querySelectorAll('.hcta[data-open]').forEach(function(btn){
   });
 });
 
-// ── 空き家サブメニュー ────────────────────────────────────────────────────────
-var akiyaBtn    = document.getElementById('mb-akiya');
-var akiyaMenu   = document.getElementById('akiya-submenu');
-var akiyaOpen   = false;
-if (akiyaBtn && akiyaMenu) {
-  akiyaBtn.addEventListener('click', function(e){
-    e.stopPropagation();
-    akiyaOpen = !akiyaOpen;
-    akiyaMenu.style.display = akiyaOpen ? 'block' : 'none';
-    if (akiyaOpen) {
-      var r = akiyaBtn.getBoundingClientRect();
-      akiyaMenu.style.left = r.left + 'px';
-    }
-  });
-  document.addEventListener('click', function(){ akiyaOpen=false; akiyaMenu.style.display='none'; });
-}
 
 // ── Menu bar clicks ───────────────────────────────────────────────────────────
 document.querySelectorAll('.mlbl[data-open]').forEach(function(el){
@@ -1296,5 +1268,170 @@ if ('serviceWorker' in navigator) {
 </script>
 <script defer src="/js/sln-track.js"></script>
 <script src="/js/dc.js"></script>
+
+<!-- PERSONA INIT — supports ?persona=guest|architect|owner|admin -->
+<script>
+(function initPersona(){
+  var PERSONAS = [
+    {key:'guest',     label:'一般（初めて）', icon:'👤', color:'#7a7680', bg:'rgba(255,255,255,.06)', border:'rgba(255,255,255,.12)'},
+    {key:'architect', label:'建築設計',       icon:'🏗',  color:'#5aa0e6', bg:'rgba(90,160,230,.15)',  border:'rgba(90,160,230,.3)'},
+    {key:'owner',     label:'オーナー',       icon:'🏠', color:'#c8a455', bg:'rgba(200,164,85,.15)',  border:'rgba(200,164,85,.3)'},
+    {key:'admin',     label:'管理者',         icon:'⚙️', color:'#e07070', bg:'rgba(230,90,90,.15)',   border:'rgba(230,90,90,.3)'}
+  ];
+
+  var urlParam = new URLSearchParams(location.search).get('persona');
+
+  function applyPersonaUI(type, name){
+    if(type === 'guest' || type === 'member') return; // default — no changes
+
+    // ── Shared floating top bar ────────────────────────────────────
+    var p = PERSONAS.find(function(p){return p.key===type;}) || PERSONAS[0];
+    var bar = document.createElement('div');
+    bar.id = 'persona-bar';
+    bar.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:900;backdrop-filter:blur(20px);border-bottom:1px solid '+p.border+';padding:9px 20px;display:flex;align-items:center;gap:12px;font-size:12px;color:'+p.color;
+    bar.style.background = type==='architect' ? 'rgba(12,20,36,.96)' : type==='admin' ? 'rgba(22,10,10,.96)' : 'rgba(14,12,8,.96)';
+
+    var greeting = name ? '、' + name.split(/[\s@]/)[0] : '';
+
+    if(type === 'architect'){
+      bar.innerHTML = badge(p) + '<span style="color:rgba(220,235,255,.7)">ようこそ'+greeting+' — SOLUNA 建材・施工技術ライブラリ</span>'
+        + links([
+            {href:'/?persona=architect',              label:'TOP'},
+            {href:'/sips',                            label:'SIPs工法 →'},
+            {href:'/materials',                       label:'素材一覧'},
+            {href:'/docs/08_kenchiku_kakunin_shinsei',label:'📋 建築確認申請書'},
+            {href:'/docs/09_kenchiku_drawings',       label:'📐 図面セット'},
+            {href:'/desk?persona=architect',          label:'📂 デスク'}
+          ], p.color, p.bg, p.border);
+      setHero('建材×設計で、地球にやさしい別荘を。',
+        'SIPs工法・竹・菌糸体で建設。建築確認申請書類・構造図面を公開。次世代建材データベース。',
+        'SIPs・竹・菌糸体。構造図面・建築確認申請書類も公開。',
+        [
+          {label:'SIPs工法を見る →',    url:'/sips',     primary:true},
+          {label:'素材データベース',     url:'/materials'},
+          {label:'📋 建築確認申請書',   url:'/docs/08_kenchiku_kakunin_shinsei'},
+          {label:'📐 図面セット',        url:'/docs/09_kenchiku_drawings'}
+        ]);
+    }
+    else if(type === 'owner'){
+      bar.innerHTML = badge(p) + '<span style="color:rgba(232,224,204,.8)">おかえりなさい'+greeting+'</span>'
+        + links([
+            {href:'/?persona=owner',     label:'TOP'},
+            {href:'/app',                label:'予約する →'},
+            {href:'/kumaushi',           label:'⛩️ 熊牛（建設中）'},
+            {href:'/avail',              label:'空き状況'},
+            {href:'/community',          label:'💬 コミュニティ'},
+            {href:'/desk?persona=owner', label:'📂 デスク'}
+          ], p.color, p.bg, p.border);
+      setHero('あなたの場所へ、いつでも。',
+        '購入済みの滞在権で今すぐ予約。熊牛BASE建設中（2026年9月開業）。全SOLUNAネットワークが使えます。',
+        '購入済みの滞在権で予約。熊牛BASE建設中・9月開業予定。',
+        [
+          {label:'宿泊を予約する →',    url:'/app',       primary:true},
+          {label:'⛩️ 熊牛BASE（建設中）',url:'/kumaushi'},
+          {label:'💬 コミュニティ',     url:'/community'},
+          {label:'空き状況',             url:'/avail'}
+        ]);
+    }
+    else if(type === 'admin'){
+      bar.innerHTML = badge(p) + '<span style="color:rgba(255,200,200,.7)">管理者モード'+greeting+'</span>'
+        + links([
+            {href:'/?persona=admin',  label:'TOP'},
+            {href:'/admin',           label:'管理画面 →'},
+            {href:'/report',          label:'レポート'},
+            {href:'/status',          label:'稼働状況'},
+            {href:'/desk?persona=admin', label:'📂 デスク'}
+          ], p.color, p.bg, p.border);
+    }
+
+    document.body.insertBefore(bar, document.body.firstChild);
+
+    // Inject persona switcher (preview tool)
+    if(urlParam) injectSwitcher(type);
+  }
+
+  function badge(p){
+    return '<span style="background:'+p.bg+';color:'+p.color+';border:1px solid '+p.border+';border-radius:6px;padding:2px 8px;font-size:9px;font-weight:700;letter-spacing:.1em;flex-shrink:0">'+p.icon+' '+p.label+'</span>';
+  }
+
+  function links(items, color, bg, border){
+    return '<div style="display:flex;gap:6px;margin-left:auto;flex-wrap:wrap">'
+      + items.map(function(it){
+          return '<a href="'+it.href+'" style="color:'+color+';text-decoration:none;padding:3px 10px;background:'+bg+';border:1px solid '+border+';border-radius:6px;font-size:11px;white-space:nowrap">'+it.label+'</a>';
+        }).join('')
+      + '</div>';
+  }
+
+  function setHero(h1Text, subText, mSubText, ctas){
+    var h1 = document.getElementById('hero-copy');
+    if(h1){ h1.textContent = h1Text; h1.dataset.ja = h1Text; }
+    var sub = document.getElementById('hero-sub');
+    if(sub){ sub.textContent = subText; sub.dataset.ja = subText; }
+    var mc = document.getElementById('m-copy');
+    if(mc){ mc.textContent = h1Text; }
+    var ms = document.getElementById('m-sub');
+    if(ms){ ms.textContent = mSubText; }
+    var ctaEl = document.getElementById('hero-ctas');
+    if(ctaEl){
+      ctaEl.innerHTML = ctas.map(function(c){
+        var style = c.primary
+          ? 'class="hcta primary"'
+          : 'class="hcta"';
+        var onclick = 'onclick="if(typeof openWin===\'function\')openWin(\''+c.url+'\',\''+c.label+'\')"';
+        return '<button '+style+' '+onclick+'>'+c.label+'</button>';
+      }).join('');
+    }
+  }
+
+  function injectSwitcher(current){
+    var PERSONAS_LOCAL = [
+      {key:'guest',     label:'一般（初めて）', icon:'👤'},
+      {key:'architect', label:'建築設計',       icon:'🏗'},
+      {key:'owner',     label:'オーナー',       icon:'🏠'},
+      {key:'admin',     label:'管理者',         icon:'⚙️'}
+    ];
+    var COLORS_LOCAL = {
+      guest:    {color:'#7a7680', bg:'rgba(255,255,255,.06)', border:'rgba(255,255,255,.12)'},
+      architect:{color:'#5aa0e6', bg:'rgba(90,160,230,.1)',   border:'rgba(90,160,230,.3)'},
+      owner:    {color:'#c8a455', bg:'rgba(200,164,85,.1)',   border:'rgba(200,164,85,.3)'},
+      admin:    {color:'#e07070', bg:'rgba(230,90,90,.1)',    border:'rgba(230,90,90,.3)'}
+    };
+    var sw = document.createElement('div');
+    sw.style.cssText = 'position:fixed;bottom:40px;right:16px;z-index:3000;background:rgba(10,10,14,.94);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;box-shadow:0 8px 32px rgba(0,0,0,.6);font-size:11px;display:flex;flex-direction:column;gap:5px;min-width:160px';
+    sw.innerHTML = '<div style="font-size:9px;letter-spacing:.1em;color:#5a5660;font-weight:700;margin-bottom:3px">ペルソナ切替</div>'
+      + PERSONAS_LOCAL.map(function(p){
+          var active = p.key === current;
+          var c = COLORS_LOCAL[p.key]||COLORS_LOCAL.guest;
+          return '<a href="/?persona='+p.key+'" style="display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:7px;text-decoration:none;'
+            + (active ? 'background:'+c.bg+';color:'+c.color+';border:1px solid '+c.border+';font-weight:700' : 'color:#6a6670;border:1px solid transparent')
+            + '">' + p.icon + ' ' + p.label
+            + (active ? ' <span style="margin-left:auto;font-size:9px;opacity:.7">現在</span>' : '')
+            + '</a>';
+        }).join('')
+      + '<div style="border-top:1px solid rgba(255,255,255,.06);margin-top:4px;padding-top:6px;display:flex;flex-direction:column;gap:4px">'
+      + '<a href="/desk?persona='+current+'" style="color:#5a6680;text-decoration:none;font-size:10px">デスクで見る →</a>'
+      + '</div>';
+    document.body.appendChild(sw);
+  }
+
+  // Always verify login; ?persona= preview is admin-only
+  var tok = localStorage.getItem('sln_token');
+  if(!tok){ return; }
+  fetch('/api/soluna/me',{headers:{Authorization:'Bearer '+tok}})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(d){
+      if(!d||!d.member) return;
+      var actualType = d.member.member_type||'member';
+      var name = d.member.name||d.member.email||'';
+      var VALID_KEYS = ['guest','architect','owner','admin'];
+      if(urlParam && VALID_KEYS.indexOf(urlParam)>=0 && actualType==='admin'){
+        applyPersonaUI(urlParam, name);
+      } else {
+        applyPersonaUI(actualType, name);
+      }
+    })
+    .catch(function(){});
+})();
+</script>
 </body>
 </html>

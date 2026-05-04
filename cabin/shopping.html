@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>購入リスト — 天空の道場（熊牛原野）建設資材リスト | SOLUNA</title>
+<meta name="description" content="北海道熊牛原野・天空の道場コンテナハウス建設に必要なもの全部。基礎から家具、Starlink、薪ストーブまで。現場木材加工ゼロ。">
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--bg:#080806;--card:#0f0f0d;--card2:#13120f;
+  --border:rgba(255,255,255,.07);--green:#4ecb8d;--red:#e65a5a;--blue:#5aa0e6;
+}
+html,body{background:var(--bg);color:#e8e0cc;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+
+/* HERO */
+.hero{padding:48px 24px 32px;max-width:760px;margin:0 auto}
+.back-link{font-size:11px;color:#4a4a40;text-decoration:none;margin-bottom:20px;display:inline-flex;align-items:center;gap:6px}
+.back-link:hover{color:var(--gold)}
+h1{font-size:clamp(1.6rem,6vw,3rem);font-weight:900;line-height:1.1;color:#e8e0cc;margin-bottom:8px}
+.hero-sub{font-size:13px;color:#6a6050;line-height:1.7;max-width:480px;margin-bottom:24px}
+
+/* SUMMARY STATS */
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
+  margin-bottom:32px;
+}
+@media(max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:14px 16px;text-align:center;
+}
+.stat-num{font-size:1.4rem;font-weight:900;color:var(--gold)}
+.stat-label{font-size:10px;color:#5a5040;margin-top:3px}
+
+/* FILTER TABS */
+.tabs{
+  display:flex;gap:6px;overflow-x:auto;padding:0 24px 16px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex-shrink:0;font-size:11px;font-weight:600;
+  padding:6px 14px;border-radius:20px;cursor:pointer;
+  background:var(--card);border:1px solid var(--border);color:#5a5040;
+}
+.tab.active{background:rgba(200,164,85,.12);border-color:rgba(200,164,85,.3);color:var(--gold)}
+
+/* CATEGORY */
+.categories{padding:0 24px 48px;max-width:760px;margin:0 auto}
+.cat-section{margin-bottom:40px}
+.cat-head{
+  display:flex;align-items:center;gap:10px;margin-bottom:12px;
+  padding-bottom:10px;border-bottom:1px solid var(--border);
+}
+.cat-icon{font-size:1.4rem}
+.cat-title{font-size:1rem;font-weight:700;color:var(--gold)}
+.cat-total{
+  margin-left:auto;font-size:12px;font-weight:700;
+  color:#c8b888;background:rgba(200,164,85,.1);
+  border:1px solid var(--border);border-radius:8px;
+  padding:3px 10px;
+}
+
+/* ITEM TABLE */
+.item-list{display:flex;flex-direction:column;gap:4px}
+.item{
+  display:grid;grid-template-columns:1fr auto auto;
+  gap:8px;align-items:start;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:10px 14px;
+  transition:border-color .15s;
+}
+.item:hover{border-color:rgba(200,164,85,.2)}
+.item-name{font-size:12px;color:#c8b888;font-weight:600}
+.item-detail{font-size:10px;color:#5a5040;margin-top:2px;line-height:1.5}
+.item-where{
+  font-size:9px;padding:2px 8px;border-radius:8px;
+  border:1px solid var(--border);color:#5a5040;
+  white-space:nowrap;align-self:center;
+}
+.where-amazon{background:rgba(255,165,0,.08);border-color:rgba(255,165,0,.15);color:#b08020}
+.where-monotaro{background:rgba(60,120,200,.08);border-color:rgba(60,120,200,.15);color:#6090c0}
+.where-monoshiro{background:rgba(100,200,120,.08);border-color:rgba(100,200,120,.15);color:#60a070}
+.where-local{background:rgba(200,100,80,.08);border-color:rgba(200,100,80,.15);color:#c06050}
+.where-direct{background:rgba(140,100,200,.08);border-color:rgba(140,100,200,.15);color:#9070c0}
+.where-web{background:rgba(100,160,200,.08);border-color:rgba(100,160,200,.15);color:#6090b0}
+.item-price{
+  font-size:12px;font-weight:700;color:#e8d0a0;
+  white-space:nowrap;align-self:center;text-align:right;
+}
+.item-note{
+  grid-column:1/-1;font-size:9px;color:#4a4030;
+  background:rgba(255,255,255,.02);border-radius:6px;
+  padding:4px 8px;margin-top:2px;
+}
+.badge-diy{font-size:8px;color:#4ecb8d;background:rgba(78,203,141,.1);border:1px solid rgba(78,203,141,.2);border-radius:6px;padding:1px 6px;margin-left:4px}
+.badge-free{font-size:8px;color:#c8a455;background:rgba(200,164,85,.1);border:1px solid rgba(200,164,85,.2);border-radius:6px;padding:1px 6px;margin-left:4px}
+.badge-prio{font-size:8px;color:#e65a5a;background:rgba(230,90,90,.1);border:1px solid rgba(230,90,90,.2);border-radius:6px;padding:1px 6px;margin-left:4px}
+.badge-min{font-size:8px;color:#4ecb8d;background:rgba(78,203,141,.12);border:1px solid rgba(78,203,141,.3);border-radius:6px;padding:1px 6px;margin-left:4px;font-weight:700}
+.badge-new{font-size:8px;color:#5aa0e6;background:rgba(90,160,230,.1);border:1px solid rgba(90,160,230,.25);border-radius:6px;padding:1px 6px;margin-left:4px}
+.where-ali{background:rgba(255,100,60,.08);border-color:rgba(255,100,60,.2);color:#e06040}
+
+/* TOTAL BAR */
+.total-bar{
+  position:sticky;bottom:0;
+  background:rgba(8,8,6,.95);backdrop-filter:blur(20px);
+  border-top:1px solid rgba(200,164,85,.2);
+  padding:14px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.total-label{font-size:11px;color:#6a6050}
+.total-amount{font-size:1.3rem;font-weight:900;color:var(--gold)}
+.total-note{font-size:10px;color:#4a4030}
+
+/* NOTES */
+.notes-box{
+  margin:0 24px 32px;max-width:712px;
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:20px;
+}
+.notes-box h3{font-size:12px;color:var(--gold);margin-bottom:12px}
+.notes-box ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.notes-box li{font-size:11px;color:#6a6050;line-height:1.6;padding-left:14px;position:relative}
+.notes-box li::before{content:'·';position:absolute;left:0;color:var(--gold)}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <a class="back-link" href="/kumaushi">← 天空の道場（熊牛原野）に戻る</a>
+  <h1>購入リスト</h1>
+  <p class="hero-sub">
+    基礎から家具・Starlinkまで、天空の道場（熊牛原野）コンテナハウス建設に必要なもの全部。
+    現場木材加工ゼロ（すべて既製品・カット済み）。
+  </p>
+  <!-- パースギャラリー -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px">
+    <div style="border-radius:10px;overflow:hidden;position:relative;grid-column:1/-1">
+      <img src="/img/kumaushi_dojo_pars_exterior.jpg" alt="天空の道場 外観パース" style="width:100%;height:220px;object-fit:cover;display:block">
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:10px 14px;background:linear-gradient(transparent,rgba(0,0,0,.85))">
+        <div style="font-size:12px;font-weight:800;color:#fff">天空の道場（熊牛原野）外観パース</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6)">2本並列 / 屋上テラス / 外部階段 / 北海道</div>
+      </div>
+    </div>
+    <div style="border-radius:10px;overflow:hidden;position:relative">
+      <img src="/img/kumaushi_dojo_pars_interior.jpg" alt="道場内観" style="width:100%;height:140px;object-fit:cover;display:block">
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:8px 10px;background:linear-gradient(transparent,rgba(0,0,0,.8))">
+        <div style="font-size:10px;font-weight:700;color:#fff">内観 — 柔術道場</div>
+      </div>
+    </div>
+    <div style="border-radius:10px;overflow:hidden;position:relative">
+      <img src="/img/kumaushi_dojo_pars_rooftop.jpg" alt="屋上テラス" style="width:100%;height:140px;object-fit:cover;display:block">
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:8px 10px;background:linear-gradient(transparent,rgba(0,0,0,.8))">
+        <div style="font-size:10px;font-weight:700;color:#fff">屋上テラス — 夕景</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">¥6.2M</div><div class="stat-label">標準案 総合計</div></div>
+    <div class="stat" style="border-color:rgba(78,203,141,.3);background:rgba(78,203,141,.04)"><div class="stat-num" style="color:#4ecb8d">¥1.05M〜</div><div class="stat-label" style="color:#4ecb8d">ミニマム案（DIY最大）</div></div>
+    <div class="stat"><div class="stat-num">162</div><div class="stat-label">品目数</div></div>
+    <div class="stat"><div class="stat-num">2</div><div class="stat-label">建設週数（目安）</div></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active">全カテゴリ</div>
+  <div class="tab">01 基礎</div>
+  <div class="tab">02 構造</div>
+  <div class="tab">03 断熱</div>
+  <div class="tab">04 設備</div>
+  <div class="tab">05 電気</div>
+  <div class="tab">06 水回り</div>
+  <div class="tab">07 内装</div>
+  <div class="tab">08 家具</div>
+  <div class="tab">09 IT</div>
+  <div class="tab">10 工具</div>
+  <div class="tab" style="color:#4ecb8d;border-color:rgba(78,203,141,.25)">11 柔術道場</div>
+  <div class="tab" style="color:#5aa0e6;border-color:rgba(90,160,230,.25)">12 屋上テラス</div>
+</div>
+
+<div class="categories">
+
+<!-- ===== 01 基礎 ===== -->
+<div class="cat-section">
+  <div class="cat-head">
+    <span class="cat-icon">⚓</span>
+    <div class="cat-title">01 基礎 — スクリューパイル</div>
+    <div class="cat-total">¥380,000</div>
+  </div>
+  <div class="item-list">
+    <div class="item">
+      <div><div class="item-name">スクリューパイル Ø150mm × <strong style="color:#c8a455">L2400mm</strong> <span class="badge-prio">優先</span></div><div class="item-detail">鋼管杭 / 40ftコンテナ×1棟に8本必要 / 材工共（施工込み） / ⚠️ 弟子屈は凍結深度120cm — L2400mm必須（L1800mmでは凍上で基礎が浮く）</div></div>
+      <span class="item-where where-direct">施工業者</span>
+      <div class="item-price">¥480,000</div>
+      <div class="item-note">
+        <strong>⚠️ L2400mm必須</strong>：弟子屈（標茶）の凍結深度は120cm。凍結線より下まで到達するにはL2400mmが必要。L1800mmでは春の凍上（frost heave）で基礎が浮き上がりコンテナが変形する。<br><br>
+        <strong>発注先（道東エリア）</strong>：<br>
+        ①道東杭工業（釧路市） TEL: 0154-37-xxxx — 弟子屈・標茶エリア実績あり<br>
+        ②北海道スクリューパイル協会加盟店（https://www.screwpile.jp/）— 最寄り業者検索可<br>
+        ③東京鉄鋼 / JFE建材 — 材料のみ調達も可（施工は別途地元業者）<br><br>
+        <strong>見積り依頼時の必須スペック</strong>：「Ø150mm × L2400mm × 8本 / 40ftコンテナ基礎 / 弟子屈町熊牛 / 凍結深度120cm対応 / 材工共見積り希望」
+      </div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">パイルキャップ（ベースプレート） 200×200mm t9</div><div class="item-detail">スクリューパイル頭部コンテナ接合用 / 8枚セット</div></div>
+      <span class="item-where where-monotaro">モノタロウ</span>
+      <div class="item-price">¥32,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">アンカーボルト M20×300mm + ナット + ワッシャー</div><div class="item-detail">コンテナ底部固定 / 32本セット</div></div>
+      <span class="item-where where-monotaro">モノタロウ</span>
+      <div class="item-price">¥18,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">水準測量費（施工前レベル出し）</div><div class="item-detail">パイル打設前の高さ確認測量</div></div>
+      <span class="item-where where-direct">測量士</span>
+      <div class="item-price">¥50,000</div>
+    </div>
+    <div class="item" style="border-color:rgba(78,203,141,.2)">
+      <div><div class="item-name">【代替】コンクリートブロック基礎 <span class="badge-min">ミニマム</span><span class="badge-diy">DIY</span></div><div class="item-detail">JIS C種 300×600×150mm × 20枚 / 廃棄パレット+ブロックで水平出し / 仮設扱いで建築確認不要の可能性あり</div></div>
+      <span class="item-where where-monoshiro">カインズ</span>
+      <div class="item-price">¥20,000</div>
+      <div class="item-note">スクリューパイル¥480Kの代替案。コンテナ角4点+中間4点に設置。将来スクリューパイルに換装可能。熊牛原野（農地・原野）ならブロック直置きで仮設扱いになる可能性あり（要確認）。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 02 コンテナ構造 ===== -->
+<div class="cat-section">
+  <div class="cat-head">
+    <span class="cat-icon">📦</span>
+    <div class="cat-title">02 構造 — コンテナ本体・木フレーム</div>
+    <div class="cat-total">¥750,000</div>
+  </div>
+  <div class="item-list">
+    <div class="item">
+      <div><div class="item-name">40ftドライコンテナ（中古 A品）<span class="badge-prio">優先</span></div><div class="item-detail">外寸12192×2438×2591mm / 錆・穴なし保証品 / 釧路港または帯広デポ受取</div></div>
+      <span class="item-where where-direct">コンテナ専門店</span>
+      <div class="item-price">¥350,000</div>
+      <div class="item-note">推奨業者：コンテナ.jp / マリンボックス北海道 / シップマート。配送費別途¥50,000〜（釧路〜弟子屈）</div>
+    </div>
+    <div class="item" style="border-color:rgba(78,203,141,.25)">
+      <div><div class="item-name">【代替】40ft 保冷コンテナ（リーファー、中古）<span class="badge-min">ミニマム★推奨</span><span class="badge-new">NEW</span></div><div class="item-detail">冷凍トラック用 / 壁・天井・床にウレタン100mm内蔵（λ=0.022）/ 断熱施工が完全不要に / 外寸ほぼ同じ</div></div>
+      <span class="item-where where-direct">コンテナ専門店</span>
+      <div class="item-price">¥250,000〜¥400,000</div>
+      <div class="item-note">🌟 これを選ぶだけで「03 断熱」のスプレーウレタン・藁ベール・XPS等が不要になる。断熱工事費¥300K〜¥500K削減。コンプレッサー穴などは溶接で塞ぐ（¥10K程度）。断熱性能は通常コンテナ+DIY断熱より均一で確実に高い。リーファーコンテナで検索。</div>
+    </div>
+    <div class="item" style="border-color:rgba(78,203,141,.2)">
+      <div><div class="item-name">【代替】コンテナ輸送 — 農家・地元ネットワーク活用 <span class="badge-min">ミニマム</span></div><div class="item-detail">弟子屈・標茶の農家/建設業者のフラットトレーラーを使う / 専門業者の1/3〜1/2のコスト</div></div>
+      <span class="item-where where-local">地元ネット</span>
+      <div class="item-price">¥100,000〜¥150,000</div>
+      <div class="item-note">通常の輸送業者¥350Kの代替。農協・農家・地元建設会社に直接交渉。コンテナを設置するためのユニック車も農家が持っていることが多い。</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">コンテナ輸送・設置費（ユニック込み）</div><div class="item-detail">釧路港 → 弟子屈 + 現地設置クレーン作業</div></div>
+      <span class="item-where where-direct">運送業者</span>
+      <div class="item-price">¥80,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">2×6 SPF KD材 38×140mm × 3660mm（20本）</div><div class="item-detail">外壁木フレーム用 / プレカット済み / 断熱壁下地</div></div>
+      <span class="item-where where-monoshiro">コメリ/カインズ</span>
+      <div class="item-price">¥28,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">2×4 KD材 38×89mm × 3660mm（30本）</div><div class="item-detail">屋根フレーム + 間仕切り下地</div></div>
+      <span class="item-where where-monoshiro">コメリ/カインズ</span>
+      <div class="item-price">¥18,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">切妻屋根フレームキット（プレカット注文）</div><div class="item-detail">40ft対応 勾配4/12 + 棟木 + 垂木 / プレカットで現場カット不要</div></div>
+      <span class="item-where where-direct">製材所カットサービス</span>
+      <div class="item-price">¥120,000</div>
+      <div class="item-note">北海道産トドマツ材。コメリプロまたは地元製材所でカット図面を渡してカット依頼。現場では組むだけ。</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">ガルバリウム鋼板屋根材（横葺き）3m×8枚</div><div class="item-detail">40ft屋根対応 / SGL鋼板 耐雪荷重対応品</div></div>
+      <span class="item-where where-direct">板金業者</span>
+      <div class="item-price">¥85,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">コンテナ扉撤去・開口加工（溶接工）</div><div class="item-detail">端部扉2枚撤去 + 窓開口3箇所カット / 外注溶接</div></div>
+      <span class="item-where where-direct">溶接業者</span>
+      <div class="item-price">¥69,000</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 03 断熱 ===== -->
+<div class="cat-section">
+  <div class="cat-head">
+    <span class="cat-icon">🧱</span>
+    <div class="cat-title">03 断熱 — 外付け藁ベール・PUスプレー・窓</div>
+    <div class="cat-total">¥780,000</div>
+  </div>
+  <div class="item-list">
+    <div class="item" style="border-color:rgba(78,203,141,.2)">
+      <div><div class="item-name">籾殻（もみがら）充填断熱 <span class="badge-free">ほぼ無料</span><span class="badge-min">ミニマム</span><span class="badge-new">NEW</span></div><div class="item-detail">近隣農家から無償調達 / 木下地フレーム150mm幅に充填 / λ=0.040〜0.045 / ロックウール同等性能 / シリカ質で防火性高い</div></div>
+      <span class="item-where where-local">地元農家</span>
+      <div class="item-price">¥10,000</div>
+      <div class="item-note">弟子屈・標茶の米農家から廃棄籾殻を無料でもらえる。フレコンバッグで輸送。木下地（2×6材）を壁に組み、籾殻を詰め込むだけ。鼠よけにホウ酸処理推奨。保冷コンテナと組み合わせる場合は床下断熱のみに使用。</div>
+    </div>
+    <div class="item" style="border-color:rgba(78,203,141,.2)">
+      <div><div class="item-name">スプレーウレタン クローズドセル（2液型） <span class="badge-min">ミニマム断熱最強</span><span class="badge-new">NEW</span></div><div class="item-detail">硬質ウレタン / λ=0.020（最強） / 40mm吹付でグラスウール100mm相当 / 気密+断熱同時達成 / DIYスプレーガン使用 / 2本分約55m²分</div></div>
+      <span class="item-where where-amazon">Amazon/工具屋</span>
+      <div class="item-price">¥280,000</div>
+      <div class="item-note">コンテナ断熱の最強工法。内壁全面に40mm吹付でスチール熱橋を完全包囲。気密テープ不要。保護メガネ・防護服・換気必須。業者施工なら¥500K〜。DIYなら¥280K程度（缶×多数+ガン+保護具）。</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">藁ベール（地元農家より） <span class="badge-free">無償〜格安</span></div><div class="item-detail">弟子屈/士幌 農家より / 外付けフレーム充填 / 140mm相当</div></div>
+      <span class="item-where where-local">地元農家</span>
+      <div class="item-price">¥5,000</div>
+      <div class="item-note">弟子屈農協または近隣牧場に直接依頼。稲わら・麦わらどちらも可。搬送費のみ。</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">硬質ウレタンフォームスプレー 30mmセット</div><div class="item-detail">コンテナ内壁吹付 / 2液タイプ / 約40m²分</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥55,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">アルミ遮熱シート（反射層） 1.2m×25m</div><div class="item-detail">外壁フレーム外側 + 屋根下張り / 2層</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥12,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">YKK APW430 トリプル樹脂サッシ 3枚 <span class="badge-prio">最優先</span></div><div class="item-detail">1200×900mm×2 / 600×600mm×1 / Low-E真空トリプル / Uw=0.91</div></div>
+      <span class="item-where where-direct">YKK代理店</span>
+      <div class="item-price">¥260,000</div>
+      <div class="item-note">断熱の最重要項目。ペアガラスより熱損失が60%少ない。型番：APW430 FIX + 開き窓。納期6週間のため最優先発注。</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">断熱玄関ドア（スチール断熱コアD4等級）</div><div class="item-detail">900×2000mm / U値1.5以下 / コンテナ扉開口取付</div></div>
+      <span class="item-where where-direct">LIXILまたはYKK</span>
+      <div class="item-price">¥180,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">XPS（押出ポリスチレン）100mm 屋根内側</div><div class="item-detail">900×1800mm×8枚 / λ=0.028 / コンテナ天井+藁200mm補完</div></div>
+      <span class="item-where where-monoshiro">カインズ/コメリ</span>
+      <div class="item-price">¥32,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">バイオガス消化槽断熱BOX（XPS 100mm 6面）</div><div class="item-detail">IBC 1000L用 断熱囲い込み / 冬季凍結防止</div></div>
+      <span class="item-where where-monoshiro">カインズ</span>
+      <div class="item-price">¥15,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">ポリカーボネート温室パネル 4層 2.1m×6m</div><div class="item-detail">人工湿地温室用 / 熱貫流率U=0.8 / 積雪荷重対応品</div></div>
+      <span class="item-where where-amazon">Amazon/サンプラスチック</span>
+      <div class="item-price">¥65,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">温室用サーモスタット制御ヒーター 50W</div><div class="item-detail">バイオガス冬季補熱 / 設定温度35℃ / 防水IP65</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥8,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">建築確認申請費用（4号建築物）</div><div class="item-detail">建築士手数料 + 申請手数料 / 弟子屈町建築課提出</div></div>
+      <span class="item-where where-direct">建築士事務所</span>
+      <div class="item-price">¥150,000</div>
+      <div class="item-note">コンテナをスクリューパイルに固定 = 建築物 = 4号申請必須。釧路または帯広の建築士事務所に依頼。審査期間3〜4週間。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 04 設備（暖房・換気・給排水） ===== -->
+<div class="cat-section">
+  <div class="cat-head">
+    <span class="cat-icon">🔥</span>
+    <div class="cat-title">04 設備 — 薪ストーブ・換気・給排水</div>
+    <div class="cat-total">¥580,000</div>
+  </div>
+  <div class="item-list">
+    <div class="item">
+      <div><div class="item-name">薪ストーブ本体（二次燃焼式）<span class="badge-prio">優先</span></div><div class="item-detail">Morso 1440 / 加熱能力15kW / 最大暖房40m² / 触媒レス二次燃焼</div></div>
+      <span class="item-where where-direct">薪ストーブ専門店</span>
+      <div class="item-price">¥180,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">ロケットマスヒーター 蓄熱コア（耐火レンガ + 断熱ウール）</div><div class="item-detail">J型コア / 8"（200mm）フィード / ベンチ蓄熱体付き / DIY組立</div></div>
+      <span class="item-where where-direct">耐火材専門店</span>
+      <div class="item-price">¥85,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">二重断熱煙突 Ø150mm（シングルウォール含む）7m分</div><div class="item-detail">コンテナ屋根貫通 + 立上り / 断熱煙突キット</div></div>
+      <span class="item-where where-direct">ファイヤーワールド</span>
+      <div class="item-price">¥95,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">全熱交換換気ユニット（第1種換気）100m³/h</div><div class="item-detail">パナソニックFY-12ZDL1 / 熱交換効率86% / 低温対応-20℃</div></div>
+      <span class="item-where where-direct">空調設備業者</span>
+      <div class="item-price">¥85,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">換気ダクト（φ150mm アルミフレキ）10m + 部材</div><div class="item-detail">給気ダクト + 排気ダクト / 外壁貫通スリーブ含む</div></div>
+      <span class="item-where where-monotaro">モノタロウ</span>
+      <div class="item-price">¥18,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">ローリータンク 1000L（給水用）</div><div class="item-detail">ポリエチレン製 / 雨水集水 or 給水車補給 / 断熱カバー込み</div></div>
+      <span class="item-where where-amazon">Amazon/タキロン</span>
+      <div class="item-price">¥38,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">加圧ポンプ（家庭用自動ポンプ）</div><div class="item-detail">テラル PJMD-501A / タンク→蛇口加圧 / 自動圧力スイッチ付</div></div>
+      <span class="item-where where-monotaro">モノタロウ</span>
+      <div class="item-price">¥22,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">架橋ポリエチレン管（PEX） Ø15mm × 50m</div><div class="item-detail">給水 + 給湯配管 / ワンタッチ継手式 / 凍結融解に強い</div></div>
+      <span class="item-where where-monotaro">モノタロウ</span>
+      <div class="item-price">¥18,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">電気温水器 小型貯湯式 30L（エコキュート）</div><div class="item-detail">三菱SRH-3010 / 100V / 太陽光余剰電力活用</div></div>
+      <span class="item-where where-amazon">Amazon/三菱</span>
+      <div class="item-price">¥39,000</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 05 電気・エネルギー ===== -->
+<div class="cat-section">
+  <div class="cat-head">
+    <span class="cat-icon">⚡</span>
+    <div class="cat-title">05 電気 — 太陽光・蓄電・配線</div>
+    <div class="cat-total">¥720,000</div>
+  </div>
+  <div class="item-list">
+    <div class="item" style="border-color:rgba(78,203,141,.25)">
+      <div><div class="item-name">【代替】オフグリッド最小セット 200W+50Ah <span class="badge-min">ミニマム</span><span class="badge-new">NEW</span></div><div class="item-detail">200W単結晶パネル×1 + リン酸鉄Li 50Ah + PWMチャージコントローラー + 1000Wインバーター / 電力引き込み工事ゼロ化 / 照明・スマホ・音楽スピーカー対応</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥80,000</div>
+      <div class="item-note">電力引き込み工事¥150K〜¥300Kを完全に回避。道場用途（照明+音響+スマホ充電）なら50Ahで1日分は余裕。屋上テラスに設置すれば配線短縮。ヒーター・エアコンは使えないが薪ストーブで代替。将来的に増設して6枚構成へ拡張可能。</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">太陽光パネル 400W × 6枚（2,400W）</div><div class="item-detail">Jinko Solar / 単結晶 / 屋根南向き設置 / セット価格</div></div>
+      <span class="item-where where-web">ソーラーパネル.com</span>
+      <div class="item-price">¥240,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">リン酸鉄リチウムバッテリー 48V 200Ah（9.6kWh）</div><div class="item-detail">CATL系セル / BMS内蔵 / -20℃加熱機能付 / 冬季対応必須品</div></div>
+      <span class="item-where where-web">中国直輸入/ALiExpress</span>
+      <div class="item-price">¥220,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">ハイブリッドインバーター 5000W 48V（MPPT内蔵）</div><div class="item-detail">Growatt SPF5000 / MPPT 100A / Grid-off対応 / Wi-Fi監視</div></div>
+      <span class="item-where where-web">ソーラーパネル.com</span>
+      <div class="item-price">¥95,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">ソーラーパネル架台（屋根固定型）6枚分</div><div class="item-detail">ガルバリウム屋根対応 / アングル架台キット / 積雪荷重200kg/m²対応</div></div>
+      <span class="item-where where-web">架台.jp</span>
+      <div class="item-price">¥55,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">MC4ケーブル Ø4mm² × 30m + コネクタセット</div><div class="item-detail">パネル～インバーター接続 / UV耐候外装</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥18,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">屋内配線材（VVF 2.0mm + ブレーカー + 分電盤）</div><div class="item-detail">漏電ブレーカー + 主幹 + 子ブレーカー8回路 / 分電盤KIT</div></div>
+      <span class="item-where where-monotaro">モノタロウ</span>
+      <div class="item-price">¥42,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">コンセント / スイッチ / 照明器具 一式</div><div class="item-detail">露出型コンセント×8 / WP防水×4 / LED照明×6箇所</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥35,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">電気工事（資格者施工 / 第2種電気工事士）</div><div class="item-detail">分電盤工事 + 幹線配線 / 外注または資格者による</div></div>
+      <span class="item-where where-direct">電気工事業者</span>
+      <div class="item-price">¥50,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">バイオガス IBC 1000Lコンテナ × 1基</div><div class="item-detail">メタン発酵槽本体 / 中古IBC / ガス配管 + 圧力弁 + ガスホース込み</div></div>
+      <span class="item-where where-amazon">Amazon/ヤフオク</span>
+      <div class="item-price">¥25,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">バイオガス用ゴムホース・継手・チェックバルブ</div><div class="item-detail">消化槽～ストーブ接続配管一式</div></div>
+      <span class="item-where where-monotaro">モノタロウ</span>
+      <div class="item-price">¥8,000</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 06 水回り・衛生 ===== -->
+<div class="cat-section">
+  <div class="cat-head">
+    <span class="cat-icon">🚿</span>
+    <div class="cat-title">06 水回り — キッチン・バス・トイレ・人工湿地</div>
+    <div class="cat-total">¥420,000</div>
+  </div>
+  <div class="item-list">
+    <div class="item">
+      <div><div class="item-name">システムキッチン I型 1800mm（既製品）</div><div class="item-detail">LIXIL シエラ / 1口IH + シンク + 収納 / W1800 / ベーシックグレー</div></div>
+      <span class="item-where where-direct">LIXIL代理店</span>
+      <div class="item-price">¥95,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">ユニットバス 1216（1.2m×1.6m）</div><div class="item-detail">LIXIL リノビオ / サイズ1216 / 断熱浴槽 / 24時間換気付</div></div>
+      <span class="item-where where-direct">LIXIL代理店</span>
+      <div class="item-price">¥130,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">節水トイレ + タンク（コンパクトサイズ）</div><div class="item-detail">TOTO CS550B / ウォシュレット付 / 4.8L洗浄</div></div>
+      <span class="item-where where-amazon">Amazon/TOTO</span>
+      <div class="item-price">¥52,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">合併処理浄化槽 5人槽（設置工事込み）</div><div class="item-detail">クボタ浄化槽 / 弟子屈町への設置届出含む</div></div>
+      <span class="item-where where-direct">浄化槽設置業者</span>
+      <div class="item-price">¥85,000</div>
+      <div class="item-note">北海道農村地区での設置義務あり。補助金制度あり（弟子屈町確認推奨）。</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">人工湿地構築資材（溶岩砂利 + 砂 + ジオテキスタイル）</div><div class="item-detail">湿地床：礫層40cm / ジオシート + 砂利200kg + 湿地植物</div></div>
+      <span class="item-where where-monoshiro">コメリ + 園芸店</span>
+      <div class="item-price">¥22,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">水中ポンプ 50W（湿地循環用）</div><div class="item-detail">水処理循環 / 防水IPX8 / 流量2000L/h</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥8,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">灰水フィルター（コンポスト石鹸トラップ）</div><div class="item-detail">DIYコンポスト + 炭素フィルターBOX</div></div>
+      <span class="item-where where-monoshiro">カインズ DIY資材</span>
+      <div class="item-price">¥5,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">凍結防止ヒーターテープ 2m×3本（排水管用）</div><div class="item-detail">サーモスタット内蔵 / -40℃対応 / 床下排水管全数に巻</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥18,000</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 07 内装 ===== -->
+<div class="cat-section">
+  <div class="cat-head">
+    <span class="cat-icon">🪵</span>
+    <div class="cat-title">07 内装 — 漆喰・床・建具</div>
+    <div class="cat-total">¥320,000</div>
+  </div>
+  <div class="item-list">
+    <div class="item">
+      <div><div class="item-name">漆喰壁材（ホタテパウダー系）20kg × 10袋 <span class="badge-diy">DIY</span></div><div class="item-detail">モルモルまたはHolbein漆喰 / 120m²分 / コテ塗り or ローラー塗り</div></div>
+      <span class="item-where where-amazon">Amazon/アサヒペン</span>
+      <div class="item-price">¥45,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">ラスボード（漆喰下地） 910×1820mm × 20枚</div><div class="item-detail">コンテナ内壁 + 木フレーム下地 / PU吹付後の上張り</div></div>
+      <span class="item-where where-monoshiro">コメリ</span>
+      <div class="item-price">¥22,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">無垢フローリング 150mm幅 × 15mm（30m²）</div><div class="item-detail">北海道産ナラ材 / 実加工済み / 現場カット不要（部屋サイズ指定プレカット）</div></div>
+      <span class="item-where where-direct">無垢材専門店</span>
+      <div class="item-price">¥95,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">床断熱材（スタイロフォーム 50mm）コンテナ底板上</div><div class="item-detail">900×1800mm × 20枚 / λ=0.028</div></div>
+      <span class="item-where where-monoshiro">コメリ/カインズ</span>
+      <div class="item-price">¥28,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">根太材（大引き）45×90mm KD材 × 20本</div><div class="item-detail">床組み下地 / プレカット済み</div></div>
+      <span class="item-where where-monoshiro">コメリ</span>
+      <div class="item-price">¥14,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">室内ドア（既製品フラッシュドア 2枚）</div><div class="item-detail">ウッドワン/LIXIL / 750×2000mm / 枠込みキット</div></div>
+      <span class="item-where where-direct">建材店</span>
+      <div class="item-price">¥48,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">焼杉板（外壁仕上げ）15×120mm × 120m²分 <span class="badge-diy">DIY</span></div><div class="item-detail">杉板を自家焼成 / 角材バーナー炙り → ブラシ仕上げ / 現場組付け</div></div>
+      <span class="item-where where-monoshiro">コメリ/地元製材所</span>
+      <div class="item-price">¥38,000</div>
+      <div class="item-note">杉板未加工 → ガスバーナーで表面炭化 → ワイヤーブラシで磨く → 荏油塗布。DIY可能。</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">コーキング（変成シリコン）12本 + マスキングテープ</div><div class="item-detail">窓周り・外壁目地 / 防水シール</div></div>
+      <span class="item-where where-monotaro">モノタロウ</span>
+      <div class="item-price">¥12,000</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 08 家具・寝具 ===== -->
+<div class="cat-section">
+  <div class="cat-head">
+    <span class="cat-icon">🛋️</span>
+    <div class="cat-title">08 家具・寝具 — ベッド・デスク・収納</div>
+    <div class="cat-total">¥280,000</div>
+  </div>
+  <div class="item-list">
+    <div class="item">
+      <div><div class="item-name">ダブルベッドフレーム（木製すのこ）</div><div class="item-detail">IKEA NEIDEN または ニトリ / W1400×D2100 / 搬入組立不要タイプ</div></div>
+      <span class="item-where where-web">ニトリオンライン</span>
+      <div class="item-price">¥22,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">マットレス ダブル（高反発）</div><div class="item-detail">コアラマットレス or エムリリー / 140×195cm / 圧縮配送</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥55,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">羽毛布団（ダウン800FP）+ シーツセット</div><div class="item-detail">北海道の冬対応 / ダブルサイズ / 防水シーツ込み</div></div>
+      <span class="item-where where-web">ニトリオンライン</span>
+      <div class="item-price">¥35,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">ダイニングテーブル + チェア4脚（無垢材）</div><div class="item-detail">IKEA MÖRBYLÅNGA + IKEA TOBIAS / 140×85cm / ボルト組立</div></div>
+      <span class="item-where where-web">IKEA Online</span>
+      <div class="item-price">¥38,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">ソファ（2〜3人掛け コンパクト）</div><div class="item-detail">ニトリ Nポケット / W1800 / 圧縮配送可能品</div></div>
+      <span class="item-where where-web">ニトリオンライン</span>
+      <div class="item-price">¥42,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">スタンディングデスク 電動昇降（140cm）</div><div class="item-detail">FLEXISPOT E7 / 140×70cm / リモートワーク対応</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥48,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">壁付け収納棚（DIYアングル棚）<span class="badge-diy">DIY</span></div><div class="item-detail">アングルレール + OSB棚板 / 壁直付け</div></div>
+      <span class="item-where where-monoshiro">カインズ</span>
+      <div class="item-price">¥15,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">アウトドアテーブル + チェア（テラス用）</div><div class="item-detail">スノーピーク or コールマン / 折りたたみ式 / ウッドデッキ用</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥25,000</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 09 IT・通信 ===== -->
+<div class="cat-section">
+  <div class="cat-head">
+    <span class="cat-icon">📡</span>
+    <div class="cat-title">09 IT・通信 — Starlink・Wi-Fi・スマートホーム</div>
+    <div class="cat-total">¥180,000</div>
+  </div>
+  <div class="item-list">
+    <div class="item">
+      <div><div class="item-name">Starlink Standard Kit（端末 + マウント）<span class="badge-prio">優先</span></div><div class="item-detail">丸型アンテナ / 月額¥6,600 / PoE給電 / 弟子屈対応確認済み</div></div>
+      <span class="item-where where-web">starlink.com</span>
+      <div class="item-price">¥75,000</div>
+      <div class="item-note">月額別途¥6,600。弟子屈町では「Starlink Best Effort（農村）」カバレッジ内。要住所確認。</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">Wi-Fi 6 ルーター（屋外防水アクセスポイント）</div><div class="item-detail">ASUS ExpertWiFi EBM68 / 屋内AP×1 / 屋外AP×1</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥28,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">スマートロック（玄関 + コンテナドア）</div><div class="item-detail">SESAME 5 × 2個 / BLE + Wi-Fi / オートロック / 遠隔解錠</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥18,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">防犯カメラ（屋外 IP66 4K × 2台）</div><div class="item-detail">Reolink RLC-810A / PoE / 4K / 動体検知 / ローカル録画</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥22,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">スマートプラグ × 6個（遠隔電源管理）</div><div class="item-detail">TP-Link Kasa KP115 / 電力監視 / Alexa対応</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥12,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">温湿度・CO₂センサー（室内環境モニター）</div><div class="item-detail">SwitchBot 温湿度計 × 3個 / スマートホーム連携</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥8,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">NAS（ローカルデータストレージ） 4TB</div><div class="item-detail">Synology DS223j / WD Red 2TB × 2 / Starlink経由リモートアクセス</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥45,000</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 10 工具・施工 ===== -->
+<div class="cat-section">
+  <div class="cat-head">
+    <span class="cat-icon">🔧</span>
+    <div class="cat-title">10 工具・消耗品・雑費</div>
+    <div class="cat-total">¥180,000</div>
+  </div>
+  <div class="item-list">
+    <div class="item">
+      <div><div class="item-name">インパクトドライバー（18V）+ ドリルセット</div><div class="item-detail">マキタ TD173D / ビット80本セット</div></div>
+      <span class="item-where where-amazon">Amazon/マキタ</span>
+      <div class="item-price">¥35,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">丸ノコ（190mm）+ ガイド</div><div class="item-detail">マキタ HS6310 / 現場でのパネルカット用（最小限）</div></div>
+      <span class="item-where where-amazon">Amazon/マキタ</span>
+      <div class="item-price">¥22,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">コーキングガン + 水準器 + タコメーター 一式</div><div class="item-detail">大工道具基本セット</div></div>
+      <span class="item-where where-monoshiro">カインズ</span>
+      <div class="item-price">¥12,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">ビス・ネジ類（各種）セット</div><div class="item-detail">コーススレッド 65mm/90mm/125mm / ステンレス外壁ビス / ボルト類</div></div>
+      <span class="item-where where-monotaro">モノタロウ</span>
+      <div class="item-price">¥18,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">レンタル重機（ユニック・ユンボ / 建設期間中）</div><div class="item-detail">土台整地 + コンテナ設置期間 2日間</div></div>
+      <span class="item-where where-local">地元建機レンタル</span>
+      <div class="item-price">¥50,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">仮設電源・仮設水道（建設中）</div><div class="item-detail">発電機レンタル or 既設電源引込 / 工事用水</div></div>
+      <span class="item-where where-local">レンタル業者</span>
+      <div class="item-price">¥20,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">防腐・防虫塗料（外壁木部）5L × 3缶</div><div class="item-detail">キシラデコール / 焼杉外壁の荏油 + 木フレーム防腐処理</div></div>
+      <span class="item-where where-monoshiro">カインズ/コメリ</span>
+      <div class="item-price">¥12,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">搬送・雑費バッファー</div><div class="item-detail">想定外運搬・追加資材の予備費</div></div>
+      <span class="item-where where-local">—</span>
+      <div class="item-price">¥80,000</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 11 柔術道場 ===== -->
+<div class="cat-section categories" style="padding-bottom:0">
+  <div class="cat-head">
+    <span class="cat-icon">🥋</span>
+    <div class="cat-title">11 柔術道場 — マット・鏡・備品</div>
+    <div class="cat-total" style="color:#4ecb8d;border-color:rgba(78,203,141,.2)">¥120,000〜¥280,000</div>
+  </div>
+  <div class="item-list">
+    <div class="item" style="border-color:rgba(78,203,141,.25)">
+      <div><div class="item-name">EVA柔術マット 40mm厚 1×2m <span class="badge-min">ミニマム Ali直輸入</span><span class="badge-new">NEW</span></div><div class="item-detail">AliExpress直輸入 / 32枚（32m²分） / パズルマット式 / リードタイム3〜4週間</div></div>
+      <span class="item-where where-ali">AliExpress</span>
+      <div class="item-price">¥48,000〜¥64,000</div>
+      <div class="item-note">🌟 国内品¥5K/枚 × 32枚 = ¥160K のところ、Ali直輸入なら¥1.5K〜¥2K/枚で¥48K〜¥64K。品質は同等。キーワード：「EVA puzzle mat 40mm judo BJJ」。送料込みで1枚¥2K前後。複数セラーで相見積り推奨。</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">EVA柔術マット 40mm厚（国内品）</div><div class="item-detail">1×2m / ダークグレー or 青 / 耐衝撃 / 32枚（32m²）</div></div>
+      <span class="item-where where-amazon">Amazon/武道具店</span>
+      <div class="item-price">¥160,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">マット下防湿シート（EVA下敷き） <span class="badge-diy">DIY</span></div><div class="item-detail">ポリエチレンシート 0.1mm / 35m² / 結露・カビ防止</div></div>
+      <span class="item-where where-monotaro">モノタロウ</span>
+      <div class="item-price">¥3,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">鏡（道場用全身鏡） 600×1800mm × 2枚</div><div class="item-detail">北面壁設置 / フィルム鏡（軽量・割れにくい） / 壁直貼り</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥18,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">防音材（壁面クッションマット）<span class="badge-diy">DIY</span></div><div class="item-detail">EVA 25mm 900×600mm × 20枚 / 壁・柱への衝撃保護</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥15,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">ダミー人形（グラップリングダミー）</div><div class="item-detail">80cm MMA用 / 一人打ち込み練習 / フォールドタイプ</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥12,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">道場用スピーカー（防水 Bluetooth）</div><div class="item-detail">JBL Xtreme or 同等品 / 練習BGM + タイマー音 / 充電式</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥15,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">インターバルタイマー（ラウンドタイマー）</div><div class="item-detail">大型LED表示 / ラウンド5〜8分 / 壁掛け / USB電源</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥4,500</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 12 屋上テラス ===== -->
+<div class="cat-section categories">
+  <div class="cat-head">
+    <span class="cat-icon">🌿</span>
+    <div class="cat-title">12 屋上テラス — デッキ・手すり・アクセス</div>
+    <div class="cat-total" style="color:#5aa0e6;border-color:rgba(90,160,230,.2)">¥100,000〜¥500,000</div>
+  </div>
+  <div class="item-list">
+    <div class="item" style="border-color:rgba(78,203,141,.25)">
+      <div><div class="item-name">屋上防水 — ゴム系防水塗料 DIY <span class="badge-min">ミニマム</span><span class="badge-diy">DIY</span><span class="badge-new">NEW</span></div><div class="item-detail">液体ゴム防水塗料（DRYLOK等） 20L × 2缶 / 約55m²対応 / ローラー塗布 / 2回塗り</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥35,000</div>
+      <div class="item-note">専業FRP防水¥150K〜¥300Kの代替。液体ゴム塗料をローラーで2回塗り。コンテナ天板の継ぎ目はコーキング先打ち必須。砂利を上から敷くと紫外線劣化を防ぎ耐久性が上がる。</div>
+    </div>
+    <div class="item" style="border-color:rgba(78,203,141,.2)">
+      <div><div class="item-name">杉足場板 デッキ材 200×35mm × 3.6m <span class="badge-min">ミニマム</span><span class="badge-diy">DIY</span><span class="badge-new">NEW</span></div><div class="item-detail">60枚（60m²分） / キシラデコール塗装 / コンテナ上面に直置き / 年1回塗装メンテ</div></div>
+      <span class="item-where where-monoshiro">カインズ/コメリ</span>
+      <div class="item-price">¥48,000</div>
+      <div class="item-note">イペ材¥3K/枚の代替。杉足場板¥800/枚。耐久3〜5年だが腐っても1枚¥800で交換できる。キシラデコール塗装（¥5K）で延命。ビス留め簡単でDIY向き。</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">屋上デッキ材 — イペ材 21×105mm × 3m（標準案）</div><div class="item-detail">60枚分 / 耐久20年+ / 天然油分で防腐 / 無塗装可</div></div>
+      <span class="item-where where-direct">木材専門店</span>
+      <div class="item-price">¥180,000</div>
+    </div>
+    <div class="item" style="border-color:rgba(78,203,141,.25)">
+      <div><div class="item-name">ルーフラダー（アルミ梯子）+ 固定クランプ <span class="badge-min">ミニマム</span><span class="badge-new">NEW</span></div><div class="item-detail">アルミ伸縮梯子 4〜6m / パイプクランプでコンテナ壁固定 / 滑り止めゴム付き</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥18,000</div>
+      <div class="item-note">単管外部階段¥70K の代替。アルミ梯子+固定クランプで¥2万以下。テラス用途ならこれで十分。将来的に外部階段に換装可能。固定はコンテナのコルゲートにクランプ or ボルト溶接。</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">単管パイプ外部階段セット <span class="badge-diy">DIY</span></div><div class="item-detail">48.6mm単管 / クランプ+踏み板（杉板） / GL〜屋上約5m分</div></div>
+      <span class="item-where where-monotaro">モノタロウ/レンタル</span>
+      <div class="item-price">¥70,000</div>
+    </div>
+    <div class="item" style="border-color:rgba(78,203,141,.2)">
+      <div><div class="item-name">屋上手すり — 単管パイプ H=1,200mm <span class="badge-min">ミニマム</span><span class="badge-diy">DIY</span><span class="badge-new">NEW</span></div><div class="item-detail">48.6mm単管+クランプ / 屋上周囲25m分 / 中さん桟付き</div></div>
+      <span class="item-where where-monotaro">モノタロウ</span>
+      <div class="item-price">¥28,000</div>
+      <div class="item-note">スチールケーブル手すり¥150K の代替。単管パイプ+クランプで¥3万以下。工業的でコンテナにもマッチするデザイン。転落防止に中さん桟必須（GL+5m超）。</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">屋上手すり — スチールケーブル H=1,200mm（標準案）</div><div class="item-detail">溶接スチール支柱 + ワイヤーロープΦ5mm / 屋上周囲25m分 / ターンバックル張力調整</div></div>
+      <span class="item-where where-direct">溶接業者</span>
+      <div class="item-price">¥150,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">アウトドアチェア + 折りたたみテーブル（屋上用）</div><div class="item-detail">Helinox系 / 軽量 / 強風時折りたたみ可 / 4セット</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥40,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">焚き火台（屋上 BBQ 兼用）</div><div class="item-detail">Snow Peak 焚火台L or 同等品 / スパークアレスター付 / 屋上デッキ用脚延長</div></div>
+      <span class="item-where where-amazon">Amazon</span>
+      <div class="item-price">¥22,000</div>
+    </div>
+    <div class="item">
+      <div><div class="item-name">プランターボックス（屋上緑化 ハーブ/野菜）</div><div class="item-detail">軽量ポリプロピレン / 300×600mm × 6個 / ハーブ・トマト・葉野菜</div></div>
+      <span class="item-where where-monoshiro">カインズ</span>
+      <div class="item-price">¥6,000</div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTES -->
+<div class="notes-box">
+  <h3>📌 購入・施工 注意事項</h3>
+  <ul>
+    <li>YKK APW430窓は納期6週間のため、計画確定後すぐ発注すること。他の工事はこれに合わせてスケジュール。</li>
+    <li><strong>⚠️ パイル長はL2400mm必須</strong>：弟子屈・標茶の凍結深度は120cm。L1800mmでは凍上（frost heave）でコンテナ基礎が浮上する。Ø150mm×L2400mm×8本で発注。道東杭工業（釧路）または北海道スクリューパイル協会加盟店に早期見積り依頼。</li>
+    <li>建築確認申請は4号建築物でも建築士が必要。釧路または帯広の建築士に早期コンタクトを。審査3〜4週間。</li>
+    <li>太陽光パネルと蓄電池は重量があるため屋根荷重計算が必要。架台設計図を建築確認申請に含めること。</li>
+    <li>Starlink月額¥6,600は別途継続費用。弟子屈エリアの「Starlink Best Effort（農村）」は混雑時速度低下あり。</li>
+    <li>合併処理浄化槽は弟子屈町で補助金が出る場合あり（補助金額確認推奨）。設置届出は町役場環境課。</li>
+    <li>バイオガスは夏季有効・冬季限定。-25℃以下でXPS断熱BOX内でも菌活性低下あり。薪ストーブ補助熱で対応。</li>
+    <li>現場木材加工ゼロを維持するため、すべての木材はプレカット指定してカインズプロ/コメリプロへ依頼すること。</li>
+  </ul>
+</div>
+
+</div><!-- /categories -->
+
+<!-- TOTAL BAR -->
+<div class="total-bar">
+  <div>
+    <div class="total-label">全品目合計（概算）</div>
+    <div class="total-note">工事費・輸送費含む / 変動あり</div>
+  </div>
+  <div style="text-align:right">
+    <div class="total-amount">¥6,210,000</div>
+    <div style="font-size:10px;color:#4a4030">コンテナ本体 + 断熱 + 設備 + 家具 + IT</div>
+  </div>
+</div>
+
+<style>
+.fnav{border-top:1px solid rgba(255,255,255,.07);padding:20px 24px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:760px;margin:0 auto}
+.fnav a{font-size:11px;color:#5a4a30;text-decoration:none;padding:6px 14px;border:1px solid rgba(255,255,255,.07);border-radius:20px}
+.fnav a:hover{color:#c8a455;border-color:rgba(200,164,85,.3)}
+</style>
+<nav class="fnav">
+  <a href="/instant">インスタントハウス</a>
+  <a href="/cottage">コテージ棟</a>
+  <a href="/interior">インテリア</a>
+  <a href="/loop">循環システム</a>
+  <a href="/plans">プランと費用</a>
+  <a href="/kokon">焼肉古今 熊牛</a>
+  <a href="/permit">許認可ガイド</a>
+  <a href="/desk">🖥 デスクトップ</a>
+  <a href="/">SOLUNA TOP</a>
+</nav>
+<script src="/js/dc.js"></script>
+</body>
+</html>

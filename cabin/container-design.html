@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>コンテナ開口デザイン — 天空の道場</title>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--bg:#080806;--card:#0f0f0d;--card2:#13120f;
+  --border:rgba(255,255,255,.07);--text:#e8e0cc;--muted:#5a5040;
+  --green:#4ecb8d;--red:#e65a5a;--blue:#5aa0e6;--cut:#f0a030;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;min-height:100vh}
+
+.toolbar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(10,10,8,.97);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}
+.toolbar-left{font-size:12px;font-weight:800;color:var(--gold)}
+.toolbar-left small{display:block;font-size:10px;color:var(--muted);font-weight:400;margin-top:1px}
+.btn{background:transparent;border:1px solid rgba(200,164,85,.25);color:var(--gold);border-radius:7px;padding:6px 12px;font-size:11px;cursor:pointer;text-decoration:none;font-family:inherit}
+.btn:hover{background:rgba(200,164,85,.08)}
+.btn-primary{background:rgba(200,164,85,.15);border-color:rgba(200,164,85,.4)}
+
+.wrap{max-width:960px;margin:0 auto;padding:20px 16px 60px}
+
+/* STATS */
+.cost-bar{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.cost-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:11px}
+.cost-item b{display:block;font-size:1rem;font-weight:900;color:var(--gold)}
+.cost-item span{color:var(--muted)}
+
+/* VIEW TABS */
+.view-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.view-tab{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:6px 14px;font-size:11px;cursor:pointer;color:var(--muted)}
+.view-tab.active{background:rgba(200,164,85,.12);border-color:rgba(200,164,85,.3);color:var(--gold)}
+
+/* SVG CONTAINER */
+.svg-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px;overflow-x:auto}
+.svg-wrap svg{display:block;margin:0 auto;max-width:100%;height:auto}
+
+/* CUT ITEMS */
+.cuts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;margin-bottom:20px}
+.cut-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;cursor:pointer;transition:border-color .15s,background .15s}
+.cut-item:hover{background:var(--card2);border-color:rgba(200,164,85,.2)}
+.cut-item.active{background:rgba(240,160,48,.07);border-color:rgba(240,160,48,.35)}
+.cut-item.required{background:rgba(230,90,90,.05);border-color:rgba(230,90,90,.2);cursor:default}
+.ci-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.ci-icon{font-size:1.1rem}
+.ci-name{font-size:12px;font-weight:700;color:#c8b888;flex:1}
+.ci-price{font-size:12px;font-weight:700;color:var(--cut)}
+.ci-desc{font-size:10px;color:var(--muted);line-height:1.5}
+.ci-badge{font-size:9px;padding:1px 6px;border-radius:5px;font-weight:700}
+.badge-req{background:rgba(230,90,90,.12);color:#e65a5a;border:1px solid rgba(230,90,90,.2)}
+.badge-opt{background:rgba(200,164,85,.1);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.badge-rec{background:rgba(78,203,141,.1);color:#4ecb8d;border:1px solid rgba(78,203,141,.2)}
+
+/* NOTE */
+.note{background:rgba(200,164,85,.06);border:1px solid rgba(200,164,85,.15);border-radius:9px;padding:10px 14px;font-size:11px;color:#8a8060;line-height:1.7;margin-bottom:16px}
+.note strong{color:var(--gold)}
+.warn{background:rgba(230,90,90,.06);border:1px solid rgba(230,90,90,.15);border-radius:9px;padding:10px 14px;font-size:11px;color:#a06060;line-height:1.7;margin-bottom:16px}
+
+/* SUMMARY */
+.summary{background:rgba(200,164,85,.07);border:1px solid rgba(200,164,85,.2);border-radius:10px;padding:14px 16px;font-size:11px}
+.summary h3{font-size:12px;font-weight:800;color:var(--gold);margin-bottom:8px}
+.summary-list{list-style:none}
+.summary-list li{padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;gap:8px}
+.summary-list li:last-child{border:none}
+.s-check{color:var(--cut)}
+.s-total{display:flex;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid rgba(200,164,85,.2);font-weight:700;font-size:12px;color:var(--gold)}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    ✂️ コンテナ開口デザイン — 天空の道場（熊牛原野）
+    <small>40ft ドライコンテナ 12,192 × 2,438 × 2,591mm</small>
+  </div>
+  <div style="display:flex;gap:8px">
+    <a href="/shopping" class="btn">← 資材リスト</a>
+    <a href="/order" class="btn">発注状況</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="cost-bar">
+    <div class="cost-item"><b id="total-cost">¥0</b><span>選択中の加工費合計</span></div>
+    <div class="cost-item"><b id="cut-count">0</b><span>開口数</span></div>
+    <div class="cost-item"><b style="color:#e65a5a">北海道</b><span>凍結深度考慮 / 断熱優先</span></div>
+    <div class="cost-item"><b style="color:#4ecb8d">ATS Japan</b><span>購入＋加工一括対応</span></div>
+  </div>
+
+  <!-- VIEW TABS -->
+  <div class="view-tabs">
+    <div class="view-tab active" onclick="setView('south')">🌅 南面（正面）</div>
+    <div class="view-tab" onclick="setView('north')">🌲 北面（背面）</div>
+    <div class="view-tab" onclick="setView('east')">→ 東妻面</div>
+    <div class="view-tab" onclick="setView('west')">← 西妻面</div>
+    <div class="view-tab" onclick="setView('plan')">📐 平面図</div>
+  </div>
+
+  <!-- SVG VIEWS -->
+  <div class="svg-wrap">
+
+    <!-- 南面（長辺 12.2m × 高さ 2.59m） -->
+    <svg id="view-south" viewBox="0 0 880 220" width="880" height="220">
+      <!-- container body -->
+      <rect x="20" y="20" width="840" height="180" fill="#1a1a14" stroke="#4a4a38" stroke-width="2"/>
+      <!-- corrugation lines -->
+      <g stroke="#2a2a1e" stroke-width="1">
+        <line x1="20" y1="50" x2="860" y2="50"/>
+        <line x1="20" y1="170" x2="860" y2="170"/>
+        <line x1="160" y1="20" x2="160" y2="200"/>
+        <line x1="300" y1="20" x2="300" y2="200"/>
+        <line x1="440" y1="20" x2="440" y2="200"/>
+        <line x1="580" y1="20" x2="580" y2="200"/>
+        <line x1="720" y1="20" x2="720" y2="200"/>
+      </g>
+      <!-- corner castings -->
+      <rect x="20" y="20" width="20" height="20" fill="#2a2a1e" stroke="#4a4a38"/>
+      <rect x="840" y="20" width="20" height="20" fill="#2a2a1e" stroke="#4a4a38"/>
+      <rect x="20" y="180" width="20" height="20" fill="#2a2a1e" stroke="#4a4a38"/>
+      <rect x="840" y="180" width="20" height="20" fill="#2a2a1e" stroke="#4a4a38"/>
+
+      <!-- CUT: 掃き出し窓（南面 左） id=s-window-l -->
+      <rect id="svg-s-win-l" class="svg-cut" data-id="s-win-l" x="60" y="80" width="140" height="100" fill="rgba(240,160,48,.15)" stroke="#f0a030" stroke-width="2" stroke-dasharray="6,3" rx="2" style="cursor:pointer"/>
+      <text x="130" y="136" text-anchor="middle" fill="#f0a030" font-size="9" font-family="sans-serif">掃き出し窓</text>
+      <text x="130" y="148" text-anchor="middle" fill="#f0a030" font-size="8" font-family="sans-serif">W1400×H1000</text>
+
+      <!-- CUT: 掃き出し窓（南面 中央） id=s-window-c -->
+      <rect id="svg-s-win-c" class="svg-cut" data-id="s-win-c" x="360" y="70" width="160" height="110" fill="rgba(240,160,48,.07)" stroke="#f0a030" stroke-width="2" stroke-dasharray="6,3" rx="2" style="cursor:pointer;opacity:.4"/>
+      <text x="440" y="130" text-anchor="middle" fill="#f0a030" font-size="9" font-family="sans-serif">大窓（オプション）</text>
+      <text x="440" y="142" text-anchor="middle" fill="#f0a030" font-size="8" font-family="sans-serif">W1600×H1100</text>
+
+      <!-- CUT: 腰窓（南面 右） id=s-win-r -->
+      <rect id="svg-s-win-r" class="svg-cut" data-id="s-win-r" x="620" y="85" width="120" height="70" fill="rgba(240,160,48,.07)" stroke="#f0a030" stroke-width="2" stroke-dasharray="6,3" rx="2" style="cursor:pointer;opacity:.4"/>
+      <text x="680" y="124" text-anchor="middle" fill="#f0a030" font-size="9" font-family="sans-serif">腰窓</text>
+      <text x="680" y="136" text-anchor="middle" fill="#f0a030" font-size="8" font-family="sans-serif">W1200×H700</text>
+
+      <!-- labels -->
+      <text x="440" y="215" text-anchor="middle" fill="#5a5040" font-size="9" font-family="sans-serif">南面 — 景色側（牧草地・空）/ 日当たり優先</text>
+      <text x="24" y="15" fill="#c8a455" font-size="8" font-family="sans-serif">W</text>
+      <text x="845" y="15" fill="#c8a455" font-size="8" font-family="sans-serif">E</text>
+    </svg>
+
+    <!-- 北面 -->
+    <svg id="view-north" viewBox="0 0 880 220" width="880" height="220" style="display:none">
+      <rect x="20" y="20" width="840" height="180" fill="#1a1a14" stroke="#4a4a38" stroke-width="2"/>
+      <g stroke="#2a2a1e" stroke-width="1">
+        <line x1="20" y1="50" x2="860" y2="50"/>
+        <line x1="20" y1="170" x2="860" y2="170"/>
+        <line x1="160" y1="20" x2="160" y2="200"/>
+        <line x1="300" y1="20" x2="300" y2="200"/>
+        <line x1="440" y1="20" x2="440" y2="200"/>
+        <line x1="580" y1="20" x2="580" y2="200"/>
+        <line x1="720" y1="20" x2="720" y2="200"/>
+      </g>
+      <rect x="20" y="20" width="20" height="20" fill="#2a2a1e" stroke="#4a4a38"/>
+      <rect x="840" y="20" width="20" height="20" fill="#2a2a1e" stroke="#4a4a38"/>
+      <rect x="20" y="180" width="20" height="20" fill="#2a2a1e" stroke="#4a4a38"/>
+      <rect x="840" y="180" width="20" height="20" fill="#2a2a1e" stroke="#4a4a38"/>
+
+      <!-- CUT: 換気小窓（北面 左） -->
+      <rect id="svg-n-vent-l" class="svg-cut" data-id="n-vent" x="80" y="55" width="70" height="50" fill="rgba(240,160,48,.07)" stroke="#f0a030" stroke-width="2" stroke-dasharray="6,3" rx="2" style="cursor:pointer;opacity:.4"/>
+      <text x="115" y="83" text-anchor="middle" fill="#f0a030" font-size="8" font-family="sans-serif">換気小窓</text>
+      <text x="115" y="95" text-anchor="middle" fill="#f0a030" font-size="8" font-family="sans-serif">W700×H500</text>
+
+      <text x="440" y="215" text-anchor="middle" fill="#5a5040" font-size="9" font-family="sans-serif">北面 — 断熱優先 / 開口最小化推奨（熊牛原野は冬−20℃）</text>
+      <text x="24" y="15" fill="#c8a455" font-size="8" font-family="sans-serif">E</text>
+      <text x="845" y="15" fill="#c8a455" font-size="8" font-family="sans-serif">W</text>
+    </svg>
+
+    <!-- 東妻面（短辺 2.4m 扉側） -->
+    <svg id="view-east" viewBox="0 0 200 220" width="200" height="220" style="display:none">
+      <rect x="20" y="20" width="160" height="180" fill="#1a1a14" stroke="#4a4a38" stroke-width="2"/>
+      <!-- existing doors line -->
+      <line x1="100" y1="20" x2="100" y2="200" stroke="#3a3a28" stroke-width="1" stroke-dasharray="4,2"/>
+      <text x="100" y="12" text-anchor="middle" fill="#5a5040" font-size="8" font-family="sans-serif">既存扉（2枚）</text>
+
+      <!-- CUT: 扉撤去＋デッキ開口 -->
+      <rect id="svg-e-door" class="svg-cut" data-id="e-door" x="30" y="40" width="140" height="155" fill="rgba(240,160,48,.15)" stroke="#f0a030" stroke-width="2" stroke-dasharray="6,3" rx="2" style="cursor:pointer"/>
+      <text x="100" y="118" text-anchor="middle" fill="#f0a030" font-size="9" font-family="sans-serif">扉撤去</text>
+      <text x="100" y="130" text-anchor="middle" fill="#f0a030" font-size="8" font-family="sans-serif">+ デッキ開口</text>
+      <text x="100" y="215" text-anchor="middle" fill="#5a5040" font-size="8" font-family="sans-serif">東妻面（既存扉側）</text>
+    </svg>
+
+    <!-- 西妻面 -->
+    <svg id="view-west" viewBox="0 0 200 220" width="200" height="220" style="display:none">
+      <rect x="20" y="20" width="160" height="180" fill="#1a1a14" stroke="#4a4a38" stroke-width="2"/>
+
+      <!-- CUT: 玄関ドア -->
+      <rect id="svg-w-entry" class="svg-cut" data-id="w-entry" x="35" y="60" width="55" height="135" fill="rgba(240,160,48,.15)" stroke="#f0a030" stroke-width="2" stroke-dasharray="6,3" rx="2" style="cursor:pointer"/>
+      <text x="62" y="130" text-anchor="middle" fill="#f0a030" font-size="8" font-family="sans-serif">玄関ドア</text>
+      <text x="62" y="142" text-anchor="middle" fill="#f0a030" font-size="8" font-family="sans-serif">W900×H2000</text>
+
+      <!-- CUT: 小窓（西） -->
+      <rect id="svg-w-win" class="svg-cut" data-id="w-win" x="110" y="70" width="55" height="45" fill="rgba(240,160,48,.07)" stroke="#f0a030" stroke-width="2" stroke-dasharray="6,3" rx="2" style="cursor:pointer;opacity:.4"/>
+      <text x="137" y="96" text-anchor="middle" fill="#f0a030" font-size="8" font-family="sans-serif">小窓</text>
+
+      <text x="100" y="215" text-anchor="middle" fill="#5a5040" font-size="8" font-family="sans-serif">西妻面（入口側）</text>
+    </svg>
+
+    <!-- 平面図 -->
+    <svg id="view-plan" viewBox="0 0 880 240" width="880" height="240" style="display:none">
+      <!-- 外壁 -->
+      <rect x="40" y="60" width="800" height="120" fill="none" stroke="#4a4a38" stroke-width="8"/>
+      <!-- 内部空間 -->
+      <rect x="44" y="64" width="792" height="112" fill="#1a1a14"/>
+      <!-- 間仕切り（仮） -->
+      <line x1="280" y1="64" x2="280" y2="176" stroke="#2a2a1e" stroke-width="2" stroke-dasharray="5,3"/>
+      <line x1="600" y1="64" x2="600" y2="176" stroke="#2a2a1e" stroke-width="2" stroke-dasharray="5,3"/>
+      <!-- zone labels -->
+      <text x="162" y="125" text-anchor="middle" fill="#5a5040" font-size="10" font-family="sans-serif">水回り・玄関</text>
+      <text x="440" y="120" text-anchor="middle" fill="#5a5040" font-size="10" font-family="sans-serif">リビング・ダイニング</text>
+      <text x="440" y="133" text-anchor="middle" fill="#5a5040" font-size="9" font-family="sans-serif">（薪ストーブ中央）</text>
+      <text x="700" y="125" text-anchor="middle" fill="#5a5040" font-size="10" font-family="sans-serif">寝室・デッキ口</text>
+
+      <!-- 南面開口（下） -->
+      <rect x="80" y="172" width="120" height="8" fill="#f0a030" rx="1"/>
+      <text x="140" y="195" text-anchor="middle" fill="#f0a030" font-size="9" font-family="sans-serif">掃き出し窓</text>
+      <rect x="360" y="172" width="140" height="8" fill="rgba(240,160,48,.4)" rx="1"/>
+      <text x="430" y="195" text-anchor="middle" fill="rgba(240,160,48,.6)" font-size="9" font-family="sans-serif">大窓（opt）</text>
+      <rect x="620" y="172" width="100" height="8" fill="rgba(240,160,48,.4)" rx="1"/>
+      <text x="670" y="195" text-anchor="middle" fill="rgba(240,160,48,.6)" font-size="9" font-family="sans-serif">腰窓（opt）</text>
+
+      <!-- 北面開口（上） -->
+      <rect x="80" y="60" width="60" height="8" fill="rgba(240,160,48,.4)" rx="1"/>
+      <text x="110" y="50" text-anchor="middle" fill="rgba(240,160,48,.6)" font-size="9" font-family="sans-serif">換気小窓（opt）</text>
+
+      <!-- 西妻面（左） -->
+      <rect x="40" y="105" width="8" height="50" fill="#f0a030" rx="1"/>
+      <text x="28" y="133" text-anchor="middle" fill="#f0a030" font-size="9" font-family="sans-serif" transform="rotate(-90,28,133)">玄関ドア</text>
+
+      <!-- 東妻面（右） -->
+      <rect x="832" y="68" width="8" height="104" fill="#f0a030" rx="1"/>
+      <text x="855" y="125" text-anchor="middle" fill="#f0a030" font-size="9" font-family="sans-serif" transform="rotate(90,855,125)">扉撤去・デッキ</text>
+
+      <!-- 方位 -->
+      <text x="440" y="25" text-anchor="middle" fill="#c8a455" font-size="10" font-family="sans-serif" font-weight="bold">N（道路側）</text>
+      <text x="440" y="225" text-anchor="middle" fill="#c8a455" font-size="10" font-family="sans-serif" font-weight="bold">S（牧草地・景色側）</text>
+      <text x="18" y="125" text-anchor="middle" fill="#c8a455" font-size="9" font-family="sans-serif">W</text>
+      <text x="870" y="125" text-anchor="middle" fill="#c8a455" font-size="9" font-family="sans-serif">E</text>
+
+      <!-- 寸法 -->
+      <line x1="40" y1="210" x2="840" y2="210" stroke="#3a3a28" stroke-width="1"/>
+      <text x="440" y="208" text-anchor="middle" fill="#3a3a28" font-size="9" font-family="sans-serif">← 12,192mm →</text>
+      <line x1="860" y1="60" x2="860" y2="180" stroke="#3a3a28" stroke-width="1"/>
+      <text x="875" y="123" text-anchor="middle" fill="#3a3a28" font-size="9" font-family="sans-serif" transform="rotate(90,875,123)">2,438mm</text>
+    </svg>
+
+  </div>
+
+  <div class="note">
+    <strong>操作方法：</strong>上のビューを切り替えて各面を確認。下のカードをクリックして開口を選択 → 合計金額が自動計算されます。<br>
+    <strong>方位：</strong>コンテナを南北に配置想定（南面＝牧草地・景色側、北面＝道路側）。東妻面＝既存扉側 → デッキ方向。
+  </div>
+
+  <!-- CUT ITEMS -->
+  <div style="font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">開口プラン選択</div>
+  <div class="cuts-grid" id="cuts-grid">
+
+    <div class="cut-item required" data-id="e-door" data-price="0">
+      <div class="ci-top">
+        <span class="ci-icon">🚪</span>
+        <span class="ci-name">東妻面 — 既存扉撤去</span>
+        <span class="ci-badge badge-req">必須</span>
+      </div>
+      <div class="ci-desc">端部扉2枚を撤去して全開口にする。コンテナ搬入後に現地で加工。デッキ・外部空間への開口として使用。</div>
+      <div class="ci-price">費用：コンテナ設置後に溶接業者 / ¥30,000〜</div>
+    </div>
+
+    <div class="cut-item required" data-id="w-entry" data-price="115000">
+      <div class="ci-top">
+        <span class="ci-icon">🔑</span>
+        <span class="ci-name">西妻面 — 玄関ドア開口</span>
+        <span class="ci-badge badge-req">必須</span>
+      </div>
+      <div class="ci-desc">W900×H2000mm。断熱玄関ドア（YKK APまたはLIXIL）取付開口。西妻面に設けて北風の影響を最小化。</div>
+      <div class="ci-price">ATS Japan 加工費：¥115,000</div>
+    </div>
+
+    <div class="cut-item active" data-id="s-win-l" data-price="135000">
+      <div class="ci-top">
+        <span class="ci-icon">🌅</span>
+        <span class="ci-name">南面 左 — 掃き出し窓</span>
+        <span class="ci-badge badge-rec">推奨</span>
+      </div>
+      <div class="ci-desc">W1400×H1000mm。南向き全開口。リビングエリアの採光・眺望。外デッキへの動線にも。APW430取付。</div>
+      <div class="ci-price">ATS Japan 加工費：¥135,000</div>
+    </div>
+
+    <div class="cut-item" data-id="s-win-c" data-price="135000">
+      <div class="ci-top">
+        <span class="ci-icon">🏔</span>
+        <span class="ci-name">南面 中央 — 大窓</span>
+        <span class="ci-badge badge-opt">オプション</span>
+      </div>
+      <div class="ci-desc">W1600×H1100mm。熊牛原野の牧草地・山並みを切り取るパノラマビュー。暖かみのある空間に。</div>
+      <div class="ci-price">ATS Japan 加工費：¥135,000</div>
+    </div>
+
+    <div class="cut-item" data-id="s-win-r" data-price="88000">
+      <div class="ci-top">
+        <span class="ci-icon">🌿</span>
+        <span class="ci-name">南面 右 — 腰窓</span>
+        <span class="ci-badge badge-opt">オプション</span>
+      </div>
+      <div class="ci-desc">W1200×H700mm。寝室エリアの採光用。腰高さに設置して外からの視線をカット。</div>
+      <div class="ci-price">ATS Japan 加工費：¥88,000</div>
+    </div>
+
+    <div class="cut-item" data-id="n-vent" data-price="88000">
+      <div class="ci-top">
+        <span class="ci-icon">💨</span>
+        <span class="ci-name">北面 — 換気小窓</span>
+        <span class="ci-badge badge-opt">オプション</span>
+      </div>
+      <div class="ci-desc">W700×H500mm。北面なので断熱重視・最小サイズ。クロスベンチレーション（南⇔北通風）に効果的。なくても換気ユニットで対応可。</div>
+      <div class="ci-price">ATS Japan 加工費：¥88,000</div>
+    </div>
+
+    <div class="cut-item" data-id="roof-sky" data-price="180000">
+      <div class="ci-top">
+        <span class="ci-icon">⭐</span>
+        <span class="ci-name">屋根 — スカイライト</span>
+        <span class="ci-badge badge-opt">オプション</span>
+      </div>
+      <div class="ci-desc">600×1200mm。寝室エリアに天窓を設置。熊牛の満天の星空を寝ながら見られる。屋根貫通のため防水施工込みで高め。</div>
+      <div class="ci-price">加工費：¥180,000（防水込み）</div>
+    </div>
+
+    <div class="cut-item" data-id="w-win" data-price="88000">
+      <div class="ci-top">
+        <span class="ci-icon">🔲</span>
+        <span class="ci-name">西妻面 — 小窓</span>
+        <span class="ci-badge badge-opt">オプション</span>
+      </div>
+      <div class="ci-desc">W600×H500mm。玄関横の採光用。なくてもよいが、玄関ホールを明るくしたい場合に。</div>
+      <div class="ci-price">ATS Japan 加工費：¥88,000</div>
+    </div>
+
+  </div>
+
+  <div class="warn">
+    <strong>⚠️ 断熱注意：</strong>熊牛原野は冬季−20℃以下。開口が多いほど断熱性能が落ちます。南面の採光と北面の断熱を両立するため、<strong>北面・西面は開口最小化推奨</strong>。APW430（Uw=0.91）の取付は発注済みです。
+  </div>
+
+  <div class="summary" id="summary">
+    <h3>✂️ 選択中の加工プラン</h3>
+    <ul class="summary-list" id="summary-list"></ul>
+    <div class="s-total"><span>加工費合計（概算）</span><span id="summary-total">¥0</span></div>
+  </div>
+
+</div>
+
+<script>
+var cuts = {
+  'e-door':   { name:'東妻面 扉撤去', price:30000,  required:true,  active:true  },
+  'w-entry':  { name:'西妻面 玄関ドア', price:115000, required:true,  active:true  },
+  's-win-l':  { name:'南面 掃き出し窓（左）', price:135000, required:false, active:true  },
+  's-win-c':  { name:'南面 大窓（中央）', price:135000, required:false, active:false },
+  's-win-r':  { name:'南面 腰窓（右）', price:88000,  required:false, active:false },
+  'n-vent':   { name:'北面 換気小窓',  price:88000,  required:false, active:false },
+  'roof-sky': { name:'屋根 スカイライト', price:180000, required:false, active:false },
+  'w-win':    { name:'西妻面 小窓',   price:88000,  required:false, active:false },
+};
+
+function calcTotal(){
+  var total=0, count=0;
+  Object.values(cuts).forEach(function(c){
+    if(c.active){ total+=c.price; count++; }
+  });
+  document.getElementById('total-cost').textContent = '¥'+total.toLocaleString();
+  document.getElementById('cut-count').textContent = count+'箇所';
+  // summary
+  var html='';
+  Object.entries(cuts).forEach(function([id,c]){
+    if(c.active){
+      html+='<li><span class="s-check">✂</span><span style="flex:1">'+c.name+'</span><span style="color:#e8d0a0">¥'+c.price.toLocaleString()+'</span></li>';
+    }
+  });
+  document.getElementById('summary-list').innerHTML = html || '<li style="color:var(--muted)">未選択</li>';
+  document.getElementById('summary-total').textContent = '¥'+total.toLocaleString();
+}
+
+document.querySelectorAll('.cut-item').forEach(function(el){
+  var id = el.dataset.id;
+  if(!id) return;
+  if(cuts[id] && cuts[id].required){ el.classList.add('required','active'); return; }
+  if(cuts[id] && cuts[id].active) el.classList.add('active');
+  el.addEventListener('click', function(){
+    cuts[id].active = !cuts[id].active;
+    el.classList.toggle('active', cuts[id].active);
+    // sync SVG
+    var svgEl = document.querySelector('[data-id="'+id+'"]');
+    if(svgEl){
+      svgEl.style.opacity = cuts[id].active ? '1' : '0.4';
+      svgEl.style.fill = cuts[id].active ? 'rgba(240,160,48,.15)' : 'rgba(240,160,48,.07)';
+    }
+    calcTotal();
+  });
+});
+
+// SVG click sync
+document.querySelectorAll('.svg-cut').forEach(function(el){
+  el.addEventListener('click', function(){
+    var id = el.dataset.id;
+    if(!id || !cuts[id] || cuts[id].required) return;
+    var card = document.querySelector('.cut-item[data-id="'+id+'"]');
+    if(card) card.click();
+  });
+});
+
+function setView(v){
+  ['south','north','east','west','plan'].forEach(function(n){
+    var el=document.getElementById('view-'+n);
+    if(el) el.style.display = n===v?'block':'none';
+  });
+  document.querySelectorAll('.view-tab').forEach(function(t,i){
+    t.classList.toggle('active', ['south','north','east','west','plan'][i]===v);
+  });
+}
+
+calcTotal();
+</script>
+<script src="/js/dc.js"></script>
+</body>
+</html>
