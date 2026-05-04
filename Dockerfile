@@ -14,6 +14,9 @@ RUN npm install --omit=dev
 # docs: rarely changes
 COPY docs/ docs/
 
+# contracts: legal document templates
+COPY contracts/ contracts/
+
 # cabin HTML files: large but changes less often than out/
 COPY cabin/ cabin/
 

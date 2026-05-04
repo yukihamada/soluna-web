@@ -14,6 +14,16 @@
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* Mac Shell offsets — applied on all non-home pages */
+body.mac-shell-active {
+  /* existing fixed navs inside pages: push them below the 64px chrome (28px menubar + 36px titlebar) */
+}
+/* Inner page fixed/sticky navs that already exist get pushed down */
+body.mac-shell-active nav[style*="position: fixed"],
+body.mac-shell-active .top-nav {
+  top: 64px !important;
+}
+
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;

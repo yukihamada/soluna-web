@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import SolanaProviders from "./providers";
+import MacShell from "@/components/MacShell";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -49,7 +50,9 @@ export default function RootLayout({
       </head>
       <body>
         <SolanaProviders>
-        {children}
+          <MacShell>
+            {children}
+          </MacShell>
         </SolanaProviders>
         <Script defer src="https://enabler-analytics.fly.dev/t.js" strategy="afterInteractive" />
         {/* Google Analytics 4 (gtag.js) */}
