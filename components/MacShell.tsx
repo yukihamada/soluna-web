@@ -5,14 +5,14 @@ import { usePathname } from "next/navigation";
 
 const NAV = [
   { label: "Home",       href: "/" },
-  { label: "物件",       href: "/materials" },
+  { label: "物件",       href: "/properties" },
   { label: "フェス",     href: "/zamna" },
   { label: "コミュニティ", href: "/community" },
 ];
 
 const DOCK = [
   { icon: "🏠", label: "Home",    href: "/" },
-  { icon: "🏡", label: "物件",    href: "/materials" },
+  { icon: "🏡", label: "物件",    href: "/properties" },
   { icon: "🎪", label: "フェス",  href: "/zamna" },
   { icon: "💬", label: "Chat",   href: "/community" },
   { icon: "👤", label: "Login",  href: "/login" },
