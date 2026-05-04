@@ -328,6 +328,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
   <span class="mlbl" data-open="akiya"      data-ja="空き家"      data-en="Vacant Houses">空き家</span>
   <span class="mlbl" data-open="zamna"      data-ja="フェス"      data-en="Festival">フェス</span>
   <span class="mlbl" data-open="community"  data-ja="コミュニティ" data-en="Community">コミュニティ</span>
+  <span class="mlbl" data-open="faq"        data-ja="FAQ"        data-en="FAQ">FAQ</span>
+  <span class="mlbl" data-open="call"       data-ja="相談"       data-en="Contact">相談</span>
   <span id="clock"></span>
 </div>
 
@@ -341,7 +343,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 <div id="hero">
   <div id="hero-tag" data-ja="TAPKOP 年2,200万円稼働 · 熱海 年1,800万円稼働 · 780万円〜 · 年間30泊 · 登記所有" data-en="TAPKOP ¥22M/yr revenue · Atami ¥18M/yr · From ¥7.8M · 30 nights/yr · Registered ownership">TAPKOP 年2,200万円稼働 · 熱海 年1,800万円稼働 · 780万円〜 · 年間30泊 · 登記所有</div>
   <h1 id="hero-copy" data-ja="別荘コストを、10分の1に。" data-en="A place that's always yours.">別荘コストを、10分の1に。</h1>
-  <p id="hero-sub" data-ja="10口シェアで登記所有。なぜ10分の1なのか — まずスキームを知ってください。" data-en="Registered ownership from ¥7.8M. Why 1/10th the cost? Start with How It Works.">10口シェアで登記所有。なぜ10分の1なのか — まずスキームを知ってください。</p>
+  <p id="hero-sub" data-ja="1口780万円〜で年間30泊の滞在権。北海道3万坪・熱海・ハワイ — 全9物件を登記所有。" data-en="From ¥7.8M, 30 nights/yr. Hokkaido · Atami · Hawaii — 9 properties, registered ownership.">1口780万円〜で年間30泊の滞在権。北海道3万坪・熱海・ハワイ — 全9物件を登記所有。</p>
   <p id="hero-trust" style="font-size:.6rem;color:rgba(255,255,255,.38);margin:-8px 0 14px;letter-spacing:.08em">East Ventures 出資 · 登記所有 · 2020年創業 · <span style="color:rgba(200,164,85,.6);cursor:pointer" onclick="if(typeof openWin==='function')openWin('/scheme','スキーム','🗺️','scheme')">スキームを詳しく →</span></p>
   <div id="hero-ctas">
     <button class="hcta primary" data-open="scheme" data-sln-track="consultation_click" data-ja="スキームを知る →" data-en="How It Works →">スキームを知る →</button>
@@ -387,7 +389,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
   <div id="m-hero">
     <div class="m-tag" id="m-tag" data-ja="TAPKOP 年2,200万稼働 · 熱海 1,800万稼働" data-en="TAPKOP ¥22M/yr · Atami ¥18M/yr">TAPKOP 年2,200万稼働 · 熱海 1,800万稼働</div>
     <h1 id="m-copy" data-ja="別荘コストを、10分の1に。" data-en="A place that's always yours.">別荘コストを、10分の1に。</h1>
-    <p id="m-sub" data-ja="なぜ10分の1？ — まずスキームを読んでください。780万円〜の登記所有、年間30泊。" data-en="Why 1/10th? Start with How It Works. Registered ownership from ¥7.8M, 30 nights/yr.">なぜ10分の1？ — まずスキームを読んでください。780万円〜の登記所有、年間30泊。</p>
+    <p id="m-sub" data-ja="1口780万円〜、年間30泊。北海道・熱海・ハワイ全9物件から選べる登記所有の別荘。" data-en="From ¥7.8M, 30 nights/yr. 9 properties — Hokkaido, Atami, Hawaii. Registered ownership.">1口780万円〜、年間30泊。北海道・熱海・ハワイ全9物件から選べる登記所有の別荘。</p>
     <div class="m-ctas">
       <a href="/scheme" class="mcta primary" id="m-cta1" data-ja="スキームを知る →" data-en="How It Works →">スキームを知る →</a>
       <a href="/collection" class="mcta" id="m-cta2" data-ja="物件を見る" data-en="Browse Properties">物件を見る</a>
@@ -444,8 +446,8 @@ var APPS = [
   {id:'hakuba',    em:'🏔️', lbl:'北アルプス',       en:'Hakuba Alps',    url:'/hakuba-akiya',  dock:false, group:'akiya'},
   // ── ZAMNA フェス ──
   {id:'zamna',     em:'🎪', lbl:'ZAMNA HAWAII',   en:'ZAMNA HAWAII',   url:'/zamna',         dock:true,  group:'fest'},
-  {id:'lineup',    em:'🎤', lbl:'ラインナップ',    en:'Lineup',         url:'/lineup',        dock:false, group:'fest'},
-  {id:'tickets',   em:'🎫', lbl:'チケット',        en:'Tickets',        url:'/tickets',       dock:false, group:'fest'},
+  {id:'lineup',    em:'🎤', lbl:'ラインナップ',    en:'Lineup',         url:'/zamna',         dock:false, group:'fest'},
+  {id:'tickets',   em:'🎫', lbl:'チケット',        en:'Tickets',        url:'/zamna',         dock:false, group:'fest'},
   // ── その他 ──
   {id:'app',       em:'📱', lbl:'アプリ',          en:'Member App',     url:'/app',           dock:true,  group:'more'},
   {id:'avail',     em:'📅', lbl:'空き状況',        en:'Availability',   url:'/avail',         dock:true,  group:'more'},
