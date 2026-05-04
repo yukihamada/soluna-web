@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>屈斜路ビレッジ — SOLUNA</title>
+<meta name="description" content="釧路川沿い3万坪。発光菌と菌糸資材で建てる次世代コミュニティビレッジ。">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; font-family: -apple-system, 'Helvetica Neue', 'Hiragino Sans', sans-serif; }
+
+/* ── Wallpaper ── */
+#wallpaper {
+  position: fixed; inset: 0; z-index: 0;
+  background: #0a1a10;
+}
+#wallpaper img {
+  width: 100%; height: 100%; object-fit: cover; opacity: .55;
+}
+#wallpaper::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(42,223,138,.08) 0%, transparent 70%);
+}
+
+/* ── Menubar ── */
+#menubar {
+  position: fixed; top: 0; left: 0; right: 0; height: 28px; z-index: 9000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 12px;
+  background: rgba(5,12,8,.85); backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid rgba(42,223,138,.08);
+}
+.mb-left { display: flex; align-items: center; gap: 10px; }
+.mb-logo {
+  font-size: 11px; font-weight: 700; letter-spacing: .25em;
+  color: #2adf8a; cursor: pointer;
+}
+.mb-title { font-size: 12px; font-weight: 600; color: #e8e3d2; }
+.mb-div { width: 1px; height: 14px; background: rgba(255,255,255,.12); }
+.mb-nav { display: flex; gap: 0; }
+.mb-nav span {
+  font-size: 12px; color: rgba(232,227,210,.7); padding: 0 8px; cursor: pointer;
+  border-radius: 3px; transition: background .1s;
+}
+.mb-nav span:hover { background: rgba(255,255,255,.1); color: #e8e3d2; }
+.mb-right { display: flex; align-items: center; gap: 10px; }
+#mb-clock { font-size: 11px; color: rgba(232,227,210,.7); font-variant-numeric: tabular-nums; }
+
+/* ── Desktop ── */
+#desktop {
+  position: fixed; top: 28px; bottom: 72px; left: 0; right: 0; z-index: 1;
+}
+
+/* ── Desktop hero ── */
+#desktop-hero {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -55%);
+  text-align: center; pointer-events: none; user-select: none;
+}
+.hero-title {
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  font-weight: 200; line-height: 1.1;
+  color: #f0ede4; letter-spacing: -.02em;
+  text-shadow: 0 2px 30px rgba(0,0,0,.6);
+}
+.hero-title em {
+  font-style: normal; color: #2adf8a;
+  text-shadow: 0 0 40px rgba(42,223,138,.5), 0 2px 30px rgba(0,0,0,.6);
+}
+.hero-sub {
+  margin-top: 12px; font-size: 13px; color: rgba(232,227,210,.55);
+  letter-spacing: .08em;
+}
+.hero-coords {
+  margin-top: 6px; font-size: 11px; color: rgba(42,223,138,.5);
+  letter-spacing: .12em; font-variant-numeric: tabular-nums;
+}
+.hero-hint {
+  margin-top: 20px; font-size: 11px; color: rgba(232,227,210,.3);
+  letter-spacing: .05em; animation: blink 2.5s ease-in-out infinite;
+  pointer-events: all; cursor: default;
+}
+@keyframes blink { 0%,100%{opacity:.3} 50%{opacity:.7} }
+
+/* ── Desktop icons ── */
+#desktop-icons {
+  position: absolute; top: 16px; right: 14px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.desk-icon {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 8px 6px; cursor: pointer; border-radius: 8px;
+  transition: background .15s;
+  user-select: none; width: 74px;
+}
+.desk-icon:hover { background: rgba(255,255,255,.1); }
+.desk-icon:active { background: rgba(255,255,255,.18); }
+.di-img {
+  width: 52px; height: 52px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15);
+}
+.desk-icon-label {
+  font-size: 10px; color: #fff; text-align: center; line-height: 1.2;
+  text-shadow: 0 1px 4px rgba(0,0,0,.8);
+  max-width: 64px; word-break: break-all;
+}
+
+/* ── Win layer ── */
+#win-layer { position: absolute; inset: 0; }
+
+/* ── Window ── */
+.win {
+  position: absolute;
+  min-width: 320px; min-height: 200px;
+  background: rgba(8,14,10,.92); backdrop-filter: blur(28px) saturate(1.3);
+  -webkit-backdrop-filter: blur(28px) saturate(1.3);
+  border: 1px solid rgba(42,223,138,.12);
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.7), 0 0 0 0.5px rgba(0,0,0,.4);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  transition: box-shadow .15s;
+  z-index: 100;
+}
+.win.active { box-shadow: 0 28px 80px rgba(0,0,0,.8), 0 0 0 0.5px rgba(0,0,0,.5); z-index: 200; }
+.win.minimized { display: none; }
+.win-titlebar {
+  height: 36px; flex-shrink: 0;
+  display: flex; align-items: center; gap: 8px; padding: 0 12px;
+  background: rgba(15,25,18,.8);
+  border-bottom: 1px solid rgba(42,223,138,.08);
+  cursor: move; user-select: none;
+}
+.win-btns { display: flex; gap: 6px; flex-shrink: 0; }
+.win-btn {
+  width: 12px; height: 12px; border-radius: 50%; cursor: pointer;
+  border: none; transition: opacity .15s;
+}
+.win-btn.close  { background: #ff5f57; }
+.win-btn.min    { background: #febc2e; }
+.win-btn.max    { background: #28c840; }
+.win-btn:hover  { opacity: .8; }
+.win-title {
+  flex: 1; text-align: center; font-size: 12px; font-weight: 500;
+  color: rgba(232,227,210,.7); letter-spacing: .04em;
+  margin-left: -44px; /* compensate for buttons */
+}
+.win-body {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  color: #e8e3d2;
+}
+.win-body::-webkit-scrollbar { width: 4px; }
+.win-body::-webkit-scrollbar-thumb { background: rgba(42,223,138,.2); border-radius: 2px; }
+.win-resize {
+  position: absolute; bottom: 0; right: 0;
+  width: 16px; height: 16px; cursor: se-resize;
+  background: linear-gradient(135deg, transparent 50%, rgba(42,223,138,.2) 50%);
+  border-radius: 0 0 10px 0;
+}
+
+/* ── Win content helpers ── */
+.wc { padding: 20px; }
+.wc-section { margin-bottom: 24px; }
+.wc-label { font-size: 9px; letter-spacing: .3em; color: #2adf8a; text-transform: uppercase; opacity: .7; margin-bottom: 8px; }
+.wc-h1 { font-size: 20px; font-weight: 300; line-height: 1.25; margin-bottom: 8px; }
+.wc-h1 em { font-style: normal; color: #2adf8a; }
+.wc-p { font-size: 13px; color: #8a9a90; line-height: 1.8; }
+.wc-img { width: 100%; display: block; border-radius: 4px; }
+.wc-img-cap { font-size: 10px; color: rgba(255,255,255,.3); margin-top: 4px; letter-spacing: .05em; }
+
+.wc-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 12px 0; }
+.wc-table th { text-align: left; padding: 6px 10px; border-bottom: 1px solid rgba(42,223,138,.1); font-size: 9px; letter-spacing: .15em; color: #6a8070; font-weight: normal; text-transform: uppercase; }
+.wc-table td { padding: 8px 10px; border-bottom: 1px solid rgba(42,223,138,.05); color: #b0c0b8; }
+.wc-table td:first-child { color: #e8e3d2; }
+.accent { color: #2adf8a !important; }
+
+.wc-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid rgba(42,223,138,.06); font-size: 13px; }
+.wc-row:last-child { border-bottom: none; }
+.wc-key { color: #6a8070; font-size: 12px; }
+.wc-val { color: #e8e3d2; }
+
+.wc-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+.wc-card { border: 1px solid rgba(42,223,138,.1); padding: 14px; border-radius: 4px; }
+.wc-card-lbl { font-size: 9px; letter-spacing: .2em; color: #2adf8a; margin-bottom: 6px; opacity: .7; text-transform: uppercase; }
+.wc-card h4 { font-size: 14px; font-weight: 400; margin-bottom: 6px; }
+.wc-card p { font-size: 12px; color: #6a8070; line-height: 1.7; }
+
+.wc-phase-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin: 12px 0; }
+.wc-phase { border: 1px solid rgba(42,223,138,.1); padding: 14px; border-radius: 4px; }
+.wc-phase-num { font-size: 9px; letter-spacing: .2em; color: #2adf8a; opacity: .6; margin-bottom: 6px; }
+.wc-phase h4 { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+.wc-phase .pt { font-size: 11px; color: #6a8070; margin-bottom: 4px; }
+.wc-phase .pp { font-size: 11px; color: #8a9a90; line-height: 1.6; }
+.wc-phase .pc { font-size: 13px; color: #2adf8a; margin-top: 8px; }
+
+.wc-map {
+  font-family: monospace; font-size: 11px; line-height: 1.9;
+  color: #4a7060; white-space: pre; background: rgba(0,0,0,.3);
+  padding: 16px; border-radius: 4px; overflow-x: auto;
+}
+.wc-map .hl { color: #2adf8a; }
+
+/* ── Dock ── */
+#dock-trigger { position: fixed; bottom: 0; left: 0; right: 0; height: 6px; z-index: 7999; }
+#dock {
+  position: fixed; bottom: 6px; left: 50%; transform: translateX(-50%) translateY(calc(100% + 14px));
+  display: flex; align-items: flex-end; gap: 4px; padding: 7px 12px 8px;
+  background: rgba(255,255,255,.07); backdrop-filter: blur(28px) saturate(1.4);
+  -webkit-backdrop-filter: blur(28px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,.1); border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0,0,0,.5);
+  transition: transform .28s cubic-bezier(.16,1,.3,1);
+  z-index: 8000;
+}
+#dock.dock-visible { transform: translateX(-50%) translateY(0); }
+.dock-sep { width: 1px; height: 38px; background: rgba(255,255,255,.12); margin: 0 2px; }
+.dock-app {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  cursor: pointer; position: relative;
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1);
+}
+.dock-app:hover { transform: translateY(-10px) scale(1.15); }
+.dock-app[title]:hover::before {
+  content: attr(title);
+  position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  background: rgba(20,30,24,.95); color: #e8e3d2; padding: 4px 8px; border-radius: 5px;
+  font-size: 11px; white-space: nowrap; pointer-events: none;
+  border: 1px solid rgba(255,255,255,.1);
+}
+.dock-icon {
+  width: 46px; height: 46px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.dock-dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: rgba(255,255,255,.5);
+}
+.dock-label { font-size: 9px; color: rgba(255,255,255,.5); display: none; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(42,223,138,.15); border-radius: 2px; }
+
+@media (max-width: 640px) {
+  #desktop-icons { display: none; }
+  .win { width: calc(100vw - 16px) !important; left: 8px !important; }
+  .hero-title { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Wallpaper -->
+<div id="wallpaper">
+  <img src="img/kussharo_night_aerial.jpg" alt="">
+</div>
+
+<!-- Menubar -->
+<div id="menubar">
+  <div class="mb-left">
+    <span class="mb-logo" onclick="openWin('about')">SOLUNA</span>
+    <div class="mb-div"></div>
+    <span class="mb-title" id="mb-active-title">屈斜路ビレッジ</span>
+    <div class="mb-div"></div>
+    <nav class="mb-nav">
+      <span onclick="openWin('location')">場所</span>
+      <span onclick="openWin('materials')">資材</span>
+      <span onclick="openWin('glow')">発光設計</span>
+      <span onclick="openWin('phase')">計画</span>
+      <span onclick="openWin('layout')">配置図</span>
+    </nav>
+  </div>
+  <div class="mb-right">
+    <span style="font-size:11px;color:rgba(42,223,138,.5);">📍 北海道弟子屈町 · 釧路川沿い</span>
+    <span id="mb-clock" style="font-size:11px;color:rgba(232,227,210,.5);"></span>
+  </div>
+</div>
+
+<!-- Desktop -->
+<div id="desktop">
+  <div id="desktop-hero">
+    <div class="hero-title">菌が、建て、<em>光る</em>。</div>
+    <div class="hero-sub">北海道 弟子屈町 · 釧路川沿い · 3万坪</div>
+    <div class="hero-coords">43°32′55.8″N  144°23′40.2″E</div>
+    <div class="hero-hint">アイコンをクリックして探索する</div>
+  </div>
+
+  <!-- Desktop icons -->
+  <div id="desktop-icons">
+    <div class="desk-icon" onclick="openWin('location')">
+      <div class="di-img" style="background:linear-gradient(135deg,#1a3a20,#0d2018);">📍</div>
+      <div class="desk-icon-label">場所</div>
+    </div>
+    <div class="desk-icon" onclick="openWin('materials')">
+      <div class="di-img" style="background:linear-gradient(135deg,#2a1a08,#1a1008);">🍄</div>
+      <div class="desk-icon-label">資材設計</div>
+    </div>
+    <div class="desk-icon" onclick="openWin('glow')">
+      <div class="di-img" style="background:linear-gradient(135deg,#0a2a18,#051810);">✨</div>
+      <div class="desk-icon-label">発光設計</div>
+    </div>
+    <div class="desk-icon" onclick="openWin('layout')">
+      <div class="di-img" style="background:linear-gradient(135deg,#1a2a3a,#0d1828);">🗺️</div>
+      <div class="desk-icon-label">配置図</div>
+    </div>
+    <div class="desk-icon" onclick="openWin('phase')">
+      <div class="di-img" style="background:linear-gradient(135deg,#2a1a28,#180d18);">🚀</div>
+      <div class="desk-icon-label">フェーズ</div>
+    </div>
+    <div class="desk-icon" onclick="openWin('photos')">
+      <div class="di-img" style="background:linear-gradient(135deg,#1a2a1a,#0d180d);">🌿</div>
+      <div class="desk-icon-label">イメージ</div>
+    </div>
+  </div>
+
+  <div id="win-layer"></div>
+</div>
+
+<!-- Dock -->
+<div id="dock-trigger" onmouseenter="showDock()"></div>
+<div id="dock" onmouseleave="hideDock()">
+  <div class="dock-app" title="場所" onclick="openWin('location')">
+    <div class="dock-icon" style="background:linear-gradient(135deg,#1a3a20,#0d2018);">📍</div>
+    <div class="dock-dot" id="dot-location" style="display:none"></div>
+  </div>
+  <div class="dock-app" title="資材設計" onclick="openWin('materials')">
+    <div class="dock-icon" style="background:linear-gradient(135deg,#2a1a08,#1a1008);">🍄</div>
+    <div class="dock-dot" id="dot-materials" style="display:none"></div>
+  </div>
+  <div class="dock-app" title="発光設計" onclick="openWin('glow')">
+    <div class="dock-icon" style="background:linear-gradient(135deg,#0a2a18,#051810);">✨</div>
+    <div class="dock-dot" id="dot-glow" style="display:none"></div>
+  </div>
+  <div class="dock-app" title="配置図" onclick="openWin('layout')">
+    <div class="dock-icon" style="background:linear-gradient(135deg,#1a2a3a,#0d1828);">🗺️</div>
+    <div class="dock-dot" id="dot-layout" style="display:none"></div>
+  </div>
+  <div class="dock-app" title="フェーズ計画" onclick="openWin('phase')">
+    <div class="dock-icon" style="background:linear-gradient(135deg,#2a1a28,#180d18);">🚀</div>
+    <div class="dock-dot" id="dot-phase" style="display:none"></div>
+  </div>
+  <div class="dock-sep"></div>
+  <div class="dock-app" title="イメージ" onclick="openWin('photos')">
+    <div class="dock-icon" style="background:linear-gradient(135deg,#1a2a1a,#0d180d);">🌿</div>
+    <div class="dock-dot" id="dot-photos" style="display:none"></div>
+  </div>
+  <div class="dock-app" title="SOLUNA" onclick="location.href='/'">
+    <div class="dock-icon" style="background:linear-gradient(135deg,#1a180a,#0d0e05);">🌙</div>
+  </div>
+</div>
+
+<!-- ======== WINDOW TEMPLATES ======== -->
+
+<!-- Location -->
+<template id="tmpl-location">
+<div class="wc">
+  <div class="wc-section">
+    <div class="wc-label">Location</div>
+    <div class="wc-h1">釧路川沿い、<em>3万坪</em></div>
+    <p class="wc-p">釧路川が南側を流れ、北側に広がる森と農地3万坪（99,174 m²）。パイロット国道243号・美留和橋が入口。玉川大学農場が隣接。</p>
+  </div>
+  <img class="wc-img" src="img/kussharo_map_aerial.jpg" alt="空撮イラスト">
+  <p class="wc-img-cap">AIイラスト — 釧路川（南）、パイロット国道（西）、3万坪の敷地（中央）</p>
+  <div style="margin-top:16px;">
+    <div class="wc-row"><span class="wc-key">座標</span><span class="wc-val">43°32′55.8″N, 144°23′40.2″E</span></div>
+    <div class="wc-row"><span class="wc-key">面積</span><span class="wc-val accent">99,174 m²（3万坪）</span></div>
+    <div class="wc-row"><span class="wc-key">南側</span><span class="wc-val">釧路川（屈斜路湖源流）</span></div>
+    <div class="wc-row"><span class="wc-key">西側</span><span class="wc-val">国道243号（パイロット国道）</span></div>
+    <div class="wc-row"><span class="wc-key">隣接</span><span class="wc-val">玉川大学 美留和晴耕塾</span></div>
+    <div class="wc-row"><span class="wc-key">地質</span><span class="wc-val">屈斜路カルデラ — 火山性腐植土・軽石・地熱湧水</span></div>
+  </div>
+</div>
+</template>
+
+<!-- Materials -->
+<template id="tmpl-materials">
+<div class="wc">
+  <div class="wc-label">Material System</div>
+  <div class="wc-h1">死んだ菌が<em>建てる</em></div>
+  <p class="wc-p">間伐材チップ＋菌糸を型枠で21日培養後、80°Cで加熱乾燥。菌糸が結合材になった断熱パネルに変わる。グラスウール同等の断熱性、土に還る。</p>
+  <img class="wc-img" src="img/kussharo_mycelium_block.jpg" alt="菌糸ブロック" style="margin-top:14px;">
+  <table class="wc-table" style="margin-top:14px;">
+    <thead><tr><th>用途</th><th>サイズ</th><th>コスト/枚</th><th>削減率</th></tr></thead>
+    <tbody>
+      <tr><td>壁断熱パネル</td><td>300×600×100mm</td><td class="accent">¥800</td><td>−77%</td></tr>
+      <tr><td>内装タイル</td><td>200×200×30mm</td><td class="accent">¥200</td><td>−65%</td></tr>
+      <tr><td>発光パネル（生）</td><td>600×400mm</td><td class="accent">¥2,000/サイクル</td><td>—</td></tr>
+      <tr><td>路灯丸太</td><td>φ200×600mm</td><td class="accent">¥500</td><td>現地調達</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:11px;color:#4a6050;margin-top:8px;">基材の間伐材は屈斜路の森から現地調達。電力コスト¥200/バッチ（乾燥）。</p>
+</div>
+</template>
+
+<!-- Glow -->
+<template id="tmpl-glow">
+<div class="wc">
+  <div class="wc-label">Bioluminescence Design</div>
+  <div class="wc-h1">生きた菌が<em>光る</em></div>
+  <img class="wc-img" src="img/kussharo_mycelium_wall.jpg" alt="発光菌床">
+  <p class="wc-img-cap" style="margin-bottom:14px;">発光菌床パネル — Panellus stipticus, 530nm blue-green</p>
+  <p class="wc-p">白色腐朽菌は生きている間だけ光る。3〜4週でピーク発光。6週で次バッチと交換 → 使用済みは資材ラインへ。屋内制御環境（18°C / 湿度85%）で通年発光可能。</p>
+  <div class="wc-grid2" style="margin-top:14px;">
+    <div class="wc-card">
+      <div class="wc-card-lbl">室内制御</div>
+      <h4>通年発光</h4>
+      <p>18°C、湿度85%を維持。Arduino制御の超音波加湿モジュール。</p>
+    </div>
+    <div class="wc-card">
+      <div class="wc-card-lbl">屋外自然</div>
+      <h4>9〜10月ピーク</h4>
+      <p>屈斜路の15〜20°C秋季が最適。白樺丸太上で自然発光。</p>
+    </div>
+  </div>
+  <table class="wc-table" style="margin-top:14px;">
+    <thead><tr><th>アイテム</th><th>数量</th><th>費用</th></tr></thead>
+    <tbody>
+      <tr><td>菌床ユニット（600×400mm）</td><td>20枚</td><td class="accent">¥40,000</td></tr>
+      <tr><td>超音波加湿モジュール</td><td>4個</td><td class="accent">¥12,000</td></tr>
+      <tr><td>カフェ酸スプレー（増光剤）</td><td>月1本</td><td class="accent">¥3,000/月</td></tr>
+      <tr><td>Arduino制御</td><td>1式</td><td class="accent">¥6,000</td></tr>
+    </tbody>
+  </table>
+</div>
+</template>
+
+<!-- Layout -->
+<template id="tmpl-layout">
+<div class="wc">
+  <div class="wc-label">Village Layout</div>
+  <div class="wc-h1">ビレッジ<em>配置</em></div>
+  <img class="wc-img" src="img/kussharo_map_plan.jpg" alt="配置計画図">
+  <p class="wc-img-cap" style="margin-bottom:14px;">AIイラスト — サイト配置計画図</p>
+  <div class="wc-map"><span class="hl">[釧路川] ← 川沿い（南）</span>
+      ↕
+  <span class="hl">桟橋</span> ── 発光丸太ベンチ
+      ↕
+  <span class="hl">川沿い遊歩道</span> ── 発光丸太サインポスト
+      ↕
+  <span class="hl">コミュニティホール</span>
+  ├─ 菌糸断熱壁
+  └─ 発光リビングウォール
+      ↕
+  <span class="hl">ロッジ区画</span>（最大200区画）
+      ↕
+  <span class="hl">菌糸製造小屋</span>（50㎡）
+  ├─ 間伐材 → ブロック製造
+  └─ 使用済み菌床 → 堆肥化</div>
+</div>
+</template>
+
+<!-- Phase -->
+<template id="tmpl-phase">
+<div class="wc">
+  <div class="wc-label">Implementation</div>
+  <div class="wc-h1">フェーズ<em>計画</em></div>
+  <div class="wc-phase-grid">
+    <div class="wc-phase">
+      <div class="wc-phase-num">PHASE 0</div>
+      <h4>菌株テスト</h4>
+      <div class="pt">2026年6〜8月</div>
+      <p class="pp">菌株取得・小規模培養。屈斜路の倒木から自然採取も試みる。</p>
+      <div class="pc">¥30,000</div>
+    </div>
+    <div class="wc-phase">
+      <div class="wc-phase-num">PHASE 1</div>
+      <h4>製造小屋構築</h4>
+      <div class="pt">2026年9月</div>
+      <p class="pp">菌糸ブロック製造ライン。型枠・乾燥オーブン・培養棚。</p>
+      <div class="pc">¥200,000</div>
+    </div>
+    <div class="wc-phase">
+      <div class="wc-phase-num">PHASE 2</div>
+      <h4>コミュニティホール</h4>
+      <div class="pt">2026年10月</div>
+      <p class="pp">菌糸断熱壁 + 発光リビングウォール。秋のピーク時オープン。</p>
+      <div class="pc">¥800,000</div>
+    </div>
+    <div class="wc-phase">
+      <div class="wc-phase-num">PHASE 3</div>
+      <h4>200区画展開</h4>
+      <div class="pt">2027〜</div>
+      <p class="pp">断熱材費用ゼロ化。菌糸ブロックで全棟の壁を構成。</p>
+      <div class="pc">断熱コスト −77%</div>
+    </div>
+  </div>
+</div>
+</template>
+
+<!-- Photos -->
+<template id="tmpl-photos">
+<div class="wc">
+  <div class="wc-label">Images</div>
+  <div class="wc-h1">ビレッジ<em>イメージ</em></div>
+  <img class="wc-img" src="img/kussharo_path_glow.jpg" alt="発光する森の小道" style="margin-bottom:8px;">
+  <p class="wc-img-cap" style="margin-bottom:14px;">AIコンセプト — 発光丸太が照らす夜の遊歩道</p>
+  <img class="wc-img" src="img/kussharo_hall_interior.jpg" alt="コミュニティホール" style="margin-bottom:8px;">
+  <p class="wc-img-cap" style="margin-bottom:14px;">コミュニティホール — 発光リビングウォール</p>
+  <img class="wc-img" src="img/kussharo_lake_dawn.jpg" alt="釧路川源流 夜明け" style="margin-bottom:8px;">
+  <p class="wc-img-cap">釧路川源流 夜明け — カルデラの朝霧</p>
+</div>
+</template>
+
+<!-- About -->
+<template id="tmpl-about">
+<div class="wc">
+  <div class="wc-label">About</div>
+  <div class="wc-h1"><em>屈斜路ビレッジ</em></div>
+  <p class="wc-p" style="margin-bottom:16px;">釧路川沿い3万坪（99,174 m²）に建てる、発光菌と菌糸資材で構成する次世代コミュニティビレッジ。SOLUNA 弟子屈エリアの新プロジェクト。</p>
+  <div class="wc-row"><span class="wc-key">ステータス</span><span class="wc-val accent">計画中</span></div>
+  <div class="wc-row"><span class="wc-key">場所</span><span class="wc-val">北海道 弟子屈町 · 釧路川沿い</span></div>
+  <div class="wc-row"><span class="wc-key">面積</span><span class="wc-val">3万坪（99,174 m²）</span></div>
+  <div class="wc-row"><span class="wc-key">区画数</span><span class="wc-val">最大200区画</span></div>
+  <div style="margin-top:20px;">
+    <a href="/buy" style="display:inline-block;background:#2adf8a;color:#020a06;padding:10px 24px;font-size:12px;font-weight:600;letter-spacing:.1em;text-decoration:none;border-radius:4px;">区画に参加する →</a>
+  </div>
+</div>
+</template>
+
+<script>
+// ── Clock ──
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('mb-clock').textContent = `${h}:${m}`;
+}
+updateClock(); setInterval(updateClock, 10000);
+
+// ── Dock show/hide ──
+let dockTimer;
+function showDock() {
+  clearTimeout(dockTimer);
+  document.getElementById('dock').classList.add('dock-visible');
+}
+function hideDock() {
+  dockTimer = setTimeout(() => document.getElementById('dock').classList.remove('dock-visible'), 400);
+}
+document.getElementById('dock').addEventListener('mouseenter', () => clearTimeout(dockTimer));
+
+// ── Window management ──
+const winLayer = document.getElementById('win-layer');
+const openWins = {};
+
+const WIN_DEFS = {
+  location:  { title: '📍 場所 — 釧路川沿い 3万坪', w: 480, h: 560 },
+  materials: { title: '🍄 資材設計 — 菌糸コンポジット', w: 460, h: 520 },
+  glow:      { title: '✨ 発光設計 — Panellus stipticus', w: 460, h: 560 },
+  layout:    { title: '🗺️ ビレッジ配置図', w: 480, h: 520 },
+  phase:     { title: '🚀 フェーズ計画', w: 480, h: 420 },
+  photos:    { title: '🌿 イメージ', w: 440, h: 540 },
+  about:     { title: '🌙 屈斜路ビレッジ について', w: 400, h: 360 },
+};
+
+let zCounter = 200;
+function bringToFront(win) {
+  zCounter++;
+  win.style.zIndex = zCounter;
+  document.querySelectorAll('.win').forEach(w => w.classList.remove('active'));
+  win.classList.add('active');
+  const id = win.dataset.winId;
+  document.getElementById('mb-active-title').textContent = WIN_DEFS[id]?.title.replace(/^[^\s]+ /,'') || '屈斜路ビレッジ';
+}
+
+function openWin(id) {
+  if (openWins[id]) {
+    // bring to front / restore
+    const win = openWins[id];
+    win.classList.remove('minimized');
+    bringToFront(win);
+    showDock(); hideDock();
+    return;
+  }
+  const def = WIN_DEFS[id];
+  if (!def) return;
+
+  const tmpl = document.getElementById('tmpl-' + id);
+  if (!tmpl) return;
+
+  const vw = window.innerWidth, vh = window.innerHeight - 28 - 72;
+  const ox = Math.max(20, Math.min(vw - def.w - 20, 40 + Object.keys(openWins).length * 22));
+  const oy = Math.max(20, Math.min(vh - def.h - 20, 40 + Object.keys(openWins).length * 22));
+
+  const win = document.createElement('div');
+  win.className = 'win';
+  win.dataset.winId = id;
+  win.style.cssText = `left:${ox}px;top:${oy}px;width:${def.w}px;height:${def.h}px;`;
+
+  win.innerHTML = `
+    <div class="win-titlebar">
+      <div class="win-btns">
+        <button class="win-btn close"  onclick="closeWin('${id}')"></button>
+        <button class="win-btn min"    onclick="minWin('${id}')"></button>
+        <button class="win-btn max"    onclick="maxWin('${id}')"></button>
+      </div>
+      <div class="win-title">${def.title}</div>
+    </div>
+    <div class="win-body">${tmpl.innerHTML}</div>
+    <div class="win-resize"></div>
+  `;
+
+  winLayer.appendChild(win);
+  openWins[id] = win;
+  bringToFront(win);
+
+  // dot
+  const dot = document.getElementById('dot-' + id);
+  if (dot) dot.style.display = 'block';
+
+  makeDraggable(win);
+  makeResizable(win);
+  showDock(); hideDock();
+}
+
+function closeWin(id) {
+  const win = openWins[id];
+  if (!win) return;
+  win.remove();
+  delete openWins[id];
+  const dot = document.getElementById('dot-' + id);
+  if (dot) dot.style.display = 'none';
+  document.getElementById('mb-active-title').textContent = '屈斜路ビレッジ';
+}
+
+function minWin(id) {
+  const win = openWins[id];
+  if (win) win.classList.add('minimized');
+}
+
+function maxWin(id) {
+  const win = openWins[id];
+  if (!win) return;
+  const isMax = win.dataset.maximized === '1';
+  if (isMax) {
+    win.style.left = win.dataset.prevLeft;
+    win.style.top  = win.dataset.prevTop;
+    win.style.width  = win.dataset.prevW;
+    win.style.height = win.dataset.prevH;
+    win.dataset.maximized = '0';
+  } else {
+    win.dataset.prevLeft = win.style.left;
+    win.dataset.prevTop  = win.style.top;
+    win.dataset.prevW    = win.style.width;
+    win.dataset.prevH    = win.style.height;
+    win.style.left = '0'; win.style.top = '0';
+    win.style.width  = (window.innerWidth) + 'px';
+    win.style.height = (window.innerHeight - 28 - 72) + 'px';
+    win.dataset.maximized = '1';
+  }
+}
+
+// ── Drag ──
+function makeDraggable(win) {
+  const titlebar = win.querySelector('.win-titlebar');
+  let ox, oy;
+  titlebar.addEventListener('mousedown', e => {
+    if (e.target.classList.contains('win-btn')) return;
+    bringToFront(win);
+    ox = e.clientX - win.offsetLeft;
+    oy = e.clientY - win.offsetTop - 28;
+    const mv = e2 => {
+      win.style.left = Math.max(0, Math.min(window.innerWidth - 80, e2.clientX - ox)) + 'px';
+      win.style.top  = Math.max(0, Math.min(window.innerHeight - 100, e2.clientY - oy)) + 'px';
+    };
+    const up = () => { document.removeEventListener('mousemove', mv); document.removeEventListener('mouseup', up); };
+    document.addEventListener('mousemove', mv);
+    document.addEventListener('mouseup', up);
+    e.preventDefault();
+  });
+  win.addEventListener('mousedown', () => bringToFront(win));
+}
+
+// ── Resize ──
+function makeResizable(win) {
+  const handle = win.querySelector('.win-resize');
+  handle.addEventListener('mousedown', e => {
+    bringToFront(win);
+    const startX = e.clientX, startY = e.clientY;
+    const startW = win.offsetWidth, startH = win.offsetHeight;
+    const mv = e2 => {
+      win.style.width  = Math.max(320, startW + e2.clientX - startX) + 'px';
+      win.style.height = Math.max(200, startH + e2.clientY - startY) + 'px';
+    };
+    const up = () => { document.removeEventListener('mousemove', mv); document.removeEventListener('mouseup', up); };
+    document.addEventListener('mousemove', mv);
+    document.addEventListener('mouseup', up);
+    e.preventDefault();
+  });
+}
+
+// ── Auto-open on load ──
+window.addEventListener('load', () => {
+  setTimeout(() => openWin('location'), 200);
+  setTimeout(() => openWin('photos'),   400);
+});
+</script>
+
+<script defer src="/js/sln-track.js"></script>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOLUNAビレッジ 設計仕様 — 菌糸体建材で建てる小屋</title>
+<style>
+:root {
+  --bg: #060604;
+  --card: #0d0d0a;
+  --border: #1a1a14;
+  --text: #e8e3d2;
+  --muted: #5a5850;
+  --accent: #c4903a;
+  --green: #5c9068;
+  --blue: #4a7a9b;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue','Hiragino Sans',Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(6,6,4,0.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:48px;gap:32px;}
+.nav-logo{font-size:11px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;text-decoration:none;}
+.nav-links{display:flex;gap:20px;margin-left:auto;}
+.nav-links a{font-size:11px;letter-spacing:0.08em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--text);}
+
+.hero{padding:80px 48px 64px;border-bottom:1px solid var(--border);max-width:1100px;margin:0 auto;}
+@media(max-width:600px){.hero{padding:56px 24px 40px;}}
+.eyebrow{font-size:10px;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;margin-bottom:20px;}
+h1{font-size:clamp(36px,7vw,80px);font-weight:200;color:#fff;letter-spacing:-0.03em;line-height:1;}
+h1 em{color:var(--accent);font-style:normal;}
+.hero-desc{margin-top:24px;font-size:15px;color:var(--muted);line-height:1.8;max-width:560px;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;}
+.tag{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--border);color:var(--muted);border-radius:2px;}
+
+section{padding:80px 0;border-bottom:1px solid var(--border);}
+.wrap{max-width:1100px;margin:0 auto;padding:0 48px;}
+@media(max-width:600px){.wrap{padding:0 24px;}}
+.sec-eye{font-size:10px;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;margin-bottom:16px;}
+h2{font-size:clamp(22px,4vw,40px);font-weight:200;color:#fff;letter-spacing:-0.02em;line-height:1.2;margin-bottom:12px;}
+.sec-desc{font-size:14px;color:var(--muted);line-height:1.8;max-width:520px;margin-bottom:48px;}
+
+/* ── Floor plan ── */
+.floorplan-wrap{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:32px;margin-top:0;}
+svg.fp{width:100%;max-width:700px;display:block;margin:0 auto;}
+
+/* ── Wall section ── */
+.wall-section-wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
+@media(max-width:720px){.wall-section-wrap{grid-template-columns:1fr;}}
+svg.ws{width:100%;max-width:400px;display:block;}
+.layer-list{display:flex;flex-direction:column;gap:0;}
+.layer-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border);}
+.layer-item:last-child{border-bottom:none;}
+.layer-color{width:20px;height:20px;border-radius:2px;flex-shrink:0;margin-top:2px;}
+.layer-name{font-size:14px;font-weight:500;color:#fff;margin-bottom:3px;}
+.layer-spec{font-size:11px;color:var(--muted);line-height:1.6;}
+.layer-perf{font-size:11px;color:var(--accent);margin-top:2px;}
+
+/* ── Process flow ── */
+.process-flow{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);}
+.pf-row{display:grid;grid-template-columns:120px 1fr 180px;background:var(--card);align-items:start;}
+@media(max-width:680px){.pf-row{grid-template-columns:80px 1fr;}.pf-when{display:none;}}
+.pf-row.header{background:var(--bg);}
+.pf-when{padding:16px;font-size:11px;color:var(--muted);border-right:1px solid var(--border);}
+.pf-what{padding:16px 20px;}
+.pf-who{padding:16px;font-size:11px;color:var(--muted);border-left:1px solid var(--border);}
+.pf-row.header .pf-when,.pf-row.header .pf-what,.pf-row.header .pf-who{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);}
+.pf-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:4px;}
+.pf-desc{font-size:11px;color:var(--muted);line-height:1.6;}
+.pf-milestone .pf-when{color:var(--accent);}
+.pf-milestone .pf-title{color:var(--accent);}
+.pf-milestone{background:rgba(196,144,58,0.04);}
+
+/* ── Work Party program ── */
+.program-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+@media(max-width:700px){.program-grid{grid-template-columns:1fr;}}
+.prog-day{background:var(--card);}
+.prog-day-header{padding:20px;border-bottom:1px solid var(--border);background:var(--bg);}
+.prog-day-num{font-size:10px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+.prog-day-title{font-size:16px;font-weight:500;color:#fff;}
+.prog-day-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.prog-items{padding:0;}
+.prog-item{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:flex-start;}
+.prog-item:last-child{border-bottom:none;}
+.prog-time{font-size:10px;color:var(--muted);width:40px;flex-shrink:0;padding-top:2px;}
+.prog-act{font-size:12px;color:var(--text);line-height:1.5;}
+.prog-act strong{display:block;color:#fff;font-size:13px;margin-bottom:1px;}
+.prog-highlight{background:rgba(196,144,58,0.06);}
+.prog-highlight .prog-act{color:var(--accent);}
+.prog-highlight .prog-act strong{color:var(--accent);}
+
+/* ── Spec table ── */
+.spec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+@media(max-width:600px){.spec-grid{grid-template-columns:1fr;}}
+.spec-card{background:var(--card);padding:20px 24px;}
+.spec-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.spec-val{font-size:20px;font-weight:300;color:#fff;letter-spacing:-0.02em;}
+.spec-note{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5;}
+
+/* ── Photos ── */
+.photo-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+@media(max-width:600px){.photo-strip{grid-template-columns:1fr;}}
+.photo-strip img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;}
+.photo-strip .photo-tall{aspect-ratio:3/4;}
+
+/* ── BOM ── */
+.bom-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:0;}
+.bom-table th{text-align:left;padding:10px 14px;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);font-weight:400;}
+.bom-table td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+.bom-table tr:last-child td{border-bottom:none;}
+.bom-table td:first-child{color:#fff;}
+.bom-table td.pri-hi{color:var(--accent);}
+.bom-table td.pri-mid{color:var(--muted);}
+.bom-table tr:hover td{background:rgba(255,255,255,0.02);}
+.bom-total{background:rgba(196,144,58,0.06);}
+.bom-total td{color:var(--accent);font-weight:500;border-top:1px solid rgba(196,144,58,0.2);}
+
+footer{padding:64px 40px;text-align:center;color:var(--muted);font-size:12px;line-height:2;max-width:1100px;margin:0 auto;}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/mycelium" class="nav-logo">← MYCELIUM</a>
+  <div class="nav-links">
+    <a href="#building">建物</a>
+    <a href="#wall">壁構成</a>
+    <a href="#process">工程</a>
+    <a href="#workparty">Work Party</a>
+    <a href="#bom">資材表</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="eyebrow">SOLUNA Lab · Design Package · 2026</div>
+  <h1>ビレッジを<br><em>設計する。</em></h1>
+  <p class="hero-desc">
+    菌糸体パネル × くん炭ボード × 木造軸組。<br>
+    北海道弟子屈・美留和に建てる小屋の全設計仕様。<br>
+    建物・壁断面・製造工程・Work Partyプログラム・資材表。
+  </p>
+  <div class="hero-tags">
+    <span class="tag">8.4m × 6.0m — 延床 50m²</span>
+    <span class="tag">木造軸組 + CLT</span>
+    <span class="tag">菌糸体パネル 内壁全面</span>
+    <span class="tag">2026年9月着工</span>
+    <span class="tag">2026年11月完成</span>
+  </div>
+</div>
+
+<!-- ── Site render ── -->
+<div style="border-bottom:1px solid var(--border);">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);max-width:100%;">
+    <div style="aspect-ratio:16/9;overflow:hidden;background:var(--card);">
+      <img src="img/village_exterior.jpg" alt="外観イメージ" style="width:100%;height:100%;object-fit:cover;"
+           onerror="this.style.background='#111';this.style.display='flex'">
+    </div>
+    <div style="aspect-ratio:16/9;overflow:hidden;background:var(--card);">
+      <img src="img/village_interior.jpg" alt="内観イメージ" style="width:100%;height:100%;object-fit:cover;"
+           onerror="this.style.background='#111'">
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);">
+    <div style="aspect-ratio:4/3;overflow:hidden;background:var(--card);">
+      <img src="img/village_wall_detail.jpg" alt="壁詳細" style="width:100%;height:100%;object-fit:cover;"
+           onerror="this.style.background='#111'">
+    </div>
+    <div style="aspect-ratio:4/3;overflow:hidden;background:var(--card);">
+      <img src="img/workparty_making.jpg" alt="Work Party" style="width:100%;height:100%;object-fit:cover;"
+           onerror="this.style.background='#111'">
+    </div>
+    <div style="aspect-ratio:4/3;overflow:hidden;background:var(--card);">
+      <img src="img/village_site_hokkaido.jpg" alt="敷地" style="width:100%;height:100%;object-fit:cover;"
+           onerror="this.style.background='#111'">
+    </div>
+  </div>
+</div>
+
+<!-- ── Building spec ── -->
+<section id="building">
+  <div class="wrap">
+    <div class="sec-eye">Building Spec</div>
+    <h2>建物仕様</h2>
+    <p class="sec-desc">美留和の気候（冬−20℃、夏+30℃）に対応した断熱・気密設計。菌糸体パネルを内壁全面に使用。</p>
+
+    <div class="spec-grid" style="margin-bottom:48px;">
+      <div class="spec-card"><div class="spec-label">延床面積</div><div class="spec-val">50.4 m²</div><div class="spec-note">8.4m × 6.0m / 平屋 / 切妻屋根</div></div>
+      <div class="spec-card"><div class="spec-label">構造</div><div class="spec-val">木造軸組</div><div class="spec-note">105mm角柱 + CLTパネル補強。基礎はベタ基礎。</div></div>
+      <div class="spec-card"><div class="spec-label">UA値（断熱等級）</div><div class="spec-val">0.46 W/m²K</div><div class="spec-note">等級5相当。菌糸体40mm + グラスウール100mmで達成。</div></div>
+      <div class="spec-card"><div class="spec-label">C値（気密）</div><div class="spec-val">1.0 cm²/m²</div><div class="spec-note">次世代省エネ基準クリア。テープ施工で達成可能。</div></div>
+      <div class="spec-card"><div class="spec-label">内壁 菌糸体パネル使用面積</div><div class="spec-val">72 m²</div><div class="spec-note">全内壁面積。1枚0.36m²(600×600) = 200枚使用。</div></div>
+      <div class="spec-card"><div class="spec-label">工期</div><div class="spec-val">8週間</div><div class="spec-note">基礎2週 / 躯体2週 / 断熱+内壁4週（Work Party含む）</div></div>
+    </div>
+
+    <!-- Floor plan SVG -->
+    <div class="floorplan-wrap">
+      <div style="font-size:10px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-bottom:20px;">Floor Plan · 1F — S=1:100</div>
+      <svg class="fp" viewBox="0 0 700 520" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#1a1a14" stroke-width="1"/>
+          </pattern>
+        </defs>
+
+        <!-- Outer wall -->
+        <rect x="60" y="40" width="580" height="420" fill="none" stroke="#555" stroke-width="8"/>
+
+        <!-- Interior walls -->
+        <!-- LDK / Bedroom divider -->
+        <line x1="280" y1="40" x2="280" y2="460" stroke="#444" stroke-width="5"/>
+        <!-- Bathroom block -->
+        <line x1="280" y1="260" x2="640" y2="260" stroke="#444" stroke-width="5"/>
+        <!-- Entrance -->
+        <line x1="380" y1="260" x2="380" y2="460" stroke="#444" stroke-width="4"/>
+
+        <!-- Room fills -->
+        <!-- LDK -->
+        <rect x="64" y="44" width="212" height="412" fill="rgba(196,144,58,0.05)"/>
+        <!-- Bedroom 1 -->
+        <rect x="284" y="44" width="352" height="212" fill="rgba(90,144,104,0.05)"/>
+        <!-- Bedroom 2 -->
+        <rect x="284" y="264" width="92" height="192" fill="rgba(74,122,155,0.05)"/>
+        <!-- Bath/WC -->
+        <rect x="384" y="264" width="252" height="192" fill="rgba(80,80,100,0.05)"/>
+
+        <!-- Doors (arc) -->
+        <path d="M 280 180 Q 240 180 240 140" fill="none" stroke="#333" stroke-width="1.5"/>
+        <line x1="280" y1="180" x2="240" y2="180" stroke="#333" stroke-width="1.5"/>
+        <path d="M 380 380 Q 420 380 420 340" fill="none" stroke="#333" stroke-width="1.5"/>
+        <line x1="380" y1="380" x2="420" y2="380" stroke="#333" stroke-width="1.5"/>
+
+        <!-- Windows -->
+        <rect x="60" y="120" width="0" height="80" fill="none"/>
+        <rect x="55" y="130" width="16" height="60" fill="#1a4a5a" stroke="#2a6a8a" stroke-width="1"/>
+        <rect x="55" y="300" width="16" height="60" fill="#1a4a5a" stroke="#2a6a8a" stroke-width="1"/>
+        <rect x="136" y="35" width="80" height="16" fill="#1a4a5a" stroke="#2a6a8a" stroke-width="1"/>
+        <rect x="350" y="35" width="100" height="16" fill="#1a4a5a" stroke="#2a6a8a" stroke-width="1"/>
+        <rect x="629" y="100" width="16" height="80" fill="#1a4a5a" stroke="#2a6a8a" stroke-width="1"/>
+        <rect x="629" y="300" width="16" height="60" fill="#1a4a5a" stroke="#2a6a8a" stroke-width="1"/>
+
+        <!-- Main entrance -->
+        <rect x="160" y="449" width="60" height="16" fill="#1a2a1a" stroke="#3a6a3a" stroke-width="1"/>
+
+        <!-- Mycelium panel indicators -->
+        <rect x="64" y="44" width="8" height="412" fill="rgba(196,144,58,0.3)"/>
+        <rect x="64" y="44" width="212" height="8" fill="rgba(196,144,58,0.3)"/>
+        <rect x="64" y="448" width="212" height="8" fill="rgba(196,144,58,0.3)"/>
+        <rect x="268" y="44" width="8" height="412" fill="rgba(196,144,58,0.3)"/>
+
+        <!-- Labels -->
+        <text x="170" y="240" fill="#c4903a" font-size="13" text-anchor="middle" font-family="Helvetica Neue">LDK</text>
+        <text x="170" y="258" fill="#5a5850" font-size="10" text-anchor="middle" font-family="Helvetica Neue">20.2 m²</text>
+        <text x="460" y="150" fill="#5c9068" font-size="13" text-anchor="middle" font-family="Helvetica Neue">寝室 A</text>
+        <text x="460" y="168" fill="#5a5850" font-size="10" text-anchor="middle" font-family="Helvetica Neue">15.4 m²</text>
+        <text x="332" y="360" fill="#4a7a9b" font-size="11" text-anchor="middle" font-family="Helvetica Neue">寝室 B</text>
+        <text x="332" y="376" fill="#5a5850" font-size="10" text-anchor="middle" font-family="Helvetica Neue">4.6 m²</text>
+        <text x="510" y="350" fill="#888" font-size="11" text-anchor="middle" font-family="Helvetica Neue">Bath / WC</text>
+        <text x="510" y="366" fill="#5a5850" font-size="10" text-anchor="middle" font-family="Helvetica Neue">10.2 m²</text>
+
+        <!-- Dimension lines -->
+        <line x1="60" y1="490" x2="640" y2="490" stroke="#333" stroke-width="1"/>
+        <line x1="60" y1="485" x2="60" y2="495" stroke="#333" stroke-width="1"/>
+        <line x1="640" y1="485" x2="640" y2="495" stroke="#333" stroke-width="1"/>
+        <text x="350" y="510" fill="#5a5850" font-size="11" text-anchor="middle" font-family="Helvetica Neue">8,400</text>
+
+        <line x1="20" y1="40" x2="20" y2="460" stroke="#333" stroke-width="1"/>
+        <line x1="15" y1="40" x2="25" y2="40" stroke="#333" stroke-width="1"/>
+        <line x1="15" y1="460" x2="25" y2="460" stroke="#333" stroke-width="1"/>
+        <text x="10" y="255" fill="#5a5850" font-size="11" text-anchor="middle" transform="rotate(-90,10,255)" font-family="Helvetica Neue">6,000</text>
+
+        <!-- Legend -->
+        <rect x="520" y="455" width="12" height="8" fill="rgba(196,144,58,0.3)"/>
+        <text x="537" y="463" fill="#5a5850" font-size="9" font-family="Helvetica Neue">菌糸体パネル壁</text>
+        <rect x="520" y="470" width="12" height="8" fill="#1a4a5a" stroke="#2a6a8a" stroke-width="0.5"/>
+        <text x="537" y="478" fill="#5a5850" font-size="9" font-family="Helvetica Neue">窓・開口部</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ── Wall cross-section ── -->
+<section id="wall">
+  <div class="wrap">
+    <div class="sec-eye">Wall Construction · 壁断面</div>
+    <h2>5層壁構成</h2>
+    <p class="sec-desc">外気−20℃の美留和に対応する断熱性能と、菌糸体パネルの吸音・意匠性能を両立する断面設計。</p>
+    <div class="wall-section-wrap">
+      <!-- SVG wall section -->
+      <div style="background:var(--card);border:1px solid var(--border);padding:24px;border-radius:2px;">
+        <div style="font-size:10px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-bottom:16px;">Wall Section · S=1:5 (40mm厚パネル部)</div>
+        <svg class="ws" viewBox="0 0 360 480" xmlns="http://www.w3.org/2000/svg">
+          <!-- Layer 1: External cladding (20mm) -->
+          <rect x="40" y="20" width="40" height="440" fill="#2a1f0f" stroke="#3a2f1f" stroke-width="0.5"/>
+          <text x="20" y="245" fill="#5a5850" font-size="9" text-anchor="middle" transform="rotate(-90,20,245)" font-family="Helvetica Neue">外装材 20mm</text>
+
+          <!-- Layer 2: Structural posts + GW (105mm) -->
+          <rect x="80" y="20" width="100" height="440" fill="#1a1a0a" stroke="#2a2a14" stroke-width="0.5"/>
+          <!-- Post cross-section -->
+          <rect x="85" y="25" width="20" height="430" fill="#3a2f1a"/>
+          <rect x="155" y="25" width="20" height="430" fill="#3a2f1a"/>
+          <!-- GW fill -->
+          <rect x="105" y="25" width="50" height="430" fill="rgba(100,140,100,0.15)"/>
+          <!-- GW texture lines -->
+          <line x1="105" y1="60" x2="155" y2="60" stroke="rgba(100,140,100,0.2)" stroke-width="1"/>
+          <line x1="105" y1="100" x2="155" y2="100" stroke="rgba(100,140,100,0.2)" stroke-width="1"/>
+          <line x1="105" y1="140" x2="155" y2="140" stroke="rgba(100,140,100,0.2)" stroke-width="1"/>
+          <line x1="105" y1="180" x2="155" y2="180" stroke="rgba(100,140,100,0.2)" stroke-width="1"/>
+          <line x1="105" y1="220" x2="155" y2="220" stroke="rgba(100,140,100,0.2)" stroke-width="1"/>
+          <line x1="105" y1="260" x2="155" y2="260" stroke="rgba(100,140,100,0.2)" stroke-width="1"/>
+          <line x1="105" y1="300" x2="155" y2="300" stroke="rgba(100,140,100,0.2)" stroke-width="1"/>
+          <line x1="105" y1="340" x2="155" y2="340" stroke="rgba(100,140,100,0.2)" stroke-width="1"/>
+          <line x1="105" y1="380" x2="155" y2="380" stroke="rgba(100,140,100,0.2)" stroke-width="1"/>
+          <line x1="105" y1="420" x2="155" y2="420" stroke="rgba(100,140,100,0.2)" stroke-width="1"/>
+
+          <!-- Layer 3: Vapor barrier (1mm) -->
+          <rect x="180" y="20" width="5" height="440" fill="#0a3a5a" stroke="#0a4a7a" stroke-width="0.5"/>
+
+          <!-- Layer 4: Mycelium panel (40mm) ← HIGHLIGHT -->
+          <rect x="185" y="20" width="70" height="440" fill="rgba(196,144,58,0.15)" stroke="rgba(196,144,58,0.4)" stroke-width="1"/>
+          <!-- Mycelium texture -->
+          <path d="M190,50 Q210,45 230,55 Q250,65 255,50" fill="none" stroke="rgba(196,144,58,0.25)" stroke-width="1"/>
+          <path d="M190,90 Q205,85 220,95 Q240,108 255,88" fill="none" stroke="rgba(196,144,58,0.25)" stroke-width="1"/>
+          <path d="M190,130 Q215,122 235,135 Q250,148 255,128" fill="none" stroke="rgba(196,144,58,0.25)" stroke-width="1"/>
+          <path d="M190,170 Q208,162 228,175 Q245,188 255,168" fill="none" stroke="rgba(196,144,58,0.25)" stroke-width="1"/>
+          <path d="M190,210 Q212,202 232,215 Q248,228 255,208" fill="none" stroke="rgba(196,144,58,0.25)" stroke-width="1"/>
+          <path d="M190,250 Q207,242 227,255 Q243,268 255,248" fill="none" stroke="rgba(196,144,58,0.25)" stroke-width="1"/>
+          <path d="M190,290 Q210,282 230,295 Q246,308 255,288" fill="none" stroke="rgba(196,144,58,0.25)" stroke-width="1"/>
+          <path d="M190,330 Q213,322 233,335 Q249,348 255,328" fill="none" stroke="rgba(196,144,58,0.25)" stroke-width="1"/>
+          <path d="M190,370 Q209,362 229,375 Q245,388 255,368" fill="none" stroke="rgba(196,144,58,0.25)" stroke-width="1"/>
+          <path d="M190,410 Q211,402 231,415 Q247,428 255,408" fill="none" stroke="rgba(196,144,58,0.25)" stroke-width="1"/>
+          <text x="220" y="248" fill="rgba(196,144,58,0.7)" font-size="9" text-anchor="middle" transform="rotate(-90,220,248)" font-family="Helvetica Neue">MYCELIUM 40mm</text>
+
+          <!-- Layer 5: Kuntan board (12mm) -->
+          <rect x="255" y="20" width="22" height="440" fill="rgba(80,60,30,0.4)" stroke="#4a3a1a" stroke-width="0.5"/>
+          <!-- Kuntan dots -->
+          <circle cx="264" cy="60" r="2" fill="rgba(60,40,10,0.5)"/>
+          <circle cx="268" cy="80" r="1.5" fill="rgba(60,40,10,0.5)"/>
+          <circle cx="261" cy="100" r="2" fill="rgba(60,40,10,0.5)"/>
+          <circle cx="266" cy="120" r="1.5" fill="rgba(60,40,10,0.5)"/>
+
+          <!-- Dimension lines right side -->
+          <line x1="300" y1="20" x2="300" y2="460" stroke="#2a2a20" stroke-width="0.5"/>
+          <!-- D: ext cladding -->
+          <line x1="295" y1="20" x2="305" y2="20" stroke="#333" stroke-width="0.5"/>
+          <line x1="295" y1="60" x2="305" y2="60" stroke="#333" stroke-width="0.5"/>
+          <text x="315" y="44" fill="#444" font-size="8" font-family="Helvetica Neue">20</text>
+          <!-- D: structure -->
+          <line x1="295" y1="60" x2="305" y2="60" stroke="#333" stroke-width="0.5"/>
+          <line x1="295" y1="225" x2="305" y2="225" stroke="#333" stroke-width="0.5"/>
+          <text x="315" y="148" fill="#444" font-size="8" font-family="Helvetica Neue">105</text>
+          <!-- D: mycelium -->
+          <line x1="295" y1="225" x2="305" y2="225" stroke="rgba(196,144,58,0.5)" stroke-width="0.5"/>
+          <line x1="295" y1="310" x2="305" y2="310" stroke="rgba(196,144,58,0.5)" stroke-width="0.5"/>
+          <text x="315" y="272" fill="rgba(196,144,58,0.7)" font-size="8" font-family="Helvetica Neue">40</text>
+          <!-- D: kuntan -->
+          <line x1="295" y1="310" x2="305" y2="310" stroke="#333" stroke-width="0.5"/>
+          <line x1="295" y1="340" x2="305" y2="340" stroke="#333" stroke-width="0.5"/>
+          <text x="315" y="328" fill="#444" font-size="8" font-family="Helvetica Neue">12</text>
+
+          <!-- Interior / Exterior labels -->
+          <text x="330" y="30" fill="#5a5850" font-size="9" font-family="Helvetica Neue">exterior</text>
+          <text x="40" y="480" fill="#5a5850" font-size="9" font-family="Helvetica Neue" text-anchor="start">← outside</text>
+          <text x="280" y="480" fill="#5a5850" font-size="9" font-family="Helvetica Neue">inside →</text>
+        </svg>
+      </div>
+
+      <!-- Layer list -->
+      <div class="layer-list">
+        <div class="layer-item">
+          <div class="layer-color" style="background:#4a3520;"></div>
+          <div>
+            <div class="layer-name">外装材（杉板下見張り）</div>
+            <div class="layer-spec">厚さ: 20mm / 素材: 地元杉材<br>通気胴縁 + 透湿防水シート裏打ち</div>
+            <div class="layer-perf">耐候性・意匠性</div>
+          </div>
+        </div>
+        <div class="layer-item">
+          <div class="layer-color" style="background:#3a4a3a;"></div>
+          <div>
+            <div class="layer-name">構造壁（木造軸組 + GW充填断熱）</div>
+            <div class="layer-spec">柱: 105mm角 / グラスウール105mm充填<br>λ=0.038 W/mK</div>
+            <div class="layer-perf">構造強度 + 断熱 λ=0.038</div>
+          </div>
+        </div>
+        <div class="layer-item">
+          <div class="layer-color" style="background:#0a3a5a;"></div>
+          <div>
+            <div class="layer-name">気密・防湿シート</div>
+            <div class="layer-spec">厚さ: 0.2mm / JIS A 6930<br>テープ処理でC値1.0以下</div>
+            <div class="layer-perf">気密性確保</div>
+          </div>
+        </div>
+        <div class="layer-item" style="background:rgba(196,144,58,0.04);border-radius:2px;">
+          <div class="layer-color" style="background:rgba(196,144,58,0.6);border:1px solid var(--accent);"></div>
+          <div>
+            <div class="layer-name" style="color:var(--accent);">菌糸体複合材料パネル ← SOLUNA製</div>
+            <div class="layer-spec">厚さ: 40mm / 600×600mm / 90kg/m³<br>カワラタケ × おがくず70%+籾殻30%</div>
+            <div class="layer-perf">吸音NRC 0.85 / 断熱補助 λ=0.05 / 意匠</div>
+          </div>
+        </div>
+        <div class="layer-item">
+          <div class="layer-color" style="background:#3a2a10;"></div>
+          <div>
+            <div class="layer-name">くん炭ボード（ナルセ・インダストリィ製）</div>
+            <div class="layer-spec">厚さ: 12mm / 密度 300kg/m³<br>籾殻くん炭 × バインダー</div>
+            <div class="layer-perf">調湿・消臭・ホルムアルデヒド吸着</div>
+          </div>
+        </div>
+        <div style="padding:16px 0 0;border-top:1px solid var(--border);margin-top:8px;">
+          <div style="font-size:11px;color:var(--muted);">合計壁厚: <strong style="color:#fff;">177mm</strong></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">壁体UA値（1m²当たり）: <strong style="color:var(--accent);">0.28 W/m²K</strong></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">吸音性能（室内側）: <strong style="color:var(--accent);">NRC 0.85</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Manufacturing process ── -->
+<section id="process">
+  <div class="wrap">
+    <div class="sec-eye">Manufacturing Schedule · 製造工程</div>
+    <h2>9月納品まで<br>逆算工程表</h2>
+    <p class="sec-desc">パネル200枚（72m²）を三田 → 美留和ルートで製造。培養は三田・美留和並行。</p>
+    <div class="process-flow">
+      <div class="pf-row header">
+        <div class="pf-when">時期</div>
+        <div class="pf-what">工程</div>
+        <div class="pf-who">担当・場所</div>
+      </div>
+      <div class="pf-row pf-milestone">
+        <div class="pf-when">5月 第1週<br>今すぐ</div>
+        <div class="pf-what">
+          <div class="pf-title">全資材発注 + GBRC試験申込</div>
+          <div class="pf-desc">種菌6kg・おがくず35kg・籾殻20kg・PP袋100枚・ホウ砂・亜麻仁油を発注。GBRC試験申込済み（6月試験予定）。型26セットは大工に発注。</div>
+        </div>
+        <div class="pf-who">濱田 / 三田</div>
+      </div>
+      <div class="pf-row">
+        <div class="pf-when">5月 第2週</div>
+        <div class="pf-what">
+          <div class="pf-title">三田 パイロット製造（5枚）</div>
+          <div class="pf-desc">おがくず70%+籾殻30%+種菌12%を調合・滅菌・型詰め。600×600×40mm型5枚。これがGBRC試験サンプルになる。</div>
+        </div>
+        <div class="pf-who">濱田 / 三田</div>
+      </div>
+      <div class="pf-row">
+        <div class="pf-when">5月 第3〜4週</div>
+        <div class="pf-what">
+          <div class="pf-title">三田 培養中（暗所25℃）</div>
+          <div class="pf-desc">型ごとビニール袋に入れて押入れ or 段ボール箱内で培養。毎日温度確認（25℃以下）。白い菌糸が表面を覆い始める。</div>
+        </div>
+        <div class="pf-who">濱田 / 三田</div>
+      </div>
+      <div class="pf-row pf-milestone">
+        <div class="pf-when">6月 第2週</div>
+        <div class="pf-what">
+          <div class="pf-title">三田パイロット完成 → GBRC搬入</div>
+          <div class="pf-desc">5枚を乾燥・防火・防水処理後にGBRCへ搬入。吸音NRC・熱伝導率・曲げ強度の測定実施。結果は2週間後。</div>
+        </div>
+        <div class="pf-who">濱田 → 大阪GBRC</div>
+      </div>
+      <div class="pf-row">
+        <div class="pf-when">6月 第3〜4週</div>
+        <div class="pf-what">
+          <div class="pf-title">本番バッチ製造 第1陣（50枚）</div>
+          <div class="pf-desc">三田で50枚同時培養開始。型は大工製26セット×2回転。GBRC結果を受けて配合微調整（必要な場合）。</div>
+        </div>
+        <div class="pf-who">濱田 + アシスタント</div>
+      </div>
+      <div class="pf-row">
+        <div class="pf-when">7月 全体</div>
+        <div class="pf-what">
+          <div class="pf-title">第2陣（50枚）培養 + 第1陣 仕上げ処理</div>
+          <div class="pf-desc">ホウ砂処理→染色（カワラタケナチュラル / タマネギ / 藍 / 墨 4色展開）→亜麻仁油処理→最終乾燥。各パネルに製造日・バッチ番号をスタンプ。</div>
+        </div>
+        <div class="pf-who">三田 atelierスペース</div>
+      </div>
+      <div class="pf-row">
+        <div class="pf-when">8月 第1〜2週</div>
+        <div class="pf-what">
+          <div class="pf-title">美留和 先行搬入（100枚）</div>
+          <div class="pf-desc">完成パネル100枚を美留和現地に搬送。現地での保管・養生。CLT躯体工事と並行して設置場所確認。</div>
+        </div>
+        <div class="pf-who">美留和 現地</div>
+      </div>
+      <div class="pf-row pf-milestone">
+        <div class="pf-when">9月 第2〜3週</div>
+        <div class="pf-what">
+          <div class="pf-title">WORK PARTY — 参加者 残り100枚製造</div>
+          <div class="pf-desc">12名 × 2日間で現地製造。材料は全て用意済み。参加者が自分のパネルを作り、その場で壁に設置。</div>
+        </div>
+        <div class="pf-who">美留和 全員</div>
+      </div>
+      <div class="pf-row pf-milestone">
+        <div class="pf-when">11月</div>
+        <div class="pf-what">
+          <div class="pf-title">SOLUNAビレッジ 美留和 OPEN</div>
+          <div class="pf-desc">菌糸体200枚（72m²）+ くん炭ボードで全内壁完成。日本初の菌糸体建材使用宿泊施設。</div>
+        </div>
+        <div class="pf-who">SOLUNA 全物件公開</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Work Party program ── -->
+<section id="workparty">
+  <div class="wrap">
+    <div class="sec-eye">Work Party Program · 2026年9月</div>
+    <h2>あなたが壁を<br>作る3日間。</h2>
+    <p class="sec-desc">定員12名。参加者は菌糸体パネルを実際に製造し、SOLUNAビレッジの壁に設置する。宿泊・食事込み。</p>
+    <div class="program-grid">
+      <div class="prog-day">
+        <div class="prog-day-header">
+          <div class="prog-day-num">Day 1 · 土曜</div>
+          <div class="prog-day-title">素材を知る</div>
+          <div class="prog-day-sub">到着・材料・仕込み</div>
+        </div>
+        <div class="prog-items">
+          <div class="prog-item">
+            <div class="prog-time">14:00</div>
+            <div class="prog-act"><strong>美留和到着・チェックイン</strong>敷地ツアー。建設中のビレッジを見学。</div>
+          </div>
+          <div class="prog-item">
+            <div class="prog-time">16:00</div>
+            <div class="prog-act"><strong>素材レクチャー</strong>籾殻・おがくず・菌糸体の話。菌類の仕組みを30分で理解。</div>
+          </div>
+          <div class="prog-item prog-highlight">
+            <div class="prog-time">17:30</div>
+            <div class="prog-act"><strong>基材調合 + 滅菌</strong>全員で籾殻とおがくずを混合。電子レンジ/蒸し器で滅菌開始。</div>
+          </div>
+          <div class="prog-item">
+            <div class="prog-time">19:00</div>
+            <div class="prog-act"><strong>夕食</strong>地元食材。基材が冷めるのを待つ。</div>
+          </div>
+          <div class="prog-item prog-highlight">
+            <div class="prog-time">21:00</div>
+            <div class="prog-act"><strong>接種・型詰め</strong>冷えた基材に種菌を混ぜて型へ。手袋・マスク着用。自分のパネルに番号刻印。</div>
+          </div>
+        </div>
+      </div>
+      <div class="prog-day">
+        <div class="prog-day-header">
+          <div class="prog-day-num">Day 2 · 日曜</div>
+          <div class="prog-day-title">建てる</div>
+          <div class="prog-day-sub">パネル設置・着色</div>
+        </div>
+        <div class="prog-items">
+          <div class="prog-item">
+            <div class="prog-time">07:00</div>
+            <div class="prog-act"><strong>朝の確認</strong>昨晩接種したパネルの状態確認。菌糸が動き始めている（かも）。</div>
+          </div>
+          <div class="prog-item">
+            <div class="prog-time">09:00</div>
+            <div class="prog-act"><strong>先行パネルの仕上げ処理</strong>先に完成している100枚にホウ砂塗布→乾燥。着色（4色から選択）。</div>
+          </div>
+          <div class="prog-item prog-highlight">
+            <div class="prog-time">11:00</div>
+            <div class="prog-act"><strong>壁面への設置</strong>先行100枚をCLT躯体の内壁に設置。大工と一緒に。自分で測って、自分で留める。</div>
+          </div>
+          <div class="prog-item">
+            <div class="prog-time">14:00</div>
+            <div class="prog-act"><strong>くん炭ボード設置</strong>菌糸体パネルの上にくん炭ボード12mmを貼る。</div>
+          </div>
+          <div class="prog-item prog-highlight">
+            <div class="prog-time">17:00</div>
+            <div class="prog-act"><strong>完成した壁の前で写真</strong>あなたが設置した壁。来年もここで泊まれる。</div>
+          </div>
+          <div class="prog-item">
+            <div class="prog-time">19:00</div>
+            <div class="prog-act"><strong>焚き火・夕食</strong>全員で振り返り。何を作ったか。なぜ作ったか。</div>
+          </div>
+        </div>
+      </div>
+      <div class="prog-day">
+        <div class="prog-day-header">
+          <div class="prog-day-num">Day 3 · 月曜</div>
+          <div class="prog-day-title">残す</div>
+          <div class="prog-day-sub">接種パネルを預ける</div>
+        </div>
+        <div class="prog-items">
+          <div class="prog-item">
+            <div class="prog-time">08:00</div>
+            <div class="prog-act"><strong>朝食 + 接種パネル確認</strong>Day 1に接種した自分のパネルを確認。菌糸が広がり始めている。</div>
+          </div>
+          <div class="prog-item prog-highlight">
+            <div class="prog-time">09:30</div>
+            <div class="prog-act"><strong>パネルを現地に預ける</strong>培養中のパネルは美留和の培養室（現地）に置いていく。4週後に完成して壁になる。</div>
+          </div>
+          <div class="prog-item">
+            <div class="prog-time">10:30</div>
+            <div class="prog-act"><strong>周辺探索（任意）</strong>屈斜路湖・硫黄山・川湯温泉。弟子屈を感じる。</div>
+          </div>
+          <div class="prog-item">
+            <div class="prog-time">13:00</div>
+            <div class="prog-act"><strong>チェックアウト</strong>4週後、パネルが完成したら写真が届く。11月開業後は優先予約権。</div>
+          </div>
+          <div class="prog-item prog-highlight">
+            <div class="prog-time">以降</div>
+            <div class="prog-act"><strong>あなたのパネルが壁になる</strong>「私がDay 1の夜に型に詰めた菌糸体が、今この壁です。」</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:32px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);">
+      <div style="background:var(--card);padding:20px;">
+        <div style="font-size:10px;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">日程</div>
+        <div style="font-size:16px;font-weight:500;color:#fff;">2026年9月中旬<br>2泊3日</div>
+      </div>
+      <div style="background:var(--card);padding:20px;">
+        <div style="font-size:10px;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">定員</div>
+        <div style="font-size:16px;font-weight:500;color:#fff;">12名<br><span style="font-size:12px;color:var(--muted);">SOLUNAオーナー優先</span></div>
+      </div>
+      <div style="background:var(--card);padding:20px;">
+        <div style="font-size:10px;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">特典</div>
+        <div style="font-size:16px;font-weight:500;color:#fff;">11月開業後<br>優先予約権</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BOM ── -->
+<section id="bom">
+  <div class="wrap">
+    <div class="sec-eye">Bill of Materials · 資材表</div>
+    <h2>全資材 + コスト</h2>
+    <p class="sec-desc">Work Party分含むパネル200枚（72m²）分の完全資材表。今すぐ発注する順序で並べてある。</p>
+    <table class="bom-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>品目</th>
+          <th>規格</th>
+          <th>数量</th>
+          <th>単価</th>
+          <th>小計</th>
+          <th>発注先</th>
+          <th>優先</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>カワラタケ おが種菌</td>
+          <td>1kg袋 / 冷蔵</td>
+          <td>6袋</td>
+          <td>¥2,500</td>
+          <td>¥15,000</td>
+          <td>Amazon / きのこ専門店</td>
+          <td class="pri-hi">🔴 最優先</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>おがくず（ブナ系）</td>
+          <td>5kg袋</td>
+          <td>8袋</td>
+          <td>¥800</td>
+          <td>¥6,400</td>
+          <td>Amazon / ホームセンター</td>
+          <td class="pri-hi">🔴 最優先</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>籾殻</td>
+          <td>10kg袋</td>
+          <td>3袋</td>
+          <td>¥600</td>
+          <td>¥1,800</td>
+          <td>JA / 農業資材店</td>
+          <td class="pri-hi">🔴 最優先</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>PP栽培袋 20×35cm</td>
+          <td>100枚入</td>
+          <td>2袋</td>
+          <td>¥1,200</td>
+          <td>¥2,400</td>
+          <td>Amazon「きのこ栽培袋」</td>
+          <td class="pri-hi">🔴 最優先</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>木製型（600×600×40mm）</td>
+          <td>合板 12mm+桟</td>
+          <td>26セット</td>
+          <td>¥2,000</td>
+          <td>¥52,000</td>
+          <td>地元大工に発注 or 自作</td>
+          <td class="pri-hi">🔴 最優先</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>ホウ砂（Borax）</td>
+          <td>500g袋</td>
+          <td>4袋</td>
+          <td>¥600</td>
+          <td>¥2,400</td>
+          <td>Amazon / 薬局</td>
+          <td style="color:#8a8060">🟡</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>亜麻仁油（生）</td>
+          <td>1L缶</td>
+          <td>4本</td>
+          <td>¥1,500</td>
+          <td>¥6,000</td>
+          <td>Amazon / ホームセンター</td>
+          <td style="color:#8a8060">🟡</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>使い捨て手袋（ニトリル）</td>
+          <td>100枚入</td>
+          <td>4箱</td>
+          <td>¥1,000</td>
+          <td>¥4,000</td>
+          <td>Amazon</td>
+          <td style="color:#8a8060">🟡</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>ミョウバン（焼き）</td>
+          <td>500g</td>
+          <td>2袋</td>
+          <td>¥400</td>
+          <td>¥800</td>
+          <td>スーパー漬物コーナー / 薬局</td>
+          <td style="color:#5c9068">🟢</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>タマネギ外皮（乾燥）</td>
+          <td>500g</td>
+          <td>—</td>
+          <td>¥0</td>
+          <td>¥0</td>
+          <td>スーパーで無料入手・乾燥備蓄</td>
+          <td style="color:#5c9068">🟢</td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td>デジタル温湿度計</td>
+          <td>壁掛け型</td>
+          <td>3個</td>
+          <td>¥1,500</td>
+          <td>¥4,500</td>
+          <td>Amazon</td>
+          <td style="color:#8a8060">🟡</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td>くん炭ボード（12mm）</td>
+          <td>910×1820mm</td>
+          <td>50枚</td>
+          <td>—</td>
+          <td>要見積</td>
+          <td>ナルセ・インダストリィ（山田氏）</td>
+          <td style="color:#8a8060">🟡</td>
+        </tr>
+        <tr>
+          <td>13</td>
+          <td>柿渋（表面強化）</td>
+          <td>1L</td>
+          <td>2本</td>
+          <td>¥1,800</td>
+          <td>¥3,600</td>
+          <td>Amazon / 画材店</td>
+          <td style="color:#5c9068">🟢</td>
+        </tr>
+        <tr class="bom-total">
+          <td colspan="5">合計（型除く）</td>
+          <td>¥46,900</td>
+          <td colspan="2">+ 型 ¥52,000 = <strong>¥98,900</strong></td>
+        </tr>
+        <tr class="bom-total">
+          <td colspan="5">パネル200枚（72m²）あたり単価</td>
+          <td colspan="3"><strong>¥494/m²</strong> — ロックウールの1/4</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <strong>SOLUNA Lab — Village Design Package v1.0</strong><br>
+  設計・製造工程・Work Partyプログラムはすべて現時点の計画。GBRCの試験結果により配合を調整する場合あり。<br>
+  建築確認申請はGBRC試験データを添付して提出予定（2026年7月）。<br><br>
+  <a href="/mycelium" style="color:var(--accent);text-decoration:none;">← 菌糸体建材 完全仕様へ</a>
+  &nbsp;·&nbsp;
+  <a href="mailto:mail@yukihamada.jp?subject=Work Party参加希望" style="color:var(--accent);text-decoration:none;">Work Party参加申込</a>
+</footer>
+
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

@@ -127,7 +127,42 @@ const CATEGORIES = [
   { id: "info",   label: "情報・サポート",emoji: "ℹ️", ids: ["faq","press","safety","contact","company","privacy","terms","tokushoho","login"] },
 ];
 
-const DOCK_IDS = ["properties", "scheme", "zamna", "buy"];
+const DEFAULT_DOCK_IDS = ["properties", "scheme", "zamna", "buy"];
+
+const PERSONA_CONFIG: Record<string, {
+  label: string; emoji: string; dockIds: string[];
+  heroLine1: string; heroLine2: string; heroDesc: string;
+  btns: { label: string; primary?: boolean; id: string }[];
+}> = {
+  invest: {
+    label: "投資家", emoji: "💰",
+    dockIds: ["properties","buy","scheme","investor"],
+    heroLine1: "別荘を持つ、", heroLine2: "新しい形。",
+    heroDesc: "10口シェアで登記所有。780万円から、年間30泊。\n使わない期間はプロが管理・運営をサポートします。",
+    btns: [{ label: "物件を見る →", primary: true, id: "properties" }, { label: "スキームを詳しく", id: "scheme" }],
+  },
+  akiya: {
+    label: "空き家活用", emoji: "🏚️",
+    dockIds: ["kagawa","wakayama","boso","workparty"],
+    heroLine1: "空き家を、", heroLine2: "人が集まる場所へ。",
+    heroDesc: "香川・和歌山・房総・白馬。\n全国の空き家をSOLUNAとリノベーション。",
+    btns: [{ label: "空き家を探す →", primary: true, id: "kagawa" }, { label: "Work Party に参加", id: "workparty" }],
+  },
+  fest: {
+    label: "フェス", emoji: "🎪",
+    dockIds: ["zamna","tickets","lineup","schedule"],
+    heroLine1: "ZAMNA HAWAII", heroLine2: "2026",
+    heroDesc: "ハワイ・オアフ島。2026年秋。\nZAMNA × SOLUNA — 最高のサウンドを体験しよう。",
+    btns: [{ label: "フェスを見る →", primary: true, id: "zamna" }, { label: "ラインナップ", id: "lineup" }],
+  },
+  build: {
+    label: "建築ファン", emoji: "🔨",
+    dockIds: ["village-c","sips","construction","materials"],
+    heroLine1: "自然建材で、", heroLine2: "家を建てよう。",
+    heroDesc: "杉CLT・籾殻断熱・竹SIPs。\nSOLUNAビレッジで建築ワークショップ参加者募集中。",
+    btns: [{ label: "ビレッジ構想を見る →", primary: true, id: "village-c" }, { label: "SIPs工法を学ぶ", id: "sips" }],
+  },
+};
 
 const PAGE_TITLES: Record<string, string> = Object.fromEntries(APPS.map(a => [a.url, a.label]));
 
@@ -215,6 +250,45 @@ const CSS = `
   .menu-dot { width:4px; height:4px; border-radius:50%; background:#c9a962;
     position:absolute; bottom:1px; left:50%; transform:translateX(-50%); }
 
+  /* Login / Persona modals */
+  .modal-bg { position:fixed; inset:0; z-index:9000; display:flex; align-items:center;
+    justify-content:center; background:rgba(0,0,0,.7); backdrop-filter:blur(6px); }
+  .modal-box { background:#141210; border:1px solid rgba(255,255,255,.1); border-radius:16px;
+    padding:36px 32px; width:min(420px,90vw); box-shadow:0 32px 80px rgba(0,0,0,.8); }
+  .modal-logo { font-size:10px; font-weight:800; letter-spacing:.22em; color:#c9a962; margin-bottom:24px; }
+  .modal-title { font-size:1.3rem; font-weight:700; color:#f0ece4; margin-bottom:8px; }
+  .modal-sub { font-size:12px; color:rgba(255,255,255,.4); line-height:1.7; margin-bottom:24px; }
+  .modal-inp { width:100%; background:#0e0c0a; border:1px solid rgba(255,255,255,.1); color:#e0dcd4;
+    padding:12px 14px; border-radius:6px; font-size:13px; outline:none; box-sizing:border-box;
+    font-family:Inter,sans-serif; margin-bottom:10px; }
+  .modal-inp:focus { border-color:#c9a962; }
+  .modal-btn { width:100%; background:#c9a962; color:#000; font-weight:800; font-size:12px;
+    letter-spacing:.1em; padding:14px; border:none; border-radius:6px; cursor:pointer; }
+  .modal-btn:hover { opacity:.9; }
+  .modal-msg { font-size:12px; text-align:center; min-height:18px; margin-top:8px; }
+  .modal-msg.ok { color:#4CAF50; } .modal-msg.err { color:#f44336; }
+  .modal-link { font-size:11px; color:rgba(255,255,255,.3); text-align:center; margin-top:14px;
+    cursor:pointer; background:none; border:none; width:100%; }
+  .modal-link:hover { color:rgba(255,255,255,.6); }
+
+  .persona-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+  .persona-card { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08);
+    border-radius:10px; padding:18px 14px; text-align:center; cursor:pointer; transition:all .15s; }
+  .persona-card:hover, .persona-card.sel { background:rgba(201,169,98,.15);
+    border-color:rgba(201,169,98,.4); }
+  .persona-em { font-size:2rem; display:block; margin-bottom:8px; }
+  .persona-lbl { font-size:13px; font-weight:700; color:#f0ece4; display:block; margin-bottom:4px; }
+  .persona-desc { font-size:10px; color:rgba(255,255,255,.4); line-height:1.5; }
+
+  .topbar-login { font-size:11px; color:rgba(255,255,255,.5); cursor:pointer;
+    padding:3px 10px; border-radius:4px; border:1px solid rgba(255,255,255,.15);
+    background:transparent; font-family:Inter,sans-serif; transition:all .15s; white-space:nowrap; }
+  .topbar-login:hover { background:rgba(255,255,255,.08); color:#fff; }
+  .topbar-user { display:flex; align-items:center; gap:6px; cursor:pointer; }
+  .topbar-avatar { width:18px; height:18px; border-radius:50%;
+    background:rgba(201,169,98,.3); border:1px solid #c9a962;
+    display:flex; align-items:center; justify-content:center; font-size:9px; }
+
   .mobile-card { display:flex; align-items:center; gap:14px; padding:14px 16px;
     background:rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.1); border-radius:14px;
     cursor:pointer; text-decoration:none; backdrop-filter:blur(12px); transition:background .15s; }
@@ -237,6 +311,17 @@ export default function Home() {
   const [search, setSearch]       = useState("");
   const [isMobile, setIsMobile]   = useState(false);
   const [mounted, setMounted]     = useState(false);
+
+  // Auth + Persona
+  const [member, setMember]       = useState<{email:string;name?:string;member_type?:string}|null>(null);
+  const [persona, setPersona]     = useState<string|null>(null);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [personaOpen, setPersonaOpen] = useState(false);
+  const [loginStep, setLoginStep] = useState<"email"|"otp">("email");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginCode, setLoginCode] = useState("");
+  const [loginMsg, setLoginMsg]   = useState<{text:string;ok:boolean}|null>(null);
+  const [loginLoading, setLoginLoading] = useState(false);
 
   const slideRefs  = useRef<(HTMLDivElement | null)[]>([]);
   const dragRef    = useRef<{ id:string; sx:number; sy:number; ox:number; oy:number } | null>(null);
@@ -321,6 +406,52 @@ export default function Home() {
     return () => window.removeEventListener("popstate", onPop);
   }, [openWin]);
 
+  // ── Login helpers ─────────────────────────────────────────────────────────────
+  const sendOtp = useCallback(async () => {
+    if (!loginEmail.trim()) return;
+    setLoginLoading(true); setLoginMsg(null);
+    try {
+      const r = await fetch("/api/soluna/otp", { method:"POST",
+        headers:{"Content-Type":"application/json"}, body: JSON.stringify({ email: loginEmail.trim() }) });
+      if (r.ok) { setLoginStep("otp"); setLoginMsg({ text:"認証コードを送りました", ok:true }); }
+      else { setLoginMsg({ text:"送信に失敗しました", ok:false }); }
+    } catch { setLoginMsg({ text:"通信エラー", ok:false }); }
+    setLoginLoading(false);
+  }, [loginEmail]);
+
+  const verifyOtp = useCallback(async () => {
+    if (!loginCode.trim()) return;
+    setLoginLoading(true); setLoginMsg(null);
+    try {
+      const r = await fetch("/api/soluna/verify", { method:"POST",
+        headers:{"Content-Type":"application/json"}, body: JSON.stringify({ email: loginEmail.trim(), code: loginCode.trim() }) });
+      const d = await r.json();
+      if (d.token) {
+        localStorage.setItem("sln_token", d.token);
+        const me = await fetch("/api/soluna/me", { headers:{"Authorization":"Bearer "+d.token} });
+        const md = await me.json();
+        if (md.member) setMember(md.member);
+        setLoginOpen(false); setLoginStep("email"); setLoginCode(""); setLoginMsg(null);
+        const p = localStorage.getItem("sln_persona");
+        if (!p) setPersonaOpen(true);
+      } else {
+        setLoginMsg({ text: d.error || "コードが正しくありません", ok:false });
+      }
+    } catch { setLoginMsg({ text:"通信エラー", ok:false }); }
+    setLoginLoading(false);
+  }, [loginEmail, loginCode]);
+
+  const logout = useCallback(() => {
+    localStorage.removeItem("sln_token");
+    setMember(null);
+    setLoginMsg(null); setLoginStep("email"); setLoginCode(""); setLoginEmail("");
+  }, []);
+
+  const savePersona = useCallback((p: string) => {
+    localStorage.setItem("sln_persona", p);
+    setPersona(p); setPersonaOpen(false);
+  }, []);
+
   // ── Init: if arrived at a deep URL, open that window ─────────────────────────
   useEffect(() => {
     setMounted(true);
@@ -328,10 +459,19 @@ export default function Home() {
     const r = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", r);
 
+    // Restore session + persona from localStorage
+    const token = localStorage.getItem("sln_token");
+    const savedPersona = localStorage.getItem("sln_persona");
+    if (savedPersona) setPersona(savedPersona);
+    if (token) {
+      fetch("/api/soluna/me", { headers:{"Authorization":"Bearer "+token} })
+        .then(r => r.json()).then(d => { if (d.member) setMember(d.member); })
+        .catch(() => {});
+    }
+
     const path = window.location.pathname;
     if (path !== "/") {
       const title = PAGE_TITLES[path] || path.replace("/","");
-      // replace current state then open (no double pushState)
       replaceUrl("/", "SOLUNA");
       openWin(path, title);
     }
@@ -380,7 +520,9 @@ export default function Home() {
   const filteredApps = APPS.filter(a =>
     !search || a.label.includes(search) || a.id.includes(search.toLowerCase())
   );
-  const dockApps = APPS.filter(a => DOCK_IDS.includes(a.id));
+  const activeDockIds = (persona && PERSONA_CONFIG[persona]?.dockIds) || DEFAULT_DOCK_IDS;
+  const dockApps = APPS.filter(a => activeDockIds.includes(a.id));
+  const pc = persona ? PERSONA_CONFIG[persona] : null;
 
   // ── Mobile ──────────────────────────────────────────────────────────────────
   if (mounted && isMobile) {
@@ -454,8 +596,26 @@ export default function Home() {
           padding:"0 16px" }}>
           <span style={{ fontFamily:"Anton,sans-serif", fontSize:".8rem",
             letterSpacing:".15em", color:"#c9a962" }}>⬡ SOLUNA</span>
-          <span style={{ fontSize:".72rem", color:"rgba(255,255,255,.5)",
-            fontVariantNumeric:"tabular-nums" }}>{clock}</span>
+          <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+            {persona && (
+              <button className="topbar-login" onClick={() => setPersonaOpen(true)}
+                style={{ borderColor:"rgba(201,169,98,.3)", color:"#c9a962" }}>
+                {PERSONA_CONFIG[persona]?.emoji} {PERSONA_CONFIG[persona]?.label}
+              </button>
+            )}
+            {member ? (
+              <div className="topbar-user" onClick={() => logout()}>
+                <div className="topbar-avatar">{(member.name || member.email)[0].toUpperCase()}</div>
+                <span style={{ fontSize:"11px", color:"rgba(255,255,255,.6)" }}>
+                  {member.name || member.email.split("@")[0]}
+                </span>
+              </div>
+            ) : (
+              <button className="topbar-login" onClick={() => setLoginOpen(true)}>ログイン</button>
+            )}
+            <span style={{ fontSize:".72rem", color:"rgba(255,255,255,.5)",
+              fontVariantNumeric:"tabular-nums" }}>{clock}</span>
+          </div>
         </div>
 
         {/* ── Hero (hidden when windows are open) ── */}
@@ -467,34 +627,66 @@ export default function Home() {
             animation:"heroIn .8s ease both",
             width:"min(640px, 90vw)",
           }}>
+            {member && (
+              <p style={{ fontSize:".65rem", letterSpacing:".2em", color:"#c9a962",
+                marginBottom:12, fontFamily:"Inter,sans-serif" }}>
+                ようこそ、{member.name || member.email.split("@")[0]} さん
+              </p>
+            )}
             <p style={{ fontSize:".68rem", letterSpacing:".35em",
               color:"rgba(255,255,255,.45)", marginBottom:16, fontFamily:"Inter,sans-serif" }}>
-              北海道3万坪 · 熱海 · ハワイ · 780万円〜 · 年間30泊 · 登記所有
+              {pc ? {
+                invest: "北海道3万坪 · 熱海 · ハワイ · 780万円〜 · 年間30泊 · 登記所有",
+                akiya:  "香川 · 和歌山 · 房総 · 白馬 · 空き家リノベーション",
+                fest:   "OAHU HAWAII · 2026 AUTUMN · ZAMNA × SOLUNA",
+                build:  "杉CLT · 籾殻断熱 · 竹SIPs · 美留和ビレッジ",
+              }[persona as string] : "北海道3万坪 · 熱海 · ハワイ · 780万円〜 · 年間30泊 · 登記所有"}
             </p>
             <h1 style={{ fontFamily:"Anton,sans-serif", fontSize:"clamp(2.8rem,7vw,5rem)",
               letterSpacing:".04em", lineHeight:.95, color:"#fff",
               textShadow:"0 4px 24px rgba(0,0,0,.7)", margin:"0 0 16px" }}>
-              別荘を持つ、<br />
-              <span style={{ color:"#c9a962" }}>新しい形。</span>
+              {pc ? pc.heroLine1 : "別荘を持つ、"}<br />
+              <span style={{ color:"#c9a962" }}>{pc ? pc.heroLine2 : "新しい形。"}</span>
             </h1>
             <p style={{ fontSize:".82rem", color:"rgba(255,255,255,.55)",
               lineHeight:1.7, marginBottom:28, fontFamily:"Inter,sans-serif",
-              textShadow:"0 2px 8px rgba(0,0,0,.8)" }}>
-              10口シェアで登記所有。780万円から、年間30泊。<br />
-              使わない期間はプロが管理・運営をサポートします。
+              textShadow:"0 2px 8px rgba(0,0,0,.8)", whiteSpace:"pre-line" }}>
+              {pc ? pc.heroDesc : "10口シェアで登記所有。780万円から、年間30泊。\n使わない期間はプロが管理・運営をサポートします。"}
             </p>
             <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap" }}>
-              <button className="hero-btn hero-btn-primary"
-                onClick={() => openWin("/properties", "物件一覧")}>物件を見る →</button>
-              <button className="hero-btn hero-btn-ghost"
-                onClick={() => openWin("/zamna", "ZAMNA HAWAII")}>🎪 ZAMNA HAWAII &apos;26</button>
-              <button className="hero-btn hero-btn-ghost"
-                onClick={() => openWin("/scheme", "スキーム")}>スキームを詳しく</button>
+              {pc ? pc.btns.map(b => {
+                const app = APPS.find(a => a.id === b.id);
+                return (
+                  <button key={b.id}
+                    className={`hero-btn ${b.primary ? "hero-btn-primary" : "hero-btn-ghost"}`}
+                    onClick={() => openWin(app?.url || "/", app?.label || b.label)}>
+                    {b.label}
+                  </button>
+                );
+              }) : (
+                <>
+                  <button className="hero-btn hero-btn-primary"
+                    onClick={() => openWin("/properties", "物件一覧")}>物件を見る →</button>
+                  <button className="hero-btn hero-btn-ghost"
+                    onClick={() => openWin("/zamna", "ZAMNA HAWAII")}>🎪 ZAMNA HAWAII &apos;26</button>
+                  <button className="hero-btn hero-btn-ghost"
+                    onClick={() => openWin("/scheme", "スキーム")}>スキームを詳しく</button>
+                </>
+              )}
             </div>
-            <p style={{ marginTop:18, fontSize:".65rem",
-              color:"rgba(255,255,255,.25)", fontFamily:"Inter,sans-serif" }}>
-              East Ventures 出資 · 2020年創業
-            </p>
+            <div style={{ marginTop:16, display:"flex", gap:12, justifyContent:"center", alignItems:"center" }}>
+              <p style={{ fontSize:".65rem", color:"rgba(255,255,255,.25)", fontFamily:"Inter,sans-serif" }}>
+                East Ventures 出資 · 2020年創業
+              </p>
+              {!member && (
+                <button onClick={() => setPersonaOpen(true)}
+                  style={{ fontSize:".65rem", color:"rgba(201,169,98,.6)", background:"none",
+                    border:"none", cursor:"pointer", fontFamily:"Inter,sans-serif",
+                    textDecoration:"underline", padding:0 }}>
+                  興味を設定 →
+                </button>
+              )}
+            </div>
           </div>
         )}
 
@@ -551,6 +743,72 @@ export default function Home() {
                 );
               })
             )}
+          </div>
+        )}
+
+        {/* ── Login modal ── */}
+        {loginOpen && (
+          <div className="modal-bg" onClick={() => setLoginOpen(false)}>
+            <div className="modal-box" onClick={e => e.stopPropagation()}>
+              <div className="modal-logo">⬡ SOLUNA</div>
+              <div className="modal-title">{loginStep === "email" ? "ログイン" : "認証コードを入力"}</div>
+              <div className="modal-sub">
+                {loginStep === "email"
+                  ? "メールアドレスに認証コードを送ります"
+                  : `${loginEmail} に送られたコードを入力してください`}
+              </div>
+              {loginStep === "email" ? (
+                <>
+                  <input className="modal-inp" type="email" placeholder="your@email.com"
+                    value={loginEmail} onChange={e => setLoginEmail(e.target.value)}
+                    onKeyDown={e => e.key === "Enter" && sendOtp()} autoFocus />
+                  <button className="modal-btn" onClick={sendOtp} disabled={loginLoading}>
+                    {loginLoading ? "送信中…" : "コードを送る →"}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <input className="modal-inp" type="text" placeholder="123456"
+                    value={loginCode} onChange={e => setLoginCode(e.target.value)}
+                    onKeyDown={e => e.key === "Enter" && verifyOtp()} autoFocus maxLength={6} />
+                  <button className="modal-btn" onClick={verifyOtp} disabled={loginLoading}>
+                    {loginLoading ? "確認中…" : "ログイン →"}
+                  </button>
+                  <button className="modal-link" onClick={() => { setLoginStep("email"); setLoginMsg(null); }}>
+                    ← メールアドレスを変更
+                  </button>
+                </>
+              )}
+              {loginMsg && (
+                <div className={`modal-msg ${loginMsg.ok ? "ok" : "err"}`}>{loginMsg.text}</div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ── Persona picker ── */}
+        {personaOpen && (
+          <div className="modal-bg" onClick={() => setPersonaOpen(false)}>
+            <div className="modal-box" onClick={e => e.stopPropagation()}>
+              <div className="modal-logo">⬡ SOLUNA</div>
+              <div className="modal-title">興味を教えてください</div>
+              <div className="modal-sub">あなたに合ったコンテンツを表示します</div>
+              <div className="persona-grid">
+                {Object.entries(PERSONA_CONFIG).map(([key, p]) => (
+                  <div key={key} className={`persona-card${persona===key?" sel":""}`}
+                    onClick={() => savePersona(key)}>
+                    <span className="persona-em">{p.emoji}</span>
+                    <span className="persona-lbl">{p.label}</span>
+                    <span className="persona-desc">
+                      {{ invest:"別荘投資・共同所有", akiya:"空き家活用・リノベ", fest:"フェス・イベント", build:"建築・自然素材" }[key]}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              {persona && (
+                <button className="modal-link" onClick={() => setPersonaOpen(false)}>キャンセル</button>
+              )}
+            </div>
           </div>
         )}
 

@@ -2477,7 +2477,7 @@ const customRoutes = ["/", "/sponsor", "/investor", "/deal", "/contract", "/logi
 
 // Internal pages protected by Basic Auth (password via PREVIEW_PASSWORD env var)
 const PREVIEW_PASS = process.env.PREVIEW_PASSWORD || "soluna2026";
-const PREVIEW_ROUTES = new Set(["/budget", "/venue-agreement", "/artist-contract", "/deal", "/investor", "/vision-ja", "/pitch", "/proposal"]);
+const PREVIEW_ROUTES = new Set(["/budget", "/venue-agreement", "/artist-contract", "/deal", "/vision-ja", "/pitch", "/proposal"]);
 function checkPreviewAuth(req) {
   const auth = req.headers.authorization || "";
   if (!auth.startsWith("Basic ")) return false;

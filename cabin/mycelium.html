@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MYCELIUM PANEL — 菌糸体建材仕様 | SOLUNA Lab</title>
+<meta name="description" content="カワラタケ菌糸体×籾殻で作る自然建材パネル。製造コスト¥500/m²、NRC 0.85、カーボンネガティブ。SOLUNAビレッジで実用化中。">
+<meta property="og:title" content="MYCELIUM PANEL — 菌糸体建材 | SOLUNA Lab">
+<meta property="og:description" content="農業廃棄物から建材が育つ。カワラタケ菌糸体×籾殻パネル、製造コスト¥500/m²。SOLUNAが開発中の自然建材。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://solun.art/mycelium">
+<meta property="og:site_name" content="SOLUNA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MYCELIUM PANEL — 菌糸体建材 | SOLUNA Lab">
+<meta name="twitter:description" content="農業廃棄物から建材が育つ。カワラタケ菌糸体×籾殻パネル、製造コスト¥500/m²。">
+<link rel="canonical" href="https://solun.art/mycelium">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080806;
+  --card: #1a1916;
+  --border: #2e2b22;
+  --text: #e8e3d2;
+  --muted: #706c5e;
+  --accent: #c4903a;
+  --green: #5c9068;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Helvetica Neue', 'Hiragino Sans', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  margin-bottom: 80px;
+}
+
+/* ── Mac chrome ── */
+#mac-bar{position:fixed;top:0;left:0;right:0;height:28px;background:rgba(10,8,6,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 16px 0 12px;z-index:2000;user-select:none}
+#mac-bar .logo{font-family:'Anton',sans-serif;font-size:13px;color:#c9a962;letter-spacing:0.08em;text-decoration:none;margin-right:20px;flex-shrink:0}
+#mac-bar .mnav{display:flex;align-items:center;gap:2px;flex:1}
+#mac-bar .mnav a{font-size:12px;color:rgba(255,255,255,0.5);text-decoration:none;padding:2px 10px;border-radius:4px}
+#mac-bar .mnav a.cur{color:#fff;font-weight:600;background:rgba(255,255,255,0.1)}
+#mac-bar .mnav a:hover{background:rgba(255,255,255,0.08)}
+#mac-clock{font-size:11px;color:rgba(255,255,255,0.45);font-variant-numeric:tabular-nums;flex-shrink:0}
+#mac-chrome{position:sticky;top:28px;z-index:1000;background:rgba(10,8,6,0.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 16px;height:36px}
+.tlights{display:flex;gap:6px;margin-right:14px}
+.tl{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,0.2);flex-shrink:0;display:block}
+.chrome-ttl{flex:1;text-align:center;font-size:12px;font-weight:500;color:rgba(255,255,255,0.45);letter-spacing:0.02em;pointer-events:none}
+.chrome-back{font-size:11px;color:rgba(255,255,255,0.25);text-decoration:none;flex-shrink:0}
+
+/* ── Dock ── */
+#mac-dock{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);z-index:2000;display:flex;align-items:flex-end;gap:6px;background:rgba(255,255,255,0.07);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:6px 10px;box-shadow:0 8px 32px rgba(0,0,0,0.6)}
+.di{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;transition:transform 0.15s ease;position:relative}
+.di:hover{transform:translateY(-8px) scale(1.25)}
+.di .ico{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:20px}
+.di .ico.act{background:rgba(201,169,98,0.25);border-color:rgba(201,169,98,0.4)}
+.di .dot{width:4px;height:4px;border-radius:50%;background:#c9a962}
+.di .tip{position:absolute;bottom:52px;background:rgba(0,0,0,0.8);color:#fff;font-size:10px;font-weight:600;padding:3px 8px;border-radius:5px;white-space:nowrap;pointer-events:none;border:1px solid rgba(255,255,255,0.1);display:none}
+.di:hover .tip{display:block}
+/* ── Hero ── */
+.hero {
+  min-height: 100svh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 80px 48px 64px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(100,65,20,0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 30% 70%, rgba(30,65,35,0.4) 0%, transparent 60%),
+    #080806;
+}
+canvas#hero-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: 0.35;
+}
+.hero-content { position: relative; z-index: 1; max-width: 900px; }
+.hero-eyebrow {
+  font-size: 10px; letter-spacing: 0.3em; color: var(--accent);
+  text-transform: uppercase; margin-bottom: 24px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-eyebrow::before {
+  content: ''; display: block; width: 32px; height: 1px;
+  background: var(--accent);
+}
+h1 {
+  font-size: clamp(40px, 8vw, 96px);
+  font-weight: 200;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: #fff;
+}
+h1 em { font-style: normal; color: var(--accent); }
+.hero-sub {
+  margin-top: 32px;
+  font-size: clamp(14px, 2vw, 18px);
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 520px;
+}
+.hero-metrics {
+  display: flex; gap: 40px; margin-top: 56px; flex-wrap: wrap;
+}
+.hm {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.hm-val {
+  font-size: 28px; font-weight: 300; color: #fff; letter-spacing: -0.03em;
+  line-height: 1;
+}
+.hm-key { font-size: 10px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+.hm-sub { font-size: 10px; color: #333; }
+
+/* ── Sections ── */
+section { padding: 96px 0; border-bottom: 1px solid var(--border); }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+.section-eyebrow {
+  font-size: 10px; letter-spacing: 0.25em; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 16px;
+}
+h2.section-title {
+  font-size: clamp(24px, 4vw, 42px);
+  font-weight: 200; letter-spacing: -0.02em; color: #fff;
+  line-height: 1.15;
+}
+.section-desc {
+  margin-top: 16px; font-size: 15px; color: var(--muted);
+  line-height: 1.8; max-width: 560px;
+}
+
+/* ── Performance ── */
+.perf-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border);
+  margin-top: 56px;
+  border: 1px solid var(--border);
+}
+@media (max-width: 760px) { .perf-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .perf-grid { grid-template-columns: 1fr; } }
+.perf-card {
+  background: var(--card);
+  padding: 28px;
+}
+.perf-icon { font-size: 24px; margin-bottom: 12px; }
+.perf-name { font-size: 13px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+.perf-val {
+  font-size: 32px; font-weight: 200; color: var(--accent);
+  letter-spacing: -0.03em; line-height: 1; margin-bottom: 4px;
+}
+.perf-unit { font-size: 11px; color: var(--muted); }
+.perf-bar-track {
+  height: 2px; background: var(--border); margin: 12px 0 8px;
+  border-radius: 1px; overflow: hidden;
+}
+.perf-bar-fill { height: 100%; border-radius: 1px; background: var(--accent); }
+.perf-note { font-size: 11px; color: #444; line-height: 1.6; }
+.perf-vs {
+  font-size: 10px; color: #333; margin-top: 6px;
+}
+.perf-vs span { color: var(--green); }
+
+/* ── Recipe ── */
+.recipe-steps {
+  margin-top: 56px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+}
+@media (max-width: 680px) { .recipe-steps { grid-template-columns: 1fr; } }
+.step {
+  background: var(--card);
+  padding: 32px;
+  position: relative;
+}
+.step-num {
+  font-size: 11px; letter-spacing: 0.2em; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 16px;
+}
+.step-title { font-size: 18px; font-weight: 500; color: #fff; margin-bottom: 12px; }
+.step-body { font-size: 13px; color: var(--muted); line-height: 1.75; }
+.step-body strong { color: var(--text); }
+.step-tip {
+  margin-top: 14px; padding: 10px 14px;
+  background: rgba(196,144,58,0.06);
+  border-left: 2px solid var(--accent);
+  font-size: 11px; color: #7a6840; line-height: 1.6;
+}
+.step-highlight {
+  background: rgba(196,144,58,0.04);
+}
+
+/* ── Treatment system ── */
+.treatment-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--border);
+  margin-top: 48px;
+  border: 1px solid var(--border);
+}
+@media (max-width: 880px) { .treatment-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .treatment-grid { grid-template-columns: 1fr; } }
+.treatment-card {
+  background: var(--card); padding: 24px;
+}
+.treat-step { font-size: 10px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+.treat-name { font-size: 16px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+.treat-material { font-size: 12px; color: var(--accent); margin-bottom: 8px; }
+.treat-how { font-size: 12px; color: var(--muted); line-height: 1.65; }
+
+/* ── Photo gallery ── */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 48px;
+}
+@media (max-width: 900px) { .photo-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .photo-grid { grid-template-columns: repeat(2, 1fr); } }
+.photo-card {
+  background: var(--card); overflow: hidden; cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34,1.4,0.64,1);
+}
+.photo-card:hover { transform: scale(1.04); z-index: 10; }
+.photo-card img {
+  display: block; width: 100%; aspect-ratio: 1; object-fit: cover;
+}
+.photo-info { padding: 14px 16px 18px; }
+.photo-name { font-size: 13px; font-weight: 500; color: #fff; }
+.photo-desc { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.6; }
+
+/* ── Comparison table ── */
+.compare-table {
+  margin-top: 48px;
+  width: 100%; border-collapse: collapse;
+  font-size: 13px;
+}
+.compare-table th {
+  text-align: left; padding: 10px 16px;
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); border-bottom: 1px solid var(--border);
+  font-weight: 400;
+}
+.compare-table td {
+  padding: 12px 16px; border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table td:first-child { color: var(--text); }
+.td-good { color: var(--green); }
+.td-mid  { color: #8a8060; }
+.td-bad  { color: #6a4040; }
+.td-us   { color: var(--accent); font-weight: 500; }
+.compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+.row-us { background: rgba(196,144,58,0.04); }
+
+/* ── Pattern comparison (procedural) ── */
+.proc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 48px;
+}
+@media (max-width: 760px) { .proc-grid { grid-template-columns: repeat(2, 1fr); } }
+.proc-card {
+  background: var(--card); overflow: hidden; cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34,1.4,0.64,1);
+}
+.proc-card:hover { transform: scale(1.03); z-index: 10; }
+.proc-card canvas { display: block; width: 100%; aspect-ratio: 1; }
+.proc-info { padding: 16px 18px 20px; }
+.proc-rank { font-size: 10px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+.proc-rank.gold { color: var(--accent); }
+.proc-species { font-size: 16px; font-weight: 500; color: #fff; }
+.proc-latin { font-size: 10px; color: #444; font-style: italic; margin-top: 1px; }
+.proc-tag {
+  display: inline-block; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 2px; margin-top: 8px;
+}
+.tag-best { background: rgba(196,144,58,0.12); color: var(--accent); border: 1px solid rgba(196,144,58,0.3); }
+.tag-ref  { background: rgba(90,140,200,0.1); color: #7ab0e0; border: 1px solid rgba(90,140,200,0.25); }
+.proc-sub { font-size: 11px; color: var(--muted); margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+.metric-row { display: flex; align-items: center; gap: 8px; margin-top: 7px; }
+.metric-key { font-size: 10px; color: var(--muted); width: 24px; flex-shrink: 0; }
+.bar { flex: 1; height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 1px; }
+.bar-beauty { background: linear-gradient(90deg, #7a4e28, #e0b860); }
+.bar-speed  { background: linear-gradient(90deg, #2a5a3a, #60c090); }
+.bar-smell  { background: linear-gradient(90deg, #3a3a6a, #8090e0); }
+.metric-val { font-size: 10px; color: var(--muted); width: 22px; text-align: right; }
+
+/* ── Sourcing ── */
+.source-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 48px;
+}
+@media (max-width: 700px) { .source-grid { grid-template-columns: 1fr; } }
+.source-card { background: var(--card); padding: 24px; }
+.src-cat { font-size: 10px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; }
+.src-name { font-size: 16px; font-weight: 500; color: #fff; margin-bottom: 6px; }
+.src-detail { font-size: 12px; color: var(--muted); line-height: 1.7; }
+.src-detail a { color: var(--accent); text-decoration: none; }
+.src-detail a:hover { text-decoration: underline; }
+.src-price { font-size: 13px; color: var(--text); margin-top: 8px; }
+
+/* ── Footer ── */
+footer {
+  padding: 64px 40px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+footer strong { color: var(--text); }
+
+/* ── Lifecycle (Fuller) ── */
+.lifecycle-section {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 24px;
+  text-align: center;
+}
+.lifecycle-eyebrow {
+  font-size: 10px; letter-spacing: 0.25em; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 24px;
+}
+.lifecycle-loop {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 8px;
+  max-width: 900px; margin: 0 auto;
+}
+.lc-node {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  min-width: 90px;
+  transition: border-color 0.3s, transform 0.3s;
+  cursor: default;
+}
+.lc-node.active {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+.lc-icon { font-size: 24px; margin-bottom: 6px; }
+.lc-label { font-size: 13px; font-weight: 500; color: #fff; }
+.lc-sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.lc-arrow {
+  font-size: 18px; color: var(--muted);
+  flex-shrink: 0;
+}
+.lc-loop-arrow {
+  color: var(--accent); font-size: 22px;
+  margin-left: 4px;
+}
+
+/* ── Place philosophy (隈研吾) ── */
+.place-section {
+  background: #000;
+  border-bottom: 1px solid var(--border);
+  padding: 80px 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+@media (max-width: 720px) { .place-section { grid-template-columns: 1fr; gap: 40px; padding: 56px 24px; } }
+.place-quote {
+  font-size: clamp(22px, 3.5vw, 36px);
+  font-weight: 200;
+  color: #fff;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+.place-quote em { color: var(--accent); font-style: normal; }
+.place-body {
+  display: flex; flex-direction: column; gap: 16px; justify-content: center;
+}
+.place-para { font-size: 14px; color: var(--muted); line-height: 1.85; }
+.place-para strong { color: var(--text); }
+
+/* ── Work Party CTA (Graham) ── */
+.workparty-section {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 80px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+@media (max-width: 720px) { .workparty-section { grid-template-columns: 1fr; gap: 32px; padding: 56px 24px; } }
+.wp-steps { display: flex; flex-direction: column; gap: 20px; }
+.wp-step { display: flex; gap: 16px; align-items: flex-start; }
+.wp-num {
+  width: 28px; height: 28px; flex-shrink: 0;
+  background: rgba(196,144,58,0.12);
+  border: 1px solid rgba(196,144,58,0.3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--accent); font-weight: 500;
+}
+.wp-text { font-size: 13px; color: var(--muted); line-height: 1.7; padding-top: 4px; }
+.wp-text strong { color: var(--text); display: block; margin-bottom: 2px; }
+.wp-cta-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 32px;
+}
+.wp-cta-tag {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 16px;
+}
+.wp-cta-title {
+  font-size: 24px; font-weight: 200; color: #fff;
+  letter-spacing: -0.02em; line-height: 1.3; margin-bottom: 12px;
+}
+.wp-cta-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
+.wp-cta-btn {
+  display: inline-block;
+  background: var(--accent);
+  color: #000;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: opacity 0.2s;
+}
+.wp-cta-btn:hover { opacity: 0.85; }
+
+/* ── Cost breakdown (Musk) ── */
+.cost-section {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.cost-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 48px;
+}
+@media (max-width: 800px) { .cost-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 500px) { .cost-grid { grid-template-columns: repeat(2, 1fr); } }
+.cost-card { background: var(--card); padding: 20px; }
+.cost-item { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.cost-val { font-size: 22px; font-weight: 300; color: var(--accent); letter-spacing: -0.02em; line-height: 1; }
+.cost-unit { font-size: 10px; color: var(--muted); margin-top: 3px; }
+.cost-note { font-size: 11px; color: #444; margin-top: 8px; line-height: 1.5; }
+.cost-total-card {
+  background: rgba(196,144,58,0.06);
+  border: 1px solid rgba(196,144,58,0.2);
+}
+.cost-total-card .cost-val { font-size: 32px; color: #fff; }
+.cost-total-card .cost-item { color: var(--accent); }
+
+/* ── Timeline ── */
+.tl-item {
+  display: flex; gap: 24px;
+  padding: 0 0 40px 0;
+  margin-left: 0;
+}
+.tl-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--border); border: 2px solid var(--muted);
+  flex-shrink: 0; margin-top: 6px;
+  position: relative; left: 16px;
+  z-index: 1;
+}
+.tl-dot-now {
+  background: var(--accent); border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(196,144,58,0.2);
+}
+.tl-content { padding-left: 24px; }
+.tl-date { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.tl-now .tl-date { color: var(--accent); }
+.tl-title { font-size: 18px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+.tl-now .tl-title { color: var(--accent); }
+.tl-desc { font-size: 13px; color: var(--muted); line-height: 1.75; }
+</style>
+</head>
+<body>
+
+<!-- Mac menubar -->
+<div id="mac-bar">
+  <a href="/" class="logo">⬡ SOLUNA</a>
+  <div class="mnav">
+    <a href="/">Home</a>
+    <a href="/festivals">Festivals</a>
+    <a href="/lineup">Lineup</a>
+    <a href="/lab" class="cur">Lab</a>
+    <a href="/vision">Vision</a>
+    <a href="/community">Community</a>
+    <a href="/tickets">Tickets</a>
+  </div>
+  <span id="mac-clock"></span>
+</div>
+<!-- Mac window chrome -->
+<div id="mac-chrome">
+  <div class="tlights">
+    <a href="/" class="tl" style="background:#ff5f57" title="← Home"></a>
+    <div class="tl" style="background:#febc2e"></div>
+    <div class="tl" style="background:#28c840"></div>
+  </div>
+  <div class="chrome-ttl">Mycelium Panel</div>
+  <a href="/lab" class="chrome-back">← Lab</a>
+</div>
+
+<!-- ── Hero ── -->
+<div class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">SOLUNA Lab · Mycelium Building Material</div>
+    <h1>この壁は、<br>3km先の<br><em>田んぼから来た。</em></h1>
+    <p class="hero-sub">
+      籾殻とカワラタケ菌糸が4週間で建材になる。<br>
+      あなたの手で型に詰め、育て、壁にする。<br>
+      使い終わったら土に還す。製造コスト¥500/m²。
+    </p>
+    <div class="hero-metrics">
+      <div class="hm">
+        <div class="hm-val">¥500</div>
+        <div class="hm-key">製造コスト/m²</div>
+        <div class="hm-sub">材料費のみ</div>
+      </div>
+      <div class="hm">
+        <div class="hm-val">NRC 0.85</div>
+        <div class="hm-key">吸音率</div>
+        <div class="hm-sub">業界標準 0.6–0.7</div>
+      </div>
+      <div class="hm">
+        <div class="hm-val">4週間</div>
+        <div class="hm-key">製造期間</div>
+        <div class="hm-sub">接種→パネル完成</div>
+      </div>
+      <div class="hm">
+        <div class="hm-val">¥0</div>
+        <div class="hm-key">廃棄コスト</div>
+        <div class="hm-sub">庭に埋めるだけ</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Lifecycle loop (Fuller) ── -->
+<div class="lifecycle-section">
+  <div class="lifecycle-eyebrow">Closed Loop · Zero Waste</div>
+  <div class="lifecycle-loop" id="lifecycle">
+    <div class="lc-node" data-idx="0">
+      <div class="lc-icon">🌾</div>
+      <div class="lc-label">田んぼ</div>
+      <div class="lc-sub">籾殻・おがくず</div>
+    </div>
+    <div class="lc-arrow">→</div>
+    <div class="lc-node" data-idx="1">
+      <div class="lc-icon">🍄</div>
+      <div class="lc-label">菌糸培養</div>
+      <div class="lc-sub">カワラタケ 4週間</div>
+    </div>
+    <div class="lc-arrow">→</div>
+    <div class="lc-node" data-idx="2">
+      <div class="lc-icon">🧱</div>
+      <div class="lc-label">パネル</div>
+      <div class="lc-sub">防音・断熱・着色</div>
+    </div>
+    <div class="lc-arrow">→</div>
+    <div class="lc-node" data-idx="3">
+      <div class="lc-icon">🏠</div>
+      <div class="lc-label">建物</div>
+      <div class="lc-sub">SOLUNAビレッジ</div>
+    </div>
+    <div class="lc-arrow">→</div>
+    <div class="lc-node" data-idx="4">
+      <div class="lc-icon">🌱</div>
+      <div class="lc-label">土に還る</div>
+      <div class="lc-sub">完全堆肥化</div>
+    </div>
+    <div class="lc-arrow lc-loop-arrow">↩</div>
+  </div>
+</div>
+
+<!-- ── Place philosophy (隈研吾) ── -->
+<div class="place-section">
+  <div class="place-quote">
+    コンクリートは<br>均質さを誇る。<br>この素材は<br><em>場所を誇る。</em>
+  </div>
+  <div class="place-body">
+    <p class="place-para">
+      建材が「どこでも同じ」になった瞬間、建築は土地を失った。
+      グラスウールもEPSも、北海道で作っても沖縄で作っても同じ素材だ。
+    </p>
+    <p class="place-para">
+      <strong>菌糸体パネルは違う。</strong>
+      使う籾殻は隣の田んぼのもの。菌は地域の林から採種できる。
+      基材の配合が変われば色も質感も変わる——美留和のパネルは美留和にしかない。
+    </p>
+    <p class="place-para">
+      建築のゲニウス・ロキ（地霊）を、そのまま壁にする素材。
+      <strong>これが菌糸体パネルを他の建材と根本的に違うものにしている。</strong>
+    </p>
+  </div>
+</div>
+
+<!-- ── Work Party CTA (Graham) ── -->
+<div style="background:var(--card);border-bottom:1px solid var(--border);">
+  <div class="workparty-section">
+    <div class="wp-steps">
+      <div style="font-size:10px;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">Your Wall · Work Party</div>
+      <h2 style="font-size:clamp(22px,4vw,38px);font-weight:200;color:#fff;letter-spacing:-0.02em;line-height:1.2;margin-bottom:24px;">あなたが型に<br>詰めた混合物が<br>今、あなたの壁だ。</h2>
+      <div class="wp-step">
+        <div class="wp-num">1</div>
+        <div class="wp-text"><strong>籾殻を触る</strong>隣の田んぼから届いた籾殻とおがくずを素手で混ぜる。これが建材の原料だということを体で知る。</div>
+      </div>
+      <div class="wp-step">
+        <div class="wp-num">2</div>
+        <div class="wp-text"><strong>型に詰める</strong>種菌を混ぜた基材を木型に押し込んで圧縮する。この圧縮が防音性能を決める。</div>
+      </div>
+      <div class="wp-step">
+        <div class="wp-num">3</div>
+        <div class="wp-text"><strong>4週間待つ</strong>型ごと暗所に置いておくと白い菌糸が全体を覆う。見に行くたびに変わっている。</div>
+      </div>
+      <div class="wp-step">
+        <div class="wp-num">4</div>
+        <div class="wp-text"><strong>壁になる</strong>乾燥・処理したパネルがビレッジの壁として固定される。あなたが作った壁の前で眠る。</div>
+      </div>
+    </div>
+    <div class="wp-cta-box">
+      <div class="wp-cta-tag">SOLUNAビレッジ 美留和 · 2026</div>
+      <div class="wp-cta-title">建てることに<br>参加する。</div>
+      <div class="wp-cta-desc">
+        Work Partyは「見学」ではない。
+        菌糸体パネルを実際に製造し、
+        SOLUNAビレッジの壁を完成させる2〜3日間。
+        参加者はそのパネルを所有する物件の一部として共有する。
+      </div>
+      <a href="/workparty" class="wp-cta-btn">Work Partyに参加する</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── Performance ── -->
+<section id="performance">
+  <div class="wrap">
+    <div class="section-eyebrow">Performance</div>
+    <h2 class="section-title">6軸で建材として完璧な理由</h2>
+    <p class="section-desc">菌糸体パネルは、既存の建材と比較して音響・断熱・環境性能で優位。処理を加えることで防水・防火も解決する。</p>
+    <div class="perf-grid">
+      <div class="perf-card">
+        <div class="perf-icon">🔇</div>
+        <div class="perf-name">吸音性能</div>
+        <div class="perf-val">NRC 0.85</div>
+        <div class="perf-unit">ノイズ減少係数</div>
+        <div class="perf-bar-track"><div class="perf-bar-fill" style="width:85%"></div></div>
+        <div class="perf-note">多孔質構造が中高音域を効率的に吸収。40mm厚で業界標準を上回る。</div>
+        <div class="perf-vs">vs. ロックウール <span>NRC 0.65–0.80</span></div>
+      </div>
+      <div class="perf-card">
+        <div class="perf-icon">🌡</div>
+        <div class="perf-name">断熱性能</div>
+        <div class="perf-val">λ 0.05</div>
+        <div class="perf-unit">W/mK 熱伝導率</div>
+        <div class="perf-bar-track"><div class="perf-bar-fill" style="width:78%"></div></div>
+        <div class="perf-note">閉気泡構造の菌糸ネットワークが熱移動を遮断。グラスウール同等。</div>
+        <div class="perf-vs">vs. グラスウール <span>λ 0.04–0.06</span></div>
+      </div>
+      <div class="perf-card">
+        <div class="perf-icon">💧</div>
+        <div class="perf-name">防水性能</div>
+        <div class="perf-val">90°</div>
+        <div class="perf-unit">接触角（亜麻仁油処理後）</div>
+        <div class="perf-bar-track"><div class="perf-bar-fill" style="width:72%"></div></div>
+        <div class="perf-note">亜麻仁油またはミツロウ仕上げで撥水性を付与。素材自体は吸水する。</div>
+        <div class="perf-vs">処理必須 → <span>屋内用途で十分</span></div>
+      </div>
+      <div class="perf-card">
+        <div class="perf-icon">🔥</div>
+        <div class="perf-name">防火性能</div>
+        <div class="perf-val">B2相当</div>
+        <div class="perf-unit">DIN 4102 難燃クラス</div>
+        <div class="perf-bar-track"><div class="perf-bar-fill" style="width:60%"></div></div>
+        <div class="perf-note">ホウ砂(Borax)処理で炎遅延。素材は炭化するが延焼しにくい。</div>
+        <div class="perf-vs">vs. 木材 <span>B2–B3同等</span></div>
+      </div>
+      <div class="perf-card">
+        <div class="perf-icon">⚖️</div>
+        <div class="perf-name">重量</div>
+        <div class="perf-val">90 kg/m³</div>
+        <div class="perf-unit">かさ比重</div>
+        <div class="perf-bar-track"><div class="perf-bar-fill" style="width:55%"></div></div>
+        <div class="perf-note">コンクリートの1/25。大判パネルを一人で施工可能。取り付け金物も軽量。</div>
+        <div class="perf-vs">vs. コンクリート <span>2400 kg/m³</span></div>
+      </div>
+      <div class="perf-card">
+        <div class="perf-icon">🌿</div>
+        <div class="perf-name">環境性能</div>
+        <div class="perf-val">+CO₂</div>
+        <div class="perf-unit">カーボンネガティブ</div>
+        <div class="perf-bar-track"><div class="perf-bar-fill" style="width:98%;background:#5c9068;"></div></div>
+        <div class="perf-note">成長過程でCO₂を固定。廃棄時は土中で分解→堆肥。製造エネルギーは乾燥のみ。</div>
+        <div class="perf-vs">vs. EPS断熱材 <span>製造CO₂ −99%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Process photos ── -->
+<section style="padding:0;border:none;">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);">
+    <div style="aspect-ratio:4/3;overflow:hidden;background:var(--card);">
+      <img src="img/myc_raw_materials.jpg" alt="原材料" style="width:100%;height:100%;object-fit:cover;"
+           onerror="this.style.display='none'">
+    </div>
+    <div style="aspect-ratio:4/3;overflow:hidden;background:var(--card);">
+      <img src="img/myc_mold_process.jpg" alt="成形工程" style="width:100%;height:100%;object-fit:cover;"
+           onerror="this.style.display='none'">
+    </div>
+    <div style="aspect-ratio:4/3;overflow:hidden;background:var(--card);">
+      <img src="img/myc_wall_install.jpg" alt="壁面施工" style="width:100%;height:100%;object-fit:cover;"
+           onerror="this.style.display='none'">
+    </div>
+  </div>
+</section>
+
+<!-- ── Cost breakdown (Musk) ── -->
+<section id="cost" class="cost-section">
+  <div class="wrap">
+    <div class="section-eyebrow">First Principles · Cost</div>
+    <h2 class="section-title">なぜ¥500/m²なのか</h2>
+    <p class="section-desc">農業廃棄物はほぼ無償。Work Partyの労働は自発的。設備は家庭用オーブン一台。原価から積み上げると答えは出る。</p>
+    <div class="cost-grid">
+      <div class="cost-card">
+        <div class="cost-item">おがくず</div>
+        <div class="cost-val">¥30</div>
+        <div class="cost-unit">/ m²（40mm厚）</div>
+        <div class="cost-note">ペット用木くず袋。廃材おがくずなら¥0も可能。</div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-item">籾殻</div>
+        <div class="cost-val">¥10</div>
+        <div class="cost-unit">/ m²</div>
+        <div class="cost-note">JAで購入または農家から無償入手。地元調達ほぼ¥0。</div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-item">カワラタケ種菌</div>
+        <div class="cost-val">¥120</div>
+        <div class="cost-unit">/ m²</div>
+        <div class="cost-note">500gで約4m²分。2回目以降は自家採種で半減。</div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-item">処理材（防火・防水）</div>
+        <div class="cost-val">¥80</div>
+        <div class="cost-unit">/ m²</div>
+        <div class="cost-note">ホウ砂+亜麻仁油。天然素材で健康リスクなし。</div>
+      </div>
+      <div class="cost-card cost-total-card">
+        <div class="cost-item">合計（材料費）</div>
+        <div class="cost-val">¥240</div>
+        <div class="cost-unit">/ m²</div>
+        <div class="cost-note">型・オーブン初期費用込みで¥500/m²以内。ロックウールの1/4。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Recipe ── -->
+<section id="recipe">
+  <div class="wrap">
+    <div class="section-eyebrow">Perfect Recipe</div>
+    <h2 class="section-title">完璧な配合と工程</h2>
+    <p class="section-desc">NoMyの研究と国内先行事例から導いた最適解。三田の部屋で再現可能なスケールで設計。</p>
+
+    <div class="recipe-steps">
+      <div class="step step-highlight">
+        <div class="step-num">Step 01 — 基材調整</div>
+        <div class="step-title">配合: おがくず70% + 籾殻30%</div>
+        <div class="step-body">
+          <strong>おがくず（ブナ/コナラ系）</strong>が骨格を作り、<strong>籾殻</strong>がエアギャップを作って吸音性を高める。
+          この比率でNoMyのSinewave Panelに近い密度（90 kg/m³）になる。<br><br>
+          水分率を調整: 握ったときに水が滲まない程度（約65%含水率）。
+          滅菌: <strong>高圧蒸気（121℃×60分）または電子レンジ処理</strong>で雑菌を除去。
+        </div>
+        <div class="step-tip">
+          ⚠️ 冷めてから種菌を接種。熱いと菌が死ぬ。目標温度25℃以下。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 02 — 接種</div>
+        <div class="step-title">カワラタケ おが種菌を混合</div>
+        <div class="step-body">
+          基材重量の<strong>約10–15%</strong>の種菌を無菌環境で均一に混合。
+          使い捨て手袋・マスク着用で雑菌混入を防ぐ。<br><br>
+          チャック袋に入れて軽く振り混ぜるか、滅菌済みのボウルで素早く混ぜる。
+          混合後は<strong>30分以内</strong>に型に詰めること。
+        </div>
+        <div class="step-tip">
+          ヒント: アルコール（70%）で作業台とツールを拭いてから始める。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 03 — 成形</div>
+        <div class="step-title">型に詰め、加圧する</div>
+        <div class="step-body">
+          木製またはシリコン型に素材を詰め、<strong>上から均等に圧力をかける（圧縮率15–20%）</strong>。
+          加圧することで密度が上がり、防音性・強度が向上する。<br><br>
+          パネル厚の目安: 吸音用=40mm、断熱用=60–80mm。
+          型の内側にワックスペーパーを敷くと離型しやすい。
+        </div>
+        <div class="step-tip">
+          重石: 板と重いものを上に乗せるだけでOK。プレス機不要。
+        </div>
+      </div>
+      <div class="step step-highlight">
+        <div class="step-num">Step 04 — 培養</div>
+        <div class="step-title">25℃・暗所で3〜4週間</div>
+        <div class="step-body">
+          型ごと<strong>ビニール袋に入れ</strong>、過乾燥を防ぐ。
+          菌糸が全体に白く広がれば成功。表面が青や緑に変色していたらコンタミ（廃棄）。<br><br>
+          2週間で白い膜が張り始め、3週間で全体を覆う。
+          <strong>4週間を超えると子実体（キノコ）が出てくることがある</strong>——出たら換気を開始。
+        </div>
+        <div class="step-tip">
+          温度計を1本置いておくこと。30℃を超えると菌が死ぬ。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 05 — 脱型・乾燥</div>
+        <div class="step-title">60℃で2時間——色が決まる瞬間</div>
+        <div class="step-body">
+          <strong>完全乾燥前に型から外す</strong>（まだ少し柔らかい状態）と、
+          カワラタケ特有の<strong>同心円リング模様</strong>が最も美しく出る。<br><br>
+          オーブン60℃で2時間加熱。菌を死滅させて形を固定。
+          これ以上高温にすると色が均一になり模様が薄れる。
+        </div>
+        <div class="step-tip">
+          ⭐ この工程が美観の決め手。急がずゆっくり乾燥させること。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 06 — 仕上げ</div>
+        <div class="step-title">防水・防火・着色の処理層</div>
+        <div class="step-body">
+          乾燥後に<strong>後処理トリートメント</strong>を施す（次セクション参照）。
+          処理の順番: <strong>① 防火 → ② 着色 → ③ 防水</strong>。<br><br>
+          全処理完了後、最終乾燥（40℃×1h）で定着させる。
+          完成パネルは通常の木材用マウント金具で壁に固定できる。
+        </div>
+        <div class="step-tip">
+          保存: 防水処理後は常温・低湿度で長期保存可能。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Treatment system ── -->
+<section id="treatment">
+  <div class="wrap">
+    <div class="section-eyebrow">Treatment System</div>
+    <h2 class="section-title">4層トリートメント</h2>
+    <p class="section-desc">素材の弱点（吸水・燃焼）を処理で補い、建材として完璧な性能を実現する。処理順序が重要。</p>
+    <div class="treatment-grid">
+      <div class="treatment-card">
+        <div class="treat-step">Layer 01 — 最初</div>
+        <div class="treat-name">防火処理</div>
+        <div class="treat-material">ホウ砂（Borax）+ 水</div>
+        <div class="treat-how">
+          ホウ砂10%水溶液に24時間浸漬、または刷毛で3回塗布。
+          完全乾燥後に次のレイヤーへ。難燃クラスB2達成。
+          Borax粉末は薬局または画材店で入手可能。
+        </div>
+      </div>
+      <div class="treatment-card">
+        <div class="treat-step">Layer 02 — 任意</div>
+        <div class="treat-name">着色</div>
+        <div class="treat-material">天然染料（タマネギ皮・藍・蘇芳等）</div>
+        <div class="treat-how">
+          煮出した染液に30分浸漬、またはスプレー着色。
+          媒染剤（ミョウバン）を使うと発色が安定する。
+          乾燥後、2色目を重ねてグラデーションも可能。
+        </div>
+      </div>
+      <div class="treatment-card">
+        <div class="treat-step">Layer 03 — 必須</div>
+        <div class="treat-name">防水コーティング</div>
+        <div class="treat-material">亜麻仁油 または 蜜蝋</div>
+        <div class="treat-how">
+          生の亜麻仁油を布で薄く塗り込み、24時間乾燥を2回繰り返す。
+          蜜蝋の場合は温めて溶かしてから塗布。
+          接触角90°以上の撥水性が付与される。
+        </div>
+      </div>
+      <div class="treatment-card">
+        <div class="treat-step">Layer 04 — 任意</div>
+        <div class="treat-name">表面強化</div>
+        <div class="treat-material">柿渋 または シェラックニス</div>
+        <div class="treat-how">
+          柿渋（自然素材）を薄めて2回塗り。
+          紫外線と摩耗に対する耐性が向上。
+          高湿度環境（浴室隣接等）ではシェラックニスが有効。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Color variations ── -->
+<section id="colors">
+  <div class="wrap">
+    <div class="section-eyebrow">Color Variations · AI Generated</div>
+    <h2 class="section-title">着色7パターン</h2>
+    <p class="section-desc">天然染料・鉱物仕上げ × カワラタケ菌糸体パネル。同じ素材がどう変わるか。</p>
+    <div class="photo-grid">
+      <div class="photo-card">
+        <img src="img/myc_natural.jpg" alt="無染色" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="photo-info">
+          <div class="photo-name">無染色（ナチュラル）</div>
+          <div class="photo-desc">茶・橙・クリームの同心円。素材の素顔。</div>
+        </div>
+      </div>
+      <div class="photo-card">
+        <img src="img/myc_onion.jpg" alt="タマネギ外皮" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="photo-info">
+          <div class="photo-name">タマネギ外皮</div>
+          <div class="photo-desc">深いゴールド・テラコッタ。¥0で入手可能。</div>
+        </div>
+      </div>
+      <div class="photo-card">
+        <img src="img/myc_indigo.jpg" alt="藍" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="photo-info">
+          <div class="photo-name">藍（インディゴ）</div>
+          <div class="photo-desc">深いブルーグリーン。菌糸との相性◎。</div>
+        </div>
+      </div>
+      <div class="photo-card">
+        <img src="img/myc_sappan.jpg" alt="蘇芳" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="photo-info">
+          <div class="photo-name">蘇芳（スオウ）</div>
+          <div class="photo-desc">バーガンディ。ミョウバン媒染で発色。</div>
+        </div>
+      </div>
+      <div class="photo-card">
+        <img src="img/myc_marigold.jpg" alt="マリーゴールド" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="photo-info">
+          <div class="photo-name">マリーゴールド</div>
+          <div class="photo-desc">鮮やかな黄金。花ごと煮出して浸漬。</div>
+        </div>
+      </div>
+      <div class="photo-card">
+        <img src="img/myc_sumi.jpg" alt="墨" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="photo-info">
+          <div class="photo-name">墨（カーボン）</div>
+          <div class="photo-desc">深いマットブラック。刷毛塗りで完結。</div>
+        </div>
+      </div>
+      <div class="photo-card">
+        <img src="img/myc_iron.jpg" alt="鉄媒染" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="photo-info">
+          <div class="photo-name">鉄媒染</div>
+          <div class="photo-desc">クールチャコール。天然染料の深み増し。</div>
+        </div>
+      </div>
+      <div class="photo-card" style="background:var(--card);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px;text-align:center;gap:8px;aspect-ratio:1;">
+        <div style="font-size:28px;opacity:0.3">+</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6;">
+          2色重ね・<br>グラデーション・<br>型押しパターン<br>——無限の組み合わせ
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pattern comparison ── -->
+<section>
+  <div class="wrap">
+    <div class="section-eyebrow">Species × Substrate · Procedural Simulation</div>
+    <h2 class="section-title">菌種 × 基材 パターン比較</h2>
+    <p class="section-desc">6種の組み合わせをJavaScript Canvasで手続き生成。実際の仕上がりの傾向を事前に確認。</p>
+    <div class="proc-grid" id="proc-grid"></div>
+  </div>
+</section>
+
+<!-- ── Comparison table ── -->
+<section id="compare">
+  <div class="wrap">
+    <div class="section-eyebrow">Material Comparison</div>
+    <h2 class="section-title">既存建材との比較</h2>
+    <p class="section-desc">音響・断熱・重量・コスト・環境の5軸で評価。</p>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>建材</th>
+          <th>NRC</th>
+          <th>λ (W/mK)</th>
+          <th>比重 (kg/m³)</th>
+          <th>製造CO₂</th>
+          <th>廃棄</th>
+          <th>コスト</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-us">
+          <td><strong style="color:var(--accent)">菌糸体パネル（本仕様）</strong></td>
+          <td class="td-us">0.85</td>
+          <td class="td-us">0.05</td>
+          <td class="td-us">90</td>
+          <td class="td-us">カーボンネガティブ</td>
+          <td class="td-us">堆肥化</td>
+          <td class="td-us">¥1,500–3,000/m²</td>
+        </tr>
+        <tr>
+          <td>ロックウール</td>
+          <td class="td-mid">0.65–0.80</td>
+          <td class="td-mid">0.04</td>
+          <td class="td-bad">200–300</td>
+          <td class="td-bad">高い</td>
+          <td class="td-bad">産廃</td>
+          <td class="td-mid">¥1,000–2,000/m²</td>
+        </tr>
+        <tr>
+          <td>グラスウール</td>
+          <td class="td-mid">0.55–0.75</td>
+          <td class="td-good">0.04</td>
+          <td class="td-bad">10–30</td>
+          <td class="td-bad">高い</td>
+          <td class="td-bad">産廃</td>
+          <td class="td-good">¥500–1,500/m²</td>
+        </tr>
+        <tr>
+          <td>EPSフォーム</td>
+          <td class="td-bad">0.05–0.15</td>
+          <td class="td-good">0.04</td>
+          <td class="td-good">15–30</td>
+          <td class="td-bad">非常に高い</td>
+          <td class="td-bad">産廃</td>
+          <td class="td-good">¥800–1,500/m²</td>
+        </tr>
+        <tr>
+          <td>コルクボード</td>
+          <td class="td-mid">0.50–0.70</td>
+          <td class="td-mid">0.05</td>
+          <td class="td-mid">120–200</td>
+          <td class="td-good">低い</td>
+          <td class="td-good">自然分解</td>
+          <td class="td-bad">¥3,000–8,000/m²</td>
+        </tr>
+        <tr>
+          <td>吸音ウレタン</td>
+          <td class="td-good">0.80–0.95</td>
+          <td class="td-bad">0.03</td>
+          <td class="td-good">20–40</td>
+          <td class="td-bad">非常に高い</td>
+          <td class="td-bad">産廃</td>
+          <td class="td-mid">¥2,000–5,000/m²</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── Sourcing ── -->
+<section>
+  <div class="wrap">
+    <div class="section-eyebrow">Sourcing Guide — 三田実験用</div>
+    <h2 class="section-title">材料の調達先</h2>
+    <p class="section-desc">全材料を合わせても初回は1万円以下。2回目以降の資材費は数千円。</p>
+    <div class="source-grid">
+      <div class="source-card">
+        <div class="src-cat">菌種</div>
+        <div class="src-name">カワラタケ おが種菌</div>
+        <div class="src-detail">
+          <a href="https://www.amazon.co.jp/s?k=カワラタケ+おが種菌" target="_blank">Amazon 「カワラタケ おが種菌」</a>で検索。
+          森産業・キノコのうかい・ジョイフル本田等で取扱い。500g〜1kg単位で購入可能。
+        </div>
+        <div class="src-price">¥1,500–3,000 / 500g</div>
+      </div>
+      <div class="source-card">
+        <div class="src-cat">基材</div>
+        <div class="src-name">おがくず + 籾殻</div>
+        <div class="src-detail">
+          おがくず: ホームセンター「ペット用木くずベッド」が品質安定。ブナ・ヒノキ系を選ぶ。<br>
+          籾殻: 農業資材店・JAで購入。米ぬかとセットで入手可能なことも。
+        </div>
+        <div class="src-price">おがくず ¥500–1,000/袋 / 籾殻 ¥300–800/袋</div>
+      </div>
+      <div class="source-card">
+        <div class="src-cat">防火処理</div>
+        <div class="src-name">ホウ砂（Borax）</div>
+        <div class="src-detail">
+          薬局・ドラッグストアで入手。アリ対策剤としても販売。
+          「四ほう酸ナトリウム」で検索するとヒットしやすい。
+          500g〜1kgあれば十分。
+        </div>
+        <div class="src-price">¥500–800 / 500g</div>
+      </div>
+      <div class="source-card">
+        <div class="src-cat">防水</div>
+        <div class="src-name">亜麻仁油（生）</div>
+        <div class="src-detail">
+          ホームセンターの木材コーナーに「BONAオイル」「ワトコオイル」等。
+          食用亜麻仁油（スーパー）でも代替可能だが乾燥に時間がかかる。
+        </div>
+        <div class="src-price">¥1,000–2,500 / 500ml</div>
+      </div>
+      <div class="source-card">
+        <div class="src-cat">着色（天然）</div>
+        <div class="src-name">タマネギ外皮 / ミョウバン</div>
+        <div class="src-detail">
+          タマネギ外皮はスーパーで無料入手。乾燥させてストック。
+          ミョウバン（媒染剤）は焼きミョウバンとして食料品店・薬局で販売。
+          漬物コーナーにあることが多い。
+        </div>
+        <div class="src-price">外皮 ¥0 / ミョウバン ¥200–500</div>
+      </div>
+      <div class="source-card">
+        <div class="src-cat">参考製品</div>
+        <div class="src-name">NoMy Sinewave Panel</div>
+        <div class="src-detail">
+          ノルウェー製プロ仕様のカワラタケパネル。4枚セット €121。
+          <a href="https://nomy.no" target="_blank">nomy.no</a> から注文可能（日本発送要確認）。
+          完成品の質感・性能の参考基準として1セット注文推奨。
+        </div>
+        <div class="src-price">€121 / 4枚（約¥19,000）</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Roadmap ── -->
+<section style="background:var(--bg);border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="section-eyebrow">Roadmap · 2026–2027</div>
+    <h2 class="section-title">菌糸体で<br>ビレッジを建てる。</h2>
+    <p class="section-desc">三田の実験が美留和の壁になるまでのスケジュール。</p>
+    <div style="margin-top:56px;position:relative;">
+      <!-- timeline line -->
+      <div style="position:absolute;left:20px;top:0;bottom:0;width:1px;background:var(--border);"></div>
+      <div style="display:flex;flex-direction:column;gap:0;">
+
+        <div class="tl-item tl-now">
+          <div class="tl-dot tl-dot-now"></div>
+          <div class="tl-content">
+            <div class="tl-date">2026年5月 — 今月</div>
+            <div class="tl-title">三田実験スタート</div>
+            <div class="tl-desc">港区三田の部屋でカワラタケ菌糸体パネル第1号を製造。おがくず70%+籾殻30%+種菌10%。GBRCへ試験申込。</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-date">2026年6月</div>
+            <div class="tl-title">パネル完成・性能測定</div>
+            <div class="tl-desc">第1号パネル（40mm厚）の吸音・断熱・曲げ強度をGBRCで計測。着色6パターン完成。山田さん（ナルセ・インダストリィ）とくん炭ボード層構造のプロトタイプ検討。</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-date">2026年7月</div>
+            <div class="tl-title">Work Party 参加者募集開始</div>
+            <div class="tl-desc">SOLUNAビレッジ（美留和）の壁を自分で作る2泊3日。定員12名。菌糸体パネル製造ワークショップ+キャンプ。参加費は滞在のみ、パネルは物件の壁に。</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-date">2026年9月</div>
+            <div class="tl-title">Work Party · 美留和 — 建設開始</div>
+            <div class="tl-desc">弟子屈・美留和の現地で参加者と菌糸体パネルを一括製造。CLT構造の内壁として設置。SOLUNAビレッジ建設開始。<span style="color:var(--accent);font-weight:500">これが日本初の菌糸体建材使用の宿泊施設になる。</span></div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-date">2026年11月</div>
+            <div class="tl-title">SOLUNAビレッジ 美留和 オープン</div>
+            <div class="tl-desc">参加者が自分の手で作った壁のある宿泊施設が開く。菌糸体パネル×くん炭ボードの層構造で防音・調湿・断熱を実現。GBRC壁倍率データで建築確認取得済み。</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-date">2027年</div>
+            <div class="tl-title">建材ブランドとして展開</div>
+            <div class="tl-desc">SOLUNA菌糸体パネルの仕様をオープンソース公開。他の地域・他の物件への横展開。1m²¥500という事実が広まったとき、建材産業の何かが変わる。</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="margin-top:64px;padding:32px;background:rgba(196,144,58,0.05);border:1px solid rgba(196,144,58,0.2);border-radius:4px;text-align:center;">
+      <div style="font-size:11px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;">参加・連絡</div>
+      <div style="font-size:28px;font-weight:200;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;">一緒に建てよう。</div>
+      <div style="font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.7;">
+        Work Party参加・菌糸体建材の共同研究・SOLUNAビレッジへの出資<br>
+        どの入口でも構わない。まず話しましょう。
+      </div>
+      <a href="mailto:mail@yukihamada.jp?subject=菌糸体建材 — Work Party/共同研究のご相談" class="wp-cta-btn">mail@yukihamada.jp に連絡する</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>SOLUNA Lab — Mycelium Building Material Study</strong><br>
+  このページの性能値は学術論文・NoMy社公開データに基づく参考値。<br>
+  三田実験の結果は随時更新予定。<br><br>
+  AI写真: Juggernaut XL v9 (ComfyUI) · パターン: JavaScript Canvas 手続き生成
+</footer>
+
+<script>
+// ── Noise ──────────────────────────────────────────────
+function fade(t) { return t*t*t*(t*(t*6-15)+10); }
+function lerp(a,b,t) { return a+(b-a)*t; }
+function rng(x,y,s) {
+  let n = Math.sin(x*127.1+y*311.7+s*74.3)*43758.5453123;
+  return n-Math.floor(n);
+}
+function vnoise(x,y,s) {
+  const xi=Math.floor(x), yi=Math.floor(y);
+  const xf=x-xi, yf=y-yi;
+  const u=fade(xf), v=fade(yf);
+  return lerp(lerp(rng(xi,yi,s),rng(xi+1,yi,s),u),lerp(rng(xi,yi+1,s),rng(xi+1,yi+1,s),u),v);
+}
+function fbm(x,y,s,oct=5) {
+  let v=0,a=0.5,f=1,sm=0;
+  for(let i=0;i<oct;i++){v+=vnoise(x*f,y*f,s+i*97)*a;sm+=a;a*=0.5;f*=2.13;}
+  return v/sm;
+}
+function clamp(v) { return v<0?0:v>255?255:Math.round(v); }
+function lc(a,b,t) { return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t]; }
+function pal(cs,t) {
+  t=Math.max(0,Math.min(0.9999,t));
+  const seg=cs.length-1, idx=Math.floor(t*seg);
+  return lc(cs[idx],cs[idx+1],t*seg-idx);
+}
+
+function renderKawaratake(d,W,H,seed,sub) {
+  const P=[[6,4,2],[22,12,5],[48,26,10],[78,44,18],[108,62,26],[142,88,38],[165,108,50],[188,138,72],[204,162,100],[218,185,138],[230,208,170],[238,224,196],[244,234,218],[249,244,234]];
+  const cx=W*(0.48+(rng(seed,0,1)-0.5)*0.08);
+  const cy=H*(0.48+(rng(seed,1,1)-0.5)*0.08);
+  for(let py=0;py<H;py++) for(let px=0;px<W;px++) {
+    const i=(py*W+px)*4;
+    const w1=fbm(px/110+seed*0.07,py/110+seed*0.07,seed,4);
+    const w2=fbm(px/110+seed*0.07+4.3,py/110+seed*0.07+2.1,seed+50,4);
+    const wx=px+w1*52-26, wy=py+w2*52-26;
+    const dx=(wx-cx)/W, dy=(wy-cy)/H;
+    let dist=Math.sqrt(dx*dx*0.88+dy*dy*1.12);
+    dist+=fbm(px/38+seed*0.2,py/38+seed*0.2,seed+200,3)*0.055;
+    const t=Math.min(1,dist*1.35);
+    let [r,g,b]=pal(P,t);
+    if(sub===1){const gr=fbm(px/4.5,py/4.5,seed+300,2);if(gr>0.71&&t>0.55){r=r*0.45+82*0.9;g=g*0.45+60*0.9;b=b*0.45+22*0.7;}}
+    const tex=fbm(px/6+seed*5,py/6+seed*5,seed+400,4);
+    const ta=14*(1-t*0.25);
+    d[i]=clamp(r+(tex-0.5)*ta); d[i+1]=clamp(g+(tex-0.5)*ta*0.88); d[i+2]=clamp(b+(tex-0.5)*ta*0.75); d[i+3]=255;
+  }
+}
+function renderHirataké(d,W,H,seed,sub) {
+  const SR=sub===0?26:85,SG=sub===0?16:62,SB=sub===0?7:26;
+  for(let py=0;py<H;py++) for(let px=0;px<W;px++) {
+    const i=(py*W+px)*4;
+    const f1=fbm(px/40+seed,py/40+seed,seed,4);
+    const f2=fbm(px/14+seed*2,py/14+seed*2,seed+88,3);
+    const f3=fbm(px/5+seed*3,py/5+seed*3,seed+160,2);
+    const dens=f1*0.48+f2*0.38+f3*0.14;
+    const vein=Math.max(0,(dens-0.54)*5.5);
+    let r,g,b;
+    if(vein>0.01){const br=0.5+vein*0.5,warm=sub===1?8:0;r=clamp(195+br*60+warm);g=clamp(192+br*63);b=clamp(184+br*58-warm);}
+    else{const vr=vnoise(px/9,py/9,seed+99)*0.35;r=clamp(SR*(0.65+vr));g=clamp(SG*(0.65+vr));b=clamp(SB*(0.65+vr));}
+    d[i]=r;d[i+1]=g;d[i+2]=b;d[i+3]=255;
+  }
+}
+function renderShiitaké(d,W,H,seed) {
+  for(let py=0;py<H;py++) for(let px=0;px<W;px++) {
+    const i=(py*W+px)*4;
+    const bas=fbm(px/65+seed,py/65+seed,seed,4);
+    const mid=fbm(px/22+seed,py/22+seed,seed+110,3);
+    const fin=fbm(px/7+seed,py/7+seed,seed+210,2);
+    const dens=bas*0.5+mid*0.34+fin*0.16;
+    d[i]=clamp(82+dens*72);d[i+1]=clamp(48+dens*40);d[i+2]=clamp(18+dens*24);d[i+3]=255;
+  }
+}
+
+const PANELS=[
+  {sp:'カワラタケ',la:'Trametes versicolor',sub:'おがくず 100%',beauty:95,speed:52,smell:20,fn:(d,W,H,s)=>renderKawaratake(d,W,H,s,0),tag:'best',tagText:'最高峰・推奨',rank:'1st',gold:true},
+  {sp:'カワラタケ',la:'Trametes versicolor',sub:'おがくず70% + 籾殻30%',beauty:92,speed:56,smell:16,fn:(d,W,H,s)=>renderKawaratake(d,W,H,s,2),tag:'ref',tagText:'NoMy配合',rank:'2nd',gold:false},
+  {sp:'カワラタケ',la:'Trametes versicolor',sub:'籾殻 100%',beauty:84,speed:50,smell:18,fn:(d,W,H,s)=>renderKawaratake(d,W,H,s,1),tag:null,rank:'3rd',gold:false},
+  {sp:'ヒラタケ',la:'Pleurotus ostreatus',sub:'おがくず 100%',beauty:76,speed:85,smell:42,fn:(d,W,H,s)=>renderHirataké(d,W,H,s,0),tag:null,rank:'4th',gold:false},
+  {sp:'ヒラタケ',la:'Pleurotus ostreatus',sub:'籾殻 100%',beauty:70,speed:80,smell:38,fn:(d,W,H,s)=>renderHirataké(d,W,H,s,1),tag:null,rank:'5th',gold:false},
+  {sp:'シイタケ',la:'Lentinula edodes',sub:'おがくず 100%',beauty:55,speed:44,smell:75,fn:(d,W,H,s)=>renderShiitaké(d,W,H,s),tag:null,rank:'6th',gold:false},
+];
+
+const W=360,H=360;
+const grid=document.getElementById('proc-grid');
+PANELS.forEach((p,idx)=>{
+  const card=document.createElement('div');
+  card.className='proc-card';
+  const canvas=document.createElement('canvas');
+  canvas.width=W;canvas.height=H;
+  card.appendChild(canvas);
+  const tagHTML=p.tag==='best'?`<span class="proc-tag tag-best">${p.tagText}</span>`:p.tag==='ref'?`<span class="proc-tag tag-ref">${p.tagText}</span>`:'';
+  const info=document.createElement('div');
+  info.className='proc-info';
+  info.innerHTML=`
+    <div class="proc-rank${p.gold?' gold':''}">${p.gold?'◆ ':''} ${p.rank}</div>
+    <div class="proc-species">${p.sp}</div>
+    <div class="proc-latin">${p.la}</div>
+    ${tagHTML}
+    <div class="proc-sub">基材: ${p.sub}</div>
+    <div class="metric-row"><div class="metric-key">美観</div><div class="bar"><div class="bar-fill bar-beauty" style="width:${p.beauty}%"></div></div><div class="metric-val">${p.beauty}</div></div>
+    <div class="metric-row"><div class="metric-key">速度</div><div class="bar"><div class="bar-fill bar-speed" style="width:${p.speed}%"></div></div><div class="metric-val">${p.speed}</div></div>
+    <div class="metric-row"><div class="metric-key">香り</div><div class="bar"><div class="bar-fill bar-smell" style="width:${p.smell}%"></div></div><div class="metric-val">${p.smell}</div></div>
+  `;
+  card.appendChild(info);
+  grid.appendChild(card);
+  const seed=idx*419+37;
+  setTimeout(()=>{
+    const ctx=canvas.getContext('2d');
+    const id=ctx.createImageData(W,H);
+    p.fn(id.data,W,H,seed);
+    ctx.putImageData(id,0,0);
+  },idx*60+10);
+});
+
+// ── Hero canvas: カワラタケ pattern large ──
+const hc=document.getElementById('hero-canvas');
+function resizeHero(){
+  hc.width=hc.offsetWidth;
+  hc.height=hc.offsetHeight;
+  drawHero();
+}
+function drawHero(){
+  const ctx=hc.getContext('2d');
+  const W=hc.width,H=hc.height;
+  const P=[[6,4,2],[22,12,5],[48,26,10],[78,44,18],[108,62,26],[142,88,38],[165,108,50],[188,138,72],[204,162,100],[218,185,138],[230,208,170],[238,224,196],[244,234,218],[249,244,234]];
+  const id=ctx.createImageData(W,H);
+  const d=id.data;
+  const seed=1337;
+  const cx=W*0.72,cy=H*0.38;
+  const step=2; // every 2px for speed
+  for(let py=0;py<H;py+=step) for(let px=0;px<W;px+=step){
+    const w1=fbm(px/180+0.07,py/180+0.07,seed,3);
+    const w2=fbm(px/180+4.3,py/180+2.1,seed+50,3);
+    const wx=px+w1*70-35, wy=py+w2*70-35;
+    const dx=(wx-cx)/W, dy=(wy-cy)/H;
+    let dist=Math.sqrt(dx*dx*0.85+dy*dy*1.15);
+    dist+=fbm(px/60,py/60,seed+200,3)*0.06;
+    const t=Math.min(1,dist*1.2);
+    let [r,g,b]=pal(P,t);
+    const tex=fbm(px/8,py/8,seed+400,3);
+    r+=(tex-0.5)*12; g+=(tex-0.5)*10; b+=(tex-0.5)*8;
+    for(let dy2=0;dy2<step&&py+dy2<H;dy2++) for(let dx2=0;dx2<step&&px+dx2<W;dx2++){
+      const i=((py+dy2)*W+(px+dx2))*4;
+      d[i]=clamp(r);d[i+1]=clamp(g);d[i+2]=clamp(b);d[i+3]=255;
+    }
+  }
+  ctx.putImageData(id,0,0);
+}
+window.addEventListener('resize',()=>{ clearTimeout(window._rt); window._rt=setTimeout(resizeHero,200); });
+setTimeout(resizeHero,50);
+
+// ── Lifecycle animation (Fuller) ──
+(function(){
+  const nodes = document.querySelectorAll('.lc-node');
+  let cur = 0;
+  function tick(){
+    nodes.forEach((n,i)=>n.classList.toggle('active', i===cur));
+    cur = (cur+1) % nodes.length;
+  }
+  tick();
+  setInterval(tick, 1200);
+})();
+</script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<!-- Mac dock -->
+<div id="mac-dock">
+  <a href="/" class="di"><div class="ico">🏠</div><div class="tip">Home</div></a>
+  <a href="/festivals" class="di"><div class="ico">🎪</div><div class="tip">Festivals</div></a>
+  <a href="/lineup" class="di"><div class="ico">🎤</div><div class="tip">Lineup</div></a>
+  <a href="/lab" class="di"><div class="ico act">🍄</div><div class="dot"></div><div class="tip">Lab</div></a>
+  <a href="/community" class="di"><div class="ico">💬</div><div class="tip">Community</div></a>
+  <a href="/tickets" class="di"><div class="ico">🎫</div><div class="tip">Tickets</div></a>
+  <a href="/login" class="di"><div class="ico">👤</div><div class="tip">Login</div></a>
+</div>
+<script>
+(function(){
+  function tick(){
+    const t=new Date();
+    document.getElementById('mac-clock').textContent=
+      t.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Tokyo'})+' JST';
+  }
+  tick();setInterval(tick,10000);
+})();
+</script>
+<script src="/js/dc.js"></script>
+</body>
+</html>
