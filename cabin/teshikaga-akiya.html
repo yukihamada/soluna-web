@@ -157,7 +157,14 @@ h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line
 .spec-row .v strong{color:var(--hot);font-weight:700}
 @media(max-width:600px){.spec-row{grid-template-columns:1fr}.spec-row .k{padding:12px 16px 4px;background:transparent;font-size:9.5px}.spec-row .v{padding:4px 16px 14px}}
 
-.score-bar-wrap{margin:12px 0}
+.score-bar-wrap{margin:16px 0 20px;background:#070707;border:1px solid #111;border-radius:14px;padding:16px 20px}
+.score-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.score-label{font-size:9px;color:#444;width:90px;flex-shrink:0;text-align:right;letter-spacing:.03em}
+.score-bar-bg{flex:1;height:5px;background:#0e0e0e;border-radius:4px;overflow:hidden}
+.score-bar-fill{height:100%;background:linear-gradient(90deg,var(--hot),rgba(192,112,74,.4));border-radius:4px;width:0;transition:width 1.2s ease}
+.score-val{font-size:9px;font-weight:700;color:var(--hot);width:32px;flex-shrink:0}
+.score-total{margin-top:12px;padding-top:12px;border-top:1px solid #111;font-size:11px;color:#555;letter-spacing:.06em;text-align:right}
+.score-total strong{color:var(--hot);font-size:15px;margin-left:8px}
 .sbar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .sbar-label{font-size:9px;color:#444;width:80px;flex-shrink:0;text-align:right}
 .sbar-track{flex:1;height:5px;background:#0e0e0e;border-radius:4px;overflow:hidden}
@@ -255,7 +262,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <div class="num-div"></div>
 <div class="num"><div class="num-v">年700万</div><div class="num-l">最大Airbnb収益</div></div>
 <div class="num-div"></div>
-<div class="num"><div class="num-v">4〜6年</div><div class="num-l">投資回収目安</div></div>
+<div class="num"><div class="num-v">3〜4年</div><div class="num-l">最短回収（熊牛）</div></div>
 <div class="num-div"></div>
 <div class="num"><div class="num-v">88点</div><div class="num-l">最高スコア</div></div>
 </div>
@@ -283,8 +290,8 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
         <div class="sbar-row"><span class="sbar-label">稼働率</span><div class="sbar-track"><div class="sbar-fill" style="width:85%"></div></div><span class="sbar-val">17</span></div>
         <div class="sbar-row"><span class="sbar-label">差別化</span><div class="sbar-track"><div class="sbar-fill" style="width:90%"></div></div><span class="sbar-val">18</span></div>
       </div>
-      <div class="sov-verdict"><strong>岩風呂温泉+770坪+薪ストーブ</strong>で即戦力。温泉付き一棟貸しの希少性は絶大。年間売上700万・純利益520万の最有力候補。</div>
-      <span class="sov-roi">回収5〜6年</span>
+      <div class="sov-verdict"><strong>岩風呂温泉+770坪+薪ストーブ</strong>で即戦力。温泉付き一棟貸しの希少性は絶大。年間売上¥335万・純利益¥205万。</div>
+      <span class="sov-roi">回収14〜15年</span>
       <a class="buy-link" href="https://fudosan.cbiz.ne.jp/detailPage/sale/5074/54/" target="_blank">物件詳細を見る →</a>
     </div>
 
@@ -304,7 +311,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
         <div class="sbar-row"><span class="sbar-label">差別化</span><div class="sbar-track"><div class="sbar-fill" style="width:75%"></div></div><span class="sbar-val">15</span></div>
       </div>
       <div class="sov-verdict"><strong>温泉街駅前の築浅物件</strong>。1F厨房で朝食付き運用・カフェ複合も可能。駅前立地で冬季も通年需要。</div>
-      <span class="sov-roi">回収7〜8年</span>
+      <span class="sov-roi">回収10〜12年</span>
       <a class="buy-link" href="https://www.town.teshikaga.hokkaido.jp/material/files/group/1/buxtukennbanngou94.pdf" target="_blank">物件詳細（PDF）→</a>
     </div>
 
@@ -323,8 +330,8 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
         <div class="sbar-row"><span class="sbar-label">稼働率</span><div class="sbar-track"><div class="sbar-fill" style="width:90%"></div></div><span class="sbar-val">18</span></div>
         <div class="sbar-row"><span class="sbar-label">差別化</span><div class="sbar-track"><div class="sbar-fill" style="width:40%"></div></div><span class="sbar-val">8</span></div>
       </div>
-      <div class="sov-verdict"><strong>価格×立地バランス最優秀</strong>。温泉引込工事（+300〜500万）で単価が跳ね上がる。総投資1,300万で温泉街一棟貸しが成立。</div>
-      <span class="sov-roi">回収4〜5年</span>
+      <div class="sov-verdict"><strong>価格×立地バランス最優秀</strong>。温泉引込工事（+300〜500万）で単価が跳ね上がる。年間純利益¥224万。</div>
+      <span class="sov-roi">回収8〜9年</span>
       <a class="buy-link" href="https://house.goo.ne.jp/buy/uh/detail/1/01665/010Z20083372/175932001/x1010Z20083372.html" target="_blank">物件詳細を見る →</a>
     </div>
 
@@ -363,8 +370,8 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
         <div class="sbar-row"><span class="sbar-label">稼働率</span><div class="sbar-track"><div class="sbar-fill" style="width:60%"></div></div><span class="sbar-val">12</span></div>
         <div class="sbar-row"><span class="sbar-label">差別化</span><div class="sbar-track"><div class="sbar-fill" style="width:70%"></div></div><span class="sbar-val">14</span></div>
       </div>
-      <div class="sov-verdict"><strong>3浴槽×秘境感</strong>は唯一無二。「完全プライベート温泉体験」として差別化。送迎サービスがあれば爆発的ポテンシャル。</div>
-      <span class="sov-roi">回収4〜5年</span>
+      <div class="sov-verdict"><strong>3浴槽×秘境感</strong>は唯一無二。「完全プライベート温泉体験」として差別化。年間純利益¥255万。送迎サービスがあれば爆発的ポテンシャル。</div>
+      <span class="sov-roi">回収5〜6年</span>
       <a class="buy-link" href="https://fudosan.cbiz.ne.jp/detailPage/sale/5042/1313846/" target="_blank">物件詳細を見る →</a>
     </div>
 
@@ -383,8 +390,8 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
         <div class="sbar-row"><span class="sbar-label">稼働率</span><div class="sbar-track"><div class="sbar-fill" style="width:55%"></div></div><span class="sbar-val">11</span></div>
         <div class="sbar-row"><span class="sbar-label">差別化</span><div class="sbar-track"><div class="sbar-fill" style="width:65%"></div></div><span class="sbar-val">13</span></div>
       </div>
-      <div class="sov-verdict"><strong>温泉引込済みの土地</strong>。グランピング施設やサウナロッジを自由設計で建設できる唯一の候補。</div>
-      <span class="sov-roi">回収5〜7年</span>
+      <div class="sov-verdict"><strong>温泉引込済みの土地</strong>。グランピング施設やサウナロッジを自由設計で建設できる唯一の候補。年間純利益¥330万。</div>
+      <span class="sov-roi">回収8〜9年</span>
       <a class="buy-link" href="https://fudosan.cbiz.ne.jp/detailPage/sale/5090/3/" target="_blank">物件詳細を見る →</a>
     </div>
 
@@ -392,7 +399,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
       <div class="sov-header">
         <div>
           <div class="sov-name" style="color:#c8a455">熊牛原野 温泉1000坪<br><span style="font-size:9px;color:#555">モール温泉自噴池2つ · 露天風呂建物</span></div>
-          <div class="sov-price">¥730万 · 1000坪</div>
+          <div class="sov-price">¥600万 · 1000坪</div>
         </div>
         <div class="sov-score" style="color:var(--hot)"><span class="n" style="font-size:2.2rem">88</span><span class="m">/100</span></div>
       </div>
@@ -403,9 +410,9 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
         <div class="sbar-row"><span class="sbar-label">稼働率</span><div class="sbar-track"><div class="sbar-fill" style="width:80%"></div></div><span class="sbar-val">16</span></div>
         <div class="sbar-row"><span class="sbar-label">差別化</span><div class="sbar-track"><div class="sbar-fill" style="width:90%"></div></div><span class="sbar-val">18</span></div>
       </div>
-      <div class="sov-verdict">日本でも数箇所しかない<strong>モール温泉 × 1000坪 × 露天風呂建物つき</strong>。グランピング×プライベート温泉で年間純利益726万。回収2〜3年の最強物件。</div>
-      <span class="sov-roi" style="background:rgba(192,112,74,.2);color:var(--hot)">回収2〜3年</span>
-      <a class="buy-link" href="https://san.cbiz.ne.jp/sale/detail/id/60701020" target="_blank">物件詳細を見る →</a>
+      <div class="sov-verdict">日本でも数箇所しかない<strong>モール温泉 × 1000坪 × 露天風呂建物つき</strong>。グランピング×プライベート温泉で年間純利益¥610万。回収3〜4年の最強物件。</div>
+      <span class="sov-roi" style="background:rgba(192,112,74,.2);color:var(--hot)">回収3〜4年</span>
+      <a class="buy-link" href="https://jmty.jp/hokkaido/est-land/article-196bjf" target="_blank">物件詳細を見る →</a>
     </div>
 
     <div class="sov-card r">
@@ -423,8 +430,8 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
         <div class="sbar-row"><span class="sbar-label">稼働率</span><div class="sbar-track"><div class="sbar-fill" style="width:75%"></div></div><span class="sbar-val">15</span></div>
         <div class="sbar-row"><span class="sbar-label">差別化</span><div class="sbar-track"><div class="sbar-fill" style="width:75%"></div></div><span class="sbar-val">15</span></div>
       </div>
-      <div class="sov-verdict"><strong>白樺林×国立公園</strong>の唯一無二のロケーション。管理費(月20万)がネックだが、高単価運営（¥35,000〜/泊）で相殺できる。欧米富裕層に刺さる。</div>
-      <span class="sov-roi">回収25〜28年</span>
+      <div class="sov-verdict"><strong>白樺林×国立公園</strong>の唯一無二のロケーション。管理費(月20万)がネックで純利益¥19万/年。<strong>単独所有より共同所有スキームが現実的。</strong></div>
+      <span class="sov-roi">要スキーム検討</span>
       <a class="buy-link" href="https://www.homes.co.jp/tochi/b-1441610000968/" target="_blank">物件詳細を見る →</a>
     </div>
 
@@ -465,13 +472,13 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
     <div class="price-row"><span class="k">民泊届出・諸費用</span><span class="v">¥10〜20万円</span></div>
     <div class="price-row"><span class="k"><strong>総初期投資</strong></span><span class="v hot"><strong>¥2,900〜3,140万円</strong></span></div>
     <div class="reno-breakdown">
-      <div class="reno-label">年間収益シミュレーション</div>
-      <div class="reno-row"><span class="ri">夏ピーク（7〜9月）· ¥35,000/泊 × 稼働75%</span><span class="rv">¥202万</span></div>
-      <div class="reno-row"><span class="ri">春秋（5〜6月・10月）· ¥22,000/泊 × 稼働40%</span><span class="rv">¥79万</span></div>
-      <div class="reno-row"><span class="ri">冬（11〜4月）· 温泉+薪ストーブで ¥20,000/泊 × 稼働20%</span><span class="rv">¥72万</span></div>
-      <div class="reno-row"><span class="ri">年間売上計</span><span class="rv">¥353万</span></div>
+      <div class="reno-label">年間収益シミュレーション（Airbnb 15%控除後）</div>
+      <div class="reno-row"><span class="ri">夏ピーク（7〜9月）· ¥35,000/泊 × 稼働75%</span><span class="rv">¥205万</span></div>
+      <div class="reno-row"><span class="ri">春秋（5〜6月・10月）· ¥22,000/泊 × 稼働40%</span><span class="rv">¥68万</span></div>
+      <div class="reno-row"><span class="ri">冬（11〜4月）· 温泉+薪ストーブで ¥20,000/泊 × 稼働20%</span><span class="rv">¥62万</span></div>
+      <div class="reno-row"><span class="ri">年間売上計（手数料控除後）</span><span class="rv">¥335万</span></div>
       <div class="reno-row"><span class="ri">運営コスト（清掃・温泉使用料・修繕積立）</span><span class="rv">▲¥130万</span></div>
-      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv">約¥223万</span></div>
+      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv">約¥205万</span></div>
       <div style="font-size:9px;color:#333;margin-top:8px;line-height:1.9">※温泉使用料¥1.5万/月含む。清掃外注15%想定。2名宿泊基準。</div>
     </div>
   </div>
@@ -480,24 +487,24 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
     <div class="rev-cell">
       <div class="rev-season">夏シーズン</div>
       <div class="rev-rate">7〜9月 · 稼働75%</div>
-      <div class="rev-val">¥202万</div>
+      <div class="rev-val">¥205万</div>
       <div class="rev-unit">3ヶ月合計</div>
     </div>
     <div class="rev-cell">
       <div class="rev-season">春秋シーズン</div>
       <div class="rev-rate">5〜6・10月 · 稼働40%</div>
-      <div class="rev-val">¥79万</div>
+      <div class="rev-val">¥68万</div>
       <div class="rev-unit">3ヶ月合計</div>
     </div>
     <div class="rev-cell">
       <div class="rev-season">冬シーズン</div>
       <div class="rev-rate">11〜4月 · 稼働20%</div>
-      <div class="rev-val">¥72万</div>
+      <div class="rev-val">¥62万</div>
       <div class="rev-unit">6ヶ月合計</div>
     </div>
     <div class="rev-total-row">
       <span class="rt-label">年間純利益（コスト控除後）</span>
-      <span class="rt-val">約 ¥223万 / 年</span>
+      <span class="rt-val">約 ¥205万 / 年</span>
     </div>
   </div>
 
@@ -595,12 +602,12 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
     <div class="price-row"><span class="k">家具・設備</span><span class="v">¥80〜120万円</span></div>
     <div class="price-row"><span class="k"><strong>総初期投資</strong></span><span class="v hot"><strong>¥1,680〜2,120万円</strong></span></div>
     <div class="reno-breakdown">
-      <div class="reno-label">年間収益シミュレーション（温泉引込後）</div>
-      <div class="reno-row"><span class="ri">夏ピーク · ¥30,000/泊 × 稼働75% × 3ヶ月</span><span class="rv">¥203万</span></div>
-      <div class="reno-row"><span class="ri">春秋 · ¥20,000/泊 × 稼働40% × 3ヶ月</span><span class="rv">¥72万</span></div>
-      <div class="reno-row"><span class="ri">冬 · ¥18,000/泊 × 稼働20% × 6ヶ月</span><span class="rv">¥65万</span></div>
-      <div class="reno-row"><span class="ri">運営コスト・Airbnb手数料</span><span class="rv">▲¥80万</span></div>
-      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv">約¥260万</span></div>
+      <div class="reno-label">年間収益シミュレーション（Airbnb 15%控除後・温泉引込後）</div>
+      <div class="reno-row"><span class="ri">夏ピーク · ¥30,000/泊 × 稼働75% × 3ヶ月</span><span class="rv">¥176万</span></div>
+      <div class="reno-row"><span class="ri">春秋 · ¥20,000/泊 × 稼働40% × 3ヶ月</span><span class="rv">¥62万</span></div>
+      <div class="reno-row"><span class="ri">冬 · ¥18,000/泊 × 稼働20% × 6ヶ月</span><span class="rv">¥56万</span></div>
+      <div class="reno-row"><span class="ri">運営コスト（清掃・修繕積立）</span><span class="rv">▲¥70万</span></div>
+      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv">約¥224万</span></div>
     </div>
   </div>
 
@@ -647,12 +654,12 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
     <div class="price-row"><span class="k">家具・プレミアム設備</span><span class="v">¥100〜150万円</span></div>
     <div class="price-row"><span class="k"><strong>総初期投資</strong></span><span class="v hot"><strong>¥1,300〜1,550万円</strong></span></div>
     <div class="reno-breakdown">
-      <div class="reno-label">年間収益シミュレーション（秘境プレミアム価格）</div>
-      <div class="reno-row"><span class="ri">夏ピーク · ¥50,000/泊（秘境温泉プレミアム） × 稼働60%</span><span class="rv">¥270万</span></div>
-      <div class="reno-row"><span class="ri">春秋 · ¥35,000/泊 × 稼働30%</span><span class="rv">¥95万</span></div>
-      <div class="reno-row"><span class="ri">冬 · ¥25,000/泊 × 稼働10% ※アクセス難</span><span class="rv">¥45万</span></div>
+      <div class="reno-label">年間収益シミュレーション（Airbnb 15%控除後・秘境プレミアム）</div>
+      <div class="reno-row"><span class="ri">夏ピーク · ¥50,000/泊（秘境温泉プレミアム） × 稼働60%</span><span class="rv">¥235万</span></div>
+      <div class="reno-row"><span class="ri">春秋 · ¥35,000/泊 × 稼働30%</span><span class="rv">¥81万</span></div>
+      <div class="reno-row"><span class="ri">冬 · ¥25,000/泊 × 稼働10% ※アクセス難</span><span class="rv">¥39万</span></div>
       <div class="reno-row"><span class="ri">運営コスト・温泉使用料</span><span class="rv">▲¥100万</span></div>
-      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv">約¥310万</span></div>
+      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv">約¥255万</span></div>
     </div>
   </div>
 
@@ -701,12 +708,12 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
     <div class="price-row"><span class="k">年間温泉使用料</span><span class="v">¥14.3万円</span></div>
     <div class="price-row"><span class="k"><strong>総初期投資</strong></span><span class="v hot"><strong>¥2,300〜3,500万円</strong></span></div>
     <div class="reno-breakdown">
-      <div class="reno-label">年間収益シミュレーション（ガラスキャビン+露天風呂+サウナ）</div>
-      <div class="reno-row"><span class="ri">夏ピーク · ¥60,000/泊（プレミアムグランピング） × 稼働60%</span><span class="rv">¥324万</span></div>
-      <div class="reno-row"><span class="ri">春秋 · ¥40,000/泊 × 稼働30%</span><span class="rv">¥108万</span></div>
-      <div class="reno-row"><span class="ri">冬 · ¥30,000/泊 × 稼働10%</span><span class="rv">¥54万</span></div>
+      <div class="reno-label">年間収益シミュレーション（Airbnb 15%控除後・ガラスキャビン+露天風呂+サウナ）</div>
+      <div class="reno-row"><span class="ri">夏ピーク · ¥60,000/泊（プレミアムグランピング） × 稼働60%</span><span class="rv">¥282万</span></div>
+      <div class="reno-row"><span class="ri">春秋 · ¥40,000/泊 × 稼働30%</span><span class="rv">¥92万</span></div>
+      <div class="reno-row"><span class="ri">冬 · ¥30,000/泊 × 稼働10%</span><span class="rv">¥46万</span></div>
       <div class="reno-row"><span class="ri">運営コスト（清掃・温泉・修繕）</span><span class="rv">▲¥90万</span></div>
-      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv">約¥396万</span></div>
+      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv">約¥330万</span></div>
     </div>
   </div>
 
@@ -755,12 +762,12 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
     <div class="price-row"><span class="k">家具・設備</span><span class="v">¥80〜100万円</span></div>
     <div class="price-row"><span class="k"><strong>総初期投資</strong></span><span class="v hot"><strong>¥860〜1,180万円</strong></span></div>
     <div class="reno-breakdown">
-      <div class="reno-label">年間収益シミュレーション（温泉配管修繕後）</div>
-      <div class="reno-row"><span class="ri">夏ピーク · ¥22,000/泊 × 稼働55% × 3ヶ月</span><span class="rv">¥109万</span></div>
-      <div class="reno-row"><span class="ri">春秋 · ¥15,000/泊 × 稼働30% × 3ヶ月</span><span class="rv">¥41万</span></div>
-      <div class="reno-row"><span class="ri">冬 · ¥12,000/泊 × 稼働15% × 6ヶ月</span><span class="rv">¥33万</span></div>
+      <div class="reno-label">年間収益シミュレーション（Airbnb 15%控除後・温泉配管修繕後）</div>
+      <div class="reno-row"><span class="ri">夏ピーク · ¥22,000/泊 × 稼働55% × 3ヶ月</span><span class="rv">¥95万</span></div>
+      <div class="reno-row"><span class="ri">春秋 · ¥15,000/泊 × 稼働30% × 3ヶ月</span><span class="rv">¥35万</span></div>
+      <div class="reno-row"><span class="ri">冬 · ¥12,000/泊 × 稼働15% × 6ヶ月</span><span class="rv">¥28万</span></div>
       <div class="reno-row"><span class="ri">運営コスト</span><span class="rv">▲¥50万</span></div>
-      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv">約¥133万</span></div>
+      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv">約¥108万</span></div>
     </div>
   </div>
 
@@ -807,12 +814,12 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
     <div class="price-row"><span class="k">家具・設備</span><span class="v">¥80〜100万円</span></div>
     <div class="price-row"><span class="k"><strong>総初期投資</strong></span><span class="v hot"><strong>¥1,160〜1,380万円</strong></span></div>
     <div class="reno-breakdown">
-      <div class="reno-label">年間収益シミュレーション</div>
-      <div class="reno-row"><span class="ri">夏ピーク · ¥25,000/泊（温泉付き秘境） × 稼働50% × 3ヶ月</span><span class="rv">¥113万</span></div>
-      <div class="reno-row"><span class="ri">春秋 · ¥18,000/泊 × 稼働25% × 3ヶ月</span><span class="rv">¥41万</span></div>
-      <div class="reno-row"><span class="ri">冬 · ¥12,000/泊 × 稼働10% × 6ヶ月</span><span class="rv">¥22万</span></div>
+      <div class="reno-label">年間収益シミュレーション（Airbnb 15%控除後）</div>
+      <div class="reno-row"><span class="ri">夏ピーク · ¥25,000/泊（温泉付き秘境） × 稼働50% × 3ヶ月</span><span class="rv">¥98万</span></div>
+      <div class="reno-row"><span class="ri">春秋 · ¥18,000/泊 × 稼働25% × 3ヶ月</span><span class="rv">¥35万</span></div>
+      <div class="reno-row"><span class="ri">冬 · ¥12,000/泊 × 稼働10% × 6ヶ月</span><span class="rv">¥19万</span></div>
       <div class="reno-row"><span class="ri">運営コスト</span><span class="rv">▲¥45万</span></div>
-      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv">約¥131万</span></div>
+      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv">約¥107万</span></div>
     </div>
   </div>
 
@@ -833,12 +840,12 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <div class="w">
   <div class="prop-header">
     <span class="prop-num">08 — スコア 88点</span>
-    <span class="prop-name">熊牛原野 温泉付き1000坪 · ¥730万</span>
+    <span class="prop-name">熊牛原野 温泉付き1000坪 · ¥600万</span>
   </div>
   <span class="prop-tag hot">モール温泉 自噴池2つ</span>
   <span class="prop-tag hot">1000坪 圧倒的広さ</span>
   <span class="prop-tag">露天風呂建物あり</span>
-  <span class="prop-tag">¥730万 驚異のコスパ</span>
+  <span class="prop-tag">¥600万 驚異のコスパ</span>
 
   <div class="ba r" onclick="this.classList.toggle('ba-revealed')">
     <div class="ba-panel">
@@ -862,32 +869,32 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
   </div>
 
   <div class="price-card r">
-    <div class="price-big">¥730<span style="font-size:1.2rem">万円</span></div>
+    <div class="price-big">¥600<span style="font-size:1.2rem">万円</span></div>
     <div class="price-sub">取得価格 · 1000坪 + 温泉自噴池2つ</div>
-    <div class="price-row"><span class="k">物件取得</span><span class="v">¥730万円</span></div>
+    <div class="price-row"><span class="k">物件取得</span><span class="v">¥600万円</span></div>
     <div class="price-row"><span class="k">露天風呂改修・整備</span><span class="v">¥300〜500万円（既存浴槽+石組み仕上げ）</span></div>
     <div class="price-row"><span class="k">グランピング棟（2棟）新築</span><span class="v">¥600〜800万円</span></div>
     <div class="price-row"><span class="k">電気・水道・設備</span><span class="v">¥150〜200万円</span></div>
     <div class="price-row"><span class="k"><strong>総初期投資</strong></span><span class="v hot"><strong>¥1,780〜2,230万円</strong></span></div>
     <div class="reno-breakdown">
-      <div class="reno-label">年間収益シミュレーション</div>
-      <div class="reno-row"><span class="ri">夏ピーク · ¥60,000/泊（秘境温泉グランピング） × 稼働70% × 3ヶ月</span><span class="rv">¥378万</span></div>
-      <div class="reno-row"><span class="ri">春秋 · ¥50,000/泊 × 稼働50% × 3ヶ月</span><span class="rv">¥225万</span></div>
-      <div class="reno-row"><span class="ri">冬 · ¥45,000/泊（温泉が冬の差別化） × 稼働30% × 6ヶ月</span><span class="rv">¥243万</span></div>
+      <div class="reno-label">年間収益シミュレーション（Airbnb 15%控除後）</div>
+      <div class="reno-row"><span class="ri">夏ピーク · ¥60,000/泊（秘境温泉グランピング） × 稼働70% × 3ヶ月</span><span class="rv">¥328万</span></div>
+      <div class="reno-row"><span class="ri">春秋 · ¥50,000/泊 × 稼働50% × 3ヶ月</span><span class="rv">¥193万</span></div>
+      <div class="reno-row"><span class="ri">冬 · ¥45,000/泊（温泉が冬の差別化） × 稼働30% × 6ヶ月</span><span class="rv">¥209万</span></div>
       <div class="reno-row"><span class="ri">運営コスト（清掃・光熱・管理）</span><span class="rv">▲¥120万</span></div>
-      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv hot">約¥726万</span></div>
+      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv hot">約¥610万</span></div>
     </div>
   </div>
 
   <div class="spec r">
     <div class="spec-row"><span class="k">所在地</span><span class="v">弟子屈町熊牛原野 · 川湯温泉から車15分 · 阿寒国立公園近郊</span></div>
-    <div class="spec-row"><span class="k">価格</span><span class="v"><strong>¥730万円（値下げ後）</strong></span></div>
+    <div class="spec-row"><span class="k">価格</span><span class="v"><strong>¥600万円（ジモティー掲載中）</strong></span></div>
     <div class="spec-row"><span class="k">敷地面積</span><span class="v"><strong>約1,000坪（3,305m²）</strong></span></div>
     <div class="spec-row"><span class="k">温泉</span><span class="v"><strong>モール温泉 自噴池2つ · 既存露天風呂建物あり</strong></span></div>
     <div class="spec-row"><span class="k">水源</span><span class="v">小屋横の庭に温泉が湧き出す · 自噴で動力不要</span></div>
     <div class="spec-row"><span class="k">差別化戦略</span><span class="v">日本に数箇所しかない<strong>モール温泉（植物性有機物含む濃茶色の湯）</strong> × 1000坪。グランピングテント+露天風呂の完全プライベート体験は他に作れない。</span></div>
   </div>
-  <a class="buy-link r" href="https://san.cbiz.ne.jp/sale/detail/id/60701020" target="_blank">ジモティーで詳細を確認する →</a>
+  <a class="buy-link r" href="https://jmty.jp/hokkaido/est-land/article-196bjf" target="_blank">ジモティーで詳細を確認する →</a>
 </div>
 </div>
 
@@ -932,12 +939,12 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
     <div class="price-row"><span class="k">管理費（月20万）× 建設期間</span><span class="v">¥240万円/年</span></div>
     <div class="price-row"><span class="k"><strong>総初期投資</strong></span><span class="v hot"><strong>¥1,640〜1,890万円</strong></span></div>
     <div class="reno-breakdown">
-      <div class="reno-label">年間収益シミュレーション（管理費控除後）</div>
-      <div class="reno-row"><span class="ri">夏 · ¥35,000/泊（白樺グランピング） × 稼働60% × 3ヶ月</span><span class="rv">¥189万</span></div>
-      <div class="reno-row"><span class="ri">春秋 · ¥28,000/泊 × 稼働40% × 3ヶ月</span><span class="rv">¥100万</span></div>
-      <div class="reno-row"><span class="ri">冬 · ¥22,000/泊 × 稼働20% × 6ヶ月</span><span class="rv">¥79万</span></div>
+      <div class="reno-label">年間収益シミュレーション（Airbnb 15%控除後・管理費控除後）</div>
+      <div class="reno-row"><span class="ri">夏 · ¥35,000/泊（白樺グランピング） × 稼働60% × 3ヶ月</span><span class="rv">¥164万</span></div>
+      <div class="reno-row"><span class="ri">春秋 · ¥28,000/泊 × 稼働40% × 3ヶ月</span><span class="rv">¥87万</span></div>
+      <div class="reno-row"><span class="ri">冬 · ¥22,000/泊 × 稼働20% × 6ヶ月</span><span class="rv">¥68万</span></div>
       <div class="reno-row"><span class="ri">管理費・運営コスト</span><span class="rv">▲¥300万</span></div>
-      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv">約¥68万</span></div>
+      <div class="reno-total"><span class="ri">年間純利益</span><span class="rv">約¥19万</span></div>
     </div>
   </div>
 
@@ -976,8 +983,8 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
         <td style="padding:14px 10px;text-align:center;color:var(--hot);font-weight:800;font-size:14px">84</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥2,600万</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥2,900〜3,140万</td>
-        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥223万</td>
-        <td style="padding:14px 10px;text-align:center;color:#555">5〜6年</td>
+        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥205万</td>
+        <td style="padding:14px 10px;text-align:center;color:#555">14〜15年</td>
       </tr>
       <tr style="border-bottom:1px solid #0a0a0a">
         <td style="padding:14px 10px;color:#888;line-height:1.5">No.94 川湯駅前<br><span style="color:#444;font-size:9px">店舗付き · 築15年</span></td>
@@ -985,76 +992,76 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
         <td style="padding:14px 10px;text-align:center;color:#666">¥2,600万</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥3,200〜3,500万</td>
         <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥250〜350万</td>
-        <td style="padding:14px 10px;text-align:center;color:#555">7〜8年</td>
+        <td style="padding:14px 10px;text-align:center;color:#555">10〜12年</td>
       </tr>
       <tr style="border-bottom:1px solid #0a0a0a">
         <td style="padding:14px 10px;color:#888;line-height:1.5">川湯駅前 5LK<br><span style="color:#444;font-size:9px">徒歩3分 · 150坪</span></td>
         <td style="padding:14px 10px;text-align:center;color:var(--hot);font-weight:800;font-size:14px">76</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥1,000万</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥1,680〜2,120万</td>
-        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥260万</td>
-        <td style="padding:14px 10px;text-align:center;color:var(--hot);font-weight:700">4〜5年</td>
+        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥224万</td>
+        <td style="padding:14px 10px;text-align:center;color:#555">8〜9年</td>
       </tr>
       <tr style="border-bottom:1px solid #0a0a0a">
         <td style="padding:14px 10px;color:#888;line-height:1.5">No.68 川湯温泉 5LDK<br><span style="color:#444;font-size:9px">温泉街内 · 101坪</span></td>
         <td style="padding:14px 10px;text-align:center;color:var(--hot);font-weight:800;font-size:14px">74</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥1,600万</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥1,900〜2,100万</td>
-        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥240万</td>
-        <td style="padding:14px 10px;text-align:center;color:#555">8〜9年</td>
+        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥160万</td>
+        <td style="padding:14px 10px;text-align:center;color:#555">12〜14年</td>
       </tr>
       <tr style="border-bottom:1px solid #0a0a0a">
         <td style="padding:14px 10px;color:#888;line-height:1.5">奥春別 温泉別荘 3浴槽<br><span style="color:#444;font-size:9px">秘境 · 374坪</span></td>
         <td style="padding:14px 10px;text-align:center;color:var(--hot);font-weight:800;font-size:14px">72</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥800万</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥1,300〜1,550万</td>
-        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥310万</td>
-        <td style="padding:14px 10px;text-align:center;color:var(--hot);font-weight:700">4〜5年</td>
+        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥255万</td>
+        <td style="padding:14px 10px;text-align:center;color:#555">5〜6年</td>
       </tr>
       <tr style="border-bottom:1px solid #0a0a0a">
         <td style="padding:14px 10px;color:#888;line-height:1.5">天然温泉 露天風呂付き土地<br><span style="color:#444;font-size:9px">奥春別 · 233坪 · 自由設計</span></td>
         <td style="padding:14px 10px;text-align:center;color:var(--hot);font-weight:800;font-size:14px">71</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥600万</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥2,300〜3,500万</td>
-        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥396万</td>
-        <td style="padding:14px 10px;text-align:center;color:#555">5〜7年</td>
+        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥330万</td>
+        <td style="padding:14px 10px;text-align:center;color:#555">8〜9年</td>
       </tr>
       <tr style="border-bottom:1px solid #0a0a0a">
         <td style="padding:14px 10px;color:#888;line-height:1.5">中央2丁目 温泉付き5LDK<br><span style="color:#444;font-size:9px">摩周駅徒歩6分 · 89坪</span></td>
         <td style="padding:14px 10px;text-align:center;color:#666;font-weight:800;font-size:14px">65</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥330万</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥860〜1,180万</td>
-        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥133万</td>
-        <td style="padding:14px 10px;text-align:center;color:var(--hot);font-weight:700">6〜9年</td>
+        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥108万</td>
+        <td style="padding:14px 10px;text-align:center;color:#555">9〜10年</td>
       </tr>
       <tr style="border-bottom:1px solid #0a0a0a">
         <td style="padding:14px 10px;color:#888;line-height:1.5">奥春別 3LDK 温泉付き<br><span style="color:#444;font-size:9px">奥摩周 · 130坪 · DIY向き</span></td>
         <td style="padding:14px 10px;text-align:center;color:#666;font-weight:800;font-size:14px">66</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥580万</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥1,160〜1,380万</td>
-        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥131万</td>
-        <td style="padding:14px 10px;text-align:center;color:#555">9〜11年</td>
+        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥107万</td>
+        <td style="padding:14px 10px;text-align:center;color:#555">11〜13年</td>
       </tr>
       <tr style="border-bottom:1px solid #0a0a0a;background:rgba(192,112,74,.04)">
         <td style="padding:14px 10px;color:#c8a455;line-height:1.5"><strong>熊牛原野 温泉1000坪</strong><br><span style="color:#444;font-size:9px">モール温泉自噴池2つ · 露天風呂建物</span></td>
         <td style="padding:14px 10px;text-align:center;color:var(--hot);font-weight:800;font-size:16px">88</td>
-        <td style="padding:14px 10px;text-align:center;color:#666">¥730万</td>
+        <td style="padding:14px 10px;text-align:center;color:#666">¥600万</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥1,780〜2,230万</td>
-        <td style="padding:14px 10px;text-align:center;color:var(--hot);font-weight:700">¥726万</td>
-        <td style="padding:14px 10px;text-align:center;color:var(--hot);font-weight:700">2〜3年</td>
+        <td style="padding:14px 10px;text-align:center;color:var(--hot);font-weight:700">¥610万</td>
+        <td style="padding:14px 10px;text-align:center;color:var(--hot);font-weight:700">3〜4年</td>
       </tr>
       <tr>
         <td style="padding:14px 10px;color:#888;line-height:1.5">屈斜路 白樺林500坪<br><span style="color:#444;font-size:9px">国立公園内 · 管理費月20万</span></td>
         <td style="padding:14px 10px;text-align:center;color:var(--hot);font-weight:800;font-size:14px">75</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥500万</td>
         <td style="padding:14px 10px;text-align:center;color:#666">¥1,640〜1,890万</td>
-        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥68万</td>
-        <td style="padding:14px 10px;text-align:center;color:#555">25〜28年</td>
+        <td style="padding:14px 10px;text-align:center;color:var(--gold);font-weight:700">¥19万</td>
+        <td style="padding:14px 10px;text-align:center;color:#555">要スキーム検討</td>
       </tr>
     </tbody>
   </table>
   </div>
-  <p style="font-size:9px;color:#222;margin-top:12px;line-height:1.9">※ 収益は2名宿泊ベース。Airbnb手数料・清掃費・修繕積立を控除後の純利益。冬季稼働率は暖房設備・温泉有無による。実際の収益は市場環境・運営体制により異なります。</p>
+  <p style="font-size:9px;color:#222;margin-top:12px;line-height:1.9">※ 収益は2名宿泊ベース。Airbnb ホストサービス料15%（ホスト全負担型）・清掃費・修繕積立を控除後の純利益。冬季稼働率は暖房設備・温泉有無による。実際の収益は市場環境・運営体制により異なります。</p>
 </div>
 </div>
 
@@ -1107,7 +1114,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 </footer>
 
 <div class="sticky-cta" id="sticky-cta">
-  <span class="sticky-text">弟子屈の空き家 · 最高スコア<strong> 88点 · ¥730万</strong>〜</span>
+  <span class="sticky-text">弟子屈の空き家 · 最高スコア<strong> 88点 · ¥600万</strong>〜</span>
   <a class="cta-btn" href="#cta" style="padding:10px 24px;font-size:11px;background:var(--hot);box-shadow:none">相談する</a>
 </div>
 
@@ -1141,7 +1148,7 @@ function submitConsult() {
 }
 
 // Score bar animation
-const barFills = document.querySelectorAll('.sbar-fill');
+const barFills = document.querySelectorAll('.sbar-fill, .score-bar-fill');
 const barIO = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if(e.isIntersecting){
