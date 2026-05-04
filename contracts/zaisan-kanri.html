@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>財産管理方法説明書 — 株式会社イネブラ</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;color:#111;font-family:'Hiragino Mincho ProN','Yu Mincho','Times New Roman',serif;font-size:14px;line-height:2;padding:60px 80px;max-width:860px;margin:0 auto}
+@media print{body{padding:20px 40px}}
+@media(max-width:600px){body{padding:32px 24px}}
+.doc-header{text-align:center;margin-bottom:48px;padding-bottom:24px;border-bottom:2px solid #111}
+.doc-title{font-size:20px;font-weight:700;letter-spacing:.1em;margin-bottom:8px}
+.doc-sub{font-size:12px;color:#555;letter-spacing:.05em}
+.doc-meta{margin-top:14px;font-size:11px;color:#888;display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
+.doc-meta span{white-space:nowrap}
+h2{font-size:15px;font-weight:700;margin:36px 0 12px;letter-spacing:.05em;border-bottom:1px solid #e0e0e0;padding-bottom:6px}
+h3{font-size:13px;font-weight:700;margin:20px 0 8px;color:#333}
+p,li{font-size:13px;color:#222;line-height:2.1;margin-bottom:4px}
+ol,ul{padding-left:20px}
+ol li,ul li{margin-bottom:4px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+th{background:#f0f0f0;padding:8px 12px;border:1px solid #ccc;text-align:left;font-weight:700}
+td{padding:7px 12px;border:1px solid #ddd;vertical-align:top}
+tr:nth-child(even) td{background:#fafafa}
+.flow{background:#f5f5f5;border:1px solid #ddd;border-radius:6px;padding:16px 20px;margin:14px 0;font-family:monospace;font-size:12px;line-height:2;color:#333}
+.flow .arrow{color:#888;display:block;text-align:center}
+.important{background:#fff8e8;border-left:3px solid #c8a455;padding:12px 16px;margin:16px 0;font-size:12px;line-height:1.8}
+.caution{background:#fff0f0;border-left:3px solid #e05555;padding:12px 16px;margin:16px 0;font-size:12px;line-height:1.8}
+.placeholder{color:#c00;font-style:italic}
+.sig-block{border-top:1px solid #333;padding-top:16px;margin-top:60px}
+.sig-label{font-size:11px;color:#666;margin-bottom:6px;letter-spacing:.08em}
+.sig-name{font-size:14px;font-weight:700;margin-bottom:4px}
+.sig-info{font-size:11px;color:#555;line-height:1.8}
+.sig-date{font-size:12px;color:#333;margin-top:12px}
+.footer-note{margin-top:48px;padding-top:16px;border-top:1px solid #ddd;font-size:11px;color:#888;line-height:1.8}
+.print-btn{position:fixed;bottom:24px;right:24px;background:#111;color:#fff;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;font-size:13px;font-family:sans-serif}
+@media print{.print-btn{display:none}}
+.toc{background:#f8f8f8;border:1px solid #ddd;border-radius:6px;padding:16px 20px;margin-bottom:36px}
+.toc-title{font-size:11px;font-weight:700;letter-spacing:.1em;color:#555;margin-bottom:10px;text-transform:uppercase}
+.toc ol{padding-left:18px}
+.toc li{font-size:12px;line-height:1.9;color:#444}
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="doc-title">財産管理方法説明書</div>
+  <div class="doc-sub">不動産特定共同事業法第24条第1項第6号・施行規則第22条に基づく</div>
+  <div class="doc-meta">
+    <span>文書番号: ZKN-001</span>
+    <span>版数: 第1.0版</span>
+    <span>作成日: 2026年5月</span>
+    <span>事業者: 株式会社イネブラ</span>
+  </div>
+</div>
+
+<div class="caution">
+  【弁護士確認事項】本説明書は弁護士によるレビューを経た後に投資家へ交付してください。<br>
+  不動産特定共同事業法第24条に基づく書面交付義務に対応するものです。<br>
+  〔●●〕と記載された箇所は、申請前に正確な情報を記入してください。
+</div>
+
+<div class="toc">
+  <div class="toc-title">目次</div>
+  <ol>
+    <li>分別管理の基本方針</li>
+    <li>出資金（募集資金）の管理</li>
+    <li>運営収益（宿泊売上）の管理</li>
+    <li>修繕積立金の管理</li>
+    <li>費用の区分と優先順位</li>
+    <li>帳簿・記録の保存</li>
+    <li>財産状況の報告体制</li>
+    <li>分別管理フロー図</li>
+  </ol>
+</div>
+
+<!-- 事業者情報 -->
+<table style="margin-bottom:36px">
+  <tr><th style="width:140px">事業者名</th><td>株式会社イネブラ（法人番号: 6011001143649）</td></tr>
+  <tr><th>代表取締役</th><td>濱田 優貴</td></tr>
+  <tr><th>主たる事務所</th><td>〒108-0073 東京都港区三田2-7-1 THE RESIDENCE三田 1913号室</td></tr>
+  <tr><th>事業種別</th><td>小規模不動産特定共同事業（第1号小規模事業）</td></tr>
+  <tr><th>組合形態</th><td>任意組合（民法第667条）</td></tr>
+  <tr><th>対象物件</th><td>宿泊施設用不動産（北海道・静岡県・香川県等）</td></tr>
+</table>
+
+<h2>第1 分別管理の基本方針</h2>
+
+<h3>1-1. 法的根拠</h3>
+<p>株式会社イネブラ（以下「当社」という）は、不動産特定共同事業法（以下「不特法」という）第15条および同法施行規則第22条の規定に従い、不動産特定共同事業に係る財産を当社固有の財産および他の事業に係る財産から厳格に分別して管理する。</p>
+
+<h3>1-2. 基本原則</h3>
+<ol>
+  <li><strong>完全分離の原則</strong>: 事業財産はいかなる場合も当社の運転資金・営業経費口座と混同しない。</li>
+  <li><strong>専用口座の設置</strong>: 財産区分ごとに専用の銀行口座を設け、入出金を管理する。</li>
+  <li><strong>帳簿の独立</strong>: 本事業専用の会計帳簿を設け、月次で財務状況を把握する。</li>
+  <li><strong>透明性の確保</strong>: 組合員（出資者）に対し、定期的に財産状況を報告する。</li>
+</ol>
+
+<h3>1-3. 分別管理の対象財産</h3>
+<table>
+  <tr><th>区分</th><th>内容</th></tr>
+  <tr><td>出資金</td><td>組合員からの出資金（任意組合への出資）</td></tr>
+  <tr><td>宿泊売上収入</td><td>対象物件の宿泊・賃貸に係る収入（OTA経由含む）</td></tr>
+  <tr><td>修繕積立金</td><td>物件の維持管理・修繕費用の積立金</td></tr>
+  <tr><td>納税準備金</td><td>固定資産税・損害保険料等の充当準備金</td></tr>
+  <tr><td>分配準備金</td><td>組合員への利益分配前に一時的に保管する資金</td></tr>
+</table>
+
+<h2>第2 出資金の管理</h2>
+
+<h3>2-1. 専用口座の設置</h3>
+<table>
+  <tr><th>項目</th><th>内容</th></tr>
+  <tr><td>口座名義</td><td>株式会社イネブラ 不特事業出資金口</td></tr>
+  <tr><td>金融機関</td><td class="placeholder">〔●●〕銀行 〔●●〕支店（預金保険制度の対象機関）</td></tr>
+  <tr><td>口座種別</td><td>普通預金（事業専用）</td></tr>
+  <tr><td>管理責任者</td><td>代表取締役 濱田優貴 / 業務管理者 <span class="placeholder">〔●●〕</span></td></tr>
+</table>
+
+<h3>2-2. 出資金の入金フロー</h3>
+<div class="flow">
+  組合員（振込）<br>
+  <span class="arrow">↓</span>
+  【出資金専用口座】（株式会社イネブラ名義・分別管理）<br>
+  <span class="arrow">↓ 物件取得・設備投資に充当</span>
+  対象不動産の取得・整備
+</div>
+
+<h3>2-3. 出資金の使途制限</h3>
+<p>出資金は以下の用途にのみ充当し、他の用途への流用を厳禁する。</p>
+<ul>
+  <li>対象不動産（土地・建物）の取得費用</li>
+  <li>建物改修・設備導入費用（リノベーション費用含む）</li>
+  <li>登記費用・各種許認可取得費用</li>
+  <li>不動産取得税・印紙税等の公租公課</li>
+  <li>弁護士・行政書士等の専門家費用</li>
+</ul>
+
+<h2>第3 運営収益（宿泊売上）の管理</h2>
+
+<h3>3-1. 収益入金フロー</h3>
+<div class="flow">
+  宿泊者 → Airbnb / OTAプラットフォーム<br>
+  <span class="arrow">↓ OTA手数料・清掃費等 控除後 精算</span>
+  【賃料収入専用口座】（分別管理）<br>
+  <span class="arrow">↓ 修繕積立・納税準備 拠出後</span>
+  【分配準備口座】<br>
+  <span class="arrow">↓ 翌月末日までに</span>
+  各組合員（持分比率に応じ銀行振込）
+</div>
+
+<h3>3-2. 費用控除の優先順位</h3>
+<table>
+  <tr><th>順位</th><th>費用項目</th><th>控除タイミング</th></tr>
+  <tr><td>1</td><td>OTAプラットフォーム手数料（Airbnb等）</td><td>OTA精算時（控除済み）</td></tr>
+  <tr><td>2</td><td>清掃費・リネン交換費等の直接運営費</td><td>月次</td></tr>
+  <tr><td>3</td><td>修繕積立金への拠出（売上の10%）</td><td>月次</td></tr>
+  <tr><td>4</td><td>固定資産税等納税準備金への拠出</td><td>月次（年税額÷12）</td></tr>
+  <tr><td>5</td><td>損害保険料の按分積立</td><td>月次</td></tr>
+</table>
+
+<div class="important">
+  <strong>分配可能額の算式</strong><br>
+  宿泊売上合計 − OTA手数料 − 清掃費等直接運営費 − 修繕積立拠出額 − 納税準備金拠出額 ＝ 分配可能額
+</div>
+
+<h2>第4 修繕積立金の管理</h2>
+
+<h3>4-1. 積立方針</h3>
+<table>
+  <tr><th>区分</th><th>積立方法</th><th>積立額</th></tr>
+  <tr><td>月次積立</td><td>月次宿泊売上の10%を自動拠出</td><td>月次宿泊売上 × 10%</td></tr>
+  <tr><td>初期積立</td><td>出資金から初期積立として拠出</td><td class="placeholder">〔●●〕万円（物件ごとに設定）</td></tr>
+</table>
+
+<h3>4-2. 修繕積立金の使途（限定列挙）</h3>
+<ul>
+  <li>建物の外装・屋根・基礎等の大規模修繕</li>
+  <li>設備（給排水・電気・暖房・太陽光発電）の更新・修繕</li>
+  <li>台風・大雪等による突発的被害の緊急復旧</li>
+  <li>消耗品の定期交換（10万円以上の支出は組合員へ事前通知）</li>
+</ul>
+
+<h3>4-3. 修繕実施の承認フロー</h3>
+<ol>
+  <li>50万円未満: 業務管理者の判断で実施、翌月報告書で報告</li>
+  <li>50万円以上200万円未満: 代表取締役の承認を得て実施、組合員へ通知</li>
+  <li>200万円以上: 組合員全員への書面通知（14日間の意見募集）後に実施</li>
+</ol>
+
+<h2>第5 費用の区分</h2>
+<table>
+  <tr><th>費用種別</th><th>負担区分</th><th>備考</th></tr>
+  <tr><td>OTA手数料</td><td>分配前控除（組合負担）</td><td>売上の15〜20%程度</td></tr>
+  <tr><td>清掃費・消耗品</td><td>分配前控除（組合負担）</td><td>1泊あたり実費</td></tr>
+  <tr><td>修繕積立金</td><td>分配前控除（組合負担）</td><td>売上の10%</td></tr>
+  <tr><td>固定資産税</td><td>分配前控除（組合負担）</td><td>年次按分</td></tr>
+  <tr><td>管理費・人件費</td><td>当社負担</td><td>分配に影響しない</td></tr>
+  <tr><td>大規模リノベーション</td><td>別途協議</td><td>組合員承認が必要</td></tr>
+</table>
+
+<h2>第6 帳簿・記録の保存</h2>
+<table>
+  <tr><th>帳簿種類</th><th>保存期間</th><th>担当</th></tr>
+  <tr><td>現金出納帳（口座入出金明細）</td><td>10年</td><td>経理担当</td></tr>
+  <tr><td>賃料収支台帳</td><td>10年</td><td>業務管理者</td></tr>
+  <tr><td>修繕積立金管理台帳</td><td>10年</td><td>業務管理者</td></tr>
+  <tr><td>分配計算書</td><td>10年</td><td>経理担当</td></tr>
+  <tr><td>組合員別分配履歴</td><td>10年</td><td>業務管理者</td></tr>
+</table>
+<p>組合員から帳簿の閲覧請求があった場合は、請求受領から<strong>7営業日以内</strong>に対応する。</p>
+
+<h2>第7 財産状況の報告体制</h2>
+<table>
+  <tr><th>報告種類</th><th>頻度</th><th>内容</th><th>方法</th></tr>
+  <tr><td>月次速報</td><td>翌月10日まで</td><td>稼働率・宿泊売上・概算収支</td><td>メール</td></tr>
+  <tr><td>四半期報告書</td><td>翌月末日まで</td><td>確定収支・分配金額・積立残高</td><td>メール＋書面</td></tr>
+  <tr><td>年次報告書</td><td>翌年2月末まで</td><td>年間収支・税務情報・長期修繕計画</td><td>書面（希望者）</td></tr>
+  <tr><td>臨時報告</td><td>随時</td><td>大規模修繕・天災等の重要事象</td><td>メール・電話</td></tr>
+</table>
+
+<h2>第8 分別管理フロー図（全体）</h2>
+<div class="flow">
+【出資金の流れ】<br>
+組合員 → 出資金専用口座 → 不動産取得・リノベ費用<br>
+<br>
+【収益の流れ】<br>
+宿泊者<br>
+  ↓ 宿泊料<br>
+Airbnb / OTA（手数料控除後に入金）<br>
+  ↓<br>
+賃料収入専用口座<br>
+  ↓ [修繕積立10% + 納税準備金] 拠出<br>
+分配準備口座<br>
+  ↓ 翌月末日<br>
+各組合員（口数按分・銀行振込）<br>
+<br>
+【積立の流れ】<br>
+賃料収入専用口座 → 修繕積立金専用口座（定期預金運用）<br>
+              → 納税準備金口座（普通預金）
+</div>
+
+<div class="sig-block">
+  <div class="sig-label">事業者</div>
+  <div class="sig-name">株式会社イネブラ</div>
+  <div class="sig-info">
+    代表取締役 濱田 優貴<br>
+    〒108-0073 東京都港区三田2-7-1 THE RESIDENCE三田 1913号室<br>
+    法人番号: 6011001143649
+  </div>
+  <div class="sig-date">作成日: 2026年　　月　　日</div>
+</div>
+
+<div class="footer-note">
+  文書番号: ZKN-001 / 版数: 第1.0版 / 作成: 株式会社イネブラ SOLUNA事業部<br>
+  本説明書は不動産特定共同事業法第15条・施行規則第22条に基づき作成。<br>
+  法令改正その他の事情により内容を変更する場合は、速やかに組合員へ通知する。
+</div>
+
+<button class="print-btn" onclick="window.print()">印刷 / PDF保存</button>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>空き状況 — SOLUNA</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--bg:#080806;--card:#0f0f0d;--border:rgba(255,255,255,.07)}
+html,body{width:100%;background:var(--bg);color:#fff;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;min-height:100%}
+body{padding:20px 16px 40px}
+
+h1{font-size:1.1rem;font-weight:700;color:var(--gold);letter-spacing:.08em;margin-bottom:4px}
+.sub{font-size:11px;color:#555;margin-bottom:20px}
+
+/* property cards */
+.prop-list{display:flex;flex-direction:column;gap:12px}
+.prop-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.prop-head{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;user-select:none}
+.prop-head img{width:52px;height:38px;border-radius:6px;object-fit:cover;flex-shrink:0}
+.prop-head .info{flex:1;min-width:0}
+.prop-head .name{font-size:13px;font-weight:700;color:#e8e0cc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prop-head .loc{font-size:10px;color:#555;margin-top:1px}
+.prop-head .badge{flex-shrink:0;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px}
+.badge.open{background:rgba(78,203,141,.15);color:#4ecb8d;border:1px solid rgba(78,203,141,.25)}
+.badge.busy{background:rgba(230,90,90,.12);color:#e65a5a;border:1px solid rgba(230,90,90,.2)}
+.badge.soon{background:rgba(200,164,85,.12);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.badge.loading{background:rgba(255,255,255,.05);color:#444;border:1px solid var(--border)}
+
+/* calendar area */
+.cal-wrap{border-top:1px solid var(--border);padding:12px 14px;display:none}
+.cal-wrap.open{display:block}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cal-nav button{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;color:#888;font-size:12px;padding:4px 10px;cursor:pointer}
+.cal-nav button:hover{color:#fff;background:rgba(255,255,255,.1)}
+.cal-title{font-size:12px;font-weight:700;color:#ccc}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-dow{font-size:9px;text-align:center;color:#444;padding:2px 0;font-weight:600}
+.cal-day{
+  aspect-ratio:1;border-radius:5px;display:flex;align-items:center;justify-content:center;
+  font-size:10px;cursor:default;transition:background .1s;
+}
+.cal-day.today{border:1px solid rgba(200,164,85,.5);color:var(--gold)}
+.cal-day.empty{opacity:0}
+.cal-day.booked{background:rgba(230,90,90,.22);color:#e65a5a}
+.cal-day.available{background:rgba(78,203,141,.12);color:#4ecb8d}
+.cal-day.past{color:#2a2a28}
+.cal-legend{display:flex;gap:12px;margin-top:8px}
+.cal-legend .li{display:flex;align-items:center;gap:4px;font-size:10px;color:#555}
+.cal-legend .dot{width:8px;height:8px;border-radius:2px}
+.no-beds24{font-size:11px;color:#444;text-align:center;padding:12px 0}
+.prop-link{display:inline-block;margin-top:8px;font-size:11px;color:var(--gold);text-decoration:none;opacity:.8}
+.prop-link:hover{opacity:1}
+
+.refresh-btn{display:block;margin:0 auto 16px;background:rgba(200,164,85,.12);border:1px solid rgba(200,164,85,.2);border-radius:8px;color:var(--gold);font-size:11px;padding:6px 16px;cursor:pointer}
+.refresh-btn:hover{background:rgba(200,164,85,.2)}
+.updated{text-align:center;font-size:10px;color:#333;margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<h1>🏠 空き状況カレンダー</h1>
+<p class="sub">物件をタップして空き日を確認。緑 = 空き、赤 = 予約済み</p>
+
+<button class="refresh-btn" onclick="loadAll()">🔄 最新情報に更新</button>
+<div class="updated" id="updated"></div>
+
+<div class="prop-list" id="prop-list"></div>
+
+<script>
+var PROPS = [
+  {slug:'atami',   name:'WHITE HOUSE 熱海',    loc:'静岡県 熱海市', img:'/img/atami_sunset_ocean.webp', beds24:243406, url:'/atami'},
+  {slug:'lodge',   name:'THE LODGE',           loc:'北海道 弟子屈町', img:'/img/lodge_exterior_snow.webp', beds24:243408, url:'/lodge'},
+  {slug:'nesting', name:'NESTING',             loc:'北海道 弟子屈町', img:'/img/nesting_wide.webp', beds24:243409, url:'/nesting'},
+  {slug:'instant', name:'インスタントハウス',  loc:'北海道 弟子屈町', img:'/img/instant_dome_snow.webp', beds24:322965, url:'/instant'},
+  {slug:'tapkop',  name:'TAPKOP',              loc:'北海道 弟子屈町', img:'/img/tapkop_real2.webp', beds24:0, url:'/tapkop'},
+  {slug:'honolulu',name:'HONOLULU VILLA',      loc:'ハワイ州 ホノルル', img:'/img/property-honolulu.webp', beds24:243407, url:'/honolulu'},
+];
+
+var state = {}; // slug -> {booked:[], loaded:bool}
+var openSlug = null;
+var dispYear, dispMonth;
+
+function today(){ return new Date(); }
+
+function loadAll(){
+  var list = document.getElementById('prop-list');
+  list.innerHTML = '';
+  PROPS.forEach(function(p){
+    state[p.slug] = {booked:[], loaded:false};
+    var card = makeCard(p);
+    list.appendChild(card);
+    if(p.beds24 > 0) fetchBooked(p);
+    else state[p.slug].loaded = true;
+  });
+  document.getElementById('updated').textContent = '最終更新: '+new Date().toLocaleTimeString('ja-JP');
+}
+
+function makeCard(p){
+  var card = document.createElement('div');
+  card.className = 'prop-card'; card.id = 'card-'+p.slug;
+  card.innerHTML =
+    '<div class="prop-head" onclick="toggleCal(\''+p.slug+'\')">'
+    +'<img src="'+p.img+'" alt="'+p.name+'" loading="lazy">'
+    +'<div class="info"><div class="name">'+p.name+'</div><div class="loc">'+p.loc+'</div></div>'
+    +'<span class="badge loading" id="badge-'+p.slug+'">読込中</span>'
+    +'</div>'
+    +'<div class="cal-wrap" id="cal-'+p.slug+'">'
+    +(p.beds24 > 0
+      ? '<div class="cal-nav">'
+        +'<button onclick="event.stopPropagation();navCal(\''+p.slug+'\',-1)">&#8249;</button>'
+        +'<span class="cal-title" id="cal-title-'+p.slug+'"></span>'
+        +'<button onclick="event.stopPropagation();navCal(\''+p.slug+'\',1)">&#8250;</button>'
+        +'</div>'
+        +'<div class="cal-grid" id="cal-grid-'+p.slug+'"></div>'
+        +'<div class="cal-legend">'
+        +'<div class="li"><div class="dot" style="background:rgba(78,203,141,.5)"></div>空き</div>'
+        +'<div class="li"><div class="dot" style="background:rgba(230,90,90,.5)"></div>予約済</div>'
+        +'</div>'
+      : '<div class="no-beds24">Beds24未設定</div>')
+    +'<a class="prop-link" href="'+p.url+'">詳細・予約ページへ →</a>'
+    +'</div>';
+  return card;
+}
+
+function fetchBooked(p){
+  var from = new Date(); from.setDate(1);
+  var to = new Date(from); to.setMonth(to.getMonth()+3);
+  var f = fmt(from), t2 = fmt(to);
+  fetch('/api/beds24/bookings?propId='+p.beds24+'&from='+f+'&to='+t2)
+    .then(function(r){ return r.ok ? r.json() : []; })
+    .then(function(data){
+      var booked = [];
+      (Array.isArray(data) ? data : (data.bookings||[])).forEach(function(b){
+        var ci = new Date(b.checkIn||b.check_in||b.firstNight||'');
+        var co = new Date(b.checkOut||b.check_out||b.lastNight||'');
+        if(!isNaN(ci) && !isNaN(co)){
+          var d = new Date(ci);
+          while(d < co){ booked.push(fmt(d)); d.setDate(d.getDate()+1); }
+        }
+      });
+      state[p.slug] = {booked:booked, loaded:true};
+      updateBadge(p.slug, booked);
+      if(openSlug === p.slug) renderCal(p.slug);
+    })
+    .catch(function(){
+      state[p.slug] = {booked:[], loaded:true, error:true};
+      document.getElementById('badge-'+p.slug).textContent='--';
+      document.getElementById('badge-'+p.slug).className='badge loading';
+    });
+}
+
+function toggleCal(slug){
+  var wrap = document.getElementById('cal-'+slug);
+  if(!wrap) return;
+  var isOpen = wrap.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.cal-wrap.open').forEach(function(el){ el.classList.remove('open'); });
+  if(!isOpen){
+    openSlug = slug;
+    var p = PROPS.find(function(p){return p.slug===slug;});
+    if(p && p.beds24 > 0){
+      var n = today();
+      dispYear = n.getFullYear(); dispMonth = n.getMonth();
+      renderCal(slug);
+    }
+    wrap.classList.add('open');
+  } else {
+    openSlug = null;
+  }
+}
+
+function navCal(slug, dir){
+  dispMonth += dir;
+  if(dispMonth < 0){ dispMonth=11; dispYear--; }
+  if(dispMonth > 11){ dispMonth=0; dispYear++; }
+  renderCal(slug);
+}
+
+function renderCal(slug){
+  var grid = document.getElementById('cal-grid-'+slug);
+  var title = document.getElementById('cal-title-'+slug);
+  if(!grid) return;
+  var yr = dispYear, mo = dispMonth;
+  title.textContent = yr+'年'+(mo+1)+'月';
+  var booked = (state[slug]||{}).booked||[];
+  var days = ['日','月','火','水','木','金','土'];
+  var html = days.map(function(d){ return '<div class="cal-dow">'+d+'</div>'; }).join('');
+  var first = new Date(yr, mo, 1).getDay();
+  for(var i=0;i<first;i++) html += '<div class="cal-day empty"></div>';
+  var daysInMonth = new Date(yr, mo+1, 0).getDate();
+  var todayStr = fmt(today());
+  for(var d=1;d<=daysInMonth;d++){
+    var dt = new Date(yr,mo,d);
+    var ds = fmt(dt);
+    var cls = 'cal-day';
+    if(ds === todayStr) cls += ' today';
+    else if(dt < today()) cls += ' past';
+    else if(booked.indexOf(ds) >= 0) cls += ' booked';
+    else cls += ' available';
+    html += '<div class="'+cls+'" title="'+ds+'">'+d+'</div>';
+  }
+  grid.innerHTML = html;
+}
+
+function fmt(d){
+  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+}
+function pad(n){ return n<10?'0'+n:''+n; }
+
+// Fix for syntax error in updateBadge
+function updateBadge(slug, booked){
+  var badge = document.getElementById('badge-'+slug);
+  if(!badge) return;
+  var now = today();
+  var next7 = booked.filter(function(d){
+    var dt = new Date(d); var diff = (dt-now)/86400000;
+    return diff >= 0 && diff < 7;
+  });
+  var free = 7 - next7.length;
+  if(free >= 7){ badge.textContent='空きあり'; badge.className='badge open'; }
+  else if(free <= 0){ badge.textContent='満室'; badge.className='badge busy'; }
+  else { badge.textContent='残'+free+'日'; badge.className='badge open'; }
+}
+
+loadAll();
+</script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

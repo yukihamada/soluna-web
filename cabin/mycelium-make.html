@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>菌糸体パネルの作り方 — SOLUNA Lab</title>
+<meta name="description" content="カワラタケ菌糸体パネルをゼロから作る完全ガイド。材料費¥12,000・4週間で断熱吸音パネルが完成。">
+<meta property="og:title" content="菌糸体パネルの作り方 | SOLUNA Lab">
+<meta property="og:description" content="農業廃棄物からキャビンの壁を作る。材料費¥12,000・4週間のステップバイステップガイド。">
+<meta property="og:url" content="https://solun.art/mycelium-make">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="SOLUNA">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://solun.art/mycelium-make">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080806;
+  --card: #131210;
+  --card2: #1c1a16;
+  --border: #2a2820;
+  --text: #e4dfc8;
+  --muted: #7a7260;
+  --accent: #c4903a;
+  --gold: #c4903a;
+  --green: #4a8c5c;
+  --green-bg: rgba(74,140,92,0.12);
+  --red: #b04040;
+  --red-bg: rgba(176,64,64,0.1);
+  --step1: #c4903a;
+  --step2: #5a9070;
+  --step3: #4a70b0;
+  --step4: #9060a0;
+  --step5: #c04040;
+  --step6: #7a8040;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:'Inter','Helvetica Neue','Hiragino Sans',sans-serif; -webkit-font-smoothing:antialiased; margin-bottom:80px; }
+
+/* ── Mac chrome ── */
+#mac-bar{position:fixed;top:0;left:0;right:0;height:28px;background:rgba(10,8,6,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 16px 0 12px;z-index:2000;user-select:none}
+#mac-bar .logo{font-family:'Anton',sans-serif;font-size:13px;color:#c9a962;letter-spacing:0.08em;text-decoration:none;margin-right:20px;flex-shrink:0}
+#mac-bar .mnav{display:flex;align-items:center;gap:2px;flex:1}
+#mac-bar .mnav a{font-size:12px;color:rgba(255,255,255,0.5);text-decoration:none;padding:2px 10px;border-radius:4px}
+#mac-bar .mnav a.cur{color:#fff;font-weight:600;background:rgba(255,255,255,0.1)}
+#mac-bar .mnav a:hover{background:rgba(255,255,255,0.08)}
+#mac-clock{font-size:11px;color:rgba(255,255,255,0.45);font-variant-numeric:tabular-nums;flex-shrink:0}
+#mac-chrome{position:sticky;top:28px;z-index:1000;background:rgba(10,8,6,0.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 16px;height:36px}
+.tlights{display:flex;gap:6px;margin-right:14px}
+.tl{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,0.2);flex-shrink:0;display:block}
+.chrome-ttl{flex:1;text-align:center;font-size:12px;font-weight:500;color:rgba(255,255,255,0.45);letter-spacing:0.02em;pointer-events:none}
+.chrome-back{font-size:11px;color:rgba(255,255,255,0.25);text-decoration:none;flex-shrink:0}
+/* Dock */
+#mac-dock{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);z-index:2000;display:flex;align-items:flex-end;gap:6px;background:rgba(255,255,255,0.07);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:6px 10px;box-shadow:0 8px 32px rgba(0,0,0,0.6)}
+.di{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;transition:transform 0.15s ease;position:relative}
+.di:hover{transform:translateY(-8px) scale(1.25)}
+.di .ico{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:20px}
+.di .ico.act{background:rgba(201,169,98,0.25);border-color:rgba(201,169,98,0.4)}
+.di .dot{width:4px;height:4px;border-radius:50%;background:#c9a962}
+.di .tip{position:absolute;bottom:52px;background:rgba(0,0,0,0.8);color:#fff;font-size:10px;font-weight:600;padding:3px 8px;border-radius:5px;white-space:nowrap;pointer-events:none;border:1px solid rgba(255,255,255,0.1);display:none}
+.di:hover .tip{display:block}
+
+/* ── Layout ── */
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+/* ── Hero ── */
+.hero {
+  padding: 64px 24px 56px;
+  max-width: 860px; margin: 0 auto;
+  border-bottom: 1px solid var(--border);
+}
+.eyebrow {
+  font-size: 10px; letter-spacing: 0.3em; color: var(--accent);
+  text-transform: uppercase; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.eyebrow::before { content:''; width:24px; height:1px; background:var(--accent); }
+h1 { font-family:'Anton',sans-serif; font-size: clamp(2.4rem, 8vw, 4.5rem); letter-spacing: 0.02em; line-height: 1; color: #fff; margin-bottom: 20px; }
+h1 em { color: var(--accent); font-style: normal; }
+.hero-sub { font-size: 15px; color: var(--muted); line-height: 1.75; max-width: 580px; margin-bottom: 32px; }
+.hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+.stat { display: flex; flex-direction: column; gap: 3px; }
+.stat-val { font-size: 26px; font-weight: 300; color: #fff; letter-spacing: -0.02em; line-height: 1; }
+.stat-key { font-size: 10px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+
+/* ── Shopping list ── */
+.shop-section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+.section-label { font-size: 10px; letter-spacing: 0.25em; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 300; color: #fff; letter-spacing: -0.02em; margin-bottom: 8px; }
+.section-sub { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 32px; }
+
+.shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+@media (max-width: 600px) { .shop-grid { grid-template-columns: 1fr; } }
+.shop-item { background: var(--card2); padding: 20px; display: flex; gap: 14px; align-items: flex-start; }
+.shop-item.essential { background: rgba(196,144,58,0.06); border-left: 2px solid var(--accent); }
+.shop-emoji { font-size: 28px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+.shop-info { flex: 1; }
+.shop-name { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+.shop-where { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.shop-price { font-size: 13px; color: var(--accent); font-weight: 500; }
+.shop-tag { display: inline-block; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 1px 7px; border-radius: 3px; margin-left: 6px; vertical-align: middle; background: rgba(196,144,58,0.15); color: var(--accent); border: 1px solid rgba(196,144,58,0.3); }
+.shop-total { margin-top: 16px; padding: 16px 20px; background: var(--card); border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.shop-total-label { font-size: 12px; color: var(--muted); }
+.shop-total-val { font-size: 24px; font-weight: 300; color: #fff; }
+
+/* ── Steps ── */
+.steps-section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+.step-card { margin-bottom: 1px; background: var(--card2); }
+.step-header {
+  display: flex; align-items: flex-start; gap: 20px; padding: 28px;
+  cursor: pointer;
+}
+.step-num-wrap { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.step-num { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.step-day { font-size: 9px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; white-space: nowrap; }
+.step-head-text { flex: 1; }
+.step-title { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+.step-desc-short { font-size: 13px; color: var(--muted); }
+.step-time { font-size: 11px; color: var(--muted); background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 3px 10px; margin-left: auto; white-space: nowrap; flex-shrink: 0; align-self: flex-start; }
+
+.step-body { padding: 0 28px 28px 92px; }
+@media (max-width: 600px) { .step-body { padding: 0 20px 24px 20px; } }
+
+.step-ingredients { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.ingr { display: flex; align-items: center; gap: 6px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; font-size: 12px; color: var(--text); }
+.ingr-emoji { font-size: 16px; }
+
+.step-instructions { display: flex; flex-direction: column; gap: 12px; }
+.inst { display: flex; gap: 14px; }
+.inst-num { width: 22px; height: 22px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--muted); flex-shrink: 0; margin-top: 2px; }
+.inst-text { font-size: 13px; color: var(--muted); line-height: 1.7; flex: 1; }
+.inst-text strong { color: var(--text); }
+.inst-text code { background: var(--card); border: 1px solid var(--border); border-radius: 3px; padding: 1px 6px; font-size: 12px; color: var(--accent); font-family: monospace; }
+
+.tip-box { margin-top: 16px; padding: 12px 16px; background: rgba(196,144,58,0.06); border-left: 2px solid var(--accent); border-radius: 0 4px 4px 0; }
+.tip-box.warn { background: var(--red-bg); border-color: var(--red); }
+.tip-box.ok { background: var(--green-bg); border-color: var(--green); }
+.tip-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; font-weight: 600; }
+.tip-box.warn .tip-label { color: #e06060; }
+.tip-box.ok .tip-label { color: #70b080; }
+.tip-text { font-size: 12px; color: var(--muted); line-height: 1.65; }
+.tip-text strong { color: var(--text); }
+
+/* ── Calendar ── */
+.calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 20px; }
+.cal-day { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 8px 6px; text-align: center; }
+.cal-day.active { border-color: var(--accent); background: rgba(196,144,58,0.1); }
+.cal-day.done { border-color: var(--green); background: rgba(74,140,92,0.1); }
+.cal-num { font-size: 13px; font-weight: 600; color: var(--muted); }
+.cal-day.active .cal-num { color: var(--accent); }
+.cal-day.done .cal-num { color: #70b080; }
+.cal-label { font-size: 9px; color: var(--muted); margin-top: 3px; line-height: 1.3; }
+.cal-day.active .cal-label { color: rgba(196,144,58,0.7); }
+
+/* ── Signs ── */
+.signs { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 20px; }
+.sign { padding: 20px; }
+.sign.good { background: var(--green-bg); }
+.sign.bad { background: var(--red-bg); }
+.sign-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 12px; font-weight: 600; }
+.sign.good .sign-label { color: #70b080; }
+.sign.bad .sign-label { color: #e06060; }
+.sign-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+/* ── Record table ── */
+.record-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
+.record-table th { text-align: left; padding: 10px 14px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); font-weight: 400; }
+.record-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); color: var(--muted); }
+.record-table td:first-child { color: var(--text); font-weight: 500; }
+.record-table tr:last-child td { border-bottom: none; }
+.record-table input[type=text] { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 6px 10px; color: var(--text); font-size: 13px; width: 100%; font-family: inherit; }
+.record-table input[type=text]:focus { outline: none; border-color: var(--accent); }
+
+/* ── GBRC section ── */
+.gbrc-section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+.gbrc-box { background: var(--card2); border: 1px solid var(--border); padding: 32px; }
+.gbrc-steps { display: flex; gap: 0; margin-top: 24px; }
+.gbrc-step { flex: 1; padding: 20px 16px; border-right: 1px solid var(--border); text-align: center; }
+.gbrc-step:last-child { border-right: none; }
+.gbrc-icon { font-size: 28px; margin-bottom: 10px; }
+.gbrc-step-num { font-size: 10px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+.gbrc-step-title { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+.gbrc-step-desc { font-size: 11px; color: var(--muted); line-height: 1.6; }
+@media (max-width: 600px) { .gbrc-steps { flex-direction: column; } .gbrc-step { border-right: none; border-bottom: 1px solid var(--border); } }
+
+/* ── CTA ── */
+.cta-section { padding: 64px 0; }
+.cta-box { background: rgba(196,144,58,0.05); border: 1px solid rgba(196,144,58,0.2); padding: 40px; text-align: center; }
+.cta-title { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 300; color: #fff; margin-bottom: 12px; letter-spacing: -0.02em; }
+.cta-sub { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 28px; }
+.btn-primary { display: inline-block; background: var(--accent); color: #000; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 13px 28px; text-decoration: none; border-radius: 2px; }
+.btn-ghost { display: inline-block; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; padding: 12px 24px; text-decoration: none; border-radius: 2px; margin-left: 12px; }
+
+/* ── Separator ── */
+.sep { height: 1px; background: var(--border); margin: 0; }
+</style>
+</head>
+<body>
+
+<!-- Mac menubar -->
+<div id="mac-bar">
+  <a href="/" class="logo">⬡ SOLUNA</a>
+  <div class="mnav">
+    <a href="/">Home</a>
+    <a href="/festivals">Festivals</a>
+    <a href="/lineup">Lineup</a>
+    <a href="/lab" class="cur">Lab</a>
+    <a href="/vision">Vision</a>
+    <a href="/community">Community</a>
+    <a href="/tickets">Tickets</a>
+  </div>
+  <span id="mac-clock"></span>
+</div>
+<!-- Mac window chrome -->
+<div id="mac-chrome">
+  <div class="tlights">
+    <a href="/" class="tl" style="background:#ff5f57" title="← Home"></a>
+    <div class="tl" style="background:#febc2e"></div>
+    <div class="tl" style="background:#28c840"></div>
+  </div>
+  <div class="chrome-ttl">菌糸体パネルの作り方</div>
+  <a href="/mycelium" class="chrome-back">← Mycelium</a>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="eyebrow">SOLUNA Lab · DIY Guide</div>
+  <h1>4週間で<br><em>壁が育つ。</em></h1>
+  <p class="hero-sub">
+    カワラタケ菌糸体パネルをゼロから作る完全ガイド。<br>
+    農業廃棄物 + キノコ種菌 = 断熱・吸音パネル。<br>
+    材料費¥12,000、道具は電子レンジとオーブンだけ。
+  </p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-val">¥12,000</div><div class="stat-key">材料費（初回）</div></div>
+    <div class="stat"><div class="stat-val">4週間</div><div class="stat-key">接種→完成</div></div>
+    <div class="stat"><div class="stat-val">600×300</div><div class="stat-key">パネルサイズ mm</div></div>
+    <div class="stat"><div class="stat-val">NRC 0.85</div><div class="stat-key">目標吸音率</div></div>
+  </div>
+</div>
+
+<!-- Shopping list -->
+<section class="shop-section">
+  <div class="wrap">
+    <div class="section-label">Step 0 — Before You Start</div>
+    <h2>買い物リスト</h2>
+    <p class="section-sub">全部で¥10,000〜15,000。2回目以降は種菌代（¥2,500）だけ。</p>
+
+    <div class="shop-grid">
+      <div class="shop-item essential">
+        <div class="shop-emoji">🍄</div>
+        <div class="shop-info">
+          <div class="shop-name">カワラタケ おが種菌 <span class="shop-tag">最重要</span></div>
+          <div class="shop-where">Amazon「カワラタケ おが種菌」/ 森産業 / キノコのうかい</div>
+          <div class="shop-price">¥1,500〜2,500 / 500g（4m²分）</div>
+        </div>
+      </div>
+      <div class="shop-item">
+        <div class="shop-emoji">🪵</div>
+        <div class="shop-info">
+          <div class="shop-name">ペット用木くず（ブナ・ヒノキ系）</div>
+          <div class="shop-where">ホームセンター（コーナン・ドイト・カインズ）</div>
+          <div class="shop-price">¥500〜800 / 3L袋×2</div>
+        </div>
+      </div>
+      <div class="shop-item">
+        <div class="shop-emoji">🌾</div>
+        <div class="shop-info">
+          <div class="shop-name">籾殻（もみがら）</div>
+          <div class="shop-where">農業資材店 / JA / 近くの農家に相談すると無料のことも</div>
+          <div class="shop-price">¥300〜無料</div>
+        </div>
+      </div>
+      <div class="shop-item">
+        <div class="shop-emoji">🧪</div>
+        <div class="shop-info">
+          <div class="shop-name">ホウ砂（Borax / 四ホウ酸ナトリウム）</div>
+          <div class="shop-where">ドラッグストア・薬局。漬物コーナーにも</div>
+          <div class="shop-price">¥500〜800 / 500g</div>
+        </div>
+      </div>
+      <div class="shop-item">
+        <div class="shop-emoji">🛢️</div>
+        <div class="shop-info">
+          <div class="shop-name">生亜麻仁油（ワトコオイル Naturalまたは食用）</div>
+          <div class="shop-where">ホームセンター木材コーナー / スーパー（食用で代替可）</div>
+          <div class="shop-price">¥800〜1,200 / 200ml</div>
+        </div>
+      </div>
+      <div class="shop-item">
+        <div class="shop-emoji">📦</div>
+        <div class="shop-info">
+          <div class="shop-name">木型 or シリコン型（600×300×40mm）</div>
+          <div class="shop-where">ホームセンターでベニヤ板+ビスで自作が安い。100均バットでも代替可</div>
+          <div class="shop-price">¥300〜600（自作）</div>
+        </div>
+      </div>
+      <div class="shop-item">
+        <div class="shop-emoji">🧤</div>
+        <div class="shop-info">
+          <div class="shop-name">消耗品セット</div>
+          <div class="shop-where">チャック付きビニール袋（大）/ 使い捨て手袋 / 不織布マスク / アルコール消毒（70%）</div>
+          <div class="shop-price">¥500〜800（100均・ドラッグストア）</div>
+        </div>
+      </div>
+      <div class="shop-item">
+        <div class="shop-emoji">🌡️</div>
+        <div class="shop-info">
+          <div class="shop-name">小型温度計</div>
+          <div class="shop-where">100均 or Amazon。培養中の温度管理に必須</div>
+          <div class="shop-price">¥100〜500</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-total">
+      <div>
+        <div class="shop-total-label">初回合計（材料費のみ、道具除く）</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px;">電子レンジ・オーブンは家にあるもので OK</div>
+      </div>
+      <div class="shop-total-val">¥5,000〜12,000</div>
+    </div>
+  </div>
+</section>
+
+<!-- Steps -->
+<section class="steps-section">
+  <div class="wrap">
+    <div class="section-label">The Process</div>
+    <h2>6ステップ、4週間</h2>
+    <p class="section-sub">作業時間は合計4〜5時間。あとは菌が勝手に育つ。</p>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="step-card" style="border-top:2px solid var(--step1);">
+    <div class="step-header">
+      <div class="step-num-wrap">
+        <div class="step-num" style="background:var(--step1);">01</div>
+        <div class="step-day">Day 0</div>
+      </div>
+      <div class="step-head-text">
+        <div class="step-title">基材を配合・殺菌する</div>
+        <div class="step-desc-short">おがくず70% + 籾殻30%を混ぜ、電子レンジで殺菌</div>
+      </div>
+      <div class="step-time">⏱ 1〜2時間</div>
+    </div>
+    <div class="step-body">
+      <div class="step-ingredients">
+        <div class="ingr"><span class="ingr-emoji">🪵</span> おがくず 70%</div>
+        <div class="ingr"><span class="ingr-emoji">🌾</span> 籾殻 30%</div>
+        <div class="ingr"><span class="ingr-emoji">💧</span> 水（適量）</div>
+      </div>
+      <div class="step-instructions">
+        <div class="inst">
+          <div class="inst-num">1</div>
+          <div class="inst-text">おがくず（2.2L）と籾殻（0.9L）をボウルに入れてよく混ぜる。<br><strong>600×300×40mmパネル1枚 = 約3Lの混合基材</strong></div>
+        </div>
+        <div class="inst">
+          <div class="inst-num">2</div>
+          <div class="inst-text">水を少しずつ加えながら混ぜる。<strong>握ったとき水が滲み出ない程度（含水率 約65%）</strong>が目標。べちゃべちゃにしない。</div>
+        </div>
+        <div class="inst">
+          <div class="inst-num">3</div>
+          <div class="inst-text">耐熱皿に広げ、<strong>電子レンジ 500W × 10分 × 3回</strong>（合計30分）。または圧力鍋 121℃ × 60分（より確実）。</div>
+        </div>
+        <div class="inst">
+          <div class="inst-num">4</div>
+          <div class="inst-text"><strong>必ず25℃以下まで冷ます。</strong>ここで急がないことが大事。熱いまま接種すると菌が全滅する。</div>
+        </div>
+      </div>
+      <div class="tip-box warn">
+        <div class="tip-label">⚠️ 重要</div>
+        <div class="tip-text">電子レンジ処理直後は内部がまだ熱い。表面が冷えていても中心部が高温のことがある。<strong>1〜2時間放置</strong>して完全に冷ます。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="step-card" style="border-top:2px solid var(--step2);margin-top:1px;">
+    <div class="step-header">
+      <div class="step-num-wrap">
+        <div class="step-num" style="background:var(--step2);">02</div>
+        <div class="step-day">Day 1</div>
+      </div>
+      <div class="step-head-text">
+        <div class="step-title">種菌を接種する</div>
+        <div class="step-desc-short">最重要工程。無菌状態で素早く混ぜて型に詰める</div>
+      </div>
+      <div class="step-time">⏱ 30分</div>
+    </div>
+    <div class="step-body">
+      <div class="step-ingredients">
+        <div class="ingr"><span class="ingr-emoji">🍄</span> カワラタケ種菌（基材の10〜15%）</div>
+        <div class="ingr"><span class="ingr-emoji">🧤</span> 使い捨て手袋</div>
+        <div class="ingr"><span class="ingr-emoji">💦</span> アルコール消毒</div>
+      </div>
+      <div class="step-instructions">
+        <div class="inst">
+          <div class="inst-num">1</div>
+          <div class="inst-text"><strong>環境を整える</strong>: 窓を閉め、エアコン・扇風機を止める。作業台・ボウル・手をアルコールでしっかり拭く。</div>
+        </div>
+        <div class="inst">
+          <div class="inst-num">2</div>
+          <div class="inst-text">基材重量を量り、その<strong>10〜15%の種菌</strong>を用意する。3Lの基材 ≈ 約1.2kg → 種菌 <code>120〜180g</code></div>
+        </div>
+        <div class="inst">
+          <div class="inst-num">3</div>
+          <div class="inst-text">手袋をして種菌を基材に加え、<strong>素早く均一に混ぜる（2分以内）</strong>。チャック袋に入れて振る方法も有効。</div>
+        </div>
+        <div class="inst">
+          <div class="inst-num">4</div>
+          <div class="inst-text">型枠にぎっちり詰め込む。板を上に乗せて押さえ、<strong>圧縮率15〜20%</strong>（詰め込んだ後に高さが15〜20%減る感覚）。</div>
+        </div>
+        <div class="inst">
+          <div class="inst-num">5</div>
+          <div class="inst-text">ラップで表面を覆い、<strong>型ごとチャック袋に入れる</strong>（過乾燥防止）。段ボール箱か押し入れの暗所に置く。</div>
+        </div>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">ポイント</div>
+        <div class="tip-text">接種後は<strong>30分以内に型に詰める</strong>こと。空気に長く触れると汚染リスクが上がる。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="step-card" style="border-top:2px solid var(--step3);margin-top:1px;">
+    <div class="step-header">
+      <div class="step-num-wrap">
+        <div class="step-num" style="background:var(--step3);">03</div>
+        <div class="step-day">Day 2〜21</div>
+      </div>
+      <div class="step-head-text">
+        <div class="step-title">培養する（待つだけ）</div>
+        <div class="step-desc-short">25℃・暗所に置いて白い菌糸が広がるのを待つ</div>
+      </div>
+      <div class="step-time">⏱ 毎日2分の観察</div>
+    </div>
+    <div class="step-body">
+      <!-- Calendar -->
+      <div style="margin-bottom:16px;">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;letter-spacing:0.1em;">培養カレンダー（目安）</div>
+        <div class="calendar">
+          <div class="cal-day active"><div class="cal-num">1</div><div class="cal-label">接種</div></div>
+          <div class="cal-day"><div class="cal-num">2</div><div class="cal-label"></div></div>
+          <div class="cal-day"><div class="cal-num">3</div><div class="cal-label">白く<br>なる</div></div>
+          <div class="cal-day"><div class="cal-num">5</div><div class="cal-label"></div></div>
+          <div class="cal-day"><div class="cal-num">7</div><div class="cal-label">膜が<br>張る</div></div>
+          <div class="cal-day"><div class="cal-num">10</div><div class="cal-label"></div></div>
+          <div class="cal-day"><div class="cal-num">14</div><div class="cal-label">中間</div></div>
+          <div class="cal-day done"><div class="cal-num">21</div><div class="cal-label">全面<br>菌糸</div></div>
+          <div class="cal-day done"><div class="cal-num">28</div><div class="cal-label">完成</div></div>
+        </div>
+      </div>
+
+      <div class="signs">
+        <div class="sign good">
+          <div class="sign-label">✅ 成功のサイン</div>
+          <div class="sign-item">🤍 白い綿状の菌糸が広がっている</div>
+          <div class="sign-item">🍄 キノコが出てきた（換気開始）</div>
+          <div class="sign-item">🌿 土っぽい・森のニオイ</div>
+          <div class="sign-item">💪 全体が固まってきた感触</div>
+        </div>
+        <div class="sign bad">
+          <div class="sign-label">❌ 失敗のサイン（廃棄）</div>
+          <div class="sign-item">💚 緑色に変色 → トリコデルマ汚染</div>
+          <div class="sign-item">🖤 黒・青に変色 → 雑菌汚染</div>
+          <div class="sign-item">🤢 腐敗臭・酸っぱいニオイ</div>
+          <div class="sign-item">💧 水が溜まっている（過湿）</div>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <div class="tip-label">温度管理</div>
+        <div class="tip-text"><strong>理想: 22〜26℃。30℃を超えると菌が死ぬ。</strong><br>夏: 涼しい部屋の床下・押し入れ下段。冬: 押し入れ上段・段ボール箱+使い捨てカイロ（30℃にならないよう注意）。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="step-card" style="border-top:2px solid var(--step4);margin-top:1px;">
+    <div class="step-header">
+      <div class="step-num-wrap">
+        <div class="step-num" style="background:var(--step4);">04</div>
+        <div class="step-day">Day 21〜28</div>
+      </div>
+      <div class="step-head-text">
+        <div class="step-title">脱型・乾燥（模様が決まる瞬間）</div>
+        <div class="step-desc-short">60℃で2時間。この温度が美観の決め手</div>
+      </div>
+      <div class="step-time">⏱ 2〜3時間</div>
+    </div>
+    <div class="step-body">
+      <div class="step-instructions">
+        <div class="inst">
+          <div class="inst-num">1</div>
+          <div class="inst-text">全面に菌糸が広がったら型から外す。<strong>まだ少し柔らかいうち</strong>に外すと、カワラタケ特有の同心円リング模様が最もきれいに出る。</div>
+        </div>
+        <div class="inst">
+          <div class="inst-num">2</div>
+          <div class="inst-text">オーブンを<strong>60℃に予熱</strong>してパネルを入れる。<strong>2時間</strong>乾燥させて菌糸を完全に不活化（成長を止める）。</div>
+        </div>
+        <div class="inst">
+          <div class="inst-num">3</div>
+          <div class="inst-text">取り出して常温で1日放置。完全に乾いたらパネルは軽く、硬くなっているはず。</div>
+        </div>
+      </div>
+      <div class="tip-box warn">
+        <div class="tip-label">⚠️ 温度に注意</div>
+        <div class="tip-text"><strong>80℃以上にすると模様が均一になり、独特の美しさが失われる。</strong>必ず60℃をキープ。オーブンの実際の温度を温度計で確認推奨。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="step-card" style="border-top:2px solid var(--step5);margin-top:1px;">
+    <div class="step-header">
+      <div class="step-num-wrap">
+        <div class="step-num" style="background:var(--step5);">05</div>
+        <div class="step-day">Day 29</div>
+      </div>
+      <div class="step-head-text">
+        <div class="step-title">防火・防水トリートメント</div>
+        <div class="step-desc-short">ホウ砂（防火）→ 亜麻仁油（防水）の順で塗る</div>
+      </div>
+      <div class="step-time">⏱ 1時間 + 乾燥1日</div>
+    </div>
+    <div class="step-body">
+      <div class="step-instructions">
+        <div class="inst">
+          <div class="inst-num">1</div>
+          <div class="inst-text"><strong>防火処理（必須）</strong>: ホウ砂を水に溶かす（濃度10%: 100mlの水に10gのホウ砂）。刷毛で全面に塗り込み、乾かしてからもう2回繰り返す。</div>
+        </div>
+        <div class="inst">
+          <div class="inst-num">2</div>
+          <div class="inst-text">完全に乾いたら<strong>防水処理</strong>: 亜麻仁油を布に少量取り、薄く薄く塗り込む。24時間乾燥後にもう一回。</div>
+        </div>
+        <div class="inst">
+          <div class="inst-num">3</div>
+          <div class="inst-text">乾燥後、水をたらして<strong>接触角90°以上（水が弾く）</strong>になればOK。</div>
+        </div>
+      </div>
+      <div class="tip-box ok">
+        <div class="tip-label">✅ オプション: 着色</div>
+        <div class="tip-text">ホウ砂処理の後・亜麻仁油の前に着色できる。<strong>タマネギの皮を煮出した液</strong>（黄〜テラコッタ）が一番簡単で綺麗。スーパーで無料。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 6 -->
+  <div class="step-card" style="border-top:2px solid var(--step6);margin-top:1px;">
+    <div class="step-header">
+      <div class="step-num-wrap">
+        <div class="step-num" style="background:var(--step6);">06</div>
+        <div class="step-day">Day 30+</div>
+      </div>
+      <div class="step-head-text">
+        <div class="step-title">測定・記録してGBRC申込</div>
+        <div class="step-desc-short">3枚できたら建築材料試験センターに申込</div>
+      </div>
+      <div class="step-time">⏱ 30分</div>
+    </div>
+    <div class="step-body">
+      <div style="margin-bottom:16px;font-size:13px;color:var(--muted);">以下を記録しておく（申込時に必要）:</div>
+      <table class="record-table">
+        <thead><tr><th>測定項目</th><th>単位</th><th>メモ</th></tr></thead>
+        <tbody>
+          <tr><td>パネル寸法（W×H×T）</td><td>mm</td><td>ノギスで測定</td></tr>
+          <tr><td>乾燥重量</td><td>g</td><td>オーブン後</td></tr>
+          <tr><td>かさ密度</td><td>kg/m³</td><td>重量÷体積</td></tr>
+          <tr><td>培養期間</td><td>日</td><td>接種日〜脱型日</td></tr>
+          <tr><td>基材配合比</td><td>%</td><td>おがくず:籾殻</td></tr>
+          <tr><td>外観</td><td>—</td><td>写真記録（毎週）</td></tr>
+        </tbody>
+      </table>
+      <div class="tip-box" style="margin-top:16px;">
+        <div class="tip-label">GBRC 試験申込の目安</div>
+        <div class="tip-text">
+          <strong>同一配合で3枚以上</strong>揃ったら申込可能。<br>
+          申込先: 一般財団法人建材試験センター（GBRC）<br>
+          申込試験: ①熱伝導率（JIS A 1412）②吸音率（NRC法）③曲げ強度（JIS A 5905）<br>
+          費用: 1試験あたり¥30,000〜80,000（試験種別による）
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GBRC section -->
+<section class="gbrc-section">
+  <div class="wrap">
+    <div class="section-label">Next Step</div>
+    <h2>試験→認定→販売のロードマップ</h2>
+    <p class="section-sub">パネルが完成したら次はここ。</p>
+    <div class="gbrc-box">
+      <div class="gbrc-steps">
+        <div class="gbrc-step">
+          <div class="gbrc-icon">🧪</div>
+          <div class="gbrc-step-num">Phase 1</div>
+          <div class="gbrc-step-title">三田実験</div>
+          <div class="gbrc-step-desc">自宅で試作 × 3バッチ。配合最適化と外観確認。</div>
+        </div>
+        <div class="gbrc-step">
+          <div class="gbrc-icon">📋</div>
+          <div class="gbrc-step-num">Phase 2</div>
+          <div class="gbrc-step-title">GBRC試験</div>
+          <div class="gbrc-step-desc">熱伝導率・吸音率・曲げ強度を公的機関で計測。費用¥10〜25万。</div>
+        </div>
+        <div class="gbrc-step">
+          <div class="gbrc-icon">🏗️</div>
+          <div class="gbrc-step-num">Phase 3</div>
+          <div class="gbrc-step-title">美留和で量産</div>
+          <div class="gbrc-step-desc">弟子屈の地元おがくず×ススキでWork Party製造。SOLUNAビレッジの壁に。</div>
+        </div>
+        <div class="gbrc-step">
+          <div class="gbrc-icon">🛒</div>
+          <div class="gbrc-step-num">Phase 4</div>
+          <div class="gbrc-step-title">販売開始</div>
+          <div class="gbrc-step-desc">試験データ公開後、このページから予約受付開始。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Manufacturers -->
+<section style="padding:60px 0 40px;background:#0c0b08;">
+  <div class="wrap">
+    <h2 style="font-family:'Anton',sans-serif;font-size:clamp(24px,4vw,36px);color:#e8e0cc;letter-spacing:0.08em;margin:0 0 8px;">作ってくれる会社はある？</h2>
+    <p style="color:#9a9282;font-size:14px;margin:0 0 32px;">2026年4月時点のリサーチ結果</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;">
+
+      <!-- MYCL Japan -->
+      <div style="background:#1a1916;border:1px solid #2e2b22;border-radius:12px;padding:20px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <span style="background:#2d4a1e;color:#6fcf50;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;">日本 🇯🇵</span>
+          <span style="background:#1a3a2a;color:#4ecb8d;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;">★ 最有力</span>
+        </div>
+        <div style="font-size:16px;font-weight:700;color:#e8e0cc;margin-bottom:6px;">MYCL Japan</div>
+        <div style="font-size:12px;color:#9a9282;margin-bottom:12px;">長野県 / インドネシアMycotech Labの日本JV。BIOBO建材ボード量産中。カスタムサイズ対応要問合せ。</div>
+        <a href="https://www.mycljapan.com/" target="_blank" style="display:inline-block;background:#2a2721;color:#c8a96e;font-size:12px;padding:6px 14px;border-radius:6px;text-decoration:none;">mycljapan.com →</a>
+      </div>
+
+      <!-- BIOTA -->
+      <div style="background:#1a1916;border:1px solid #2e2b22;border-radius:12px;padding:20px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <span style="background:#2d4a1e;color:#6fcf50;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;">日本 🇯🇵</span>
+          <span style="background:#3a2d1a;color:#e6a83a;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;">大阪万博実績</span>
+        </div>
+        <div style="font-size:16px;font-weight:700;color:#e8e0cc;margin-bottom:6px;">BIOTA Inc.</div>
+        <div style="font-size:12px;color:#9a9282;margin-bottom:12px;">東京・高輪ゲートウェイ。2025年大阪万博パナソニック館で菌糸体三角パネルを製作。日本唯一の実績あり組織。コラボ製造の打診先。</div>
+        <a href="https://biota.city/contact/" target="_blank" style="display:inline-block;background:#2a2721;color:#c8a96e;font-size:12px;padding:6px 14px;border-radius:6px;text-decoration:none;">問い合わせる →</a>
+      </div>
+
+      <!-- Myceen -->
+      <div style="background:#1a1916;border:1px solid #2e2b22;border-radius:12px;padding:20px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <span style="background:#1a2a3a;color:#5ab4e6;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;">エストニア 🇪🇪</span>
+          <span style="background:#2a1a2a;color:#b45ae6;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;">即購入可</span>
+        </div>
+        <div style="font-size:16px;font-weight:700;color:#e8e0cc;margin-bottom:6px;">Myceen</div>
+        <div style="font-size:12px;color:#9a9282;margin-bottom:12px;">70×60cm吸音パネル $330/枚。Adorno経由で世界配送。25m²で約70枚 ≒ $23,000（¥350万）。吸音用途は最も確実。</div>
+        <a href="https://myceen.com/" target="_blank" style="display:inline-block;background:#2a2721;color:#c8a96e;font-size:12px;padding:6px 14px;border-radius:6px;text-decoration:none;">myceen.com →</a>
+      </div>
+
+      <!-- Mogu -->
+      <div style="background:#1a1916;border:1px solid #2e2b22;border-radius:12px;padding:20px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <span style="background:#1a2a3a;color:#5ab4e6;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;">イタリア 🇮🇹</span>
+          <span style="background:#2a1a1a;color:#e65a5a;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;">見積制</span>
+        </div>
+        <div style="font-size:16px;font-weight:700;color:#e8e0cc;margin-bottom:6px;">Mogu</div>
+        <div style="font-size:12px;color:#9a9282;margin-bottom:12px;">最も成熟した商業製品ライン。PLUMA壁パネル(500×500mm〜)。カスタムテクスチャー刻印対応。吸音用途・商業インテリア向け。価格は要見積。</div>
+        <a href="https://mogu.bio/" target="_blank" style="display:inline-block;background:#2a2721;color:#c8a96e;font-size:12px;padding:6px 14px;border-radius:6px;text-decoration:none;">mogu.bio →</a>
+      </div>
+
+      <!-- Mykor -->
+      <div style="background:#1a1916;border:1px solid #2e2b22;border-radius:12px;padding:20px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <span style="background:#1a2a3a;color:#5ab4e6;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;">英国 🇬🇧</span>
+          <span style="background:#2a1a1a;color:#e65a5a;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;">断熱グレード</span>
+        </div>
+        <div style="font-size:16px;font-weight:700;color:#e8e0cc;margin-bottom:6px;">Mykor</div>
+        <div style="font-size:12px;color:#9a9282;margin-bottom:12px;">MykoSIP™（内外壁パーティション）+ MykoBead™（断熱ビーズ）。紙パルプ廃棄物原料。£2M調達済み。断熱用途で最も近い欧州企業。日本輸出は要問合せ。</div>
+        <a href="https://www.mykor.co.uk/" target="_blank" style="display:inline-block;background:#2a2721;color:#c8a96e;font-size:12px;padding:6px 14px;border-radius:6px;text-decoration:none;">mykor.co.uk →</a>
+      </div>
+
+      <!-- DIY -->
+      <div style="background:#1a2116;border:1px solid #2a3a22;border-radius:12px;padding:20px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <span style="background:#2d4a1e;color:#6fcf50;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;">北海道 DIY</span>
+          <span style="background:#1a3a2a;color:#4ecb8d;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;">最安 ¥800/枚</span>
+        </div>
+        <div style="font-size:16px;font-weight:700;color:#e8e0cc;margin-bottom:6px;">自家製造（最推奨）</div>
+        <div style="font-size:12px;color:#9a9282;margin-bottom:12px;">弟子屈の廃菌床＋おがくず＋地元ひらたけ種菌。50枚で材料費¥3〜4万。Myceen輸入の100分の1。Work Partyで一緒に作れる。</div>
+        <a href="mailto:mail@yukihamada.jp?subject=菌糸体DIY製造について" style="display:inline-block;background:#2a3a22;color:#8fcf70;font-size:12px;padding:6px 14px;border-radius:6px;text-decoration:none;">参加する →</a>
+      </div>
+
+    </div>
+
+    <!-- price comparison -->
+    <div style="margin-top:28px;background:#141210;border:1px solid #2e2b22;border-radius:10px;padding:20px;">
+      <div style="font-size:13px;font-weight:700;color:#e8e0cc;margin-bottom:14px;">50枚コスト比較（400×400mm換算）</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;">
+        <div style="text-align:center;padding:14px;background:#1a1916;border-radius:8px;">
+          <div style="font-size:11px;color:#9a9282;margin-bottom:4px;">DIY北海道</div>
+          <div style="font-size:22px;font-weight:800;color:#4ecb8d;">¥4万</div>
+          <div style="font-size:10px;color:#706c5e;margin-top:2px;">¥800/枚</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:#1a1916;border-radius:8px;">
+          <div style="font-size:11px;color:#9a9282;margin-bottom:4px;">MYCL Japan</div>
+          <div style="font-size:22px;font-weight:800;color:#c8a96e;">要見積</div>
+          <div style="font-size:10px;color:#706c5e;margin-top:2px;">問い合わせ次第</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:#1a1916;border-radius:8px;">
+          <div style="font-size:11px;color:#9a9282;margin-bottom:4px;">Myceen輸入</div>
+          <div style="font-size:22px;font-weight:800;color:#e65a5a;">¥350万</div>
+          <div style="font-size:10px;color:#706c5e;margin-top:2px;">$330/枚 × 70枚</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="wrap">
+    <div class="cta-box">
+      <div class="cta-title">一緒に最初のパネルを作ろう。</div>
+      <p class="cta-sub">
+        作り方を試した・失敗した・うまくできた——何でも教えてください。<br>
+        三田でのワークショップも予定中。
+      </p>
+      <a href="mailto:mail@yukihamada.jp?subject=菌糸体パネル実験について" class="btn-primary">参加・連絡する</a>
+      <a href="/mycelium" class="btn-ghost">素材仕様を見る →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Mac dock -->
+<div id="mac-dock">
+  <a href="/" class="di"><div class="ico">🏠</div><div class="tip">Home</div></a>
+  <a href="/festivals" class="di"><div class="ico">🎪</div><div class="tip">Festivals</div></a>
+  <a href="/lineup" class="di"><div class="ico">🎤</div><div class="tip">Lineup</div></a>
+  <a href="/lab" class="di"><div class="ico act">🍄</div><div class="dot"></div><div class="tip">Lab</div></a>
+  <a href="/community" class="di"><div class="ico">💬</div><div class="tip">Community</div></a>
+  <a href="/tickets" class="di"><div class="ico">🎫</div><div class="tip">Tickets</div></a>
+  <a href="/login" class="di"><div class="ico">👤</div><div class="tip">Login</div></a>
+</div>
+
+<script>
+(function(){
+  function tick(){
+    const t=new Date();
+    document.getElementById('mac-clock').textContent=
+      t.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Tokyo'})+' JST';
+  }
+  tick();setInterval(tick,10000);
+})();
+</script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

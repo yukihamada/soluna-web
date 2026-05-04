@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>天空の道場 — 建築コンセプト 3案 | SOLUNA</title>
+<meta name="description" content="40ftコンテナで本物の柔術道場をつくる3つの建築案。地下ピット・跳ね上げ屋根・2層デッキ。4号建築物・セルフ申請可能。">
+<link href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23c8a455'/></svg>" rel="icon">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.4);
+  --gold-soft:rgba(200,164,85,.07);
+  --bg:#040404;
+  --text:#f0ece4;
+  --text-dim:#666;
+  --line:#131313;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+
+/* GNAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+@media(max-width:680px){.gnav-links{display:none}}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:620px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg .slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 2.4s cubic-bezier(.4,0,.2,1);filter:contrast(1.05) saturate(.8) brightness(.55);transform:scale(1.09);animation:slowzoom 22s ease-out both}
+.hero-bg .slide.active{opacity:1}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.5) 40%,rgba(4,4,4,.1) 70%,rgba(4,4,4,.5) 100%);z-index:1}
+.hero-body{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:0 32px 80px;max-width:820px}
+.hero-eyebrow{font-size:9px;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:16px;opacity:.85;animation:fadeUp .8s .2s both}
+.hero h1{font-size:clamp(2.4rem,7vw,4.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:20px;animation:fadeUp .9s .4s both}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{color:rgba(240,236,228,.5);font-size:13px;line-height:2;max-width:520px;font-weight:300;animation:fadeUp 1s .6s both;margin-bottom:28px}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap;animation:fadeUp 1.1s .8s both}
+.hero-tag{font-size:9px;font-weight:700;padding:5px 14px;border-radius:100px;border:1px solid rgba(200,164,85,.2);color:#555;letter-spacing:.06em}
+
+/* SVG AMBIENT DOJO */
+.hero-svg{position:absolute;right:0;bottom:0;z-index:1;opacity:.18;pointer-events:none}
+@media(max-width:768px){.hero-svg{display:none}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+
+/* NUMBERS */
+.numbers{background:#030303;border-top:1px solid #0c0c0c;border-bottom:1px solid #0c0c0c;padding:52px 24px}
+.num-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:820px;margin:0 auto;text-align:center}
+@media(max-width:600px){.num-grid{grid-template-columns:repeat(2,1fr);gap:28px}}
+.num-grid .v{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:var(--gold);line-height:1;letter-spacing:-.04em}
+.num-grid .l{font-size:9px;color:#333;letter-spacing:.14em;text-transform:uppercase;margin-top:8px;line-height:1.6;font-weight:600}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.r.in{opacity:1;transform:translateY(0)}
+.r2{opacity:0;transition:opacity 1.1s ease}
+.r2.in{opacity:1}
+
+/* SECTIONS */
+.s{padding:100px 0}
+@media(max-width:600px){.s{padding:72px 0}}
+.w{max-width:700px;margin:0 auto;padding:0 24px}
+.ww{max-width:980px;margin:0 auto;padding:0 24px}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:12px}
+h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+.sub{color:#555;font-size:13px;line-height:2.05;max-width:560px;margin-bottom:24px}
+.gold{color:var(--gold)}
+
+/* CONCEPT SECTION */
+.concept{padding:100px 0;border-top:1px solid #0d0d0d}
+.concept-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;max-width:1080px;margin:0 auto;padding:0 32px}
+.concept-grid.flip{direction:rtl}.concept-grid.flip>*{direction:ltr}
+@media(max-width:768px){.concept-grid,.concept-grid.flip{grid-template-columns:1fr;direction:ltr;padding:0 24px;gap:40px}}
+
+.concept-tag{font-size:8.5px;font-weight:800;letter-spacing:.18em;padding:5px 14px;border-radius:100px;display:inline-block;margin-bottom:18px;text-transform:uppercase}
+.tag-a{background:rgba(94,207,138,.08);color:#5ecf8a;border:1px solid rgba(94,207,138,.2)}
+.tag-b{background:rgba(90,176,224,.08);color:#5ab0e0;border:1px solid rgba(90,176,224,.2)}
+.tag-c{background:rgba(160,122,208,.08);color:#a07ad0;border:1px solid rgba(160,122,208,.2)}
+
+.concept h3{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:6px}
+.concept .en-name{font-size:11px;color:#2a2a2a;letter-spacing:.12em;font-weight:700;text-transform:uppercase;margin-bottom:20px}
+.concept-desc{font-size:13.5px;color:#666;line-height:2.1;margin-bottom:28px}
+.concept-desc strong{color:#aaa;font-weight:600}
+
+/* SPEC TABLE */
+.spec{border:1px solid #111;border-radius:16px;overflow:hidden;margin:0 0 20px;background:#060606}
+.spec-row{display:grid;grid-template-columns:150px 1fr;border-bottom:1px solid #0e0e0e;font-size:12px}
+.spec-row:last-child{border-bottom:none}
+.spec-row .k{padding:14px 16px;color:#2a2a2a;font-weight:700;letter-spacing:.04em;background:#050505;font-size:10px;display:flex;align-items:center}
+.spec-row .v{padding:14px 16px;color:#888;line-height:1.6}
+.spec-row .v strong{color:var(--gold);font-weight:700}
+@media(max-width:600px){.spec-row{grid-template-columns:1fr}.spec-row .k{padding:12px 16px 4px;background:transparent;font-size:9.5px}.spec-row .v{padding:4px 16px 14px}}
+
+/* WOW BOX */
+.wow{border-left:2px solid rgba(200,164,85,.3);padding:16px 20px;margin:20px 0;background:rgba(200,164,85,.03)}
+.wow-lbl{font-size:8.5px;font-weight:800;letter-spacing:.18em;color:rgba(200,164,85,.5);text-transform:uppercase;margin-bottom:8px}
+.wow-txt{font-size:12.5px;color:#555;line-height:1.95}
+.wow-txt strong{color:#888}
+
+/* BADGES */
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px}
+.badge{font-size:9px;padding:4px 12px;border-radius:6px;border:1px solid;font-weight:700}
+.b-ok{border-color:rgba(94,207,138,.25);color:#5ecf8a;background:rgba(94,207,138,.04)}
+.b-warn{border-color:rgba(200,164,85,.25);color:var(--gold);background:rgba(200,164,85,.04)}
+
+/* VIZ */
+.viz-wrap{position:relative;border-radius:16px;overflow:hidden;background:#070507;border:1px solid #111;aspect-ratio:4/3}
+.viz-canvas{width:100%;height:100%}
+.viz-label{position:absolute;bottom:12px;left:14px;font-size:8.5px;font-weight:700;letter-spacing:.15em;color:rgba(255,255,255,.2)}
+
+/* STATEMENT */
+.statement{padding:120px 24px;text-align:center;background:radial-gradient(ellipse at center,rgba(200,164,85,.04) 0%,transparent 70%)}
+.statement p{font-size:clamp(1.1rem,2.8vw,1.65rem);font-weight:300;line-height:2;color:#666;max-width:620px;margin:0 auto}
+.statement p strong{color:var(--text);font-weight:700}
+
+/* CTA */
+.cta-btn{display:inline-block;background:var(--gold);color:#040404;font-weight:800;font-size:12.5px;padding:16px 40px;border-radius:100px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 28px rgba(200,164,85,.18);letter-spacing:.04em}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(200,164,85,.28);color:#040404}
+.cta-ghost{display:inline-block;border:1px solid #252525;color:#666;font-size:12px;padding:15px 28px;border-radius:100px;margin-left:10px;transition:all .2s;font-weight:500}
+.cta-ghost:hover{border-color:rgba(200,164,85,.5);color:var(--gold)}
+
+/* FOOTER */
+footer{padding:60px 24px 40px;max-width:700px;margin:0 auto;text-align:center;border-top:1px solid #0d0d0d}
+footer .logo{font-size:10px;font-weight:800;letter-spacing:.2em;color:var(--gold);margin-bottom:14px}
+footer nav a{font-size:10.5px;color:#333;margin:0 10px}
+footer nav a:hover{color:var(--gold)}
+footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:20px}
+</style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+
+<nav class="gnav">
+  <a class="gnav-logo" href="index">SOLUNA</a>
+  <div class="gnav-links">
+    <a href="kumaushi">熊牛原野</a>
+    <a href="village">ヴィラ建築</a>
+    <a href="desk">← Desk</a>
+    <a class="gnav-cta" href="buy">オーナーになる</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg">
+    <div class="slide" style="background-image:url('/img/concept_a_earth_dojo.jpg')"></div>
+    <div class="slide" style="background-image:url('/img/concept_c_split_dojo.jpg')"></div>
+    <div class="slide" style="background-image:url('/img/kumaushi_dojo_moonlight.webp')"></div>
+    <div class="slide" style="background-image:url('/img/concept_b_wing_dojo.jpg')"></div>
+    <div class="slide" style="background-image:url('/img/dojo_dawn_mist_exterior.jpg')"></div>
+  </div>
+
+  <div class="hero-body">
+    <div class="hero-eyebrow">KUMAUSHI BASE · 天空の道場 · 建築コンセプト 2026</div>
+    <h1>設計士が<em>二度見する</em><br>道場をつくる。</h1>
+    <p class="hero-sub">40ftコンテナを本物の柔術道場にする3案。マット面積・天井高・稽古の質をすべて最大化しながら、建築申請は建築主自身で完結する。</p>
+    <div class="hero-tags">
+      <span class="hero-tag">40ft コンテナ</span>
+      <span class="hero-tag">4号建築物</span>
+      <span class="hero-tag">建築士不要</span>
+      <span class="hero-tag">マット面積 28.8 m²</span>
+      <span class="hero-tag">概算 ¥7M〜</span>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:8px;color:#222;letter-spacing:.3em;z-index:2;animation:pulse 3s ease infinite">SCROLL</div>
+</div>
+
+<!-- NUMBERS -->
+<div class="numbers">
+  <div class="num-grid">
+    <div><div class="v">3案</div><div class="l">建築コンセプト<br>地下 / 開閉 / 2層</div></div>
+    <div><div class="v">1.5m</div><div class="l">地下掘削深さ<br>ピット案（最大天井4.1m）</div></div>
+    <div><div class="v">90秒</div><div class="l">屋根フルオープン<br>ウィング案・油圧駆動</div></div>
+    <div><div class="v">¥0</div><div class="l">建築士費用<br>4号建築物・自己申請</div></div>
+  </div>
+</div>
+
+<!-- STATEMENT -->
+<div class="statement">
+  <p class="r"><strong>コンテナの天井は2.4m。</strong><br>スタンディングで投げるには低い。寝技だけの道場では意味がない。<br>だから、箱を変えるのではなく、<strong>空間の作り方を変える。</strong></p>
+</div>
+
+<!-- ===== CONCEPT A ===== -->
+<div class="concept" id="concept-a">
+  <div class="concept-grid">
+    <div class="r">
+      <div class="viz-wrap">
+        <img src="/img/concept_a_earth_dojo.jpg" alt="アース・ドージョ — 地下ピット型コンテナ道場、北海道の雪原にスカイライトが光る夜景" style="width:100%;height:100%;object-fit:cover">
+        <span class="viz-label">CONCEPT A — EARTH DOJO</span>
+      </div>
+    </div>
+
+    <div class="r2">
+      <div class="concept-tag tag-a">✦ PIT DOJO</div>
+      <h3>アース・ドージョ</h3>
+      <div class="en-name">EARTH PIT — UNDERGROUND DOJO</div>
+      <p class="concept-desc">
+        地面を1.5m掘り下げてコンテナを埋設。天井高が<strong>2.4mから4.1mへ</strong>一気に拡大する。地上からはスカイライト（天窓）しか見えず、雪原に窓だけが並ぶ不思議な景観。稽古中、頭上のガラス窓から北海道の空が見える道場。
+      </p>
+      <div class="spec">
+        <div class="spec-row"><div class="k">天井高</div><div class="v"><strong>4.1 m</strong>（大道場水準）</div></div>
+        <div class="spec-row"><div class="k">マット面積</div><div class="v">12m × 2.4m = 28.8 m²</div></div>
+        <div class="spec-row"><div class="k">断熱性能</div><div class="v"><strong>UA値 0.15</strong>（土の断熱効果）</div></div>
+        <div class="spec-row"><div class="k">採光</div><div class="v">地面フラッシュ 天窓 × 4</div></div>
+        <div class="spec-row"><div class="k">概算工費</div><div class="v"><strong>¥7.5M〜</strong></div></div>
+        <div class="spec-row"><div class="k">同時スパー</div><div class="v">2組（6〜10名）</div></div>
+      </div>
+      <div class="wow">
+        <div class="wow-lbl">道場として機能するポイント</div>
+        <div class="wow-txt">コンテナ最大の弱点「天井2.4m」を掘ることで解決。スタンディングもハーフガードも動ける<strong>4.1m</strong>。地熱で冬の床は自然に暖かく、スカイライトから差し込む光が稽古空間を照らす。外から見えない地下道場——存在を知る者だけが使う場所。</div>
+      </div>
+      <div class="badges">
+        <span class="badge b-ok">✓ 4号建築物</span>
+        <span class="badge b-ok">✓ セルフ申請可</span>
+        <span class="badge b-warn">△ 残土処理</span>
+        <span class="badge b-warn">△ 防水設計要</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONCEPT B ===== -->
+<div class="concept" id="concept-b">
+  <div class="concept-grid flip">
+    <div class="r">
+      <div class="viz-wrap">
+        <img src="/img/concept_b_wing_dojo.jpg" alt="ウィング・ドージョ — 油圧跳ね上げ屋根が開いた夏の北海道コンテナ道場、畳マットが見える" style="width:100%;height:100%;object-fit:cover">
+        <span class="viz-label">CONCEPT B — WING DOJO</span>
+      </div>
+    </div>
+
+    <div class="r2">
+      <div class="concept-tag tag-b">✦ WING DOJO</div>
+      <h3>ウィング・ドージョ</h3>
+      <div class="en-name">HYDRAULIC WING — OPEN AIR DOJO</div>
+      <p class="concept-desc">
+        コンテナの屋根を左右に分割し、油圧で跳ね上げると<strong>完全オープンエア道場</strong>に変わる。夏は空の下でスパー。冬は屋根を閉じて密閉断熱空間。同じ箱が季節で全く異なる道場体験を提供する。
+      </p>
+      <div class="spec">
+        <div class="spec-row"><div class="k">夏：天井高</div><div class="v"><strong>∞</strong>（全天開放）</div></div>
+        <div class="spec-row"><div class="k">冬：天井高</div><div class="v">2.4 m（密閉断熱）</div></div>
+        <div class="spec-row"><div class="k">マット面積</div><div class="v">12m × 2.4m = 28.8 m²</div></div>
+        <div class="spec-row"><div class="k">開閉機構</div><div class="v">油圧アクチュエータ × 2</div></div>
+        <div class="spec-row"><div class="k">概算工費</div><div class="v"><strong>¥8.5M〜</strong>（油圧込み）</div></div>
+        <div class="spec-row"><div class="k">開閉時間</div><div class="v"><strong>約 90秒</strong>でフルオープン</div></div>
+      </div>
+      <div class="wow">
+        <div class="wow-lbl">道場として機能するポイント</div>
+        <div class="wow-txt">熊牛原野の夏（6〜9月）は最高気温20℃前後——屋根を開けた野外道場は最高のコンディション。投げ込まれながら頭上に広がる北海道の空。冬は屋根を閉じ、薪ストーブで道場を温める。<strong>キャンプ場の油圧テント機構を転用</strong>するためコストも現実的。</div>
+      </div>
+      <div class="badges">
+        <span class="badge b-ok">✓ 4号建築物</span>
+        <span class="badge b-ok">✓ セルフ申請可</span>
+        <span class="badge b-warn">△ 可動部 強風対策</span>
+        <span class="badge b-warn">△ 油圧設備 専門工事</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONCEPT C ===== -->
+<div class="concept" id="concept-c">
+  <div class="concept-grid">
+    <div class="r">
+      <div class="viz-wrap">
+        <img src="/img/concept_c_split_dojo.jpg" alt="スプリット・ドージョ — コンテナ+キャンチレバーデッキの2層道場、雪の夜にガラス壁から光が漏れる" style="width:100%;height:100%;object-fit:cover">
+        <span class="viz-label">CONCEPT C — SPLIT LEVEL DOJO</span>
+      </div>
+    </div>
+
+    <div class="r2">
+      <div class="concept-tag tag-c">✦ SPLIT LEVEL</div>
+      <h3>スプリット・ドージョ</h3>
+      <div class="en-name">SPLIT LEVEL — SPECTATOR DOJO</div>
+      <p class="concept-desc">
+        コンテナを稽古フロア（1F）として使い、前面に<strong>キャンチレバー観客デッキ（2F）</strong>を追加。試合・昇格審査・セミナーで観客が見下ろす本格的な道場レイアウト。コンテナ前面のガラス壁が1F道場を外から照らす。
+      </p>
+      <div class="spec">
+        <div class="spec-row"><div class="k">マット面積</div><div class="v"><strong>28.8 m²</strong>（12m × 2.4m）</div></div>
+        <div class="spec-row"><div class="k">観客席</div><div class="v">デッキ 8〜12名</div></div>
+        <div class="spec-row"><div class="k">前面</div><div class="v">フルガラス壁 採光</div></div>
+        <div class="spec-row"><div class="k">用途</div><div class="v"><strong>試合 · 審査 · BJJセミナー</strong></div></div>
+        <div class="spec-row"><div class="k">概算工費</div><div class="v"><strong>¥7.0M〜</strong></div></div>
+        <div class="spec-row"><div class="k">申請床面積</div><div class="v">29.7 + 15.0 = 44.7 m²</div></div>
+      </div>
+      <div class="wow">
+        <div class="wow-lbl">道場として機能するポイント</div>
+        <div class="wow-txt">BJJの試合・昇格審査・セミナーに「見る場所」は必須。上から見下ろすことで技術の学習効率も上がる。コンテナ前面をフルガラス化して外から稽古が見えるようにすれば、<strong>外国人ゲストが「入りたい」と集まる</strong>道場になる。</div>
+      </div>
+      <div class="badges">
+        <span class="badge b-ok">✓ 4号建築物</span>
+        <span class="badge b-ok">✓ セルフ申請可</span>
+        <span class="badge b-ok">✓ 試合・審査対応</span>
+        <span class="badge b-warn">△ デッキ面積合算</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATEMENT 2 -->
+<div class="statement">
+  <p class="r"><strong>3案とも40ftコンテナ、4号建築物、建築主セルフ申請。</strong><br>建築士費用ゼロ。申請手数料のみ<strong>約5,000〜10,000円。</strong><br>弟子屈町建築課に事前相談のうえ、配置図・平面図・立面図を作成して提出。</p>
+</div>
+
+<!-- CTA -->
+<div class="s" style="text-align:center">
+  <div class="w">
+    <div class="label r">NEXT STEP</div>
+    <h2 class="r" style="max-width:480px;margin:0 auto 16px">どの案を進める?</h2>
+    <p class="sub r" style="margin:0 auto 32px">3案の比較・現地調査・資材見積もり。まず弟子屈町建築課への事前相談から始められる。</p>
+    <div class="r">
+      <a class="cta-btn" href="kumaushi">熊牛原野の全貌を見る</a>
+      <a class="cta-ghost" href="desk">← Desk に戻る</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="logo">SOLUNA</div>
+  <nav>
+    <a href="kumaushi">熊牛原野</a>
+    <a href="collection">物件一覧</a>
+    <a href="buy">オーナー登録</a>
+  </nav>
+  <div class="copy">© 2026 SOLUNA. All rights reserved.</div>
+</footer>
+
+<script>
+// Hero slideshow
+(function(){
+  var slides = document.querySelectorAll('.hero-bg .slide');
+  if(!slides.length) return;
+  var order = Array.from({length:slides.length},function(_,i){return i;});
+  for(var i=order.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=order[i];order[i]=order[j];order[j]=t;}
+  var cur = 0;
+  slides[order[0]].classList.add('active');
+  setInterval(function(){
+    slides[order[cur]].classList.remove('active');
+    cur = (cur+1) % order.length;
+    slides[order[cur]].classList.add('active');
+  }, 9000);
+})();
+
+// Scroll reveal
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.r, .r2').forEach(el => ro.observe(el));
+</script>
+</body>
+</html>

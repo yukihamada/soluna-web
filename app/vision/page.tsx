@@ -157,7 +157,7 @@ function ProgressBar() {
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
   return (
-    <motion.div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, background: "#c9a962", scaleX, transformOrigin: "0%", zIndex: 100 }} />
+    <motion.div style={{ position: "fixed", top: 28, left: 0, right: 0, height: 2, background: "#c9a962", scaleX, transformOrigin: "0%", zIndex: 100 }} />
   );
 }
 
@@ -217,11 +217,6 @@ export default function VisionPage() {
     <main style={{ background: "#080808", color: "#fff", overflowX: "hidden" }}>
       <ProgressBar />
 
-      {/* ── Fixed nav ── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, padding: "20px 32px", display: "flex", justifyContent: "space-between", alignItems: "center", background: "linear-gradient(to bottom, rgba(8,8,8,0.9), transparent)" }}>
-        <Link href="/" className="font-display" style={{ fontSize: 11, letterSpacing: "0.35em", color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>SOLUNA FEST HAWAII</Link>
-        <a href="https://zamnahawaii.ticketblox.com" target="_blank" rel="noreferrer" style={{ fontSize: 10, letterSpacing: "0.3em", color: "#c9a962", border: "1px solid rgba(201,169,98,0.4)", padding: "7px 18px", borderRadius: 999, textDecoration: "none", transition: "all 0.2s" }}>TICKETS</a>
-      </nav>
 
       {/* ══════════════════════════════════════════════════════
           SECTION 1 — VOID

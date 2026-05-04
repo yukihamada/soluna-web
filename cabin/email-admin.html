@@ -2,6 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
+<style id="__hb">body{display:none!important}</style>
+<script>(function(){var A=['mail@yukihamada.jp','yuki@hamada.tokyo'],t=localStorage.getItem('sln_token');if(!t){location.replace('/');return;}fetch('/api/soluna/me',{headers:{Authorization:'Bearer '+t}}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d&&d.member&&A.indexOf(d.member.email)>=0){var s=document.getElementById('__hb');if(s)s.remove();}else{location.replace('/');}}).catch(function(){location.replace('/');});})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SOLUNA Mail — Admin</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23040404'/><path d='M6 10 L16 18 L26 10 M6 10 L6 22 L26 22 L26 10' fill='none' stroke='%23c8a455' stroke-width='1.5' stroke-linejoin='round'/></svg>">
@@ -217,10 +219,19 @@ document.getElementById('auth-input').addEventListener('keydown', e => { if (e.k
     if (r.ok) {
       document.getElementById('auth-screen').style.display = 'none';
       document.getElementById('app').classList.add('visible');
-      loadEmails();
+      loadEmails(); return;
     } else {
       localStorage.removeItem('soluna_admin_key');
     }
+  }
+  // Email-based auto-login
+  const tok = localStorage.getItem('sln_token');
+  if (!tok) return;
+  const me = await fetch('/api/soluna/me', { headers: { Authorization: 'Bearer ' + tok } }).then(r => r.json()).catch(() => null);
+  if (me && me.member && ['mail@yukihamada.jp','yuki@hamada.tokyo'].includes(me.member.email)) {
+    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    loadEmails();
   }
 })();
 
@@ -356,5 +367,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setInterval(loadEmails, 60000);
 });
 </script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
 </body>
 </html>

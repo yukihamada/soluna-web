@@ -2,6 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<style id="__hb">body{display:none!important}</style>
+<script>(function(){var A=['mail@yukihamada.jp','yuki@hamada.tokyo'],t=localStorage.getItem('sln_token');if(!t){location.replace('/');return;}fetch('/api/soluna/me',{headers:{Authorization:'Bearer '+t}}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d&&d.member&&A.indexOf(d.member.email)>=0){var s=document.getElementById('__hb');if(s)s.remove();}else{location.replace('/');}}).catch(function(){location.replace('/');});})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SOLUNA Admin Dashboard</title>
 <meta name="robots" content="noindex,nofollow">
@@ -1043,7 +1045,7 @@ function grantAccess(addr, method){
   if (m === 'hamada' || m === 'password' || m === 'session_admin') { grantAccess(null, m); return; }
 
   // Auto-login via sln_token if email is in admin list
-  var ADMIN_EMAILS = ['mail@yukihamada.jp', 'info@solun.art'];
+  var ADMIN_EMAILS = ['mail@yukihamada.jp', 'yuki@hamada.tokyo'];
   var slnToken = localStorage.getItem('sln_token');
   if (slnToken) {
     fetch('/api/soluna/me', { headers: { 'Authorization': 'Bearer ' + slnToken } })

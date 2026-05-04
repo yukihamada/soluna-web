@@ -784,7 +784,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.4)}
           <ul class="buy-points">
             <li class="buy-point">購入後、年間<strong id="buy-nights" style="color:var(--text)">30泊</strong>の優先滞在権が付与されます</li>
             <li class="buy-point">月次売上レポートを受け取れます（オーナーポータルで確認）</li>
-            <li class="buy-point">Airbnb運用による収益を口数割合で年2回分配</li>
+            <li class="buy-point">他のSOLUNA物件（北海道・熱海・ハワイ）との泊数交換が可能</li>
             <li class="buy-point">入居後のNEUROシステム（スマートホーム）込み</li>
             <li class="buy-point">申込後、担当者より決済・契約書類をご案内します</li>
           </ul>
@@ -1673,10 +1673,10 @@ function openProp(slug) {
   var annualRev = Math.round(p.stay_price * (p.nights * 1.5) * 0.4);
   var yield_ = ((annualRev / p.price) * 100).toFixed(1);
   document.getElementById('roi-grid').innerHTML =
-    '<div class="roi-cell"><div class="roi-cell-label">想定年間収益</div><div class="roi-cell-val gold">¥'+annualRev.toLocaleString('ja-JP')+'</div></div>' +
-    '<div class="roi-cell"><div class="roi-cell-label">想定利回り</div><div class="roi-cell-val gold">'+yield_+'%</div></div>' +
-    '<div class="roi-cell"><div class="roi-cell-label">滞在権</div><div class="roi-cell-val">年'+p.nights+'泊</div></div>' +
-    '<div class="roi-cell"><div class="roi-cell-label">月次管理費</div><div class="roi-cell-val">¥'+p.mgmt.toLocaleString('ja-JP')+'</div></div>';
+    '<div class="roi-cell"><div class="roi-cell-label">滞在権</div><div class="roi-cell-val gold">年'+p.nights+'泊</div></div>' +
+    '<div class="roi-cell"><div class="roi-cell-label">滞在価値</div><div class="roi-cell-val">¥'+annualRev.toLocaleString('ja-JP')+'</div></div>' +
+    '<div class="roi-cell"><div class="roi-cell-label">月次管理費</div><div class="roi-cell-val">¥'+p.mgmt.toLocaleString('ja-JP')+'</div></div>' +
+    '<div class="roi-cell"><div class="roi-cell-label">物件交換</div><div class="roi-cell-val">全物件対象</div></div>';
 
   document.getElementById('guests-num').textContent = '2';
   document.getElementById('stay-notes').value = '';
@@ -3739,5 +3739,7 @@ document.addEventListener('touchstart', function(e) {
 document.addEventListener('touchend', function() { clearTimeout(chatLpTimer); }, { passive: true });
 document.addEventListener('touchmove', function() { clearTimeout(chatLpTimer); }, { passive: true });
 </script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
 </body>
 </html>

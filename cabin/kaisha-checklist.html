@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>設立チェックリスト — 合同会社SOLUNA</title>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--bg:#0a0a0e;--card:#141418;--border:rgba(255,255,255,.08);--text:#e8e0cc;--muted:#5a5660;--green:#4ecb8d}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Hiragino Sans',sans-serif;min-height:100vh}
+.toolbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(20,20,24,.95);border-bottom:1px solid var(--border);gap:8px;flex-wrap:wrap}
+.toolbar-left{font-size:12px;font-weight:700;color:var(--gold)}
+.toolbar-left small{display:block;font-size:10px;color:var(--muted);font-weight:400;margin-top:1px}
+.btn-print{background:var(--gold);color:#000;border:none;border-radius:8px;padding:8px 18px;font-size:12px;font-weight:700;cursor:pointer}
+.btn-wizard{background:transparent;border:1px solid rgba(200,164,85,.3);color:var(--gold);border-radius:8px;padding:8px 14px;font-size:12px;cursor:pointer;text-decoration:none;font-family:inherit}
+.doc{max-width:720px;margin:0 auto;padding:16px 16px 40px}
+.doc-paper{background:#fff;color:#111;border-radius:12px;padding:36px 44px;font-family:'Hiragino Mincho ProN','Yu Mincho',serif;font-size:11pt;line-height:1.9}
+.doc-paper h1{font-size:16pt;text-align:center;border-bottom:2px solid #000;padding-bottom:.5em;margin-bottom:1.5em}
+.doc-paper h2{font-size:12pt;margin-top:1.8em;margin-bottom:.6em;border-bottom:1px solid #ccc;padding-bottom:.2em;color:#1a1a2e}
+.step-tag{display:inline-block;background:#1a1a2e;color:#c8a455;font-size:9pt;padding:2px 8px;border-radius:10px;margin-right:6px;font-family:sans-serif;font-weight:700}
+.checklist{list-style:none;margin:.4em 0 .4em .5em}
+.checklist li{display:flex;align-items:flex-start;gap:10px;padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:10.5pt}
+.checklist li:last-child{border-bottom:none}
+.chk{width:16px;height:16px;border:2px solid #888;border-radius:3px;flex-shrink:0;margin-top:3px;cursor:pointer;-webkit-print-color-adjust:exact}
+.chk.done{background:#1a1a2e;border-color:#1a1a2e}
+.item-text{flex:1}
+.item-sub{font-size:9.5pt;color:#666;margin-top:1px}
+.badge{display:inline-block;font-size:8.5pt;padding:1px 7px;border-radius:8px;font-family:sans-serif;font-weight:700;margin-left:4px;vertical-align:middle}
+.badge-cost{background:#fff0e6;color:#c85000}
+.badge-done{background:#e6f9ef;color:#1a7a40}
+.badge-tool{background:#e6f0ff;color:#1a3a7a}
+.note-box{background:#fffbe6;border-left:4px solid #f0c040;padding:12px 16px;margin-top:1.5em;font-size:10pt;color:#555}
+.cost-table{width:100%;border-collapse:collapse;margin:1em 0;font-size:10.5pt}
+.cost-table th,.cost-table td{border:1px solid #ddd;padding:7px 10px}
+.cost-table th{background:#f5f5f5;text-align:left}
+.cost-table .total{font-weight:700;background:#f0f0f0}
+@media print{
+  .toolbar{display:none}
+  .doc{padding:0;max-width:none}
+  .doc-paper{padding:15mm;border-radius:0}
+  .chk{print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <div class="toolbar-left">
+    ✅ 設立チェックリスト — 合同会社SOLUNA
+    <small>準備〜電子申請〜開業後手続き</small>
+  </div>
+  <div style="display:flex;gap:8px">
+    <a href="/kaisha" class="btn-wizard">🧙 ウィザードで生成</a>
+    <button class="btn-print" onclick="window.print()">🖨 印刷</button>
+  </div>
+</div>
+
+<div class="doc">
+  <div class="doc-paper">
+    <h1>合同会社SOLUNA　設立チェックリスト</h1>
+
+    <table class="cost-table">
+      <tr><th>費用項目</th><th>金額</th><th>備考</th></tr>
+      <tr><td>登録免許税</td><td>¥60,000</td><td>Pay-easy で電子納付</td></tr>
+      <tr><td>ICカードリーダー</td><td>¥0</td><td>iPhoneで代替可能</td></tr>
+      <tr><td>実印・印鑑証明</td><td>¥0</td><td>電子申請では不要（令和3年〜）</td></tr>
+      <tr><td>定款認証</td><td>¥0</td><td>合同会社は不要（株式会社のみ）</td></tr>
+      <tr class="total"><td>合計</td><td>¥60,000</td><td></td></tr>
+    </table>
+
+    <h2><span class="step-tag">STEP 1</span>準備（〜1日）</h2>
+    <ul class="checklist">
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">マイナンバーカード所持確認<div class="item-sub">署名用電子証明書が有効期限内か確認（市区町村窓口で更新可）</div></div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">マイナポータルアプリをiPhoneにインストール<span class="badge badge-tool">iPhone</span><div class="item-sub">App Storeから無料でDL → マイナンバーカードを読み込んでセットアップ</div></div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">登記・供託オンライン申請システム アカウント作成（申請者ID取得）<span class="badge badge-done">無料</span><div class="item-sub">https://www.touki-kyoutaku-online.moj.go.jp/ → 「申請者情報登録」</div></div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">資本金（¥1,000,000）を個人銀行口座に入金<div class="item-sub">通帳に入金記録が残るよう振込で入金する</div></div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">地番確認<div class="item-sub">固定資産税通知書または登記簿謄本で「北海道川上郡標茶町字西熊牛原野○○番○」を確認</div></div></li>
+    </ul>
+
+    <h2><span class="step-tag">STEP 2</span>書類準備</h2>
+    <ul class="checklist">
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">定款を作成<span class="badge badge-tool">このツール</span><div class="item-sub">/kaisha-teikan で表示・印刷、またはウィザードで地番入力して生成</div></div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">登記申請書を作成<span class="badge badge-tool">このツール</span><div class="item-sub">/kaisha-shinsei — 電子申請の場合は「登記事項テキスト」として入力</div></div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">払込証明書を作成<span class="badge badge-tool">このツール</span><div class="item-sub">/kaisha-haraikomi — 資本金入金済み通帳のコピーを添付すること</div></div></li>
+    </ul>
+
+    <h2><span class="step-tag">STEP 3</span>電子申請（かんたん申請）</h2>
+    <ul class="checklist">
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">PCブラウザでかんたん申請にログイン<div class="item-sub">https://www.touki-kyoutaku-online.moj.go.jp/kantan/</div></div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">「商業・法人登記」→「合同会社設立」を選択</div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">登記事項テキストを貼り付け<div class="item-sub">ウィザードの「登記事項テキスト」をコピー&ペースト</div></div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">書類ファイルをアップロード<div class="item-sub">定款PDF、払込証明書PDF（+通帳コピー）</div></div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">iPhoneのマイナポータルアプリで電子署名<span class="badge badge-tool">iPhone</span><div class="item-sub">PCに表示されたQRコードをスキャン → 署名用パスワード（英数字6〜16桁）を入力</div></div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">申請送信</div></li>
+    </ul>
+
+    <h2><span class="step-tag">STEP 4</span>登録免許税の納付</h2>
+    <ul class="checklist">
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">Pay-easy（ペイジー）で ¥60,000 を電子納付<span class="badge badge-cost">¥60,000</span><div class="item-sub">申請後にオンライン申請システムから「電子納付」を選択 → ネットバンクで支払い</div></div></li>
+    </ul>
+
+    <h2><span class="step-tag">STEP 5</span>審査完了・登記後</h2>
+    <ul class="checklist">
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">審査完了通知を確認（通常1〜2週間）<div class="item-sub">登記・供託オンライン申請システムで処理状況を確認</div></div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">履歴事項全部証明書を取得<div class="item-sub">法務局オンライン（¥480）または郵送（¥600） — 口座開設等に必要</div></div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">法人銀行口座を開設<div class="item-sub">三井住友・楽天・GMOあおぞら等。登記事項証明書・定款・代表者印が必要</div></div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">税務署に法人設立届出書を提出（登記後2ヶ月以内）<div class="item-sub">国税庁 e-Tax または紙で提出。青色申告承認申請書も同時に出すと節税効果大</div></div></li>
+      <li><div class="chk" onclick="toggle(this)"></div><div class="item-text">北海道釧路総合振興局・標茶町役場に法人設立届を提出<div class="item-sub">都道府県・市区町村の住民税・事業税に関する届出</div></div></li>
+    </ul>
+
+    <div class="note-box">
+      💡 合同会社は株式会社より設立コストが低く、電子申請なら <strong>¥60,000のみ</strong> で設立できます。<br>
+      実印・印鑑証明・定款認証はすべて不要（令和3年〜任意化）。マイナンバーカード + iPhone があれば完結します。
+    </div>
+  </div>
+</div>
+
+<script>
+function toggle(el) {
+  el.classList.toggle('done');
+  if (el.classList.contains('done')) {
+    el.innerHTML = '✓';
+    el.style.color = '#fff';
+    el.style.display = 'flex';
+    el.style.alignItems = 'center';
+    el.style.justifyContent = 'center';
+    el.style.fontSize = '10px';
+  } else {
+    el.innerHTML = '';
+    el.style.color = '';
+  }
+  // save state to localStorage
+  var items = Array.from(document.querySelectorAll('.chk'));
+  var state = items.map(function(c){return c.classList.contains('done') ? 1 : 0});
+  localStorage.setItem('kaisha_checklist', JSON.stringify(state));
+}
+
+// restore state
+window.addEventListener('DOMContentLoaded', function() {
+  var saved = localStorage.getItem('kaisha_checklist');
+  if (!saved) return;
+  var state = JSON.parse(saved);
+  var items = document.querySelectorAll('.chk');
+  state.forEach(function(s, i) {
+    if (s && items[i]) toggle(items[i]);
+  });
+});
+</script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

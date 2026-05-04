@@ -1,6 +1,11 @@
 /* SOLUNA Desktop Chrome — menubar + winbar + dock injector */
 (function(){
-  if(window.self!==window.top)return; // iframe内はスキップ
+  if(window.self!==window.top){
+    var _s=document.createElement('style');
+    _s.textContent='.gnav{display:none!important}body{padding-top:0!important;padding-bottom:0!important}';
+    document.head.appendChild(_s);
+    return;
+  }
   var P={
     '/shopping':        {icon:'🛒',title:'資材リスト',    app:'Materials.app'},
     '/order':           {icon:'📋',title:'発注管理',       app:'Orders.app'},

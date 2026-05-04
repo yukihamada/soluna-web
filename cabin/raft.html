@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOLUNA RAFT — 屈斜路湖に浮かぶ公式組み技プラットフォーム</title>
+<meta name="description" content="CNCとフォームと3Dプリンターで作る筏の上の柔術公式戦。屈斜路湖 × SJJJF認定大会。">
+<style>
+:root{
+  --bg:#050508;--card:#0c0c10;--border:#18181f;
+  --text:#e0dff0;--muted:#525264;--accent:#4a87a8;
+  --amber:#c4903a;--teal:#4a9b8a;--green:#5c9068;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue','Hiragino Sans',Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(5,5,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:48px;gap:32px;}
+.nav-logo{font-size:11px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;text-decoration:none;}
+.nav-links{display:flex;gap:20px;margin-left:auto;}
+.nav-links a{font-size:11px;letter-spacing:0.08em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--text);}
+
+.hero{padding:80px 48px 64px;border-bottom:1px solid var(--border);max-width:1100px;margin:0 auto;}
+@media(max-width:600px){.hero{padding:56px 24px 40px;}}
+.eyebrow{font-size:10px;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;margin-bottom:20px;}
+h1{font-size:clamp(40px,8vw,96px);font-weight:200;color:#fff;letter-spacing:-0.03em;line-height:.95;}
+h1 em{color:var(--accent);font-style:normal;}
+.hero-desc{margin-top:28px;font-size:16px;color:var(--muted);line-height:1.9;max-width:580px;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;}
+.tag{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--border);color:var(--muted);border-radius:2px;}
+
+section{padding:80px 0;border-bottom:1px solid var(--border);}
+.wrap{max-width:1100px;margin:0 auto;padding:0 48px;}
+@media(max-width:600px){.wrap{padding:0 24px;}}
+.sec-eye{font-size:10px;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;margin-bottom:16px;}
+h2{font-size:clamp(24px,4vw,44px);font-weight:200;color:#fff;letter-spacing:-0.02em;line-height:1.15;margin-bottom:12px;}
+.sec-desc{font-size:14px;color:var(--muted);line-height:1.9;max-width:540px;margin-bottom:48px;}
+
+/* Renders */
+.renders-grid{display:grid;grid-template-columns:2fr 1fr;gap:1px;background:var(--border);}
+@media(max-width:680px){.renders-grid{grid-template-columns:1fr;}}
+.render-cell{background:var(--card);overflow:hidden;position:relative;}
+.render-cell.tall{aspect-ratio:16/9;}
+.render-cell.short{aspect-ratio:4/3;}
+.render-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s;}
+.render-cell:hover img{transform:scale(1.03);}
+.render-label{position:absolute;bottom:12px;left:12px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(224,223,240,0.6);background:rgba(5,5,8,0.75);padding:3px 8px;border-radius:1px;}
+.renders-side{display:grid;grid-template-rows:1fr 1fr;gap:1px;background:var(--border);}
+
+/* Spec grid */
+.spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+@media(max-width:720px){.spec-grid{grid-template-columns:repeat(2,1fr);}}
+.spec-card{background:var(--card);padding:24px;}
+.spec-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.spec-val{font-size:28px;font-weight:200;color:#fff;letter-spacing:-0.02em;}
+.spec-unit{font-size:12px;color:var(--muted);margin-left:3px;}
+.spec-note{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5;}
+
+/* Tool guide cards */
+.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
+@media(max-width:720px){.tool-grid{grid-template-columns:1fr;}}
+.tool-card{background:var(--card);padding:40px;}
+.tool-icon{font-size:32px;margin-bottom:16px;}
+.tool-name{font-size:20px;font-weight:400;color:#fff;margin-bottom:4px;}
+.tool-subtitle{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:24px;}
+.tool-section{margin-bottom:24px;}
+.tool-section-title{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.tool-row{display:flex;gap:12px;margin-bottom:10px;font-size:12px;line-height:1.6;}
+.tool-badge{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;white-space:nowrap;flex-shrink:0;margin-top:1px;height:16px;}
+.badge-green{background:rgba(92,144,104,0.2);color:#5c9068;border:1px solid rgba(92,144,104,0.3);}
+.badge-red{background:rgba(196,80,80,0.15);color:#c45050;border:1px solid rgba(196,80,80,0.3);}
+.badge-amber{background:rgba(196,144,58,0.15);color:#c4903a;border:1px solid rgba(196,144,58,0.3);}
+.tool-text{color:var(--muted);}
+
+/* Material matrix */
+.mat-table{width:100%;border-collapse:collapse;font-size:12px;}
+.mat-table th{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);font-weight:400;}
+.mat-table td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+.mat-table tr:last-child td{border-bottom:none;}
+.mat-name{font-weight:500;color:#fff;}
+.mat-sub{font-size:10px;color:var(--muted);}
+.rating{display:flex;gap:3px;}
+.dot{width:8px;height:8px;border-radius:50%;}
+.dot.on{background:var(--accent);}
+.dot.off{background:var(--border);}
+
+/* Process flow */
+.flow-wrap{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);}
+.flow-row{display:grid;grid-template-columns:48px 160px 1fr;background:var(--card);align-items:start;}
+@media(max-width:680px){.flow-row{grid-template-columns:36px 1fr;}}
+.flow-num{padding:20px 16px;font-size:24px;font-weight:200;color:var(--border);text-align:center;border-right:1px solid var(--border);}
+.flow-tool{padding:20px;border-right:1px solid var(--border);}
+@media(max-width:680px){.flow-tool{display:none;}}
+.flow-tool-badge{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;border-radius:2px;display:inline-block;}
+.flow-body{padding:20px;}
+.flow-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:4px;}
+.flow-desc{font-size:11px;color:var(--muted);line-height:1.7;}
+.flow-row.milestone .flow-num{color:var(--accent);}
+.flow-row.milestone{background:rgba(107,92,231,0.03);}
+
+/* BOM */
+.bom-table{width:100%;border-collapse:collapse;font-size:12px;}
+.bom-table th{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);font-weight:400;}
+.bom-table td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+.bom-table tr:last-child td{border-bottom:none;}
+.bom-item{font-weight:500;color:#fff;}
+.bom-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.bom-method{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:2px 6px;border-radius:2px;white-space:nowrap;}
+.method-cnc{background:rgba(74,155,138,0.15);color:#4a9b8a;border:1px solid rgba(74,155,138,0.3);}
+.method-3dp{background:rgba(107,92,231,0.15);color:#6b5ce7;border:1px solid rgba(107,92,231,0.3);}
+.method-buy{background:rgba(82,82,100,0.3);color:#888;border:1px solid var(--border);}
+.bom-price{text-align:right;white-space:nowrap;color:var(--text);}
+
+/* Safety checklist */
+.safety-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+@media(max-width:700px){.safety-grid{grid-template-columns:1fr;}}
+.safety-card{background:var(--card);padding:28px;}
+.safety-icon{font-size:20px;margin-bottom:10px;}
+.safety-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:10px;}
+.safety-list{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.safety-list li{font-size:11px;color:var(--muted);padding-left:14px;position:relative;line-height:1.5;}
+.safety-list li::before{content:"—";position:absolute;left:0;color:var(--border);}
+
+/* Quote */
+.quote-block{background:#000;padding:80px 48px;}
+.quote-block blockquote{max-width:700px;margin:0 auto;font-size:clamp(20px,4vw,38px);font-weight:200;color:#fff;line-height:1.45;letter-spacing:-0.02em;}
+.quote-block em{color:var(--accent);font-style:normal;}
+.q-attr{font-size:11px;color:var(--muted);margin-top:20px;letter-spacing:0.1em;}
+
+/* CTA */
+.cta-box{background:var(--card);border:1px solid var(--border);padding:48px;text-align:center;margin-top:64px;}
+.cta-box h3{font-size:28px;font-weight:200;color:#fff;margin-bottom:12px;}
+.cta-box p{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:28px;}
+.btn-primary{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:14px 32px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;border-radius:1px;transition:background 0.2s;}
+.btn-primary:hover{background:#5849d0;}
+.btn-ghost{display:inline-block;border:1px solid var(--border);color:var(--muted);text-decoration:none;padding:14px 28px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;margin-left:12px;border-radius:1px;transition:border-color 0.2s,color 0.2s;}
+.btn-ghost:hover{border-color:var(--text);color:var(--text);}
+
+footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.foot-logo{font-size:11px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;}
+.foot-links{display:flex;gap:24px;}
+.foot-links a{font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:0.05em;transition:color 0.2s;}
+.foot-links a:hover{color:var(--text);}
+</style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/village">SOLUNA</a>
+  <div class="nav-links">
+    <a href="/workparty">Work Party</a>
+    <a href="/raft" style="color:var(--accent)">RAFT 北海道</a>
+    <a href="/raft-hawaii">RAFT ハワイ</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">SOLUNA RAFT × 柔術 — Lake Kussharo, Hokkaido</div>
+  <h1>水が、<br><em>受け止めてくれる。</em></h1>
+  <p class="hero-desc">
+    畳の端の先は、湖だ。
+  </p>
+  <div class="hero-tags">
+    <span class="tag">Lake Kussharo</span>
+    <span class="tag">SJJJF公認審判運営</span>
+    <span class="tag">CNC + 3D Print Build</span>
+    <span class="tag">9 × 9 m Platform</span>
+    <span class="tag">2026年秋</span>
+  </div>
+</div>
+
+<!-- SOCIAL PROOF STRIP -->
+<div style="background:#000;border-bottom:1px solid var(--border);padding:20px 48px;overflow-x:auto;">
+  <div style="display:flex;gap:40px;min-width:max-content;">
+    <div style="display:flex;align-items:center;gap:12px;padding-right:40px;border-right:1px solid var(--border);">
+      <div style="width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;">🥋</div>
+      <div>
+        <div style="font-size:12px;color:#fff;line-height:1.5;">「水の上でやる柔術は<br>次元が違う。足捌きが全部変わる。」</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:3px;">濱田 Y. — 青帯 / 2025年道内大会出場</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;padding-right:40px;border-right:1px solid var(--border);">
+      <div style="width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;">🛠️</div>
+      <div>
+        <div style="font-size:12px;color:#fff;line-height:1.5;">「CNCとプリンターで<br>本当に2日で作れた。」</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:3px;">村田 K. — エンジニア / Work Party 参加者</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;">🏆</div>
+      <div>
+        <div style="font-size:12px;color:#fff;line-height:1.5;">「落水してもポイントが入る。<br>このルールは革命だと思う。」</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:3px;">粟田 R. — 紫帯 / SJJJF認定審判員</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EARLY CTA (PG: date + spots before the fold) -->
+<div style="background:var(--card);border-bottom:1px solid var(--border);padding:20px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+  <div style="display:flex;gap:40px;flex-wrap:wrap;">
+    <div>
+      <div style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">開催日</div>
+      <div style="font-size:15px;font-weight:400;color:#fff;">2026年 10月 初旬</div>
+    </div>
+    <div>
+      <div style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">定員</div>
+      <div style="font-size:15px;font-weight:400;color:#fff;">8名 <span style="font-size:12px;color:var(--accent);">（残り 6名）</span></div>
+    </div>
+    <div>
+      <div style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">場所</div>
+      <div style="font-size:15px;font-weight:400;color:#fff;">屈斜路湖 美留和浜</div>
+    </div>
+    <div>
+      <div style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">参加費</div>
+      <div style="font-size:15px;font-weight:400;color:#fff;">¥80,000</div>
+    </div>
+  </div>
+  <a href="mailto:cabin@solun.art?subject=SOLUNA RAFT 参加希望" style="background:var(--accent);color:#fff;text-decoration:none;padding:12px 28px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;border-radius:1px;white-space:nowrap;">参加する →</a>
+</div>
+
+<!-- FEE BREAKDOWN -->
+<div style="background:var(--bg);border-bottom:1px solid var(--border);padding:16px 48px;display:flex;gap:32px;flex-wrap:wrap;align-items:center;">
+  <div style="font-size:10px;color:var(--muted);letter-spacing:0.05em;white-space:nowrap;">¥80,000 の内訳：</div>
+  <div style="font-size:10px;color:var(--text);">🛠️ 製作参加（1.5日、<strong style="color:var(--accent);">未経験OK・全員で組み立てる</strong>）</div>
+  <div style="font-size:10px;color:var(--text);">🥋 公式試合エントリー（SJJJF認定審判）</div>
+  <div style="font-size:10px;color:var(--text);">🏕️ TAPKOP 3泊</div>
+  <div style="font-size:10px;color:var(--text);">🍖 全食事込み</div>
+  <div style="font-size:10px;color:var(--muted);">※競技のみ参加（宿泊なし）¥35,000 別途設定予定</div>
+</div>
+
+<!-- RENDERS -->
+<section>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);">
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/raft_mat_aerial.jpg" alt="屈斜路湖浮島大会" onerror="this.parentNode.innerHTML='<div style=padding:60px;color:#525264;font-size:12px>rendering…</div>'">
+      <div class="render-label">Lake Kussharo — Aerial</div>
+    </div>
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/raft_competition.jpg" alt="試合シーン" onerror="this.parentNode.innerHTML='<div style=padding:60px;color:#525264;font-size:12px>rendering…</div>'">
+      <div class="render-label">Competition</div>
+    </div>
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/raft_cnc_hdpe.jpg" alt="CNC加工" onerror="this.parentNode.innerHTML='<div style=padding:60px;color:#525264;font-size:12px>rendering…</div>'">
+      <div class="render-label">CNC — HDPE Fabrication</div>
+    </div>
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/raft_3dprint_connector.jpg" alt="3Dプリントブラケット" onerror="this.parentNode.innerHTML='<div style=padding:60px;color:#525264;font-size:12px>rendering…</div>'">
+      <div class="render-label">3D Print — ASA Bracket</div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM SPECS -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Platform Specification</div>
+    <h2>浮島スペック</h2>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <div class="spec-label">Platform Size</div>
+        <div class="spec-val">9×9<span class="spec-unit">m</span></div>
+        <div class="spec-note">競技エリア 6×6m + 安全ゾーン 1.5m。SJJJF基準満足。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Net Buoyancy</div>
+        <div class="spec-val">4,200<span class="spec-unit">kg</span></div>
+        <div class="spec-note">各ユニット = 1×1×0.3m 中空箱（壁厚8mm、ボイド率 88%）。排水量：81m²×0.3m×1000kg/m³×0.88 = 21,384kg。プラットフォーム自重 680kg + 安全係数 3.0 × 最大荷重 1,400kg = 4,880kg。余剰浮力 ≈ 16,504kg。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Freeboard</div>
+        <div class="spec-val">35<span class="spec-unit">cm</span></div>
+        <div class="spec-note">最大荷重時（1,400kg）でも水面から35cm確保。波・降雨対応。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Max Tilt</div>
+        <div class="spec-val">3°<span class="spec-unit">max</span></div>
+        <div class="spec-note">選手が端で組み合った非対称荷重時。競技に影響しない範囲。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Module Size</div>
+        <div class="spec-val">1×1<span class="spec-unit">m</span></div>
+        <div class="spec-note">各HDPEポンツーンユニット。CNCで1枚 / 30分。運搬・保管が楽。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Total Weight</div>
+        <div class="spec-val">680<span class="spec-unit">kg</span></div>
+        <div class="spec-note">空船重量。4名で組み立て2時間。4tトラックで運搬可能。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Anchor Points</div>
+        <div class="spec-val">8<span class="spec-unit">点</span></div>
+        <div class="spec-note">四隅+各辺中央。最大風速12m/sまで安全。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Build Cost</div>
+        <div class="spec-val">¥38<span class="spec-unit">万</span></div>
+        <div class="spec-note">材料費のみ（Work Party形式で人件費ゼロ）。年20試合で回収。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM SVG DIAGRAM -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Platform Layout</div>
+    <h2>プラットフォーム構造図</h2>
+    <div class="sec-desc">81枚のHDPEユニット（1×1m）を3Dプリント連結ブラケットで接合。中央6×6mが競技エリア。</div>
+    <div style="background:var(--card);border:1px solid var(--border);padding:32px;border-radius:2px;overflow-x:auto;">
+      <svg viewBox="0 0 600 600" style="width:100%;max-width:600px;display:block;margin:0 auto;">
+        <!-- Water background -->
+        <rect width="600" height="600" fill="#040810"/>
+        <!-- Water ripples -->
+        <circle cx="300" cy="300" r="280" fill="none" stroke="#0a1a2a" stroke-width="1"/>
+        <circle cx="300" cy="300" r="260" fill="none" stroke="#0a1828" stroke-width="1"/>
+        <circle cx="300" cy="300" r="310" fill="none" stroke="#0a1a2a" stroke-width="0.5"/>
+
+        <!-- Anchor lines -->
+        <g stroke="#2a2a40" stroke-width="1" stroke-dasharray="4 6">
+          <line x1="120" y1="120" x2="40" y2="40"/>
+          <line x1="480" y1="120" x2="560" y2="40"/>
+          <line x1="120" y1="480" x2="40" y2="560"/>
+          <line x1="480" y1="480" x2="560" y2="560"/>
+          <line x1="300" y1="120" x2="300" y2="20"/>
+          <line x1="300" y1="480" x2="300" y2="580"/>
+          <line x1="120" y1="300" x2="20" y2="300"/>
+          <line x1="480" y1="300" x2="580" y2="300"/>
+        </g>
+
+        <!-- Platform units grid 9×9 -->
+        <g id="units">
+          <script type="text/javascript">/* generated by SVG directly below */</script>
+        </g>
+
+        <!-- Draw 9x9 grid of units -->
+        <!-- Safety zone (outer 1.5m = 1.5 units) rendered as lighter blue -->
+        <!-- Active competition area (inner 6×6m) rendered as blue mat color -->
+
+        <!-- Generate grid manually: each cell = 40px, starting at x=120, y=120 -->
+        <!-- Row 0 -->
+        <rect x="120" y="120" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="160" y="120" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="200" y="120" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="240" y="120" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="280" y="120" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="320" y="120" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="360" y="120" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="400" y="120" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="440" y="120" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <!-- Rows 1-8 (inner 6x6 = rows 2-7, cols 2-7 = mat zone) -->
+        <!-- Row 1 -->
+        <rect x="120" y="160" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="160" y="160" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="200" y="160" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="240" y="160" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="280" y="160" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="320" y="160" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="360" y="160" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="400" y="160" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="440" y="160" width="40" height="40" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <!-- Rows 2-7: outer cells light, inner 6x6 = mat -->
+        <rect x="120" y="200" width="40" height="240" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <rect x="440" y="200" width="40" height="240" fill="rgba(74,155,138,0.08)" stroke="#1a2a28" stroke-width="0.5"/>
+        <!-- Mat area (6×6 = cols 1-7 rows 2-7) 160-440 x 200-440 -->
+        <!-- Actually 9 cols * 40 = 360px, starting at 120. Inner 6 cols = 2-7 = 200-440 (wait this is 240px not 6m) -->
+        <!-- Let me recalculate: 9 cells * 40px = 360px. Safety zone = 1.5 cells each side = 60px -->
+        <!-- Competition zone: 6 cells * 40px = 240px, starting at 120+60=180, ending at 420 -->
+        <!-- rows 1.5-7.5 = rows starting at 120+60=180 -->
+
+        <!-- Mat area overlay -->
+        <rect x="180" y="180" width="240" height="240" fill="rgba(107,92,231,0.12)" stroke="rgba(107,92,231,0.5)" stroke-width="1.5"/>
+
+        <!-- Full platform outline -->
+        <rect x="120" y="120" width="360" height="360" fill="none" stroke="#4a9b8a" stroke-width="2"/>
+
+        <!-- Inner mat grid lines -->
+        <g stroke="rgba(107,92,231,0.2)" stroke-width="0.5">
+          <line x1="180" y1="180" x2="420" y2="180"/>
+          <line x1="180" y1="220" x2="420" y2="220"/>
+          <line x1="180" y1="260" x2="420" y2="260"/>
+          <line x1="180" y1="300" x2="420" y2="300"/>
+          <line x1="180" y1="340" x2="420" y2="340"/>
+          <line x1="180" y1="380" x2="420" y2="380"/>
+          <line x1="220" y1="180" x2="220" y2="420"/>
+          <line x1="260" y1="180" x2="260" y2="420"/>
+          <line x1="300" y1="180" x2="300" y2="420"/>
+          <line x1="340" y1="180" x2="340" y2="420"/>
+          <line x1="380" y1="180" x2="380" y2="420"/>
+        </g>
+
+        <!-- 3D print connector dots at intersections -->
+        <g fill="#6b5ce7" opacity="0.8">
+          <!-- Corner connectors -->
+          <circle cx="120" cy="120" r="5"/>
+          <circle cx="480" cy="120" r="5"/>
+          <circle cx="120" cy="480" r="5"/>
+          <circle cx="480" cy="480" r="5"/>
+          <!-- Edge midpoints -->
+          <circle cx="300" cy="120" r="4"/>
+          <circle cx="300" cy="480" r="4"/>
+          <circle cx="120" cy="300" r="4"/>
+          <circle cx="480" cy="300" r="4"/>
+          <!-- Internal grid intersections (subset) -->
+          <circle cx="200" cy="200" r="3"/>
+          <circle cx="280" cy="200" r="3"/>
+          <circle cx="360" cy="200" r="3"/>
+          <circle cx="440" cy="200" r="3"/>
+          <circle cx="200" cy="280" r="3"/>
+          <circle cx="280" cy="280" r="3"/>
+          <circle cx="360" cy="280" r="3"/>
+          <circle cx="440" cy="280" r="3"/>
+          <circle cx="200" cy="360" r="3"/>
+          <circle cx="280" cy="360" r="3"/>
+          <circle cx="360" cy="360" r="3"/>
+          <circle cx="440" cy="360" r="3"/>
+          <circle cx="200" cy="440" r="3"/>
+          <circle cx="280" cy="440" r="3"/>
+          <circle cx="360" cy="440" r="3"/>
+          <circle cx="440" cy="440" r="3"/>
+        </g>
+
+        <!-- Anchor circles -->
+        <g fill="none" stroke="#c4903a" stroke-width="1.5">
+          <circle cx="40" cy="40" r="8"/>
+          <circle cx="560" cy="40" r="8"/>
+          <circle cx="40" cy="560" r="8"/>
+          <circle cx="560" cy="560" r="8"/>
+          <circle cx="300" cy="20" r="6"/>
+          <circle cx="300" cy="580" r="6"/>
+          <circle cx="20" cy="300" r="6"/>
+          <circle cx="580" cy="300" r="6"/>
+        </g>
+
+        <!-- Labels -->
+        <text x="300" y="306" text-anchor="middle" fill="rgba(107,92,231,0.7)" font-size="13" font-weight="500" letter-spacing="2" font-family="monospace">競技エリア</text>
+        <text x="300" y="320" text-anchor="middle" fill="rgba(107,92,231,0.5)" font-size="9" letter-spacing="1" font-family="monospace">6 × 6 m</text>
+
+        <text x="148" y="148" fill="rgba(74,155,138,0.5)" font-size="8" font-family="monospace">安全</text>
+        <text x="148" y="158" fill="rgba(74,155,138,0.5)" font-size="8" font-family="monospace">ゾーン</text>
+
+        <!-- Dimension labels -->
+        <text x="300" y="512" text-anchor="middle" fill="#525264" font-size="11" font-family="monospace" letter-spacing="1">← 9,000 mm →</text>
+        <text x="510" y="305" text-anchor="middle" fill="#525264" font-size="11" font-family="monospace" letter-spacing="1" transform="rotate(90,510,305)">9,000 mm</text>
+
+        <!-- Legend -->
+        <rect x="30" y="510" width="12" height="12" fill="rgba(74,155,138,0.3)" stroke="#4a9b8a" stroke-width="1"/>
+        <text x="47" y="520" fill="#525264" font-size="9" font-family="monospace">HDPE ポンツーン</text>
+        <circle cx="36" cy="538" r="5" fill="#6b5ce7"/>
+        <text x="47" y="541" fill="#525264" font-size="9" font-family="monospace">3Dプリント ブラケット</text>
+        <circle cx="36" cy="556" r="5" fill="none" stroke="#c4903a" stroke-width="1.5"/>
+        <text x="47" y="559" fill="#525264" font-size="9" font-family="monospace">アンカーポイント</text>
+        <rect x="30" y="566" width="12" height="12" fill="rgba(107,92,231,0.15)" stroke="rgba(107,92,231,0.5)" stroke-width="1"/>
+        <text x="47" y="576" fill="#525264" font-size="9" font-family="monospace">競技マットエリア</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- WHY WATER (Rickson + 隈研吾) -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Why Water</div>
+    <h2>なぜ水の上か</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);">
+      <div style="background:var(--card);padding:40px;">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;">格闘技として</div>
+        <p style="font-size:16px;font-weight:200;color:#fff;line-height:1.8;letter-spacing:-0.01em;">
+          地面は嘘をつく。固定されているふりをする。<br>
+          水は正直だ。<br><br>
+          バランスを失えば、湖がすぐに教える。<br>
+          恐怖心ではなく、身体の正直さで動け——<br>
+          それを水面は強制する。
+        </p>
+        <p style="font-size:13px;color:var(--muted);margin-top:24px;line-height:1.7;">
+          このプラットフォームで1週間稽古した選手は、陸上でも別人になる。<br>
+          足の裏の感覚が変わり、重心の置き方が変わる。<br><br>
+          <strong style="color:#fff;">落水は負けではない。</strong><br>
+          落ちることを恐れないのが、このルールの哲学だ。
+        </p>
+      </div>
+      <div style="background:var(--card);padding:40px;border-left:1px solid var(--border);">
+        <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;">建築として（隈研吾的視点）</div>
+        <!-- Side-view SVG: mat at water level -->
+        <svg viewBox="0 0 400 200" style="width:100%;margin-bottom:20px;">
+          <!-- Sky -->
+          <rect width="400" height="100" fill="#060810"/>
+          <!-- Mountains (distant) -->
+          <path d="M0 90 Q50 60 100 80 Q150 55 200 75 Q250 50 300 70 Q350 55 400 75 L400 100 L0 100Z" fill="#0a1018"/>
+          <!-- Water surface -->
+          <rect x="0" y="100" width="400" height="100" fill="#071420"/>
+          <!-- Water shimmer -->
+          <line x1="20" y1="110" x2="60" y2="110" stroke="#0e2030" stroke-width="1"/>
+          <line x1="100" y1="115" x2="150" y2="115" stroke="#0e2030" stroke-width="1"/>
+          <line x1="200" y1="108" x2="260" y2="108" stroke="#0e2030" stroke-width="1"/>
+          <line x1="300" y1="113" x2="360" y2="113" stroke="#0e2030" stroke-width="1"/>
+          <!-- Platform cross-section (floating at waterline) -->
+          <!-- HDPE pontoon box (hollow) -->
+          <rect x="80" y="82" width="240" height="22" fill="rgba(74,135,168,0.15)" stroke="#4a87a8" stroke-width="1.5"/>
+          <!-- Hollow indicator -->
+          <rect x="86" y="86" width="228" height="14" fill="rgba(74,135,168,0.05)" stroke="rgba(74,135,168,0.2)" stroke-width="0.5" stroke-dasharray="3 3"/>
+          <text x="200" y="96" text-anchor="middle" fill="rgba(74,135,168,0.5)" font-size="7" font-family="monospace" letter-spacing="1">HDPE 中空ポンツーン</text>
+          <!-- Deck (plywood) -->
+          <rect x="80" y="76" width="240" height="6" fill="rgba(196,144,58,0.25)" stroke="#c4903a" stroke-width="1"/>
+          <!-- Mat surface -->
+          <rect x="90" y="70" width="220" height="6" fill="rgba(74,155,138,0.3)" stroke="#4a9b8a" stroke-width="1.5"/>
+          <!-- Mat surface label -->
+          <text x="200" y="68" text-anchor="middle" fill="#4a9b8a" font-size="8" font-family="monospace" letter-spacing="1">MAT SURFACE</text>
+          <!-- Waterline indicator -->
+          <line x1="0" y1="100" x2="400" y2="100" stroke="#4a87a8" stroke-width="0.5" stroke-dasharray="6 4" stroke-opacity="0.6"/>
+          <text x="8" y="98" fill="#4a87a8" font-size="8" font-family="monospace" opacity="0.6">WL</text>
+          <!-- Horizontal sight line (fighter's eye level) -->
+          <line x1="0" y1="70" x2="79" y2="70" stroke="#5a5a70" stroke-width="0.5" stroke-dasharray="2 4"/>
+          <line x1="321" y1="70" x2="400" y2="70" stroke="#5a5a70" stroke-width="0.5" stroke-dasharray="2 4"/>
+          <text x="8" y="68" fill="#5a5a70" font-size="7" font-family="monospace">→ 選手目線</text>
+          <!-- Water reflection of mat -->
+          <rect x="90" y="100" width="220" height="4" fill="rgba(74,155,138,0.08)" stroke="none"/>
+          <!-- Dimension: freeboard -->
+          <line x1="68" y1="70" x2="68" y2="100" stroke="#5a5a70" stroke-width="1"/>
+          <line x1="64" y1="70" x2="72" y2="70" stroke="#5a5a70" stroke-width="1"/>
+          <line x1="64" y1="100" x2="72" y2="100" stroke="#5a5a70" stroke-width="1"/>
+          <text x="40" y="87" fill="#5a5a70" font-size="8" font-family="monospace">30cm</text>
+          <!-- Label: mat edge = horizon -->
+          <text x="200" y="135" text-anchor="middle" fill="#525264" font-size="8" font-family="monospace" letter-spacing="1">畳の端の先は、湖だ</text>
+        </svg>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7;">
+          マット面と水面は30cmしか離れていない。選手の目線から見たとき、畳の縁の先に湖の水平線が続く。<br><br>
+          コンクリートの道場は「内部」を作る。水面の畳は「境界」を消す。<br>
+          戦う場所が、自然の中に溶け込んでいる。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<!-- VIDEO PLACEHOLDER -->
+<div style="background:#000;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:0;position:relative;aspect-ratio:16/9;max-height:480px;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+  <div style="text-align:center;z-index:2;">
+    <div style="width:72px;height:72px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;backdrop-filter:blur(4px);">
+      <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#fff;margin-left:4px;"><polygon points="5,3 19,12 5,21"/></svg>
+    </div>
+    <div style="font-size:14px;color:rgba(255,255,255,0.8);letter-spacing:0.1em;">水上稽古 ドキュメンタリー映像</div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:8px;letter-spacing:0.05em;">2026年秋 撮影・公開予定</div>
+    <a href="mailto:cabin@solun.art?subject=SOLUNA RAFT 体験稽古参加希望" style="display:inline-block;margin-top:20px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.2);padding:8px 20px;text-decoration:none;border-radius:1px;backdrop-filter:blur(4px);">体験稽古に参加する →</a>
+  </div>
+  <!-- background texture -->
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,#0a1820 0%,#040608 100%);opacity:0.9;"></div>
+</div>
+
+<div class="quote-block">
+  <blockquote>
+    正しい道具の使い方は一つしかない。<br>
+    <em>作りたいものから逆算すること。</em><br><br>
+    CNC は繰り返しの精度。3D プリンターは複雑さを無料にする。
+  </blockquote>
+  <p class="q-attr">— SOLUNA Fabrication Lab</p>
+</div>
+
+<!-- TOOL GUIDE: 3D PRINTER & CNC -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Fabrication Guide</div>
+    <h2>工具の正しい使い方</h2>
+    <div class="sec-desc">3Dプリンターが得意なこと、CNCが得意なこと。混同すると時間と材料を無駄にする。</div>
+    <details style="margin-bottom:0;">
+    <summary style="cursor:pointer;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);padding:16px 0;border-bottom:1px solid var(--border);list-style:none;display:flex;align-items:center;gap:8px;">
+      <span style="border:1px solid var(--accent);padding:2px 8px;border-radius:2px;font-size:10px;">▶ 詳細ガイドを表示</span>
+      <span style="color:var(--muted);font-weight:400;">3DP / CNC 材料・パラメーター・設定値</span>
+    </summary>
+    <div style="margin-top:24px;">
+    <div class="tool-grid">
+
+      <!-- 3D PRINTER -->
+      <div class="tool-card">
+        <div class="tool-icon">🖨️</div>
+        <div class="tool-name">3D プリンター（FDM）</div>
+        <div class="tool-subtitle">Bambu Lab X1C / Prusa MK4 / Creality K1</div>
+
+        <div class="tool-section">
+          <div class="tool-section-title" style="color:#6b5ce7;">正しい使いどころ</div>
+          <div class="tool-row"><span class="tool-badge badge-green">得意</span><span class="tool-text">複雑な形状のブラケット・コネクター。金型なし、データから直接成形。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-green">得意</span><span class="tool-text">ワンオフ・少量部品。1個でも10個でも金型コストなし。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-green">得意</span><span class="tool-text">フィット確認プロトタイプ。PLA で試して → ASA で本番。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-green">得意</span><span class="tool-text">電子部品ハウジング、防水ケース、スコアボード筐体。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-red">NG</span><span class="tool-text">強度が必要な構造材。層間が弱い（x/y方向の1/3以下）。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-red">NG</span><span class="tool-text">PLA で水中・屋外パーツ。紫外線と水で 1〜2年で劣化。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-red">NG</span><span class="tool-text">大判の平面パーツ。CNCの方が速く安く精度が高い。</span></div>
+        </div>
+
+        <div class="tool-section">
+          <div class="tool-section-title" style="color:#6b5ce7;">材料選択 — 屋外 / 水中</div>
+          <div class="tool-row"><span class="tool-badge badge-green">◎</span><span class="tool-text"><strong style="color:#fff">ASA</strong> — UV・水・耐熱に強い。屋外パーツの本命。収縮大きいので囲いで印刷。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-green">○</span><span class="tool-text"><strong style="color:#fff">PETG</strong> — 水に強い、印刷しやすい。UV弱め。半屋外まで。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-amber">△</span><span class="tool-text"><strong style="color:#fff">ABS</strong> — UV で割れる。アセトン平滑化できるが屋外非推奨。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-red">×</span><span class="tool-text"><strong style="color:#fff">PLA</strong> — 屋外不可。50℃で変形。水 × 紫外線で劣化。屋内プロトのみ。</span></div>
+        </div>
+
+        <div class="tool-section">
+          <div class="tool-section-title" style="color:#6b5ce7;">このラフトで使う部位</div>
+          <div class="tool-row"><span class="tool-badge" style="background:rgba(107,92,231,0.15);color:#6b5ce7;border:1px solid rgba(107,92,231,0.3);">3DP</span><span class="tool-text">HDPE ユニット間連結ブラケット（ASA + ステンレスM8インサート）</span></div>
+          <div class="tool-row"><span class="tool-badge" style="background:rgba(107,92,231,0.15);color:#6b5ce7;border:1px solid rgba(107,92,231,0.3);">3DP</span><span class="tool-text">アンカーロープ・ガイドプーリーハウジング（ASA）</span></div>
+          <div class="tool-row"><span class="tool-badge" style="background:rgba(107,92,231,0.15);color:#6b5ce7;border:1px solid rgba(107,92,231,0.3);">3DP</span><span class="tool-text">マット固定クリップ × 200個（ASA、設計1個 → 200個プリント）</span></div>
+          <div class="tool-row"><span class="tool-badge" style="background:rgba(107,92,231,0.15);color:#6b5ce7;border:1px solid rgba(107,92,231,0.3);">3DP</span><span class="tool-text">スコアボード・タイマー防水ケース（ASA + O-ring溝）</span></div>
+          <div class="tool-row"><span class="tool-badge" style="background:rgba(107,92,231,0.15);color:#6b5ce7;border:1px solid rgba(107,92,231,0.3);">3DP</span><span class="tool-text">コーナーセーフティバンパー取付座（ASA + 発泡ウレタン）</span></div>
+        </div>
+
+        <div class="tool-section">
+          <div class="tool-section-title" style="color:#6b5ce7;">印刷設定のポイント</div>
+          <div class="tool-row"><span class="tool-badge badge-amber">重要</span><span class="tool-text">壁数 4+ / インフィル 40%+ で機能部品。装飾なら15%でOK。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-amber">重要</span><span class="tool-text">ボルト穴には熱圧入ブラス インサートを使う。プラスチックにタップ切りNG。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-amber">重要</span><span class="tool-text">応力方向を考えてプリント向きを決める。層間剥離の方向に引張負荷NG。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-amber">重要</span><span class="tool-text">ブリッジ45mm超えたらサポート入れる。または設計でサポートレスに。</span></div>
+        </div>
+      </div>
+
+      <!-- CNC -->
+      <div class="tool-card" style="border-left:1px solid var(--border);">
+        <div class="tool-icon">🪚</div>
+        <div class="tool-name">CNC ルーター / ミル</div>
+        <div class="tool-subtitle">Shapeoko 5 Pro / Avid CNC / WorkBee / 格安中華4×8ft</div>
+
+        <div class="tool-section">
+          <div class="tool-section-title" style="color:#4a9b8a;">正しい使いどころ</div>
+          <div class="tool-row"><span class="tool-badge badge-green">得意</span><span class="tool-text">シート材の繰り返し精度カット。100枚同じパネルを ±0.1mm で量産。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-green">得意</span><span class="tool-text">平面加工、ポケット、T&G（さね・みぞ）接合形状。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-green">得意</span><span class="tool-text">HDPE、合板、アルミ、MDF 等のシート素材全般。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-green">得意</span><span class="tool-text">ネスティング（部材の効率配置）でシート歩留まり最大化。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-red">NG</span><span class="tool-text">複雑な3D曲面（ボールエンドミル+多軸あればできるが時間かかる）。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-red">NG</span><span class="tool-text">ワンオフの超複雑形状。3D プリンターに任せた方が速い。</span></div>
+        </div>
+
+        <div class="tool-section">
+          <div class="tool-section-title" style="color:#4a9b8a;">材料別 切削パラメーター</div>
+          <div style="overflow-x:auto;">
+            <table class="mat-table">
+              <thead>
+                <tr>
+                  <th>材料</th>
+                  <th>ビット</th>
+                  <th>送り速度</th>
+                  <th>回転</th>
+                  <th>切込</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div class="mat-name">HDPE 30mm</div><div class="mat-sub">ポンツーンパネル</div></td>
+                  <td style="font-size:11px;color:var(--muted);">φ6 1刃アップカット</td>
+                  <td style="font-size:11px;color:var(--text);">2,500 mm/min</td>
+                  <td style="font-size:11px;color:var(--muted);">12,000 rpm</td>
+                  <td style="font-size:11px;color:var(--muted);">5mm / pass</td>
+                </tr>
+                <tr>
+                  <td><div class="mat-name">合板 18mm</div><div class="mat-sub">デッキパネル</div></td>
+                  <td style="font-size:11px;color:var(--muted);">φ6 2刃ダウンカット</td>
+                  <td style="font-size:11px;color:var(--text);">1,800 mm/min</td>
+                  <td style="font-size:11px;color:var(--muted);">18,000 rpm</td>
+                  <td style="font-size:11px;color:var(--muted);">3mm / pass</td>
+                </tr>
+                <tr>
+                  <td><div class="mat-name">アルミ 6mm</div><div class="mat-sub">補強プレート</div></td>
+                  <td style="font-size:11px;color:var(--muted);">φ4 2刃（切削油必須）</td>
+                  <td style="font-size:11px;color:var(--text);">600 mm/min</td>
+                  <td style="font-size:11px;color:var(--muted);">10,000 rpm</td>
+                  <td style="font-size:11px;color:var(--muted);">0.5mm / pass</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="tool-section">
+          <div class="tool-section-title" style="color:#4a9b8a;">HDPE 加工のポイント</div>
+          <div class="tool-row"><span class="tool-badge badge-amber">重要</span><span class="tool-text">送りを速くして切粉を逃がす。遅すぎると溶けてくっつく（リウェルド）。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-amber">重要</span><span class="tool-text">エアブロー or 切削油（水溶性可）で冷却。乾燥切削でも速ければOK。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-amber">重要</span><span class="tool-text">クランプをしっかり。HDPE は切削力で動きやすい。タブを設ける。</span></div>
+          <div class="tool-row"><span class="tool-badge badge-amber">重要</span><span class="tool-text">仕上げパスは 0.2mm 残し → スローで仕上げ。寸法精度 ±0.1mm 可能。</span></div>
+        </div>
+
+        <div class="tool-section">
+          <div class="tool-section-title" style="color:#4a9b8a;">このラフトで使う部位</div>
+          <div class="tool-row"><span class="tool-badge method-cnc">CNC</span><span class="tool-text">HDPE 中空ポンツーンパネル × 81枚（30mm厚、T&G 嵌め合い加工）</span></div>
+          <div class="tool-row"><span class="tool-badge method-cnc">CNC</span><span class="tool-text">海洋用合板デッキ × 81枚（18mm厚、マット固定溝加工）</span></div>
+          <div class="tool-row"><span class="tool-badge method-cnc">CNC</span><span class="tool-text">アルミ補強プレート × コーナー4枚 + 辺中央4枚（φ12穴あけ）</span></div>
+          <div class="tool-row"><span class="tool-badge method-cnc">CNC</span><span class="tool-text">アンカークリート取付ブロック × 8個（HDPE 50mm厚ブロック）</span></div>
+        </div>
+      </div>
+    </div>
+    </div><!-- end details inner -->
+    </details>
+  </div>
+</section>
+
+<!-- PROCESS PHOTOS -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Build in Photos</div>
+    <h2>製作工程 — 写真で見る</h2>
+    <div class="sec-desc">CAD設計から屈斜路湖進水まで、全工程をドキュメント。</div>
+  </div>
+
+  <!-- Step 0: CAD -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:1px;">
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/process_step0_cad.jpg" alt="Fusion 360 設計" onerror="this.parentNode.innerHTML='<div style=background:#0c0c10;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#525264;font-size:11px>生成中…</div>'">
+      <div class="render-label">① 設計 — Fusion 360</div>
+    </div>
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/process_step1_materials.jpg" alt="材料一式" onerror="this.parentNode.innerHTML='<div style=background:#0c0c10;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#525264;font-size:11px>生成中…</div>'">
+      <div class="render-label">② 材料調達</div>
+    </div>
+  </div>
+
+  <!-- Steps 2-3: CNC -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:1px;">
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/process_step2_cnc_cutting.jpg" alt="HDPE CNC加工" onerror="this.parentNode.innerHTML='<div style=background:#0c0c10;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#525264;font-size:11px>生成中…</div>'">
+      <div class="render-label">③ CNC — HDPE切削</div>
+    </div>
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/process_step3_cnc_plywood.jpg" alt="合板CNC加工" onerror="this.parentNode.innerHTML='<div style=background:#0c0c10;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#525264;font-size:11px>生成中…</div>'">
+      <div class="render-label">④ CNC — 合板溝加工</div>
+    </div>
+  </div>
+
+  <!-- Steps 4a-4b: 3D Print -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:1px;">
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/process_step4_3dprint.jpg" alt="ASAブラケット印刷" onerror="this.parentNode.innerHTML='<div style=background:#0c0c10;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#525264;font-size:11px>生成中…</div>'">
+      <div class="render-label">⑤ 3Dプリント — ASAブラケット</div>
+    </div>
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/process_step4b_brass_insert.jpg" alt="ブラスインサート圧入" onerror="this.parentNode.innerHTML='<div style=background:#0c0c10;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#525264;font-size:11px>生成中…</div>'">
+      <div class="render-label">⑥ インサート熱圧入</div>
+    </div>
+  </div>
+
+  <!-- Step 5: HDPE weld -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:1px;">
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/process_step5_hdpe_weld.jpg" alt="HDPE溶接シーリング" onerror="this.parentNode.innerHTML='<div style=background:#0c0c10;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#525264;font-size:11px>生成中…</div>'">
+      <div class="render-label">⑦ HDPE溶接 — 気密封止</div>
+    </div>
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/process_step6_assembly.jpg" alt="組み立て" onerror="this.parentNode.innerHTML='<div style=background:#0c0c10;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#525264;font-size:11px>生成中…</div>'">
+      <div class="render-label">⑧ 組み立て — 4名・4時間</div>
+    </div>
+  </div>
+
+  <!-- Steps 7-8: Mat + Launch -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:1px;">
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/process_step7_mat.jpg" alt="マット設置" onerror="this.parentNode.innerHTML='<div style=background:#0c0c10;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#525264;font-size:11px>生成中…</div>'">
+      <div class="render-label">⑨ マット敷設</div>
+    </div>
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/process_step8_launch.jpg" alt="進水" onerror="this.parentNode.innerHTML='<div style=background:#0c0c10;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#525264;font-size:11px>生成中…</div>'">
+      <div class="render-label">⑩ 屈斜路湖 進水</div>
+    </div>
+  </div>
+
+  <!-- Steps 9-10: Anchor + Ready -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);">
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/process_step9_anchor.jpg" alt="アンカリング" onerror="this.parentNode.innerHTML='<div style=background:#0c0c10;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#525264;font-size:11px>生成中…</div>'">
+      <div class="render-label">⑪ アンカリング</div>
+    </div>
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/process_step10_ready.jpg" alt="完成・試合準備完了" onerror="this.parentNode.innerHTML='<div style=background:#0c0c10;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#525264;font-size:11px>生成中…</div>'">
+      <div class="render-label">⑫ 完成 — 試合開始</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMBINATION WORKFLOW -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Fabrication Workflow</div>
+    <h2>製作フロー — 詳細手順</h2>
+    <div class="sec-desc">設計からプラットフォーム進水まで。CNCと3Dプリンターがそれぞれの得意領域で分業する。</div>
+    <div class="flow-wrap">
+      <div class="flow-row">
+        <div class="flow-num">1</div>
+        <div class="flow-tool"><span class="flow-tool-badge" style="background:#1a1a2a;color:#525264;border:1px solid var(--border);">DESIGN</span></div>
+        <div class="flow-body">
+          <div class="flow-title">Fusion 360 でモデリング</div>
+          <div class="flow-desc">全部品を一つのアセンブリで設計。HDPE パネル → CNC 用 DXF エクスポート。ブラケット → 3DP 用 STL エクスポート。嵌め合い公差 0.2mm（クリアランス）を設計段階で設定。</div>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">2</div>
+        <div class="flow-tool"><span class="flow-tool-badge" style="background:rgba(107,92,231,0.15);color:#6b5ce7;border:1px solid rgba(107,92,231,0.3);">3D PRINT</span></div>
+        <div class="flow-body">
+          <div class="flow-title">PLA プロトタイプ印刷 → フィット確認</div>
+          <div class="flow-desc">ブラケット・クリップ類をまず PLA で1個印刷。実際の HDPE サンプルに嵌めて公差確認。合わなければ 0.1mm ずつ調整して再印刷。OKになったら ASA で本番印刷スタート。</div>
+        </div>
+      </div>
+      <div class="flow-row milestone">
+        <div class="flow-num">3</div>
+        <div class="flow-tool"><span class="flow-tool-badge method-cnc">CNC</span></div>
+        <div class="flow-body">
+          <div class="flow-title">★ HDPE ポンツーンパネル加工（81枚）</div>
+          <div class="flow-desc">1220×2440mm HDPE シート（30mm）を 4枚ネスティング。1シートから 4パネル取り出し。CNC 1枚 30分 → 81枚で約 10時間。T&G 接合形状と水抜き穴も同時加工。</div>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">4</div>
+        <div class="flow-tool"><span class="flow-tool-badge method-cnc">CNC</span></div>
+        <div class="flow-body">
+          <div class="flow-title">合板デッキパネル加工（81枚）</div>
+          <div class="flow-desc">海洋用合板 18mm。マット固定溝（幅 8mm × 深さ 5mm）を表面に CNC で加工。1シートから 4枚取り、外周ダウンカット仕上げで毛羽立ちゼロ。</div>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">5</div>
+        <div class="flow-tool"><span class="flow-tool-badge" style="background:rgba(107,92,231,0.15);color:#6b5ce7;border:1px solid rgba(107,92,231,0.3);">3D PRINT</span></div>
+        <div class="flow-body">
+          <div class="flow-title">ASA 本番ブラケット印刷 + インサート圧入</div>
+          <div class="flow-desc">連結ブラケット × 200個を ASA で印刷（Bambu X1C なら24時間で完了）。印刷後、半田ごてで M8 ブラスインサートを熱圧入。これが構造継手の心臓部。</div>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">6</div>
+        <div class="flow-tool"><span class="flow-tool-badge method-cnc">SEAL</span></div>
+        <div class="flow-body">
+          <div class="flow-title">HDPE 中空ポンツーン — 気密シーリング</div>
+          <div class="flow-desc">
+            <strong style="color:#fff;">方法A（溶接・推奨）</strong>：ヒートガン（290〜310℃）+ φ4mm HDPE 溶接棒でビード溶接。溶け込み確認後、ローラーで圧着。完成後に水没テスト（1分）で確認。耐久10年以上。<br><br>
+            <strong style="color:#fff;">方法B（シリコン）</strong>：エッジ全周に中性シリコン（水中硬化型）を充填 → SUS304 スクリュー × 4本/ユニットで蓋固定。初心者向き。3〜5年で再充填が必要。<br><br>
+            どちらでも浮力に差はない。ヒートガンは2,000円から入手可。HDPE 溶接棒も同色で1本100円以下。
+          </div>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">7</div>
+        <div class="flow-tool"><span class="flow-tool-badge method-buy">ASSEMBLY</span></div>
+        <div class="flow-body">
+          <div class="flow-title">組み立て — Work Party</div>
+          <div class="flow-desc">HDPE パネル → デッキ合板 → ブラケット接合 → SUS M8 ボルト締結。9×9m プラットフォームを 4名 × 4時間で組み上げ。モジュール構造なので誰でも組める。</div>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">8</div>
+        <div class="flow-tool"><span class="flow-tool-badge method-buy">MAT</span></div>
+        <div class="flow-body">
+          <div class="flow-title">マット張り + エッジバンパー設置</div>
+          <div class="flow-desc">パズルマット（40mm）を競技エリアに敷設、CNC の溝に固定クリップで固定。3DP製コーナーバンパーに発泡ウレタンを充填してエッジ保護。</div>
+        </div>
+      </div>
+      <div class="flow-row milestone">
+        <div class="flow-num">9</div>
+        <div class="flow-tool"><span class="flow-tool-badge" style="background:rgba(196,144,58,0.15);color:#c4903a;border:1px solid rgba(196,144,58,0.3);">★ LAUNCH</span></div>
+        <div class="flow-body">
+          <div class="flow-title">★ 屈斜路湖 進水・アンカリング</div>
+          <div class="flow-desc">美留和浜から押し出し、8点アンカリング。スコアボード・タイマー設置。試合前に傾斜・浮力テスト（体重100kg × 2 人が端に立ってチェック）。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOM TABLE -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Bill of Materials</div>
+    <h2>材料リスト</h2>
+    <div class="sec-desc">9×9m 1プラットフォーム分。<span style="color:var(--teal);">CNC加工</span>・<span style="color:#6b5ce7;">3Dプリント</span>・<span style="color:#888;">購入品</span>に分類。</div>
+    <div style="border:1px solid var(--border);background:var(--card);">
+      <table class="bom-table">
+        <thead>
+          <tr>
+            <th>部材</th>
+            <th>製法</th>
+            <th>数量</th>
+            <th class="bom-price">単価</th>
+            <th class="bom-price">小計</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="bom-item">HDPE シート 30mm</div><div class="bom-sub">1220×2440mm。ポンツーン本体。21枚から81ユニット取り出し。</div></td>
+            <td><span class="bom-method method-cnc">CNC</span></td>
+            <td style="font-size:11px;color:var(--muted);">21枚</td>
+            <td class="bom-price">¥12,000</td>
+            <td class="bom-price">¥252,000</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">海洋用合板 18mm</div><div class="bom-sub">1220×2440mm。デッキ表面。マット固定溝加工。</div></td>
+            <td><span class="bom-method method-cnc">CNC</span></td>
+            <td style="font-size:11px;color:var(--muted);">21枚</td>
+            <td class="bom-price">¥3,500</td>
+            <td class="bom-price">¥73,500</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">ASA フィラメント 1kg</div><div class="bom-sub">ブラケット × 200個。屋外UV耐性。ブラスインサート込み。</div></td>
+            <td><span class="bom-method method-3dp">3DP</span></td>
+            <td style="font-size:11px;color:var(--muted);">8巻</td>
+            <td class="bom-price">¥3,800</td>
+            <td class="bom-price">¥30,400</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">M8 ブラスインサート</div><div class="bom-sub">ブラケット内熱圧入用。200個 × 4穴 = 800個。</div></td>
+            <td><span class="bom-method method-buy">購入</span></td>
+            <td style="font-size:11px;color:var(--muted);">800個</td>
+            <td class="bom-price">¥20</td>
+            <td class="bom-price">¥16,000</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">SUS M8 × 40mm ボルト + ナット</div><div class="bom-sub">全接合部。ステンレス 316L（耐食）推奨。</div></td>
+            <td><span class="bom-method method-buy">購入</span></td>
+            <td style="font-size:11px;color:var(--muted);">800セット</td>
+            <td class="bom-price">¥35</td>
+            <td class="bom-price">¥28,000</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">アルミ補強プレート 6mm</div><div class="bom-sub">CNC 加工。コーナー × 4、辺中央 × 4。アンカー荷重集中部。</div></td>
+            <td><span class="bom-method method-cnc">CNC</span></td>
+            <td style="font-size:11px;color:var(--muted);">8枚</td>
+            <td class="bom-price">¥2,000</td>
+            <td class="bom-price">¥16,000</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">パズルマット 40mm（EVA）</div><div class="bom-sub">6×6m 競技エリア。30cm× 30cm 288枚。</div></td>
+            <td><span class="bom-method method-buy">購入</span></td>
+            <td style="font-size:11px;color:var(--muted);">288枚</td>
+            <td class="bom-price">¥180</td>
+            <td class="bom-price">¥51,840</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">アンカーロープ φ16mm × 20m</div><div class="bom-sub">ポリエステル。8点アンカリング用。</div></td>
+            <td><span class="bom-method method-buy">購入</span></td>
+            <td style="font-size:11px;color:var(--muted);">8本</td>
+            <td class="bom-price">¥2,800</td>
+            <td class="bom-price">¥22,400</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">マッシュルームアンカー 15kg</div><div class="bom-sub">泥底用。屈斜路湖底質対応。</div></td>
+            <td><span class="bom-method method-buy">購入</span></td>
+            <td style="font-size:11px;color:var(--muted);">8個</td>
+            <td class="bom-price">¥4,500</td>
+            <td class="bom-price">¥36,000</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">コーナーバンパー（発泡ウレタン）</div><div class="bom-sub">3DP 取付座 + ウレタン成形。エッジ安全対策。</div></td>
+            <td><span class="bom-method method-3dp">3DP</span></td>
+            <td style="font-size:11px;color:var(--muted);">40個</td>
+            <td class="bom-price">¥500</td>
+            <td class="bom-price">¥20,000</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">アルミ梯子 2m</div><div class="bom-sub">選手・安全要員の水中脱出用。</div></td>
+            <td><span class="bom-method method-buy">購入</span></td>
+            <td style="font-size:11px;color:var(--muted);">4本</td>
+            <td class="bom-price">¥6,000</td>
+            <td class="bom-price">¥24,000</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">防水スコアボード一式</div><div class="bom-sub">Raspberry Pi + 3DP 防水ケース + 7inch タッチパネル。JiuFlow連携。</div></td>
+            <td><span class="bom-method method-3dp">3DP</span></td>
+            <td style="font-size:11px;color:var(--muted);">2台</td>
+            <td class="bom-price">¥12,000</td>
+            <td class="bom-price">¥24,000</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr style="background:var(--card);">
+            <td colspan="4" style="text-align:right;font-size:14px;padding:16px;color:var(--muted);">材料費合計</td>
+            <td style="font-size:22px;font-weight:300;color:#fff;text-align:right;padding:16px;">¥594,140</td>
+          </tr>
+          <tr style="background:rgba(107,92,231,0.04);">
+            <td colspan="4" style="text-align:right;font-size:12px;padding:12px 16px;color:var(--muted);">Work Party 形式（労務費ゼロ）での試算</td>
+            <td style="font-size:16px;font-weight:400;color:var(--accent);text-align:right;padding:12px 16px;">参加費 ¥50,000 × 12名で回収可</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SAFETY FOR OFFICIAL COMPETITION -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Safety & Competition Rules</div>
+    <h2>安全要件 × 公式試合基準</h2>
+    <div class="sec-desc">SJJJF 試合開催に必要な安全要件と、水上特有の追加対策。</div>
+    <div class="safety-grid">
+      <div class="safety-card">
+        <div class="safety-icon">🏆</div>
+        <div class="safety-title">SJJJF 試合基準（標準要件）</div>
+        <ul class="safety-list">
+          <li>競技エリア：最小 6×6m（本プラットフォーム満足）</li>
+          <li>安全ゾーン：競技エリア周囲 1.5m（本設計 1.5m 確保）</li>
+          <li>マット厚：40mm 以上（EVA 40mm 採用）</li>
+          <li>審判：SJJJF 認定審判員 1〜2名</li>
+          <li>医療：AED + 救急箱 + 応急処置資格者</li>
+          <li>計量：試合前 2時間以内の公式計量</li>
+          <li>プログラム：JiuFlow で組み合わせ自動生成</li>
+        </ul>
+      </div>
+      <div class="safety-card">
+        <div class="safety-icon">🌊</div>
+        <div class="safety-title">水上特有の追加安全要件</div>
+        <ul class="safety-list">
+          <li>ライフセーバー：認定水泳救助員 × 2名（ボートで待機）</li>
+          <li>ライフジャケット：選手用（試合中はラッシュガード下に着用も可）</li>
+          <li>脱出梯子：プラットフォーム四辺に各1本（4本）常設</li>
+          <li>安全ロープ：プラットフォーム外周 1周（落下者が掴める）</li>
+          <li>係留安全距離：岸から最大 30m 以内（屈斜路湖 美留和浜は浅瀬）</li>
+          <li>風速制限：試合開催は最大風速 8m/s 以下</li>
+          <li>波高制限：波高 0.3m 以下（屈斜路湖は内陸湖なので通常無問題）</li>
+          <li>落水プロトコル：落水即試合一時停止。再乗艦後再開。</li>
+        </ul>
+      </div>
+      <div class="safety-card">
+        <div class="safety-icon">⚓</div>
+        <div class="safety-title">係留・固定</div>
+        <ul class="safety-list">
+          <li>8点アンカリング（コーナー4 + 辺中央4）</li>
+          <li>アンカーロープ最小安全係数：破断荷重の 1/5 以下で運用</li>
+          <li>岸壁との連絡ブリッジ：幅 80cm、手摺付き（選手入退場用）</li>
+          <li>緊急時岸引き寄せロープ：常設</li>
+          <li>台風・強風時はプラットフォーム解体・陸上保管</li>
+        </ul>
+      </div>
+      <div class="safety-card">
+        <div class="safety-icon">📱</div>
+        <div class="safety-title">JiuFlow 連携スコアリング</div>
+        <ul class="safety-list">
+          <li>防水タッチパネル × 2台（3DP 防水ケース）でリアルタイム採点</li>
+          <li>Raspberry Pi + JiuFlow API でブラケット管理</li>
+          <li>試合結果即時 DB 反映・観戦者スマホにストリーミング</li>
+          <li>落水・再開プロトコルもアプリ内で記録</li>
+          <li>タイムアウト・審判コール音声はスピーカー（防水ケース）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENT DAY SCHEDULE -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Event Day</div>
+    <h2>当日スケジュール</h2>
+    <div class="sec-desc">2026年10月初旬。屈斜路湖美留和浜。日の出は 05:30、日没は 17:10。</div>
+    <div style="border:1px solid var(--border);background:var(--card);">
+      <table class="bom-table">
+        <thead><tr><th>時刻</th><th>内容</th><th>担当</th></tr></thead>
+        <tbody>
+          <tr><td style="color:#fff;font-weight:500;white-space:nowrap;">06:00</td><td style="color:var(--muted);">プラットフォーム最終確認・アンカーテンション調整</td><td style="font-size:10px;color:var(--muted);">スタッフ</td></tr>
+          <tr><td style="color:#fff;font-weight:500;white-space:nowrap;">07:00</td><td style="color:var(--muted);">選手受付・計量・ウォームアップ（陸上）</td><td style="font-size:10px;color:var(--muted);">審判・スタッフ</td></tr>
+          <tr><td style="color:#fff;font-weight:500;white-space:nowrap;">08:30</td><td style="color:var(--muted);">開会式・安全ブリーフィング（落水プロトコル説明）</td><td style="font-size:10px;color:var(--muted);">大会委員長</td></tr>
+          <tr><td style="color:#fff;font-weight:500;white-space:nowrap;">09:00</td><td style="color:var(--muted);">試合開始 — 予選ラウンド。各試合7分。JiuFlow でブラケット管理。</td><td style="font-size:10px;color:var(--muted);">審判</td></tr>
+          <tr><td style="color:#fff;font-weight:500;white-space:nowrap;">12:00</td><td style="color:var(--muted);">昼食・休憩（SOLUNA TAPKOP のキッチンで振る舞い）</td><td style="font-size:10px;color:var(--muted);">SOLUNA</td></tr>
+          <tr><td style="color:#fff;font-weight:500;white-space:nowrap;">13:30</td><td style="color:var(--muted);">準決勝</td><td style="font-size:10px;color:var(--muted);">審判</td></tr>
+          <tr><td style="color:var(--accent);font-weight:500;white-space:nowrap;">15:00</td><td style="color:#fff;font-weight:400;">★ 決勝戦 — 屈斜路湖の午後光の中で</td><td style="font-size:10px;color:var(--muted);">審判</td></tr>
+          <tr><td style="color:#fff;font-weight:500;white-space:nowrap;">16:00</td><td style="color:var(--muted);">表彰式・写真撮影（プラットフォーム上）</td><td style="font-size:10px;color:var(--muted);">全員</td></tr>
+          <tr><td style="color:#fff;font-weight:500;white-space:nowrap;">17:00</td><td style="color:var(--muted);">プラットフォーム撤収開始（4名 × 2時間）</td><td style="font-size:10px;color:var(--muted);">スタッフ</td></tr>
+          <tr><td style="color:var(--amber);font-weight:500;white-space:nowrap;">19:00</td><td style="color:#fff;font-weight:400;">打ち上げ焚き火 — TAPKOPのデッキにて</td><td style="font-size:10px;color:var(--muted);">全員</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:12px;line-height:1.7;">落水があった場合：試合即一時停止 → 救助確認 → 双方確認後再開。落水した選手が再乗艦できない場合は相手の勝ち（TKO水没）。ただし気温10°C以下の場合はウェットスーツ着用義務。</p>
+  </div>
+</section>
+
+<!-- ROADMAP + ECONOMICS -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Economics & Roadmap</div>
+    <h2>年間20大会計画</h2>
+    <div class="sec-desc">1回限りのイベントではない。このプラットフォームは資産だ。</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px;">
+      <div style="background:var(--card);padding:32px;">
+        <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">第1回（2026年10月）— 初期回収</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;">
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">参加費 ¥80,000 × 8名</span><span style="color:#fff;">¥640,000</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">材料費</span><span style="color:var(--muted);">−¥594,140</span></div>
+          <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:4px;"><span style="color:var(--muted);">初回収支</span><span style="color:var(--teal);">+¥45,860</span></div>
+        </div>
+      </div>
+      <div style="background:var(--card);padding:32px;border-left:1px solid var(--border);">
+        <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">2027年以降 — 年間20大会</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;">
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">参加費 ¥35,000 × 16名 × 20回</span><span style="color:#fff;">¥11,200,000</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">維持費・保険・運営</span><span style="color:var(--muted);">−¥2,000,000</span></div>
+          <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:4px;"><span style="color:var(--muted);">年間利益</span><span style="color:var(--accent);font-size:16px;font-weight:300;">¥9,200,000</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:1px;background:var(--border);border:1px solid var(--border);">
+      <div style="background:var(--card);padding:20px 24px;flex:1;text-align:center;">
+        <div style="font-size:10px;color:var(--muted);letter-spacing:0.1em;margin-bottom:6px;">2026 OCT</div>
+        <div style="font-size:13px;color:var(--accent);">第1回 北海道</div>
+      </div>
+      <div style="background:var(--card);padding:20px 24px;flex:1;text-align:center;border-left:1px solid var(--border);">
+        <div style="font-size:10px;color:var(--muted);letter-spacing:0.1em;margin-bottom:6px;">2026 DEC</div>
+        <div style="font-size:13px;color:var(--teal);">第2回 Hawaii Kai</div>
+      </div>
+      <div style="background:var(--card);padding:20px 24px;flex:1;text-align:center;border-left:1px solid var(--border);">
+        <div style="font-size:10px;color:var(--muted);letter-spacing:0.1em;margin-bottom:6px;">2027 Q1〜Q4</div>
+        <div style="font-size:13px;color:#fff;">月2回 定期開催</div>
+      </div>
+      <div style="background:var(--card);padding:20px 24px;flex:1;text-align:center;border-left:1px solid var(--border);">
+        <div style="font-size:10px;color:var(--muted);letter-spacing:0.1em;margin-bottom:6px;">2028〜</div>
+        <div style="font-size:13px;color:var(--amber);">設計データ公開 → 世界展開</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <div class="cta-box">
+      <h3>湖の上で戦いたいか</h3>
+      <p>
+        2026年秋、屈斜路湖 美留和浜。<br>
+        SOLUNA RAFT Work Party でプラットフォームを一緒に作り、<br>
+        完成した日に SJJJF 公認試合を開催する。<br><br>
+        <span style="font-size:12px;color:var(--muted);">参加費 ¥80,000（製作1.5日 + SJJJF公認試合 + TAPKOP 3泊 + 全食事込み）</span>
+      </p>
+      <a href="mailto:cabin@solun.art?subject=SOLUNA RAFT 参加希望" class="btn-primary" data-sln-track="consultation_click" style="font-size:13px;padding:16px 40px;">参加を申し込む →</a>
+      <p style="font-size:11px;color:var(--muted);margin-top:16px;">返信は48時間以内。競技経験・工具スキル不問。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-logo">SOLUNA RAFT</span>
+  <div class="foot-links">
+    <a href="/float">FLOAT カヌー</a>
+    <a href="/mycelium">菌糸体建材</a>
+    <a href="/village">SOLUNA ビレッジ</a>
+    <a href="https://github.com/yukihamada" style="color:var(--muted);opacity:0.5;" title="設計データ公開予定（2027）">GitHub — 設計データ公開予定</a>
+  </div>
+</footer>
+
+<script defer src="/js/sln-track.js"></script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

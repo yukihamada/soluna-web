@@ -554,7 +554,7 @@ body{padding-top:48px;background:var(--void);color:var(--text);font-family:'Helv
 <div class="in-cell">
 <div class="in-label" data-en="Airbnb Listing Rate">Airbnb 掲載レート</div>
 <div class="in-val">¥34<span class="in-unit" data-en="¥10,000s / night">万/泊</span></div>
-<div class="in-note" data-en="Revenue from occupancy during owner absence is distributed by unit share. Operations, housekeeping, and reservation handling are managed entirely by SOLUNA.">オーナー不在の稼働収益は口数割りで分配。運用・清掃・予約対応はSOLUNA一括</div>
+<div class="in-note" data-en="When absent, SOLUNA handles all operations. Unused nights can be exchanged with other SOLUNA properties.">不在時はSOLUNA管理代行。未使用泊数は他のSOLUNA物件と交換可能</div>
 </div>
 </div>
 <div class="invest-rows">
@@ -562,7 +562,7 @@ body{padding-top:48px;background:var(--void);color:var(--text);font-family:'Helv
 <div class="ir"><span class="ir-l" data-en="Airbnb Rating">Airbnb 評価</span><span class="ir-v hi" data-en="★4.75 — Super Host for 6 consecutive years">★4.75 — 6年連続スーパーホスト</span></div>
 <div class="ir"><span class="ir-l" data-en="Ownership Structure">所有形態</span><span class="ir-v" data-en="Property Registration (Purchaser's Name)">会員権証書（購入者名義）</span></div>
 <div class="ir"><span class="ir-l" data-en="Annual Owner Usage">オーナー年間利用</span><span class="ir-v" data-en="8 nights (reservation-based)">8泊（予約制）</span></div>
-<div class="ir"><span class="ir-l" data-en="Revenue During Operation">稼働時の収益</span><span class="ir-v" data-en="Distributed by Unit Ownership">口数割りで分配</span></div>
+<div class="ir"><span class="ir-l" data-en="Absent Management">不在時管理</span><span class="ir-v" data-en="Full management by SOLUNA">SOLUNA一括管理</span></div>
 <div class="ir"><span class="ir-l" data-en="Operations Management">運営管理</span><span class="ir-v" data-en="Comprehensively managed by SOLUNA / Enabler Inc.">SOLUNA / Enabler Inc. が一括管理</span></div>
 <div class="ir"><span class="ir-l" data-en="Payment Method">決済方法</span><span class="ir-v" data-en="Card / Bank Transfer / Cryptocurrency">カード / 銀行振込 / 暗号資産</span></div>
 <div class="ir"><span class="ir-l" data-en="Support">サポート</span><span class="ir-v" data-en="Dedicated Personnel Manage Registration and Handover">専任担当者が登記・引き渡しまで対応</span></div>
@@ -592,7 +592,7 @@ body{padding-top:48px;background:var(--void);color:var(--text);font-family:'Helv
           Housekeeping, facility maintenance, Airbnb listing, reservation handling, and revenue distribution—all included.
           As an owner, you simply enjoy your 8 nights." style="padding:0 32px 28px;font-size:13px;line-height:2.1;color:rgba(220,232,240,.45);border-top:1px solid rgba(74,154,184,.06)">
           SOLUNA / Enabler Inc. が一括管理します。
-          清掃・設備維持・Airbnb掲載・予約対応・稼働収益分配、すべて込みです。
+          清掃・設備維持・Airbnb掲載・予約対応、すべて込みです。
           オーナーはただ、自分の8泊を楽しむだけでいい。
         </div>
 </details>
@@ -636,7 +636,7 @@ document.querySelectorAll('.faq-item').forEach(el=>{
 <div class="path-badge" style="color:var(--ripple)">PATH B — 会員権</div>
 <div class="path-name" data-en="Membership Ownership">利用権型会員権として参加</div>
 <div class="path-price" style="color:#fff">¥3,900<span style="font-size:14px;color:var(--ripple)">万〜/口</span></div>
-<div class="path-desc" data-en="Co-own with annual usage rights (8 nights). Operating revenue distributed by unit share, managed by SOLUNA. For those who want ownership without full operational responsibility.">年間利用権（8泊）付きの共同所有。稼働収益は口数割りで分配、運用はSOLUNA一括。事業運営は不要、所有だけしたい方向け。</div>
+<div class="path-desc" data-en="Co-own with annual usage rights (8 nights). Operating revenue distributed by unit share, managed by SOLUNA. For those who want ownership without full operational responsibility.">年間利用権（8泊）付きの共同所有。不在時はSOLUNA管理代行・他物件との泊数交換も可能。事業運営は不要、所有だけしたい方向け。</div>
 <a class="path-btn path-btn-b" data-en="Acquire Membership" href="/pay?property=tapkop">会員権を取得する</a>
 </div>
 </div>
@@ -878,5 +878,8 @@ function sfToggle(btn){
   bd.style.maxHeight=open?'0':bd.scrollHeight+'px';
 }
 </script><script src="/lang.js"></script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
 </body>
 </html>

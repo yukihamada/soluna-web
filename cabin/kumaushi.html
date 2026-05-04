@@ -43,7 +43,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 28px;display:fl
 /* HERO */
 .hero{position:relative;height:100svh;min-height:640px;overflow:hidden}
 .hero-bg{position:absolute;inset:0;z-index:0}
-.hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:slowzoom 12s ease-out forwards;filter:contrast(1.05) saturate(.85) brightness(.72)}
+.hero-bg .slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 2.6s cubic-bezier(.4,0,.2,1);filter:contrast(1.05) saturate(.85) brightness(.72);transform:scale(1.09);animation:slowzoom 20s ease-out both}
+.hero-bg .slide.active{opacity:1}
 .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.6) 35%,rgba(4,4,4,.1) 65%,rgba(4,4,4,.4) 100%);z-index:1}
 .hero-body{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:0 32px 72px;max-width:760px;margin:0 auto}
 .hero-eyebrow{font-size:9px;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:16px;opacity:.85;animation:fadeUp .8s .2s both}
@@ -281,7 +282,12 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <!-- HERO -->
 <div class="hero">
 <div class="hero-bg">
-<img alt="熊牛原野 天空の道場 — コンテナ10台コの字+電動折りたたみPTFE膜 270°パノラマ" data-en-alt="KUMAUSHI BASE Sky Dojo — 10 Containers in U-configuration + Motorized Folding PTFE Membrane, 270° Panorama" loading="eager" src="/img/k4_ref_aerial_day.webp"/>
+  <div class="slide" style="background-image:url('/img/k4_ref_aerial_day.webp')"></div>
+  <div class="slide" style="background-image:url('/img/kumaushi_aerial_dawn.webp')"></div>
+  <div class="slide" style="background-image:url('/img/k4_night.webp')"></div>
+  <div class="slide" style="background-image:url('/img/k4_pool_infinity.webp')"></div>
+  <div class="slide" style="background-image:url('/img/kumaushi_b_stars_exterior.webp')"></div>
+  <div class="slide" style="background-image:url('/img/k4_ext_ushape.webp')"></div>
 </div>
 <div class="hero-body">
 <div class="hero-eyebrow" data-en="KUMAUSHI BASE · Teshikaga, Hokkaido · SOLUNA CABIN CLUB">KUMAUSHI BASE · 北海道 川上郡弟子屈町 · SOLUNA CABIN CLUB</div>
@@ -320,10 +326,10 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <!-- NUMBERS BAR -->
 <div class="numbers">
 <div class="num-grid">
-<div class="r"><div class="v" data-en="¥4.8M">¥480万</div><div class="l" data-en="1 Unit / Registered proportionate real estate title (1/20 share)">1口 / 1/20持分<br/>会員権登録あり</div></div>
-<div class="r"><div class="v" data-en="100 Guests">100名</div><div class="l" data-en="Cap — never increases indefinitely">上限 — 永遠に<br/>増えることはない</div></div>
-<div class="r"><div class="v" data-en="30 Nights Annually">年30泊</div><div class="l" data-en="Residency Rights with Revenue Dividend (unguaranteed)">滞在権つき<br/>収益配当あり（保証なし）</div></div>
-<div class="r"><div class="v">270°</div><div class="l" data-en="Panoramic Grassland · No Neighboring Homes · Unlimited Possibilities">パノラマ / 民家ゼロ<br/>全部できる草原</div></div>
+<div class="r"><div class="v">12</div><div class="l" data-en="Containers · U-Shape Configuration · 2-Tier Stack">コンテナ台数<br/>コの字・2段積み構成</div></div>
+<div class="r"><div class="v">35kW</div><div class="l" data-en="Solar + Tesla Powerwall × 2 — Zero Grid Dependency">太陽光 + Powerwall×2<br/>電力会社ゼロ</div></div>
+<div class="r"><div class="v">2km</div><div class="l" data-en="Radius to nearest residence — Unrestricted Freedom">最寄り民家まで<br/>爆音可 / 焚き火可</div></div>
+<div class="r"><div class="v">Oct '26</div><div class="l" data-en="KUMAUSHI BASE Opening — 2026 Autumn">2026年10月<br/>オープン予定</div></div>
 </div>
 </div>
 <!-- STATEMENT -->
@@ -1631,8 +1637,8 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <div data-en="※ Figures above are pre-tax estimates. Net dividend after deducting ¥350,000 annual management fee per unit (¥7,000,000 total for 20 units). Accommodation revenue is distributed equally among 20 units.
         ※ Revenue distributions (not guaranteed) include ¥2,400,000/year equivalent for 30 owner-use nights, even in conservative scenarios.
         ※ Occupancy rate set based on existing facility performance in the Teshikaga area (Biruo-Wa Sauna and others)." style="margin-top:20px;padding:14px 16px;background:#030303;border-radius:8px;font-size:11px;color:#3a3a3a;line-height:1.9">
-        ※ 上記は税引き前・概算。管理費¥35万/口/年（20口計¥700万）控除後の純配当。宿泊売上は20口で等分。<br/>
-        ※ 自己使用30泊分（¥240万/年相当）を含めた収益分配（保証なし）は、保守シナリオでも<strong style="color:#888">年¥315万相当</strong>。<br/>
+        ※ 上記は参考試算。管理費¥35万/口/年含む概算。将来の収益を保証するものではありません。<br/>
+        ※ 年30泊の滞在権（¥240万/年相当）が主な価値。未使用泊数は他のSOLUNA物件と交換可能。<br/>
         ※ 稼働率は弟子屈エリアの既存施設実績（美留和サウナ等）を参考に設定。
       </div>
 </div>
@@ -2360,6 +2366,22 @@ function submitKumaushiWP(){
     .catch(function(){ res.textContent='送信に失敗しました。直接 090-7409-0407 までご連絡ください。'; res.style.display='block'; });
 }
 </script>
+<script>
+// Hero slideshow
+(function(){
+  var slides = document.querySelectorAll('.hero-bg .slide');
+  if(!slides.length) return;
+  var order = Array.from({length:slides.length},function(_,i){return i;});
+  for(var i=order.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=order[i];order[i]=order[j];order[j]=t;}
+  var cur = 0;
+  slides[order[0]].classList.add('active');
+  setInterval(function(){
+    slides[order[cur]].classList.remove('active');
+    cur = (cur+1) % order.length;
+    slides[order[cur]].classList.add('active');
+  }, 9000);
+})();
+</script>
 <script defer="" src="/track.js"></script>
 <!-- STICKY MOBILE CTA -->
 <div id="sticky-cta" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;padding:14px 20px 20px;background:linear-gradient(to top,rgba(4,4,4,.98) 0%,rgba(4,4,4,.92) 100%);backdrop-filter:blur(16px);border-top:1px solid rgba(200,164,85,.15)">
@@ -2383,5 +2405,8 @@ function submitKumaushiWP(){
 })();
 </script>
 <script src="/lang.js"></script>
-</div></div></div></div></body>
+</div></div></div></div><script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
+</body>
 </html>

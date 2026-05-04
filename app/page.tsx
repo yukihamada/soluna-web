@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
 
 const PHOTOS = [
   { src: "/img/tapkop_lake_mashu_view.webp" },   // TAPKOP 屈斜路湖
@@ -93,15 +93,7 @@ const APPS = [
   { id: "story",        icon: "📜", label: "ストーリー",         url: "/story" },
   { id: "origin",       icon: "🌱", label: "創業の話",           url: "/origin" },
   { id: "blog",         icon: "✍️", label: "ブログ",             url: "/blog" },
-  { id: "blog-1",       icon: "📝", label: "ブログ 1",           url: "/blog-1" },
-  { id: "blog-2",       icon: "📝", label: "ブログ 2",           url: "/blog-2" },
-  { id: "blog-3",       icon: "📝", label: "ブログ 3",           url: "/blog-3" },
-  { id: "blog-4",       icon: "📝", label: "ブログ 4",           url: "/blog-4" },
-  { id: "blog-5",       icon: "📝", label: "ブログ 5",           url: "/blog-5" },
-  { id: "blog-6",       icon: "📝", label: "ブログ 6",           url: "/blog-6" },
-  { id: "blog-7",       icon: "📝", label: "ブログ 7",           url: "/blog-7" },
-  { id: "blog-8",       icon: "📝", label: "ブログ 8",           url: "/blog-8" },
-  { id: "blog-9",       icon: "📝", label: "ブログ 9",           url: "/blog-9" },
+  ...Array.from({ length: 9 }, (_, i) => ({ id: `blog-${i + 1}`, icon: "📝", label: `ブログ ${i + 1}`, url: `/blog-${i + 1}` })),
   { id: "place",        icon: "🗾", label: "場所について",       url: "/place" },
   { id: "founding",     icon: "🏛️", label: "創業",               url: "/founding" },
   // 情報・サポート
@@ -123,7 +115,7 @@ const CATEGORIES = [
   { id: "fest",   label: "フェスティバル",emoji: "🎪", ids: ["zamna","tickets","lineup","schedule"] },
   { id: "build",  label: "建築・素材",    emoji: "🔨", ids: ["village-c","village-d","construction","blueprint","structural","sips","sips-lab","materials","kits","offgrid","design","floorplans","tower-sauna","handcraft","mycelium","sumigaki"] },
   { id: "comm",   label: "コミュニティ",  emoji: "💬", ids: ["community","app","owners","guide","members","network","song","join"] },
-  { id: "about",  label: "ストーリー",    emoji: "📖", ids: ["story","origin","blog","blog-1","blog-2","blog-3","blog-4","blog-5","blog-6","blog-7","blog-8","blog-9","place","founding"] },
+  { id: "about",  label: "ストーリー",    emoji: "📖", ids: ["story","origin","blog",...Array.from({length:9},(_,i)=>`blog-${i+1}`),"place","founding"] },
   { id: "info",   label: "情報・サポート",emoji: "ℹ️", ids: ["faq","press","safety","contact","company","privacy","terms","tokushoho","login"] },
 ];
 
@@ -171,135 +163,6 @@ interface Win {
   x: number; y: number; w: number; h: number; z: number; min: boolean;
 }
 
-const CSS = `
-  body, html { overflow:hidden; margin:0; padding:0; }
-
-  @keyframes kb1 { 0%{transform:scale(1) translate(0,0)} 100%{transform:scale(1.12) translate(-2%,-1.5%)} }
-  @keyframes kb2 { 0%{transform:scale(1.1) translate(1.5%,1%)} 100%{transform:scale(1) translate(0,0)} }
-  @keyframes kb3 { 0%{transform:scale(1.05) translate(-1%,1%)} 100%{transform:scale(1.11) translate(2%,-1%)} }
-  @keyframes winPop { from{opacity:0;transform:scale(.96) translateY(8px)} to{opacity:1;transform:scale(1) translateY(0)} }
-  @keyframes menuIn { from{opacity:0;transform:scale(.97) translateY(6px)} to{opacity:1;transform:scale(1) translateY(0)} }
-  @keyframes heroIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-
-  .slide { position:absolute; inset:0; background-size:cover; background-position:center;
-    transition:opacity 2.4s ease-in-out; will-change:transform,opacity; }
-  .slide-active { opacity:1; z-index:2; animation-duration:12s; animation-timing-function:ease-in-out; animation-fill-mode:both; }
-  .slide-out    { opacity:0; z-index:3; }
-  .slide-hidden { opacity:0; z-index:1; }
-
-  .dock-icon { display:flex; flex-direction:column; align-items:center; gap:3px;
-    padding:6px 10px; border-radius:12px; cursor:pointer;
-    transition:transform .18s; flex-shrink:0; position:relative; }
-  .dock-icon:hover { transform:scale(1.28) translateY(-8px); }
-  .di-em  { font-size:2.2rem; filter:drop-shadow(0 3px 8px rgba(0,0,0,.7)); }
-  .di-lbl { font-size:.58rem; color:rgba(255,255,255,.6); font-family:Inter,sans-serif; white-space:nowrap; }
-
-  .win { position:fixed; border-radius:12px; overflow:hidden; display:flex; flex-direction:column;
-    box-shadow:0 24px 64px rgba(0,0,0,.75), 0 0 0 1px rgba(255,255,255,.1);
-    animation:winPop .18s ease; }
-  .win-bar { height:36px; display:flex; align-items:center; padding:0 10px; gap:8px;
-    background:rgba(28,28,28,.96); backdrop-filter:blur(20px);
-    cursor:move; flex-shrink:0; user-select:none; }
-  .win-btn { width:13px; height:13px; border-radius:50%; border:none; cursor:pointer; flex-shrink:0; }
-  .win-title { flex:1; text-align:center; font-size:.72rem; color:rgba(255,255,255,.5);
-    font-family:Inter,sans-serif; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
-  .win-body { flex:1; background:#0a0a0a; overflow:hidden; }
-  .win-body iframe { width:100%; height:100%; border:none; display:block; }
-  .win.minimized { height:36px !important; }
-  .win.minimized .win-body { display:none; }
-
-  .menu-panel {
-    position:fixed; bottom:76px; left:50%; transform:translateX(-50%);
-    width:min(680px,90vw); max-height:calc(100vh - 120px); overflow-y:auto;
-    background:rgba(10,10,10,.94); backdrop-filter:blur(32px) saturate(180%);
-    border:1px solid rgba(255,255,255,.1); border-radius:18px;
-    padding:20px; z-index:999; animation:menuIn .16s ease;
-    box-shadow:0 24px 64px rgba(0,0,0,.75);
-  }
-  .menu-search {
-    width:100%; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1);
-    border-radius:9px; padding:9px 14px; color:#fff; font-size:.85rem;
-    outline:none; box-sizing:border-box; margin-bottom:18px; font-family:Inter,sans-serif;
-  }
-  .menu-search::placeholder { color:rgba(255,255,255,.3); }
-  .cat-hd {
-    display:flex; align-items:center; gap:7px;
-    font-size:.58rem; letter-spacing:.14em; color:rgba(255,255,255,.3);
-    font-family:Inter,sans-serif; margin:0 0 7px; text-transform:uppercase;
-  }
-  .cat-hd::after { content:''; flex:1; height:1px; background:rgba(255,255,255,.07); }
-  .app-row { display:flex; flex-wrap:wrap; gap:2px; margin-bottom:14px; }
-  .app-item { display:flex; flex-direction:column; align-items:center; gap:5px;
-    padding:10px 8px; border-radius:10px; cursor:pointer; transition:background .12s; width:80px; }
-  .app-item:hover { background:rgba(201,169,98,.14); }
-  .app-em  { font-size:1.7rem; }
-  .app-lbl { font-size:.58rem; color:rgba(255,255,255,.8); text-align:center;
-    font-family:Inter,sans-serif; line-height:1.3; }
-
-  .hero-btn {
-    padding:11px 24px; border-radius:3px; font-size:.75rem; font-weight:700;
-    letter-spacing:.15em; cursor:pointer; transition:opacity .15s, transform .12s;
-    border:none; font-family:Inter,sans-serif; white-space:nowrap;
-  }
-  .hero-btn:hover { opacity:.88; transform:translateY(-1px); }
-  .hero-btn-primary { background:#c9a962; color:#000; }
-  .hero-btn-ghost   { background:transparent; color:rgba(255,255,255,.8);
-    border:1px solid rgba(255,255,255,.25); }
-
-  .dock-sep { width:1px; height:34px; background:rgba(255,255,255,.12); margin:0 4px; }
-  .menu-dot { width:4px; height:4px; border-radius:50%; background:#c9a962;
-    position:absolute; bottom:1px; left:50%; transform:translateX(-50%); }
-
-  /* Login / Persona modals */
-  .modal-bg { position:fixed; inset:0; z-index:9000; display:flex; align-items:center;
-    justify-content:center; background:rgba(0,0,0,.7); backdrop-filter:blur(6px); }
-  .modal-box { background:#141210; border:1px solid rgba(255,255,255,.1); border-radius:16px;
-    padding:36px 32px; width:min(420px,90vw); box-shadow:0 32px 80px rgba(0,0,0,.8); }
-  .modal-logo { font-size:10px; font-weight:800; letter-spacing:.22em; color:#c9a962; margin-bottom:24px; }
-  .modal-title { font-size:1.3rem; font-weight:700; color:#f0ece4; margin-bottom:8px; }
-  .modal-sub { font-size:12px; color:rgba(255,255,255,.4); line-height:1.7; margin-bottom:24px; }
-  .modal-inp { width:100%; background:#0e0c0a; border:1px solid rgba(255,255,255,.1); color:#e0dcd4;
-    padding:12px 14px; border-radius:6px; font-size:13px; outline:none; box-sizing:border-box;
-    font-family:Inter,sans-serif; margin-bottom:10px; }
-  .modal-inp:focus { border-color:#c9a962; }
-  .modal-btn { width:100%; background:#c9a962; color:#000; font-weight:800; font-size:12px;
-    letter-spacing:.1em; padding:14px; border:none; border-radius:6px; cursor:pointer; }
-  .modal-btn:hover { opacity:.9; }
-  .modal-msg { font-size:12px; text-align:center; min-height:18px; margin-top:8px; }
-  .modal-msg.ok { color:#4CAF50; } .modal-msg.err { color:#f44336; }
-  .modal-link { font-size:11px; color:rgba(255,255,255,.3); text-align:center; margin-top:14px;
-    cursor:pointer; background:none; border:none; width:100%; }
-  .modal-link:hover { color:rgba(255,255,255,.6); }
-
-  .persona-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
-  .persona-card { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08);
-    border-radius:10px; padding:18px 14px; text-align:center; cursor:pointer; transition:all .15s; }
-  .persona-card:hover, .persona-card.sel { background:rgba(201,169,98,.15);
-    border-color:rgba(201,169,98,.4); }
-  .persona-em { font-size:2rem; display:block; margin-bottom:8px; }
-  .persona-lbl { font-size:13px; font-weight:700; color:#f0ece4; display:block; margin-bottom:4px; }
-  .persona-desc { font-size:10px; color:rgba(255,255,255,.4); line-height:1.5; }
-
-  .topbar-login { font-size:11px; color:rgba(255,255,255,.5); cursor:pointer;
-    padding:3px 10px; border-radius:4px; border:1px solid rgba(255,255,255,.15);
-    background:transparent; font-family:Inter,sans-serif; transition:all .15s; white-space:nowrap; }
-  .topbar-login:hover { background:rgba(255,255,255,.08); color:#fff; }
-  .topbar-user { display:flex; align-items:center; gap:6px; cursor:pointer; }
-  .topbar-avatar { width:18px; height:18px; border-radius:50%;
-    background:rgba(201,169,98,.3); border:1px solid #c9a962;
-    display:flex; align-items:center; justify-content:center; font-size:9px; }
-
-  .mobile-card { display:flex; align-items:center; gap:14px; padding:14px 16px;
-    background:rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.1); border-radius:14px;
-    cursor:pointer; text-decoration:none; backdrop-filter:blur(12px); transition:background .15s; }
-  .mobile-card:hover { background:rgba(201,169,98,.15); }
-
-  .win-tooltip { position:absolute; bottom:52px; left:50%; transform:translateX(-50%);
-    background:rgba(0,0,0,.85); color:#fff; font-size:10px; font-weight:600;
-    padding:4px 8px; border-radius:5px; white-space:nowrap; pointer-events:none;
-    border:1px solid rgba(255,255,255,.1); opacity:0; transition:opacity .1s; }
-  .dock-icon:hover .win-tooltip { opacity:1; }
-`;
 
 export default function Home() {
   const [curSlide, setCurSlide]   = useState(0);
@@ -458,6 +321,7 @@ export default function Home() {
     setIsMobile(window.innerWidth < 768);
     const r = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", r);
+    document.body.classList.add("home-page");
 
     // Restore session + persona from localStorage
     const token = localStorage.getItem("sln_token");
@@ -476,7 +340,10 @@ export default function Home() {
       openWin(path, title);
     }
 
-    return () => window.removeEventListener("resize", r);
+    return () => {
+      window.removeEventListener("resize", r);
+      document.body.classList.remove("home-page");
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -484,7 +351,7 @@ export default function Home() {
   useEffect(() => {
     const tick = () => setClock(new Date().toLocaleTimeString("ja-JP", { hour:"2-digit", minute:"2-digit" }));
     tick();
-    const t = setInterval(tick, 10000);
+    const t = setInterval(tick, 1000);
     return () => clearInterval(t);
   }, []);
 
@@ -528,7 +395,6 @@ export default function Home() {
   if (mounted && isMobile) {
     return (
       <>
-        <style dangerouslySetInnerHTML={{ __html: CSS }} />
         <div style={{ position:"fixed", inset:0, backgroundImage:`url(${PHOTOS[0].src})`,
           backgroundSize:"cover", backgroundPosition:"center", filter:"brightness(.4)" }} />
         <div style={{ position:"relative", zIndex:1, minHeight:"100vh",
@@ -567,7 +433,6 @@ export default function Home() {
   // ── Desktop ──────────────────────────────────────────────────────────────────
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div
         style={{ position:"fixed", inset:0, background:"#000" }}
         onMouseMove={onMouseMove}

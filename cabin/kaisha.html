@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>合同会社SOLUNA — 設立書類生成</title>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--bg:#0a0a0e;--card:#141418;--card2:#1a1a20;
+  --border:rgba(255,255,255,.08);--text:#e8e0cc;--muted:#5a5660;
+  --green:#4ecb8d;--red:#e65a5a;--blue:#5aa0e6;
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Hiragino Sans',sans-serif;padding:12px;min-height:100vh}
+
+/* STATUS TRACKER */
+.status-bar{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.status-bar h3{font-size:11px;color:var(--muted);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase}
+.status-steps{display:flex;flex-direction:column;gap:6px}
+.ss{display:flex;align-items:center;gap:10px;font-size:11.5px}
+.ss-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;font-weight:700}
+.dot-done{background:rgba(78,203,141,.2);color:var(--green);border:1px solid rgba(78,203,141,.4)}
+.dot-active{background:rgba(200,164,85,.2);color:var(--gold);border:1px solid rgba(200,164,85,.4)}
+.dot-wait{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid rgba(255,255,255,.08)}
+.ss-text{flex:1;color:var(--text)}
+.ss-text.muted{color:var(--muted)}
+.ss-action a{font-size:10px;color:var(--gold);text-decoration:none;border:1px solid rgba(200,164,85,.3);border-radius:6px;padding:3px 8px;white-space:nowrap}
+
+/* ADDR SELECT */
+.addr-tabs{display:flex;gap:6px;margin-bottom:10px}
+.addr-tab{flex:1;padding:9px 10px;border:1px solid var(--border);border-radius:9px;cursor:pointer;font-size:11px;color:var(--muted);background:var(--card);transition:all .15s;text-align:center}
+.addr-tab.active{border-color:rgba(200,164,85,.5);color:var(--gold);background:rgba(200,164,85,.07)}
+.addr-tab .addr-name{font-weight:700;font-size:12px;display:block;margin-bottom:2px}
+.addr-tab .addr-detail{font-size:9.5px;opacity:.7}
+
+h2{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:12px;letter-spacing:.04em}
+.section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px}
+
+label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;font-weight:600;letter-spacing:.03em}
+input,select,textarea{
+  width:100%;background:#0e0e14;border:1px solid rgba(255,255,255,.1);border-radius:8px;
+  padding:8px 10px;font-size:12px;color:var(--text);font-family:inherit;transition:border-color .15s;
+}
+input:focus,select:focus,textarea:focus{outline:none;border-color:rgba(200,164,85,.4)}
+textarea{resize:vertical;min-height:56px}
+select option{background:#1a1a20}
+.form-row{margin-bottom:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+.chk-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:4px}
+.chk-item{display:flex;align-items:center;gap:7px;background:#0e0e14;border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:6px 10px;cursor:pointer;transition:border-color .15s}
+.chk-item:hover{border-color:rgba(200,164,85,.3)}
+.chk-item input[type=checkbox]{width:14px;height:14px;accent-color:var(--gold);flex-shrink:0;cursor:pointer}
+.chk-item label{font-size:11px;color:var(--text);cursor:pointer;font-weight:400}
+
+.cost-box{background:#0e0e14;border-radius:10px;padding:10px 14px;margin-bottom:12px}
+.cost-row{display:flex;justify-content:space-between;font-size:11px;padding:3px 0;color:var(--muted)}
+.cost-row.total{font-weight:700;font-size:14px;color:var(--gold);border-top:1px solid rgba(255,255,255,.06);margin-top:5px;padding-top:7px}
+
+.btn{display:block;width:100%;padding:12px;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-gold{background:linear-gradient(135deg,#c8a455,#a88030);color:#000}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(200,164,85,.3)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);margin-top:8px}
+.btn-outline:hover{border-color:rgba(200,164,85,.4)}
+
+.file-list{display:flex;flex-direction:column;gap:7px;margin:12px 0}
+.file-item{display:flex;align-items:center;justify-content:space-between;background:#0e0e14;border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:9px 12px}
+.file-item .fname{font-size:12px;font-weight:600}
+.file-item .fdesc{font-size:10px;color:var(--muted);margin-top:1px}
+.dl-btn{background:var(--gold);color:#000;border:none;border-radius:7px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit}
+.dl-btn:hover{background:#d4aa5a}
+
+.steps{display:flex;flex-direction:column;gap:9px;margin-top:12px}
+.step-item{display:flex;gap:10px;align-items:flex-start}
+.step-num{background:var(--gold);color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px}
+.step-body h4{font-size:12px;font-weight:700;margin-bottom:2px}
+.step-body p{font-size:11px;color:var(--muted);line-height:1.5}
+.step-body a{color:var(--gold)}
+
+.warn{background:rgba(230,90,90,.1);border:1px solid rgba(230,90,90,.25);border-radius:8px;padding:8px 10px;font-size:11px;color:#e68a8a;margin:8px 0}
+.info{background:rgba(90,160,230,.1);border:1px solid rgba(90,160,230,.2);border-radius:8px;padding:8px 10px;font-size:11px;color:var(--blue);margin:8px 0}
+
+.spinner{width:32px;height:32px;border:3px solid rgba(255,255,255,.1);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.page{display:none}.page.active{display:block}
+
+.kantan-btn{display:block;background:linear-gradient(135deg,#c8a455,#a88030);color:#000;text-align:center;padding:11px;border-radius:9px;text-decoration:none;font-weight:700;font-size:13px;margin-top:10px}
+</style>
+</head>
+<body>
+
+<!-- =================== STATUS TRACKER =================== -->
+<div class="status-bar">
+  <h3>📊 設立ステータス</h3>
+  <div class="status-steps">
+    <div class="ss"><div class="ss-dot dot-done">✓</div><div class="ss-text">書類テンプレ作成済み（定款・申請書・払込証明書）</div></div>
+    <div class="ss"><div class="ss-dot dot-done">✓</div><div class="ss-text">本店住所確定（標茶町字西熊牛原野92番2）</div></div>
+    <div class="ss"><div class="ss-dot dot-active">→</div><div class="ss-text">申請者ID取得 — 5分で無料登録</div><div class="ss-action"><a href="https://www.touki-kyoutaku-online.moj.go.jp/" target="_blank">登録する</a></div></div>
+    <div class="ss"><div class="ss-dot dot-active">→</div><div class="ss-text">資本金 ¥1,000,000 を銀行口座に入金</div></div>
+    <div class="ss"><div class="ss-dot dot-wait">4</div><div class="ss-text muted">かんたん申請でアップロード・電子署名（iPhone）</div></div>
+    <div class="ss"><div class="ss-dot dot-wait">5</div><div class="ss-text muted">登録免許税 ¥60,000 を Pay-easy で納付</div></div>
+    <div class="ss"><div class="ss-dot dot-wait">6</div><div class="ss-text muted">審査完了 → 法人設立完了（1〜2週間）</div></div>
+  </div>
+</div>
+
+<!-- =================== STEP 1: FORM =================== -->
+<div class="page active" id="page-form">
+
+  <div class="cost-box">
+    <div class="cost-row"><span>登録免許税</span><span>¥60,000</span></div>
+    <div class="cost-row"><span>ICカードリーダー</span><span>¥0（iPhoneで可）</span></div>
+    <div class="cost-row"><span>実印・定款認証</span><span>¥0（電子申請・令和3年〜不要）</span></div>
+    <div class="cost-row total"><span>合計</span><span>¥60,000のみ</span></div>
+  </div>
+
+  <div class="section">
+    <h2>🏢 会社基本情報</h2>
+    <div class="form-row"><label>会社名</label><input id="name" value="SOLUNA"></div>
+
+    <div class="form-row">
+      <label>本店住所を選択</label>
+      <div class="addr-tabs">
+        <div class="addr-tab active" id="tab-kumau" onclick="selectAddr('kumau')">
+          <span class="addr-name">熊牛原野</span>
+          <span class="addr-detail">標茶町字西熊牛原野92番2</span>
+        </div>
+        <div class="addr-tab" id="tab-miruwa" onclick="selectAddr('miruwa')">
+          <span class="addr-name">美留和（ビレッジ）</span>
+          <span class="addr-detail">弟子屈町美留和501番1</span>
+        </div>
+        <div class="addr-tab" id="tab-tokyo" onclick="selectAddr('tokyo')">
+          <span class="addr-name">東京（自宅）</span>
+          <span class="addr-detail">港区三田2-7-1</span>
+        </div>
+      </div>
+      <div class="info" id="addr-note">✓ 標茶町字西熊牛原野92番2 — 10,861㎡ 原野（温泉あり）。釧路地方法務局の管轄。</div>
+      <input id="pref" type="hidden" value="北海道">
+      <input id="city" type="hidden" value="川上郡標茶町字西熊牛原野">
+      <input id="chiban" type="hidden" value="92番2">
+    </div>
+
+    <div class="grid2">
+      <div class="form-row"><label>資本金（円）</label><input id="shihonkin" type="number" value="1000000" min="1"></div>
+      <div class="form-row"><label>事業年度</label>
+        <select id="fiscal"><option value="4" selected>4月〜3月</option><option value="1">1月〜12月</option><option value="7">7月〜6月</option><option value="10">10月〜9月</option></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>👤 代表社員</h2>
+    <div class="form-row"><label>氏名</label><input id="repName" value="濱田優貴"></div>
+    <div class="form-row"><label>住所</label><input id="repAddr" value="東京都港区三田二丁目7番1号 THE RESIDENCE三田 1913号室"></div>
+  </div>
+
+  <div class="section">
+    <h2>📋 事業目的</h2>
+    <div class="chk-grid">
+      <div class="chk-item"><input type="checkbox" id="m1" value="飲食店の経営及び飲食業に関する事業" checked><label for="m1">飲食店経営</label></div>
+      <div class="chk-item"><input type="checkbox" id="m2" value="宿泊施設の経営及び宿泊業に関する事業" checked><label for="m2">宿泊施設経営</label></div>
+      <div class="chk-item"><input type="checkbox" id="m3" value="不動産の売買・賃貸借及び管理に関する事業" checked><label for="m3">不動産管理・売買</label></div>
+      <div class="chk-item"><input type="checkbox" id="m4" value="農業及び農産物の生産・加工並びに販売に関する事業" checked><label for="m4">農業・農産物</label></div>
+      <div class="chk-item"><input type="checkbox" id="m5" value="イベント及び各種体験プログラムの企画・運営に関する事業" checked><label for="m5">イベント・体験</label></div>
+      <div class="chk-item"><input type="checkbox" id="m6" value="コンピュータソフトウェアの開発・販売及びシステムの設計・運用" checked><label for="m6">ソフトウェア開発</label></div>
+      <div class="chk-item"><input type="checkbox" id="m7" value="建築工事の請負及び設計監理に関する事業"><label for="m7">建築設計・工事</label></div>
+      <div class="chk-item"><input type="checkbox" id="m8" value="音楽・映像コンテンツの制作及び配信に関する事業"><label for="m8">音楽・映像制作</label></div>
+      <div class="chk-item"><input type="checkbox" id="m9" value="前各号に附帯又は関連する一切の事業" checked><label for="m9">附帯関連事業</label></div>
+    </div>
+    <div class="form-row" style="margin-top:8px"><label>追加目的（1行ずつ、任意）</label><textarea id="customM" placeholder="林業・木材の生産及び販売&#10;コンサルティング業務"></textarea></div>
+  </div>
+
+  <button class="btn btn-gold" onclick="buildDocs()">📄 書類を生成・プレビュー</button>
+</div>
+
+<!-- =================== LOADING =================== -->
+<div class="page" id="page-loading">
+  <div style="text-align:center;padding:60px 20px">
+    <div class="spinner"></div>
+    <p style="font-size:13px;color:var(--muted)">書類を生成しています...</p>
+  </div>
+</div>
+
+<!-- =================== RESULT =================== -->
+<div class="page" id="page-result">
+  <div class="section">
+    <h2>✅ 書類が生成されました</h2>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:10px">各書類をクリックして確認・印刷してください</p>
+    <div class="file-list" id="fileList"></div>
+  </div>
+
+  <div class="section">
+    <h2>🔴 残りのブロッカー（これだけやれば申請できる）</h2>
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>申請者IDを取得する（5分・無料）</h4>
+          <p><a href="https://www.touki-kyoutaku-online.moj.go.jp/" target="_blank">登記・供託オンライン申請システム</a> → 「申請者情報登録」<br>メールアドレスがあれば即日取得できます。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>¥1,000,000 を銀行口座に入金する</h4>
+          <p>個人名義の口座に振込。通帳の入金ページの写真を撮っておく（払込証明書に添付）。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>マイナポータルアプリをiPhoneにセットアップ</h4>
+          <p>App Storeから「マイナポータル」をDL → マイナンバーカードをiPhoneでスキャンして登録。署名用パスワード（英数字6〜16桁）を覚えておく。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📋 申請手順（ID取得後）</h2>
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>かんたん申請にログイン</h4>
+          <p><a href="https://www.touki-kyoutaku-online.moj.go.jp/kantan/" target="_blank">かんたん申請</a> → 商業・法人登記 → 合同会社設立</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>登記事項テキストを貼り付け + 書類アップロード</h4>
+          <p>「登記事項テキスト」をコピー&ペースト。定款PDF・払込証明書PDFをアップロード。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h4>iPhone でQRコードをスキャン → 電子署名</h4>
+          <p>マイナポータルアプリ → QRコード読み取り → 署名用パスワード入力</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <h4>Pay-easy で ¥60,000 を電子納付</h4>
+          <p>申請後にオンラインバンクから支払い。納付確認後に審査開始（1〜2週間）。</p>
+        </div>
+      </div>
+    </div>
+    <a href="https://www.touki-kyoutaku-online.moj.go.jp/kantan/" target="_blank" class="kantan-btn">🌐 かんたん申請を開く →</a>
+  </div>
+
+  <button class="btn btn-outline" onclick="showPage('page-form')">← 入力に戻る</button>
+</div>
+
+<!-- =================== DOCUMENT MODAL =================== -->
+<div id="docModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.87);z-index:9999;overflow-y:auto">
+  <div style="max-width:760px;margin:16px auto;background:#fff;border-radius:12px;overflow:hidden">
+    <div style="background:#1a1a2e;display:flex;align-items:center;justify-content:space-between;padding:10px 14px">
+      <span id="modalTitle" style="font-size:13px;font-weight:700;color:#c8a455"></span>
+      <div style="display:flex;gap:6px">
+        <button onclick="copyJiko()" id="copyBtn" style="display:none;background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:7px;padding:6px 12px;font-size:11px;cursor:pointer">📋 コピー</button>
+        <button onclick="printDoc()" style="background:#c8a455;color:#000;border:none;border-radius:7px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer">🖨 印刷</button>
+        <button onclick="closeModal()" style="background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:7px;padding:6px 10px;font-size:11px;cursor:pointer">✕</button>
+      </div>
+    </div>
+    <div id="modalBody" style="padding:36px 44px;font-family:'Hiragino Mincho ProN','Yu Mincho',serif;font-size:11pt;line-height:1.9;color:#111;background:#fff"></div>
+  </div>
+</div>
+
+<script>
+var docData = {};
+var currentDocId = '';
+
+var ADDR_OPTS = {
+  kumau:  { pref:'北海道', city:'川上郡標茶町字西熊牛原野', chiban:'92番2',  note:'✓ 標茶町字西熊牛原野92番2 — 10,861㎡ 原野（温泉あり）。釧路地方法務局の管轄。', color:'var(--blue)' },
+  miruwa: { pref:'北海道', city:'川上郡弟子屈町美留和',    chiban:'501番1', note:'✓ 弟子屈町美留和501番1 — 74,115㎡（SOLUNAビレッジ予定地）。釧路地方法務局の管轄。', color:'var(--green)' },
+  tokyo:  { pref:'東京都', city:'港区三田二丁目7番1号', chiban:'THE RESIDENCE三田1913号室（当面の連絡先）', note:'⚠️ 拠点ができるまでの暫定住所。法人口座開設等では後日北海道に変更可能。', color:'rgba(200,164,85,.8)' },
+};
+var selectedAddr = 'kumau';
+
+function selectAddr(key) {
+  selectedAddr = key;
+  document.querySelectorAll('.addr-tab').forEach(function(t){t.classList.remove('active')});
+  document.getElementById('tab-'+key).classList.add('active');
+  var opt = ADDR_OPTS[key];
+  document.getElementById('pref').value = opt.pref;
+  document.getElementById('city').value = opt.city;
+  document.getElementById('chiban').value = opt.chiban;
+  var note = document.getElementById('addr-note');
+  note.textContent = opt.note;
+  note.style.color = opt.color;
+}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function getMokuteki() {
+  var items = [];
+  document.querySelectorAll('.chk-grid input:checked').forEach(function(el){items.push(el.value)});
+  var custom = document.getElementById('customM').value.trim();
+  if (custom) custom.split('\n').forEach(function(l){if(l.trim())items.push(l.trim())});
+  return items;
+}
+
+function buildDocs() {
+  var opt = ADDR_OPTS[selectedAddr];
+  var name = document.getElementById('name').value.trim() || 'SOLUNA';
+  var pref = opt.pref;
+  var city = opt.city;
+  var chiban = opt.chiban;
+  var shihonkin = parseInt(document.getElementById('shihonkin').value) || 1000000;
+  var repName = document.getElementById('repName').value.trim() || '濱田優貴';
+  var repAddr = document.getElementById('repAddr').value.trim();
+  var mokuteki = getMokuteki();
+
+  if (mokuteki.length === 0) { alert('事業目的を1つ以上選択してください'); return; }
+
+  var addr = pref + city + chiban;
+  var today = new Date().toLocaleDateString('ja-JP',{year:'numeric',month:'long',day:'numeric'});
+  var shihonFmt = shihonkin.toLocaleString('ja-JP');
+
+  docData = { name, addr, shihonkin, shihonFmt, repName, repAddr, mokuteki, today };
+
+  showPage('page-loading');
+  setTimeout(function(){ renderFileList(); showPage('page-result'); }, 500);
+}
+
+function renderFileList() {
+  var docs = [
+    { id:'teikan',    icon:'⚖️', title:'定款',          desc:'設立定款 — かんたん申請にアップロード' },
+    { id:'shinsei',   icon:'📋', title:'登記申請書',     desc:'法務局提出書類' },
+    { id:'haraikomi', icon:'💳', title:'払込証明書',     desc:'通帳コピーを添付してアップロード' },
+    { id:'jiko',      icon:'📝', title:'登記事項テキスト', desc:'かんたん申請の入力欄にコピー&ペースト' },
+    { id:'checklist', icon:'✅', title:'設立チェックリスト', desc:'全ステップ確認用' },
+  ];
+  document.getElementById('fileList').innerHTML = docs.map(function(d){
+    return '<div class="file-item">'
+      +'<div><div class="fname">'+d.icon+' '+d.title+'</div><div class="fdesc">'+d.desc+'</div></div>'
+      +'<button class="dl-btn" onclick="openDoc(\''+d.id+'\')">表示 →</button>'
+      +'</div>';
+  }).join('');
+}
+
+function openDoc(id) {
+  currentDocId = id;
+  var d = docData;
+  var html = '', title = '';
+  var copyBtn = document.getElementById('copyBtn');
+  copyBtn.style.display = 'none';
+
+  var mList = d.mokuteki.map(function(m,i){return (i+1)+'. '+m}).join('<br>');
+
+  if (id === 'teikan') {
+    title = '定款 — 合同会社'+d.name;
+    html = h1('合同会社'+d.name+'　定款')
+      +h2('第1章　総則')
+      +p('<strong>（商号）</strong><br>第1条　当会社は、合同会社'+d.name+'と称する。')
+      +p('<strong>（目的）</strong><br>第2条　当会社は、次の事業を営むことを目的とする。<br>'+mList)
+      +p('<strong>（本店の所在地）</strong><br>第3条　当会社は、本店を'+d.addr+'に置く。')
+      +p('<strong>（公告方法）</strong><br>第4条　当会社の公告は、官報に掲載する方法による。')
+      +h2('第2章　社員及び出資')
+      +p('<strong>（社員の氏名及び住所）</strong><br>第5条　当会社の社員の氏名及び住所は、次のとおりである。<br>　業務執行社員・代表社員　'+d.repName+'<br>　'+d.repAddr)
+      +p('<strong>（社員の出資の目的及びその価額）</strong><br>第6条　'+d.repName+'の出資の価額は、金'+d.shihonFmt+'円とする。')
+      +p('<strong>（資本金の額）</strong><br>第7条　当会社の資本金の額は、金'+d.shihonFmt+'円とする。')
+      +h2('第3章　業務の執行及び代表')
+      +p('<strong>（業務執行社員）</strong><br>第8条　当会社の業務を執行する社員は、'+d.repName+'とする。')
+      +p('<strong>（代表社員）</strong><br>第9条　当会社を代表する社員は、'+d.repName+'とする。')
+      +h2('第4章　計算')
+      +p('<strong>（事業年度）</strong><br>第10条　当会社の事業年度は、毎年4月1日から翌年3月31日までとする。')
+      +h2('第5章　附則')
+      +p('<strong>（設立に際して出資される財産の価額）</strong><br>第11条　当会社の設立に際して出資される財産の価額は、金'+d.shihonFmt+'円とする。')
+      +p('<strong>（成立後の資本金の額）</strong><br>第12条　当会社の成立後の資本金の額は、金'+d.shihonFmt+'円とする。')
+      +p('<strong>（設立時の社員の持分額）</strong><br>第13条　'+d.repName+'の持分額は、金'+d.shihonFmt+'円とする。')
+      +p('<strong>（最初の事業年度）</strong><br>第14条　当会社の最初の事業年度は、当会社の成立の日から翌年3月31日までとする。')
+      +p('<strong>（法令の準用）</strong><br>第15条　本定款に定めのない事項は、すべて会社法その他の法令の定めるところによる。')
+      +'<hr style="border:none;border-top:1px solid #ccc;margin:2em 0">'
+      +p('以上、合同会社'+d.name+'の設立のため、この定款を作成し、社員が電磁的記録に記録した。')
+      +'<br><p>'+d.today+'</p><br>'
+      +p('業務執行社員・代表社員　'+d.repName+'　㊞')
+      +'<div style="background:#fffbe6;border-left:4px solid #f0c040;padding:12px;margin-top:1.5em;font-size:10pt">📌 電子申請の場合：このPDFをかんたん申請にアップロードします。マイナンバーカードの電子署名が押印の代わりになります。</div>';
+  }
+  else if (id === 'shinsei') {
+    title = '登記申請書';
+    html = h1('登記申請書')
+      +'<p style="text-align:center;margin-bottom:1.5em;font-size:13pt">商業登記申請書</p>'
+      +'<table style="width:100%;border-collapse:collapse;margin:1em 0">'
+      +tr('申請年月日', d.today)
+      +tr('申請の種類', '合同会社設立登記')
+      +tr('商号', '合同会社'+d.name)
+      +tr('本店', d.addr)
+      +tr('目的', '定款第2条記載の各事業')
+      +tr('資本金', '金'+d.shihonFmt+'円')
+      +tr('業務執行社員', d.repName)
+      +tr('代表社員', d.repName)
+      +tr('代表社員住所', d.repAddr)
+      +tr('課税標準金額', '金'+d.shihonFmt+'円')
+      +tr2('登録免許税', '<strong>金60,000円</strong>（最低額）')
+      +'</table>'
+      +h2('添付書類')
+      +'<ol style="margin-left:1.5em"><li>定款</li><li>払込みがあったことを証する書面（払込証明書）</li></ol>'
+      +'<hr style="border:none;border-top:1px solid #ccc;margin:2em 0">'
+      +p('申請人（代表社員）　'+d.repName+'<br>　　　　'+d.repAddr)
+      +'<br><p><strong>釧路地方法務局　御中</strong></p>'
+      +'<p style="font-size:10pt;color:#666">〒085-8522 北海道釧路市幸町10番3号　☎ 0154-31-5000</p>';
+  }
+  else if (id === 'haraikomi') {
+    title = '払込証明書';
+    html = h1('払込証明書')
+      +p('下記の者が当会社に対する出資の履行として次の金額を払い込んだことを証明します。')
+      +'<table style="width:100%;border-collapse:collapse;margin:1.5em 0">'
+      +'<tr><th style="border:1px solid #888;padding:10px;background:#f5f5f5">社員氏名</th><th style="border:1px solid #888;padding:10px;background:#f5f5f5">出資金額</th></tr>'
+      +'<tr><td style="border:1px solid #888;padding:10px;text-align:center">'+d.repName+'</td><td style="border:1px solid #888;padding:10px;text-align:center">金'+d.shihonFmt+'円</td></tr>'
+      +'</table>'
+      +p('<strong>合計　金'+d.shihonFmt+'円</strong><br>払込日　'+d.today)
+      +'<hr style="border:none;border-top:1px solid #ccc;margin:2em 0">'
+      +p('この払込みは合同会社'+d.name+'の設立に際して行われたものであり、上記金額が代表社員名義の銀行口座に入金されたことを確認しました。')
+      +'<br><p>'+d.today+'</p><br>'
+      +p('合同会社'+d.name+'<br>代表社員　'+d.repName+'　㊞')
+      +'<div style="background:#fffbe6;border-left:4px solid #f0c040;padding:12px;margin-top:1.5em;font-size:10pt">📎 この書類の後に<strong>通帳のコピー</strong>（入金日・金額が確認できるページ）を添付してアップロードしてください。</div>';
+  }
+  else if (id === 'jiko') {
+    title = '登記事項テキスト（コピー&ペースト用）';
+    copyBtn.style.display = 'block';
+    var mTxt = d.mokuteki.map(function(m,i){return '「事業の目的'+(i+1)+'」'+m}).join('\n');
+    var txt = '「商号」合同会社'+d.name+'\n'
+      +'「本店」'+d.addr+'\n'
+      +'「公告をする方法」官報に掲載する方法\n'
+      +'「目的」\n'+mTxt+'\n'
+      +'「資本金の額」金'+d.shihonkin+'円\n'
+      +'「業務執行社員に関する事項」「資格」業務執行社員「氏名又は名称」'+d.repName+'\n'
+      +'「代表社員に関する事項」「資格」代表社員「氏名又は名称」'+d.repName+'「住所」'+d.repAddr+'\n'
+      +'「社員に関する事項」「資格」社員「氏名又は名称」'+d.repName+'「住所」'+d.repAddr+'「出資の目的」金銭「出資の価額」金'+d.shihonkin+'円「既に履行した出資の価額」金'+d.shihonkin+'円\n'
+      +'「登録免許税」金60000円';
+    window._jikoText = txt;
+    html = h1('登記すべき事項')
+      +'<p style="font-size:10pt;color:#666;margin-bottom:1em">かんたん申請の「登記すべき事項」欄にそのままコピー&ペーストしてください。</p>'
+      +'<pre id="jikoText" style="background:#f5f5f5;border:1px solid #ddd;border-radius:6px;padding:14px;font-family:monospace;font-size:10pt;white-space:pre-wrap;line-height:1.8">'+escHtml(txt)+'</pre>';
+  }
+  else if (id === 'checklist') {
+    title = '設立チェックリスト';
+    html = h1('合同会社'+d.name+'　設立チェックリスト')
+      +'<table style="width:100%;border-collapse:collapse;margin:1em 0;font-size:10.5pt">'
+      +'<tr><th style="border:1px solid #ddd;padding:7px;background:#f5f5f5;text-align:left">費用</th><th style="border:1px solid #ddd;padding:7px;background:#f5f5f5">金額</th></tr>'
+      +'<tr><td style="border:1px solid #ddd;padding:7px">登録免許税</td><td style="border:1px solid #ddd;padding:7px;text-align:center">¥60,000</td></tr>'
+      +'<tr><td style="border:1px solid #ddd;padding:7px">ICカードリーダー・実印・定款認証</td><td style="border:1px solid #ddd;padding:7px;text-align:center">¥0</td></tr>'
+      +'<tr style="font-weight:700;background:#f0f0f0"><td style="border:1px solid #ddd;padding:7px">合計</td><td style="border:1px solid #ddd;padding:7px;text-align:center">¥60,000</td></tr>'
+      +'</table>'
+      +chkSection('STEP 1 — 準備', [
+        '本店住所確定済み: '+d.addr,
+        '申請者IDを取得（登記・供託オンライン申請システムで無料登録）',
+        '¥'+d.shihonFmt+'を銀行口座に入金し通帳写真を撮る',
+        'マイナポータルアプリをiPhoneにインストール・設定',
+        '署名用パスワード（英数字6〜16桁）を確認',
+      ])
+      +chkSection('STEP 2 — 書類準備（このウィザードで完了）', [
+        '✅ 定款 — 生成済み（印刷して確認）',
+        '✅ 登記申請書 — 生成済み',
+        '✅ 払込証明書 — 生成済み（通帳コピーを添付）',
+        '✅ 登記事項テキスト — 生成済み（コピー&ペースト用）',
+      ])
+      +chkSection('STEP 3 — かんたん申請', [
+        'PCブラウザでかんたん申請にログイン',
+        '「商業・法人登記」→「合同会社設立」を選択',
+        '登記事項テキストを貼り付け',
+        '定款PDF・払込証明書PDFをアップロード',
+        'iPhoneのマイナポータルでQRコードスキャン→署名',
+        '申請送信',
+      ])
+      +chkSection('STEP 4 — 納付・完了', [
+        'Pay-easy（ペイジー）で ¥60,000 を電子納付',
+        '審査完了通知を待つ（通常1〜2週間）',
+        '履歴事項全部証明書を取得（法人口座開設等に必要）',
+        '法人銀行口座を開設（三井住友・楽天・GMOあおぞら等）',
+        '税務署に法人設立届出書を提出（登記後2ヶ月以内）',
+        '北海道税事務所・標茶町役場に法人設立届を提出',
+      ]);
+  }
+
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('docModal').style.display = 'block';
+}
+
+function h1(t){return '<h1 style="text-align:center;font-size:16pt;border-bottom:2px solid #000;padding-bottom:.4em;margin-bottom:1.3em">'+t+'</h1>'}
+function h2(t){return '<h2 style="font-size:11pt;margin-top:1.6em;margin-bottom:.5em;border-bottom:1px solid #ccc;padding-bottom:.2em">'+t+'</h2>'}
+function p(t){return '<p style="margin-bottom:.8em">'+t+'</p>'}
+function tr(k,v){return '<tr><th style="border:1px solid #888;padding:8px;background:#f5f5f5;text-align:left;width:35%;font-size:10.5pt">'+k+'</th><td style="border:1px solid #888;padding:8px">'+v+'</td></tr>'}
+function tr2(k,v){return '<tr><th style="border:1px solid #888;padding:8px;background:#f5f5f5;text-align:left;width:35%;font-size:10.5pt">'+k+'</th><td style="border:1px solid #888;padding:8px;font-size:12pt">'+v+'</td></tr>'}
+function escHtml(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function chkSection(title, items){
+  var lis = items.map(function(i){return '<li style="padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:10.5pt">□ '+i+'</li>'}).join('');
+  return '<h2 style="font-size:11pt;margin-top:1.6em;margin-bottom:.4em;border-bottom:1px solid #ccc;padding-bottom:.2em;color:#1a1a2e">'+title+'</h2><ul style="list-style:none;margin-left:.3em">'+lis+'</ul>';
+}
+
+function closeModal(){document.getElementById('docModal').style.display='none'}
+
+function copyJiko(){
+  var txt = window._jikoText || '';
+  navigator.clipboard.writeText(txt).then(function(){
+    var btn = document.getElementById('copyBtn');
+    btn.textContent='✓ コピー済み';
+    setTimeout(function(){btn.textContent='📋 コピー'},2000);
+  });
+}
+
+function printDoc(){
+  var content = document.getElementById('modalBody').innerHTML;
+  var title = document.getElementById('modalTitle').textContent;
+  var w = window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>'+title+'</title>'
+    +'<style>body{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:11pt;line-height:1.9;color:#111;padding:20mm}h1{font-size:16pt}h2{font-size:11pt;margin-top:1.5em}table{width:100%;border-collapse:collapse;margin:1em 0}th,td{border:1px solid #888;padding:8px}th{background:#f5f5f5;text-align:left}pre{background:#f5f5f5;border:1px solid #ddd;padding:12px;font-size:9pt;white-space:pre-wrap}@media print{body{padding:15mm}}</style></head><body>'+content+'<script src="/js/dc.js"></script>
+</body></html>');
+  w.document.close();
+  w.onload=function(){w.print()};
+}
+
+document.getElementById('docModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+</script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

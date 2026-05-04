@@ -5,22 +5,12 @@ struct MapTourView: View {
     @EnvironmentObject var store: PropertyStore
     @State private var position: MapCameraPosition = .region(
         MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 38, longitude: 137),
-            span: MKCoordinateSpan(latitudeDelta: 20, longitudeDelta: 20)
+            center: CLLocationCoordinate2D(latitude: 37.5, longitude: 137.0),
+            span: MKCoordinateSpan(latitudeDelta: 22, longitudeDelta: 22)
         )
     )
-    @State private var tourStep = -1
-    @State private var badgeText = "SOLUNA \u{2014} \u{5168}11\u{7269}\u{4ef6}"
     @State private var selectedProperty: Property?
-    @State private var tourCompleted = false
     @State private var showDetailSheet = false
-
-    private let tourStops: [(lat: Double, lng: Double, zoom: Double, badge: String, propertyId: String)] = [
-        (35.097, 139.072, 0.02, "ATAMI \u{2014} \u{9759}\u{5ca1}\u{770c} \u{71b1}\u{6d77}\u{5e02}", "whitehouse-atami"),
-        (35.115, 139.052, 0.01, "ATAMI 2 \u{2014} \u{958b}\u{767a}\u{4e88}\u{5b9a}\u{5730}", "atami-2"),
-        (33.720, 135.360, 0.05, "WAKAYAMA \u{2014} \u{548c}\u{6b4c}\u{5c71}\u{770c} \u{718a}\u{91ce}\u{53e4}\u{9053}", "wakayama"),
-        (43.590, 144.440, 0.15, "HOKKAIDO \u{2014} \u{5317}\u{6d77}\u{9053} \u{5f1f}\u{5b50}\u{5c48}", "tapkop")
-    ]
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -30,11 +20,6 @@ struct MapTourView: View {
                         PropertyPin(status: property.status)
                             .onTapGesture {
                                 selectedProperty = property
-                                if tourCompleted {
-                                    // After tour: show mini card, not sheet
-                                } else {
-                                    showDetailSheet = true
-                                }
                             }
                     }
                 }
@@ -43,7 +28,7 @@ struct MapTourView: View {
             .mapControls { MapCompass() }
 
             // Badge
-            Text(badgeText)
+            Text("SOLUNA \u{2014} \u{5168}11\u{7269}\u{4ef6}")
                 .font(.system(size: 9, weight: .heavy))
                 .tracking(3)
                 .foregroundStyle(Color("Gold"))
@@ -54,8 +39,8 @@ struct MapTourView: View {
                 .overlay(Capsule().stroke(Color("Gold").opacity(0.35), lineWidth: 1))
                 .padding(.top, 12)
 
-            // Mini card overlay at bottom (after tour)
-            if tourCompleted, let property = selectedProperty {
+            // Mini card at bottom when pin tapped
+            if let property = selectedProperty {
                 VStack {
                     Spacer()
                     MiniPropertyCard(property: property) {
@@ -73,37 +58,6 @@ struct MapTourView: View {
                 PropertyDetailView(property: property)
                     .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.visible)
-            }
-        }
-        .onAppear { startTour() }
-    }
-
-    private func startTour() {
-        guard tourStep == -1 else { return }
-        Task {
-            try? await Task.sleep(for: .seconds(1.5))
-            for (i, stop) in tourStops.enumerated() {
-                tourStep = i
-                badgeText = stop.badge
-                withAnimation(.easeInOut(duration: 2.0)) {
-                    position = .region(MKCoordinateRegion(
-                        center: CLLocationCoordinate2D(latitude: stop.lat, longitude: stop.lng),
-                        span: MKCoordinateSpan(latitudeDelta: stop.zoom, longitudeDelta: stop.zoom)
-                    ))
-                }
-                // Show popup during tour
-                if let prop = store.properties.first(where: { $0.id == stop.propertyId }) {
-                    try? await Task.sleep(for: .seconds(2.5))
-                    selectedProperty = prop
-                    showDetailSheet = true
-                    try? await Task.sleep(for: .seconds(2.5))
-                    showDetailSheet = false
-                    selectedProperty = nil
-                }
-            }
-            badgeText = "SOLUNA \u{2014} \u{5168}11\u{7269}\u{4ef6}"
-            withAnimation {
-                tourCompleted = true
             }
         }
     }

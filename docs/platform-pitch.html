@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLUNA — 不動産特定共同事業 業務提携提案書</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#C8A455;--gold2:#E8C87A;--dark:#0a0a0a;--card:#141414;
+  --text:#111;--muted:#666;--border:#ddd;--red:#e05;--green:#2a9d2a;
+}
+body{background:#fff;color:var(--text);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Helvetica Neue',sans-serif;font-size:13px;line-height:1.8;max-width:960px;margin:0 auto;padding:40px 48px}
+@media print{
+  body{padding:20px 32px;font-size:11.5px}
+  .no-print{display:none}
+  .page-break{page-break-before:always}
+  section{page-break-inside:avoid}
+}
+@media(max-width:700px){body{padding:24px 20px}}
+
+/* ── Cover ── */
+.cover{background:var(--dark);color:#fff;padding:64px 56px;border-radius:12px;margin-bottom:40px;position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(200,164,85,.18) 0%,transparent 60%)}
+.cover-label{font-size:10px;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;margin-bottom:24px}
+.cover-title{font-size:26px;font-weight:700;line-height:1.4;margin-bottom:8px;letter-spacing:.03em}
+.cover-sub{font-size:14px;color:rgba(255,255,255,.6);margin-bottom:40px}
+.cover-meta{display:flex;gap:40px;flex-wrap:wrap}
+.cover-meta-item{font-size:11px;color:rgba(255,255,255,.55)}
+.cover-meta-item strong{display:block;font-size:13px;color:#fff;margin-bottom:2px}
+.confidential{position:absolute;top:24px;right:32px;font-size:10px;letter-spacing:.15em;color:rgba(200,164,85,.6);text-transform:uppercase;border:1px solid rgba(200,164,85,.3);padding:4px 10px;border-radius:4px}
+
+/* ── Section ── */
+h1{font-size:18px;font-weight:700;color:var(--dark);border-bottom:2px solid var(--gold);padding-bottom:10px;margin:40px 0 20px}
+h2{font-size:14px;font-weight:700;color:var(--dark);margin:28px 0 12px;padding-left:10px;border-left:3px solid var(--gold)}
+h3{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:20px 0 8px}
+p{margin-bottom:10px;color:#333}
+
+/* ── KPI Bar ── */
+.kpi-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px 0}
+.kpi{background:#f9f7f2;border:1px solid #e8e0cc;border-radius:10px;padding:18px 16px;text-align:center}
+.kpi-val{font-size:22px;font-weight:800;color:var(--dark);line-height:1}
+.kpi-sub{font-size:10px;color:var(--muted);margin-top:4px;letter-spacing:.05em}
+.kpi-note{font-size:9px;color:#aaa;margin-top:2px}
+@media(max-width:600px){.kpi-bar{grid-template-columns:repeat(2,1fr)}}
+
+/* ── Tables ── */
+table{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0 20px}
+th{background:#f0ede5;color:#444;font-weight:700;padding:8px 10px;text-align:left;font-size:11px;letter-spacing:.04em;border:1px solid #ddd}
+td{padding:7px 10px;border:1px solid #e8e8e8;vertical-align:top}
+tr:nth-child(even) td{background:#fafaf8}
+.td-num{text-align:right;font-variant-numeric:tabular-nums}
+.td-hi{color:var(--green);font-weight:700}
+.td-gold{color:#a07820;font-weight:700}
+.td-muted{color:var(--muted)}
+
+/* ── Callout ── */
+.callout{border-radius:8px;padding:14px 18px;margin:16px 0;font-size:12px;line-height:1.8}
+.callout-info{background:#f0f4ff;border-left:3px solid #4a80e8}
+.callout-warn{background:#fff8e8;border-left:3px solid var(--gold)}
+.callout-ok{background:#f0fff4;border-left:3px solid var(--green)}
+.callout-title{font-weight:700;margin-bottom:4px;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+
+/* ── Cards ── */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0}
+.card{border:1px solid #e0d8c8;border-radius:8px;padding:16px}
+.card-head{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.08em;margin-bottom:8px;text-transform:uppercase}
+.card-val{font-size:20px;font-weight:800;color:var(--dark)}
+.card-sub{font-size:11px;color:var(--muted);margin-top:4px}
+@media(max-width:600px){.cards{grid-template-columns:1fr 1fr}}
+
+/* ── Flow Diagram ── */
+.flow{display:flex;align-items:center;gap:0;margin:20px 0;flex-wrap:wrap}
+.flow-box{background:#f4f0e8;border:1px solid #d8cca8;border-radius:8px;padding:10px 14px;font-size:11px;font-weight:600;text-align:center;min-width:90px}
+.flow-box.gold{background:var(--gold);color:#fff;border-color:var(--gold)}
+.flow-box.dark{background:var(--dark);color:#fff;border-color:var(--dark)}
+.flow-arr{font-size:18px;color:#bbb;padding:0 6px}
+
+/* ── Bar Chart ── */
+.bar-row{display:flex;align-items:center;gap:10px;margin:6px 0}
+.bar-label{font-size:11px;color:#555;width:140px;text-align:right;flex-shrink:0}
+.bar-track{flex:1;background:#eee;border-radius:4px;height:18px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;font-size:10px;font-weight:700;color:#fff}
+
+/* ── Signature ── */
+.sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:48px}
+.sig-block{border-top:1px solid #999;padding-top:12px}
+.sig-name{font-size:14px;font-weight:700;margin:4px 0}
+.sig-info{font-size:11px;color:#666;line-height:1.8}
+
+/* ── Phase Table ── */
+.phase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.phase{border-radius:8px;padding:16px;border:1px solid}
+.phase.p1{background:#fff8e8;border-color:#ddc870}
+.phase.p2{background:#f0fff4;border-color:#7dc87d}
+.phase.p3{background:#f0f4ff;border-color:#7a9de8}
+.phase-label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px}
+.phase-amt{font-size:20px;font-weight:800;margin-bottom:4px}
+
+/* ── Utils ── */
+.small{font-size:11px;color:var(--muted)}
+.gold-text{color:#9a6e20;font-weight:700}
+.print-btn{position:fixed;bottom:24px;right:24px;background:var(--dark);color:#fff;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+@media print{.print-btn{display:none}}
+hr{border:none;border-top:1px solid #eee;margin:32px 0}
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">PDF保存</button>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ COVER ━━ -->
+<div class="cover">
+  <div class="confidential">Confidential</div>
+  <div class="cover-label">不動産特定共同事業 業務提携提案書</div>
+  <div class="cover-title">SOLUNA — 共同所有型リゾート<br>プラットフォーム連携スキームのご提案</div>
+  <div class="cover-sub">CrowdRealty 株式会社 / プラットフォーム事業者 各位</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><strong>作成日</strong>2026年5月3日</div>
+    <div class="cover-meta-item"><strong>作成者</strong>Enabler Inc. 代表取締役 濱田 優貴</div>
+    <div class="cover-meta-item"><strong>物件数</strong>9物件（国内7 / 海外2）</div>
+    <div class="cover-meta-item"><strong>AUM（取得価格合計）</strong>¥189,700,000</div>
+  </div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ EXECUTIVE SUMMARY ━━ -->
+<h1>1. エグゼクティブサマリー</h1>
+
+<p>SOLUNA は、別荘・リゾートの共同所有を民主化するプラットフォームです。¥100万前後の少額出資で国内外の厳選物件に「共同オーナー」として参加でき、年間一定泊数の宿泊権と、物件の値上がり益・OTA収入の分配を受け取れます。</p>
+
+<p>本提案は、<strong>貴社の不特法ライセンスを活用した業務提携</strong>により、SOLUNA物件を貴社プラットフォームに掲載いただくことで、双方の収益最大化を目指すものです。</p>
+
+<div class="kpi-bar">
+  <div class="kpi">
+    <div class="kpi-val">9棟</div>
+    <div class="kpi-sub">総保有物件数</div>
+    <div class="kpi-note">国内7 / ハワイ2</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-val">¥1.9億</div>
+    <div class="kpi-sub">AUM（取得価格合計）</div>
+    <div class="kpi-note">2027年に¥10億目標</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-val">8.0%</div>
+    <div class="kpi-sub">想定Net利回り</div>
+    <div class="kpi-note">稼働中物件（OTA収入のみ）</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-val">15〜30%</div>
+    <div class="kpi-sub">実質リターン</div>
+    <div class="kpi-note">宿泊権価値込み換算</div>
+  </div>
+</div>
+
+<div class="callout callout-ok">
+  <div class="callout-title">提携の核心</div>
+  貴社が<strong>不特法ライセンス・募集代理・投資家基盤</strong>を提供し、SOLUNAが<strong>物件・ブランド・オーナーコミュニティ・予約アプリ</strong>を提供する。SOLUNA物件の独自性（宿泊権×資産性）は既存の不動産CF物件と差別化でき、貴社プラットフォームの新規ユーザー獲得にも寄与します。
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ BUSINESS MODEL ━━ -->
+<h1>2. SOLUNAの事業モデル</h1>
+
+<h2>2層の収益構造</h2>
+
+<div class="flow" style="margin-bottom:8px">
+  <div class="flow-box dark">投資家<br><span style="font-size:10px;opacity:.7">1口 ¥90〜100万</span></div>
+  <div class="flow-arr">→</div>
+  <div class="flow-box gold">GK持分購入<br><span style="font-size:10px">不特法スキーム</span></div>
+  <div class="flow-arr">→</div>
+  <div class="flow-box">年間N泊の<br>宿泊権</div>
+  <div class="flow-arr">+</div>
+  <div class="flow-box">OTA収入<br>按分分配</div>
+</div>
+
+<table>
+  <thead>
+    <tr><th>収益レイヤー</th><th>内容</th><th>法的性格</th><th>投資家への還元</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Layer 1: 宿泊権</strong></td>
+      <td>年間N泊の優先利用権（会員価格 or 無料）</td>
+      <td>役務提供契約</td>
+      <td>現物給付（宿泊）<br>¥2.5万〜¥34万/泊相当</td>
+    </tr>
+    <tr>
+      <td><strong>Layer 2: OTA収入分配</strong></td>
+      <td>Beds24経由の外部賃料を持分按分で分配</td>
+      <td>不動産特定共同事業</td>
+      <td>年4〜22%（金銭）</td>
+    </tr>
+    <tr>
+      <td><strong>Layer 3: 資産評価益</strong></td>
+      <td>物件売却時の値上がり益（北海道/熱海）</td>
+      <td>GK清算時の分配</td>
+      <td>物件依存（土地値上がり）</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout callout-warn">
+  <div class="callout-title">他社との差別化ポイント</div>
+  一般的な不動産CF（J-REIT型、社債型）と異なり、SOLUNAは<strong>「実際に泊まれる」体験価値が付随</strong>します。利回り5〜6%に加え、年1〜15泊の宿泊権（市場価格¥2.5万〜¥34万/泊）を合算すると実質リターンは<strong>15〜80%</strong>に達します。
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ PORTFOLIO ━━ -->
+<div class="page-break"></div>
+<h1>3. 物件ポートフォリオ</h1>
+
+<h2>3-1. フェーズ別物件一覧</h2>
+
+<div class="phase-grid">
+  <div class="phase p1">
+    <div class="phase-label">Phase 1 — 即実行</div>
+    <div class="phase-amt">¥34.0M</div>
+    <div class="small">稼働中 4物件<br>Beds24実績あり</div>
+  </div>
+  <div class="phase p2">
+    <div class="phase-label">Phase 2 — 2026-11〜</div>
+    <div class="phase-amt">¥66.0M</div>
+    <div class="small">ハワイ 2物件<br>2026年11月開業予定</div>
+  </div>
+  <div class="phase p3">
+    <div class="phase-label">Phase 3 — 2027〜</div>
+    <div class="phase-amt">¥89.7M</div>
+    <div class="small">国内3物件（TAPKOP他）<br>Beds24 未設定・計画中</div>
+  </div>
+</div>
+
+<h2>3-2. 全物件 詳細収益試算</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>物件名</th>
+      <th>所在地</th>
+      <th>取得価格</th>
+      <th>宿泊単価</th>
+      <th>会員泊/年</th>
+      <th>口数設定</th>
+      <th>1口価格</th>
+      <th>稼働状態</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>WHITE HOUSE 熱海</strong></td>
+      <td>静岡県熱海市</td>
+      <td class="td-num">¥19,000,000</td>
+      <td class="td-num">¥55,000</td>
+      <td class="td-num">36泊</td>
+      <td class="td-num">20口</td>
+      <td class="td-num td-gold">¥950,000</td>
+      <td class="td-hi">稼働中</td>
+    </tr>
+    <tr>
+      <td><strong>THE LODGE</strong></td>
+      <td>北海道弟子屈町</td>
+      <td class="td-num">¥4,900,000</td>
+      <td class="td-num">¥35,000</td>
+      <td class="td-num">30泊</td>
+      <td class="td-num">5口</td>
+      <td class="td-num td-gold">¥980,000</td>
+      <td class="td-hi">稼働中</td>
+    </tr>
+    <tr>
+      <td><strong>NESTING</strong></td>
+      <td>北海道弟子屈町</td>
+      <td class="td-num">¥8,900,000</td>
+      <td class="td-num">¥50,000</td>
+      <td class="td-num">30泊</td>
+      <td class="td-num">10口</td>
+      <td class="td-num td-gold">¥890,000</td>
+      <td class="td-hi">稼働中</td>
+    </tr>
+    <tr>
+      <td><strong>インスタントハウス</strong></td>
+      <td>北海道弟子屈町</td>
+      <td class="td-num">¥1,200,000</td>
+      <td class="td-num">¥25,000</td>
+      <td class="td-num">30泊</td>
+      <td class="td-num">2口</td>
+      <td class="td-num td-gold">¥600,000</td>
+      <td class="td-hi">稼働中</td>
+    </tr>
+    <tr style="background:#f8fff8">
+      <td><strong>HONOLULU VILLA</strong></td>
+      <td>ハワイ州ホノルル</td>
+      <td class="td-num">¥28,000,000</td>
+      <td class="td-num">¥85,000</td>
+      <td class="td-num">30泊</td>
+      <td class="td-num">30口</td>
+      <td class="td-num td-gold">¥930,000</td>
+      <td class="td-muted">2026-11開業</td>
+    </tr>
+    <tr style="background:#f8fff8">
+      <td><strong>HAWAII KAI HOUSE</strong></td>
+      <td>ハワイ州ホノルル</td>
+      <td class="td-num">¥38,000,000</td>
+      <td class="td-num">¥120,000</td>
+      <td class="td-num">30泊</td>
+      <td class="td-num">40口</td>
+      <td class="td-num td-gold">¥950,000</td>
+      <td class="td-muted">2026-11開業</td>
+    </tr>
+    <tr style="background:#f8f8ff">
+      <td><strong>TAPKOP</strong></td>
+      <td>北海道弟子屈町</td>
+      <td class="td-num">¥80,000,000</td>
+      <td class="td-num">¥340,000</td>
+      <td class="td-num">30泊</td>
+      <td class="td-num">100口</td>
+      <td class="td-num td-gold">¥800,000</td>
+      <td class="td-muted">Beds24準備中</td>
+    </tr>
+    <tr style="background:#f8f8ff">
+      <td><strong>SOLUNAビレッジ（美留和）</strong></td>
+      <td>北海道弟子屈町</td>
+      <td class="td-num">¥4,900,000</td>
+      <td class="td-num">¥30,000</td>
+      <td class="td-num">30泊</td>
+      <td class="td-num">5口</td>
+      <td class="td-num td-gold">¥980,000</td>
+      <td class="td-muted">2026-09開業</td>
+    </tr>
+    <tr style="background:#f8f8ff">
+      <td><strong>天空の道場（熊牛原野）</strong></td>
+      <td>北海道弟子屈町</td>
+      <td class="td-num">¥4,800,000</td>
+      <td class="td-num">¥80,000</td>
+      <td class="td-num">30泊</td>
+      <td class="td-num">5口</td>
+      <td class="td-num td-gold">¥960,000</td>
+      <td class="td-muted">2026-09開業</td>
+    </tr>
+    <tr style="background:#f0ede5;font-weight:700">
+      <td>合計</td>
+      <td></td>
+      <td class="td-num">¥189,700,000</td>
+      <td></td>
+      <td class="td-num">—</td>
+      <td class="td-num">217口</td>
+      <td class="td-num">avg ¥874,000</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="small">※ 1口価格は全物件で¥100万以下（小規模不特法 上限適合）。TAPKOPは¥80M全体が1億制限に近接するため、弁護士確認後に案件分割を検討。</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ REVENUE DETAIL ━━ -->
+<div class="page-break"></div>
+<h1>4. 収益試算（物件別詳細）</h1>
+
+<h2>4-1. Phase 1 稼働中4物件 — 年間収益シミュレーション</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">物件</th>
+      <th colspan="4">年間収入（OTA外部賃料）</th>
+      <th colspan="3">費用</th>
+      <th colspan="2">純収益</th>
+    </tr>
+    <tr>
+      <th>想定稼働泊</th>
+      <th>宿泊単価</th>
+      <th>Gross収入</th>
+      <th>OTA控除15%</th>
+      <th>清掃費</th>
+      <th>光熱・消耗</th>
+      <th>Net収入</th>
+      <th>取得価格比</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>WHITE HOUSE 熱海</strong></td>
+      <td class="td-num">40泊</td>
+      <td class="td-num">¥55,000</td>
+      <td class="td-num">¥2,200,000</td>
+      <td class="td-num">-¥330,000</td>
+      <td class="td-num">-¥400,000</td>
+      <td class="td-num">-¥200,000</td>
+      <td class="td-num td-hi">¥1,270,000</td>
+      <td class="td-num td-hi">6.7%</td>
+    </tr>
+    <tr>
+      <td><strong>THE LODGE</strong></td>
+      <td class="td-num">30泊</td>
+      <td class="td-num">¥35,000</td>
+      <td class="td-num">¥1,050,000</td>
+      <td class="td-num">-¥157,500</td>
+      <td class="td-num">-¥210,000</td>
+      <td class="td-num">-¥120,000</td>
+      <td class="td-num td-hi">¥562,500</td>
+      <td class="td-num td-hi">11.5%</td>
+    </tr>
+    <tr>
+      <td><strong>NESTING</strong></td>
+      <td class="td-num">35泊</td>
+      <td class="td-num">¥50,000</td>
+      <td class="td-num">¥1,750,000</td>
+      <td class="td-num">-¥262,500</td>
+      <td class="td-num">-¥350,000</td>
+      <td class="td-num">-¥150,000</td>
+      <td class="td-num td-hi">¥987,500</td>
+      <td class="td-num td-hi">11.1%</td>
+    </tr>
+    <tr>
+      <td><strong>インスタントハウス</strong></td>
+      <td class="td-num">20泊</td>
+      <td class="td-num">¥25,000</td>
+      <td class="td-num">¥500,000</td>
+      <td class="td-num">-¥75,000</td>
+      <td class="td-num">-¥100,000</td>
+      <td class="td-num">-¥60,000</td>
+      <td class="td-num td-hi">¥265,000</td>
+      <td class="td-num td-hi">22.1%</td>
+    </tr>
+    <tr style="background:#f0ede5;font-weight:700">
+      <td>Phase 1 合計</td>
+      <td class="td-num">125泊</td>
+      <td></td>
+      <td class="td-num">¥5,500,000</td>
+      <td class="td-num">-¥825,000</td>
+      <td class="td-num">-¥1,060,000</td>
+      <td class="td-num">-¥530,000</td>
+      <td class="td-num td-hi">¥3,085,000</td>
+      <td class="td-num td-hi">9.1%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="small">※ OTA外部賃料は保守的試算（Airbnb/楽天トラベル等からのBooking想定稼働率40〜60%）。Beds24実績データと乖離がある場合は実数に更新。会員泊数は別計上（宿泊権として物件価格に内包）。</div>
+
+<h2>4-2. Phase 2 ハワイ物件 — 収益試算</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">物件</th>
+      <th colspan="4">年間収入（外部賃料）</th>
+      <th colspan="2">費用</th>
+      <th colspan="2">純収益</th>
+    </tr>
+    <tr>
+      <th>想定稼働</th>
+      <th>単価/泊</th>
+      <th>Gross</th>
+      <th>OTA控除15%</th>
+      <th>清掃・管理</th>
+      <th>固定費</th>
+      <th>Net収入</th>
+      <th>価格比</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>HONOLULU VILLA</strong><br><span class="small">月単位賃貸（30泊/月）</span></td>
+      <td class="td-num">4ヶ月=120泊</td>
+      <td class="td-num">¥85,000</td>
+      <td class="td-num">¥10,200,000</td>
+      <td class="td-num">-¥1,530,000</td>
+      <td class="td-num">-¥1,200,000</td>
+      <td class="td-num">-¥1,000,000</td>
+      <td class="td-num td-hi">¥6,470,000</td>
+      <td class="td-num td-hi">23.1%</td>
+    </tr>
+    <tr>
+      <td><strong>HAWAII KAI HOUSE</strong><br><span class="small">月単位賃貸（30泊/月）</span></td>
+      <td class="td-num">4ヶ月=120泊</td>
+      <td class="td-num">¥120,000</td>
+      <td class="td-num">¥14,400,000</td>
+      <td class="td-num">-¥2,160,000</td>
+      <td class="td-num">-¥1,500,000</td>
+      <td class="td-num">-¥1,200,000</td>
+      <td class="td-num td-hi">¥9,540,000</td>
+      <td class="td-num td-hi">25.1%</td>
+    </tr>
+    <tr style="background:#f0ede5;font-weight:700">
+      <td>Phase 2 合計</td>
+      <td class="td-num">240泊</td>
+      <td></td>
+      <td class="td-num">¥24,600,000</td>
+      <td class="td-num">-¥3,690,000</td>
+      <td class="td-num">-¥2,700,000</td>
+      <td class="td-num">-¥2,200,000</td>
+      <td class="td-num td-hi">¥16,010,000</td>
+      <td class="td-num td-hi">24.3%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="small">※ ハワイ物件は2026年11月開業予定。為替レート¥150/USD想定。月単位賃貸のため清掃コストが低く高利回り。</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ INVESTOR RETURN ━━ -->
+<div class="page-break"></div>
+<h1>5. 投資家向けリターン試算</h1>
+
+<h2>5-1. 1口あたりリターン詳細</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>物件</th>
+      <th>1口価格</th>
+      <th>年間金銭分配</th>
+      <th>金銭利回り</th>
+      <th>年間宿泊権</th>
+      <th>宿泊権価値</th>
+      <th>実質リターン/年</th>
+      <th>実質利回り</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>WHITE HOUSE 熱海</strong></td>
+      <td class="td-num">¥950,000</td>
+      <td class="td-num">¥63,500</td>
+      <td class="td-num">6.7%</td>
+      <td class="td-num">1.8泊</td>
+      <td class="td-num">¥99,000</td>
+      <td class="td-num td-hi">¥162,500</td>
+      <td class="td-num td-hi"><strong>17.1%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>THE LODGE</strong></td>
+      <td class="td-num">¥980,000</td>
+      <td class="td-num">¥112,500</td>
+      <td class="td-num">11.5%</td>
+      <td class="td-num">6.0泊</td>
+      <td class="td-num">¥210,000</td>
+      <td class="td-num td-hi">¥322,500</td>
+      <td class="td-num td-hi"><strong>32.9%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>NESTING</strong></td>
+      <td class="td-num">¥890,000</td>
+      <td class="td-num">¥98,750</td>
+      <td class="td-num">11.1%</td>
+      <td class="td-num">3.0泊</td>
+      <td class="td-num">¥150,000</td>
+      <td class="td-num td-hi">¥248,750</td>
+      <td class="td-num td-hi"><strong>27.9%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>インスタントハウス</strong></td>
+      <td class="td-num">¥600,000</td>
+      <td class="td-num">¥132,500</td>
+      <td class="td-num">22.1%</td>
+      <td class="td-num">15.0泊</td>
+      <td class="td-num">¥375,000</td>
+      <td class="td-num td-hi">¥507,500</td>
+      <td class="td-num td-hi"><strong>84.6%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>HONOLULU VILLA</strong></td>
+      <td class="td-num">¥930,000</td>
+      <td class="td-num">¥215,667</td>
+      <td class="td-num">23.2%</td>
+      <td class="td-num">1.0泊</td>
+      <td class="td-num">¥85,000</td>
+      <td class="td-num td-hi">¥300,667</td>
+      <td class="td-num td-hi"><strong>32.3%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>HAWAII KAI HOUSE</strong></td>
+      <td class="td-num">¥950,000</td>
+      <td class="td-num">¥238,500</td>
+      <td class="td-num">25.1%</td>
+      <td class="td-num">0.75泊</td>
+      <td class="td-num">¥90,000</td>
+      <td class="td-num td-hi">¥328,500</td>
+      <td class="td-num td-hi"><strong>34.6%</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="small">※ 宿泊権価値 = 年間会員泊数÷口数 × 宿泊単価で計算。金銭分配は1口あたりのNet外部賃料按分。実質利回りは金銭+現物（宿泊）の合計。</div>
+
+<h2>5-2. WHITE HOUSE 熱海 — 5年間キャッシュフロー（1口 ¥950,000）</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>年度</th>
+      <th>金銭分配</th>
+      <th>宿泊権価値<br><span class="small">（年3%上昇想定）</span></th>
+      <th>合計リターン</th>
+      <th>累計リターン</th>
+      <th>元本回収率</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1年目</td><td class="td-num">¥63,500</td><td class="td-num">¥99,000</td><td class="td-num">¥162,500</td><td class="td-num">¥162,500</td><td class="td-num">17.1%</td></tr>
+    <tr><td>2年目</td><td class="td-num">¥65,405</td><td class="td-num">¥101,970</td><td class="td-num">¥167,375</td><td class="td-num">¥329,875</td><td class="td-num">34.7%</td></tr>
+    <tr><td>3年目</td><td class="td-num">¥67,367</td><td class="td-num">¥105,029</td><td class="td-num">¥172,396</td><td class="td-num">¥502,271</td><td class="td-num">52.9%</td></tr>
+    <tr><td>4年目</td><td class="td-num">¥69,388</td><td class="td-num">¥108,180</td><td class="td-num">¥177,568</td><td class="td-num">¥679,839</td><td class="td-num">71.6%</td></tr>
+    <tr><td>5年目</td><td class="td-num">¥71,470</td><td class="td-num">¥111,425</td><td class="td-num">¥182,895</td><td class="td-num">¥862,734</td><td class="td-num">90.8%</td></tr>
+    <tr style="background:#f0ede5;font-weight:700">
+      <td>5年合計</td>
+      <td class="td-num">¥337,130</td>
+      <td class="td-num">¥525,604</td>
+      <td class="td-num td-hi">¥862,734</td>
+      <td></td>
+      <td class="td-num td-hi">IRR 約12.5%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="small">※ 資産価値変動なし前提の保守的試算。熱海は観光需要回復により評価額上昇の可能性あり（価値変動益は別途）。</div>
+
+<h2>5-3. 競合商品との比較</h2>
+
+<div style="margin:16px 0">
+  <div class="bar-row">
+    <div class="bar-label">SOLUNA（実質利回り）</div>
+    <div class="bar-track"><div class="bar-fill" style="width:100%;background:#c8a455">17〜85%</div></div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">SOLUNA（金銭利回り）</div>
+    <div class="bar-track"><div class="bar-fill" style="width:26%;background:#a07820">6.7〜25%</div></div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">NOT A HOTEL</div>
+    <div class="bar-track"><div class="bar-fill" style="width:12%;background:#555">〜3%（売却益期待）</div></div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">J-REIT（東証平均）</div>
+    <div class="bar-track"><div class="bar-fill" style="width:18%;background:#777">4.5〜5%</div></div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">一般不動産CF</div>
+    <div class="bar-track"><div class="bar-fill" style="width:20%;background:#888">4〜8%</div></div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">エクシブ会員権</div>
+    <div class="bar-track"><div class="bar-fill" style="width:4%;background:#aaa">実質マイナス</div></div>
+  </div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ PLATFORM FEES ━━ -->
+<div class="page-break"></div>
+<h1>6. プラットフォーム側の収益試算</h1>
+
+<h2>6-1. 手数料体系（提案）</h2>
+
+<table>
+  <thead>
+    <tr><th>手数料種別</th><th>料率</th><th>徴収タイミング</th><th>対象</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>案件組成手数料</strong></td>
+      <td class="td-num">3.0%</td>
+      <td>募集完了時（一回）</td>
+      <td>調達総額に対して</td>
+    </tr>
+    <tr>
+      <td><strong>年間管理手数料</strong></td>
+      <td class="td-num">1.5%</td>
+      <td>毎年（AUMに対して）</td>
+      <td>残高AUMに対して</td>
+    </tr>
+    <tr>
+      <td><strong>分配時手数料</strong></td>
+      <td class="td-num">1.0%</td>
+      <td>配当振込時</td>
+      <td>分配額に対して</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>6-2. フェーズ別 貴社収益シミュレーション</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>フェーズ</th>
+      <th>対象物件</th>
+      <th>調達AUM</th>
+      <th>組成手数料<br>（3%）</th>
+      <th>管理手数料/年<br>（1.5%）</th>
+      <th>5年間累計収益</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Phase 1</strong><br><span class="small">即実行</span></td>
+      <td>熱海・Lodge・Nesting・Instant</td>
+      <td class="td-num">¥34,000,000</td>
+      <td class="td-num">¥1,020,000</td>
+      <td class="td-num">¥510,000</td>
+      <td class="td-num td-gold"><strong>¥3,570,000</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Phase 1+2</strong><br><span class="small">2026-11〜</span></td>
+      <td>上記 + ハワイ2物件</td>
+      <td class="td-num">¥100,000,000</td>
+      <td class="td-num">¥3,000,000</td>
+      <td class="td-num">¥1,500,000</td>
+      <td class="td-num td-gold"><strong>¥10,500,000</strong></td>
+    </tr>
+    <tr>
+      <td><strong>全Phase</strong><br><span class="small">2027〜</span></td>
+      <td>全9物件</td>
+      <td class="td-num">¥189,700,000</td>
+      <td class="td-num">¥5,691,000</td>
+      <td class="td-num">¥2,845,500</td>
+      <td class="td-num td-gold"><strong>¥19,918,500</strong></td>
+    </tr>
+    <tr style="background:#fff8e8">
+      <td><strong>2027年以降<br>AUM¥10億達成時</strong></td>
+      <td>SOLUNA全物件（新規含む）</td>
+      <td class="td-num">¥1,000,000,000</td>
+      <td class="td-num">¥30,000,000</td>
+      <td class="td-num">¥15,000,000/年</td>
+      <td class="td-num td-hi"><strong>¥105,000,000</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout callout-info">
+  <div class="callout-title">プラットフォームにとってのSOLUNA案件の差別化優位性</div>
+  ① <strong>高単価×高利回り案件</strong> — 他の不動産CF（2〜5%）と比較して際立つ実質リターン<br>
+  ② <strong>体験価値 = 新規顧客獲得</strong> — 「泊まれる投資」として投資未経験層を取り込める<br>
+  ③ <strong>リピート性</strong> — 毎年の新規物件追加で継続的な案件組成フィーが見込める<br>
+  ④ <strong>ハワイ物件</strong> — 国内不動産CFプラットフォームでハワイ物件は希少性が高く集客効果大
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ SCHEME ━━ -->
+<h1>7. スキーム詳細</h1>
+
+<h2>7-1. 法的スキーム（GK × 不特法）</h2>
+
+<div class="flow" style="flex-wrap:wrap;gap:8px;margin-bottom:16px">
+  <div class="flow-box">投資家<br><span class="small">1口¥60〜98万</span></div>
+  <div class="flow-arr">→</div>
+  <div class="flow-box gold">貴社プラットフォーム<br><span class="small">不特法ライセンス保有</span></div>
+  <div class="flow-arr">→</div>
+  <div class="flow-box dark">SOLUNA GK<br><span class="small">合同会社（物件ごと）</span></div>
+  <div class="flow-arr">→</div>
+  <div class="flow-box">不動産登記<br><span class="small">GK名義</span></div>
+</div>
+
+<table>
+  <thead>
+    <tr><th>項目</th><th>内容</th><th>法的根拠</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>事業スキーム</strong></td>
+      <td>合同会社（GK）が物件を保有し、投資家はGK持分を取得</td>
+      <td>不動産特定共同事業法 第1号・3号</td>
+    </tr>
+    <tr>
+      <td><strong>投資家責任</strong></td>
+      <td>出資額を上限とする有限責任</td>
+      <td>会社法第578条</td>
+    </tr>
+    <tr>
+      <td><strong>分割請求リスク</strong></td>
+      <td>GK持分は民法256条の対象外（不動産共有ではなく法人持分）</td>
+      <td>会社法上の持分譲渡制限で対応</td>
+    </tr>
+    <tr>
+      <td><strong>募集規制</strong></td>
+      <td>小規模不特法（1案件1億円未満、1口100万円未満）の範囲で都道府県登録のみ</td>
+      <td>不特法第2条第7号・小規模不特法</td>
+    </tr>
+    <tr>
+      <td><strong>分配方式</strong></td>
+      <td>外部賃料Net収入を持分比率で年次分配 + 宿泊権（現物給付）</td>
+      <td>GK定款・組合員規約</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="small">※ TAPKOPは¥80Mのため小規模不特法の1億円制限に近接。案件を複数GKに分割するか、通常の不特法スキーム（貴社許可案件）で対応予定。弁護士確認後に最終化。</div>
+
+<h2>7-2. 業務分担</h2>
+
+<table>
+  <thead>
+    <tr><th>業務</th><th>貴社（プラットフォーム）</th><th>SOLUNA（Enabler Inc.）</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>不特法ライセンス</td><td class="td-hi">○ 提供</td><td></td></tr>
+    <tr><td>投資家向け募集・説明</td><td class="td-hi">○ 担当</td><td>物件情報・資料提供</td></tr>
+    <tr><td>重要事項説明書作成</td><td class="td-hi">○ 担当</td><td>物件詳細提供</td></tr>
+    <tr><td>GK（合同会社）設立</td><td></td><td class="td-hi">○ 担当</td></tr>
+    <tr><td>物件管理・Beds24運営</td><td></td><td class="td-hi">○ 担当</td></tr>
+    <tr><td>宿泊予約・会員アプリ</td><td></td><td class="td-hi">○ 担当（SOLUNA App）</td></tr>
+    <tr><td>年次収支報告</td><td>投資家へ報告</td><td class="td-hi">○ 数値提供</td></tr>
+    <tr><td>分配金振込</td><td class="td-hi">○ 担当</td><td>資金提供</td></tr>
+    <tr><td>投資家向けカスタマーサポート</td><td class="td-hi">○ 担当</td><td>物件関連のみ対応</td></tr>
+  </tbody>
+</table>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ ROADMAP ━━ -->
+<div class="page-break"></div>
+<h1>8. ロードマップ</h1>
+
+<table>
+  <thead>
+    <tr><th>時期</th><th>マイルストーン</th><th>対象物件・内容</th><th>目標AUM</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>2026年6〜8月</strong></td>
+      <td>業務提携締結・初案件掲載</td>
+      <td>WHITE HOUSE 熱海 / THE LODGE（計2物件）</td>
+      <td>¥23.9M</td>
+    </tr>
+    <tr>
+      <td><strong>2026年9〜10月</strong></td>
+      <td>Phase 1 全掲載完了</td>
+      <td>NESTING・インスタントハウス追加（計4物件）</td>
+      <td>¥34M</td>
+    </tr>
+    <tr>
+      <td><strong>2026年11〜12月</strong></td>
+      <td>ハワイ物件掲載・開業</td>
+      <td>HONOLULU VILLA / HAWAII KAI HOUSE</td>
+      <td>¥100M</td>
+    </tr>
+    <tr>
+      <td><strong>2027年Q1</strong></td>
+      <td>SOLUNA自社小規模不特法登録</td>
+      <td>東京都知事登録、GKスキーム確立</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong>2027年Q2〜Q3</strong></td>
+      <td>Phase 3 掲載開始</td>
+      <td>TAPKOP / ビレッジ / 熊牛（計3物件）</td>
+      <td>¥189M</td>
+    </tr>
+    <tr>
+      <td><strong>2027年Q4</strong></td>
+      <td>デジタル証券（STO）パートナー選定</td>
+      <td>Progmat / BOOSTRY との協議開始</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong>2028〜2030</strong></td>
+      <td>GK持分のSTO化・二次流通</td>
+      <td>既存GK持分をSTに転換、投資家流動性提供</td>
+      <td>¥10億目標</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ COMPANY ━━ -->
+<h1>9. 会社概要</h1>
+
+<table>
+  <tbody>
+    <tr><td style="width:140px"><strong>会社名</strong></td><td>Enabler Inc.（エナブラー株式会社）</td></tr>
+    <tr><td><strong>代表者</strong></td><td>濱田 優貴（ハマダ ユウキ）</td></tr>
+    <tr><td><strong>所在地</strong></td><td>〒108-0073 東京都港区三田2-7-1 THE RESIDENCE三田 1913号室</td></tr>
+    <tr><td><strong>メール</strong></td><td>info@enablerdao.com</td></tr>
+    <tr><td><strong>SOLUNA URL</strong></td><td>https://solun.art</td></tr>
+    <tr><td><strong>設立</strong></td><td>2022年</td></tr>
+    <tr><td><strong>事業</strong></td><td>共同所有型リゾート「SOLUNA」の企画・運営・ITシステム開発</td></tr>
+    <tr><td><strong>物件数</strong></td><td>9物件（国内7棟 / ハワイ2棟）</td></tr>
+    <tr><td><strong>既存投資家</strong></td><td>East Ventures（2025年）</td></tr>
+    <tr><td><strong>Beds24実績</strong></td><td>4物件稼働中（prop ID: 243406, 243407, 243408, 243409, 322965）</td></tr>
+    <tr><td><strong>会員数</strong></td><td>非公開（問合せください）</td></tr>
+    <tr><td><strong>宅建業免許</strong></td><td>提携宅建業者と協議中 / または取得予定</td></tr>
+  </tbody>
+</table>
+
+<div class="callout callout-warn" style="margin-top:24px">
+  <div class="callout-title">ご提案の次ステップ</div>
+  本資料をご確認いただいた後、下記の流れでご検討をお願いします。<br>
+  <strong>① NDA締結</strong> → <strong>② Beds24実績データ開示</strong> → <strong>③ 物件現地視察（任意）</strong> → <strong>④ 業務提携契約書ドラフト</strong> → <strong>⑤ 初案件掲載</strong>
+</div>
+
+<hr>
+
+<div class="sig-grid">
+  <div class="sig-block">
+    <div class="small">提案者</div>
+    <div class="sig-name">Enabler Inc.</div>
+    <div class="sig-info">
+      代表取締役　濱田 優貴<br>
+      〒108-0073 東京都港区三田2-7-1<br>
+      THE RESIDENCE三田 1913号室<br>
+      mail: info@enablerdao.com<br>
+      SOLUNA: https://solun.art
+    </div>
+  </div>
+  <div class="sig-block">
+    <div class="small">作成日</div>
+    <div class="sig-name" style="font-size:15px">2026年5月3日</div>
+    <div class="sig-info">
+      本資料は秘密情報として取り扱いをお願いします。<br>
+      数値はすべて試算値であり、<br>
+      確定値は別途協議の上決定します。<br><br>
+      文書番号: SOLUNA-PP-2026-05
+    </div>
+  </div>
+</div>
+
+<div class="small" style="text-align:center;margin-top:32px;color:#bbb">
+  SOLUNA / Enabler Inc. — 不動産特定共同事業 業務提携提案書 — 2026年5月3日 — Confidential
+</div>
+
+</body>
+</html>

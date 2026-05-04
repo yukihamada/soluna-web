@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>天空の道場 | KUMAUSHI BASE — SOLUNA</title>
+<meta name="description" content="北海道 熊牛原野。民家ゼロの草原に、本物の柔術道場をつくる。40ftコンテナ×建築士不要。天井4.1m、マット28.8㎡。3つの建築コンセプト。">
+<meta property="og:title" content="天空の道場 | KUMAUSHI BASE — SOLUNA">
+<meta property="og:description" content="北海道の草原に本物の柔術道場をつくる。天井4.1m、マット28.8㎡、建築士不要。">
+<meta property="og:image" content="https://solun.art/img/kumaushi_a_rooftop_mats.webp">
+<meta property="og:url" content="https://solun.art/dojo">
+<meta name="twitter:card" content="summary_large_image">
+<link href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23c8a455'/></svg>" rel="icon">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.4);
+  --gold-soft:rgba(200,164,85,.07);
+  --bg:#040404;
+  --text:#f0ece4;
+  --text-dim:#666;
+  --line:#131313;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--gold);color:#000}
+
+/* GNAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
+.gnav-links a:hover{color:#c8a455}
+.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
+.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
+@media(max-width:680px){
+  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gnav-links.open{display:flex}
+  .gnav-ham{display:flex}
+}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:640px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg .slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 2.4s cubic-bezier(.4,0,.2,1);filter:contrast(1.05) saturate(.85) brightness(.65);transform:scale(1.09);animation:slowzoom 20s ease-out both}
+.hero-bg .slide.active{opacity:1}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.55) 35%,rgba(4,4,4,.1) 65%,rgba(4,4,4,.45) 100%);z-index:1}
+.hero-body{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:0 32px 72px;max-width:780px}
+.hero-eyebrow{font-size:9px;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:16px;opacity:.85;animation:fadeUp .8s .2s both}
+.hero h1{font-size:clamp(2.6rem,7.5vw,4.6rem);font-weight:800;letter-spacing:-.04em;line-height:1.03;margin-bottom:20px;animation:fadeUp .9s .4s both}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-stats{display:flex;align-items:center;gap:0;margin-bottom:22px;animation:fadeUp 1s .55s both;flex-wrap:wrap;row-gap:10px}
+.hero-stat{text-align:left;padding:0 18px}
+.hero-stat:first-child{padding-left:0}
+.hero-stat-v{display:block;font-size:16px;font-weight:800;color:var(--gold);line-height:1;letter-spacing:-.03em}
+.hero-stat-l{display:block;font-size:9px;color:rgba(240,236,228,.35);margin-top:4px;letter-spacing:.06em}
+.hero-stat-div{width:1px;height:26px;background:rgba(255,255,255,.06);flex-shrink:0}
+@media(max-width:600px){.hero-stat{padding:0 12px}.hero-stat-v{font-size:13px}}
+.hero-sub{color:rgba(240,236,228,.55);font-size:13px;line-height:2;max-width:520px;font-weight:300;animation:fadeUp 1s .7s both;margin-bottom:28px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp 1.1s .9s both}
+.hero-scroll{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:8px;color:#333;letter-spacing:.3em;z-index:2;animation:bounce 3s ease infinite}
+
+@keyframes slowzoom{from{transform:scale(1.06)}to{transform:scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-7px)}}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease}
+.r.in{opacity:1;transform:translateY(0)}
+.r2{opacity:0;transition:opacity 1.2s ease}
+.r2.in{opacity:1}
+
+/* SECTIONS */
+.s{padding:100px 0}
+@media(max-width:600px){.s{padding:72px 0}}
+.w{max-width:700px;margin:0 auto;padding:0 24px}
+.ww{max-width:980px;margin:0 auto;padding:0 24px}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:12px}
+h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+.sub{color:#555;font-size:13px;line-height:2.05;max-width:560px;margin-bottom:24px}
+.gold{color:var(--gold)}
+
+/* NUMBERS */
+.numbers{background:#030303;border-top:1px solid #0c0c0c;border-bottom:1px solid #0c0c0c;padding:52px 24px}
+.num-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:820px;margin:0 auto;text-align:center}
+@media(max-width:600px){.num-grid{grid-template-columns:repeat(2,1fr);gap:28px}}
+.num-grid .v{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:var(--gold);line-height:1;letter-spacing:-.04em;font-feature-settings:'tnum'}
+.num-grid .l{font-size:9px;color:#333;letter-spacing:.14em;text-transform:uppercase;margin-top:8px;line-height:1.6;font-weight:600}
+
+/* FULLWIDTH IMAGE */
+.fi{width:100vw;margin-left:calc(-50vw + 50%);height:65vh;min-height:360px;object-fit:cover;display:block}
+.fi.tall{height:80vh}
+@media(max-width:600px){.fi{height:52vw;min-height:260px}.fi.tall{height:70vw}}
+
+/* PROSE */
+.prose{padding:100px 24px;max-width:620px;margin:0 auto}
+.prose p{font-size:15px;color:#777;line-height:2.2;margin-bottom:24px}
+.prose p strong{color:#ccc;font-weight:600}
+.prose .drop{font-size:clamp(3rem,8vw,5rem);font-weight:800;color:var(--gold);float:left;line-height:.85;margin:4px 12px 0 0;letter-spacing:-.05em}
+
+/* STATEMENT */
+.statement{padding:120px 24px;text-align:center;background:radial-gradient(ellipse at center,rgba(200,164,85,.05) 0%,transparent 70%)}
+.statement p{font-size:clamp(1.1rem,3vw,1.7rem);font-weight:300;line-height:1.95;color:#aaa;max-width:620px;margin:0 auto}
+.statement p strong{color:var(--text);font-weight:700}
+.statement .author{margin-top:32px;font-size:10px;color:#333;letter-spacing:.2em}
+
+/* CONCEPT SECTIONS */
+.concept-s{padding:100px 0;border-top:1px solid #0d0d0d}
+.concept-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;max-width:1080px;margin:0 auto;padding:0 32px}
+.concept-grid.flip{direction:rtl}.concept-grid.flip>*{direction:ltr}
+@media(max-width:768px){.concept-grid,.concept-grid.flip{grid-template-columns:1fr;direction:ltr;padding:0 24px;gap:0}}
+
+.concept-img{border-radius:12px;overflow:hidden;aspect-ratio:3/2;position:relative}
+.concept-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+.concept-img:hover img{transform:scale(1.03)}
+.concept-img-label{position:absolute;bottom:14px;left:14px;font-size:8.5px;font-weight:700;letter-spacing:.18em;color:rgba(255,255,255,.3);text-transform:uppercase}
+@media(max-width:768px){.concept-img{border-radius:0;margin:0 -24px 40px;aspect-ratio:16/9}}
+
+.concept-tag{font-size:8.5px;font-weight:800;letter-spacing:.18em;padding:5px 14px;border-radius:100px;display:inline-block;margin-bottom:18px;text-transform:uppercase}
+.tag-a{background:rgba(94,207,138,.08);color:#5ecf8a;border:1px solid rgba(94,207,138,.2)}
+.tag-b{background:rgba(90,176,224,.08);color:#5ab0e0;border:1px solid rgba(90,176,224,.2)}
+.tag-c{background:rgba(160,122,208,.08);color:#a07ad0;border:1px solid rgba(160,122,208,.2)}
+
+.concept-s h3{font-size:clamp(1.7rem,4vw,2.5rem);font-weight:800;letter-spacing:-.03em;line-height:1.12;margin-bottom:6px}
+.en-name{font-size:11px;color:#2a2a2a;letter-spacing:.12em;font-weight:700;text-transform:uppercase;margin-bottom:20px}
+.concept-desc{font-size:13.5px;color:#666;line-height:2.1;margin-bottom:28px}
+.concept-desc strong{color:#aaa;font-weight:600}
+
+/* SPEC TABLE */
+.spec{border:1px solid #111;border-radius:16px;overflow:hidden;margin:0 0 20px;background:#060606}
+.spec-row{display:grid;grid-template-columns:160px 1fr;border-bottom:1px solid #0e0e0e;font-size:12px}
+.spec-row:last-child{border-bottom:none}
+.spec-row .k{padding:14px 16px;color:#2a2a2a;font-weight:700;letter-spacing:.04em;background:#050505;font-size:10px;display:flex;align-items:center}
+.spec-row .v{padding:14px 16px;color:#888;line-height:1.6}
+.spec-row .v strong{color:var(--gold);font-weight:700}
+@media(max-width:600px){.spec-row{grid-template-columns:1fr}.spec-row .k{padding:12px 16px 4px;background:transparent;font-size:9.5px}.spec-row .v{padding:4px 16px 14px}}
+
+/* WOW BOX */
+.wow{border-left:2px solid rgba(200,164,85,.3);padding:16px 20px;margin:20px 0;background:rgba(200,164,85,.03)}
+.wow-lbl{font-size:8.5px;font-weight:800;letter-spacing:.18em;color:rgba(200,164,85,.5);text-transform:uppercase;margin-bottom:8px}
+.wow-txt{font-size:12.5px;color:#555;line-height:1.95}
+.wow-txt strong{color:#888}
+
+/* BADGES */
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px}
+.badge{font-size:9px;padding:4px 12px;border-radius:6px;border:1px solid;font-weight:700}
+.b-ok{border-color:rgba(94,207,138,.25);color:#5ecf8a;background:rgba(94,207,138,.04)}
+.b-warn{border-color:rgba(200,164,85,.25);color:var(--gold);background:rgba(200,164,85,.04)}
+
+/* GALLERY STRIP */
+.gstrip{display:flex;gap:3px;overflow:hidden;height:340px;margin:18px 0}
+.gstrip-item{flex:1;overflow:hidden;cursor:pointer;position:relative;min-width:0}
+.gstrip-item img{width:100%;height:100%;object-fit:cover;filter:brightness(.8);transition:flex .5s ease,filter .4s}
+.gstrip-item:hover img{filter:brightness(1);transform:scale(1.02)}
+.gstrip-item:hover{flex:2.5}
+@media(max-width:600px){.gstrip{height:200px}}
+
+/* CTA */
+.cta-btn{display:inline-block;background:var(--gold);color:#040404;font-weight:800;font-size:12.5px;padding:16px 40px;border-radius:100px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 28px rgba(200,164,85,.18);letter-spacing:.04em}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(200,164,85,.28);color:#040404}
+.cta-ghost{display:inline-block;border:1px solid #252525;color:#666;font-size:12px;padding:15px 28px;border-radius:100px;margin-left:10px;transition:all .2s;font-weight:500}
+.cta-ghost:hover{border-color:rgba(200,164,85,.5);color:var(--gold)}
+
+/* TIMELINE */
+.tl{position:relative;padding-left:28px;margin:24px 0}
+.tl::before{content:'';position:absolute;left:5px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold),rgba(200,164,85,.1))}
+.tl-item{position:relative;margin-bottom:32px}
+.tl-dot{position:absolute;left:-27px;top:4px;width:11px;height:11px;border-radius:50%;background:#040404;border:2px solid var(--gold);box-shadow:0 0 0 3px rgba(200,164,85,.12)}
+.tl-dot.done{background:var(--gold)}
+.tl-date{font-size:9px;color:rgba(200,164,85,.6);font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin-bottom:4px}
+.tl-title{font-size:14px;font-weight:700;color:#ccc;margin-bottom:3px}
+.tl-desc{font-size:11.5px;color:#3a3a3a;line-height:1.8}
+
+/* FOOTER */
+footer{padding:60px 24px 36px;max-width:700px;margin:0 auto;text-align:center;border-top:1px solid #0d0d0d}
+footer .logo{font-size:10px;font-weight:800;letter-spacing:.2em;color:var(--gold);margin-bottom:16px}
+footer nav a{font-size:10.5px;color:#333;margin:0 10px}
+footer nav a:hover{color:var(--gold)}
+footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
+
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:9999;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(8px)}
+.modal.active{display:flex}
+.modal img{max-width:94vw;max-height:94vh;object-fit:contain;border-radius:4px}
+
+/* MARQUEE */
+.marquee-wrap{overflow:hidden;border-top:1px solid #0b0b0b;border-bottom:1px solid #0b0b0b;padding:14px 0;background:#020202}
+.marquee-track{display:flex;width:max-content;animation:marquee 38s linear infinite}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-item{white-space:nowrap;padding:0 24px;font-size:9px;font-weight:800;letter-spacing:.24em;color:#1c1c1c;text-transform:uppercase}
+.marquee-dot{color:rgba(200,164,85,.4);padding:0 4px}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* BIG QUOTE */
+.big-quote{padding:130px 32px 110px;text-align:center;position:relative;overflow:hidden}
+.big-quote::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(200,164,85,.04) 0%,transparent 70%);pointer-events:none}
+.bq-mark{font-size:clamp(5rem,16vw,10rem);font-weight:800;color:rgba(200,164,85,.06);line-height:1;display:block;margin-bottom:-30px;font-family:Georgia,serif}
+.big-quote blockquote{font-size:clamp(1.8rem,5.5vw,3.8rem);font-weight:800;letter-spacing:-.05em;line-height:1.2;color:#e0dcd4;max-width:760px;margin:0 auto}
+.big-quote blockquote em{color:var(--gold);font-style:normal}
+.big-quote cite{display:block;margin-top:32px;font-size:9px;color:#252525;letter-spacing:.24em;font-style:normal;text-transform:uppercase}
+
+/* COMPARE TABLE */
+.compare-wrap{max-width:820px;margin:48px auto 0;padding:0 24px}
+.compare{border-radius:20px;overflow:hidden;border:1px solid #111;background:#050505}
+.compare-head{display:grid;grid-template-columns:1.2fr 1fr 1fr;background:#060606;border-bottom:1px solid #111}
+.compare-head div{padding:18px 20px;font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+.compare-head div:first-child{color:#222}
+.compare-head div:nth-child(2){color:#2a2a2a;text-align:center}
+.compare-head div:nth-child(3){color:var(--gold);text-align:center}
+.compare-row{display:grid;grid-template-columns:1.2fr 1fr 1fr;border-bottom:1px solid #090909;font-size:12px;transition:background .2s}
+.compare-row:last-child{border-bottom:none}
+.compare-row:hover{background:#080808}
+.compare-row div{padding:15px 20px;line-height:1.5}
+.compare-row .ck{color:#2e2e2e;font-size:11px;font-weight:600}
+.compare-row .cv{color:#2a2a2a;text-align:center;display:flex;align-items:center;justify-content:center}
+.compare-row .cv.hi{color:var(--gold);font-weight:700}
+.compare-row .cv.lo{color:#1a1a1a;font-size:18px}
+@media(max-width:600px){.compare-head,.compare-row{grid-template-columns:1fr 0 1fr}.compare-head div:nth-child(2),.compare-row .cv:not(.hi){display:none}}
+
+/* FEATURE GRID */
+.feature-s{padding:100px 0;border-top:1px solid #0d0d0d}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#0c0c0c;border:1px solid #0c0c0c;border-radius:20px;overflow:hidden;margin-top:48px}
+@media(max-width:768px){.feature-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.feature-grid{grid-template-columns:1fr}}
+.fc{background:#060606;padding:36px 30px;transition:background .25s}
+.fc:hover{background:#080808}
+.fc-icon{font-size:1.5rem;margin-bottom:18px;display:block}
+.fc-title{font-size:13px;font-weight:800;color:#bbb;letter-spacing:-.02em;margin-bottom:10px}
+.fc-body{font-size:11.5px;color:#2e2e2e;line-height:1.9}
+.fc-body strong{color:#444}
+.fc-num{display:inline-block;font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;color:var(--gold);letter-spacing:-.04em;margin-top:14px;line-height:1}
+.fc-num-l{font-size:9px;color:#2a2a2a;letter-spacing:.1em;display:block;margin-top:4px}
+
+/* SEASON SCROLL */
+.season-s{padding:80px 0;border-top:1px solid #0d0d0d;overflow:hidden}
+.season-track{display:flex;gap:12px;padding:32px 32px 40px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;cursor:grab}
+.season-track::-webkit-scrollbar{display:none}
+.season-card{flex:0 0 290px;height:400px;border-radius:18px;overflow:hidden;position:relative;cursor:pointer;transition:transform .3s}
+.season-card:hover{transform:translateY(-6px)}
+.season-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease,filter .4s}
+.season-card:hover img{transform:scale(1.05);filter:brightness(.85)}
+.season-tint{position:absolute;inset:0;opacity:.3;mix-blend-mode:multiply}
+.season-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.1) 55%,transparent 100%)}
+.season-body{position:absolute;bottom:0;left:0;right:0;padding:24px}
+.season-tag{display:inline-block;font-size:8px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:10px}
+.season-title{font-size:1.25rem;font-weight:800;letter-spacing:-.03em;color:#fff;line-height:1.2;margin-bottom:6px}
+.season-desc{font-size:11px;color:rgba(255,255,255,.4);line-height:1.7}
+@media(max-width:600px){.season-card{flex:0 0 240px;height:320px}}
+
+/* BENTO MOSAIC */
+.bento-s{padding:0}
+.bento{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:280px 280px;gap:3px}
+@media(max-width:768px){.bento{grid-template-columns:1fr 1fr;grid-template-rows:220px 220px 220px}}
+@media(max-width:480px){.bento{grid-template-columns:1fr;grid-template-rows:repeat(4,240px)}}
+.bi{overflow:hidden;position:relative;cursor:pointer}
+.bi img{width:100%;height:100%;object-fit:cover;filter:brightness(.75);transition:transform .6s ease,filter .4s}
+.bi:hover img{transform:scale(1.04);filter:brightness(.95)}
+.bi.tall{grid-row:span 2}
+.bi-label{position:absolute;bottom:16px;left:18px;font-size:9px;font-weight:700;letter-spacing:.16em;color:rgba(255,255,255,.2);text-transform:uppercase}
+.bi-title{position:absolute;top:18px;left:18px;font-size:11px;font-weight:800;color:rgba(255,255,255,.12);letter-spacing:.06em}
+
+/* DARK GLASS STAT CARD */
+.glass-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:860px;margin:52px auto 0;padding:0 24px}
+@media(max-width:600px){.glass-stats{grid-template-columns:1fr}}
+.gsc{background:rgba(255,255,255,.02);border:1px solid #111;border-radius:16px;padding:28px 24px;backdrop-filter:blur(8px);text-align:center;position:relative;overflow:hidden;transition:border-color .3s}
+.gsc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(200,164,85,.15),transparent)}
+.gsc:hover{border-color:rgba(200,164,85,.2)}
+.gsc-num{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;color:var(--gold);letter-spacing:-.05em;line-height:1}
+.gsc-label{font-size:9px;color:#2a2a2a;letter-spacing:.16em;text-transform:uppercase;margin-top:8px;line-height:1.7;font-weight:600}
+</style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+
+<nav class="gnav">
+  <a class="gnav-logo" href="index">SOLUNA</a>
+  <div class="gnav-links" id="gnav-links">
+    <a href="kumaushi">熊牛原野</a>
+    <a href="arch-concepts">建築3案</a>
+    <a href="village">ヴィラ建築</a>
+    <a class="gnav-cta" href="buy">オーナーになる</a>
+  </div>
+  <div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg">
+    <div class="slide" style="background-image:url('/img/kumaushi_a_rooftop_mats.webp')"></div>
+    <div class="slide" style="background-image:url('/img/dojo_bonfire_night.jpg')"></div>
+    <div class="slide" style="background-image:url('/img/kumaushi_dojo_moonlight.webp')"></div>
+    <div class="slide" style="background-image:url('/img/concept_a_earth_dojo.jpg')"></div>
+    <div class="slide" style="background-image:url('/img/kumaushi_b_blizzard_training.webp')"></div>
+  </div>
+  <div class="hero-body">
+    <div class="hero-eyebrow">KUMAUSHI BASE · 天空の道場 · SOLUNA × BJJ</div>
+    <p style="color:rgba(240,236,228,.7);font-size:15px;font-weight:300;line-height:1.85;margin-bottom:18px;animation:fadeUp .85s .3s both">民家がゼロの草原で、<br>本物の道場をつくる。</p>
+    <h1>北海道の空の下で、<br><em>組む。</em></h1>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-v">4.1m</span>
+        <span class="hero-stat-l">天井高<br>（ピット案）</span>
+      </div>
+      <div class="hero-stat-div"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-v">28.8㎡</span>
+        <span class="hero-stat-l">マット面積<br>12m × 2.4m</span>
+      </div>
+      <div class="hero-stat-div"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-v">¥7M〜</span>
+        <span class="hero-stat-l">概算工費<br>建築士費用ゼロ</span>
+      </div>
+      <div class="hero-stat-div"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-v">4号</span>
+        <span class="hero-stat-l">建築物<br>セルフ申請可</span>
+      </div>
+    </div>
+    <p class="hero-sub">40ftコンテナを本物の柔術道場にする。天井高・マット面積・稽古の質を最大化する3つの建築コンセプト。</p>
+    <div class="hero-cta">
+      <a class="cta-btn" href="arch-concepts">建築3案を見る</a>
+      <a class="cta-ghost" href="kumaushi" style="border-color:rgba(255,255,255,.1);color:#888">熊牛原野 全体を見る →</a>
+    </div>
+  </div>
+  <div class="hero-scroll">SCROLL</div>
+</div>
+
+<!-- NUMBERS -->
+<div class="numbers">
+  <div class="num-grid">
+    <div class="r"><div class="v">3案</div><div class="l">建築コンセプト<br>地下 / 開閉屋根 / 2層</div></div>
+    <div class="r"><div class="v">40ft</div><div class="l">コンテナ<br>標準規格・即納可</div></div>
+    <div class="r"><div class="v">4号</div><div class="l">建築物区分<br>建築士不要・自己申請</div></div>
+    <div class="r"><div class="v">Oct '26</div><div class="l">オープン予定<br>KUMAUSHI BASE同時</div></div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">柔術<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">HOKKAIDO<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">天空の道場<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">BJJ<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">KUMAUSHI BASE<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">TATAMI<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">SAUNA × DOJO<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">熊牛原野<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">OPEN AIR<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">焚き火稽古<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">BELT CEREMONY<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">GRAPPLING<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">北海道<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">SOLUNA<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">柔術<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">HOKKAIDO<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">天空の道場<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">BJJ<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">KUMAUSHI BASE<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">TATAMI<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">SAUNA × DOJO<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">熊牛原野<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">OPEN AIR<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">焚き火稽古<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">BELT CEREMONY<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">GRAPPLING<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">北海道<span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">SOLUNA<span class="marquee-dot">✦</span></span>
+  </div>
+</div>
+
+<!-- STATEMENT -->
+<div class="statement">
+  <p class="r">
+    <strong>熊牛原野に、クレームはない。</strong><br>
+    爆音でいい。焚き火でいい。夜中に組んでいい。<br><br>
+    <span style="color:#555;font-size:.85em;font-weight:300">半径2kmに民家がない草原に、道場をつくる。スパーの声が星空に消えていく場所。北海道の冬は外気温−20℃。それでもここで稽古したいと思わせる道場を設計する。</span>
+  </p>
+</div>
+
+<!-- BIG QUOTE -->
+<div class="big-quote">
+  <span class="bq-mark r2">"</span>
+  <blockquote class="r">帯の色より、<em>組んだ時間。</em></blockquote>
+  <cite class="r2">天空の道場 · KUMAUSHI BASE · HOKKAIDO</cite>
+</div>
+
+<!-- FULLWIDTH: スカイライト夜景 -->
+<img class="fi tall r" src="/img/concept_a_earth_dojo.jpg" alt="雪原に4つのスカイライトが輝く夜景 — 地下ピット型道場のコンセプトビジュアル" onclick="openModal(this)">
+
+<!-- PROSE -->
+<div class="prose">
+  <p class="r">
+    <span class="drop">道</span>場の天井は、高くなければならない。スタンディングで大外刈りを打つ瞬間、天井に手が触れてはいけない。コンテナの標準天井高は2.4m——それは低い。
+  </p>
+  <p class="r">
+    だから、<strong>箱を変えるのではなく、空間の作り方を変える。</strong>地面を掘って埋める。屋根を空に向けて開く。箱の上に空間を積み上げる。同じ40ftコンテナから、全く異なる道場体験が生まれる。
+  </p>
+  <p class="r">
+    3つのコンセプトはどれも<strong>4号建築物</strong>の範囲に収まり、建築士を雇わずに建築主自身で申請できる。設計士費用ゼロ。申請手数料は約5,000〜10,000円。
+  </p>
+</div>
+
+<!-- FULLWIDTH: 道場内部 tatami -->
+<img class="fi r" src="/img/kumaushi_dojo_tatami.webp" alt="白帯の武道家が大きな円形道場の畳に正座している — 天窓から光が差し込む" onclick="openModal(this)">
+
+<!-- ===== CONCEPT A ===== -->
+<div class="concept-s" id="concept-a">
+  <div class="concept-grid">
+    <div class="r">
+      <div class="concept-img">
+        <img src="/img/kumaushi_dojo_moonlight.webp" alt="月明かりの道場 — スカイライトから月光がマットに落ちる">
+        <span class="concept-img-label">CONCEPT A — EARTH DOJO</span>
+      </div>
+    </div>
+    <div class="r2">
+      <div class="concept-tag tag-a">✦ PLAN A</div>
+      <h3>アース・ドージョ</h3>
+      <div class="en-name">EARTH PIT — UNDERGROUND DOJO</div>
+      <p class="concept-desc">
+        地面を1.5m掘り下げてコンテナを埋設。天井高が<strong>2.4mから4.1mへ</strong>一気に拡大。地上からはスカイライト（天窓）しか見えず、雪原に窓だけが並ぶ景観になる。稽古中、頭上のガラス窓から北海道の空と星が見える。月明かりがマットに落ちる。
+      </p>
+      <div class="spec">
+        <div class="spec-row"><div class="k">天井高</div><div class="v"><strong>4.1 m</strong>（大道場水準）</div></div>
+        <div class="spec-row"><div class="k">マット面積</div><div class="v">12m × 2.4m = 28.8 m²</div></div>
+        <div class="spec-row"><div class="k">断熱</div><div class="v"><strong>UA値 0.15</strong>（土の断熱効果）</div></div>
+        <div class="spec-row"><div class="k">採光</div><div class="v">地面フラッシュ天窓 × 4</div></div>
+        <div class="spec-row"><div class="k">冬の床</div><div class="v">地熱で自然に暖かい</div></div>
+        <div class="spec-row"><div class="k">概算工費</div><div class="v"><strong>¥7.5M〜</strong></div></div>
+      </div>
+      <div class="wow">
+        <div class="wow-lbl">道場として機能するポイント</div>
+        <div class="wow-txt">コンテナ最大の弱点「天井2.4m」を掘ることで解決。外から見えない地下道場——<strong>存在を知る者だけが来る場所。</strong>雪原のスカイライトから差し込む光が稽古空間を照らす。</div>
+      </div>
+      <div class="badges">
+        <span class="badge b-ok">✓ 4号建築物</span>
+        <span class="badge b-ok">✓ セルフ申請可</span>
+        <span class="badge b-warn">△ 残土処理</span>
+        <span class="badge b-warn">△ 防水設計要</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONCEPT B ===== -->
+<div class="concept-s" id="concept-b">
+  <div class="concept-grid flip">
+    <div class="r">
+      <div class="concept-img">
+        <img src="/img/kumaushi_b_blizzard_training.webp" alt="吹雪の中で大外刈りを打つ — 屋外道場のイメージ">
+        <span class="concept-img-label">CONCEPT B — WING DOJO</span>
+      </div>
+    </div>
+    <div class="r2">
+      <div class="concept-tag tag-b">✦ PLAN B</div>
+      <h3>ウィング・ドージョ</h3>
+      <div class="en-name">HYDRAULIC WING — OPEN AIR DOJO</div>
+      <p class="concept-desc">
+        コンテナの屋根を左右に分割し、油圧で跳ね上げると<strong>完全オープンエア道場</strong>に変わる。夏は空の下でスパー。冬は屋根を閉じて密閉断熱空間。同じ箱が季節で全く異なる道場体験を提供する。
+      </p>
+      <div class="spec">
+        <div class="spec-row"><div class="k">夏：天井高</div><div class="v"><strong>∞</strong>（全天開放）</div></div>
+        <div class="spec-row"><div class="k">冬：天井高</div><div class="v">2.4 m（密閉断熱）</div></div>
+        <div class="spec-row"><div class="k">マット面積</div><div class="v">12m × 2.4m = 28.8 m²</div></div>
+        <div class="spec-row"><div class="k">開閉機構</div><div class="v">油圧アクチュエータ × 2</div></div>
+        <div class="spec-row"><div class="k">開閉時間</div><div class="v"><strong>約90秒</strong>でフルオープン</div></div>
+        <div class="spec-row"><div class="k">概算工費</div><div class="v"><strong>¥8.5M〜</strong>（油圧込み）</div></div>
+      </div>
+      <div class="wow">
+        <div class="wow-lbl">道場として機能するポイント</div>
+        <div class="wow-txt">熊牛原野の夏（6〜9月）は最高気温20℃前後。屋根を開けた野外道場は最高のコンディション。<strong>投げ込まれながら頭上に広がる北海道の空。</strong>冬は屋根を閉じ、薪ストーブで道場を温める。</div>
+      </div>
+      <div class="badges">
+        <span class="badge b-ok">✓ 4号建築物</span>
+        <span class="badge b-ok">✓ セルフ申請可</span>
+        <span class="badge b-warn">△ 可動部 強風対策</span>
+        <span class="badge b-warn">△ 油圧設備 専門工事</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONCEPT C ===== -->
+<div class="concept-s" id="concept-c">
+  <div class="concept-grid">
+    <div class="r">
+      <div class="concept-img">
+        <img src="/img/kumaushi_dojo_interior_mats.webp" alt="ジオデシックドームの道場でグラップリング — 雪の白樺林を窓越しに見ながら組む">
+        <span class="concept-img-label">CONCEPT C — SPLIT LEVEL</span>
+      </div>
+    </div>
+    <div class="r2">
+      <div class="concept-tag tag-c">✦ PLAN C</div>
+      <h3>スプリット・ドージョ</h3>
+      <div class="en-name">SPLIT LEVEL — SPECTATOR DOJO</div>
+      <p class="concept-desc">
+        コンテナを稽古フロア（1F）として使い、前面に<strong>キャンチレバー観客デッキ（2F）</strong>を追加。試合・昇格審査・セミナーで観客が見下ろす本格的な道場レイアウト。BJJのイベント会場として機能する。
+      </p>
+      <div class="spec">
+        <div class="spec-row"><div class="k">マット面積</div><div class="v"><strong>28.8 m²</strong>（12m × 2.4m）</div></div>
+        <div class="spec-row"><div class="k">観客席</div><div class="v">デッキ 8〜12名</div></div>
+        <div class="spec-row"><div class="k">前面</div><div class="v">フルガラス壁 採光</div></div>
+        <div class="spec-row"><div class="k">用途</div><div class="v"><strong>試合 · 審査 · BJJセミナー</strong></div></div>
+        <div class="spec-row"><div class="k">申請床面積</div><div class="v">29.7 + 15.0 = 44.7 m²</div></div>
+        <div class="spec-row"><div class="k">概算工費</div><div class="v"><strong>¥7.0M〜</strong></div></div>
+      </div>
+      <div class="wow">
+        <div class="wow-lbl">道場として機能するポイント</div>
+        <div class="wow-txt">BJJの試合・昇格審査・セミナーに「見る場所」は必須。上から見下ろすことで技術の学習効率も上がる。コンテナ前面をフルガラス化して<strong>外から稽古が見えるようにすれば、外国人ゲストが「入りたい」と集まる。</strong></div>
+      </div>
+      <div class="badges">
+        <span class="badge b-ok">✓ 4号建築物</span>
+        <span class="badge b-ok">✓ セルフ申請可</span>
+        <span class="badge b-ok">✓ 試合・審査対応</span>
+        <span class="badge b-warn">△ デッキ面積合算注意</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE: 都市道場 vs 天空の道場 -->
+<div class="s" style="padding-top:80px;padding-bottom:80px;border-top:1px solid #0d0d0d">
+  <div class="w">
+    <div class="label r">COMPARISON</div>
+    <h2 class="r">都市の道場 vs <span class="gold">天空の道場</span></h2>
+    <p class="sub r">同じ「道場」でも、体験はまったく違う。</p>
+  </div>
+  <div class="compare-wrap r">
+    <div class="compare">
+      <div class="compare-head">
+        <div>項目</div>
+        <div>都市の道場</div>
+        <div>天空の道場</div>
+      </div>
+      <div class="compare-row">
+        <div class="ck">稽古時間</div>
+        <div class="cv">営業時間内のみ</div>
+        <div class="cv hi">24時間 制限なし</div>
+      </div>
+      <div class="compare-row">
+        <div class="ck">騒音・声出し</div>
+        <div class="cv lo">×</div>
+        <div class="cv hi">∞（民家ゼロ）</div>
+      </div>
+      <div class="compare-row">
+        <div class="ck">焚き火</div>
+        <div class="cv lo">×</div>
+        <div class="cv hi">常設</div>
+      </div>
+      <div class="compare-row">
+        <div class="ck">サウナ</div>
+        <div class="cv lo">×</div>
+        <div class="cv hi">同一敷地・30秒</div>
+      </div>
+      <div class="compare-row">
+        <div class="ck">窓からの景色</div>
+        <div class="cv">ビル・壁</div>
+        <div class="cv hi">阿寒岳・草原・星空</div>
+      </div>
+      <div class="compare-row">
+        <div class="ck">昇格式の背景</div>
+        <div class="cv">室内</div>
+        <div class="cv hi">夕焼け・270°パノラマ</div>
+      </div>
+      <div class="compare-row">
+        <div class="ck">建設コスト</div>
+        <div class="cv">¥50M〜（都市型）</div>
+        <div class="cv hi">¥7M〜（コンテナ）</div>
+      </div>
+      <div class="compare-row">
+        <div class="ck">建築士費用</div>
+        <div class="cv">¥3〜8M</div>
+        <div class="cv hi">¥0（4号申請）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE STATEMENT -->
+<div class="statement" style="padding:80px 24px">
+  <p class="r" style="font-size:clamp(.95rem,2.4vw,1.4rem)">
+    <strong>建築のコンセプトを超えて。</strong><br>
+    ここで何をするか。何を感じるか。<br><br>
+    <span style="color:#444;font-size:.85em;font-weight:300">道場は器に過ぎない。焚き火を囲む夜、サウナを出て組みに行く朝、世界から来た仲間と汗をかく時間——それが熊牛原野の道場体験になる。</span>
+  </p>
+</div>
+
+<!-- FULLWIDTH: 夜明けの霧の道場 -->
+<img class="fi r" src="/img/dojo_dawn_mist_exterior.jpg" alt="熊牛原野の夜明け — 朝霧の中のコンテナ道場、温かい光が窓から漏れる" onclick="openModal(this)">
+
+<!-- ===== 焚き火×夜の稽古 ===== -->
+<div class="concept-s">
+  <div class="concept-grid">
+    <div class="r">
+      <div class="concept-img">
+        <img src="/img/dojo_bonfire_night.jpg" alt="焚き火の光で照らされる夜の柔術稽古 — 雪の熊牛原野、満天の星空">
+        <span class="concept-img-label">BONFIRE NIGHT TRAINING</span>
+      </div>
+    </div>
+    <div class="r2">
+      <div class="concept-tag" style="background:rgba(255,120,40,.07);color:#ff8840;border:1px solid rgba(255,120,40,.2)">✦ 焚き火稽古</div>
+      <h3>焚き火の夜、<br>組む。</h3>
+      <div class="en-name">BONFIRE SPARRING — MIDNIGHT ON THE MATS</div>
+      <p class="concept-desc">
+        外気温−10℃の夜、焚き火が燃える。炎の光がマットを照らす。<strong>クレームがない草原だから、夜中まで組める。</strong>スパーの後、誰かが薪をくべる。チームの声が星空に消えていく。
+      </p>
+      <div class="spec">
+        <div class="spec-row"><div class="k">稽古時間</div><div class="v"><strong>制限なし</strong>（深夜・早朝可）</div></div>
+        <div class="spec-row"><div class="k">照明</div><div class="v">焚き火 + LED補助照明</div></div>
+        <div class="spec-row"><div class="k">外気温（冬）</div><div class="v">−10〜−20℃ / 道場内 20℃</div></div>
+        <div class="spec-row"><div class="k">周辺環境</div><div class="v"><strong>半径2km 民家ゼロ</strong></div></div>
+      </div>
+      <div class="wow">
+        <div class="wow-lbl">なぜここでしかできないか</div>
+        <div class="wow-txt">東京では深夜にスパーはできない。熊牛原野は半径2kmに民家がない。<strong>叫んでいい。転がっていい。夜明けまで組んでいい。</strong>焚き火の前で道衣を脱ぐ瞬間が、ここにしかない。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== サウナ×道場サイクル ===== -->
+<div class="concept-s">
+  <div class="concept-grid flip">
+    <div class="r">
+      <div class="concept-img">
+        <img src="/img/dojo_sauna_to_mat.jpg" alt="サウナを出て道場に入る — 北海道の雪原で整え、畳の上で帯を締める">
+        <span class="concept-img-label">SAUNA → DOJO CYCLE</span>
+      </div>
+    </div>
+    <div class="r2">
+      <div class="concept-tag" style="background:rgba(255,70,70,.07);color:#ff7a6a;border:1px solid rgba(255,70,70,.2)">✦ 整え×稽古</div>
+      <h3>整えてから、<br>組む。</h3>
+      <div class="en-name">SAUNA × DOJO — THE BODY & MIND RITUAL</div>
+      <p class="concept-desc">
+        サウナで身体を整え、水風呂で頭を冷やし、雪の草原で外気浴。そのまま道場に入って道衣を着る。<strong>これが熊牛原野の朝の儀式になる。</strong>柔術と北欧式サウナが溶け合う場所。
+      </p>
+      <div class="spec">
+        <div class="spec-row"><div class="k">サウナ</div><div class="v"><strong>フィンランド式</strong> 薪ストーブ 90〜100℃</div></div>
+        <div class="spec-row"><div class="k">水風呂</div><div class="v">天然湧水（夏10℃ / 冬5℃）</div></div>
+        <div class="spec-row"><div class="k">外気浴</div><div class="v">草原テラス — 北海道の空と風</div></div>
+        <div class="spec-row"><div class="k">道場まで</div><div class="v"><strong>約30秒</strong>（同一敷地内）</div></div>
+      </div>
+      <div class="wow">
+        <div class="wow-lbl">サウナ後の柔術の感覚</div>
+        <div class="wow-txt">整った状態でマットに入ると、身体の感覚が鋭くなる。力みが抜け、ポジションの流れが見える。<strong>「柔術のためのサウナ」という体験プログラムは、世界中のBJJゲストを熊牛に呼ぶ強力な理由になる。</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FULLWIDTH: 薪ストーブの道場 -->
+<img class="fi r" src="/img/dojo_woodstove_interior.jpg" alt="薪ストーブが赤く輝く道場の夜 — 壁に掛かる白い道衣、畳の床、静寂" onclick="openModal(this)">
+
+<!-- ===== 世界から集まるセミナー ===== -->
+<div class="concept-s">
+  <div class="concept-grid">
+    <div class="r">
+      <div class="concept-img">
+        <img src="/img/dojo_international_seminar.jpg" alt="木造ドームの道場でBJJセミナー — 日本・ブラジル・アメリカのグラップラーが円座で学ぶ">
+        <span class="concept-img-label">INTERNATIONAL BJJ SEMINAR</span>
+      </div>
+    </div>
+    <div class="r2">
+      <div class="concept-tag tag-b">✦ 国際セミナー</div>
+      <h3>言語を超えて、<br>組む。</h3>
+      <div class="en-name">INTERNATIONAL SEMINAR — WORLD-CLASS BJJ IN HOKKAIDO</div>
+      <p class="concept-desc">
+        ブラジルから黒帯が来る。アメリカからフリースタイルグラップラーが来る。日本のファイターが円になって座る。<strong>柔術は言葉がなくても通じる。</strong>熊牛原野は、そういう場所になれる。
+      </p>
+      <div class="spec">
+        <div class="spec-row"><div class="k">収容人数</div><div class="v"><strong>12〜16名</strong>のセミナー規模</div></div>
+        <div class="spec-row"><div class="k">スタイル</div><div class="v">BJJ / グラップリング / MMAなど</div></div>
+        <div class="spec-row"><div class="k">言語</div><div class="v"><strong>英語・ポルトガル語</strong>セミナー可</div></div>
+        <div class="spec-row"><div class="k">宿泊</div><div class="v">KUMAUSHI BASE（同一敷地）</div></div>
+      </div>
+      <div class="wow">
+        <div class="wow-lbl">合宿型セミナーの収益試算</div>
+        <div class="wow-txt">2泊3日 × 12名 × ¥150,000/人 = <strong>¥1,800,000/回</strong>。年3回で¥5.4M。海外講師招聘のプレミアムセミナーとして道場維持費を回収しながら、世界レベルの技術が北海道に集まる。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 昇格式 ===== -->
+<div class="concept-s">
+  <div class="concept-grid flip">
+    <div class="r">
+      <div class="concept-img">
+        <img src="/img/kumaushi_c_belt_ceremony.webp" alt="北海道の夕焼けと阿寒岳を背に帯を締める昇格式">
+        <span class="concept-img-label">BELT CEREMONY</span>
+      </div>
+    </div>
+    <div class="r2">
+      <div class="concept-tag" style="background:rgba(200,164,85,.07);color:var(--gold);border:1px solid rgba(200,164,85,.2)">✦ 昇格式</div>
+      <h3>ここで帯を<br>締める。</h3>
+      <div class="en-name">BELT CEREMONY — HOKKAIDO GRADUATION</div>
+      <p class="concept-desc">
+        北海道の夕焼けを背に、道衣に帯を通す。昇格は都市の道場でも受けられる。でも<strong>熊牛原野の夕暮れの中で受ける帯授与式は、生涯の記憶になる。</strong>そういう場所を設計する。
+      </p>
+      <div class="spec">
+        <div class="spec-row"><div class="k">対象</div><div class="v">白帯→青帯 / 青帯→紫帯 など全グレード</div></div>
+        <div class="spec-row"><div class="k">ロケーション</div><div class="v"><strong>草原テラス</strong>（阿寒岳・摩周岳を背景）</div></div>
+        <div class="spec-row"><div class="k">撮影</div><div class="v">プロカメラマン手配可（オプション）</div></div>
+        <div class="spec-row"><div class="k">アフター</div><div class="v">焚き火 + 打ち上げパーティ</div></div>
+      </div>
+      <div class="wow">
+        <div class="wow-lbl">ここでしか受けられない価値</div>
+        <div class="wow-txt">「体験としての昇格式」。北海道の大地、草原の風、阿寒の山。<strong>SNSで拡散されるような昇格式のために、世界から道場生が飛行機で来る。</strong>それがKUMAUSHIの引力になる。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FULLWIDTH: 冬の屋外稽古 -->
+<img class="fi r" src="/img/kumaushi_winter_outdoor_roll.webp" alt="吹雪の草原での屋外投げ込み稽古 — 白い道衣と雪煙" onclick="openModal(this)">
+
+<!-- GALLERY STRIP -->
+<div class="s" style="padding-bottom:0">
+  <div class="w r" style="margin-bottom:28px">
+    <div class="label">DOJO GALLERY</div>
+    <h2>道場の情景</h2>
+  </div>
+</div>
+<div class="gstrip">
+  <div class="gstrip-item"><img src="/img/dojo_bonfire_night.jpg" alt="焚き火の夜の稽古" onclick="openModal(this)"></div>
+  <div class="gstrip-item"><img src="/img/kumaushi_s_grip_closeup.webp" alt="グリップの瞬間" onclick="openModal(this)"></div>
+  <div class="gstrip-item"><img src="/img/dojo_international_seminar.jpg" alt="国際セミナー" onclick="openModal(this)"></div>
+  <div class="gstrip-item"><img src="/img/concept_b_wing_dojo.jpg" alt="ウィング道場" onclick="openModal(this)"></div>
+  <div class="gstrip-item"><img src="/img/kumaushi_c_belt_ceremony.webp" alt="昇格式" onclick="openModal(this)"></div>
+  <div class="gstrip-item"><img src="/img/kumaushi_white_gi_mist.webp" alt="霧の中の白い道衣" onclick="openModal(this)"></div>
+  <div class="gstrip-item"><img src="/img/dojo_dawn_mist_exterior.jpg" alt="夜明けの道場" onclick="openModal(this)"></div>
+  <div class="gstrip-item"><img src="/img/kumaushi_winter_outdoor_roll.webp" alt="冬の屋外稽古" onclick="openModal(this)"></div>
+</div>
+
+<!-- FEATURE GRID: なぜここで組むのか -->
+<div class="feature-s">
+  <div class="ww">
+    <div class="label r">WHY HERE</div>
+    <h2 class="r">なぜ熊牛原野で組むのか</h2>
+    <p class="sub r">ここにしかない理由が、6つある。</p>
+    <div class="feature-grid r">
+      <div class="fc">
+        <span class="fc-icon">⏱</span>
+        <div class="fc-title">24時間稽古可</div>
+        <div class="fc-body">営業時間なし。深夜でも早朝でも、思い立った時にマットに入れる。<strong>稽古時間を誰にも制限されない。</strong></div>
+        <div class="fc-num">∞<span class="fc-num-l">制限なし</span></div>
+      </div>
+      <div class="fc">
+        <span class="fc-icon">🔇</span>
+        <div class="fc-title">爆音スパーOK</div>
+        <div class="fc-body">半径2kmに民家ゼロ。叫んでいい。転がっていい。<strong>誰かに迷惑をかける心配がない道場。</strong></div>
+        <div class="fc-num">2km<span class="fc-num-l">最寄り民家まで</span></div>
+      </div>
+      <div class="fc">
+        <span class="fc-icon">🏔️</span>
+        <div class="fc-title">270°パノラマ</div>
+        <div class="fc-body">阿寒岳・摩周岳・雌阿寒岳。<strong>組みながら見上げる山が、ここにはある。</strong>都市の道場にはない景色。</div>
+        <div class="fc-num">270°<span class="fc-num-l">パノラマ視野</span></div>
+      </div>
+      <div class="fc">
+        <span class="fc-icon">🔥</span>
+        <div class="fc-title">焚き火常設</div>
+        <div class="fc-body">スパー後に焚き火を囲む。北海道の星空の下で道衣を脱ぐ。<strong>それだけで、道場の記憶は変わる。</strong></div>
+        <div class="fc-num">−20°C<span class="fc-num-l">でも稽古できる</span></div>
+      </div>
+      <div class="fc">
+        <span class="fc-icon">🧖</span>
+        <div class="fc-title">サウナ同一敷地</div>
+        <div class="fc-body">整えてから組む。組んでから整える。<strong>「柔術のためのサウナ」という体験が、世界から人を呼ぶ。</strong></div>
+        <div class="fc-num">30秒<span class="fc-num-l">道場からサウナまで</span></div>
+      </div>
+      <div class="fc">
+        <span class="fc-icon">🌍</span>
+        <div class="fc-title">国際セミナー誘致</div>
+        <div class="fc-body">ブラジル・アメリカ・日本。世界から黒帯が来る場所を、北海道に作る。<strong>コンテナが国際道場になる。</strong></div>
+        <div class="fc-num">¥1.8M<span class="fc-num-l">セミナー1回の収益</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BENTO MOSAIC -->
+<div class="bento-s">
+  <div class="bento r2">
+    <div class="bi tall" onclick="openModal(this.querySelector('img'))">
+      <img src="/img/concept_a_earth_dojo.jpg" alt="地下ドージョ スカイライト">
+      <span class="bi-label">EARTH DOJO</span>
+    </div>
+    <div class="bi" onclick="openModal(this.querySelector('img'))">
+      <img src="/img/dojo_international_seminar.jpg" alt="国際セミナー">
+      <span class="bi-label">SEMINAR</span>
+    </div>
+    <div class="bi" onclick="openModal(this.querySelector('img'))">
+      <img src="/img/kumaushi_s_grip_closeup.webp" alt="グリップの瞬間">
+      <span class="bi-label">GRIP</span>
+    </div>
+    <div class="bi" onclick="openModal(this.querySelector('img'))">
+      <img src="/img/dojo_bonfire_night.jpg" alt="焚き火の夜">
+      <span class="bi-label">BONFIRE</span>
+    </div>
+    <div class="bi" onclick="openModal(this.querySelector('img'))">
+      <img src="/img/kumaushi_c_belt_ceremony.webp" alt="昇格式">
+      <span class="bi-label">BELT</span>
+    </div>
+  </div>
+</div>
+
+<!-- FOUR SEASONS -->
+<div class="season-s">
+  <div class="ww" style="margin-bottom:0">
+    <div class="label r">FOUR SEASONS</div>
+    <h2 class="r">四季の道場</h2>
+    <p class="sub r">熊牛原野は、季節ごとに全く違う道場体験を見せる。左右にスクロール →</p>
+  </div>
+  <div class="season-track r2">
+    <div class="season-card" onclick="openModal(this.querySelector('img'))">
+      <img src="/img/kumaushi_white_gi_mist.webp" alt="春の道場 — 霧の中の白い道衣">
+      <div class="season-overlay"></div>
+      <div class="season-tint" style="background:#7ec8c0"></div>
+      <div class="season-body">
+        <span class="season-tag" style="background:rgba(126,200,192,.15);color:#7ec8c0;border:1px solid rgba(126,200,192,.25)">SPRING / 春</span>
+        <div class="season-title">霧の中で、<br>組む。</div>
+        <div class="season-desc">4〜5月。残雪と新緑が交差する季節。<br>朝霧の草原、静寂の道場。</div>
+      </div>
+    </div>
+    <div class="season-card" onclick="openModal(this.querySelector('img'))">
+      <img src="/img/kumaushi_a_rooftop_mats.webp" alt="夏の道場 — 屋上マットで夕焼けの山を背に組む">
+      <div class="season-overlay"></div>
+      <div class="season-tint" style="background:#f5c842"></div>
+      <div class="season-body">
+        <span class="season-tag" style="background:rgba(245,200,66,.12);color:#f5c842;border:1px solid rgba(245,200,66,.25)">SUMMER / 夏</span>
+        <div class="season-title">夕焼けの下で、<br>組む。</div>
+        <div class="season-desc">6〜9月。最高気温20℃。ウィング案の屋根を開け、<br>空の下でスパー。</div>
+      </div>
+    </div>
+    <div class="season-card" onclick="openModal(this.querySelector('img'))">
+      <img src="/img/dojo_dawn_mist_exterior.jpg" alt="秋の道場 — 黄金の夜明けと朝霧">
+      <div class="season-overlay"></div>
+      <div class="season-tint" style="background:#d4882a"></div>
+      <div class="season-body">
+        <span class="season-tag" style="background:rgba(212,136,42,.12);color:#d4882a;border:1px solid rgba(212,136,42,.25)">AUTUMN / 秋</span>
+        <div class="season-title">黄金の朝、<br>道場へ。</div>
+        <div class="season-desc">10〜11月。紅葉と黄金色の草原。<br>夜明けの道場に薪ストーブが赤い。</div>
+      </div>
+    </div>
+    <div class="season-card" onclick="openModal(this.querySelector('img'))">
+      <img src="/img/kumaushi_winter_outdoor_roll.webp" alt="冬の道場 — 吹雪の草原での屋外稽古">
+      <div class="season-overlay"></div>
+      <div class="season-tint" style="background:#5a8fd4"></div>
+      <div class="season-body">
+        <span class="season-tag" style="background:rgba(90,143,212,.12);color:#5a8fd4;border:1px solid rgba(90,143,212,.25)">WINTER / 冬</span>
+        <div class="season-title">−20℃で、<br>組む。</div>
+        <div class="season-desc">12〜3月。外は吹雪。地下ピット道場の中は<br>地熱で暖かい。外気浴サウナから直行。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BUILD TIMELINE -->
+<div class="s">
+  <div class="w">
+    <div class="label r">BUILD TIMELINE</div>
+    <h2 class="r">建設スケジュール</h2>
+    <p class="sub r">弟子屈町建築課との事前相談から竣工まで。</p>
+    <div class="tl r">
+      <div class="tl-item">
+        <div class="tl-dot done"></div>
+        <div class="tl-date">2026 MAY</div>
+        <div class="tl-title">コンセプト確定</div>
+        <div class="tl-desc">3案から1案を選定。建設地の地盤調査開始。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026 JUN</div>
+        <div class="tl-title">弟子屈町建築課 事前相談</div>
+        <div class="tl-desc">配置図・平面図・立面図を持参。4号申請の確認。申請費用 ¥5,000〜10,000。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026 JUL</div>
+        <div class="tl-title">コンテナ発注 + 基礎工事</div>
+        <div class="tl-desc">40ftコンテナ調達（¥80〜120万）。ピット案は掘削 + 防水工事。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026 AUG〜SEP</div>
+        <div class="tl-title">コンテナ設置 + 内装</div>
+        <div class="tl-desc">クレーン設置、マット敷設、電気配線、断熱工事。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026 OCT</div>
+        <div class="tl-title">天空の道場 オープン</div>
+        <div class="tl-desc">KUMAUSHI BASE オープンと同時稼働。初稽古。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATEMENT 2 -->
+<div class="statement">
+  <p class="r">
+    <strong>設計士が二度見する道場を、</strong><br>
+    建築士費用ゼロで建てる。<br><br>
+    <span style="color:#555;font-size:.85em;font-weight:300">3案とも40ftコンテナ・4号建築物・建築主セルフ申請。熊牛原野の草原に、世界中どこにもない道場が生まれる。</span>
+  </p>
+  <div class="author r">— 天空の道場 / KUMAUSHI BASE</div>
+</div>
+
+<!-- GLASS STAT CARDS -->
+<div class="s" style="padding-top:0">
+  <div class="glass-stats">
+    <div class="gsc r">
+      <div class="gsc-num">¥7M〜</div>
+      <div class="gsc-label">建設コスト<br>建築士費用ゼロ<br>4号建築物</div>
+    </div>
+    <div class="gsc r">
+      <div class="gsc-num">28.8㎡</div>
+      <div class="gsc-label">マット面積<br>同時2組スパー<br>12m × 2.4m</div>
+    </div>
+    <div class="gsc r">
+      <div class="gsc-num">2026</div>
+      <div class="gsc-label">オープン予定<br>10月 KUMAUSHI BASE<br>初稽古</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="s" style="text-align:center">
+  <div class="w">
+    <div class="label r">NEXT STEP</div>
+    <h2 class="r" style="max-width:480px;margin:0 auto 16px">熊牛原野のオーナーになる</h2>
+    <p class="sub r" style="margin:0 auto 32px;text-align:center">天空の道場を含む熊牛原野の共同オーナー。1口¥480万・年30泊。限定20口。</p>
+    <div class="r">
+      <a class="cta-btn" href="buy">1口で所有する ¥480万</a>
+      <a class="cta-ghost" href="kumaushi">熊牛原野 全体を見る →</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="logo">SOLUNA</div>
+  <nav>
+    <a href="kumaushi">熊牛原野</a>
+    <a href="arch-concepts">建築3案</a>
+    <a href="collection">物件一覧</a>
+    <a href="buy">オーナー登録</a>
+  </nav>
+  <div class="copy">© 2026 SOLUNA. All rights reserved.</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal" id="modal" onclick="closeModal()">
+  <img id="modal-img" src="" alt="">
+</div>
+
+<script>
+// Hero slideshow
+(function(){
+  var slides = document.querySelectorAll('.hero-bg .slide');
+  if(!slides.length) return;
+  var cur = 0, order = Array.from({length:slides.length},(_,i)=>i);
+  for(var i=order.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=order[i];order[i]=order[j];order[j]=t;}
+  slides[order[0]].classList.add('active');
+  setInterval(function(){
+    slides[order[cur]].classList.remove('active');
+    cur = (cur+1) % order.length;
+    slides[order[cur]].classList.add('active');
+  }, 8000);
+})();
+
+// Scroll reveal
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.r, .r2').forEach(el => ro.observe(el));
+
+// Season scroll drag
+const st = document.querySelector('.season-track');
+if(st){
+  let down=false,sx=0,sl=0;
+  st.addEventListener('mousedown',e=>{down=true;sx=e.pageX-st.offsetLeft;sl=st.scrollLeft});
+  st.addEventListener('mouseleave',()=>down=false);
+  st.addEventListener('mouseup',()=>down=false);
+  st.addEventListener('mousemove',e=>{if(!down)return;e.preventDefault();st.scrollLeft=sl-(e.pageX-st.offsetLeft-sx)});
+}
+
+// Modal
+function openModal(img) {
+  document.getElementById('modal-img').src = img.src;
+  document.getElementById('modal').classList.add('active');
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>

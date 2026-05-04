@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -51,7 +51,7 @@ function Clock() {
       setTime(now.toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Asia/Tokyo" }) + " JST");
     };
     tick();
-    const id = setInterval(tick, 10000);
+    const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
   return <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", fontVariantNumeric: "tabular-nums" }}>{time}</span>;
@@ -64,7 +64,7 @@ export default function MacShell({ children }: { children: React.ReactNode }) {
   const [isFrame, setIsFrame] = useState(false);
   const [shellReady, setShellReady] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const frame = new URLSearchParams(window.location.search).get("frame") === "1";
     setIsFrame(frame);
     setShellReady(true);

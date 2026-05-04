@@ -136,15 +136,52 @@ class AuthService: ObservableObject {
         errorMessage = nil
         defer { isLoading = false }
 
-        guard let url = URL(string: "\(baseURL)/api/cabin/member/send-link") else { return false }
+        guard let url = URL(string: "\(baseURL)/api/soluna/otp") else { return false }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try? JSONEncoder().encode(["email": email])
+        request.httpBody = try? JSONSerialization.data(withJSONObject: ["email": email])
 
         do {
-            let (_, response) = try await URLSession.shared.data(for: request)
-            return (response as? HTTPURLResponse)?.statusCode == 200
+            let (data, response) = try await URLSession.shared.data(for: request)
+            let status = (response as? HTTPURLResponse)?.statusCode ?? 0
+            if status == 200 { return true }
+            let msg = (try? JSONSerialization.jsonObject(with: data) as? [String: Any])?["error"] as? String
+            errorMessage = msg ?? "送信に失敗しました (status \(status))"
+            return false
+        } catch {
+            errorMessage = "通信エラー: \(error.localizedDescription)"
+            return false
+        }
+    }
+
+    func verifyOTP(email: String, code: String) async -> Bool {
+        isLoading = true
+        errorMessage = nil
+        defer { isLoading = false }
+
+        guard let url = URL(string: "\(baseURL)/api/soluna/verify") else { return false }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: ["email": email, "code": code])
+
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            let status = (response as? HTTPURLResponse)?.statusCode ?? 0
+            if status == 200,
+               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let token = json["token"] as? String {
+                memberToken = token
+                UserDefaults.standard.set(email, forKey: memberEmailKey)
+                UserDefaults.standard.set(true, forKey: isLoggedInKey)
+                isLoggedIn = true
+                currentUser = AuthUser(id: email, role: "member")
+                return true
+            }
+            let msg = (try? JSONSerialization.jsonObject(with: data) as? [String: Any])?["error"] as? String
+            errorMessage = msg ?? "コードが違います"
+            return false
         } catch {
             errorMessage = "通信エラー: \(error.localizedDescription)"
             return false

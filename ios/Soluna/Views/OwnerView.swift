@@ -24,7 +24,8 @@ struct OwnerView: View {
 struct LoginView: View {
     @StateObject private var authService = AuthService.shared
     @State private var email = ""
-    @State private var linkSent = false
+    @State private var otpCode = ""
+    @State private var otpSent = false
     @State private var showStaffLogin = false
     @State private var staffId = ""
     @State private var staffPassword = ""
@@ -34,7 +35,6 @@ struct LoginView: View {
             VStack(spacing: 0) {
                 Spacer().frame(height: 60)
 
-                // Logo
                 VStack(spacing: 6) {
                     Text("SOLUNA")
                         .font(.system(size: 14, weight: .heavy))
@@ -47,8 +47,8 @@ struct LoginView: View {
                 }
                 .padding(.bottom, 40)
 
-                if linkSent {
-                    sentConfirmation
+                if otpSent {
+                    otpVerifyForm
                 } else if showStaffLogin {
                     staffLoginForm
                 } else {
@@ -66,9 +66,8 @@ struct LoginView: View {
 
                 Spacer().frame(height: 40)
 
-                // Footer links
                 VStack(spacing: 12) {
-                    if !showStaffLogin {
+                    if !showStaffLogin && !otpSent {
                         Button {
                             withAnimation { showStaffLogin = true }
                         } label: {
@@ -76,12 +75,9 @@ struct LoginView: View {
                                 .font(.system(size: 11))
                                 .foregroundStyle(Color("Gold").opacity(0.4))
                         }
-                    } else {
+                    } else if showStaffLogin {
                         Button {
-                            withAnimation {
-                                showStaffLogin = false
-                                authService.errorMessage = nil
-                            }
+                            withAnimation { showStaffLogin = false; authService.errorMessage = nil }
                         } label: {
                             Text("← メールで確認")
                                 .font(.system(size: 11))
@@ -100,15 +96,15 @@ struct LoginView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 
-    // MARK: - Member login (email → receive link)
+    // MARK: - Step 1: Email entry
 
     private var memberLoginForm: some View {
         VStack(spacing: 20) {
             VStack(spacing: 6) {
-                Text("購入時のメールアドレスを入力")
+                Text("メールアドレスを入力")
                     .font(.system(size: 13, weight: .bold))
                     .foregroundStyle(.white)
-                Text("リンクを含むメールをお送りします")
+                Text("6桁のログインコードをお送りします")
                     .font(.system(size: 11))
                     .foregroundStyle(.gray)
             }
@@ -124,24 +120,20 @@ struct LoginView: View {
                 Button {
                     Task {
                         let sent = await authService.sendMemberLink(email: email)
-                        if sent { withAnimation { linkSent = true } }
+                        if sent { withAnimation { otpSent = true } }
                     }
                 } label: {
                     HStack(spacing: 8) {
                         if authService.isLoading {
                             ProgressView().tint(Color(hex: "050505")).scaleEffect(0.85)
                         }
-                        Text(authService.isLoading ? "送信中..." : "会員ページのリンクを送信")
+                        Text(authService.isLoading ? "送信中..." : "コードを送信")
                             .font(.system(size: 14, weight: .bold))
                     }
                     .foregroundStyle(Color(hex: "050505"))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 15)
-                    .background(
-                        !email.contains("@") || authService.isLoading
-                            ? Color("Gold").opacity(0.3)
-                            : Color("Gold")
-                    )
+                    .background(!email.contains("@") || authService.isLoading ? Color("Gold").opacity(0.3) : Color("Gold"))
                     .clipShape(Capsule())
                 }
                 .disabled(!email.contains("@") || authService.isLoading)
@@ -150,39 +142,64 @@ struct LoginView: View {
         }
     }
 
-    // MARK: - Sent confirmation
+    // MARK: - Step 2: OTP code entry
 
-    private var sentConfirmation: some View {
-        VStack(spacing: 16) {
+    private var otpVerifyForm: some View {
+        VStack(spacing: 20) {
             ZStack {
-                Circle()
-                    .fill(Color("Gold").opacity(0.1))
-                    .frame(width: 80, height: 80)
+                Circle().fill(Color("Gold").opacity(0.1)).frame(width: 80, height: 80)
                 Image(systemName: "envelope.badge.fill")
                     .font(.system(size: 34))
                     .foregroundStyle(Color("Gold"))
             }
-            Text("メールを送信しました")
-                .font(.system(size: 18, weight: .heavy))
-            Text("\(email)\nにリンクを送りました。\nメール内のボタンをタップするとこのアプリが開き、\n自動的にログインします。")
-                .font(.system(size: 12))
-                .foregroundStyle(.gray)
-                .multilineTextAlignment(.center)
-                .lineSpacing(4)
-                .padding(.horizontal, 32)
-            Button {
-                withAnimation {
-                    linkSent = false
-                    authService.errorMessage = nil
-                }
-            } label: {
-                Text("別のメールアドレスで試す")
+            VStack(spacing: 6) {
+                Text("コードを入力")
+                    .font(.system(size: 18, weight: .heavy))
+                Text("\(email) に\n6桁のコードを送りました")
                     .font(.system(size: 12))
-                    .foregroundStyle(Color("Gold").opacity(0.7))
+                    .foregroundStyle(.gray)
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(4)
             }
-            .padding(.top, 8)
+
+            VStack(spacing: 12) {
+                TextField("123456", text: $otpCode)
+                    .keyboardType(.numberPad)
+                    .font(.system(size: 28, weight: .bold, design: .monospaced))
+                    .multilineTextAlignment(.center)
+                    .solunaTextFieldStyle()
+
+                Button {
+                    Task {
+                        let ok = await authService.verifyOTP(email: email, code: otpCode)
+                        if !ok { otpCode = "" }
+                    }
+                } label: {
+                    HStack(spacing: 8) {
+                        if authService.isLoading {
+                            ProgressView().tint(Color(hex: "050505")).scaleEffect(0.85)
+                        }
+                        Text(authService.isLoading ? "確認中..." : "ログイン")
+                            .font(.system(size: 14, weight: .bold))
+                    }
+                    .foregroundStyle(Color(hex: "050505"))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 15)
+                    .background(otpCode.count == 6 && !authService.isLoading ? Color("Gold") : Color("Gold").opacity(0.3))
+                    .clipShape(Capsule())
+                }
+                .disabled(otpCode.count != 6 || authService.isLoading)
+
+                Button {
+                    withAnimation { otpSent = false; otpCode = ""; authService.errorMessage = nil }
+                } label: {
+                    Text("別のメールアドレスで試す")
+                        .font(.system(size: 12))
+                        .foregroundStyle(Color("Gold").opacity(0.7))
+                }
+            }
+            .padding(.horizontal, 32)
         }
-        .padding(.vertical, 8)
     }
 
     // MARK: - Staff login (ID/Password — hidden)

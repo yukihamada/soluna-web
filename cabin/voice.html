@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>チューナー &amp; ボイスメモ — SOLUNA</title>
+<link rel="canonical" href="https://solun.art/voice"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0908;color:#e8e3d2;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;min-height:100vh;padding:32px 20px 80px}
+h1{font-size:13px;letter-spacing:.25em;color:#c4903a;margin-bottom:32px;text-transform:uppercase}
+.section{margin-bottom:40px}
+.section-title{font-size:10px;letter-spacing:.2em;color:rgba(196,144,58,.5);text-transform:uppercase;margin-bottom:16px}
+
+/* ── Tuner ── */
+#tuner-box{background:#111;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:28px 24px;text-align:center}
+#tuner-note{font-size:72px;font-weight:900;letter-spacing:-.02em;color:#e8e3d2;line-height:1;margin-bottom:4px;transition:color .1s}
+#tuner-note.in-tune{color:#4ade80}
+#tuner-freq{font-size:13px;color:rgba(232,227,210,.35);margin-bottom:20px;font-variant-numeric:tabular-nums}
+/* Meter */
+#tuner-meter{position:relative;height:10px;background:rgba(255,255,255,.06);border-radius:5px;margin:0 auto 14px;width:100%;max-width:320px;overflow:visible}
+#tuner-meter-center{position:absolute;left:50%;top:-3px;width:2px;height:16px;background:rgba(255,255,255,.2);transform:translateX(-50%)}
+#tuner-needle{position:absolute;top:0;left:50%;width:14px;height:10px;border-radius:5px;background:#c4903a;transform:translateX(-7px);transition:left .08s ease-out;will-change:left}
+#tuner-needle.in-tune{background:#4ade80}
+#tuner-cents{font-size:11px;color:rgba(232,227,210,.4);margin-bottom:20px;font-variant-numeric:tabular-nums}
+#tuner-start{background:rgba(196,144,58,.12);border:1px solid rgba(196,144,58,.3);color:#c4903a;padding:10px 28px;border-radius:6px;cursor:pointer;font-size:13px;font-family:inherit;letter-spacing:.05em;transition:background .15s}
+#tuner-start:hover{background:rgba(196,144,58,.2)}
+#tuner-start.active{background:rgba(196,144,58,.25);color:#d4a84e}
+#tuner-strings{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.str-btn{padding:6px 12px;border-radius:4px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:rgba(232,227,210,.5);font-size:11px;cursor:pointer;transition:all .12s}
+.str-btn:hover{background:rgba(255,255,255,.08);color:#e8e3d2}
+.str-btn.closest{border-color:rgba(196,144,58,.6);color:#c4903a;background:rgba(196,144,58,.1)}
+
+/* ── Voice Memo ── */
+#memo-box{background:#111;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:24px}
+.memo-options{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.opt-group{flex:1;min-width:140px}
+.opt-group label{display:block;font-size:10px;letter-spacing:.15em;color:rgba(196,144,58,.5);text-transform:uppercase;margin-bottom:8px}
+.opt-group select{width:100%;background:#1a1818;border:1px solid rgba(255,255,255,.1);color:#e8e3d2;padding:9px 12px;border-radius:6px;font-size:13px;font-family:inherit;cursor:pointer}
+.opt-group select:focus{outline:none;border-color:rgba(196,144,58,.4)}
+
+/* Record button */
+#rec-area{text-align:center;padding:8px 0 16px}
+#rec-btn{width:72px;height:72px;border-radius:50%;border:none;cursor:pointer;transition:all .15s;position:relative;display:inline-flex;align-items:center;justify-content:center}
+#rec-btn.idle{background:rgba(220,50,50,.15);border:2px solid rgba(220,50,50,.4)}
+#rec-btn.idle:hover{background:rgba(220,50,50,.25);border-color:rgba(220,50,50,.7)}
+#rec-btn.recording{background:rgba(220,50,50,.9);border:2px solid #dc3232;animation:pulse 1s infinite}
+#rec-btn.recording:hover{background:#dc3232}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,50,50,.5)}50%{box-shadow:0 0 0 12px rgba(220,50,50,0)}}
+.rec-icon{width:20px;height:20px;border-radius:50%;background:rgba(220,50,50,.9)}
+#rec-btn.recording .rec-icon{border-radius:4px;width:16px;height:16px;background:#fff}
+#rec-timer{font-size:14px;color:rgba(232,227,210,.5);margin-top:10px;font-variant-numeric:tabular-nums;letter-spacing:.05em;min-height:20px}
+#rec-status{font-size:12px;color:rgba(232,227,210,.4);margin-top:6px;min-height:18px}
+
+/* Playback */
+#playback-area{margin-top:16px;display:none}
+audio{width:100%;height:36px;border-radius:6px;margin-bottom:12px}
+#send-btn{width:100%;background:#c4903a;color:#0a0908;border:none;padding:12px;border-radius:6px;font-size:13px;font-weight:700;letter-spacing:.08em;cursor:pointer;transition:background .15s}
+#send-btn:hover{background:#d4a84e}
+#send-btn:disabled{opacity:.5;cursor:default}
+#send-status{font-size:12px;color:rgba(232,227,210,.4);text-align:center;margin-top:10px;min-height:18px}
+
+/* Memo list */
+#memo-list{margin-top:24px}
+.memo-list-title{font-size:10px;letter-spacing:.2em;color:rgba(196,144,58,.45);text-transform:uppercase;margin-bottom:12px}
+.memo-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.memo-item-info{flex:1;overflow:hidden}
+.memo-item-from{font-size:11px;color:#c4903a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.memo-item-meta{font-size:10px;color:rgba(232,227,210,.35);margin-top:2px}
+.memo-item-badge{font-size:9px;padding:2px 7px;border-radius:10px;font-weight:600;letter-spacing:.05em}
+.badge-once{background:rgba(255,150,0,.15);color:rgba(255,150,0,.8);border:1px solid rgba(255,150,0,.3)}
+.badge-all{background:rgba(100,200,100,.1);color:rgba(100,200,100,.7);border:1px solid rgba(100,200,100,.2)}
+.badge-yuki{background:rgba(196,144,58,.12);color:#c4903a;border:1px solid rgba(196,144,58,.25)}
+.badge-self{background:rgba(255,255,255,.05);color:rgba(232,227,210,.35);border:1px solid rgba(255,255,255,.08)}
+.memo-play-btn{width:36px;height:36px;border-radius:50%;border:1px solid rgba(196,144,58,.3);background:rgba(196,144,58,.08);color:#c4903a;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all .12s}
+.memo-play-btn:hover{background:rgba(196,144,58,.18)}
+.memo-play-btn.played{opacity:.4;cursor:default}
+</style>
+</head>
+<body>
+<h1>🎵 ツール</h1>
+
+<!-- ── TUNER ── -->
+<div class="section">
+  <div class="section-title">クロマチック チューナー</div>
+  <div id="tuner-box">
+    <div id="tuner-note">—</div>
+    <div id="tuner-freq">— Hz</div>
+    <div id="tuner-meter">
+      <div id="tuner-meter-center"></div>
+      <div id="tuner-needle"></div>
+    </div>
+    <div id="tuner-cents">— cents</div>
+    <button id="tuner-start" onclick="toggleTuner()">マイクを起動</button>
+    <div id="tuner-strings">
+      <button class="str-btn" onclick="setRefNote('E2')">E2 低</button>
+      <button class="str-btn" onclick="setRefNote('A2')">A2</button>
+      <button class="str-btn" onclick="setRefNote('D3')">D3</button>
+      <button class="str-btn" onclick="setRefNote('G3')">G3</button>
+      <button class="str-btn" onclick="setRefNote('B3')">B3</button>
+      <button class="str-btn" onclick="setRefNote('E4')">E4 高</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── VOICE MEMO ── -->
+<div class="section">
+  <div class="section-title">ボイスメモ</div>
+  <div id="memo-box">
+    <div class="memo-options">
+      <div class="opt-group">
+        <label>共有範囲</label>
+        <select id="share-type">
+          <option value="self">自分だけ</option>
+          <option value="yuki">Yukiに共有</option>
+          <option value="all">全体に公開</option>
+        </select>
+      </div>
+      <div class="opt-group">
+        <label>再生回数</label>
+        <select id="playback-type">
+          <option value="unlimited">何度でも</option>
+          <option value="once">1度だけ</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="rec-area">
+      <button id="rec-btn" class="idle" onclick="toggleRecording()">
+        <div class="rec-icon"></div>
+      </button>
+      <div id="rec-timer"></div>
+      <div id="rec-status">タップして録音開始</div>
+    </div>
+
+    <div id="playback-area">
+      <audio id="preview-audio" controls></audio>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button id="save-local-btn" onclick="saveLocal()" style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#e8e3d2;padding:10px;border-radius:6px;font-size:12px;cursor:pointer;transition:background .12s" onmouseover="this.style.background='rgba(255,255,255,.12)'" onmouseout="this.style.background='rgba(255,255,255,.07)'">💾 ローカル保存</button>
+        <button id="transcribe-btn" onclick="transcribeMemo()" style="flex:1;background:rgba(196,144,58,.1);border:1px solid rgba(196,144,58,.25);color:#c4903a;padding:10px;border-radius:6px;font-size:12px;cursor:pointer;transition:background .12s" onmouseover="this.style.background='rgba(196,144,58,.18)'" onmouseout="this.style.background='rgba(196,144,58,.1)'">📝 文字起こし</button>
+      </div>
+      <div id="transcript-box" style="display:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:14px;margin-bottom:12px">
+        <div style="font-size:9px;letter-spacing:.15em;color:rgba(196,144,58,.5);text-transform:uppercase;margin-bottom:8px">文字起こし結果</div>
+        <div id="transcript-text" style="font-size:13px;color:#e8e3d2;line-height:1.7;white-space:pre-wrap"></div>
+        <button id="copy-transcript-btn" onclick="copyTranscript()" style="margin-top:10px;background:none;border:1px solid rgba(255,255,255,.1);color:rgba(232,227,210,.5);padding:6px 12px;border-radius:4px;font-size:11px;cursor:pointer">コピー</button>
+      </div>
+      <button id="send-btn" onclick="sendMemo()">送信</button>
+      <div id="send-status"></div>
+    </div>
+  </div>
+
+  <div id="memo-list">
+    <div class="memo-list-title">受信したメモ</div>
+    <div id="memo-items"><div style="font-size:12px;color:rgba(232,227,210,.3)">読み込み中...</div></div>
+  </div>
+</div>
+
+<script defer src="/js/sln-desktop.js"></script>
+<script>
+// ══════════════════════════════════════
+// TUNER
+// ══════════════════════════════════════
+const NOTE_NAMES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const A4 = 440;
+let tunerRunning = false, tunerCtx = null, tunerAnalyser = null, tunerSrc = null, tunerStream = null, tunerRaf = null;
+let refNote = null; // if set, highlight closest string
+
+function freqToNote(f) {
+  const semitones = 12 * Math.log2(f / A4);
+  const midi = Math.round(semitones) + 69;
+  const cents = Math.round((semitones - (midi - 69)) * 100);
+  const name = NOTE_NAMES[midi % 12];
+  const octave = Math.floor(midi / 12) - 1;
+  return { name, octave, cents, midi, freq: f };
+}
+
+function autoCorrelate(buf, sampleRate) {
+  const SIZE = buf.length;
+  const MAX_SAMPLES = Math.floor(SIZE / 2);
+  let best_offset = -1, best_corr = 0;
+  let last_corr = 1;
+  let found = false;
+  const rms = Math.sqrt(buf.reduce((s, v) => s + v * v, 0) / SIZE);
+  if (rms < 0.01) return -1;
+
+  for (let offset = 0; offset < MAX_SAMPLES; offset++) {
+    let corr = 0;
+    for (let i = 0; i < MAX_SAMPLES; i++) corr += Math.abs(buf[i] - buf[i + offset]);
+    corr = 1 - corr / MAX_SAMPLES;
+    if (corr > 0.9 && corr > last_corr) {
+      found = true;
+      if (corr > best_corr) { best_corr = corr; best_offset = offset; }
+    }
+    if (found && corr < 0.9) break;
+    last_corr = corr;
+  }
+  if (best_offset === -1) return -1;
+  return sampleRate / best_offset;
+}
+
+async function toggleTuner() {
+  if (tunerRunning) { stopTuner(); return; }
+  try {
+    tunerStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+    tunerCtx = new (window.AudioContext || window.webkitAudioContext)();
+    tunerAnalyser = tunerCtx.createAnalyser();
+    tunerAnalyser.fftSize = 2048;
+    tunerSrc = tunerCtx.createMediaStreamSource(tunerStream);
+    tunerSrc.connect(tunerAnalyser);
+    tunerRunning = true;
+    document.getElementById('tuner-start').textContent = '停止';
+    document.getElementById('tuner-start').classList.add('active');
+    tunerLoop();
+  } catch(e) {
+    alert('マイクのアクセスを許可してください');
+  }
+}
+
+function stopTuner() {
+  tunerRunning = false;
+  if (tunerRaf) cancelAnimationFrame(tunerRaf);
+  if (tunerStream) tunerStream.getTracks().forEach(t => t.stop());
+  if (tunerCtx) tunerCtx.close();
+  document.getElementById('tuner-start').textContent = 'マイクを起動';
+  document.getElementById('tuner-start').classList.remove('active');
+  document.getElementById('tuner-note').textContent = '—';
+  document.getElementById('tuner-freq').textContent = '— Hz';
+  document.getElementById('tuner-cents').textContent = '— cents';
+  document.getElementById('tuner-needle').style.left = '50%';
+  document.getElementById('tuner-note').className = '';
+}
+
+function tunerLoop() {
+  if (!tunerRunning) return;
+  const buf = new Float32Array(tunerAnalyser.fftSize);
+  tunerAnalyser.getFloatTimeDomainData(buf);
+  const freq = autoCorrelate(buf, tunerCtx.sampleRate);
+  if (freq > 0 && freq < 4200) {
+    const n = freqToNote(freq);
+    const inTune = Math.abs(n.cents) < 5;
+    const noteEl = document.getElementById('tuner-note');
+    noteEl.textContent = n.name + n.octave;
+    noteEl.className = inTune ? 'in-tune' : '';
+    document.getElementById('tuner-freq').textContent = freq.toFixed(1) + ' Hz';
+    document.getElementById('tuner-cents').textContent = (n.cents >= 0 ? '+' : '') + n.cents + ' cents';
+    // Move needle: cents range -50..+50 → 0%..100%
+    const pct = Math.min(100, Math.max(0, 50 + n.cents));
+    const needle = document.getElementById('tuner-needle');
+    needle.style.left = `calc(${pct}% - 7px)`;
+    needle.className = inTune ? 'in-tune' : '';
+    // Highlight closest guitar string
+    updateClosestString(n.name + n.octave);
+  }
+  tunerRaf = requestAnimationFrame(tunerLoop);
+}
+
+const GUITAR_NOTES = ['E2','A2','D3','G3','B3','E4'];
+function updateClosestString(current) {
+  document.querySelectorAll('.str-btn').forEach((btn, i) => {
+    btn.className = 'str-btn' + (GUITAR_NOTES[i] === current ? ' closest' : '');
+  });
+}
+function setRefNote(n) { refNote = n; }
+
+// ══════════════════════════════════════
+// VOICE MEMO
+// ══════════════════════════════════════
+let mediaRec = null, recChunks = [], recBlob = null, recStream2 = null;
+let recStart = 0, recInterval = null;
+
+async function toggleRecording() {
+  if (mediaRec && mediaRec.state === 'recording') { mediaRec.stop(); return; }
+  try {
+    recStream2 = await navigator.mediaDevices.getUserMedia({ audio: true });
+    recChunks = [];
+    mediaRec = new MediaRecorder(recStream2, { mimeType: 'audio/webm' });
+    mediaRec.ondataavailable = e => { if (e.data.size > 0) recChunks.push(e.data); };
+    mediaRec.onstop = () => {
+      recBlob = new Blob(recChunks, { type: 'audio/webm' });
+      const url = URL.createObjectURL(recBlob);
+      document.getElementById('preview-audio').src = url;
+      document.getElementById('playback-area').style.display = 'block';
+      document.getElementById('rec-status').textContent = '録音完了。確認して送信してください。';
+      clearInterval(recInterval);
+    };
+    mediaRec.start(100);
+    recStart = Date.now();
+    recInterval = setInterval(updateTimer, 500);
+    document.getElementById('rec-btn').className = 'recording';
+    document.getElementById('playback-area').style.display = 'none';
+    document.getElementById('rec-status').textContent = '録音中... タップで停止';
+    document.getElementById('send-status').textContent = '';
+  } catch(e) {
+    alert('マイクのアクセスを許可してください');
+  }
+}
+
+function updateTimer() {
+  const sec = Math.floor((Date.now() - recStart) / 1000);
+  const m = Math.floor(sec / 60), s = sec % 60;
+  document.getElementById('rec-timer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+async function sendMemo() {
+  if (!recBlob) return;
+  const btn = document.getElementById('send-btn');
+  btn.disabled = true;
+  document.getElementById('send-status').textContent = '送信中...';
+
+  const duration = (Date.now() - recStart) / 1000;
+  const fd = new FormData();
+  fd.append('audio', recBlob, 'memo.webm');
+  fd.append('share_type', document.getElementById('share-type').value);
+  fd.append('playback_type', document.getElementById('playback-type').value);
+  fd.append('duration_sec', duration.toFixed(1));
+
+  // Attach session token if available
+  const token = localStorage.getItem('sln_token') || '';
+  const headers = token ? { 'x-sln-token': token } : {};
+
+  try {
+    const r = await fetch('/api/voice-memo', { method: 'POST', body: fd, headers });
+    if (r.ok) {
+      document.getElementById('send-status').textContent = '✓ 送信しました';
+      document.getElementById('rec-btn').className = 'idle';
+      document.getElementById('rec-timer').textContent = '';
+      document.getElementById('rec-status').textContent = 'タップして録音開始';
+      recBlob = null;
+      loadMemos();
+    } else {
+      document.getElementById('send-status').textContent = 'エラーが発生しました';
+      btn.disabled = false;
+    }
+  } catch {
+    document.getElementById('send-status').textContent = 'ネットワークエラー';
+    btn.disabled = false;
+  }
+}
+
+// ── ローカル保存 ──
+function saveLocal() {
+  if (!recBlob) return;
+  const ts = new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(recBlob);
+  a.download = `memo-${ts}.webm`;
+  a.click();
+}
+
+// ── 文字起こし (Web Speech API or Whisper via server) ──
+async function transcribeMemo() {
+  if (!recBlob) return;
+  const btn = document.getElementById('transcribe-btn');
+  const box = document.getElementById('transcript-box');
+  const text = document.getElementById('transcript-text');
+  btn.disabled = true;
+  btn.textContent = '処理中...';
+  box.style.display = 'block';
+  text.textContent = '文字起こし中...';
+
+  // まずWeb Speech APIを試す（無料・ローカル）
+  if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    try {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const rec = new SpeechRecognition();
+      rec.lang = 'ja-JP';
+      rec.continuous = true;
+      rec.interimResults = false;
+      // Web Speech API doesn't support file input, use server fallback
+    } catch {}
+  }
+
+  // サーバー側Whisper APIに送信
+  const fd = new FormData();
+  fd.append('audio', recBlob, 'memo.webm');
+  const token = localStorage.getItem('sln_token') || '';
+  const headers = token ? { 'x-sln-token': token } : {};
+  try {
+    const r = await fetch('/api/transcribe', { method: 'POST', body: fd, headers });
+    if (r.ok) {
+      const d = await r.json();
+      text.textContent = d.text || '（テキストなし）';
+    } else {
+      // フォールバック: ブラウザ内蔵音声認識を使って録音しながら認識
+      text.textContent = '文字起こしサービスに接続できません。\n録音中は「文字起こし開始」ボタンでリアルタイム認識できます。';
+    }
+  } catch {
+    text.textContent = 'オフラインです。録音後にオンラインで再試行してください。';
+  }
+  btn.disabled = false;
+  btn.textContent = '📝 文字起こし';
+}
+
+function copyTranscript() {
+  const txt = document.getElementById('transcript-text').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const btn = document.getElementById('copy-transcript-btn');
+    btn.textContent = 'コピー完了 ✓';
+    setTimeout(() => { btn.textContent = 'コピー'; }, 2000);
+  });
+}
+
+async function loadMemos() {
+  const token = localStorage.getItem('sln_token') || '';
+  const headers = token ? { 'x-sln-token': token } : {};
+  try {
+    const r = await fetch('/api/voice-memos', { headers });
+    const memos = await r.json();
+    const el = document.getElementById('memo-items');
+    if (!memos.length) { el.innerHTML = '<div style="font-size:12px;color:rgba(232,227,210,.3)">メモはまだありません</div>'; return; }
+    el.innerHTML = memos.map(m => {
+      const dur = m.duration_sec ? `${Math.floor(m.duration_sec)}秒` : '';
+      const date = m.created_at ? m.created_at.slice(5,16).replace('T',' ') : '';
+      const badgeType = m.share_type === 'yuki' ? 'yuki' : m.share_type === 'all' ? 'all' : 'self';
+      const badgeText = {yuki:'Yuki',all:'全体',self:'自分'}[m.share_type] || m.share_type;
+      const playedOut = m.playback_type === 'once' && m.play_count >= 1;
+      return `<div class="memo-item">
+        <button class="memo-play-btn${playedOut?' played':''}" onclick="${playedOut?'':(`playMemo('${m.id}', this)`)}" title="${playedOut?'再生済み':'再生'}">
+          ${playedOut ? '✓' : '▶'}
+        </button>
+        <div class="memo-item-info">
+          <div class="memo-item-from">${m.email || '匿名'}</div>
+          <div class="memo-item-meta">${dur ? dur+' · ' : ''}${date}</div>
+        </div>
+        <span class="memo-item-badge badge-${badgeType}">${badgeText}</span>
+        ${m.playback_type==='once'?'<span class="memo-item-badge badge-once">1回</span>':''}
+      </div>`;
+    }).join('');
+  } catch {
+    document.getElementById('memo-items').innerHTML = '<div style="font-size:12px;color:rgba(232,227,210,.3)">読み込みエラー</div>';
+  }
+}
+
+async function playMemo(id, btn) {
+  btn.disabled = true;
+  const token = localStorage.getItem('sln_token') || '';
+  const headers = token ? { 'x-sln-token': token } : {};
+  try {
+    const r = await fetch(`/api/voice-memo/${id}`, { headers });
+    if (r.status === 410) { btn.textContent = '再生済'; btn.classList.add('played'); return; }
+    if (!r.ok) { alert('再生できません'); btn.disabled = false; return; }
+    const blob = await r.blob();
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+    btn.textContent = '▌▌';
+    audio.play();
+    audio.onended = () => { btn.textContent = '✓'; btn.classList.add('played'); loadMemos(); };
+  } catch { btn.disabled = false; }
+}
+
+loadMemos();
+</script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

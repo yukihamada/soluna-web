@@ -2,6 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<style id="__hb">body{display:none!important}</style>
+<script>(function(){var A=['mail@yukihamada.jp','yuki@hamada.tokyo'],t=localStorage.getItem('sln_token');if(!t){location.replace('/');return;}fetch('/api/soluna/me',{headers:{Authorization:'Bearer '+t}}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d&&d.member&&A.indexOf(d.member.email)>=0){var s=document.getElementById('__hb');if(s)s.remove();}else{location.replace('/');}}).catch(function(){location.replace('/');});})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
 <title>SOLUNA MATERIALS Admin</title>
@@ -241,7 +243,7 @@ tbody tr:hover{background:rgba(255,255,255,.015)}
    SOLUNA MATERIALS Admin — Client Logic
    ═══════════════════════════════════════════════ */
 
-const ADMIN_EMAIL = "mail@yukihamada.jp";
+const ADMIN_EMAILS = ['mail@yukihamada.jp', 'yuki@hamada.tokyo'];
 const LS = (k) => "slnadm_" + k;
 
 // ── Auth ────────────────────────────────────────
@@ -252,7 +254,7 @@ async function checkAuth() {
     const r = await fetch("/api/soluna/me", { headers: { Authorization: "Bearer " + token } });
     if (!r.ok) return false;
     const d = await r.json();
-    if (d.email !== ADMIN_EMAIL) {
+    if (!ADMIN_EMAILS.includes(d.email)) {
       showGateError("管理者権限がありません");
       return false;
     }
@@ -601,5 +603,8 @@ async function fetchStats() {
 function esc(s) { if (!s) return ""; const d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
 </script>
 <script src="/nav.js"></script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
 </body>
 </html>

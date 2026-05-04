@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOLUNA GLOW — 菌糸体を光らせる</title>
+<meta name="description" content="生物発光菌糸体。自然が作るルシフェリン反応で壁を光らせる。TAPKOPビレッジ×バイオテクノロジー×建材の新実験。">
+<style>
+:root{
+  --bg:#020408;--card:#060c0e;--border:#0d1e18;
+  --text:#d8f0e8;--muted:#3a6050;--accent:#2adf8a;
+  --cyan:#00c8e8;--purple:#8b5cf6;--amber:#c4903a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue','Hiragino Sans',Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(2,4,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:48px;gap:32px;}
+.nav-logo{font-size:11px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;text-decoration:none;}
+.nav-links{display:flex;gap:20px;margin-left:auto;}
+.nav-links a{font-size:11px;letter-spacing:0.08em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+
+/* Hero */
+.hero{padding:100px 48px 80px;max-width:1100px;margin:0 auto;position:relative;}
+@media(max-width:600px){.hero{padding:64px 24px 48px;}}
+.eyebrow{font-size:10px;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;margin-bottom:20px;}
+h1{font-size:clamp(48px,9vw,112px);font-weight:200;color:#fff;letter-spacing:-0.04em;line-height:.9;}
+h1 em{color:var(--accent);font-style:normal;text-shadow:0 0 40px rgba(42,223,138,0.4);}
+.hero-desc{margin-top:32px;font-size:17px;color:var(--muted);line-height:2;max-width:560px;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;}
+.tag{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--border);color:var(--muted);border-radius:2px;}
+.tag.live{border-color:rgba(42,223,138,0.4);color:var(--accent);}
+
+/* Glow pulse animation */
+@keyframes pulse-glow{0%,100%{box-shadow:0 0 20px rgba(42,223,138,0.15);}50%{box-shadow:0 0 60px rgba(42,223,138,0.4);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+section{padding:80px 0;border-bottom:1px solid var(--border);}
+.wrap{max-width:1100px;margin:0 auto;padding:0 48px;}
+@media(max-width:600px){.wrap{padding:0 24px;}}
+.sec-eye{font-size:10px;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;margin-bottom:16px;}
+h2{font-size:clamp(24px,4vw,44px);font-weight:200;color:#fff;letter-spacing:-0.02em;line-height:1.15;margin-bottom:12px;}
+.sec-desc{font-size:14px;color:var(--muted);line-height:1.9;max-width:540px;margin-bottom:48px;}
+
+/* Render cells */
+.render-cell{background:var(--card);overflow:hidden;position:relative;}
+.render-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s;}
+.render-cell:hover img{transform:scale(1.03);}
+.render-label{position:absolute;bottom:12px;left:12px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(216,240,232,0.6);background:rgba(2,4,8,0.8);padding:3px 8px;border-radius:1px;}
+
+/* Science grid */
+.sci-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+@media(max-width:720px){.sci-grid{grid-template-columns:1fr;}}
+.sci-card{background:var(--card);padding:32px;}
+.sci-num{font-size:48px;font-weight:200;color:var(--accent);opacity:0.3;line-height:1;margin-bottom:12px;}
+.sci-title{font-size:14px;font-weight:500;color:#fff;margin-bottom:8px;}
+.sci-body{font-size:12px;color:var(--muted);line-height:1.8;}
+.sci-body strong{color:var(--accent);}
+
+/* Reaction diagram */
+.reaction{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:32px;background:var(--card);border:1px solid var(--border);border-radius:2px;}
+.react-box{background:rgba(42,223,138,0.06);border:1px solid rgba(42,223,138,0.2);padding:12px 20px;border-radius:2px;text-align:center;}
+.react-name{font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.05em;}
+.react-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.react-arrow{font-size:20px;color:var(--muted);}
+.react-enzyme{font-size:10px;color:var(--muted);text-align:center;margin:0 -8px;}
+
+/* Species table */
+.species-table{width:100%;border-collapse:collapse;font-size:12px;}
+.species-table th{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);font-weight:400;}
+.species-table td{padding:13px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.species-table tr:last-child td{border-bottom:none;}
+.sp-name{font-weight:500;color:#fff;font-style:italic;}
+.sp-sub{font-size:10px;color:var(--muted);margin-top:2px;font-style:normal;}
+.glow-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);margin-right:4px;}
+.glow-dot.dim{background:#3a6050;box-shadow:none;}
+.diff-badge{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;padding:2px 8px;border-radius:2px;white-space:nowrap;}
+.badge-easy{background:rgba(42,223,138,0.12);color:var(--accent);border:1px solid rgba(42,223,138,0.3);}
+.badge-med{background:rgba(196,144,58,0.12);color:var(--amber);border:1px solid rgba(196,144,58,0.3);}
+.badge-hard{background:rgba(139,92,246,0.12);color:var(--purple);border:1px solid rgba(139,92,246,0.3);}
+
+/* Protocol steps */
+.proto-wrap{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);}
+.proto-row{display:grid;grid-template-columns:52px 1fr;background:var(--card);}
+.proto-num{padding:22px 16px;font-size:20px;font-weight:200;color:var(--border);text-align:center;border-right:1px solid var(--border);}
+.proto-body{padding:22px 24px;}
+.proto-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:4px;}
+.proto-desc{font-size:11px;color:var(--muted);line-height:1.7;}
+.proto-desc strong{color:var(--text);}
+.proto-row.key .proto-num{color:var(--accent);}
+
+/* Application grid */
+.app-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+@media(max-width:680px){.app-grid{grid-template-columns:1fr;}}
+.app-card{background:var(--card);padding:36px;}
+.app-icon{font-size:28px;margin-bottom:14px;}
+.app-title{font-size:16px;font-weight:400;color:#fff;margin-bottom:8px;}
+.app-body{font-size:12px;color:var(--muted);line-height:1.8;}
+.app-body strong{color:var(--accent);}
+.app-status{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;display:inline-block;margin-top:14px;padding:3px 8px;border-radius:2px;}
+.status-proto{background:rgba(42,223,138,0.1);color:var(--accent);border:1px solid rgba(42,223,138,0.3);}
+.status-research{background:rgba(139,92,246,0.1);color:var(--purple);border:1px solid rgba(139,92,246,0.3);}
+.status-concept{background:rgba(82,82,100,0.2);color:#666;border:1px solid var(--border);}
+
+/* BOM */
+.bom-table{width:100%;border-collapse:collapse;font-size:12px;}
+.bom-table th{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);font-weight:400;}
+.bom-table td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+.bom-table tr:last-child td{border-bottom:none;}
+.bom-item{font-weight:500;color:#fff;}
+.bom-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.bom-price{text-align:right;white-space:nowrap;color:var(--text);}
+
+/* Quote */
+.quote-block{background:#000;padding:80px 48px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.quote-block blockquote{max-width:700px;margin:0 auto;font-size:clamp(18px,3.5vw,36px);font-weight:200;color:#fff;line-height:1.5;letter-spacing:-0.02em;}
+.quote-block em{color:var(--accent);font-style:normal;text-shadow:0 0 20px rgba(42,223,138,0.3);}
+.q-attr{font-size:11px;color:var(--muted);margin-top:20px;letter-spacing:0.1em;}
+
+/* CTA */
+.cta-box{background:var(--card);border:1px solid var(--border);padding:48px;text-align:center;margin-top:64px;position:relative;overflow:hidden;}
+.cta-box::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(42,223,138,0.04) 0%,transparent 70%);pointer-events:none;}
+.cta-box h3{font-size:28px;font-weight:200;color:#fff;margin-bottom:12px;}
+.cta-box p{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:28px;}
+.btn-primary{display:inline-block;background:var(--accent);color:#020408;text-decoration:none;padding:14px 36px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;border-radius:1px;transition:background .2s,box-shadow .2s;font-weight:500;}
+.btn-primary:hover{background:#1fc070;box-shadow:0 0 20px rgba(42,223,138,0.3);}
+.btn-ghost{display:inline-block;border:1px solid var(--border);color:var(--muted);text-decoration:none;padding:14px 28px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;margin-left:12px;border-radius:1px;transition:border-color .2s,color .2s;}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+
+footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.foot-logo{font-size:11px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;}
+.foot-links{display:flex;gap:24px;}
+.foot-links a{font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:0.05em;transition:color .2s;}
+.foot-links a:hover{color:var(--text);}
+</style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/village">SOLUNA</a>
+  <div class="nav-links">
+    <a href="/mycelium">菌糸体建材</a>
+    <a href="/glow" style="color:var(--accent)">GLOW</a>
+    <a href="/raft">RAFT</a>
+    <a href="/workparty">Work Party</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">SOLUNA GLOW × Bioluminescence Lab — Hokkaido</div>
+  <h1>菌が、<br><em>光る。</em></h1>
+  <p class="hero-desc">
+    自然界に発光する菌類は約100種存在する。<br>
+    そのルシフェリン反応を制御して、<br>
+    TAPKOPの壁を夜に青白く光らせる。
+  </p>
+  <div class="hero-tags">
+    <span class="tag live">● 実験進行中</span>
+    <span class="tag">Panellus stipticus</span>
+    <span class="tag">生物発光</span>
+    <span class="tag">菌糸体建材</span>
+    <span class="tag">TAPKOP Lab</span>
+  </div>
+</div>
+
+<!-- HERO IMAGES — real photos -->
+<section style="padding:0;border-bottom:1px solid var(--border);">
+  <!-- Main real photo: full width -->
+  <div class="render-cell" style="aspect-ratio:21/9;">
+    <img src="img/glow_real_panellus_3.jpg" alt="Panellus stipticus 実写発光" style="object-position:center 40%;">
+    <div class="render-label" style="font-size:9px;">実写 — Panellus stipticus / Ylem (Benjamin Derge) / Public Domain</div>
+  </div>
+  <!-- 2x2 grid: mix of real + AI concept -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);">
+    <div class="render-cell" style="aspect-ratio:4/3;">
+      <img src="img/glow_real_panellus_4.jpg" alt="Panellus stipticus 発光実写">
+      <div class="render-label" style="font-size:9px;">実写 — P. stipticus / Ylem / Public Domain</div>
+    </div>
+    <div class="render-cell" style="aspect-ratio:4/3;">
+      <img src="img/glow_real_mycena.jpg" alt="Mycena chlorophos 実写" style="object-position:center 30%;">
+      <div class="render-label" style="font-size:9px;">実写 — Mycena chlorophos / 八丈島 2008 / CC BY-SA</div>
+    </div>
+    <div class="render-cell" style="aspect-ratio:4/3;">
+      <img src="img/glow_real_panellus_1.jpg" alt="Panellus stipticus 発光実写">
+      <div class="render-label" style="font-size:9px;">実写 — P. stipticus / Ylem / Public Domain</div>
+    </div>
+  </div>
+</section>
+
+<!-- SCIENCE: HOW IT WORKS -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">The Science</div>
+    <h2>なぜ光るのか</h2>
+    <div class="sec-desc">キノコの生物発光は蛍（ホタル）と全く異なる化学反応を使う。2020年に解明されたばかりの、最新の生化学だ。</div>
+
+    <div class="sci-grid" style="margin-bottom:48px;">
+      <div class="sci-card">
+        <div class="sci-num">01</div>
+        <div class="sci-title">ルシフェリン — 基質</div>
+        <div class="sci-body">
+          キノコ発光の燃料は<strong>caffeic acid（カフェ酸）</strong>から合成される
+          <strong>3-hydroxyhispidin</strong>という小分子。
+          コーヒーや多くの植物にも含まれる身近な化合物から作られる。
+          この基質を培地に加えると発光が著しく増強する。
+        </div>
+      </div>
+      <div class="sci-card">
+        <div class="sci-num">02</div>
+        <div class="sci-title">ルシフェラーゼ — 酵素</div>
+        <div class="sci-body">
+          <strong>hispidin oxidase（HipO）</strong>がルシフェリンを酸素と反応させ
+          光子を放出する。反応副産物は水のみ。
+          2020年 Nature Biotechnology にて、このわずか<strong>4遺伝子クラスター</strong>を
+          植物に移植して光らせることに成功（ITC研究グループ、Planta LLC）。
+        </div>
+      </div>
+      <div class="sci-card">
+        <div class="sci-num">03</div>
+        <div class="sci-title">菌糸体ネットワーク — 伝達</div>
+        <div class="sci-body">
+          発光反応は菌糸体全体に広がる。電気信号・温度変化・
+          化学刺激で<strong>パターンが変化する</strong>ことが報告されている。
+          理論上、電極で局所的に刺激すれば「光のパターン制御」が可能——
+          生きたディスプレイとして機能し得る。
+        </div>
+      </div>
+    </div>
+
+    <!-- Reaction diagram -->
+    <div style="margin-bottom:16px;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);">発光反応の流れ</div>
+    <div class="reaction">
+      <div class="react-box">
+        <div class="react-name">カフェ酸</div>
+        <div class="react-sub">caffeic acid<br>培地に添加</div>
+      </div>
+      <div style="text-align:center;">
+        <div class="react-arrow">→</div>
+        <div class="react-enzyme">hispidin synthase<br>oxidase</div>
+      </div>
+      <div class="react-box">
+        <div class="react-name">3-hydroxyhispidin</div>
+        <div class="react-sub">ルシフェリン<br>発光基質</div>
+      </div>
+      <div style="text-align:center;">
+        <div class="react-arrow">→</div>
+        <div class="react-enzyme">+ O₂<br>hispidin oxidase</div>
+      </div>
+      <div class="react-box" style="background:rgba(42,223,138,0.12);border-color:rgba(42,223,138,0.5);animation:pulse-glow 2s infinite;">
+        <div class="react-name" style="text-shadow:0 0 8px var(--accent);">💡 光</div>
+        <div class="react-sub">530nm 青緑色<br>副産物：H₂O</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIES -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Species Selection</div>
+    <h2>試作候補3種</h2>
+    <div class="sec-desc">入手性・発光強度・建材への適合性で選定。まずは Panellus stipticus から始める。</div>
+    <div style="border:1px solid var(--border);background:var(--card);">
+      <table class="species-table">
+        <thead>
+          <tr>
+            <th>種名</th>
+            <th>発光強度</th>
+            <th>発光部位</th>
+            <th>入手</th>
+            <th>培養難度</th>
+            <th>備考</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="sp-name">Panellus stipticus</div>
+              <div class="sp-sub">ヒイロスギタケモドキ属。北米・日本分布。</div>
+            </td>
+            <td>
+              <span class="glow-dot"></span>
+              <span class="glow-dot"></span>
+              <span class="glow-dot"></span>
+              <span class="glow-dot dim"></span>
+              <span class="glow-dot dim"></span>
+            </td>
+            <td style="font-size:11px;color:var(--muted);">菌糸体・子実体</td>
+            <td><span class="diff-badge badge-easy">容易</span></td>
+            <td><span class="diff-badge badge-easy">初級</span></td>
+            <td style="font-size:11px;color:var(--muted);">◎ 最初の試作に最適。菌床キット流通あり。カフェ酸添加で発光増強。</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="sp-name">Mycena chlorophos</div>
+              <div class="sp-sub">日本固有。八丈島・小笠原諸島分布。</div>
+            </td>
+            <td>
+              <span class="glow-dot"></span>
+              <span class="glow-dot"></span>
+              <span class="glow-dot"></span>
+              <span class="glow-dot"></span>
+              <span class="glow-dot"></span>
+            </td>
+            <td style="font-size:11px;color:var(--muted);">子実体（傘・柄）</td>
+            <td><span class="diff-badge badge-med">やや困難</span></td>
+            <td><span class="diff-badge badge-med">中級</span></td>
+            <td style="font-size:11px;color:var(--muted);">最強クラス発光。高温多湿環境が必要。北海道での培養は加温必須。</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="sp-name">Neonothopanus nambi</div>
+              <div class="sp-sub">熱帯種。ブラジル・東南アジア分布。発光遺伝子の解析モデル種。</div>
+            </td>
+            <td>
+              <span class="glow-dot"></span>
+              <span class="glow-dot"></span>
+              <span class="glow-dot"></span>
+              <span class="glow-dot"></span>
+              <span class="glow-dot"></span>
+            </td>
+            <td style="font-size:11px;color:var(--muted);">菌糸体・子実体全体</td>
+            <td><span class="diff-badge badge-hard">研究機関経由</span></td>
+            <td><span class="diff-badge badge-hard">上級</span></td>
+            <td style="font-size:11px;color:var(--muted);">2020年の遺伝子解析論文に使用されたモデル種。菌株入手に研究協力が必要。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- PROTOCOL -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Build Protocol</div>
+    <h2>試作ステップ</h2>
+    <div class="sec-desc">Panellus stipticus で発光菌糸体パネルを作る。特殊な実験設備なしで進められる第1フェーズ。</div>
+    <div class="proto-wrap">
+      <div class="proto-row">
+        <div class="proto-num">1</div>
+        <div class="proto-body">
+          <div class="proto-title">種菌の入手</div>
+          <div class="proto-desc">
+            <strong>Panellus stipticus</strong> の菌床キットを入手（国内業者・海外菌株バンクから）。
+            または枯れ木から自然採取した子実体から組織培養で純粋培養菌株を取る。
+            培地：コーン麦芽寒天（CMA）またはポテトデキストロース寒天（PDA）。
+          </div>
+        </div>
+      </div>
+      <div class="proto-row">
+        <div class="proto-num">2</div>
+        <div class="proto-body">
+          <div class="proto-title">発光増強培地の調製</div>
+          <div class="proto-desc">
+            通常の木材チップ培地（オーク・ブナ）に
+            <strong>カフェ酸 0.1〜1mmol/L</strong> を添加。
+            カフェ酸は Sigma-Aldrich または食品添加物グレードで入手可。
+            暗所で24時間培養後、発光を写真撮影（ISO 3200以上、シャッター30秒以上）で確認。
+          </div>
+        </div>
+      </div>
+      <div class="proto-row key">
+        <div class="proto-num">3</div>
+        <div class="proto-body">
+          <div class="proto-title">★ 電気刺激による発光制御の試験</div>
+          <div class="proto-desc">
+            2本の白金電極（または銅線）を菌糸体に差し込み、
+            <strong>0.5〜2V DC の微弱電流</strong>を断続的に流す。
+            ストレス応答として発光が局所的に強まる現象を観察。
+            Arduino + MOSFETで制御すれば「任意のパターンで光らせる」試作が可能。
+          </div>
+        </div>
+      </div>
+      <div class="proto-row">
+        <div class="proto-num">4</div>
+        <div class="proto-body">
+          <div class="proto-title">建材パネル形成</div>
+          <div class="proto-desc">
+            菌糸体をHDPEフレーム内（300×300×30mm）で成長させる。
+            発光確認後、<strong>55℃ で12時間乾燥</strong>すると菌糸は死滅して固まる。
+            ——乾燥後は発光しない（生きた状態でのみ発光）。
+            <strong>結論：光らせるには「生きたまま」維持する必要がある。</strong>
+            水分・空気・温度管理ユニット付きのLivingパネルシステムとして設計する。
+          </div>
+        </div>
+      </div>
+      <div class="proto-row">
+        <div class="proto-num">5</div>
+        <div class="proto-body">
+          <div class="proto-title">Living Panel — 維持管理システム</div>
+          <div class="proto-desc">
+            パネル背面に<strong>マイクロ霧吹き（超音波加湿）+ 温度センサー + CO₂排気</strong>を内蔵。
+            Raspberry Pi Zero で環境制御。カフェ酸を週1回噴霧して発光を維持。
+            目標：壁に設置した状態で6ヶ月以上の連続発光。
+          </div>
+        </div>
+      </div>
+      <div class="proto-row key">
+        <div class="proto-num">6</div>
+        <div class="proto-body">
+          <div class="proto-title">★ TAPKOPへの設置</div>
+          <div class="proto-desc">
+            北海道・美留和の TAPKOP 小屋の内壁に Living Panel を設置。
+            冬季（−15℃）でも内部温度15℃を維持できるか検証。
+            完全暗闇でどの程度の輝度が得られるかを写真・光度計で記録。
+            SOLUNAビレッジの「夜の照明システム」としての可能性を評価する。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MORE IMAGES: real + concept clearly labeled -->
+<section style="padding:0;border-bottom:1px solid var(--border);">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);">
+    <!-- Real photo -->
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/glow_real_panellus_2.jpg" alt="Panellus stipticus 長時間露光実写">
+      <div class="render-label" style="font-size:9px;">実写 — 長時間露光 8.5分 / Ylem / Public Domain</div>
+    </div>
+    <!-- AI concept -->
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/glow_panel.jpg" alt="TAPKOP発光パネル コンセプト" onerror="this.parentNode.style.background='#060c0e';this.style.display='none'">
+      <div class="render-label" style="font-size:9px;">AIコンセプト — TAPKOP 発光パネル設置イメージ</div>
+    </div>
+    <!-- AI concept -->
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/glow_petri.jpg" alt="培養コンセプト" onerror="this.parentNode.style.background='#060c0e';this.style.display='none'">
+      <div class="render-label" style="font-size:9px;">AIコンセプト — 菌糸体培養フラスコ</div>
+    </div>
+    <!-- AI concept -->
+    <div class="render-cell" style="aspect-ratio:16/9;">
+      <img src="img/glow_installation.jpg" alt="インスタレーション コンセプト" onerror="this.parentNode.style.background='#060c0e';this.style.display='none'">
+      <div class="render-label" style="font-size:9px;">AIコンセプト — 発光壁面インスタレーション</div>
+    </div>
+  </div>
+  <!-- Attribution note -->
+  <div style="background:var(--bg);padding:10px 24px;font-size:10px;color:var(--muted);border-top:1px solid var(--border);">
+    実写写真：Ylem (Benjamin Derge) / Wikimedia Commons / Public Domain　|　Mycena chlorophos：八丈島植物公園 2008 / CC BY-SA 3.0　|　AIコンセプト：Gemini Pro 3生成
+  </div>
+</section>
+
+<!-- APPLICATIONS -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Applications</div>
+    <h2>SOLUNAへの応用</h2>
+    <div class="sec-desc">電力ゼロ・自己維持する生物発光が、SOLUNAの哲学と重なる。</div>
+    <div class="app-grid">
+      <div class="app-card">
+        <div class="app-icon">🏠</div>
+        <div class="app-title">Living Wall — TAPKOP</div>
+        <div class="app-body">
+          小屋の内壁1面を Living Panel で覆う。
+          夜間、電灯を消すと壁が<strong>青白く発光</strong>する。
+          太陽光・電気不要。菌糸体が生きている限り光り続ける。
+          ゲストが「菌と一緒に眠る」体験。
+        </div>
+        <span class="app-status status-proto">試作計画中</span>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🥋</div>
+        <div class="app-title">RAFT × Glow — 夜間試合</div>
+        <div class="app-body">
+          湖上プラットフォームのエッジに発光パネルを配置。
+          夜に試合する。<strong>プラットフォームの縁が光り</strong>、水面に反射する。
+          落水すると「光の境界線を越える」視覚的効果。
+          屈斜路湖の闇夜で最も美しい試合環境。
+        </div>
+        <span class="app-status status-proto">RAFT 2027年試験予定</span>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">⚡</div>
+        <div class="app-title">Responsive Surface — 電気制御</div>
+        <div class="app-body">
+          Arduino + 電極で菌糸体の発光パターンを制御。
+          <strong>人が近づくと光が広がる</strong>インタラクティブ壁。
+          センサー連動で「呼吸するような」パルス発光。
+          Koe デバイスの音声に反応させることも理論上可能。
+        </div>
+        <span class="app-status status-research">研究段階</span>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🌿</div>
+        <div class="app-title">Glow Garden — 発光庭</div>
+        <div class="app-body">
+          TAPKOPの外構・庭に発光菌床ブロックを埋め込む。
+          北海道の夏夜、庭が青白く光る。
+          ホタルのいない北海道で<strong>生物発光の庭</strong>を作る。
+          観光価値として「SOLUNAでしか見られない夜」。
+        </div>
+        <span class="app-status status-concept">コンセプト</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOM / STARTER KIT -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Starter Kit</div>
+    <h2>最初の試作 — 材料リスト</h2>
+    <div class="sec-desc">Panellus stipticus で発光菌糸体パネルを1枚作るための最小構成。合計 ¥35,000 以下。</div>
+    <div style="border:1px solid var(--border);background:var(--card);">
+      <table class="bom-table">
+        <thead>
+          <tr><th>材料</th><th>入手先</th><th>数量</th><th class="bom-price">概算</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="bom-item">Panellus stipticus 菌株</div><div class="bom-sub">純粋培養菌株。PDA斜面培地入り。</div></td>
+            <td style="font-size:11px;color:var(--muted);">国内菌株販売業者 / ATCC</td>
+            <td style="font-size:11px;color:var(--muted);">1株</td>
+            <td class="bom-price">¥3,000〜8,000</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">オーク木材チップ + 糠</div><div class="bom-sub">栄養培地。ブロック成形用。</div></td>
+            <td style="font-size:11px;color:var(--muted);">ホームセンター / 農業資材店</td>
+            <td style="font-size:11px;color:var(--muted);">5kg</td>
+            <td class="bom-price">¥800</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">カフェ酸（caffeic acid）1g</div><div class="bom-sub">発光増強基質。食品添加物グレードで可。</div></td>
+            <td style="font-size:11px;color:var(--muted);">Sigma-Aldrich / 試薬業者</td>
+            <td style="font-size:11px;color:var(--muted);">1g</td>
+            <td class="bom-price">¥1,500</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">HDPE フレーム 300×300×30mm</div><div class="bom-sub">CNC加工済み。パネル成形型。</div></td>
+            <td style="font-size:11px;color:var(--muted);">自作CNC（SOLUNA Fab）</td>
+            <td style="font-size:11px;color:var(--muted);">1枚</td>
+            <td class="bom-price">¥800</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">Arduino Nano + MOS-FET + 電極</div><div class="bom-sub">発光制御用電気刺激回路。</div></td>
+            <td style="font-size:11px;color:var(--muted);">秋月電子 / AliExpress</td>
+            <td style="font-size:11px;color:var(--muted);">1式</td>
+            <td class="bom-price">¥2,500</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">超音波加湿モジュール + 温湿度センサー</div><div class="bom-sub">Living Panel 維持システム。</div></td>
+            <td style="font-size:11px;color:var(--muted);">AliExpress</td>
+            <td style="font-size:11px;color:var(--muted);">1式</td>
+            <td class="bom-price">¥3,200</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">全天暗室撮影用：ミラーレス + 三脚</div><div class="bom-sub">ISO3200以上、30秒露出で発光記録。</div></td>
+            <td style="font-size:11px;color:var(--muted);">手持ち機材流用可</td>
+            <td style="font-size:11px;color:var(--muted);">1式</td>
+            <td class="bom-price">（既存）</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" style="text-align:right;font-size:13px;padding:16px;color:var(--muted);">初期材料費</td>
+            <td style="font-size:20px;font-weight:300;color:var(--accent);text-align:right;padding:16px;">¥12,000〜</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-block">
+  <blockquote>
+    電気を使わずに光る壁を作れたら、<br>
+    <em>建築の定義が変わる。</em><br><br>
+    菌糸体は素材ではなく、パートナーだ。
+  </blockquote>
+  <p class="q-attr">— SOLUNA Bioluminescence Lab, TAPKOP 2026</p>
+</div>
+
+<!-- CTA -->
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <div class="cta-box">
+      <h3>一緒に光らせよう</h3>
+      <p>
+        2026年夏、TAPKOPで最初の試作を行う。<br>
+        バイオテクノロジー・電子工作・菌糸体培養——<br>
+        どれか一つでも得意なら力を貸してほしい。<br><br>
+        <span style="font-size:12px;color:var(--muted);">Work Party 形式。宿泊費・食事込み。</span>
+      </p>
+      <a href="mailto:cabin@solun.art?subject=SOLUNA GLOW 試作参加希望" class="btn-primary">試作に参加する →</a>
+      <a href="/mycelium" class="btn-ghost">菌糸体建材を見る</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-logo">SOLUNA GLOW</span>
+  <div class="foot-links">
+    <a href="/mycelium">菌糸体建材</a>
+    <a href="/float">FLOAT カヌー</a>
+    <a href="/raft">RAFT</a>
+    <a href="/village">SOLUNA ビレッジ</a>
+  </div>
+</footer>
+
+<script defer src="/js/sln-track.js"></script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

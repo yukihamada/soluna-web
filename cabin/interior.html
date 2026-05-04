@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>外装・内装デザイン — SOLUNA Instant House</title>
+<meta name="description" content="コンテナ小屋の外装・内装デザインガイド。漆喰・杉板・土壁・無垢床・鉄骨梁——自然素材で作るオフグリッドの美学。">
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#070705;--card:#0d0d0b;--b:rgba(255,255,255,.07);--b2:rgba(255,255,255,.04);
+  --gold:#c8a455;--text:#d8d0bc;--dim:#555;
+  --warm:#e8d5b0;--cream:#f5f0e8;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;line-height:1.7;min-height:100%}
+body{padding-bottom:100px}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:rgba(7,7,5,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--b)}
+.nl{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--gold);text-decoration:none}
+.nls{display:flex;gap:16px;align-items:center}
+.nls a{font-size:10px;color:var(--dim);text-decoration:none;transition:color .15s}
+.nls a:hover{color:var(--text)}
+
+/* HERO */
+.hero{padding:72px 24px 52px;max-width:880px;margin:0 auto}
+.tag{font-size:9px;letter-spacing:.3em;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:12px}
+h1{font-size:clamp(28px,5vw,44px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:16px;letter-spacing:-.02em}
+.sub{font-size:13px;color:var(--dim);line-height:1.9;max-width:600px;margin-bottom:32px}
+.hero-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:48px}
+.hs{background:var(--card);border:1px solid var(--b);border-radius:10px;padding:12px;text-align:center}
+.hs-v{font-size:20px;font-weight:900;color:var(--gold)}
+.hs-l{font-size:9px;color:var(--dim);margin-top:3px;letter-spacing:.06em}
+
+/* SECTION */
+.sec{max-width:880px;margin:0 auto 64px;padding:0 24px}
+.sec-title{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:10px}
+.sec-title::before{content:'';width:3px;height:14px;background:var(--gold);border-radius:2px;display:inline-block}
+
+/* MOOD BOARD */
+.moodboard{background:var(--card);border:1px solid var(--b);border-radius:16px;overflow:hidden;margin-bottom:24px}
+.mb-img{width:100%;height:260px;position:relative;overflow:hidden}
+.mb-caption{padding:20px 24px;font-size:12px;color:var(--dim);line-height:1.8}
+.mb-caption strong{color:var(--text)}
+
+/* PALETTE */
+.palette{display:flex;gap:0;border-radius:12px;overflow:hidden;margin-bottom:16px;height:80px}
+.ps{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:8px 4px;font-size:8px;letter-spacing:.06em;font-weight:700;transition:flex .2s}
+.ps:hover{flex:2}
+.ps-name{color:rgba(255,255,255,.7);text-align:center;line-height:1.4}
+
+/* MATERIAL GRID */
+.mat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:24px}
+.mat-card{background:var(--card);border:1px solid var(--b);border-radius:14px;overflow:hidden}
+.mat-swatch{height:100px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.mat-body{padding:16px}
+.mat-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.mat-spec{font-size:10px;color:var(--dim);line-height:1.7;margin-bottom:10px}
+.mat-tag{display:inline-block;font-size:9px;padding:3px 8px;border-radius:20px;margin-right:4px;margin-bottom:4px;font-weight:600}
+.tag-ext{background:rgba(200,164,85,.12);color:var(--gold);border:1px solid rgba(200,164,85,.2)}
+.tag-int{background:rgba(90,176,230,.1);color:#5ab0e6;border:1px solid rgba(90,176,230,.2)}
+.tag-both{background:rgba(78,203,141,.1);color:#4ecb8d;border:1px solid rgba(78,203,141,.2)}
+.tag-diy{background:rgba(255,255,255,.06);color:#888;border:1px solid var(--b)}
+
+/* ROOM SECTIONS */
+.room-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+@media(max-width:600px){.room-grid{grid-template-columns:1fr}}
+.room-card{background:var(--card);border:1px solid var(--b);border-radius:14px;overflow:hidden}
+.room-head{height:140px;position:relative;display:flex;align-items:flex-end;padding:16px}
+.room-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.6);padding:5px 10px;border-radius:6px;backdrop-filter:blur(8px)}
+.room-body{padding:16px}
+.room-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px}
+.room-items{list-style:none;font-size:11px;color:var(--dim);line-height:2}
+.room-items li::before{content:"• ";color:var(--gold)}
+
+/* PROCESS STEPS */
+.steps{margin-bottom:24px}
+.step{display:flex;gap:16px;margin-bottom:20px;align-items:flex-start}
+.step-num{width:32px;height:32px;border:1px solid rgba(200,164,85,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0}
+.step-body h4{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.step-body p{font-size:11px;color:var(--dim);line-height:1.8}
+.step-tip{font-size:10px;background:rgba(200,164,85,.06);border-left:2px solid rgba(200,164,85,.3);padding:7px 12px;border-radius:0 6px 6px 0;margin-top:8px;color:#777;line-height:1.8}
+
+/* CROSS SECTION SVG */
+.diagram{background:var(--card);border:1px solid var(--b);border-radius:16px;padding:20px;margin-bottom:16px;overflow-x:auto}
+.diagram svg{display:block;margin:0 auto;max-width:100%}
+.diag-cap{font-size:10px;color:var(--dim);text-align:center;margin-top:10px;line-height:1.7}
+
+/* TEXTURE SWATCHES */
+.texture-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+.tx{border-radius:10px;overflow:hidden;flex:1;min-width:130px;max-width:180px}
+.tx-swatch{height:100px;position:relative}
+.tx-label{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--dim);text-align:center;padding:8px 4px;text-transform:uppercase;background:var(--card);border:1px solid var(--b);border-top:none;border-radius:0 0 10px 10px}
+
+/* COST TABLE */
+.ctbl{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:16px}
+.ctbl th{text-align:left;padding:8px 12px;color:var(--dim);font-weight:600;font-size:9px;letter-spacing:.1em;border-bottom:1px solid var(--b);text-transform:uppercase}
+.ctbl td{padding:9px 12px;border-bottom:1px solid var(--b2);vertical-align:top;line-height:1.6}
+.ctbl td:last-child{text-align:right;white-space:nowrap;color:var(--gold);font-weight:700}
+.ctbl .total td{font-weight:700;border-top:1px solid rgba(200,164,85,.3);border-bottom:none;color:#fff;padding-top:14px}
+.ctbl .total td:last-child{color:var(--gold);font-size:14px}
+
+/* NOTE BOX */
+.note{background:rgba(200,164,85,.06);border:1px solid rgba(200,164,85,.2);border-radius:10px;padding:14px 16px;font-size:11px;color:#888;line-height:1.8;margin-bottom:16px}
+.note strong{color:var(--gold)}
+
+/* LINK BTN */
+.lnk{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--gold);text-decoration:none;padding:7px 14px;border:1px solid rgba(200,164,85,.25);border-radius:8px;background:rgba(200,164,85,.06);margin-right:8px;margin-bottom:8px;transition:all .15s}
+.lnk:hover{background:rgba(200,164,85,.15);border-color:rgba(200,164,85,.5)}
+
+/* COMPARISON */
+.comp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+@media(max-width:540px){.comp{grid-template-columns:1fr}}
+.comp-card{background:var(--card);border:1px solid var(--b);border-radius:12px;padding:16px}
+.comp-head{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--b)}
+.comp-head.gold{color:var(--gold)}
+.comp-head.dim{color:var(--dim)}
+.comp-item{font-size:11px;padding:5px 0;border-bottom:1px solid var(--b2);display:flex;gap:8px;align-items:flex-start;line-height:1.6}
+.ok::before{content:"✓ ";color:#4ecb8d;font-weight:700}
+.ng::before{content:"✗ ";color:#e65a5a;font-weight:700}
+
+.ph-ldk{background:url('/img/soluna_ldk_interior.webp') center/cover}
+.ph-bed{background:url('/img/soluna_bedroom_interior.webp') center/cover}
+.ph-water{background:url('/img/soluna_bathroom_interior.webp') center/cover}
+.ph-ext{background:url('/img/soluna_container_exterior_winter.webp') center/cover}
+.ph-shik{background:url('/img/soluna_shikkui_texture.webp') center/cover}
+.ph-sugi{background:url('/img/soluna_yakiita_exterior.webp') center/cover}
+.ph-kuro{background:url('/img/soluna_straw_bale_wall.webp') center/cover}
+.ph-mus{background:url('/img/soluna_bjj_floor.webp') center/cover}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nl" href="/">SOLUNA</a>
+  <div class="nls">
+    <a href="/cottage">4ゾーン設計図</a>
+    <a href="/insulation">断熱</a>
+    <a href="/offgrid">オフグリッド</a>
+    <a href="/foundation">基礎</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="tag">Interior &amp; Exterior Design</div>
+  <h1>素材が語る、<br>オフグリッドの美学。</h1>
+  <p class="sub">コンテナの無骨な鉄骨に、漆喰・杉板・土壁・無垢床を重ねる。工業と自然の対話が、ここにしかない空間をつくる。</p>
+
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-v">漆喰</div><div class="hs-l">主要仕上げ材</div></div>
+    <div class="hs"><div class="hs-v">無垢杉</div><div class="hs-l">床・天井</div></div>
+    <div class="hs"><div class="hs-v">pH12.5</div><div class="hs-l">漆喰の抗菌力</div></div>
+    <div class="hs"><div class="hs-v">100年</div><div class="hs-l">漆喰の耐久性</div></div>
+    <div class="hs"><div class="hs-v">VOC=0</div><div class="hs-l">全室自然素材</div></div>
+  </div>
+</div>
+
+<!-- =============== 01. EXTERIOR =============== -->
+<div class="sec">
+  <div class="sec-title">01 · 外装デザイン</div>
+
+  <!-- SVG exterior mood board -->
+  <div class="moodboard">
+    <div class="mb-img ph-ext" style="height:300px">
+      <svg width="100%" height="300" viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- Sky gradient -->
+        <defs>
+          <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#1a2a3a;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#2a3a2a;stop-opacity:1"/>
+          </linearGradient>
+          <linearGradient id="wall1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#c8b898;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#b8a888;stop-opacity:1"/>
+          </linearGradient>
+          <linearGradient id="wall2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1a1a18;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#222220;stop-opacity:1"/>
+          </linearGradient>
+          <linearGradient id="sugi" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#2a1a0a;stop-opacity:1"/>
+            <stop offset="50%" style="stop-color:#1e1206;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#2a1a0a;stop-opacity:1"/>
+          </linearGradient>
+          <filter id="tex">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/>
+            <feColorMatrix type="saturate" values="0" result="gray"/>
+            <feBlend in="SourceGraphic" in2="gray" mode="multiply" result="blend"/>
+            <feComposite in="blend" in2="SourceGraphic" operator="in"/>
+          </filter>
+        </defs>
+        <!-- background sky -->
+        <rect width="800" height="300" fill="url(#sky)"/>
+        <!-- Snow ground -->
+        <rect x="0" y="260" width="800" height="40" fill="#eeeef0" opacity="0.6"/>
+        <!-- Forest silhouette -->
+        <rect x="0" y="170" width="800" height="90" fill="#0a120a" opacity="0.8"/>
+        <ellipse cx="60" cy="175" rx="22" ry="40" fill="#0c160c"/>
+        <ellipse cx="110" cy="165" rx="18" ry="50" fill="#0a140a"/>
+        <ellipse cx="700" cy="170" rx="20" ry="45" fill="#0c160c"/>
+        <ellipse cx="750" cy="165" rx="16" ry="52" fill="#0a140a"/>
+
+        <!-- Container building: two 40ft side by side -->
+        <!-- Container A — lime plaster white -->
+        <rect x="120" y="120" width="260" height="140" fill="url(#wall1)" rx="2"/>
+        <!-- Container B — yakiita cedar dark -->
+        <rect x="385" y="120" width="280" height="140" fill="url(#wall2)" rx="2"/>
+        <!-- Roof line -->
+        <rect x="118" y="116" width="549" height="8" fill="#1a1a18" rx="1"/>
+        <!-- Cedar planks on Container B (vertical lines) -->
+        <g stroke="#2a2220" stroke-width="1" opacity="0.6">
+          <line x1="410" y1="128" x2="410" y2="260"/>
+          <line x1="432" y1="128" x2="432" y2="260"/>
+          <line x1="454" y1="128" x2="454" y2="260"/>
+          <line x1="476" y1="128" x2="476" y2="260"/>
+          <line x1="498" y1="128" x2="498" y2="260"/>
+          <line x1="520" y1="128" x2="520" y2="260"/>
+          <line x1="542" y1="128" x2="542" y2="260"/>
+          <line x1="564" y1="128" x2="564" y2="260"/>
+          <line x1="586" y1="128" x2="586" y2="260"/>
+          <line x1="608" y1="128" x2="608" y2="260"/>
+          <line x1="630" y1="128" x2="630" y2="260"/>
+          <line x1="652" y1="128" x2="652" y2="260"/>
+        </g>
+        <!-- Windows on plaster container -->
+        <rect x="145" y="145" width="80" height="55" fill="#1a2830" rx="2"/>
+        <rect x="245" y="145" width="60" height="55" fill="#1a2830" rx="2"/>
+        <!-- Door on plaster container -->
+        <rect x="165" y="210" width="40" height="50" fill="#1a1a18" rx="1"/>
+        <!-- Window on dark container -->
+        <rect x="440" y="145" width="90" height="55" fill="#c8b880" opacity="0.15" rx="2"/>
+        <rect x="560" y="145" width="80" height="55" fill="#c8b880" opacity="0.15" rx="2"/>
+        <!-- Deck / entrance -->
+        <rect x="118" y="258" width="549" height="8" fill="#3a2a18" rx="1"/>
+        <!-- Solar panels on roof -->
+        <rect x="140" y="106" width="60" height="10" fill="#1a3050" rx="1" opacity="0.9"/>
+        <rect x="206" y="106" width="60" height="10" fill="#1a3050" rx="1" opacity="0.9"/>
+        <rect x="272" y="106" width="60" height="10" fill="#1a3050" rx="1" opacity="0.9"/>
+        <!-- Labels -->
+        <text x="250" y="100" fill="#c8b898" font-size="9" text-anchor="middle" font-family="Helvetica" font-weight="700" letter-spacing="2">漆喰仕上げ</text>
+        <text x="525" y="100" fill="#888" font-size="9" text-anchor="middle" font-family="Helvetica" font-weight="700" letter-spacing="2">焼杉板張り</text>
+        <!-- IBC water tank -->
+        <rect x="670" y="200" width="30" height="40" fill="#2a4030" rx="2" opacity="0.8"/>
+        <rect x="665" y="238" width="40" height="6" fill="#1a2a20" rx="1" opacity="0.8"/>
+        <text x="685" y="220" fill="#4ecb8d" font-size="7" text-anchor="middle" font-family="Helvetica" opacity="0.8">IBC</text>
+      </svg>
+    </div>
+    <div class="mb-caption">
+      <strong>外装コンセプト: 「工業×自然」の対話</strong><br>
+      西棟（LDK側）は漆喰モルタル吹付で温かみある白壁。東棟（寝室側）は焼杉板縦張りでシャープな黒。
+      異なる素材が並ぶことで、コンテナの人工的な造形に奥行きが生まれる。
+    </div>
+  </div>
+
+  <!-- Exterior color palette -->
+  <p style="font-size:11px;color:var(--dim);margin-bottom:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase">外装カラーパレット</p>
+  <div class="palette">
+    <div class="ps" style="background:#c8b898;flex:2">
+      <span class="ps-name" style="color:#333">漆喰白<br>#C8B898</span>
+    </div>
+    <div class="ps" style="background:#1a1a16;flex:1.5">
+      <span class="ps-name">焼杉黒<br>#1A1A16</span>
+    </div>
+    <div class="ps" style="background:#3a3028;flex:1">
+      <span class="ps-name">コルテン錆<br>#3A3028</span>
+    </div>
+    <div class="ps" style="background:#1a3050;flex:1">
+      <span class="ps-name">ソーラー紺<br>#1A3050</span>
+    </div>
+    <div class="ps" style="background:#2a1a0a;flex:1">
+      <span class="ps-name">杉板茶<br>#2A1A0A</span>
+    </div>
+    <div class="ps" style="background:#e8e8e0;flex:1.5">
+      <span class="ps-name" style="color:#333">雪/霜白<br>#E8E8E0</span>
+    </div>
+  </div>
+
+  <!-- Exterior materials grid -->
+  <div class="mat-grid">
+    <!-- Lime render -->
+    <div class="mat-card">
+      <div class="mat-swatch ph-shik" style="height:90px">
+        <svg width="100%" height="90" viewBox="0 0 240 90" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="plaster">
+              <feTurbulence type="turbulence" baseFrequency="0.7 0.5" numOctaves="4" seed="2" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+          </defs>
+          <rect width="240" height="90" fill="#c0b090" filter="url(#plaster)"/>
+          <rect width="240" height="90" fill="#d8c8a0" opacity="0.4" filter="url(#plaster)"/>
+          <text x="120" y="52" fill="rgba(60,50,30,.6)" font-size="11" text-anchor="middle" font-family="Helvetica" font-weight="700" letter-spacing="2">漆喰モルタル</text>
+        </svg>
+      </div>
+      <div class="mat-body">
+        <div class="mat-name">外壁漆喰吹付</div>
+        <div class="mat-spec">モルタル下地 → 漆喰系仕上材（スチール面は専用プライマー＋ラス網必須）。骨材入りで砂壁風のテクスチャ。厚み15〜20mm。</div>
+        <span class="mat-tag tag-ext">外装</span>
+        <span class="mat-tag tag-diy">DIY △（吹付は業者推奨）</span>
+        <div style="font-size:10px;color:var(--gold);margin-top:8px">¥4,500〜6,500/m²</div>
+      </div>
+    </div>
+
+    <!-- Yakiita cedar -->
+    <div class="mat-card">
+      <div class="mat-swatch ph-sugi" style="height:90px">
+        <svg width="100%" height="90" viewBox="0 0 240 90" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="cedar" x="0" y="0" width="22" height="90" patternUnits="userSpaceOnUse">
+              <rect width="20" height="90" fill="#1a1008"/>
+              <rect x="0" y="0" width="2" height="90" fill="#0a0804"/>
+              <rect x="0" y="15" width="20" height="0.5" fill="#2a1808" opacity="0.6"/>
+              <rect x="0" y="40" width="20" height="0.5" fill="#241408" opacity="0.4"/>
+              <rect x="0" y="65" width="20" height="0.5" fill="#2a1808" opacity="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="240" height="90" fill="url(#cedar)"/>
+          <text x="120" y="52" fill="rgba(200,160,80,.5)" font-size="11" text-anchor="middle" font-family="Helvetica" font-weight="700" letter-spacing="2">焼杉板</text>
+        </svg>
+      </div>
+      <div class="mat-body">
+        <div class="mat-name">焼杉板 縦張り</div>
+        <div class="mat-spec">杉板を3面焼きで炭化。表面炭化層が防腐・防虫・防火の役割。北海道産杉推奨。厚み15mm、幅90〜120mm。無塗装で50年以上持続。</div>
+        <span class="mat-tag tag-ext">外装</span>
+        <span class="mat-tag tag-diy">DIY ◎</span>
+        <div style="font-size:10px;color:var(--gold);margin-top:8px">¥3,000〜4,500/m²（材料のみ）</div>
+      </div>
+    </div>
+
+    <!-- Corten steel detail -->
+    <div class="mat-card">
+      <div class="mat-swatch ph-kuro" style="height:90px">
+        <svg width="100%" height="90" viewBox="0 0 240 90" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="metal" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#2a2a28"/>
+              <stop offset="50%" style="stop-color:#1a1a18"/>
+              <stop offset="100%" style="stop-color:#222220"/>
+            </linearGradient>
+          </defs>
+          <rect width="240" height="90" fill="url(#metal)"/>
+          <!-- horizontal ribs like container -->
+          <rect x="0" y="20" width="240" height="2" fill="#3a3a38" opacity="0.5"/>
+          <rect x="0" y="45" width="240" height="2" fill="#3a3a38" opacity="0.5"/>
+          <rect x="0" y="70" width="240" height="2" fill="#3a3a38" opacity="0.5"/>
+          <text x="120" y="52" fill="rgba(200,160,80,.4)" font-size="11" text-anchor="middle" font-family="Helvetica" font-weight="700" letter-spacing="2">コンテナ鉄面</text>
+        </svg>
+      </div>
+      <div class="mat-body">
+        <div class="mat-name">コンテナ素地 + 防錆塗装</div>
+        <div class="mat-spec">コンテナ鉄面をサンドブラスト後、エポキシ系防錆プライマー2回塗り。上塗りはラジカル硬化型塗料（黒またはチャコール）で10年耐候。コルテン鋼風の錆色仕上げも可。</div>
+        <span class="mat-tag tag-ext">外装</span>
+        <span class="mat-tag tag-diy">DIY ○（ローラー塗）</span>
+        <div style="font-size:10px;color:var(--gold);margin-top:8px">¥1,800〜3,000/m²</div>
+      </div>
+    </div>
+
+    <!-- Green roof -->
+    <div class="mat-card">
+      <div class="mat-swatch" style="height:90px;background:linear-gradient(160deg,#0a1a08 0%,#142a10 50%,#0c1a08 100%)">
+        <svg width="100%" height="90" viewBox="0 0 240 90" xmlns="http://www.w3.org/2000/svg">
+          <rect width="240" height="90" fill="#0a1a08"/>
+          <ellipse cx="30" cy="50" rx="25" ry="18" fill="#1a3810" opacity="0.8"/>
+          <ellipse cx="80" cy="45" rx="30" ry="22" fill="#1e4012" opacity="0.9"/>
+          <ellipse cx="140" cy="50" rx="28" ry="20" fill="#183808" opacity="0.8"/>
+          <ellipse cx="200" cy="48" rx="26" ry="19" fill="#1a3e10" opacity="0.9"/>
+          <!-- soil layer -->
+          <rect x="0" y="68" width="240" height="22" fill="#2a1a08" opacity="0.8"/>
+          <text x="120" y="84" fill="rgba(78,203,141,.4)" font-size="9" text-anchor="middle" font-family="Helvetica" font-weight="700" letter-spacing="1">土 + 防根シート</text>
+          <text x="120" y="42" fill="rgba(78,203,141,.5)" font-size="11" text-anchor="middle" font-family="Helvetica" font-weight="700" letter-spacing="2">緑化屋根</text>
+        </svg>
+      </div>
+      <div class="mat-body">
+        <div class="mat-name">屋上緑化（オプション）</div>
+        <div class="mat-spec">防水シート → 排水マット → 不織布 → 軽量土壌60mm → セダム多肉植物。夏の断熱効果+3〜5℃。冬は積雪荷重に注意（100kg/m²以上）。コンテナ屋根の補強が前提。</div>
+        <span class="mat-tag tag-ext">外装</span>
+        <span class="mat-tag tag-diy">DIY △</span>
+        <div style="font-size:10px;color:var(--gold);margin-top:8px">¥12,000〜18,000/m²</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exterior section cross section -->
+  <div class="diagram">
+    <svg width="700" height="180" viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="layer1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#c0b090"/>
+          <stop offset="100%" style="stop-color:#d0c0a0"/>
+        </linearGradient>
+      </defs>
+      <!-- Title -->
+      <text x="350" y="18" fill="#c8a455" font-size="10" text-anchor="middle" font-family="Helvetica" font-weight="700" letter-spacing="3">外壁 断面 (漆喰仕上げ面)</text>
+      <!-- Layers from outside to inside -->
+      <!-- 1. Lime render -->
+      <rect x="40" y="30" width="30" height="130" fill="#c8b898" rx="2"/>
+      <text x="55" y="25" fill="#c8b898" font-size="9" text-anchor="middle" font-family="Helvetica" font-weight="700">漆喰</text>
+      <text x="55" y="170" fill="#888" font-size="8" text-anchor="middle" font-family="Helvetica">20mm</text>
+      <!-- 2. Mortar base -->
+      <rect x="72" y="30" width="20" height="130" fill="#b0a880" rx="1"/>
+      <text x="82" y="170" fill="#888" font-size="8" text-anchor="middle" font-family="Helvetica">15mm</text>
+      <!-- 3. Mesh -->
+      <rect x="94" y="30" width="6" height="130" fill="#888" rx="1" opacity="0.8"/>
+      <text x="97" y="170" fill="#666" font-size="8" text-anchor="middle" font-family="Helvetica">ラス</text>
+      <!-- 4. Primer -->
+      <rect x="102" y="30" width="8" height="130" fill="#a08060" rx="1" opacity="0.7"/>
+      <!-- 5. Container steel -->
+      <rect x="112" y="30" width="20" height="130" fill="#2a2a28"/>
+      <text x="122" y="170" fill="#888" font-size="8" text-anchor="middle" font-family="Helvetica">鉄板</text>
+      <!-- 6. Insulation (straw bale) -->
+      <rect x="134" y="30" width="120" height="130" fill="#2a1a08" rx="2"/>
+      <!-- straw texture lines -->
+      <g stroke="#3a2a10" stroke-width="0.8" opacity="0.6">
+        <line x1="134" y1="50" x2="254" y2="50"/>
+        <line x1="134" y1="70" x2="254" y2="70"/>
+        <line x1="134" y1="90" x2="254" y2="90"/>
+        <line x1="134" y1="110" x2="254" y2="110"/>
+        <line x1="134" y1="130" x2="254" y2="130"/>
+        <line x1="134" y1="150" x2="254" y2="150"/>
+      </g>
+      <text x="194" y="100" fill="#c8a455" font-size="10" text-anchor="middle" font-family="Helvetica" font-weight="700">藁ベール断熱</text>
+      <text x="194" y="115" fill="#888" font-size="9" text-anchor="middle" font-family="Helvetica">450mm · R=7.5</text>
+      <text x="194" y="170" fill="#888" font-size="8" text-anchor="middle" font-family="Helvetica">450mm</text>
+      <!-- 7. Inner container steel -->
+      <rect x="256" y="30" width="16" height="130" fill="#2a2a28"/>
+      <!-- 8. Interior lime -->
+      <rect x="274" y="30" width="16" height="130" fill="#d8c8a8" rx="1"/>
+      <text x="282" y="25" fill="#d8c8a8" font-size="9" text-anchor="middle" font-family="Helvetica" font-weight="700">漆喰</text>
+      <text x="282" y="170" fill="#888" font-size="8" text-anchor="middle" font-family="Helvetica">12mm</text>
+      <!-- Interior space indicator -->
+      <rect x="292" y="30" width="350" height="130" fill="rgba(200,164,85,.05)" rx="2"/>
+      <text x="467" y="95" fill="#c8a455" font-size="11" text-anchor="middle" font-family="Helvetica" font-weight="700" opacity="0.4">室 内 空 間</text>
+
+      <!-- Dimension arrows -->
+      <line x1="40" y1="15" x2="290" y2="15" stroke="#444" stroke-width="0.8" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <text x="165" y="12" fill="#666" font-size="9" text-anchor="middle" font-family="Helvetica">総厚 ≈ 520mm</text>
+
+      <!-- Labels on right -->
+      <text x="460" y="170" fill="#666" font-size="9" text-anchor="middle" font-family="Helvetica">内壁面</text>
+    </svg>
+    <div class="diag-cap">外壁断面：外側から「漆喰20mm → モルタル15mm → ラス網 → エポキシプライマー → コンテナ鋼板 → 藁ベール450mm → 鋼板 → 漆喰12mm」</div>
+  </div>
+
+  <!-- Process comparison: exterior steel vs interior straw -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0">
+    <div style="background:#0d0d0b;border:1px solid rgba(230,90,90,.2);border-radius:10px;padding:12px">
+      <div style="font-size:10px;font-weight:700;color:#e65a5a;letter-spacing:.1em;margin-bottom:8px">外装面（コンテナ鋼板）</div>
+      <div style="font-size:11px;color:#aaa;line-height:1.7">
+        <span style="color:#e65a5a">①</span> エポキシプライマー（防錆）<br>
+        <span style="color:#e65a5a">②</span> 菱形ラス網 ビス留め<br>
+        <span style="color:#e65a5a">③</span> モルタル下地 7+5mm<br>
+        <span style="color:#e65a5a">④</span> 漆喰仕上げ 5mm<br>
+        <span style="font-size:10px;color:#555;margin-top:4px;display:block">鉄面への密着に全4工程必須。省略不可。</span>
+      </div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(78,203,141,.2);border-radius:10px;padding:12px">
+      <div style="font-size:10px;font-weight:700;color:#4ecb8d;letter-spacing:.1em;margin-bottom:8px">内装面（藁ベール）</div>
+      <div style="font-size:11px;color:#aaa;line-height:1.7">
+        <span style="color:#4ecb8d">①</span> 藁表面を湿らせる<br>
+        <span style="color:#4ecb8d">②</span> NHL5漆喰 下塗 15mm<br>
+        <span style="color:#4ecb8d">③</span> 漆喰仕上げ 5mm<br>
+        <span style="font-size:10px;color:#4ecb8d;margin-top:4px;display:block">プライマー・ラス不要。藁の粗面が自然なアンカー。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thermal performance bar -->
+  <div style="background:#0d0d0b;border:1px solid var(--border);border-radius:10px;padding:12px;margin:10px 0">
+    <div style="font-size:10px;font-weight:700;color:#c8a455;letter-spacing:.1em;margin-bottom:10px">断熱性能 比較（R値）</div>
+    <div style="font-size:11px;color:#aaa;line-height:1.8">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+        <span style="width:110px;flex-shrink:0;color:#888">グラスウール100mm</span>
+        <div style="height:8px;background:rgba(100,100,255,.3);border-radius:4px;width:20%"></div>
+        <span style="color:#888">R-2.5</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+        <span style="width:110px;flex-shrink:0;color:#888">発泡PU 100mm</span>
+        <div style="height:8px;background:rgba(100,200,255,.35);border-radius:4px;width:28%"></div>
+        <span style="color:#888">R-3.5</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="width:110px;flex-shrink:0;color:#c8a455;font-weight:700">藁ベール 450mm</span>
+        <div style="height:8px;background:rgba(200,164,85,.5);border-radius:4px;width:100%"></div>
+        <span style="color:#c8a455;font-weight:700">R-8.1</span>
+      </div>
+    </div>
+    <div style="font-size:10px;color:#555;margin-top:8px">北海道基準（次世代省エネ）外壁 R-4.6 必要 → 藁ベールは基準の1.8倍。暖房費 ▲40-50% 試算。</div>
+  </div>
+
+  <div class="note">
+    <strong>これ以上の効率化は？</strong> 鋼板面の外壁は4工程が物理的な最小。ただし内壁の藁面はプライマー・ラス不要で2工程短縮済み。追加で検討できるのは①藁ベールと内鋼板の間にアルミ反射シートを挟む（+R-2.0）②外装を漆喰ではなく焼杉板貼りにする（下地なしで直貼り、外壁工程 → 2工程）。漆喰外壁にこだわるなら4工程は省略不可。
+  </div>
+</div>
+
+<!-- =============== 02. INTERIOR =============== -->
+<div class="sec">
+  <div class="sec-title">02 · 内装デザイン</div>
+
+  <!-- Interior color palette -->
+  <p style="font-size:11px;color:var(--dim);margin-bottom:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase">内装カラーパレット</p>
+  <div class="palette">
+    <div class="ps" style="background:#e8dfc8;flex:2.5">
+      <span class="ps-name" style="color:#444">漆喰白<br>#E8DFC8</span>
+    </div>
+    <div class="ps" style="background:#3a2a18;flex:1.5">
+      <span class="ps-name">無垢杉床<br>#3A2A18</span>
+    </div>
+    <div class="ps" style="background:#1a1a1a;flex:1">
+      <span class="ps-name">鉄骨梁<br>#1A1A1A</span>
+    </div>
+    <div class="ps" style="background:#8a7a60;flex:1">
+      <span class="ps-name">土壁アクセント<br>#8A7A60</span>
+    </div>
+    <div class="ps" style="background:#2a3830;flex:1">
+      <span class="ps-name">植物グリーン<br>#2A3830</span>
+    </div>
+    <div class="ps" style="background:#c8a455;flex:1">
+      <span class="ps-name">真鍮金物<br>#C8A455</span>
+    </div>
+  </div>
+
+  <!-- Texture swatches -->
+  <p style="font-size:11px;color:var(--dim);margin-bottom:10px;margin-top:20px;font-weight:700;letter-spacing:.1em;text-transform:uppercase">テクスチャ一覧</p>
+  <div class="texture-row">
+    <div class="tx">
+      <div class="tx-swatch">
+        <svg width="160" height="100" viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="shik-tex">
+              <feTurbulence type="turbulence" baseFrequency="0.6 0.8" numOctaves="5" seed="3"/>
+              <feDisplacementMap in="SourceGraphic" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+          </defs>
+          <rect width="160" height="100" fill="#ddd0b0" filter="url(#shik-tex)"/>
+          <rect width="160" height="100" fill="#e8dcc0" opacity="0.5" filter="url(#shik-tex)"/>
+        </svg>
+      </div>
+      <div class="tx-label">フラット漆喰</div>
+    </div>
+    <div class="tx">
+      <div class="tx-swatch">
+        <svg width="160" height="100" viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="kote-tex">
+              <feTurbulence type="turbulence" baseFrequency="0.3 0.2" numOctaves="3" seed="7"/>
+              <feDisplacementMap in="SourceGraphic" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+          </defs>
+          <rect width="160" height="100" fill="#d8cc9a" filter="url(#kote-tex)"/>
+          <rect width="160" height="100" fill="#e0d4aa" opacity="0.6" filter="url(#kote-tex)"/>
+        </svg>
+      </div>
+      <div class="tx-label">コテ波漆喰</div>
+    </div>
+    <div class="tx">
+      <div class="tx-swatch">
+        <svg width="160" height="100" viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg">
+          <rect width="160" height="100" fill="#9a8868"/>
+          <defs>
+            <filter id="tsuchi">
+              <feTurbulence type="fractalNoise" baseFrequency="1.2 0.8" numOctaves="6" seed="12"/>
+              <feDisplacementMap in="SourceGraphic" scale="3"/>
+            </filter>
+          </defs>
+          <rect width="160" height="100" fill="#a09070" filter="url(#tsuchi)" opacity="0.8"/>
+          <rect width="160" height="100" fill="#8a7858" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="tx-label">土壁（じゅらく）</div>
+    </div>
+    <div class="tx">
+      <div class="tx-swatch">
+        <svg width="160" height="100" viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="sugi-fl" x="0" y="0" width="20" height="100" patternUnits="userSpaceOnUse">
+              <rect width="19" height="100" fill="#3a2a18"/>
+              <rect x="19" y="0" width="1" height="100" fill="#1a1008"/>
+              <line x1="0" y1="18" x2="19" y2="18" stroke="#2a1e10" stroke-width="0.5" opacity="0.5"/>
+              <line x1="0" y1="45" x2="19" y2="45" stroke="#2a1e10" stroke-width="0.5" opacity="0.4"/>
+              <line x1="0" y1="72" x2="19" y2="72" stroke="#2a1e10" stroke-width="0.5" opacity="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="160" height="100" fill="url(#sugi-fl)"/>
+        </svg>
+      </div>
+      <div class="tx-label">無垢杉フローリング</div>
+    </div>
+    <div class="tx">
+      <div class="tx-swatch">
+        <svg width="160" height="100" viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg">
+          <rect width="160" height="100" fill="#1a1a18"/>
+          <!-- I-beam cross section -->
+          <rect x="60" y="20" width="40" height="8" fill="#2a2a28"/>
+          <rect x="72" y="28" width="16" height="44" fill="#222220"/>
+          <rect x="60" y="72" width="40" height="8" fill="#2a2a28"/>
+          <!-- rivet dots -->
+          <circle cx="66" cy="24" r="2" fill="#1a1a18"/>
+          <circle cx="94" cy="24" r="2" fill="#1a1a18"/>
+          <circle cx="66" cy="76" r="2" fill="#1a1a18"/>
+          <circle cx="94" cy="76" r="2" fill="#1a1a18"/>
+        </svg>
+      </div>
+      <div class="tx-label">H鋼梁（露出）</div>
+    </div>
+  </div>
+
+  <!-- Lime plaster on metal steps -->
+  <p style="font-size:11px;color:var(--dim);margin-bottom:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase">コンテナ内壁への漆喰施工手順</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>鉄面の下処理（必須）</h4>
+        <p>コンテナ内壁のサビをワイヤーブラシで除去。エポキシ系錆転換プライマー（関西ペイント「SKさび止め」等）を全面塗布。乾燥24時間。</p>
+        <div class="step-tip">省略すると2〜3年でプライマーごと剥落する。コンテナのサビは見えない部分にも進行しているので入念に。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>ラス網の取り付け</h4>
+        <p>菱形ラス（鉄製メッシュ、目付け700g/m²以上）を金属用ビス（φ3.5×25mm）でコンテナ壁に固定。間隔200mm程度。継ぎ目は30mm以上重ねる。</p>
+        <div class="step-tip">ラス網がモルタルと鉄面をつなぐアンカー。これがないと漆喰はスチール面に食いつかない。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>モルタル下塗り（2回）</h4>
+        <p>1回目：セメント:砂=1:3のモルタルを7〜8mm厚で塗り付け。乾燥3日。2回目：同配合で5mm厚。表面に「引掻き目」を入れて漆喰の食いつきを確保。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>漆喰の下塗り</h4>
+        <p>消石灰:砂=1:2に海藻糊とスサを混ぜた「中塗り漆喰」を2〜3mm厚で均一に塗る。コテ角度は45°。乾燥1〜2日。</p>
+        <div class="step-tip">既製品の「練り済み漆喰」（ヤヨイ化学「ヤマトしっくい」など）なら配合不要で便利。初DIYにはこちらを推奨。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>漆喰 仕上げ塗り</h4>
+        <p>純白の仕上げ漆喰を1〜1.5mm厚で均一塗り。コテ波・フラット・スパニッシュから質感を選ぶ。乾燥後48時間は触らない。2年かけてCO₂を吸収し完全硬化。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h4>コーナー・サッシ周りの処理</h4>
+        <p>出隅・入隅はコーナービード（金属定規）で直線を出す。サッシ周りは養生テープを貼り、コーキング後に漆喰塗り。隙間は水の侵入口になるので特に丁寧に。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============== 03. ROOM BY ROOM =============== -->
+<div class="sec">
+  <div class="sec-title">03 · 部屋別デザイン</div>
+  <div class="room-grid">
+
+    <!-- LDK -->
+    <div class="room-card">
+      <div class="room-head ph-ldk">
+        <svg width="100%" height="140" viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0">
+          <!-- room interior sketch -->
+          <rect width="360" height="140" fill="#1a1208"/>
+          <!-- ceiling beams -->
+          <rect x="0" y="0" width="360" height="18" fill="#0e0a04"/>
+          <rect x="60" y="0" width="12" height="140" fill="#0e0a04" opacity="0.5"/>
+          <rect x="180" y="0" width="12" height="140" fill="#0e0a04" opacity="0.5"/>
+          <rect x="300" y="0" width="12" height="140" fill="#0e0a04" opacity="0.5"/>
+          <!-- south window - large -->
+          <rect x="20" y="20" width="180" height="80" fill="#1a2a3a" rx="2"/>
+          <rect x="22" y="22" width="176" height="76" fill="#1e3040" opacity="0.7"/>
+          <!-- window cross -->
+          <line x1="110" y1="20" x2="110" y2="100" stroke="#2a3a4a" stroke-width="2"/>
+          <line x1="20" y1="60" x2="200" y2="60" stroke="#2a3a4a" stroke-width="2"/>
+          <!-- forest outside -->
+          <rect x="22" y="22" width="176" height="38" fill="#1a3020" opacity="0.5"/>
+          <!-- floor -->
+          <rect x="0" y="100" width="360" height="40" fill="#2a1a08"/>
+          <!-- floor planks -->
+          <line x1="0" y1="115" x2="360" y2="115" stroke="#1a1008" stroke-width="0.8"/>
+          <line x1="0" y1="130" x2="360" y2="130" stroke="#1a1008" stroke-width="0.8"/>
+          <line x1="120" y1="100" x2="120" y2="140" stroke="#1a1008" stroke-width="0.8"/>
+          <line x1="240" y1="100" x2="240" y2="140" stroke="#1a1008" stroke-width="0.8"/>
+          <!-- stove -->
+          <rect x="290" y="50" width="50" height="50" fill="#1a1a18" rx="4"/>
+          <rect x="300" y="60" width="30" height="25" fill="#2a1a08" rx="2" opacity="0.8"/>
+          <!-- flame effect -->
+          <ellipse cx="315" cy="68" rx="6" ry="8" fill="#e87820" opacity="0.7"/>
+          <ellipse cx="315" cy="70" rx="4" ry="5" fill="#f0b020" opacity="0.8"/>
+          <!-- stove pipe -->
+          <rect x="310" y="10" width="10" height="40" fill="#1a1a18"/>
+        </svg>
+        <div class="room-label">LDK · 27m²</div>
+      </div>
+      <div class="room-body">
+        <div class="room-name">リビング・ダイニング・キッチン</div>
+        <ul class="room-items">
+          <li>壁：漆喰コテ波仕上げ（白）＋北面は土壁アクセント</li>
+          <li>天井：露出Hビーム＋杉板張り（無塗装）</li>
+          <li>床：無垢杉フローリング 15mm 乱尺貼り</li>
+          <li>南面：トリプルLow-E窓（W1800×H900）×2</li>
+          <li>暖房：薪ストーブ（Morso 1440）煙突はステンレス二重管</li>
+          <li>キッチン：コンクリート天板＋無垢杉扉</li>
+          <li>照明：真鍮ペンダント＋間接LED（色温度2700K）</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bedroom -->
+    <div class="room-card">
+      <div class="room-head ph-bed">
+        <svg width="100%" height="140" viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0">
+          <rect width="360" height="140" fill="#0d1520"/>
+          <!-- ceiling -->
+          <rect x="0" y="0" width="360" height="12" fill="#080e16"/>
+          <!-- wall -->
+          <rect x="0" y="12" width="360" height="85" fill="#10182a"/>
+          <!-- small north window -->
+          <rect x="270" y="20" width="70" height="50" fill="#1a2a40" rx="2"/>
+          <line x1="305" y1="20" x2="305" y2="70" stroke="#1e3050" stroke-width="1.5"/>
+          <!-- bed -->
+          <rect x="60" y="60" width="200" height="80" fill="#1e1a14" rx="4"/>
+          <rect x="60" y="60" width="200" height="16" fill="#2a2420" rx="4"/>
+          <!-- pillow -->
+          <rect x="80" y="64" width="60" height="12" fill="#d8d0b8" rx="3" opacity="0.7"/>
+          <rect x="160" y="64" width="60" height="12" fill="#d8d0b8" rx="3" opacity="0.7"/>
+          <!-- blanket -->
+          <rect x="65" y="76" width="190" height="60" fill="#2a2030" rx="3" opacity="0.9"/>
+          <!-- floor -->
+          <rect x="0" y="108" width="360" height="32" fill="#1a1008"/>
+          <line x1="0" y1="120" x2="360" y2="120" stroke="#100c06" stroke-width="0.8"/>
+          <!-- bedside lamp -->
+          <rect x="15" y="70" width="4" height="38" fill="#1a1a18"/>
+          <ellipse cx="17" cy="68" rx="12" ry="8" fill="#c8a455" opacity="0.2"/>
+        </svg>
+        <div class="room-label">BEDROOM · 14m²</div>
+      </div>
+      <div class="room-body">
+        <div class="room-name">寝室（×2）</div>
+        <ul class="room-items">
+          <li>壁：漆喰フラット仕上げ（薄いグレーホワイト）</li>
+          <li>天井：杉板張り（低め2.1m）で籠もり感</li>
+          <li>床：無垢杉フローリング 15mm</li>
+          <li>北面：小窓（W600×H600）プライバシーガラス</li>
+          <li>収納：杉材クローゼット 奥行き600mm</li>
+          <li>照明：間接LED帯（2700K）＋真鍮壁スコンス</li>
+          <li>インテリア：麻・羊毛テキスタイルでぬくもり演出</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Water room -->
+    <div class="room-card">
+      <div class="room-head ph-water">
+        <svg width="100%" height="140" viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0">
+          <rect width="360" height="140" fill="#06101a"/>
+          <!-- tile wall -->
+          <defs>
+            <pattern id="tile" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+              <rect width="19" height="19" fill="#0a1620" rx="1"/>
+              <rect x="19" y="0" width="1" height="20" fill="#040c12"/>
+              <rect x="0" y="19" width="20" height="1" fill="#040c12"/>
+            </pattern>
+          </defs>
+          <rect width="360" height="100" fill="url(#tile)"/>
+          <!-- hinoki bath -->
+          <rect x="180" y="30" width="160" height="80" fill="#2a1a08" rx="6"/>
+          <rect x="186" y="36" width="148" height="68" fill="#0a1620" rx="4"/>
+          <!-- water shimmer -->
+          <rect x="186" y="60" width="148" height="44" fill="#0e2a3a" rx="3" opacity="0.8"/>
+          <!-- shower corner -->
+          <rect x="20" y="20" width="70" height="80" fill="#0a1420"/>
+          <line x1="90" y1="20" x2="90" y2="100" stroke="#040c12" stroke-width="2"/>
+          <!-- shower head -->
+          <circle cx="50" cy="25" r="6" fill="#1a2a3a"/>
+          <line x1="50" y1="31" x2="50" y2="25" stroke="#0a1420" stroke-width="2"/>
+          <!-- floor drain -->
+          <rect x="0" y="100" width="360" height="40" fill="#0a1008"/>
+          <defs>
+            <pattern id="floor-tile" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+              <rect width="29" height="29" fill="#0e1610" rx="1"/>
+              <rect x="29" y="0" width="1" height="30" fill="#060c06"/>
+              <rect x="0" y="29" width="30" height="1" fill="#060c06"/>
+            </pattern>
+          </defs>
+          <rect x="0" y="100" width="360" height="40" fill="url(#floor-tile)"/>
+          <!-- hinoki label -->
+          <text x="260" y="80" fill="rgba(200,164,85,.4)" font-size="10" text-anchor="middle" font-family="Helvetica" font-weight="700">檜浴槽</text>
+          <!-- Separett toilet -->
+          <rect x="110" y="50" width="50" height="50" fill="#1a1a1a" rx="6"/>
+          <rect x="115" y="35" width="40" height="16" fill="#222" rx="3"/>
+          <text x="135" y="78" fill="#555" font-size="8" text-anchor="middle" font-family="Helvetica">Separett</text>
+        </svg>
+        <div class="room-label">WATER · 14m²</div>
+      </div>
+      <div class="room-body">
+        <div class="room-name">水まわり（バス・洗面・トイレ）</div>
+        <ul class="room-items">
+          <li>壁：手づくりモザイクタイル（海外テラコッタ調）</li>
+          <li>浴槽：檜（ヒノキ）手作り浴槽 または IBC改造バス</li>
+          <li>シャワー：コーナー固定型 水圧0.15bar対応</li>
+          <li>床：滑り止めモルタルたたき（漆黒系）</li>
+          <li>トイレ：Separett Villa 9010（バイオ分離型）</li>
+          <li>洗面：コンクリートシンク＋真鍮蛇口</li>
+          <li>換気：HRVダクト接続（バス使用時は強制排気）</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Entry & outdoor deck -->
+    <div class="room-card">
+      <div class="room-head" style="background:linear-gradient(160deg,#0a0c08 0%,#141810 50%,#0a0e08 100%)">
+        <svg width="100%" height="140" viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0">
+          <rect width="360" height="140" fill="#0a1008"/>
+          <!-- deck boards horizontal -->
+          <defs>
+            <pattern id="deck" x="0" y="0" width="360" height="16" patternUnits="userSpaceOnUse">
+              <rect width="360" height="15" fill="#2a1a08"/>
+              <rect x="0" y="15" width="360" height="1" fill="#1a1008"/>
+            </pattern>
+          </defs>
+          <rect x="0" y="60" width="360" height="80" fill="url(#deck)"/>
+          <!-- outdoor sky -->
+          <rect x="0" y="0" width="360" height="60" fill="#0a1a20"/>
+          <!-- tree silhouettes -->
+          <ellipse cx="300" cy="40" rx="28" ry="42" fill="#0a120a" opacity="0.9"/>
+          <ellipse cx="340" cy="35" rx="20" ry="48" fill="#080e08" opacity="0.9"/>
+          <!-- container wall (entry side) -->
+          <rect x="0" y="0" width="80" height="140" fill="#1a1a18"/>
+          <!-- door -->
+          <rect x="20" y="30" width="40" height="80" fill="#222" rx="2"/>
+          <rect x="22" y="32" width="36" height="76" fill="#1a1a18" rx="1"/>
+          <circle cx="52" cy="70" r="3" fill="#c8a455"/>
+          <!-- hanging plant -->
+          <circle cx="150" cy="15" r="14" fill="#1a3010"/>
+          <line x1="150" y1="0" x2="150" y2="15" stroke="#2a1808" stroke-width="2"/>
+          <!-- chairs -->
+          <rect x="200" y="75" width="25" height="25" fill="#2a1a08" rx="2"/>
+          <rect x="235" y="75" width="25" height="25" fill="#2a1a08" rx="2"/>
+          <rect x="200" y="68" width="25" height="8" fill="#2a1a08" rx="1"/>
+          <rect x="235" y="68" width="25" height="8" fill="#2a1a08" rx="1"/>
+          <!-- table -->
+          <rect x="205" y="85" width="50" height="3" fill="#3a2a10"/>
+          <!-- stars in sky -->
+          <circle cx="120" cy="15" r="1" fill="#fff" opacity="0.7"/>
+          <circle cx="200" cy="8" r="1" fill="#fff" opacity="0.6"/>
+          <circle cx="260" cy="20" r="0.8" fill="#fff" opacity="0.5"/>
+        </svg>
+        <div class="room-label">DECK &amp; ENTRY</div>
+      </div>
+      <div class="room-body">
+        <div class="room-name">玄関土間・外部デッキ</div>
+        <ul class="room-items">
+          <li>土間：モルタルたたき（漆黒仕上げ）幅900mm</li>
+          <li>デッキ：焼杉または道産カラマツ板　厚36mm</li>
+          <li>外壁際：ガルバリウム水切り＋コーキング</li>
+          <li>照明：太陽光LED外灯（センサー付き）</li>
+          <li>収納：土間横に薪置き場＋アウトドア用具ロッカー</li>
+          <li>植栽：アイアン製プランターに山野草・ハーブ</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- =============== 04. MATERIAL COMPARISON =============== -->
+<div class="sec">
+  <div class="sec-title">04 · 漆喰 vs 他の仕上げ材 比較</div>
+  <div class="comp">
+    <div class="comp-card">
+      <div class="comp-head gold">漆喰（本漆喰・消石灰系）</div>
+      <div class="comp-item ok">調湿性能 MBV 2.0+（優秀）</div>
+      <div class="comp-item ok">防火認定 不燃材料</div>
+      <div class="comp-item ok">抗菌・防カビ pH12.5</div>
+      <div class="comp-item ok">CO₂吸収しながら硬化</div>
+      <div class="comp-item ok">耐久100年以上</div>
+      <div class="comp-item ok">VOC = ゼロ（自然素材）</div>
+      <div class="comp-item ok">DIY可（コテ1本）</div>
+      <div class="comp-item ng">コンテナ金属面は下地処理必須</div>
+      <div class="comp-item ng">乾燥に48〜72時間必要</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-head dim">ビニールクロス（一般壁紙）</div>
+      <div class="comp-item ng">調湿性 ほぼゼロ</div>
+      <div class="comp-item ng">可燃性（防火加工品でも限定的）</div>
+      <div class="comp-item ng">カビが裏に発生しやすい</div>
+      <div class="comp-item ng">廃棄時 産業廃棄物</div>
+      <div class="comp-item ng">10〜15年で貼り替え必要</div>
+      <div class="comp-item ng">接着剤からVOC放散</div>
+      <div class="comp-item ok">施工スピードが速い</div>
+      <div class="comp-item ok">金属面への直接施工可</div>
+      <div class="comp-item ok">コストが低い（¥800〜/m²）</div>
+    </div>
+  </div>
+
+  <div class="comp">
+    <div class="comp-card">
+      <div class="comp-head" style="color:#4ecb8d">珪藻土</div>
+      <div class="comp-item ok">調湿性 MBV 1.5〜2.0</div>
+      <div class="comp-item ok">自然素材・VOCゼロ</div>
+      <div class="comp-item ok">DIY容易（ローラー塗り可）</div>
+      <div class="comp-item ng">強度が弱い（欠けやすい）</div>
+      <div class="comp-item ng">CO₂吸収なし</div>
+      <div class="comp-item ng">防火性は漆喰より劣る</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-head" style="color:#5ab0e6">じゅらく（土壁）</div>
+      <div class="comp-item ok">独特の温かみある質感</div>
+      <div class="comp-item ok">調湿性 良好</div>
+      <div class="comp-item ok">地域素材（弟子屈産土）使用可</div>
+      <div class="comp-item ng">乾燥収縮でひびが入る</div>
+      <div class="comp-item ng">施工技術が必要（下地3層）</div>
+      <div class="comp-item ng">耐水性が低い（浴室不可）</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>SOLUNAビレッジの結論</strong>：主要仕上げは<strong>漆喰</strong>（性能・美観・耐久のバランス最良）、LDKの北面アクセントウォールは<strong>じゅらく</strong>（地産土で北海道らしさを表現）、浴室は<strong>モザイクタイル</strong>（耐水性必須）という3素材使い分けが最適解。
+  </div>
+</div>
+
+<!-- =============== 05. COST BREAKDOWN =============== -->
+<div class="sec">
+  <div class="sec-title">05 · 内外装 コスト概算（Plan C: 40ft×2 基準）</div>
+
+  <p style="font-size:11px;color:var(--dim);margin-bottom:16px">床面積 56.4m²、壁面積約180m²（窓開口除く）、延べ天井面積56m²を基準とした材料費＋施工費概算。</p>
+
+  <table class="ctbl">
+    <thead>
+      <tr>
+        <th>部位</th>
+        <th>仕上げ材</th>
+        <th>面積</th>
+        <th>単価</th>
+        <th>合計</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>外壁（漆喰面）西棟</td>
+        <td>漆喰吹付（モルタル下地込み）</td>
+        <td>90m²</td>
+        <td>¥5,500/m²</td>
+        <td>¥495,000</td>
+      </tr>
+      <tr>
+        <td>外壁（焼杉面）東棟</td>
+        <td>焼杉板15mm 縦張り（材工）</td>
+        <td>90m²</td>
+        <td>¥4,200/m²</td>
+        <td>¥378,000</td>
+      </tr>
+      <tr>
+        <td>コンテナ素地（残面）</td>
+        <td>エポキシ防錆＋ウレタン塗料</td>
+        <td>60m²</td>
+        <td>¥2,500/m²</td>
+        <td>¥150,000</td>
+      </tr>
+      <tr>
+        <td>内壁（漆喰）全室</td>
+        <td>漆喰下地処理＋仕上げ（DIY）</td>
+        <td>180m²</td>
+        <td>¥3,200/m²</td>
+        <td>¥576,000</td>
+      </tr>
+      <tr>
+        <td>内壁アクセント（土壁）</td>
+        <td>じゅらく壁 LDK北面のみ</td>
+        <td>12m²</td>
+        <td>¥6,000/m²</td>
+        <td>¥72,000</td>
+      </tr>
+      <tr>
+        <td>床（全室）</td>
+        <td>無垢杉フローリング15mm + 施工</td>
+        <td>56m²</td>
+        <td>¥8,000/m²</td>
+        <td>¥448,000</td>
+      </tr>
+      <tr>
+        <td>天井（全室）</td>
+        <td>無垢杉板張り12mm（材工）</td>
+        <td>56m²</td>
+        <td>¥5,500/m²</td>
+        <td>¥308,000</td>
+      </tr>
+      <tr>
+        <td>水まわり壁</td>
+        <td>モザイクタイル（浴室・洗面）</td>
+        <td>28m²</td>
+        <td>¥12,000/m²</td>
+        <td>¥336,000</td>
+      </tr>
+      <tr>
+        <td>デッキ</td>
+        <td>焼杉・カラマツ板 36mm</td>
+        <td>16m²</td>
+        <td>¥9,000/m²</td>
+        <td>¥144,000</td>
+      </tr>
+      <tr>
+        <td>照明器具</td>
+        <td>真鍮ペンダント×4＋間接LED一式</td>
+        <td>—</td>
+        <td>—</td>
+        <td>¥180,000</td>
+      </tr>
+      <tr>
+        <td>ドア・金物</td>
+        <td>玄関ドア（スチール）＋室内ドア×3</td>
+        <td>—</td>
+        <td>—</td>
+        <td>¥280,000</td>
+      </tr>
+      <tr>
+        <td>キッチン造作</td>
+        <td>コンクリート天板＋杉材本体</td>
+        <td>—</td>
+        <td>—</td>
+        <td>¥320,000</td>
+      </tr>
+      <tr>
+        <td>浴槽（檜）</td>
+        <td>ヒノキ手作りバス（外注）</td>
+        <td>—</td>
+        <td>—</td>
+        <td>¥180,000</td>
+      </tr>
+      <tr class="total">
+        <td colspan="4">合計（内外装 材料＋施工）</td>
+        <td>¥3,867,000</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>DIYで削れる費用</strong>：漆喰内壁（¥576,000）と焼杉施工（¥150,000）をDIYにすると約<strong>¥726,000</strong>のコスト削減が可能。Work Party（ワーキングウィークエンド）で参加者と一緒に漆喰を塗る体験は、コミュニティ形成の核になる。
+  </div>
+
+  <!-- Purchase links -->
+  <p style="font-size:11px;color:var(--dim);margin-bottom:12px;margin-top:24px;font-weight:700;letter-spacing:.1em;text-transform:uppercase">主要資材 購入先</p>
+  <a class="lnk" href="https://www.amazon.co.jp/s?k=%E6%BC%86%E5%96%B0+%E7%B7%B4%E3%82%8A%E6%B8%88%E3%81%BF" target="_blank" rel="noopener">Amazon 漆喰</a>
+  <a class="lnk" href="https://www.amazon.co.jp/s?k=%E7%84%BC%E6%9D%89%E6%9D%BF+%E5%A4%96%E5%A3%81%E6%9D%90" target="_blank" rel="noopener">Amazon 焼杉板</a>
+  <a class="lnk" href="https://www.amazon.co.jp/s?k=%E7%84%A1%E5%9E%A2%E6%9D%89+%E3%83%95%E3%83%AD%E3%83%BC%E3%83%AA%E3%83%B3%E3%82%B0" target="_blank" rel="noopener">Amazon 無垢杉床</a>
+  <a class="lnk" href="https://www.yayoi-chemical.co.jp/" target="_blank" rel="noopener">ヤヨイ化学（漆喰メーカー）</a>
+  <a class="lnk" href="https://www.kakishibu.com/" target="_blank" rel="noopener">渋墨（外壁用柿渋）</a>
+  <a class="lnk" href="https://www.amazon.co.jp/s?k=%E3%83%92%E3%83%8E%E3%82%AD+%E6%B5%B4%E6%A7%BD" target="_blank" rel="noopener">Amazon 檜浴槽</a>
+</div>
+
+<!-- =============== 06.5 BJJ MAT FLOOR =============== -->
+<div class="sec">
+  <div class="sec-title">07 · 柔術マット床 — エコ・安い・即道場化</div>
+
+  <!-- BJJ hero photo -->
+  <div style="border-radius:14px;overflow:hidden;height:240px;margin-bottom:20px;position:relative">
+    <img src="/img/soluna_bjj_floor.webp" alt="柔術マット床" style="width:100%;height:100%;object-fit:cover;object-position:center">
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(7,7,5,.7) 0%,transparent 60%)"></div>
+    <div style="position:absolute;top:50%;left:20px;transform:translateY(-50%)">
+      <div style="font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.12em;margin-bottom:4px">DUAL-PURPOSE FLOOR</div>
+      <div style="font-size:20px;font-weight:900;color:#fff;line-height:1.2">ふだんは部屋<br>稽古時は道場</div>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:var(--dim);line-height:1.9;margin-bottom:24px">
+    LDKの無垢杉床を<strong style="color:var(--text)">「ふだんはお洒落な部屋、稽古時は道場」</strong>に変える二層構造。素材はすべてエコで、設置3分、撤収5分。
+  </p>
+
+  <!-- Two layer visual -->
+  <div class="diagram" style="margin-bottom:24px">
+    <svg width="680" height="200" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="cork-pat" x="0" y="0" width="18" height="18" patternUnits="userSpaceOnUse">
+          <rect width="17" height="17" fill="#8a6a3a" rx="2"/>
+          <circle cx="5" cy="5" r="1.2" fill="#7a5a2a" opacity="0.5"/>
+          <circle cx="12" cy="9" r="1" fill="#7a5a2a" opacity="0.4"/>
+          <circle cx="8" cy="14" r="0.8" fill="#9a7a4a" opacity="0.5"/>
+          <rect x="17" y="0" width="1" height="18" fill="#6a4a20"/>
+          <rect x="0" y="17" width="18" height="1" fill="#6a4a20"/>
+        </pattern>
+        <pattern id="eva-pat" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+          <rect width="58" height="58" fill="#2a3a2a" rx="3"/>
+          <rect x="58" y="0" width="2" height="60" fill="#1a2a1a"/>
+          <rect x="0" y="58" width="60" height="2" fill="#1a2a1a"/>
+          <!-- jigsaw puzzle tab top -->
+          <path d="M29 0 Q33 -6 37 0" fill="#2a3a2a" stroke="#1a2a1a" stroke-width="1"/>
+          <!-- jigsaw tab right -->
+          <path d="M58 29 Q64 33 58 37" fill="#2a3a2a" stroke="#1a2a1a" stroke-width="1"/>
+        </pattern>
+        <pattern id="sugi-floor" x="0" y="0" width="80" height="18" patternUnits="userSpaceOnUse">
+          <rect width="79" height="17" fill="#3a2818"/>
+          <rect x="79" y="0" width="1" height="18" fill="#1a1008"/>
+          <rect x="0" y="17" width="80" height="1" fill="#1a1008"/>
+          <line x1="0" y1="6" x2="79" y2="6" stroke="#2a1e10" stroke-width="0.4" opacity="0.5"/>
+          <line x1="0" y1="11" x2="79" y2="11" stroke="#2a1e10" stroke-width="0.4" opacity="0.4"/>
+        </pattern>
+      </defs>
+
+      <!-- Labels left -->
+      <text x="10" y="42" fill="#c8a455" font-size="9" font-family="Helvetica" font-weight="700">LAYER 3</text>
+      <text x="10" y="54" fill="#888" font-size="9" font-family="Helvetica">EVAマット</text>
+      <text x="10" y="66" fill="#555" font-size="8" font-family="Helvetica">40mm</text>
+
+      <text x="10" y="112" fill="#c8a455" font-size="9" font-family="Helvetica" font-weight="700">LAYER 2</text>
+      <text x="10" y="124" fill="#888" font-size="9" font-family="Helvetica">コルクタイル</text>
+      <text x="10" y="136" fill="#555" font-size="8" font-family="Helvetica">10mm</text>
+
+      <text x="10" y="170" fill="#555" font-size="9" font-family="Helvetica" font-weight="700">LAYER 1</text>
+      <text x="10" y="182" fill="#444" font-size="9" font-family="Helvetica">無垢杉床</text>
+      <text x="10" y="194" fill="#333" font-size="8" font-family="Helvetica">15mm</text>
+
+      <!-- Layer 3: EVA mat (can lift off) -->
+      <rect x="90" y="20" width="560" height="70" fill="url(#eva-pat)" rx="4"/>
+      <!-- Lift-off arrow and note -->
+      <path d="M650 55 L670 40 L670 70 Z" fill="rgba(200,164,85,.3)"/>
+      <text x="640" y="90" fill="rgba(200,164,85,.6)" font-size="8" font-family="Helvetica" text-anchor="middle">取外し可</text>
+
+      <!-- Layer 2: Cork tile -->
+      <rect x="90" y="92" width="560" height="45" fill="url(#cork-pat)" rx="2"/>
+
+      <!-- Layer 1: Sugi floor (darker, fixed) -->
+      <rect x="90" y="139" width="560" height="50" fill="url(#sugi-floor)" rx="2"/>
+
+      <!-- Dimension lines -->
+      <line x1="82" y1="20" x2="82" y2="90" stroke="#c8a455" stroke-width="0.8"/>
+      <line x1="78" y1="20" x2="86" y2="20" stroke="#c8a455" stroke-width="0.8"/>
+      <line x1="78" y1="90" x2="86" y2="90" stroke="#c8a455" stroke-width="0.8"/>
+
+      <line x1="82" y1="92" x2="82" y2="137" stroke="#888" stroke-width="0.8"/>
+      <line x1="78" y1="92" x2="86" y2="92" stroke="#888" stroke-width="0.8"/>
+      <line x1="78" y1="137" x2="86" y2="137" stroke="#888" stroke-width="0.8"/>
+
+      <line x1="82" y1="139" x2="82" y2="189" stroke="#555" stroke-width="0.8"/>
+      <line x1="78" y1="139" x2="86" y2="139" stroke="#555" stroke-width="0.8"/>
+      <line x1="78" y1="189" x2="86" y2="189" stroke="#555" stroke-width="0.8"/>
+
+      <!-- Layer labels on board -->
+      <text x="370" y="59" fill="rgba(78,203,141,.7)" font-size="11" text-anchor="middle" font-family="Helvetica" font-weight="700">EVA ジョイントマット 40mm — 練習時のみ</text>
+      <text x="370" y="120" fill="rgba(200,164,85,.7)" font-size="11" text-anchor="middle" font-family="Helvetica" font-weight="700">コルクタイル 10mm — 常設・固定</text>
+      <text x="370" y="167" fill="rgba(180,150,80,.4)" font-size="11" text-anchor="middle" font-family="Helvetica" font-weight="700">無垢杉フローリング 15mm — 構造床</text>
+
+      <!-- Total thickness -->
+      <text x="370" y="198" fill="#555" font-size="9" text-anchor="middle" font-family="Helvetica">練習時 総厚 65mm ／ 通常時 25mm（杉＋コルク）</text>
+    </svg>
+    <div class="diag-cap">練習時はEVAを上に敷くだけ。外すとコルクタイルの上質な部屋に戻る。設置3分・撤収5分。</div>
+  </div>
+
+  <!-- Material cards: 3 options -->
+  <div class="mat-grid">
+
+    <!-- Cork tile -->
+    <div class="mat-card" style="border-color:rgba(200,164,85,.25)">
+      <div class="mat-swatch" style="height:90px">
+        <svg width="100%" height="90" viewBox="0 0 240 90" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="cork-tex2">
+              <feTurbulence type="fractalNoise" baseFrequency="1.5 1.2" numOctaves="5" seed="8"/>
+              <feDisplacementMap in="SourceGraphic" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+          </defs>
+          <rect width="240" height="90" fill="#9a7a4a" filter="url(#cork-tex2)"/>
+          <rect width="240" height="90" fill="#b08850" opacity="0.4" filter="url(#cork-tex2)"/>
+          <rect x="0" y="44" width="240" height="2" fill="#7a5a2a" opacity="0.4"/>
+          <rect x="120" y="0" width="2" height="90" fill="#7a5a2a" opacity="0.4"/>
+          <text x="120" y="50" fill="rgba(255,240,200,.5)" font-size="11" text-anchor="middle" font-family="Helvetica" font-weight="700">天然コルク</text>
+        </svg>
+      </div>
+      <div class="mat-body">
+        <div class="mat-name">★ コルクタイル 300×300mm 10mm厚</div>
+        <div class="mat-spec">コルク樫の樹皮から採取。再生可能・VOCゼロ・調湿・防音・素足で暖か。床暖房対応品もあり。接着剤で固定（DIY可）。耐用20〜30年。LDK 27m²に108枚必要。</div>
+        <span class="mat-tag tag-both">常設床</span>
+        <span class="mat-tag tag-diy">DIY ◎</span>
+        <div style="font-size:10px;color:var(--dim);margin-top:6px">必要枚数：27m²÷0.09m²/枚 = <strong style="color:var(--gold)">300枚</strong></div>
+        <div style="font-size:10px;color:var(--gold);margin-top:4px">¥800〜1,200/枚 → 計¥240,000〜360,000</div>
+        <a class="lnk" href="https://www.amazon.co.jp/s?k=%E3%82%B3%E3%83%AB%E3%82%AF%E3%82%BF%E3%82%A4%E3%83%AB+10mm+300%C3%97300" target="_blank" rel="noopener" style="margin-top:10px">Amazon で見る</a>
+      </div>
+    </div>
+
+    <!-- EVA mat -->
+    <div class="mat-card" style="border-color:rgba(78,203,141,.25)">
+      <div class="mat-swatch" style="height:90px">
+        <svg width="100%" height="90" viewBox="0 0 240 90" xmlns="http://www.w3.org/2000/svg">
+          <rect width="240" height="90" fill="#1e2e1e"/>
+          <!-- puzzle grid -->
+          <rect x="0" y="0" width="118" height="44" fill="#243424" rx="3"/>
+          <rect x="122" y="0" width="118" height="44" fill="#243424" rx="3"/>
+          <rect x="0" y="46" width="118" height="44" fill="#243424" rx="3"/>
+          <rect x="122" y="46" width="118" height="44" fill="#243424" rx="3"/>
+          <!-- puzzle tabs -->
+          <ellipse cx="120" cy="22" rx="8" ry="6" fill="#243424"/>
+          <ellipse cx="120" cy="68" rx="8" ry="6" fill="#243424"/>
+          <ellipse cx="60" cy="45" rx="6" ry="8" fill="#243424"/>
+          <ellipse cx="180" cy="45" rx="6" ry="8" fill="#243424"/>
+          <text x="120" y="50" fill="rgba(78,203,141,.5)" font-size="11" text-anchor="middle" font-family="Helvetica" font-weight="700">EVA 40mm</text>
+        </svg>
+      </div>
+      <div class="mat-body">
+        <div class="mat-name">★ EVA ジョイントマット 40mm厚</div>
+        <div class="mat-spec">発泡エチレン酢酸ビニル樹脂。柔術・柔道・MMA対応。100×100cmサイズが便利（必要枚数が少ない）。水洗い可。AliExpressなら国内の1/3の価格。IJF規格品は青/赤で道場感◎。</div>
+        <span class="mat-tag tag-int">練習時のみ</span>
+        <span class="mat-tag tag-diy">設置3分</span>
+        <div style="font-size:10px;color:var(--dim);margin-top:6px">27m²に必要：100×100cm換算で <strong style="color:var(--gold)">27枚</strong></div>
+        <div style="font-size:10px;color:var(--gold);margin-top:4px">国内 ¥3,000〜5,000/枚 → 計¥81,000〜135,000</div>
+        <div style="font-size:10px;color:#4ecb8d;margin-top:2px">AliExpress ¥1,500〜2,000/枚 → 計¥40,500〜54,000 ★</div>
+        <a class="lnk" href="https://www.amazon.co.jp/s?k=%E3%82%B8%E3%83%A7%E3%82%A4%E3%83%B3%E3%83%88%E3%83%9E%E3%83%83%E3%83%88+40mm+%E6%9F%94%E9%81%93" target="_blank" rel="noopener" style="margin-top:10px">Amazon で見る</a>
+      </div>
+    </div>
+
+    <!-- Tatami option -->
+    <div class="mat-card">
+      <div class="mat-swatch" style="height:90px">
+        <svg width="100%" height="90" viewBox="0 0 240 90" xmlns="http://www.w3.org/2000/svg">
+          <rect width="240" height="90" fill="#3a4a28"/>
+          <!-- tatami weave pattern -->
+          <defs>
+            <pattern id="igusa" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+              <rect width="5" height="3" fill="#4a5a30"/>
+              <rect x="0" y="3" width="5" height="3" fill="#3a4a20"/>
+              <rect x="5" y="0" width="1" height="6" fill="#2a3a18"/>
+            </pattern>
+          </defs>
+          <rect width="240" height="80" fill="url(#igusa)"/>
+          <!-- tatami border -->
+          <rect x="0" y="78" width="240" height="12" fill="#2a1a08"/>
+          <rect x="0" y="80" width="240" height="2" fill="#3a2a10" opacity="0.5"/>
+          <rect x="0" y="84" width="240" height="2" fill="#3a2a10" opacity="0.5"/>
+          <text x="120" y="48" fill="rgba(200,220,150,.4)" font-size="11" text-anchor="middle" font-family="Helvetica" font-weight="700">和紙畳</text>
+        </svg>
+      </div>
+      <div class="mat-body">
+        <div class="mat-name">番外: 和紙畳 ＋ 薄EVA（ハイブリッド）</div>
+        <div class="mat-spec">イグサの代わりに和紙縒り糸で織った現代の畳。防湿・防カビ・ダニ抑制。厚み60mmで寝転がりにも最高。柔術はこの上に薄型EVA（20mm）を敷くだけ。和の質感最高峰。</div>
+        <span class="mat-tag tag-both">和室兼道場</span>
+        <span class="mat-tag tag-diy">置くだけ</span>
+        <div style="font-size:10px;color:var(--gold);margin-top:6px">¥8,000〜15,000/枚（半畳）→ 27m²で約¥430,000〜</div>
+        <div style="font-size:10px;color:#888;margin-top:2px">コルク+EVAの2〜5倍コスト。空間の格は最高。</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Comparison table -->
+  <p style="font-size:11px;color:var(--dim);margin-bottom:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase">3択 比較表</p>
+  <table class="ctbl" style="margin-bottom:20px">
+    <thead>
+      <tr>
+        <th>素材構成</th>
+        <th>総厚</th>
+        <th>衝撃吸収</th>
+        <th>エコ度</th>
+        <th>メンテ</th>
+        <th>コスト（27m²）</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong style="color:var(--gold)">★ コルク10mm + EVA 40mm</strong></td>
+        <td>65mm</td>
+        <td style="color:#4ecb8d;font-weight:700">◎</td>
+        <td style="color:#4ecb8d;font-weight:700">◎ 天然素材</td>
+        <td style="color:#4ecb8d;font-weight:700">◎ 水洗い可</td>
+        <td style="color:var(--gold);font-weight:700">¥280,000〜</td>
+      </tr>
+      <tr>
+        <td>無垢杉床 + EVA 40mm のみ</td>
+        <td>55mm</td>
+        <td style="color:#e8963a">○</td>
+        <td style="color:#4ecb8d">◎</td>
+        <td style="color:#4ecb8d">◎</td>
+        <td style="color:var(--gold)">¥81,000〜（EMAのみ）</td>
+      </tr>
+      <tr>
+        <td>和紙畳60mm + EVA 20mm</td>
+        <td>80mm</td>
+        <td style="color:#4ecb8d">◎</td>
+        <td style="color:#4ecb8d">◎</td>
+        <td style="color:#e8963a">△ 畳は乾燥管理</td>
+        <td>¥540,000〜</td>
+      </tr>
+      <tr>
+        <td>ビニールマット（一般道場）</td>
+        <td>40mm</td>
+        <td style="color:#4ecb8d">◎</td>
+        <td style="color:#e65a5a;font-weight:700">✗ 石油系</td>
+        <td style="color:#4ecb8d">◎</td>
+        <td>¥150,000〜</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Genius ideas box -->
+  <div style="background:rgba(78,203,141,.05);border:1px solid rgba(78,203,141,.2);border-radius:12px;padding:20px;margin-bottom:16px">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#4ecb8d;margin-bottom:14px">天才的アイデア集</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="border-color:rgba(78,203,141,.3);color:#4ecb8d">💡</div>
+        <div class="step-body">
+          <h4>コルクの下に床暖ヒーターフィルム（12V太陽光直結）</h4>
+          <p>バッテリーから12Vの薄型電気ヒーターフィルム（100W/m²）をコルク下に敷く。-20℃の北海道の稽古前に30分で床を15℃まで温める。低温で足腰への負担ゼロ。太陽光余剰電力活用で実質ランニングコスト¥0。</p>
+          <div class="step-tip">12V床暖フィルム: AliExpress ¥2,000〜3,000/m²。コルクが熱を柔らかく拡散するため表面温度ムラなし。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="border-color:rgba(78,203,141,.3);color:#4ecb8d">💡</div>
+        <div class="step-body">
+          <h4>EVAマットの収納は「壁面ラック」で省スペース</h4>
+          <p>100×100cmのEVAを27枚積むと厚さ1.08m。壁に杉角材でL字のラックを作り、立てて収納。27枚が幅2.7m×高さ1.1mの壁面に収まる。美観も損なわない（道具を見せる収納）。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="border-color:rgba(78,203,141,.3);color:#4ecb8d">💡</div>
+        <div class="step-body">
+          <h4>籾殻クッション床（ゼロ円オプション）</h4>
+          <p>弟子屈の農家から無料で大量に入手できる籾殻を、帆布製の袋（60×100cm）に詰めてフロアマット化。厚み10〜15cmで衝撃吸収は良好。天日干しで常に清潔。完全自然素材・完全リサイクル。ランニングコスト実質ゼロ。</p>
+          <div class="step-tip">弟子屈町農協に「籾殻いただけますか？」と電話一本で軽トラ一杯分無料。帆布袋は1枚¥300〜。30袋作っても¥9,000。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="border-color:rgba(78,203,201,.3);color:#5ab0e6">🥋</div>
+        <div class="step-body">
+          <h4>LDKを「道場モード」に切替える仕掛け</h4>
+          <p>薪ストーブ前の15m²エリアをメインマット面に設定。ダイニングテーブルはキャスター付きで壁際に引けるタイプにする。EVAを敷いた瞬間、部屋が道場に変わる儀式感が稽古のモチベーションを上げる。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Maintenance guide -->
+  <div class="note">
+    <strong>メンテナンス（超簡単）</strong><br>
+    EVAマット：練習後に固く絞った雑巾で拭くだけ。月1回は中性洗剤で水洗いし日陰干し。<br>
+    コルクタイル：掃除機 + 固く絞ったモップで週1回。5年に1回コルク専用ワックスを塗れば30年持つ。<br>
+    籾殻袋：夏は月1回、冬は春先に天日干し（2〜3時間）。カビ・虫の心配ゼロ。
+  </div>
+
+  <!-- Purchase links BJJ -->
+  <p style="font-size:11px;color:var(--dim);margin-bottom:12px;margin-top:20px;font-weight:700;letter-spacing:.1em;text-transform:uppercase">購入リンク</p>
+  <a class="lnk" href="https://www.amazon.co.jp/s?k=%E3%82%B3%E3%83%AB%E3%82%AF%E3%82%BF%E3%82%A4%E3%83%AB+10mm+300%C3%97300+%E5%A4%A9%E7%84%B6" target="_blank" rel="noopener">Amazon コルクタイル 10mm</a>
+  <a class="lnk" href="https://www.amazon.co.jp/s?k=EVA%E3%83%9E%E3%83%83%E3%83%88+40mm+100%C3%97100+%E6%9F%94%E9%81%93+%E3%82%B8%E3%83%A7%E3%82%A4%E3%83%B3%E3%83%88" target="_blank" rel="noopener">Amazon EVAマット 40mm 格闘技</a>
+  <a class="lnk" href="https://www.aliexpress.com/wholesale?SearchText=eva+puzzle+mat+40mm+judo+bjj" target="_blank" rel="noopener">AliExpress EVAマット（格安）</a>
+  <a class="lnk" href="https://www.amazon.co.jp/s?k=%E5%BA%8A%E6%9A%96%E3%83%92%E3%83%BC%E3%82%BF%E3%83%BC+12V+%E3%83%95%E3%82%A3%E3%83%AB%E3%83%A0" target="_blank" rel="noopener">Amazon 12V床暖フィルム</a>
+</div>
+
+<!-- =============== 08. INSULATION COMPLETE SPEC =============== -->
+<div class="sec">
+  <div class="sec-title" style="color:#5ab0e6">08 · 断熱完全仕様（改訂版）— 外付け藁ベール + 切妻屋根</div>
+
+  <!-- WHY 外付け is best — decision box -->
+  <div style="background:rgba(78,203,141,.06);border:1px solid rgba(78,203,141,.25);border-radius:12px;padding:16px;margin-bottom:20px">
+    <div style="font-size:10px;font-weight:700;color:#4ecb8d;letter-spacing:.12em;margin-bottom:10px">なぜ「外付け藁ベール」がベストか</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:10px">
+      <div style="text-align:center;padding:8px;background:rgba(0,0,0,.2);border-radius:8px">
+        <div style="font-size:18px;font-weight:900;color:#4ecb8d">¥0</div>
+        <div style="color:#888;margin-top:2px">藁ベール原料費<br>弟子屈農家から直接調達</div>
+      </div>
+      <div style="text-align:center;padding:8px;background:rgba(0,0,0,.2);border-radius:8px">
+        <div style="font-size:18px;font-weight:900;color:#4ecb8d">60mm</div>
+        <div style="color:#888;margin-top:2px">内部幅の損失のみ<br>（内側 PU 30mm×2）</div>
+      </div>
+      <div style="text-align:center;padding:8px;background:rgba(0,0,0,.2);border-radius:8px">
+        <div style="font-size:18px;font-weight:900;color:#4ecb8d">R-7.0</div>
+        <div style="color:#888;margin-top:2px">合成R値<br>北海道基準の1.5倍</div>
+      </div>
+    </div>
+    <div style="font-size:10px;color:#666;margin-top:10px;line-height:1.7">内側450mm案は内部幅が1.45mになり居住不可。外付けにすることで<strong style="color:#4ecb8d">室内幅 2.29m を確保しながらR-7.0を達成</strong>。さらに外装が木下地になるので焼杉板が直打ち（鋼板へのラス・プライマー工程が外壁側で不要）。コスト・施工・性能のバランスで外付けが圧倒的に優れる。</div>
+  </div>
+
+  <!-- 2-photo hero -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;border-radius:14px;overflow:hidden;height:260px;margin-bottom:24px">
+    <div style="position:relative;overflow:hidden">
+      <img src="/img/soluna_wood_frame_construction.webp" alt="外付け木フレーム施工" style="width:100%;height:100%;object-fit:cover">
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,5,.8) 0%,transparent 60%)"></div>
+      <div style="position:absolute;bottom:14px;left:14px;font-size:10px;color:#c8a455;font-weight:700">外付け木フレーム + 藁ベール施工</div>
+    </div>
+    <div style="position:relative;overflow:hidden">
+      <img src="/img/soluna_pitched_roof_exterior.webp" alt="完成外観 切妻屋根" style="width:100%;height:100%;object-fit:cover">
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,5,.8) 0%,transparent 60%)"></div>
+      <div style="position:absolute;bottom:14px;left:14px;font-size:10px;color:#c8a455;font-weight:700">完成外観 — 切妻屋根 + 焼杉板</div>
+    </div>
+  </div>
+
+  <!-- Revised wall cross-section SVG -->
+  <div class="diagram" style="margin-bottom:20px">
+    <svg width="760" height="230" viewBox="0 0 760 230" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="sw2" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+          <rect width="10" height="10" fill="#1c1206"/>
+          <line x1="0" y1="3" x2="10" y2="3" stroke="#2e1e08" stroke-width="0.7"/>
+          <line x1="0" y1="7" x2="10" y2="7" stroke="#2e1e08" stroke-width="0.7"/>
+        </pattern>
+        <pattern id="wd2" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+          <rect width="8" height="8" fill="#1a1206"/>
+          <line x1="0" y1="4" x2="8" y2="0" stroke="#2a1e0a" stroke-width="0.6"/>
+        </pattern>
+        <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#0a1a28"/>
+          <stop offset="100%" style="stop-color:#1a0e06;stop-opacity:.5"/>
+        </linearGradient>
+      </defs>
+      <rect width="760" height="230" fill="url(#bg2)"/>
+
+      <!-- Title -->
+      <text x="380" y="18" fill="#c8a455" font-size="10" font-weight="700" font-family="Helvetica" text-anchor="middle" letter-spacing="3">改訂版 外壁断面（外付け木フレーム + 藁ベール）</text>
+
+      <!-- LEFT SIDE LAYERS (outside→inside) -->
+      <!-- A: yakiita cedar siding (outside left) -->
+      <rect x="30" y="30" width="18" height="175" fill="#1a1010" rx="1"/>
+      <line x1="30" y1="50" x2="48" y2="50" stroke="#2a1a1a" stroke-width="1"/>
+      <line x1="30" y1="80" x2="48" y2="80" stroke="#2a1a1a" stroke-width="1"/>
+      <line x1="30" y1="110" x2="48" y2="110" stroke="#2a1a1a" stroke-width="1"/>
+      <line x1="30" y1="140" x2="48" y2="140" stroke="#2a1a1a" stroke-width="1"/>
+      <line x1="30" y1="170" x2="48" y2="170" stroke="#2a1a1a" stroke-width="1"/>
+      <text x="39" y="226" fill="#888" font-size="7" text-anchor="middle" font-family="Helvetica">焼杉</text>
+
+      <!-- B: ventilation gap -->
+      <rect x="48" y="30" width="10" height="175" fill="rgba(90,176,230,.05)"/>
+      <text x="53" y="226" fill="#555" font-size="7" text-anchor="middle" font-family="Helvetica">通気</text>
+
+      <!-- C: structural ply sheathing -->
+      <rect x="58" y="30" width="10" height="175" fill="#2a2010" rx="1"/>
+
+      <!-- D: straw bale in 2x6 frame (140mm) -->
+      <rect x="68" y="30" width="56" height="175" fill="url(#sw2)" rx="1"/>
+      <!-- 2x6 stud lines -->
+      <line x1="90" y1="30" x2="90" y2="205" stroke="#2a1a08" stroke-width="1.5" opacity="0.4"/>
+      <text x="96" y="120" fill="#c8a455" font-size="8" font-weight="700" font-family="Helvetica" text-anchor="middle">藁ベール</text>
+      <text x="96" y="131" fill="#888" font-size="7" font-family="Helvetica" text-anchor="middle">140mm</text>
+      <text x="96" y="226" fill="#c8a455" font-size="7" text-anchor="middle" font-family="Helvetica">R-2.5</text>
+
+      <!-- E: alum reflective foil -->
+      <rect x="124" y="30" width="5" height="175" fill="#c8a455" opacity="0.5" rx="1"/>
+      <text x="126" y="226" fill="#c8a455" font-size="7" text-anchor="middle" font-family="Helvetica">反射</text>
+
+      <!-- F: container steel (6mm corrugated) -->
+      <rect x="129" y="30" width="14" height="175" fill="#2a2a28" rx="1"/>
+      <line x1="132" y1="30" x2="132" y2="205" stroke="#222" stroke-width="1"/>
+      <line x1="137" y1="30" x2="137" y2="205" stroke="#333" stroke-width="1"/>
+      <text x="136" y="226" fill="#555" font-size="7" text-anchor="middle" font-family="Helvetica">鉄板</text>
+
+      <!-- G: interior closed-cell PU foam 30mm -->
+      <rect x="143" y="30" width="24" height="175" fill="#2a2010" rx="1" opacity="0.8"/>
+      <text x="155" y="116" fill="#e8963a" font-size="7" font-family="Helvetica" text-anchor="middle" font-weight="700">PU</text>
+      <text x="155" y="126" fill="#e8963a" font-size="7" font-family="Helvetica" text-anchor="middle">30mm</text>
+      <text x="155" y="226" fill="#e8963a" font-size="7" text-anchor="middle" font-family="Helvetica">R-1.05</text>
+
+      <!-- H: diamond lath + lime plaster 17mm -->
+      <rect x="167" y="30" width="14" height="175" fill="#c8b898" opacity="0.5" rx="1"/>
+      <text x="174" y="226" fill="#888" font-size="7" text-anchor="middle" font-family="Helvetica">漆喰</text>
+
+      <!-- Interior space -->
+      <rect x="181" y="30" width="398" height="175" fill="rgba(232,150,58,.03)" rx="2"/>
+      <text x="380" y="120" fill="rgba(232,150,58,.3)" font-size="16" text-anchor="middle" font-family="Helvetica" font-weight="900">室 内 空 間  2,292mm</text>
+      <text x="380" y="138" fill="rgba(78,203,141,.4)" font-size="10" text-anchor="middle" font-family="Helvetica">（40ft コンテナ内幅 2,352mm から 30mm×2 のみ減少）</text>
+
+      <!-- RIGHT SIDE (mirror) -->
+      <rect x="579" y="30" width="14" height="175" fill="#c8b898" opacity="0.5" rx="1"/>
+      <rect x="593" y="30" width="24" height="175" fill="#2a2010" rx="1" opacity="0.8"/>
+      <rect x="617" y="30" width="14" height="175" fill="#2a2a28" rx="1"/>
+      <rect x="631" y="30" width="5" height="175" fill="#c8a455" opacity="0.5" rx="1"/>
+      <rect x="636" y="30" width="56" height="175" fill="url(#sw2)" rx="1"/>
+      <rect x="692" y="30" width="10" height="175" fill="#2a2010" rx="1"/>
+      <rect x="702" y="30" width="10" height="175" fill="rgba(90,176,230,.05)"/>
+      <rect x="712" y="30" width="18" height="175" fill="#1a1010" rx="1"/>
+
+      <!-- Pitched roof hint -->
+      <path d="M30 30 L380 5 L730 30" stroke="#888" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+      <text x="380" y="3" fill="#888" font-size="8" text-anchor="middle" font-family="Helvetica">切妻屋根（勾配4/12 — 積雪自動滑落）</text>
+
+      <!-- Total width annotation -->
+      <line x1="30" y1="212" x2="730" y2="212" stroke="#444" stroke-width="0.8"/>
+      <text x="380" y="222" fill="#555" font-size="8" text-anchor="middle" font-family="Helvetica">総外壁幅 ≈ +215mm（外付け）+ 30mm（内側PU）= 内部幅ほぼ確保</text>
+
+      <!-- R-value total callout -->
+      <rect x="295" y="148" width="170" height="36" fill="rgba(78,203,141,.08)" rx="6" stroke="rgba(78,203,141,.3)" stroke-width="1"/>
+      <text x="380" y="163" fill="#4ecb8d" font-size="9" font-weight="700" text-anchor="middle" font-family="Helvetica">外壁合計 R値</text>
+      <text x="380" y="178" fill="#4ecb8d" font-size="14" font-weight="900" text-anchor="middle" font-family="Helvetica">R-7.0（北海道基準の1.5倍）</text>
+    </svg>
+    <div style="font-size:10px;color:#555;text-align:center;margin-top:8px">外付け木フレーム（2×6, 455mmピッチ）+ 藁ベール充填 + アルミ反射シート + 通気層 + 焼杉板。内側はPU30mmのみ（室内幅損失 わずか60mm）。</div>
+  </div>
+
+  <!-- Spray foam interior photo + greenhouse photo -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px">
+    <div style="border-radius:12px;overflow:hidden;height:200px;position:relative">
+      <img src="/img/soluna_interior_spray_foam.webp" alt="内側ウレタン吹付" style="width:100%;height:100%;object-fit:cover">
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,5,.8) 0%,transparent 55%)"></div>
+      <div style="position:absolute;bottom:12px;left:12px;font-size:10px;color:#e8963a;font-weight:700">内側: 硬質ウレタン30mm吹付（気密層）</div>
+    </div>
+    <div style="border-radius:12px;overflow:hidden;height:200px;position:relative">
+      <img src="/img/soluna_polycarbonate_greenhouse.webp" alt="ポリカ温室 人工湿地" style="width:100%;height:100%;object-fit:cover">
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,5,.8) 0%,transparent 55%)"></div>
+      <div style="position:absolute;bottom:12px;left:12px;font-size:10px;color:#4ecb8d;font-weight:700">ヨシ床温室: 冬も凍らない人工湿地</div>
+    </div>
+  </div>
+
+  <!-- 6 revised component cards -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:24px">
+
+    <div style="background:var(--card);border:1px solid rgba(200,164,85,.25);border-radius:12px;overflow:hidden">
+      <div style="height:100px;overflow:hidden"><img src="/img/soluna_wood_frame_construction.webp" style="width:100%;height:100%;object-fit:cover"></div>
+      <div style="padding:12px 16px">
+        <div style="font-size:9px;font-weight:700;color:#c8a455;letter-spacing:.1em;margin-bottom:4px">01 · 外壁（決定版）</div>
+        <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:6px">外付け藁ベール 140mm<br><span style="font-size:10px;color:#c8a455">+ 内側PU30mm + 焼杉仕上げ</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:6px"><span style="color:#888">R値合計</span><strong style="color:#c8a455">R-7.0</strong></div>
+        <div style="height:5px;background:rgba(255,255,255,.05);border-radius:3px;margin-bottom:6px"><div style="height:100%;width:64%;background:linear-gradient(to right,#c8a455,#4ecb8d);border-radius:3px"></div></div>
+        <div style="font-size:10px;color:#666;line-height:1.6">2×6木フレームを外側に組み、藁ベールを詰める。室内幅損失は30mm×2 = 60mmのみ。農家から無料調達可。焼杉板は木フレームに直打ち（鋼板ラス不要）。</div>
+        <div style="margin-top:6px;font-size:10px;color:#4ecb8d;font-weight:700">木材+藁 ¥45,000 / PU吹付 ¥35,000 = ¥80,000</div>
+      </div>
+    </div>
+
+    <div style="background:var(--card);border:1px solid rgba(90,176,230,.25);border-radius:12px;overflow:hidden">
+      <div style="height:100px;overflow:hidden"><img src="/img/soluna_pitched_roof_exterior.webp" style="width:100%;height:100%;object-fit:cover;object-position:center 70%"></div>
+      <div style="padding:12px 16px">
+        <div style="font-size:9px;font-weight:700;color:#5ab0e6;letter-spacing:.1em;margin-bottom:4px">02 · 屋根（切妻追加）</div>
+        <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:6px">切妻フレーム + 藁200mm<br><span style="font-size:10px;color:#5ab0e6">ガルバリウム鋼板仕上げ</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:6px"><span style="color:#888">R値 / 積雪勾配</span><strong style="color:#5ab0e6">R-8.0 / 4/12</strong></div>
+        <div style="height:5px;background:rgba(255,255,255,.05);border-radius:3px;margin-bottom:6px"><div style="height:100%;width:73%;background:linear-gradient(to right,#5ab0e6,#4ecb8d);border-radius:3px"></div></div>
+        <div style="font-size:10px;color:#666;line-height:1.6">フラット屋根は積雪で潰れるリスク。切妻（勾配4/12=18.4°）で雪が自然に滑落。屋根フレーム内に藁200mmを充填、内側にPU30mm吹付。</div>
+        <div style="margin-top:6px;font-size:10px;color:#4ecb8d;font-weight:700">¥120,000（フレーム+断熱+ガルバ）</div>
+      </div>
+    </div>
+
+    <div style="background:var(--card);border:1px solid rgba(78,203,141,.25);border-radius:12px;overflow:hidden">
+      <div style="height:100px;overflow:hidden"><img src="/img/soluna_biotope_pond.webp" style="width:100%;height:100%;object-fit:cover"></div>
+      <div style="padding:12px 16px">
+        <div style="font-size:9px;font-weight:700;color:#4ecb8d;letter-spacing:.1em;margin-bottom:4px">03 · 人工湿地（冬対策済）</div>
+        <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:6px">ポリカ温室内設置<br><span style="font-size:10px;color:#4ecb8d">4層PC + 夜間断熱カーテン</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:6px"><span style="color:#888">温室内最低気温</span><strong style="color:#4ecb8d">-5〜0°C（外気-25°C時）</strong></div>
+        <div style="font-size:10px;color:#666;line-height:1.6">露天ではヨシ床が凍結する。ポリカーボネート4層（R-2.8）温室で覆い、南面パッシブ太陽熱で昼間加温。夜間は断熱ロールカーテン。水深60cm以上で底部は凍結しない。</div>
+        <div style="margin-top:6px;font-size:10px;color:#4ecb8d;font-weight:700">ポリカ温室 3×4m ¥65,000</div>
+      </div>
+    </div>
+
+    <div style="background:var(--card);border:2px solid rgba(230,90,90,.4);border-radius:12px;overflow:hidden;position:relative">
+      <div style="position:absolute;top:8px;right:8px;z-index:2;background:#e65a5a;color:#fff;font-size:8px;font-weight:700;padding:2px 7px;border-radius:10px">最優先</div>
+      <div style="height:100px;overflow:hidden;background:#0e1a28;display:flex;align-items:center;justify-content:center">
+        <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#5ab0e6">R-5.0</div><div style="font-size:9px;color:#5ab0e6;letter-spacing:.1em">Triple Low-E Argon</div></div>
+      </div>
+      <div style="padding:12px 16px">
+        <div style="font-size:9px;font-weight:700;color:#e65a5a;letter-spacing:.1em;margin-bottom:4px">04 · 窓（最重要）</div>
+        <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:6px">YKK APW430<br><span style="font-size:10px;color:#e65a5a">トリプルガラス Low-E アルゴン</span></div>
+        <div style="font-size:10px;color:#666;line-height:1.6">壁R-7でも窓R-1.5では全体の30%以上の熱が窓から逃げる。YKK APW430（Uw=0.90 W/m²K）は北海道向け最高性能。南面集中でパッシブ太陽熱最大化。</div>
+        <div style="font-size:10px;color:#e65a5a;margin-top:6px;font-weight:700">ここを妥協したら他の投資が半分無駄になる</div>
+        <div style="margin-top:4px;font-size:10px;color:#4ecb8d;font-weight:700">¥130,000/枚 × 南面2枚 = ¥260,000</div>
+      </div>
+    </div>
+
+    <div style="background:var(--card);border:1px solid rgba(160,122,208,.25);border-radius:12px;overflow:hidden">
+      <div style="height:100px;overflow:hidden"><img src="/img/soluna_insulated_biogas.webp" style="width:100%;height:100%;object-fit:cover"></div>
+      <div style="padding:12px 16px">
+        <div style="font-size:9px;font-weight:700;color:#a07ad0;letter-spacing:.1em;margin-bottom:4px">05 · バイオガス（冬対策済）</div>
+        <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:6px">XPS断熱ボックス + 補助ヒーター<br><span style="font-size:10px;color:#a07ad0">発酵温度 30〜35°C 維持</span></div>
+        <div style="font-size:10px;color:#666;line-height:1.6">IBC 200Lを XPS 100mm（6面）で覆い、ロケットストーブ余熱を断熱配管で誘導。不足時はサーモスタット制御 50W電気ヒーターでバックアップ。冬も低温発酵継続。</div>
+        <div style="margin-top:6px;font-size:10px;color:#4ecb8d;font-weight:700">XPS + ヒーター ¥15,000</div>
+      </div>
+    </div>
+
+    <div style="background:var(--card);border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden">
+      <div style="height:100px;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px">
+        <div style="font-size:11px;font-weight:700;color:#888">建築確認</div>
+        <div style="font-size:22px;font-weight:900;color:#fff">4号申請</div>
+        <div style="font-size:9px;color:#555">弟子屈町建設課</div>
+      </div>
+      <div style="padding:12px 16px">
+        <div style="font-size:9px;font-weight:700;color:#888;letter-spacing:.1em;margin-bottom:4px">06 · 建築確認（必須）</div>
+        <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:6px">4号建築物として申請<br><span style="font-size:10px;color:#888">100m²以下・木造2階建て以下</span></div>
+        <div style="font-size:10px;color:#666;line-height:1.6">スクリューパイルに固定する時点で「建築物」。無申請は固定資産税・売却・融資で問題になる。4号特例で設計者の設計説明書のみで可（構造計算不要）。農地なら農地転用も必要。</div>
+        <div style="margin-top:6px;font-size:10px;color:#4ecb8d;font-weight:700">申請費用 ¥150,000〜（設計士委託）</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Performance bar -->
+  <div style="background:var(--card);border:1px solid var(--b);border-radius:14px;padding:18px;margin-bottom:16px">
+    <div style="font-size:10px;font-weight:700;color:#5ab0e6;letter-spacing:.12em;margin-bottom:14px">断熱性能比較</div>
+    <div style="display:flex;flex-direction:column;gap:9px;font-size:10px">
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="color:#555">無断熱コンテナ</span><span style="color:#e65a5a">R-0.1</span></div><div style="height:7px;background:rgba(255,255,255,.04);border-radius:4px"><div style="height:100%;width:1%;background:#e65a5a;border-radius:4px"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="color:#666">北海道省エネ基準（1地域）</span><span style="color:#666">R-4.6</span></div><div style="height:7px;background:rgba(255,255,255,.04);border-radius:4px"><div style="height:100%;width:41%;background:#444;border-radius:4px"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="color:#666">パッシブハウス基準（ドイツ）</span><span style="color:#5ab0e6">R-7.5</span></div><div style="height:7px;background:rgba(255,255,255,.04);border-radius:4px"><div style="height:100%;width:68%;background:#5ab0e6;border-radius:4px"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="color:#c8a455;font-weight:700">SOLUNA 外付け藁ベール（本設計）</span><span style="color:#c8a455;font-weight:700">R-7.0</span></div><div style="height:7px;background:rgba(255,255,255,.04);border-radius:4px"><div style="height:100%;width:64%;background:linear-gradient(to right,#c8a455,#4ecb8d);border-radius:4px"></div></div></div>
+    </div>
+  </div>
+
+  <!-- Priority + Cost -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+    <div style="background:var(--card);border:1px solid var(--b);border-radius:12px;padding:14px">
+      <div style="font-size:10px;font-weight:700;color:#c8a455;letter-spacing:.1em;margin-bottom:10px">施工順序</div>
+      <div style="font-size:10px;color:#aaa;line-height:1.9">
+        <div style="padding:4px 0;border-bottom:1px solid var(--b2)"><span style="color:#e65a5a;font-weight:700">① 建築確認申請</span> — 先に動かないとNG</div>
+        <div style="padding:4px 0;border-bottom:1px solid var(--b2)"><span style="color:#e8963a;font-weight:700">② スクリューパイル + 地中熱PE管</span> — 基礎と同時</div>
+        <div style="padding:4px 0;border-bottom:1px solid var(--b2)"><span style="color:#c8a455;font-weight:700">③ コンテナ設置 + 外付け木フレーム</span></div>
+        <div style="padding:4px 0;border-bottom:1px solid var(--b2)"><span style="color:#4ecb8d;font-weight:700">④ 藁ベール充填 + PU吹付 + 漆喰</span></div>
+        <div style="padding:4px 0;border-bottom:1px solid var(--b2)"><span style="color:#5ab0e6;font-weight:700">⑤ 切妻屋根フレーム + ガルバ</span></div>
+        <div style="padding:4px 0"><span style="color:#e65a5a;font-weight:700">⑥ 窓トリプルガラス設置</span> — ここ最優先で予算確保</div>
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--b);border-radius:12px;padding:14px">
+      <div style="font-size:10px;font-weight:700;color:#c8a455;letter-spacing:.1em;margin-bottom:10px">断熱工事コスト（改訂版）</div>
+      <table style="width:100%;font-size:10px;border-collapse:collapse">
+        <tr style="border-bottom:1px solid var(--b2)"><td style="padding:4px 0;color:#888">外付け木フレーム + 藁ベール</td><td style="text-align:right;color:#aaa">¥80,000</td></tr>
+        <tr style="border-bottom:1px solid var(--b2)"><td style="padding:4px 0;color:#888">内側PU吹付 30mm（業者）</td><td style="text-align:right;color:#aaa">¥35,000</td></tr>
+        <tr style="border-bottom:1px solid var(--b2)"><td style="padding:4px 0;color:#888">切妻屋根フレーム + ガルバ + 断熱</td><td style="text-align:right;color:#aaa">¥120,000</td></tr>
+        <tr style="border-bottom:1px solid var(--b2)"><td style="padding:4px 0;color:#e65a5a">窓 YKK APW430 × 2枚</td><td style="text-align:right;color:#e65a5a">¥260,000</td></tr>
+        <tr style="border-bottom:1px solid var(--b2)"><td style="padding:4px 0;color:#888">断熱ドア + 気密パッキン</td><td style="text-align:right;color:#aaa">¥55,000</td></tr>
+        <tr style="border-bottom:1px solid var(--b2)"><td style="padding:4px 0;color:#888">ポリカ温室（湿地用）</td><td style="text-align:right;color:#aaa">¥65,000</td></tr>
+        <tr style="border-bottom:1px solid var(--b2)"><td style="padding:4px 0;color:#888">バイオガス断熱BOX</td><td style="text-align:right;color:#aaa">¥15,000</td></tr>
+        <tr style="border-bottom:1px solid var(--b2)"><td style="padding:4px 0;color:#888">建築確認申請</td><td style="text-align:right;color:#aaa">¥150,000</td></tr>
+        <tr><td style="padding:6px 0;color:#c8a455;font-weight:700">合計</td><td style="text-align:right;color:#c8a455;font-weight:700">¥780,000</td></tr>
+      </table>
+      <div style="margin-top:8px;padding:7px;background:rgba(78,203,141,.06);border-radius:8px;font-size:10px;color:#4ecb8d;line-height:1.6">暖房費 ¥120,000/冬 → ¥18,000/冬。差額¥102,000/年で<strong>7.6年回収</strong>。</div>
+    </div>
+  </div>
+
+  <div style="background:rgba(78,203,141,.05);border:1px solid rgba(78,203,141,.2);border-radius:10px;padding:14px 16px;font-size:11px;color:#888;line-height:1.8">
+    <strong style="color:#4ecb8d">決定版まとめ</strong>：外付け2×6木フレーム + 藁ベール140mm（外壁）+ 切妻屋根 + 内側PU30mm + トリプルガラス + ポリカ温室（湿地）+ バイオガスXPS断熱ボックス + 建築確認4号申請。合計 ¥780,000。暖房費▲85%、7.6年回収。藁は弟子屈農家から無料〜格安調達。全工程DIY可能（建築確認と窓設置のみ専門家に依頼）。
+  </div>
+</div>
+
+<!-- =============== 06. DESIGN PRINCIPLES =============== -->
+<div class="sec">
+  <div class="sec-title">06 · デザイン哲学</div>
+
+  <div class="mat-grid">
+    <div class="mat-card" style="border-color:rgba(200,164,85,.2)">
+      <div class="mat-swatch" style="height:70px;background:rgba(200,164,85,.05);display:flex;align-items:center;justify-content:center">
+        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="20" fill="none" stroke="#c8a455" stroke-width="1.5" opacity="0.4"/>
+          <path d="M24 10 C18 10 14 18 14 24 C14 30 18 36 24 38" stroke="#c8a455" stroke-width="1.5" fill="none" opacity="0.6"/>
+          <path d="M24 10 C30 10 34 18 34 24 C34 30 30 36 24 38" stroke="#c8a455" stroke-width="1.5" fill="none" opacity="0.4"/>
+          <circle cx="24" cy="10" r="2" fill="#c8a455" opacity="0.6"/>
+          <circle cx="24" cy="38" r="2" fill="#c8a455" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="mat-body">
+        <div class="mat-name">不完全の美（侘び寂び）</div>
+        <div class="mat-spec">コテ跡が残る漆喰、木の節が見える杉板、錆が出たコンテナ鉄骨——完璧でない素材の表情こそが、時間の流れと空間の深みを生む。完成形より「育つ」内装を目指す。</div>
+      </div>
+    </div>
+
+    <div class="mat-card" style="border-color:rgba(78,203,141,.2)">
+      <div class="mat-swatch" style="height:70px;background:rgba(78,203,141,.04);display:flex;align-items:center;justify-content:center">
+        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 8 L24 40" stroke="#4ecb8d" stroke-width="1.5" opacity="0.5"/>
+          <path d="M8 24 L40 24" stroke="#4ecb8d" stroke-width="1.5" opacity="0.5"/>
+          <circle cx="24" cy="24" r="6" fill="none" stroke="#4ecb8d" stroke-width="1.5" opacity="0.6"/>
+          <circle cx="24" cy="12" r="3" fill="#4ecb8d" opacity="0.4"/>
+          <circle cx="24" cy="36" r="3" fill="#4ecb8d" opacity="0.4"/>
+          <circle cx="12" cy="24" r="3" fill="#4ecb8d" opacity="0.4"/>
+          <circle cx="36" cy="24" r="3" fill="#4ecb8d" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="mat-body">
+        <div class="mat-name">地産地消（弟子屈産素材）</div>
+        <div class="mat-spec">北海道産杉・カラマツ、弟子屈の土、地元の藁——可能な限り100km圏内の素材を使う。輸送CO₂を削減しながら、その土地の気候・風土と調和した空間が生まれる。</div>
+      </div>
+    </div>
+
+    <div class="mat-card" style="border-color:rgba(90,176,230,.2)">
+      <div class="mat-swatch" style="height:70px;background:rgba(90,176,230,.04);display:flex;align-items:center;justify-content:center">
+        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="28" width="28" height="12" rx="2" fill="none" stroke="#5ab0e6" stroke-width="1.5" opacity="0.5"/>
+          <path d="M16 28 L16 16 Q16 10 24 10 Q32 10 32 16 L32 28" stroke="#5ab0e6" stroke-width="1.5" fill="none" opacity="0.6"/>
+          <path d="M20 28 L20 18 Q20 14 24 14 Q28 14 28 18 L28 28" stroke="#5ab0e6" stroke-width="1.5" fill="none" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="mat-body">
+        <div class="mat-name">コンテナ + 自然素材の対話</div>
+        <div class="mat-spec">工業製品のコンテナを「骨格」として活かし、内部と外部を自然素材で包む。鉄骨梁をあえて露出させ、荒削りな構造体が漆喰の柔らかさを引き立てる。</div>
+      </div>
+    </div>
+
+    <div class="mat-card" style="border-color:rgba(232,150,58,.2)">
+      <div class="mat-swatch" style="height:70px;background:rgba(232,150,58,.04);display:flex;align-items:center;justify-content:center">
+        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="20" r="8" fill="none" stroke="#e8963a" stroke-width="1.5" opacity="0.5"/>
+          <circle cx="24" cy="20" r="3" fill="#e8963a" opacity="0.4"/>
+          <path d="M20 14 Q18 8 16 6" stroke="#e8963a" stroke-width="1.5" fill="none" opacity="0.4"/>
+          <path d="M28 14 Q30 8 32 6" stroke="#e8963a" stroke-width="1.5" fill="none" opacity="0.4"/>
+          <path d="M14 20 Q8 18 6 16" stroke="#e8963a" stroke-width="1.5" fill="none" opacity="0.4"/>
+          <path d="M34 20 Q40 18 42 16" stroke="#e8963a" stroke-width="1.5" fill="none" opacity="0.4"/>
+          <rect x="18" y="30" width="12" height="12" rx="1" fill="none" stroke="#e8963a" stroke-width="1.5" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="mat-body">
+        <div class="mat-name">光を設計する</div>
+        <div class="mat-spec">南面の大開口は夏の高度角で庇が日射を遮り、冬の低角度では室内深く光を引き込む。漆喰壁の白が光を拡散し、朝夕で表情が変わる生きた照明になる。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final CTA -->
+  <div style="text-align:center;margin-top:0;padding:40px;background:var(--card);border:1px solid rgba(200,164,85,.15);border-radius:16px">
+    <div style="font-size:9px;letter-spacing:.3em;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:12px">Next Step</div>
+    <div style="font-size:20px;font-weight:900;color:#fff;margin-bottom:12px">Work Partyで一緒に漆喰を塗ろう</div>
+    <div style="font-size:12px;color:var(--dim);line-height:1.9;max-width:500px;margin:0 auto 24px">2026年6月6〜7日。美留和のコンテナに漆喰を塗るWork Partyを開催。参加者にはSOLUNA 1口（¥100,000相当）を贈呈。</div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="/workparty" style="padding:12px 28px;background:var(--gold);color:#000;font-size:12px;font-weight:800;border-radius:100px;text-decoration:none;letter-spacing:.06em">Work Partyに参加する</a>
+      <a href="/cottage" style="padding:12px 24px;background:transparent;color:var(--gold);font-size:12px;font-weight:700;border:1px solid rgba(200,164,85,.3);border-radius:100px;text-decoration:none">4ゾーン設計図を見る →</a>
+    </div>
+  </div>
+</div>
+
+<script src="/js/dc.js"></script>
+</body>
+</html>

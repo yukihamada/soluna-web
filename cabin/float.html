@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOLUNA FLOAT — 菌糸体カヌーで屈斜路湖を漕ぐ</title>
+<meta name="description" content="菌糸体複合体サンドイッチ構造で作るカヌー。あなたが型に詰めた混合物が、3週間後に湖を浮かぶ。">
+<style>
+:root {
+  --bg: #060604;
+  --card: #0d0d0a;
+  --border: #1a1a14;
+  --text: #e8e3d2;
+  --muted: #5a5850;
+  --accent: #4a9b8a;
+  --amber: #c4903a;
+  --blue: #4a7a9b;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue','Hiragino Sans',Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(6,6,4,0.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:48px;gap:32px;}
+.nav-logo{font-size:11px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;text-decoration:none;}
+.nav-links{display:flex;gap:20px;margin-left:auto;}
+.nav-links a{font-size:11px;letter-spacing:0.08em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--text);}
+
+.hero{padding:80px 48px 64px;border-bottom:1px solid var(--border);max-width:1100px;margin:0 auto;}
+@media(max-width:600px){.hero{padding:56px 24px 40px;}}
+.eyebrow{font-size:10px;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;margin-bottom:20px;}
+h1{font-size:clamp(36px,7vw,80px);font-weight:200;color:#fff;letter-spacing:-0.03em;line-height:1;}
+h1 em{color:var(--accent);font-style:normal;}
+.hero-desc{margin-top:24px;font-size:15px;color:var(--muted);line-height:1.8;max-width:560px;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;}
+.tag{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--border);color:var(--muted);border-radius:2px;}
+
+section{padding:80px 0;border-bottom:1px solid var(--border);}
+.wrap{max-width:1100px;margin:0 auto;padding:0 48px;}
+@media(max-width:600px){.wrap{padding:0 24px;}}
+.sec-eye{font-size:10px;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;margin-bottom:16px;}
+h2{font-size:clamp(22px,4vw,40px);font-weight:200;color:#fff;letter-spacing:-0.02em;line-height:1.2;margin-bottom:12px;}
+.sec-desc{font-size:14px;color:var(--muted);line-height:1.8;max-width:520px;margin-bottom:48px;}
+
+/* ── Renders ── */
+.renders-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);}
+@media(max-width:680px){.renders-grid{grid-template-columns:1fr;}}
+.render-cell{background:var(--card);aspect-ratio:16/9;overflow:hidden;position:relative;}
+.render-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s ease;}
+.render-cell:hover img{transform:scale(1.03);}
+.render-label{position:absolute;bottom:12px;left:12px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(232,227,210,0.6);background:rgba(6,6,4,0.7);padding:3px 8px;border-radius:1px;}
+.render-cell.placeholder{background:var(--card);display:flex;align-items:center;justify-content:center;}
+.render-cell.placeholder span{font-size:11px;color:var(--muted);}
+
+/* ── Spec grid ── */
+.spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+@media(max-width:700px){.spec-grid{grid-template-columns:repeat(2,1fr);}}
+.spec-card{background:var(--card);padding:24px;}
+.spec-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.spec-val{font-size:28px;font-weight:200;color:#fff;letter-spacing:-0.02em;}
+.spec-unit{font-size:13px;color:var(--muted);margin-left:4px;}
+.spec-note{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5;}
+
+/* ── Structure cross-section ── */
+.structure-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+@media(max-width:720px){.structure-wrap{grid-template-columns:1fr;}}
+.layer-list{display:flex;flex-direction:column;gap:0;}
+.layer-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border);}
+.layer-item:last-child{border-bottom:none;}
+.layer-color{width:20px;height:20px;border-radius:2px;flex-shrink:0;margin-top:2px;}
+.layer-name{font-size:14px;font-weight:500;color:#fff;margin-bottom:3px;}
+.layer-spec{font-size:11px;color:var(--muted);line-height:1.6;}
+.layer-perf{font-size:11px;color:var(--accent);margin-top:2px;}
+
+/* ── Build process ── */
+.process-flow{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);}
+.pf-row{display:grid;grid-template-columns:100px 1fr 160px;background:var(--card);align-items:start;}
+@media(max-width:680px){.pf-row{grid-template-columns:80px 1fr;}}
+.pf-row.header{background:var(--bg);}
+.pf-when{padding:16px;font-size:11px;color:var(--muted);border-right:1px solid var(--border);}
+.pf-what{padding:16px 20px;}
+.pf-who{padding:16px;font-size:11px;color:var(--muted);border-left:1px solid var(--border);}
+@media(max-width:680px){.pf-who{display:none;}}
+.pf-row.header .pf-when,.pf-row.header .pf-what,.pf-row.header .pf-who{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);}
+.pf-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:4px;}
+.pf-desc{font-size:11px;color:var(--muted);line-height:1.6;}
+.pf-milestone .pf-when{color:var(--accent);}
+.pf-milestone .pf-title{color:var(--accent);}
+.pf-milestone{background:rgba(74,155,138,0.04);}
+
+/* ── BOM table ── */
+.bom-table{width:100%;border-collapse:collapse;font-size:13px;}
+.bom-table th{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 16px;border-bottom:1px solid var(--border);font-weight:400;}
+.bom-table td{padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:top;}
+.bom-table tr:last-child td{border-bottom:none;}
+.bom-table tr:hover td{background:rgba(74,155,138,0.03);}
+.bom-item{font-weight:500;color:#fff;}
+.bom-desc{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5;}
+.bom-qty{color:var(--muted);text-align:right;white-space:nowrap;}
+.bom-price{color:var(--text);text-align:right;white-space:nowrap;}
+.bom-total{background:var(--card);border-top:1px solid var(--border);}
+.bom-total td{padding:16px;font-weight:500;color:#fff;}
+
+/* ── Quote ── */
+.quote-section{background:#000;padding:80px 48px;}
+.quote-section blockquote{max-width:720px;margin:0 auto;font-size:clamp(22px,4vw,40px);font-weight:200;color:#fff;line-height:1.4;letter-spacing:-0.02em;}
+.quote-section blockquote em{color:var(--accent);font-style:normal;}
+.quote-attr{font-size:11px;color:var(--muted);margin-top:20px;letter-spacing:0.1em;}
+
+/* ── Lake section ── */
+.lake-section{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--card);border:1px solid var(--border);}
+@media(max-width:700px){.lake-section{grid-template-columns:1fr;}}
+.lake-img{aspect-ratio:4/3;overflow:hidden;}
+.lake-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.lake-img.placeholder{background:#0a1a18;display:flex;align-items:center;justify-content:center;}
+.lake-img.placeholder span{font-size:11px;color:var(--muted);}
+.lake-text{padding:40px;}
+.lake-title{font-size:24px;font-weight:200;color:#fff;margin-bottom:16px;letter-spacing:-0.02em;}
+.lake-body{font-size:14px;color:var(--muted);line-height:1.9;}
+.lake-stats{display:flex;flex-direction:column;gap:16px;margin-top:28px;padding-top:28px;border-top:1px solid var(--border);}
+.lake-stat-row{display:flex;justify-content:space-between;font-size:12px;}
+.lake-stat-label{color:var(--muted);}
+.lake-stat-val{color:#fff;font-weight:500;}
+
+/* ── CTA ── */
+.cta-box{background:var(--card);border:1px solid var(--border);padding:48px;text-align:center;margin-top:64px;}
+.cta-box h3{font-size:28px;font-weight:200;color:#fff;margin-bottom:12px;letter-spacing:-0.02em;}
+.cta-box p{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.8;}
+.btn-primary{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:14px 32px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;border-radius:1px;transition:background 0.2s;}
+.btn-primary:hover{background:#3d8a7a;}
+.btn-ghost{display:inline-block;border:1px solid var(--border);color:var(--muted);text-decoration:none;padding:14px 28px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;margin-left:12px;border-radius:1px;transition:border-color 0.2s,color 0.2s;}
+.btn-ghost:hover{border-color:var(--text);color:var(--text);}
+
+footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.foot-logo{font-size:11px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;}
+.foot-links{display:flex;gap:24px;}
+.foot-links a{font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:0.05em;transition:color 0.2s;}
+.foot-links a:hover{color:var(--text);}
+</style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/village">SOLUNA</a>
+  <div class="nav-links">
+    <a href="/mycelium">菌糸体建材</a>
+    <a href="/village-design">設計仕様</a>
+    <a href="/workparty">Work Party</a>
+    <a href="/float" style="color:var(--accent)">FLOAT</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">SOLUNA FLOAT — Mycelium Kayak Project</div>
+  <h1>菌糸体で<br><em>漕ぐ</em></h1>
+  <p class="hero-desc">
+    あなたが型に詰めた混合物が、3週間後に湖を浮かぶ。<br>
+    おがくず・菌糸体・杉リブ。それだけで作るカヌーが、<br>
+    屈斜路湖の朝霧を割っていく。
+  </p>
+  <div class="hero-tags">
+    <span class="tag">Mycelium Composite</span>
+    <span class="tag">Lake Kussharo</span>
+    <span class="tag">Work Party</span>
+    <span class="tag">Biodegradable Hull</span>
+    <span class="tag">25 kg</span>
+  </div>
+</div>
+
+<!-- RENDERS -->
+<section>
+  <div class="renders-grid">
+    <div class="render-cell" id="rc-hull">
+      <img src="img/float_kayak_hull.jpg" alt="菌糸体カヌー" onerror="this.parentNode.classList.add('placeholder');this.parentNode.innerHTML='<span>rendering…</span>'">
+      <div class="render-label">Hull — Lake Kussharo</div>
+    </div>
+    <div class="render-cell" id="rc-workshop">
+      <img src="img/float_workshop.jpg" alt="カヌー製作ワークショップ" onerror="this.parentNode.classList.add('placeholder');this.parentNode.innerHTML='<span>rendering…</span>'">
+      <div class="render-label">Build Workshop</div>
+    </div>
+    <div class="render-cell" id="rc-mold">
+      <img src="img/float_mold_frame.jpg" alt="ハル型製作" onerror="this.parentNode.classList.add('placeholder');this.parentNode.innerHTML='<span>rendering…</span>'">
+      <div class="render-label">Mold Filling</div>
+    </div>
+    <div class="render-cell" id="rc-kussharo">
+      <img src="img/float_kussharo.jpg" alt="屈斜路湖" onerror="this.parentNode.classList.add('placeholder');this.parentNode.innerHTML='<span>rendering…</span>'">
+      <div class="render-label">Lake Kussharo, Hokkaido</div>
+    </div>
+  </div>
+</section>
+
+<!-- SPEC GRID -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Hull Specification</div>
+    <h2>スペック</h2>
+    <div class="sec-desc">シングルシットオンカヤック。全長4.2m。菌糸体コアを杉リブ骨格が支える、サンドイッチ複合構造。</div>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <div class="spec-label">Total Length</div>
+        <div class="spec-val">4.2<span class="spec-unit">m</span></div>
+        <div class="spec-note">シットオンカヤック。湖・静水向け。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Beam Width</div>
+        <div class="spec-val">68<span class="spec-unit">cm</span></div>
+        <div class="spec-note">安定重視の広めビーム。初心者でも漕げる。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Hull Weight</div>
+        <div class="spec-val">25<span class="spec-unit">kg</span></div>
+        <div class="spec-note">フォームコア艇と同等。屋根への積み下ろし可能。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Core Density</div>
+        <div class="spec-val">90<span class="spec-unit">kg/m³</span></div>
+        <div class="spec-note">Trametes versicolor × おがくず。PU フォームより軽い。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Max Load</div>
+        <div class="spec-val">120<span class="spec-unit">kg</span></div>
+        <div class="spec-note">体重 + 荷物。屈斜路湖の1日ツーリング想定。</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Grow Time</div>
+        <div class="spec-val">21<span class="spec-unit">days</span></div>
+        <div class="spec-note">型詰め → 菌糸体完全定着 → 乾燥・脱型まで。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRUCTURE CROSS-SECTION -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Hull Structure</div>
+    <h2>断面構造</h2>
+    <div class="sec-desc">フィバーグラスの代わりに、局所的に麻布と亜麻仁油を重ねる。骨格は地元の杉。コアは菌糸体。</div>
+    <div class="structure-wrap">
+      <!-- Hull cross-section SVG -->
+      <div>
+        <svg viewBox="0 0 380 320" style="width:100%;max-width:420px;display:block;">
+          <defs>
+            <linearGradient id="waterGrad" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#0a2030" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#062040" stop-opacity="1"/>
+            </linearGradient>
+          </defs>
+          <!-- Water -->
+          <rect x="0" y="200" width="380" height="120" fill="url(#waterGrad)" rx="0"/>
+          <text x="190" y="245" text-anchor="middle" fill="#4a7a9b" font-size="10" letter-spacing="2" font-family="monospace">WATER</text>
+
+          <!-- Kayak hull shape (cross-section, rounded bottom) -->
+          <!-- Outer shell -->
+          <path d="M 60 200 Q 190 120 320 200 Z" fill="none" stroke="#3a6b5a" stroke-width="3"/>
+          <!-- 麻布+亜麻仁油 outer skin -->
+          <path d="M 63 200 Q 190 126 317 200" fill="none" stroke="#5c9068" stroke-width="5" stroke-opacity="0.7"/>
+          <!-- Mycelium core fill -->
+          <path d="M 75 200 Q 190 145 305 200 Z" fill="rgba(74,155,138,0.15)" stroke="rgba(74,155,138,0.4)" stroke-width="1.5"/>
+          <!-- Inner skin -->
+          <path d="M 88 200 Q 190 162 292 200" fill="none" stroke="#7a5c3a" stroke-width="3"/>
+          <!-- Cedar ribs -->
+          <line x1="190" y1="162" x2="190" y2="200" stroke="#c4903a" stroke-width="4" stroke-linecap="round"/>
+          <line x1="145" y1="172" x2="145" y2="200" stroke="#c4903a" stroke-width="3" stroke-linecap="round"/>
+          <line x1="235" y1="172" x2="235" y2="200" stroke="#c4903a" stroke-width="3" stroke-linecap="round"/>
+          <line x1="110" y1="185" x2="110" y2="200" stroke="#c4903a" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="270" y1="185" x2="270" y2="200" stroke="#c4903a" stroke-width="2.5" stroke-linecap="round"/>
+
+          <!-- Waterline indicator -->
+          <line x1="30" y1="200" x2="350" y2="200" stroke="#4a7a9b" stroke-width="1" stroke-dasharray="4 4"/>
+          <text x="32" y="196" fill="#4a7a9b" font-size="9" letter-spacing="1" font-family="monospace">WL</text>
+
+          <!-- Labels -->
+          <!-- outer skin -->
+          <line x1="320" y1="165" x2="345" y2="145" stroke="#3a3a30" stroke-width="1"/>
+          <text x="346" y="144" fill="#5c9068" font-size="9" letter-spacing="1" font-family="monospace">麻布 + 亜麻仁油</text>
+          <text x="346" y="155" fill="#3a3a30" font-size="8" font-family="monospace">2 mm × 3 plies</text>
+
+          <!-- mycelium core -->
+          <line x1="260" y1="148" x2="345" y2="118" stroke="#3a3a30" stroke-width="1"/>
+          <text x="346" y="117" fill="#4a9b8a" font-size="9" letter-spacing="1" font-family="monospace">菌糸体コア</text>
+          <text x="346" y="128" fill="#3a3a30" font-size="8" font-family="monospace">20–40 mm</text>
+
+          <!-- cedar rib -->
+          <line x1="190" y1="164" x2="155" y2="90" stroke="#3a3a30" stroke-width="1"/>
+          <text x="60" y="89" fill="#c4903a" font-size="9" letter-spacing="1" font-family="monospace">杉リブ</text>
+          <text x="60" y="100" fill="#3a3a30" font-size="8" font-family="monospace">20×30 mm @ 300c/c</text>
+
+          <!-- inner skin -->
+          <line x1="130" y1="174" x2="40" y2="145" stroke="#3a3a30" stroke-width="1"/>
+          <text x="10" y="144" fill="#7a5c3a" font-size="9" letter-spacing="1" font-family="monospace">杉薄板</text>
+          <text x="10" y="155" fill="#3a3a30" font-size="8" font-family="monospace">2 mm 内板</text>
+
+          <!-- dimension arrow -->
+          <text x="190" y="290" text-anchor="middle" fill="#3a3a30" font-size="10" letter-spacing="1" font-family="monospace">— 680 mm —</text>
+          <line x1="60" y1="282" x2="320" y2="282" stroke="#3a3a30" stroke-width="1"/>
+          <line x1="60" y1="278" x2="60" y2="286" stroke="#3a3a30" stroke-width="1"/>
+          <line x1="320" y1="278" x2="320" y2="286" stroke="#3a3a30" stroke-width="1"/>
+        </svg>
+      </div>
+
+      <!-- Layer list -->
+      <div class="layer-list">
+        <div class="layer-item">
+          <div class="layer-color" style="background:#5c9068;"></div>
+          <div>
+            <div class="layer-name">外板 — 麻布 × 亜麻仁油</div>
+            <div class="layer-spec">厚さ 2mm × 3プライ。麻布に亜麻仁油を含浸させて成形。<br>柿渋コーティングで表面強化 + 防水。</div>
+            <div class="layer-perf">引張強度 80 MPa（植物繊維複合）</div>
+          </div>
+        </div>
+        <div class="layer-item">
+          <div class="layer-color" style="background:#4a9b8a;"></div>
+          <div>
+            <div class="layer-name">コア — 菌糸体複合体</div>
+            <div class="layer-spec">Trametes versicolor × おがくず70%・籾殻30%。<br>厚さ 20–40mm（部位により変化）。密度 90 kg/m³。</div>
+            <div class="layer-perf">比強度：PU フォーム同等、浮力体として機能</div>
+          </div>
+        </div>
+        <div class="layer-item">
+          <div class="layer-color" style="background:#c4903a;"></div>
+          <div>
+            <div class="layer-name">骨格 — 杉リブ</div>
+            <div class="layer-spec">20×30mm 縦通材。ピッチ 300mm。<br>地元弟子屈・標茶の製材所から調達。</div>
+            <div class="layer-perf">曲げ剛性の主担当。湿潤環境向け表面処理</div>
+          </div>
+        </div>
+        <div class="layer-item">
+          <div class="layer-color" style="background:#7a5c3a;"></div>
+          <div>
+            <div class="layer-name">内板 — 杉薄板</div>
+            <div class="layer-spec">2mm 杉板。コクピット内面仕上げ。<br>柿渋 × ホウ砂水溶液で防腐・防水処理。</div>
+            <div class="layer-perf">乗員接触面の快適性・審美性を担保</div>
+          </div>
+        </div>
+        <div class="layer-item">
+          <div class="layer-color" style="background:#4a7a9b;"></div>
+          <div>
+            <div class="layer-name">ガンネル — 竹</div>
+            <div class="layer-spec">φ15mm 丸竹。船縁（両舷）の縦通材。<br>軽量・高剛性。亜麻仁油 + 柿渋仕上げ。</div>
+            <div class="layer-perf">剛性 vs 重量比が木材の 1.4 倍</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HULL PLAN VIEW -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Hull Form</div>
+    <h2>ハル平面図</h2>
+    <div class="sec-desc">全長 4,200mm / 最大幅 680mm。ロッカー（反り）60mm。フラットボトムで初心者でも安定した漕ぎ心地。</div>
+    <div style="background:var(--card);border:1px solid var(--border);padding:32px;border-radius:2px;">
+      <svg viewBox="0 0 800 260" style="width:100%;display:block;">
+        <!-- Grid lines -->
+        <g stroke="#1a1a14" stroke-width="0.5">
+          <line x1="100" y1="0" x2="100" y2="260"/>
+          <line x1="200" y1="0" x2="200" y2="260"/>
+          <line x1="300" y1="0" x2="300" y2="260"/>
+          <line x1="400" y1="0" x2="400" y2="260"/>
+          <line x1="500" y1="0" x2="500" y2="260"/>
+          <line x1="600" y1="0" x2="600" y2="260"/>
+          <line x1="700" y1="0" x2="700" y2="260"/>
+        </g>
+
+        <!-- Kayak hull outline (top view) -->
+        <!-- Bow (left), Stern (right) -->
+        <path d="M 60,130 C 100,90 200,70 350,68 C 450,67 580,72 700,100 C 740,110 756,120 760,130 C 756,140 740,150 700,160 C 580,188 450,193 350,192 C 200,190 100,170 60,130 Z"
+              fill="rgba(74,155,138,0.08)" stroke="#4a9b8a" stroke-width="2"/>
+
+        <!-- Cockpit -->
+        <ellipse cx="340" cy="130" rx="100" ry="38" fill="rgba(74,155,138,0.04)" stroke="#4a9b8a" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+        <!-- Ribs (transverse sections) -->
+        <g stroke="#c4903a" stroke-width="1.5" stroke-opacity="0.6">
+          <line x1="150" y1="83" x2="150" y2="177"/>
+          <line x1="220" y1="72" x2="220" y2="188"/>
+          <line x1="290" y1="70" x2="290" y2="190"/>
+          <line x1="450" y1="69" x2="450" y2="191"/>
+          <line x1="550" y1="74" x2="550" y2="186"/>
+          <line x1="630" y1="84" x2="630" y2="176"/>
+          <line x1="690" y1="100" x2="690" y2="160"/>
+        </g>
+
+        <!-- Waterline -->
+        <line x1="80" y1="130" x2="755" y2="130" stroke="#4a7a9b" stroke-width="1" stroke-dasharray="6 4" stroke-opacity="0.5"/>
+
+        <!-- Center line -->
+        <line x1="55" y1="130" x2="765" y2="130" stroke="#3a3a30" stroke-width="0.5" stroke-dasharray="2 6"/>
+
+        <!-- Dimension: length -->
+        <line x1="60" y1="220" x2="760" y2="220" stroke="#3a3a30" stroke-width="1"/>
+        <line x1="60" y1="215" x2="60" y2="225" stroke="#3a3a30" stroke-width="1"/>
+        <line x1="760" y1="215" x2="760" y2="225" stroke="#3a3a30" stroke-width="1"/>
+        <text x="410" y="238" text-anchor="middle" fill="#5a5850" font-size="11" font-family="monospace" letter-spacing="1">4,200 mm</text>
+
+        <!-- Dimension: beam at widest -->
+        <line x1="775" y1="68" x2="775" y2="192" stroke="#3a3a30" stroke-width="1"/>
+        <line x1="770" y1="68" x2="780" y2="68" stroke="#3a3a30" stroke-width="1"/>
+        <line x1="770" y1="192" x2="780" y2="192" stroke="#3a3a30" stroke-width="1"/>
+        <text x="793" y="134" text-anchor="middle" fill="#5a5850" font-size="11" font-family="monospace" letter-spacing="1" transform="rotate(90,793,134)">680 mm</text>
+
+        <!-- Labels -->
+        <text x="55" y="118" fill="#5a5850" font-size="9" letter-spacing="1" font-family="monospace">BOW</text>
+        <text x="730" y="118" fill="#5a5850" font-size="9" letter-spacing="1" font-family="monospace">STERN</text>
+        <text x="340" y="126" text-anchor="middle" fill="#4a9b8a" font-size="9" letter-spacing="2" font-family="monospace">COCKPIT</text>
+        <text x="150" y="200" text-anchor="middle" fill="#c4903a" font-size="8" font-family="monospace">RIB</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-section">
+  <blockquote>
+    あなたが菌で育てたボートで、<br>
+    あなたが建てた小屋の前の湖を漕ぐ。<br><br>
+    <em>それが本当の意味での、自分の場所だ。</em>
+  </blockquote>
+  <p class="quote-attr">— SOLUNA FLOAT</p>
+</div>
+
+<!-- LAKE KUSSHARO -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">The Lake</div>
+    <h2>屈斜路湖</h2>
+    <div class="sec-desc">日本最大のカルデラ湖。透明度16m。SOLUNA ビレッジから自転車で5分。</div>
+    <div class="lake-section">
+      <div class="lake-img" id="lake-img-cell">
+        <img src="img/village_site_hokkaido.jpg" alt="屈斜路湖" onerror="this.parentNode.classList.add('placeholder');this.parentNode.innerHTML='<span>Lake Kussharo</span>'">
+      </div>
+      <div class="lake-text">
+        <div class="lake-title">カルデラに浮かぶ</div>
+        <p class="lake-body">
+          屈斜路湖は直径26km、面積79km²のカルデラ湖。中央に中島が浮かぶ。
+          冬は全面結氷し白鳥が越冬する。夏は透明度16m、底が見える。
+          SOLUNAビレッジの前に広がるのは、この湖だ。<br><br>
+          菌糸体カヌーを朝霧の湖に出すとき、あなたは「自分で育てた材料で作った艇に乗って、
+          自分で建てた小屋の前を漕いでいる」という状況にいる。
+          そういう体験は、お金で買えない。
+        </p>
+        <div class="lake-stats">
+          <div class="lake-stat-row"><span class="lake-stat-label">面積</span><span class="lake-stat-val">79.5 km²（日本最大カルデラ湖）</span></div>
+          <div class="lake-stat-row"><span class="lake-stat-label">透明度</span><span class="lake-stat-val">16 m</span></div>
+          <div class="lake-stat-row"><span class="lake-stat-label">標高</span><span class="lake-stat-val">121 m（北海道道東）</span></div>
+          <div class="lake-stat-row"><span class="lake-stat-label">ビレッジから</span><span class="lake-stat-val">自転車 5 分（美留和浜）</span></div>
+          <div class="lake-stat-row"><span class="lake-stat-label">カヌー期間</span><span class="lake-stat-val">5月下旬〜10月上旬</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILD PROCESS -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Build Timeline</div>
+    <h2>製作プロセス</h2>
+    <div class="sec-desc">Work Party の延長線。壁パネルを作った人が、次はカヌーを育てに来る。</div>
+    <div class="process-flow">
+      <div class="pf-row header">
+        <div class="pf-when">Time</div>
+        <div class="pf-what">Step</div>
+        <div class="pf-who">Who</div>
+      </div>
+      <div class="pf-row">
+        <div class="pf-when">Day 0</div>
+        <div class="pf-what">
+          <div class="pf-title">型枠製作</div>
+          <div class="pf-desc">杉材でカヌー断面形状の型枠（12枚）を製作。ベニヤ貼り合わせで滑らかな曲面を形成。雄型に離型剤（石鹸水）を塗布。</div>
+        </div>
+        <div class="pf-who">大工 + 参加者</div>
+      </div>
+      <div class="pf-row">
+        <div class="pf-when">Day 1</div>
+        <div class="pf-what">
+          <div class="pf-title">骨格組み</div>
+          <div class="pf-desc">杉リブ 14本をフレームに取り付け。竹ガンネル（船縁）を曲げて固定。ハル全体の形状を決定するフェーズ。</div>
+        </div>
+        <div class="pf-who">参加者 全員</div>
+      </div>
+      <div class="pf-row pf-milestone">
+        <div class="pf-when">Day 2</div>
+        <div class="pf-what">
+          <div class="pf-title">★ 菌糸体詰め込み — Work Party</div>
+          <div class="pf-desc">おがくず70%・籾殻30%混合基質に種菌を混ぜ、骨格の隙間に詰め込む。バイオリアクターとしての型枠密閉。これがカヌーになる混合物。</div>
+        </div>
+        <div class="pf-who">Work Party 参加者</div>
+      </div>
+      <div class="pf-row">
+        <div class="pf-when">Day 3–21</div>
+        <div class="pf-what">
+          <div class="pf-title">菌糸体成長期間</div>
+          <div class="pf-desc">23℃・湿度85%で管理。カワラタケが基質全体に菌糸を張り巡らせ、コア材として固結していく。毎日写真で記録。</div>
+        </div>
+        <div class="pf-who">SOLUNA 管理</div>
+      </div>
+      <div class="pf-row">
+        <div class="pf-when">Day 22</div>
+        <div class="pf-what">
+          <div class="pf-title">乾燥・成長停止</div>
+          <div class="pf-desc">60℃ × 4時間で菌糸体を完全乾燥・成長停止処理。コア密度確定。型から外して形状確認。</div>
+        </div>
+        <div class="pf-who">SOLUNA スタッフ</div>
+      </div>
+      <div class="pf-row">
+        <div class="pf-when">Day 23–25</div>
+        <div class="pf-what">
+          <div class="pf-title">外板積層</div>
+          <div class="pf-desc">麻布 × 亜麻仁油を3プライ積層。自然光で硬化。コクピット部分にシリコンシーラー。ガンネルに竹取り付け。</div>
+        </div>
+        <div class="pf-who">参加者 + スタッフ</div>
+      </div>
+      <div class="pf-row">
+        <div class="pf-when">Day 26</div>
+        <div class="pf-what">
+          <div class="pf-title">内板・仕上げ</div>
+          <div class="pf-desc">杉薄板（2mm）を内面に貼り付け。柿渋 + ホウ砂で防水・防腐仕上げ。フットブレース取り付け。</div>
+        </div>
+        <div class="pf-who">参加者 + スタッフ</div>
+      </div>
+      <div class="pf-row pf-milestone">
+        <div class="pf-when">Day 28</div>
+        <div class="pf-what">
+          <div class="pf-title">★ 進水式 — Lake Kussharo</div>
+          <div class="pf-desc">屈斜路湖 美留和浜での進水式。製作者が初漕ぎ。朝霧の湖にオリジナル菌糸体カヌーが浮かぶ。</div>
+        </div>
+        <div class="pf-who">全員で祝う</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOM TABLE -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Bill of Materials</div>
+    <h2>材料リスト</h2>
+    <div class="sec-desc">1艇分の資材。カヌー1艇あたり ¥42,000（Work Party 参加費 ¥80,000 内包）。</div>
+    <div style="border:1px solid var(--border);background:var(--card);">
+      <table class="bom-table">
+        <thead>
+          <tr>
+            <th>材料</th>
+            <th>規格・仕様</th>
+            <th class="bom-qty">数量</th>
+            <th class="bom-price">単価</th>
+            <th class="bom-price">小計</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="bom-item">杉材（リブ）</div><div class="bom-desc">20×30mm 縦通材。ピッチ300mm × 14本。</div></td>
+            <td style="font-size:11px;color:var(--muted);">KD材 / 地元製材所</td>
+            <td class="bom-qty">5 m</td>
+            <td class="bom-price">¥800/m</td>
+            <td class="bom-price">¥4,000</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">杉薄板（内板）</div><div class="bom-desc">2mm厚×200mm幅。コクピット内面。</div></td>
+            <td style="font-size:11px;color:var(--muted);">節なし / 地元製材所</td>
+            <td class="bom-qty">10 m²</td>
+            <td class="bom-price">¥600/m²</td>
+            <td class="bom-price">¥6,000</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">竹材（ガンネル）</div><div class="bom-desc">φ15mm 丸竹。船縁左右各4.2m。</div></td>
+            <td style="font-size:11px;color:var(--muted);">マダケ / 割竹可</td>
+            <td class="bom-qty">10 m</td>
+            <td class="bom-price">¥150/m</td>
+            <td class="bom-price">¥1,500</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">おがくず</div><div class="bom-desc">菌糸体基質の主材料 70%。針葉樹混合。</div></td>
+            <td style="font-size:11px;color:var(--muted);">地元製材所（無料〜格安）</td>
+            <td class="bom-qty">15 L</td>
+            <td class="bom-price">¥10/L</td>
+            <td class="bom-price">¥150</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">籾殻</div><div class="bom-desc">基質 30%。保湿・通気調整。</div></td>
+            <td style="font-size:11px;color:var(--muted);">農協 / 精米所</td>
+            <td class="bom-qty">8 L</td>
+            <td class="bom-price">¥10/L</td>
+            <td class="bom-price">¥80</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">カワラタケ種菌</div><div class="bom-desc">Trametes versicolor。菌糸体成長の核。</div></td>
+            <td style="font-size:11px;color:var(--muted);">きのこ種苗 / 北研</td>
+            <td class="bom-qty">1 袋</td>
+            <td class="bom-price">¥2,500</td>
+            <td class="bom-price">¥2,500</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">麻布（外板積層用）</div><div class="bom-desc">平織 200g/m²。外板3プライ積層。</div></td>
+            <td style="font-size:11px;color:var(--muted);">クラフト用麻布</td>
+            <td class="bom-qty">8 m²</td>
+            <td class="bom-price">¥800/m²</td>
+            <td class="bom-price">¥6,400</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">亜麻仁油（防水・積層）</div><div class="bom-desc">外板含浸・仕上げ。3プライ計2L使用。</div></td>
+            <td style="font-size:11px;color:var(--muted);">精製亜麻仁油</td>
+            <td class="bom-qty">2 L</td>
+            <td class="bom-price">¥1,800/L</td>
+            <td class="bom-price">¥3,600</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">柿渋</div><div class="bom-desc">外板・内板仕上げ防水。タンニン表面強化。</div></td>
+            <td style="font-size:11px;color:var(--muted);">天然柿渋（原液）</td>
+            <td class="bom-qty">2 L</td>
+            <td class="bom-price">¥1,200/L</td>
+            <td class="bom-price">¥2,400</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">ホウ砂（防腐・防火）</div><div class="bom-desc">基質滅菌 + 内板防腐処理。</div></td>
+            <td style="font-size:11px;color:var(--muted);">四ホウ酸ナトリウム</td>
+            <td class="bom-qty">500 g</td>
+            <td class="bom-price">¥600</td>
+            <td class="bom-price">¥600</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">シリコンシーラー</div><div class="bom-desc">コクピットエッジ防水シール。</div></td>
+            <td style="font-size:11px;color:var(--muted);">防水用シリコーン</td>
+            <td class="bom-qty">1 本</td>
+            <td class="bom-price">¥800</td>
+            <td class="bom-price">¥800</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">フットブレース</div><div class="bom-desc">足置き調整器具。</div></td>
+            <td style="font-size:11px;color:var(--muted);">カヤック用汎用</td>
+            <td class="bom-qty">1 セット</td>
+            <td class="bom-price">¥3,500</td>
+            <td class="bom-price">¥3,500</td>
+          </tr>
+          <tr>
+            <td><div class="bom-item">ベニヤ（型枠用）</div><div class="bom-desc">雄型製作用。再利用可能で次艇に流用。</div></td>
+            <td style="font-size:11px;color:var(--muted);">9mm 構造用合板</td>
+            <td class="bom-qty">2 枚</td>
+            <td class="bom-price">¥1,800</td>
+            <td class="bom-price">¥3,600</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="bom-total">
+            <td colspan="4" style="text-align:right;font-size:14px;">材料費合計（1艇）</td>
+            <td style="font-size:20px;font-weight:300;color:#fff;text-align:right;">¥35,130</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:16px;line-height:1.7;">
+      ※ 型枠（ベニヤ）は初回のみ。2艇目以降は約 ¥31,500 / 艇。<br>
+      ※ Work Party 参加費（¥80,000）に材料費・3泊4日宿泊・進水式・パドル1本を含む。<br>
+      ※ おがくず・籾殻は地元農家・製材所との提携で無償〜格安調達を想定。
+    </p>
+  </div>
+</section>
+
+<!-- WORK PARTY CONNECTION -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Work Party Extension</div>
+    <h2>カヌー Work Party</h2>
+    <div class="sec-desc">壁パネルを作った人が、次はカヌーを育てに来る。SOLUNAビレッジの Work Party プログラムの第2フェーズ。</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);">
+      <div style="background:var(--card);padding:28px;">
+        <div style="font-size:10px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">DAY 1</div>
+        <div style="font-size:16px;font-weight:500;color:#fff;margin-bottom:12px;">素材を知る</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.8;">
+          午前：菌糸体カヌーの原理を学ぶ。湖での試乗体験（既存艇）。<br>
+          午後：型枠製作・骨格組み。杉リブに木目と強度の関係を学ぶ。<br>
+          夜：焚き火 + ビレッジ初日の語り合い。
+        </div>
+      </div>
+      <div style="background:var(--card);padding:28px;border-left:1px solid var(--border);">
+        <div style="font-size:10px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">DAY 2</div>
+        <div style="font-size:16px;font-weight:500;color:#fff;margin-bottom:12px;">育てる</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.8;">
+          午前：おがくず + 籾殻 + 種菌を混合。型に詰め込む。<br>
+          午後：コクピット成形・密閉。あなたの手が触れた菌糸体がこれから育っていく。<br>
+          夜：屈斜路湖の夕暮れ。空が広い。
+        </div>
+      </div>
+      <div style="background:var(--card);padding:28px;border-left:1px solid var(--border);">
+        <div style="font-size:10px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">DAY 28</div>
+        <div style="font-size:16px;font-weight:500;color:var(--accent);margin-bottom:12px;">★ 進水式</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.8;">
+          3週間後に再び集合。乾燥・外板積層・仕上げを一緒に。<br>
+          午後：美留和浜での進水式。製作者が初漕ぎ。<br>
+          1艇は SOLUNA ビレッジに常設。メンバーが漕げる。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POTENTIAL -->
+<section>
+  <div class="wrap">
+    <div class="sec-eye">Beyond Kayak</div>
+    <h2>この先にあるもの</h2>
+    <div class="sec-desc">菌糸体成形体の可能性は、カヌーで終わらない。</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+      <div style="background:var(--card);border:1px solid var(--border);padding:24px;">
+        <div style="font-size:24px;margin-bottom:12px;">🚣</div>
+        <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:8px;">カヌー / カヤック</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7;">全長4.2m、重量25kg。シットオン構造。屈斜路湖の朝漕ぎ専用艇としてビレッジに常設。</div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);padding:24px;">
+        <div style="font-size:24px;margin-bottom:12px;">🏄</div>
+        <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:8px;">サップ（SUP）ボード</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7;">平底・広幅の構造なら菌糸体コアがより活きる。インフレータブル代替として面白い。</div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);padding:24px;">
+        <div style="font-size:24px;margin-bottom:12px;">🛶</div>
+        <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:8px;">2人乗りカヌー</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7;">全長5.4m版。Work Party の上位コース。参加費 ¥120,000。2艇目以降は型再利用で材料費半減。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <div class="cta-box">
+      <h3>菌糸体カヌーを作りに来ないか</h3>
+      <p>
+        Work Party（2026年9月、北海道・美留和）で、壁パネルと同時にカヌーを育てる。<br>
+        定員6名。1艇仕上げて、進水式で漕いで帰れる。
+      </p>
+      <a href="/workparty" class="btn-primary" data-sln-track="consultation_click">Work Party に参加する</a>
+      <a href="mailto:cabin@solun.art?subject=SOLUNA FLOAT カヌー Work Party 参加希望" class="btn-ghost">詳細をメールで聞く</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-logo">SOLUNA FLOAT</span>
+  <div class="foot-links">
+    <a href="/mycelium">菌糸体建材</a>
+    <a href="/village-design">設計仕様</a>
+    <a href="/workparty">Work Party</a>
+    <a href="/village">SOLUNA ビレッジ</a>
+  </div>
+</footer>
+
+<script defer src="/js/sln-track.js"></script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 580" width="900" height="580" font-family="'Helvetica Neue',Arial,sans-serif">
+  <rect width="900" height="580" fill="white"/>
+
+  <text x="450" y="34" text-anchor="middle" font-size="16" font-weight="bold">【図4】自律制御ループ — 生物電気フィードバック換気制御</text>
+  <text x="450" y="53" text-anchor="middle" font-size="11" fill="#555">Fig.4  Autonomous Control Loop — Bioelectric Feedback Ventilation</text>
+
+  <!-- Background zones -->
+  <rect x="24" y="68" width="852" height="448" rx="12" fill="#fafafa" stroke="#e0e0e0" stroke-width="1.5"/>
+
+  <!-- Node 1: Air quality input -->
+  <ellipse cx="150" cy="180" rx="95" ry="55" fill="#e8f4ff" stroke="#4a90d9" stroke-width="2"/>
+  <text x="150" y="170" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a4a80">汚染空気</text>
+  <text x="150" y="187" text-anchor="middle" font-size="9" fill="#2a6aaa">花粉・VOC・微生物</text>
+  <text x="150" y="202" text-anchor="middle" font-size="9" fill="#2a6aaa">CO₂ 上昇</text>
+
+  <!-- Node 2: HEPA -->
+  <rect x="300" y="130" width="130" height="100" rx="10" fill="#fff0e0" stroke="#e8a020" stroke-width="2"/>
+  <text x="365" y="160" text-anchor="middle" font-size="12" font-weight="bold" fill="#8b5000">HEPA</text>
+  <text x="365" y="178" text-anchor="middle" font-size="10" fill="#8b5000">フィルター</text>
+  <text x="365" y="196" text-anchor="middle" font-size="8" fill="#b87020">有機物を捕集・蓄積</text>
+  <text x="365" y="212" text-anchor="middle" font-size="8" fill="#b87020">Organic capture</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="245" y1="180" x2="298" y2="180" stroke="#4a90d9" stroke-width="2.5" marker-end="url(#c1)"/>
+  <text x="272" y="170" text-anchor="middle" font-size="9" fill="#1a4aaa">吸気</text>
+
+  <!-- Node 3: MFC -->
+  <rect x="300" y="310" width="130" height="110" rx="10" fill="#2a5a2a" stroke="#1a3a1a" stroke-width="2"/>
+  <text x="365" y="342" text-anchor="middle" font-size="12" fill="white" font-weight="bold">MFC</text>
+  <text x="365" y="360" text-anchor="middle" font-size="9" fill="#90e890">有機物 → 電力</text>
+  <text x="365" y="376" text-anchor="middle" font-size="9" fill="#90e890">Organic → Power</text>
+  <text x="365" y="396" text-anchor="middle" font-size="10" fill="#c0f0c0" font-weight="bold">出力: P = f(汚染度)</text>
+  <text x="365" y="412" text-anchor="middle" font-size="8" fill="#80e080">汚染↑ → 電力↑</text>
+
+  <!-- Arrow HEPA→MFC (organic matter) -->
+  <line x1="365" y1="230" x2="365" y2="308" stroke="#e8a020" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#c2)"/>
+  <text x="392" y="272" text-anchor="middle" font-size="9" fill="#c07800">有機物</text>
+  <text x="392" y="285" text-anchor="middle" font-size="8" fill="#c07800">（定期投入）</text>
+
+  <!-- Node 4: Energy IC -->
+  <rect x="510" y="310" width="130" height="110" rx="10" fill="#3a1a5a" stroke="#200a40" stroke-width="2"/>
+  <text x="575" y="342" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Energy IC</text>
+  <text x="575" y="360" text-anchor="middle" font-size="9" fill="#c090ff">BQ25504</text>
+  <text x="575" y="378" text-anchor="middle" font-size="9" fill="#c090ff">50mV → 3.3V 昇圧</text>
+  <text x="575" y="396" text-anchor="middle" font-size="9" fill="#a070df">10F スーパーキャパ</text>
+  <text x="575" y="412" text-anchor="middle" font-size="8" fill="#8050bf">蓄電・安定化</text>
+
+  <!-- Arrow MFC→Energy IC -->
+  <line x1="430" y1="365" x2="508" y2="365" stroke="#80e080" stroke-width="2.5" marker-end="url(#c3)"/>
+  <text x="470" y="355" text-anchor="middle" font-size="9" fill="#40a040">電力</text>
+  <text x="470" y="368" text-anchor="middle" font-size="8" fill="#40a040">0.5〜3V</text>
+
+  <!-- Node 5: nRF52840 / Sensor -->
+  <rect x="510" y="130" width="130" height="110" rx="10" fill="#1a1a4a" stroke="#0a0a2a" stroke-width="2"/>
+  <text x="575" y="158" text-anchor="middle" font-size="11" fill="white" font-weight="bold">nRF52840</text>
+  <text x="575" y="176" text-anchor="middle" font-size="9" fill="#8080ff">MCU + BLE + NFC</text>
+  <text x="575" y="196" text-anchor="middle" font-size="9" fill="#8080ff">MFC電力値を読む</text>
+  <text x="575" y="212" text-anchor="middle" font-size="9" fill="#a0a0ff">→ 汚染度を推定</text>
+  <text x="575" y="228" text-anchor="middle" font-size="8" fill="#6060cf">CO₂ / 温湿度も計測</text>
+
+  <!-- Arrow Energy IC → nRF52840 -->
+  <line x1="575" y1="308" x2="575" y2="242" stroke="#f0c040" stroke-width="2.5" marker-end="url(#c4)"/>
+  <text x="598" y="278" text-anchor="middle" font-size="9" fill="#c09020">3.3V</text>
+
+  <!-- Node 6: Fan control -->
+  <rect x="720" y="130" width="130" height="110" rx="10" fill="#3a1010" stroke="#200808" stroke-width="2"/>
+  <text x="785" y="160" text-anchor="middle" font-size="11" fill="#ff9090" font-weight="bold">換気ファン</text>
+  <text x="785" y="178" text-anchor="middle" font-size="10" fill="#ffa0a0">PWM 制御</text>
+  <text x="785" y="198" text-anchor="middle" font-size="9" fill="#ffa0a0">汚染低: 10%</text>
+  <text x="785" y="214" text-anchor="middle" font-size="9" fill="#ffa0a0">汚染中: 60%</text>
+  <text x="785" y="230" text-anchor="middle" font-size="9" fill="#ff8080">汚染高: 100%</text>
+
+  <!-- Arrow nRF → Fan -->
+  <line x1="640" y1="185" x2="718" y2="185" stroke="#ff8080" stroke-width="2.5" marker-end="url(#c5)"/>
+  <text x="680" y="175" text-anchor="middle" font-size="9" fill="#cc4040">PWM信号</text>
+
+  <!-- Solar to Fan (separate power) -->
+  <ellipse cx="785" cy="380" rx="75" ry="45" fill="#1a3a6b" stroke="#0d2040" stroke-width="2"/>
+  <text x="785" y="372" text-anchor="middle" font-size="10" fill="#7fb8ff" font-weight="bold">太陽光</text>
+  <text x="785" y="388" text-anchor="middle" font-size="9" fill="#5a90df">SOLAR</text>
+  <text x="785" y="404" text-anchor="middle" font-size="8" fill="#4a80cf">30W 電源</text>
+  <line x1="785" y1="335" x2="785" y2="242" stroke="#ffcc00" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#c6)"/>
+  <text x="808" y="292" text-anchor="middle" font-size="9" fill="#cc9900">主電源</text>
+  <text x="808" y="305" text-anchor="middle" font-size="8" fill="#cc9900">24V</text>
+
+  <!-- Clean air output -->
+  <ellipse cx="785" cy="510" rx="95" ry="45" fill="#e8ffe8" stroke="#2a8a2a" stroke-width="2"/>
+  <text x="785" y="500" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a5a1a">清浄空気</text>
+  <text x="785" y="518" text-anchor="middle" font-size="9" fill="#2a7a2a">CO₂ 正常化</text>
+  <text x="785" y="533" text-anchor="middle" font-size="9" fill="#2a7a2a">有機物濃度低下</text>
+  <line x1="785" y1="242" x2="785" y2="463" stroke="#2a8a2a" stroke-width="2.5" marker-end="url(#c7)"/>
+
+  <!-- Feedback loop: clean air reduces MFC input -->
+  <path d="M 690 510 Q 200 510 150 237" fill="none" stroke="#2a8a2a" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#c8)"/>
+  <text x="370" y="528" text-anchor="middle" font-size="10" fill="#1a6a1a" font-weight="bold">← フィードバック: 空気清浄化 → 汚染物減少 → MFC出力低下 → ファン減速</text>
+
+  <!-- BEF fingerprint annotation -->
+  <rect x="34" y="310" width="200" height="130" rx="8" fill="#fff8e8" stroke="#e8c020" stroke-width="1.5"/>
+  <text x="134" y="332" text-anchor="middle" font-size="11" font-weight="bold" fill="#8b6000">生物電気</text>
+  <text x="134" y="348" text-anchor="middle" font-size="11" font-weight="bold" fill="#8b6000">フィンガープリント</text>
+  <text x="134" y="366" text-anchor="middle" font-size="9" fill="#7a5000">MFC 出力パターン</text>
+  <text x="134" y="382" text-anchor="middle" font-size="9" fill="#7a5000">V(t), I(t), ΔV/Δt</text>
+  <text x="134" y="400" text-anchor="middle" font-size="9" fill="#7a5000">地点固有ID として</text>
+  <text x="134" y="416" text-anchor="middle" font-size="9" fill="#7a5000">BLE で送信・記録</text>
+  <text x="134" y="432" text-anchor="middle" font-size="8" fill="#c08020">= 位置認証（請求項4）</text>
+  <line x1="234" y1="365" x2="298" y2="365" stroke="#e8c020" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#c9)"/>
+
+  <!-- Heat exchanger condensate -->
+  <rect x="510" y="440" width="130" height="70" rx="8" fill="#e0f0ff" stroke="#4080c0" stroke-width="1.5"/>
+  <text x="575" y="466" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a4a80">熱交換</text>
+  <text x="575" y="482" text-anchor="middle" font-size="9" fill="#2a6aaa">結露水</text>
+  <text x="575" y="496" text-anchor="middle" font-size="8" fill="#2a5a9a">→ MFC電解液</text>
+  <line x1="575" y1="440" x2="430" y2="420" stroke="#4080c0" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#c10)"/>
+
+  <defs>
+    <marker id="c1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#4a90d9"/></marker>
+    <marker id="c2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#e8a020"/></marker>
+    <marker id="c3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#80e080"/></marker>
+    <marker id="c4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#f0c040"/></marker>
+    <marker id="c5" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff8080"/></marker>
+    <marker id="c6" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ffcc00"/></marker>
+    <marker id="c7" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2a8a2a"/></marker>
+    <marker id="c8" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2a8a2a"/></marker>
+    <marker id="c9" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#e8c020"/></marker>
+    <marker id="c10" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#4080c0"/></marker>
+  </defs>
+
+  <text x="450" y="572" text-anchor="middle" font-size="10" fill="#888">Fig. 4 — 特許出願用図面　©2026 濱田優貴</text>
+</svg>

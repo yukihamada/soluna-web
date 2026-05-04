@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/designs" rel="canonical"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>SOLUNA — インスタントハウス 設計パターン比較 | 4つのプランから選ぶ</title>
+<meta name="description" content="コンテナキャビン＋焼肉古今の設計書4パターン。セルフビルド型¥6.5M〜フルスペック型¥12M。補助金・段階建設・直接調達でコスト半減しながら品質向上。"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --bg:#07060a;
+  --card:#0d0b0f;
+  --border:rgba(200,164,85,.1);
+  --text:#f0ece4;
+  --dim:#666;
+  --green:#7ec87e;
+  --blue:#5ba3c9;
+  --purple:#a87ec8;
+  --red:#c87e7e;
+}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;padding-top:48px}
+a{color:inherit;text-decoration:none}
+
+nav{padding:14px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #0d0a14;position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(7,6,10,.94);backdrop-filter:blur(14px)}
+.nav-logo{font-size:10px;font-weight:800;letter-spacing:.2em;color:var(--gold)}
+.nav-links{display:flex;gap:20px;align-items:center}
+.nav-links a{font-size:10px;color:#444;letter-spacing:.1em}
+.nav-links a:hover{color:var(--gold)}
+
+/* Hero */
+.hero{padding:80px 24px 64px;text-align:center;max-width:760px;margin:0 auto}
+.hero .eyebrow{font-size:9px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:16px;opacity:.8}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:18px}
+.hero p{color:#888;font-size:13px;line-height:2;max-width:560px;margin:0 auto 32px}
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.hero-badge{font-size:9px;font-weight:700;letter-spacing:.14em;padding:5px 12px;border-radius:20px;text-transform:uppercase}
+.hb-a{background:rgba(155,196,109,.08);color:#9bc46d;border:1px solid rgba(155,196,109,.2)}
+.hb-b{background:rgba(200,164,85,.08);color:var(--gold);border:1px solid var(--border)}
+.hb-c{background:rgba(91,163,201,.08);color:var(--blue);border:1px solid rgba(91,163,201,.2)}
+.hb-d{background:rgba(168,126,200,.08);color:var(--purple);border:1px solid rgba(168,126,200,.2)}
+
+/* Cost reduction section */
+.cost-strip{background:linear-gradient(135deg,rgba(200,164,85,.06),rgba(200,164,85,.02));border:1px solid rgba(200,164,85,.15);border-radius:20px;max-width:900px;margin:0 auto 64px;padding:40px 40px 36px}
+.cost-strip h2{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px;color:var(--gold)}
+.cost-strip p{font-size:12.5px;color:#888;line-height:1.8;margin-bottom:28px}
+.cost-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.cost-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:20px}
+.cost-card .ico{font-size:22px;margin-bottom:10px}
+.cost-card h3{font-size:12px;font-weight:700;letter-spacing:.04em;margin-bottom:8px;color:var(--text)}
+.cost-card p{font-size:11px;color:#666;line-height:1.8}
+.cost-card .saving{font-size:13px;font-weight:700;color:var(--green);margin-top:8px}
+
+/* Pattern selector */
+.pattern-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:0 24px 40px;max-width:900px;margin-left:auto;margin-right:auto}
+.ptab{padding:8px 22px;border-radius:30px;font-size:10px;font-weight:700;letter-spacing:.12em;cursor:pointer;transition:.2s;border:1px solid transparent}
+.ptab-a{background:rgba(155,196,109,.1);color:#9bc46d;border-color:rgba(155,196,109,.2)}
+.ptab-a:hover,.ptab-a.active{background:rgba(155,196,109,.25);border-color:rgba(155,196,109,.5)}
+.ptab-b{background:rgba(200,164,85,.08);color:var(--gold);border-color:var(--border)}
+.ptab-b:hover,.ptab-b.active{background:rgba(200,164,85,.2);border-color:rgba(200,164,85,.5)}
+.ptab-c{background:rgba(91,163,201,.08);color:var(--blue);border-color:rgba(91,163,201,.2)}
+.ptab-c:hover,.ptab-c.active{background:rgba(91,163,201,.2);border-color:rgba(91,163,201,.5)}
+.ptab-d{background:rgba(168,126,200,.08);color:var(--purple);border-color:rgba(168,126,200,.2)}
+.ptab-d:hover,.ptab-d.active{background:rgba(168,126,200,.2);border-color:rgba(168,126,200,.5)}
+
+/* Pattern cards */
+.patterns{max-width:960px;margin:0 auto;padding:0 16px 32px}
+.pattern{display:none;animation:fadeIn .3s ease}
+.pattern.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Pattern header */
+.p-header{border-radius:20px;padding:40px;margin-bottom:24px}
+.p-header-a{background:linear-gradient(135deg,rgba(155,196,109,.08),rgba(155,196,109,.03));border:1px solid rgba(155,196,109,.2)}
+.p-header-b{background:linear-gradient(135deg,rgba(200,164,85,.08),rgba(200,164,85,.03));border:1px solid rgba(200,164,85,.2)}
+.p-header-c{background:linear-gradient(135deg,rgba(91,163,201,.08),rgba(91,163,201,.03));border:1px solid rgba(91,163,201,.2)}
+.p-header-d{background:linear-gradient(135deg,rgba(168,126,200,.08),rgba(168,126,200,.03));border:1px solid rgba(168,126,200,.2)}
+
+.p-tag{font-size:8px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;opacity:.7;margin-bottom:12px}
+.p-header h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.15;margin-bottom:10px}
+.p-header .tagline{font-size:13px;color:#888;line-height:1.8;margin-bottom:24px;max-width:600px}
+
+.p-meta{display:flex;flex-wrap:wrap;gap:24px}
+.p-meta-item{text-align:left}
+.p-meta-item .label{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:#555;font-weight:700;margin-bottom:4px}
+.p-meta-item .value{font-size:1.4rem;font-weight:800;letter-spacing:-.02em}
+.p-meta-item .value.a{color:#9bc46d}
+.p-meta-item .value.b{color:var(--gold)}
+.p-meta-item .value.c{color:var(--blue)}
+.p-meta-item .value.d{color:var(--purple)}
+.p-meta-item .sub{font-size:10px;color:#555;margin-top:2px}
+
+/* Pros/cons */
+.p-verdict{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+@media(max-width:640px){.p-verdict{grid-template-columns:1fr}}
+.verdict-box{background:var(--card);border-radius:14px;padding:20px;border:1px solid rgba(255,255,255,.04)}
+.verdict-box h3{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px}
+.verdict-box h3.pro{color:var(--green)}
+.verdict-box h3.con{color:var(--red)}
+.verdict-list{list-style:none}
+.verdict-list li{font-size:12px;color:#999;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.6}
+.verdict-list li:last-child{border:none}
+.verdict-list li::before{content:'▸ ';font-size:8px;opacity:.4}
+
+/* Systems table */
+.systems-section{margin-bottom:24px}
+.systems-section h3{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#555;margin-bottom:12px;padding:0 4px}
+.systems-grid{display:grid;gap:8px}
+.sys-row{background:var(--card);border:1px solid rgba(255,255,255,.04);border-radius:12px;padding:16px 20px;display:grid;grid-template-columns:160px 1fr auto;gap:12px;align-items:center}
+@media(max-width:640px){.sys-row{grid-template-columns:1fr;gap:6px}}
+.sys-cat{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#555}
+.sys-spec{font-size:12.5px;color:var(--text);line-height:1.5}
+.sys-price{font-size:12px;font-weight:700;white-space:nowrap;text-align:right}
+.sys-price.a{color:#9bc46d}
+.sys-price.b{color:var(--gold)}
+.sys-price.c{color:var(--blue)}
+.sys-price.d{color:var(--purple)}
+.sys-tag{font-size:8px;padding:2px 7px;border-radius:8px;margin-left:6px;font-weight:600;vertical-align:middle}
+.tag-diy{background:rgba(155,196,109,.15);color:#9bc46d}
+.tag-subsidy{background:rgba(200,164,85,.15);color:var(--gold)}
+.tag-new{background:rgba(91,163,201,.15);color:var(--blue)}
+.tag-skip{background:rgba(200,126,126,.1);color:var(--red);text-decoration:line-through}
+
+/* Budget breakdown */
+.budget-section{background:var(--card);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:24px 28px;margin-bottom:24px}
+.budget-section h3{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#555;margin-bottom:16px}
+.budget-rows{}
+.brow{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12.5px}
+.brow:last-child{border:none;padding-top:14px;font-size:14px;font-weight:700}
+.brow .cat{color:#888}
+.brow .amount{font-weight:600}
+.brow.total .cat{color:var(--text)}
+.brow .saving-badge{font-size:9px;background:rgba(155,196,109,.12);color:#9bc46d;border-radius:8px;padding:2px 7px;margin-left:8px}
+
+/* Compare table */
+.compare-section{max-width:960px;margin:0 auto 80px;padding:0 16px}
+.compare-title{text-align:center;margin-bottom:32px}
+.compare-title h2{font-size:1.6rem;font-weight:800;letter-spacing:-.03em;margin-bottom:8px}
+.compare-title p{font-size:12.5px;color:#666;line-height:1.8}
+.compare-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:16px;overflow:hidden}
+.compare-table th,.compare-table td{padding:14px 18px;text-align:center;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px}
+.compare-table th{font-size:9px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;background:rgba(255,255,255,.02);color:#555}
+.compare-table th.col-a{color:#9bc46d}
+.compare-table th.col-b{color:var(--gold)}
+.compare-table th.col-c{color:var(--blue)}
+.compare-table th.col-d{color:var(--purple)}
+.compare-table td.row-head{text-align:left;color:#888;font-weight:600}
+.compare-table tr:last-child td{border:none}
+.check{color:#9bc46d;font-size:14px}
+.cross{color:#555;font-size:14px}
+.opt{color:var(--gold);font-size:11px}
+.compare-table .price-row td{font-weight:800;font-size:14px}
+.compare-table .price-row td.col-a-val{color:#9bc46d}
+.compare-table .price-row td.col-b-val{color:var(--gold)}
+.compare-table .price-row td.col-c-val{color:var(--blue)}
+.compare-table .price-row td.col-d-val{color:var(--purple)}
+
+/* Decision help */
+.decision{max-width:760px;margin:0 auto 80px;padding:0 16px}
+.decision h2{font-size:1.4rem;font-weight:800;letter-spacing:-.03em;margin-bottom:24px;text-align:center}
+.d-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:540px){.d-cards{grid-template-columns:1fr}}
+.d-card{background:var(--card);border-radius:14px;padding:22px;border:1px solid rgba(255,255,255,.05)}
+.d-card .who{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;opacity:.5}
+.d-card h3{font-size:14px;font-weight:700;letter-spacing:-.01em;margin-bottom:10px}
+.d-card p{font-size:12px;color:#777;line-height:1.8}
+.d-card .choose{font-size:11px;font-weight:700;margin-top:12px}
+.d-card.ca .choose{color:#9bc46d}
+.d-card.cb .choose{color:var(--gold)}
+.d-card.cc .choose{color:var(--blue)}
+.d-card.cd .choose{color:var(--purple)}
+
+/* CTA */
+.cta-section{text-align:center;padding:64px 24px 100px;max-width:600px;margin:0 auto}
+.cta-section h2{font-size:1.6rem;font-weight:800;letter-spacing:-.03em;margin-bottom:12px}
+.cta-section p{font-size:13px;color:#666;margin-bottom:32px;line-height:1.9}
+.cta-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.cta-btn{padding:12px 28px;border-radius:30px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;display:inline-block;border:1px solid}
+.cta-btn.gold{background:rgba(200,164,85,.12);color:var(--gold);border-color:rgba(200,164,85,.3)}
+.cta-btn.gold:hover{background:rgba(200,164,85,.25)}
+.cta-btn.outline{background:transparent;color:#555;border-color:#222}
+.cta-btn.outline:hover{color:#888;border-color:#333}
+
+.w{max-width:960px;margin:0 auto;padding:0 16px}
+section{padding-bottom:60px}
+</style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="/">SOLUNA</a>
+  <div class="nav-links">
+    <a href="/infrastructure">インフラ設計</a>
+    <a href="/timeline">タイムライン</a>
+    <a href="/shopping">購入リスト</a>
+    <a href="/kokon">古今</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="eyebrow">Design Patterns / 設計書</div>
+  <h1>4つのパターンから<br>あなたの設計を選ぶ</h1>
+  <p>同じ40ftコンテナ。断熱・設備・施工方法を変えることで初期投資を半分にしながら品質は上がる。補助金・セルフビルド・段階建設で賢く建てる。</p>
+  <div class="hero-badges">
+    <span class="hero-badge hb-a">A: セルフビルド ¥6.5M</span>
+    <span class="hero-badge hb-b">B: スタンダード ¥10.7M</span>
+    <span class="hero-badge hb-c">C: プレミアム ¥13.5M</span>
+    <span class="hero-badge hb-d">D: 段階建設 ¥7M→¥14M</span>
+  </div>
+</div>
+
+<!-- Cost Reduction Strategies -->
+<section>
+<div class="w">
+<div class="cost-strip">
+  <h2>コストを下げながら品質を上げる5つの方法</h2>
+  <p>「安くして品質を妥協する」ではなく、「賢く建てて余ったお金でアップグレードする」がSOLUNA流。</p>
+  <div class="cost-grid">
+    <div class="cost-card">
+      <div class="ico">🏗️</div>
+      <h3>セルフビルド</h3>
+      <p>断熱材充填・内装仕上げ・塗装は素人でも可能。手間代¥1.5〜2Mを自分の労力で代替。北海道の長い冬に作業。</p>
+      <div class="saving">最大 ▼¥2,000,000</div>
+    </div>
+    <div class="cost-card">
+      <div class="ico">💴</div>
+      <h3>補助金活用</h3>
+      <p>農山漁村振興交付金・北海道移住定住促進補助・再エネ補助（薪ストーブ・ヒートポンプ）。申請に時間かかるが確実。</p>
+      <div class="saving">最大 ▼¥3,000,000</div>
+    </div>
+    <div class="cost-card">
+      <div class="ico">📦</div>
+      <h3>材料直接調達</h3>
+      <p>コンテナ・断熱材・キッチン機器をメーカー・問屋直。施工業者のマージン20%をカット。大手通販も活用。</p>
+      <div class="saving">最大 ▼¥1,200,000</div>
+    </div>
+    <div class="cost-card">
+      <div class="ico">📅</div>
+      <h3>段階建設</h3>
+      <p>まず最低限で営業開始し、売上から追加投資。地中熱・追加棟は2年目以降。融資不要で初期リスク最小化。</p>
+      <div class="saving">初期 ▼¥4,000,000</div>
+    </div>
+    <div class="cost-card">
+      <div class="ico">🌲</div>
+      <h3>地元材・地元職人</h3>
+      <p>北海道産カラマツ・杉は本州材の60%。弟子屈の地元大工は旭川・札幌業者より日当¥8,000安い。</p>
+      <div class="saving">最大 ▼¥800,000</div>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- Pattern Tabs -->
+<div class="pattern-tabs">
+  <button class="ptab ptab-a active" onclick="showPattern('a')">A セルフビルド型</button>
+  <button class="ptab ptab-b" onclick="showPattern('b')">B スタンダード型</button>
+  <button class="ptab ptab-c" onclick="showPattern('c')">C プレミアム型</button>
+  <button class="ptab ptab-d" onclick="showPattern('d')">D 段階建設型</button>
+</div>
+
+<div class="patterns">
+
+<!-- ===== PATTERN A ===== -->
+<div class="pattern active" id="pat-a">
+  <div class="p-header p-header-a">
+    <div class="p-tag" style="color:#9bc46d">Pattern A — Self Build</div>
+    <h2>セルフビルド型<br><span style="font-size:.5em;opacity:.6">高品質 × 最小投資</span></h2>
+    <p class="tagline">構造・設備は職人、断熱・内装・仕上げは自分でやる。北海道の冬（11月〜4月）をフルに使えばキャビン一棟の断熱充填と内装は完成できる。初期コストを最小化しながら自分の手で本物をつくる。</p>
+    <div class="p-meta">
+      <div class="p-meta-item">
+        <div class="label">総コスト</div>
+        <div class="value a">¥6,500,000</div>
+        <div class="sub">スタンダードより▼¥4.2M</div>
+      </div>
+      <div class="p-meta-item">
+        <div class="label">工期</div>
+        <div class="value a">14ヶ月</div>
+        <div class="sub">セルフ作業込み</div>
+      </div>
+      <div class="p-meta-item">
+        <div class="label">オープン目安</div>
+        <div class="value a">2026年秋</div>
+        <div class="sub">10月頃（冬作業完了後）</div>
+      </div>
+      <div class="p-meta-item">
+        <div class="label">セルフ作業</div>
+        <div class="value a">約200h</div>
+        <div class="sub">断熱・内装・塗装</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-verdict">
+    <div class="verdict-box">
+      <h3 class="pro">◎ メリット</h3>
+      <ul class="verdict-list">
+        <li>初期投資が最小 — 融資ゼロも可能</li>
+        <li>自分でつくった空間への愛着・物語性</li>
+        <li>断熱充填を自分でやると施工品質が確認できる</li>
+        <li>学習コスト → 将来の追加棟・修繕が自己完結</li>
+        <li>北海道の冬の長い時間を有効活用</li>
+      </ul>
+    </div>
+    <div class="verdict-box">
+      <h3 class="con">▲ 注意点</h3>
+      <ul class="verdict-list">
+        <li>オープンが2026年秋（夏より3ヶ月遅れ）</li>
+        <li>セルフ作業200h — まとまった時間が必要</li>
+        <li>床暖なし → 薪ストーブ単体で冬季は寒い可能性</li>
+        <li>食洗機なし → 手洗い or 後付けは可</li>
+        <li>キッチンを簡易仕様に抑えるため営業種目制限あり</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="systems-section">
+    <h3>システム構成</h3>
+    <div class="systems-grid">
+      <div class="sys-row">
+        <span class="sys-cat">基礎</span>
+        <span class="sys-spec">スクリューパイル Ø150mm × L2400mm × 8本（凍結深度対応）<span class="sys-tag tag-diy">職人施工</span></span>
+        <span class="sys-price a">¥480,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">コンテナ</span>
+        <span class="sys-spec">40ft 中古Bグレード（さび止め処理・床張り替え込み）<span class="sys-tag tag-diy">職人施工</span></span>
+        <span class="sys-price a">¥850,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">断熱</span>
+        <span class="sys-spec">スタイロフォーム50mm + グラスウール105mm（R-4.5相当）充填はセルフ<span class="sys-tag tag-diy">セルフ</span></span>
+        <span class="sys-price a">¥180,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">外装</span>
+        <span class="sys-spec">焼杉板（地元弟子屈調達）セルフ施工 + 屋根シングル<span class="sys-tag tag-diy">セルフ</span></span>
+        <span class="sys-price a">¥220,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">窓</span>
+        <span class="sys-spec">YKK APW330 ペアガラス × 3（APW430トリプルは2年目に交換可）</span>
+        <span class="sys-price a">¥280,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">暖房</span>
+        <span class="sys-spec">薪ストーブ Jøtul F3 CB（床暖なし — 冬季営業は検討）<span class="sys-tag tag-diy">セルフ設置</span></span>
+        <span class="sys-price a">¥280,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">換気</span>
+        <span class="sys-spec">第一種全熱交換換気 Panasonic FY-12VBD1 + 焼肉排気フード 200m³/h</span>
+        <span class="sys-price a">¥320,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">給水</span>
+        <span class="sys-spec">井戸掘削（30m） + RO浄水器 + 500Lタンク<span class="sys-tag tag-subsidy">補助金対象</span></span>
+        <span class="sys-price a">¥450,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">排水</span>
+        <span class="sys-spec">合併処理浄化槽5人槽 + グリストラップ<span class="sys-tag tag-subsidy">補助金¥350K</span></span>
+        <span class="sys-price a">¥650,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">キッチン</span>
+        <span class="sys-spec">焼肉グリル × 6席 + 2槽シンク + ガス + 業務用冷蔵（食洗機なし）</span>
+        <span class="sys-price a">¥680,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">内装</span>
+        <span class="sys-spec">OSB合板 + 塗装 セルフ仕上げ<span class="sys-tag tag-diy">セルフ</span></span>
+        <span class="sys-price a">¥120,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">電気・通信</span>
+        <span class="sys-spec">単相3線 + Starlink（北海道電力引込）</span>
+        <span class="sys-price a">¥220,000</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="budget-section">
+    <h3>予算内訳</h3>
+    <div class="budget-rows">
+      <div class="brow"><span class="cat">建物・基礎</span><span class="amount">¥1,830,000</span></div>
+      <div class="brow"><span class="cat">断熱・外装（セルフ節約後）</span><span class="amount">¥400,000 <span class="saving-badge">▼¥600K節約</span></span></div>
+      <div class="brow"><span class="cat">設備（換気・給排水・電気）</span><span class="amount">¥1,640,000</span></div>
+      <div class="brow"><span class="cat">キッチン・内装（セルフ節約後）</span><span class="amount">¥800,000 <span class="saving-badge">▼¥400K節約</span></span></div>
+      <div class="brow"><span class="cat">浄化槽（補助金適用後）</span><span class="amount">¥300,000 <span class="saving-badge">補助¥350K</span></span></div>
+      <div class="brow"><span class="cat">諸費用・申請・予備費10%</span><span class="amount">¥530,000</span></div>
+      <div class="brow total"><span class="cat">合計</span><span class="amount" style="color:#9bc46d">¥6,500,000</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PATTERN B ===== -->
+<div class="pattern" id="pat-b">
+  <div class="p-header p-header-b">
+    <div class="p-tag" style="color:var(--gold)">Pattern B — Standard</div>
+    <h2>スタンダード型<br><span style="font-size:.5em;opacity:.6">推奨 × バランス設計</span></h2>
+    <p class="tagline">インフラ設計書の推奨構成をそのまま実装。プロ施工で2026年8月オープンを確実に狙う。断熱R-7.0・床暖・食洗機・RO水・浄化槽をフルで揃える「迷ったらこれ」のプラン。</p>
+    <div class="p-meta">
+      <div class="p-meta-item">
+        <div class="label">総コスト</div>
+        <div class="value b">¥10,700,000</div>
+        <div class="sub">補助金前（適用で▼¥1M）</div>
+      </div>
+      <div class="p-meta-item">
+        <div class="label">工期</div>
+        <div class="value b">16週</div>
+        <div class="sub">5月着工 → 8/15完成</div>
+      </div>
+      <div class="p-meta-item">
+        <div class="label">オープン</div>
+        <div class="value b">2026年8月</div>
+        <div class="sub">夏シーズンに間に合う</div>
+      </div>
+      <div class="p-meta-item">
+        <div class="label">セルフ作業</div>
+        <div class="value b">ゼロ</div>
+        <div class="sub">全てプロ施工</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-verdict">
+    <div class="verdict-box">
+      <h3 class="pro">◎ メリット</h3>
+      <ul class="verdict-list">
+        <li>2026年夏オープン → 稼ぎ頭シーズンを逃さない</li>
+        <li>全棟プロ施工 → 品質保証・施工保証あり</li>
+        <li>床暖完備 → 冬季通年営業が可能</li>
+        <li>ホシザキ食洗機 → 衛生管理・オペレーション楽</li>
+        <li>ROで水質問題なし → お客様への安心感</li>
+      </ul>
+    </div>
+    <div class="verdict-box">
+      <h3 class="con">▲ 注意点</h3>
+      <ul class="verdict-list">
+        <li>初期投資¥10.7M — 融資または自己資金必要</li>
+        <li>地中熱なし → 冬の薪ストーブ燃料費あり</li>
+        <li>5/2までの発注がクリティカルパス</li>
+        <li>追加棟・キャビン宿泊は別途予算</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="systems-section">
+    <h3>システム構成</h3>
+    <div class="systems-grid">
+      <div class="sys-row">
+        <span class="sys-cat">基礎</span>
+        <span class="sys-spec">スクリューパイル Ø150mm × L2400mm × 8本（道東杭工業）</span>
+        <span class="sys-price b">¥520,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">コンテナ</span>
+        <span class="sys-spec">40ft 新品Aグレード（コンテナ.jp）プライマー塗装・溶接補強込み</span>
+        <span class="sys-price b">¥1,200,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">断熱</span>
+        <span class="sys-spec">PUスプレー30mm + 稲わら140mm + 2×6木フレーム R-7.0（-25℃対応）</span>
+        <span class="sys-price b">¥680,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">外装</span>
+        <span class="sys-spec">焼杉サイディング + ガルバ屋根4:12勾配 + YKK APW430トリプルガラス × 3</span>
+        <span class="sys-price b">¥580,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">暖房・床暖</span>
+        <span class="sys-spec">Jøtul F305 バックボイラー + 温水床暖Ø10mm 300m + スタイロ50mm</span>
+        <span class="sys-price b">¥720,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">換気</span>
+        <span class="sys-spec">第一種全熱交換換気 Panasonic FY-12VBD1 + 焼肉排気フード 200m³/h</span>
+        <span class="sys-price b">¥420,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">給水</span>
+        <span class="sys-spec">井戸掘削30m + ROシステム100L/h + 500Lタンク + 加圧ポンプ</span>
+        <span class="sys-price b">¥520,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">排水</span>
+        <span class="sys-spec">合併処理浄化槽5人槽 + グリストラップ + TOTO便器<span class="sys-tag tag-subsidy">補助¥350K</span></span>
+        <span class="sys-price b">¥980,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">キッチン</span>
+        <span class="sys-spec">焼肉グリル × 6 + 2槽シンク + 業務用冷蔵 + ホシザキJWE-300TUB食洗機</span>
+        <span class="sys-price b">¥1,180,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">内装</span>
+        <span class="sys-spec">北海道産カラマツ内壁 + 三和土風土間 + 照明（SOLUNA仕様）</span>
+        <span class="sys-price b">¥480,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">電気・通信</span>
+        <span class="sys-spec">単相3線200V + Starlink + 太陽光3kW（補助金対象）</span>
+        <span class="sys-price b">¥420,000</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="budget-section">
+    <h3>予算内訳</h3>
+    <div class="budget-rows">
+      <div class="brow"><span class="cat">建物・基礎・外装</span><span class="amount">¥2,300,000</span></div>
+      <div class="brow"><span class="cat">断熱（R-7.0 プロ施工）</span><span class="amount">¥680,000</span></div>
+      <div class="brow"><span class="cat">設備（換気・給水・電気）</span><span class="amount">¥1,360,000</span></div>
+      <div class="brow"><span class="cat">暖房・床暖</span><span class="amount">¥720,000</span></div>
+      <div class="brow"><span class="cat">浄化槽（補助金前）</span><span class="amount">¥980,000</span></div>
+      <div class="brow"><span class="cat">キッチン・内装</span><span class="amount">¥1,660,000</span></div>
+      <div class="brow"><span class="cat">諸費用・申請・予備費10%</span><span class="amount">¥1,000,000</span></div>
+      <div class="brow total"><span class="cat">合計（補助金前）</span><span class="amount" style="color:var(--gold)">¥10,700,000</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PATTERN C ===== -->
+<div class="pattern" id="pat-c">
+  <div class="p-header p-header-c">
+    <div class="p-tag" style="color:var(--blue)">Pattern C — Premium</div>
+    <h2>プレミアム型<br><span style="font-size:.5em;opacity:.6">通年高稼働 × 最高品質</span></h2>
+    <p class="tagline">地中熱ヒートポンプで電気・ランニングコストを最小化。外断熱追加でR-9.0達成。ソーラー5kW+蓄電池で電力自給率80%超。冬でも快適に通年フル営業できる最高仕様。コストは高いが10年後のROIが最大。</p>
+    <div class="p-meta">
+      <div class="p-meta-item">
+        <div class="label">総コスト</div>
+        <div class="value c">¥13,500,000</div>
+        <div class="sub">10年ランニング込みでB並み</div>
+      </div>
+      <div class="p-meta-item">
+        <div class="label">工期</div>
+        <div class="value c">20週</div>
+        <div class="sub">地中熱掘削が追加工期</div>
+      </div>
+      <div class="p-meta-item">
+        <div class="label">オープン</div>
+        <div class="value c">2026年10月</div>
+        <div class="sub">冬シーズンに合わせる</div>
+      </div>
+      <div class="p-meta-item">
+        <div class="label">年間光熱費</div>
+        <div class="value c">▼¥420,000</div>
+        <div class="sub">Bより年間節約</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-verdict">
+    <div class="verdict-box">
+      <h3 class="pro">◎ メリット</h3>
+      <ul class="verdict-list">
+        <li>地中熱COP3.5 → 電気代が通常の1/3.5</li>
+        <li>断熱R-9.0 → -30℃でも室温20℃維持</li>
+        <li>ソーラー+蓄電 → 停電・電力高騰リスクゼロ</li>
+        <li>薪ストーブ不要 → 燃料搬入・灰処理の手間なし</li>
+        <li>全設備10年保証 → メンテコストが予測可能</li>
+        <li>環境価値（カーボンニュートラル訴求）が可能</li>
+      </ul>
+    </div>
+    <div class="verdict-box">
+      <h3 class="con">▲ 注意点</h3>
+      <ul class="verdict-list">
+        <li>初期¥13.5M — 実質投資回収12年</li>
+        <li>地中熱掘削業者の手配が難しい（道東で数社のみ）</li>
+        <li>2026年夏オープンは不可（秋以降）</li>
+        <li>機器の複雑さ → 地元修理業者が少ない</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="systems-section">
+    <h3>システム構成（パターンBとの差分）</h3>
+    <div class="systems-grid">
+      <div class="sys-row">
+        <span class="sys-cat">基礎</span>
+        <span class="sys-spec">スクリューパイル Ø150mm × L2400mm × 8本（同じ）</span>
+        <span class="sys-price c">¥520,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">コンテナ</span>
+        <span class="sys-spec">40ft 新品Aグレード + カスタム開口部 + 溶接補強</span>
+        <span class="sys-price c">¥1,400,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">断熱</span>
+        <span class="sys-spec">PUスプレー50mm + 稲わら140mm + 外断熱XPS50mm = R-9.0<span class="sys-tag tag-new">アップ</span></span>
+        <span class="sys-price c">¥980,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">地中熱</span>
+        <span class="sys-spec">水平ループ Ø32mm PE管 400m + 地中熱HP 8kW COP3.5<span class="sys-tag tag-new">追加</span></span>
+        <span class="sys-price c">¥1,850,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">床暖</span>
+        <span class="sys-spec">温水床暖Ø10mm 300m（地中熱HP熱源）スタイロ100mm</span>
+        <span class="sys-price c">¥580,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">薪ストーブ</span>
+        <span class="sys-spec">装飾用Jøtul小型のみ（暖房主役は地中熱HP）</span>
+        <span class="sys-price c">¥180,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">太陽光+蓄電</span>
+        <span class="sys-spec">パネル5kW + 蓄電池10kWh（ZEH補助金対象）<span class="sys-tag tag-subsidy">補助¥400K</span></span>
+        <span class="sys-price c">¥1,200,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">換気</span>
+        <span class="sys-spec">パッシブハウス規格HRV + 焼肉フード 200m³/h</span>
+        <span class="sys-price c">¥620,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">給排水・キッチン</span>
+        <span class="sys-spec">Bと同仕様（RO + 浄化槽 + ホシザキ食洗機）</span>
+        <span class="sys-price c">¥2,400,000</span>
+      </div>
+      <div class="sys-row">
+        <span class="sys-cat">内装</span>
+        <span class="sys-spec">道産カラマツ + アッシュ天板 + 造作照明 ハイエンド仕上げ</span>
+        <span class="sys-price c">¥780,000</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="budget-section">
+    <h3>予算内訳</h3>
+    <div class="budget-rows">
+      <div class="brow"><span class="cat">建物・基礎・外装</span><span class="amount">¥2,600,000</span></div>
+      <div class="brow"><span class="cat">断熱強化（R-9.0）</span><span class="amount">¥980,000</span></div>
+      <div class="brow"><span class="cat">地中熱システム</span><span class="amount">¥1,850,000</span></div>
+      <div class="brow"><span class="cat">太陽光+蓄電（補助後）</span><span class="amount">¥800,000 <span class="saving-badge">補助¥400K</span></span></div>
+      <div class="brow"><span class="cat">床暖・換気・給排水・電気</span><span class="amount">¥2,500,000</span></div>
+      <div class="brow"><span class="cat">キッチン・内装（ハイエンド）</span><span class="amount">¥3,180,000</span></div>
+      <div class="brow"><span class="cat">諸費用・申請・予備費10%</span><span class="amount">¥1,200,000</span></div>
+      <div class="brow total"><span class="cat">合計（補助金適用後）</span><span class="amount" style="color:var(--blue)">¥13,500,000</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PATTERN D ===== -->
+<div class="pattern" id="pat-d">
+  <div class="p-header p-header-d">
+    <div class="p-tag" style="color:var(--purple)">Pattern D — Phased</div>
+    <h2>段階建設型<br><span style="font-size:.5em;opacity:.6">最速開業 × リスク分散</span></h2>
+    <p class="tagline">2026年8月に最低限で開業し、売上から追加投資してフル仕様に育てる。Phase 1で¥7Mで開業→Phase 2で地中熱・宿泊棟追加。融資ゼロで始められ、事業の手応えを確かめながらアップグレードする現実的な選択肢。</p>
+    <div class="p-meta">
+      <div class="p-meta-item">
+        <div class="label">Phase 1（開業時）</div>
+        <div class="value d">¥7,000,000</div>
+        <div class="sub">2026年8月オープン</div>
+      </div>
+      <div class="p-meta-item">
+        <div class="label">Phase 2（1年後）</div>
+        <div class="value d">+¥4,000,000</div>
+        <div class="sub">地中熱・床暖追加</div>
+      </div>
+      <div class="p-meta-item">
+        <div class="label">Phase 3（2年後）</div>
+        <div class="value d">+¥3,000,000</div>
+        <div class="sub">宿泊棟追加（20ft）</div>
+      </div>
+      <div class="p-meta-item">
+        <div class="label">完成時合計</div>
+        <div class="value d">¥14,000,000</div>
+        <div class="sub">売上から投資回収可</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-verdict">
+    <div class="verdict-box">
+      <h3 class="pro">◎ メリット</h3>
+      <ul class="verdict-list">
+        <li>2026年夏に¥7Mで開業 — 融資不要</li>
+        <li>売上を見ながら追加投資 → リスク最小</li>
+        <li>Phase 2で床暖・地中熱を後付け（設計時に配管埋設）</li>
+        <li>Phase 3の宿泊棟で単価・稼働率を大幅UP</li>
+        <li>事業として成立が見えてから大きな投資</li>
+      </ul>
+    </div>
+    <div class="verdict-box">
+      <h3 class="con">▲ 注意点</h3>
+      <ul class="verdict-list">
+        <li>Phase 1は床暖なし → 冬営業は薪のみ</li>
+        <li>後付け工事で一時的に営業停止が必要</li>
+        <li>Phase 2の地中熱掘削はPhase 1の配管スリーブが前提</li>
+        <li>宿泊棟は別途許認可（旅館業法）が必要</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="systems-section">
+    <h3>フェーズ別スコープ</h3>
+    <div class="systems-grid">
+      <div class="sys-row" style="border-color:rgba(168,126,200,.15)">
+        <span class="sys-cat" style="color:var(--purple)">Phase 1</span>
+        <span class="sys-spec">基礎・コンテナ・断熱R-6.0・換気・ROフィルター・簡易床暖（電気）・キッチン・浄化槽<br><small style="color:#555">※地中熱用スリーブ・床暖配管は先行埋設</small></span>
+        <span class="sys-price d">¥7,000,000</span>
+      </div>
+      <div class="sys-row" style="border-color:rgba(168,126,200,.1)">
+        <span class="sys-cat" style="color:var(--purple)">Phase 2</span>
+        <span class="sys-spec">地中熱HP 8kW + 温水床暖切替 + 薪ストーブ追加 + ホシザキ食洗機 + 断熱R-9.0アップ</span>
+        <span class="sys-price d">¥4,000,000</span>
+      </div>
+      <div class="sys-row" style="border-color:rgba(168,126,200,.08)">
+        <span class="sys-cat" style="color:var(--purple)">Phase 3</span>
+        <span class="sys-spec">20ft 宿泊コンテナ × 2棟（キャビン）+ ソーラー5kW + デッキ連結 + 旅館業許可</span>
+        <span class="sys-price d">¥3,000,000</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="budget-section">
+    <h3>フェーズ別投資計画</h3>
+    <div class="budget-rows">
+      <div class="brow"><span class="cat">Phase 1（2026年5月〜8月）</span><span class="amount">¥7,000,000</span></div>
+      <div class="brow"><span class="cat">Phase 2（2027年春 — 売上から）</span><span class="amount">¥4,000,000</span></div>
+      <div class="brow"><span class="cat">Phase 3（2028年春 — 売上から）</span><span class="amount">¥3,000,000</span></div>
+      <div class="brow total"><span class="cat">完成時合計</span><span class="amount" style="color:var(--purple)">¥14,000,000</span></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- Comparison Table -->
+<section class="compare-section">
+  <div class="compare-title">
+    <h2>4パターン 一覧比較</h2>
+    <p>同じ40ftコンテナ、全く異なる戦略。どれが自分に合うか。</p>
+  </div>
+  <div style="overflow-x:auto">
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th style="text-align:left">項目</th>
+        <th class="col-a">A セルフビルド</th>
+        <th class="col-b">B スタンダード</th>
+        <th class="col-c">C プレミアム</th>
+        <th class="col-d">D 段階建設</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="price-row">
+        <td class="row-head">初期コスト</td>
+        <td class="col-a-val">¥6.5M</td>
+        <td class="col-b-val">¥10.7M</td>
+        <td class="col-c-val">¥13.5M</td>
+        <td class="col-d-val">¥7M→¥14M</td>
+      </tr>
+      <tr>
+        <td class="row-head">オープン時期</td>
+        <td>2026年秋</td>
+        <td style="color:var(--green);font-weight:700">2026年8月</td>
+        <td>2026年10月</td>
+        <td style="color:var(--green);font-weight:700">2026年8月</td>
+      </tr>
+      <tr>
+        <td class="row-head">断熱性能</td>
+        <td>R-4.5</td>
+        <td>R-7.0</td>
+        <td style="color:var(--blue);font-weight:700">R-9.0</td>
+        <td>R-6.0→R-9.0</td>
+      </tr>
+      <tr>
+        <td class="row-head">床暖</td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="check">✓</span> 薪温水</td>
+        <td><span class="check">✓</span> 地中熱</td>
+        <td><span class="opt">Ph.2で追加</span></td>
+      </tr>
+      <tr>
+        <td class="row-head">地中熱HP</td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="opt">Ph.2で追加</span></td>
+      </tr>
+      <tr>
+        <td class="row-head">食洗機</td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="check">✓</span> ホシザキ</td>
+        <td><span class="check">✓</span> ホシザキ</td>
+        <td><span class="opt">Ph.2で追加</span></td>
+      </tr>
+      <tr>
+        <td class="row-head">RO浄水</td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td class="row-head">太陽光</td>
+        <td><span class="cross">✗</span></td>
+        <td>3kW</td>
+        <td style="color:var(--blue);font-weight:700">5kW+蓄電</td>
+        <td><span class="opt">Ph.3で追加</span></td>
+      </tr>
+      <tr>
+        <td class="row-head">冬季営業</td>
+        <td><span class="opt">制限あり</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="opt">Ph.2完了後</span></td>
+      </tr>
+      <tr>
+        <td class="row-head">セルフ作業</td>
+        <td style="color:#9bc46d;font-weight:700">200h必要</td>
+        <td>ゼロ</td>
+        <td>ゼロ</td>
+        <td>ゼロ</td>
+      </tr>
+      <tr>
+        <td class="row-head">宿泊棟</td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="cross">✗</span></td>
+        <td><span class="opt">Ph.3で追加</span></td>
+      </tr>
+      <tr>
+        <td class="row-head">年間光熱費（推定）</td>
+        <td>¥480,000</td>
+        <td>¥360,000</td>
+        <td style="color:var(--blue);font-weight:700">¥120,000</td>
+        <td>¥420,000→¥120,000</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- Decision Helper -->
+<section class="decision">
+  <h2>どのパターンが合う？</h2>
+  <div class="d-cards">
+    <div class="d-card ca">
+      <div class="who">手を動かしたい</div>
+      <h3>Aを選ぶ理由</h3>
+      <p>初期投資を最小に抑えたい。自分の手でつくった空間に意味を感じる。北海道の冬の時間が使える。</p>
+      <div class="choose">→ セルフビルド型 ¥6.5M</div>
+    </div>
+    <div class="d-card cb">
+      <div class="who">確実に夏に開けたい</div>
+      <h3>Bを選ぶ理由</h3>
+      <p>2026年8月の夏シーズンを絶対に逃したくない。プロ施工の品質保証が欲しい。¥10-11Mなら動かせる。</p>
+      <div class="choose">→ スタンダード型 ¥10.7M</div>
+    </div>
+    <div class="d-card cc">
+      <div class="who">10年で回収を考える</div>
+      <h3>Cを選ぶ理由</h3>
+      <p>通年フル稼働を前提にランニングコストを最小化したい。環境価値・カーボンフリーを売りにしたい。</p>
+      <div class="choose">→ プレミアム型 ¥13.5M</div>
+    </div>
+    <div class="d-card cd">
+      <div class="who">リスクゼロで始めたい</div>
+      <h3>Dを選ぶ理由</h3>
+      <p>まず事業の手応えを確かめてから大きな投資をしたい。融資ゼロで始めて売上から育てる。宿泊棟も視野に。</p>
+      <div class="choose">→ 段階建設型 ¥7M→¥14M</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>パターンが決まったら</h2>
+  <p>設計パターンを選んだら、タイムラインで発注スケジュールを確認し、購入リストで必要なものを揃えよう。</p>
+  <div class="cta-btns">
+    <a class="cta-btn gold" href="/timeline">タイムライン確認</a>
+    <a class="cta-btn outline" href="/infrastructure">インフラ詳細</a>
+    <a class="cta-btn outline" href="/shopping">購入リスト</a>
+  </div>
+</div>
+
+<script>
+function showPattern(p) {
+  document.querySelectorAll('.pattern').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.ptab').forEach(el => el.classList.remove('active'));
+  document.getElementById('pat-' + p).classList.add('active');
+  document.querySelector('.ptab-' + p).classList.add('active');
+  window.scrollTo({top: document.querySelector('.pattern-tabs').offsetTop - 80, behavior: 'smooth'});
+}
+</script>
+<script src="/js/dc.js"></script>
+</body>
+</html>

@@ -310,5 +310,8 @@ function sfToggle(btn){
 </script><script>const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});document.querySelectorAll('.r').forEach(el=>obs.observe(el));document.getElementById('order-form').addEventListener('submit',async function(e){e.preventDefault();const fd=new FormData(this);try{const r=await fetch('/api/soluna/product-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:fd.get('name'),email:fd.get('email'),product:'ハイブリッドSIPs '+fd.get('quantity')+'枚 '+fd.get('pref'),quantity:fd.get('quantity'),pref:fd.get('pref'),message:fd.get('message')||''})});if(r.ok){this.style.display='none';document.getElementById('form-success').style.display='block';}else alert('送信失敗');}catch{alert('通信エラー');}});</script>
 <script src="/nav.js"></script>
 <script src="/lang.js"></script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+<script src="/js/dc.js"></script>
 </body>
 </html>
