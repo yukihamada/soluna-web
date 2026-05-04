@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SOLUNA コンテナハウス — 30分で建つ、本格拠点。</title>
+<meta content="40ft拡張型コンテナハウス。在来工法の1/3コスト、76㎡、天井高2.8m。山東省の工場で内装9割を仕上げ、クレーン30分で展開する。北海道の秘境に本格拠点を作る技術。" name="description"/>
+<meta content="SOLUNA コンテナハウス — 30分で建つ、本格拠点。" property="og:title"/>
+<meta content="40ft拡張型コンテナハウス。在来工法の1/3コスト、クレーン30分で北海道の秘境に本格拠点を作る。" property="og:description"/>
+<meta content="https://solun.art/img/container_premium_exterior.webp" property="og:image"/>
+<meta content="https://solun.art/container-house" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="https://solun.art/container-house" rel="canonical"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--gold-dim:rgba(200,164,85,.4);--gold-soft:rgba(200,164,85,.07);
+  --green:#9bc46d;--green-dim:rgba(155,196,109,.2);
+  --bg:#040404;--text:#f0ece4;--text-dim:#666;--line:#131313;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--gold);color:#000}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.8);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.03)}
+.nav-logo{font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--gold)}
+.nav-links{display:flex;gap:18px;align-items:center;font-size:10.5px}
+.nav-links a{color:#555;transition:color .2s}.nav-links a:hover{color:var(--gold)}
+.nav-links .cta{color:var(--gold);font-weight:700;border:1px solid rgba(200,164,85,.3);padding:6px 14px;border-radius:100px}
+.nav-links .cta:hover{background:var(--gold);color:#040404}
+
+.hero{position:relative;height:100svh;min-height:600px;overflow:hidden}
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.55) saturate(.9);animation:slowzoom 14s ease-out forwards}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.5) 40%,rgba(4,4,4,.1) 70%,rgba(4,4,4,.3) 100%)}
+.hero-body{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:0 28px 80px;max-width:760px}
+.eyebrow{font-size:9px;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:14px;opacity:.9;animation:fadeUp .8s .2s both}
+.hero h1{font-size:clamp(2.6rem,7vw,4.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:18px;animation:fadeUp .9s .4s both}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{color:rgba(240,236,228,.5);font-size:13px;line-height:2;max-width:520px;font-weight:300;animation:fadeUp 1s .65s both;margin-bottom:28px}
+.hero-stats{display:flex;gap:0;align-items:center;flex-wrap:wrap;row-gap:10px;animation:fadeUp 1s .5s both;margin-bottom:22px}
+.hs{text-align:left;padding:0 18px}
+.hs:first-child{padding-left:0}
+.hs-v{display:block;font-size:17px;font-weight:800;color:var(--gold);line-height:1;letter-spacing:-.03em}
+.hs-l{display:block;font-size:9px;color:rgba(240,236,228,.35);margin-top:5px;letter-spacing:.06em}
+.hs-d{width:1px;height:26px;background:rgba(255,255,255,.06)}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap;animation:fadeUp 1.1s .9s both}
+.btn-gold{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#040404;font-weight:800;font-size:12px;letter-spacing:.06em;padding:13px 26px;border-radius:100px;transition:all .2s;white-space:nowrap}
+.btn-gold:hover{background:#f0d080;transform:translateY(-1px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(200,164,85,.35);color:var(--gold);font-size:12px;font-weight:600;padding:13px 22px;border-radius:100px;transition:all .2s;white-space:nowrap}
+.btn-ghost:hover{background:rgba(200,164,85,.08)}
+
+@keyframes slowzoom{from{transform:scale(1.06)}to{transform:scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+.r{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease}.r.in{opacity:1;transform:translateY(0)}
+
+.s{padding:90px 0}
+@media(max-width:600px){.s{padding:68px 0}}
+.w{max-width:700px;margin:0 auto;padding:0 24px}
+.ww{max-width:980px;margin:0 auto;padding:0 24px}
+.label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:12px}
+h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:14px}
+.sub{color:#555;font-size:13px;line-height:2.05;max-width:560px;margin-bottom:24px}
+.gold{color:var(--gold)}
+.green{color:var(--green)}
+
+.cd{background:#070707;border:1px solid #141414;border-radius:16px;padding:24px;margin-bottom:12px}
+.sp{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid #0d0d0d;font-size:12px}
+.sp:last-of-type{border-bottom:none}
+.sp .k{color:#444;flex-shrink:0;padding-right:12px}.sp .v{color:#ccc;font-weight:600;text-align:right}
+.sp .v.gold{color:var(--gold)}.sp .v.green{color:var(--green)}
+
+/* COST COMPARE */
+.cost-bar{background:#0a0a0a;border-radius:12px;overflow:hidden;margin-bottom:8px}
+.cost-bar-fill{height:44px;display:flex;align-items:center;padding:0 14px;font-size:11px;font-weight:700}
+
+/* PHOTO STRIP */
+.photo-strip{display:flex;gap:3px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:24px -24px}
+.photo-strip::-webkit-scrollbar{display:none}
+.photo-strip img{height:200px;width:auto;min-width:220px;object-fit:cover;border-radius:4px;flex-shrink:0;cursor:zoom-in;transition:opacity .2s}
+.photo-strip img:hover{opacity:.9}
+
+/* PHOTO WALL */
+.photo-wall{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:224px;gap:4px;margin-top:24px}
+@media(max-width:640px){.photo-wall{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}}
+.pw{overflow:hidden;cursor:zoom-in;border-radius:6px;position:relative;background:#0a0a0a}
+.pw img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease,opacity .2s;display:block}
+.pw:hover img{transform:scale(1.06);opacity:.88}
+.pw-w2{grid-column:span 2}
+.pw-t2{grid-row:span 2}
+.pw-caption{position:absolute;bottom:0;left:0;right:0;padding:8px 12px;background:linear-gradient(transparent,rgba(0,0,0,.7));font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,.55);font-weight:600;opacity:0;transition:opacity .2s}
+.pw:hover .pw-caption{opacity:1}
+
+/* PROCESS TIMELINE */
+.process-tl{margin:32px 0 0}
+.pt-item{display:grid;grid-template-columns:46px 1fr;gap:16px;position:relative}
+.pt-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.pt-num{width:44px;height:44px;border:1.5px solid #1a1a1a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#333;background:var(--bg);position:relative;z-index:1;flex-shrink:0;letter-spacing:0}
+.pt-num.factory{border-color:rgba(200,164,85,.4);color:var(--gold);background:rgba(200,164,85,.04)}
+.pt-num.ship{border-color:rgba(100,150,255,.3);color:#6499f5;background:rgba(100,150,255,.04)}
+.pt-num.site{border-color:rgba(155,196,109,.35);color:var(--green);background:rgba(155,196,109,.04)}
+.pt-num.done{border-color:var(--green);color:var(--green);background:rgba(155,196,109,.1);font-size:16px}
+.pt-vline{flex:1;width:1px;background:#0e0e0e;margin:5px 0}
+.pt-body{padding:8px 0 26px}
+.pt-badge{display:inline-block;font-size:8px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:3px 9px;border-radius:100px;margin-bottom:6px}
+.pt-badge.factory{background:rgba(200,164,85,.07);color:rgba(200,164,85,.55);border:1px solid rgba(200,164,85,.12)}
+.pt-badge.ship{background:rgba(100,150,255,.06);color:rgba(100,150,255,.55);border:1px solid rgba(100,150,255,.1)}
+.pt-badge.site{background:rgba(155,196,109,.07);color:rgba(155,196,109,.55);border:1px solid rgba(155,196,109,.12)}
+.pt-period{font-size:9px;color:#282828;margin-bottom:4px;letter-spacing:.06em}
+.pt-title{font-size:14px;font-weight:800;color:#bbb;margin-bottom:7px;letter-spacing:-.01em}
+.pt-desc{font-size:11.5px;color:#3a3a3a;line-height:1.85}
+.pt-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
+.pt-tag{font-size:8px;padding:3px 9px;border-radius:100px;font-weight:600;letter-spacing:.04em}
+.pt-tag.gold{background:rgba(200,164,85,.08);color:rgba(200,164,85,.6);border:1px solid rgba(200,164,85,.13)}
+.pt-tag.blue{background:rgba(100,150,255,.07);color:rgba(100,150,255,.6);border:1px solid rgba(100,150,255,.1)}
+.pt-tag.green{background:rgba(155,196,109,.08);color:rgba(155,196,109,.6);border:1px solid rgba(155,196,109,.13)}
+
+/* COST BREAKDOWN */
+.cost-breakdown{margin:28px 0 0}
+.cb-item{margin-bottom:11px}
+.cb-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;gap:8px}
+.cb-name{font-size:11px;color:#555;flex:1}
+.cb-val{font-size:10px;font-weight:700;color:#383838;white-space:nowrap}
+.cb-track{height:30px;background:#080808;border-radius:5px;overflow:hidden}
+.cb-fill{height:100%;display:flex;align-items:center;padding-left:10px;border-radius:5px;font-size:8.5px;font-weight:700;letter-spacing:.04em;white-space:nowrap;overflow:hidden}
+.cb-total-row{background:#0a0a08;border:1px solid rgba(200,164,85,.2);border-radius:14px;padding:20px 22px;margin-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.cb-vs{background:#080808;border:1px solid #111;border-radius:12px;padding:16px 20px;margin-top:10px;font-size:11px;color:#303030;line-height:2}
+
+/* ADVANTAGE GRID */
+.adv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;border-radius:14px;overflow:hidden;margin-top:28px}
+@media(max-width:600px){.adv-grid{grid-template-columns:1fr}}
+.adv-cell{background:#080808;padding:22px 18px}
+.adv-icon{font-size:24px;margin-bottom:10px}
+.adv-title{font-size:12px;font-weight:800;color:#ddd;margin-bottom:6px}
+.adv-desc{font-size:11px;color:#3a3a3a;line-height:1.8}
+
+/* BACK LINK */
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#444;border:1px solid #1a1a1a;padding:8px 16px;border-radius:100px;margin-bottom:28px;transition:all .2s}
+.back-link:hover{color:var(--gold);border-color:rgba(200,164,85,.3)}
+
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.92);cursor:zoom-out;padding:20px}
+.modal img{max-width:100%;max-height:100%;object-fit:contain;margin:auto;display:block;height:100%}
+.modal.open{display:flex}
+
+/* INSTANT LINK CARD */
+.instant-card{background:#080808;border:1px solid rgba(200,164,85,.15);border-radius:16px;padding:24px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-top:32px}
+.instant-card:hover{border-color:rgba(200,164,85,.3)}
+
+footer{border-top:1px solid #0d0d0d;padding:40px 24px;text-align:center;font-size:10px;color:#2a2a2a}
+footer a{color:#333}
+</style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="/">SOLUNA</a>
+  <div class="nav-links">
+    <a href="#spec">仕様</a>
+    <a href="#cost">コスト比較</a>
+    <a href="#process">製造工程</a>
+    <a href="instant">インスタントハウス</a>
+    <a class="cta" href="collection">物件一覧 →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg">
+    <img alt="SOLUNA コンテナハウス — 40ft拡張型" src="img/container_premium_exterior.webp"/>
+  </div>
+  <div class="hero-body">
+    <p class="eyebrow">Container House · 40ft Expandable</p>
+    <p style="color:rgba(240,236,228,.75);font-size:16px;font-weight:300;line-height:1.8;margin-bottom:16px;animation:fadeUp .85s .3s both">在来工法の1/3コスト。クレーン30分で本格拠点。</p>
+    <h1>30分で建つ、<br/><em>本格拠点。</em></h1>
+    <p class="hero-sub">在来工法で別荘を建てると最低でも2,000万円、施工期間は1年。コンテナハウスは中国・山東省の工場で内装の9割を仕上げ、コンテナ船で輸送し、ラフタークレーン30分で展開する。</p>
+    <div class="hero-stats">
+      <div class="hs"><span class="hs-v">76㎡</span><span class="hs-l">展開後面積</span></div>
+      <div class="hs-d"></div>
+      <div class="hs"><span class="hs-v">30分</span><span class="hs-l">クレーン展開</span></div>
+      <div class="hs-d"></div>
+      <div class="hs"><span class="hs-v">¥630万〜</span><span class="hs-l">1棟あたり目安</span></div>
+      <div class="hs-d"></div>
+      <div class="hs"><span class="hs-v">1/3</span><span class="hs-l">在来工法比コスト</span></div>
+    </div>
+    <div class="hero-cta">
+      <a class="btn-gold" href="#spec">仕様を確認する</a>
+      <a class="btn-ghost" href="#process">製造工程を見る</a>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT IS CONTAINER HOUSE -->
+<div class="s" style="background:#050505;border-bottom:1px solid #0d0d0d">
+  <div class="w r">
+    <p class="label">Technology · コンテナハウスとは</p>
+    <h2>工場で作り、<span class="gold">現地で展開する。</span></h2>
+    <p class="sub">コンテナハウスは「建てる」のではなく「展開する」。山東省の専門工場でスチールフレームを溶接し、カラマツ無垢フローリング・HEAT20 G2相当断熱・Low-Eペアガラス窓・キッチン・バス・電気配線を工場内で組み込む。内装の約9割を工場で仕上げてから折り畳み、コンテナ船で輸送。現地でラフタークレーン1台が30分で展開する。</p>
+
+    <div class="adv-grid">
+      <div class="adv-cell">
+        <div class="adv-icon">⚡</div>
+        <div class="adv-title">30分展開</div>
+        <div class="adv-desc">ラフタークレーン1台で現地展開。養生・基礎は事前完了。当日搬入→即日引渡し。</div>
+      </div>
+      <div class="adv-cell">
+        <div class="adv-icon">🏔</div>
+        <div class="adv-title">どこでも設置</div>
+        <div class="adv-desc">山岳地・原野・海沿い。アクセス困難なロケーションにも設置できる。重機が入れれば建てられる。</div>
+      </div>
+      <div class="adv-cell">
+        <div class="adv-icon">🔄</div>
+        <div class="adv-title">移設・拡張可</div>
+        <div class="adv-desc">将来的に移設・追棟が可能。ユニット追加で面積を拡張できる。固定資産でなく"動かせる拠点"。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SPEC -->
+<div class="s" id="spec">
+  <div class="w r">
+    <p class="label">Product Spec · 製品仕様</p>
+    <h2>40ft 拡張型<span class="gold"> — 仕様詳細</span></h2>
+    <p class="sub">12m×3mの標準40ftコンテナが、クレーン展開で12m×6.4m（76㎡）に変形する。天井高2.8m、スチールフレーム、HEAT20 G2断熱、カラマツ床。</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;border-radius:14px;overflow:hidden;margin-bottom:24px">
+      <div style="background:#080808;padding:20px 18px">
+        <div style="font-size:9px;color:#333;letter-spacing:.15em;margin-bottom:6px">展開前</div>
+        <div style="font-size:22px;font-weight:800;color:#ddd">12m × 3m</div>
+        <div style="font-size:10px;color:#333;margin-top:3px">40ftコンテナ標準サイズ</div>
+      </div>
+      <div style="background:#0a0a0a;border:1px solid rgba(200,164,85,.15);padding:20px 18px">
+        <div style="font-size:9px;color:var(--gold);letter-spacing:.15em;margin-bottom:6px">展開後</div>
+        <div style="font-size:22px;font-weight:800;color:var(--gold)">12m × 6.4m</div>
+        <div style="font-size:10px;color:rgba(200,164,85,.5);margin-top:3px">約76㎡ — 天井高2.8m</div>
+      </div>
+    </div>
+
+    <div class="cd">
+      <div class="sp"><span class="k">構造</span><span class="v">高強度スチールフレーム + CNC加工パネル</span></div>
+      <div class="sp"><span class="k">断熱</span><span class="v">HEAT20 G2相当（北海道基準）</span></div>
+      <div class="sp"><span class="k">床材</span><span class="v">カラマツ無垢フローリング</span></div>
+      <div class="sp"><span class="k">暖房</span><span class="v">薪ストーブ + 床暖房（電気）</span></div>
+      <div class="sp"><span class="k">窓</span><span class="v">床まで届く大窓（Low-E ペアガラス）</span></div>
+      <div class="sp"><span class="k">電力</span><span class="v">太陽光 + V2H対応 / グリッド接続</span></div>
+      <div class="sp"><span class="k">水道</span><span class="v">井戸 or 上水（拠点により異なる）</span></div>
+      <div class="sp"><span class="k">通信</span><span class="v">Starlink衛星インターネット</span></div>
+      <div class="sp"><span class="k">定員</span><span class="v">最大4名（ダブル + シングル × 2 or ソファベッド）</span></div>
+      <div class="sp"><span class="k">設置時間</span><span class="v gold">ラフタークレーン展開 約30分</span></div>
+      <div class="sp"><span class="k">耐用年数</span><span class="v">30年〜（スチールフレーム + 定期メンテナンス）</span></div>
+      <div class="sp"><span class="k">製造拠点</span><span class="v">中国・山東省 専門コンテナハウス工場</span></div>
+      <div class="sp"><span class="k">輸送ルート</span><span class="v">上海/青島 → 苫小牧港 → 現地</span></div>
+      <div class="sp"><span class="k">全工程期間</span><span class="v">約3〜4ヶ月（発注〜引き渡し）</span></div>
+    </div>
+
+    <!-- PHOTO STRIP -->
+    <div class="photo-strip">
+      <img alt="外観" onclick="om(this)" src="img/container_premium_exterior.webp"/>
+      <img alt="内観" onclick="om(this)" src="img/container_interior.webp"/>
+      <img alt="リビング・焚き火" onclick="om(this)" src="img/container_living_fire.webp"/>
+      <img alt="寝室" onclick="om(this)" src="img/container_bedroom.webp"/>
+      <img alt="キッチン" onclick="om(this)" src="img/container_kitchen.webp"/>
+      <img alt="屋上デッキ" onclick="om(this)" src="img/container_rooftop_deck.webp"/>
+      <img alt="夜の星空" onclick="om(this)" src="img/container_night_stars.webp"/>
+      <img alt="バスルーム" onclick="om(this)" src="img/container_bathroom.webp"/>
+    </div>
+  </div>
+</div>
+
+<!-- COST COMPARISON -->
+<div class="s" id="cost" style="background:#050505;border-top:1px solid #0d0d0d">
+  <div class="w r">
+    <p class="label">Cost Comparison · コスト比較</p>
+    <h2>在来工法の<span class="gold">1/3コスト。</span></h2>
+    <p class="sub">同等スペック（76㎡ 断熱住宅）のコスト比較。コンテナハウスがなぜ安いのか、その構造的な理由を開示する。</p>
+
+    <div style="margin-bottom:10px">
+      <div style="font-size:9px;letter-spacing:.2em;color:#333;margin-bottom:12px;font-weight:700">COST COMPARISON — 同等スペック 76㎡ 断熱住宅</div>
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:#333;margin-bottom:4px">
+          <span>在来工法（国内施工）</span><span style="color:#666">¥2,000万〜2,500万</span>
+        </div>
+        <div class="cost-bar">
+          <div class="cost-bar-fill" style="width:100%;background:linear-gradient(90deg,#1a1a1a,#111);color:#333">¥2,000万 — ¥2,500万</div>
+        </div>
+      </div>
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:#555;margin-bottom:4px">
+          <span>プレハブ工法</span><span style="color:#666">¥1,200万〜1,500万</span>
+        </div>
+        <div class="cost-bar">
+          <div class="cost-bar-fill" style="width:62%;background:linear-gradient(90deg,#151515,#0d0d0d);color:#444">¥1,200万 — ¥1,500万</div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--gold);margin-bottom:4px">
+          <span><strong>コンテナハウス（SOLUNA）</strong></span><span style="color:var(--gold);font-weight:800">¥630万〜850万</span>
+        </div>
+        <div class="cost-bar" style="border:1px solid rgba(200,164,85,.2)">
+          <div class="cost-bar-fill" style="width:35%;background:linear-gradient(90deg,rgba(200,164,85,.2),rgba(200,164,85,.08));color:var(--gold)">¥630万〜850万 ← 内装9割工場仕上げ</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COST BREAKDOWN -->
+    <div style="margin-top:36px">
+      <div style="font-size:9px;letter-spacing:.2em;color:#333;margin-bottom:20px;font-weight:700">COST BREAKDOWN — 1棟あたり内訳</div>
+      <div class="cost-breakdown">
+        <div class="cb-item">
+          <div class="cb-head"><span class="cb-name">コンテナ本体製造（工場・内装9割込み）</span><span class="cb-val">¥250万〜320万</span></div>
+          <div class="cb-track"><div class="cb-fill" style="width:100%;background:linear-gradient(90deg,rgba(200,164,85,.25),rgba(200,164,85,.12));color:rgba(200,164,85,.7)">最大コスト — スチールフレーム・CNCパネル・内装部材すべて込み</div></div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-head"><span class="cb-name">電気設備（太陽光・V2H・蓄電池・引込工事）</span><span class="cb-val">¥80万〜120万</span></div>
+          <div class="cb-track"><div class="cb-fill" style="width:34%;background:linear-gradient(90deg,rgba(100,150,255,.15),rgba(100,150,255,.06));color:rgba(100,150,255,.6)">電気・蓄電池</div></div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-head"><span class="cb-name">基礎工事（独立基礎4点・コンクリート）</span><span class="cb-val">¥60万〜100万</span></div>
+          <div class="cb-track"><div class="cb-fill" style="width:28%;background:linear-gradient(90deg,rgba(155,196,109,.15),rgba(155,196,109,.06));color:rgba(155,196,109,.6)">基礎施工</div></div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-head"><span class="cb-name">水道・排水設備（井戸/上水・配管工事）</span><span class="cb-val">¥40万〜70万</span></div>
+          <div class="cb-track"><div class="cb-fill" style="width:22%;background:linear-gradient(90deg,rgba(100,150,255,.12),rgba(100,150,255,.04));color:rgba(100,150,255,.5)">水道・排水</div></div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-head"><span class="cb-name">輸送費（コンテナ船 + 国内トレーラー + 通関）</span><span class="cb-val">¥50万〜70万</span></div>
+          <div class="cb-track"><div class="cb-fill" style="width:20%;background:linear-gradient(90deg,#111,#0a0a0a);color:#3a3a3a">国際+国内輸送</div></div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-head"><span class="cb-name">クレーン展開・設置工事</span><span class="cb-val">¥25万〜40万</span></div>
+          <div class="cb-track"><div class="cb-fill" style="width:12%;background:linear-gradient(90deg,#0d0d0d,#090909);color:#2a2a2a">クレーン展開</div></div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-head"><span class="cb-name">薪ストーブ・床暖房（暖房設備一式）</span><span class="cb-val">¥25万〜40万</span></div>
+          <div class="cb-track"><div class="cb-fill" style="width:13%;background:linear-gradient(90deg,rgba(255,120,40,.1),rgba(255,120,40,.03));color:rgba(255,120,40,.5)">暖房設備</div></div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-head"><span class="cb-name">家具・寝具・キッチン備品・アメニティ</span><span class="cb-val">¥30万〜50万</span></div>
+          <div class="cb-track"><div class="cb-fill" style="width:15%;background:linear-gradient(90deg,#0f0f0e,#0a0a09);color:#333">家具・備品</div></div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-head"><span class="cb-name">スマートホーム（KAGIロック・センサー・Starlink）</span><span class="cb-val">¥20万〜35万</span></div>
+          <div class="cb-track"><div class="cb-fill" style="width:10%;background:linear-gradient(90deg,rgba(200,164,85,.08),rgba(200,164,85,.02));color:rgba(200,164,85,.4)">スマートホーム</div></div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-head"><span class="cb-name">設計・許認可・プロジェクト管理</span><span class="cb-val">¥30万〜60万</span></div>
+          <div class="cb-track"><div class="cb-fill" style="width:15%;background:linear-gradient(90deg,#0e0e0e,#0a0a0a);color:#2e2e2e">設計・PM</div></div>
+        </div>
+      </div>
+
+      <div class="cb-total-row">
+        <div>
+          <div style="font-size:9px;letter-spacing:.18em;color:#2a2a2a;margin-bottom:5px;font-weight:700">1棟あたり合計（目安）</div>
+          <div style="font-size:28px;font-weight:900;color:var(--gold);letter-spacing:-.03em">¥630万<span style="font-size:16px;color:rgba(200,164,85,.5)">〜</span>¥850万</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:9px;color:#222;margin-bottom:6px">在来工法 ¥2,000万との差</div>
+          <div style="font-size:18px;font-weight:800;color:#444">約 <span style="color:var(--gold)">1/3</span> のコスト</div>
+          <div style="font-size:9px;color:#1e1e1e;margin-top:3px">仕入〜運用準備の全額込み</div>
+        </div>
+      </div>
+
+      <div class="cb-vs">
+        <strong style="color:#444">コスト差の主な理由</strong><br/>
+        ① 工場大量生産によるスチールフレーム単価の圧縮<br/>
+        ② 内装9割を工場仕上げで現地作業を最小化（大工費が不要）<br/>
+        ③ 基礎工事と本体製造を並行施工することで工期短縮<br/>
+        ④ 移設・転用できる残存価値（土地から切り離せる）<br/>
+        <span style="color:#282828">※ 上記は参考試算です。土地条件・仕様・ロケーションにより変動します。</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT'S MADE -->
+<div class="s" id="process" style="background:#050505;border-top:1px solid #0d0d0d">
+  <div class="w r">
+    <p class="label">How It's Made · 製造工程</p>
+    <h2>注文から<span class="gold">引き渡しまで。</span></h2>
+    <p class="sub">約3〜4ヶ月のプロセス。中国工場で内装の9割を仕上げてから船で輸送。現地には基礎工事が完了した状態で届き、クレーン展開30分で居住可能になる。</p>
+
+    <!-- SUMMARY NUMBERS -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;border-radius:14px;overflow:hidden;margin-bottom:36px">
+      <div style="background:#080808;padding:18px 14px;text-align:center">
+        <div style="font-size:22px;font-weight:900;color:var(--gold);line-height:1">3–4<span style="font-size:11px;font-weight:400">ヶ月</span></div>
+        <div style="font-size:8px;color:#2a2a2a;margin-top:4px;letter-spacing:.12em">TOTAL PERIOD</div>
+      </div>
+      <div style="background:#080808;padding:18px 14px;text-align:center">
+        <div style="font-size:22px;font-weight:900;color:var(--gold);line-height:1">9<span style="font-size:11px;font-weight:400">割</span></div>
+        <div style="font-size:8px;color:#2a2a2a;margin-top:4px;letter-spacing:.12em">FACTORY FINISH</div>
+      </div>
+      <div style="background:#080808;padding:18px 14px;text-align:center">
+        <div style="font-size:22px;font-weight:900;color:var(--green);line-height:1">30<span style="font-size:11px;font-weight:400;color:var(--green)">分</span></div>
+        <div style="font-size:8px;color:#2a2a2a;margin-top:4px;letter-spacing:.12em">CRANE DEPLOY</div>
+      </div>
+      <div style="background:#080808;padding:18px 14px;text-align:center">
+        <div style="font-size:22px;font-weight:900;color:#6499f5;line-height:1">9<span style="font-size:11px;font-weight:400;color:#6499f5">工程</span></div>
+        <div style="font-size:8px;color:#2a2a2a;margin-top:4px;letter-spacing:.12em">TOTAL STEPS</div>
+      </div>
+    </div>
+
+    <div class="process-tl">
+      <div class="pt-item">
+        <div class="pt-left"><div class="pt-num site">01</div><div class="pt-vline"></div></div>
+        <div class="pt-body">
+          <div class="pt-badge site">現地作業</div>
+          <div class="pt-period">Week 1–2</div>
+          <div class="pt-title">現地調査・仕様確定</div>
+          <div class="pt-desc">ロケーション測量・地盤調査・基礎設計。配置図・外観・内装のカスタマイズ仕様を最終確定する。建築確認申請（必要な場合）も並行して着手。</div>
+          <div class="pt-tags"><span class="pt-tag green">測量・地盤調査</span><span class="pt-tag green">仕様書確定</span><span class="pt-tag green">許認可申請</span></div>
+        </div>
+      </div>
+
+      <div class="pt-item">
+        <div class="pt-left"><div class="pt-num factory">02</div><div class="pt-vline"></div></div>
+        <div class="pt-body">
+          <div class="pt-badge factory">工場製造</div>
+          <div class="pt-period">Week 3–4</div>
+          <div class="pt-title">工場発注・資材調達</div>
+          <div class="pt-desc">山東省・広東省の専門コンテナハウスメーカーへ発注。スチールフレーム・CNCパネル・カラマツ無垢材・断熱材・窓ガラス・電気部材の調達を開始。3DモデルとBOM（部品表）で製造指示を確定する。</div>
+          <div class="pt-tags"><span class="pt-tag gold">中国専門工場</span><span class="pt-tag gold">資材手配</span><span class="pt-tag gold">3D設計確定</span></div>
+        </div>
+      </div>
+
+      <div class="pt-item">
+        <div class="pt-left"><div class="pt-num factory">03</div><div class="pt-vline"></div></div>
+        <div class="pt-body">
+          <div class="pt-badge factory">工場製造</div>
+          <div class="pt-period">Week 5–10（約45〜60日）</div>
+          <div class="pt-title">コンテナ本体・内装の製造</div>
+          <div class="pt-desc">高強度スチールフレームの溶接加工、CNCルーターによる精密パネル加工。カラマツ無垢フローリング・HEAT20 G2相当断熱・Low-Eペアガラス窓・キッチン・バス・電気配線を工場内で組み込む。<strong style="color:#888">内装の約9割をここで完成</strong>させることが在来工法との最大の差。</div>
+          <div class="pt-tags"><span class="pt-tag gold">スチールフレーム溶接</span><span class="pt-tag gold">断熱施工</span><span class="pt-tag gold">キッチン・バス組込</span><span class="pt-tag gold">電気配線完了</span></div>
+        </div>
+      </div>
+
+      <div class="pt-item">
+        <div class="pt-left"><div class="pt-num factory">04</div><div class="pt-vline"></div></div>
+        <div class="pt-body">
+          <div class="pt-badge factory">工場検査</div>
+          <div class="pt-period">Week 11（5〜7日）</div>
+          <div class="pt-title">工場内品質検査・展開試験</div>
+          <div class="pt-desc">完成したコンテナを実際に折り畳み→展開して動作確認。断熱性能測定、電気系統チェック、窓・ドアの気密試験。第三者検査機関による品質証明書を取得してから出荷する。</div>
+          <div class="pt-tags"><span class="pt-tag gold">展開動作試験</span><span class="pt-tag gold">断熱性能測定</span><span class="pt-tag gold">第三者品質証明</span></div>
+        </div>
+      </div>
+
+      <div class="pt-item">
+        <div class="pt-left"><div class="pt-num ship">05</div><div class="pt-vline"></div></div>
+        <div class="pt-body">
+          <div class="pt-badge ship">海上輸送</div>
+          <div class="pt-period">Week 12–15（約21〜28日）</div>
+          <div class="pt-title">コンテナ船輸送</div>
+          <div class="pt-desc">折り畳んだ状態（12m×3m）で上海または青島港から苫小牧港へ。海上輸送中に現地では基礎工事・電気引込工事を並行して進める。これが工期短縮の核心。</div>
+          <div class="pt-tags"><span class="pt-tag blue">上海/青島→苫小牧</span><span class="pt-tag green">現地基礎工事と完全並行</span></div>
+        </div>
+      </div>
+
+      <div class="pt-item">
+        <div class="pt-left"><div class="pt-num site">06</div><div class="pt-vline"></div></div>
+        <div class="pt-body">
+          <div class="pt-badge site">現地作業（並行）</div>
+          <div class="pt-period">Week 12–15（輸送中に完了）</div>
+          <div class="pt-title">基礎工事・電気引込・水道工事</div>
+          <div class="pt-desc">コンテナ船輸送中に現地でコンクリート独立基礎（4点）を施工。電力引込・太陽光パネル基礎・水道管敷設・排水工事も完了。コンテナ到着時には基礎が養生済みで即設置可能な状態にする。</div>
+          <div class="pt-tags"><span class="pt-tag green">独立基礎4点施工</span><span class="pt-tag green">電力引込</span><span class="pt-tag green">水道・排水敷設</span><span class="pt-tag green">太陽光基礎</span></div>
+        </div>
+      </div>
+
+      <div class="pt-item">
+        <div class="pt-left"><div class="pt-num ship">07</div><div class="pt-vline"></div></div>
+        <div class="pt-body">
+          <div class="pt-badge ship">陸上輸送</div>
+          <div class="pt-period">Week 15–16</div>
+          <div class="pt-title">通関・国内輸送</div>
+          <div class="pt-desc">苫小牧港で輸入通関手続き後、大型低床トレーラーで現場へ輸送（約6〜7時間）。林道・未舗装路でのアクセスが必要な場合は事前の道路整備も含む。</div>
+          <div class="pt-tags"><span class="pt-tag blue">苫小牧港通関</span><span class="pt-tag blue">低床トレーラー輸送</span></div>
+        </div>
+      </div>
+
+      <div class="pt-item">
+        <div class="pt-left"><div class="pt-num site">08</div><div class="pt-vline"></div></div>
+        <div class="pt-body">
+          <div class="pt-badge site">現地作業</div>
+          <div class="pt-period">Day 1（30分）+ 接続工事 3〜7日</div>
+          <div class="pt-title">ラフタークレーン展開・設備接続</div>
+          <div class="pt-desc">ラフタークレーン1台でコンテナを基礎上に設置し、折り畳まれた側面パネルを展開。<strong style="color:#888">12m×3m → 12m×6.4m（76㎡）の変形はわずか30分。</strong>その後、電気・水道・排水の最終接続工事（3〜7日）、薪ストーブ設置、Starlink設置。</div>
+          <div class="pt-tags"><span class="pt-tag green">クレーン展開30分</span><span class="pt-tag green">電気・水道接続</span><span class="pt-tag green">薪ストーブ設置</span><span class="pt-tag green">Starlink</span></div>
+        </div>
+      </div>
+
+      <div class="pt-item" style="margin-bottom:0">
+        <div class="pt-left"><div class="pt-num done">✓</div></div>
+        <div class="pt-body" style="padding-bottom:0">
+          <div class="pt-badge site">完成・引き渡し</div>
+          <div class="pt-period">Week 17（全工程 約3〜4ヶ月）</div>
+          <div class="pt-title">最終検査・KAGI設定・運用開始</div>
+          <div class="pt-desc">電気・水道の最終確認検査、薪ストーブ試運転、スマートホーム（KAGI）設定、Starlink接続確認。家具・寝具・備品を搬入し、写真撮影・Beds24カレンダー登録完了後にゲスト受け入れ開始。</div>
+          <div class="pt-tags"><span class="pt-tag green">最終検査</span><span class="pt-tag green">KAGIスマートロック</span><span class="pt-tag green">Beds24登録</span><span class="pt-tag green">ゲスト受入開始</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PHOTO GALLERY -->
+<div class="s" id="gallery" style="border-top:1px solid #0d0d0d;padding-bottom:60px">
+  <div class="ww r">
+    <p class="label">Photo Gallery</p>
+    <h2>コンテナハウス、<span class="gold">実際の空間。</span></h2>
+    <p class="sub">外観・内観・デッキ・バスルーム。コンテナハウスの本格仕様を写真で確認する。</p>
+    <div class="photo-wall">
+      <div class="pw pw-w2 pw-t2" onclick="om(this)">
+        <img alt="プレミアム外観" src="img/container_premium_exterior.webp"/>
+        <div class="pw-caption">外観 — プレミアム仕様</div>
+      </div>
+      <div class="pw" onclick="om(this)">
+        <img alt="内観" src="img/container_interior.webp"/>
+        <div class="pw-caption">内観</div>
+      </div>
+      <div class="pw" onclick="om(this)">
+        <img alt="リビング・焚き火" src="img/container_living_fire.webp"/>
+        <div class="pw-caption">リビング — 薪ストーブ</div>
+      </div>
+      <div class="pw" onclick="om(this)">
+        <img alt="寝室" src="img/container_bedroom.webp"/>
+        <div class="pw-caption">寝室</div>
+      </div>
+      <div class="pw" onclick="om(this)">
+        <img alt="キッチン" src="img/container_kitchen.webp"/>
+        <div class="pw-caption">キッチン</div>
+      </div>
+      <div class="pw pw-w2" onclick="om(this)">
+        <img alt="屋上デッキ" src="img/container_rooftop_deck.webp"/>
+        <div class="pw-caption">屋上デッキ</div>
+      </div>
+      <div class="pw" onclick="om(this)">
+        <img alt="夜の星空" src="img/container_night_stars.webp"/>
+        <div class="pw-caption">夜 — 星空</div>
+      </div>
+      <div class="pw" onclick="om(this)">
+        <img alt="バスルーム" src="img/container_bathroom.webp"/>
+        <div class="pw-caption">バスルーム</div>
+      </div>
+      <div class="pw" onclick="om(this)">
+        <img alt="エントランス" src="img/container_entrance.webp"/>
+        <div class="pw-caption">エントランス</div>
+      </div>
+      <div class="pw" onclick="om(this)">
+        <img alt="ワークスペース" src="img/container_workspace.webp"/>
+        <div class="pw-caption">ワークスペース</div>
+      </div>
+      <div class="pw pw-w2" onclick="om(this)">
+        <img alt="デッキ（夏）" src="img/container_deck_summer.webp"/>
+        <div class="pw-caption">デッキ — 夏</div>
+      </div>
+      <div class="pw" onclick="om(this)">
+        <img alt="サウナ接続" src="img/container_sauna_connect.webp"/>
+        <div class="pw-caption">サウナ接続</div>
+      </div>
+      <div class="pw" onclick="om(this)">
+        <img alt="冬の外観" src="img/container_exterior_winter.webp"/>
+        <div class="pw-caption">外観 — 冬</div>
+      </div>
+      <div class="pw pw-w2" onclick="om(this)">
+        <img alt="2棟空撮" src="img/container_twin_aerial.webp"/>
+        <div class="pw-caption">2棟 — 空撮</div>
+      </div>
+      <div class="pw" onclick="om(this)">
+        <img alt="夏の外観" src="img/container_summer.webp"/>
+        <div class="pw-caption">外観 — 夏</div>
+      </div>
+      <div class="pw" onclick="om(this)">
+        <img alt="ラグジュアリー内観" src="img/container_interior_luxury.webp"/>
+        <div class="pw-caption">内観 — ラグジュアリー仕様</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INSTANT HOUSE LINK -->
+<div class="s" style="background:#050505;border-top:1px solid #0d0d0d">
+  <div class="w r">
+    <p class="label">Related · 関連ページ</p>
+    <h2>体験は、<span class="gold">インスタントハウスから。</span></h2>
+    <p class="sub">コンテナハウス技術を使ったSOLUNA初の運用物件。北海道・美留和NESTING敷地で稼働中。まず泊まって、自分の目で確かめる。</p>
+
+    <a class="instant-card" href="instant" style="display:flex;text-decoration:none">
+      <div>
+        <div style="font-size:9px;letter-spacing:.22em;color:rgba(200,164,85,.6);font-weight:700;margin-bottom:6px;text-transform:uppercase">Running Now · 稼働中</div>
+        <div style="font-size:18px;font-weight:800;color:#ddd;margin-bottom:6px">インスタントハウス — 美留和NESTING</div>
+        <div style="font-size:11px;color:#3a3a3a;line-height:1.8">コンテナハウス技術で建てた最初の拠点。北海道・弟子屈町。屈斜路湖ビューのサウナ付き。¥120万/口・年間30泊。</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:8px;flex-shrink:0">
+        <div style="display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#040404;font-weight:800;font-size:11px;padding:10px 18px;border-radius:100px;white-space:nowrap">詳細を見る →</div>
+      </div>
+    </a>
+
+    <div style="margin-top:24px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <a class="btn-gold" href="collection">全物件一覧を見る →</a>
+      <a class="btn-ghost" href="#" onclick="typeof scToggle!=='undefined'&&scToggle();return false">チャットで相談</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div style="margin-bottom:12px">
+    <a href="/" style="font-size:13px;font-weight:800;letter-spacing:.22em;color:#c8a455">SOLUNA</a>
+  </div>
+  <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:16px">
+    <a href="instant">インスタントハウス</a>
+    <a href="collection">全物件一覧</a>
+    <a href="buy">オーナーになる</a>
+    <a href="privacy">Privacy</a>
+    <a href="terms">Terms</a>
+  </div>
+  <div>© 2025 Enabler Inc.</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal" id="modal" onclick="this.classList.remove('open')">
+  <img alt="" id="modal-img" src=""/>
+</div>
+
+<script>
+const obs = new IntersectionObserver(els => els.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); }), {threshold:.12});
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+function om(el){ document.getElementById('modal-img').src = el.src || el.querySelector('img').src; document.getElementById('modal').classList.add('open'); }
+</script>
+<script defer src="/chat-widget.js"></script>
+<script defer src="/track.js"></script>
+<script src="/lang.js"></script>
+<script defer src="/js/sln-chat-btn.js"></script>
+<script defer src="/js/sln-desktop.js"></script>
+</body>
+</html>
