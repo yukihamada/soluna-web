@@ -280,7 +280,7 @@ export default function Home() {
             </div>
             <p style={{ marginTop:18, fontSize:".65rem",
               color:"rgba(255,255,255,.25)", fontFamily:"Inter,sans-serif" }}>
-              East Ventures 5,000万円出資 · 2020年創業
+              East Ventures 出資 · 2020年創業
             </p>
           </div>
         )}
