@@ -9,8 +9,17 @@
 <meta property="og:description" content="2026年9月、Oahu, Hawaii。テクノミュージック × 北海道・ハワイのリゾートコミュニティ。先行登録受付中。">
 <meta property="og:image" content="https://solun.art/img/pro_hawaii_hero.webp">
 <meta property="og:url" content="https://solun.art/zamna">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SOLUNA">
+<meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ZAMNA × SOLUNA FEST HAWAII 2026">
+<meta name="twitter:description" content="2026年9月、Oahu, Hawaii。先行登録者のみチケット先行購入権あり。">
 <meta name="twitter:image" content="https://solun.art/img/pro_hawaii_hero.webp">
+<link rel="canonical" href="https://solun.art/zamna">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"MusicEvent","name":"ZAMNA × SOLUNA FEST HAWAII 2026","startDate":"2026-09-05","endDate":"2026-09-06","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","eventStatus":"https://schema.org/EventScheduled","location":{"@type":"Place","name":"Oahu, Hawaii","address":{"@type":"PostalAddress","addressLocality":"Honolulu","addressRegion":"HI","addressCountry":"US"}},"image":["https://solun.art/img/pro_hawaii_hero.webp"],"description":"テクノミュージック × 北海道・ハワイのリゾートコミュニティ。先行登録受付中。","offers":{"@type":"Offer","url":"https://solun.art/zamna","availability":"https://schema.org/PreOrder","priceCurrency":"USD","validFrom":"2026-01-01"},"organizer":{"@type":"Organization","name":"SOLUNA","url":"https://solun.art/"},"performer":{"@type":"PerformingGroup","name":"ZAMNA Collective"},"maximumAttendeeCapacity":300}
+</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23050505'/><circle cx='32' cy='32' r='20' fill='none' stroke='%23c8a455' stroke-width='2.5'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,6 +73,16 @@ h1 span{color:var(--gold)}
 .cd-num{font-size:clamp(28px,6vw,52px);font-weight:100;color:#fff;line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
 .cd-label{font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:var(--sub);margin-top:5px}
 .cd-sep{font-size:clamp(24px,5vw,44px);font-weight:100;color:rgba(200,164,85,.3);line-height:1;padding-top:2px}
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:24px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#444;text-decoration:none;transition:color .2s}
+.gnav-links a:hover,.gnav-links a.active{color:#c8a455}
+.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.3)!important;padding:7px 15px!important;border-radius:100px;transition:all .2s}
+.gnav-cta:hover{background:#c8a455!important;color:#040404!important}
+.gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.gnav-ham span{width:20px;height:1.5px;background:#666;transition:all .25s;display:block}
+@media(max-width:680px){.gnav{padding:13px 20px}.gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:20px 24px;gap:20px;border-bottom:1px solid rgba(255,255,255,.06)}.gnav-links.open{display:flex}.gnav-ham{display:flex}}
 </style>
 </head>
 <body>
@@ -74,9 +93,17 @@ h1 span{color:var(--gold)}
 <div class="bg-overlay"></div>
 <div id="bg" style="position:fixed;inset:0;z-index:2;pointer-events:none"></div>
 
-<nav>
-  <a href="/" class="nav-brand">SOLUNA</a>
-  <a href="/" class="nav-back">← Back</a>
+<nav class="gnav">
+<a class="gnav-logo" href="/">SOLUNA</a>
+<div class="gnav-links" id="gnav-links">
+<a href="collection">物件を持つ</a>
+<a href="tiny-house">建てる</a>
+<a href="akiya">空き家</a>
+<a href="scheme">仕組み</a>
+<a href="blog">ブログ</a>
+<a class="gnav-cta" href="buy" data-sln-track="purchase_click">オーナーになる</a>
+</div>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
 </nav>
 
 <div class="wrap">
@@ -100,7 +127,7 @@ h1 span{color:var(--gold)}
       <input class="input" id="email" type="email" placeholder="your@email.com" autocomplete="email">
       <button class="btn" onclick="register()">登録 →</button>
     </div>
-    <div class="note">詳細が決まり次第、先行登録者に最速でお知らせします</div>
+    <div class="note">詳細が決まり次第、先行登録者に最速でお知らせします · <a href="/privacy" style="color:inherit;text-decoration:underline">プライバシー</a></div>
     <div class="done" id="done">🌺 &nbsp;登録完了。ハワイでお会いしましょう。</div>
   </div>
 

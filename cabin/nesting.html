@@ -210,18 +210,16 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 @media(max-width:600px){.bw-inner{gap:10px}}
 </style>
 <style id="gnav-css">
-.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
 .gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
-.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
-.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
-.gnav-links a:hover{color:#c8a455}
-.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
-.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-links{display:flex;gap:24px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#444;text-decoration:none;transition:color .2s}
+.gnav-links a:hover,.gnav-links a.active{color:#c8a455}
+.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.3)!important;padding:7px 15px!important;border-radius:100px;transition:all .2s}
+.gnav-cta:hover{background:#c8a455!important;color:#040404!important}
 .gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
-.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
-@media(max-width:680px){
-  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
-  .gnav-links.open{display:flex}
+.gnav-ham span{width:20px;height:1.5px;background:#666;transition:all .25s;display:block}
+@media(max-width:680px){.gnav{padding:13px 20px}.gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:20px 24px;gap:20px;border-bottom:1px solid rgba(255,255,255,.06)}.gnav-links.open{display:flex}.gnav-ham{display:flex}}
   .gnav-ham{display:flex}
 }
 </style>
@@ -229,22 +227,16 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 </head>
 <body>
 <nav class="gnav">
-<a class="gnav-logo" href="index">SOLUNA</a>
+<a class="gnav-logo" href="/">SOLUNA</a>
 <div class="gnav-links" id="gnav-links">
-<a data-en="Properties" href="collection">物件一覧</a>
-<a data-en="Villa construction" href="village">ヴィラ建築</a>
-<a href="faq">FAQ</a>
-<a data-en="Owners" href="owners">オーナーズ</a>
-<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="collection">物件を持つ</a>
+<a href="tiny-house">建てる</a>
+<a href="akiya">空き家</a>
+<a href="scheme">仕組み</a>
+<a href="blog">ブログ</a>
+<a class="gnav-cta" href="buy" data-sln-track="purchase_click">オーナーになる</a>
 </div>
-<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
-<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
-<span style="font-size:9px;color:#3a3a3a">/</span>
-<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
-</button>
-<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
-<span></span><span></span><span></span>
-</div>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
 </nav>
 <!-- NAV -->
 <!-- HERO -->
@@ -677,7 +669,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 </div>
 <!-- CTA -->
 <div class="r" style="text-align:center;margin-top:40px">
-<a class="cta-btn" data-en="Apply for One Unit → ¥13,000,000" href="mailto:mail@yukihamada.jp?subject=NESTING CABIN CLUB 申込&amp;body=お名前:%0A連絡先:%0A希望口数:%0Aご質問:" style="margin-right:12px">一口申し込む → ¥1,300万</a>
+<a class="cta-btn" data-en="Apply for One Unit → ¥13,000,000" href="mailto:info@solun.art?subject=NESTING CABIN CLUB 申込&amp;body=お名前:%0A連絡先:%0A希望口数:%0Aご質問:" style="margin-right:12px">一口申し込む → ¥1,300万</a>
 <a class="cta-ghost" data-en="💬 Consult via Chat" href="#" onclick="typeof scToggle!=='undefined'&amp;&amp;scToggle();return false">💬 チャットで相談</a>
 </div>
 </div>
@@ -914,10 +906,10 @@ async function startNestingMonthly(amount, tier) {
     if (data.url) {
       window.location.href = data.url;
     } else {
-      window.location.href = 'mailto:mail@yukihamada.jp?subject=NESTING月払い積立（¥' + (amount/10000) + '万/月）&body=メールアドレス:' + email + '%0A希望プラン: ¥' + (amount/10000) + '万/月%0A';
+      window.location.href = 'mailto:info@solun.art?subject=NESTING月払い積立（¥' + (amount/10000) + '万/月）&body=メールアドレス:' + email + '%0A希望プラン: ¥' + (amount/10000) + '万/月%0A';
     }
   } catch(e) {
-    window.location.href = 'mailto:mail@yukihamada.jp?subject=NESTING月払い積立（¥' + (amount/10000) + '万/月）&body=メールアドレス:' + email + '%0A希望プラン: ¥' + (amount/10000) + '万/月%0A';
+    window.location.href = 'mailto:info@solun.art?subject=NESTING月払い積立（¥' + (amount/10000) + '万/月）&body=メールアドレス:' + email + '%0A希望プラン: ¥' + (amount/10000) + '万/月%0A';
   }
 }
 </script>
@@ -931,7 +923,7 @@ async function startNestingMonthly(amount, tier) {
 <h2 class="r" data-en="of Miruwa" style="text-align:center;margin-bottom:8px">美留和の<span class="purple" data-en="Own the forest">森を所有する</span></h2>
 <p class="r" data-en="Visit in person first. Enter the tower sauna, sit before the fireplace, gaze at the stars from the hot tub. That will decide it." style="text-align:center;color:#444;font-size:13px;line-height:2;max-width:500px;margin:0 auto 36px">まず現地を訪ねてほしい。タワーサウナに入り、暖炉の前に座り、ホットタブから星を見上げる。それで決まる。</p>
 <div class="r" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-<a class="cta-btn" data-en="Site Visit &amp; Apply for One Unit" href="mailto:mail@yukihamada.jp?subject=NESTING 現地視察・申込&amp;body=お名前:%0A連絡先:%0A希望視察日:%0A希望口数:%0Aご質問:">現地視察・一口申し込む</a>
+<a class="cta-btn" data-en="Site Visit &amp; Apply for One Unit" href="mailto:info@solun.art?subject=NESTING 現地視察・申込&amp;body=お名前:%0A連絡先:%0A希望視察日:%0A希望口数:%0Aご質問:">現地視察・一口申し込む</a>
 <a data-en="◎ Purchase with Solana · NFT" href="mint#NESTING" style="display:inline-block;background:#9945ff;color:#fff;font-weight:800;font-size:12px;padding:16px 28px;border-radius:100px;box-shadow:0 8px 28px rgba(153,69,255,.25);letter-spacing:.04em">◎ Solanaで購入 · NFT</a>
 <a data-en="💳 Build with Monthly Payments →" href="#monthly-plan" style="display:inline-block;background:transparent;color:#b088dd;font-weight:700;font-size:12px;padding:15px 24px;border-radius:100px;border:1px solid rgba(176,136,221,.25);letter-spacing:.04em">💳 月払いで積み立てる →</a>
 </div>
@@ -988,7 +980,7 @@ async function startNestingMonthly(amount, tier) {
 <span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
 </button>
 <div class="sf-bd">
-<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Catalog Village" href="collection">カタログビレッジ</a>
 <a data-en="Hardware Kit" href="kits">ハードキット</a>
 <a data-en="Floor Plans" href="floorplans">間取り集</a>
 <a data-en="Design" href="design">デザイン</a>
@@ -1103,7 +1095,7 @@ function bookNesting(){
 })();
 </script><!-- IMAGE MODAL -->
 <div class="modal" id="modal" onclick="this.classList.remove('active')">
-<img alt="" id="modalImg" src=""/>
+<img loading="lazy" alt="" id="modalImg" src=""/>
 </div>
 <script>
 // Reveal on scroll

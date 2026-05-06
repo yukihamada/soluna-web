@@ -191,44 +191,39 @@ footer{padding:52px 24px 32px;text-align:center;color:#1e1e1e;font-size:11px;let
 footer a{color:#282828;transition:color .2s}footer a:hover{color:var(--gold)}
 </style>
 <style id="gnav-css">
-.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
 .gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
-.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
-.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
-.gnav-links a:hover{color:#c8a455}
-.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
-.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-links{display:flex;gap:24px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#444;text-decoration:none;transition:color .2s}
+.gnav-links a:hover,.gnav-links a.active{color:#c8a455}
+.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.3)!important;padding:7px 15px!important;border-radius:100px;transition:all .2s}
+.gnav-cta:hover{background:#c8a455!important;color:#040404!important}
 .gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
-.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
-@media(max-width:680px){
-  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
-  .gnav-links.open{display:flex}
+.gnav-ham span{width:20px;height:1.5px;background:#666;transition:all .25s;display:block}
+@media(max-width:680px){.gnav{padding:13px 20px}.gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:20px 24px;gap:20px;border-bottom:1px solid rgba(255,255,255,.06)}.gnav-links.open{display:flex}.gnav-ham{display:flex}}
   .gnav-ham{display:flex}
 }
 </style>
 <script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"Organization","@id":"https://solun.art/#organization","name":"SOLUNA","url":"https://solun.art/","logo":{"@type":"ImageObject","url":"https://solun.art/img/tapkop_real2.webp"},"description":"土地と建築と運営を一体で設計する定額型別荘所有プラットフォーム","foundingDate":"2020","areaServed":["JP","US"],"parentOrganization":{"@type":"Organization","name":"Enabler Inc.","email":"info@solun.art"}},
+  {"@type":"Accommodation","@id":"https://solun.art/village#accommodation","name":"SOLUNA VILLAGE — 熊牛原野","description":"3万坪のプライベート原野。延床50㎡+デッキ20㎡、UA0.28（HEAT20 G2相当）。総額2,780万円（税込・設計監理費込）。共同オーナー制で年30泊。","url":"https://solun.art/village","image":["https://solun.art/img/village_arc_sunset.webp","https://solun.art/img/village_night_milkyway.webp"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"北海道","addressLocality":"川上郡弟子屈町熊牛原野"},"floorSize":{"@type":"QuantitativeValue","value":"50","unitText":"sqm"},"offers":{"@type":"Offer","priceCurrency":"JPY","price":"4900000","priceSpecification":{"@type":"UnitPriceSpecification","price":"4900000","priceCurrency":"JPY","referenceQuantity":{"@type":"QuantitativeValue","value":"30","unitText":"泊/年"}}}}
+]}
+</script>
 </head>
 <body>
 <nav class="gnav">
-<a class="gnav-logo" href="index">SOLUNA</a>
+<a class="gnav-logo" href="/">SOLUNA</a>
 <div class="gnav-links" id="gnav-links">
-<a data-en="Properties" href="collection">物件一覧</a>
-<a data-en="Villa Construction" href="village">ヴィラ建築</a>
-<a href="handcraft">HANDCRAFT</a>
-<a href="homes">MODEL VILLAGE</a>
-<a href="sound">SOUND</a>
-<a href="faq">FAQ</a>
-<a data-en="Owners" href="owners">オーナーズ</a>
-<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="collection">物件を持つ</a>
+<a href="tiny-house">建てる</a>
+<a href="akiya">空き家</a>
+<a href="scheme">仕組み</a>
+<a href="blog">ブログ</a>
+<a class="gnav-cta" href="buy" data-sln-track="purchase_click">オーナーになる</a>
 </div>
-<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
-<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
-<span style="font-size:9px;color:#3a3a3a">/</span>
-<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
-</button>
-<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
-<span></span><span></span><span></span>
-</div>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
 </nav>
 <!-- HERO -->
 <div class="hero">
@@ -313,10 +308,10 @@ footer a{color:#282828;transition:color .2s}footer a:hover{color:var(--gold)}
 <div class="s" style="padding:0">
 <div class="ww">
 <div class="pgL r">
-<div class="fb r169"><img alt="冬の夜" data-en-alt="Winter Night" src="img/village_winter_night.jpg"/></div>
+<div class="fb r169"><img loading="lazy" alt="冬の夜" data-en-alt="Winter Night" src="img/village_winter_night.jpg"/></div>
 <div style="display:grid;gap:3px">
-<div class="fb r43"><img alt="天の川露天風呂" data-en-alt="Milky Way outdoor bath" src="img/village_bath_milkyway.jpg"/></div>
-<div class="fb r43"><img alt="薪サウナ" data-en-alt="Wood-Fired Sauna" src="img/village_cedar_sauna.jpg"/></div>
+<div class="fb r43"><img loading="lazy" alt="天の川露天風呂" data-en-alt="Milky Way outdoor bath" src="img/village_bath_milkyway.jpg"/></div>
+<div class="fb r43"><img loading="lazy" alt="薪サウナ" data-en-alt="Wood-Fired Sauna" src="img/village_cedar_sauna.jpg"/></div>
 </div>
 </div>
 <div class="cap r" data-en="Exterior (left) and the essence of this plan — Milky Way outdoor bath and wood-fired sauna (right). These two elements matter more than building specifications.">外観（左）とこのプランの「核」——天の川露天風呂と薪サウナ（右）。建物の仕様よりこの2つの方が大切だ。</div>
@@ -380,8 +375,8 @@ footer a{color:#282828;transition:color .2s}footer a:hover{color:var(--gold)}
 <div class="s" style="padding:0">
 <div class="ww">
 <div class="pg2 r">
-<div class="fb r169"><img alt="夜明けの窓辺" data-en-alt="Dawn's Window" src="img/village_morning_window.jpg"/></div>
-<div class="fb r169"><img alt="雪原の景色" data-en-alt="Snowy Landscape View" src="img/village_snowfield_view.jpg"/></div>
+<div class="fb r169"><img loading="lazy" alt="夜明けの窓辺" data-en-alt="Dawn's Window" src="img/village_morning_window.jpg"/></div>
+<div class="fb r169"><img loading="lazy" alt="雪原の景色" data-en-alt="Snowy Landscape View" src="img/village_snowfield_view.jpg"/></div>
 </div>
 <div class="cap r" data-en="The view through the full south-facing glass façade (7m wide). It remains unchanged whether the property is 27.8 million or 98 million yen. Location creates experience.">南面全面ガラス（幅7m）から見える景色。これは2,780万でも9,800万でも同じだ。場所が体験を作る。</div>
 </div>
@@ -395,8 +390,8 @@ footer a{color:#282828;transition:color .2s}footer a:hover{color:var(--gold)}
 <h2 class="r" data-en="How to use 30,000 tsubo">3万坪の使い方</h2>
 <p class="sub r" data-en="The 50㎡ structure occupies merely 0.05% of the 30,000 tsubo property. The essence of this design lies in the remaining 99.95% remaining as pristine wilderness.">50㎡の建物は3万坪の0.05%しか使わない。残りの99.95%が原野のままであることが、この設計の本質だ。</p>
 </div>
-<div class="r"><div class="fb r219"><img alt="サイトプラン" data-en-alt="Site Plan" src="img/village_kirar_siteplan_real.jpg"/></div></div>
-<div class="r" style="margin-top:3px"><div class="fb r219"><img alt="空撮" data-en-alt="Aerial View" src="img/village_aerial_green.jpg"/></div></div>
+<div class="r"><div class="fb r219"><img loading="lazy" alt="サイトプラン" data-en-alt="Site Plan" src="img/village_kirar_siteplan_real.jpg"/></div></div>
+<div class="r" style="margin-top:3px"><div class="fb r219"><img loading="lazy" alt="空撮" data-en-alt="Aerial View" src="img/village_aerial_green.jpg"/></div></div>
 <div class="w r" style="margin-top:24px">
 <table class="tbl">
 <tr><td data-en="Location">所在地</td><td data-en="Kumaushi, Teshikaga, Kamikarashina District, Hokkaido">北海道川上郡弟子屈町 熊牛原野</td></tr>
@@ -425,7 +420,7 @@ footer a{color:#282828;transition:color .2s}footer a:hover{color:var(--gold)}
 </div>
 <div class="rooms r">
 <div class="rc">
-<img alt="LDK" src="img/village_lux_living.jpg"/>
+<img loading="lazy" alt="LDK" src="img/village_lux_living.jpg"/>
 <div class="rco">
 <div class="rcl">01 · LDK</div>
 <div class="rct" data-en="Living dining">リビングダイニング</div>
@@ -434,7 +429,7 @@ footer a{color:#282828;transition:color .2s}footer a:hover{color:var(--gold)}
 </div>
 </div>
 <div class="rc">
-<img alt="キッチン" data-en-alt="Kitchen" src="img/village_kitchen_fire.jpg"/>
+<img loading="lazy" alt="キッチン" data-en-alt="Kitchen" src="img/village_kitchen_fire.jpg"/>
 <div class="rco">
 <div class="rcl">02 · Kitchen</div>
 <div class="rct" data-en="Kitchen + Pantry">キッチン + パントリー</div>
@@ -443,7 +438,7 @@ footer a{color:#282828;transition:color .2s}footer a:hover{color:var(--gold)}
 </div>
 </div>
 <div class="rc">
-<img alt="寝室" data-en-alt="Bedroom" src="img/village_lux_bedroom.jpg"/>
+<img loading="lazy" alt="寝室" data-en-alt="Bedroom" src="img/village_lux_bedroom.jpg"/>
 <div class="rco">
 <div class="rcl">03 · Bedroom</div>
 <div class="rct" data-en="Bedroom">寝室</div>
@@ -452,7 +447,7 @@ footer a{color:#282828;transition:color .2s}footer a:hover{color:var(--gold)}
 </div>
 </div>
 <div class="rc">
-<img alt="薪サウナ" data-en-alt="Wood-Fired Sauna" src="img/village_cedar_sauna.jpg"/>
+<img loading="lazy" alt="薪サウナ" data-en-alt="Wood-Fired Sauna" src="img/village_cedar_sauna.jpg"/>
 <div class="rco">
 <div class="rcl">04 · Sauna</div>
 <div class="rct" data-en="Wood-Fired Sauna Pavilion">薪サウナ小屋</div>
@@ -461,7 +456,7 @@ footer a{color:#282828;transition:color .2s}footer a:hover{color:var(--gold)}
 </div>
 </div>
 <div class="rc">
-<img alt="露天風呂" data-en-alt="Open-Air Bath" src="img/village_bath_milkyway.jpg"/>
+<img loading="lazy" alt="露天風呂" data-en-alt="Open-Air Bath" src="img/village_bath_milkyway.jpg"/>
 <div class="rco">
 <div class="rcl">05 · Outdoor Bath</div>
 <div class="rct" data-en="Milky Way outdoor bath">天の川露天風呂</div>
@@ -470,7 +465,7 @@ footer a{color:#282828;transition:color .2s}footer a:hover{color:var(--gold)}
 </div>
 </div>
 <div class="rc">
-<img alt="土間玄関" data-en-alt="Earthen floor entryway" src="img/village_doma_entrance.jpg"/>
+<img loading="lazy" alt="土間玄関" data-en-alt="Earthen floor entryway" src="img/village_doma_entrance.jpg"/>
 <div class="rco">
 <div class="rcl">06 · Doma</div>
 <div class="rct" data-en="Earthen floor entryway">土間玄関</div>
@@ -498,9 +493,9 @@ footer a{color:#282828;transition:color .2s}footer a:hover{color:var(--gold)}
 <div class="s" style="padding:0">
 <div class="ww">
 <div class="pg3 r">
-<div class="fb r43"><img alt="デッキ夕暮れ" data-en-alt="Deck at Dusk" src="img/village_deck_evening.jpg"/></div>
-<div class="fb r43"><img alt="寝室" data-en-alt="Bedroom" src="img/village_lux_bedroom.jpg"/></div>
-<div class="fb r43"><img alt="土間玄関" data-en-alt="Earthen floor entryway" src="img/village_doma_entrance.jpg"/></div>
+<div class="fb r43"><img loading="lazy" alt="デッキ夕暮れ" data-en-alt="Deck at Dusk" src="img/village_deck_evening.jpg"/></div>
+<div class="fb r43"><img loading="lazy" alt="寝室" data-en-alt="Bedroom" src="img/village_lux_bedroom.jpg"/></div>
+<div class="fb r43"><img loading="lazy" alt="土間玄関" data-en-alt="Earthen floor entryway" src="img/village_doma_entrance.jpg"/></div>
 </div>
 <div class="cap r" data-en="Left: Deck at dusk. Center: Bedroom with morning snow view from the east. Right: Earth-floor entry (ski, firewood, boot storage).">左: 夕暮れのデッキ。中: 東面から朝の雪原を見る寝室。右: 土間玄関（スキー・薪・ブーツ収納）。</div>
 </div>
@@ -772,10 +767,10 @@ footer a{color:#282828;transition:color .2s}footer a:hover{color:var(--gold)}
 <div class="ww">
 <div class="pgR r">
 <div style="display:grid;gap:3px">
-<div class="fb r43"><img alt="朝の窓辺" data-en-alt="Morning by the window" src="img/village_morning_window.jpg"/></div>
-<div class="fb r43"><img alt="デッキ夕暮れ" data-en-alt="Deck at Dusk" src="img/village_deck_evening.jpg"/></div>
+<div class="fb r43"><img loading="lazy" alt="朝の窓辺" data-en-alt="Morning by the window" src="img/village_morning_window.jpg"/></div>
+<div class="fb r43"><img loading="lazy" alt="デッキ夕暮れ" data-en-alt="Deck at Dusk" src="img/village_deck_evening.jpg"/></div>
 </div>
-<div class="fb r169"><img alt="天の川露天風呂" data-en-alt="Milky Way outdoor bath" src="img/village_bath_milkyway.jpg"/></div>
+<div class="fb r169"><img loading="lazy" alt="天の川露天風呂" data-en-alt="Milky Way outdoor bath" src="img/village_bath_milkyway.jpg"/></div>
 </div>
 <div class="cap r" data-en="Top left: window at dawn (50㎡yet views span 30,000 tsubo). Bottom left: twilight on the deck. Right: Milky Way and open-air bath.">左上: 夜明けの窓辺（50㎡でも景色は3万坪分）。左下: デッキの夕暮れ。右: 天の川と露天風呂。</div>
 </div>
@@ -928,7 +923,7 @@ footer a{color:#282828;transition:color .2s}footer a:hover{color:var(--gold)}
 <span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
 </button>
 <div class="sf-bd">
-<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Catalog Village" href="collection">カタログビレッジ</a>
 <a data-en="Hard Kit" href="kits">ハードキット</a>
 <a data-en="Floor plans" href="floorplans">間取り集</a>
 <a data-en="Design" href="design">デザイン</a>

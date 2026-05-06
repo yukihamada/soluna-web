@@ -1591,7 +1591,7 @@ function openProp(slug) {
     _galIdx = 0;
     _galSlug = slug;
     galleryTrack.innerHTML = galleryImgs.map(function(img){
-      return '<div class="gallery-slide"><img src="img/'+img+'" loading="lazy" onerror="this.parentElement.style.display=\'none\'"></div>';
+      return '<div class="gallery-slide"><img src="img/'+img+'" alt="" loading="lazy" onerror="this.parentElement.style.display=\'none\'"></div>';
     }).join('');
     galleryDots.innerHTML = galleryImgs.map(function(_,i){
       return '<div class="gallery-dot'+(i===0?' active':'')+'"></div>';

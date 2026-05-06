@@ -965,6 +965,15 @@ app.use((req, res, next) => {
   next();
 });
 
+// ── X-Robots-Tag: noindex on non-canonical hosts (fly.dev preview) ────────────
+app.use((req, res, next) => {
+  const host = req.hostname || "";
+  if (host.endsWith(".fly.dev")) {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow");
+  }
+  next();
+});
+
 // ── .html → clean URL 301 redirect (SEO canonical URLs) ──────────────────────
 app.use((req, res, next) => {
   if (req.method === "GET" && req.path.endsWith(".html") && req.path !== "/index.html") {
@@ -7209,6 +7218,280 @@ app.post("/api/soluna/purchase/:id/cancel", express.json(), async (req, res) => 
   res.json({ ok: true, message: "購入申込をキャンセルしました。" });
 });
 
+// POST /api/koya/precut — SOLUNA KOYA プレカット発注
+app.post("/api/koya/precut", express.json(), async (req, res) => {
+  try {
+    const b = req.body || {};
+    const size    = String(b.size || "M").slice(0, 4);
+    const qty     = String(b.qty || "1").slice(0, 6);
+    const cert    = String(b.cert || "none").slice(0, 16);
+    const region  = String(b.region || "hokkaido").slice(0, 12);
+    const regionName = String(b.region_name || region).slice(0, 32);
+    const timing  = String(b.timing || "asap").slice(0, 16);
+    const total   = Number(b.quote_total) || 0;
+    const org     = String(b.org || "").trim().slice(0, 200);
+    const contact = String(b.contact || "").trim().slice(0, 80);
+    const email   = String(b.email || "").trim().slice(0, 120);
+    const phone   = String(b.phone || "").trim().slice(0, 32);
+    const note    = String(b.note || "").trim().slice(0, 3000);
+
+    if (!org || !contact || !email || !/.+@.+\..+/.test(email)) {
+      return res.status(400).json({ error: "会社名・担当者・有効なemailは必須です" });
+    }
+    const certLabel = ({none:"未認定（一般）", builder:"認定工務店（−10%）", diy:"DIYオーナー", studio:"建築事務所"})[cert] || cert;
+    const timingLabel = ({asap:"最短(3週間後)", "1m":"1ヶ月以内", "2m":"2ヶ月以内", "3m":"3ヶ月以内", undecided:"未定（仮見積）"})[timing] || timing;
+    const orderRef = "PC-" + Date.now().toString(36).toUpperCase().slice(-6);
+
+    if (RESEND_API_KEY) {
+      const adminHtml = `
+        <p><b>📦 KOYA プレカット発注 ${orderRef}</b></p>
+        <ul>
+          <li>サイズ: <b>SOLUNA KOYA — ${esc(size)}</b></li>
+          <li>数量: ${esc(qty)} 棟</li>
+          <li>認定区分: ${esc(certLabel)}</li>
+          <li>納品先: ${esc(regionName)}</li>
+          <li>希望時期: ${esc(timingLabel)}</li>
+          <li>仮見積合計: <b>¥${total.toLocaleString()}</b></li>
+        </ul>
+        <p><b>発注者</b><br>会社/事務所: ${esc(org)}<br>担当: ${esc(contact)}<br>メール: ${esc(email)}<br>電話: ${esc(phone) || "—"}</p>
+        ${note ? `<p><b>特記事項</b><br>${esc(note).replace(/\n/g,"<br>")}</p>` : ""}
+        <hr><p>※ 3営業日以内に書面見積(PDF) + 請書を発行してください。<br><a href="https://solun.art/koya-precut">https://solun.art/koya-precut</a></p>`;
+      fetch("https://api.resend.com/emails", {
+        method:"POST",
+        headers:{"Content-Type":"application/json", Authorization:`Bearer ${RESEND_API_KEY}`},
+        body: JSON.stringify({
+          from: "SOLUNA KOYA Pre-Cut <info@solun.art>",
+          to:   ["mail@yukihamada.jp"],
+          reply_to: email,
+          subject: `【KOYA プレカット発注 ${orderRef}】${org} / ${size} ${qty}棟 / ¥${total.toLocaleString()}`,
+          html: adminHtml,
+        }),
+      }).catch(() => {});
+      fetch("https://api.resend.com/emails", {
+        method:"POST",
+        headers:{"Content-Type":"application/json", Authorization:`Bearer ${RESEND_API_KEY}`},
+        body: JSON.stringify({
+          from: "SOLUNA KOYA Pre-Cut <info@solun.art>",
+          to:   [email],
+          subject: `【SOLUNA KOYA】プレカット発注を受け付けました [${orderRef}]`,
+          html: `
+            <p>${esc(contact)} 様 (${esc(org)})</p>
+            <p>SOLUNA KOYA プレカット発注をお受けいたしました。<br><b>受注番号: ${orderRef}</b></p>
+            <hr>
+            <p><b>発注内容</b><br>サイズ: SOLUNA KOYA — ${esc(size)}<br>数量: ${esc(qty)} 棟<br>認定区分: ${esc(certLabel)}<br>納品先: ${esc(regionName)}<br>希望時期: ${esc(timingLabel)}<br>仮見積合計（税込）: <b>¥${total.toLocaleString()}</b></p>
+            <hr>
+            <p><b>今後の流れ</b><br>
+            ① <b>3営業日以内</b>: 担当（弟子屈本社・濱田）から書面見積（PDF）と請書をメール送付<br>
+            ② <b>請書ご捺印・前金50%入金</b>後、製造ライン投入<br>
+            ③ <b>10営業日</b>でプレカット完了 → 配送<br>
+            ④ <b>配送当日</b>: 残金50%のお支払い（または認定工務店契約者は出荷後請求）</p>
+            <hr>
+            <p>木材市況の変動により、最終見積が±5%以内で変動する場合がございます。<br>ご不明点は <a href="mailto:info@solun.art">info@solun.art</a> までお問い合わせください。</p>
+            <p>— SOLUNA / 濱田優貴<br><a href="https://solun.art/koya-precut">solun.art/koya-precut</a></p>`,
+        }),
+      }).catch(() => {});
+    }
+    if (typeof linePushAdmin === "function") {
+      linePushAdmin(`📦 KOYA プレカット発注 ${orderRef}\n${org} / ${size} ${qty}棟\n${contact} <${email}>\n¥${total.toLocaleString()} (${regionName})`).catch(() => {});
+    }
+    res.json({ ok:true, ref: orderRef, message:"発注書を受け付けました。3営業日以内に書面見積を送付します。" });
+  } catch (e) {
+    console.error("[koya/precut]", e);
+    res.status(500).json({ error: "internal_error" });
+  }
+});
+
+// POST /api/koya/builder — SOLUNA KOYA Builder/工務店/事務所/DIY 登録
+app.post("/api/koya/builder", express.json(), async (req, res) => {
+  try {
+    const b = req.body || {};
+    const plan    = String(b.plan || "builder").slice(0, 20);
+    const org     = String(b.org || "").trim().slice(0, 200);
+    const contact = String(b.contact || "").trim().slice(0, 80);
+    const email   = String(b.email || "").trim().slice(0, 120);
+    const phone   = String(b.phone || "").trim().slice(0, 32);
+    const region  = String(b.region || "").trim().slice(0, 120);
+    const trade   = String(b.trade || "").slice(0, 32);
+    const volume  = String(b.volume || "").slice(0, 16);
+    const timing  = String(b.timing || "").slice(0, 16);
+    const note    = String(b.note || "").trim().slice(0, 3000);
+
+    if (!org || !contact || !email || !/.+@.+\..+/.test(email)) {
+      return res.status(400).json({ error: "会社名・氏名・有効なemailは必須です" });
+    }
+
+    const planLabel = {
+      diy:"DIYオーナー", builder:"認定工務店", studio:"建築事務所", govt:"自治体・大型"
+    }[plan] || plan;
+    const tradeLabel = {
+      builder:"工務店・施工", architect:"建築設計事務所", developer:"不動産・デベロッパー",
+      hospitality:"宿泊・グランピング", govt:"自治体・公共", academic:"大学・研究機関", individual:"個人施主"
+    }[trade] || trade;
+
+    if (RESEND_API_KEY) {
+      const adminHtml = `
+        <p><b>🏗 SOLUNA KOYA Builder 登録</b></p>
+        <ul>
+          <li>プラン: <b>${esc(planLabel)}</b></li>
+          <li>会社/氏名: ${esc(org)}</li>
+          <li>担当: ${esc(contact)}</li>
+          <li>メール: ${esc(email)}</li>
+          <li>電話: ${esc(phone) || "—"}</li>
+          <li>所在地: ${esc(region)}</li>
+          <li>業種: ${esc(tradeLabel)}</li>
+          <li>想定棟数(年): ${esc(volume)}</li>
+          <li>開始時期: ${esc(timing)}</li>
+        </ul>
+        ${note ? `<p><b>事業内容・興味:</b><br>${esc(note).replace(/\n/g,"<br>")}</p>` : ""}
+        <hr>
+        <p><a href="https://solun.art/koya-builder">https://solun.art/koya-builder</a></p>
+      `;
+      fetch("https://api.resend.com/emails", {
+        method:"POST",
+        headers:{"Content-Type":"application/json", Authorization:`Bearer ${RESEND_API_KEY}`},
+        body: JSON.stringify({
+          from: "SOLUNA KOYA Builder <info@solun.art>",
+          to:   ["mail@yukihamada.jp"],
+          reply_to: email,
+          subject: `【KOYA Builder ${planLabel}】${org} (${region})`,
+          html: adminHtml,
+        }),
+      }).catch(() => {});
+      // auto-reply
+      fetch("https://api.resend.com/emails", {
+        method:"POST",
+        headers:{"Content-Type":"application/json", Authorization:`Bearer ${RESEND_API_KEY}`},
+        body: JSON.stringify({
+          from: "SOLUNA KOYA Builder <info@solun.art>",
+          to:   [email],
+          subject: `【SOLUNA KOYA Builder】お問い合わせを受け付けました（${planLabel}）`,
+          html: `
+            <p>${esc(contact)} 様 (${esc(org)})</p>
+            <p>SOLUNA KOYA Builder プログラムにご関心をお寄せいただき、ありがとうございます。<br>
+            下記の内容で受け付けました。担当（弟子屈本社・濱田優貴）から 24 時間以内にご連絡いたします。</p>
+            <hr>
+            <p><b>選択プラン:</b> ${esc(planLabel)}<br>
+            <b>業種:</b> ${esc(tradeLabel)}<br>
+            <b>想定棟数(年):</b> ${esc(volume)}<br>
+            <b>開始時期:</b> ${esc(timing)}<br>
+            <b>所在地:</b> ${esc(region)}</p>
+            <hr>
+            <p>気密性能の核心はSOLUNA工場で完結し、現場はあなたの腕で。<br>
+            C値0.2の保証書はSOLUNA本部が発行します。<br><br>
+            — SOLUNA / 濱田優貴<br>
+            <a href="https://solun.art/koya-builder">solun.art/koya-builder</a></p>
+          `,
+        }),
+      }).catch(() => {});
+    }
+    if (typeof linePushAdmin === "function") {
+      linePushAdmin(`🏗 KOYA Builder ${planLabel}\n${org} (${region})\n${contact} <${email}>\n年${volume}棟 / ${timing}`).catch(() => {});
+    }
+
+    res.json({ ok:true, message:"受け付けました。24時間以内にメールでご連絡します。" });
+  } catch (e) {
+    console.error("[koya/builder]", e);
+    res.status(500).json({ error: "internal_error" });
+  }
+});
+
+// POST /api/koya/inquiry — SOLUNA KOYA カスタマイザーからの問い合わせ
+//   ノーオース。フォーム送信のみ。レート制限はリバースプロキシ層に委ねる。
+app.post("/api/koya/inquiry", express.json(), async (req, res) => {
+  try {
+    const b = req.body || {};
+    const name  = String(b.name || "").trim().slice(0, 80);
+    const email = String(b.email || "").trim().slice(0, 120);
+    const phone = String(b.phone || "").trim().slice(0, 32);
+    const intent= String(b.intent || "inquiry").slice(0, 32);
+    const timing= String(b.timing || "undecided").slice(0, 32);
+    const note  = String(b.note || "").trim().slice(0, 2000);
+    const cfg   = (b.config && typeof b.config === "object") ? b.config : {};
+
+    if (!name || !email || !/.+@.+\..+/.test(email)) {
+      return res.status(400).json({ error: "name と有効な email が必要です" });
+    }
+
+    const total = Number(cfg.total_price) || 0;
+    const opts  = Array.isArray(cfg.options) ? cfg.options.join("・") : "";
+    const intentLabel = {
+      reserve: "在庫確保 (48hホールド)", visit: "ショールーム見学",
+      quote:   "正式見積",                loan:  "住宅ローン事前審査",
+      hotel:   "運用代行 SOLUNA Hotel"
+    }[intent] || intent;
+    const timingLabel = {
+      asap:"2週間以内", "3m":"3ヶ月以内", "6m":"半年以内", "1y":"1年以内", undecided:"未定"
+    }[timing] || timing;
+
+    if (RESEND_API_KEY) {
+      const html = `
+        <p><b>🏠 SOLUNA KOYA からの問い合わせ</b></p>
+        <ul>
+          <li>お名前: ${esc(name)}</li>
+          <li>メール: ${esc(email)}</li>
+          <li>電話: ${esc(phone) || "—"}</li>
+          <li>ご希望: <b>${esc(intentLabel)}</b></li>
+          <li>時期: ${esc(timingLabel)}</li>
+        </ul>
+        <p><b>構成</b><br>
+          サイズ: ${esc(cfg.size || "")} / 外装: ${esc(cfg.exterior || "")} / 内装: ${esc(cfg.interior || "")}<br>
+          オプション: ${esc(opts || "なし")}<br>
+          設置: ${esc(cfg.region || "")} (輸送 ¥${Number(cfg.shipping||0).toLocaleString()})<br>
+          本体: ¥${Number(cfg.base_price||0).toLocaleString()} / <b>合計: ¥${total.toLocaleString()}</b>
+        </p>
+        ${note ? `<p><b>補足</b><br>${esc(note).replace(/\n/g,"<br>")}</p>` : ""}
+        <hr>
+        <p><a href="https://solun.art/koya">https://solun.art/koya</a></p>
+      `;
+      // 管理者通知
+      fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+        body: JSON.stringify({
+          from: "SOLUNA KOYA <info@solun.art>",
+          to: ["mail@yukihamada.jp"],
+          reply_to: email,
+          subject: `【KOYA ${intentLabel}】${name} — ${cfg.size||""} ¥${total.toLocaleString()}`,
+          html,
+        }),
+      }).catch(() => {});
+      // 自動返信
+      fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+        body: JSON.stringify({
+          from: "SOLUNA KOYA <info@solun.art>",
+          to: [email],
+          subject: `【SOLUNA KOYA】お問い合わせを受け付けました`,
+          html: `
+            <p>${esc(name)} 様</p>
+            <p>SOLUNA KOYA にご関心をお寄せいただき、ありがとうございます。<br>
+            下記の内容で受け付けました。担当（弟子屈・濱田）から 24 時間以内にご連絡いたします。</p>
+            <hr>
+            <p><b>ご希望:</b> ${esc(intentLabel)}（${esc(timingLabel)}）<br>
+            <b>構成:</b> SOLUNA KOYA ${esc(cfg.size||"")} / ${esc(cfg.exterior||"")} × ${esc(cfg.interior||"")}<br>
+            ${opts ? `<b>オプション:</b> ${esc(opts)}<br>` : ""}
+            <b>設置:</b> ${esc(cfg.region||"")}<br>
+            <b>合計:</b> ¥${total.toLocaleString()}</p>
+            <hr>
+            <p>数値で買う、感性で住む。<br>
+            — SOLUNA / 濱田優貴<br>
+            <a href="https://solun.art/koya">solun.art/koya</a></p>
+          `,
+        }),
+      }).catch(() => {});
+    }
+    if (typeof linePushAdmin === "function") {
+      linePushAdmin(`🏠 KOYA ${intentLabel}\n${name} <${email}>\n${cfg.size||""} ¥${total.toLocaleString()}`).catch(() => {});
+    }
+
+    res.json({ ok: true, message: "受け付けました。24時間以内にメールでご連絡します。" });
+  } catch (e) {
+    console.error("[koya/inquiry]", e);
+    res.status(500).json({ error: "internal_error" });
+  }
+});
+
 // POST /api/soluna/register — purchase intent (creates pending purchase + notifies admin)
 app.post("/api/soluna/register", express.json(), async (req, res) => {
   const m = await solunaAuth(req);
@@ -10576,6 +10859,30 @@ function serveWithEmbed(filePath, res) {
 }
 
 if (fs.existsSync(CABIN_DIR)) {
+  // ── URL alias redirects (clean up duplicate/confusing pages) ─────────────
+  const PAGE_REDIRECTS = {
+    "homes":        "collection",   // 物件一覧を collection に統一
+    "properties":   "collection",
+    "plan-a":       "package-a",
+    "plan-b":       "package-b",
+    "plan-c":       "package-c",
+    "plan-d":       "package-d",
+    "plan-e":       "sips-villa",
+    "media":        "blog",
+    "story":        "blog",
+    "founding":     "scheme",
+    "origin":       "scheme",
+  };
+  app.use((req, res, next) => {
+    if (req.method !== "GET") return next();
+    const slug = req.path.replace(/^\//, "").replace(/\.html$/, "").split("?")[0];
+    if (PAGE_REDIRECTS[slug]) {
+      const qs = Object.keys(req.query).length ? "?" + new URLSearchParams(req.query).toString() : "";
+      return res.redirect(301, "/" + PAGE_REDIRECTS[slug] + qs);
+    }
+    next();
+  });
+
   // 301 redirect: /foo.html → /foo (SEO: canonical clean URLs)
   app.use((req, res, next) => {
     if (req.method === "GET" && req.path.endsWith(".html") && req.path !== "/index.html") {

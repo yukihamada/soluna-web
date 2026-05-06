@@ -72,12 +72,12 @@ function render(){
       <div class="prop-sub">← Before（現状）&nbsp;&nbsp;|&nbsp;&nbsp; A・B・C から1つ選択</div>
       <div class="grid">
         <div class="card">
-          <img src="img/${p.before}.jpg?v=3" loading="lazy"/>
+          <img src="img/${p.before}.jpg?v=3" alt="${p.id} before" loading="lazy"/>
           <span class="card-label label-before">Before</span>
         </div>
         ${p.afters.map((af,i)=>`
         <div class="card" id="${p.id}-${labels[i]}" onclick="pick('${p.id}','${labels[i]}','${af}')">
-          <img src="img/${af}.jpg?v=3" loading="lazy"/>
+          <img src="img/${af}.jpg?v=3" alt="${p.id} ${labels[i]}" loading="lazy"/>
           <span class="card-label ${labelClasses[i]}">${labels[i]}</span>
           <div class="card-check" id="check-${p.id}-${labels[i]}">✓</div>
         </div>`).join('')}

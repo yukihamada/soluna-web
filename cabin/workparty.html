@@ -568,7 +568,7 @@ Haneda → Kushiro Approx. 2 Hours — Reach Hokkaido in the Same Time as the Sh
 <span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
 </button>
 <div class="sf-bd">
-<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Catalog Village" href="collection">カタログビレッジ</a>
 <a data-en="Hard Kit" href="kits">ハードキット</a>
 <a data-en="Floor Plan Collection" href="floorplans">間取り集</a>
 <a data-en="Design" href="design">デザイン</a>
@@ -727,7 +727,7 @@ async function submitWP() {
   } catch(e) {
     const subj = encodeURIComponent('ワークパーティ参加申込 6/6');
     const b = encodeURIComponent(`お名前: ${name}\nメール: ${email}\n電話: ${tel}\n集合: ${arrive}\n得意: ${skill}\n\n${msg}`);
-    window.location.href = `mailto:mail@yukihamada.jp?subject=${subj}&body=${b}`;
+    window.location.href = `mailto:info@solun.art?subject=${subj}&body=${b}`;
   } finally {
     btn.textContent = '参加申込（無料）→'; btn.disabled = false;
   }

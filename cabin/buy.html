@@ -23,41 +23,48 @@
 body{background:var(--bg);color:var(--text);font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;min-height:100vh;display:flex;flex-direction:column}
 </style>
 <style id="gnav-css">
-.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
 .gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
-.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
-.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
-.gnav-links a:hover{color:#c8a455}
-.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
-.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-links{display:flex;gap:24px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#444;text-decoration:none;transition:color .2s}
+.gnav-links a:hover,.gnav-links a.active{color:#c8a455}
+.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.3)!important;padding:7px 15px!important;border-radius:100px;transition:all .2s}
+.gnav-cta:hover{background:#c8a455!important;color:#040404!important}
 .gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
-.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
-@media(max-width:680px){
-  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
-  .gnav-links.open{display:flex}
+.gnav-ham span{width:20px;height:1.5px;background:#666;transition:all .25s;display:block}
+@media(max-width:680px){.gnav{padding:13px 20px}.gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:20px 24px;gap:20px;border-bottom:1px solid rgba(255,255,255,.06)}.gnav-links.open{display:flex}.gnav-ham{display:flex}}
   .gnav-ham{display:flex}
 }
 </style>
 <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<meta property="og:type" content="website">
+<meta property="og:title" content="SOLUNA — オーナーになる | 共同所有別荘の購入申込">
+<meta property="og:description" content="メール認証だけで物件詳細を確認、手付金¥10万で購入を確定。北海道・熱海・ハワイの共同所有別荘。">
+<meta property="og:url" content="https://solun.art/buy">
+<meta property="og:image" content="https://solun.art/img/tapkop_real2.webp">
+<meta property="og:site_name" content="SOLUNA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SOLUNA — オーナーになる">
+<meta name="twitter:description" content="メール認証で物件詳細を確認・手付金¥10万で申込確定。北海道・熱海・ハワイの共同所有別荘。">
+<meta name="twitter:image" content="https://solun.art/img/tapkop_real2.webp">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"Organization","@id":"https://solun.art/#organization","name":"SOLUNA","url":"https://solun.art/","logo":{"@type":"ImageObject","url":"https://solun.art/img/tapkop_real2.webp"},"description":"土地と建築と運営を一体で設計する定額型別荘所有プラットフォーム","foundingDate":"2020","areaServed":["JP","US"],"parentOrganization":{"@type":"Organization","name":"Enabler Inc.","email":"info@solun.art"}}
+]}
+</script>
 </head>
 <body>
 <nav class="gnav">
-<a class="gnav-logo" href="index">SOLUNA</a>
+<a class="gnav-logo" href="/">SOLUNA</a>
 <div class="gnav-links" id="gnav-links">
-<a data-en="Properties" href="collection">物件一覧</a>
-<a data-en="Villa Construction" href="village">ヴィラ建築</a>
-<a href="faq">FAQ</a>
-<a data-en="Owners" href="owners">オーナーズ</a>
-<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="collection">物件を持つ</a>
+<a href="tiny-house">建てる</a>
+<a href="akiya">空き家</a>
+<a href="scheme">仕組み</a>
+<a href="blog">ブログ</a>
+<a class="gnav-cta" href="buy" data-sln-track="purchase_click">オーナーになる</a>
 </div>
-<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
-<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
-<span style="font-size:9px;color:#3a3a3a">/</span>
-<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
-</button>
-<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
-<span></span><span></span><span></span>
-</div>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
 </nav>
 
 <!-- Main -->
@@ -96,17 +103,17 @@ body{background:var(--bg);color:var(--text);font-family:'Hiragino Kaku Gothic Pr
       <a id="gmail-link" href="https://mail.google.com" target="_blank"
         style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:12px;text-decoration:none;transition:.2s"
         onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
-        <img src="https://www.google.com/favicon.ico" style="width:14px;height:14px"> Gmail
+        <img src="https://www.google.com/favicon.ico" alt="" style="width:14px;height:14px"> Gmail
       </a>
       <a href="https://outlook.live.com/mail" target="_blank"
         style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:12px;text-decoration:none;transition:.2s"
         onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
-        <img src="https://outlook.live.com/favicon.ico" style="width:14px;height:14px"> Outlook
+        <img loading="lazy" src="https://outlook.live.com/favicon.ico" alt="" style="width:14px;height:14px"> Outlook
       </a>
       <a href="https://mail.yahoo.co.jp" target="_blank"
         style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:12px;text-decoration:none;transition:.2s"
         onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
-        <img src="https://mail.yahoo.co.jp/favicon.ico" style="width:14px;height:14px"> Yahoo
+        <img loading="lazy" src="https://mail.yahoo.co.jp/favicon.ico" alt="" style="width:14px;height:14px"> Yahoo
       </a>
     </div>
 

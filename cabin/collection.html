@@ -311,18 +311,16 @@ footer a:hover{color:var(--gold)}
 .leaflet-control-attribution{display:none}
 </style>
 <style id="gnav-css">
-.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
 .gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
-.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
-.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
-.gnav-links a:hover{color:#c8a455}
-.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
-.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-links{display:flex;gap:24px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#444;text-decoration:none;transition:color .2s}
+.gnav-links a:hover,.gnav-links a.active{color:#c8a455}
+.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.3)!important;padding:7px 15px!important;border-radius:100px;transition:all .2s}
+.gnav-cta:hover{background:#c8a455!important;color:#040404!important}
 .gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
-.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
-@media(max-width:680px){
-  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
-  .gnav-links.open{display:flex}
+.gnav-ham span{width:20px;height:1.5px;background:#666;transition:all .25s;display:block}
+@media(max-width:680px){.gnav{padding:13px 20px}.gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:20px 24px;gap:20px;border-bottom:1px solid rgba(255,255,255,.06)}.gnav-links.open{display:flex}.gnav-ham{display:flex}}
   .gnav-ham{display:flex}
 }
 </style>
@@ -330,25 +328,25 @@ footer a:hover{color:var(--gold)}
 <script crossorigin="" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
 <script defer src="/js/sln-track.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"Organization","@id":"https://solun.art/#organization","name":"SOLUNA","url":"https://solun.art/","logo":{"@type":"ImageObject","url":"https://solun.art/img/tapkop_real2.webp"},"description":"土地と建築と運営を一体で設計する定額型別荘所有プラットフォーム","foundingDate":"2020","areaServed":["JP","US"],"parentOrganization":{"@type":"Organization","name":"Enabler Inc.","email":"info@solun.art"}},
+  {"@type":"CollectionPage","@id":"https://solun.art/collection#page","url":"https://solun.art/collection","name":"SOLUNA THE COLLECTION","description":"北海道・熱海・ハワイのSOLUNA共同所有物件一覧。1口¥1,200,000〜¥80,000,000。"}
+]}
+</script>
 </head>
 <body>
 <nav class="gnav">
-<a class="gnav-logo" href="index">SOLUNA</a>
+<a class="gnav-logo" href="/">SOLUNA</a>
 <div class="gnav-links" id="gnav-links">
-<a data-en="Properties" href="collection">物件一覧</a>
-<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
-<a href="faq">FAQ</a>
-<a data-en="Owners" href="owners">オーナーズ</a>
-<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="collection" class="active">物件を持つ</a>
+<a href="tiny-house">建てる</a>
+<a href="akiya">空き家</a>
+<a href="scheme">仕組み</a>
+<a href="blog">ブログ</a>
+<a class="gnav-cta" href="buy" data-sln-track="purchase_click">オーナーになる</a>
 </div>
-<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
-<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
-<span style="font-size:9px;color:#3a3a3a">/</span>
-<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
-</button>
-<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
-<span></span><span></span><span></span>
-</div>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
 </nav>
 <!-- NAV -->
 <!-- HERO -->
@@ -429,7 +427,7 @@ footer a:hover{color:var(--gold)}
 </article>
 <!-- SEPARATOR -->
 <div class="fb-sep">
-<img alt="" src="/img/village_snow_aerial.webp"/>
+<img loading="lazy" alt="美留和ビレッジ 雪景色の空撮" src="/img/village_snow_aerial.webp"/>
 <p class="fb-sep-text" data-en="NORTH HOKKAIDO · 43° North Latitude">NORTH HOKKAIDO · 北緯43°</p>
 </div>
 <!-- ══════════════════════════════════════════════════ -->
@@ -466,7 +464,7 @@ footer a:hover{color:var(--gold)}
 </div>
 <div class="ei-price">
 <p class="ei-price-label" data-en="1 Unit / UNIT PRICE">1口 / UNIT PRICE</p>
-<p class="ei-price-val">¥520<span class="ei-price-unit" data-en="¥10,000 units">万円</span></p>
+<p class="ei-price-val">¥490<span class="ei-price-unit" data-en="¥10,000 units">万円</span></p>
 <p class="ei-price-deposit" data-en="Deposit ¥100,000 → Apply Now">手付金 ¥100,000 → 今すぐ申込</p>
 </div>
 <div class="ei-btns">
@@ -510,7 +508,7 @@ footer a:hover{color:var(--gold)}
 </div>
 <div class="ei-price">
 <p class="ei-price-label" data-en="1 Unit / UNIT PRICE">1口 / UNIT PRICE</p>
-<p class="ei-price-val">¥780<span class="ei-price-unit" data-en="¥10,000 units">万円</span></p>
+<p class="ei-price-val">¥890<span class="ei-price-unit" data-en="¥10,000 units">万円</span></p>
 <p class="ei-price-deposit" data-en="Deposit ¥100,000 → Apply Now">手付金 ¥100,000 → 今すぐ申込</p>
 </div>
 <div class="ei-btns">
@@ -522,7 +520,7 @@ footer a:hover{color:var(--gold)}
 </article>
 <!-- SEPARATOR -->
 <div class="fb-sep">
-<img alt="" src="/img/village_night_milkyway.webp"/>
+<img loading="lazy" alt="美留和ビレッジから望む天の川" src="/img/village_night_milkyway.webp"/>
 <p class="fb-sep-text" data-en="MILKY WAY · Lake Kusharo · Zero Light Pollution">MILKY WAY · 屈斜路湖 · 光害ゼロ</p>
 </div>
 <!-- ══════════════════════════════════════════════════ -->
@@ -608,7 +606,7 @@ footer a:hover{color:var(--gold)}
 </div>
 <div class="ei-price">
 <p class="ei-price-label" data-en="1 Unit / UNIT PRICE">1口 / UNIT PRICE</p>
-<p class="ei-price-val">¥900<span class="ei-price-unit" data-en="¥10,000 units">万円</span></p>
+<p class="ei-price-val">¥480<span class="ei-price-unit" data-en="¥10,000 units">万円</span></p>
 <p class="ei-price-deposit" data-en="Deposit ¥100,000 → Apply Now">手付金 ¥100,000 → 今すぐ申込</p>
 </div>
 <div class="ei-btns">
@@ -620,7 +618,7 @@ footer a:hover{color:var(--gold)}
 </article>
 <!-- SEPARATOR -->
 <div class="fb-sep">
-<img alt="" src="/img/miruwa_container_miruwa_container_dusk.jpg"/>
+<img loading="lazy" alt="美留和コンテナハウス 夕暮れ" src="/img/miruwa_container_miruwa_container_dusk.jpg"/>
 <p class="fb-sep-text" data-en="BIRYU-WA GRAND · HOKKAIDO NORTH · 43.4° N">美留和グランド · HOKKAIDO NORTH · 北緯43.4°</p>
 </div>
 <!-- ══════════════════════════════════════════════════ -->
@@ -736,7 +734,7 @@ footer a:hover{color:var(--gold)}
 <span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
 </button>
 <div class="sf-bd">
-<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Catalog Village" href="collection">カタログビレッジ</a>
 <a data-en="Hard Kit" href="kits">ハードキット</a>
 <a data-en="Floor Plans" href="floorplans">間取り集</a>
 <a data-en="Design" href="design">デザイン</a>

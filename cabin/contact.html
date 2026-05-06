@@ -14,16 +14,16 @@
 html{scroll-behavior:smooth}
 body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:'palt'}
 a{color:var(--gold);text-decoration:none}
-.gnav{position:fixed;top:0;left:0;right:0;height:48px;background:rgba(5,5,5,.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:1000}
-.gnav-logo{font-size:15px;font-weight:700;letter-spacing:.12em;color:var(--gold)!important}
-.gnav-links{display:flex;align-items:center;gap:22px}
-.gnav-links a{font-size:13px;color:#888;letter-spacing:.04em;transition:color .2s}
-.gnav-links a:hover{color:var(--gold)}
-.gnav-links a.gnav-cta{color:var(--gold)!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
-.gnav-links a.gnav-cta:hover{background:var(--gold);color:#040404!important}
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
+.gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
+.gnav-links{display:flex;gap:24px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#444;text-decoration:none;transition:color .2s}
+.gnav-links a:hover,.gnav-links a.active{color:#c8a455}
+.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.3)!important;padding:7px 15px!important;border-radius:100px;transition:all .2s}
+.gnav-cta:hover{background:#c8a455!important;color:#040404!important}
 .gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
-.gnav-ham span{width:20px;height:1.5px;background:#888}
-@media(max-width:680px){.gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}.gnav-links.open{display:flex}.gnav-ham{display:flex}}
+.gnav-ham span{width:20px;height:1.5px;background:#666;transition:all .25s;display:block}
+@media(max-width:680px){.gnav{padding:13px 20px}.gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:20px 24px;gap:20px;border-bottom:1px solid rgba(255,255,255,.06)}.gnav-links.open{display:flex}.gnav-ham{display:flex}}.gnav-ham{display:flex}}
 .w{max-width:640px;margin:0 auto;padding:0 24px}
 .hero{position:relative;overflow:hidden;text-align:center}
 .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.2) saturate(.6)}
@@ -53,26 +53,37 @@ textarea{resize:vertical;min-height:120px}
 footer{border-top:1px solid var(--line);padding:40px 24px;text-align:center;color:var(--dim);font-size:12px;line-height:2}
 </style>
 <script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+<meta property="og:type" content="website">
+<meta property="og:title" content="SOLUNA — お問い合わせ">
+<meta property="og:description" content="購入相談・現地案内・オーナー向け手続きなど、お気軽にご連絡ください。通常24時間以内に返信します。">
+<meta property="og:url" content="https://solun.art/contact">
+<meta property="og:image" content="https://solun.art/img/kumaushi_a_dojo_courtyard_view.webp">
+<meta property="og:site_name" content="SOLUNA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SOLUNA — お問い合わせ">
+<meta name="twitter:description" content="購入相談・現地案内・オーナー向け手続きなど、お気軽にご連絡ください。">
+<meta name="twitter:image" content="https://solun.art/img/kumaushi_a_dojo_courtyard_view.webp">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"Organization","@id":"https://solun.art/#organization","name":"SOLUNA","url":"https://solun.art/","logo":{"@type":"ImageObject","url":"https://solun.art/img/tapkop_real2.webp"},"description":"土地と建築と運営を一体で設計する定額型別荘所有プラットフォーム","foundingDate":"2020","areaServed":["JP","US"],"email":"info@solun.art","contactPoint":[{"@type":"ContactPoint","email":"info@solun.art","contactType":"customer support","areaServed":"JP","availableLanguage":["ja","en"]}],"parentOrganization":{"@type":"Organization","name":"Enabler Inc.","email":"info@solun.art"}}
+]}
+</script>
 </head>
 <body>
 <nav class="gnav">
-<a class="gnav-logo" href="index">SOLUNA</a>
+<a class="gnav-logo" href="/">SOLUNA</a>
 <div class="gnav-links" id="gnav-links">
-<a data-en="Properties" href="collection">物件一覧</a>
-<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
-<a href="faq">FAQ</a>
-<a data-en="Owners" href="owners">オーナーズ</a>
-<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="collection">物件を持つ</a>
+<a href="tiny-house">建てる</a>
+<a href="akiya">空き家</a>
+<a href="scheme">仕組み</a>
+<a href="blog">ブログ</a>
+<a class="gnav-cta" href="buy" data-sln-track="purchase_click">オーナーになる</a>
 </div>
-<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
-<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
-<span style="font-size:9px;color:#3a3a3a">/</span>
-<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
-</button>
 <div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
 </nav>
 <div class="hero">
-<img alt="" loading="eager" src="/img/kumaushi_a_dojo_courtyard_view.webp"/>
+<img alt="熊牛道場 中庭の眺め" loading="eager" src="/img/kumaushi_a_dojo_courtyard_view.webp"/>
 <div class="hero-body">
 <h1 data-en="Contact">お問い合わせ</h1>
 <p data-en="Please contact us for purchase consultations, property viewings, owner procedures, and more.">購入相談・現地案内・オーナー向け手続きなど、<br/>お気軽にご連絡ください。</p>
@@ -85,13 +96,13 @@ footer{border-top:1px solid var(--line);padding:40px 24px;text-align:center;colo
 <div class="channel-icon">✉️</div>
 <div class="channel-name" data-en="Email">メール</div>
 <div class="channel-desc" data-en="For purchase consultations, documentation, and contract inquiries. Available weekdays 10:00–18:00. We typically respond within 24 hours.">購入相談・書類・契約に関するお問い合わせ。平日 10〜18時対応。通常24時間以内に返信します。</div>
-<a class="channel-link" href="mailto:info@enablerdao.com">info@enablerdao.com</a>
+<a class="channel-link" href="mailto:info@solun.art">info@solun.art</a>
 </div>
 <div class="channel-card">
 <div class="channel-icon">💚</div>
 <div class="channel-name" data-en="Email (Forwarded to On-Site Team)">メール（現地チーム転送）</div>
 <div class="channel-desc" data-en='Contact our on-site team via email. Please include "On-Site Confirmation" in the subject line. Available 365 days a year.'>現地スタッフへの連絡はメールで受け付けています。件名に「現地確認」と記載ください。365日確認。</div>
-<a class="channel-link" data-en="Contact info@enablerdao.com" href="mailto:info@enablerdao.com?subject=現地確認のご連絡">info@enablerdao.com へ連絡</a>
+<a class="channel-link" data-en="Contact info@solun.art" href="mailto:info@solun.art?subject=現地確認のご連絡">info@solun.art へ連絡</a>
 </div>
 </div>
 <div class="form-card">
@@ -176,7 +187,7 @@ footer{border-top:1px solid var(--line);padding:40px 24px;text-align:center;colo
 <span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
 </button>
 <div class="sf-bd">
-<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Catalog Village" href="collection">カタログビレッジ</a>
 <a data-en="Hard Kit" href="kits">ハードキット</a>
 <a data-en="Floor Plans" href="floorplans">間取り集</a>
 <a data-en="Design" href="design">デザイン</a>
@@ -292,7 +303,7 @@ async function handleSubmit(e){
   // Fallback: open mailto
   const subject = encodeURIComponent('[SOLUNA] お問い合わせ: ' + data.category);
   const body = encodeURIComponent(`お名前: ${data.name}\nメール: ${data.email}\n\n${data.message}`);
-  window.open(`mailto:info@enablerdao.com?subject=${subject}&body=${body}`);
+  window.open(`mailto:info@solun.art?subject=${subject}&body=${body}`);
   document.getElementById('contact-form').style.display='none';
   document.getElementById('form-success').style.display='block';
 }

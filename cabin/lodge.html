@@ -263,41 +263,39 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 @media(max-width:600px){.bw-inner{gap:10px}}
 </style>
 <style id="gnav-css">
-.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
 .gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
-.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
-.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
-.gnav-links a:hover{color:#c8a455}
-.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
-.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-links{display:flex;gap:24px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#444;text-decoration:none;transition:color .2s}
+.gnav-links a:hover,.gnav-links a.active{color:#c8a455}
+.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.3)!important;padding:7px 15px!important;border-radius:100px;transition:all .2s}
+.gnav-cta:hover{background:#c8a455!important;color:#040404!important}
 .gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
-.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
-@media(max-width:680px){
-  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
-  .gnav-links.open{display:flex}
+.gnav-ham span{width:20px;height:1.5px;background:#666;transition:all .25s;display:block}
+@media(max-width:680px){.gnav{padding:13px 20px}.gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:20px 24px;gap:20px;border-bottom:1px solid rgba(255,255,255,.06)}.gnav-links.open{display:flex}.gnav-ham{display:flex}}
   .gnav-ham{display:flex}
 }
 </style>
 <script defer="" src="https://enabler-analytics.fly.dev/t.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"Organization","@id":"https://solun.art/#organization","name":"SOLUNA","url":"https://solun.art/","logo":{"@type":"ImageObject","url":"https://solun.art/img/tapkop_real2.webp"},"description":"土地と建築と運営を一体で設計する定額型別荘所有プラットフォーム","foundingDate":"2020","areaServed":["JP","US"],"parentOrganization":{"@type":"Organization","name":"Enabler Inc.","email":"info@solun.art"}},
+  {"@type":"Accommodation","@id":"https://solun.art/lodge#accommodation","name":"THE LODGE — 美留和","description":"pH9.2アルカリ性源泉かけ流し付き。10口制CABIN CLUBで1口¥4,900,000・年30泊の滞在権。","url":"https://solun.art/lodge","image":["https://solun.art/img/lodge_exterior_snow.webp"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"北海道","addressLocality":"川上郡弟子屈町美留和"},"amenityFeature":[{"@type":"LocationFeatureSpecification","name":"温泉","value":"pH9.2 アルカリ性単純温泉 源泉かけ流し"},{"@type":"LocationFeatureSpecification","name":"インターネット","value":"Starlink 150Mbps"}],"offers":{"@type":"Offer","priceCurrency":"JPY","price":"4900000","priceSpecification":{"@type":"UnitPriceSpecification","price":"4900000","priceCurrency":"JPY","referenceQuantity":{"@type":"QuantitativeValue","value":"30","unitText":"泊/年"}},"availability":"https://schema.org/InStock"}}
+]}
+</script>
 </head>
 <body>
 <nav class="gnav">
-<a class="gnav-logo" href="index">SOLUNA</a>
+<a class="gnav-logo" href="/">SOLUNA</a>
 <div class="gnav-links" id="gnav-links">
-<a data-en="Properties" href="collection">物件一覧</a>
-<a data-en="Villa Development" href="village">ヴィラ建築</a>
-<a href="faq">FAQ</a>
-<a data-en="Owners" href="owners">オーナーズ</a>
-<a class="gnav-cta" href="buy">オーナーになる</a>
+<a href="collection">物件を持つ</a>
+<a href="tiny-house">建てる</a>
+<a href="akiya">空き家</a>
+<a href="scheme">仕組み</a>
+<a href="blog">ブログ</a>
+<a class="gnav-cta" href="buy" data-sln-track="purchase_click">オーナーになる</a>
 </div>
-<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
-<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
-<span style="font-size:9px;color:#3a3a3a">/</span>
-<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
-</button>
-<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
-<span></span><span></span><span></span>
-</div>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
 </nav>
 <!-- NAV -->
 <!-- MODAL -->
@@ -534,10 +532,10 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <!-- Onsen images 2-col -->
 <div class="onsen-grid r">
 <div class="onsen-img">
-<img alt="美留和温泉 源泉かけ流し 露天風呂" data-en-alt="Birawa Hot Spring — Pure Source Flowing Open-Air Bath" onclick="om(this)" src="img/lodge_onsen.webp"/>
+<img loading="lazy" alt="美留和温泉 源泉かけ流し 露天風呂" data-en-alt="Birawa Hot Spring — Pure Source Flowing Open-Air Bath" onclick="om(this)" src="img/lodge_onsen.webp"/>
 </div>
 <div class="onsen-img">
-<img alt="ロッジ窓から見る北海道の景色" data-en-alt="Hokkaido Landscape from THE LODGE Windows" onclick="om(this)" src="img/lodge_window.webp"/>
+<img loading="lazy" alt="ロッジ窓から見る北海道の景色" data-en-alt="Hokkaido Landscape from THE LODGE Windows" onclick="om(this)" src="img/lodge_window.webp"/>
 </div>
 </div>
 <!-- Onsen detail block -->
@@ -584,21 +582,21 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <div class="ww">
 <!-- Primary gallery -->
 <div class="gstrip r" style="margin-top:20px">
-<img alt="THE LODGE 冬の外観 — 深雪の北海道ログハウス" data-en-alt="THE LODGE Winter Exterior — A Hokkaido Log House in Deep Snow" onclick="om(this)" src="img/lodge_exterior_snow.webp"/>
-<img alt="THE LODGE グレートルーム — 石暖炉の夜" data-en-alt="THE LODGE Great Room—Evening by the Stone Hearth" onclick="om(this)" src="img/lodge_great_room.webp"/>
-<img alt="THE LODGE 露天温泉 — 星空の夜" data-en-alt="THE LODGE Open-Air Hot Spring — Starlit Evening" onclick="om(this)" src="img/lodge_hot_spring_night.webp"/>
+<img loading="lazy" alt="THE LODGE 冬の外観 — 深雪の北海道ログハウス" data-en-alt="THE LODGE Winter Exterior — A Hokkaido Log House in Deep Snow" onclick="om(this)" src="img/lodge_exterior_snow.webp"/>
+<img loading="lazy" alt="THE LODGE グレートルーム — 石暖炉の夜" data-en-alt="THE LODGE Great Room—Evening by the Stone Hearth" onclick="om(this)" src="img/lodge_great_room.webp"/>
+<img loading="lazy" alt="THE LODGE 露天温泉 — 星空の夜" data-en-alt="THE LODGE Open-Air Hot Spring — Starlit Evening" onclick="om(this)" src="img/lodge_hot_spring_night.webp"/>
 </div>
 <!-- Secondary grid -->
 <div class="gallery-grid r" style="margin-top:3px">
 <div class="big">
-<img alt="THE LODGE デッキから — 北海道の夜明け" data-en-alt="From THE LODGE Deck — Hokkaido's Dawn" onclick="om(this)" src="img/lodge_morning_view.webp"/>
+<img loading="lazy" alt="THE LODGE デッキから — 北海道の夜明け" data-en-alt="From THE LODGE Deck — Hokkaido's Dawn" onclick="om(this)" src="img/lodge_morning_view.webp"/>
 </div>
-<img alt="THE LODGE 木の寝室 — 星が見える天窓" data-en-alt="THE LODGE Wood Bedroom — Starlit Skylight" onclick="om(this)" src="img/lodge_wood_interior.webp"/>
-<img alt="美留和温泉 プライベート露天" data-en-alt="Biruwawa Hot Spring Private Outdoor Bath" onclick="om(this)" src="img/lodge_onsen.webp"/>
+<img loading="lazy" alt="THE LODGE 木の寝室 — 星が見える天窓" data-en-alt="THE LODGE Wood Bedroom — Starlit Skylight" onclick="om(this)" src="img/lodge_wood_interior.webp"/>
+<img loading="lazy" alt="美留和温泉 プライベート露天" data-en-alt="Biruwawa Hot Spring Private Outdoor Bath" onclick="om(this)" src="img/lodge_onsen.webp"/>
 </div>
 <!-- Winter -->
 <div class="r" style="margin-top:3px;position:relative;border-radius:0;overflow:hidden">
-<img alt="冬の美留和 雪景色" data-en-alt="Birowa in Winter · Snowy Landscape" onclick="om(this)" src="img/lodge_exterior_snow.webp" style="width:100%;height:320px;object-fit:cover;display:block;filter:brightness(.8);cursor:pointer"/>
+<img loading="lazy" alt="冬の美留和 雪景色" data-en-alt="Birowa in Winter · Snowy Landscape" onclick="om(this)" src="img/lodge_exterior_snow.webp" style="width:100%;height:320px;object-fit:cover;display:block;filter:brightness(.8);cursor:pointer"/>
 <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(3,3,3,.65) 0%,transparent 55%)"></div>
 <div style="position:absolute;bottom:20px;left:24px">
 <div data-en="Winter" style="font-size:9px;color:rgba(109,187,136,.7);letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:5px">WINTER · 冬</div>
@@ -856,7 +854,7 @@ The same pH 9.2 hot spring has permeated our bodies." style="font-size:clamp(1.0
 </div>
 <div class="faq-item">
 <div class="faq-q" data-en="How to Schedule an On-Site Visit">現地を見学したい場合は？</div>
-<div class="faq-a" data-en="We arrange private on-site viewings by appointment. Airport transfers from Kushiro are available (advance booking required). We strongly recommend experiencing the hot spring firsthand while evaluating the property condition, location, and surroundings. Please contact us to arrange your visit.">個別現地案内を随時受け付けています。釧路空港まではお迎え可能です（要事前申し込み）。実際に温泉に入りながら、物件の状態・立地・周辺環境を確認していただくことを強くお勧めします。<a href="mailto:mail@yukihamada.jp" style="color:var(--green)">mail@yukihamada.jp</a> までご連絡ください。</div>
+<div class="faq-a" data-en="We arrange private on-site viewings by appointment. Airport transfers from Kushiro are available (advance booking required). We strongly recommend experiencing the hot spring firsthand while evaluating the property condition, location, and surroundings. Please contact us to arrange your visit.">個別現地案内を随時受け付けています。釧路空港まではお迎え可能です（要事前申し込み）。実際に温泉に入りながら、物件の状態・立地・周辺環境を確認していただくことを強くお勧めします。<a href="mailto:info@solun.art" style="color:var(--green)">info@solun.art</a> までご連絡ください。</div>
 </div>
 </div>
 </div>
@@ -949,10 +947,10 @@ async function startLodgeMonthly(amount, tier) {
     if (data.url) {
       window.location.href = data.url;
     } else {
-      window.location.href = 'mailto:mail@yukihamada.jp?subject=ロッジ月払い積立（¥' + (amount/10000) + '万/月）&body=メールアドレス:' + email + '%0A希望プラン: ¥' + (amount/10000) + '万/月%0A';
+      window.location.href = 'mailto:info@solun.art?subject=ロッジ月払い積立（¥' + (amount/10000) + '万/月）&body=メールアドレス:' + email + '%0A希望プラン: ¥' + (amount/10000) + '万/月%0A';
     }
   } catch(e) {
-    window.location.href = 'mailto:mail@yukihamada.jp?subject=ロッジ月払い積立（¥' + (amount/10000) + '万/月）&body=メールアドレス:' + email + '%0A希望プラン: ¥' + (amount/10000) + '万/月%0A';
+    window.location.href = 'mailto:info@solun.art?subject=ロッジ月払い積立（¥' + (amount/10000) + '万/月）&body=メールアドレス:' + email + '%0A希望プラン: ¥' + (amount/10000) + '万/月%0A';
   }
 }
 </script>
@@ -969,7 +967,7 @@ async function startLodgeMonthly(amount, tier) {
 <h2 class="r" data-en="Hot springs await." style="margin-bottom:12px">温泉が待っている。<br/><span class="green" data-en="Create your private retreat in Hokkaido.">北海道に帰り先を作る。</span></h2>
 <p class="r" data-en="Documents, on-site guidance, and private consultation gladly provided. Reserve your share with a 5% deposit (¥245K)." style="font-size:13px;color:#333;max-width:480px;margin:0 auto 36px;line-height:2">資料送付・現地案内・個別相談、お気軽に。<br/>手付金5%（¥24.5万）で取得予約可能。</p>
 <div class="r" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
-<a class="cta-btn-green" data-en="Inquire &amp; Request Materials" href="mailto:mail@yukihamada.jp?subject=ロッジ（美留和）CABIN CLUB 問い合わせ">問い合わせ・資料請求</a>
+<a class="cta-btn-green" data-en="Inquire &amp; Request Materials" href="mailto:info@solun.art?subject=ロッジ（美留和）CABIN CLUB 問い合わせ">問い合わせ・資料請求</a>
 <a class="cta-btn" href="mint#THE_LODGE" style="background:#9945ff;box-shadow:0 8px 28px rgba(153,69,255,.25)">
 <span data-en="◎ Purchase with Solana · NFT" style="font-size:11px;letter-spacing:.05em">◎ Solanaで購入 · NFT</span>
 </a>
@@ -1041,7 +1039,7 @@ async function startLodgeMonthly(amount, tier) {
 <span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
 </button>
 <div class="sf-bd">
-<a data-en="Catalog Villages" href="homes">カタログビレッジ</a>
+<a data-en="Catalog Villages" href="collection">カタログビレッジ</a>
 <a data-en="Hard Kit" href="kits">ハードキット</a>
 <a data-en="Floor plans" href="floorplans">間取り集</a>
 <a data-en="Design" href="design">デザイン</a>

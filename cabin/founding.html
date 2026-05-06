@@ -131,7 +131,7 @@ p.body{font-size:14px;line-height:2;color:rgba(240,236,228,.65);margin-bottom:20
   <a class="nav-logo" href="index">SOLUNA</a>
   <div class="nav-right">
     <a href="scheme">仕組み</a>
-    <a href="homes">物件</a>
+    <a href="collection">物件</a>
     <a href="blog">ブログ</a>
   </div>
 </nav>
@@ -194,28 +194,28 @@ p.body{font-size:14px;line-height:2;color:rgba(240,236,228,.65);margin-bottom:20
 
     <div class="prop-row r">
       <div class="prop-tile">
-        <img src="img/tapkop_real1.webp" alt="TAPKOP"/>
+        <img loading="lazy" src="img/tapkop_real1.webp" alt="TAPKOP"/>
         <div class="prop-tile-body">
           <div class="prop-tile-name">TAPKOP — 北海道・弟子屈</div>
           <div class="prop-tile-price">¥80M / 30泊 / BJJ道場・サウナ・湖</div>
         </div>
       </div>
       <div class="prop-tile">
-        <img src="img/atami.webp" alt="WHITE HOUSE 熱海"/>
+        <img loading="lazy" src="img/atami.webp" alt="WHITE HOUSE 熱海"/>
         <div class="prop-tile-body">
           <div class="prop-tile-name">WHITE HOUSE — 静岡・熱海</div>
           <div class="prop-tile-price">¥55,000/泊 / 今すぐ泊まれる</div>
         </div>
       </div>
       <div class="prop-tile">
-        <img src="img/lodge_new1.webp" alt="THE LODGE"/>
+        <img loading="lazy" src="img/lodge_new1.webp" alt="THE LODGE"/>
         <div class="prop-tile-body">
           <div class="prop-tile-name">THE LODGE — 北海道・弟子屈</div>
           <div class="prop-tile-price">¥4.9M / 年30泊 / 雪山</div>
         </div>
       </div>
       <div class="prop-tile">
-        <img src="img/nesting_exterior.webp" alt="NESTING"/>
+        <img loading="lazy" src="img/nesting_exterior.webp" alt="NESTING"/>
         <div class="prop-tile-body">
           <div class="prop-tile-name">NESTING — 北海道・弟子屈</div>
           <div class="prop-tile-price">¥8.9M / 年30泊</div>
@@ -301,7 +301,7 @@ p.body{font-size:14px;line-height:2;color:rgba(240,236,228,.65);margin-bottom:20
     <p class="body r">メールでもLINEでも。「興味あるかも」くらいで十分です。濱田が直接返信します。</p>
     <div class="form-wrap r">
       <div class="form-title">連絡フォーム</div>
-      <div class="form-sub">フォームが面倒なら、mail@yukihamada.jp に直接メールでも。</div>
+      <div class="form-sub">フォームが面倒なら、info@solun.art に直接メールでも。</div>
       <form id="founding-form">
         <div class="form-row">
           <label>お名前</label>
@@ -344,7 +344,7 @@ p.body{font-size:14px;line-height:2;color:rgba(240,236,228,.65);margin-bottom:20
   <div style="display:flex;justify-content:center;gap:20px;margin-top:14px;flex-wrap:wrap">
     <a href="index" style="color:#333">Home</a>
     <a href="scheme" style="color:#333">仕組み</a>
-    <a href="homes" style="color:#333">物件</a>
+    <a href="collection" style="color:#333">物件</a>
     <a href="blog-9" style="color:#333">なぜ作るのか</a>
     <a href="atami" style="color:#333">まず泊まる（熱海）</a>
   </div>
@@ -383,14 +383,14 @@ document.getElementById('founding-form').addEventListener('submit', async functi
       if (window.sln) sln.track('founding_apply', { interest, source: 'founding' });
     } else {
       res.className = 'err';
-      res.textContent = d.error || '送信に失敗しました。mail@yukihamada.jp に直接ご連絡ください。';
+      res.textContent = d.error || '送信に失敗しました。info@solun.art に直接ご連絡ください。';
       btn.disabled = false;
       btn.textContent = '送信する →';
     }
   } catch(err) {
     res.style.display = 'block';
     res.className = 'err';
-    res.textContent = '送信に失敗しました。mail@yukihamada.jp に直接ご連絡ください。';
+    res.textContent = '送信に失敗しました。info@solun.art に直接ご連絡ください。';
     btn.disabled = false;
     btn.textContent = '送信する →';
   }

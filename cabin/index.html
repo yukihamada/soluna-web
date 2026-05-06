@@ -1148,7 +1148,7 @@ if ('serviceWorker' in navigator) {
     filtered.forEach(function(ph) {
       var div = document.createElement('div'); div.className = 'wp-thumb';
       if (selected.indexOf(ph.src) >= 0) div.classList.add('sel');
-      div.innerHTML = '<img loading="lazy" src="' + ph.src + '"><div class="wp-thumb-cap">' + ph.cap + '</div>';
+      div.innerHTML = '<img loading="lazy" alt="" src="' + ph.src + '"><div class="wp-thumb-cap">' + ph.cap + '</div>';
       div.addEventListener('click', function(){
         if (wpMode === 'fixed') {
           document.querySelectorAll('.wp-thumb').forEach(function(t){ t.classList.remove('sel'); });

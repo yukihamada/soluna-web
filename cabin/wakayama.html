@@ -202,18 +202,16 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 }
 </style>
 <style id="gnav-css">
-.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
 .gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
-.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
-.gnav-links a{color:#555;text-decoration:none;transition:color .2s}
-.gnav-links a:hover{color:#c8a455}
-.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
-.gnav-links a.gnav-cta:hover{background:#c8a455;color:#040404!important}
+.gnav-links{display:flex;gap:24px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#444;text-decoration:none;transition:color .2s}
+.gnav-links a:hover,.gnav-links a.active{color:#c8a455}
+.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.3)!important;padding:7px 15px!important;border-radius:100px;transition:all .2s}
+.gnav-cta:hover{background:#c8a455!important;color:#040404!important}
 .gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
-.gnav-ham span{width:20px;height:1.5px;background:#888;transition:all .25s}
-@media(max-width:680px){
-  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
-  .gnav-links.open{display:flex}
+.gnav-ham span{width:20px;height:1.5px;background:#666;transition:all .25s;display:block}
+@media(max-width:680px){.gnav{padding:13px 20px}.gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:20px 24px;gap:20px;border-bottom:1px solid rgba(255,255,255,.06)}.gnav-links.open{display:flex}.gnav-ham{display:flex}}
   .gnav-ham{display:flex}
 }
 </style>
@@ -221,22 +219,16 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 </head>
 <body>
 <nav class="gnav">
-<a class="gnav-logo" href="index">SOLUNA</a>
+<a class="gnav-logo" href="/">SOLUNA</a>
 <div class="gnav-links" id="gnav-links">
-<a data-en="Properties" href="collection">物件一覧</a>
-<a data-en="Villa Architecture" href="village">ヴィラ建築</a>
-<a href="faq">FAQ</a>
-<a data-en="Owners" href="owners">オーナーズ</a>
-<a class="gnav-cta" data-en="Become an Owner" href="buy">オーナーになる</a>
+<a href="collection">物件を持つ</a>
+<a href="tiny-house">建てる</a>
+<a href="akiya">空き家</a>
+<a href="scheme">仕組み</a>
+<a href="blog">ブログ</a>
+<a class="gnav-cta" href="buy" data-sln-track="purchase_click">オーナーになる</a>
 </div>
-<button aria-label="Language" class="lang-toggle" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 10px;opacity:.8;transition:opacity .2s" title="Switch language">
-<span class="lt-en" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">EN</span>
-<span style="font-size:9px;color:#3a3a3a">/</span>
-<span class="lt-ja" style="font-size:9px;font-weight:700;letter-spacing:.08em;color:#c8a455;transition:opacity .2s">JA</span>
-</button>
-<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
-<span></span><span></span><span></span>
-</div>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
 </nav>
 <!-- NAV -->
 <!-- HERO -->
@@ -415,9 +407,9 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <!-- IMAGE GALLERY -->
 <div class="ww r2" style="max-width:980px;margin:0 auto;padding:0 24px">
 <div class="gstrip">
-<img alt="星空リトリート" data-en-alt="Starlit Retreat" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/comfort_stargazing.webp"/>
-<img alt="焚き火の夜" data-en-alt="Bonfire Evenings" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/bonfire_night.webp"/>
-<img alt="薪ストーブの夜" data-en-alt="Nights by the Wood-Burning Stove" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/offgrid_stove_night.webp"/>
+<img loading="lazy" alt="星空リトリート" data-en-alt="Starlit Retreat" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/comfort_stargazing.webp"/>
+<img loading="lazy" alt="焚き火の夜" data-en-alt="Bonfire Evenings" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/bonfire_night.webp"/>
+<img loading="lazy" alt="薪ストーブの夜" data-en-alt="Nights by the Wood-Burning Stove" onclick="document.querySelector('.modal').classList.add('active');document.querySelector('.modal img').src=this.src" src="img/offgrid_stove_night.webp"/>
 </div>
 </div>
 <!-- WHO RETURNS HERE -->
@@ -615,7 +607,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 </div>
 <!-- CTA Block -->
 <div class="r" style="text-align:center">
-<a class="cta-btn" data-en="Decide Your Sanctuary First →" href="mailto:mail@yukihamada.jp?subject=【SOLUNA 和歌山】先行登録&amp;body=お名前:%0A%0A連絡先（メール）:%0A%0A電話番号（任意）:%0A%0A関心のある点（例：立地・価格・施設構成など）:%0A%0A%0A----%0ASOLUNA 和歌山 先行登録フォームより" style="font-size:14px;padding:18px 48px">先に帰り先を決める →</a>
+<a class="cta-btn" data-en="Decide Your Sanctuary First →" href="mailto:info@solun.art?subject=【SOLUNA 和歌山】先行登録&amp;body=お名前:%0A%0A連絡先（メール）:%0A%0A電話番号（任意）:%0A%0A関心のある点（例：立地・価格・施設構成など）:%0A%0A%0A----%0ASOLUNA 和歌山 先行登録フォームより" style="font-size:14px;padding:18px 48px">先に帰り先を決める →</a>
 <p data-en="Registration and consultation are completely free and cancellable anytime. Responses within 3 business days." style="font-size:11px;color:#2a2a2a;margin-top:16px;line-height:1.8">登録・相談は完全無料。いつでもキャンセル可能。<br/>返信は通常3営業日以内。</p>
 </div>
 </div>
@@ -629,7 +621,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <div class="prop-scroll r">
 <!-- 弟子屈 (active) -->
 <a class="prop-card" href="offgrid" style="text-decoration:none">
-<img alt="弟子屈" class="prop-card-img" data-en-alt="Teshikaga" src="img/property-teshikaga.webp"/>
+<img loading="lazy" alt="弟子屈" class="prop-card-img" data-en-alt="Teshikaga" src="img/property-teshikaga.webp"/>
 <div class="prop-card-body">
 <div class="prop-card-loc" data-en="Hokkaido · Teshikaga">北海道 · 弟子屈</div>
 <div class="prop-card-name" data-en="SOLUNA Teshikaga, Hokkaido · Kumaushi Base">SOLUNA<br/>弟子屈 熊牛原野</div>
@@ -639,7 +631,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 </a>
 <!-- 熱海 -->
 <a class="prop-card" href="atami" style="text-decoration:none">
-<img alt="熱海" class="prop-card-img" data-en-alt="Atami" src="img/atami.webp"/>
+<img loading="lazy" alt="熱海" class="prop-card-img" data-en-alt="Atami" src="img/atami.webp"/>
 <div class="prop-card-body">
 <div class="prop-card-loc" data-en="Shizuoka · Atami">静岡 · 熱海</div>
 <div class="prop-card-name" data-en="SOLUNA Atami">SOLUNA<br/>熱海</div>
@@ -649,7 +641,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 </a>
 <!-- 和歌山（自身） -->
 <div class="prop-card" style="border-color:rgba(221,136,102,.35)">
-<img alt="和歌山" class="prop-card-img" data-en-alt="Wakayama" src="img/kamiyama.webp" style="filter:brightness(.9)"/>
+<img loading="lazy" alt="和歌山" class="prop-card-img" data-en-alt="Wakayama" src="img/kamiyama.webp" style="filter:brightness(.9)"/>
 <div class="prop-card-body">
 <div class="prop-card-loc" data-en="Wakayama · Kumano Kodo">和歌山 · 熊野古道</div>
 <div class="prop-card-name" data-en="SOLUNA Wakayama">SOLUNA<br/>和歌山 <span data-en="← This Page" style="color:var(--accent)">← このページ</span></div>
@@ -756,7 +748,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <span data-en="Architecture &amp; Design">建築・設計</span><span class="sf-ic">+</span>
 </button>
 <div class="sf-bd">
-<a data-en="Catalog Village" href="homes">カタログビレッジ</a>
+<a data-en="Catalog Village" href="collection">カタログビレッジ</a>
 <a data-en="Hard Kit" href="kits">ハードキット</a>
 <a data-en="Floor Plans" href="floorplans">間取り集</a>
 <a data-en="Design" href="design">デザイン</a>
@@ -853,7 +845,7 @@ function sfToggle(btn){
 }
 </script><!-- IMAGE MODAL -->
 <div class="modal" onclick="this.classList.remove('active')">
-<img alt="" src=""/>
+<img loading="lazy" alt="" src=""/>
 </div>
 <script>
 // Intersection Observer reveal

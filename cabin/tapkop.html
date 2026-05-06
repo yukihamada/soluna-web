@@ -32,18 +32,16 @@ img{display:block;max-width:100%}
 ::selection{background:var(--ripple);color:#000}
 
 /* GNAV */
-.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(3,6,8,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.gnav{position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:space-between;align-items:center;padding:13px 28px;background:rgba(4,4,4,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.04)}
 .gnav-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:#c8a455;text-decoration:none}
-.gnav-links{display:flex;gap:22px;align-items:center;font-size:10.5px;letter-spacing:.04em}
-.gnav-links a{color:#3a5a6a;text-decoration:none;transition:color .2s}
-.gnav-links a:hover{color:#c8a455}
-.gnav-links a.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.35);padding:7px 15px;border-radius:100px;transition:all .2s}
-.gnav-links a.gnav-cta:hover{background:#c8a455;color:#030608!important}
+.gnav-links{display:flex;gap:24px;align-items:center;font-size:10.5px;letter-spacing:.04em}
+.gnav-links a{color:#444;text-decoration:none;transition:color .2s}
+.gnav-links a:hover,.gnav-links a.active{color:#c8a455}
+.gnav-cta{color:#c8a455!important;font-weight:700;border:1px solid rgba(200,164,85,.3)!important;padding:7px 15px!important;border-radius:100px;transition:all .2s}
+.gnav-cta:hover{background:#c8a455!important;color:#040404!important}
 .gnav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
-.gnav-ham span{width:20px;height:1.5px;background:#555;transition:all .25s}
-@media(max-width:680px){
-  .gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(3,6,8,.97);flex-direction:column;align-items:flex-start;padding:18px 28px;gap:18px;border-bottom:1px solid rgba(255,255,255,.06)}
-  .gnav-links.open{display:flex}
+.gnav-ham span{width:20px;height:1.5px;background:#666;transition:all .25s;display:block}
+@media(max-width:680px){.gnav{padding:13px 20px}.gnav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(4,4,4,.97);flex-direction:column;align-items:flex-start;padding:20px 24px;gap:20px;border-bottom:1px solid rgba(255,255,255,.06)}.gnav-links.open{display:flex}.gnav-ham{display:flex}}
   .gnav-ham{display:flex}
 }
 
@@ -218,22 +216,27 @@ h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line
 @media(max-width:600px){.hero-stat{padding:0 12px}.hero-stat-v{font-size:13px}}
 </style>
 <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"Organization","@id":"https://solun.art/#organization","name":"SOLUNA","url":"https://solun.art/","logo":{"@type":"ImageObject","url":"https://solun.art/img/tapkop_real2.webp"},"description":"土地と建築と運営を一体で設計する定額型別荘所有プラットフォーム","foundingDate":"2020","areaServed":["JP","US"],"parentOrganization":{"@type":"Organization","name":"Enabler Inc.","email":"info@solun.art"}},
+  {"@type":"Accommodation","@id":"https://solun.art/tapkop#accommodation","name":"TAPKOP — 屈斜路湖畔ヴィラ","description":"阿寒摩周国立公園内、敷地30,055㎡・建物266㎡の共同オーナー制ヴィラ。専属シェフ付き。1口¥80,000,000で年30泊。","url":"https://solun.art/tapkop","image":["https://solun.art/img/tapkop_lake_mashu_view.webp"],"address":{"@type":"PostalAddress","addressCountry":"JP","addressRegion":"北海道","addressLocality":"川上郡弟子屈町"},"numberOfRooms":4,"floorSize":{"@type":"QuantitativeValue","value":"266","unitText":"sqm"},"offers":{"@type":"Offer","priceCurrency":"JPY","price":"80000000","priceSpecification":{"@type":"UnitPriceSpecification","price":"80000000","priceCurrency":"JPY","referenceQuantity":{"@type":"QuantitativeValue","value":"30","unitText":"泊/年"}},"availability":"https://schema.org/InStock"}}
+]}
+</script>
 </head>
 <body>
 
 <!-- GNAV -->
 <nav class="gnav">
-<a class="gnav-logo" href="index">SOLUNA</a>
+<a class="gnav-logo" href="/">SOLUNA</a>
 <div class="gnav-links" id="gnav-links">
-<a href="collection">物件一覧</a>
-<a href="tapkop-story">物件ストーリー</a>
-<a href="faq">FAQ</a>
-<a href="owners">オーナーズ</a>
-<a class="gnav-cta" href="#contact">購入を相談する</a>
+<a href="collection">物件を持つ</a>
+<a href="tiny-house">建てる</a>
+<a href="akiya">空き家</a>
+<a href="scheme">仕組み</a>
+<a href="blog">ブログ</a>
+<a class="gnav-cta" href="buy" data-sln-track="purchase_click">オーナーになる</a>
 </div>
-<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')">
-<span></span><span></span><span></span>
-</div>
+<div class="gnav-ham" id="gnav-ham" onclick="document.getElementById('gnav-links').classList.toggle('open')"><span></span><span></span><span></span></div>
 </nav>
 
 <!-- HERO -->
@@ -251,6 +254,11 @@ h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line
 <div class="hero-stat">
 <span class="hero-stat-v">30,055㎡</span>
 <span class="hero-stat-l">敷地面積</span>
+</div>
+<div class="hero-stat-div"></div>
+<div class="hero-stat">
+<span class="hero-stat-v" data-en="From ¥80M (acquisition)">¥8,000万〜</span>
+<span class="hero-stat-l" data-en="Acquisition / Membership">取得・会員権</span>
 </div>
 <div class="hero-stat-div"></div>
 <div class="hero-stat">
@@ -591,7 +599,7 @@ h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line
 
 <!-- MODAL -->
 <div class="modal" id="modal" onclick="this.classList.remove('active')">
-<img alt="" id="modal-img" src=""/>
+<img loading="lazy" alt="" id="modal-img" src=""/>
 </div>
 
 <script>
