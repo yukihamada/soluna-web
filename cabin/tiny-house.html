@@ -157,6 +157,16 @@ h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line
 .cmp-check{color:var(--green);font-size:14px}
 .cmp-dash{color:#1e1e1e}
 
+/* FAQ */
+.faq-item{background:#070707;border:1px solid #111;border-radius:12px;overflow:hidden}
+.faq-q{width:100%;background:none;border:none;color:var(--text);cursor:pointer;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12.5px;font-weight:600;text-align:left;letter-spacing:.01em}
+.faq-q:hover{color:var(--gold)}
+.faq-arrow{font-size:8px;color:#333;flex-shrink:0;transition:transform .25s}
+.faq-q.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{display:none;padding:0 20px 18px;font-size:11.5px;color:#3e3e3e;line-height:2;border-top:1px solid #0d0d0d}
+.faq-a strong{color:#666}
+.faq-a.show{display:block}
+
 /* ORDER BOX */
 .order-box{background:#070707;border:1px solid rgba(200,164,85,.15);border-radius:18px;padding:32px;text-align:center;margin-top:20px}
 .order-box h3{font-size:1.4rem;font-weight:800;letter-spacing:-.03em;margin-bottom:8px}
@@ -259,10 +269,10 @@ footer a{color:#333}
           <p class="pkg-tagline">20ftコンテナ1本改造。最小・最速・最安。週末拠点の入門に。</p>
           <div class="pkg-price-row">
             <span class="pkg-price">¥180万〜</span>
-            <span class="pkg-price-label">設置・基礎込み</span>
+            <span class="pkg-price-label">設置・基礎込み / 土地代別</span>
           </div>
           <div class="pkg-specs">
-            <span>面積</span> 14.4㎡（6m×2.4m）<br/>
+            <span>面積</span> 14.4㎡（約8.7畳）<br/>
             <span>定員</span> 1〜2名<br/>
             <span>工期</span> 2ヶ月<br/>
             <span>設備</span> 基本断熱・ロフトベッド・ミニキッチン・トイレ
@@ -283,7 +293,7 @@ footer a{color:#333}
           <p class="pkg-tagline">美留和に実設置済み。40ft拡張コンテナ、76㎡。クレーン30分展開、在来1/3コスト。</p>
           <div class="pkg-price-row">
             <span class="pkg-price">¥263万〜</span>
-            <span class="pkg-price-label">美留和実績価格</span>
+            <span class="pkg-price-label">美留和実績 / 土地代別</span>
           </div>
           <div class="pkg-specs">
             <span>面積</span> 76㎡（展開後）<br/>
@@ -307,7 +317,7 @@ footer a{color:#333}
           <p class="pkg-tagline">国産EPSドーム6m径。72時間設置、北海道−30℃対応。球体の非日常空間。</p>
           <div class="pkg-price-row">
             <span class="pkg-price">¥479万〜</span>
-            <span class="pkg-price-label">建設費込み</span>
+            <span class="pkg-price-label">建設費込み / 土地代別</span>
           </div>
           <div class="pkg-specs">
             <span>面積</span> 約28㎡（直径6m）<br/>
@@ -331,7 +341,7 @@ footer a{color:#333}
           <p class="pkg-tagline">EPSドーム + Tesla V2H + サウナ。電力・水・通信すべて自立。完全オフグリッド。</p>
           <div class="pkg-price-row">
             <span class="pkg-price">¥909万〜</span>
-            <span class="pkg-price-label">V2H込み全装備</span>
+            <span class="pkg-price-label">V2H込み / 土地代別</span>
           </div>
           <div class="pkg-specs">
             <span>面積</span> 約28㎡ + アウトドア空間<br/>
@@ -786,6 +796,9 @@ footer a{color:#333}
           <tr><td>設計書</td><td class="cmp-check">✓</td><td class="cmp-check">✓</td><td class="cmp-check">✓</td><td class="cmp-check">✓</td></tr>
           <tr><td>施工手配</td><td class="cmp-check">✓</td><td class="cmp-check">✓</td><td class="cmp-check">✓</td><td class="cmp-check">✓</td></tr>
           <tr><td>SOLUNA 監修</td><td class="cmp-check">✓</td><td class="cmp-check">✓</td><td class="cmp-check">✓</td><td class="cmp-check">✓</td></tr>
+          <tr><td>実績</td><td class="cmp-dash">計画中</td><td class="cmp-check">✓ 美留和済</td><td class="cmp-dash">計画中</td><td class="cmp-dash">計画中</td></tr>
+          <tr><td>クレーン要否</td><td class="cmp-dash">不要</td><td style="color:#888">要（幅3m+）</td><td class="cmp-dash">不要</td><td class="cmp-dash">不要</td></tr>
+          <tr><td>Starlink 対応</td><td style="color:#888">△ オプション</td><td style="color:#888">△ オプション</td><td style="color:#888">△ オプション</td><td class="cmp-check">✓ 標準</td></tr>
         </tbody>
       </table>
     </div>
@@ -835,6 +848,88 @@ footer a{color:#333}
   </div>
 </div>
 
+<!-- FAQ -->
+<div class="s" style="background:#050505;border-top:1px solid #090909">
+  <div class="w r">
+    <p class="label">FAQ · よくある質問</p>
+    <h2>気になること、<span class="gold">全部答えます。</span></h2>
+    <div style="margin-top:32px;display:flex;flex-direction:column;gap:3px">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>¥263万（Plan B）に土地代は含まれますか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <strong>含まれません。</strong>土地代・造成費・上下水道引込費は別途です。美留和の実績¥263万は建設費（コンテナ本体・輸送・クレーン・基礎・電気給排水接続・外構）の合計です。土地探しから相談可能ですのでお気軽にどうぞ。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>建築確認申請は必要ですか？費用はいくらですか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          10㎡超の建物は原則必要です（防火地域外でも）。<strong>コスト内訳に¥13〜20万として含まれています</strong>。SOLUNAは北海道弟子屈での申請実績があり、申請書類作成・建築士手配をサポートします。10㎡以下のPlan Aは防火地域外であれば申請不要です。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>維持費・固定資産税はどのくらいかかりますか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <strong>固定資産税の目安：</strong>Plan B（¥263万建物）で年間¥3〜6万程度（評価額×1.4%、建物のみ）。土地の固定資産税は土地評価額による。<br/>
+          <strong>維持費：</strong>電気代（グリッド接続）月¥5,000〜15,000、Starlink月¥9,400（オプション）、建物メンテ年¥5〜10万程度。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>クレーンが入れない土地でも設置できますか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          Plan B（40ft拡張コンテナ）はラフタークレーンの進入路（幅3m以上、耐荷重確認済み）が必要です。<strong>現地調査を無料で実施</strong>しています。アクセスが困難な場所はEPSドーム（Plan C）が向いています—クレーン不要でパネル搬入・組み立てが可能です。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>Wi-Fi・通信環境はどうなりますか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          電波が届く地域はモバイルWi-Fi（ドコモ/au）が利用可能。山奥や原野では<strong>Starlink</strong>（月¥9,400〜、ダウン150Mbps）を推奨します。Plan D はStarlink標準装備。Plan A〜Cはオプション追加（+¥8万 アンテナ設置費）で対応できます。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>山東省の工場製造品の品質管理は大丈夫ですか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          SOLUNAが直接工場と契約し、<strong>出荷前検査・開梱時立会い確認</strong>を実施しています。美留和での施工でHEAT20 G2相当（UA値≤0.46 W/㎡K）を達成済み。万が一の不具合は工場保証（1年）＋SOLUNA独自保証でカバーします。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>土地を持っていません。土地探しから相談できますか？</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          はい。<strong>北海道・弟子屈エリアであればSOLUNAが土地情報を保有</strong>しています。また農地転用・山林伐採・地目変更の手続きサポートも対応可能です。他エリアは提携の不動産会社を紹介します。まずはお気軽にご相談ください。
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- MODAL -->
 <div class="modal" id="modal" onclick="document.getElementById('modal').classList.remove('open')">
   <img alt="拡大" id="modal-img" src=""/>
@@ -849,6 +944,11 @@ footer a{color:#333}
 function om(img){
   document.getElementById('modal-img').src=img.src;
   document.getElementById('modal').classList.add('open');
+}
+function toggleFaq(btn){
+  const a=btn.nextElementSibling;
+  const open=a.classList.toggle('show');
+  btn.classList.toggle('open',open);
 }
 // scroll reveal
 const obs=new IntersectionObserver(entries=>{
