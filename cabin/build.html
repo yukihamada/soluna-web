@@ -4,11 +4,11 @@
 <meta charset="utf-8"/>
 <link href="https://solun.art/build" rel="canonical"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>SOLUNA BUILD — 北海道の廃材で建てる | コストゼロの循環建材システム</title>
-<meta name="description" content="ホタテ殻・廃菌床・カラマツ端材・珪藻土。北海道に眠る廃棄物を建材に変える。工場で完成、現場は組み立てるだけ。弟子屈・熊牛原野から始まる循環型建築。"/>
-<meta property="og:title" content="SOLUNA BUILD — 北海道廃材の循環建材システム"/>
-<meta property="og:description" content="廃棄物をゼロコストで調達。CNCパネルで精密加工。現場は組み立てるだけ。弟子屈天空道場から始まる新しい建築。"/>
-<meta property="og:image" content="/img/build_cabin_exterior.jpg"/>
+<title>弟子屈タイニーハウス 完全建設ガイド | SOLUNA</title>
+<meta name="description" content="弟子屈（摩周湖エリア）に24m²の超断熱オフグリッド小屋を建てる。材料費約185万円。補助金最大235万円。設計図・材料リスト・プレカット発注・工程表すべて公開。"/>
+<meta property="og:title" content="弟子屈タイニーハウス 完全建設ガイド | SOLUNA"/>
+<meta property="og:description" content="材料費約185万円 → 補助金フル活用で実質¥0。設計図・プレカット発注・8週間工程表を全公開。"/>
+<meta property="og:image" content="/img/lodge_exterior_snow.webp"/>
 <meta property="og:url" content="https://solun.art/build"/>
 <meta property="og:type" content="website"/>
 <meta name="twitter:card" content="summary_large_image"/>
@@ -16,122 +16,193 @@
 <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--gold:#c8a455;--gold-dim:rgba(200,164,85,.35);--gold-soft:rgba(200,164,85,.06);--bg:#040404;--text:#ede9e1;--line:#111;--card:#070707}
+:root{--gold:#c8a455;--gold-dim:rgba(200,164,85,.3);--gold-soft:rgba(200,164,85,.07);--bg:#040404;--text:#ede9e1;--line:#111;--card:#070707}
 html{scroll-behavior:smooth}
 body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6}
-a{color:var(--gold);text-decoration:none}img{display:block;max-width:100%}
+a{color:var(--gold);text-decoration:none}
 ::selection{background:var(--gold);color:#000}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.03)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:13px 24px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.03)}
 .nav-logo{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--gold)}
-.nav-links{display:flex;gap:24px;align-items:center;font-size:10.5px}
-.nav-links a{color:#4a4a4a;transition:color .2s}.nav-links a:hover{color:var(--gold)}
-.nav-cta{color:var(--gold)!important;font-weight:700;border:1px solid var(--gold-dim);padding:7px 16px;border-radius:100px;transition:all .2s!important}
-.nav-cta:hover{background:var(--gold)!important;color:#040404!important}
+.nav-links{display:flex;gap:20px;align-items:center;font-size:10.5px}
+.nav-links a{color:#3a3a3a;transition:color .2s}.nav-links a:hover{color:var(--gold)}
+.nav-cta{color:var(--gold)!important;font-weight:700;border:1px solid var(--gold-dim);padding:6px 14px;border-radius:100px;transition:all .2s!important}
 
-.hero{position:relative;height:100svh;min-height:600px;overflow:hidden}
-.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:hz 18s ease-out forwards;filter:brightness(.42) saturate(.8)}
-.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.5) 36%,transparent 62%,rgba(4,4,4,.18) 100%)}
-.hero-body{position:absolute;bottom:0;left:0;right:0;padding:0 28px 76px;max-width:780px;margin:0 auto;z-index:2}
-.ey{font-size:9px;letter-spacing:.34em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:14px;animation:fu .7s .2s both}
-h1{font-size:clamp(2.4rem,7vw,4.8rem);font-weight:800;letter-spacing:-.04em;line-height:1.03;margin-bottom:18px;animation:fu .9s .4s both}
+.r{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}.r.in{opacity:1;transform:none}
+.r2{transition-delay:.15s}.r3{transition-delay:.3s}
+
+/* ── HERO ── */
+.hero{position:relative;height:85svh;min-height:520px;overflow:hidden}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.38) saturate(.7)}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#040404 0%,rgba(4,4,4,.45) 40%,transparent 65%)}
+.hero-body{position:absolute;bottom:0;left:0;right:0;padding:0 24px 68px;max-width:860px;margin:0 auto;z-index:2}
+.eyebrow{font-size:9px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:12px}
+h1{font-size:clamp(2.2rem,7vw,4.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.04;margin-bottom:14px}
 h1 em{font-style:normal;color:var(--gold)}
-.hero-sub{color:rgba(237,233,225,.4);font-size:13.5px;line-height:2;font-weight:300;max-width:500px;animation:fu 1s .6s both;margin-bottom:26px}
-.hst{display:flex;align-items:center;flex-wrap:wrap;gap:0;row-gap:8px;margin-bottom:24px;animation:fu 1s .48s both}
+.hero-sub{color:rgba(237,233,225,.45);font-size:13px;line-height:2;max-width:500px;margin-bottom:22px}
+.hst{display:flex;gap:0;flex-wrap:wrap;row-gap:8px;margin-bottom:22px}
 .hs{padding:0 16px}.hs:first-child{padding-left:0}
-.hs-v{display:block;font-size:16px;font-weight:800;color:var(--gold);letter-spacing:-.03em}
-.hs-l{display:block;font-size:9px;color:rgba(237,233,225,.28);margin-top:4px;letter-spacing:.05em}
-.hs-d{width:1px;height:24px;background:rgba(255,255,255,.05)}
-.hcta{display:flex;gap:10px;flex-wrap:wrap;animation:fu 1.1s .85s both}
-.btn{display:inline-flex;align-items:center;padding:12px 24px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:.04em;transition:all .2s;cursor:pointer;border:none}
+.hs-v{display:block;font-size:15px;font-weight:800;color:var(--gold);letter-spacing:-.02em}
+.hs-l{display:block;font-size:9px;color:rgba(237,233,225,.25);margin-top:3px;letter-spacing:.05em}
+.hs-d{width:1px;height:22px;background:rgba(255,255,255,.06)}
+.hcta{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;padding:11px 22px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:.04em;transition:all .2s;cursor:pointer;border:none;text-decoration:none}
 .btng{background:var(--gold);color:#040404}.btng:hover{background:#dfc25f}
 .btngh{border:1px solid var(--gold-dim);color:var(--gold)}.btngh:hover{background:rgba(200,164,85,.1)}
 
-@keyframes hz{from{transform:scale(1.06)}to{transform:scale(1)}}
-@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.r{opacity:0;transform:translateY(26px);transition:opacity .85s ease,transform .85s ease}.r.in{opacity:1;transform:none}
-
-.s{padding:88px 0}
+/* ── SECTIONS ── */
+.s{padding:80px 0}
 @media(max-width:600px){.s{padding:56px 0}}
-.w{max-width:700px;margin:0 auto;padding:0 24px}
-.ww{max-width:1040px;margin:0 auto;padding:0 24px}
-.lbl{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#2a2a2a;font-weight:700;margin-bottom:12px}
-h2{font-size:clamp(1.7rem,4vw,2.7rem);font-weight:800;letter-spacing:-.03em;line-height:1.14;margin-bottom:14px}
-h3{font-size:1.1rem;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
-.sub{color:#484848;font-size:13.5px;line-height:2.05;max-width:560px;margin-bottom:22px}
+.w{max-width:860px;margin:0 auto;padding:0 24px}
+.lbl{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#2a2a2a;font-weight:700;margin-bottom:10px}
+h2{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;letter-spacing:-.03em;line-height:1.14;margin-bottom:10px}
+.sub{color:#3a3a3a;font-size:13px;line-height:2;margin-bottom:28px}
+.cband{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 hr.div{border:none;border-top:1px solid var(--line)}
 
-.fb{width:100%;overflow:hidden}
-.fb img{width:100%;display:block;object-fit:cover;transition:transform 8s ease}
-.fb:hover img{transform:scale(1.025)}
-.r169{aspect-ratio:16/9}.r219{aspect-ratio:21/9}.r43{aspect-ratio:4/3}.r11{aspect-ratio:1/1}
-.pg2{display:grid;grid-template-columns:1fr 1fr;gap:3px}
-@media(max-width:620px){.pg2{grid-template-columns:1fr}}
-.cap{font-size:10px;color:#252525;padding:7px 0;text-align:right;letter-spacing:.03em}
+/* ── JUMP LINKS ── */
+.jumps{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.jump{padding:7px 14px;border:1px solid rgba(200,164,85,.25);border-radius:100px;font-size:11px;font-weight:600;color:var(--gold);transition:all .2s}
+.jump:hover{background:rgba(200,164,85,.1)}
 
-.cband{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.cq{font-size:clamp(1.1rem,2.8vw,1.7rem);font-weight:300;line-height:1.9;color:rgba(237,233,225,.6);max-width:660px}
-.cq em{font-style:normal;color:var(--gold)}
+/* ── COST BAR CHART ── */
+.cost-bar-wrap{display:flex;flex-direction:column;gap:10px;margin-bottom:36px}
+.cost-row{display:grid;grid-template-columns:180px 1fr 80px;gap:10px;align-items:center}
+@media(max-width:600px){.cost-row{grid-template-columns:120px 1fr 70px}}
+.cost-label{font-size:12px;color:rgba(237,233,225,.65)}
+.cost-track{background:rgba(255,255,255,.06);border-radius:4px;height:16px;overflow:hidden;cursor:pointer;position:relative}
+.cost-fill{height:100%;border-radius:4px;transition:width 1s ease;animation:barIn 1.2s ease forwards}
+.cost-track:hover .cost-fill{opacity:1!important}
+@keyframes barIn{from{width:0}to{width:var(--w)}}
+.cost-val{font-size:13px;font-weight:700;text-align:right}
+.cost-totals{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+@media(max-width:500px){.cost-totals{grid-template-columns:1fr}}
+.cost-box{padding:20px;border-radius:12px}
+.cb-gold{background:rgba(200,164,85,.07);border:1px solid rgba(200,164,85,.2)}
+.cb-green{background:rgba(80,200,160,.07);border:1px solid rgba(80,200,160,.2)}
+.cb-l{font-size:10px;color:rgba(237,233,225,.35);margin-bottom:6px}
+.cb-v{font-size:28px;font-weight:800}
+.cb-s{font-size:10px;color:rgba(237,233,225,.3);margin-top:3px}
+.route-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
+@media(max-width:600px){.route-grid{grid-template-columns:1fr 1fr}}
+.route-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center}
+.route-card.hi{border-color:rgba(200,164,85,.3);background:rgba(200,164,85,.05)}
+.route-card.gr{border-color:rgba(80,200,160,.3);background:rgba(80,200,160,.05)}
+.route-name{font-size:10px;color:rgba(237,233,225,.35);margin-bottom:8px;line-height:1.5}
+.route-cost{font-size:20px;font-weight:800}
+.route-sub{font-size:9px;color:rgba(237,233,225,.3);margin-top:3px}
 
-/* MATERIALS GRID */
-.mat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
-@media(max-width:700px){.mat-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:440px){.mat-grid{grid-template-columns:1fr}}
-.mat-card{background:var(--card);border:1px solid var(--line);padding:28px 22px}
-.mat-icon{font-size:28px;margin-bottom:14px}
-.mat-card h3{font-size:.95rem;font-weight:700;letter-spacing:-.01em;margin-bottom:6px}
-.mat-origin{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
-.mat-card p{font-size:12px;color:#404040;line-height:1.85}
-.mat-tag{display:inline-block;margin-top:10px;font-size:9px;font-weight:700;letter-spacing:.12em;background:rgba(200,164,85,.08);color:var(--gold);padding:4px 9px;border-radius:100px;text-transform:uppercase}
+/* ── PROCESS STEPS ── */
+.steps-tabs{display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;margin-bottom:20px}
+.step-tab{flex-shrink:0;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);cursor:pointer;text-align:center;transition:all .2s;min-width:80px}
+.step-tab.active{border-color:var(--gold);background:rgba(200,164,85,.08)}
+.step-tab-w{font-size:13px;font-weight:800;color:var(--gold-dim)}
+.step-tab.active .step-tab-w{color:var(--gold)}
+.step-tab-name{font-size:9px;color:rgba(237,233,225,.35);margin-top:2px;line-height:1.3}
+.step-tab-cost{font-size:8px;color:rgba(237,233,225,.2);margin-top:2px}
+.step-cards{display:flex;flex-direction:column;gap:10px}
+.step-card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:border-color .2s;cursor:pointer}
+.step-card.open{border-color:var(--gold)}
+.step-header{display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:center;padding:16px 20px}
+.step-wk{font-size:26px;font-weight:800;color:rgba(200,164,85,.35);line-height:1}
+.step-card.open .step-wk{color:var(--gold)}
+.step-phase{font-size:15px;font-weight:700;margin-bottom:4px}
+.step-desc{font-size:12px;color:rgba(237,233,225,.45);line-height:1.7}
+.step-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.meta-tag{font-size:9px;padding:3px 8px;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:rgba(237,233,225,.45)}
+.step-cost-badge{font-size:14px;font-weight:700;color:var(--gold);text-align:right;white-space:nowrap}
+.step-toggle{font-size:9px;color:rgba(237,233,225,.2);text-align:right;margin-top:2px}
+.step-body{display:none;border-top:1px solid rgba(200,164,85,.12);grid-template-columns:1fr 180px;gap:0}
+.step-card.open .step-body{display:grid}
+@media(max-width:580px){.step-body{grid-template-columns:1fr}}
+.step-detail{padding:18px 20px}
+.tools-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.tool-tag{font-size:10px;padding:4px 10px;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:rgba(237,233,225,.6)}
+.tips-box{padding:12px 14px;border-radius:8px;font-size:12px;color:rgba(237,233,225,.55);line-height:1.75}
+.step-svg-col{background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;padding:16px}
+@media(max-width:580px){.step-svg-col{display:none}}
 
-/* PROCESS */
-.proc-wrap{display:flex;gap:0;position:relative}
-.proc-wrap::before{content:'';position:absolute;top:24px;left:24px;right:24px;height:1px;background:var(--gold-dim)}
-@media(max-width:650px){.proc-wrap{flex-direction:column}.proc-wrap::before{display:none}}
-.proc{flex:1;padding:32px 20px;text-align:center;position:relative}
-.proc-num{width:48px;height:48px;border-radius:50%;background:var(--gold);color:#040404;font-size:15px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;position:relative;z-index:1}
-.proc h3{font-size:.95rem;margin-bottom:7px}
-.proc p{font-size:12px;color:#3a3a3a;line-height:1.9}
-.proc-arrow{position:absolute;right:-1%;top:22px;font-size:18px;color:var(--gold-dim);z-index:2}
-@media(max-width:650px){.proc-arrow{display:none}}
+/* ── DRAWINGS ── */
+.drawings-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.drawings-grid{grid-template-columns:1fr}}
+.drawing-card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.drawing-label{padding:9px 14px;border-bottom:1px solid var(--line);font-size:9px;color:rgba(237,233,225,.3);letter-spacing:.1em}
+.drawing-card.full{grid-column:span 2}
+@media(max-width:640px){.drawing-card.full{grid-column:span 1}}
+.dxf-bar{margin-top:14px;padding:12px 16px;background:rgba(200,164,85,.05);border:1px solid rgba(200,164,85,.15);border-radius:8px;display:flex;align-items:center;gap:10px;font-size:12px;color:rgba(237,233,225,.45)}
 
-/* WIN-WIN */
-.ww-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
-@media(max-width:600px){.ww-grid{grid-template-columns:1fr}}
-.ww-card{background:var(--card);border:1px solid var(--line);padding:30px 24px}
-.ww-card .lbl{color:var(--gold);margin-bottom:10px;font-size:8px}
-.ww-card h3{font-size:1rem;font-weight:700;margin-bottom:16px}
-.ww-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
-.ww-badge{flex-shrink:0;width:20px;height:20px;border-radius:50%;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center}
-.ww-their{background:rgba(200,164,85,.15);color:var(--gold)}
-.ww-ours{background:rgba(100,180,100,.12);color:#7dc97d}
-.ww-row p{font-size:12px;color:#404040;line-height:1.75}
+/* ── MATERIALS ── */
+.mat-rows{display:flex;flex-direction:column;gap:8px}
+.mat-row{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .2s}
+.mat-row.open{border-color:var(--gold)}
+.mat-header{display:grid;grid-template-columns:28px 1fr 70px 12px auto;gap:10px;align-items:center;padding:13px 18px}
+@media(max-width:500px){.mat-header{grid-template-columns:26px 1fr 60px}}
+.mat-emoji{font-size:18px}
+.mat-name{font-size:13px;font-weight:600}
+.mat-link{font-size:10px;color:var(--gold)}
+.mat-bar-mini{width:60px;background:rgba(255,255,255,.06);border-radius:3px;height:5px;overflow:hidden}
+.mat-bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.mat-total{font-size:14px;font-weight:700;text-align:right;white-space:nowrap}
+.mat-chevron{font-size:9px;color:rgba(237,233,225,.2);width:12px;text-align:center}
+.mat-items{display:none;border-top:1px solid rgba(255,255,255,.04)}
+.mat-row.open .mat-items{display:block}
+.mat-item{padding:9px 18px;display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;border-bottom:1px solid rgba(255,255,255,.03)}
+.mat-item:last-child{border-bottom:none}
+.item-name{font-size:11.5px;color:#ccc}
+.item-note{font-size:10px;color:rgba(237,233,225,.3)}
+.item-qty{font-size:10px;color:rgba(237,233,225,.3);white-space:nowrap}
+.item-price{font-size:12px;font-weight:600;color:#fff;white-space:nowrap}
+.mat-alt{padding:8px 18px;font-size:10px;color:rgba(237,233,225,.3);background:rgba(255,255,255,.02)}
+.mat-total-row{margin-top:16px;padding:16px 20px;background:rgba(200,164,85,.07);border:1px solid rgba(200,164,85,.2);border-radius:10px;display:flex;justify-content:space-between;align-items:center}
+.mat-total-label{font-size:12px;color:rgba(237,233,225,.4)}
+.mat-total-sub{font-size:10px;color:rgba(237,233,225,.25);margin-top:2px}
+.mat-total-val{font-size:28px;font-weight:800;color:var(--gold)}
 
-/* COST BAND */
-.cost-band{background:var(--gold);color:#040404;padding:72px 0}
-.cost-band .lbl{color:rgba(4,4,4,.4)}
-.cost-band h2{color:#040404}
-.cost-items{display:flex;gap:48px;flex-wrap:wrap;margin-top:32px}
-.cost-item{flex:1;min-width:160px}
-.cost-v{font-size:2rem;font-weight:900;letter-spacing:-.04em;margin-bottom:4px}
-.cost-l{font-size:11px;opacity:.5;line-height:1.6}
+/* ── PRECUT ── */
+.precut-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px}
+@media(max-width:640px){.precut-steps{grid-template-columns:1fr 1fr}}
+.pc-step{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}
+.pc-num{font-size:30px;font-weight:800;color:rgba(200,164,85,.25);line-height:1;margin-bottom:10px}
+.pc-title{font-size:13px;font-weight:700;margin-bottom:7px}
+.pc-body{font-size:11.5px;color:rgba(237,233,225,.4);line-height:1.8}
+.vendor-list{display:flex;flex-direction:column;gap:8px}
+.vendor{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.vendor-name{font-size:13px;font-weight:600;margin-bottom:3px}
+.vendor-note{font-size:11px;color:rgba(237,233,225,.35)}
+.vendor-price{font-size:10px;color:rgba(237,233,225,.25);margin-top:2px}
+.vendor-btn{padding:7px 14px;border-radius:100px;border:1px solid var(--gold-dim);color:var(--gold);font-size:11px;font-weight:700;white-space:nowrap;transition:all .2s}
+.vendor-btn:hover{background:rgba(200,164,85,.1)}
+.checklist{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:8px;margin-top:14px}
+@media(max-width:500px){.checklist{grid-template-columns:1fr}}
+.cl-item{display:flex;gap:8px;font-size:11.5px;color:rgba(237,233,225,.45)}
+.cl-box{color:var(--gold);flex-shrink:0}
 
-/* PARTNERS */
-.con-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
-@media(max-width:600px){.con-grid{grid-template-columns:1fr}}
-.con-card{background:var(--card);border:1px solid var(--line);padding:28px 24px}
-.con-card .lbl{color:#333;margin-bottom:8px}
-.con-card h3{font-size:1rem;font-weight:700;margin-bottom:10px}
-.con-card p{font-size:12px;color:#3a3a3a;line-height:1.85}
-.con-status{display:inline-block;margin-top:12px;font-size:9px;font-weight:700;letter-spacing:.1em;padding:4px 10px;border-radius:100px}
-.cs-active{background:rgba(125,201,125,.1);color:#7dc97d}
-.cs-pending{background:rgba(200,164,85,.1);color:var(--gold)}
+/* ── SUBSIDY ── */
+.sub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:700px){.sub-grid{grid-template-columns:1fr 1fr}}
+.sub-card{background:rgba(200,164,85,.05);border:1px solid rgba(200,164,85,.15);border-radius:10px;padding:18px}
+.sub-icon{font-size:22px;margin-bottom:8px}
+.sub-amt{font-size:24px;font-weight:800;color:var(--gold);margin-bottom:5px}
+.sub-name{font-size:11.5px;font-weight:600;margin-bottom:5px}
+.sub-cond{font-size:10px;color:rgba(237,233,225,.35);line-height:1.7}
+.sub-result{padding:16px 20px;background:rgba(80,200,160,.05);border:1px solid rgba(80,200,160,.2);border-radius:10px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
+.sub-result-l{font-size:13px;font-weight:600;color:rgba(80,200,160,.9);margin-bottom:5px}
+.sub-result-s{font-size:11px;color:rgba(237,233,225,.4);line-height:1.8}
+.sub-result-v{font-size:32px;font-weight:800;color:rgba(80,200,160,.9)}
+.sub-note{margin-top:12px;padding:10px 14px;background:var(--card);border:1px solid var(--line);border-radius:7px;font-size:10.5px;color:rgba(237,233,225,.3);line-height:1.8}
 
-footer{padding:64px 28px 48px;border-top:1px solid var(--line);text-align:center}
-.foot-logo{font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--gold);margin-bottom:14px}
-.foot-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;font-size:10.5px;margin-bottom:24px}
-.foot-links a{color:#2a2a2a;transition:color .2s}.foot-links a:hover{color:var(--gold)}
-.foot-copy{font-size:10px;color:#1a1a1a}
+/* ── CTA ── */
+.cta-box{background:rgba(200,164,85,.06);border:1px solid rgba(200,164,85,.15);border-radius:14px;padding:44px 32px;text-align:center}
+.cta-box h2{margin-bottom:12px}
+.cta-sub{font-size:13px;color:rgba(237,233,225,.5);max-width:480px;margin:0 auto 28px;line-height:1.9}
+.cta-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+footer{border-top:1px solid var(--line);padding:36px 24px;text-align:center}
+.foot-logo{font-size:10px;font-weight:800;letter-spacing:.2em;color:rgba(200,164,85,.35);margin-bottom:16px}
+.foot-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.foot-links a{font-size:11px;color:rgba(237,233,225,.2)}
+.foot-links a:hover{color:var(--gold)}
+.foot-copy{font-size:10px;color:rgba(237,233,225,.12)}
 </style>
 </head>
 <body>
@@ -139,282 +210,636 @@ footer{padding:64px 28px 48px;border-top:1px solid var(--line);text-align:center
 <nav>
   <a class="nav-logo" href="/">SOLUNA</a>
   <div class="nav-links">
-    <a href="/village">ビレッジ</a>
-    <a href="/kumaushi">天空道場</a>
-    <a href="/scheme">スキーム</a>
-    <a href="/build" style="color:var(--gold)">BUILD</a>
-    <a class="nav-cta" href="/ask.html" data-sln-track="consultation_click">相談する</a>
+    <a href="#cost">コスト</a>
+    <a href="#how">工程</a>
+    <a href="#materials">材料</a>
+    <a href="#precut">プレカット</a>
+    <a href="#subsidy">補助金</a>
+    <a class="nav-cta" href="mailto:info@solun.art?subject=弟子屈タイニーハウス建設の相談">相談する</a>
   </div>
 </nav>
 
-<section class="hero">
-  <img src="/img/build_cabin_exterior.jpg" alt="SOLUNA BUILD — 北海道の廃材で建てる小屋" loading="eager"/>
+<!-- HERO -->
+<div class="hero">
+  <img src="/img/lodge_exterior_snow.webp" alt="北海道タイニーハウス"/>
   <div class="hero-body">
-    <p class="ey">SOLUNA BUILD — Hokkaido Circular Materials</p>
-    <h1>廃棄物で、<em>建てる。</em></h1>
-    <p class="hero-sub">ホタテ殻・廃菌床・カラマツ端材・珪藻土。<br>北海道に眠る廃棄物を建材に変える。<br>工場で完成させ、現場は組み立てるだけ。</p>
+    <p class="eyebrow">SOLUNA BUILD GUIDE — 弟子屈タイニーハウス</p>
+    <h1>北海道タイニーハウス<br><em>完全建設ガイド</em></h1>
+    <p class="hero-sub">弟子屈（摩周湖エリア）に24m²の超断熱オフグリッド小屋を建てる全工程。<br>設計図・材料・プレカット発注・補助金まですべて公開。</p>
     <div class="hst">
-      <div class="hs"><span class="hs-v">¥0</span><span class="hs-l">材料調達コスト（廃棄物引取）</span></div>
+      <div class="hs">
+        <span class="hs-v">¥185万</span>
+        <span class="hs-l">材料費合計</span>
+      </div>
       <div class="hs-d"></div>
-      <div class="hs"><span class="hs-v">1日</span><span class="hs-l">現場組立（1棟50㎡）</span></div>
+      <div class="hs">
+        <span class="hs-v" style="color:rgba(80,200,160,.9)">最大¥235万</span>
+        <span class="hs-l">補助金</span>
+      </div>
       <div class="hs-d"></div>
-      <div class="hs"><span class="hs-v">6種</span><span class="hs-l">北海道廃棄物→建材</span></div>
+      <div class="hs">
+        <span class="hs-v">8週間</span>
+        <span class="hs-l">セルフビルド</span>
+      </div>
+      <div class="hs-d"></div>
+      <div class="hs">
+        <span class="hs-v">UA 0.16</span>
+        <span class="hs-l">HEAT20 G3断熱</span>
+      </div>
     </div>
     <div class="hcta">
-      <a class="btn btng" href="#materials" data-sln-track="consultation_click">素材を見る</a>
-      <a class="btn btngh" href="/ask.html" data-sln-track="consultation_click">参加・協力する</a>
+      <a class="btn btng" href="#cost">コストを見る</a>
+      <a class="btn btngh" href="#how">どう作るか</a>
     </div>
   </div>
-</section>
-
-<section class="cband s">
-  <div class="w">
-    <p class="lbl r">Concept</p>
-    <p class="cq r">北海道では毎年、<em>廃菌床・ホタテ殻・カラマツ端材</em>が大量に廃棄されている。<br>
-    これらは「ゴミ」ではなく、<em>未加工の建材</em>だ。<br>
-    廃棄物を廃棄物のまま引き取り、CNCで精密加工し、<em>現場では組み立てるだけ</em>のパネルにする。<br>
-    材料コストはゼロ。廃棄業者には処理費削減。地球には循環。</p>
-  </div>
-</section>
-
-<hr class="div"/>
-
-<section class="s" id="materials">
-  <div class="ww r">
-    <p class="lbl">Materials — 6 Hokkaido Waste Streams</p>
-    <h2>北海道の廃棄物、6素材</h2>
-    <p class="sub">いずれも年間数万トン規模で廃棄または余剰発生。引取コストはゼロ〜マイナス（廃棄料削減分）。</p>
-  </div>
-  <div class="ww">
-    <div class="mat-grid">
-      <div class="mat-card r">
-        <div class="mat-icon">🌲</div>
-        <p class="mat-origin">弟子屈・釧路管内</p>
-        <h3>カラマツ端材</h3>
-        <p>製材所で出る端材・背割材。構造用面材・羽目板・デッキ材として活用。乾燥不要で即日使用可能。</p>
-        <span class="mat-tag">構造 / 外装</span>
-      </div>
-      <div class="mat-card r">
-        <div class="mat-icon">🍄</div>
-        <p class="mat-origin">北海道全域 / おしま菌床</p>
-        <h3>廃菌床（きのこ培地）</h3>
-        <p>きのこ栽培後の培地。乾燥・粉砕後に充填断熱材として利用。λ≈0.06〜0.08。付属棟での実証中。</p>
-        <span class="mat-tag">断熱充填</span>
-      </div>
-      <div class="mat-card r">
-        <div class="mat-icon">🐚</div>
-        <p class="mat-origin">オホーツク海区</p>
-        <h3>ホタテ貝殻</h3>
-        <p>年間数万トン廃棄。粉砕後に珪藻土と混ぜた塗り壁材・左官材に。高pH・防カビ効果あり。</p>
-        <span class="mat-tag">内装 / 塗壁</span>
-      </div>
-      <div class="mat-card r">
-        <div class="mat-icon">🪨</div>
-        <p class="mat-origin">釧路地区</p>
-        <h3>珪藻土（規格外品）</h3>
-        <p>採掘くず・規格外品。単体で塗り壁材として使えるほか、ホタテ殻との複合材に。調湿・吸音効果。</p>
-        <span class="mat-tag">内装 / 調湿</span>
-      </div>
-      <div class="mat-card r">
-        <div class="mat-icon">🌿</div>
-        <p class="mat-origin">北海道全域</p>
-        <h3>白樺樹皮（カバ皮）</h3>
-        <p>製材工程の剥皮廃棄物。天然タールを含み耐水性・防虫性が高い。屋根下地・防湿シートとして活用。</p>
-        <span class="mat-tag">防水 / 屋根</span>
-      </div>
-      <div class="mat-card r">
-        <div class="mat-icon">🌋</div>
-        <p class="mat-origin">阿寒・屈斜路周辺</p>
-        <h3>火山軽石（スコリア）</h3>
-        <p>採石場の余剰物。軽量・断熱性あり。基礎土間の断熱骨材・外構砕石として使用可能。</p>
-        <span class="mat-tag">基礎 / 断熱骨材</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="div"/>
-
-<section class="s">
-  <div class="ww r">
-    <p class="lbl">Photo</p>
-  </div>
-  <div class="pg2">
-    <div class="fb r169">
-      <img src="/img/build_panel_assembly.jpg" alt="SOLUNAパネル組立" loading="lazy"/>
-    </div>
-    <div class="fb r169">
-      <img src="/img/build_materials_flat.jpg" alt="北海道廃棄建材フラットレイ" loading="lazy"/>
-    </div>
-  </div>
-  <div class="ww">
-    <p class="cap">左: 工場プレカットパネルの現場組立 / 右: 北海道産廃棄建材6素材</p>
-  </div>
-</section>
-
-<hr class="div"/>
-
-<section class="s">
-  <div class="ww r">
-    <p class="lbl">Process — Factory to Site</p>
-    <h2>工場で完成。現場は組むだけ。</h2>
-    <p class="sub">WikiHouseの思想を廃材で実装する。設計はCNCデータ、加工は工場、施工はメンバーが参加できる。</p>
-  </div>
-  <div class="ww r">
-    <div class="proc-wrap">
-      <div class="proc">
-        <div class="proc-num">1</div>
-        <h3>廃材収集・乾燥</h3>
-        <p>廃棄物として無償または有償引取。乾燥室で含水率15%以下に管理。ハンマーミルで粉砕・篩別。</p>
-        <span class="proc-arrow">→</span>
-      </div>
-      <div class="proc">
-        <div class="proc-num">2</div>
-        <h3>CNC加工・パネル化</h3>
-        <p>カラマツ面材にCNCルーターでほぞ・溝を刻む。廃菌床を充填。コーススレッド不要のツゲ接合。</p>
-        <span class="proc-arrow">→</span>
-      </div>
-      <div class="proc">
-        <div class="proc-num">3</div>
-        <h3>現場組立（1日）</h3>
-        <p>パネルを積み上げて組む。SOLUNAメンバーも参加できるワークパーティー形式。工具は木槌1本。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="div"/>
-
-<section class="s">
-  <div class="ww r">
-    <p class="lbl">Win-Win — 4 Parties Happy</p>
-    <h2>4者全員がハッピーな理由</h2>
-    <p class="sub">廃棄物を出す側も、建材を使う側も、地球も。コスト削減・SDGs・ストーリーが全方向に揃う。</p>
-  </div>
-  <div class="ww r">
-    <div class="ww-grid">
-      <div class="ww-card">
-        <p class="lbl">漁協（オホーツク）</p>
-        <h3>ホタテ漁協</h3>
-        <div class="ww-row"><div class="ww-badge ww-their">先</div><p>年間処理費・輸送費を削減。廃棄場所の確保が不要に。</p></div>
-        <div class="ww-row"><div class="ww-badge ww-their">先</div><p>「ホタテ殻が弟子屈の小屋になる」SDGsストーリーでPR価値。</p></div>
-        <div class="ww-row"><div class="ww-badge ww-ours">我</div><p>塗り壁材原料を無償調達。珪藻土との複合で高機能化。</p></div>
-      </div>
-      <div class="ww-card">
-        <p class="lbl">珪藻土（釧路）</p>
-        <h3>珪藻土採掘会社</h3>
-        <div class="ww-row"><div class="ww-badge ww-their">先</div><p>規格外品・採掘くずの廃棄コストをゼロに。廃材ゼロ達成。</p></div>
-        <div class="ww-row"><div class="ww-badge ww-their">先</div><p>新用途開拓の実績。建材メディアでのPR・共同研究実績。</p></div>
-        <div class="ww-row"><div class="ww-badge ww-ours">我</div><p>国産天然珪藻土を少量から確保。調湿・吸音内装材に。</p></div>
-      </div>
-      <div class="ww-card">
-        <p class="lbl">製材所（弟子屈近郊）</p>
-        <h3>カラマツ製材所</h3>
-        <div class="ww-row"><div class="ww-badge ww-their">先</div><p>端材・おが屑の廃棄処理費を削減。搬送コスト軽減。</p></div>
-        <div class="ww-row"><div class="ww-badge ww-their">先</div><p>「弟子屈産カラマツが弟子屈の建物に」地産地消PRに活用。</p></div>
-        <div class="ww-row"><div class="ww-badge ww-ours">我</div><p>CNC加工用面材を無償調達。地元調達で輸送費ゼロ。</p></div>
-      </div>
-      <div class="ww-card">
-        <p class="lbl">製糖工場（十勝）</p>
-        <h3>ビート製糖工場</h3>
-        <div class="ww-row"><div class="ww-badge ww-their">先</div><p>余剰ビートパルプの廃棄・飼料コスト削減。新出口の確保。</p></div>
-        <div class="ww-row"><div class="ww-badge ww-their">先</div><p>農業廃棄物の建材活用という新事業の共同実証パートナーに。</p></div>
-        <div class="ww-row"><div class="ww-badge ww-ours">我</div><p>セルロース系断熱ボード原料として活用。廃菌床の補完材。</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="div"/>
-
-<section class="cost-band">
-  <div class="ww">
-    <p class="lbl r">Cost Breakdown</p>
-    <h2 class="r">コスト構造（50㎡ 付属棟の場合）</h2>
-    <div class="cost-items r">
-      <div class="cost-item">
-        <div class="cost-v">¥0</div>
-        <div class="cost-l">廃棄物建材（カラマツ端材・廃菌床・ホタテ殻・珪藻土）<br>廃棄料削減分で相殺またはプラス</div>
-      </div>
-      <div class="cost-item">
-        <div class="cost-v">〜¥80万</div>
-        <div class="cost-l">CNC加工費・パネル製造費（外注）<br>量産化で逓減</div>
-      </div>
-      <div class="cost-item">
-        <div class="cost-v">¥0</div>
-        <div class="cost-l">現場施工費<br>SOLUNAメンバーワークパーティー</div>
-      </div>
-      <div class="cost-item">
-        <div class="cost-v">〜¥150万</div>
-        <div class="cost-l">基礎・設備・屋根（スクリュー杭・薪ストーブ）<br>認定材・既製品</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="div"/>
-
-<section class="s">
-  <div class="ww r">
-    <p class="lbl">Partners — 協力パートナー募集中</p>
-    <h2>4者とのパートナーシップ</h2>
-    <p class="sub">試作棟（10〜20㎡）から始めます。まずはサンプル素材の提供・見学から。</p>
-  </div>
-  <div class="ww r">
-    <div class="con-grid">
-      <div class="con-card">
-        <p class="lbl">ホタテ漁協 / オホーツク</p>
-        <h3>貝殻廃棄物 引取先募集</h3>
-        <p>年間廃棄量・保管場所・輸送費の現状をお聞かせください。少量サンプル（100kg〜）から試験開始できます。</p>
-        <span class="con-status cs-pending">アウトリーチ中</span>
-      </div>
-      <div class="con-card">
-        <p class="lbl">珪藻土採掘 / 釧路</p>
-        <h3>規格外品・採掘くず 活用</h3>
-        <p>内装左官・塗り壁材として月100kg程度から使用したい。サンプル提供・見学を希望します。</p>
-        <span class="con-status cs-pending">アウトリーチ中</span>
-      </div>
-      <div class="con-card">
-        <p class="lbl">カラマツ製材所 / 弟子屈近郊</p>
-        <h3>端材・おが屑 引取</h3>
-        <p>CNCパネル用の端材（幅100mm以上）を求めています。乾燥材・グリーン材どちらでも可。月1〜2t程度から。</p>
-        <span class="con-status cs-pending">アウトリーチ中</span>
-      </div>
-      <div class="con-card">
-        <p class="lbl">ビート製糖工場 / 十勝</p>
-        <h3>ビートパルプ 建材転用</h3>
-        <p>余剰パルプを断熱ボード原料として共同実証したい。北大・GBRCとの連携研究としての参画も歓迎。</p>
-        <span class="con-status cs-pending">アウトリーチ中</span>
-      </div>
-    </div>
-  </div>
-  <div class="ww" style="margin-top:36px;text-align:center">
-    <a class="btn btng r" href="/ask.html" data-sln-track="consultation_click">参加・協力を相談する</a>
-  </div>
-</section>
-
-<div class="fb r219">
-  <img src="/img/build_cabin_exterior.jpg" alt="SOLUNA BUILD — 北海道弟子屈 天空道場" loading="lazy"/>
 </div>
+
+<!-- ======= コスト ======= -->
+<section class="s cband" id="cost">
+  <div class="w">
+    <p class="lbl r">COST BREAKDOWN</p>
+    <h2 class="r">コスト内訳</h2>
+    <p class="sub r">カテゴリ別材料費。棒グラフをクリックで材料一覧にジャンプ。</p>
+
+    <div class="cost-bar-wrap r" id="barChart"></div>
+
+    <div class="cost-totals r">
+      <div class="cost-box cb-gold">
+        <div class="cb-l">材料費合計（プレカット・配送込み）</div>
+        <div class="cb-v" style="color:var(--gold)" id="totalVal">¥1,849,052</div>
+        <div class="cb-s">工具・仮設レンタル¥15万 別途</div>
+      </div>
+      <div class="cost-box cb-green">
+        <div class="cb-l">補助金フル活用後（子育て世帯）</div>
+        <div class="cb-v" style="color:rgba(80,200,160,.9)">実質 ¥0〜</div>
+        <div class="cb-s">移住¥100万 + こどもエコ¥60万 + 道¥25万 + 子育て¥50万</div>
+      </div>
+    </div>
+
+    <div class="r2 r" style="margin-top:8px;font-size:10px;color:rgba(237,233,225,.2);margin-bottom:16px">他の建て方との比較</div>
+    <div class="route-grid r r3">
+      <div class="route-card hi">
+        <div class="route-name">セルフビルド<br>（本ガイド）</div>
+        <div class="route-cost" style="color:var(--gold)" id="selfCost">¥185万</div>
+        <div class="route-sub">補助金前 材料費</div>
+      </div>
+      <div class="route-card gr">
+        <div class="route-name">補助金<br>フル活用後</div>
+        <div class="route-cost" style="color:rgba(80,200,160,.9)">¥0〜</div>
+        <div class="route-sub">子育て世帯の場合</div>
+      </div>
+      <div class="route-card">
+        <div class="route-name">工務店に<br>フル依頼</div>
+        <div class="route-cost" style="color:rgba(237,233,225,.5)">¥750万</div>
+        <div class="route-sub">施工費込み</div>
+      </div>
+      <div class="route-card">
+        <div class="route-name">コンテナ<br>改造</div>
+        <div class="route-cost" style="color:rgba(237,233,225,.5)">¥280万</div>
+        <div class="route-sub">20ftコンテナ+改装</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= 工程 ======= -->
+<section class="s" id="how">
+  <div class="w">
+    <p class="lbl r">8-WEEK PROCESS</p>
+    <h2 class="r">どう作るか</h2>
+    <p class="sub r">週ごとのタブをクリックで絞り込み。各カードを開くと工具・コツ・図解が出る。</p>
+
+    <div class="steps-tabs r" id="stepsTabs"></div>
+    <div class="step-cards r" id="stepCards"></div>
+  </div>
+</section>
+
+<!-- ======= 設計図 ======= -->
+<section class="s cband" id="drawings">
+  <div class="w">
+    <p class="lbl r">TECHNICAL DRAWINGS</p>
+    <h2 class="r">設計図</h2>
+    <p class="sub r">平面図・南立面図・壁断面詳細。DXF/JWW データはメールで無料請求可。</p>
+
+    <div class="drawings-grid r">
+      <!-- Floor Plan -->
+      <div class="drawing-card">
+        <div class="drawing-label">FLOOR PLAN — 平面図 1:50</div>
+        <svg viewBox="0 0 280 260" style="width:100%;background:#050505;display:block">
+          <rect x="20" y="20" width="240" height="200" fill="none" stroke="#c8a455" stroke-width="3.5"/>
+          <line x1="20" y1="128" x2="180" y2="128" stroke="#555" stroke-width="1.5"/>
+          <line x1="180" y1="20" x2="180" y2="220" stroke="#555" stroke-width="1.5"/>
+          <line x1="20" y1="172" x2="20" y2="200" stroke="#050505" stroke-width="6"/>
+          <path d="M20 172 Q42 172 42 194" fill="none" stroke="#666" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <rect x="52" y="216" width="124" height="7" fill="#4ab8d0" opacity="0.7"/>
+          <rect x="254" y="48" width="7" height="56" fill="#4ab8d0" opacity="0.7"/>
+          <rect x="254" y="148" width="7" height="46" fill="#4ab8d0" opacity="0.7"/>
+          <text x="96" y="72" fill="#ddd" font-size="10" text-anchor="middle">居間・ダイニング</text>
+          <text x="96" y="86" fill="#555" font-size="8" text-anchor="middle">14.8 m²</text>
+          <text x="216" y="74" fill="#ddd" font-size="9" text-anchor="middle">寝室</text>
+          <text x="216" y="87" fill="#555" font-size="8" text-anchor="middle">5.2 m²</text>
+          <text x="216" y="170" fill="#ddd" font-size="9" text-anchor="middle">水回り</text>
+          <text x="216" y="183" fill="#555" font-size="8" text-anchor="middle">4.8 m²</text>
+          <text x="114" y="244" fill="#555" font-size="8" text-anchor="middle">南面大窓 W1,690</text>
+          <text x="114" y="254" fill="#444" font-size="7" text-anchor="middle">↑ 南 / SOUTH</text>
+          <line x1="20" y1="242" x2="70" y2="242" stroke="#333" stroke-width="1"/>
+          <text x="45" y="251" fill="#444" font-size="7" text-anchor="middle">1m</text>
+          <circle cx="56" cy="113" r="8" fill="rgba(224,96,48,.18)" stroke="rgba(224,96,48,.55)" stroke-width="1.5"/>
+          <text x="56" y="117" fill="rgba(224,96,48,.8)" font-size="7" text-anchor="middle">炉</text>
+        </svg>
+      </div>
+
+      <!-- South Elevation -->
+      <div class="drawing-card">
+        <div class="drawing-label">SOUTH ELEVATION — 南立面図</div>
+        <svg viewBox="0 0 280 230" style="width:100%;background:#050505;display:block">
+          <line x1="10" y1="200" x2="270" y2="200" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <rect x="30" y="70" width="220" height="130" fill="rgba(32,32,32,.95)" stroke="#666" stroke-width="2"/>
+          <polygon points="20,70 140,18 260,70" fill="rgba(26,26,26,.98)" stroke="#c8a455" stroke-width="2"/>
+          <rect x="67" y="7" width="14" height="63" fill="rgba(50,50,50,.95)" stroke="#666" stroke-width="1.5"/>
+          <rect x="51" y="108" width="134" height="82" fill="rgba(70,184,208,.1)" stroke="#4ab8d0" stroke-width="2"/>
+          <line x1="118" y1="108" x2="118" y2="190" stroke="#4ab8d0" stroke-width="1" stroke-dasharray="3,2"/>
+          <rect x="208" y="142" width="34" height="58" fill="rgba(55,36,18,.4)" stroke="#666" stroke-width="1.5"/>
+          <line x1="30" y1="208" x2="250" y2="208" stroke="#444" stroke-width="1"/>
+          <text x="140" y="220" fill="#444" font-size="8.5" text-anchor="middle">5,460 mm</text>
+          <text x="115" y="156" fill="#888" font-size="8.5" text-anchor="middle">南面大窓</text>
+          <text x="115" y="167" fill="#555" font-size="7.5" text-anchor="middle">W1,690×H830 / Low-E</text>
+          <text x="74" y="5" fill="#555" font-size="7.5" text-anchor="middle">煙突</text>
+          <rect x="80" y="20" width="60" height="20" fill="rgba(200,164,85,.15)" stroke="rgba(200,164,85,.3)" stroke-width="1" rx="2"/>
+          <text x="110" y="34" fill="rgba(200,164,85,.7)" font-size="8" text-anchor="middle">ソーラーパネル</text>
+        </svg>
+      </div>
+
+      <!-- Wall Section full width -->
+      <div class="drawing-card full">
+        <div class="drawing-label">WALL SECTION — 壁断面詳細（SIPsパネル工法）</div>
+        <svg viewBox="0 0 560 172" style="width:100%;background:#050505;display:block">
+          <rect x="20" y="26" width="18" height="118" fill="#484848" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
+          <text x="29" y="13" fill="#888" font-size="6" text-anchor="middle">ガルバ</text>
+          <text x="29" y="20" fill="#555" font-size="5" text-anchor="middle">0.35mm</text>
+          <line x1="29" y1="22" x2="29" y2="26" stroke="#444" stroke-width=".5"/>
+
+          <rect x="38" y="26" width="14" height="118" fill="#0f1f0f" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
+          <text x="45" y="13" fill="#888" font-size="6" text-anchor="middle">通気層</text>
+          <text x="45" y="20" fill="#555" font-size="5" text-anchor="middle">21mm</text>
+          <line x1="45" y1="22" x2="45" y2="26" stroke="#444" stroke-width=".5"/>
+
+          <rect x="52" y="26" width="12" height="118" fill="#1a2a1a" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
+          <text x="58" y="13" fill="#888" font-size="6" text-anchor="middle">防水</text>
+          <text x="58" y="20" fill="#555" font-size="5" text-anchor="middle">タイベック</text>
+          <line x1="58" y1="22" x2="58" y2="26" stroke="#444" stroke-width=".5"/>
+
+          <rect x="64" y="26" width="20" height="118" fill="#2a1a08" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
+          <text x="74" y="13" fill="#888" font-size="6" text-anchor="middle">OSB</text>
+          <text x="74" y="20" fill="#555" font-size="5" text-anchor="middle">12mm</text>
+          <line x1="74" y1="22" x2="74" y2="26" stroke="#444" stroke-width=".5"/>
+
+          <rect x="84" y="26" width="82" height="118" fill="#0e2030" stroke="rgba(74,184,208,.35)" stroke-width="1.5"/>
+          <text x="125" y="13" fill="#4ab8d0" font-size="6.5" text-anchor="middle">硬質ウレタン断熱</text>
+          <text x="125" y="20" fill="#4ab8d0" font-size="5.5" text-anchor="middle">160mm / U値0.14</text>
+          <line x1="125" y1="22" x2="125" y2="26" stroke="#4ab8d0" stroke-width=".8"/>
+
+          <rect x="166" y="26" width="20" height="118" fill="#2a1a08" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
+          <text x="176" y="13" fill="#888" font-size="6" text-anchor="middle">OSB</text>
+          <text x="176" y="20" fill="#555" font-size="5" text-anchor="middle">12mm内</text>
+          <line x1="176" y1="22" x2="176" y2="26" stroke="#444" stroke-width=".5"/>
+
+          <rect x="186" y="26" width="18" height="118" fill="#1a0f28" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
+          <text x="195" y="13" fill="#888" font-size="6" text-anchor="middle">気密</text>
+          <text x="195" y="20" fill="#555" font-size="5" text-anchor="middle">テープ</text>
+          <line x1="195" y1="22" x2="195" y2="26" stroke="#444" stroke-width=".5"/>
+
+          <rect x="204" y="26" width="24" height="118" fill="#1a0e04" stroke="rgba(255,255,255,.07)" stroke-width=".5"/>
+          <text x="216" y="13" fill="#888" font-size="6" text-anchor="middle">杉羽目</text>
+          <text x="216" y="20" fill="#555" font-size="5" text-anchor="middle">15mm</text>
+          <line x1="216" y1="22" x2="216" y2="26" stroke="#444" stroke-width=".5"/>
+
+          <!-- Performance data right side -->
+          <text x="255" y="52" fill="#c8a455" font-size="15" font-weight="bold">UA値 0.16 W/m²K</text>
+          <text x="255" y="70" fill="rgba(237,233,225,.55)" font-size="10">HEAT20 G3相当（ZEHの1.5倍断熱）</text>
+          <text x="255" y="88" fill="rgba(237,233,225,.45)" font-size="9">C値 0.2 以下（気密測定で確認）</text>
+          <text x="255" y="104" fill="rgba(237,233,225,.45)" font-size="9">壁厚 約234mm / 構造熱橋ゼロ</text>
+          <text x="255" y="122" fill="rgba(224,96,48,.65)" font-size="9">外気温 -30℃ の弟子屈でも室温18℃維持</text>
+          <text x="255" y="139" fill="rgba(224,96,48,.45)" font-size="9">薪消費量：通常工法比 1/8</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="dxf-bar r">
+      <span style="font-size:18px">📐</span>
+      <span>プレカット業者・建築士への提出用 <strong>DXF / JWW データは無料請求可</strong> →
+        <a href="mailto:info@solun.art?subject=弟子屈タイニーハウス図面請求" style="margin-left:6px">info@solun.art</a>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ======= 材料 ======= -->
+<section class="s" id="materials">
+  <div class="w">
+    <p class="lbl r">MATERIALS &amp; PURCHASING</p>
+    <h2 class="r">材料一覧・購入先</h2>
+    <p class="sub r">MonotaRO・Amazon の実価格を反映。行を開くと明細と購入リンク。</p>
+    <div class="mat-rows r" id="matRows"></div>
+    <div class="mat-total-row r">
+      <div>
+        <div class="mat-total-label">材料費合計（プレカット・配送込み）</div>
+        <div class="mat-total-sub">工具・仮設費（レンタル約¥15万）・外構費 別途</div>
+      </div>
+      <div class="mat-total-val" id="matTotalVal">¥1,849,052</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= プレカット ======= -->
+<section class="s cband" id="precut">
+  <div class="w">
+    <p class="lbl r">PRECUT ORDERING</p>
+    <h2 class="r">プレカット発注</h2>
+    <p class="sub r">構造材を工場でカット済み・番号付きで届けてもらう。現場加工ゼロ。</p>
+
+    <div class="precut-steps r">
+      <div class="pc-step">
+        <div class="pc-num">01</div>
+        <div class="pc-title">図面を準備</div>
+        <div class="pc-body">平面図・軸組図・梁伏せ図をCAD（DXF/JWW）または手書きA3スキャンで用意。SOLUNA標準図面はメールで無料請求可。</div>
+      </div>
+      <div class="pc-step">
+        <div class="pc-num">02</div>
+        <div class="pc-title">業者に見積依頼</div>
+        <div class="pc-body">図面を送るだけ。3〜5日で見積が届く。納期は発注から10〜14日。北海道送料¥3〜5万別途。</div>
+      </div>
+      <div class="pc-step">
+        <div class="pc-num">03</div>
+        <div class="pc-title">金物も同時発注</div>
+        <div class="pc-body">柱・梁・土台・間柱がすべてカット済み番号付きで届く。ホールダウン・羽子板ボルトも同時発注が便利。</div>
+      </div>
+      <div class="pc-step">
+        <div class="pc-num">04</div>
+        <div class="pc-title">棟上げ 1日</div>
+        <div class="pc-body">4人・8時間で棟上げ完了。クレーン不要。番号通りに組むだけなので特別なスキル不要。</div>
+      </div>
+    </div>
+
+    <h3 class="r" style="margin-bottom:12px">推奨プレカット業者</h3>
+    <div class="vendor-list r">
+      <div class="vendor">
+        <div>
+          <div class="vendor-name">ヤマサン木材（北海道対応）</div>
+          <div class="vendor-note">CAD入力〜加工〜配送まで一括。弟子屈エリア実績あり</div>
+          <div class="vendor-price">加工費 材積×¥15,000〜 / 設計費¥0</div>
+        </div>
+        <a class="vendor-btn" href="https://yamasanmokuzai.co.jp" target="_blank">見積依頼 →</a>
+      </div>
+      <div class="vendor">
+        <div>
+          <div class="vendor-name">カネシン プレカット</div>
+          <div class="vendor-note">金物工法対応。SE構法・KES構法向けプレカット</div>
+          <div class="vendor-price">見積無料・納期10〜14日</div>
+        </div>
+        <a class="vendor-btn" href="https://www.kanesin.co.jp" target="_blank">見積依頼 →</a>
+      </div>
+      <div class="vendor">
+        <div>
+          <div class="vendor-name">モノタロウ 木材カット</div>
+          <div class="vendor-note">小物・羽柄材の追加カット注文に最適</div>
+          <div class="vendor-price">1カット¥55〜</div>
+        </div>
+        <a class="vendor-btn" href="https://www.monotaro.com/g/01291754/" target="_blank">注文 →</a>
+      </div>
+    </div>
+
+    <div class="checklist r" style="margin-top:20px">
+      <div class="cl-item"><span class="cl-box">□</span><span>平面図・軸組図（CADまたはA3スキャン）</span></div>
+      <div class="cl-item"><span class="cl-box">□</span><span>梁伏せ図（スパンと荷重明記）</span></div>
+      <div class="cl-item"><span class="cl-box">□</span><span>仕口・接合部リスト</span></div>
+      <div class="cl-item"><span class="cl-box">□</span><span>使用樹種・乾燥区分（KD/AD）</span></div>
+      <div class="cl-item"><span class="cl-box">□</span><span>納品先住所と搬入路の確認</span></div>
+      <div class="cl-item"><span class="cl-box">□</span><span>金物（ホールダウン・羽子板）同時発注</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= 補助金 ======= -->
+<section class="s" id="subsidy">
+  <div class="w">
+    <p class="lbl r">SUBSIDY GUIDE</p>
+    <h2 class="r">補助金・支援制度</h2>
+    <p class="sub r">重複申請OK。最大 <strong style="color:var(--gold)">¥235万円</strong>。材料費を超える可能性あり。</p>
+
+    <div class="sub-grid r">
+      <div class="sub-card">
+        <div class="sub-icon">🏘️</div>
+        <div class="sub-amt">¥100万</div>
+        <div class="sub-name">弟子屈町 移住支援</div>
+        <div class="sub-cond">U・Iターン<br>世帯主30〜49歳対象</div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-icon">👨‍👩‍👧</div>
+        <div class="sub-amt">¥50万</div>
+        <div class="sub-name">子育て世帯加算</div>
+        <div class="sub-cond">子育て世帯のみ<br>（加算）</div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-icon">♻️</div>
+        <div class="sub-amt">¥60万</div>
+        <div class="sub-name">こどもエコすまい</div>
+        <div class="sub-cond">ZEH・高断熱住宅<br>省エネ補助</div>
+      </div>
+      <div class="sub-card">
+        <div class="sub-icon">❄️</div>
+        <div class="sub-amt">¥25万</div>
+        <div class="sub-name">北海道省エネ支援</div>
+        <div class="sub-cond">UA値0.2以下の新築<br>北海道庁</div>
+      </div>
+    </div>
+
+    <div class="sub-result r">
+      <div>
+        <div class="sub-result-l">子育て世帯がフル申請すると…</div>
+        <div class="sub-result-s">
+          移住¥100万 + こどもエコすまい¥60万 + 北海道省エネ¥25万 + 子育て¥50万
+          = <strong style="color:rgba(80,200,160,.9)">合計¥235万</strong><br>
+          材料費¥185万 − 補助¥235万 = 実質 <strong style="color:rgba(80,200,160,.9)">¥0（+¥50万収入）</strong>
+        </div>
+      </div>
+      <div class="sub-result-v">¥0</div>
+    </div>
+
+    <div class="sub-note r">
+      申請先：弟子屈町役場 建設課（0154-82-2111）／北海道庁 住宅局／国交省 住宅省エネポータル。
+      条件・申請タイミングは変更の場合あり。事前に各窓口で確認のうえ着工すること。
+    </div>
+  </div>
+</section>
+
+<!-- ======= CTA ======= -->
+<section class="s">
+  <div class="w">
+    <div class="cta-box r">
+      <h2>一緒に建てませんか？</h2>
+      <p class="cta-sub">図面 DXF・プレカット発注サポート・補助金申請同行を提供します。まずはメールで現況をお知らせください。</p>
+      <div class="cta-btns">
+        <a class="btn btng" href="mailto:info@solun.art?subject=弟子屈タイニーハウス建設の相談">メールで相談する</a>
+        <a class="btn btngh" href="https://line.me/ti/p/~@soluna" target="_blank">LINEで質問</a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <footer>
   <p class="foot-logo">SOLUNA BUILD</p>
   <div class="foot-links">
     <a href="/">ホーム</a>
-    <a href="/village">SOLUNAビレッジ</a>
-    <a href="/kumaushi">天空道場</a>
+    <a href="/village">美留和ビレッジ</a>
+    <a href="/kumaushi">KUMAUSHI BASE</a>
+    <a href="/lab">建材 LAB</a>
     <a href="/scheme">スキーム</a>
-    <a href="/ask.html">相談する</a>
   </div>
   <p class="foot-copy">© 2026 SOLUNA合同会社. All rights reserved.</p>
 </footer>
 
 <script>
+// ── DATA ──
+const MATERIALS = [
+  { cat:"SIPsパネル（壁・屋根）", emoji:"🏗️", total:1480000, color:"#c8a455",
+    url:"", alt:"在来工法に変更でコスト▲¥80万、工期+2週",
+    items:[
+      {name:"SIPsパネル 壁用 OSB+160mm硬質ウレタン+OSB",qty:"80 m²",unit:"¥12,000/m²",total:960000,note:"工場製作・配送込み"},
+      {name:"SIPsパネル 屋根用 200mm",qty:"35 m²",unit:"¥14,000/m²",total:490000,note:"勾配対応"},
+      {name:"スプラインジョイント材",qty:"一式",unit:"¥30,000",total:30000,note:""},
+    ]},
+  { cat:"オフグリッド電力", emoji:"☀️", total:435884, color:"#f0c040",
+    url:"https://www.amazon.co.jp/s?k=Renogy+ソーラーパネル", alt:"",
+    items:[
+      {name:"Renogy 200W 単結晶ソーラーパネル",qty:"4枚",unit:"¥25,771/枚",total:103084,note:""},
+      {name:"EcoFlow DELTA Pro3 5kWh 蓄電池",qty:"1台",unit:"¥279,800",total:279800,note:""},
+      {name:"MPPT 充電コントローラー 60A",qty:"1台",unit:"¥18,000",total:18000,note:""},
+      {name:"配線・ブレーカー・コンセント一式",qty:"一式",unit:"¥35,000",total:35000,note:""},
+    ]},
+  { cat:"窓・開口部", emoji:"🪟", total:333000, color:"#4ab8d0",
+    url:"", alt:"",
+    items:[
+      {name:"樹脂窓 トリプルガラス 南面大窓 W1690×H1830",qty:"1枚",unit:"¥95,000",total:95000,note:"Low-E"},
+      {name:"樹脂窓 W780×H1170",qty:"4枚",unit:"¥38,000/枚",total:152000,note:""},
+      {name:"玄関ドア 断熱型",qty:"1枚",unit:"¥68,000",total:68000,note:""},
+      {name:"窓台・額縁材",qty:"一式",unit:"¥18,000",total:18000,note:""},
+    ]},
+  { cat:"内装・仕上げ", emoji:"🪵", total:330500, color:"#a07850",
+    url:"", alt:"",
+    items:[
+      {name:"国産杉 羽目板 15mm（壁・天井）",qty:"60 m²",unit:"¥2,800/m²",total:168000,note:""},
+      {name:"フローリング 杉無垢 15mm",qty:"25 m²",unit:"¥3,500/m²",total:87500,note:""},
+      {name:"キッチン（シンプルIH）",qty:"1式",unit:"¥45,000",total:45000,note:""},
+      {name:"造作棚・収納一式",qty:"一式",unit:"¥30,000",total:30000,note:""},
+    ]},
+  { cat:"給排水・衛生", emoji:"💧", total:280000, color:"#50b8a0",
+    url:"", alt:"",
+    items:[
+      {name:"Nature's Head コンポストトイレ",qty:"1台",unit:"¥200,000",total:200000,note:"浄化槽不要・節約¥180万"},
+      {name:"雨水タンク 1,000L",qty:"1基",unit:"¥35,000",total:35000,note:""},
+      {name:"活性炭フィルター 3段 + UV殺菌",qty:"1式",unit:"¥20,000",total:20000,note:""},
+      {name:"給水ポンプ・配管一式",qty:"一式",unit:"¥25,000",total:25000,note:""},
+    ]},
+  { cat:"外装", emoji:"🖤", total:156778, color:"#888",
+    url:"https://www.monotaro.com/p/1339/5302/", alt:"",
+    items:[
+      {name:"ガルバリウム波板 横葺き 黒 0.35mm",qty:"85 m²",unit:"¥1,200/m²",total:102000,note:""},
+      {name:"タイベック シルバー 透湿防水シート",qty:"1巻",unit:"¥19,778",total:19778,note:""},
+      {name:"縦胴縁 21×45 通気層",qty:"50本",unit:"¥380/本",total:19000,note:""},
+      {name:"外壁コーキング",qty:"20本",unit:"¥800/本",total:16000,note:""},
+    ]},
+  { cat:"構造材（プレカット）", emoji:"📐", total:165000, color:"#b07850",
+    url:"", alt:"",
+    items:[
+      {name:"KD杉 105×105 柱材",qty:"12本",unit:"¥1,200/本",total:14400,note:"プレカット込み"},
+      {name:"KD杉 105×210 梁材",qty:"8本",unit:"¥2,800/本",total:22400,note:"プレカット込み"},
+      {name:"KD杉 45×105 間柱",qty:"40本",unit:"¥480/本",total:19200,note:""},
+      {name:"構造用合板 28mm 床（剛床）",qty:"20枚",unit:"¥4,200/枚",total:84000,note:""},
+      {name:"野縁・垂木セット",qty:"一式",unit:"¥25,000",total:25000,note:""},
+    ]},
+  { cat:"暖房（ロケットマスヒーター）", emoji:"🔥", total:118140, color:"#e06030",
+    url:"https://www.monotaro.com/p/4085/3580/", alt:"",
+    items:[
+      {name:"耐火レンガ SK-32（200×100×60）",qty:"200個",unit:"¥228/個",total:45600,note:""},
+      {name:"耐火モルタル 20kg",qty:"5袋",unit:"¥748/袋",total:3740,note:""},
+      {name:"ステンレス煙突 Φ150 直管 900mm",qty:"6本",unit:"¥6,800/本",total:40800,note:""},
+      {name:"煙突T管・エルボ・雨押さえ",qty:"一式",unit:"¥28,000",total:28000,note:""},
+    ]},
+  { cat:"断熱・気密", emoji:"🌡️", total:123150, color:"#7080e0",
+    url:"https://www.monotaro.com/p/2139/1148/", alt:"",
+    items:[
+      {name:"スタイロフォーム 50mm（床下）",qty:"20枚",unit:"¥3,956/枚",total:79120,note:""},
+      {name:"気密テープ 75mm×20m",qty:"10巻",unit:"¥1,403/巻",total:14030,note:""},
+      {name:"先張り気密シート",qty:"50 m²",unit:"¥600/m²",total:30000,note:""},
+    ]},
+  { cat:"屋根", emoji:"🏠", total:115600, color:"#6070a0",
+    url:"", alt:"",
+    items:[
+      {name:"ガルバリウム屋根材 立平葺き",qty:"35 m²",unit:"¥2,200/m²",total:77000,note:""},
+      {name:"ルーフィング 22kg ゴムアス",qty:"2本",unit:"¥6,800/本",total:13600,note:""},
+      {name:"棟包み・破風板",qty:"一式",unit:"¥25,000",total:25000,note:""},
+    ]},
+  { cat:"基礎（独立コンクリート）", emoji:"⚓", total:71000, color:"#606060",
+    url:"", alt:"",
+    items:[
+      {name:"生コン（凍結深度1,000mm対応）",qty:"1.5 m³",unit:"¥16,000/m³",total:24000,note:""},
+      {name:"型枠・鉄筋・アンカー一式",qty:"一式",unit:"¥35,000",total:35000,note:""},
+      {name:"砕石・砂",qty:"一式",unit:"¥12,000",total:12000,note:""},
+    ]},
+];
+
+const STEPS = [
+  {week:"W1",phase:"基礎工事",icon:"⚓",color:"#606060",diff:"★★★☆☆",people:"2〜3人",cost:71000,
+   desc:"地面を掘り、コンクリート独立基礎を6点打つ。弟子屈の凍結深度は1,000mm。レンタルミニユンボ（¥15,000/日）があると楽。打設後は最低7日養生。",
+   tools:["ミニユンボ（レンタル）","型枠板","鉄筋・アンカーボルト","生コン"],
+   tips:"凍結前に完了させること。レベル出しをしっかりやれば後工程が格段に楽になる。"},
+  {week:"W2",phase:"土台・床組み",icon:"🪵",color:"#a07850",diff:"★★☆☆☆",people:"2人",cost:165000,
+   desc:"プレカット済みの土台・大引・根太を基礎の上に組む。番号が振ってあるので図面通りに並べるだけ。最後に28mm構造用合板を剛床として張る。",
+   tools:["インパクトドライバー","丸ノコ","水平器","墨出し器"],
+   tips:"土台は防腐処理済み材を使うこと。床合板の継ぎ目は大引の上で割り付ける。"},
+  {week:"W3",phase:"棟上げ",icon:"🏗️",color:"#c8a455",diff:"★★★★☆",people:"4人（1日）",cost:0,
+   desc:"プレカット材で柱・梁・母屋を一気に組み立てる。4人いれば8時間で棟上げ完了。クレーン不要。仮筋交いで倒れないよう固定してから次工程へ。",
+   tools:["インパクトドライバー","ハンマー","仮筋交い材","水準器"],
+   tips:"当日は人手が一番大事。プレカットなので番号通りに組むだけ。事前にひとつひとつ確認しておくと安心。"},
+  {week:"W4",phase:"SIPsパネル取付",icon:"🔷",color:"#7080e0",diff:"★★★☆☆",people:"4人",cost:1480000,
+   desc:"工場製作のSIPsパネルを壁・屋根に建て込む。スプラインで繋いでコーキングするだけ。断熱と構造を同時に完成させる最速の工法。1枚30〜50kg。",
+   tools:["インパクトドライバー","コーキングガン","スプライン材","クランプ"],
+   tips:"パネルの向きと番号を事前に確認。継ぎ目の気密処理が断熱性能を左右する。"},
+  {week:"W5",phase:"外装仕上げ",icon:"🖤",color:"#888",diff:"★★★☆☆",people:"2人",cost:272378,
+   desc:"タイベック→縦胴縁（通気層21mm）→黒ガルバリウム波板の順に外壁を張る。屋根は立平葺き。外から見た姿がほぼ完成する週。",
+   tools:["電動丸ノコ","タッカー","コーキングガン","脚立・安全帯"],
+   tips:"通気層（21mm）は省かないこと。省くと冬に結露で木材が腐る。"},
+  {week:"W6",phase:"窓・気密処理",icon:"🪟",color:"#4ab8d0",diff:"★★☆☆☆",people:"2人",cost:456150,
+   desc:"樹脂トリプルガラス窓・断熱玄関ドアを取り付け、全開口部に気密テープを施工。この週の終わりにC値測定を行い0.2以下を確認する。",
+   tools:["気密テープ","コーキングガン","気密測定機（レンタル¥30,000）"],
+   tips:"気密測定は後戻りができないタイミング。C値0.5以上なら漏れ箇所を徹底的に探すこと。"},
+  {week:"W7",phase:"設備工事",icon:"🔥",color:"#e06030",diff:"★★★★☆",people:"2〜3人",cost:834024,
+   desc:"ロケットマスヒーター築炉（2日）、オフグリッド太陽光の配線、雨水タンクとコンポストトイレ設置。電気配線の一部は電気工事士資格が必要（委託約¥5万）。",
+   tools:["耐火レンガ・モルタル","ソーラー配線工具","配管工具"],
+   tips:"ロケットマスヒーターは耐火レンガ200個の本格工事。YouTubeで施工動画を必ず予習してから臨む。"},
+  {week:"W8",phase:"内装・竣工",icon:"✨",color:"#a07850",diff:"★★☆☆☆",people:"2人",cost:330500,
+   desc:"杉の羽目板と無垢フローリングを張って、造作棚・キッチンを設置。最後に清掃・検査で完成。8週間でタイニーハウスが完成する。",
+   tools:["フィニッシュネイラー","丸ノコ","カンナ","塗料"],
+   tips:"杉無垢は水に濡れるとシミになる。フローリング張り前に養生をしっかり。"},
+];
+
+const TOTAL = MATERIALS.reduce((s,m) => s+m.total, 0);
+const maxCost = Math.max(...MATERIALS.map(m => m.total));
+
+// ── RENDER COST BARS ──
+const barChart = document.getElementById('barChart');
+document.getElementById('totalVal').textContent = '¥' + TOTAL.toLocaleString();
+document.getElementById('selfCost').textContent = '¥' + Math.round(TOTAL/10000) + '万';
+document.getElementById('matTotalVal').textContent = '¥' + TOTAL.toLocaleString();
+
+const sorted = [...MATERIALS].sort((a,b) => b.total - a.total);
+sorted.forEach(m => {
+  const pct = (m.total / maxCost * 100).toFixed(1);
+  const row = document.createElement('div');
+  row.className = 'cost-row';
+  row.style.cursor = 'pointer';
+  row.innerHTML = `
+    <div class="cost-label">${m.emoji} ${m.cat.replace('（プレカット）','').replace('（壁・屋根）','').replace('（ロケットマスヒーター）','').replace('（独立コンクリート）','')}</div>
+    <div class="cost-track" title="${m.cat}: ¥${m.total.toLocaleString()}">
+      <div class="cost-fill" style="--w:${pct}%;background:${m.color};opacity:0.7;width:${pct}%"></div>
+    </div>
+    <div class="cost-val" style="color:${m.color}">¥${Math.round(m.total/10000*10)/10}万</div>`;
+  row.onclick = () => {
+    document.getElementById('materials').scrollIntoView({behavior:'smooth'});
+    // open this category
+    document.querySelectorAll('.mat-row').forEach(r => {
+      if(r.dataset.cat === m.cat) r.classList.toggle('open');
+    });
+  };
+  barChart.appendChild(row);
+});
+
+// ── RENDER STEPS ──
+const tabsEl = document.getElementById('stepsTabs');
+const cardsEl = document.getElementById('stepCards');
+
+STEPS.forEach((step, i) => {
+  // Tab
+  const tab = document.createElement('div');
+  tab.className = 'step-tab';
+  tab.innerHTML = `<div class="step-tab-w">${step.week}</div><div class="step-tab-name">${step.phase}</div>${step.cost>0?`<div class="step-tab-cost">¥${Math.round(step.cost/10000)}万</div>`:''}`;
+  tab.onclick = () => {
+    const card = document.querySelector(`.step-card[data-idx="${i}"]`);
+    card.classList.toggle('open');
+    card.scrollIntoView({behavior:'smooth', block:'nearest'});
+  };
+  tabsEl.appendChild(tab);
+
+  // Card
+  const card = document.createElement('div');
+  card.className = 'step-card';
+  card.dataset.idx = i;
+  card.innerHTML = `
+    <div class="step-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="step-wk">${step.week}</div>
+      <div>
+        <div class="step-phase">${step.icon} ${step.phase}</div>
+        <div class="step-desc">${step.desc}</div>
+        <div class="step-meta">
+          <span class="meta-tag">難易度 ${step.diff}</span>
+          <span class="meta-tag">👥 ${step.people}</span>
+        </div>
+      </div>
+      <div>
+        ${step.cost>0?`<div class="step-cost-badge" style="color:${step.color}">¥${Math.round(step.cost/10000)}万</div>`:'<div class="step-cost-badge" style="color:#333">材料費なし</div>'}
+        <div class="step-toggle">▼ 詳細</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="step-detail">
+        <div style="font-size:10px;color:${step.color};letter-spacing:.1em;margin-bottom:8px">必要な工具・材料</div>
+        <div class="tools-list">${step.tools.map(t=>`<span class="tool-tag">${t}</span>`).join('')}</div>
+        <div class="tips-box" style="background:${step.color}11;border:1px solid ${step.color}33">
+          <span style="color:${step.color}">💡 コツ：</span>${step.tips}
+        </div>
+      </div>
+      <div class="step-svg-col"></div>
+    </div>`;
+  cardsEl.appendChild(card);
+});
+
+// ── RENDER MATERIALS ──
+const matRows = document.getElementById('matRows');
+MATERIALS.forEach(m => {
+  const row = document.createElement('div');
+  row.className = 'mat-row';
+  row.dataset.cat = m.cat;
+  const pct = (m.total / maxCost * 100).toFixed(1);
+  row.innerHTML = `
+    <div class="mat-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="mat-emoji">${m.emoji}</span>
+      <div>
+        <div class="mat-name">${m.cat}</div>
+        ${m.url?`<a class="mat-link" href="${m.url}" target="_blank" onclick="event.stopPropagation()">MonotaRO / Amazon →</a>`:''}
+      </div>
+      <div class="mat-bar-mini"><div class="mat-bar-fill" style="width:${pct}%;background:${m.color}"></div></div>
+      <div class="mat-chevron">▼</div>
+      <div class="mat-total" style="color:${m.color}">¥${m.total.toLocaleString()}</div>
+    </div>
+    <div class="mat-items">
+      ${m.items.map(it=>`
+        <div class="mat-item">
+          <div><div class="item-name">${it.name}</div>${it.note?`<div class="item-note">${it.note}</div>`:''}</div>
+          <div class="item-qty">${it.qty} × ${it.unit}</div>
+          <div class="item-price">¥${it.total.toLocaleString()}</div>
+        </div>`).join('')}
+      ${m.alt?`<div class="mat-alt">💡 ${m.alt}</div>`:''}
+    </div>`;
+  matRows.appendChild(row);
+});
+
+// ── SCROLL REVEAL ──
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in') });
-}, {threshold: 0.08});
+}, {threshold: 0.06});
 document.querySelectorAll('.r').forEach(el => io.observe(el));
 </script>
-<script src="/js/dc.js"></script>
+
 </body>
 </html>
