@@ -175,6 +175,42 @@ h3{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
 .roi-legend{display:flex;gap:20px;flex-wrap:wrap;font-size:11px;color:var(--text-mid)}
 .roi-dot{width:9px;height:9px;border-radius:2px;margin-right:5px;display:inline-block;vertical-align:middle}
 
+/* SIZES GRID */
+.sizes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
+.sz-card{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:16px;padding:24px 20px;display:flex;flex-direction:column}
+.sz-card.featured{border-color:rgba(200,164,85,.4);background:rgba(200,164,85,.025)}
+.sz-badge{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:7px;background:rgba(200,164,85,.15);color:var(--gold);font-weight:900;font-size:1rem;margin-bottom:10px}
+.sz-area{font-size:2.2rem;font-weight:900;letter-spacing:-.06em;line-height:1;margin-bottom:2px}
+.sz-dim{font-size:11px;color:var(--text-mid);margin-bottom:16px}
+.sz-cont-type{font-size:9px;letter-spacing:.2em;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+.sz-cont-box{margin-bottom:16px}
+.sz-cont-row{display:flex;height:20px;border-radius:4px;overflow:hidden;gap:1px;margin-bottom:3px;border:1px solid var(--line)}
+.sz-zone{display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;overflow:hidden}
+.sz-zone.wet{background:rgba(200,164,85,.28);color:var(--gold)}
+.sz-zone.pan{background:rgba(200,164,85,.1);color:var(--text-mid)}
+.sz-zone.acc{background:rgba(255,255,255,.05);color:var(--text-dim)}
+.sz-cont-label-row{font-size:8.5px;color:var(--text-dim);letter-spacing:.04em;text-align:right;margin-top:2px}
+.sz-cont-sublabel{font-size:8.5px;color:var(--text-dim);margin-bottom:3px}
+.sz-specs{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--text-mid);margin-bottom:18px;flex:1}
+.sz-specs strong{color:var(--text);font-weight:700}
+.sz-sep{border-top:1px solid var(--line);padding-top:6px;margin-top:4px}
+.sz-cost{font-size:1.75rem;font-weight:900;letter-spacing:-.04em;color:var(--gold)}
+.sz-cost-label{font-size:9px;color:var(--text-mid);margin-bottom:8px;letter-spacing:.05em;text-transform:uppercase}
+.sz-sub{font-size:10.5px;color:var(--text-mid);padding:9px 12px;background:rgba(255,255,255,.025);border-radius:7px;border:1px solid var(--line)}
+@media(max-width:740px){.sizes-grid{grid-template-columns:repeat(3,240px);overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}}
+
+/* SIZE COMPARISON TABLE */
+.sct{margin-top:32px;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:12.5px}
+.sct-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-top:1px solid var(--line)}
+.sct-row:first-child{border-top:none;background:rgba(200,164,85,.06);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-mid)}
+.sct-row.hi{background:rgba(200,164,85,.07);font-weight:800}
+.sct-row.hi2{background:rgba(155,196,109,.06);font-weight:800}
+.sct-cell{padding:12px 14px}
+.sct-cell.right{text-align:right}
+.sct-cell.gold{color:var(--gold)}
+.sct-cell.m-col{border-left:1px solid rgba(200,164,85,.2);border-right:1px solid rgba(200,164,85,.2);background:rgba(200,164,85,.02)}
+@media(max-width:560px){.sct-cell{padding:10px 8px;font-size:11px}}
+
 /* NOTE */
 .note{font-size:10.5px;color:var(--text-dim);line-height:1.9;margin-top:28px;padding:18px 22px;border:1px solid var(--line);border-radius:10px}
 
@@ -217,6 +253,108 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
     <span class="cap-label">SOLUNA BOX S</span>
   </div>
 </div>
+
+<!-- SIZES -->
+<section class="s">
+  <div class="ww">
+    <div class="eyebrow">SIZES / コンテナ構成</div>
+    <h2>サイズで<em style="font-style:normal;color:var(--gold)">コンテナが変わる。</em></h2>
+    <p class="sub">S は 20ft 1本。M は 40ft 1本（2倍の長さ）。L は 20ft 2本で届く。<br/>いずれも <strong>「コンテナ1便 = 建物1棟分が完結」</strong> の原則は変わらない。</p>
+
+    <div class="sizes-grid">
+
+      <!-- S -->
+      <div class="sz-card">
+        <div class="sz-badge">S</div>
+        <div class="sz-area">12<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
+        <div class="sz-dim">3.0 m × 4.0 m · 2〜3名</div>
+        <div class="sz-cont-type">1 × 20ft コンテナ</div>
+        <div class="sz-cont-box">
+          <div class="sz-cont-row">
+            <div class="sz-zone wet" style="flex:2.4">WET</div>
+            <div class="sz-zone pan" style="flex:2.85">PANELS ×22</div>
+            <div class="sz-zone acc" style="flex:.65">ACC</div>
+          </div>
+          <div class="sz-cont-label-row">← 内寸 5.9 m</div>
+        </div>
+        <div class="sz-specs">
+          <div>壁パネル <strong>12枚</strong></div>
+          <div>BIPVルーフ <strong>4枚 (4 kW)</strong></div>
+          <div>フロアパネル <strong>6枚</strong></div>
+          <div>ウェットポッド <strong>1基</strong></div>
+          <div>蓄電池 <strong>10 kWh</strong></div>
+          <div>サッシ・ドア <strong>5枚</strong></div>
+          <div class="sz-sep">総重量 <strong>2,296 kg</strong></div>
+        </div>
+        <div class="sz-cost">¥436<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost-label">引き渡し原価</div>
+        <div class="sz-sub">¥80万デポジット + ¥12万/月</div>
+      </div>
+
+      <!-- M -->
+      <div class="sz-card featured">
+        <div class="sz-badge">M</div>
+        <div class="sz-area">21<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
+        <div class="sz-dim">3.6 m × 6.0 m · 3〜4名 ★人気</div>
+        <div class="sz-cont-type">1 × 40ft コンテナ</div>
+        <div class="sz-cont-box">
+          <div class="sz-cont-row">
+            <div class="sz-zone wet" style="flex:2.4">WET</div>
+            <div class="sz-zone pan" style="flex:7.5">PANELS ×33</div>
+            <div class="sz-zone acc" style="flex:2.1">ACC</div>
+          </div>
+          <div class="sz-cont-label-row">← 内寸 12.0 m（40ft）</div>
+        </div>
+        <div class="sz-specs">
+          <div>壁パネル <strong>18枚</strong></div>
+          <div>BIPVルーフ <strong>6枚 (6 kW)</strong></div>
+          <div>フロアパネル <strong>9枚</strong></div>
+          <div>ウェットポッド <strong>1基</strong></div>
+          <div>蓄電池 <strong>15 kWh</strong></div>
+          <div>サッシ・ドア <strong>7枚</strong></div>
+          <div class="sz-sep">総重量 <strong>3,431 kg</strong></div>
+        </div>
+        <div class="sz-cost">¥572<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost-label">引き渡し原価</div>
+        <div class="sz-sub">¥120万デポジット + ¥18万/月</div>
+      </div>
+
+      <!-- L -->
+      <div class="sz-card">
+        <div class="sz-badge">L</div>
+        <div class="sz-area">33<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
+        <div class="sz-dim">4.8 m × 7.0 m · 4〜6名</div>
+        <div class="sz-cont-type">2 × 20ft コンテナ</div>
+        <div class="sz-cont-box">
+          <div class="sz-cont-sublabel">コンテナ A</div>
+          <div class="sz-cont-row" style="margin-bottom:6px">
+            <div class="sz-zone wet" style="flex:4.8">WET POD × 2</div>
+            <div class="sz-zone pan" style="flex:1.1">WALL</div>
+          </div>
+          <div class="sz-cont-sublabel">コンテナ B</div>
+          <div class="sz-cont-row">
+            <div class="sz-zone pan" style="flex:4.6">PANELS ×44</div>
+            <div class="sz-zone acc" style="flex:1.3">ACC</div>
+          </div>
+          <div class="sz-cont-label-row">← 各 5.9 m × 2本</div>
+        </div>
+        <div class="sz-specs">
+          <div>壁パネル <strong>26枚</strong></div>
+          <div>BIPVルーフ <strong>10枚 (10 kW)</strong></div>
+          <div>フロアパネル <strong>14枚</strong></div>
+          <div>ウェットポッド <strong>2基</strong></div>
+          <div>蓄電池 <strong>20 kWh</strong></div>
+          <div>サッシ・ドア <strong>10枚</strong></div>
+          <div class="sz-sep">総重量 <strong>5,192 kg × 2本</strong></div>
+        </div>
+        <div class="sz-cost">¥873<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost-label">引き渡し原価</div>
+        <div class="sz-sub">¥160万デポジット + ¥24万/月</div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <!-- WHAT'S INSIDE -->
 <section class="s">
@@ -481,6 +619,97 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
         <div><span class="roi-dot" style="background:rgba(255,107,107,.5)"></span>回収中（コスト超過）</div>
         <div><span class="roi-dot" style="background:rgba(200,164,85,.6)"></span>損益分岐点（Month 30）</div>
         <div><span class="roi-dot" style="background:rgba(155,196,109,.5)"></span>純利益期間（Month 31+）</div>
+      </div>
+    </div>
+
+    <!-- SIZE COMPARISON TABLE -->
+    <div style="margin-top:48px">
+      <div class="eyebrow" style="margin-bottom:14px">SIZE COMPARISON / 3サイズ 比較</div>
+      <div class="sct">
+        <div class="sct-row">
+          <div class="sct-cell"></div>
+          <div class="sct-cell">BOX S</div>
+          <div class="sct-cell m-col">BOX M ★</div>
+          <div class="sct-cell">BOX L</div>
+        </div>
+        <div class="sct-row">
+          <div class="sct-cell">床面積</div>
+          <div class="sct-cell">12 ㎡</div>
+          <div class="sct-cell m-col">21 ㎡</div>
+          <div class="sct-cell">33 ㎡</div>
+        </div>
+        <div class="sct-row">
+          <div class="sct-cell">間取り目安</div>
+          <div class="sct-cell">1K · 1〜2名</div>
+          <div class="sct-cell m-col">1LDK · 2〜4名</div>
+          <div class="sct-cell">2LDK · 4〜6名</div>
+        </div>
+        <div class="sct-row">
+          <div class="sct-cell">コンテナ</div>
+          <div class="sct-cell">20ft × 1本</div>
+          <div class="sct-cell m-col">40ft × 1本</div>
+          <div class="sct-cell">20ft × 2本</div>
+        </div>
+        <div class="sct-row">
+          <div class="sct-cell">壁パネル</div>
+          <div class="sct-cell">12 枚</div>
+          <div class="sct-cell m-col">18 枚</div>
+          <div class="sct-cell">26 枚</div>
+        </div>
+        <div class="sct-row">
+          <div class="sct-cell">BIPV 発電</div>
+          <div class="sct-cell">4枚 / 4 kW</div>
+          <div class="sct-cell m-col">6枚 / 6 kW</div>
+          <div class="sct-cell">10枚 / 10 kW</div>
+        </div>
+        <div class="sct-row">
+          <div class="sct-cell">蓄電池</div>
+          <div class="sct-cell">10 kWh</div>
+          <div class="sct-cell m-col">15 kWh</div>
+          <div class="sct-cell">20 kWh</div>
+        </div>
+        <div class="sct-row">
+          <div class="sct-cell">ウェットポッド</div>
+          <div class="sct-cell">1 基</div>
+          <div class="sct-cell m-col">1 基</div>
+          <div class="sct-cell">2 基</div>
+        </div>
+        <div class="sct-row">
+          <div class="sct-cell">積載総重量</div>
+          <div class="sct-cell">2,296 kg</div>
+          <div class="sct-cell m-col">3,431 kg</div>
+          <div class="sct-cell">5,192 kg × 2</div>
+        </div>
+        <div class="sct-row">
+          <div class="sct-cell">引き渡し原価</div>
+          <div class="sct-cell">¥436 万</div>
+          <div class="sct-cell m-col">¥572 万</div>
+          <div class="sct-cell">¥873 万</div>
+        </div>
+        <div class="sct-row">
+          <div class="sct-cell">デポジット</div>
+          <div class="sct-cell">¥80 万</div>
+          <div class="sct-cell m-col">¥120 万</div>
+          <div class="sct-cell">¥160 万</div>
+        </div>
+        <div class="sct-row">
+          <div class="sct-cell">月額</div>
+          <div class="sct-cell">¥12 万/月</div>
+          <div class="sct-cell m-col">¥18 万/月</div>
+          <div class="sct-cell">¥24 万/月</div>
+        </div>
+        <div class="sct-row hi">
+          <div class="sct-cell">損益分岐</div>
+          <div class="sct-cell">30 ヶ月</div>
+          <div class="sct-cell m-col">26 ヶ月</div>
+          <div class="sct-cell">30 ヶ月</div>
+        </div>
+        <div class="sct-row hi2">
+          <div class="sct-cell">5年純益（対原価）</div>
+          <div class="sct-cell gold">+ ¥364 万</div>
+          <div class="sct-cell m-col gold">+ ¥628 万</div>
+          <div class="sct-cell gold">+ ¥727 万</div>
+        </div>
       </div>
     </div>
 
