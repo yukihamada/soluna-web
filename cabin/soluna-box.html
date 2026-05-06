@@ -141,6 +141,40 @@ h3{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
 .btn-ghost:hover{background:rgba(200,164,85,.07)}
 .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px}
 
+/* BOM TABLE */
+.bom-wrap{margin:32px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.bom-head,.bom-row{display:grid;grid-template-columns:2fr 3fr 1fr 1.2fr 1.2fr 1.3fr;align-items:center;padding:12px 18px;gap:0}
+.bom-head{background:rgba(200,164,85,.06);border-bottom:1px solid var(--line);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-mid);font-weight:700}
+.bom-row{border-top:1px solid var(--line);font-size:12.5px;transition:background .15s}
+.bom-row:hover{background:rgba(255,255,255,.02)}
+.bom-row.section-head{background:rgba(200,164,85,.07);font-weight:800;font-size:12px;letter-spacing:.05em;border-top:2px solid rgba(200,164,85,.3)}
+.bom-row.total{background:rgba(200,164,85,.05);font-weight:800;border-top:2px solid rgba(200,164,85,.3)}
+.bom-row.grand-total{background:rgba(200,164,85,.12);font-weight:900;border-top:2px solid rgba(200,164,85,.5)}
+.bom-c.right{text-align:right}
+.bom-c.dim{color:var(--text-mid);font-size:11px}
+.bom-c.gold{color:var(--gold)}
+@media(max-width:640px){.bom-head,.bom-row{grid-template-columns:2fr 1fr 1.3fr}.bom-c:nth-child(2),.bom-c:nth-child(5){display:none}}
+
+/* COST FLOW */
+.cost-flow{display:flex;align-items:stretch;flex-wrap:wrap;gap:0;margin:32px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.cf-step{flex:1;min-width:140px;padding:22px 18px;border-right:1px solid var(--line)}
+.cf-step:last-child{border-right:none;background:rgba(200,164,85,.04)}
+.cf-plus{display:flex;align-items:center;justify-content:center;padding:0 4px;font-size:1.1rem;color:var(--text-dim);font-weight:700;min-width:24px}
+.cf-label{font-size:9px;letter-spacing:.2em;color:var(--text-mid);text-transform:uppercase;margin-bottom:6px;font-weight:700}
+.cf-val{font-size:1.5rem;font-weight:900;letter-spacing:-.03em;color:var(--gold);line-height:1}
+.cf-sub{font-size:10.5px;color:var(--text-mid);margin-top:5px;line-height:1.6}
+@media(max-width:640px){.cost-flow{flex-direction:column}.cf-step{border-right:none;border-bottom:1px solid var(--line)}.cf-plus{display:none}}
+
+/* ROI BAR */
+.roi-bar{margin-top:32px;padding:28px 24px;background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:14px}
+.roi-months{display:flex;align-items:stretch;margin:16px 0 10px;height:72px;border-radius:8px;overflow:hidden;gap:2px}
+.roi-seg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;letter-spacing:.04em;text-align:center;line-height:1.4;padding:4px;border-radius:4px}
+.roi-seg.red{background:rgba(255,107,107,.12);color:#ff9999}
+.roi-seg.gold{background:rgba(200,164,85,.22);color:var(--gold-bright)}
+.roi-seg.green{background:rgba(155,196,109,.13);color:var(--green)}
+.roi-legend{display:flex;gap:20px;flex-wrap:wrap;font-size:11px;color:var(--text-mid)}
+.roi-dot{width:9px;height:9px;border-radius:2px;margin-right:5px;display:inline-block;vertical-align:middle}
+
 /* NOTE */
 .note{font-size:10.5px;color:var(--text-dim);line-height:1.9;margin-top:28px;padding:18px 22px;border:1px solid var(--line);border-radius:10px}
 
@@ -241,8 +275,216 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
       </div>
     </div>
     <div class="note">
-      ※ SOLUNA BOX S（12㎡）の標準構成。総重量 約8.5t（20ft コンテナ積載限度 28t 以内）。フロア材・断熱材・電気部材を含む全資材がコンテナ内に収納される。
+      ※ SOLUNA BOX S（12㎡）の標準構成。フロア材・断熱材・電気部材を含む全資材がコンテナ内に収納される。
     </div>
+  </div>
+</section>
+
+<!-- PACKING LAYOUT -->
+<section class="s" style="padding-top:0;border-top:none">
+  <div class="ww">
+    <div class="eyebrow">PACKING / 積載レイアウト</div>
+    <h2>20ft に<em style="font-style:normal;color:var(--gold)">全部収める。</em></h2>
+    <p class="sub">コンテナ内寸 5.9m × 2.35m × 2.39m。<strong>ウェットポッド（2.4m）</strong>を最奥に固定。壁・床パネルをスタック積み（2.85m）。電気スパイン・サッシ・付属品を手前に。総重量 <strong>2,296 kg</strong> — 積載限度 28 t の <strong>8.2%</strong> のみ使用。</p>
+    <div style="border-radius:16px;overflow:hidden;border:1px solid var(--line)">
+      <img src="img/box_packing_diagram.png" alt="コンテナ積載レイアウト断面図" style="width:100%;display:block"/>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px">
+      <div style="padding:16px;background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:10px">
+        <div style="font-size:9px;letter-spacing:.25em;color:var(--text-mid);text-transform:uppercase;margin-bottom:6px;font-weight:700">最奥 0–2.4 m</div>
+        <div style="font-weight:800;color:var(--text);font-size:14px">ウェットポッド</div>
+        <div style="font-size:11px;color:var(--text-mid);margin-top:4px">450 kg · 木枠ブレース固定</div>
+      </div>
+      <div style="padding:16px;background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:10px">
+        <div style="font-size:9px;letter-spacing:.25em;color:var(--text-mid);text-transform:uppercase;margin-bottom:6px;font-weight:700">中央 2.4–5.25 m</div>
+        <div style="font-weight:800;color:var(--text);font-size:14px">パネル群スタック</div>
+        <div style="font-size:11px;color:var(--text-mid);margin-top:4px">壁12枚+BIPV4枚+床6枚 / 1,546 kg</div>
+      </div>
+      <div style="padding:16px;background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:10px">
+        <div style="font-size:9px;letter-spacing:.25em;color:var(--text-mid);text-transform:uppercase;margin-bottom:6px;font-weight:700">手前 5.25–5.9 m</div>
+        <div style="font-weight:800;color:var(--text);font-size:14px">付属品・設備</div>
+        <div style="font-size:11px;color:var(--text-mid);margin-top:4px">電気スパイン+パイル+サッシ+キット / 300 kg</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOM / COST BREAKDOWN -->
+<section class="s">
+  <div class="ww">
+    <div class="eyebrow">COST / コスト内訳</div>
+    <h2>製造原価を<em style="font-style:normal;color:var(--gold)">開示する。</em></h2>
+    <p class="sub">設計目標値。量産スケール・仕入れ先最適化で材料費は <strong>-15〜20%</strong> の余地あり。</p>
+
+    <div class="bom-wrap">
+      <div class="bom-head">
+        <div class="bom-c">部材</div>
+        <div class="bom-c dim">仕様</div>
+        <div class="bom-c right">数量</div>
+        <div class="bom-c right">単価</div>
+        <div class="bom-c right dim">重量</div>
+        <div class="bom-c right">小計</div>
+      </div>
+      <div class="bom-row">
+        <div class="bom-c">壁パネル</div>
+        <div class="bom-c dim">1200×2800×165mm OSB+PUR+OSB スナップ端部加工</div>
+        <div class="bom-c right">12 枚</div>
+        <div class="bom-c right">¥28,000</div>
+        <div class="bom-c right dim">86 kg × 12</div>
+        <div class="bom-c right gold">¥336,000</div>
+      </div>
+      <div class="bom-row">
+        <div class="bom-c">BIPVルーフパネル</div>
+        <div class="bom-c dim">薄膜太陽電池一体成形 1kW/枚 リッジコネクタ付き</div>
+        <div class="bom-c right">4 枚</div>
+        <div class="bom-c right">¥178,000</div>
+        <div class="bom-c right dim">62 kg × 4</div>
+        <div class="bom-c right gold">¥712,000</div>
+      </div>
+      <div class="bom-row">
+        <div class="bom-c">フロアパネル</div>
+        <div class="bom-c dim">1200×2400×90mm 床暖房チューブ埋込 仕上げ材付き</div>
+        <div class="bom-c right">6 枚</div>
+        <div class="bom-c right">¥18,000</div>
+        <div class="bom-c right dim">44 kg × 6</div>
+        <div class="bom-c right gold">¥108,000</div>
+      </div>
+      <div class="bom-row">
+        <div class="bom-c">ウェットポッド</div>
+        <div class="bom-c dim">1400×2400×2200mm トイレ+シャワー+洗面 4点接続</div>
+        <div class="bom-c right">1 基</div>
+        <div class="bom-c right">¥980,000</div>
+        <div class="bom-c right dim">450 kg</div>
+        <div class="bom-c right gold">¥980,000</div>
+      </div>
+      <div class="bom-row">
+        <div class="bom-c">スクリューパイル</div>
+        <div class="bom-c dim">Φ89mm × 1.2m 鋼管 亜鉛メッキ ベースプレート付き</div>
+        <div class="bom-c right">6 本</div>
+        <div class="bom-c right">¥30,000</div>
+        <div class="bom-c right dim">15 kg × 6</div>
+        <div class="bom-c right gold">¥180,000</div>
+      </div>
+      <div class="bom-row">
+        <div class="bom-c">電気スパイン + 蓄電池</div>
+        <div class="bom-c dim">48V DC バス 10kWh LiFePO₄ スマートメーター内蔵</div>
+        <div class="bom-c right">1 式</div>
+        <div class="bom-c right">¥620,000</div>
+        <div class="bom-c right dim">180 kg</div>
+        <div class="bom-c right gold">¥620,000</div>
+      </div>
+      <div class="bom-row">
+        <div class="bom-c">サッシ・ドア</div>
+        <div class="bom-c dim">トリプルガラス樹脂サッシ × 4 + スマートロック付き玄関ドア</div>
+        <div class="bom-c right">5 枚</div>
+        <div class="bom-c right">¥120,000</div>
+        <div class="bom-c right dim">30 kg × 5</div>
+        <div class="bom-c right gold">¥600,000</div>
+      </div>
+      <div class="bom-row">
+        <div class="bom-c">ハードウェアキット</div>
+        <div class="bom-c dim">スプライン・ビス・EPDMテープ・ARガイドQR・全数検査済シール</div>
+        <div class="bom-c right">1 式</div>
+        <div class="bom-c right">¥68,000</div>
+        <div class="bom-c right dim">50 kg</div>
+        <div class="bom-c right gold">¥68,000</div>
+      </div>
+      <div class="bom-row section-head">
+        <div class="bom-c">材料費 合計</div>
+        <div class="bom-c dim"></div>
+        <div class="bom-c right"></div>
+        <div class="bom-c right"></div>
+        <div class="bom-c right dim">2,296 kg</div>
+        <div class="bom-c right gold">¥3,604,000</div>
+      </div>
+      <div class="bom-row">
+        <div class="bom-c">製造工賃</div>
+        <div class="bom-c dim">パネル加工・スナップ端部切削・梱包・品質検査</div>
+        <div class="bom-c right">1 式</div>
+        <div class="bom-c right">—</div>
+        <div class="bom-c right dim">—</div>
+        <div class="bom-c right gold">¥580,000</div>
+      </div>
+      <div class="bom-row total">
+        <div class="bom-c">製造原価</div>
+        <div class="bom-c dim">工場出荷前コスト合計</div>
+        <div class="bom-c right"></div>
+        <div class="bom-c right"></div>
+        <div class="bom-c right dim"></div>
+        <div class="bom-c right" style="color:var(--gold);font-size:1.05rem">¥4,184,000</div>
+      </div>
+      <div class="bom-row">
+        <div class="bom-c">物流費</div>
+        <div class="bom-c dim">20ft コンテナ船積み + 国内トレーラー（1,000km 圏内）</div>
+        <div class="bom-c right">1 式</div>
+        <div class="bom-c right">—</div>
+        <div class="bom-c right dim">—</div>
+        <div class="bom-c right gold">¥180,000</div>
+      </div>
+      <div class="bom-row grand-total">
+        <div class="bom-c" style="font-size:.95rem">引き渡し原価</div>
+        <div class="bom-c dim">現地搬入まで（組立工賃別）</div>
+        <div class="bom-c right"></div>
+        <div class="bom-c right"></div>
+        <div class="bom-c right dim"></div>
+        <div class="bom-c right" style="color:var(--gold-bright);font-size:1.25rem">¥4,364,000</div>
+      </div>
+    </div>
+
+    <div style="border-radius:16px;overflow:hidden;border:1px solid var(--line);margin:32px 0 0">
+      <img src="img/box_bom_visual.png" alt="コスト構造ビジュアライゼーション" style="width:100%;display:block"/>
+    </div>
+
+    <div class="cost-flow">
+      <div class="cf-step">
+        <div class="cf-label">材料費</div>
+        <div class="cf-val">¥360<sub style="font-size:.55em;font-weight:700">万</sub></div>
+        <div class="cf-sub">8 部材合計<br/>パネル·ポッド·電気</div>
+      </div>
+      <div class="cf-plus">＋</div>
+      <div class="cf-step">
+        <div class="cf-label">製造工賃</div>
+        <div class="cf-val">¥58<sub style="font-size:.55em;font-weight:700">万</sub></div>
+        <div class="cf-sub">加工·検査·梱包</div>
+      </div>
+      <div class="cf-plus">＝</div>
+      <div class="cf-step">
+        <div class="cf-label">製造原価</div>
+        <div class="cf-val" style="color:var(--text)">¥418<sub style="font-size:.55em;font-weight:700">万</sub></div>
+        <div class="cf-sub">工場出荷前</div>
+      </div>
+      <div class="cf-plus">＋</div>
+      <div class="cf-step">
+        <div class="cf-label">物流費</div>
+        <div class="cf-val">¥18<sub style="font-size:.55em;font-weight:700">万</sub></div>
+        <div class="cf-sub">コンテナ船·<br/>国内搬送</div>
+      </div>
+      <div class="cf-plus">＝</div>
+      <div class="cf-step">
+        <div class="cf-label">引き渡し原価</div>
+        <div class="cf-val" style="color:var(--gold-bright)">¥436<sub style="font-size:.55em;font-weight:700">万</sub></div>
+        <div class="cf-sub">現地搬入まで<br/>（組立工賃別）</div>
+      </div>
+    </div>
+
+    <div class="roi-bar">
+      <div style="font-size:9px;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:6px">SUBSCRIPTION ROI — BOX S（¥80万デポジット + ¥12万/月）</div>
+      <div style="font-size:1.6rem;font-weight:900;letter-spacing:-.03em;margin-bottom:6px">損益分岐 <span style="color:var(--gold)">30ヶ月</span>&ensp;5年純益 <span style="color:var(--green)">+¥363万</span></div>
+      <div style="font-size:11px;color:var(--text-mid);margin-bottom:20px;line-height:1.8">デポジット¥80万 + 月額¥12万 × 60ヶ月 = 回収総額 ¥800万。引き渡し原価¥436万 + 組立・保守¥180万 = 総コスト¥616万。<strong style="color:var(--text)">5年粗利 ¥184万 → 組立・保守後純益 ¥363万。</strong></div>
+      <div class="roi-months">
+        <div class="roi-seg red" style="flex:8">M1–8<br/>デポジット<br/>回収中</div>
+        <div class="roi-seg red" style="flex:22">Month 9–29<br/>原価回収中</div>
+        <div class="roi-seg gold" style="flex:4">M30<br/>BEP</div>
+        <div class="roi-seg green" style="flex:30">Month 31–60 — 純利益期間</div>
+      </div>
+      <div class="roi-legend">
+        <div><span class="roi-dot" style="background:rgba(255,107,107,.5)"></span>回収中（コスト超過）</div>
+        <div><span class="roi-dot" style="background:rgba(200,164,85,.6)"></span>損益分岐点（Month 30）</div>
+        <div><span class="roi-dot" style="background:rgba(155,196,109,.5)"></span>純利益期間（Month 31+）</div>
+      </div>
+    </div>
+
+    <div class="note">※ 本ページの数値は設計目標値・試算です。量産開始前のため、製造コスト・仕入れ価格は変動します。BIPVパネル・スナップジョイントは現在開発中。サブスクリプションモデルは事業検討中。実際の販売条件は確定次第お知らせします。</div>
   </div>
 </section>
 
