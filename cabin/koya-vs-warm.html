@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>どれを建てるか（暖地版） — SOLUNA 6プラン比較ガイド | 熱海・和歌山・ハワイ</title>
+<meta content="熱海・和歌山・瀬戸内・ハワイなど暖地向けにSOLUNAの6プランを比較。KOYA・インスタントハウス・ドーム・SIPSヴィラ・オフグリッド — デッキ・通風・耐候性を軸に。" name="description"/>
+<meta content="どれを建てるか（暖地版）— SOLUNA 6プラン比較" property="og:title"/>
+<meta content="熱海・和歌山・ハワイ対応。6プランをデッキ・通風・ロケーション適性で比較。" property="og:description"/>
+<meta content="https://solun.art/img/atami_sunset_ocean.webp" property="og:image"/>
+<meta content="https://solun.art/koya-vs-warm" property="og:url"/>
+<link href="https://solun.art/koya-vs-warm" rel="canonical"/>
+<link href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23c8a455'/></svg>" rel="icon"/>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<script defer src="/js/sln-track.js"></script>
+<script src="/js/gnav.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--gold-bright:#f0d080;--gold-dim:rgba(200,164,85,.35);--bg:#040404;--bg2:#080808;--bg3:#0c0c0c;--text:#f0ece4;--text-mid:#888;--text-dim:#444;--line:rgba(255,255,255,.06);--line-bright:rgba(255,255,255,.13);--ocean:#4aaed4}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%;object-fit:cover}
+::selection{background:var(--gold);color:#000}
+
+.w{max-width:760px;margin:0 auto;padding:0 24px}
+.ww{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* VERSION TOGGLE */
+.version-bar{background:var(--bg2);border-bottom:1px solid var(--line);padding:10px 24px;display:flex;justify-content:center;gap:8px;font-size:11px}
+.vbtn{padding:6px 16px;border-radius:100px;font-weight:700;border:1px solid var(--line);color:var(--text-dim);transition:all .2s;cursor:pointer}
+.vbtn:hover{border-color:var(--line-bright);color:var(--text)}
+.vbtn.on{background:rgba(74,174,212,.12);border-color:rgba(74,174,212,.4);color:var(--ocean)}
+
+/* HERO */
+.hero{padding:100px 0 68px;border-bottom:1px solid var(--line);background:radial-gradient(ellipse at 40% 0,rgba(74,174,212,.07) 0,transparent 55%)}
+.eyebrow{font-size:10px;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:16px}
+h1{font-size:clamp(2.2rem,5.5vw,3.8rem);font-weight:900;letter-spacing:-.04em;line-height:1.04;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--ocean)}
+.sub{color:var(--text-mid);font-size:14px;line-height:2;margin-bottom:28px}
+.sub strong{color:var(--text)}
+
+/* LOCATION PILLS */
+.loc-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.loc{display:inline-block;font-size:10.5px;font-weight:700;padding:5px 12px;border-radius:100px;border:1px solid rgba(74,174,212,.35);color:var(--ocean);letter-spacing:.04em}
+
+/* PLAN CARDS */
+section.plans{padding:80px 0;border-top:1px solid var(--line)}
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+@media(max-width:1000px){.plans-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.plans-grid{grid-template-columns:1fr}}
+
+.plan-card{background:var(--bg2);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,transform .2s}
+.plan-card:hover{border-color:rgba(74,174,212,.3);transform:translateY(-3px)}
+
+.plan-hero{position:relative;aspect-ratio:16/9;overflow:hidden}
+.plan-hero img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.plan-card:hover .plan-hero img{transform:scale(1.04)}
+.plan-badge{position:absolute;top:14px;left:14px;font-size:9.5px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;padding:4px 10px;border-radius:100px;background:rgba(4,4,4,.82);backdrop-filter:blur(8px)}
+.plan-badge.ocean{color:var(--ocean);border:1px solid rgba(74,174,212,.45)}
+.plan-badge.gold{color:var(--gold);border:1px solid rgba(200,164,85,.5)}
+.plan-badge.silver{color:#aaa;border:1px solid rgba(200,200,200,.3)}
+
+.plan-photos{display:flex;gap:2px;height:52px;background:#000}
+.plan-photos img{flex:1;object-fit:cover;opacity:.8;transition:opacity .2s}
+.plan-photos img:hover{opacity:1}
+
+.plan-body{padding:22px 22px 20px;flex:1;display:flex;flex-direction:column;gap:10px}
+.plan-name{font-size:16px;font-weight:800;letter-spacing:-.02em;color:var(--text)}
+.plan-tagline{font-size:11.5px;color:var(--text-mid);line-height:1.7}
+.plan-price{font-size:22px;font-weight:900;color:var(--gold);letter-spacing:-.03em}
+.plan-price span{font-size:11px;color:rgba(200,164,85,.6);font-weight:700;margin-left:3px}
+
+.plan-stats{display:flex;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:2px 0}
+.ps{flex:1;padding:10px 8px;border-right:1px solid var(--line);text-align:center}
+.ps:last-child{border-right:none}
+.ps-v{font-size:13px;font-weight:800;color:var(--text);letter-spacing:-.02em}
+.ps-l{font-size:9px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-top:3px;line-height:1.3}
+
+.plan-locs{font-size:10px;color:var(--ocean);font-weight:700;letter-spacing:.04em;margin-top:2px}
+
+.plan-cta{display:block;text-align:center;font-size:11.5px;font-weight:700;color:var(--gold);border:1px solid var(--gold-dim);padding:11px;border-radius:10px;transition:all .2s;margin-top:auto}
+.plan-cta:hover{background:var(--gold);color:#040404;border-color:var(--gold)}
+
+/* TABLE */
+section.compare{padding:80px 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-.03em;margin-bottom:14px}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin-top:28px;background:var(--bg2)}
+table.ct{width:100%;border-collapse:collapse;font-size:12px;min-width:860px}
+table.ct thead{background:#0a0a0a;position:sticky;top:0;z-index:2}
+table.ct th{font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);padding:14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+table.ct th.hl{color:var(--gold)}
+table.ct td{padding:14px;border-bottom:1px solid var(--line);color:#ccc;vertical-align:middle}
+table.ct tr:last-child td{border-bottom:none}
+table.ct tr:hover td{background:#0a0a0a}
+table.ct .row-label{font-size:11px;font-weight:700;color:var(--text-dim);white-space:nowrap}
+.cv{font-size:12px;color:var(--text);text-align:center}
+.cv.yes{color:#9bc46d}
+.cv.mid{color:var(--gold)}
+.cv.ocean{color:var(--ocean)}
+.cv.dim{color:var(--text-dim)}
+.plan-col-head{display:flex;flex-direction:column;gap:3px;align-items:center}
+.plan-col-head strong{font-size:11px;font-weight:800;white-space:nowrap;color:var(--text)}
+.plan-col-head.hl strong{color:var(--gold)}
+.plan-col-head small{font-size:9px;color:var(--text-dim);white-space:nowrap}
+
+/* PICK GUIDE */
+section.pick{padding:80px 0;border-top:1px solid var(--line)}
+.pick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px}
+@media(max-width:860px){.pick-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.pick-grid{grid-template-columns:1fr}}
+.pick-card{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:26px 22px}
+.pick-card h4{font-size:14px;font-weight:800;letter-spacing:-.01em;margin-bottom:8px}
+.pick-card p{font-size:11.5px;color:var(--text-mid);line-height:1.85;margin-bottom:14px}
+.pick-ans{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.04em}
+.pick-icon{font-size:22px;margin-bottom:10px}
+
+/* NOTE */
+.note-bar{background:rgba(74,174,212,.05);border:1px solid rgba(74,174,212,.15);border-radius:12px;padding:18px 22px;font-size:11.5px;color:var(--text-mid);line-height:1.85;margin-top:28px}
+.note-bar strong{color:var(--ocean)}
+
+/* CTA */
+.cta-sec{padding:100px 0;background:linear-gradient(180deg,#040404,#070707);border-top:1px solid var(--line);text-align:center}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#040404;font-weight:800;font-size:13px;padding:15px 32px;border-radius:100px;transition:all .2s}
+.btn-gold:hover{background:var(--gold-bright);transform:translateY(-2px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--gold-dim);color:var(--gold);font-size:13px;font-weight:700;padding:15px 28px;border-radius:100px;transition:all .2s}
+.btn-ghost:hover{background:rgba(200,164,85,.07)}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+
+footer{padding:48px 0 36px;border-top:1px solid var(--line)}
+.foot{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:11px;color:var(--text-dim)}
+.foot a{color:var(--gold);margin:0 8px}
+</style>
+</head>
+<body>
+
+<!-- VERSION TOGGLE -->
+<div class="version-bar">
+  <a class="vbtn" href="koya-vs">🏔 寒冷地版（北海道・道東）</a>
+  <a class="vbtn on" href="koya-vs-warm">🌊 暖地版（熱海・和歌山・ハワイ）</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="w">
+    <div class="eyebrow">WARM CLIMATE PLANS · 2026</div>
+    <h1>海と緑の拠点を、<br/><em>どう建てるか。</em></h1>
+    <p class="sub">
+      熱海・和歌山・瀬戸内・ハワイ — 暖地ロケーション向けに6プランを整理しました。<br/>
+      寒冷地仕様の気密より、<strong>デッキ・通風・耐塩害・景色</strong> を軸に選ぶ比較です。
+    </p>
+    <div class="loc-pills">
+      <span class="loc">🌊 熱海・伊豆</span>
+      <span class="loc">🌿 和歌山・熊野</span>
+      <span class="loc">🏝 瀬戸内</span>
+      <span class="loc">🌺 ハワイ・沖縄</span>
+      <span class="loc">🏖 湘南・葉山</span>
+    </div>
+  </div>
+</section>
+
+<!-- PLAN CARDS -->
+<section class="plans">
+  <div class="ww">
+    <div class="eyebrow" style="padding:0 0 8px">ALL PLANS / 暖地シーン写真</div>
+    <div class="plans-grid">
+
+      <!-- KOYA -->
+      <div class="plan-card">
+        <div class="plan-hero">
+          <img src="img/pro_atami_hero.webp" alt="KOYA 熱海オーシャンビュー"/>
+          <span class="plan-badge gold">KOYA · 旗艦モデル</span>
+        </div>
+        <div class="plan-photos">
+          <img src="img/atami_cliff_view.webp" alt="崖上ビュー"/>
+          <img src="img/atami_bbq_deck.webp" alt="BBQデッキ"/>
+          <img src="img/atami_sunset_ocean.webp" alt="夕日海"/>
+          <img src="img/morning_coffee_deck.jpg" alt="朝コーヒー"/>
+        </div>
+        <div class="plan-body">
+          <div class="plan-name">SOLUNA KOYA</div>
+          <div class="plan-tagline">高性能躯体をクレーン設置。熱海や湘南の斜面地・崖上にも対応。通年居住グレードで海の拠点に。</div>
+          <div class="plan-price">¥380万〜<span>（12㎡〜）</span></div>
+          <div class="plan-stats">
+            <div class="ps"><div class="ps-v">耐塩</div><div class="ps-l">仕様対応</div></div>
+            <div class="ps"><div class="ps-v">UA0.20</div><div class="ps-l">断熱</div></div>
+            <div class="ps"><div class="ps-v">2週間</div><div class="ps-l">工期</div></div>
+          </div>
+          <div class="plan-locs">熱海 / 湘南 / 伊豆 / 和歌山</div>
+          <a class="plan-cta" href="koya" data-sln-track="warm_cta_koya">詳細を見る →</a>
+        </div>
+      </div>
+
+      <!-- Plan A -->
+      <div class="plan-card">
+        <div class="plan-hero">
+          <img src="img/container_summer.webp" alt="インスタントハウス 夏"/>
+          <span class="plan-badge silver">PLAN A · インスタントハウス</span>
+        </div>
+        <div class="plan-photos">
+          <img src="img/container_deck_summer.webp" alt="夏デッキ"/>
+          <img src="img/container_rooftop_deck.webp" alt="屋上デッキ"/>
+          <img src="img/container_interior.webp" alt="内観"/>
+          <img src="img/container_kitchen.webp" alt="キッチン"/>
+        </div>
+        <div class="plan-body">
+          <div class="plan-name">Plan A — インスタントハウス</div>
+          <div class="plan-tagline">コンテナ展開＋屋上デッキ。瀬戸内や熱帯ロケーションで即スタートできる最安エントリー。</div>
+          <div class="plan-price">¥280万〜<span>（20ft）</span></div>
+          <div class="plan-stats">
+            <div class="ps"><div class="ps-v">屋上</div><div class="ps-l">デッキ可</div></div>
+            <div class="ps"><div class="ps-v">20㎡</div><div class="ps-l">面積</div></div>
+            <div class="ps"><div class="ps-v">3〜5日</div><div class="ps-l">接続工事</div></div>
+          </div>
+          <div class="plan-locs">瀬戸内 / ハワイ / 沖縄 / 国内全域</div>
+          <a class="plan-cta" href="package-a" data-sln-track="warm_cta_a">詳細を見る →</a>
+        </div>
+      </div>
+
+      <!-- Plan B -->
+      <div class="plan-card">
+        <div class="plan-hero">
+          <img src="img/dome_summer_deck.webp" alt="ドームサマーデッキ"/>
+          <span class="plan-badge silver">PLAN B · インスタントドーム</span>
+        </div>
+        <div class="plan-photos">
+          <img src="img/lodge_morning_view.webp" alt="朝の眺望"/>
+          <img src="img/outdoor_social_night.webp" alt="ナイトアウトドア"/>
+          <img src="img/lodge_hot_spring_night.webp" alt="温泉夜景"/>
+          <img src="img/lodge_onsen.webp" alt="露天温泉"/>
+        </div>
+        <div class="plan-body">
+          <div class="plan-name">Plan B — インスタントドーム</div>
+          <div class="plan-tagline">温泉地やリゾートに最適なロッジ＋ドームセット。夜焚き火・朝温泉の体験型グランピング施設。</div>
+          <div class="plan-price">¥350万〜<span>（ドーム＋ロッジ）</span></div>
+          <div class="plan-stats">
+            <div class="ps"><div class="ps-v">2棟</div><div class="ps-l">構成</div></div>
+            <div class="ps"><div class="ps-v">温泉</div><div class="ps-l">接続可</div></div>
+            <div class="ps"><div class="ps-v">4週間</div><div class="ps-l">工期</div></div>
+          </div>
+          <div class="plan-locs">熱海 / 伊豆 / 紀伊半島 / 瀬戸内</div>
+          <a class="plan-cta" href="package-b" data-sln-track="warm_cta_b">詳細を見る →</a>
+        </div>
+      </div>
+
+      <!-- Plan C -->
+      <div class="plan-card">
+        <div class="plan-hero">
+          <img src="img/wakayama_akiya_nachi_view.webp" alt="和歌山 那智 ビュー"/>
+          <span class="plan-badge silver">PLAN C · EPSドーム</span>
+        </div>
+        <div class="plan-photos">
+          <img src="img/wakayama_after_exterior.webp" alt="空き家リノベ外観"/>
+          <img src="img/wakayama_after_interior.webp" alt="空き家リノベ内観"/>
+          <img src="img/outdoor_cinema_night.webp" alt="アウトドアシネマ"/>
+          <img src="img/dome_summer_deck.webp" alt="ドーム夏デッキ"/>
+        </div>
+        <div class="plan-body">
+          <div class="plan-name">Plan C — EPSドーム</div>
+          <div class="plan-tagline">和歌山・瀬戸内の空き家敷地にDIYで設置できる球体体験施設。自然素材×インスタ映えの二重構造。</div>
+          <div class="plan-price">¥180万〜<span>（単体）</span></div>
+          <div class="plan-stats">
+            <div class="ps"><div class="ps-v">DIY可</div><div class="ps-l">施工</div></div>
+            <div class="ps"><div class="ps-v">18㎡</div><div class="ps-l">面積</div></div>
+            <div class="ps"><div class="ps-v">6週間</div><div class="ps-l">工期</div></div>
+          </div>
+          <div class="plan-locs">和歌山 / 瀬戸内 / 九州 / 沖縄</div>
+          <a class="plan-cta" href="package-c" data-sln-track="warm_cta_c">詳細を見る →</a>
+        </div>
+      </div>
+
+      <!-- Plan E -->
+      <div class="plan-card">
+        <div class="plan-hero">
+          <img src="img/kumaushi_sips_roof_deck_view.webp" alt="SIPSヴィラ 屋上デッキ"/>
+          <span class="plan-badge gold">PLAN E · SIPSヴィラ</span>
+        </div>
+        <div class="plan-photos">
+          <img src="img/soluna_deck_outdoor.webp" alt="アウトドアデッキ"/>
+          <img src="img/up_yakisugi_deck.webp" alt="焼杉デッキ"/>
+          <img src="img/kumaushi_sips_interior_living.webp" alt="リビング"/>
+          <img src="img/kumaushi_hybrid_membrane_deck.webp" alt="テラス"/>
+        </div>
+        <div class="plan-body">
+          <div class="plan-name">Plan E — SIPSコンパウンドヴィラ</div>
+          <div class="plan-tagline">焼杉外装＋40㎡屋上デッキ。海や森を望む高台に建てるハイエンドヴィラ。家族・仲間合宿仕様。</div>
+          <div class="plan-price">¥750万〜<span>（80㎡+デッキ40㎡）</span></div>
+          <div class="plan-stats">
+            <div class="ps"><div class="ps-v">40㎡</div><div class="ps-l">屋上デッキ</div></div>
+            <div class="ps"><div class="ps-v">80㎡+</div><div class="ps-l">床面積</div></div>
+            <div class="ps"><div class="ps-v">8週間</div><div class="ps-l">工期</div></div>
+          </div>
+          <div class="plan-locs">熱海II / 和歌山 / ハワイ / 湘南</div>
+          <a class="plan-cta" href="sips-villa" data-sln-track="warm_cta_e">詳細を見る →</a>
+        </div>
+      </div>
+
+      <!-- Plan D -->
+      <div class="plan-card">
+        <div class="plan-hero">
+          <img src="img/village_aerial_summer.webp" alt="ビレッジ 夏空撮"/>
+          <span class="plan-badge silver">PLAN D · オフグリッド</span>
+        </div>
+        <div class="plan-photos">
+          <img src="img/offgrid_solar_panel.jpg" alt="太陽光パネル"/>
+          <img src="img/eco_solar_thermal.webp" alt="太陽熱温水"/>
+          <img src="img/v2h_outdoor_media.webp" alt="V2H 屋外"/>
+          <img src="img/nesting_onsen_outdoor.webp" alt="露天温泉"/>
+        </div>
+        <div class="plan-body">
+          <div class="plan-name">Plan D — オフグリッドコンパウンド</div>
+          <div class="plan-tagline">年間日照が多い暖地はオフグリッドの効率が最大化。日射量が豊富なほど自立率が上がる構成。</div>
+          <div class="plan-price">¥1,200万〜<span>（フルシステム）</span></div>
+          <div class="plan-stats">
+            <div class="ps"><div class="ps-v">日照</div><div class="ps-l">最大活用</div></div>
+            <div class="ps"><div class="ps-v">100%</div><div class="ps-l">自立率</div></div>
+            <div class="ps"><div class="ps-v">12週間</div><div class="ps-l">工期</div></div>
+          </div>
+          <div class="plan-locs">和歌山 / 九州 / ハワイ / 沖縄</div>
+          <a class="plan-cta" href="package-d" data-sln-track="warm_cta_d">詳細を見る →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="compare">
+  <div class="ww">
+    <div class="eyebrow">SPECS / 暖地向け仕様比較</div>
+    <h2>6プラン 暖地仕様比較</h2>
+    <p class="sub" style="color:var(--text-mid);font-size:13px;line-height:2;margin-bottom:0">寒冷地版と異なり、デッキ・通風・耐塩害・景観適性を中心に整理しています。</p>
+    <div class="tbl-wrap">
+      <table class="ct">
+        <thead>
+          <tr>
+            <th style="min-width:120px">仕様</th>
+            <th class="hl"><div class="plan-col-head hl"><strong>KOYA</strong><small>旗艦モデル</small></div></th>
+            <th><div class="plan-col-head"><strong>Plan A</strong><small>インスタントH</small></div></th>
+            <th><div class="plan-col-head"><strong>Plan B</strong><small>インスタントD</small></div></th>
+            <th><div class="plan-col-head"><strong>Plan C</strong><small>EPSドーム</small></div></th>
+            <th class="hl"><div class="plan-col-head hl"><strong>Plan E</strong><small>SIPSヴィラ</small></div></th>
+            <th><div class="plan-col-head"><strong>Plan D</strong><small>オフグリッド</small></div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">価格目安</td>
+            <td class="cv mid">¥380万〜</td>
+            <td class="cv">¥280万〜</td>
+            <td class="cv">¥350万〜</td>
+            <td class="cv">¥180万〜</td>
+            <td class="cv mid">¥750万〜</td>
+            <td class="cv">¥1,200万〜</td>
+          </tr>
+          <tr>
+            <td class="row-label">屋外デッキ</td>
+            <td class="cv mid">オプション</td>
+            <td class="cv yes">屋上デッキ可</td>
+            <td class="cv yes">テラス付き</td>
+            <td class="cv mid">外構次第</td>
+            <td class="cv yes">40㎡ 屋上標準</td>
+            <td class="cv yes">中庭＋テラス</td>
+          </tr>
+          <tr>
+            <td class="row-label">自然通風</td>
+            <td class="cv mid">クロス換気対応</td>
+            <td class="cv mid">窓配置調整可</td>
+            <td class="cv yes">全面開口可</td>
+            <td class="cv yes">自然換気設計</td>
+            <td class="cv yes">縦断換気設計</td>
+            <td class="cv yes">パッシブ換気</td>
+          </tr>
+          <tr>
+            <td class="row-label">耐塩害</td>
+            <td class="cv yes">海岸仕様対応</td>
+            <td class="cv mid">要オプション</td>
+            <td class="cv dim">要確認</td>
+            <td class="cv dim">要確認</td>
+            <td class="cv yes">焼杉外装標準</td>
+            <td class="cv mid">要オプション</td>
+          </tr>
+          <tr>
+            <td class="row-label">眺望確保</td>
+            <td class="cv yes">傾斜地対応</td>
+            <td class="cv mid">高床可</td>
+            <td class="cv mid">設置場所次第</td>
+            <td class="cv mid">設置場所次第</td>
+            <td class="cv yes">屋上デッキで360°</td>
+            <td class="cv mid">設置場所次第</td>
+          </tr>
+          <tr>
+            <td class="row-label">太陽光効率</td>
+            <td class="cv mid">オプション</td>
+            <td class="cv mid">オプション</td>
+            <td class="cv mid">オプション</td>
+            <td class="cv mid">オプション</td>
+            <td class="cv mid">屋上設置可</td>
+            <td class="cv yes">暖地で最大効率</td>
+          </tr>
+          <tr>
+            <td class="row-label">温泉接続</td>
+            <td class="cv mid">要工事</td>
+            <td class="cv mid">要工事</td>
+            <td class="cv yes">温泉地向け設計</td>
+            <td class="cv mid">要工事</td>
+            <td class="cv mid">要工事</td>
+            <td class="cv yes">再生可能熱源対応</td>
+          </tr>
+          <tr>
+            <td class="row-label">空き家活用</td>
+            <td class="cv dim">新築向き</td>
+            <td class="cv dim">新築向き</td>
+            <td class="cv dim">新築向き</td>
+            <td class="cv yes">敷地追加棟として◎</td>
+            <td class="cv yes">増築棟として◎</td>
+            <td class="cv dim">新築向き</td>
+          </tr>
+          <tr>
+            <td class="row-label">グランピング</td>
+            <td class="cv mid">可（基本型）</td>
+            <td class="cv mid">可</td>
+            <td class="cv yes">グランピング最適</td>
+            <td class="cv yes">体験施設向き</td>
+            <td class="cv yes">ヴィラ運用可</td>
+            <td class="cv mid">プレミアム向け</td>
+          </tr>
+          <tr>
+            <td class="row-label">推奨ロケーション</td>
+            <td class="cv ocean" style="text-align:left;font-size:11px">熱海・湘南・伊豆・和歌山</td>
+            <td class="cv ocean" style="text-align:left;font-size:11px">瀬戸内・ハワイ・沖縄</td>
+            <td class="cv ocean" style="text-align:left;font-size:11px">温泉地・伊豆・紀伊</td>
+            <td class="cv ocean" style="text-align:left;font-size:11px">和歌山・瀬戸内・九州</td>
+            <td class="cv ocean" style="text-align:left;font-size:11px">熱海II・和歌山・ハワイ</td>
+            <td class="cv ocean" style="text-align:left;font-size:11px">和歌山・九州・ハワイ</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note-bar">
+      <strong>暖地版の注意点</strong>：このページの仕様は設計目標・参考値を含みます。実際の耐塩害・通風仕様は敷地条件によって異なります。詳細は各プランページおよびご相談時に確認ください。寒冷地（北海道・道東）向けの比較は <a href="koya-vs" style="color:var(--ocean)">← 寒冷地版</a> をご覧ください。
+    </div>
+  </div>
+</section>
+
+<!-- PICK GUIDE -->
+<section class="pick">
+  <div class="ww">
+    <div class="eyebrow">GUIDE / 暖地シナリオで選ぶ</div>
+    <h2>あなたのシナリオは？</h2>
+    <p class="sub" style="color:var(--text-mid);font-size:13px;line-height:2;margin-bottom:0">暖地ならではの6つの使い方から。</p>
+    <div class="pick-grid">
+
+      <div class="pick-card">
+        <div class="pick-icon">🌊</div>
+        <h4>熱海・湘南に海の見える拠点が欲しい</h4>
+        <p>斜面地・崖上対応、耐塩害仕様、通年居住グレード。2週間で建つ海の別荘。</p>
+        <div class="pick-ans">→ KOYA（熱海/湘南仕様）</div>
+      </div>
+
+      <div class="pick-card">
+        <div class="pick-icon">🏯</div>
+        <h4>和歌山・瀬戸内の空き家敷地を活かしたい</h4>
+        <p>既存の空き家に追加棟として設置できる球体構造物。DIYで体験型民泊施設に転換。</p>
+        <div class="pick-ans">→ Plan C（EPSドーム）</div>
+      </div>
+
+      <div class="pick-card">
+        <div class="pick-icon">♨️</div>
+        <h4>温泉地でグランピング施設を運営したい</h4>
+        <p>伊豆・熱海・湯布院などの温泉街に。露天風呂接続＋ドーム宿泊の体験型パッケージ。</p>
+        <div class="pick-ans">→ Plan B（インスタントドーム）</div>
+      </div>
+
+      <div class="pick-card">
+        <div class="pick-icon">🌺</div>
+        <h4>ハワイ・沖縄・海外に建てたい</h4>
+        <p>輸送・設置が容易なコンテナ展開型。屋上デッキで海を一望。最安エントリーで海外拠点。</p>
+        <div class="pick-ans">→ Plan A（インスタントハウス）</div>
+      </div>
+
+      <div class="pick-card">
+        <div class="pick-icon">🏡</div>
+        <h4>家族・仲間と使える広い南国ヴィラが欲しい</h4>
+        <p>40㎡屋上デッキ＋80㎡超の複数棟構成。焼杉外装で海岸・森に馴染む本格ヴィラ。</p>
+        <div class="pick-ans">→ Plan E（SIPSヴィラ）</div>
+      </div>
+
+      <div class="pick-card">
+        <div class="pick-icon">☀️</div>
+        <h4>日当たりを最大活用してエネルギー自立したい</h4>
+        <p>年間日照時間が長い暖地はオフグリッドの ROI が最高。和歌山・九州・ハワイで電気代ゼロを実現。</p>
+        <div class="pick-ans">→ Plan D（オフグリッド）</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <div class="w">
+    <div class="eyebrow">NEXT STEP</div>
+    <h2 style="margin-bottom:14px">暖地の拠点を、<br/>一緒に設計しましょう。</h2>
+    <p class="sub" style="text-align:center;max-width:520px;margin:0 auto">
+      熱海・和歌山・ハワイの候補地でのご相談も受け付けています。<br/>
+      まずは敷地情報と希望をお聞かせください。
+    </p>
+    <div class="cta-row">
+      <a class="btn-gold" href="tiny-house" data-sln-track="warm_cta_build">建てる詳細を見る →</a>
+      <a class="btn-ghost" href="contact" data-sln-track="warm_cta_contact">無料相談する</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div>© 2026 SOLUNA / Enabler Inc.</div>
+    <div>
+      <a href="koya-vs">🏔 寒冷地版</a> ·
+      <a href="tiny-house">建てる</a> ·
+      <a href="scheme">仕組み</a> ·
+      <a href="contact">問い合わせ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+if(window.sln) sln.track('warm_plans_compare_view');
+</script>
+</body>
+</html>

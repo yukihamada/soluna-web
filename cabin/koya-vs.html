@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>どれを建てるか — SOLUNA 6プラン 比較ガイド | KOYA / Plan A〜E</title>
+<meta content="KOYA・インスタントハウス・インスタントドーム・EPSドーム・SIPSヴィラ・オフグリッドコンパウンド — SOLUNAの6プランを価格・設計仕様・工期・用途で並列比較。性能数値は設計目標、開発初期段階のものを含みます。" name="description"/>
+<meta content="どれを建てるか — SOLUNA 6プラン 比較ガイド" property="og:title"/>
+<meta content="KOYA・インスタントハウス・ドーム・SIPSヴィラ・オフグリッド — 6プランの価格・設計仕様・工期を並列比較" property="og:description"/>
+<meta content="https://solun.art/img/house_s01_exterior_winter.jpg" property="og:image"/>
+<meta content="https://solun.art/koya-vs" property="og:url"/>
+<link href="https://solun.art/koya-vs" rel="canonical"/>
+<link href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23c8a455'/></svg>" rel="icon"/>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<script defer src="/js/sln-track.js"></script>
+<script src="/js/gnav.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c8a455;--gold-bright:#f0d080;--gold-dim:rgba(200,164,85,.35);--bg:#040404;--bg2:#080808;--bg3:#0c0c0c;--text:#f0ece4;--text-mid:#888;--text-dim:#444;--line:rgba(255,255,255,.06);--line-bright:rgba(255,255,255,.13)}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%;object-fit:cover}
+::selection{background:var(--gold);color:#000}
+
+.w{max-width:760px;margin:0 auto;padding:0 24px}
+.ww{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* HERO */
+.hero{padding:120px 0 72px;border-bottom:1px solid var(--line);background:radial-gradient(ellipse at 60% 0,rgba(200,164,85,.07) 0,transparent 60%)}
+.eyebrow{font-size:10px;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:16px}
+h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:900;letter-spacing:-.04em;line-height:1.04;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--gold)}
+.sub{color:var(--text-mid);font-size:14px;line-height:2;margin-bottom:28px}
+.sub strong{color:var(--text)}
+
+/* PLAN CARDS GRID */
+section.plans{padding:80px 0;border-top:1px solid var(--line)}
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+@media(max-width:1000px){.plans-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.plans-grid{grid-template-columns:1fr}}
+
+.plan-card{background:var(--bg2);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,transform .2s}
+.plan-card:hover{border-color:var(--gold-dim);transform:translateY(-3px)}
+
+.plan-hero{position:relative;aspect-ratio:16/9;overflow:hidden}
+.plan-hero img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.plan-card:hover .plan-hero img{transform:scale(1.04)}
+.plan-badge{position:absolute;top:14px;left:14px;font-size:9.5px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;padding:4px 10px;border-radius:100px;background:rgba(4,4,4,.82);backdrop-filter:blur(8px)}
+.plan-badge.gold{color:var(--gold);border:1px solid rgba(200,164,85,.5)}
+.plan-badge.silver{color:#aaa;border:1px solid rgba(200,200,200,.3)}
+
+.plan-photos{display:flex;gap:2px;height:52px;background:#000}
+.plan-photos img{flex:1;object-fit:cover;opacity:.8;transition:opacity .2s}
+.plan-photos img:hover{opacity:1}
+
+.plan-body{padding:22px 22px 20px;flex:1;display:flex;flex-direction:column;gap:10px}
+.plan-name{font-size:16px;font-weight:800;letter-spacing:-.02em;color:var(--text)}
+.plan-tagline{font-size:11.5px;color:var(--text-mid);line-height:1.7}
+.plan-price{font-size:22px;font-weight:900;color:var(--gold);letter-spacing:-.03em}
+.plan-price span{font-size:11px;color:rgba(200,164,85,.6);font-weight:700;margin-left:3px}
+
+.plan-stats{display:flex;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:2px 0}
+.ps{flex:1;padding:10px 8px;border-right:1px solid var(--line);text-align:center}
+.ps:last-child{border-right:none}
+.ps-v{font-size:13px;font-weight:800;color:var(--text);letter-spacing:-.02em}
+.ps-l{font-size:9px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-top:3px;line-height:1.3}
+
+.plan-cta{display:block;text-align:center;font-size:11.5px;font-weight:700;color:var(--gold);border:1px solid var(--gold-dim);padding:11px;border-radius:10px;transition:all .2s;margin-top:auto}
+.plan-cta:hover{background:var(--gold);color:#040404;border-color:var(--gold)}
+
+/* COMPARISON TABLE */
+section.compare{padding:80px 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-.03em;margin-bottom:14px}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin-top:28px;background:var(--bg2)}
+table.ct{width:100%;border-collapse:collapse;font-size:12px;min-width:860px}
+table.ct thead{background:#0a0a0a;position:sticky;top:0;z-index:2}
+table.ct th{font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);padding:14px 14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+table.ct th.hl{color:var(--gold)}
+table.ct td{padding:14px 14px;border-bottom:1px solid var(--line);color:#ccc;vertical-align:middle}
+table.ct tr:last-child td{border-bottom:none}
+table.ct tr:hover td{background:#0a0a0a}
+table.ct .row-label{font-size:11px;font-weight:700;color:var(--text-dim);white-space:nowrap}
+.cv{font-size:12px;color:var(--text);text-align:center}
+.cv.yes{color:#9bc46d}
+.cv.mid{color:var(--gold)}
+.cv.no{color:#ff6b6b;opacity:.7}
+.cv.dim{color:var(--text-dim)}
+.plan-col-head{display:flex;flex-direction:column;gap:3px;align-items:center}
+.plan-col-head strong{font-size:11px;font-weight:800;white-space:nowrap;color:var(--text)}
+.plan-col-head.hl strong{color:var(--gold)}
+.plan-col-head small{font-size:9px;color:var(--text-dim);white-space:nowrap}
+
+/* PICK GUIDE */
+section.pick{padding:80px 0;border-top:1px solid var(--line)}
+.pick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px}
+@media(max-width:860px){.pick-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.pick-grid{grid-template-columns:1fr}}
+.pick-card{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:26px 22px}
+.pick-card h4{font-size:14px;font-weight:800;letter-spacing:-.01em;margin-bottom:8px}
+.pick-card p{font-size:11.5px;color:var(--text-mid);line-height:1.85;margin-bottom:14px}
+.pick-ans{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.04em}
+.pick-icon{font-size:22px;margin-bottom:10px}
+
+/* CTA */
+.cta-sec{padding:100px 0;background:linear-gradient(180deg,#040404,#070707);border-top:1px solid var(--line);text-align:center}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#040404;font-weight:800;font-size:13px;padding:15px 32px;border-radius:100px;transition:all .2s}
+.btn-gold:hover{background:var(--gold-bright);transform:translateY(-2px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--gold-dim);color:var(--gold);font-size:13px;font-weight:700;padding:15px 28px;border-radius:100px;transition:all .2s}
+.btn-ghost:hover{background:rgba(200,164,85,.07)}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+
+footer{padding:48px 0 36px;border-top:1px solid var(--line)}
+.foot{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:11px;color:var(--text-dim)}
+.foot a{color:var(--gold);margin:0 8px}
+
+/* VERSION TOGGLE */
+.version-bar{background:var(--bg2);border-bottom:1px solid var(--line);padding:10px 24px;display:flex;justify-content:center;gap:8px;font-size:11px}
+.vbtn{padding:6px 16px;border-radius:100px;font-weight:700;border:1px solid var(--line);color:var(--text-dim);transition:all .2s}
+.vbtn:hover{border-color:var(--line-bright);color:var(--text)}
+.vbtn.on{background:rgba(200,164,85,.1);border-color:rgba(200,164,85,.4);color:var(--gold)}
+</style>
+</head>
+<body>
+
+<!-- VERSION TOGGLE -->
+<div class="version-bar">
+  <a class="vbtn on" href="koya-vs">🏔 寒冷地版（北海道・道東）</a>
+  <a class="vbtn" href="koya-vs-warm">🌊 暖地版（熱海・和歌山・ハワイ）</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="w">
+    <div class="eyebrow">PLANS · COMPARISON 2026</div>
+    <h1>どれを建てるか。<br/><em>6つのプラン。</em></h1>
+    <p class="sub">
+      KOYA からオフグリッドコンパウンドまで — <strong>価格・設計仕様・工期・用途</strong> を一枚に並べました。<br/>
+      写真を見ながら、あなたのビジョンに合うものを選んでください。
+    </p>
+    <p class="sub" style="font-size:11.5px;color:var(--text-dim);max-width:680px;margin-top:8px;border-left:2px solid var(--gold-dim);padding:8px 0 8px 14px;line-height:1.85">
+      <strong style="color:var(--gold);font-size:10px;letter-spacing:.18em">注</strong>　各プランの性能数値（C値・UA値・U値・自立率など）は<strong style="color:var(--text-mid)">設計目標値・メーカー公称値</strong>です。SOLUNA は弟子屈で初号機の実証を進めている開発初期段階で、第三者測定値は今後随時更新します。価格は本体目安・税込／設置費・確認申請費・敷地条件は別途。詳細は<a href="#status">ページ下部の開発ステータス</a>を参照してください。
+    </p>
+  </div>
+</section>
+
+<!-- PLAN CARDS -->
+<section class="plans">
+  <div class="ww">
+    <div class="eyebrow" style="padding:0 0 8px">ALL PLANS / 写真で選ぶ</div>
+    <div class="plans-grid">
+
+      <!-- KOYA -->
+      <div class="plan-card">
+        <div class="plan-hero">
+          <img src="img/house_s01_exterior_winter.jpg" alt="SOLUNA KOYA 外観"/>
+          <span class="plan-badge gold">KOYA · 旗艦モデル</span>
+        </div>
+        <div class="plan-photos">
+          <img src="img/house_s01_interior.jpg" alt="KOYA 内観"/>
+          <img src="img/bjj_cabin_lifestyle.webp" alt="ライフスタイル"/>
+          <img src="img/container_bedroom.webp" alt="寝室"/>
+          <img src="img/container_living_fire.webp" alt="薪ストーブ"/>
+        </div>
+        <div class="plan-body">
+          <div class="plan-name">SOLUNA KOYA</div>
+          <div class="plan-tagline">工場製作 + 現地クレーン設置。気密・断熱を数値で設計するタイニーハウス。S/M/Lの3サイズ。</div>
+          <div class="plan-price">¥380万〜<span>（12㎡〜・本体）</span></div>
+          <div class="plan-stats">
+            <div class="ps"><div class="ps-v">0.2</div><div class="ps-l">C値（設計目標）</div></div>
+            <div class="ps"><div class="ps-v">0.20</div><div class="ps-l">UA値（設計目標）</div></div>
+            <div class="ps"><div class="ps-v">製造 2週</div><div class="ps-l">+ 設置 1日</div></div>
+          </div>
+          <a class="plan-cta" href="koya" data-sln-track="plans_cta_koya">詳細を見る →</a>
+        </div>
+      </div>
+
+      <!-- Plan A — Instant House -->
+      <div class="plan-card">
+        <div class="plan-hero">
+          <img src="img/container_exterior_winter.webp" alt="インスタントハウス外観"/>
+          <span class="plan-badge silver">PLAN A · インスタントハウス</span>
+        </div>
+        <div class="plan-photos">
+          <img src="img/container_entrance.webp" alt="入口"/>
+          <img src="img/container_interior.webp" alt="内観"/>
+          <img src="img/container_night_stars.webp" alt="夜景"/>
+          <img src="img/container_kitchen.webp" alt="キッチン"/>
+        </div>
+        <div class="plan-body">
+          <div class="plan-name">Plan A — インスタントハウス</div>
+          <div class="plan-tagline">コンテナ躯体をクレーン展開。電気・給排水接続（3〜5日）で居住可能なボックス型ベース。寒冷地は内装断熱必須。</div>
+          <div class="plan-price">¥280万〜<span>（20ft相当・本体）</span></div>
+          <div class="plan-stats">
+            <div class="ps"><div class="ps-v">GW標準</div><div class="ps-l">断熱（追加施工）</div></div>
+            <div class="ps"><div class="ps-v">20㎡</div><div class="ps-l">面積</div></div>
+            <div class="ps"><div class="ps-v">3〜5日</div><div class="ps-l">接続工事</div></div>
+          </div>
+          <a class="plan-cta" href="package-a" data-sln-track="plans_cta_a">詳細を見る →</a>
+        </div>
+      </div>
+
+      <!-- Plan B — Instant Dome -->
+      <div class="plan-card">
+        <div class="plan-hero">
+          <img src="img/instant_dome_snow.webp" alt="インスタントドーム 雪景色"/>
+          <span class="plan-badge silver">PLAN B · インスタントドーム</span>
+        </div>
+        <div class="plan-photos">
+          <img src="img/instant_dome_interior.webp" alt="ドーム内観"/>
+          <img src="img/instant_dome_heater.webp" alt="薪ストーブ"/>
+          <img src="img/instant_lodge_interior.webp" alt="ロッジ内部"/>
+          <img src="img/instant_lodge_kitchen.webp" alt="キッチン"/>
+        </div>
+        <div class="plan-body">
+          <div class="plan-name">Plan B — インスタントドーム</div>
+          <div class="plan-tagline">ロッジ棟＋ドーム宿泊棟のセット。短工期でグランピング施設を立ち上げたい事業者向け。</div>
+          <div class="plan-price">¥350万〜<span>（ドーム＋ロッジ・本体）</span></div>
+          <div class="plan-stats">
+            <div class="ps"><div class="ps-v">2棟</div><div class="ps-l">構成</div></div>
+            <div class="ps"><div class="ps-v">3シーズン</div><div class="ps-l">標準仕様</div></div>
+            <div class="ps"><div class="ps-v">4週間</div><div class="ps-l">工期目安</div></div>
+          </div>
+          <a class="plan-cta" href="package-b" data-sln-track="plans_cta_b">詳細を見る →</a>
+        </div>
+      </div>
+
+      <!-- Plan C — EPS Dome -->
+      <div class="plan-card">
+        <div class="plan-hero">
+          <img src="img/dome_exterior_winter.webp" alt="EPSドーム 外観 冬"/>
+          <span class="plan-badge silver">PLAN C · EPSドーム</span>
+        </div>
+        <div class="plan-photos">
+          <img src="img/kumaushi_c_dome_interior_winter.webp" alt="ドーム内観"/>
+          <img src="img/kumaushi_c_snow_dome_night.webp" alt="雪夜景"/>
+          <img src="img/kumaushi_c_dome_cherry_spring.webp" alt="春の桜"/>
+          <img src="img/dome_interior_projector.webp" alt="プロジェクター"/>
+        </div>
+        <div class="plan-body">
+          <div class="plan-name">Plan C — EPSドーム</div>
+          <div class="plan-tagline">発泡スチロールパネル組立式の球体住居。丸みのある外観と高い断熱性、DIY施工可能。</div>
+          <div class="plan-price">¥180万〜<span>（単体・本体）</span></div>
+          <div class="plan-stats">
+            <div class="ps"><div class="ps-v">球体</div><div class="ps-l">形状</div></div>
+            <div class="ps"><div class="ps-v">DIY可</div><div class="ps-l">施工</div></div>
+            <div class="ps"><div class="ps-v">6週間</div><div class="ps-l">工期目安</div></div>
+          </div>
+          <a class="plan-cta" href="package-c" data-sln-track="plans_cta_c">詳細を見る →</a>
+        </div>
+      </div>
+
+      <!-- Plan E — SIPs Villa -->
+      <div class="plan-card">
+        <div class="plan-hero">
+          <img src="img/kumaushi_sips_roof_deck_view.webp" alt="SIPSヴィラ 屋上デッキ"/>
+          <span class="plan-badge gold">PLAN E · SIPSヴィラ</span>
+        </div>
+        <div class="plan-photos">
+          <img src="img/kumaushi_sips_exterior_winter.webp" alt="外観冬"/>
+          <img src="img/kumaushi_sips_interior_living.webp" alt="リビング"/>
+          <img src="img/kumaushi_sips_panels_assembly.webp" alt="パネル組立"/>
+          <img src="img/kumaushi_sips_barrel_sauna_snow.webp" alt="バレルサウナ"/>
+        </div>
+        <div class="plan-body">
+          <div class="plan-name">Plan E — SIPSコンパウンドヴィラ</div>
+          <div class="plan-tagline">OSBサンドイッチパネル工法の複数棟L字型コンパウンド。屋上デッキ付き80㎡超の本格仕様。</div>
+          <div class="plan-price">¥750万〜<span>（80㎡+デッキ40㎡・本体）</span></div>
+          <div class="plan-stats">
+            <div class="ps"><div class="ps-v">0.14</div><div class="ps-l">パネルU値（計算値）</div></div>
+            <div class="ps"><div class="ps-v">80㎡+</div><div class="ps-l">面積</div></div>
+            <div class="ps"><div class="ps-v">8週間</div><div class="ps-l">工期目安</div></div>
+          </div>
+          <a class="plan-cta" href="sips-villa" data-sln-track="plans_cta_e">詳細を見る →</a>
+        </div>
+      </div>
+
+      <!-- Plan D — Off-Grid -->
+      <div class="plan-card">
+        <div class="plan-hero">
+          <img src="img/offgrid_complete.webp" alt="オフグリッドコンパウンド全景"/>
+          <span class="plan-badge silver">PLAN D · オフグリッド</span>
+        </div>
+        <div class="plan-photos">
+          <img src="img/offgrid_tesla_v2h.webp" alt="Tesla V2H"/>
+          <img src="img/eco_solar_thermal.webp" alt="太陽熱温水"/>
+          <img src="img/offgrid_stove_night.webp" alt="薪ストーブ夜"/>
+          <img src="img/dome_smart_control.webp" alt="スマート制御"/>
+        </div>
+        <div class="plan-body">
+          <div class="plan-name">Plan D — オフグリッドコンパウンド</div>
+          <div class="plan-tagline">Tesla Powerwall V2H＋太陽熱温水＋薪ストーブの三重エネルギー構成。系統補助の併用設計が前提。</div>
+          <div class="plan-price">¥1,200万〜<span>（フルシステム・本体）</span></div>
+          <div class="plan-stats">
+            <div class="ps"><div class="ps-v">90%↑</div><div class="ps-l">想定自立率（夏季）</div></div>
+            <div class="ps"><div class="ps-v">複合棟</div><div class="ps-l">構成</div></div>
+            <div class="ps"><div class="ps-v">12週間</div><div class="ps-l">工期目安</div></div>
+          </div>
+          <a class="plan-cta" href="package-d" data-sln-track="plans_cta_d">詳細を見る →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="compare">
+  <div class="ww">
+    <div class="eyebrow">SPECS / 仕様一覧</div>
+    <h2>6プラン 仕様比較</h2>
+    <p class="sub" style="color:var(--text-mid);font-size:13px;line-height:2;margin-bottom:0">主要スペックを横並びで確認。性能数値は設計目標値・公称値で、第三者測定はこれから実施。詳細は各プランページを参照。</p>
+    <div class="tbl-wrap">
+      <table class="ct">
+        <thead>
+          <tr>
+            <th style="min-width:120px">仕様</th>
+            <th class="hl"><div class="plan-col-head hl"><strong>KOYA</strong><small>旗艦モデル</small></div></th>
+            <th><div class="plan-col-head"><strong>Plan A</strong><small>インスタントH</small></div></th>
+            <th><div class="plan-col-head"><strong>Plan B</strong><small>インスタントD</small></div></th>
+            <th><div class="plan-col-head"><strong>Plan C</strong><small>EPSドーム</small></div></th>
+            <th class="hl"><div class="plan-col-head hl"><strong>Plan E</strong><small>SIPSヴィラ</small></div></th>
+            <th><div class="plan-col-head"><strong>Plan D</strong><small>オフグリッド</small></div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">価格目安</td>
+            <td class="cv mid">¥380万〜</td>
+            <td class="cv">¥280万〜</td>
+            <td class="cv">¥350万〜</td>
+            <td class="cv">¥180万〜</td>
+            <td class="cv mid">¥750万〜</td>
+            <td class="cv">¥1,200万〜</td>
+          </tr>
+          <tr>
+            <td class="row-label">床面積</td>
+            <td class="cv">12〜33㎡</td>
+            <td class="cv">20㎡</td>
+            <td class="cv">ドーム+ロッジ</td>
+            <td class="cv">18㎡程度</td>
+            <td class="cv yes">80㎡+デッキ40㎡</td>
+            <td class="cv">複数棟</td>
+          </tr>
+          <tr>
+            <td class="row-label">断熱性能</td>
+            <td class="cv yes">UA値 0.20（設計目標）</td>
+            <td class="cv">GW + 後付断熱</td>
+            <td class="cv">3シーズン仕様</td>
+            <td class="cv">EPS 200mm 断熱</td>
+            <td class="cv yes">パネルU値 0.14（計算）</td>
+            <td class="cv">高断熱+薪+太陽熱</td>
+          </tr>
+          <tr>
+            <td class="row-label">気密性能</td>
+            <td class="cv mid">C値 0.2（設計目標）</td>
+            <td class="cv dim">非公開</td>
+            <td class="cv dim">非公開</td>
+            <td class="cv dim">非公開</td>
+            <td class="cv mid">C値 0.5 以下（設計）</td>
+            <td class="cv dim">非公開</td>
+          </tr>
+          <tr>
+            <td class="row-label">工期目安</td>
+            <td class="cv yes">製造2週+設置1日</td>
+            <td class="cv">3〜5日（接続のみ）</td>
+            <td class="cv">4週間</td>
+            <td class="cv">6週間</td>
+            <td class="cv">8週間</td>
+            <td class="cv">12週間</td>
+          </tr>
+          <tr>
+            <td class="row-label">施工方法</td>
+            <td class="cv">工場製造+クレーン</td>
+            <td class="cv">クレーン展開</td>
+            <td class="cv">組立</td>
+            <td class="cv yes">DIY可</td>
+            <td class="cv">パネル工法</td>
+            <td class="cv">複合工法</td>
+          </tr>
+          <tr>
+            <td class="row-label">エネルギー</td>
+            <td class="cv">系統連系</td>
+            <td class="cv">系統連系</td>
+            <td class="cv">系統連系</td>
+            <td class="cv">系統連系</td>
+            <td class="cv mid">太陽光+薪併用</td>
+            <td class="cv mid">三重構成（系統補助前提）</td>
+          </tr>
+          <tr>
+            <td class="row-label">宿泊収益化</td>
+            <td class="cv yes">SOLUNA Hotel対応</td>
+            <td class="cv yes">対応</td>
+            <td class="cv yes">グランピング最適</td>
+            <td class="cv yes">体験施設向き</td>
+            <td class="cv yes">ヴィラ運用可</td>
+            <td class="cv mid">プレミアム向け</td>
+          </tr>
+          <tr>
+            <td class="row-label">屋上デッキ</td>
+            <td class="cv dim">—</td>
+            <td class="cv dim">—</td>
+            <td class="cv dim">—</td>
+            <td class="cv dim">—</td>
+            <td class="cv yes">✓ 40㎡</td>
+            <td class="cv dim">—</td>
+          </tr>
+          <tr>
+            <td class="row-label">寒冷地ステータス</td>
+            <td class="cv mid">弟子屈で初号機建設準備中</td>
+            <td class="cv yes">道内施工事例あり（提携工務店）</td>
+            <td class="cv mid">3シーズン標準・冬季要追加断熱</td>
+            <td class="cv yes">道内施工事例あり</td>
+            <td class="cv mid">設計段階・初号機計画中</td>
+            <td class="cv mid">設計段階・部分実証中</td>
+          </tr>
+          <tr>
+            <td class="row-label">こんな人向け</td>
+            <td class="cv" style="text-align:left;font-size:11px">性能と速度を両立したい</td>
+            <td class="cv" style="text-align:left;font-size:11px">コストを最小化したい</td>
+            <td class="cv" style="text-align:left;font-size:11px">グランピングで稼ぎたい</td>
+            <td class="cv" style="text-align:left;font-size:11px">DIYで体験施設を作りたい</td>
+            <td class="cv" style="text-align:left;font-size:11px">広く本格的な別荘を建てたい</td>
+            <td class="cv" style="text-align:left;font-size:11px">完全自給自足を実現したい</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- PICK GUIDE -->
+<section class="pick">
+  <div class="ww">
+    <div class="eyebrow">GUIDE / 用途で選ぶ</div>
+    <h2>あなたの「やりたいこと」は？</h2>
+    <p class="sub" style="color:var(--text-mid);font-size:13px;line-height:2;margin-bottom:0">6つのシナリオから、あなたに合うプランが見つかります。</p>
+    <div class="pick-grid">
+
+      <div class="pick-card">
+        <div class="pick-icon">🏔️</div>
+        <h4>北海道に自分だけの拠点を持ちたい</h4>
+        <p>寒冷地対応・通年居住・資産になる建物。気密・断熱性能にこだわりたい方向け。</p>
+        <div class="pick-ans">→ KOYA または Plan E</div>
+      </div>
+
+      <div class="pick-card">
+        <div class="pick-icon">💰</div>
+        <h4>まず最低限で始めて、収益化を試したい</h4>
+        <p>初期コストを抑えて早期に稼働開始。グランピング・民泊運営に最適なエントリー構成。</p>
+        <div class="pick-ans">→ Plan A または Plan B</div>
+      </div>
+
+      <div class="pick-card">
+        <div class="pick-icon">🔆</div>
+        <h4>フォトジェニックな体験施設を作りたい</h4>
+        <p>インスタ映えする丸い建物でユニークな宿泊体験を提供。DIYで手を動かしたい方にも。</p>
+        <div class="pick-ans">→ Plan C（EPSドーム）</div>
+      </div>
+
+      <div class="pick-card">
+        <div class="pick-icon">🏡</div>
+        <h4>家族や仲間で使える広い別荘を建てたい</h4>
+        <p>80㎡超・屋上デッキ・複数寝室。本格的なヴィラとして長く使える投資として。</p>
+        <div class="pick-ans">→ Plan E（SIPSヴィラ）</div>
+      </div>
+
+      <div class="pick-card">
+        <div class="pick-icon">☀️</div>
+        <h4>電気代ゼロ・電力完全自立を実現したい</h4>
+        <p>Tesla V2H・太陽光・薪ストーブの三重エネルギーシステムで真のオフグリッドを実現。</p>
+        <div class="pick-ans">→ Plan D（オフグリッド）</div>
+      </div>
+
+      <div class="pick-card">
+        <div class="pick-icon">⚡</div>
+        <h4>とにかく早く建てて、すぐに使い始めたい</h4>
+        <p>KOYA は工場製造2週間 + 現地クレーン設置1日が目安（敷地調査・確認申請は別途）。Plan A は接続工事3〜5日で最速。</p>
+        <div class="pick-ans">→ KOYA または Plan A</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 開発ステータス・正直な現状 -->
+<section class="pick" id="status" style="background:#070707">
+  <div class="ww">
+    <div class="eyebrow">DEVELOPMENT STATUS / 開発の正直な現状</div>
+    <h2 style="margin-bottom:14px">いま、どこまで来ているか。</h2>
+    <p class="sub" style="color:var(--text-mid);font-size:13px;line-height:2;margin-bottom:24px;max-width:780px">
+      営業ピッチではなく、事実をそのまま書きます。SOLUNA は弟子屈で2026年からプランの実物建設を順次進めている開発初期段階の事業です。問い合わせをいただいた時点での最新ステータスは、担当が個別にお伝えします。
+    </p>
+    <div class="pick-grid" style="grid-template-columns:repeat(2,1fr)">
+      <div class="pick-card">
+        <h4 style="color:var(--gold)">性能数値について</h4>
+        <p>
+          C値・UA値・U値はすべて<strong style="color:var(--text)">設計目標値・部材計算値</strong>です。第三者機関のブロアドアテスト・断熱測定はこれから実施します。初号機の実測値が確定次第、本ページとカスタマイザーに反映します。
+        </p>
+        <p style="margin-bottom:0;color:var(--text-dim);font-size:11px">
+          → 既存事業者との比較で「保証」「実証済」と表現していた箇所は、現状<strong style="color:var(--text-mid)">「設計目標」</strong>に統一しました。
+        </p>
+      </div>
+      <div class="pick-card">
+        <h4 style="color:var(--gold)">価格について</h4>
+        <p>
+          表示価格はすべて<strong style="color:var(--text)">本体目安（税込）</strong>です。実プロジェクトでは <strong style="color:var(--text-mid)">敷地調査・地盤改良・確認申請・給排水/電気引込・基礎工事</strong>が別途発生し、合計で本体価格の30〜80%程度の追加が標準的です。
+        </p>
+        <p style="margin-bottom:0;color:var(--text-dim);font-size:11px">
+          → 個別見積を提示する際に内訳を明確にします。「全部込み」と誤解されないよう注記を追加しました。
+        </p>
+      </div>
+      <div class="pick-card">
+        <h4 style="color:var(--gold)">工期について</h4>
+        <p>
+          記載の工期は<strong style="color:var(--text)">受注確定後の製造・施工期間</strong>です。確認申請（最短10営業日〜）、敷地調査、与信、輸送手配を含めると、契約から引渡まで <strong style="color:var(--text-mid)">最低4〜6週間、標準で2〜3ヶ月</strong>を見込んでください。
+        </p>
+        <p style="margin-bottom:0;color:var(--text-dim);font-size:11px">
+          → 「2週間納期」と単独で表現していた箇所は、製造工程のみであることを明記する形に修正しました。
+        </p>
+      </div>
+      <div class="pick-card">
+        <h4 style="color:var(--gold)">寒冷地実証について</h4>
+        <p>
+          Plan A・C は<strong style="color:var(--text)">提携工務店の道内施工事例</strong>を含みます。KOYA・Plan E は<strong style="color:var(--text)">弟子屈で初号機計画中</strong>で、まだ実棟稼働の実績はありません。気象条件下での性能データは2026〜27年に取得予定です。
+        </p>
+        <p style="margin-bottom:0;color:var(--text-dim);font-size:11px">
+          → 「実証済」を「初号機計画中／施工事例あり／設計段階」に分けて記載しました。
+        </p>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--text-dim);margin-top:30px;line-height:1.85;max-width:880px;border-top:1px dashed var(--line);padding-top:18px">
+      私たちは「物語」と「事実」のギャップを埋めるために、進捗を毎月本ページに反映します。<strong style="color:var(--text-mid)">最終更新: 2026-05-06</strong>　　次回更新予定: 初号機ブロアドアテスト後（2026年内見込み）。<br>
+      この情報の正確性についてご指摘・ご質問がある場合は <a href="mailto:info@solun.art" style="color:var(--gold)">info@solun.art</a> までご連絡ください。
+    </p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <div class="w">
+    <div class="eyebrow">NEXT STEP</div>
+    <h2 style="margin-bottom:14px">プランが決まったら、<br/>次は現地を見てください。</h2>
+    <p class="sub" style="text-align:center;max-width:560px;margin:0 auto">
+      弟子屈・熊牛原野で建設中のプロトタイプを、見学いただけます。<br/>
+      どのプランが合うか迷ったら、まず話を聞かせてください。
+    </p>
+    <div class="cta-row">
+      <a class="btn-gold" href="tiny-house" data-sln-track="plans_cta_build">建てる詳細を見る →</a>
+      <a class="btn-ghost" href="contact" data-sln-track="plans_cta_contact">相談する（営業電話なし）</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div>© 2026 SOLUNA / Enabler Inc.</div>
+    <div>
+      <a href="tiny-house">建てる</a> ·
+      <a href="koya">KOYA</a> ·
+      <a href="scheme">仕組み</a> ·
+      <a href="contact">問い合わせ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+if(window.sln) sln.track('plans_compare_view');
+</script>
+</body>
+</html>
