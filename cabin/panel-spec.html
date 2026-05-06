@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SBX Panel Technical Specification — SOLUNA BOX</title>
+<style>
+:root{
+  --bg:#0a0a0a;--surface:#111;--surface2:#161616;
+  --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.04);
+  --text:#e0e0e0;--dim:#888;--mid:#aaa;
+  --gold:#c8a455;--accent:#5b9bd5;--red:#c85028;--green:#9bc46d;
+  --mono:'JetBrains Mono','Fira Code','Courier New',monospace;
+  --sans:-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6}
+body{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+
+/* Title Block */
+.title-block{
+  display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start;
+  border:1px solid var(--gold);padding:18px 22px;margin-bottom:28px;
+  background:var(--surface)
+}
+.tb-logo{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--gold);letter-spacing:.12em}
+.tb-subtitle{font-size:11px;color:var(--dim);letter-spacing:.15em;text-transform:uppercase;margin-top:4px}
+.tb-title{font-size:15px;color:var(--text);margin-top:6px;font-weight:600}
+.tb-meta{font-family:var(--mono);font-size:11px}
+.tb-meta-row{display:grid;grid-template-columns:80px 1fr;padding:2px 0;border-bottom:1px solid var(--border)}
+.tb-meta-row span:first-child{color:var(--dim)}
+.tb-meta-row span:last-child{color:var(--gold)}
+
+/* Sections */
+.spec-section{margin-bottom:32px}
+.spec-section h2{
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--border);
+  padding-bottom:8px;margin-bottom:16px
+}
+
+/* Tables */
+.spec-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11.5px}
+.spec-table th{
+  background:var(--surface2);color:var(--gold);font-weight:600;
+  padding:7px 10px;text-align:left;border:1px solid var(--border);
+  letter-spacing:.06em;font-size:10px;text-transform:uppercase
+}
+.spec-table td{padding:7px 10px;border:1px solid var(--border);color:var(--text);vertical-align:top}
+.spec-table tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+.spec-table .label{color:var(--dim);font-size:10px}
+.spec-table .val{color:var(--text)}
+.spec-table .note{color:var(--dim);font-size:10px;margin-top:2px}
+.tag-req{background:rgba(200,164,85,.15);color:var(--gold);padding:1px 5px;border-radius:3px;font-size:9px;font-weight:700}
+.tag-std{background:rgba(91,155,213,.12);color:var(--accent);padding:1px 5px;border-radius:3px;font-size:9px;font-weight:700}
+
+/* Drawing Cards */
+.drawing-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.drawing-card{background:var(--surface);border:1px solid var(--border);padding:14px}
+.drawing-card.full{grid-column:1/-1}
+.drawing-label{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+.drawing-card svg{display:block;width:100%;height:auto;overflow:visible}
+
+/* Download */
+.dl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.dl-card{background:var(--surface);border:1px solid var(--border);padding:14px 16px;transition:border-color .2s}
+.dl-card:hover{border-color:var(--gold)}
+.dl-card a{text-decoration:none;display:block}
+.dl-icon{font-size:22px;margin-bottom:8px}
+.dl-name{font-family:var(--mono);font-size:11px;color:var(--gold);font-weight:700}
+.dl-desc{font-size:10px;color:var(--dim);margin-top:3px;line-height:1.4}
+.dl-size{font-family:var(--mono);font-size:9px;color:var(--dim);margin-top:6px}
+
+/* RFQ contacts */
+.rfq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.rfq-card{background:var(--surface);border:1px solid var(--border);padding:14px 16px}
+.rfq-vendor{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px}
+.rfq-role{font-size:10px;color:var(--gold);margin-bottom:8px;letter-spacing:.05em}
+.rfq-line{font-size:11px;color:var(--dim);margin-bottom:3px}
+.rfq-line span{color:var(--mid)}
+
+/* Callout */
+.callout{background:rgba(200,164,85,.07);border-left:3px solid var(--gold);padding:10px 14px;
+  font-size:11.5px;color:var(--mid);margin-bottom:16px;line-height:1.6}
+.callout strong{color:var(--gold)}
+
+/* two-col notes */
+.notes-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.note-block{background:var(--surface);border:1px solid var(--border);padding:12px 14px;font-family:var(--mono);font-size:10.5px;color:var(--mid);line-height:1.7}
+.note-block h4{color:var(--gold);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}
+
+@media(max-width:700px){
+  .drawing-grid,.notes-grid,.title-block{grid-template-columns:1fr}
+  .rfq-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="title-block">
+  <div>
+    <div class="tb-logo">SOLUNA BOX</div>
+    <div class="tb-subtitle">Technical Specification</div>
+    <div class="tb-title">Snap-Joint SIPs Panel System + BIPV Roof Integration</div>
+  </div>
+  <div class="tb-meta">
+    <div class="tb-meta-row"><span>Doc No.</span><span>SBX-SPEC-001</span></div>
+    <div class="tb-meta-row"><span>Revision</span><span>A</span></div>
+    <div class="tb-meta-row"><span>Date</span><span>2026-05-06</span></div>
+    <div class="tb-meta-row"><span>Scale</span><span>See drawings</span></div>
+    <div class="tb-meta-row"><span>Unit</span><span>mm (unless noted)</span></div>
+    <div class="tb-meta-row"><span>Prepared</span><span>SOLUNA / Enabler Inc.</span></div>
+  </div>
+</header>
+
+<!-- SECTION 1: Panel Types -->
+<section class="spec-section">
+  <h2>1. Panel Types Overview</h2>
+  <table class="spec-table">
+    <thead>
+      <tr>
+        <th>Part No.</th>
+        <th>Description</th>
+        <th>Nominal Size (L × W × T)</th>
+        <th>Structure</th>
+        <th>Special Feature</th>
+        <th>Use</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>SBX-WALL-165</strong></td>
+        <td>Wall panel, male or female edge</td>
+        <td class="val">2800 × 1200 × 165 mm</td>
+        <td>OSB 11 + PUR 143 + OSB 11</td>
+        <td>Snap-joint both long edges; specify M/F</td>
+        <td>Exterior/interior walls</td>
+      </tr>
+      <tr>
+        <td><strong>SBX-ROOF-BIPV-165</strong></td>
+        <td>Roof panel with integrated BIPV solar</td>
+        <td class="val">2400 × 1200 × 168.5 mm</td>
+        <td>OSB 11 + PUR 143 + OSB 11 + EVA 1 + CIS 2 + coat 0.5</td>
+        <td>BIPV thin-film laminated; Powerpole 45A auto-connect</td>
+        <td>Roof (slope or flat, min 5°)</td>
+      </tr>
+      <tr>
+        <td><strong>SBX-FLOOR-90</strong></td>
+        <td>Floor panel with hydronic channel</td>
+        <td class="val">2400 × 1200 × 90 mm</td>
+        <td>OSB 11 + PUR 68 + OSB 11</td>
+        <td>16mm PEX channel routed in PUR at 200mm pitch</td>
+        <td>Structural floor (max span 4.8 m)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="margin-top:8px;font-size:10.5px;color:var(--dim)">
+    All panels are factory-cut to these nominal dimensions with snap-joint profiles machined on long edges.
+    Short-edge cuts (rafter notches, window openings) done on-site per project drawings.
+    U-value (WALL/ROOF): <strong style="color:var(--text)">0.14 W/m²K</strong>.
+    Airtightness target: <strong style="color:var(--text)">C値 ≤ 0.2 cm²/m²</strong> assembled.
+  </p>
+</section>
+
+<!-- SECTION 2: Snap-Joint Cross-Section -->
+<section class="spec-section">
+  <h2>2. Snap-Joint Edge Profiles — SBX-WALL-165</h2>
+
+  <div class="callout">
+    <strong>How it works:</strong> Male tongue (30×25 mm) slots into female groove (31×26 mm, 1 mm clearance per side).
+    EPDM 6 mm Ø cord seated in tongue-tip groove compresses ~17% against groove bottom on assembly — achieving passive airtight seal without adhesive.
+    Shoulder faces provide the structural bearing surface.
+  </div>
+
+  <div class="drawing-grid">
+    <!-- MALE PROFILE SVG -->
+    <div class="drawing-card">
+      <div class="drawing-label">Fig. 1 — Male Edge Profile · SBX-SPEC-001-M · Scale 2:1</div>
+      <svg viewBox="-55 -58 440 125" xmlns="http://www.w3.org/2000/svg">
+        <!-- Profile fill -->
+        <polygon points="0,0 0,50 135,50 135,0 161,0 161,8 169,8 169,0 195,0 195,50 330,50 330,0"
+                 fill="#1c1c1c" stroke="#d0d0d0" stroke-width="1.2"/>
+        <!-- Material hatching (diagonal lines at 45°) -->
+        <defs>
+          <pattern id="hatch-m" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#333" stroke-width="0.8"/>
+          </pattern>
+          <clipPath id="clip-male">
+            <polygon points="0,0 0,50 135,50 135,0 161,0 161,8 169,8 169,0 195,0 195,50 330,50 330,0"/>
+          </clipPath>
+        </defs>
+        <rect x="0" y="0" width="330" height="50" fill="url(#hatch-m)" clip-path="url(#clip-male)"/>
+
+        <!-- EPDM groove highlight -->
+        <rect x="161" y="0" width="8" height="8" fill="#0a0a0a" stroke="#c85028" stroke-width="0.8"/>
+        <circle cx="165" cy="4" r="2.5" fill="#c85028" opacity="0.7"/>
+
+        <!-- Center line -->
+        <line x1="165" y1="-44" x2="165" y2="62" stroke="#444" stroke-width="0.6" stroke-dasharray="8,3,2,3"/>
+
+        <!-- Dim: overall width 165mm -->
+        <line x1="0" y1="-12" x2="330" y2="-12" stroke="#c8a455" stroke-width="0.9"/>
+        <polygon points="4,-14.5 0,-12 4,-9.5" fill="#c8a455"/>
+        <polygon points="326,-14.5 330,-12 326,-9.5" fill="#c8a455"/>
+        <line x1="0" y1="0" x2="0" y2="-14" stroke="#c8a455" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="330" y1="0" x2="330" y2="-14" stroke="#c8a455" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <text x="165" y="-15" text-anchor="middle" fill="#c8a455" font-size="8" font-family="monospace">165</text>
+
+        <!-- Dim: tongue width 30mm -->
+        <line x1="135" y1="-5" x2="195" y2="-5" stroke="#c8a455" stroke-width="0.9"/>
+        <polygon points="139,-7.5 135,-5 139,-2.5" fill="#c8a455"/>
+        <polygon points="191,-7.5 195,-5 191,-2.5" fill="#c8a455"/>
+        <line x1="135" y1="0" x2="135" y2="-7" stroke="#c8a455" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="195" y1="0" x2="195" y2="-7" stroke="#c8a455" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <text x="165" y="-7" text-anchor="middle" fill="#c8a455" font-size="7" font-family="monospace">30</text>
+
+        <!-- Dim: shoulder depth 25mm -->
+        <line x1="-18" y1="0" x2="-18" y2="50" stroke="#c8a455" stroke-width="0.9"/>
+        <polygon points="-15.5,4 -18,0 -20.5,4" fill="#c8a455"/>
+        <polygon points="-15.5,46 -18,50 -20.5,46" fill="#c8a455"/>
+        <line x1="0" y1="0" x2="-20" y2="0" stroke="#c8a455" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="0" y1="50" x2="-20" y2="50" stroke="#c8a455" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <text x="-30" y="29" text-anchor="middle" fill="#c8a455" font-size="8" font-family="monospace" transform="rotate(-90,-30,29)">25</text>
+
+        <!-- EPDM annotation -->
+        <line x1="169" y1="4" x2="200" y2="20" stroke="#c85028" stroke-width="0.7"/>
+        <text x="202" y="18" fill="#c85028" font-size="7.5" font-family="monospace">EPDM groove</text>
+        <text x="202" y="27" fill="#c85028" font-size="7.5" font-family="monospace">4 × 4 mm</text>
+
+        <!-- Face datum line -->
+        <line x1="-50" y1="0" x2="380" y2="0" stroke="#444" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <text x="-50" y="-2" fill="#555" font-size="6.5" font-family="monospace">FACE DATUM</text>
+
+        <!-- Labels -->
+        <text x="60" y="40" text-anchor="middle" fill="#666" font-size="7" font-family="monospace">SHOULDER</text>
+        <text x="270" y="40" text-anchor="middle" fill="#666" font-size="7" font-family="monospace">SHOULDER</text>
+        <text x="165" y="66" text-anchor="middle" fill="#aaa" font-size="7.5" font-family="monospace">TONGUE (30 wide)</text>
+
+        <!-- Material label -->
+        <text x="165" y="-43" text-anchor="middle" fill="#d0d0d0" font-size="8.5" font-family="monospace" font-weight="bold">MALE EDGE — SBX-WALL-165-M</text>
+        <text x="165" y="-33" text-anchor="middle" fill="#666" font-size="7" font-family="monospace">CROSS SECTION · SCALE 2:1 · UNIT mm · CNC PROFILE REFERENCE</text>
+      </svg>
+    </div>
+
+    <!-- FEMALE PROFILE SVG -->
+    <div class="drawing-card">
+      <div class="drawing-label">Fig. 2 — Female Edge Profile · SBX-SPEC-001-F · Scale 2:1</div>
+      <svg viewBox="-55 -58 440 125" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="hatch-f" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#333" stroke-width="0.8"/>
+          </pattern>
+          <clipPath id="clip-female-l">
+            <rect x="0" y="0" width="138" height="52"/>
+          </clipPath>
+          <clipPath id="clip-female-r">
+            <rect x="192" y="0" width="138" height="52"/>
+          </clipPath>
+        </defs>
+
+        <!-- Left shoulder (solid + hatch) -->
+        <polygon points="0,0 0,52 134,52 134,4 138,0" fill="#1c1c1c" stroke="#d0d0d0" stroke-width="1.2"/>
+        <polygon points="0,0 0,52 134,52 134,4 138,0" fill="url(#hatch-f)" clip-path="url(#clip-female-l)"/>
+
+        <!-- Right shoulder -->
+        <polygon points="192,0 196,4 196,52 330,52 330,0" fill="#1c1c1c" stroke="#d0d0d0" stroke-width="1.2"/>
+        <polygon points="192,0 196,4 196,52 330,52 330,0" fill="url(#hatch-f)" clip-path="url(#clip-female-r)"/>
+
+        <!-- Groove void (dark cavity) -->
+        <polygon points="138,0 192,0 196,4 196,52 134,52 134,4" fill="#060606" stroke="#888" stroke-width="0.8" stroke-dasharray="3,2"/>
+
+        <!-- Chamfer highlight lines -->
+        <line x1="134" y1="4" x2="138" y2="0" stroke="#ccc" stroke-width="1.8"/>
+        <line x1="192" y1="0" x2="196" y2="4" stroke="#ccc" stroke-width="1.8"/>
+
+        <!-- Center line -->
+        <line x1="165" y1="-44" x2="165" y2="62" stroke="#444" stroke-width="0.6" stroke-dasharray="8,3,2,3"/>
+
+        <!-- Dim: overall width 165mm -->
+        <line x1="0" y1="-12" x2="330" y2="-12" stroke="#c8a455" stroke-width="0.9"/>
+        <polygon points="4,-14.5 0,-12 4,-9.5" fill="#c8a455"/>
+        <polygon points="326,-14.5 330,-12 326,-9.5" fill="#c8a455"/>
+        <line x1="0" y1="0" x2="0" y2="-14" stroke="#c8a455" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="330" y1="0" x2="330" y2="-14" stroke="#c8a455" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <text x="165" y="-15" text-anchor="middle" fill="#c8a455" font-size="8" font-family="monospace">165</text>
+
+        <!-- Dim: groove opening 27mm (face) -->
+        <line x1="138" y1="-5" x2="192" y2="-5" stroke="#c8a455" stroke-width="0.9"/>
+        <polygon points="142,-7.5 138,-5 142,-2.5" fill="#c8a455"/>
+        <polygon points="188,-7.5 192,-5 188,-2.5" fill="#c8a455"/>
+        <line x1="138" y1="0" x2="138" y2="-7" stroke="#c8a455" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="192" y1="0" x2="192" y2="-7" stroke="#c8a455" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <text x="165" y="-7" text-anchor="middle" fill="#c8a455" font-size="7" font-family="monospace">27 (face)</text>
+
+        <!-- Dim: groove full width 31mm -->
+        <line x1="134" y1="60" x2="196" y2="60" stroke="#c8a455" stroke-width="0.9"/>
+        <polygon points="138,57.5 134,60 138,62.5" fill="#c8a455"/>
+        <polygon points="192,57.5 196,60 192,62.5" fill="#c8a455"/>
+        <line x1="134" y1="52" x2="134" y2="62" stroke="#c8a455" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="196" y1="52" x2="196" y2="62" stroke="#c8a455" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <text x="165" y="72" text-anchor="middle" fill="#c8a455" font-size="7" font-family="monospace">31 (full depth)</text>
+
+        <!-- Dim: groove depth 26mm -->
+        <line x1="-18" y1="0" x2="-18" y2="52" stroke="#c8a455" stroke-width="0.9"/>
+        <polygon points="-15.5,4 -18,0 -20.5,4" fill="#c8a455"/>
+        <polygon points="-15.5,48 -18,52 -20.5,48" fill="#c8a455"/>
+        <line x1="0" y1="0" x2="-20" y2="0" stroke="#c8a455" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="0" y1="52" x2="-20" y2="52" stroke="#c8a455" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <text x="-30" y="30" text-anchor="middle" fill="#c8a455" font-size="8" font-family="monospace" transform="rotate(-90,-30,30)">26</text>
+
+        <!-- Chamfer annotation -->
+        <line x1="134" y1="4" x2="100" y2="22" stroke="#888" stroke-width="0.7"/>
+        <text x="60" y="22" fill="#888" font-size="7" font-family="monospace" text-anchor="middle">C2×45°</text>
+
+        <!-- Face datum line -->
+        <line x1="-50" y1="0" x2="380" y2="0" stroke="#444" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <text x="-50" y="-2" fill="#555" font-size="6.5" font-family="monospace">FACE DATUM</text>
+
+        <!-- Labels -->
+        <text x="60" y="36" text-anchor="middle" fill="#666" font-size="7" font-family="monospace">SHOULDER</text>
+        <text x="270" y="36" text-anchor="middle" fill="#666" font-size="7" font-family="monospace">SHOULDER</text>
+        <text x="165" y="34" text-anchor="middle" fill="#777" font-size="7" font-family="monospace">GROOVE</text>
+
+        <!-- Title -->
+        <text x="165" y="-43" text-anchor="middle" fill="#d0d0d0" font-size="8.5" font-family="monospace" font-weight="bold">FEMALE EDGE — SBX-WALL-165-F</text>
+        <text x="165" y="-33" text-anchor="middle" fill="#666" font-size="7" font-family="monospace">CROSS SECTION · SCALE 2:1 · UNIT mm · CNC PROFILE REFERENCE</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ASSEMBLED JOINT SVG (full width) -->
+  <div class="drawing-grid">
+    <div class="drawing-card full">
+      <div class="drawing-label">Fig. 3 — Assembled Joint Cross-Section (plan view, detail at tongue center) · Scale 2:1</div>
+      <svg viewBox="-125 105 340 120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="hatch-a" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#2e2e2e" stroke-width="0.9"/>
+          </pattern>
+        </defs>
+
+        <!-- Panel A material block (left) -->
+        <rect x="-120" y="108" width="120" height="114" fill="#1c1c1c" stroke="#888" stroke-width="0.8"/>
+        <rect x="-120" y="108" width="120" height="114" fill="url(#hatch-a)" opacity="0.6"/>
+
+        <!-- Panel A shoulder recess indicators (dashed lines at shoulder face level) -->
+        <!-- Shoulder face of Panel A = x=-50 relative to tongue tip (25mm shoulder at 2x) -->
+        <!-- In our SVG, tongue tip is at x=50 (25mm × 2px/mm), shoulder face at x=0 -->
+        <!-- Panel A material edge = x=0 (shoulder face) -->
+
+        <!-- Panel A tongue (lighter) — 25mm × 30mm at 2x = 50px × 60px, centered at y=165 -->
+        <rect x="0" y="135" width="50" height="60" fill="#282828" stroke="#ccc" stroke-width="1"/>
+        <rect x="0" y="135" width="50" height="60" fill="url(#hatch-a)" opacity="0.4"/>
+
+        <!-- EPDM groove void on tongue tip face -->
+        <rect x="42" y="157" width="8" height="6" fill="#070707" stroke="#c85028" stroke-width="0.7"/>
+
+        <!-- EPDM cord (compressed, shown at tongue tip) -->
+        <ellipse cx="52" cy="165" rx="2.5" ry="4" fill="#c85028" opacity="0.85"/>
+
+        <!-- Panel B material block -->
+        <!-- Top section (above groove) -->
+        <rect x="0" y="108" width="215" height="27" fill="#1c1c1c" stroke="none"/>
+        <rect x="0" y="108" width="215" height="27" fill="url(#hatch-a)" opacity="0.6"/>
+        <!-- Bottom section (below groove) -->
+        <rect x="0" y="195" width="215" height="27" fill="#1c1c1c" stroke="none"/>
+        <rect x="0" y="195" width="215" height="27" fill="url(#hatch-a)" opacity="0.6"/>
+        <!-- Right section (behind groove) -->
+        <rect x="52" y="134" width="163" height="62" fill="#1c1c1c" stroke="none"/>
+        <rect x="52" y="134" width="163" height="62" fill="url(#hatch-a)" opacity="0.6"/>
+        <!-- Panel B outline -->
+        <rect x="0" y="108" width="215" height="114" fill="none" stroke="#888" stroke-width="0.8"/>
+
+        <!-- Groove void (dark cavity in Panel B) -->
+        <!-- Full groove: 31mm=62px centered at y=165, depth 26mm=52px starting at x=0 -->
+        <!-- With chamfer 2mm=4px at entry -->
+        <polygon points="0,138 4,134 52,134 52,196 4,196 0,192" fill="#070707" stroke="#888" stroke-width="0.8" stroke-dasharray="3,1.5"/>
+
+        <!-- Chamfer highlight -->
+        <line x1="4" y1="134" x2="0" y2="138" stroke="#ccc" stroke-width="1.5"/>
+        <line x1="4" y1="196" x2="0" y2="192" stroke="#ccc" stroke-width="1.5"/>
+
+        <!-- Joint contact plane (x=0) -->
+        <line x1="0" y1="108" x2="0" y2="134" stroke="#c8a455" stroke-width="0.7" stroke-dasharray="4,2"/>
+        <line x1="0" y1="192" x2="0" y2="222" stroke="#c8a455" stroke-width="0.7" stroke-dasharray="4,2"/>
+
+        <!-- Clearance gap at tongue tip (1mm = 2px): x=50 to x=52 -->
+        <!-- already visible as tiny gap -->
+
+        <!-- Panel labels -->
+        <text x="-60" y="106" text-anchor="middle" fill="#aaa" font-size="8" font-family="monospace">Panel A (♂)</text>
+        <text x="120" y="106" text-anchor="middle" fill="#aaa" font-size="8" font-family="monospace">Panel B (♀)</text>
+
+        <!-- Dimension: tongue 25mm depth (horizontal) -->
+        <line x1="0" y1="222" x2="50" y2="222" stroke="#c8a455" stroke-width="0.9"/>
+        <polygon points="4,219.5 0,222 4,224.5" fill="#c8a455"/>
+        <polygon points="46,219.5 50,222 46,224.5" fill="#c8a455"/>
+        <text x="25" y="219" text-anchor="middle" fill="#c8a455" font-size="7" font-family="monospace">25</text>
+
+        <!-- Dimension: groove 26mm depth -->
+        <line x1="0" y1="226" x2="52" y2="226" stroke="#c8a455" stroke-width="0.9"/>
+        <polygon points="4,223.5 0,226 4,228.5" fill="#c8a455"/>
+        <polygon points="48,223.5 52,226 48,228.5" fill="#c8a455"/>
+        <text x="26" y="224" text-anchor="middle" fill="#c8a455" font-size="7" font-family="monospace">26</text>
+
+        <!-- Annotations (right side) -->
+        <!-- Shoulder contact plane label -->
+        <line x1="0" y1="115" x2="-30" y2="110" stroke="#c8a455" stroke-width="0.6"/>
+        <text x="-32" y="108" fill="#c8a455" font-size="7" font-family="monospace" text-anchor="end">CONTACT PLANE</text>
+
+        <!-- Tongue label -->
+        <line x1="25" y1="165" x2="25" y2="200" stroke="#888" stroke-width="0.6"/>
+        <text x="25" y="208" text-anchor="middle" fill="#888" font-size="7" font-family="monospace">TONGUE 30×25</text>
+
+        <!-- EPDM label -->
+        <line x1="55" y1="165" x2="90" y2="155" stroke="#c85028" stroke-width="0.6"/>
+        <text x="92" y="153" fill="#c85028" font-size="7" font-family="monospace">EPDM 6mm Ø</text>
+        <text x="92" y="162" fill="#c85028" font-size="7" font-family="monospace">compressed ~17%</text>
+
+        <!-- Groove label -->
+        <line x1="28" y1="136" x2="28" y2="128" stroke="#888" stroke-width="0.6"/>
+        <text x="28" y="125" text-anchor="middle" fill="#888" font-size="7" font-family="monospace">GROOVE 31×26 (C2)</text>
+
+        <!-- 1mm clearance annotation -->
+        <line x1="50" y1="171" x2="70" y2="178" stroke="#555" stroke-width="0.6"/>
+        <text x="72" y="181" fill="#555" font-size="6.5" font-family="monospace">1mm clearance</text>
+
+        <!-- Title -->
+        <text x="45" y="104" text-anchor="middle" fill="#d0d0d0" font-size="8.5" font-family="monospace" font-weight="bold">ASSEMBLED JOINT — DETAIL AT TONGUE CENTER — SBX-SPEC-001-A</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Clearance table -->
+  <table class="spec-table" style="margin-top:10px">
+    <thead>
+      <tr><th>Dimension</th><th>Male (tongue)</th><th>Female (groove)</th><th>Assembled clearance</th><th>Function</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Width (across panel)</td><td>30.0 mm</td><td>31.0 mm</td><td>0.5 mm each side</td><td>Thermal expansion + assembly</td></tr>
+      <tr><td>Depth</td><td>25.0 mm</td><td>26.0 mm</td><td>1.0 mm at bottom</td><td>EPDM engagement space</td></tr>
+      <tr><td>Entry chamfer</td><td>—</td><td>2 mm × 45°</td><td>—</td><td>Assembly guide</td></tr>
+      <tr><td>EPDM groove (on tongue)</td><td>4 mm W × 4 mm D</td><td>—</td><td>6 mm Ø cord, ~1 mm compression</td><td>Airtight seal (passive)</td></tr>
+      <tr><td>Panel thickness</td><td colspan="2">165.0 mm (±0.5)</td><td>—</td><td>U値 0.14 W/m²K</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 3: BIPV Layer Stack -->
+<section class="spec-section">
+  <h2>3. BIPV Roof Panel Layer Stack — SBX-ROOF-BIPV-165</h2>
+  <div class="drawing-grid">
+    <div class="drawing-card">
+      <div class="drawing-label">Fig. 4 — Layer Cross-Section · Schematic (not to scale for thin layers)</div>
+      <svg viewBox="0 0 340 240" xmlns="http://www.w3.org/2000/svg">
+        <!-- Layer bars (top = exterior, bottom = interior) -->
+        <!-- Protective coating 0.5mm -->
+        <rect x="10" y="10" width="200" height="14" fill="#4a5568" stroke="#888" stroke-width="0.7"/>
+        <text x="218" y="21" fill="#888" font-size="9" font-family="monospace">0.5 mm  Protective coat (UV/weather)</text>
+
+        <!-- CIS thin-film BIPV 2mm -->
+        <rect x="10" y="26" width="200" height="18" fill="#2d5a8e" stroke="#5b9bd5" stroke-width="0.8"/>
+        <text x="218" y="38" fill="#5b9bd5" font-size="9" font-family="monospace">2.0 mm  CIS thin-film BIPV</text>
+        <text x="218" y="48" fill="#5577aa" font-size="8" font-family="monospace">       KANEKA T-Green Multi Solar</text>
+
+        <!-- EVA encapsulant 1mm -->
+        <rect x="10" y="46" width="200" height="12" fill="#3d3020" stroke="#8a6030" stroke-width="0.7"/>
+        <text x="218" y="55" fill="#8a6030" font-size="9" font-family="monospace">1.0 mm  EVA encapsulant</text>
+
+        <!-- OSB outer 11mm -->
+        <rect x="10" y="60" width="200" height="28" fill="#2a2015" stroke="#9a7040" stroke-width="0.8"/>
+        <text x="218" y="75" fill="#9a7040" font-size="9" font-family="monospace">11 mm   OSB JAS Type 2</text>
+        <text x="218" y="85" fill="#7a5030" font-size="8" font-family="monospace">        (exterior face)</text>
+
+        <!-- PUR foam 143mm -->
+        <rect x="10" y="90" width="200" height="90" fill="#1a1a2e" stroke="#4040aa" stroke-width="0.8"/>
+        <text x="218" y="128" fill="#5555bb" font-size="9" font-family="monospace">143 mm  PUR foam 40 kg/m³</text>
+        <text x="218" y="140" fill="#4444aa" font-size="8" font-family="monospace">        λ=0.022 W/mK</text>
+        <text x="218" y="152" fill="#4444aa" font-size="8" font-family="monospace">        KINGSPAN Kooltherm</text>
+
+        <!-- OSB inner 11mm -->
+        <rect x="10" y="182" width="200" height="28" fill="#2a2015" stroke="#9a7040" stroke-width="0.8"/>
+        <text x="218" y="197" fill="#9a7040" font-size="9" font-family="monospace">11 mm   OSB JAS Type 2</text>
+        <text x="218" y="207" fill="#7a5030" font-size="8" font-family="monospace">        (interior face)</text>
+
+        <!-- Total dimension arrow -->
+        <line x1="5" y1="10" x2="5" y2="210" stroke="#c8a455" stroke-width="0.9"/>
+        <polygon points="2.5,14 5,10 7.5,14" fill="#c8a455"/>
+        <polygon points="2.5,206 5,210 7.5,206" fill="#c8a455"/>
+        <text x="-2" y="116" text-anchor="middle" fill="#c8a455" font-size="9" font-family="monospace" transform="rotate(-90,-2,116)">168.5 mm total</text>
+
+        <!-- Separator lines -->
+        <line x1="0" y1="59" x2="215" y2="59" stroke="#333" stroke-width="0.5"/>
+        <line x1="0" y1="89" x2="215" y2="89" stroke="#333" stroke-width="0.5"/>
+        <line x1="0" y1="181" x2="215" y2="181" stroke="#333" stroke-width="0.5"/>
+
+        <!-- BIPV brace -->
+        <rect x="10" y="10" width="200" height="50" fill="none" stroke="#5b9bd5" stroke-width="0.8" stroke-dasharray="4,2"/>
+        <text x="215" y="15" fill="#5b9bd5" font-size="7.5" font-family="monospace">BIPV module</text>
+        <text x="215" y="24" fill="#5b9bd5" font-size="7.5" font-family="monospace">3.5 mm total</text>
+      </svg>
+    </div>
+
+    <div class="drawing-card">
+      <div class="drawing-label">BIPV Electrical Integration</div>
+      <table class="spec-table">
+        <tr><th colspan="2">Electrical Spec</th></tr>
+        <tr><td class="label">Cell technology</td><td>CIS thin-film (monolithic)</td></tr>
+        <tr><td class="label">Product</td><td>KANEKA T-Green Multi Solar</td></tr>
+        <tr><td class="label">Panel efficiency</td><td>≈ 12 % (CIS thin-film, typical)</td></tr>
+        <tr><td class="label">Wp per SBX-ROOF panel</td><td>≈ 175 Wp (1200×2400 mm active area)</td></tr>
+        <tr><td class="label">Voc</td><td>≈ 90 V (per panel, series-wound)</td></tr>
+        <tr><td class="label">Panel connector</td><td>Anderson Powerpole 45 A (PP45) — auto-connect on snap-join</td></tr>
+        <tr><td class="label">Array output</td><td>48 V DC microgrid via MPPT (Victron SmartSolar)</td></tr>
+        <tr><td class="label">Battery</td><td>PYLONTECH US3000C LiFePO4 (48 V)</td></tr>
+        <tr><th colspan="2" style="padding-top:10px">Note</th></tr>
+        <tr><td colspan="2" style="color:var(--dim);font-size:10.5px">
+          Phase 1 (current): standard mono PERC modules bonded to OSB roof panel; BIPV integration in Phase 2.
+          Phase 2 target: CIS laminated direct to OSB, EVA encapsulant, protective UV coat — single factory operation.
+          Contact KANEKA Solar for OEM lamination quote.
+        </td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: Materials -->
+<section class="spec-section">
+  <h2>4. Materials Specification</h2>
+  <table class="spec-table">
+    <thead>
+      <tr><th>Component</th><th>Material / Grade</th><th>Standard</th><th>Thickness</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Face skins (OSB)</td>
+        <td>Oriented Strand Board, Type 2 (structural)</td>
+        <td><span class="tag-req">JAS</span> Type 2</td>
+        <td>11 mm (wall/roof), 11 mm (floor)</td>
+        <td>Moisture resistant binder; formaldehyde: F☆☆☆☆ grade</td>
+      </tr>
+      <tr>
+        <td>Core insulation</td>
+        <td>Rigid PUR foam, closed-cell</td>
+        <td><span class="tag-std">ISO 8873</span></td>
+        <td>143 mm (wall/roof), 68 mm (floor)</td>
+        <td>Density 40 kg/m³ min; λ ≤ 0.024 W/mK; factory-injected between skins</td>
+      </tr>
+      <tr>
+        <td>Snap-joint gasket</td>
+        <td>EPDM rubber cord, round section</td>
+        <td><span class="tag-std">ASTM D2000</span> AA</td>
+        <td>6 mm diameter</td>
+        <td>Black; Shore A 40–50; compression set ≤ 25% after 70 hrs at 70°C</td>
+      </tr>
+      <tr>
+        <td>Tongue/groove profile</td>
+        <td>Same OSB as face skin (integral — CNC machined)</td>
+        <td>—</td>
+        <td>Machined from 11 mm OSB skin</td>
+        <td>Tongue tip face receives EPDM cord groove; CNC router, sharp carbide bit recommended</td>
+      </tr>
+      <tr>
+        <td>BIPV thin-film (roof)</td>
+        <td>CIS (Cu-In-Se) thin-film solar cell</td>
+        <td>—</td>
+        <td>2 mm cell + 1 mm EVA</td>
+        <td>KANEKA T-Green Multi Solar; OEM lamination to OSB substrate</td>
+      </tr>
+      <tr>
+        <td>Hydronic tube (floor)</td>
+        <td>PEX-A cross-linked polyethylene</td>
+        <td><span class="tag-std">ISO 15875</span></td>
+        <td>16 mm OD × 2 mm wall</td>
+        <td>200 mm pitch; routed channel in PUR core; manifold connections at panel short edge</td>
+      </tr>
+      <tr>
+        <td>Structural fasteners</td>
+        <td>Hex head self-tapping screw, zinc-plated</td>
+        <td>—</td>
+        <td>Ø 6 × 120 mm</td>
+        <td>4 per joint (1 m panel): pre-drill at 45° through tongue shoulder into adjacent OSB</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 5: Tolerances -->
+<section class="spec-section">
+  <h2>5. Manufacturing Tolerances</h2>
+  <table class="spec-table">
+    <thead>
+      <tr><th>Feature</th><th>Nominal</th><th>Tolerance</th><th>Measurement method</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Panel overall length</td><td>2800 / 2400 mm</td><td>± 2.0 mm</td><td>Steel tape, 3 points</td></tr>
+      <tr><td>Panel overall width</td><td>1200 mm</td><td>± 1.0 mm</td><td>Steel tape, 3 points</td></tr>
+      <tr><td>Panel overall thickness</td><td>165 / 90 mm</td><td>± 0.5 mm</td><td>Caliper, 4 corners + center</td></tr>
+      <tr><td>Tongue width</td><td>30.0 mm</td><td>± 0.3 mm</td><td>Caliper</td></tr>
+      <tr><td>Tongue depth (protrusion)</td><td>25.0 mm</td><td>± 0.3 mm</td><td>Depth gauge from shoulder face</td></tr>
+      <tr><td>Groove width (face opening)</td><td>27.0 mm (chamfered) / 31.0 mm (full depth)</td><td>± 0.3 mm</td><td>Pin gauge or caliper</td></tr>
+      <tr><td>Groove depth</td><td>26.0 mm</td><td>± 0.3 mm</td><td>Depth gauge from face datum</td></tr>
+      <tr><td>EPDM groove width</td><td>4.0 mm</td><td>± 0.2 mm</td><td>Caliper</td></tr>
+      <tr><td>EPDM groove depth</td><td>4.0 mm</td><td>± 0.2 mm</td><td>Depth gauge</td></tr>
+      <tr><td>Chamfer angle</td><td>45°</td><td>± 2°</td><td>Protractor</td></tr>
+      <tr><td>Chamfer leg</td><td>2.0 mm × 2.0 mm</td><td>± 0.3 mm</td><td>Caliper</td></tr>
+      <tr><td>Panel squareness (diag. diff)</td><td>0 mm</td><td>≤ 3.0 mm</td><td>Measure both diagonals</td></tr>
+      <tr><td>Face flatness (bow)</td><td>0 mm</td><td>≤ L/300 (= 9.3 mm over 2800)</td><td>Straight-edge + feeler gauge</td></tr>
+      <tr><td>OSB skin bond to PUR</td><td>—</td><td>Peel strength ≥ 0.08 N/mm²</td><td>Factory QC tensile test, 1 per lot of 50</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 6: CNC Notes -->
+<section class="spec-section">
+  <h2>6. CNC Machining Notes</h2>
+  <div class="notes-grid">
+    <div class="note-block">
+      <h4>Tool Setup</h4>
+      — Router bit: solid carbide straight 2-flute, Ø 6 mm for EPDM groove; Ø 12 mm or 16 mm for main shoulder profile<br>
+      — Router speed: 18,000–24,000 rpm; feed rate 2–4 m/min through PUR/OSB<br>
+      — Profile depth: single pass if PUR core is pre-set; multiple passes (5 mm steps) through OSB<br>
+      — Climb-cut on final pass to minimize OSB tear-out<br>
+      — Vacuum fixture strongly recommended (panel warps under single-side clamping)<br>
+      — Dust extraction required (PUR foam produces fine particulate; N95 minimum)
+    </div>
+    <div class="note-block">
+      <h4>DXF File Usage</h4>
+      — Files <em>sbx-wall-165-male.dxf</em> and <em>sbx-wall-165-female.dxf</em> contain 2D edge profiles in DXF R12 format<br>
+      — Coordinate system: X = 0–165 mm across panel thickness; Y = 0 at face datum, negative = into material<br>
+      — PROFILE layer: closed polyline of the machined edge shape<br>
+      — DIMS layer: reference dimension annotations (not tool paths)<br>
+      — Import into CAM software (Fusion 360, VCarve, Mastercam) → generate 2.5D contour tool path<br>
+      — Panel length (2800 mm) is the third axis; set Z ramp at panel ends to avoid corner chip-out
+    </div>
+    <div class="note-block">
+      <h4>Quality Check</h4>
+      — Dry-fit every 10th panel pair: tongue should slide into groove by hand with ≤ 20 N force<br>
+      — EPDM cord should compress visibly but panel faces must be flush (≤ 0.5 mm step)<br>
+      — Airtightness: apply smoke-stick test at joint; no visible leakage<br>
+      — OSB surface at tongue/groove edge must be clean-cut; sand any feathering with 80 grit<br>
+      — Mark each panel face (M/F) and panel number before shipping
+    </div>
+    <div class="note-block">
+      <h4>Assembly Sequence</h4>
+      1. Place Panel A (female groove) on foundation, plumb and brace<br>
+      2. Insert EPDM cord into tongue groove of Panel B (male) — press to seat, do not glue<br>
+      3. Align tongue to groove opening; engage by pressing perpendicular to panel face<br>
+      4. Drive 4 × Ø6×120 screws at 45° through shoulder into Panel A at 600 mm pitch<br>
+      5. Check alignment; proceed to next panel<br>
+      6. Full wall assembly completes airtight envelope — no tape, no sealant required<br>
+      7. At corners: dedicated corner panel (SBX-CORNER-165, separate drawing)
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7: Downloads -->
+<section class="spec-section">
+  <h2>7. Downloads</h2>
+  <div class="dl-grid">
+    <div class="dl-card">
+      <a href="/files/sbx-wall-165-male.dxf" download>
+        <div class="dl-icon">📐</div>
+        <div class="dl-name">sbx-wall-165-male.dxf</div>
+        <div class="dl-desc">Male snap-joint edge profile. DXF R12 ASCII format. CNC-ready contour. Layers: PROFILE, DIMS, NOTES.</div>
+        <div class="dl-size">DXF R12 · DOC: SBX-SPEC-001-M · Rev. A</div>
+      </a>
+    </div>
+    <div class="dl-card">
+      <a href="/files/sbx-wall-165-female.dxf" download>
+        <div class="dl-icon">📐</div>
+        <div class="dl-name">sbx-wall-165-female.dxf</div>
+        <div class="dl-desc">Female snap-groove profile. DXF R12 ASCII format. Includes chamfer geometry and groove void. Layers: PROFILE, DIMS, NOTES.</div>
+        <div class="dl-size">DXF R12 · DOC: SBX-SPEC-001-F · Rev. A</div>
+      </a>
+    </div>
+    <div class="dl-card">
+      <a href="/soluna-box.html">
+        <div class="dl-icon">🏠</div>
+        <div class="dl-name">SOLUNA BOX 製品ページ</div>
+        <div class="dl-desc">全6サイズのラインアップ、価格、コンテナ構成、購入・サブスクリプションの詳細。</div>
+        <div class="dl-size">Product overview → soluna-box.html</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 8: Ordering / RFQ -->
+<section class="spec-section">
+  <h2>8. Ordering Contacts — RFQ Guide</h2>
+  <div class="callout">
+    <strong>RFQ推奨内容:</strong> 本ページのURL + DXFファイル + 枚数・サイズ・納期を送付。
+    初回発注はサンプルパネル2枚（M+F各1）でスナップジョイント適合確認後に本発注を推奨。
+  </div>
+  <div class="rfq-grid">
+    <div class="rfq-card">
+      <div class="rfq-vendor">DAEJIN SIPs / 대진</div>
+      <div class="rfq-role">SIPs panel manufacturer (Korea) — OSB + PUR core panels</div>
+      <div class="rfq-line">所在地: <span>韓国 경기도 화성시（京畿道 華城市）</span></div>
+      <div class="rfq-line">対応: <span>OEM cut-to-size + edge machining by CNC; export to Japan via Busan→博多 RoRo</span></div>
+      <div class="rfq-line">見積依頼: <span>DXFファイル + 枚数 + 仕様シート添付 → メール or 代理店経由</span></div>
+      <div class="rfq-line">リードタイム: <span>サンプル 4–6週、量産ロット 8–12週</span></div>
+      <div class="rfq-line">備考: <span>最小ロット50枚/回。CNC加工は追加費用要確認。</span></div>
+    </div>
+    <div class="rfq-card">
+      <div class="rfq-vendor">カネカ（KANEKA）</div>
+      <div class="rfq-role">BIPV thin-film solar — T-Green Multi Solar (CIS)</div>
+      <div class="rfq-line">担当部門: <span>太陽電池事業部（ソーラーフロンティア / KANEKA Solar）</span></div>
+      <div class="rfq-line">問合せ先: <span>kaneka.com/solar → B2Bお問い合わせフォーム</span></div>
+      <div class="rfq-line">依頼内容: <span>「OSB基材へのCIS薄膜OEMラミネート」でOEM部門に転送依頼</span></div>
+      <div class="rfq-line">仕様: <span>基材 OSB JAS Type2 11mm、サイズ 1200×2400mm、数量 要相談</span></div>
+      <div class="rfq-line">備考: <span>現在は標準モジュール（フレーム付）のみ市販。OEMは問い合わせ次第。</span></div>
+    </div>
+    <div class="rfq-card">
+      <div class="rfq-vendor">センクシア株式会社</div>
+      <div class="rfq-role">地盤補強・基礎 — ねじ込み式鋼管杭（寒冷地対応）</div>
+      <div class="rfq-line">親会社: <span>日本製鉄グループ</span></div>
+      <div class="rfq-line">製品: <span>GRRスクリュー杭・ハットパイル（凍上対策型）</span></div>
+      <div class="rfq-line">問合せ: <span>ssk-cbt.co.jp → 設計・施工問い合わせ（北海道は弟子屈・帯広支店経由）</span></div>
+      <div class="rfq-line">用途: <span>SOLUNA BOX 基礎（コンクリート不要 → 移設可能）</span></div>
+      <div class="rfq-line">備考: <span>地耐力調査（スウェーデン式サウンディング）が先行必要</span></div>
+    </div>
+    <div class="rfq-card">
+      <div class="rfq-vendor">国内CNC加工（試作用）</div>
+      <div class="rfq-role">スナップジョイント端面加工 — 北海道・道東エリア</div>
+      <div class="rfq-line">候補: <span>弟子屈町・標茶町内の木工加工業者 + 帯広CNC業者</span></div>
+      <div class="rfq-line">依頼内容: <span>DXFファイルを持参し「2.5Dコンタール加工」を依頼</span></div>
+      <div class="rfq-line">素材: <span>OSB合板（ホームセンター調達可） + PUR注入は別途</span></div>
+      <div class="rfq-line">工程: <span>OSB端面プロファイル加工のみ → PUR発泡 → 貼り合わせ</span></div>
+      <div class="rfq-line">目的: <span>量産前のジョイント適合性・断熱性能 実証サンプル製作</span></div>
+    </div>
+  </div>
+</section>
+
+<footer style="margin-top:40px;padding-top:20px;border-top:1px solid var(--border);
+  font-family:var(--mono);font-size:10px;color:var(--dim);display:flex;justify-content:space-between;align-items:center">
+  <div>SBX-SPEC-001 Rev.A · SOLUNA BOX Technical Specification · © 2026 Enabler Inc.</div>
+  <div><a href="/soluna-box.html" style="color:var(--gold);text-decoration:none">← SOLUNA BOX 製品ページ</a></div>
+</footer>
+
+</body>
+</html>
