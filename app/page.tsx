@@ -1,22 +1,21 @@
 "use client";
 
-import { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 const PHOTOS = [
-  { src: "/img/tapkop_lake_mashu_view.webp" },   // TAPKOP 屈斜路湖
-  { src: "/img/kumaushi_aerial_dawn.webp" },      // KUMAUSHI 夜明け
-  { src: "/img/atami_sunset_ocean.webp" },        // 熱海 サンセット
-  { src: "/img/lodge_exterior_snow.webp" },       // LODGE 雪景色
-  { src: "/img/nesting_night.webp" },             // NESTING 夜
-  { src: "/img/village_arc_sunset.webp" },        // ビレッジ 夕暮れ
-  { src: "/img/property-honolulu.webp" },         // ホノルル
-  { src: "/img/pro_hawaii_hero.webp" },           // ハワイカイ
-  { src: "/images/fest/golden_hour.jpg" },        // ZAMNA ゴールデンアワー
-  { src: "/images/fest/crowd.jpg" },              // フェス
+  { src: "/img/tapkop_lake_mashu_view.webp" },
+  { src: "/img/kumaushi_aerial_dawn.webp" },
+  { src: "/img/atami_sunset_ocean.webp" },
+  { src: "/img/lodge_exterior_snow.webp" },
+  { src: "/img/nesting_night.webp" },
+  { src: "/img/village_arc_sunset.webp" },
+  { src: "/img/property-honolulu.webp" },
+  { src: "/img/pro_hawaii_hero.webp" },
+  { src: "/images/fest/golden_hour.jpg" },
+  { src: "/images/fest/crowd.jpg" },
 ];
 
 const APPS = [
-  // 別荘投資
   { id: "properties",   icon: "🏡", label: "物件一覧",           url: "/properties" },
   { id: "buy",          icon: "💰", label: "購入・申込",         url: "/buy" },
   { id: "scheme",       icon: "🗺️", label: "スキーム",           url: "/scheme" },
@@ -32,7 +31,6 @@ const APPS = [
   { id: "mint",         icon: "🪙", label: "NFT 口数",           url: "/mint" },
   { id: "crypto",       icon: "₿",  label: "仮想通貨購入",       url: "/crypto" },
   { id: "pass",         icon: "🎟️", label: "シーズンパス",       url: "/pass" },
-  // 物件
   { id: "tapkop",       icon: "🏔️", label: "TAPKOP",             url: "/tapkop" },
   { id: "lodge",        icon: "🌲", label: "THE LODGE",          url: "/lodge" },
   { id: "nesting",      icon: "🪵", label: "NESTING",            url: "/nesting" },
@@ -48,21 +46,19 @@ const APPS = [
   { id: "nesting-story",icon: "📸", label: "NESTINGの話",        url: "/nesting-story" },
   { id: "atami-story",  icon: "📸", label: "熱海の話",           url: "/atami-story" },
   { id: "dome-story",   icon: "📸", label: "ドームの話",         url: "/dome-story" },
-  // 空き家活用
   { id: "kagawa",       icon: "🎨", label: "香川 空き家",        url: "/kagawa-akiya" },
   { id: "wakayama",     icon: "🌿", label: "和歌山 空き家",      url: "/wakayama-akiya" },
   { id: "boso",         icon: "🐚", label: "房総 空き家",        url: "/boso-akiya" },
   { id: "hakuba",       icon: "⛷️", label: "白馬 空き家",        url: "/hakuba-akiya" },
   { id: "sanin",        icon: "🦌", label: "山陰 空き家",        url: "/sanin-akiya" },
   { id: "akiya",        icon: "🏚️", label: "空き家活用",         url: "/akiya" },
+  { id: "build",        icon: "🪵", label: "タイニーハウス建設", url: "/build" },
   { id: "workparty",    icon: "🔨", label: "Work Party",         url: "/workparty" },
   { id: "renovation",   icon: "🏗️", label: "リノベーション",     url: "/renovation" },
-  // フェスティバル
   { id: "zamna",        icon: "🎪", label: "ZAMNA HAWAII",       url: "/zamna" },
   { id: "tickets",      icon: "🎫", label: "チケット",           url: "/tickets" },
   { id: "lineup",       icon: "🎤", label: "ラインナップ",       url: "/lineup" },
   { id: "schedule",     icon: "📅", label: "スケジュール",       url: "/schedule" },
-  // 建築・素材
   { id: "village-c",    icon: "🛖", label: "ビレッジ構想",       url: "/village-concept" },
   { id: "village-d",    icon: "✏️", label: "ビレッジ設計",       url: "/village-design" },
   { id: "construction", icon: "🏗️", label: "建築計画",           url: "/construction" },
@@ -79,7 +75,6 @@ const APPS = [
   { id: "handcraft",    icon: "🪚", label: "ハンドクラフト",     url: "/handcraft" },
   { id: "mycelium",     icon: "🍄", label: "菌糸壁",             url: "/mycelium" },
   { id: "sumigaki",     icon: "🖤", label: "炭焼き外壁",         url: "/sumigaki" },
-  // コミュニティ
   { id: "community",    icon: "💬", label: "コミュニティ",       url: "/community" },
   { id: "app",          icon: "📱", label: "メンバーアプリ",     url: "/app" },
   { id: "owners",       icon: "🔑", label: "オーナー専用",       url: "/owners" },
@@ -88,14 +83,12 @@ const APPS = [
   { id: "network",      icon: "🌐", label: "ネットワーク",       url: "/network" },
   { id: "song",         icon: "🎵", label: "SOLUNAソング",       url: "/song" },
   { id: "join",         icon: "✋", label: "参加する",           url: "/join" },
-  // ストーリー・ブログ
   { id: "story",        icon: "📜", label: "ストーリー",         url: "/story" },
   { id: "origin",       icon: "🌱", label: "創業の話",           url: "/origin" },
   { id: "blog",         icon: "✍️", label: "ブログ",             url: "/blog" },
   ...Array.from({ length: 9 }, (_, i) => ({ id: `blog-${i + 1}`, icon: "📝", label: `ブログ ${i + 1}`, url: `/blog-${i + 1}` })),
   { id: "place",        icon: "🗾", label: "場所について",       url: "/place" },
   { id: "founding",     icon: "🏛️", label: "創業",               url: "/founding" },
-  // 情報・サポート
   { id: "faq",          icon: "❓", label: "FAQ",                url: "/faq" },
   { id: "press",        icon: "📰", label: "プレス",             url: "/press" },
   { id: "safety",       icon: "🛡️", label: "安全・注意事項",     url: "/safety" },
@@ -157,26 +150,20 @@ const PERSONA_CONFIG: Record<string, {
 
 const PAGE_TITLES: Record<string, string> = Object.fromEntries(APPS.map(a => [a.url, a.label]));
 
-interface Win {
-  id: string; title: string; url: string;
-  x: number; y: number; w: number; h: number; z: number;
-  min: boolean; max: boolean;
-  sx?: number; sy?: number; sw?: number; sh?: number; // saved bounds for restore
+interface WinMeta {
+  id: string; title: string; url: string; min: boolean; max: boolean;
 }
-
 
 export default function Home() {
   const [curSlide, setCurSlide]   = useState(0);
   const [prevSlide, setPrevSlide] = useState<number | null>(null);
-  const [wins, setWins]           = useState<Win[]>([]);
-  const [topZ, setTopZ]           = useState(100);
+  const [winMeta, setWinMeta]     = useState<WinMeta[]>([]);
   const [clock, setClock]         = useState("--:--");
   const [menuOpen, setMenuOpen]   = useState(false);
   const [search, setSearch]       = useState("");
   const [isMobile, setIsMobile]   = useState(false);
   const [mounted, setMounted]     = useState(false);
 
-  // Auth + Persona
   const [member, setMember]       = useState<{email:string;name?:string;member_type?:string}|null>(null);
   const [persona, setPersona]     = useState<string|null>(null);
   const [loginOpen, setLoginOpen] = useState(false);
@@ -192,87 +179,266 @@ export default function Home() {
   const showDock  = () => { if (dockHideTimer.current) clearTimeout(dockHideTimer.current); setDockHidden(false); };
   const startHide = () => { dockHideTimer.current = setTimeout(() => setDockHidden(true), 2500); };
 
-  const slideRefs  = useRef<(HTMLDivElement | null)[]>([]);
-  const dragState  = useRef<{
-    type: 'move' | 'resize'; id: string; edge: string;
-    startX: number; startY: number;
-    origX: number; origY: number; origW: number; origH: number;
-  } | null>(null);
+  // Imperative window management
+  const winLayerRef = useRef<HTMLDivElement>(null);
+  const winEls = useRef(new Map<string, { el: HTMLDivElement; savedBounds?: { x:number; y:number; w:number; h:number } }>());
+  const topZRef    = useRef(100);
   const winOffset  = useRef(0);
-  const winsRef    = useRef<Win[]>([]);
-  const kbAnims    = ["kb1","kb2","kb3"];
+  const slideRefs  = useRef<(HTMLDivElement | null)[]>([]);
+  const winMetaRef = useRef<WinMeta[]>([]);
+  useEffect(() => { winMetaRef.current = winMeta; }, [winMeta]);
 
-  // keep ref in sync for use inside event listeners
-  useEffect(() => { winsRef.current = wins; }, [wins]);
+  // Single shared drag state
+  const activeDrag = useRef<{
+    el: HTMLDivElement; mode: "move"|"resize"; edge: string;
+    startX: number; startY: number; origX: number; origY: number; origW: number; origH: number;
+  } | null>(null);
 
-  // ── URL sync helpers ─────────────────────────────────────────────────────────
+  // Stable action refs so DOM event handlers always call the latest version
+  const act = useRef({
+    close: (_id: string) => {},
+    min:   (_id: string) => {},
+    max:   (_id: string) => {},
+    front: (_id: string) => {},
+  });
+
+  const kbAnims = ["kb1","kb2","kb3"];
+
+  // ── URL sync ─────────────────────────────────────────────────────────────────
   const pushUrl = useCallback((url: string, title: string) => {
     history.pushState({ winUrl: url, title }, title, url);
   }, []);
-
   const replaceUrl = useCallback((url: string, title: string) => {
     history.replaceState({ winUrl: url, title }, title, url);
   }, []);
 
-  // ── Open window (with URL update) ────────────────────────────────────────────
+  // ── Global mouse handler (single listener for all drag/resize) ───────────────
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const d = activeDrag.current; if (!d) return;
+      const layer = winLayerRef.current; if (!layer) return;
+      const dx = e.clientX - d.startX, dy = e.clientY - d.startY;
+      if (d.mode === "move") {
+        d.el.style.left = Math.max(0, Math.min(layer.offsetWidth  - 80, d.origX + dx)) + "px";
+        d.el.style.top  = Math.max(28, Math.min(layer.offsetHeight - 38, d.origY + dy)) + "px";
+      } else {
+        let nx = d.origX, ny = d.origY, nw = d.origW, nh = d.origH;
+        if (d.edge.includes("e")) nw = Math.max(320, d.origW + dx);
+        if (d.edge.includes("s")) nh = Math.max(200, d.origH + dy);
+        if (d.edge.includes("w")) { nw = Math.max(320, d.origW - dx); if (nw > 320) nx = d.origX + dx; }
+        if (d.edge.includes("n")) { nh = Math.max(200, d.origH - dy); if (nh > 200) ny = d.origY + dy; }
+        d.el.style.left   = nx + "px";
+        d.el.style.top    = ny + "px";
+        d.el.style.width  = nw + "px";
+        d.el.style.height = nh + "px";
+      }
+    };
+    const onUp = () => {
+      if (activeDrag.current) { activeDrag.current = null; document.body.classList.remove("dragging"); }
+    };
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup",   onUp);
+    return () => { document.removeEventListener("mousemove", onMove); document.removeEventListener("mouseup", onUp); };
+  }, []);
+
+  // ── bringToFront ─────────────────────────────────────────────────────────────
+  const bringToFront = useCallback((id: string) => {
+    const entry = winEls.current.get(id); if (!entry) return;
+    topZRef.current++;
+    entry.el.style.zIndex = String(topZRef.current);
+    winEls.current.forEach((e, eid) => e.el.classList.toggle("win-active", eid === id));
+  }, []);
+
+  // ── closeWin ─────────────────────────────────────────────────────────────────
+  const closeWin = useCallback((id: string) => {
+    const entry = winEls.current.get(id); if (!entry) return;
+    entry.el.remove();
+    winEls.current.delete(id);
+    setWinMeta(m => {
+      const rest = m.filter(w => w.id !== id);
+      if (rest.length === 0) replaceUrl("/", "SOLUNA");
+      return rest;
+    });
+  }, [replaceUrl]);
+
+  // ── toggleMin ────────────────────────────────────────────────────────────────
+  const toggleMin = useCallback((id: string) => {
+    const entry = winEls.current.get(id); if (!entry) return;
+    setWinMeta(m => m.map(w => {
+      if (w.id !== id) return w;
+      const nowMin = !w.min;
+      const body = entry.el.querySelector(".win-body") as HTMLElement | null;
+      if (nowMin) {
+        if (!entry.savedBounds) {
+          entry.savedBounds = {
+            x: parseInt(entry.el.style.left) || 0,
+            y: parseInt(entry.el.style.top)  || 0,
+            w: parseInt(entry.el.style.width)  || 800,
+            h: parseInt(entry.el.style.height) || 560,
+          };
+        }
+        entry.el.classList.add("minimized");
+        if (body) body.style.display = "none";
+      } else {
+        entry.el.classList.remove("minimized");
+        if (body) body.style.display = "";
+        if (entry.savedBounds) entry.el.style.height = entry.savedBounds.h + "px";
+        act.current.front(id);
+      }
+      return { ...w, min: nowMin };
+    }));
+  }, []);
+
+  // ── toggleMax ────────────────────────────────────────────────────────────────
+  const toggleMax = useCallback((id: string) => {
+    const entry = winEls.current.get(id); if (!entry) return;
+    const layer = winLayerRef.current; if (!layer) return;
+    setWinMeta(m => m.map(w => {
+      if (w.id !== id) return w;
+      const z = entry.el.style.zIndex;
+      if (!w.max) {
+        entry.savedBounds = {
+          x: parseInt(entry.el.style.left) || 0,
+          y: parseInt(entry.el.style.top)  || 0,
+          w: parseInt(entry.el.style.width)  || 800,
+          h: parseInt(entry.el.style.height) || 560,
+        };
+        entry.el.style.cssText = `left:0px;top:28px;width:${layer.offsetWidth}px;height:${layer.offsetHeight - 28}px;z-index:${z}`;
+        entry.el.classList.add("maximized");
+        act.current.front(id);
+        return { ...w, max: true };
+      } else {
+        const sb = entry.savedBounds;
+        entry.el.style.cssText = sb
+          ? `left:${sb.x}px;top:${sb.y}px;width:${sb.w}px;height:${sb.h}px;z-index:${z}`
+          : `left:60px;top:60px;width:800px;height:560px;z-index:${z}`;
+        entry.el.classList.remove("maximized");
+        act.current.front(id);
+        return { ...w, max: false };
+      }
+    }));
+  }, []);
+
+  // Sync stable action refs
+  useEffect(() => {
+    act.current = { close: closeWin, min: toggleMin, max: toggleMax, front: bringToFront };
+  }, [closeWin, toggleMin, toggleMax, bringToFront]);
+
+  // ── openWin (creates DOM element) ────────────────────────────────────────────
   const openWin = useCallback((url: string, title: string, fromPopstate = false) => {
-    const z = topZ + 1; setTopZ(z);
-    const off = (winOffset.current % 6) * 28; winOffset.current++;
-    const iw = window.innerWidth, ih = window.innerHeight;
-    const ww = Math.min(760, Math.round(iw * 0.65)), wh = Math.min(540, Math.round(ih * 0.62));
-    const frameUrl = url + (url.includes("?") ? "&embed=1" : "?embed=1");
+    const layer = winLayerRef.current; if (!layer) return;
+
+    const dw = window.innerWidth, dh = window.innerHeight;
+    const w = Math.min(800, Math.round(dw * 0.65));
+    const h = Math.min(560, Math.round(dh * 0.65));
+    const off = (winOffset.current % 6) * 28;
+    winOffset.current++;
+    const x = Math.max(20, Math.round((dw - w) / 2 + off - 80));
+    const y = Math.max(40, Math.round((dh - h) / 2 + off - 60));
+
     const id = `w-${Date.now()}`;
-    setWins(ws => [...ws, { id, title, url: frameUrl, x: 40 + off, y: 28 + off, w: ww, h: wh, z, min: false, max: false }]);
+    topZRef.current++;
+    const z = topZRef.current;
+
+    const el = document.createElement("div");
+    el.id = id;
+    el.className = "win win-active";
+    el.style.cssText = `left:${x}px;top:${y}px;width:${w}px;height:${h}px;z-index:${z}`;
+
+    const frameUrl = url + (url.includes("?") ? "&embed=1" : "?embed=1");
+    el.innerHTML = `
+      <div class="win-bar">
+        <div class="win-dots">
+          <button class="win-btn" style="background:#ff5f57" title="閉じる"></button>
+          <button class="win-btn" style="background:#febc2e" title="最小化"></button>
+          <button class="win-btn" style="background:#28c840" title="最大化"></button>
+        </div>
+        <span class="win-title">${title}</span>
+      </div>
+      <div class="win-body">
+        <iframe src="${frameUrl}" title="${title}" loading="lazy"></iframe>
+      </div>
+      <div class="rh rh-n"></div><div class="rh rh-s"></div>
+      <div class="rh rh-e"></div><div class="rh rh-w"></div>
+      <div class="rh rh-nw"></div><div class="rh rh-ne"></div>
+      <div class="rh rh-sw"></div><div class="rh rh-se"></div>
+    `;
+
+    // Deactivate all other windows
+    winEls.current.forEach(e => e.el.classList.remove("win-active"));
+
+    const entry: { el: HTMLDivElement; savedBounds?: { x:number; y:number; w:number; h:number } } = { el };
+    winEls.current.set(id, entry);
+    layer.appendChild(el);
+
+    // Wire buttons
+    const btns = el.querySelectorAll(".win-btn");
+    (btns[0] as HTMLElement).onclick = () => act.current.close(id);
+    (btns[1] as HTMLElement).onclick = () => act.current.min(id);
+    (btns[2] as HTMLElement).onclick = () => act.current.max(id);
+
+    // Double-click bar → maximize
+    (el.querySelector(".win-bar") as HTMLElement).addEventListener("dblclick", (e) => {
+      if (!(e.target as HTMLElement).closest(".win-dots")) act.current.max(id);
+    });
+
+    // Mousedown → bring to front
+    el.addEventListener("mousedown", () => act.current.front(id));
+
+    // Drag
+    const bar = el.querySelector(".win-bar") as HTMLElement;
+    bar.addEventListener("mousedown", (e) => {
+      if ((e.target as HTMLElement).closest(".win-dots")) return;
+      activeDrag.current = {
+        el, mode: "move", edge: "",
+        startX: e.clientX, startY: e.clientY,
+        origX: parseInt(el.style.left) || 0,
+        origY: parseInt(el.style.top)  || 0,
+        origW: parseInt(el.style.width)  || w,
+        origH: parseInt(el.style.height) || h,
+      };
+      document.body.classList.add("dragging");
+      e.preventDefault();
+    });
+
+    // Resize handles
+    el.querySelectorAll(".rh").forEach(handle => {
+      const cls = [...handle.classList].find(c => c.startsWith("rh-") && c.length > 3);
+      const edge = cls ? cls.replace("rh-", "") : "";
+      if (!edge) return;
+      handle.addEventListener("mousedown", (ev: Event) => {
+        const me = ev as MouseEvent;
+        activeDrag.current = {
+          el, mode: "resize", edge,
+          startX: me.clientX, startY: me.clientY,
+          origX: parseInt(el.style.left) || 0,
+          origY: parseInt(el.style.top)  || 0,
+          origW: parseInt(el.style.width)  || w,
+          origH: parseInt(el.style.height) || h,
+        };
+        document.body.classList.add("dragging");
+        me.preventDefault(); me.stopPropagation();
+      });
+    });
+
+    setWinMeta(m => [...m, { id, title, url, min: false, max: false }]);
     if (!fromPopstate) pushUrl(url, title);
     setMenuOpen(false); setSearch("");
-  }, [topZ, pushUrl]);
+  }, [pushUrl]);
 
-  // ── Bring to front (URL = that window's content) ─────────────────────────────
-  const bringToFront = useCallback((id: string) => {
-    setTopZ(z => {
-      const newZ = z + 1;
-      setWins(ws => {
-        const updated = ws.map(w => w.id === id ? { ...w, z: newZ } : w);
-        const win = updated.find(w => w.id === id);
-        if (win) {
-          const cleanUrl = win.url.replace("?frame=1","").replace("&frame=1","");
-          replaceUrl(cleanUrl, win.title);
-        }
-        return updated;
-      });
-      return newZ;
-    });
-  }, [replaceUrl]);
-
-  // ── Close window ─────────────────────────────────────────────────────────────
-  const closeWin = useCallback((id: string) => {
-    setWins(ws => {
-      const remaining = ws.filter(w => w.id !== id);
-      if (remaining.length === 0) {
-        replaceUrl("/", "SOLUNA");
-      } else {
-        const top = remaining.reduce((a, b) => a.z > b.z ? a : b);
-        const url = top.url.replace("?frame=1","").replace("&frame=1","");
-        replaceUrl(url, top.title);
-      }
-      return remaining;
-    });
-  }, [replaceUrl]);
-
-  const toggleMin = (id: string) =>
-    setWins(ws => ws.map(w => w.id === id ? { ...w, min: !w.min } : w));
-
-  // ── popstate (back/forward) ──────────────────────────────────────────────────
+  // ── popstate ─────────────────────────────────────────────────────────────────
   useEffect(() => {
     const onPop = (e: PopStateEvent) => {
       if (e.state?.winUrl && e.state.winUrl !== "/") {
-        // check if window already open
-        const existing = winsRef.current.find(w =>
-          w.url.replace("?frame=1","").replace("&frame=1","") === e.state.winUrl
-        );
+        const existing = winMetaRef.current.find(w => w.url === e.state.winUrl);
         if (!existing) openWin(e.state.winUrl, e.state.title || "", true);
       } else {
-        setWins([]);
+        winMetaRef.current.forEach(w => {
+          const entry = winEls.current.get(w.id);
+          if (entry) entry.el.remove();
+          winEls.current.delete(w.id);
+        });
+        setWinMeta([]);
       }
     };
     window.addEventListener("popstate", onPop);
@@ -305,8 +471,7 @@ export default function Home() {
         const md = await me.json();
         if (md.member) setMember(md.member);
         setLoginOpen(false); setLoginStep("email"); setLoginCode(""); setLoginMsg(null);
-        const p = localStorage.getItem("sln_persona");
-        if (!p) setPersonaOpen(true);
+        if (!localStorage.getItem("sln_persona")) setPersonaOpen(true);
       } else {
         setLoginMsg({ text: d.error || "コードが正しくありません", ok:false });
       }
@@ -316,53 +481,44 @@ export default function Home() {
 
   const logout = useCallback(() => {
     localStorage.removeItem("sln_token");
-    setMember(null);
-    setLoginMsg(null); setLoginStep("email"); setLoginCode(""); setLoginEmail("");
+    setMember(null); setLoginMsg(null); setLoginStep("email"); setLoginCode(""); setLoginEmail("");
   }, []);
 
   const savePersona = useCallback((p: string) => {
-    localStorage.setItem("sln_persona", p);
-    setPersona(p); setPersonaOpen(false);
+    localStorage.setItem("sln_persona", p); setPersona(p); setPersonaOpen(false);
   }, []);
 
-  // ── Init: if arrived at a deep URL, open that window ─────────────────────────
+  // ── Init ──────────────────────────────────────────────────────────────────────
   useEffect(() => {
     setMounted(true);
     setIsMobile(window.innerWidth < 768);
-    const r = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", r);
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", onResize);
     document.body.classList.add("home-page");
 
-    // Restore session + persona from localStorage
     const token = localStorage.getItem("sln_token");
     const savedPersona = localStorage.getItem("sln_persona");
     if (savedPersona) setPersona(savedPersona);
     if (token) {
       fetch("/api/soluna/me", { headers:{"Authorization":"Bearer "+token} })
-        .then(r => r.json()).then(d => { if (d.member) setMember(d.member); })
-        .catch(() => {});
+        .then(r => r.json()).then(d => { if (d.member) setMember(d.member); }).catch(() => {});
     }
 
     const path = window.location.pathname;
     if (path !== "/") {
       const title = PAGE_TITLES[path] || path.replace("/","");
       replaceUrl("/", "SOLUNA");
-      openWin(path, title);
+      setTimeout(() => openWin(path, title), 50);
     }
 
-    return () => {
-      window.removeEventListener("resize", r);
-      document.body.classList.remove("home-page");
-    };
+    return () => { window.removeEventListener("resize", onResize); document.body.classList.remove("home-page"); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ── Clock ─────────────────────────────────────────────────────────────────────
   useEffect(() => {
     const tick = () => setClock(new Date().toLocaleTimeString("ja-JP", { hour:"2-digit", minute:"2-digit" }));
-    tick();
-    const t = setInterval(tick, 1000);
-    return () => clearInterval(t);
+    tick(); const t = setInterval(tick, 1000); return () => clearInterval(t);
   }, []);
 
   // ── Wallpaper slideshow ───────────────────────────────────────────────────────
@@ -381,85 +537,27 @@ export default function Home() {
   }, []);
   useEffect(() => { const t = setInterval(advance, 9000); return () => clearInterval(t); }, [advance]);
 
-  // ── Drag & Resize (document-level, iframe-safe) ──────────────────────────────
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      const s = dragState.current; if (!s) return;
-      const dx = e.clientX - s.startX, dy = e.clientY - s.startY;
-      const IW = window.innerWidth, IH = window.innerHeight;
-      setWins(ws => ws.map(w => {
-        if (w.id !== s.id) return w;
-        if (s.type === 'move') {
-          return { ...w,
-            x: Math.max(0, Math.min(IW - w.w, s.origX + dx)),
-            y: Math.max(28, Math.min(IH - 36, s.origY + dy)) };
-        }
-        // resize
-        let nx = w.x, ny = w.y, nw = w.w, nh = w.h;
-        if (s.edge.includes('e')) nw = Math.max(320, s.origW + dx);
-        if (s.edge.includes('s')) nh = Math.max(200, s.origH + dy);
-        if (s.edge.includes('w')) { nw = Math.max(320, s.origW - dx); nx = nw === 320 ? s.origX + s.origW - 320 : s.origX + dx; }
-        if (s.edge.includes('n')) { nh = Math.max(200, s.origH - dy); ny = nh === 200 ? s.origY + s.origH - 200 : s.origY + dy; }
-        return { ...w, x: nx, y: ny, w: nw, h: nh };
-      }));
-    };
-    const onUp = () => { if (dragState.current) { dragState.current = null; document.body.classList.remove('dragging'); } };
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', onUp);
-    return () => { document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
-  }, []);
-
-  const startDrag = (e: React.MouseEvent, id: string) => {
-    if ((e.target as HTMLElement).tagName === 'BUTTON') return;
-    const w = winsRef.current.find(w => w.id === id); if (!w || w.max) return;
-    bringToFront(id);
-    dragState.current = { type: 'move', id, edge: '', startX: e.clientX, startY: e.clientY, origX: w.x, origY: w.y, origW: w.w, origH: w.h };
-    document.body.classList.add('dragging');
-    e.preventDefault();
-  };
-
-  const startResize = (e: React.MouseEvent, id: string, edge: string) => {
-    const w = winsRef.current.find(w => w.id === id); if (!w || w.max) return;
-    bringToFront(id);
-    dragState.current = { type: 'resize', id, edge, startX: e.clientX, startY: e.clientY, origX: w.x, origY: w.y, origW: w.w, origH: w.h };
-    document.body.classList.add('dragging');
-    e.preventDefault(); e.stopPropagation();
-  };
-
-  const toggleMax = (id: string) => {
-    setWins(ws => ws.map(w => {
-      if (w.id !== id) return w;
-      if (!w.max) return { ...w, max: true, sx: w.x, sy: w.y, sw: w.w, sh: w.h, x: 0, y: 28, w: window.innerWidth, h: window.innerHeight - 28 };
-      return { ...w, max: false, x: w.sx ?? 60, y: w.sy ?? 60, w: w.sw ?? 760, h: w.sh ?? 540 };
-    }));
-  };
-
-  const filteredApps = APPS.filter(a =>
-    !search || a.label.includes(search) || a.id.includes(search.toLowerCase())
-  );
+  // ── Computed ──────────────────────────────────────────────────────────────────
+  const filteredApps = APPS.filter(a => !search || a.label.includes(search) || a.id.includes(search.toLowerCase()));
   const activeDockIds = (persona && PERSONA_CONFIG[persona]?.dockIds) || DEFAULT_DOCK_IDS;
   const dockApps = APPS.filter(a => activeDockIds.includes(a.id));
   const pc = persona ? PERSONA_CONFIG[persona] : null;
 
-  // ── Mobile ──────────────────────────────────────────────────────────────────
+  // ── Mobile ────────────────────────────────────────────────────────────────────
   if (mounted && isMobile) {
     return (
       <>
         <div style={{ position:"fixed", inset:0, backgroundImage:`url(${PHOTOS[0].src})`,
           backgroundSize:"cover", backgroundPosition:"center", filter:"brightness(.4)" }} />
-        <div style={{ position:"relative", zIndex:1, minHeight:"100vh",
-          padding:"20px 16px 60px", overflowY:"auto" }}>
+        <div style={{ position:"relative", zIndex:1, minHeight:"100vh", padding:"20px 16px 60px", overflowY:"auto" }}>
           <div style={{ textAlign:"center", padding:"44px 0 28px" }}>
-            <div style={{ fontSize:"2.2rem", fontWeight:700, letterSpacing:".15em",
-              color:"#c9a962", fontFamily:"Anton,sans-serif" }}>SOLUNA</div>
-            <div style={{ fontSize:".7rem", color:"rgba(255,255,255,.4)", marginTop:5,
-              fontFamily:"Inter,sans-serif" }}>北海道 · 熱海 · ハワイ</div>
+            <div style={{ fontSize:"2.2rem", fontWeight:700, letterSpacing:".15em", color:"#c9a962", fontFamily:"Anton,sans-serif" }}>SOLUNA</div>
+            <div style={{ fontSize:".7rem", color:"rgba(255,255,255,.4)", marginTop:5, fontFamily:"Inter,sans-serif" }}>北海道 · 熱海 · ハワイ</div>
           </div>
           <div style={{ display:"flex", flexDirection:"column", gap:7 }}>
             {CATEGORIES.map(cat => (
               <div key={cat.id}>
-                <div style={{ fontSize:".58rem", color:"rgba(255,255,255,.3)", letterSpacing:".12em",
-                  marginBottom:5, fontFamily:"Inter,sans-serif" }}>
+                <div style={{ fontSize:".58rem", color:"rgba(255,255,255,.3)", letterSpacing:".12em", marginBottom:5, fontFamily:"Inter,sans-serif" }}>
                   {cat.emoji} {cat.label.toUpperCase()}
                 </div>
                 {cat.ids.map(id => {
@@ -467,8 +565,7 @@ export default function Home() {
                   return (
                     <a key={id} href={app.url} className="mobile-card" style={{ marginBottom:5 }}>
                       <span style={{ fontSize:"1.7rem" }}>{app.icon}</span>
-                      <span style={{ fontSize:".88rem", fontWeight:600, color:"#fff",
-                        fontFamily:"Inter,sans-serif" }}>{app.label}</span>
+                      <span style={{ fontSize:".88rem", fontWeight:600, color:"#fff", fontFamily:"Inter,sans-serif" }}>{app.label}</span>
                     </a>
                   );
                 })}
@@ -480,340 +577,253 @@ export default function Home() {
     );
   }
 
-  // ── Desktop ──────────────────────────────────────────────────────────────────
+  // ── Desktop ───────────────────────────────────────────────────────────────────
   return (
-    <>
-      <div
-        style={{ position:"fixed", inset:0, background:"#000" }}
-        onClick={() => { if (menuOpen) setMenuOpen(false); }}
-      >
-        {/* Wallpaper */}
-        <div style={{ position:"absolute", inset:0, overflow:"hidden", zIndex:0 }}>
-          {PHOTOS.map((p, i) => {
-            const isCur = i === curSlide, isOut = i === prevSlide;
-            return (
-              <div key={i} ref={el => { slideRefs.current[i] = el; }}
-                className={`slide ${isCur ? "slide-active" : isOut ? "slide-out" : "slide-hidden"}`}
-                style={{ backgroundImage:`url(${p.src})`, animationName: isCur ? kbAnims[i % 3] : undefined }} />
-            );
-          })}
-          <div style={{ position:"absolute", inset:0, zIndex:10,
-            background:"linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.1) 40%,rgba(0,0,0,.65) 100%)" }} />
-        </div>
+    <div style={{ position:"fixed", inset:0, background:"#000" }}
+      onClick={() => { if (menuOpen) setMenuOpen(false); }}>
 
-        {/* ── Top bar ── */}
-        <div style={{ position:"absolute", top:0, left:0, right:0, height:28, zIndex:300,
-          background:"rgba(0,0,0,.65)", backdropFilter:"blur(20px)",
-          borderBottom:"1px solid rgba(255,255,255,.06)",
-          display:"flex", alignItems:"center", justifyContent:"space-between",
-          padding:"0 16px" }}>
-          <span style={{ fontFamily:"Anton,sans-serif", fontSize:".8rem",
-            letterSpacing:".15em", color:"#c9a962" }}>⬡ SOLUNA</span>
-          <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-            {persona && (
-              <button className="topbar-login" onClick={() => setPersonaOpen(true)}
-                style={{ borderColor:"rgba(201,169,98,.3)", color:"#c9a962" }}>
-                {PERSONA_CONFIG[persona]?.emoji} {PERSONA_CONFIG[persona]?.label}
+      {/* Wallpaper */}
+      <div style={{ position:"absolute", inset:0, overflow:"hidden", zIndex:0 }}>
+        {PHOTOS.map((p, i) => {
+          const isCur = i === curSlide, isOut = i === prevSlide;
+          return (
+            <div key={i} ref={el => { slideRefs.current[i] = el; }}
+              className={`slide ${isCur ? "slide-active" : isOut ? "slide-out" : "slide-hidden"}`}
+              style={{ backgroundImage:`url(${p.src})`, animationName: isCur ? kbAnims[i % 3] : undefined }} />
+          );
+        })}
+        <div style={{ position:"absolute", inset:0, zIndex:10,
+          background:"linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.1) 40%,rgba(0,0,0,.65) 100%)" }} />
+      </div>
+
+      {/* Top bar */}
+      <div style={{ position:"absolute", top:0, left:0, right:0, height:28, zIndex:300,
+        background:"rgba(0,0,0,.65)", backdropFilter:"blur(20px)",
+        borderBottom:"1px solid rgba(255,255,255,.06)",
+        display:"flex", alignItems:"center", justifyContent:"space-between", padding:"0 16px" }}>
+        <span style={{ fontFamily:"Anton,sans-serif", fontSize:".8rem", letterSpacing:".15em", color:"#c9a962" }}>⬡ SOLUNA</span>
+        <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+          {persona && (
+            <button className="topbar-login" onClick={() => setPersonaOpen(true)}
+              style={{ borderColor:"rgba(201,169,98,.3)", color:"#c9a962" }}>
+              {PERSONA_CONFIG[persona]?.emoji} {PERSONA_CONFIG[persona]?.label}
+            </button>
+          )}
+          {member ? (
+            <div className="topbar-user" onClick={logout}>
+              <div className="topbar-avatar">{(member.name || member.email)[0].toUpperCase()}</div>
+              <span style={{ fontSize:"11px", color:"rgba(255,255,255,.6)" }}>
+                {member.name || member.email.split("@")[0]}
+              </span>
+            </div>
+          ) : (
+            <button className="topbar-login" onClick={() => setLoginOpen(true)}>ログイン</button>
+          )}
+          <span style={{ fontSize:".72rem", color:"rgba(255,255,255,.5)", fontVariantNumeric:"tabular-nums" }}>{clock}</span>
+        </div>
+      </div>
+
+      {/* Hero (only when no windows open) */}
+      {mounted && winMeta.length === 0 && (
+        <div style={{ position:"absolute", left:"50%", top:"50%", transform:"translate(-50%, -52%)",
+          textAlign:"center", zIndex:50, animation:"heroIn .8s ease both", width:"min(640px, 90vw)" }}>
+          {member && (
+            <p style={{ fontSize:".65rem", letterSpacing:".2em", color:"#c9a962", marginBottom:12, fontFamily:"Inter,sans-serif" }}>
+              ようこそ、{member.name || member.email.split("@")[0]} さん
+            </p>
+          )}
+          <p style={{ fontSize:".68rem", letterSpacing:".35em", color:"rgba(255,255,255,.45)", marginBottom:16, fontFamily:"Inter,sans-serif" }}>
+            {pc ? ({ invest:"北海道3万坪 · 熱海 · ハワイ · 780万円〜 · 年間30泊 · 登記所有", akiya:"香川 · 和歌山 · 房総 · 白馬 · 空き家リノベーション", fest:"OAHU HAWAII · 2026 AUTUMN · ZAMNA × SOLUNA", build:"杉CLT · 籾殻断熱 · 竹SIPs · 美留和ビレッジ" } as Record<string,string>)[persona!] : "北海道3万坪 · 熱海 · ハワイ · 780万円〜 · 年間30泊 · 登記所有"}
+          </p>
+          <h1 style={{ fontFamily:"Anton,sans-serif", fontSize:"clamp(2.8rem,7vw,5rem)",
+            letterSpacing:".04em", lineHeight:.95, color:"#fff",
+            textShadow:"0 4px 24px rgba(0,0,0,.7)", margin:"0 0 16px" }}>
+            {pc ? pc.heroLine1 : "別荘を持つ、"}<br />
+            <span style={{ color:"#c9a962" }}>{pc ? pc.heroLine2 : "新しい形。"}</span>
+          </h1>
+          <p style={{ fontSize:".82rem", color:"rgba(255,255,255,.55)", lineHeight:1.7, marginBottom:28,
+            fontFamily:"Inter,sans-serif", textShadow:"0 2px 8px rgba(0,0,0,.8)", whiteSpace:"pre-line" }}>
+            {pc ? pc.heroDesc : "10口シェアで登記所有。780万円から、年間30泊。\n使わない期間はプロが管理・運営をサポートします。"}
+          </p>
+          <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap" }}>
+            {pc ? pc.btns.map(b => {
+              const app = APPS.find(a => a.id === b.id);
+              return (
+                <button key={b.id} className={`hero-btn ${b.primary ? "hero-btn-primary" : "hero-btn-ghost"}`}
+                  onClick={() => openWin(app?.url || "/", app?.label || b.label)}>
+                  {b.label}
+                </button>
+              );
+            }) : (
+              <>
+                <button className="hero-btn hero-btn-primary" onClick={() => openWin("/properties", "物件一覧")}>物件を見る →</button>
+                <button className="hero-btn hero-btn-ghost"   onClick={() => openWin("/zamna", "ZAMNA HAWAII")}>🎪 ZAMNA HAWAII &apos;26</button>
+                <button className="hero-btn hero-btn-ghost"   onClick={() => openWin("/scheme", "スキーム")}>スキームを詳しく</button>
+              </>
+            )}
+          </div>
+          <div style={{ marginTop:16, display:"flex", gap:12, justifyContent:"center", alignItems:"center" }}>
+            <p style={{ fontSize:".65rem", color:"rgba(255,255,255,.25)", fontFamily:"Inter,sans-serif" }}>East Ventures 出資 · 2020年創業</p>
+            {!member && (
+              <button onClick={() => setPersonaOpen(true)}
+                style={{ fontSize:".65rem", color:"rgba(201,169,98,.6)", background:"none", border:"none",
+                  cursor:"pointer", fontFamily:"Inter,sans-serif", textDecoration:"underline", padding:0 }}>
+                興味を設定 →
               </button>
             )}
-            {member ? (
-              <div className="topbar-user" onClick={() => logout()}>
-                <div className="topbar-avatar">{(member.name || member.email)[0].toUpperCase()}</div>
-                <span style={{ fontSize:"11px", color:"rgba(255,255,255,.6)" }}>
-                  {member.name || member.email.split("@")[0]}
-                </span>
-              </div>
-            ) : (
-              <button className="topbar-login" onClick={() => setLoginOpen(true)}>ログイン</button>
-            )}
-            <span style={{ fontSize:".72rem", color:"rgba(255,255,255,.5)",
-              fontVariantNumeric:"tabular-nums" }}>{clock}</span>
           </div>
         </div>
+      )}
 
-        {/* ── Hero (hidden when windows are open) ── */}
-        {mounted && wins.length === 0 && (
-          <div style={{
-            position:"absolute", left:"50%", top:"50%",
-            transform:"translate(-50%, -52%)",
-            textAlign:"center", zIndex:50,
-            animation:"heroIn .8s ease both",
-            width:"min(640px, 90vw)",
-          }}>
-            {member && (
-              <p style={{ fontSize:".65rem", letterSpacing:".2em", color:"#c9a962",
-                marginBottom:12, fontFamily:"Inter,sans-serif" }}>
-                ようこそ、{member.name || member.email.split("@")[0]} さん
-              </p>
-            )}
-            <p style={{ fontSize:".68rem", letterSpacing:".35em",
-              color:"rgba(255,255,255,.45)", marginBottom:16, fontFamily:"Inter,sans-serif" }}>
-              {pc ? {
-                invest: "北海道3万坪 · 熱海 · ハワイ · 780万円〜 · 年間30泊 · 登記所有",
-                akiya:  "香川 · 和歌山 · 房総 · 白馬 · 空き家リノベーション",
-                fest:   "OAHU HAWAII · 2026 AUTUMN · ZAMNA × SOLUNA",
-                build:  "杉CLT · 籾殻断熱 · 竹SIPs · 美留和ビレッジ",
-              }[persona as string] : "北海道3万坪 · 熱海 · ハワイ · 780万円〜 · 年間30泊 · 登記所有"}
-            </p>
-            <h1 style={{ fontFamily:"Anton,sans-serif", fontSize:"clamp(2.8rem,7vw,5rem)",
-              letterSpacing:".04em", lineHeight:.95, color:"#fff",
-              textShadow:"0 4px 24px rgba(0,0,0,.7)", margin:"0 0 16px" }}>
-              {pc ? pc.heroLine1 : "別荘を持つ、"}<br />
-              <span style={{ color:"#c9a962" }}>{pc ? pc.heroLine2 : "新しい形。"}</span>
-            </h1>
-            <p style={{ fontSize:".82rem", color:"rgba(255,255,255,.55)",
-              lineHeight:1.7, marginBottom:28, fontFamily:"Inter,sans-serif",
-              textShadow:"0 2px 8px rgba(0,0,0,.8)", whiteSpace:"pre-line" }}>
-              {pc ? pc.heroDesc : "10口シェアで登記所有。780万円から、年間30泊。\n使わない期間はプロが管理・運営をサポートします。"}
-            </p>
-            <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap" }}>
-              {pc ? pc.btns.map(b => {
-                const app = APPS.find(a => a.id === b.id);
-                return (
-                  <button key={b.id}
-                    className={`hero-btn ${b.primary ? "hero-btn-primary" : "hero-btn-ghost"}`}
-                    onClick={() => openWin(app?.url || "/", app?.label || b.label)}>
-                    {b.label}
-                  </button>
-                );
-              }) : (
-                <>
-                  <button className="hero-btn hero-btn-primary"
-                    onClick={() => openWin("/properties", "物件一覧")}>物件を見る →</button>
-                  <button className="hero-btn hero-btn-ghost"
-                    onClick={() => openWin("/zamna", "ZAMNA HAWAII")}>🎪 ZAMNA HAWAII &apos;26</button>
-                  <button className="hero-btn hero-btn-ghost"
-                    onClick={() => openWin("/scheme", "スキーム")}>スキームを詳しく</button>
-                </>
-              )}
-            </div>
-            <div style={{ marginTop:16, display:"flex", gap:12, justifyContent:"center", alignItems:"center" }}>
-              <p style={{ fontSize:".65rem", color:"rgba(255,255,255,.25)", fontFamily:"Inter,sans-serif" }}>
-                East Ventures 出資 · 2020年創業
-              </p>
-              {!member && (
-                <button onClick={() => setPersonaOpen(true)}
-                  style={{ fontSize:".65rem", color:"rgba(201,169,98,.6)", background:"none",
-                    border:"none", cursor:"pointer", fontFamily:"Inter,sans-serif",
-                    textDecoration:"underline", padding:0 }}>
-                  興味を設定 →
-                </button>
-              )}
-            </div>
-          </div>
-        )}
+      {/* Win layer — imperative DOM, pointer-events managed via CSS */}
+      <div id="win-layer" ref={winLayerRef} />
 
-        {/* ── Windows ── */}
-        {wins.map(win => {
-          const isTop = wins.length > 0 && win.z === Math.max(...wins.map(w => w.z));
-          return (
-          <div key={win.id}
-            className={`win${win.min?" minimized":""}${win.max?" maximized":""}${isTop?" win-active":""}`}
-            style={{
-              left:   win.max ? 0       : `${win.x}px`,
-              top:    win.max ? "28px"  : `${win.y}px`,
-              width:  win.max ? "100%"  : `${win.w}px`,
-              height: win.min ? "36px"  : win.max ? "calc(100% - 28px)" : `${win.h}px`,
-              zIndex: win.z,
-            }}
-            onMouseDown={() => bringToFront(win.id)}
-          >
-            {/* Title bar */}
-            <div className="win-bar"
-              onMouseDown={e => startDrag(e, win.id)}
-              onDoubleClick={() => toggleMax(win.id)}>
-              <button className="win-btn" style={{ background:"#ff5f57" }} onClick={() => closeWin(win.id)} />
-              <button className="win-btn" style={{ background:"#febc2e" }} onClick={() => toggleMin(win.id)} />
-              <button className="win-btn" style={{ background:"#28c840" }} onClick={() => toggleMax(win.id)} />
-              <span className="win-title">{win.title}</span>
+      {/* All-apps panel */}
+      {menuOpen && (
+        <div className="menu-panel" onClick={e => e.stopPropagation()}>
+          <input className="menu-search" placeholder="🔍 検索..."
+            value={search} onChange={e => setSearch(e.target.value)} autoFocus />
+          {search ? (
+            <div className="app-row">
+              {filteredApps.map(app => (
+                <div key={app.id} className="app-item" onClick={() => openWin(app.url, app.label)}>
+                  <span className="app-em">{app.icon}</span>
+                  <span className="app-lbl">{app.label}</span>
+                </div>
+              ))}
             </div>
-
-            {/* Body */}
-            {!win.min && (
-              <div className="win-body">
-                <iframe src={win.url} title={win.title} loading="lazy" />
+          ) : CATEGORIES.map(cat => {
+            const catApps = cat.ids.map(id => APPS.find(a => a.id === id)).filter(Boolean) as typeof APPS;
+            return (
+              <div key={cat.id}>
+                <div className="cat-hd"><span>{cat.emoji}</span>{cat.label}</div>
+                <div className="app-row">
+                  {catApps.map(app => (
+                    <div key={app.id} className="app-item" onClick={() => openWin(app.url, app.label)}>
+                      <span className="app-em">{app.icon}</span>
+                      <span className="app-lbl">{app.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            )}
+            );
+          })}
+        </div>
+      )}
 
-            {/* Resize handles */}
-            {!win.min && !win.max && <>
-              <div className="rh rh-n"  onMouseDown={e => startResize(e, win.id, 'n')} />
-              <div className="rh rh-s"  onMouseDown={e => startResize(e, win.id, 's')} />
-              <div className="rh rh-e"  onMouseDown={e => startResize(e, win.id, 'e')} />
-              <div className="rh rh-w"  onMouseDown={e => startResize(e, win.id, 'w')} />
-              <div className="rh rh-nw" onMouseDown={e => startResize(e, win.id, 'nw')} />
-              <div className="rh rh-ne" onMouseDown={e => startResize(e, win.id, 'ne')} />
-              <div className="rh rh-sw" onMouseDown={e => startResize(e, win.id, 'sw')} />
-              <div className="rh rh-se" onMouseDown={e => startResize(e, win.id, 'se')} />
-            </>}
+      {/* Login modal */}
+      {loginOpen && (
+        <div className="modal-bg" onClick={() => setLoginOpen(false)}>
+          <div className="modal-box" onClick={e => e.stopPropagation()}>
+            <div className="modal-logo">⬡ SOLUNA</div>
+            <div className="modal-title">{loginStep === "email" ? "ログイン" : "認証コードを入力"}</div>
+            <div className="modal-sub">
+              {loginStep === "email" ? "メールアドレスに認証コードを送ります" : `${loginEmail} に送られたコードを入力してください`}
+            </div>
+            {loginStep === "email" ? (
+              <>
+                <input className="modal-inp" type="email" placeholder="your@email.com"
+                  value={loginEmail} onChange={e => setLoginEmail(e.target.value)}
+                  onKeyDown={e => e.key === "Enter" && sendOtp()} autoFocus />
+                <button className="modal-btn" onClick={sendOtp} disabled={loginLoading}>
+                  {loginLoading ? "送信中…" : "コードを送る →"}
+                </button>
+              </>
+            ) : (
+              <>
+                <input className="modal-inp" type="text" placeholder="123456"
+                  value={loginCode} onChange={e => setLoginCode(e.target.value)}
+                  onKeyDown={e => e.key === "Enter" && verifyOtp()} autoFocus maxLength={6} />
+                <button className="modal-btn" onClick={verifyOtp} disabled={loginLoading}>
+                  {loginLoading ? "確認中…" : "ログイン →"}
+                </button>
+                <button className="modal-link" onClick={() => { setLoginStep("email"); setLoginMsg(null); }}>
+                  ← メールアドレスを変更
+                </button>
+              </>
+            )}
+            {loginMsg && <div className={`modal-msg ${loginMsg.ok ? "ok" : "err"}`}>{loginMsg.text}</div>}
           </div>
+        </div>
+      )}
+
+      {/* Persona picker */}
+      {personaOpen && (
+        <div className="modal-bg" onClick={() => setPersonaOpen(false)}>
+          <div className="modal-box" onClick={e => e.stopPropagation()}>
+            <div className="modal-logo">⬡ SOLUNA</div>
+            <div className="modal-title">興味を教えてください</div>
+            <div className="modal-sub">あなたに合ったコンテンツを表示します</div>
+            <div className="persona-grid">
+              {Object.entries(PERSONA_CONFIG).map(([key, p]) => (
+                <div key={key} className={`persona-card${persona===key?" sel":""}`} onClick={() => savePersona(key)}>
+                  <span className="persona-em">{p.emoji}</span>
+                  <span className="persona-lbl">{p.label}</span>
+                  <span className="persona-desc">
+                    {({ invest:"別荘投資・共同所有", akiya:"空き家活用・リノベ", fest:"フェス・イベント", build:"建築・自然素材" } as Record<string,string>)[key]}
+                  </span>
+                </div>
+              ))}
+            </div>
+            {persona && <button className="modal-link" onClick={() => setPersonaOpen(false)}>キャンセル</button>}
+          </div>
+        </div>
+      )}
+
+      {/* Dock hover trigger */}
+      <div style={{ position:"absolute", bottom:0, left:0, right:0, height:dockHidden ? 12 : 80,
+        zIndex:399, pointerEvents:"all" }} onMouseEnter={showDock} onMouseLeave={startHide} />
+      {dockHidden && (
+        <div style={{ position:"absolute", bottom:3, left:"50%", transform:"translateX(-50%)",
+          width:64, height:4, borderRadius:2, background:"rgba(255,255,255,.18)", zIndex:401, pointerEvents:"none" }} />
+      )}
+
+      {/* Dock */}
+      <div style={{ position:"absolute", bottom:8, left:"50%",
+        transform: dockHidden ? "translateX(-50%) translateY(calc(100% + 16px))" : "translateX(-50%)",
+        transition:"transform .3s cubic-bezier(.4,0,.2,1)", zIndex:400,
+        display:"flex", alignItems:"center",
+        background:"rgba(0,0,0,.5)", backdropFilter:"blur(28px) saturate(180%)",
+        border:"1px solid rgba(255,255,255,.11)", borderRadius:22, padding:"6px 12px" }}
+        onClick={e => e.stopPropagation()} onMouseEnter={showDock} onMouseLeave={startHide}>
+
+        {dockApps.map(app => {
+          const isActive = winMeta.some(w => w.url === app.url && !w.min);
+          return (
+            <div key={app.id} className="dock-icon" onClick={() => openWin(app.url, app.label)}>
+              <span className="di-em">{app.icon}</span>
+              <span className="di-lbl">{app.label}</span>
+              {isActive && <div className="menu-dot" />}
+              <span className="win-tooltip">{app.label}</span>
+            </div>
           );
         })}
 
-        {/* ── All-apps panel ── */}
-        {menuOpen && (
-          <div className="menu-panel" onClick={e => e.stopPropagation()}>
-            <input className="menu-search" placeholder="🔍 検索..."
-              value={search} onChange={e => setSearch(e.target.value)} autoFocus />
-            {search ? (
-              <div className="app-row">
-                {filteredApps.map(app => (
-                  <div key={app.id} className="app-item" onClick={() => openWin(app.url, app.label)}>
-                    <span className="app-em">{app.icon}</span>
-                    <span className="app-lbl">{app.label}</span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              CATEGORIES.map(cat => {
-                const catApps = cat.ids.map(id => APPS.find(a => a.id === id)).filter(Boolean) as typeof APPS;
-                return (
-                  <div key={cat.id}>
-                    <div className="cat-hd"><span>{cat.emoji}</span>{cat.label}</div>
-                    <div className="app-row">
-                      {catApps.map(app => (
-                        <div key={app.id} className="app-item" onClick={() => openWin(app.url, app.label)}>
-                          <span className="app-em">{app.icon}</span>
-                          <span className="app-lbl">{app.label}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
-        )}
-
-        {/* ── Login modal ── */}
-        {loginOpen && (
-          <div className="modal-bg" onClick={() => setLoginOpen(false)}>
-            <div className="modal-box" onClick={e => e.stopPropagation()}>
-              <div className="modal-logo">⬡ SOLUNA</div>
-              <div className="modal-title">{loginStep === "email" ? "ログイン" : "認証コードを入力"}</div>
-              <div className="modal-sub">
-                {loginStep === "email"
-                  ? "メールアドレスに認証コードを送ります"
-                  : `${loginEmail} に送られたコードを入力してください`}
-              </div>
-              {loginStep === "email" ? (
-                <>
-                  <input className="modal-inp" type="email" placeholder="your@email.com"
-                    value={loginEmail} onChange={e => setLoginEmail(e.target.value)}
-                    onKeyDown={e => e.key === "Enter" && sendOtp()} autoFocus />
-                  <button className="modal-btn" onClick={sendOtp} disabled={loginLoading}>
-                    {loginLoading ? "送信中…" : "コードを送る →"}
-                  </button>
-                </>
-              ) : (
-                <>
-                  <input className="modal-inp" type="text" placeholder="123456"
-                    value={loginCode} onChange={e => setLoginCode(e.target.value)}
-                    onKeyDown={e => e.key === "Enter" && verifyOtp()} autoFocus maxLength={6} />
-                  <button className="modal-btn" onClick={verifyOtp} disabled={loginLoading}>
-                    {loginLoading ? "確認中…" : "ログイン →"}
-                  </button>
-                  <button className="modal-link" onClick={() => { setLoginStep("email"); setLoginMsg(null); }}>
-                    ← メールアドレスを変更
-                  </button>
-                </>
-              )}
-              {loginMsg && (
-                <div className={`modal-msg ${loginMsg.ok ? "ok" : "err"}`}>{loginMsg.text}</div>
-              )}
+        {winMeta.filter(w => w.min).map(win => {
+          const app = APPS.find(a => a.url === win.url);
+          return (
+            <div key={win.id} className="dock-icon" onClick={() => toggleMin(win.id)}>
+              <span className="di-em">{app?.icon ?? "🪟"}</span>
+              <span className="di-lbl" style={{ color:"#c9a962" }}>{app?.label ?? win.title}</span>
+              <div className="menu-dot" />
             </div>
+          );
+        })}
+
+        <div className="dock-sep" />
+
+        <div className="dock-icon" onClick={() => { setMenuOpen(s => !s); setSearch(""); }}>
+          <div style={{ width:36, height:36, borderRadius:9,
+            background: menuOpen ? "rgba(201,169,98,.3)" : "rgba(255,255,255,.08)",
+            border:`1px solid ${menuOpen ? "rgba(201,169,98,.5)" : "rgba(255,255,255,.1)"}`,
+            display:"flex", alignItems:"center", justifyContent:"center",
+            fontSize:"1.1rem", transition:"all .18s" }}>
+            {menuOpen ? "✕" : "⊞"}
           </div>
-        )}
-
-        {/* ── Persona picker ── */}
-        {personaOpen && (
-          <div className="modal-bg" onClick={() => setPersonaOpen(false)}>
-            <div className="modal-box" onClick={e => e.stopPropagation()}>
-              <div className="modal-logo">⬡ SOLUNA</div>
-              <div className="modal-title">興味を教えてください</div>
-              <div className="modal-sub">あなたに合ったコンテンツを表示します</div>
-              <div className="persona-grid">
-                {Object.entries(PERSONA_CONFIG).map(([key, p]) => (
-                  <div key={key} className={`persona-card${persona===key?" sel":""}`}
-                    onClick={() => savePersona(key)}>
-                    <span className="persona-em">{p.emoji}</span>
-                    <span className="persona-lbl">{p.label}</span>
-                    <span className="persona-desc">
-                      {{ invest:"別荘投資・共同所有", akiya:"空き家活用・リノベ", fest:"フェス・イベント", build:"建築・自然素材" }[key]}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              {persona && (
-                <button className="modal-link" onClick={() => setPersonaOpen(false)}>キャンセル</button>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* ── Dock ── */}
-        {/* dock hover trigger zone */}
-        <div style={{ position:"absolute", bottom:0, left:0, right:0, height:dockHidden ? 12 : 80,
-          zIndex:399, pointerEvents:"all" }}
-          onMouseEnter={showDock} onMouseLeave={startHide} />
-        {dockHidden && (
-          <div style={{ position:"absolute", bottom:3, left:"50%", transform:"translateX(-50%)",
-            width:64, height:4, borderRadius:2, background:"rgba(255,255,255,.18)", zIndex:401,
-            pointerEvents:"none" }} />
-        )}
-        <div
-          style={{ position:"absolute", bottom:8, left:"50%",
-            transform: dockHidden ? "translateX(-50%) translateY(calc(100% + 16px))" : "translateX(-50%)",
-            transition:"transform .3s cubic-bezier(.4,0,.2,1)",
-            zIndex:400, display:"flex", alignItems:"center",
-            background:"rgba(0,0,0,.5)", backdropFilter:"blur(28px) saturate(180%)",
-            border:"1px solid rgba(255,255,255,.11)", borderRadius:22,
-            padding:"6px 12px" }}
-          onClick={e => e.stopPropagation()}
-          onMouseEnter={showDock} onMouseLeave={startHide}
-        >
-          {dockApps.map(app => {
-            const isActive = wins.some(w =>
-              w.url.replace("?frame=1","").replace("&frame=1","") === app.url && !w.min
-            );
-            return (
-              <div key={app.id} className="dock-icon" onClick={() => openWin(app.url, app.label)}>
-                <span className="di-em">{app.icon}</span>
-                <span className="di-lbl">{app.label}</span>
-                {isActive && <div className="menu-dot" />}
-                <span className="win-tooltip">{app.label}</span>
-              </div>
-            );
-          })}
-
-          {/* minimized windows */}
-          {wins.filter(w => w.min).map(win => {
-            const app = APPS.find(a => win.url.includes(a.url));
-            return (
-              <div key={win.id} className="dock-icon" onClick={() => toggleMin(win.id)}>
-                <span className="di-em">{app?.icon ?? "🪟"}</span>
-                <span className="di-lbl" style={{ color:"#c9a962" }}>{app?.label ?? win.title}</span>
-                <div className="menu-dot" />
-              </div>
-            );
-          })}
-
-          <div className="dock-sep" />
-
-          {/* All-apps button */}
-          <div className="dock-icon" onClick={() => { setMenuOpen(s => !s); setSearch(""); }}>
-            <div style={{ width:36, height:36, borderRadius:9,
-              background: menuOpen ? "rgba(201,169,98,.3)" : "rgba(255,255,255,.08)",
-              border:`1px solid ${menuOpen ? "rgba(201,169,98,.5)" : "rgba(255,255,255,.1)"}`,
-              display:"flex", alignItems:"center", justifyContent:"center",
-              fontSize:"1.1rem", transition:"all .18s" }}>
-              {menuOpen ? "✕" : "⊞"}
-            </div>
-            <span className="di-lbl" style={{ color: menuOpen ? "#c9a962" : undefined }}>すべて</span>
-          </div>
+          <span className="di-lbl" style={{ color: menuOpen ? "#c9a962" : undefined }}>すべて</span>
         </div>
-
       </div>
-    </>
+
+    </div>
   );
 }
