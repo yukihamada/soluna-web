@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SOLUNA BOX — 1コンテナ、11日、サブスク。建築を製品にする。</title>
+<meta content="1つのコンテナに全部入っている。スナップジョイントで3日組立。BIPV屋根で太陽光不要。受注から11日で引き渡し。¥80万デポジット+月額制。建築を製品として再設計した。" name="description"/>
+<meta content="SOLUNA BOX — 建築を製品にする" property="og:title"/>
+<meta content="1コンテナ・11日・サブスク。SIPsをiPhoneのように設計し直した。" property="og:description"/>
+<meta content="https://solun.art/img/box_container_open.png" property="og:image"/>
+<meta content="https://solun.art/soluna-box" property="og:url"/>
+<link href="https://solun.art/soluna-box" rel="canonical"/>
+<link href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23c8a455'/></svg>" rel="icon"/>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<script defer src="/js/sln-track.js"></script>
+<script src="/js/gnav.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;--gold-bright:#f0d080;--gold-dim:rgba(200,164,85,.35);
+  --bg:#030303;--bg2:#070707;--bg3:#0b0b0b;
+  --text:#f0ece4;--text-mid:#777;--text-dim:#333;
+  --line:rgba(255,255,255,.05);--line-mid:rgba(255,255,255,.1);
+  --green:#9bc46d;--red:#ff6b6b;--blue:#6499f5
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+img{display:block;max-width:100%;object-fit:cover}
+::selection{background:var(--gold);color:#000}
+
+.w{max-width:780px;margin:0 auto;padding:0 24px}
+.ww{max-width:1200px;margin:0 auto;padding:0 24px}
+.s{padding:100px 0;border-top:1px solid var(--line)}
+
+.eyebrow{font-size:10px;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:18px}
+h1{font-size:clamp(2.8rem,7vw,5.5rem);font-weight:900;letter-spacing:-.05em;line-height:.97;margin-bottom:28px}
+h1 em{font-style:normal;color:var(--gold)}
+h2{font-size:clamp(2rem,4.5vw,3.4rem);font-weight:900;letter-spacing:-.04em;line-height:1.05;margin-bottom:18px}
+h3{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
+.sub{color:var(--text-mid);font-size:14px;line-height:2.1;margin-bottom:32px}
+.sub strong{color:var(--text)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(200,164,85,.06) 0,transparent 60%)}
+.hero-num{font-size:clamp(8rem,20vw,18rem);font-weight:900;letter-spacing:-.07em;line-height:1;color:rgba(200,164,85,.04);position:absolute;right:-2%;top:50%;transform:translateY(-50%);pointer-events:none;user-select:none}
+.hero-content{position:relative;z-index:1}
+.hero-stats{display:flex;gap:40px;margin-top:40px;flex-wrap:wrap}
+.hs{border-left:2px solid var(--gold-dim);padding-left:20px}
+.hs-v{font-size:2rem;font-weight:900;color:var(--gold);letter-spacing:-.04em;line-height:1}
+.hs-l{font-size:10px;color:var(--text-dim);letter-spacing:.15em;text-transform:uppercase;margin-top:5px;font-weight:700}
+
+/* CONTAINER PHOTO */
+.full-img{width:100%;aspect-ratio:16/9;overflow:hidden;position:relative}
+.full-img img{width:100%;height:100%;object-fit:cover}
+.full-img .caption{position:absolute;bottom:24px;left:28px;right:28px;display:flex;justify-content:space-between;align-items:flex-end}
+.cap-text{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.08em}
+.cap-label{font-size:9px;font-weight:800;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;background:rgba(4,4,4,.6);padding:5px 10px;border-radius:6px;border:1px solid var(--gold-dim)}
+
+/* SNAP JOINT */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+@media(max-width:720px){.two-col{grid-template-columns:1fr}}
+.img-panel{position:relative;overflow:hidden;aspect-ratio:4/3}
+.img-panel img{width:100%;height:100%;object-fit:cover}
+.img-panel .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,3,3,.8) 0%,transparent 55%)}
+.img-panel .label-block{position:absolute;bottom:20px;left:20px}
+.img-panel .label-block .tag{font-size:9px;letter-spacing:.2em;color:var(--gold);font-weight:800;text-transform:uppercase;margin-bottom:6px}
+.img-panel .label-block .title{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.2}
+.img-panel .label-block .desc{font-size:11px;color:rgba(255,255,255,.5);margin-top:5px;line-height:1.6;max-width:280px}
+
+/* SPEC GRID */
+.spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:36px}
+@media(max-width:720px){.spec-grid{grid-template-columns:1fr}}
+.sg{background:var(--bg2);padding:28px 24px}
+.sg-num{font-size:2.2rem;font-weight:900;color:var(--gold);letter-spacing:-.05em;line-height:1}
+.sg-num sub{font-size:.45em;color:var(--gold-dim);font-weight:700}
+.sg-label{font-size:9.5px;color:var(--text-dim);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-top:8px;line-height:1.6}
+.sg-desc{font-size:11.5px;color:var(--text-mid);margin-top:10px;line-height:1.8}
+
+/* CONTAINER CONTENTS */
+.contents-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:36px}
+@media(max-width:800px){.contents-grid{grid-template-columns:repeat(2,1fr)}}
+.content-item{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px 18px}
+.ci-icon{font-size:24px;margin-bottom:10px}
+.ci-name{font-size:12px;font-weight:800;color:var(--text);margin-bottom:5px}
+.ci-spec{font-size:10.5px;color:var(--text-mid);line-height:1.7}
+.ci-count{display:inline-block;font-size:9px;font-weight:800;color:var(--gold);letter-spacing:.1em;background:rgba(200,164,85,.08);border:1px solid var(--gold-dim);padding:2px 8px;border-radius:100px;margin-top:6px}
+
+/* TIMELINE */
+.timeline{margin-top:40px;display:flex;flex-direction:column;gap:0}
+.tl-item{display:grid;grid-template-columns:80px 1fr;gap:0;border-top:1px solid var(--line)}
+.tl-item:last-child{border-bottom:1px solid var(--line)}
+.tl-day{padding:24px 20px 24px 0;border-right:1px solid var(--line);font-size:10px;font-weight:800;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.4}
+.tl-content{padding:24px 0 24px 28px}
+.tl-title{font-size:15px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.tl-desc{font-size:11.5px;color:var(--text-mid);line-height:1.85}
+.tl-tag{display:inline-block;font-size:9px;font-weight:800;padding:3px 9px;border-radius:100px;margin-left:10px;vertical-align:middle}
+.tl-tag.fast{background:rgba(155,196,109,.1);border:1px solid rgba(155,196,109,.3);color:var(--green)}
+.tl-tag.key{background:rgba(200,164,85,.08);border:1px solid var(--gold-dim);color:var(--gold)}
+
+/* PRICING */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
+@media(max-width:720px){.price-grid{grid-template-columns:1fr}}
+.price-card{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:32px 28px;display:flex;flex-direction:column;gap:14px;transition:border-color .2s}
+.price-card:hover{border-color:var(--gold-dim)}
+.price-card.featured{border-color:rgba(200,164,85,.4);background:rgba(200,164,85,.03)}
+.pc-size{font-size:10px;font-weight:800;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+.pc-name{font-size:22px;font-weight:900;letter-spacing:-.03em}
+.pc-area{font-size:12px;color:var(--text-mid)}
+.pc-deposit{margin-top:4px}
+.pc-deposit .amount{font-size:2rem;font-weight:900;color:var(--text);letter-spacing:-.04em}
+.pc-deposit .unit{font-size:11px;color:var(--text-dim);margin-left:4px}
+.pc-monthly{font-size:13px;color:var(--gold);font-weight:700;margin-top:4px}
+.pc-divider{border:none;border-top:1px solid var(--line);margin:4px 0}
+.pc-features{display:flex;flex-direction:column;gap:8px}
+.pc-feat{font-size:11.5px;color:var(--text-mid);padding-left:16px;position:relative;line-height:1.5}
+.pc-feat::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700;font-size:10px}
+.pc-cta{display:block;text-align:center;font-size:12px;font-weight:800;color:var(--gold);border:1px solid var(--gold-dim);padding:13px;border-radius:10px;transition:all .2s;margin-top:auto}
+.pc-cta:hover,.price-card.featured .pc-cta{background:var(--gold);color:#030303;border-color:var(--gold)}
+
+/* VS TABLE */
+.vs-table{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:36px}
+.vs-row{display:grid;grid-template-columns:180px 1fr 1fr;border-bottom:1px solid var(--line)}
+.vs-row:last-child{border-bottom:none}
+.vs-row.head{background:var(--bg3);font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim)}
+.vs-row.head .hl{color:var(--gold)}
+.vs-cell{padding:14px 18px;font-size:12px;color:var(--text-mid)}
+.vs-cell.label{font-size:11px;font-weight:700;color:var(--text-dim)}
+.vs-cell.hl{background:rgba(200,164,85,.03)}
+.vs-cell.yes{color:var(--green);font-weight:700}
+.vs-cell.no{color:var(--text-dim)}
+.vs-cell.gold{color:var(--gold);font-weight:700}
+@media(max-width:620px){.vs-row{grid-template-columns:120px 1fr 1fr}.vs-cell{padding:12px 10px;font-size:11px}}
+
+/* CTA */
+.cta-sec{padding:140px 0;text-align:center;background:radial-gradient(ellipse at 50% 0,rgba(200,164,85,.06) 0,transparent 60%);border-top:1px solid var(--line)}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#030303;font-weight:800;font-size:13px;padding:16px 36px;border-radius:100px;transition:all .2s}
+.btn-gold:hover{background:var(--gold-bright);transform:translateY(-2px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--gold-dim);color:var(--gold);font-size:13px;font-weight:700;padding:16px 30px;border-radius:100px;transition:all .2s}
+.btn-ghost:hover{background:rgba(200,164,85,.07)}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+
+/* NOTE */
+.note{font-size:10.5px;color:var(--text-dim);line-height:1.9;margin-top:28px;padding:18px 22px;border:1px solid var(--line);border-radius:10px}
+
+footer{padding:52px 0 40px;border-top:1px solid var(--line)}
+.foot{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:11px;color:var(--text-dim)}
+.foot a{color:var(--gold);margin:0 8px}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-num">BOX</div>
+  <div class="w hero-content">
+    <div class="eyebrow">SOLUNA BOX · 設計思想 2026</div>
+    <h1>1コンテナ。<br/>11日。<br/><em>サブスク。</em></h1>
+    <p class="sub" style="max-width:560px">
+      建築をやめて、<strong>製品にした。</strong><br/>
+      iPhoneが工場で完成して箱に入って届くように、<br/>
+      SOLUNAの建物もコンテナ1本で全部届く。<br/>
+      スナップジョイントで気密が取れる。BIPVで屋根が発電する。<br/>
+      売り切りではなく、月額で使う。
+    </p>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-v">11<sub>日</sub></div><div class="hs-l">注文→引き渡し</div></div>
+      <div class="hs"><div class="hs-v">1<sub>本</sub></div><div class="hs-l">コンテナ全部入り</div></div>
+      <div class="hs"><div class="hs-v">¥12<sub>万/月</sub></div><div class="hs-l">サブスク最安</div></div>
+      <div class="hs"><div class="hs-v">0<sub>貫通</sub></div><div class="hs-l">パネル気密保証</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTAINER PHOTO -->
+<div class="full-img" style="border-bottom:1px solid var(--line)">
+  <img src="img/box_container_open.png" alt="SOLUNA BOX — コンテナ1本に全部入っている"/>
+  <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(3,3,3,.6) 0%,transparent 50%)"></div>
+  <div class="caption">
+    <span class="cap-text">1 × 20ft CONTAINER = 1 COMPLETE BUILDING</span>
+    <span class="cap-label">SOLUNA BOX S</span>
+  </div>
+</div>
+
+<!-- WHAT'S INSIDE -->
+<section class="s">
+  <div class="ww">
+    <div class="eyebrow">CONTENTS / コンテナの中身</div>
+    <h2>箱を開けたら、<em style="font-style:normal;color:var(--gold)">全部ある。</em></h2>
+    <p class="sub">設計段階から「20ftコンテナに収める」を制約として逆算設計。現地調達ゼロ、追加発注ゼロ。</p>
+    <div class="contents-grid">
+      <div class="content-item">
+        <div class="ci-icon">📐</div>
+        <div class="ci-name">壁パネル</div>
+        <div class="ci-spec">1200×2800×165mm<br/>OSB+PUR+OSB<br/>スナップジョイント端部加工済み</div>
+        <span class="ci-count">12枚</span>
+      </div>
+      <div class="content-item">
+        <div class="ci-icon">☀️</div>
+        <div class="ci-name">BIPVルーフパネル</div>
+        <div class="ci-spec">薄膜太陽電池一体成形<br/>4kW peak / 4枚<br/>リッジコネクタ付き</div>
+        <span class="ci-count">4枚</span>
+      </div>
+      <div class="content-item">
+        <div class="ci-icon">🚿</div>
+        <div class="ci-name">ウェットポッド</div>
+        <div class="ci-spec">1400×2400×2200mm<br/>トイレ+シャワー+洗面<br/>4点接続のみ</div>
+        <span class="ci-count">1基</span>
+      </div>
+      <div class="content-item">
+        <div class="ci-icon">🔩</div>
+        <div class="ci-name">スクリューパイル</div>
+        <div class="ci-spec">Φ89mm 鋼管<br/>コンクリート不要<br/>当日設置・当日建て方可</div>
+        <span class="ci-count">6本</span>
+      </div>
+      <div class="content-item">
+        <div class="ci-icon">⚡</div>
+        <div class="ci-name">電気スパイン</div>
+        <div class="ci-spec">48V DC バス<br/>蓄電池10kWh一体<br/>スマートメーター内蔵</div>
+        <span class="ci-count">1式</span>
+      </div>
+      <div class="content-item">
+        <div class="ci-icon">🪟</div>
+        <div class="ci-name">サッシ・ドア</div>
+        <div class="ci-spec">トリプルガラス樹脂サッシ<br/>スマートロック付き玄関ドア<br/>パネル開口部寸法合わせ済み</div>
+        <span class="ci-count">5枚</span>
+      </div>
+      <div class="content-item">
+        <div class="ci-icon">🏠</div>
+        <div class="ci-name">フロアパネル</div>
+        <div class="ci-spec">1200×2400×90mm<br/>床暖房チューブ埋込済み<br/>仕上げ材付き</div>
+        <span class="ci-count">6枚</span>
+      </div>
+      <div class="content-item">
+        <div class="ci-icon">📦</div>
+        <div class="ci-name">ハードウェアキット</div>
+        <div class="ci-spec">スプライン・ビス・テープ<br/>AR組立ガイド用QRコード<br/>全数検査済みシール付き</div>
+        <span class="ci-count">1箱</span>
+      </div>
+    </div>
+    <div class="note">
+      ※ SOLUNA BOX S（12㎡）の標準構成。総重量 約8.5t（20ft コンテナ積載限度 28t 以内）。フロア材・断熱材・電気部材を含む全資材がコンテナ内に収納される。
+    </div>
+  </div>
+</section>
+
+<!-- SNAP JOINT + BIPV -->
+<section class="s" style="padding-top:0;border-top:none">
+  <div class="ww">
+    <div class="two-col" style="border-radius:16px;overflow:hidden">
+      <div class="img-panel" style="aspect-ratio:1/1">
+        <img src="img/box_snap_joint.png" alt="スナップジョイント断面図"/>
+        <div class="overlay"></div>
+        <div class="label-block">
+          <div class="tag">INNOVATION 01</div>
+          <div class="title">スナップジョイント</div>
+          <div class="desc">雄雌咬み合わせ+EPDMガスケットで、はめ込むだけでC値0.2を保証。フォームガン不要。気密が形状で決まる。</div>
+        </div>
+      </div>
+      <div class="img-panel" style="aspect-ratio:1/1">
+        <img src="img/box_bipv_roof.png" alt="BIPV屋根パネル"/>
+        <div class="overlay"></div>
+        <div class="label-block">
+          <div class="tag">INNOVATION 02</div>
+          <div class="title">BIPV屋根パネル</div>
+          <div class="desc">薄膜太陽電池を屋根パネル表面に一体成形。置いてコネクタを1本繋ぐだけで4kW発電。ソーラー設置工程ゼロ。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPEC -->
+<section class="s">
+  <div class="ww">
+    <div class="eyebrow">SPECIFICATIONS / 設計仕様</div>
+    <h2>数字で見る<em style="font-style:normal;color:var(--gold)"> BOX。</em></h2>
+    <div class="spec-grid">
+      <div class="sg">
+        <div class="sg-num">165<sub>mm</sub></div>
+        <div class="sg-label">壁厚（PURコア）</div>
+        <div class="sg-desc">U値0.14。北海道の-25℃環境で暖房費ほぼゼロを実現する厚み。</div>
+      </div>
+      <div class="sg">
+        <div class="sg-num">0.2<sub>以下</sub></div>
+        <div class="sg-label">C値（気密）</div>
+        <div class="sg-desc">スナップジョイントの形状精度で全棟保証。施工者の腕に依存しない。</div>
+      </div>
+      <div class="sg">
+        <div class="sg-num">4<sub>kW</sub></div>
+        <div class="sg-label">BIPV発電量</div>
+        <div class="sg-desc">屋根パネル4枚で年間約4,200kWh発電。年間電力使用量を上回る。</div>
+      </div>
+      <div class="sg">
+        <div class="sg-num">48<sub>V DC</sub></div>
+        <div class="sg-label">電気システム</div>
+        <div class="sg-desc">全館直流48V。配線細く・安全・ソーラー直結でインバーターロスゼロ。</div>
+      </div>
+      <div class="sg">
+        <div class="sg-num">10<sub>kWh</sub></div>
+        <div class="sg-label">蓄電容量</div>
+        <div class="sg-desc">3日分の生活電力を蓄電。曇天連続でも系統なしで生活できる。</div>
+      </div>
+      <div class="sg">
+        <div class="sg-num">8.5<sub>t</sub></div>
+        <div class="sg-label">総重量（コンテナ込み）</div>
+        <div class="sg-desc">20ftコンテナ積載限度28tの30%。どこにでも船・トレーラーで届く。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ASSEMBLY TIMELINE -->
+<section class="s">
+  <div class="ww">
+    <div class="eyebrow">ASSEMBLY / 組立タイムライン</div>
+    <h2>注文から<em style="font-style:normal;color:var(--gold)">11日。</em></h2>
+    <p class="sub">作業員3名 + クレーン1台。ARアプリのガイドに従って組み立てる。</p>
+
+    <div style="margin-top:28px;border-radius:16px;overflow:hidden;border:1px solid var(--line)">
+      <img src="img/box_3day_assembly.png" alt="3日間の組立工程" style="width:100%;display:block"/>
+    </div>
+
+    <div class="timeline" style="margin-top:32px">
+      <div class="tl-item">
+        <div class="tl-day">Day 0<br/>注文</div>
+        <div class="tl-content">
+          <div class="tl-title">アプリでサイズ・場所・日付を選択 <span class="tl-tag key">3択のみ</span></div>
+          <div class="tl-desc">S / M / L の3サイズから選ぶだけ。住所を入力すると配送ルートと到着日が自動計算される。カード決済完了でコンテナが工場を出る。</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-day">Day 7<br/>到着</div>
+        <div class="tl-content">
+          <div class="tl-title">コンテナ到着・開封</div>
+          <div class="tl-desc">トレーラーで現地搬入。コンテナを開けるとパネル・ポッド・全資材がパッキングされている。QRコードをスキャンするとARガイドが起動する。</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-day">Day 8<br/>基礎</div>
+        <div class="tl-content">
+          <div class="tl-title">スクリューパイル打設 <span class="tl-tag fast">4時間</span></div>
+          <div class="tl-desc">専用機械でΦ89mm鋼管パイルを地面にねじ込む。コンクリート不要・養生時間ゼロ。打設完了後すぐに建て方に入れる。</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-day">Day 9<br/>躯体</div>
+        <div class="tl-content">
+          <div class="tl-title">フロア→壁→屋根 スナップ組立 <span class="tl-tag fast">1日</span></div>
+          <div class="tl-desc">フロアパネルを並べ、壁パネルをスナップジョイントで噛み合わせる。BIPVルーフパネルを置いてリッジコネクタを接続。躯体完成。ウェットポッドを搬入してコネクタを4点接続。</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-day">Day 10<br/>設備</div>
+        <div class="tl-content">
+          <div class="tl-title">電気スパイン接続・蓄電池起動 <span class="tl-tag fast">半日</span></div>
+          <div class="tl-desc">電気スパインをBIPVと蓄電池に接続。スマートロックをアプリとペアリング。リモートモニタリング開始。温度・湿度・発電量がアプリに表示される。</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-day">Day 11<br/>引き渡し</div>
+        <div class="tl-content">
+          <div class="tl-title">気密測定・保証書発行・アプリ解錠 <span class="tl-tag key">完成</span></div>
+          <div class="tl-desc">ブロアドアテストでC値実測。保証書をアプリに発行。スマートロックの所有権を移転。アプリ上のボタンを押せばドアが開く。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APP IMAGE -->
+<section class="s" style="padding-top:0;border-top:none">
+  <div class="ww">
+    <div style="border-radius:16px;overflow:hidden;border:1px solid var(--line);position:relative">
+      <img src="img/box_app_cabin.png" alt="SOLUNAアプリ + 完成した BOX" style="width:100%;display:block"/>
+      <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(3,3,3,.7) 0%,transparent 60%)"></div>
+      <div style="position:absolute;top:50%;left:40px;transform:translateY(-50%);max-width:320px">
+        <div style="font-size:10px;letter-spacing:.3em;color:var(--gold);font-weight:800;margin-bottom:12px">SOLUNA APP</div>
+        <div style="font-size:1.8rem;font-weight:900;letter-spacing:-.03em;line-height:1.1;color:#fff">ドアを開けるのも<br/><span style="color:var(--gold)">アプリから。</span></div>
+        <div style="font-size:12px;color:rgba(255,255,255,.55);margin-top:14px;line-height:1.8">解錠・温度管理・発電量・<br/>消費電力・メンテナンス通知</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUBSCRIPTION PRICING -->
+<section class="s">
+  <div class="ww">
+    <div class="eyebrow">SUBSCRIPTION / 月額モデル</div>
+    <h2>売らない。<em style="font-style:normal;color:var(--gold)">使わせる。</em></h2>
+    <p class="sub">建物を「買う」から「使う」へ。SOLUNAが所有権を持つことで、メンテ・保険・アップグレードをすべて含めた月額にできる。</p>
+
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="pc-size">SOLUNA BOX — S</div>
+        <div class="pc-name">12㎡</div>
+        <div class="pc-area">1LDK相当・1〜2名向け</div>
+        <div class="pc-deposit"><span class="amount">¥80万</span><span class="unit">デポジット</span></div>
+        <div class="pc-monthly">+ ¥12万 / 月</div>
+        <hr class="pc-divider"/>
+        <div class="pc-features">
+          <div class="pc-feat">メンテナンス込み</div>
+          <div class="pc-feat">保険込み</div>
+          <div class="pc-feat">リモート監視込み</div>
+          <div class="pc-feat">移設可能（実費）</div>
+          <div class="pc-feat">解約時デポジット返還</div>
+        </div>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_s">詳細を聞く</a>
+      </div>
+
+      <div class="price-card featured">
+        <div class="pc-size">SOLUNA BOX — M ★ 人気</div>
+        <div class="pc-name">21㎡</div>
+        <div class="pc-area">2LDK相当・2〜4名向け</div>
+        <div class="pc-deposit"><span class="amount">¥120万</span><span class="unit">デポジット</span></div>
+        <div class="pc-monthly">+ ¥18万 / 月</div>
+        <hr class="pc-divider"/>
+        <div class="pc-features">
+          <div class="pc-feat">メンテナンス込み</div>
+          <div class="pc-feat">保険込み</div>
+          <div class="pc-feat">リモート監視込み</div>
+          <div class="pc-feat">移設可能（実費）</div>
+          <div class="pc-feat">サイズアップグレード可</div>
+          <div class="pc-feat">SOLUNA Hotel運用代行込み</div>
+        </div>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_m">詳細を聞く</a>
+      </div>
+
+      <div class="price-card">
+        <div class="pc-size">SOLUNA BOX — L</div>
+        <div class="pc-name">33㎡</div>
+        <div class="pc-area">3LDK相当・4〜6名向け</div>
+        <div class="pc-deposit"><span class="amount">¥160万</span><span class="unit">デポジット</span></div>
+        <div class="pc-monthly">+ ¥24万 / 月</div>
+        <hr class="pc-divider"/>
+        <div class="pc-features">
+          <div class="pc-feat">メンテナンス込み</div>
+          <div class="pc-feat">保険込み</div>
+          <div class="pc-feat">リモート監視込み</div>
+          <div class="pc-feat">移設可能（実費）</div>
+          <div class="pc-feat">サイズアップグレード可</div>
+          <div class="pc-feat">SOLUNA Hotel運用代行込み</div>
+          <div class="pc-feat">屋上デッキオプション</div>
+        </div>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_l">詳細を聞く</a>
+      </div>
+    </div>
+
+    <div class="note">
+      ※ 本ページの仕様・価格は設計目標値です。スナップジョイント・BIPVパネルは現在開発中。サブスクリプションモデルは事業検討中。実際の販売開始時期・条件は確定次第お知らせします。先行登録は <a href="contact">こちら</a> から。
+    </div>
+  </div>
+</section>
+
+<!-- VS COMPARISON -->
+<section class="s">
+  <div class="ww">
+    <div class="eyebrow">COMPARISON / 現行モデルとの比較</div>
+    <h2>今と、<em style="font-style:normal;color:var(--gold)">これから。</em></h2>
+    <div class="vs-table">
+      <div class="vs-row head">
+        <div class="vs-cell label"></div>
+        <div class="vs-cell">現行 SOLUNA KOYA</div>
+        <div class="vs-cell hl">SOLUNA BOX（開発中）</div>
+      </div>
+      <div class="vs-row">
+        <div class="vs-cell label">注文→引き渡し</div>
+        <div class="vs-cell">8週間</div>
+        <div class="vs-cell hl gold">11日</div>
+      </div>
+      <div class="vs-row">
+        <div class="vs-cell label">気密工法</div>
+        <div class="vs-cell">発泡ウレタン+テープ</div>
+        <div class="vs-cell hl gold">スナップジョイント（形状保証）</div>
+      </div>
+      <div class="vs-row">
+        <div class="vs-cell label">太陽光設置</div>
+        <div class="vs-cell">別工程（1〜2日）</div>
+        <div class="vs-cell hl yes">屋根パネルと一体（工程ゼロ）</div>
+      </div>
+      <div class="vs-row">
+        <div class="vs-cell label">資材調達</div>
+        <div class="vs-cell">現地手配あり</div>
+        <div class="vs-cell hl yes">コンテナ1本で完結</div>
+      </div>
+      <div class="vs-row">
+        <div class="vs-cell label">販売形態</div>
+        <div class="vs-cell">買い切り</div>
+        <div class="vs-cell hl gold">サブスクリプション</div>
+      </div>
+      <div class="vs-row">
+        <div class="vs-cell label">移設</div>
+        <div class="vs-cell no">困難</div>
+        <div class="vs-cell hl yes">可能（コンテナ再梱包）</div>
+      </div>
+      <div class="vs-row">
+        <div class="vs-cell label">世界展開</div>
+        <div class="vs-cell no">国内のみ</div>
+        <div class="vs-cell hl yes">コンテナ海運でどこでも</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <div class="w">
+    <div class="eyebrow">EARLY ACCESS</div>
+    <h2 style="margin-bottom:18px">先行登録を<br/><em style="font-style:normal;color:var(--gold)">受け付けています。</em></h2>
+    <p class="sub" style="text-align:center;max-width:500px;margin:0 auto">
+      SOLUNA BOX は現在開発中です。<br/>
+      先行登録いただいた方に、仕様確定・価格・発売日を優先でお知らせします。
+    </p>
+    <div class="cta-row">
+      <a class="btn-gold" href="contact" data-sln-track="box_early_access">先行登録する →</a>
+      <a class="btn-ghost" href="sips-villa" data-sln-track="box_to_sips">現行モデルを見る</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div>© 2026 SOLUNA / Enabler Inc.</div>
+    <div>
+      <a href="tiny-house">建てる</a> ·
+      <a href="sips-villa">SIPSヴィラ</a> ·
+      <a href="koya-vs">プラン比較</a> ·
+      <a href="contact">問い合わせ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+if(window.sln) sln.track('soluna_box_view');
+</script>
+</body>
+</html>
