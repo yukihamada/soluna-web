@@ -175,6 +175,28 @@ h3{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
 .roi-legend{display:flex;gap:20px;flex-wrap:wrap;font-size:11px;color:var(--text-mid)}
 .roi-dot{width:9px;height:9px;border-radius:2px;margin-right:5px;display:inline-block;vertical-align:middle}
 
+/* AVAILABILITY BADGE */
+.sz-avail{font-size:8.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:4px;margin-bottom:10px;display:inline-block}
+.av-open{background:rgba(155,196,109,.18);color:var(--green);border:1px solid rgba(155,196,109,.3)}
+.av-pre{background:rgba(200,164,85,.15);color:var(--gold);border:1px solid rgba(200,164,85,.3)}
+.av-plan{background:rgba(255,255,255,.06);color:var(--text-dim);border:1px solid var(--line)}
+.sz-buyout{font-size:11px;color:var(--text-mid);margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.sz-buyout strong{color:var(--text);font-size:13px}
+
+/* PRICING TOGGLE */
+.price-toggle{display:flex;gap:8px;margin-bottom:36px;justify-content:center}
+.pt-btn{padding:8px 28px;border-radius:100px;border:1px solid var(--line);font-size:12px;font-weight:700;color:var(--text-mid);cursor:pointer;transition:all .2s;background:none;letter-spacing:.04em}
+.pt-btn.active{background:var(--gold);color:#000;border-color:var(--gold)}
+.pc-buyout-price{font-size:1.35rem;font-weight:900;color:var(--gold);letter-spacing:-.03em;margin-bottom:2px}
+.pc-avail{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;display:inline-block;padding:2px 8px;border-radius:3px;margin-bottom:10px}
+.pca-open{background:rgba(155,196,109,.15);color:var(--green)}
+.pca-pre{background:rgba(200,164,85,.12);color:var(--gold)}
+.pca-plan{background:rgba(255,255,255,.05);color:var(--text-dim)}
+[data-price-mode="buy"] .pc-sub-content{display:none}
+[data-price-mode="buy"] .pc-buy-content{display:block}
+[data-price-mode="sub"] .pc-buy-content{display:none}
+[data-price-mode="sub"] .pc-sub-content{display:block}
+
 /* SIZES GRID */
 .sizes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
 .sz-card{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:16px;padding:24px 20px;display:flex;flex-direction:column}
@@ -215,6 +237,9 @@ h3{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
 /* NOTE */
 .note{font-size:10.5px;color:var(--text-dim);line-height:1.9;margin-top:28px;padding:18px 22px;border:1px solid var(--line);border-radius:10px}
 
+/* PC AVAIL (plan badge inside price card) */
+.pca-plan{background:rgba(255,255,255,.06);color:var(--text-dim)}
+
 footer{padding:52px 0 40px;border-top:1px solid var(--line)}
 .foot{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:11px;color:var(--text-dim)}
 .foot a{color:var(--gold);margin:0 8px}
@@ -239,7 +264,7 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
     <div class="hero-stats">
       <div class="hs"><div class="hs-v">11<sub>日</sub></div><div class="hs-l">注文→引き渡し</div></div>
       <div class="hs"><div class="hs-v">1<sub>本</sub></div><div class="hs-l">コンテナ全部入り</div></div>
-      <div class="hs"><div class="hs-v">¥8<sub>万/月〜</sub></div><div class="hs-l">サブスク最安</div></div>
+      <div class="hs"><div class="hs-v">¥450<sub>万〜</sub></div><div class="hs-l">買い切り最安</div></div>
       <div class="hs"><div class="hs-v">0<sub>貫通</sub></div><div class="hs-l">パネル気密保証</div></div>
     </div>
   </div>
@@ -266,6 +291,7 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
 
       <!-- MINI -->
       <div class="sz-card">
+        <div class="sz-avail av-open">2026春 · 先行受付中</div>
         <div class="sz-badge" style="font-size:.6rem;width:auto;padding:0 10px;letter-spacing:.05em">MINI</div>
         <div class="sz-area">9.6<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
         <div class="sz-dim">2.4×4.0m · 1〜2名 · <strong style="color:var(--green)">確認不要</strong></div>
@@ -283,15 +309,16 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
           <div>BIPVルーフ <strong>3枚 (3 kW)</strong></div>
           <div>フロア <strong>4枚</strong> · 蓄電池 <strong>7.5 kWh</strong></div>
           <div>コンパクトウェットユニット <strong>1基</strong></div>
-          <div class="sz-sep">重量 <strong>1,540 kg</strong> · 完成 <strong>3日</strong></div>
+          <div class="sz-sep">重量 <strong>1,620 kg</strong> · 完成 <strong>3日</strong></div>
         </div>
-        <div class="sz-cost">¥290<sub style="font-size:.5em;font-weight:700">万</sub></div>
-        <div class="sz-cost-label">引き渡し原価</div>
-        <div class="sz-sub">¥50万 + ¥8万/月</div>
+        <div class="sz-cost">¥340<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost-label">製造・配送原価（目標値）</div>
+        <div class="sz-buyout">買い切り <strong>¥450万</strong> / サブスク ¥60万+¥9万/月</div>
       </div>
 
       <!-- STANDARD -->
       <div class="sz-card featured">
+        <div class="sz-avail av-pre">2026秋 · 先行予約受付中</div>
         <div class="sz-badge" style="font-size:.55rem;width:auto;padding:0 10px;letter-spacing:.03em">STD</div>
         <div class="sz-area">24.8<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
         <div class="sz-dim">3.6×7.0m · 2〜4名 ★人気</div>
@@ -309,15 +336,16 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
           <div>BIPVルーフ <strong>8枚 (8 kW)</strong></div>
           <div>フロア <strong>10枚</strong> · 蓄電池 <strong>12 kWh</strong></div>
           <div>ウェットポッド <strong>1基</strong></div>
-          <div class="sz-sep">重量 <strong>3,800 kg</strong> · 完成 <strong>8日</strong></div>
+          <div class="sz-sep">重量 <strong>3,960 kg</strong> · 完成 <strong>8日</strong></div>
         </div>
-        <div class="sz-cost">¥620<sub style="font-size:.5em;font-weight:700">万</sub></div>
-        <div class="sz-cost-label">引き渡し原価</div>
-        <div class="sz-sub">¥110万 + ¥17万/月</div>
+        <div class="sz-cost">¥720<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost-label">製造・配送原価（目標値）</div>
+        <div class="sz-buyout">買い切り <strong>¥930万</strong> / サブスク ¥140万+¥19万/月</div>
       </div>
 
       <!-- LARGE -->
       <div class="sz-card">
+        <div class="sz-avail av-pre">2027 · 予約受付</div>
         <div class="sz-badge" style="font-size:.55rem;width:auto;padding:0 10px;letter-spacing:.03em">LARGE</div>
         <div class="sz-area">40<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
         <div class="sz-dim">4.8×8.5m · 4〜5名</div>
@@ -335,15 +363,16 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
           <div>BIPVルーフ <strong>12枚 (12 kW)</strong></div>
           <div>フロア <strong>15枚</strong> · 蓄電池 <strong>18 kWh</strong></div>
           <div>ウェットポッド <strong>1基（大）</strong></div>
-          <div class="sz-sep">重量 <strong>5,500 kg</strong> · 完成 <strong>11日</strong></div>
+          <div class="sz-sep">重量 <strong>5,800 kg</strong> · 完成 <strong>11日</strong></div>
         </div>
-        <div class="sz-cost">¥930<sub style="font-size:.5em;font-weight:700">万</sub></div>
-        <div class="sz-cost-label">引き渡し原価</div>
-        <div class="sz-sub">¥160万 + ¥26万/月</div>
+        <div class="sz-cost">¥1,100<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost-label">製造・配送原価（目標値）</div>
+        <div class="sz-buyout">買い切り <strong>¥1,400万</strong> / サブスク ¥200万+¥30万/月</div>
       </div>
 
       <!-- XL -->
       <div class="sz-card">
+        <div class="sz-avail av-plan">企画中 · 相談受付</div>
         <div class="sz-badge" style="font-size:.75rem">XL</div>
         <div class="sz-area">66<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
         <div class="sz-dim">7.2×9.2m · 6〜8名 / GH可</div>
@@ -366,15 +395,16 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
           <div>BIPVルーフ <strong>20枚 (20 kW)</strong></div>
           <div>フロア <strong>24枚</strong> · 蓄電池 <strong>30 kWh</strong></div>
           <div>ウェットポッド <strong>2基</strong></div>
-          <div class="sz-sep">重量 <strong>約 8,800 kg</strong> · 完成 <strong>15日</strong></div>
+          <div class="sz-sep">重量 <strong>約 9,200 kg</strong> · 完成 <strong>15日</strong></div>
         </div>
-        <div class="sz-cost">¥1,480<sub style="font-size:.5em;font-weight:700">万</sub></div>
-        <div class="sz-cost-label">引き渡し原価</div>
-        <div class="sz-sub">¥260万 + ¥42万/月</div>
+        <div class="sz-cost">¥1,720<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost-label">製造・配送原価（目標値）</div>
+        <div class="sz-buyout">買い切り <strong>¥2,200万</strong> / サブスク ¥310万+¥47万/月</div>
       </div>
 
       <!-- VILLA -->
       <div class="sz-card">
+        <div class="sz-avail av-plan">企画中 · 相談受付</div>
         <div class="sz-badge" style="font-size:.6rem;width:auto;padding:0 10px;letter-spacing:.03em">VILLA</div>
         <div class="sz-area">116<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
         <div class="sz-dim">別荘・民泊 本格運営</div>
@@ -396,15 +426,16 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
           <div>BIPVルーフ <strong>36枚 (36 kW)</strong></div>
           <div>フロア <strong>42枚</strong> · 蓄電池 <strong>50 kWh</strong></div>
           <div>ウェットポッド <strong>4基</strong></div>
-          <div class="sz-sep">重量 <strong>約 14,200 kg</strong> · 完成 <strong>22日</strong></div>
+          <div class="sz-sep">重量 <strong>約 14,800 kg</strong> · 完成 <strong>22日</strong></div>
         </div>
-        <div class="sz-cost">¥2,540<sub style="font-size:.5em;font-weight:700">万</sub></div>
-        <div class="sz-cost-label">引き渡し原価</div>
-        <div class="sz-sub">¥450万 + ¥72万/月</div>
+        <div class="sz-cost">¥2,980<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost-label">製造・配送原価（目標値）</div>
+        <div class="sz-buyout">買い切り <strong>¥3,700万</strong> / サブスク ¥530万+¥82万/月</div>
       </div>
 
       <!-- GRAND -->
       <div class="sz-card">
+        <div class="sz-avail av-plan">企画中 · 相談受付</div>
         <div class="sz-badge" style="font-size:.55rem;width:auto;padding:0 10px;letter-spacing:.03em">GRAND</div>
         <div class="sz-area">200<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
         <div class="sz-dim">SOLUNAベース・宿泊施設</div>
@@ -425,11 +456,11 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
           <div>BIPVルーフ <strong>60枚 (60 kW)</strong></div>
           <div>フロア <strong>70枚</strong> · 蓄電池 <strong>80 kWh</strong></div>
           <div>ウェットポッド <strong>6基</strong> + 業務キッチン</div>
-          <div class="sz-sep">重量 <strong>約 23,000 kg</strong> · 完成 <strong>35日</strong></div>
+          <div class="sz-sep">重量 <strong>約 24,000 kg</strong> · 完成 <strong>35日</strong></div>
         </div>
-        <div class="sz-cost">¥4,300<sub style="font-size:.5em;font-weight:700">万</sub></div>
-        <div class="sz-cost-label">引き渡し原価</div>
-        <div class="sz-sub">¥770万 + ¥120万/月</div>
+        <div class="sz-cost">¥5,100<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost-label">製造・配送原価（目標値）</div>
+        <div class="sz-buyout">買い切り <strong>¥6,200万</strong> / サブスク ¥900万+¥140万/月</div>
       </div>
 
     </div>
@@ -762,22 +793,31 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
             <div class="sct-cell">6 基 + キッチン</div>
           </div>
           <div class="sct-row">
-            <div class="sct-cell">引き渡し原価</div>
-            <div class="sct-cell">¥290 万</div>
-            <div class="sct-cell std-col">¥620 万</div>
-            <div class="sct-cell">¥930 万</div>
-            <div class="sct-cell">¥1,480 万</div>
-            <div class="sct-cell">¥2,540 万</div>
-            <div class="sct-cell">¥4,300 万</div>
+            <div class="sct-cell">製造・配送原価</div>
+            <div class="sct-cell">¥340 万</div>
+            <div class="sct-cell std-col">¥720 万</div>
+            <div class="sct-cell">¥1,100 万</div>
+            <div class="sct-cell">¥1,720 万</div>
+            <div class="sct-cell">¥2,980 万</div>
+            <div class="sct-cell">¥5,100 万</div>
           </div>
           <div class="sct-row">
-            <div class="sct-cell">デポジット + 月額</div>
-            <div class="sct-cell">¥50万 + ¥8万</div>
-            <div class="sct-cell std-col">¥110万 + ¥17万</div>
-            <div class="sct-cell">¥160万 + ¥26万</div>
-            <div class="sct-cell">¥260万 + ¥42万</div>
-            <div class="sct-cell">¥450万 + ¥72万</div>
-            <div class="sct-cell">¥770万 + ¥120万</div>
+            <div class="sct-cell">買い切り</div>
+            <div class="sct-cell">¥450 万</div>
+            <div class="sct-cell std-col">¥930 万</div>
+            <div class="sct-cell">¥1,400 万</div>
+            <div class="sct-cell">¥2,200 万</div>
+            <div class="sct-cell">¥3,700 万</div>
+            <div class="sct-cell">¥6,200 万</div>
+          </div>
+          <div class="sct-row">
+            <div class="sct-cell">サブスク（デポ+月）</div>
+            <div class="sct-cell">¥60万+¥9万</div>
+            <div class="sct-cell std-col">¥140万+¥19万</div>
+            <div class="sct-cell">¥200万+¥30万</div>
+            <div class="sct-cell">¥310万+¥47万</div>
+            <div class="sct-cell">¥530万+¥82万</div>
+            <div class="sct-cell">¥900万+¥140万</div>
           </div>
           <div class="sct-row hi">
             <div class="sct-cell">損益分岐（月）</div>
@@ -948,98 +988,155 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
 <section class="s">
   <div class="ww">
     <div class="eyebrow">SUBSCRIPTION / 月額モデル</div>
-    <h2>売らない。<em style="font-style:normal;color:var(--gold)">使わせる。</em></h2>
-    <p class="sub">建物を「買う」から「使う」へ。SOLUNAが所有権を持つことで、メンテ・保険・アップグレードをすべて含めた月額にできる。</p>
+    <h2>買うか、<em style="font-style:normal;color:var(--gold)">使うか。</em></h2>
+    <p class="sub">買い切りで所有するか、月額サブスクで使うか。どちらでも選べる。サブスクはメンテ・保険・監視・移設サポートをすべて含む。</p>
 
-    <div class="price-grid">
+    <div class="price-toggle" id="priceToggle">
+      <button class="pt-btn active" onclick="setPriceMode('sub')">サブスクリプション</button>
+      <button class="pt-btn" onclick="setPriceMode('buy')">買い切り</button>
+    </div>
+
+    <div class="price-grid" id="priceGrid" data-price-mode="sub">
+      <!-- MINI -->
       <div class="price-card">
+        <div class="pc-avail pca-open">2026春 先行受付中</div>
         <div class="pc-size">MINI</div>
         <div class="pc-name">9.6㎡</div>
-        <div class="pc-area">建築確認不要 · 1〜2名 · 最速3日</div>
-        <div class="pc-deposit"><span class="amount">¥50万</span><span class="unit">デポジット</span></div>
-        <div class="pc-monthly">+ ¥8万 / 月</div>
+        <div class="pc-area">建築確認不要 · 1〜2名 · 3日で完成</div>
+        <div class="pc-sub-content">
+          <div class="pc-deposit"><span class="amount">¥60万</span><span class="unit">デポジット</span></div>
+          <div class="pc-monthly">+ ¥9万 / 月</div>
+        </div>
+        <div class="pc-buy-content">
+          <div class="pc-buyout-price">¥450万</div>
+          <div style="font-size:11px;color:var(--text-mid);margin-bottom:14px">一括払い · 所有権移転</div>
+        </div>
         <hr class="pc-divider"/>
         <div class="pc-features">
           <div class="pc-feat">20ft × 1本</div>
           <div class="pc-feat">3 kW BIPV · 7.5 kWh 蓄電</div>
-          <div class="pc-feat">メンテ・保険・監視込み</div>
-          <div class="pc-feat">移設可能（実費）</div>
+          <div class="pc-feat pc-sub-content">メンテ・保険・監視込み</div>
+          <div class="pc-feat pc-sub-content">移設サポート付き</div>
+          <div class="pc-feat pc-buy-content">10年保証（躯体）</div>
+          <div class="pc-feat pc-buy-content">メンテ年1回（3年間）</div>
         </div>
-        <a class="pc-cta" href="contact" data-sln-track="box_cta_mini">詳細を聞く</a>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_mini">先行申込はこちら</a>
       </div>
 
+      <!-- STANDARD -->
       <div class="price-card featured">
+        <div class="pc-avail pca-pre">2026秋 先行予約受付中</div>
         <div class="pc-size">STANDARD ★ 人気</div>
         <div class="pc-name">24.8㎡</div>
         <div class="pc-area">1LDK · 2〜4名 · 8日で完成</div>
-        <div class="pc-deposit"><span class="amount">¥110万</span><span class="unit">デポジット</span></div>
-        <div class="pc-monthly">+ ¥17万 / 月</div>
+        <div class="pc-sub-content">
+          <div class="pc-deposit"><span class="amount">¥140万</span><span class="unit">デポジット</span></div>
+          <div class="pc-monthly">+ ¥19万 / 月</div>
+        </div>
+        <div class="pc-buy-content">
+          <div class="pc-buyout-price">¥930万</div>
+          <div style="font-size:11px;color:var(--text-mid);margin-bottom:14px">一括払い · 所有権移転</div>
+        </div>
         <hr class="pc-divider"/>
         <div class="pc-features">
           <div class="pc-feat">40ft × 1本</div>
           <div class="pc-feat">8 kW BIPV · 12 kWh 蓄電</div>
-          <div class="pc-feat">メンテ・保険・監視込み</div>
-          <div class="pc-feat">移設可能（実費）</div>
-          <div class="pc-feat">サイズアップグレード可</div>
+          <div class="pc-feat pc-sub-content">メンテ・保険・監視込み</div>
+          <div class="pc-feat pc-sub-content">移設サポート付き</div>
+          <div class="pc-feat pc-sub-content">サイズアップグレード可</div>
+          <div class="pc-feat pc-buy-content">10年保証（躯体）</div>
+          <div class="pc-feat pc-buy-content">メンテ年1回（5年間）</div>
+          <div class="pc-feat pc-buy-content">移設1回サポート付き</div>
         </div>
-        <a class="pc-cta" href="contact" data-sln-track="box_cta_std">詳細を聞く</a>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_std">先行申込はこちら</a>
       </div>
 
+      <!-- LARGE -->
       <div class="price-card">
+        <div class="pc-avail pca-pre">2027 · 予約受付</div>
         <div class="pc-size">LARGE</div>
         <div class="pc-name">40㎡</div>
         <div class="pc-area">2LDK · 4〜5名 · 11日で完成</div>
-        <div class="pc-deposit"><span class="amount">¥160万</span><span class="unit">デポジット</span></div>
-        <div class="pc-monthly">+ ¥26万 / 月</div>
+        <div class="pc-sub-content">
+          <div class="pc-deposit"><span class="amount">¥200万</span><span class="unit">デポジット</span></div>
+          <div class="pc-monthly">+ ¥30万 / 月</div>
+        </div>
+        <div class="pc-buy-content">
+          <div class="pc-buyout-price">¥1,400万</div>
+          <div style="font-size:11px;color:var(--text-mid);margin-bottom:14px">一括払い · 所有権移転</div>
+        </div>
         <hr class="pc-divider"/>
         <div class="pc-features">
           <div class="pc-feat">40ft HC × 1本</div>
           <div class="pc-feat">12 kW BIPV · 18 kWh 蓄電</div>
-          <div class="pc-feat">メンテ・保険・監視込み</div>
-          <div class="pc-feat">移設可能（実費）</div>
+          <div class="pc-feat pc-sub-content">メンテ・保険・監視込み</div>
+          <div class="pc-feat pc-buy-content">10年保証（躯体）</div>
         </div>
-        <a class="pc-cta" href="contact" data-sln-track="box_cta_large">詳細を聞く</a>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_large">詳細を問い合わせる</a>
       </div>
 
+      <!-- XL -->
       <div class="price-card">
+        <div class="pc-avail pca-plan">企画中 · 相談受付</div>
         <div class="pc-size">XL</div>
         <div class="pc-name">66㎡</div>
         <div class="pc-area">3LDK · 6〜8名 · ゲストハウス可</div>
-        <div class="pc-deposit"><span class="amount">¥260万</span><span class="unit">デポジット</span></div>
-        <div class="pc-monthly">+ ¥42万 / 月</div>
+        <div class="pc-sub-content">
+          <div class="pc-deposit"><span class="amount">¥310万</span><span class="unit">デポジット</span></div>
+          <div class="pc-monthly">+ ¥47万 / 月</div>
+        </div>
+        <div class="pc-buy-content">
+          <div class="pc-buyout-price">¥2,200万</div>
+          <div style="font-size:11px;color:var(--text-mid);margin-bottom:14px">一括払い · 所有権移転</div>
+        </div>
         <hr class="pc-divider"/>
         <div class="pc-features">
           <div class="pc-feat">40ft × 2本</div>
           <div class="pc-feat">20 kW BIPV · 30 kWh 蓄電</div>
           <div class="pc-feat">ウェットポッド 2基</div>
-          <div class="pc-feat">SOLUNA Hotel運用代行込み</div>
+          <div class="pc-feat">SOLUNA Hotel運用代行対応可</div>
         </div>
-        <a class="pc-cta" href="contact" data-sln-track="box_cta_xl">詳細を聞く</a>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_xl">相談する</a>
       </div>
 
+      <!-- VILLA -->
       <div class="price-card">
+        <div class="pc-avail pca-plan">企画中 · 相談受付</div>
         <div class="pc-size">VILLA</div>
         <div class="pc-name">116㎡</div>
         <div class="pc-area">別荘・民泊 本格運営</div>
-        <div class="pc-deposit"><span class="amount">¥450万</span><span class="unit">デポジット</span></div>
-        <div class="pc-monthly">+ ¥72万 / 月</div>
+        <div class="pc-sub-content">
+          <div class="pc-deposit"><span class="amount">¥530万</span><span class="unit">デポジット</span></div>
+          <div class="pc-monthly">+ ¥82万 / 月</div>
+        </div>
+        <div class="pc-buy-content">
+          <div class="pc-buyout-price">¥3,700万</div>
+          <div style="font-size:11px;color:var(--text-mid);margin-bottom:14px">一括払い · 所有権移転</div>
+        </div>
         <hr class="pc-divider"/>
         <div class="pc-features">
           <div class="pc-feat">40ft × 3〜4本</div>
           <div class="pc-feat">36 kW BIPV · 50 kWh 蓄電</div>
           <div class="pc-feat">ウェットポッド 4基</div>
           <div class="pc-feat">SOLUNA Hotel運用代行込み</div>
-          <div class="pc-feat">屋上デッキオプション</div>
         </div>
-        <a class="pc-cta" href="contact" data-sln-track="box_cta_villa">詳細を聞く</a>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_villa">相談する</a>
       </div>
 
+      <!-- GRAND -->
       <div class="price-card">
+        <div class="pc-avail pca-plan">企画中 · 相談受付</div>
         <div class="pc-size">GRAND</div>
         <div class="pc-name">200㎡</div>
         <div class="pc-area">SOLUNAベース・宿泊施設</div>
-        <div class="pc-deposit"><span class="amount">¥770万</span><span class="unit">デポジット</span></div>
-        <div class="pc-monthly">+ ¥120万 / 月</div>
+        <div class="pc-sub-content">
+          <div class="pc-deposit"><span class="amount">¥900万</span><span class="unit">デポジット</span></div>
+          <div class="pc-monthly">+ ¥140万 / 月</div>
+        </div>
+        <div class="pc-buy-content">
+          <div class="pc-buyout-price">¥6,200万</div>
+          <div style="font-size:11px;color:var(--text-mid);margin-bottom:14px">一括払い · 所有権移転</div>
+        </div>
         <hr class="pc-divider"/>
         <div class="pc-features">
           <div class="pc-feat">40ft × 5〜6本</div>
@@ -1048,7 +1145,7 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
           <div class="pc-feat">SOLUNA Hotel運用代行込み</div>
           <div class="pc-feat">専任サポートマネージャー</div>
         </div>
-        <a class="pc-cta" href="contact" data-sln-track="box_cta_grand">詳細を聞く</a>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_grand">相談する</a>
       </div>
     </div>
 
@@ -1138,6 +1235,15 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
 
 <script>
 if(window.sln) sln.track('soluna_box_view');
+
+function setPriceMode(mode) {
+  const grid = document.getElementById('priceGrid');
+  if (!grid) return;
+  grid.dataset.priceMode = mode;
+  document.querySelectorAll('#priceToggle .pt-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('onclick').includes("'"+mode+"'"));
+  });
+}
 </script>
 </body>
 </html>
