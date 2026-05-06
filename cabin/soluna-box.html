@@ -201,15 +201,16 @@ h3{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
 
 /* SIZE COMPARISON TABLE */
 .sct{margin-top:32px;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:12.5px}
-.sct-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-top:1px solid var(--line)}
-.sct-row:first-child{border-top:none;background:rgba(200,164,85,.06);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-mid)}
+.sct{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.sct-inner{min-width:760px}
+.sct-row{display:grid;grid-template-columns:1.8fr repeat(6,1fr);border-top:1px solid var(--line)}
+.sct-row:first-child{border-top:none;background:rgba(200,164,85,.06);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-mid)}
 .sct-row.hi{background:rgba(200,164,85,.07);font-weight:800}
 .sct-row.hi2{background:rgba(155,196,109,.06);font-weight:800}
-.sct-cell{padding:12px 14px}
+.sct-cell{padding:10px 10px;font-size:11.5px}
 .sct-cell.right{text-align:right}
 .sct-cell.gold{color:var(--gold)}
-.sct-cell.m-col{border-left:1px solid rgba(200,164,85,.2);border-right:1px solid rgba(200,164,85,.2);background:rgba(200,164,85,.02)}
-@media(max-width:560px){.sct-cell{padding:10px 8px;font-size:11px}}
+.sct-cell.std-col{border-left:1px solid rgba(200,164,85,.25);border-right:1px solid rgba(200,164,85,.25);background:rgba(200,164,85,.025)}
 
 /* NOTE */
 .note{font-size:10.5px;color:var(--text-dim);line-height:1.9;margin-top:28px;padding:18px 22px;border:1px solid var(--line);border-radius:10px}
@@ -238,7 +239,7 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
     <div class="hero-stats">
       <div class="hs"><div class="hs-v">11<sub>日</sub></div><div class="hs-l">注文→引き渡し</div></div>
       <div class="hs"><div class="hs-v">1<sub>本</sub></div><div class="hs-l">コンテナ全部入り</div></div>
-      <div class="hs"><div class="hs-v">¥12<sub>万/月</sub></div><div class="hs-l">サブスク最安</div></div>
+      <div class="hs"><div class="hs-v">¥8<sub>万/月〜</sub></div><div class="hs-l">サブスク最安</div></div>
       <div class="hs"><div class="hs-v">0<sub>貫通</sub></div><div class="hs-l">パネル気密保証</div></div>
     </div>
   </div>
@@ -257,99 +258,178 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
 <!-- SIZES -->
 <section class="s">
   <div class="ww">
-    <div class="eyebrow">SIZES / コンテナ構成</div>
-    <h2>サイズで<em style="font-style:normal;color:var(--gold)">コンテナが変わる。</em></h2>
-    <p class="sub">S は 20ft 1本。M は 40ft 1本（2倍の長さ）。L は 20ft 2本で届く。<br/>いずれも <strong>「コンテナ1便 = 建物1棟分が完結」</strong> の原則は変わらない。</p>
+    <div class="eyebrow">SIZES / 6段階コンテナ構成</div>
+    <h2>MINIからGRANDまで、<em style="font-style:normal;color:var(--gold)">全部コンテナで。</em></h2>
+    <p class="sub"><strong>MINI は建築確認不要（10㎡未満）</strong>で最速3日稼働。GRANDはSOLUNA拠点・宿泊施設として本格運営可能。いずれも「コンテナ便 = 建物1棟分」の原則は変わらない。</p>
 
     <div class="sizes-grid">
 
-      <!-- S -->
+      <!-- MINI -->
       <div class="sz-card">
-        <div class="sz-badge">S</div>
-        <div class="sz-area">12<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
-        <div class="sz-dim">3.0 m × 4.0 m · 2〜3名</div>
+        <div class="sz-badge" style="font-size:.6rem;width:auto;padding:0 10px;letter-spacing:.05em">MINI</div>
+        <div class="sz-area">9.6<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
+        <div class="sz-dim">2.4×4.0m · 1〜2名 · <strong style="color:var(--green)">確認不要</strong></div>
         <div class="sz-cont-type">1 × 20ft コンテナ</div>
         <div class="sz-cont-box">
           <div class="sz-cont-row">
             <div class="sz-zone wet" style="flex:2.4">WET</div>
-            <div class="sz-zone pan" style="flex:2.85">PANELS ×22</div>
-            <div class="sz-zone acc" style="flex:.65">ACC</div>
+            <div class="sz-zone pan" style="flex:2.4">PANELS ×15</div>
+            <div class="sz-zone acc" style="flex:1.1">ACC</div>
           </div>
           <div class="sz-cont-label-row">← 内寸 5.9 m</div>
         </div>
         <div class="sz-specs">
-          <div>壁パネル <strong>12枚</strong></div>
-          <div>BIPVルーフ <strong>4枚 (4 kW)</strong></div>
-          <div>フロアパネル <strong>6枚</strong></div>
-          <div>ウェットポッド <strong>1基</strong></div>
-          <div>蓄電池 <strong>10 kWh</strong></div>
-          <div>サッシ・ドア <strong>5枚</strong></div>
-          <div class="sz-sep">総重量 <strong>2,296 kg</strong></div>
+          <div>壁パネル <strong>8枚</strong></div>
+          <div>BIPVルーフ <strong>3枚 (3 kW)</strong></div>
+          <div>フロア <strong>4枚</strong> · 蓄電池 <strong>7.5 kWh</strong></div>
+          <div>コンパクトウェットユニット <strong>1基</strong></div>
+          <div class="sz-sep">重量 <strong>1,540 kg</strong> · 完成 <strong>3日</strong></div>
         </div>
-        <div class="sz-cost">¥436<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost">¥290<sub style="font-size:.5em;font-weight:700">万</sub></div>
         <div class="sz-cost-label">引き渡し原価</div>
-        <div class="sz-sub">¥80万デポジット + ¥12万/月</div>
+        <div class="sz-sub">¥50万 + ¥8万/月</div>
       </div>
 
-      <!-- M -->
+      <!-- STANDARD -->
       <div class="sz-card featured">
-        <div class="sz-badge">M</div>
-        <div class="sz-area">21<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
-        <div class="sz-dim">3.6 m × 6.0 m · 3〜4名 ★人気</div>
+        <div class="sz-badge" style="font-size:.55rem;width:auto;padding:0 10px;letter-spacing:.03em">STD</div>
+        <div class="sz-area">24.8<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
+        <div class="sz-dim">3.6×7.0m · 2〜4名 ★人気</div>
         <div class="sz-cont-type">1 × 40ft コンテナ</div>
         <div class="sz-cont-box">
           <div class="sz-cont-row">
             <div class="sz-zone wet" style="flex:2.4">WET</div>
-            <div class="sz-zone pan" style="flex:7.5">PANELS ×33</div>
-            <div class="sz-zone acc" style="flex:2.1">ACC</div>
+            <div class="sz-zone pan" style="flex:7.8">PANELS ×37</div>
+            <div class="sz-zone acc" style="flex:1.8">ACC</div>
           </div>
           <div class="sz-cont-label-row">← 内寸 12.0 m（40ft）</div>
         </div>
         <div class="sz-specs">
-          <div>壁パネル <strong>18枚</strong></div>
-          <div>BIPVルーフ <strong>6枚 (6 kW)</strong></div>
-          <div>フロアパネル <strong>9枚</strong></div>
+          <div>壁パネル <strong>20枚</strong></div>
+          <div>BIPVルーフ <strong>8枚 (8 kW)</strong></div>
+          <div>フロア <strong>10枚</strong> · 蓄電池 <strong>12 kWh</strong></div>
           <div>ウェットポッド <strong>1基</strong></div>
-          <div>蓄電池 <strong>15 kWh</strong></div>
-          <div>サッシ・ドア <strong>7枚</strong></div>
-          <div class="sz-sep">総重量 <strong>3,431 kg</strong></div>
+          <div class="sz-sep">重量 <strong>3,800 kg</strong> · 完成 <strong>8日</strong></div>
         </div>
-        <div class="sz-cost">¥572<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost">¥620<sub style="font-size:.5em;font-weight:700">万</sub></div>
         <div class="sz-cost-label">引き渡し原価</div>
-        <div class="sz-sub">¥120万デポジット + ¥18万/月</div>
+        <div class="sz-sub">¥110万 + ¥17万/月</div>
       </div>
 
-      <!-- L -->
+      <!-- LARGE -->
       <div class="sz-card">
-        <div class="sz-badge">L</div>
-        <div class="sz-area">33<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
-        <div class="sz-dim">4.8 m × 7.0 m · 4〜6名</div>
-        <div class="sz-cont-type">2 × 20ft コンテナ</div>
+        <div class="sz-badge" style="font-size:.55rem;width:auto;padding:0 10px;letter-spacing:.03em">LARGE</div>
+        <div class="sz-area">40<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
+        <div class="sz-dim">4.8×8.5m · 4〜5名</div>
+        <div class="sz-cont-type">1 × 40ft HC（ハイキューブ）</div>
         <div class="sz-cont-box">
-          <div class="sz-cont-sublabel">コンテナ A</div>
-          <div class="sz-cont-row" style="margin-bottom:6px">
-            <div class="sz-zone wet" style="flex:4.8">WET POD × 2</div>
-            <div class="sz-zone pan" style="flex:1.1">WALL</div>
-          </div>
-          <div class="sz-cont-sublabel">コンテナ B</div>
           <div class="sz-cont-row">
-            <div class="sz-zone pan" style="flex:4.6">PANELS ×44</div>
-            <div class="sz-zone acc" style="flex:1.3">ACC</div>
+            <div class="sz-zone wet" style="flex:2.4">WET</div>
+            <div class="sz-zone pan" style="flex:7.8">PANELS ×55</div>
+            <div class="sz-zone acc" style="flex:1.8">ACC</div>
           </div>
-          <div class="sz-cont-label-row">← 各 5.9 m × 2本</div>
+          <div class="sz-cont-label-row">← 12.0 m · 天高 2.7 m（HC）</div>
         </div>
         <div class="sz-specs">
-          <div>壁パネル <strong>26枚</strong></div>
-          <div>BIPVルーフ <strong>10枚 (10 kW)</strong></div>
-          <div>フロアパネル <strong>14枚</strong></div>
-          <div>ウェットポッド <strong>2基</strong></div>
-          <div>蓄電池 <strong>20 kWh</strong></div>
-          <div>サッシ・ドア <strong>10枚</strong></div>
-          <div class="sz-sep">総重量 <strong>5,192 kg × 2本</strong></div>
+          <div>壁パネル <strong>28枚</strong></div>
+          <div>BIPVルーフ <strong>12枚 (12 kW)</strong></div>
+          <div>フロア <strong>15枚</strong> · 蓄電池 <strong>18 kWh</strong></div>
+          <div>ウェットポッド <strong>1基（大）</strong></div>
+          <div class="sz-sep">重量 <strong>5,500 kg</strong> · 完成 <strong>11日</strong></div>
         </div>
-        <div class="sz-cost">¥873<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost">¥930<sub style="font-size:.5em;font-weight:700">万</sub></div>
         <div class="sz-cost-label">引き渡し原価</div>
-        <div class="sz-sub">¥160万デポジット + ¥24万/月</div>
+        <div class="sz-sub">¥160万 + ¥26万/月</div>
+      </div>
+
+      <!-- XL -->
+      <div class="sz-card">
+        <div class="sz-badge" style="font-size:.75rem">XL</div>
+        <div class="sz-area">66<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
+        <div class="sz-dim">7.2×9.2m · 6〜8名 / GH可</div>
+        <div class="sz-cont-type">2 × 40ft コンテナ</div>
+        <div class="sz-cont-box">
+          <div class="sz-cont-sublabel">A: WET×2 + 壁</div>
+          <div class="sz-cont-row" style="margin-bottom:4px">
+            <div class="sz-zone wet" style="flex:4.8">WET × 2</div>
+            <div class="sz-zone pan" style="flex:7.2">WALL</div>
+          </div>
+          <div class="sz-cont-sublabel">B: BIPV + 床 + 設備</div>
+          <div class="sz-cont-row">
+            <div class="sz-zone pan" style="flex:9.6">BIPV + FLOOR</div>
+            <div class="sz-zone acc" style="flex:2.4">ACC</div>
+          </div>
+          <div class="sz-cont-label-row">← 各 12.0 m × 2本</div>
+        </div>
+        <div class="sz-specs">
+          <div>壁パネル <strong>44枚</strong></div>
+          <div>BIPVルーフ <strong>20枚 (20 kW)</strong></div>
+          <div>フロア <strong>24枚</strong> · 蓄電池 <strong>30 kWh</strong></div>
+          <div>ウェットポッド <strong>2基</strong></div>
+          <div class="sz-sep">重量 <strong>約 8,800 kg</strong> · 完成 <strong>15日</strong></div>
+        </div>
+        <div class="sz-cost">¥1,480<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost-label">引き渡し原価</div>
+        <div class="sz-sub">¥260万 + ¥42万/月</div>
+      </div>
+
+      <!-- VILLA -->
+      <div class="sz-card">
+        <div class="sz-badge" style="font-size:.6rem;width:auto;padding:0 10px;letter-spacing:.03em">VILLA</div>
+        <div class="sz-area">116<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
+        <div class="sz-dim">別荘・民泊 本格運営</div>
+        <div class="sz-cont-type">3〜4 × 40ft コンテナ</div>
+        <div class="sz-cont-box">
+          <div class="sz-cont-sublabel">A: WET×4 / B+C: パネル / D: 設備</div>
+          <div class="sz-cont-row" style="margin-bottom:4px">
+            <div class="sz-zone wet" style="flex:9.6">WET × 4</div>
+            <div class="sz-zone pan" style="flex:2.4">W</div>
+          </div>
+          <div class="sz-cont-row">
+            <div class="sz-zone pan" style="flex:9.6">BIPV + FLOOR + ELEC</div>
+            <div class="sz-zone acc" style="flex:2.4">ACC</div>
+          </div>
+          <div class="sz-cont-label-row">← 各 12.0 m × 3〜4本</div>
+        </div>
+        <div class="sz-specs">
+          <div>壁パネル <strong>72枚</strong></div>
+          <div>BIPVルーフ <strong>36枚 (36 kW)</strong></div>
+          <div>フロア <strong>42枚</strong> · 蓄電池 <strong>50 kWh</strong></div>
+          <div>ウェットポッド <strong>4基</strong></div>
+          <div class="sz-sep">重量 <strong>約 14,200 kg</strong> · 完成 <strong>22日</strong></div>
+        </div>
+        <div class="sz-cost">¥2,540<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost-label">引き渡し原価</div>
+        <div class="sz-sub">¥450万 + ¥72万/月</div>
+      </div>
+
+      <!-- GRAND -->
+      <div class="sz-card">
+        <div class="sz-badge" style="font-size:.55rem;width:auto;padding:0 10px;letter-spacing:.03em">GRAND</div>
+        <div class="sz-area">200<sub style="font-size:.4em;font-weight:700">㎡</sub></div>
+        <div class="sz-dim">SOLUNAベース・宿泊施設</div>
+        <div class="sz-cont-type">5〜6 × 40ft コンテナ</div>
+        <div class="sz-cont-box">
+          <div class="sz-cont-sublabel">A〜B: WET×6 / C〜F: パネル+設備</div>
+          <div class="sz-cont-row" style="margin-bottom:4px">
+            <div class="sz-zone wet" style="flex:12">WET × 6 + 業務キッチン</div>
+          </div>
+          <div class="sz-cont-row">
+            <div class="sz-zone pan" style="flex:9.6">PANELS × 120 + ELECTRICAL</div>
+            <div class="sz-zone acc" style="flex:2.4">INFRA</div>
+          </div>
+          <div class="sz-cont-label-row">← 各 12.0 m × 5〜6本</div>
+        </div>
+        <div class="sz-specs">
+          <div>壁パネル <strong>120枚</strong></div>
+          <div>BIPVルーフ <strong>60枚 (60 kW)</strong></div>
+          <div>フロア <strong>70枚</strong> · 蓄電池 <strong>80 kWh</strong></div>
+          <div>ウェットポッド <strong>6基</strong> + 業務キッチン</div>
+          <div class="sz-sep">重量 <strong>約 23,000 kg</strong> · 完成 <strong>35日</strong></div>
+        </div>
+        <div class="sz-cost">¥4,300<sub style="font-size:.5em;font-weight:700">万</sub></div>
+        <div class="sz-cost-label">引き渡し原価</div>
+        <div class="sz-sub">¥770万 + ¥120万/月</div>
       </div>
 
     </div>
@@ -626,89 +706,97 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
     <div style="margin-top:48px">
       <div class="eyebrow" style="margin-bottom:14px">SIZE COMPARISON / 3サイズ 比較</div>
       <div class="sct">
-        <div class="sct-row">
-          <div class="sct-cell"></div>
-          <div class="sct-cell">BOX S</div>
-          <div class="sct-cell m-col">BOX M ★</div>
-          <div class="sct-cell">BOX L</div>
-        </div>
-        <div class="sct-row">
-          <div class="sct-cell">床面積</div>
-          <div class="sct-cell">12 ㎡</div>
-          <div class="sct-cell m-col">21 ㎡</div>
-          <div class="sct-cell">33 ㎡</div>
-        </div>
-        <div class="sct-row">
-          <div class="sct-cell">間取り目安</div>
-          <div class="sct-cell">1K · 1〜2名</div>
-          <div class="sct-cell m-col">1LDK · 2〜4名</div>
-          <div class="sct-cell">2LDK · 4〜6名</div>
-        </div>
-        <div class="sct-row">
-          <div class="sct-cell">コンテナ</div>
-          <div class="sct-cell">20ft × 1本</div>
-          <div class="sct-cell m-col">40ft × 1本</div>
-          <div class="sct-cell">20ft × 2本</div>
-        </div>
-        <div class="sct-row">
-          <div class="sct-cell">壁パネル</div>
-          <div class="sct-cell">12 枚</div>
-          <div class="sct-cell m-col">18 枚</div>
-          <div class="sct-cell">26 枚</div>
-        </div>
-        <div class="sct-row">
-          <div class="sct-cell">BIPV 発電</div>
-          <div class="sct-cell">4枚 / 4 kW</div>
-          <div class="sct-cell m-col">6枚 / 6 kW</div>
-          <div class="sct-cell">10枚 / 10 kW</div>
-        </div>
-        <div class="sct-row">
-          <div class="sct-cell">蓄電池</div>
-          <div class="sct-cell">10 kWh</div>
-          <div class="sct-cell m-col">15 kWh</div>
-          <div class="sct-cell">20 kWh</div>
-        </div>
-        <div class="sct-row">
-          <div class="sct-cell">ウェットポッド</div>
-          <div class="sct-cell">1 基</div>
-          <div class="sct-cell m-col">1 基</div>
-          <div class="sct-cell">2 基</div>
-        </div>
-        <div class="sct-row">
-          <div class="sct-cell">積載総重量</div>
-          <div class="sct-cell">2,296 kg</div>
-          <div class="sct-cell m-col">3,431 kg</div>
-          <div class="sct-cell">5,192 kg × 2</div>
-        </div>
-        <div class="sct-row">
-          <div class="sct-cell">引き渡し原価</div>
-          <div class="sct-cell">¥436 万</div>
-          <div class="sct-cell m-col">¥572 万</div>
-          <div class="sct-cell">¥873 万</div>
-        </div>
-        <div class="sct-row">
-          <div class="sct-cell">デポジット</div>
-          <div class="sct-cell">¥80 万</div>
-          <div class="sct-cell m-col">¥120 万</div>
-          <div class="sct-cell">¥160 万</div>
-        </div>
-        <div class="sct-row">
-          <div class="sct-cell">月額</div>
-          <div class="sct-cell">¥12 万/月</div>
-          <div class="sct-cell m-col">¥18 万/月</div>
-          <div class="sct-cell">¥24 万/月</div>
-        </div>
-        <div class="sct-row hi">
-          <div class="sct-cell">損益分岐</div>
-          <div class="sct-cell">30 ヶ月</div>
-          <div class="sct-cell m-col">26 ヶ月</div>
-          <div class="sct-cell">30 ヶ月</div>
-        </div>
-        <div class="sct-row hi2">
-          <div class="sct-cell">5年純益（対原価）</div>
-          <div class="sct-cell gold">+ ¥364 万</div>
-          <div class="sct-cell m-col gold">+ ¥628 万</div>
-          <div class="sct-cell gold">+ ¥727 万</div>
+        <div class="sct-inner">
+          <div class="sct-row">
+            <div class="sct-cell"></div>
+            <div class="sct-cell">MINI</div>
+            <div class="sct-cell std-col">STD ★</div>
+            <div class="sct-cell">LARGE</div>
+            <div class="sct-cell">XL</div>
+            <div class="sct-cell">VILLA</div>
+            <div class="sct-cell">GRAND</div>
+          </div>
+          <div class="sct-row">
+            <div class="sct-cell">床面積</div>
+            <div class="sct-cell">9.6 ㎡</div>
+            <div class="sct-cell std-col">24.8 ㎡</div>
+            <div class="sct-cell">40 ㎡</div>
+            <div class="sct-cell">66 ㎡</div>
+            <div class="sct-cell">116 ㎡</div>
+            <div class="sct-cell">200 ㎡</div>
+          </div>
+          <div class="sct-row">
+            <div class="sct-cell">コンテナ</div>
+            <div class="sct-cell">20ft × 1</div>
+            <div class="sct-cell std-col">40ft × 1</div>
+            <div class="sct-cell">40ft HC × 1</div>
+            <div class="sct-cell">40ft × 2</div>
+            <div class="sct-cell">40ft × 3〜4</div>
+            <div class="sct-cell">40ft × 5〜6</div>
+          </div>
+          <div class="sct-row">
+            <div class="sct-cell">BIPV</div>
+            <div class="sct-cell">3 kW</div>
+            <div class="sct-cell std-col">8 kW</div>
+            <div class="sct-cell">12 kW</div>
+            <div class="sct-cell">20 kW</div>
+            <div class="sct-cell">36 kW</div>
+            <div class="sct-cell">60 kW</div>
+          </div>
+          <div class="sct-row">
+            <div class="sct-cell">蓄電池</div>
+            <div class="sct-cell">7.5 kWh</div>
+            <div class="sct-cell std-col">12 kWh</div>
+            <div class="sct-cell">18 kWh</div>
+            <div class="sct-cell">30 kWh</div>
+            <div class="sct-cell">50 kWh</div>
+            <div class="sct-cell">80 kWh</div>
+          </div>
+          <div class="sct-row">
+            <div class="sct-cell">ウェットポッド</div>
+            <div class="sct-cell">1 基（小）</div>
+            <div class="sct-cell std-col">1 基</div>
+            <div class="sct-cell">1 基（大）</div>
+            <div class="sct-cell">2 基</div>
+            <div class="sct-cell">4 基</div>
+            <div class="sct-cell">6 基 + キッチン</div>
+          </div>
+          <div class="sct-row">
+            <div class="sct-cell">引き渡し原価</div>
+            <div class="sct-cell">¥290 万</div>
+            <div class="sct-cell std-col">¥620 万</div>
+            <div class="sct-cell">¥930 万</div>
+            <div class="sct-cell">¥1,480 万</div>
+            <div class="sct-cell">¥2,540 万</div>
+            <div class="sct-cell">¥4,300 万</div>
+          </div>
+          <div class="sct-row">
+            <div class="sct-cell">デポジット + 月額</div>
+            <div class="sct-cell">¥50万 + ¥8万</div>
+            <div class="sct-cell std-col">¥110万 + ¥17万</div>
+            <div class="sct-cell">¥160万 + ¥26万</div>
+            <div class="sct-cell">¥260万 + ¥42万</div>
+            <div class="sct-cell">¥450万 + ¥72万</div>
+            <div class="sct-cell">¥770万 + ¥120万</div>
+          </div>
+          <div class="sct-row hi">
+            <div class="sct-cell">損益分岐（月）</div>
+            <div class="sct-cell">30</div>
+            <div class="sct-cell std-col">30</div>
+            <div class="sct-cell">30</div>
+            <div class="sct-cell">29</div>
+            <div class="sct-cell">29</div>
+            <div class="sct-cell">29</div>
+          </div>
+          <div class="sct-row hi2">
+            <div class="sct-cell">5年純益（対原価）</div>
+            <div class="sct-cell gold">+¥240 万</div>
+            <div class="sct-cell std-col gold">+¥510 万</div>
+            <div class="sct-cell gold">+¥790 万</div>
+            <div class="sct-cell gold">+¥1,300 万</div>
+            <div class="sct-cell gold">+¥2,230 万</div>
+            <div class="sct-cell gold">+¥3,870 万</div>
+          </div>
         </div>
       </div>
     </div>
@@ -865,57 +953,102 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line)}
 
     <div class="price-grid">
       <div class="price-card">
-        <div class="pc-size">SOLUNA BOX — S</div>
-        <div class="pc-name">12㎡</div>
-        <div class="pc-area">1LDK相当・1〜2名向け</div>
-        <div class="pc-deposit"><span class="amount">¥80万</span><span class="unit">デポジット</span></div>
-        <div class="pc-monthly">+ ¥12万 / 月</div>
+        <div class="pc-size">MINI</div>
+        <div class="pc-name">9.6㎡</div>
+        <div class="pc-area">建築確認不要 · 1〜2名 · 最速3日</div>
+        <div class="pc-deposit"><span class="amount">¥50万</span><span class="unit">デポジット</span></div>
+        <div class="pc-monthly">+ ¥8万 / 月</div>
         <hr class="pc-divider"/>
         <div class="pc-features">
-          <div class="pc-feat">メンテナンス込み</div>
-          <div class="pc-feat">保険込み</div>
-          <div class="pc-feat">リモート監視込み</div>
+          <div class="pc-feat">20ft × 1本</div>
+          <div class="pc-feat">3 kW BIPV · 7.5 kWh 蓄電</div>
+          <div class="pc-feat">メンテ・保険・監視込み</div>
           <div class="pc-feat">移設可能（実費）</div>
-          <div class="pc-feat">解約時デポジット返還</div>
         </div>
-        <a class="pc-cta" href="contact" data-sln-track="box_cta_s">詳細を聞く</a>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_mini">詳細を聞く</a>
       </div>
 
       <div class="price-card featured">
-        <div class="pc-size">SOLUNA BOX — M ★ 人気</div>
-        <div class="pc-name">21㎡</div>
-        <div class="pc-area">2LDK相当・2〜4名向け</div>
-        <div class="pc-deposit"><span class="amount">¥120万</span><span class="unit">デポジット</span></div>
-        <div class="pc-monthly">+ ¥18万 / 月</div>
+        <div class="pc-size">STANDARD ★ 人気</div>
+        <div class="pc-name">24.8㎡</div>
+        <div class="pc-area">1LDK · 2〜4名 · 8日で完成</div>
+        <div class="pc-deposit"><span class="amount">¥110万</span><span class="unit">デポジット</span></div>
+        <div class="pc-monthly">+ ¥17万 / 月</div>
         <hr class="pc-divider"/>
         <div class="pc-features">
-          <div class="pc-feat">メンテナンス込み</div>
-          <div class="pc-feat">保険込み</div>
-          <div class="pc-feat">リモート監視込み</div>
+          <div class="pc-feat">40ft × 1本</div>
+          <div class="pc-feat">8 kW BIPV · 12 kWh 蓄電</div>
+          <div class="pc-feat">メンテ・保険・監視込み</div>
           <div class="pc-feat">移設可能（実費）</div>
           <div class="pc-feat">サイズアップグレード可</div>
-          <div class="pc-feat">SOLUNA Hotel運用代行込み</div>
         </div>
-        <a class="pc-cta" href="contact" data-sln-track="box_cta_m">詳細を聞く</a>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_std">詳細を聞く</a>
       </div>
 
       <div class="price-card">
-        <div class="pc-size">SOLUNA BOX — L</div>
-        <div class="pc-name">33㎡</div>
-        <div class="pc-area">3LDK相当・4〜6名向け</div>
+        <div class="pc-size">LARGE</div>
+        <div class="pc-name">40㎡</div>
+        <div class="pc-area">2LDK · 4〜5名 · 11日で完成</div>
         <div class="pc-deposit"><span class="amount">¥160万</span><span class="unit">デポジット</span></div>
-        <div class="pc-monthly">+ ¥24万 / 月</div>
+        <div class="pc-monthly">+ ¥26万 / 月</div>
         <hr class="pc-divider"/>
         <div class="pc-features">
-          <div class="pc-feat">メンテナンス込み</div>
-          <div class="pc-feat">保険込み</div>
-          <div class="pc-feat">リモート監視込み</div>
+          <div class="pc-feat">40ft HC × 1本</div>
+          <div class="pc-feat">12 kW BIPV · 18 kWh 蓄電</div>
+          <div class="pc-feat">メンテ・保険・監視込み</div>
           <div class="pc-feat">移設可能（実費）</div>
-          <div class="pc-feat">サイズアップグレード可</div>
+        </div>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_large">詳細を聞く</a>
+      </div>
+
+      <div class="price-card">
+        <div class="pc-size">XL</div>
+        <div class="pc-name">66㎡</div>
+        <div class="pc-area">3LDK · 6〜8名 · ゲストハウス可</div>
+        <div class="pc-deposit"><span class="amount">¥260万</span><span class="unit">デポジット</span></div>
+        <div class="pc-monthly">+ ¥42万 / 月</div>
+        <hr class="pc-divider"/>
+        <div class="pc-features">
+          <div class="pc-feat">40ft × 2本</div>
+          <div class="pc-feat">20 kW BIPV · 30 kWh 蓄電</div>
+          <div class="pc-feat">ウェットポッド 2基</div>
+          <div class="pc-feat">SOLUNA Hotel運用代行込み</div>
+        </div>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_xl">詳細を聞く</a>
+      </div>
+
+      <div class="price-card">
+        <div class="pc-size">VILLA</div>
+        <div class="pc-name">116㎡</div>
+        <div class="pc-area">別荘・民泊 本格運営</div>
+        <div class="pc-deposit"><span class="amount">¥450万</span><span class="unit">デポジット</span></div>
+        <div class="pc-monthly">+ ¥72万 / 月</div>
+        <hr class="pc-divider"/>
+        <div class="pc-features">
+          <div class="pc-feat">40ft × 3〜4本</div>
+          <div class="pc-feat">36 kW BIPV · 50 kWh 蓄電</div>
+          <div class="pc-feat">ウェットポッド 4基</div>
           <div class="pc-feat">SOLUNA Hotel運用代行込み</div>
           <div class="pc-feat">屋上デッキオプション</div>
         </div>
-        <a class="pc-cta" href="contact" data-sln-track="box_cta_l">詳細を聞く</a>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_villa">詳細を聞く</a>
+      </div>
+
+      <div class="price-card">
+        <div class="pc-size">GRAND</div>
+        <div class="pc-name">200㎡</div>
+        <div class="pc-area">SOLUNAベース・宿泊施設</div>
+        <div class="pc-deposit"><span class="amount">¥770万</span><span class="unit">デポジット</span></div>
+        <div class="pc-monthly">+ ¥120万 / 月</div>
+        <hr class="pc-divider"/>
+        <div class="pc-features">
+          <div class="pc-feat">40ft × 5〜6本</div>
+          <div class="pc-feat">60 kW BIPV · 80 kWh 蓄電</div>
+          <div class="pc-feat">ウェットポッド 6基 + 業務キッチン</div>
+          <div class="pc-feat">SOLUNA Hotel運用代行込み</div>
+          <div class="pc-feat">専任サポートマネージャー</div>
+        </div>
+        <a class="pc-cta" href="contact" data-sln-track="box_cta_grand">詳細を聞く</a>
       </div>
     </div>
 
