@@ -194,6 +194,17 @@ h2{font-size:clamp(1.5rem,3.5vw,2.3rem);font-weight:800;letter-spacing:-.03em;li
 .sr-v{font-size:30px;font-weight:800;color:rgba(80,200,160,.9);white-space:nowrap}
 .sub-note{margin-top:10px;padding:10px 14px;background:var(--card);border:1px solid var(--line);border-radius:7px;font-size:10px;color:rgba(237,233,225,.28);line-height:1.8}
 
+/* PLAN IMAGE */
+.plan-img-wrap{border-radius:12px;overflow:hidden;margin-bottom:24px;height:300px;background:var(--card);border:1px solid var(--line);position:relative}
+@media(max-width:600px){.plan-img-wrap{height:200px}}
+.plan-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.plan-img-gen{display:none}
+
+/* REGIONAL NOTE */
+.regional-note{margin-top:14px;padding:14px 18px;background:rgba(80,184,160,.05);border:1px solid rgba(80,184,160,.18);border-radius:9px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.rn-txt{font-size:11.5px;color:rgba(237,233,225,.5);line-height:1.75}
+.rn-v{font-size:20px;font-weight:800;color:rgba(80,184,160,.85);white-space:nowrap}
+
 /* CTA */
 .cta-box{background:rgba(200,164,85,.05);border:1px solid rgba(200,164,85,.14);border-radius:13px;padding:42px 32px;text-align:center}
 .cta-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
@@ -225,7 +236,7 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
   <div class="hero-body">
     <p class="eyebrow">SOLUNA BUILD GUIDE — 弟子屈タイニーハウス</p>
     <h1>北海道タイニーハウス<br><em>完全建設ガイド</em></h1>
-    <p class="hero-sub">4サイズから選べる。設計図・材料・プレカット発注・補助金まで全公開。</p>
+    <p class="hero-sub">6サイズから選べる。設計図・材料・プレカット発注・補助金まで全公開。北海道仕様の実材料費を公開。</p>
     <div class="hcta">
       <a class="btn btng" href="#plan-select">プランを選ぶ</a>
       <a class="btn btngh" href="#cost">コストを見る</a>
@@ -242,6 +253,7 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
 <section class="s">
   <div class="w">
     <p class="lbl r" id="planLbl">PLAN OVERVIEW</p>
+    <div class="plan-img-wrap r" id="planImgWrap" style="display:none"></div>
     <div class="plan-overview r">
       <div class="plan-hero-desc" id="planDesc"></div>
       <div class="plan-key-stats" id="planKeyStats"></div>
@@ -270,6 +282,7 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
       </div>
     </div>
     <div class="route-grid r" id="routeGrid"></div>
+    <div class="regional-note r" id="regionalNote" style="display:none"></div>
   </div>
 </section>
 
@@ -464,13 +477,20 @@ function renderAll() {
 function renderOverview() {
   const p = currentPlan;
   document.getElementById('planLbl').textContent = p.name + ' PLAN — ' + p.label;
+
+  // plan image
+  const wrap = document.getElementById('planImgWrap');
+  const imgSrc = `/img/build/${p.id}.jpg`;
+  wrap.style.display = '';
+  wrap.innerHTML = `<img src="${imgSrc}" alt="${p.name} イメージ" onerror="this.parentElement.style.display='none'">`;
+
   document.getElementById('planDesc').innerHTML = `<strong style="color:${p.color};display:block;margin-bottom:8px;font-size:15px">${p.name} — ${p.label}</strong>` + p.desc;
   document.getElementById('planKeyStats').innerHTML = [
-    {l:"材料費", v: fmtM(p.totalMat), c: p.color},
+    {l:"材料費合計", v: fmt(p.totalMat), c: p.color},
     {l:"建設期間", v: p.weeks + "週間", c: "#ddd"},
     {l:"補助金（最大）", v: "¥235万", c: "rgba(80,200,160,.9)"},
     {l:"特徴", v: p.tag, c: p.tagColor},
-  ].map(s => `<div class="stat"><div class="stat-l">${s.l}</div><div class="stat-v" style="color:${s.c}">${s.v}</div></div>`).join('');
+  ].map(s => `<div class="stat"><div class="stat-l">${s.l}</div><div class="stat-v" style="color:${s.c};font-size:${s.l==='材料費合計'?'13px':'15px'}">${s.v}</div></div>`).join('');
   document.getElementById('planSpecs').innerHTML = p.specs.map(s =>
     `<div class="spec"><span class="spec-k">${s.k}</span><span class="spec-v">${s.v}</span></div>`
   ).join('');
@@ -492,14 +512,27 @@ function renderCost() {
 
   const after = Math.max(0, p.totalMat - 2350000);
   document.getElementById('costTotal').textContent = fmt(p.totalMat);
-  document.getElementById('costAfterSubsidy').textContent = after === 0 ? '実質 ¥0〜' : fmtM(after);
+  document.getElementById('costAfterSubsidy').textContent = after === 0 ? '実質 ¥0〜' : fmt(after);
   document.getElementById('routeGrid').innerHTML = p.routes.map(r =>
     `<div class="route-card ${r.hi?'rc-hi':''} ${r.gr?'rc-gr':''}">
       <div class="rc-name">${r.name}</div>
-      <div class="rc-cost" style="color:${r.color}">${r.cost < 0 ? '+'+fmtM(-r.cost)+'/年' : r.cost === 0 ? '¥0〜' : fmtM(r.cost)}</div>
+      <div class="rc-cost" style="color:${r.color}">${r.cost < 0 ? '+'+fmtM(-r.cost)+'/年' : r.cost === 0 ? '¥0〜' : fmt(r.cost)}</div>
       <div class="rc-sub">${r.note || (r.hi?'材料費（補助金前）':r.gr?'子育て世帯':'')}</div>
     </div>`
   ).join('');
+
+  // regional note
+  const rn = document.getElementById('regionalNote');
+  if (p.warmClimateDiscount) {
+    rn.style.display = '';
+    rn.innerHTML = `
+      <div class="rn-txt">🌡️ <strong>本州温暖地域（関東〜九州）で建てる場合：</strong><br>
+      凍結深度が浅く基礎コスト減、SIPs断熱厚を100mmに薄型化、窓もペアガラスでOK。<br>
+      弟子屈（北海道）仕様より約 <strong style="color:rgba(80,184,160,.9)">${fmt(p.warmClimateDiscount)}</strong> 安くなります。</div>
+      <div class="rn-v">▼${fmtM(p.warmClimateDiscount)}</div>`;
+  } else {
+    rn.style.display = 'none';
+  }
 }
 
 function scrollToMat(cat) {
