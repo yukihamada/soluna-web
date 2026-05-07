@@ -3,18 +3,20 @@ window.BUILD_PLANS = [
   // ===== MINI (9.9m²) =====
   {
     id: "mini",
-    name: "MINI",
+    name: "MEBUKI",
     label: "10m²未満",
     area: 9.9,
     dims: "W 3,640 × D 2,730 mm",
     weeks: 5,
     tag: "建築確認不要",
     tagColor: "#50b8a0",
-    desc: "建築確認申請が不要な10m²未満の超コンパクト小屋。ロフト付きで就寝スペースを確保。週末別荘・書斎・シェッドとして最速・最安で建てられる。",
-    totalMat: 1023000,
+    desc: "10m²の制約がデザインを研ぎ澄ます。黒ガルバ一枚皮、露し梁、南窓1枚。余分を削ぎ落とした結果がそのままデザインになる。ロフト梁をあえて見せ、壁はSIPsのOSB面を一部露出。建てることと住むことの本質を体験できる最小限の家。",
+    totalMat: 836658,
     subsidyMax: 1350000,
     warmClimateDiscount: 65000,
+    rentPerNight: 15000,
     color: "#50b8a0",
+    img: "/img/build/mini.jpg",
     specs: [
       {k:"延床面積", v:"9.9 m²（3坪）"},
       {k:"外形寸法", v:"W 3,640 × D 2,730 × H 3,800 mm"},
@@ -26,7 +28,7 @@ window.BUILD_PLANS = [
       {k:"建築確認", v:"不要（10m²未満）"},
     ],
     materials: [
-      {cat:"構造材（プレカット）", emoji:"📐", total:95000, color:"#b07850",
+      {cat:"構造材（プレカット）", emoji:"📐", total:96000, color:"#b07850",
        items:[
          {name:"KD杉 105×105 柱材",qty:"8本",unit:"¥1,200/本",total:9600,note:"プレカット込み"},
          {name:"KD杉 105×180 梁材",qty:"4本",unit:"¥2,200/本",total:8800,note:""},
@@ -61,15 +63,15 @@ window.BUILD_PLANS = [
          {name:"樹脂窓 W780×H1170 南",qty:"2枚",unit:"¥32,000/枚",total:64000,note:"トリプルガラス"},
          {name:"ドア 断熱型 小型",qty:"1枚",unit:"¥31,000",total:31000,note:""},
        ]},
-      {cat:"オフグリッド電力", emoji:"☀️", total:148000, color:"#f0c040",
+      {cat:"オフグリッド電力", emoji:"☀️", total:86658, color:"#f0c040",
        items:[
-         {name:"Renogy 200W パネル",qty:"2枚",unit:"¥25,771/枚",total:51542,note:""},
-         {name:"EcoFlow RIVER 2 Pro 768Wh",qty:"1台",unit:"¥59,800",total:59800,note:""},
+         {name:"400W 単結晶パネル（JA Solar / Longi）",qty:"1枚",unit:"¥15,000/枚",total:15000,note:"200W×2と同ワット数・半数で設置工数半減"},
+         {name:"LiFePO4 12V 200Ah + 600W インバーター一式",qty:"1式",unit:"¥35,000",total:35000,note:"CATL/EVEセル使用・EcoFlow比55%削減"},
          {name:"MPPT 30A + 配線一式",qty:"1式",unit:"¥36,658",total:36658,note:""},
        ]},
-      {cat:"給排水・衛生", emoji:"💧", total:230000, color:"#50b8a0",
+      {cat:"給排水・衛生", emoji:"💧", total:105000, color:"#50b8a0",
        items:[
-         {name:"Nature's Head コンポストトイレ",qty:"1台",unit:"¥200,000",total:200000,note:"浄化槽不要"},
+         {name:"Separett Villa 9215 尿分離型コンポスト",qty:"1台",unit:"¥75,000",total:75000,note:"スウェーデン製・Nature's Head比63%削減・浄化槽不要"},
          {name:"雨水タンク 200L",qty:"1基",unit:"¥12,000",total:12000,note:""},
          {name:"ハンドポンプ・配管一式",qty:"1式",unit:"¥18,000",total:18000,note:""},
        ],
@@ -111,8 +113,8 @@ window.BUILD_PLANS = [
        tools:["フィニッシュネイラー","カンナ","丸ノコ"],tips:"5週間でコンパクトな週末小屋が完成。"},
     ],
     routes: [
-      {name:"セルフビルド",cost:1023000,color:"#50b8a0",hi:true},
-      {name:"補助金後",cost:23000,color:"rgba(80,200,160,.9)",gr:true,note:"移住補助¥100万後"},
+      {name:"セルフビルド",cost:836658,color:"#50b8a0",hi:true},
+      {name:"補助金後",cost:0,color:"rgba(80,200,160,.9)",gr:true,note:"移住補助¥100万で材料費全額カバー"},
       {name:"工務店依頼",cost:2800000,color:"#555"},
       {name:"キット小屋",cost:1200000,color:"#555",note:"組立キット"},
     ],
@@ -132,7 +134,7 @@ window.BUILD_PLANS = [
       <line x1="20" y1="162" x2="150" y2="162" stroke="#333" stroke-width="1"/>
       <text x="162" y="85" fill="#555" font-size="7" text-anchor="middle" transform="rotate(90,162,85)">2,730</text>
       <line x1="158" y1="20" x2="158" y2="140" stroke="#333" stroke-width="1"/>
-      <text x="20" y="12" fill="#50b8a0" font-size="8" font-weight="bold">MINI — 9.9m² / 建築確認不要</text>
+      <text x="20" y="12" fill="#50b8a0" font-size="8" font-weight="bold">MEBUKI — 9.9m² / 建築確認不要</text>
       <circle cx="45" cy="75" r="6" fill="rgba(224,96,48,.2)" stroke="rgba(224,96,48,.5)" stroke-width="1.2"/>
       <text x="45" y="79" fill="rgba(224,96,48,.8)" font-size="5.5" text-anchor="middle">炉</text>
     </svg>`,
@@ -143,7 +145,7 @@ window.BUILD_PLANS = [
       <rect x="55" y="20" width="10" height="35" fill="rgba(50,50,50,.95)" stroke="#666" stroke-width="1"/>
       <rect x="100" y="78" width="50" height="55" fill="rgba(70,184,208,.1)" stroke="#4ab8d0" stroke-width="1.5"/>
       <rect x="162" y="105" width="20" height="35" fill="rgba(50,32,12,.4)" stroke="#666" stroke-width="1.2"/>
-      <text x="100" y="8" fill="#50b8a0" font-size="8" text-anchor="middle">MINI — 南立面</text>
+      <text x="100" y="8" fill="#50b8a0" font-size="8" text-anchor="middle">MEBUKI — 南立面</text>
       <text x="125" y="112" fill="#888" font-size="7" text-anchor="middle">南窓</text>
       <line x1="30" y1="148" x2="170" y2="148" stroke="#444" stroke-width="1"/>
       <text x="100" y="158" fill="#444" font-size="7.5" text-anchor="middle">3,640 mm</text>
@@ -155,18 +157,20 @@ window.BUILD_PLANS = [
   // ===== STANDARD (24.8m²) =====
   {
     id: "standard",
-    name: "STANDARD",
+    name: "SU",
     label: "24.8m²",
     area: 24.8,
     dims: "W 5,460 × D 4,550 mm",
     weeks: 8,
     tag: "本ガイドの標準",
     tagColor: "#c8a455",
-    desc: "1人〜カップル向けの定番サイズ。南面大窓からの採光・ロケットマスヒーター・オフグリッド電力をすべて備えた、弟子屈の冬を越せる完全自立型住居。",
-    totalMat: 3609052,
+    desc: "24.8m²で1人の完全な生活が成立する最小単位。南面フルガラス+北面黒ガルバの対比。天井は野縁・梁を露し仕上げにしてSIPsの断面が素材感を語る。シンプルな箱形は設計ミスが出にくく、DIY精度が低くても美しく仕上がる。",
+    totalMat: 3251168,
     subsidyMax: 2350000,
     warmClimateDiscount: 500000,
+    rentPerNight: 25000,
     color: "#c8a455",
+    img: "/img/build/standard.jpg",
     specs: [
       {k:"延床面積", v:"24.8 m²（7.5坪）"},
       {k:"外形寸法", v:"W 5,460 × D 4,550 × H 4,200 mm"},
@@ -185,10 +189,10 @@ window.BUILD_PLANS = [
          {name:"SIPsパネル 屋根用 200mm",qty:"35 m²",unit:"¥14,000/m²",total:490000,note:""},
          {name:"スプラインジョイント材",qty:"一式",unit:"¥30,000",total:30000,note:""},
        ]},
-      {cat:"オフグリッド電力",emoji:"☀️",total:435884,color:"#f0c040",url:"https://www.amazon.co.jp/s?k=Renogy+ソーラーパネル",
+      {cat:"オフグリッド電力",emoji:"☀️",total:203000,color:"#f0c040",url:"",
        items:[
-         {name:"Renogy 200W 単結晶パネル",qty:"4枚",unit:"¥25,771/枚",total:103084,note:""},
-         {name:"EcoFlow DELTA Pro3 5kWh",qty:"1台",unit:"¥279,800",total:279800,note:""},
+         {name:"400W 単結晶パネル（JA Solar / Longi）",qty:"2枚",unit:"¥15,000/枚",total:30000,note:"4×200Wと同ワット数・設置工数半減"},
+         {name:"LiFePO4 48V 100Ah + 3kW インバーター一式",qty:"1式",unit:"¥120,000",total:120000,note:"≈4.8kWh・DELTA Pro3比57%削減"},
          {name:"MPPT 60A + 配線一式",qty:"1式",unit:"¥53,000",total:53000,note:""},
        ]},
       {cat:"窓・開口部",emoji:"🪟",total:333000,color:"#4ab8d0",url:"",
@@ -205,9 +209,9 @@ window.BUILD_PLANS = [
          {name:"キッチン（シンプルIH）",qty:"1式",unit:"¥45,000",total:45000,note:""},
          {name:"造作棚・収納",qty:"一式",unit:"¥30,000",total:30000,note:""},
        ]},
-      {cat:"給排水・衛生",emoji:"💧",total:280000,color:"#50b8a0",url:"",
+      {cat:"給排水・衛生",emoji:"💧",total:155000,color:"#50b8a0",url:"",
        items:[
-         {name:"Nature's Head コンポストトイレ",qty:"1台",unit:"¥200,000",total:200000,note:"浄化槽不要"},
+         {name:"Separett Villa 9215 尿分離型コンポスト",qty:"1台",unit:"¥75,000",total:75000,note:"スウェーデン製・浄化槽不要"},
          {name:"雨水タンク 1,000L",qty:"1基",unit:"¥35,000",total:35000,note:""},
          {name:"フィルター + UV殺菌 + ポンプ",qty:"1式",unit:"¥45,000",total:45000,note:""},
        ]},
@@ -265,8 +269,8 @@ window.BUILD_PLANS = [
        desc:"杉羽目板・フローリング張り、造作棚・キッチン設置。清掃・検査で完成。",tools:["フィニッシュネイラー","丸ノコ","塗料"],tips:"杉無垢は養生をしっかり。"},
     ],
     routes: [
-      {name:"セルフビルド",cost:3609052,color:"#c8a455",hi:true},
-      {name:"補助金後（子育て）",cost:1259052,color:"rgba(80,200,160,.9)",gr:true},
+      {name:"セルフビルド",cost:3251168,color:"#c8a455",hi:true},
+      {name:"補助金後（子育て）",cost:901168,color:"rgba(80,200,160,.9)",gr:true},
       {name:"工務店依頼",cost:7500000,color:"#555"},
       {name:"コンテナ改造",cost:2800000,color:"#555"},
     ],
@@ -289,7 +293,7 @@ window.BUILD_PLANS = [
       <text x="114" y="254" fill="#444" font-size="7" text-anchor="middle">↑ 南 / SOUTH</text>
       <circle cx="56" cy="113" r="8" fill="rgba(224,96,48,.18)" stroke="rgba(224,96,48,.55)" stroke-width="1.5"/>
       <text x="56" y="117" fill="rgba(224,96,48,.8)" font-size="7" text-anchor="middle">炉</text>
-      <text x="20" y="12" fill="#c8a455" font-size="8" font-weight="bold">STANDARD — 24.8m²</text>
+      <text x="20" y="12" fill="#c8a455" font-size="8" font-weight="bold">SU — 24.8m²</text>
     </svg>`,
     elevSvg: `<svg viewBox="0 0 280 230" style="width:100%;background:#050505;display:block">
       <line x1="10" y1="200" x2="270" y2="200" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
@@ -303,27 +307,189 @@ window.BUILD_PLANS = [
       <text x="110" y="33" fill="rgba(200,164,85,.7)" font-size="7.5" text-anchor="middle">ソーラーパネル</text>
       <line x1="30" y1="208" x2="250" y2="208" stroke="#444" stroke-width="1"/>
       <text x="140" y="220" fill="#444" font-size="8.5" text-anchor="middle">5,460 mm</text>
-      <text x="20" y="12" fill="#c8a455" font-size="8" font-weight="bold">STANDARD — 南立面</text>
+      <text x="20" y="12" fill="#c8a455" font-size="8" font-weight="bold">SU — 南立面</text>
     </svg>`,
   },
 
-  // ===== LARGE (42m²) =====
+  // ===== TAMA (27m² ジオデシックドーム) =====
+  {
+    id: "dome",
+    name: "TAMA",
+    label: "27m² ドーム",
+    area: 27,
+    dims: "直径 5,900mm × 高さ 2,500mm（2V ジオデシック）",
+    weeks: 8,
+    tag: "端材＜5%・910mmモジュール最適化 2Vジオデシックドーム",
+    tagColor: "#50b8d0",
+    desc: "B辺1,820mm（2×910mm）でSIPsパネルの端材を5%以下に抑えた2Vジオデシック。内側はOSBとストラットを黒塗装のまま露出——幾何学が内装になる。頂上の五角形パネルをガラスにすると垂直の光柱が室内中央に落ちる。焼杉外装にすると森に溶け込む黒い球体になる。",
+    totalMat: 1473900,
+    subsidyMax: 400000,
+    warmClimateDiscount: 250000,
+    rentPerNight: 30000,
+    color: "#50b8d0",
+    img: "/img/dome_exterior_winter.webp",
+    specs: [
+      {k:"延床面積", v:"27 m²（π×2.95²）"},
+      {k:"外形寸法", v:"直径 5,900mm × 高さ 2,500mm"},
+      {k:"構造", v:"2V ジオデシック（SIPsパネル三角組み）"},
+      {k:"断熱性能", v:"UA値 0.28 W/m²K（SIPs 160mm）"},
+      {k:"B辺長", v:"1,820mm（2×910mm — 端材ゼロ）"},
+      {k:"A辺長", v:"1,610mm（端材率＜5%）"},
+      {k:"パネル枚数", v:"A型×25枚 + B型×15枚 = 計40枚"},
+      {k:"ストラット", v:"A辺×30本 + B辺×35本 = 計65本"},
+      {k:"建築確認", v:"必要（27m²・4号建築物）"},
+    ],
+    materials: [
+      {cat:"基礎（スクリュー杭）", emoji:"🔩", total:90000, color:"#4080e0",
+       items:[
+         {name:"スクリュー杭 φ89mm×1,500mm",qty:"6本",unit:"¥15,000/本",total:90000,note:"1日施工・コンクリート不要"},
+       ]},
+      {cat:"ジオデシックフレーム", emoji:"🔺", total:180000, color:"#50b8d0",
+       items:[
+         {name:"ハブ金物（レーザーカット鉄板）",qty:"26個",unit:"¥3,500/個",total:91000,note:"全26頂点・5又/6又対応"},
+         {name:"A辺ストラット 2×6 SPF 1,610mm",qty:"30本",unit:"¥1,500/本",total:45000,note:"30本×1,610mm"},
+         {name:"B辺ストラット 2×6 SPF 1,820mm",qty:"35本",unit:"¥1,260/本",total:44000,note:"35本×1,820mm"},
+       ]},
+      {cat:"SIPsパネル A型（三角カスタム）", emoji:"🏗️", total:440000, color:"#c8a455",
+       items:[
+         {name:"SIPs A型 1820×1328mm カスタム切 160mm",qty:"13枚",unit:"¥33,800/枚",total:440000,note:"1枚からA型パネル2枚取り・端材ほぼゼロ"},
+       ]},
+      {cat:"SIPsパネル B型（正三角カスタム）", emoji:"🏗️", total:320000, color:"#c8a455",
+       items:[
+         {name:"SIPs B型 1820×1575mm カスタム切 160mm",qty:"8枚",unit:"¥40,000/枚",total:320000,note:"辺1820mm正三角形・2枚取り・0%廃材"},
+       ]},
+      {cat:"床（断熱スラブ）", emoji:"🟫", total:153900, color:"#a07850",
+       items:[
+         {name:"スタイロフォーム 100mm",qty:"27 m²",unit:"¥3,200/m²",total:86400,note:""},
+         {name:"構造用合板 28mm 床",qty:"27 m²",unit:"¥2,500/m²",total:67500,note:""},
+       ]},
+      {cat:"開口部", emoji:"🪟", total:200000, color:"#4ab8d0",
+       items:[
+         {name:"断熱ドア K2.0",qty:"1枚",unit:"¥120,000/枚",total:120000,note:""},
+         {name:"頂上五角形 apex ガラスパネル",qty:"1基",unit:"¥80,000/基",total:80000,note:"ドーム頂点の五角形パネルをガラス化。垂直の光柱が室内中央に落ちる"},
+       ]},
+      {cat:"防水・気密", emoji:"🔒", total:60000, color:"#888",
+       items:[
+         {name:"三角継ぎ目シーリング（ポリウレタン）",qty:"65箇所",unit:"¥350/箇所",total:22750,note:"ストラット数と同数"},
+         {name:"気密テープ・防水シート",qty:"一式",unit:"¥37,250",total:37250,note:""},
+       ]},
+      {cat:"内装・仕上げ（構造露し）", emoji:"🖤", total:30000, color:"#222",
+       items:[
+         {name:"OSB面露し仕上げ（研磨+蜜蝋ワックス）",qty:"一式",unit:"¥5,000",total:5000,note:"SIPsのOSB内面をそのまま内装に。研磨後ワックス仕上げで質感向上"},
+         {name:"ストラット+ハブ 黒スプレー塗装",qty:"一式",unit:"¥5,000",total:5000,note:"65ストラット・26ハブを艶消し黒塗装。幾何学がそのまま内装になる"},
+         {name:"外装黒塗料（防水外部用）全パネル",qty:"47 m²",unit:"¥213/m²",total:10000,note:"SIPs外面OSBを防水黒塗装。焼杉効果をコスト1/10で実現"},
+         {name:"六角形デッキ（端材活用）",qty:"一式",unit:"¥10,000",total:10000,note:"SIPsカット端材で六角形アウトドアデッキ。廃材ゼロ化"},
+       ]},
+    ],
+    steps: [
+      {week:"W1",phase:"スクリュー杭基礎",icon:"🔩",cost:90000,diff:"★☆☆☆☆",people:"2人",
+       desc:"スクリュー杭6点を1日で圧入。翌日から床工事に進める。杭頭レベル出しが精度を決める。",
+       tools:["スクリュー杭施工機（レンタル）","水平器","墨壺"],tips:"六角形配置で打つ。中心から外周6点。"},
+      {week:"W2",phase:"床断熱・合板",icon:"🟫",cost:154000,diff:"★★☆☆☆",people:"2人",
+       desc:"スタイロ100mmを敷き詰め、構造合板28mmを張る。円形下地が後のパネル取付精度を決める。",
+       tools:["丸ノコ","インパクト","コンパス"],tips:"円の外周部は合板をカットして合わせる。"},
+      {week:"W3",phase:"ハブ+ストラット組立",icon:"🔺",cost:180000,diff:"★★★☆☆",people:"3人",
+       desc:"26個のハブ金物にストラット65本をボルト締め。頂点から順番に組み上げる。足場・脚立必須。",
+       tools:["インパクト","スパナ","脚立"],tips:"A辺30本とB辺35本を混在させないようテープで区別。"},
+      {week:"W4〜5",phase:"SIPsパネル取付",icon:"🏗️",cost:760000,diff:"★★★★☆",people:"4人",
+       desc:"A型25枚→B型15枚の順で取付。各パネルをフレームにビス止め+スプライン接合。継ぎ目の気密処理を念入りに。",
+       tools:["インパクト","コーキングガン","安全帯"],tips:"上から順に取り付ける。頂上付近は安全帯必須。"},
+      {week:"W6",phase:"気密・防水シーリング",icon:"🔒",cost:60000,diff:"★★☆☆☆",people:"2人",
+       desc:"65箇所の継ぎ目にシーリング。ドームは雨の流れ方が独特なので頂上から水が溜まる箇所を先に処理。",
+       tools:["コーキングガン","養生テープ"],tips:"雨天後に光を当てて漏れ確認するとよい。"},
+      {week:"W7",phase:"内装（杉羽目板）",icon:"🪵",cost:176000,diff:"★★★☆☆",people:"2人",
+       desc:"曲面に沿って羽目板を短冊状に張る。三角形状の壁面は板を扇状にカットして対応。",
+       tools:["丸ノコ","タッカー","脚立"],tips:"曲面部は細めの板（90mm幅）の方が隙間が出にくい。"},
+      {week:"W8",phase:"ドア・天窓・竣工",icon:"✨",cost:200000,diff:"★★☆☆☆",people:"2人",
+       desc:"ドア取付・天窓設置・ソーラー接続・コンポストトイレ設置。仕上げ清掃と気密検査で完了。",
+       tools:["電動ドリル","コーキングガン","気密測定器"],tips:"天窓の防水フラッシングを丁寧に。"},
+    ],
+    routes: [
+      {label:"セルフビルド",cost:1620000,desc:"材料費のみ。工期8週間（延べ20人工）"},
+      {label:"補助金後",cost:1220000,desc:"こどもエコすまい支援事業等 最大40万円活用後"},
+      {label:"暖地仕様（九州・沖縄）",cost:1370000,desc:"断熱仕様を薄くして削減"},
+      {label:"ワークパーティー施工",cost:1320000,desc:"SOLUNAビレッジメンバーとの共同作業"},
+    ],
+    floorSvg: `<svg viewBox="-2 -2 124 140" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <circle cx="60" cy="65" r="50" fill="rgba(80,184,208,.07)" stroke="#50b8d0" stroke-width="1.5"/>
+      <g stroke="rgba(80,184,208,.35)" stroke-width=".8">
+        <line x1="60" y1="65" x2="60" y2="15"/>
+        <line x1="60" y1="65" x2="107" y2="49"/>
+        <line x1="60" y1="65" x2="89" y2="106"/>
+        <line x1="60" y1="65" x2="31" y2="106"/>
+        <line x1="60" y1="65" x2="13" y2="49"/>
+      </g>
+      <polygon points="60,45 79,59 72,81 48,81 41,59" fill="none" stroke="rgba(80,184,208,.45)" stroke-width=".8"/>
+      <g stroke="rgba(80,184,208,.22)" stroke-width=".55">
+        <line x1="60" y1="15" x2="82" y2="34"/>
+        <line x1="60" y1="15" x2="38" y2="34"/>
+        <line x1="107" y1="49" x2="96" y2="77"/>
+        <line x1="107" y1="49" x2="82" y2="34"/>
+        <line x1="89" y1="106" x2="96" y2="77"/>
+        <line x1="89" y1="106" x2="60" y2="103"/>
+        <line x1="31" y1="106" x2="60" y2="103"/>
+        <line x1="31" y1="106" x2="24" y2="77"/>
+        <line x1="13" y1="49" x2="24" y2="77"/>
+        <line x1="13" y1="49" x2="38" y2="34"/>
+      </g>
+      <g fill="#50b8d0" opacity=".8">
+        <circle cx="60" cy="65" r="2.2"/>
+        <circle cx="60" cy="45" r="1.5"/>
+        <circle cx="79" cy="59" r="1.5"/>
+        <circle cx="72" cy="81" r="1.5"/>
+        <circle cx="48" cy="81" r="1.5"/>
+        <circle cx="41" cy="59" r="1.5"/>
+      </g>
+      <text x="60" y="126" fill="rgba(80,184,208,.7)" font-size="7" text-anchor="middle" font-weight="700">Ø 5,900mm — 2V ジオデシック</text>
+      <text x="60" y="135" fill="rgba(80,184,208,.4)" font-size="6" text-anchor="middle">床面積 27m²</text>
+    </svg>`,
+    elevSvg: `<svg viewBox="0 0 145 100" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <ellipse cx="72" cy="83" rx="56" ry="4" fill="rgba(0,0,0,.35)"/>
+      <path d="M16,80 A56,56 0 0,1 128,80" fill="rgba(80,184,208,.07)" stroke="#50b8d0" stroke-width="1.4"/>
+      <g stroke="rgba(80,184,208,.38)" stroke-width=".7">
+        <line x1="28" y1="55" x2="116" y2="55"/>
+        <line x1="42" y1="35" x2="102" y2="35"/>
+      </g>
+      <g stroke="rgba(80,184,208,.22)" stroke-width=".55">
+        <line x1="72" y1="24" x2="16" y2="80"/>
+        <line x1="72" y1="24" x2="128" y2="80"/>
+        <line x1="72" y1="24" x2="28" y2="55"/>
+        <line x1="72" y1="24" x2="116" y2="55"/>
+        <line x1="28" y1="55" x2="42" y2="35"/>
+        <line x1="116" y1="55" x2="102" y2="35"/>
+        <line x1="28" y1="55" x2="16" y2="80"/>
+        <line x1="116" y1="55" x2="128" y2="80"/>
+      </g>
+      <circle cx="72" cy="24" r="2.5" fill="#50b8d0"/>
+      <line x1="133" y1="24" x2="133" y2="80" stroke="rgba(80,184,208,.4)" stroke-width=".5"/>
+      <line x1="130" y1="24" x2="136" y2="24" stroke="rgba(80,184,208,.4)" stroke-width=".5"/>
+      <line x1="130" y1="80" x2="136" y2="80" stroke="rgba(80,184,208,.4)" stroke-width=".5"/>
+      <text x="141" y="55" fill="rgba(80,184,208,.6)" font-size="6" text-anchor="middle">2,500</text>
+      <line x1="5" y1="80" x2="137" y2="80" stroke="#222" stroke-width=".8"/>
+      <text x="72" y="94" fill="rgba(80,184,208,.7)" font-size="6.5" text-anchor="middle" font-weight="700">直径 5,900mm（B辺=1,820mm=2×910mm）</text>
+      <text x="8" y="12" fill="#50b8d0" font-size="8" font-weight="bold">TAMA — 南立面（2V ジオデシック・28面体）</text>
+    </svg>`,
+  },
+
+  // ===== LARGE (40m²) =====
   {
     id: "large",
-    name: "LARGE",
-    label: "42m²",
-    area: 42,
+    name: "AN",
+    label: "40m²",
+    area: 40,
     dims: "W 7,280 × D 5,460 mm",
     weeks: 11,
     tag: "ファミリー向け",
     tagColor: "#e08030",
-    desc: "ファミリーや友人複数人での移住に適したサイズ。寝室2室＋LDK＋ウッドデッキ付き。弟子屈への本格移住、週末二拠点居住に最適。",
-    totalMat: 5975768,
+    desc: "40m²は一家族が快適に暮らせる最小限。南面を大開口にしてデッキと一体化すると面積以上の開放感が生まれる。天井はSIPsの木口と垂木を見せた露し仕上げ。焼杉外装+白漆喰内壁の対比が空間に緊張感をつくる。",
+    totalMat: 5273000,
     subsidyMax: 2350000,
     warmClimateDiscount: 800000,
+    rentPerNight: 38000,
     color: "#e08030",
+    img: "/img/build/large.jpg",
     specs: [
-      {k:"延床面積", v:"42 m²（12.7坪）"},
+      {k:"延床面積", v:"40 m²（12.1坪）"},
       {k:"外形寸法", v:"W 7,280 × D 5,460 × H 4,500 mm"},
       {k:"間取り", v:"LDK + 寝室2 + 水回り + デッキ"},
       {k:"構造", v:"木造軸組 + SIPsパネル"},
@@ -340,10 +506,10 @@ window.BUILD_PLANS = [
          {name:"SIPsパネル 屋根用 200mm",qty:"55 m²",unit:"¥14,000/m²",total:770000,note:""},
          {name:"スプライン・コーキング材",qty:"一式",unit:"¥30,000",total:30000,note:""},
        ]},
-      {cat:"オフグリッド電力",emoji:"☀️",total:845768,color:"#f0c040",url:"",
+      {cat:"オフグリッド電力",emoji:"☀️",total:340000,color:"#f0c040",url:"",
        items:[
-         {name:"Renogy 200W 単結晶パネル",qty:"8枚",unit:"¥25,771/枚",total:206168,note:""},
-         {name:"EcoFlow DELTA Pro3 × 2台",qty:"2台",unit:"¥279,800/台",total:559600,note:""},
+         {name:"400W 単結晶パネル（JA Solar / Longi）",qty:"4枚",unit:"¥15,000/枚",total:60000,note:"8×200Wと同ワット数"},
+         {name:"LiFePO4 48V 200Ah + 5kW インバーター一式",qty:"1式",unit:"¥200,000",total:200000,note:"≈9.6kWh・DELTA Pro3×2台比64%削減"},
          {name:"MPPT 100A + 配線一式",qty:"1式",unit:"¥80,000",total:80000,note:""},
        ]},
       {cat:"窓・開口部",emoji:"🪟",total:580000,color:"#4ab8d0",url:"",
@@ -356,20 +522,20 @@ window.BUILD_PLANS = [
       {cat:"内装・仕上げ",emoji:"🪵",total:580000,color:"#a07850",url:"",
        items:[
          {name:"国産杉 羽目板 15mm",qty:"100 m²",unit:"¥2,800/m²",total:280000,note:""},
-         {name:"杉無垢フローリング 15mm",qty:"42 m²",unit:"¥3,500/m²",total:147000,note:""},
+         {name:"杉無垢フローリング 15mm",qty:"40 m²",unit:"¥3,500/m²",total:140000,note:""},
          {name:"システムキッチン（IH + 食洗機）",qty:"1式",unit:"¥120,000",total:120000,note:""},
-         {name:"造作棚・収納・洗面台",qty:"一式",unit:"¥33,000",total:33000,note:""},
+         {name:"造作棚・収納・洗面台",qty:"一式",unit:"¥40,000",total:40000,note:""},
        ]},
-      {cat:"給排水・衛生",emoji:"💧",total:350000,color:"#50b8a0",url:"",
+      {cat:"給排水・衛生",emoji:"💧",total:225000,color:"#50b8a0",url:"",
        items:[
-         {name:"Nature's Head コンポストトイレ",qty:"1台",unit:"¥200,000",total:200000,note:""},
+         {name:"Separett Villa 9215 尿分離型コンポスト",qty:"1台",unit:"¥75,000",total:75000,note:"スウェーデン製・浄化槽不要"},
          {name:"雨水タンク 2,000L",qty:"1基",unit:"¥55,000",total:55000,note:""},
          {name:"フィルター + UV + ポンプ一式",qty:"1式",unit:"¥45,000",total:45000,note:""},
          {name:"バスユニット（簡易シャワー）",qty:"1式",unit:"¥50,000",total:50000,note:""},
        ]},
-      {cat:"ウッドデッキ",emoji:"🌳",total:180000,color:"#507840",url:"",
+      {cat:"ウッドデッキ",emoji:"🌳",total:108000,color:"#507840",url:"",
        items:[
-         {name:"耐久材 イタウバ デッキ材",qty:"15 m²",unit:"¥8,000/m²",total:120000,note:""},
+         {name:"国産杉 ACQ防腐処理 デッキ材",qty:"15 m²",unit:"¥3,200/m²",total:48000,note:"耐久20年以上・イタウバ比60%削減"},
          {name:"根太・束柱・幕板",qty:"一式",unit:"¥60,000",total:60000,note:""},
        ]},
       {cat:"外装",emoji:"🖤",total:235000,color:"#888",url:"",
@@ -393,8 +559,8 @@ window.BUILD_PLANS = [
        ]},
       {cat:"断熱・気密",emoji:"🌡️",total:190000,color:"#7080e0",url:"",
        items:[
-         {name:"スタイロフォーム 50mm 床下",qty:"42 m²",unit:"¥2,000/m²",total:84000,note:""},
-         {name:"気密テープ + 先張りシート 一式",qty:"一式",unit:"¥106,000",total:106000,note:""},
+         {name:"スタイロフォーム 50mm 床下",qty:"40 m²",unit:"¥2,000/m²",total:80000,note:""},
+         {name:"気密テープ + 先張りシート 一式",qty:"一式",unit:"¥110,000",total:110000,note:""},
        ]},
       {cat:"基礎（独立コンクリート 8点）",emoji:"⚓",total:110000,color:"#606060",url:"",
        items:[
@@ -418,11 +584,11 @@ window.BUILD_PLANS = [
       {week:"W9〜10",phase:"設備工事",icon:"🔥",cost:1175000,diff:"★★★★☆",people:"3人",
        desc:"ロケットマスヒーター築炉（蓄熱ベンチ付き）、8枚ソーラー配線、雨水2,000L。",tools:["耐火レンガ","配線工具","配管工具"],tips:"蓄熱ベンチがあると夜間も暖かさが持続。"},
       {week:"W11",phase:"内装・竣工",icon:"✨",cost:580000,diff:"★★☆☆☆",people:"2〜3人",
-       desc:"羽目板・フローリング・キッチン・洗面台を設置。清掃・検査で完成。",tools:["フィニッシュネイラー","丸ノコ"],tips:"42m²なら本格的な生活空間が完成。"},
+       desc:"羽目板・フローリング・キッチン・洗面台を設置。清掃・検査で完成。",tools:["フィニッシュネイラー","丸ノコ"],tips:"40m²なら本格的な生活空間が完成。"},
     ],
     routes: [
-      {name:"セルフビルド",cost:5975768,color:"#e08030",hi:true},
-      {name:"補助金後",cost:3625768,color:"rgba(80,200,160,.9)",gr:true},
+      {name:"セルフビルド",cost:5273000,color:"#e08030",hi:true},
+      {name:"補助金後",cost:2923000,color:"rgba(80,200,160,.9)",gr:true},
       {name:"工務店依頼",cost:12000000,color:"#555"},
       {name:"ユニット工法",cost:6500000,color:"#555"},
     ],
@@ -448,7 +614,7 @@ window.BUILD_PLANS = [
       <text x="300" y="118" fill="#507840" font-size="7" text-anchor="middle" transform="rotate(90,300,118)">デッキ 15m²</text>
       <circle cx="52" cy="108" r="8" fill="rgba(224,96,48,.2)" stroke="rgba(224,96,48,.55)" stroke-width="1.5"/>
       <text x="52" y="112" fill="rgba(224,96,48,.8)" font-size="7" text-anchor="middle">炉</text>
-      <text x="20" y="12" fill="#e08030" font-size="8" font-weight="bold">LARGE — 42m² + デッキ</text>
+      <text x="20" y="12" fill="#e08030" font-size="8" font-weight="bold">AN — 40m² + デッキ</text>
     </svg>`,
     elevSvg: `<svg viewBox="0 0 340 230" style="width:100%;background:#050505;display:block">
       <line x1="10" y1="200" x2="330" y2="200" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
@@ -464,27 +630,29 @@ window.BUILD_PLANS = [
       <text x="150" y="31" fill="rgba(224,128,48,.7)" font-size="7.5" text-anchor="middle">ソーラー × 8枚</text>
       <line x1="30" y1="208" x2="295" y2="208" stroke="#444" stroke-width="1"/>
       <text x="162" y="220" fill="#444" font-size="8.5" text-anchor="middle">7,280 mm</text>
-      <text x="20" y="10" fill="#e08030" font-size="8" font-weight="bold">LARGE — 南立面</text>
+      <text x="20" y="10" fill="#e08030" font-size="8" font-weight="bold">AN — 南立面</text>
     </svg>`,
   },
 
-  // ===== XL (65m²) =====
+  // ===== XL (66m²) =====
   {
     id: "xl",
-    name: "XL",
-    label: "65m²",
-    area: 65,
+    name: "MUNE",
+    label: "66m²",
+    area: 66,
     dims: "W 9,100 × D 7,280 mm",
     weeks: 16,
     tag: "ゲストハウス運営可",
     tagColor: "#9060e0",
-    desc: "家族移住・民泊運営まで対応できる最大サイズ。ロフト付き大空間LDK＋寝室3室＋大デッキ。SOLUNAメンバーへの宿泊提供や短期賃貸で投資回収も可能。",
-    totalMat: 9288652,
+    desc: "66m²は2世帯・シェアハウス・アトリエとして機能する規模。CLT露し天井が構造そのものを意匠にする——仕上げ材不要でコスト削減とデザイン向上が同時に起きる。ガルバ黒外皮×木製デッキの素材対比。北海道の雪景色に映える。",
+    totalMat: 8116000,
     subsidyMax: 2350000,
     warmClimateDiscount: 1500000,
+    rentPerNight: 60000,
     color: "#9060e0",
+    img: "/img/build/xl.jpg",
     specs: [
-      {k:"延床面積", v:"65 m²（19.7坪）＋ロフト 18m²"},
+      {k:"延床面積", v:"66 m²（20.0坪）＋ロフト 18m²"},
       {k:"外形寸法", v:"W 9,100 × D 7,280 × H 5,500 mm"},
       {k:"間取り", v:"LDK+ロフト＋寝室3＋水回り2＋大デッキ"},
       {k:"構造", v:"木造軸組 + SIPsパネル"},
@@ -501,10 +669,10 @@ window.BUILD_PLANS = [
          {name:"SIPsパネル 屋根用 200mm",qty:"85 m²",unit:"¥14,000/m²",total:1190000,note:""},
          {name:"スプライン・コーキング",qty:"一式",unit:"¥20,000",total:20000,note:""},
        ]},
-      {cat:"オフグリッド電力",emoji:"☀️",total:1268652,color:"#f0c040",url:"",
+      {cat:"オフグリッド電力",emoji:"☀️",total:490000,color:"#f0c040",url:"",
        items:[
-         {name:"Renogy 200W パネル",qty:"12枚",unit:"¥25,771/枚",total:309252,note:""},
-         {name:"EcoFlow DELTA Pro3 × 3台",qty:"3台",unit:"¥279,800/台",total:839400,note:""},
+         {name:"400W 単結晶パネル（JA Solar / Longi）",qty:"6枚",unit:"¥15,000/枚",total:90000,note:"12×200Wと同ワット数"},
+         {name:"LiFePO4 48V 300Ah + 5kW インバーター一式",qty:"1式",unit:"¥280,000",total:280000,note:"≈14.4kWh・DELTA Pro3×3台比67%削減"},
          {name:"MPPT 150A + 配電盤一式",qty:"1式",unit:"¥120,000",total:120000,note:""},
        ]},
       {cat:"窓・開口部",emoji:"🪟",total:920000,color:"#4ab8d0",url:"",
@@ -521,16 +689,16 @@ window.BUILD_PLANS = [
          {name:"業務用キッチン（IH3口）",qty:"1式",unit:"¥180,000",total:180000,note:"民泊対応"},
          {name:"洗面台2台 + 造作棚",qty:"一式",unit:"¥24,500",total:24500,note:""},
        ]},
-      {cat:"給排水・衛生",emoji:"💧",total:600000,color:"#50b8a0",url:"",
+      {cat:"給排水・衛生",emoji:"💧",total:350000,color:"#50b8a0",url:"",
        items:[
-         {name:"Nature's Head コンポスト × 2台",qty:"2台",unit:"¥200,000/台",total:400000,note:"浄化槽不要"},
+         {name:"Separett Villa 9215 尿分離型コンポスト",qty:"2台",unit:"¥75,000/台",total:150000,note:"スウェーデン製・浄化槽不要"},
          {name:"雨水タンク 3,000L",qty:"1基",unit:"¥70,000",total:70000,note:""},
          {name:"フィルター + UV + 大型ポンプ",qty:"1式",unit:"¥60,000",total:60000,note:""},
          {name:"シャワーユニット 2基",qty:"2式",unit:"¥35,000/式",total:70000,note:""},
        ]},
-      {cat:"大型ウッドデッキ",emoji:"🌳",total:320000,color:"#507840",url:"",
+      {cat:"大型ウッドデッキ",emoji:"🌳",total:176000,color:"#507840",url:"",
        items:[
-         {name:"イタウバ デッキ材",qty:"30 m²",unit:"¥8,000/m²",total:240000,note:""},
+         {name:"国産杉 ACQ防腐処理 デッキ材",qty:"30 m²",unit:"¥3,200/m²",total:96000,note:"耐久20年以上・イタウバ比60%削減"},
          {name:"根太・束柱・手すり一式",qty:"一式",unit:"¥80,000",total:80000,note:""},
        ]},
       {cat:"外装",emoji:"🖤",total:360000,color:"#888",url:"",
@@ -579,11 +747,11 @@ window.BUILD_PLANS = [
       {week:"W13〜14",phase:"設備工事",icon:"🔥",cost:1715000,diff:"★★★★☆",people:"3〜4人",
        desc:"12枚ソーラー・3台蓄電池・ロケットマスヒーター（大型蓄熱ベンチ）・コンポスト2台・雨水3,000L。",tools:["配線工具","耐火レンガ","配管工具"],tips:"電気工事士委託部分を先に調整しておく（¥10〜15万）。"},
       {week:"W15〜16",phase:"内装・竣工",icon:"✨",cost:880000,diff:"★★☆☆☆",people:"3人",
-       desc:"160m²の羽目板・65m²フローリング・業務用キッチン・洗面台2台。清掃・検査で完成。",tools:["フィニッシュネイラー","丸ノコ"],tips:"ゲストハウス運営には旅館業の簡易宿所届出が必要（弟子屈町保健所）。"},
+       desc:"160m²の羽目板・66m²フローリング・業務用キッチン・洗面台2台。清掃・検査で完成。",tools:["フィニッシュネイラー","丸ノコ"],tips:"ゲストハウス運営には旅館業の簡易宿所届出が必要（弟子屈町保健所）。"},
     ],
     routes: [
-      {name:"セルフビルド",cost:9288652,color:"#9060e0",hi:true},
-      {name:"補助金後",cost:6938652,color:"rgba(80,200,160,.9)",gr:true},
+      {name:"セルフビルド",cost:8116000,color:"#9060e0",hi:true},
+      {name:"補助金後",cost:5766000,color:"rgba(80,200,160,.9)",gr:true},
       {name:"工務店依頼",cost:18000000,color:"#555"},
       {name:"民泊収益（年）",cost:-720000,color:"#9060e0",note:"年¥72万収益想定"},
     ],
@@ -613,7 +781,7 @@ window.BUILD_PLANS = [
       <text x="50" y="114" fill="rgba(224,96,48,.8)" font-size="7" text-anchor="middle">炉</text>
       <rect x="105" y="22" width="60" height="14" fill="rgba(144,96,224,.2)" stroke="rgba(144,96,224,.4)" stroke-width="1" rx="2"/>
       <text x="135" y="32" fill="rgba(144,96,224,.7)" font-size="6" text-anchor="middle">ロフト開口部</text>
-      <text x="20" y="12" fill="#9060e0" font-size="8" font-weight="bold">XL — 65m² + ロフト18m² + デッキ</text>
+      <text x="20" y="12" fill="#9060e0" font-size="8" font-weight="bold">MUNE — 66m² + ロフト18m² + デッキ</text>
     </svg>`,
     elevSvg: `<svg viewBox="0 0 400 240" style="width:100%;background:#050505;display:block">
       <line x1="10" y1="210" x2="390" y2="210" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
@@ -631,7 +799,7 @@ window.BUILD_PLANS = [
       <text x="185" y="91" fill="rgba(144,96,224,.4)" font-size="8" text-anchor="middle">ロフト空間</text>
       <line x1="30" y1="218" x2="340" y2="218" stroke="#444" stroke-width="1"/>
       <text x="185" y="230" fill="#444" font-size="8.5" text-anchor="middle">9,100 mm</text>
-      <text x="20" y="8" fill="#9060e0" font-size="8" font-weight="bold">XL — 南立面</text>
+      <text x="20" y="8" fill="#9060e0" font-size="8" font-weight="bold">MUNE — 南立面</text>
     </svg>`,
   },
 
@@ -641,25 +809,28 @@ window.BUILD_PLANS = [
     name: "VILLA",
     label: "120m²",
     area: 120,
-    dims: "W 9,100 × D 6,370 mm（2階建て）",
+    dims: "W 9,100 × D 13,200 mm（平屋）",
     weeks: 24,
-    tag: "別荘・民泊本格運営",
+    tag: "食堂・ホール・炉付き リトリート施設",
     tagColor: "#d04060",
-    desc: "別荘・民泊・二拠点居住の本格拠点。2階建てで120m²の広さを確保。1F:LDK+ゲスト室+水回り、2F:主寝室+子供室2+書斎。旅館業届出でSOLUNAメンバーへの宿泊提供も可能。棟上げ・電気工事の一部は専門職へ外注する前提のプラン。",
-    totalMat: 13567920,
+    desc: "120m²の平屋リトリート施設。食堂ホール（60m²・収容20名）を中心に、ロケットマスヒーター3基が炎の核をつくる。南面の大デッキ（100m²）が内外を繋ぎ、炊き出しや焚き火の場になる。厨房・水回り更衣室（男女）・スタッフ室を機能的に配置。すべて910mmモジュール、SIPs断熱。",
+    totalMat: 14000000,
     subsidyMax: 2350000,
     warmClimateDiscount: 2000000,
+    rentPerNight: 120000,
     color: "#d04060",
+    img: "/img/build/villa.jpg",
     specs: [
-      {k:"延床面積", v:"120 m²（36.3坪）1F: 60m² / 2F: 60m²"},
-      {k:"外形寸法", v:"W 9,100 × D 6,370 × H 6,800 mm（2階建て）"},
-      {k:"間取り", v:"LDK+ゲスト室+水回り2 / 主寝室+子供室2+書斎"},
-      {k:"構造", v:"木造軸組 + SIPsパネル 2階建て"},
-      {k:"断熱性能", v:"UA値 0.12 W/m²K（HEAT20 G3超）"},
-      {k:"暖房", v:"ロケットマスヒーター×2 + 床下蓄熱"},
-      {k:"電力", v:"4,000W + 12kWh（20枚 + 5台蓄電池）"},
-      {k:"民泊運営", v:"旅館業・簡易宿所届出で可（8名収容）"},
-      {k:"建築確認", v:"必須（4号特例の適用確認を推奨）"},
+      {k:"延床面積", v:"120 m²（36.3坪）平屋"},
+      {k:"外形寸法", v:"W 9,100 × D 13,200 × H 3,600 mm（平屋）"},
+      {k:"間取り", v:"食堂・ホール(60m²) + 厨房(20m²) + 水回り・更衣室(30m²) + スタッフ室(10m²)"},
+      {k:"収容人数", v:"最大20名（食堂ホール）"},
+      {k:"構造", v:"木造軸組 + SIPsパネル 平屋"},
+      {k:"断熱性能", v:"UA値 0.16 W/m²K（HEAT20 G2）"},
+      {k:"暖房", v:"ロケットマスヒーター×3 + 床下蓄熱"},
+      {k:"電力", v:"4,800W + 15kWh（12枚 + 3台蓄電池）"},
+      {k:"大型デッキ", v:"100 m²（南面・炉×3付き）"},
+      {k:"建築確認", v:"必須（旅館業・簡易宿所申請）"},
     ],
     materials: [
       {cat:"SIPsパネル（壁・屋根）",emoji:"🏗️",total:5050000,color:"#d04060",url:"",alt:"",
@@ -668,10 +839,10 @@ window.BUILD_PLANS = [
          {name:"SIPsパネル 屋根用 200mm",qty:"100 m²",unit:"¥14,000/m²",total:1400000,note:""},
          {name:"スプライン・コーキング一式",qty:"一式",unit:"¥50,000",total:50000,note:""},
        ]},
-      {cat:"オフグリッド電力",emoji:"☀️",total:2094420,color:"#f0c040",url:"",
+      {cat:"オフグリッド電力",emoji:"☀️",total:780000,color:"#f0c040",url:"",
        items:[
-         {name:"Renogy 200W 単結晶パネル",qty:"20枚",unit:"¥25,771/枚",total:515420,note:""},
-         {name:"EcoFlow DELTA Pro3",qty:"5台",unit:"¥279,800/台",total:1399000,note:"12kWh蓄電"},
+         {name:"400W 単結晶パネル（JA Solar / Longi）",qty:"10枚",unit:"¥15,000/枚",total:150000,note:"20×200Wと同ワット数"},
+         {name:"LiFePO4 48V 500Ah + 8kW インバーター一式",qty:"1式",unit:"¥450,000",total:450000,note:"≈24kWh・DELTA Pro3×5台比68%削減"},
          {name:"MPPT 200A + 配電盤一式",qty:"1式",unit:"¥180,000",total:180000,note:""},
        ]},
       {cat:"窓・開口部",emoji:"🪟",total:1299500,color:"#4ab8d0",url:"",
@@ -689,16 +860,16 @@ window.BUILD_PLANS = [
          {name:"洗面台×3 + 造作棚",qty:"一式",unit:"¥80,000",total:80000,note:""},
          {name:"造作家具・間仕切り",qty:"一式",unit:"¥80,000",total:80000,note:""},
        ]},
-      {cat:"給排水・衛生",emoji:"💧",total:720000,color:"#50b8a0",url:"",
+      {cat:"給排水・衛生",emoji:"💧",total:470000,color:"#50b8a0",url:"",
        items:[
-         {name:"Nature's Head コンポスト",qty:"2台",unit:"¥200,000/台",total:400000,note:""},
+         {name:"Separett Villa 9215 尿分離型コンポスト",qty:"2台",unit:"¥75,000/台",total:150000,note:"スウェーデン製・浄化槽不要"},
          {name:"雨水タンク 5,000L",qty:"1基",unit:"¥120,000",total:120000,note:""},
          {name:"フィルター + UV + ポンプ",qty:"1式",unit:"¥80,000",total:80000,note:""},
          {name:"シャワーユニット",qty:"3式",unit:"¥40,000/式",total:120000,note:""},
        ]},
-      {cat:"大型ウッドデッキ",emoji:"🌳",total:580000,color:"#507840",url:"",
+      {cat:"大型ウッドデッキ",emoji:"🌳",total:292000,color:"#507840",url:"",
        items:[
-         {name:"イタウバ デッキ材",qty:"60 m²",unit:"¥8,000/m²",total:480000,note:""},
+         {name:"国産杉 ACQ防腐処理 デッキ材",qty:"60 m²",unit:"¥3,200/m²",total:192000,note:"耐久20年以上・イタウバ比60%削減"},
          {name:"根太・束柱・手すり一式",qty:"一式",unit:"¥100,000",total:100000,note:""},
        ]},
       {cat:"外装",emoji:"🖤",total:496000,color:"#888",url:"",
@@ -706,37 +877,47 @@ window.BUILD_PLANS = [
          {name:"ガルバリウム波板 黒",qty:"280 m²",unit:"¥1,200/m²",total:336000,note:""},
          {name:"タイベック + 胴縁 + コーキング",qty:"一式",unit:"¥160,000",total:160000,note:""},
        ]},
-      {cat:"構造材（プレカット）",emoji:"📐",total:892000,color:"#b07850",url:"",
+      {cat:"構造材（プレカット・平屋）",emoji:"📐",total:692000,color:"#b07850",url:"",
        items:[
          {name:"KD杉 105×105 柱材",qty:"40本",unit:"¥1,200/本",total:48000,note:""},
-         {name:"KD杉 105×240 大梁",qty:"24本",unit:"¥4,500/本",total:108000,note:""},
-         {name:"2F床梁・根太セット",qty:"一式",unit:"¥200,000",total:200000,note:""},
+         {name:"KD杉 105×300 大梁（長スパン）",qty:"20本",unit:"¥5,800/本",total:116000,note:""},
          {name:"間柱・垂木・野縁一式",qty:"一式",unit:"¥120,000",total:120000,note:""},
          {name:"構造用合板 28mm",qty:"80枚",unit:"¥4,200/枚",total:336000,note:""},
-         {name:"大引・束・土台一式",qty:"一式",unit:"¥80,000",total:80000,note:""},
+         {name:"大引・束・土台一式",qty:"一式",unit:"¥72,000",total:72000,note:""},
        ]},
-      {cat:"暖房（ロケットマスヒーター×2）",emoji:"🔥",total:284000,color:"#e06030",url:"",
+      {cat:"暖房（ロケットマスヒーター×3）",emoji:"🔥",total:426000,color:"#e06030",url:"",
        items:[
-         {name:"耐火レンガ SK-32",qty:"500個",unit:"¥228/個",total:114000,note:"2基分"},
-         {name:"蓄熱ベンチ用コンクリート",qty:"一式",unit:"¥20,000",total:20000,note:""},
-         {name:"煙突 Φ150 × 2系統",qty:"2式",unit:"¥75,000/式",total:150000,note:""},
+         {name:"耐火レンガ SK-32",qty:"750個",unit:"¥228/個",total:171000,note:"3基分"},
+         {name:"蓄熱ベンチ用コンクリート",qty:"一式",unit:"¥30,000",total:30000,note:""},
+         {name:"煙突 Φ150 × 3系統",qty:"3式",unit:"¥75,000/式",total:225000,note:""},
        ]},
       {cat:"断熱・気密",emoji:"🌡️",total:460000,color:"#7080e0",url:"",
        items:[
          {name:"スタイロフォーム 50mm 床下",qty:"120 m²",unit:"¥2,000/m²",total:240000,note:""},
          {name:"気密テープ + 先張りシート",qty:"一式",unit:"¥220,000",total:220000,note:"2階建て対応"},
        ]},
-      {cat:"基礎（独立コンクリート 18点）",emoji:"⚓",total:246000,color:"#606060",url:"",
+      {cat:"基礎（独立コンクリート 14点）",emoji:"⚓",total:246000,color:"#606060",url:"",
        items:[
          {name:"生コン 凍結深度1,000mm",qty:"6 m³",unit:"¥16,000/m³",total:96000,note:""},
          {name:"型枠・鉄筋・アンカー一式",qty:"一式",unit:"¥150,000",total:150000,note:""},
        ]},
+      {cat:"業務用設備・外部工事",emoji:"🏪",total:2342500,color:"#c06080",url:"",
+       items:[
+         {name:"消防設備（誘導灯・消火器）",qty:"一式",unit:"¥300,000",total:300000,note:"簡易宿所申請要件"},
+         {name:"業務用換気扇×4+給排気設備",qty:"一式",unit:"¥200,000",total:200000,note:""},
+         {name:"内部建具（ドア×6+引き戸×4）",qty:"一式",unit:"¥400,000",total:400000,note:""},
+         {name:"業務用食器棚+スタッフ什器",qty:"一式",unit:"¥250,000",total:250000,note:""},
+         {name:"旅館業申請+設計監理料",qty:"一式",unit:"¥500,000",total:500000,note:""},
+         {name:"外構（砂利敷+アプローチ+外部照明）",qty:"一式",unit:"¥300,000",total:300000,note:""},
+         {name:"薪棚・外部保管庫・庇一式",qty:"一式",unit:"¥200,000",total:200000,note:""},
+         {name:"屋外炉台×3（石組+コンクリート）",qty:"3基",unit:"¥64,167/基",total:192500,note:"炎の核となる中心設備"},
+       ]},
     ],
     steps: [
-      {week:"W1〜3",phase:"基礎工事（18点）",icon:"⚓",cost:246000,diff:"★★★★☆",people:"3〜4人",
-       desc:"独立基礎18点。2階建てのため荷重計算をしっかり行い、アンカーボルト径も大きくする。ミニユンボ必須。",
-       tools:["ミニユンボ","測量器具","型枠","鉄筋"],tips:"荷重が大きいため、設計士に基礎計算を依頼（¥5〜10万）すると安心。"},
-      {week:"W4〜5",phase:"土台・1F床組み",icon:"🪵",cost:892000,diff:"★★★☆☆",people:"3人",
+      {week:"W1〜3",phase:"基礎工事（14点）",icon:"⚓",cost:246000,diff:"★★★☆☆",people:"3人",
+       desc:"独立基礎14点。平屋のため荷重計算が比較的シンプル。ミニユンボ必須。",
+       tools:["ミニユンボ","測量器具","型枠","鉄筋"],tips:"平屋なので基礎は比較的シンプル。設計士に基礎計算を依頼（¥3〜5万）すると安心。"},
+      {week:"W4〜5",phase:"土台・床組み",icon:"🪵",cost:692000,diff:"★★★☆☆",people:"3人",
        desc:"プレカット土台・大引を組む。80枚の剛床合板を張る。2F床梁も仮組み。",
        tools:["インパクト","丸ノコ","水平器","ミニクレーン"],tips:"1F床が完成すると作業スペースになる。丁寧に水平を出す。"},
       {week:"W6〜9",phase:"棟上げ・2F骨組み",icon:"🏗️",cost:0,diff:"★★★★★",people:"6〜8人（2〜3日）",
@@ -759,58 +940,55 @@ window.BUILD_PLANS = [
        tools:["フィニッシュネイラー","丸ノコ"],tips:"民泊（簡易宿所）届出は弟子屈町保健所へ。Airbnb登録もこのタイミングで。"},
     ],
     routes: [
-      {name:"セルフビルド",cost:13567920,color:"#d04060",hi:true},
-      {name:"補助金後",cost:11217920,color:"rgba(80,200,160,.9)",gr:true},
-      {name:"工務店依頼",cost:36000000,color:"#555"},
-      {name:"民泊収益（年）",cost:-1200000,color:"#d04060",note:"年¥120万収益想定"},
+      {name:"セルフビルド+部分外注",cost:14000000,color:"#d04060",hi:true},
+      {name:"補助金後",cost:11650000,color:"rgba(80,200,160,.9)",gr:true},
+      {name:"工務店依頼",cost:42000000,color:"#555"},
+      {name:"リトリート収益（年）",cost:-2400000,color:"#d04060",note:"20名×¥10,000×12泊/月=年¥240万"},
     ],
-    floorSvg: `<svg viewBox="0 0 420 310" style="width:100%;background:#050505;display:block">
-      <rect x="20" y="30" width="300" height="230" fill="none" stroke="#d04060" stroke-width="3.5"/>
-      <line x1="20" y1="158" x2="320" y2="158" stroke="#555" stroke-width="1.5"/>
-      <line x1="215" y1="158" x2="215" y2="260" stroke="#555" stroke-width="1.5"/>
-      <line x1="20" y1="205" x2="20" y2="240" stroke="#050505" stroke-width="6"/>
-      <path d="M20 205 Q46 205 46 231" fill="none" stroke="#666" stroke-width="1.5" stroke-dasharray="3,2"/>
-      <rect x="60" y="257" width="180" height="7" fill="#4ab8d0" opacity=".7"/>
-      <rect x="316" y="48" width="7" height="90" fill="#4ab8d0" opacity=".7"/>
-      <rect x="316" y="168" width="7" height="60" fill="#4ab8d0" opacity=".7"/>
-      <text x="160" y="86" fill="#ddd" font-size="11" text-anchor="middle">LDK</text>
-      <text x="160" y="101" fill="#555" font-size="8" text-anchor="middle">40 m²</text>
-      <text x="90" y="208" fill="#ddd" font-size="9" text-anchor="middle">ゲスト室</text>
-      <text x="90" y="222" fill="#555" font-size="7.5" text-anchor="middle">8 m²</text>
-      <text x="272" y="208" fill="#ddd" font-size="9" text-anchor="middle">水回り</text>
-      <text x="272" y="222" fill="#555" font-size="7.5" text-anchor="middle">12 m²×2</text>
-      <rect x="320" y="30" width="55" height="230" fill="rgba(80,120,64,.15)" stroke="#507840" stroke-width="1.5" stroke-dasharray="3,2"/>
-      <text x="347" y="150" fill="#507840" font-size="7" text-anchor="middle" transform="rotate(90,347,150)">デッキ 60m²</text>
-      <circle cx="55" cy="134" r="9" fill="rgba(224,96,48,.2)" stroke="rgba(224,96,48,.55)" stroke-width="1.5"/>
-      <text x="55" y="138" fill="rgba(224,96,48,.8)" font-size="7" text-anchor="middle">炉</text>
-      <text x="20" y="22" fill="#d04060" font-size="8" font-weight="bold">VILLA 1F — 60m²（2F: 主寝室+子供室2+書斎 60m²）</text>
-      <line x1="20" y1="286" x2="320" y2="286" stroke="#333" stroke-width="1"/>
-      <text x="20" y="298" fill="#555" font-size="7">9,100 mm</text>
-      <text x="330" y="298" fill="#888" font-size="6.5">↑ 2F: 寝室3+書斎</text>
+    floorSvg: `<svg viewBox="0 0 420 440" style="width:100%;background:#050505;display:block">
+      <rect x="20" y="30" width="270" height="360" fill="none" stroke="#d04060" stroke-width="3.5"/>
+      <line x1="20" y1="210" x2="290" y2="210" stroke="#555" stroke-width="1.5"/>
+      <line x1="155" y1="210" x2="155" y2="330" stroke="#555" stroke-width="1.5"/>
+      <line x1="20" y1="330" x2="290" y2="330" stroke="#555" stroke-width="1.5"/>
+      <line x1="20" y1="355" x2="20" y2="390" stroke="#050505" stroke-width="6"/>
+      <path d="M20 355 Q46 355 46 381" fill="none" stroke="#666" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <rect x="70" y="385" width="150" height="7" fill="#4ab8d0" opacity=".7"/>
+      <rect x="285" y="48" width="7" height="80" fill="#4ab8d0" opacity=".7"/>
+      <rect x="285" y="148" width="7" height="50" fill="#4ab8d0" opacity=".7"/>
+      <rect x="292" y="30" width="80" height="280" fill="rgba(80,120,64,.15)" stroke="#507840" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="332" y="175" fill="#507840" font-size="7" text-anchor="middle" transform="rotate(90,332,175)">大デッキ 100m²</text>
+      <text x="155" y="118" fill="#ddd" font-size="11" text-anchor="middle">食堂・ホール</text>
+      <text x="155" y="134" fill="#555" font-size="8.5" text-anchor="middle">60 m²（収容20名）</text>
+      <circle cx="58" cy="172" r="10" fill="rgba(224,96,48,.2)" stroke="rgba(224,96,48,.55)" stroke-width="1.5"/>
+      <text x="58" y="176" fill="rgba(224,96,48,.8)" font-size="7" text-anchor="middle">炉×3</text>
+      <text x="87" y="268" fill="#ddd" font-size="9" text-anchor="middle">水回り・更衣室</text>
+      <text x="87" y="283" fill="#555" font-size="7.5" text-anchor="middle">30 m²（男女）</text>
+      <text x="223" y="265" fill="#ddd" font-size="9" text-anchor="middle">厨房</text>
+      <text x="223" y="280" fill="#555" font-size="7.5" text-anchor="middle">20 m²</text>
+      <text x="155" y="357" fill="#ddd" font-size="9" text-anchor="middle">スタッフ室</text>
+      <text x="155" y="371" fill="#555" font-size="7.5" text-anchor="middle">10 m²</text>
+      <text x="20" y="22" fill="#d04060" font-size="8" font-weight="bold">VILLA — 平屋 120m²</text>
+      <line x1="20" y1="410" x2="290" y2="410" stroke="#333" stroke-width="1"/>
+      <text x="20" y="422" fill="#555" font-size="7">9,100 mm</text>
+      <text x="300" y="422" fill="#888" font-size="6.5">平屋（1F only）</text>
     </svg>`,
-    elevSvg: `<svg viewBox="0 0 440 270" style="width:100%;background:#050505;display:block">
-      <line x1="10" y1="230" x2="430" y2="230" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <rect x="30" y="122" width="340" height="108" fill="rgba(32,32,32,.95)" stroke="#666" stroke-width="2"/>
-      <rect x="30" y="46" width="340" height="76" fill="rgba(36,28,34,.95)" stroke="#666" stroke-width="2"/>
-      <polygon points="20,46 200,6 380,46" fill="rgba(26,26,26,.98)" stroke="#d04060" stroke-width="2"/>
-      <rect x="90" y="-3" width="14" height="49" fill="rgba(50,50,50,.95)" stroke="#666" stroke-width="1.5"/>
-      <rect x="210" y="-3" width="14" height="49" fill="rgba(50,50,50,.95)" stroke="#666" stroke-width="1.5"/>
-      <rect x="56" y="142" width="182" height="76" fill="rgba(70,184,208,.1)" stroke="#4ab8d0" stroke-width="2"/>
-      <line x1="147" y1="142" x2="147" y2="218" stroke="#4ab8d0" stroke-width="1" stroke-dasharray="3,2"/>
-      <rect x="64" y="58" width="60" height="50" fill="rgba(70,184,208,.08)" stroke="#4ab8d0" stroke-width="1.5"/>
-      <rect x="158" y="58" width="60" height="50" fill="rgba(70,184,208,.08)" stroke="#4ab8d0" stroke-width="1.5"/>
-      <rect x="252" y="58" width="60" height="50" fill="rgba(70,184,208,.08)" stroke="#4ab8d0" stroke-width="1.5"/>
-      <line x1="30" y1="122" x2="370" y2="122" stroke="#888" stroke-width="2"/>
-      <rect x="255" y="150" width="40" height="80" fill="rgba(55,36,18,.4)" stroke="#666" stroke-width="1.5"/>
-      <rect x="370" y="158" width="50" height="72" fill="rgba(80,120,64,.2)" stroke="#507840" stroke-width="1.5" stroke-dasharray="3,2"/>
-      <text x="395" y="197" fill="#507840" font-size="7" text-anchor="middle">デッキ</text>
-      <rect x="118" y="14" width="164" height="24" fill="rgba(208,64,96,.15)" stroke="rgba(208,64,96,.3)" stroke-width="1" rx="2"/>
-      <text x="200" y="29" fill="rgba(208,64,96,.7)" font-size="7.5" text-anchor="middle">ソーラー × 20枚</text>
-      <text x="8" y="178" fill="#555" font-size="7" text-anchor="middle">1F</text>
-      <text x="8" y="88" fill="#555" font-size="7" text-anchor="middle">2F</text>
-      <line x1="30" y1="240" x2="370" y2="240" stroke="#444" stroke-width="1"/>
-      <text x="200" y="256" fill="#444" font-size="8.5" text-anchor="middle">9,100 mm</text>
-      <text x="20" y="8" fill="#d04060" font-size="8" font-weight="bold">VILLA — 南立面（2階建て）</text>
+    elevSvg: `<svg viewBox="0 0 400 220" style="width:100%;background:#050505;display:block">
+      <line x1="10" y1="185" x2="390" y2="185" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <rect x="30" y="95" width="310" height="90" fill="rgba(32,32,32,.95)" stroke="#666" stroke-width="2"/>
+      <polygon points="20,95 185,48 340,95" fill="rgba(26,26,26,.98)" stroke="#d04060" stroke-width="2"/>
+      <rect x="72" y="62" width="12" height="33" fill="rgba(50,50,50,.95)" stroke="#666" stroke-width="1.5"/>
+      <rect x="180" y="55" width="12" height="40" fill="rgba(50,50,50,.95)" stroke="#666" stroke-width="1.5"/>
+      <rect x="278" y="62" width="12" height="33" fill="rgba(50,50,50,.95)" stroke="#666" stroke-width="1.5"/>
+      <rect x="48" y="115" width="170" height="60" fill="rgba(70,184,208,.1)" stroke="#4ab8d0" stroke-width="2"/>
+      <line x1="133" y1="115" x2="133" y2="175" stroke="#4ab8d0" stroke-width="1" stroke-dasharray="3,2"/>
+      <rect x="340" y="148" width="45" height="37" fill="rgba(80,120,64,.2)" stroke="#507840" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="362" y="170" fill="#507840" font-size="7" text-anchor="middle">デッキ</text>
+      <rect x="95" y="62" width="150" height="22" fill="rgba(208,64,96,.15)" stroke="rgba(208,64,96,.3)" stroke-width="1" rx="2"/>
+      <text x="170" y="76" fill="rgba(208,64,96,.7)" font-size="7" text-anchor="middle">ソーラー × 12枚</text>
+      <text x="8" y="148" fill="#555" font-size="7" text-anchor="middle">1F</text>
+      <line x1="30" y1="195" x2="340" y2="195" stroke="#444" stroke-width="1"/>
+      <text x="185" y="210" fill="#444" font-size="8.5" text-anchor="middle">9,100 mm</text>
+      <text x="20" y="10" fill="#d04060" font-size="8" font-weight="bold">VILLA — 南立面（平屋）</text>
     </svg>`,
   },
 
@@ -824,11 +1002,13 @@ window.BUILD_PLANS = [
     weeks: 36,
     tag: "SOLUNAベース・宿泊施設",
     tagColor: "#1878c8",
-    desc: "SOLUNAビレッジのメインロッジや商業宿泊施設として運営できる大型プラン。1F:食堂・ホール・厨房・水回り4、2F:個室×10室。最大20名収容。旅館業許可・消防法対応・建築士との協働が必須。",
-    totalMat: 21591232,
+    desc: "198m²は村のコモンハウスになれる規模。長いデッキが主な滞在場所になり、建物は背景に退く。大型SIPsパネルの端材はデッキ材として再利用。構造材はすべて地産の北海道産杉を指定できる。外皮100年、内装10年の3層分離設計。",
+    totalMat: 22000000,
     subsidyMax: 2350000,
-    warmClimateDiscount: 3000000,
+    warmClimateDiscount: 3200000,
+    rentPerNight: 150000,
     color: "#1878c8",
+    img: "/img/build/grand.jpg",
     specs: [
       {k:"延床面積", v:"200 m²（60.5坪）1F: 100m² / 2F: 100m²"},
       {k:"外形寸法", v:"W 12,740 × D 7,280 × H 7,200 mm（2階建て）"},
@@ -848,10 +1028,10 @@ window.BUILD_PLANS = [
          {name:"SIPsパネル 屋根用 200mm",qty:"170 m²",unit:"¥14,000/m²",total:2380000,note:""},
          {name:"スプライン・コーキング一式",qty:"一式",unit:"¥60,000",total:60000,note:""},
        ]},
-      {cat:"オフグリッド電力（大型）",emoji:"☀️",total:3263072,color:"#f0c040",url:"",
+      {cat:"オフグリッド電力（大型）",emoji:"☀️",total:1140000,color:"#f0c040",url:"",
        items:[
-         {name:"Renogy 200W 単結晶パネル",qty:"32枚",unit:"¥25,771/枚",total:824672,note:""},
-         {name:"EcoFlow DELTA Pro3",qty:"8台",unit:"¥279,800/台",total:2238400,note:"20kWh蓄電"},
+         {name:"400W 単結晶パネル（JA Solar / Longi）",qty:"16枚",unit:"¥15,000/枚",total:240000,note:"32×200Wと同ワット数"},
+         {name:"LiFePO4 48V 800Ah + 10kW インバーター一式",qty:"1式",unit:"¥700,000",total:700000,note:"≈38.4kWh・DELTA Pro3×8台比69%削減"},
          {name:"MPPT 200A + 分電盤一式",qty:"1式",unit:"¥200,000",total:200000,note:""},
        ]},
       {cat:"窓・開口部",emoji:"🪟",total:1764000,color:"#4ab8d0",url:"",
@@ -869,16 +1049,16 @@ window.BUILD_PLANS = [
          {name:"洗面台×4 + 造作棚",qty:"一式",unit:"¥120,000",total:120000,note:""},
          {name:"個室ベッドフレーム",qty:"10台",unit:"¥10,000/台",total:100000,note:""},
        ]},
-      {cat:"給排水・衛生",emoji:"💧",total:1120000,color:"#50b8a0",url:"",
+      {cat:"給排水・衛生",emoji:"💧",total:745000,color:"#50b8a0",url:"",
        items:[
-         {name:"Nature's Head コンポスト",qty:"3台",unit:"¥200,000/台",total:600000,note:"20名対応"},
+         {name:"Separett Villa 9215 尿分離型コンポスト",qty:"3台",unit:"¥75,000/台",total:225000,note:"20名対応・浄化槽不要"},
          {name:"雨水タンク 10,000L",qty:"1基",unit:"¥200,000",total:200000,note:""},
          {name:"大型フィルター + UV + ポンプ",qty:"1式",unit:"¥120,000",total:120000,note:""},
          {name:"シャワーユニット",qty:"4式",unit:"¥50,000/式",total:200000,note:"男女分"},
        ]},
-      {cat:"大型ウッドデッキ",emoji:"🌳",total:960000,color:"#507840",url:"",
+      {cat:"大型ウッドデッキ",emoji:"🌳",total:480000,color:"#507840",url:"",
        items:[
-         {name:"イタウバ デッキ材",qty:"100 m²",unit:"¥8,000/m²",total:800000,note:"食堂南面"},
+         {name:"国産杉 ACQ防腐処理 デッキ材",qty:"100 m²",unit:"¥3,200/m²",total:320000,note:"食堂南面・耐久20年以上・イタウバ比60%削減"},
          {name:"根太・束柱・手すり一式",qty:"一式",unit:"¥160,000",total:160000,note:""},
        ]},
       {cat:"外装",emoji:"🖤",total:790000,color:"#888",url:"",
@@ -911,6 +1091,13 @@ window.BUILD_PLANS = [
          {name:"生コン 凍結深度1,000mm",qty:"10 m³",unit:"¥16,000/m³",total:160000,note:""},
          {name:"型枠・鉄筋・アンカー一式",qty:"一式",unit:"¥250,000",total:250000,note:""},
        ]},
+      {cat:"消防・旅館業設備+設計監理",emoji:"🏨",total:3386840,color:"#c06080",url:"",
+       items:[
+         {name:"スプリンクラー設備（簡易型・20名施設）",qty:"一式",unit:"¥1,500,000",total:1500000,note:"旅館業申請要件"},
+         {name:"旅館業什器（ベッド×10+クーラー×10+寝具一式）",qty:"一式",unit:"¥986,840",total:986840,note:"2F個室10室分"},
+         {name:"建築士費用（設計+確認申請+監理）",qty:"一式",unit:"¥700,000",total:700000,note:"200m²超は建築士必須"},
+         {name:"外部工事（外構+照明+サイン）",qty:"一式",unit:"¥200,000",total:200000,note:""},
+       ]},
     ],
     steps: [
       {week:"W1〜4",phase:"基礎工事（24点）",icon:"⚓",cost:410000,diff:"★★★★☆",people:"4〜5人",
@@ -939,8 +1126,8 @@ window.BUILD_PLANS = [
        tools:["フィニッシュネイラー","丸ノコ"],tips:"旅館業許可取得には1〜3ヶ月かかる。申請書類の準備を並行して進める。"},
     ],
     routes: [
-      {name:"セルフビルド+部分外注",cost:21591232,color:"#1878c8",hi:true},
-      {name:"補助金後",cost:19241232,color:"rgba(80,200,160,.9)",gr:true},
+      {name:"セルフビルド+部分外注",cost:22000000,color:"#1878c8",hi:true},
+      {name:"補助金後",cost:19650000,color:"rgba(80,200,160,.9)",gr:true},
       {name:"工務店依頼",cost:60000000,color:"#555"},
       {name:"民泊収益（年）",cost:-3000000,color:"#1878c8",note:"20名稼働¥300万/年"},
     ],
@@ -998,4 +1185,391 @@ window.BUILD_PLANS = [
       <text x="20" y="8" fill="#1878c8" font-size="8" font-weight="bold">GRAND — 南立面（2階建て・20名収容）</text>
     </svg>`,
   },
+  // ===== MYTH (300m²) =====
+  {
+    id: "myth",
+    name: "MYTH",
+    label: "300m²",
+    area: 300,
+    dims: "W 16,380 × D 9,100 mm（2階建て）",
+    weeks: 52,
+    tag: "SOLUNAリトリート・究極の共同体",
+    tagColor: "#c89020",
+    desc: "300m²は施設。頂部トップライトから落ちる光柱が空間の中心軸になる。バレルサウナ→水風呂→外気浴デッキの動線を環状に配置。構造材はすべて弟子屈産杉。SOLUNAビレッジの共用拠点として、または宿泊・リトリート施設として設計。",
+    totalMat: 25425000,
+    subsidyMax: 2350000,
+    warmClimateDiscount: 4500000,
+    rentPerNight: 200000,
+    color: "#c89020",
+    img: "/img/kumaushi_a_courtyard.webp",
+    specs: [
+      {k:"延床面積", v:"300 m²（90.8坪）1F: 149m² / 2F: 149m²"},
+      {k:"外形寸法", v:"W 16,380 × D 9,100 × H 8,000 mm（2階建て）"},
+      {k:"間取り", v:"1F 食堂ホール+スパ+サウナ+厨房+水回り6 / 2F 個室×14室+ラウンジ"},
+      {k:"収容人数", v:"最大28名（個室14室 × 2名）"},
+      {k:"構造", v:"木造軸組 + SIPsパネル 2階建て（建築士・構造計算必須）"},
+      {k:"断熱性能", v:"UA値 0.12 W/m²K"},
+      {k:"暖房", v:"ロケットマスヒーター×4 + 床下蓄熱"},
+      {k:"電力", v:"9,600W + 57.6kWh（24枚 + LiFePO4 1200Ah）"},
+      {k:"運営許可", v:"旅館業（旅館・ホテル営業）+ 消防法 + 食品衛生法"},
+      {k:"建築確認", v:"必須（建築士設計・構造計算・消防設計）"},
+    ],
+    materials: [
+      {cat:"SIPsパネル（壁・屋根）",emoji:"🏗️",total:10120000,color:"#c89020",url:"",alt:"",
+       items:[
+         {name:"SIPsパネル 壁用 160mm",qty:"650 m²",unit:"¥12,000/m²",total:7800000,note:"1F+2F全周+間仕切り"},
+         {name:"SIPsパネル 屋根用 200mm",qty:"160 m²",unit:"¥14,000/m²",total:2240000,note:""},
+         {name:"スプライン・コーキング一式",qty:"一式",unit:"¥80,000",total:80000,note:""},
+       ]},
+      {cat:"オフグリッド電力（超大型）",emoji:"☀️",total:1710000,color:"#f0c040",url:"",
+       items:[
+         {name:"400W 単結晶パネル（JA Solar / Longi）",qty:"24枚",unit:"¥15,000/枚",total:360000,note:"32×200Wと同ワット数"},
+         {name:"LiFePO4 48V 1200Ah + 15kW インバーター一式",qty:"1式",unit:"¥1,100,000",total:1100000,note:"≈57.6kWh・施設全体対応"},
+         {name:"MPPT 250A + 主分電盤一式",qty:"1式",unit:"¥250,000",total:250000,note:""},
+       ]},
+      {cat:"窓・開口部",emoji:"🪟",total:2807000,color:"#4ab8d0",url:"",
+       items:[
+         {name:"南面超大開口 W7280×H2400",qty:"1枚",unit:"¥1,200,000",total:1200000,note:"トリプルLow-E 食堂全面"},
+         {name:"樹脂窓 W780×H1170",qty:"24枚",unit:"¥38,000/枚",total:912000,note:"2F個室14室+共用"},
+         {name:"玄関ドア 断熱（業務用）",qty:"1枚",unit:"¥200,000",total:200000,note:""},
+         {name:"デッキ引き戸 断熱",qty:"6枚",unit:"¥82,500/枚",total:495000,note:"食堂→大デッキ"},
+       ]},
+      {cat:"内装・仕上げ（業務用）",emoji:"🪵",total:4000000,color:"#a07850",url:"",
+       items:[
+         {name:"国産杉 羽目板 15mm",qty:"450 m²",unit:"¥2,800/m²",total:1260000,note:""},
+         {name:"杉無垢フローリング 15mm",qty:"300 m²",unit:"¥3,500/m²",total:1050000,note:""},
+         {name:"業務用キッチン（IH8口+食洗機）",qty:"1式",unit:"¥700,000",total:700000,note:"28名対応"},
+         {name:"洗面台×5 + 造作棚",qty:"一式",unit:"¥150,000",total:150000,note:""},
+         {name:"個室ベッドフレーム",qty:"14台",unit:"¥10,000/台",total:140000,note:""},
+         {name:"バレルサウナ（8人用）",qty:"1基",unit:"¥700,000",total:700000,note:"MYTH限定装備"},
+       ]},
+      {cat:"給排水・衛生",emoji:"💧",total:980000,color:"#50b8a0",url:"",
+       items:[
+         {name:"Separett Villa 9215 尿分離型コンポスト",qty:"4台",unit:"¥75,000/台",total:300000,note:"28名対応・浄化槽不要"},
+         {name:"雨水タンク 15,000L",qty:"1基",unit:"¥280,000",total:280000,note:""},
+         {name:"大型フィルター + UV + ポンプ",qty:"1式",unit:"¥150,000",total:150000,note:""},
+         {name:"シャワーユニット",qty:"5式",unit:"¥50,000/式",total:250000,note:"男女+スパ"},
+       ]},
+      {cat:"大型ウッドデッキ",emoji:"🌳",total:584000,color:"#507840",url:"",
+       items:[
+         {name:"国産杉 ACQ防腐処理 デッキ材",qty:"120 m²",unit:"¥3,200/m²",total:384000,note:"食堂南面・耐久20年以上"},
+         {name:"根太・束柱・手すり一式",qty:"一式",unit:"¥200,000",total:200000,note:""},
+       ]},
+      {cat:"外装",emoji:"🖤",total:980000,color:"#888",url:"",
+       items:[
+         {name:"ガルバリウム波板 黒",qty:"550 m²",unit:"¥1,200/m²",total:660000,note:""},
+         {name:"タイベック + 胴縁 + コーキング",qty:"一式",unit:"¥320,000",total:320000,note:""},
+       ]},
+      {cat:"構造材（プレカット）",emoji:"📐",total:2044000,color:"#b07850",url:"",
+       items:[
+         {name:"KD杉 120×120 柱材",qty:"80本",unit:"¥1,500/本",total:120000,note:"大断面"},
+         {name:"KD杉 105×360 大梁",qty:"48本",unit:"¥6,000/本",total:288000,note:"大スパン・集成材推奨"},
+         {name:"2F床梁・根太・廊下材",qty:"一式",unit:"¥450,000",total:450000,note:""},
+         {name:"間柱・垂木・野縁一式",qty:"一式",unit:"¥280,000",total:280000,note:""},
+         {name:"構造用合板 28mm",qty:"180枚",unit:"¥4,200/枚",total:756000,note:""},
+         {name:"大引・束・土台一式",qty:"一式",unit:"¥150,000",total:150000,note:""},
+       ]},
+      {cat:"暖房（ロケットマスヒーター×4）",emoji:"🔥",total:608000,color:"#e06030",url:"",
+       items:[
+         {name:"耐火レンガ SK-32",qty:"1000個",unit:"¥228/個",total:228000,note:"4基分"},
+         {name:"蓄熱ベンチ コンクリート",qty:"一式",unit:"¥80,000",total:80000,note:""},
+         {name:"煙突 Φ150 × 4系統",qty:"4式",unit:"¥75,000/式",total:300000,note:""},
+       ]},
+      {cat:"断熱・気密",emoji:"🌡️",total:1050000,color:"#7080e0",url:"",
+       items:[
+         {name:"スタイロフォーム 50mm 床下",qty:"300 m²",unit:"¥2,000/m²",total:600000,note:""},
+         {name:"気密テープ + 先張りシート",qty:"一式",unit:"¥450,000",total:450000,note:"超大型2階建て対応"},
+       ]},
+      {cat:"基礎（独立コンクリート 30点）",emoji:"⚓",total:542000,color:"#606060",url:"",
+       items:[
+         {name:"生コン 凍結深度1,000mm",qty:"12 m³",unit:"¥16,000/m³",total:192000,note:""},
+         {name:"型枠・鉄筋・アンカー一式",qty:"一式",unit:"¥350,000",total:350000,note:""},
+       ]},
+    ],
+    steps: [
+      {week:"W1〜5",phase:"基礎工事（30点）",icon:"⚓",cost:542000,diff:"★★★★★",people:"5〜6人",
+       desc:"独立基礎30点。地盤調査（¥20〜30万）を最初に実施。建築士による基礎設計必須。ミニユンボ5週間稼働。",
+       tools:["ミニユンボ","測量器具","型枠","鉄筋"],tips:"MYTH級の荷重には地盤調査と構造計算が絶対に必要。妥協するな。"},
+      {week:"W6〜10",phase:"土台・1F床組み",icon:"🪵",cost:2044000,diff:"★★★★☆",people:"5人",
+       desc:"大断面柱（120×120）・大梁（105×360）のプレカット材を組む。180枚の剛床合板を張る。ミニクレーン2台必須。",
+       tools:["インパクト","丸ノコ","ミニクレーン2台"],tips:"大断面材は2人がかりでも重い。チェーンブロック常備。"},
+      {week:"W11〜18",phase:"棟上げ・2F骨組み",icon:"🏗️",cost:0,diff:"★★★★★",people:"12〜15人（4日）",
+       desc:"MYTH級の棟上げは4日がかり。プロの鳶職人チームを必ず呼ぶ（¥30〜50万）。ラフタークレーン25t必須。命に関わる作業。",
+       tools:["ラフタークレーン25t","インパクト","安全帯","足場"],tips:"「できるかな」ではなく「プロに頼む」が正解。棟上げだけは絶対プロへ。"},
+      {week:"W19〜34",phase:"SIPsパネル取付（全面）",icon:"🔷",cost:10120000,diff:"★★★★☆",people:"6〜10人",
+       desc:"650m²の壁パネル＋160m²の屋根パネルを16週間かけて施工。足場（¥200,000〜）全周設置必須。これだけで工期の1/3を占める。",
+       tools:["インパクト","コーキングガン","足場（全周）"],tips:"継ぎ目の気密処理こそがMYTH品質を決める。手を抜くな。"},
+      {week:"W35〜40",phase:"外装・超大型デッキ（120m²）",icon:"🌳",cost:1564000,diff:"★★★★☆",people:"5人",
+       desc:"ガルバ外壁・屋根仕上げ＋120m²の大型デッキ施工。6週間。デッキだけでLARGE一棟分の床面積がある。",
+       tools:["丸ノコ","タッカー","インパクト"],tips:"デッキ材は事前にACQ確認・塗料処理で耐久性確保。"},
+      {week:"W41〜42",phase:"窓・気密処理",icon:"🪟",cost:2807000,diff:"★★★★☆",people:"4〜5人",
+       desc:"南面超大開口・24枚の窓・引き戸6枚を取付。C値測定で0.3以下を目標。",
+       tools:["気密テープ","測定機"],tips:"24枚を2週間で取付。開口部一つ一つ丁寧に気密処理。"},
+      {week:"W43〜50",phase:"設備工事（超大型）",icon:"🔥",cost:3626000,diff:"★★★★★",people:"5〜8人",
+       desc:"24枚ソーラー・1200Ah蓄電池・ロケットマスヒーター×4築炉・バレルサウナ設置・コンポスト×4・雨水15,000L。消防設備も設置。",
+       tools:["配線工具","耐火レンガ","配管工具","消防設備"],tips:"消防署との事前協議は着工6ヶ月前から始めること。旅館業許可取得に3〜6ヶ月かかる。"},
+      {week:"W51〜52",phase:"内装・什器・竣工",icon:"✨",cost:4000000,diff:"★★★★☆",people:"5〜8人",
+       desc:"450m²の羽目板・フローリング・業務用キッチン・個室14室設備。保健所・消防・旅館業の各検査に合格して完成。",
+       tools:["フィニッシュネイラー","丸ノコ"],tips:"完成したとき、それはもうMYTHだ。"},
+    ],
+    routes: [
+      {name:"セルフビルド+建築士監修",cost:25400000,color:"#c89020",hi:true},
+      {name:"補助金後",cost:23050000,color:"rgba(80,200,160,.9)",gr:true},
+      {name:"工務店依頼",cost:80000000,color:"#555"},
+      {name:"宿泊収益（年）",cost:-5000000,color:"#c89020",note:"28名稼働¥500万/年"},
+    ],
+    floorSvg: `<svg viewBox="0 0 520 340" style="width:100%;background:#050505;display:block">
+      <rect x="20" y="30" width="430" height="270" fill="none" stroke="#c89020" stroke-width="4"/>
+      <line x1="20" y1="205" x2="450" y2="205" stroke="#555" stroke-width="1.5"/>
+      <line x1="321" y1="30" x2="321" y2="205" stroke="#555" stroke-width="1.5"/>
+      <line x1="213" y1="205" x2="213" y2="300" stroke="#555" stroke-width="1.5"/>
+      <line x1="20" y1="240" x2="20" y2="275" stroke="#050505" stroke-width="6"/>
+      <path d="M20 240 Q52 240 52 272" fill="none" stroke="#666" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <rect x="60" y="297" width="230" height="7" fill="#4ab8d0" opacity=".7"/>
+      <rect x="447" y="50" width="7" height="100" fill="#4ab8d0" opacity=".7"/>
+      <rect x="450" y="30" width="55" height="270" fill="rgba(80,120,64,.15)" stroke="#507840" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="477" y="170" fill="#507840" font-size="7" text-anchor="middle" transform="rotate(90,477,170)">大デッキ 120m²</text>
+      <circle cx="70" cy="170" r="12" fill="rgba(224,96,48,.2)" stroke="rgba(224,96,48,.55)" stroke-width="1.5"/>
+      <text x="70" y="174" fill="rgba(224,96,48,.8)" font-size="7" text-anchor="middle">炉×4</text>
+      <rect x="30" y="215" width="65" height="75" fill="rgba(200,80,32,.08)" stroke="rgba(200,80,32,.45)" stroke-width="1.5"/>
+      <text x="63" y="258" fill="rgba(200,80,32,.7)" font-size="7.5" text-anchor="middle">サウナ</text>
+      <text x="168" y="100" fill="#ddd" font-size="12" text-anchor="middle">食堂ホール</text>
+      <text x="168" y="117" fill="#555" font-size="8.5" text-anchor="middle">90 m²（収容28名）</text>
+      <text x="390" y="98" fill="#ddd" font-size="10" text-anchor="middle">厨房+倉庫</text>
+      <text x="390" y="113" fill="#555" font-size="8" text-anchor="middle">30 m²</text>
+      <text x="120" y="250" fill="#ddd" font-size="9" text-anchor="middle">スパ・水回り</text>
+      <text x="120" y="265" fill="#555" font-size="7.5" text-anchor="middle">40 m²</text>
+      <text x="345" y="250" fill="#ddd" font-size="9" text-anchor="middle">スタッフ+倉庫</text>
+      <text x="345" y="265" fill="#555" font-size="7.5" text-anchor="middle">20 m²</text>
+      <text x="20" y="22" fill="#c89020" font-size="8" font-weight="bold">MYTH 1F — 149m²（2F: 個室×14室+ラウンジ 149m²）</text>
+      <line x1="20" y1="315" x2="450" y2="315" stroke="#333" stroke-width="1"/>
+      <text x="20" y="327" fill="#555" font-size="7">16,380 mm</text>
+    </svg>`,
+    elevSvg: `<svg viewBox="0 0 560 290" style="width:100%;background:#050505;display:block">
+      <line x1="10" y1="250" x2="550" y2="250" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <rect x="30" y="140" width="480" height="110" fill="rgba(32,32,32,.95)" stroke="#666" stroke-width="2"/>
+      <rect x="30" y="46" width="480" height="94" fill="rgba(28,30,40,.95)" stroke="#666" stroke-width="2"/>
+      <polygon points="20,46 270,6 540,46" fill="rgba(26,26,26,.98)" stroke="#c89020" stroke-width="2"/>
+      <rect x="80" y="-2" width="14" height="48" fill="rgba(50,50,50,.95)" stroke="#666" stroke-width="1.5"/>
+      <rect x="200" y="-2" width="14" height="48" fill="rgba(50,50,50,.95)" stroke="#666" stroke-width="1.5"/>
+      <rect x="330" y="-2" width="14" height="48" fill="rgba(50,50,50,.95)" stroke="#666" stroke-width="1.5"/>
+      <rect x="440" y="-2" width="14" height="48" fill="rgba(50,50,50,.95)" stroke="#666" stroke-width="1.5"/>
+      <rect x="50" y="162" width="280" height="76" fill="rgba(70,184,208,.1)" stroke="#4ab8d0" stroke-width="2"/>
+      <line x1="190" y1="162" x2="190" y2="238" stroke="#4ab8d0" stroke-width="1" stroke-dasharray="3,2"/>
+      <rect x="40" y="58" width="46" height="52" fill="rgba(70,184,208,.08)" stroke="#4ab8d0" stroke-width="1.5"/>
+      <rect x="100" y="58" width="46" height="52" fill="rgba(70,184,208,.08)" stroke="#4ab8d0" stroke-width="1.5"/>
+      <rect x="160" y="58" width="46" height="52" fill="rgba(70,184,208,.08)" stroke="#4ab8d0" stroke-width="1.5"/>
+      <rect x="220" y="58" width="46" height="52" fill="rgba(70,184,208,.08)" stroke="#4ab8d0" stroke-width="1.5"/>
+      <rect x="280" y="58" width="46" height="52" fill="rgba(70,184,208,.08)" stroke="#4ab8d0" stroke-width="1.5"/>
+      <rect x="340" y="58" width="46" height="52" fill="rgba(70,184,208,.08)" stroke="#4ab8d0" stroke-width="1.5"/>
+      <rect x="400" y="58" width="46" height="52" fill="rgba(70,184,208,.08)" stroke="#4ab8d0" stroke-width="1.5"/>
+      <rect x="360" y="168" width="40" height="64" fill="rgba(55,36,18,.4)" stroke="#888" stroke-width="1.5"/>
+      <rect x="420" y="168" width="40" height="64" fill="rgba(55,36,18,.4)" stroke="#888" stroke-width="1.5"/>
+      <line x1="30" y1="140" x2="510" y2="140" stroke="#888" stroke-width="2"/>
+      <rect x="510" y="178" width="50" height="72" fill="rgba(80,120,64,.2)" stroke="#507840" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="535" y="218" fill="#507840" font-size="7" text-anchor="middle">デッキ</text>
+      <rect x="160" y="14" width="220" height="24" fill="rgba(200,144,32,.15)" stroke="rgba(200,144,32,.3)" stroke-width="1" rx="2"/>
+      <text x="270" y="29" fill="rgba(200,144,32,.7)" font-size="7.5" text-anchor="middle">ソーラー × 24枚</text>
+      <text x="8" y="196" fill="#555" font-size="7" text-anchor="middle">1F</text>
+      <text x="8" y="95" fill="#555" font-size="7" text-anchor="middle">2F</text>
+      <line x1="30" y1="260" x2="510" y2="260" stroke="#444" stroke-width="1"/>
+      <text x="270" y="276" fill="#444" font-size="8.5" text-anchor="middle">16,380 mm</text>
+      <text x="20" y="8" fill="#c89020" font-size="8" font-weight="bold">MYTH — 南立面（2階建て・28名収容）</text>
+    </svg>`,
+  },
+];
+
+// ── アップグレードオプション ──────────────────────────────────────────────
+window.BUILD_UPGRADES = [
+  {
+    id: "hrv",
+    name: "HRV 熱交換換気",
+    icon: "🌬️",
+    tag: "品質向上",
+    tagColor: "#4ab8d0",
+    desc: "第一種換気（熱交換率85%以上）。高気密住宅には換気が必須。PM2.5除去・CO2管理・結露防止。冬の換気熱損失を85%削減し、薪消費も下がる。パナソニック・三菱製品が国内で入手しやすい。",
+    impact: "冬の換気ロス ▲85% / 空気質が別次元に",
+    pros: ["PM2.5 99%除去", "換気熱損失▲85%", "結露・カビ防止", "CO2自動管理"],
+    costs: {mini:120000, standard:200000, large:320000, xl:450000, villa:700000, grand:1100000, myth:2000000, dome:150000},
+  },
+  {
+    id: "radiant",
+    name: "蓄熱床暖房",
+    icon: "♨️",
+    tag: "快適性向上",
+    tagColor: "#e06030",
+    desc: "ロケットマスヒーターの熱を床スラブ内PEX配管に蓄熱。薪1本で6〜8時間温もりが続く。基礎工事時にPEX管を埋設するので計画段階での決断が必要。弟子屈の-30℃夜でも床からぽかぽか。",
+    impact: "薪消費 ▲1/3 / 朝も足元から暖かい",
+    pros: ["夜間蓄熱で朝も暖かい", "薪消費1/3削減", "輻射熱で体感+3℃", "足元から温まる"],
+    costs: {mini:180000, standard:380000, large:620000, xl:950000, villa:1600000, grand:2600000, myth:4500000, dome:480000},
+  },
+  {
+    id: "clt",
+    name: "CLT 床・天井材",
+    icon: "🪵",
+    tag: "意匠・強度向上",
+    tagColor: "#a07850",
+    desc: "構造合板28mmをCLT（直交集成板）に変更。剛性1.5倍、調湿効果、天井仕上げ不要。杉CLTは弟子屈周辺産も調達可能で地産地消になる。木の表面がそのまま内装になりコストを相殺。",
+    impact: "天井仕上げ不要 / 剛性1.5倍 / 調湿効果",
+    pros: ["天井仕上げ不要", "剛性1.5倍", "湿度自然調整", "弟子屈産杉調達可"],
+    costs: {mini:150000, standard:380000, large:640000, xl:980000, villa:1800000, grand:3000000, myth:5500000, dome:300000},
+  },
+  {
+    id: "kit",
+    name: "完全パネルキット工法",
+    icon: "🏭",
+    tag: "工期1/3短縮",
+    tagColor: "#9060e0",
+    desc: "壁・床・屋根を工場で完成品パネルとして製作し番号通り組むだけ。施工ミスゼロ、工期1/3。SIPsバラ発注より高いがC値0.1以下保証・雨天施工可・品質が確定する。STANDARD(24.8m²)なら3週間で屋根まで完成。",
+    impact: "工期1/3短縮 / 気密C値0.1以下保証",
+    pros: ["工期1/3短縮", "C値0.1以下保証", "施工ミスゼロ", "雨天施工可能"],
+    costs: {mini:250000, standard:650000, large:1100000, xl:1800000, villa:3000000, grand:5000000, myth:9000000, dome:0},
+  },
+  {
+    id: "solar_water",
+    name: "太陽熱温水器",
+    icon: "🌡️",
+    tag: "オフグリッド完全化",
+    tagColor: "#f0c040",
+    desc: "真空管式集熱パネル+断熱タンクで給湯を完全オフグリッド化。晴天時はシャワー・食器洗いを電力ゼロで対応。冬でも予熱効果があり、ロケットマスヒーターとの組み合わせで年間ほぼ無料の給湯が実現。",
+    impact: "給湯電力ゼロ / 年間¥8〜15万節約",
+    pros: ["給湯電力ゼロ", "冬でも予熱効果", "薪消費さらに削減", "耐用年数20年以上"],
+    costs: {mini:200000, standard:280000, large:380000, xl:500000, villa:800000, grand:1400000, myth:2500000, dome:250000},
+  },
+  {
+    id: "water_supply",
+    name: "水道引き込み工事",
+    icon: "🚰",
+    tag: "インフラ整備 OP",
+    tagColor: "#4080e0",
+    desc: "宅内に水道の引き込みがない、または本館から分岐できない場合に必要な工事。公道から敷地内への給水管引き込み（口径20mm標準）。工事費は距離・口径・地盤条件により変動。オフグリッド水源（井戸・雨水）を採用する場合は不要。",
+    impact: "生活用水を安定確保 / 給湯・シャワー・キッチン全対応",
+    pros: ["安定した水圧・水量", "将来の増設にも対応", "飲料水基準をクリア", "工事1〜3日で完了"],
+    costs: {mini:800000, standard:900000, large:950000, xl:1000000, villa:1000000, grand:1200000, myth:1500000, dome:800000},
+  },
+];
+
+window.BUILD_COSTDOWNS = [
+  {
+    id:"screw_pile",
+    name:"スクリュー杭基礎",
+    icon:"🔩",
+    tag:"基礎工法変更",
+    tagColor:"#4080e0",
+    supplyRating:5,
+    supplyNote:"旭化成建材・テノックス・日本スクリュー杭など全国50社以上。即納・設計支援込",
+    desc:"コンクリート不要、機械で1日圧入するだけ。養生期間ゼロで翌日から上棟可能。将来の撤去・移設も可能。積雪深2m超・軟弱地盤は別途検討。",
+    impact:"基礎工事1日完了 / 養生期間ゼロ翌日上棟 / 移設可能",
+    pros:["1日施工","養生ゼロ翌日上棟","DII設置モデルあり","撤去・移設可能"],
+    isDeferred:false,
+    savings:{mini:150000,standard:250000,large:400000,xl:600000,villa:900000,grand:1500000,myth:2500000, dome:250000},
+  },
+  {
+    id:"reclaimed",
+    name:"中古建材・廃材活用",
+    icon:"♻️",
+    tag:"開口部・内装▲30〜50%",
+    tagColor:"#50b870",
+    supplyRating:3,
+    supplyNote:"ヤフオク建材カテゴリ・建デポ中古館（全国15店）・地域解体業者。調達に1〜3ヶ月の余裕を",
+    desc:"サッシ・ドア・フローリングは中古品で問題なし。構造材は新材推奨。古民家解体現場から良質な古材・建具を格安で入手できる。デッキ材は無料入手できることも。",
+    impact:"サッシ・ドア 50〜70%安 / フローリング 40〜60%安",
+    pros:["サッシ・ドア -50%","フローリング -40%","デッキ材無料も","廃材目利き力が育つ"],
+    isDeferred:false,
+    savings:{mini:80000,standard:150000,large:250000,xl:380000,villa:550000,grand:900000,myth:1500000, dome:800000},
+  },
+  {
+    id:"group_order",
+    name:"5棟まとめ発注（ビレッジ割引）",
+    icon:"🏘️",
+    tag:"材料費▲15〜20%",
+    tagColor:"#c86030",
+    supplyRating:5,
+    supplyNote:"SIPsパネル・製材・太陽光はロット発注で卸値対応。SOLUNAが一括交渉・発注窓口を担当",
+    desc:"SOLUNAビレッジ参加者と合同発注でメーカー直仕入れ価格を実現。5棟以上でSIPsパネル・製材・蓄電池が卸値に。発注・納品管理はSOLUNA側が対応するので手間ゼロ。",
+    impact:"SIPsパネル 20〜25%割引 / 木材・合板 15〜20%割引",
+    pros:["SIPsパネル -20%","木材・合板 -15%","太陽光・蓄電 -15%","発注窓口はSOLUNA"],
+    isDeferred:false,
+    savings:{mini:90000,standard:300000,large:500000,xl:800000,villa:1200000,grand:2000000,myth:3500000, dome:120000},
+  },
+  {
+    id:"work_party",
+    name:"ワークパーティー施工",
+    icon:"🤝",
+    tag:"労務コスト実質ゼロ",
+    tagColor:"#9060e0",
+    supplyRating:4,
+    supplyNote:"SOLUNAビレッジメンバー間の相互扶助。独立した土地での建設は個別相談",
+    desc:"ビレッジメンバーが互いの建設を手伝い合う。延べ20〜60人工の労働力を調達。技術者の作業を見ながら学べるため、自分の家の構造を完全理解できる。コミュニティも深まる。",
+    impact:"延べ20〜60人工の労働力を無償調達 / 技術を習得しながら建てる",
+    pros:["大工作業を見ながら学べる","家の構造を完全理解","次は教える側に","コミュニティ結束"],
+    isDeferred:false,
+    savings:{mini:200000,standard:400000,large:700000,xl:1000000,villa:1500000,grand:2500000,myth:4500000, dome:480000},
+  },
+  {
+    id:"phased",
+    name:"段階建設（シェル先行入居）",
+    icon:"🪜",
+    tag:"初期費用▲40%",
+    tagColor:"#f0a030",
+    supplyRating:5,
+    supplyNote:"フェーズ1（躯体+断熱+屋根）で先行入居可。コンポストトイレ+雨水タンクを仮設として活用",
+    desc:"まずフェーズ1で躯体・断熱・屋根だけ完成（全コストの約60%）して先行入居。住みながら収入を得つつフェーズ2の設備・内装工事を進める。補助金を2回に分けて申請することも可能。",
+    impact:"初期支出を60%に圧縮 / 住みながら仕上げ / 補助金2期申請可",
+    pros:["初期資金が60%でOK","住みながら仕上げ","設計変更が後から可能","補助金2期申請"],
+    isDeferred:true,
+    savings:{mini:300000,standard:1000000,large:1700000,xl:2700000,villa:4000000,grand:6500000,myth:10000000, dome:400000},
+  },
+];
+
+window.SUPPLY_GUIDE = [
+  {cat:"SIPsパネル（壁・屋根断熱）", emoji:"🏗️", color:"#4080e0",
+   note:"特注寸法対応。まとめ発注で20%前後の割引あり。",
+   suppliers:[
+    {name:"ウッドビルド", note:"ネット発注可・特注寸法対応・全国配送", lead:"2〜4週", url:"https://www.wood-build.co.jp"},
+    {name:"アキレス建材（Achilles Jr.）", note:"硬質ウレタン系SIPs。全国代理店網", lead:"2〜3週", url:"https://www.achilles.jp"},
+    {name:"旭化成建材 ネオマフォーム", note:"フェノールフォーム系断熱材。高性能", lead:"1〜2週", url:"https://www.asahikasei-kenzai.com"},
+   ]},
+  {cat:"構造材・製材（木材）", emoji:"🪵", color:"#a07850",
+   note:"地産材（地域製材所直）が輸送費込みで最安になるケースが多い。",
+   suppliers:[
+    {name:"ウッドマイル", note:"全国配送対応・地産材指定可・プレカット連携", lead:"1〜2週", url:"https://www.woodmiles.jp"},
+    {name:"地域製材組合（各道県）", note:"農林水産部に問い合わせ。地産材で輸送費・価格ともに有利", lead:"1〜3週", url:""},
+    {name:"モノタロウ（小物・羽柄材）", note:"翌日配送・会員10%引・追加カット可", lead:"翌日〜", url:"https://www.monotaro.com"},
+   ]},
+  {cat:"太陽光パネル・蓄電池", emoji:"⚡", color:"#f0c040",
+   note:"Amazon経由でRenogy/EcoFlow/Jackeryが安定入手可。メーカー直より10〜15%安い場合も。",
+   suppliers:[
+    {name:"Renogy Japan（公式）", note:"DIYオフグリッド向け。単結晶200〜400W。日本語サポートあり", lead:"3〜7日", url:"https://www.renogy.jp"},
+    {name:"EcoFlow公式（Amazon）", note:"DELTA Pro3・スマートホーム連携・急速充電", lead:"翌日〜3日", url:"https://www.amazon.co.jp/ecoflow"},
+    {name:"Jackery Japan", note:"ポータブル電源+ソーラーセット。実績多数", lead:"翌日〜3日", url:"https://www.jackery.jp"},
+   ]},
+  {cat:"スクリュー杭基礎", emoji:"🔩", color:"#4080e0",
+   note:"5棟以上の発注でロット割引あり。図面があれば即見積対応。",
+   suppliers:[
+    {name:"旭化成建材（ヘーベルパイル）", note:"全国施工ネットワーク・設計支援・保証付", lead:"1〜2週", url:"https://www.asahikasei-kenzai.com"},
+    {name:"テノックス（Tenax）", note:"小径鋼管杭。自立施工向けマニュアル提供あり", lead:"1〜2週", url:"https://www.tenox.co.jp"},
+    {name:"JFEシビル 鋼管杭", note:"重量物・傾斜地向け。大型物件に", lead:"2〜3週", url:"https://www.jfe-civil.com"},
+   ]},
+  {cat:"コンポストトイレ・オフグリッド給排水", emoji:"🚿", color:"#50b870",
+   note:"輸入品はリードタイム注意。国産品なら即納可。",
+   suppliers:[
+    {name:"バイオレット コンポストトイレ（輸入）", note:"世界標準。輸入代行経由で入手可。臭いが少ない評価", lead:"4〜8週", url:""},
+    {name:"Separett（スウェーデン産）", note:"尿分離型。においゼロ評価が高い。日本代理店あり", lead:"3〜5週", url:""},
+    {name:"日本エコトイレ（国産）", note:"国産コンポストトイレ。メンテナンス体制あり", lead:"2〜3週", url:""},
+   ]},
+  {cat:"工具・ファスナー・接合金物", emoji:"🔧", color:"#888",
+   note:"工具はMonotaRO会員（月¥500）で常時10%引。金物はカネシン・タナカが豊富。",
+   suppliers:[
+    {name:"モノタロウ", note:"最大品揃え・会員10%引・翌日配送・プロ向け", lead:"翌日", url:"https://www.monotaro.com"},
+    {name:"マキタ直販", note:"電動工具はメーカー直購入が最安。修理対応も早い", lead:"2〜5日", url:"https://www.makita.co.jp"},
+    {name:"カネシン（接合金物）", note:"ホールダウン・羽子板・梁受け金物の定番メーカー", lead:"1〜5日", url:"https://www.kanesin.co.jp"},
+   ]},
+  {cat:"中古建材・廃材", emoji:"♻️", color:"#50b870",
+   note:"良い建材は出品後すぐ売れる。入荷アラート設定が鉄則。",
+   suppliers:[
+    {name:"ヤフオク（建材カテゴリ）", note:"サッシ・ドア・床材が豊富。出品アラート設定必須", lead:"即日〜2週", url:"https://auctions.yahoo.co.jp"},
+    {name:"建デポ 中古建材館", note:"全国15店舗。現物確認できる安心感。デッキ材が安い", lead:"即日", url:"https://www.kenchiku-depot.co.jp"},
+    {name:"解体業者直接交渉", note:"古民家解体現場に直接交渉。古材・建具を格安・無料で入手可", lead:"要調整", url:""},
+   ]},
 ];

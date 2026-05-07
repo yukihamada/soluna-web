@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>SOLUNA BUILD — CAD Viewer</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#050505;--panel:#0a0a0a;--gold:#c8a455;--text:#ede9e1;--border:#1a1a1a}
+body{background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,sans-serif;display:flex;height:100vh;overflow:hidden}
+
+/* sidebar */
+#sidebar{width:260px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+#sidebar-header{padding:16px 20px;border-bottom:1px solid var(--border)}
+#sidebar-header h1{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--gold)}
+#sidebar-header p{font-size:10px;color:#555;margin-top:4px}
+#plan-list{overflow-y:auto;flex:1}
+.plan-item{padding:12px 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.plan-item:hover{background:rgba(200,164,85,.06)}
+.plan-item.active{background:rgba(200,164,85,.12);border-left:2px solid var(--gold)}
+.plan-name{font-size:13px;font-weight:700;letter-spacing:.02em}
+.plan-meta{font-size:10px;color:#555;margin-top:3px}
+.plan-btns{display:flex;gap:6px;margin-top:8px}
+.btn-dl{font-size:9px;padding:3px 8px;border-radius:4px;text-decoration:none;font-weight:700;letter-spacing:.06em;transition:all .15s}
+.btn-dxf{background:rgba(64,192,128,.12);color:#40c080;border:1px solid rgba(64,192,128,.3)}
+.btn-ifc{background:rgba(100,160,255,.12);color:#64a0ff;border:1px solid rgba(100,160,255,.3)}
+.btn-dl:hover{opacity:.75}
+
+/* canvas area */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#toolbar{height:44px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:0 16px;flex-shrink:0}
+.tb-label{font-size:9px;letter-spacing:.14em;color:#444;text-transform:uppercase}
+.tb-btn{font-size:10px;padding:4px 10px;border-radius:5px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:#888;cursor:pointer;transition:all .15s}
+.tb-btn:hover{color:var(--text);border-color:#333}
+.tb-btn.active{background:rgba(200,164,85,.1);color:var(--gold);border-color:var(--gold)}
+#zoom-info{font-size:10px;color:#444;margin-left:auto}
+#file-title{font-size:11px;font-weight:700;color:var(--text);margin-left:4px}
+
+#canvas-wrap{flex:1;position:relative;overflow:hidden;cursor:grab}
+#canvas-wrap.grabbing{cursor:grabbing}
+#canvas{display:block;width:100%;height:100%}
+
+#loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#444;background:var(--bg)}
+#error{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#c05050;background:var(--bg);display:none}
+
+/* layers panel */
+#layers{position:absolute;bottom:20px;right:20px;background:rgba(10,10,10,.9);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:10px;min-width:130px;backdrop-filter:blur(10px)}
+#layers h3{font-size:9px;letter-spacing:.2em;color:#444;margin-bottom:8px;text-transform:uppercase}
+.layer-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;cursor:pointer;user-select:none}
+.layer-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.layer-name{color:#888;transition:color .15s}
+.layer-row.on .layer-name{color:var(--text)}
+.layer-row.off .layer-dot{opacity:.25}
+.layer-row.off .layer-name{color:#444}
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <div id="sidebar-header">
+    <h1>SOLUNA BUILD</h1>
+    <p>CAD Viewer — DXF + IFC</p>
+  </div>
+  <div id="plan-list"></div>
+</div>
+
+<div id="main">
+  <div id="toolbar">
+    <span class="tb-label">View</span>
+    <button class="tb-btn" id="btn-fit" title="Fit to screen">Fit</button>
+    <button class="tb-btn" id="btn-zoom-in">＋</button>
+    <button class="tb-btn" id="btn-zoom-out">−</button>
+    <span id="file-title">—</span>
+    <span id="zoom-info">100%</span>
+  </div>
+  <div id="canvas-wrap">
+    <canvas id="canvas"></canvas>
+    <div id="loading">ファイルを選択してください</div>
+    <div id="error">読み込みエラー</div>
+    <div id="layers">
+      <h3>Layers</h3>
+      <div id="layer-list"></div>
+    </div>
+  </div>
+</div>
+
+<script src="/build-data.js"></script>
+<script>
+// ─── Plans list ──────────────────────────────────────────────────────────────
+const plans = window.BUILD_PLANS || [];
+const planList = document.getElementById('plan-list');
+plans.forEach((p,i)=>{
+  const base = `SOLUNA_${p.name}_${p.area}m2`;
+  const el = document.createElement('div');
+  el.className='plan-item';
+  el.innerHTML=`
+    <div class="plan-name" style="color:${p.color}">${p.name}</div>
+    <div class="plan-meta">${p.area}m² · ${p.dims||''}</div>
+    <div class="plan-btns">
+      <a class="btn-dl btn-dxf" href="/cad/${base}.dxf" download>↓ DXF</a>
+      <a class="btn-dl btn-ifc" href="/cad/${base}.ifc" download>↓ IFC</a>
+    </div>`;
+  el.addEventListener('click', e=>{
+    if(e.target.tagName==='A') return;
+    document.querySelectorAll('.plan-item').forEach(x=>x.classList.remove('active'));
+    el.classList.add('active');
+    loadDXF(`/cad/${base}.dxf`, p.name+' '+p.area+'m²');
+  });
+  planList.appendChild(el);
+});
+
+// ─── DXF Parser ──────────────────────────────────────────────────────────────
+function parseDXF(text){
+  const lines = text.split(/\r?\n/);
+  const entities = [];
+  const LAYER_COLORS = {
+    '0':'#aaa','WALL':'#ff7090','ROOM':'#50c88c','GRID':'#222',
+    'TEXT':'#80d0ff','DIM':'#ffd060','DECK':'#90b850','STRUCT':'#ff9050','DOME':'#c080ff'
+  };
+
+  let i=0;
+  function next(){ return i<lines.length ? lines[i++].trim() : null; }
+  function peek(){ return i<lines.length ? lines[i].trim() : null; }
+
+  // Skip to ENTITIES section
+  while(i<lines.length){
+    const code=next();
+    const val=next();
+    if(code==='2' && val==='ENTITIES') break;
+  }
+
+  while(i<lines.length){
+    const code=next();
+    if(code===null) break;
+    const val=next();
+    if(code==='0'){
+      if(val==='ENDSEC'||val==='EOF') break;
+      const type=val;
+      const fields={};
+      while(i<lines.length){
+        const nc=peek();
+        if(nc==='0'||nc===null) break;
+        const c=next(), v=next();
+        fields[c]=v;
+      }
+      if(type==='LINE'||type==='CIRCLE'||type==='TEXT'){
+        const layer=fields['8']||'0';
+        const color=LAYER_COLORS[layer]||'#666';
+        if(type==='LINE') entities.push({type:'LINE',x1:+fields['10'],y1:+fields['20'],x2:+fields['11'],y2:+fields['21'],layer,color});
+        if(type==='CIRCLE') entities.push({type:'CIRCLE',cx:+fields['10'],cy:+fields['20'],r:+fields['40'],layer,color});
+        if(type==='TEXT') entities.push({type:'TEXT',x:+fields['10'],y:+fields['20'],h:+fields['40']||200,text:fields['1']||'',layer,color});
+      }
+    }
+  }
+
+  // Compute bounds
+  let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+  for(const e of entities){
+    if(e.type==='LINE'){
+      minX=Math.min(minX,e.x1,e.x2); maxX=Math.max(maxX,e.x1,e.x2);
+      minY=Math.min(minY,e.y1,e.y2); maxY=Math.max(maxY,e.y1,e.y2);
+    }else if(e.type==='CIRCLE'){
+      minX=Math.min(minX,e.cx-e.r); maxX=Math.max(maxX,e.cx+e.r);
+      minY=Math.min(minY,e.cy-e.r); maxY=Math.max(maxY,e.cy+e.r);
+    }else if(e.type==='TEXT'){
+      minX=Math.min(minX,e.x); maxX=Math.max(maxX,e.x+e.text.length*e.h*0.6);
+      minY=Math.min(minY,e.y); maxY=Math.max(maxY,e.y+e.h);
+    }
+  }
+  return {entities, bounds:{minX,minY,maxX,maxY}, layerColors:LAYER_COLORS};
+}
+
+// ─── Renderer ────────────────────────────────────────────────────────────────
+const canvas=document.getElementById('canvas');
+const ctx=canvas.getContext('2d');
+let dxfData=null;
+let offX=0,offY=0,scale=1;
+let hiddenLayers=new Set(['GRID']);
+
+function resize(){
+  const wrap=document.getElementById('canvas-wrap');
+  canvas.width=wrap.clientWidth; canvas.height=wrap.clientHeight;
+  if(dxfData) draw();
+}
+window.addEventListener('resize',resize);
+resize();
+
+function fitToScreen(){
+  if(!dxfData) return;
+  const {minX,minY,maxX,maxY}=dxfData.bounds;
+  const W=maxX-minX, H=maxY-minY;
+  if(!W||!H) return;
+  const cW=canvas.width, cH=canvas.height;
+  scale=Math.min((cW*0.9)/W,(cH*0.9)/H);
+  // DXF Y is flipped (bottom-origin), so transform: screenY = cH - (dxfY - minY)*scale - offY
+  offX=cW/2-((minX+maxX)/2)*scale;
+  offY=cH/2+((minY+maxY)/2)*scale;  // because Y is flipped
+  draw();
+}
+
+function tx(x){ return x*scale+offX; }
+function ty(y){ return offY-y*scale; }  // flip Y
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#050505';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  if(!dxfData) return;
+
+  for(const e of dxfData.entities){
+    if(hiddenLayers.has(e.layer)) continue;
+    ctx.strokeStyle=e.color;
+    ctx.fillStyle=e.color;
+
+    if(e.type==='LINE'){
+      const lw=e.layer==='WALL'||e.layer==='STRUCT'?1.5:e.layer==='ROOM'?1:0.5;
+      ctx.lineWidth=lw;
+      ctx.beginPath();
+      ctx.moveTo(tx(e.x1),ty(e.y1));
+      ctx.lineTo(tx(e.x2),ty(e.y2));
+      ctx.stroke();
+    } else if(e.type==='CIRCLE'){
+      ctx.lineWidth=1;
+      ctx.beginPath();
+      ctx.arc(tx(e.cx),ty(e.cy),e.r*scale,0,Math.PI*2);
+      ctx.stroke();
+    } else if(e.type==='TEXT'){
+      const fh=Math.max(8,e.h*scale*0.8);
+      if(fh<6) continue;
+      ctx.font=`${fh}px 'Helvetica Neue',sans-serif`;
+      ctx.textBaseline='bottom';
+      ctx.fillText(e.text, tx(e.x), ty(e.y));
+    }
+  }
+}
+
+// ─── Layer panel ─────────────────────────────────────────────────────────────
+function buildLayerPanel(layerColors){
+  const list=document.getElementById('layer-list');
+  list.innerHTML='';
+  const layers=Object.entries(layerColors);
+  layers.forEach(([name,color])=>{
+    const row=document.createElement('div');
+    row.className='layer-row '+(hiddenLayers.has(name)?'off':'on');
+    row.dataset.layer=name;
+    row.innerHTML=`<div class="layer-dot" style="background:${color}"></div><span class="layer-name">${name}</span>`;
+    row.addEventListener('click',()=>{
+      if(hiddenLayers.has(name)) hiddenLayers.delete(name); else hiddenLayers.add(name);
+      row.className='layer-row '+(hiddenLayers.has(name)?'off':'on');
+      draw();
+    });
+    list.appendChild(row);
+  });
+}
+
+// ─── Load DXF ────────────────────────────────────────────────────────────────
+async function loadDXF(url, title){
+  const loading=document.getElementById('loading');
+  const errEl=document.getElementById('error');
+  loading.style.display='flex';
+  loading.textContent='読み込み中…';
+  errEl.style.display='none';
+  document.getElementById('file-title').textContent=title;
+
+  try{
+    const res=await fetch(url);
+    if(!res.ok) throw new Error(res.status);
+    const text=await res.text();
+    dxfData=parseDXF(text);
+    loading.style.display='none';
+    buildLayerPanel(dxfData.layerColors);
+    fitToScreen();
+    updateZoomInfo();
+  } catch(e){
+    loading.style.display='none';
+    errEl.style.display='flex';
+    errEl.textContent='読み込みエラー: '+url;
+  }
+}
+
+// ─── Zoom / Pan ──────────────────────────────────────────────────────────────
+function updateZoomInfo(){ document.getElementById('zoom-info').textContent=Math.round(scale*100/0.08)+'%'; }
+
+document.getElementById('btn-fit').onclick=()=>{fitToScreen();updateZoomInfo();};
+document.getElementById('btn-zoom-in').onclick=()=>{scale*=1.3;draw();updateZoomInfo();};
+document.getElementById('btn-zoom-out').onclick=()=>{scale/=1.3;draw();updateZoomInfo();};
+
+// Wheel zoom
+const wrap=document.getElementById('canvas-wrap');
+wrap.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const rect=canvas.getBoundingClientRect();
+  const mx=e.clientX-rect.left, my=e.clientY-rect.top;
+  const factor=e.deltaY<0?1.15:1/1.15;
+  offX=(offX-mx)*factor+mx;
+  offY=(offY-my)*factor+my;
+  scale*=factor;
+  draw(); updateZoomInfo();
+},{passive:false});
+
+// Pan
+let drag=null;
+wrap.addEventListener('mousedown',e=>{ drag={x:e.clientX,y:e.clientY,ox:offX,oy:offY}; wrap.classList.add('grabbing'); });
+wrap.addEventListener('mousemove',e=>{ if(!drag) return; offX=drag.ox+(e.clientX-drag.x); offY=drag.oy+(e.clientY-drag.y); draw(); });
+wrap.addEventListener('mouseup',()=>{ drag=null; wrap.classList.remove('grabbing'); });
+wrap.addEventListener('mouseleave',()=>{ drag=null; wrap.classList.remove('grabbing'); });
+
+// Touch support
+let touch1=null;
+wrap.addEventListener('touchstart',e=>{
+  if(e.touches.length===1){ const t=e.touches[0]; drag={x:t.clientX,y:t.clientY,ox:offX,oy:offY}; }
+  else if(e.touches.length===2){ touch1={d:Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY),s:scale}; }
+},{passive:true});
+wrap.addEventListener('touchmove',e=>{
+  e.preventDefault();
+  if(e.touches.length===1 && drag){ const t=e.touches[0]; offX=drag.ox+(t.clientX-drag.x); offY=drag.oy+(t.clientY-drag.y); draw(); }
+  else if(e.touches.length===2 && touch1){ const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY); scale=touch1.s*(d/touch1.d); draw(); updateZoomInfo(); }
+},{passive:false});
+wrap.addEventListener('touchend',()=>{ drag=null; touch1=null; });
+</script>
+</body>
+</html>
