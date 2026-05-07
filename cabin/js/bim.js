@@ -2059,6 +2059,32 @@ export function createViewer(container, opts = {}) {
 
   function getPhases() { return PHASES; }
 
+  // ── 全プラン判定診断 (debug helper) ──
+  function diagnoseAllPlans() {
+    const origId = currentPlan?.id;
+    const results = [];
+    for (const id of Object.keys(PLANS)) {
+      loadPlan(id);
+      const s = structuralAnalysis();
+      const c = codeCompliance();
+      const u = urbanPlanningCheck();
+      results.push({
+        id,
+        name: PLANS[id].name,
+        seismic: s ? s.grade : '-',
+        beamOK: s ? s.beam.ok : false,
+        light: c ? `${(c.light.ratio*100).toFixed(1)}% ${c.light.ok?'✓':'✗'}` : '-',
+        vent: c ? (c.vent.ok ? '✓' : '✗') : '-',
+        bcr: u ? `${u.buildingCoverage}% ${u.bcrOK?'✓':'✗'}` : '-',
+        far: u ? `${u.FAR}% ${u.farOK?'✓':'✗'}` : '-',
+        northLine: u ? (u.northOK ? '✓' : '✗') : '-',
+        codeSummary: c?.summary || '-',
+      });
+    }
+    if (origId) loadPlan(origId);
+    return results;
+  }
+
   // ── 製造CSV: SIPsパネル割り付け + プレカット集計 ──
   function manufacturingCSV() {
     if (!currentPlan) return null;
@@ -2292,20 +2318,43 @@ export function createViewer(container, opts = {}) {
     else if (provided >= required2) grade = '耐震等級2 (1.25倍)';
     else if (provided >= required1) grade = '耐震等級1 (建築基準法レベル)';
 
-    // 梁の応力チェック (KD杉 105×180、許容曲げ応力 13.4 N/mm²)
+    // 梁応力チェック — スパンに応じて梁断面を自動選定
     const beamSpan = D - 0.4;
     const beamLoad = total_v * 1820 / 1000;       // kN/m (1820mmピッチ)
     const M = beamLoad * beamSpan * beamSpan / 8 * 1000;  // 最大モーメント kN·mm
-    const Z = 105 * 180 * 180 / 6;                          // 断面係数 mm³
-    const sigma = M * 1000 / Z;                              // N/mm²
     const allowableSigma = 13.4;                            // 杉 KD-D14
+    // 必要断面係数 Z_req = M/σa
+    const Z_req = M * 1000 / allowableSigma;
+    // 候補断面 — 大スパン用に集成材 + LVL + 鉄骨を追加
+    const beamSizes = [
+      {b:105, h:180, Z: 105*180*180/6, label:'KD杉 105×180'},
+      {b:105, h:240, Z: 105*240*240/6, label:'KD杉 105×240'},
+      {b:105, h:300, Z: 105*300*300/6, label:'集成材 105×300'},
+      {b:105, h:360, Z: 105*360*360/6, label:'集成材 105×360'},
+      {b:120, h:450, Z: 120*450*450/6, label:'集成材 120×450'},
+      {b:150, h:600, Z: 150*600*600/6, label:'集成材 150×600'},
+      {b:240, h:600, Z: 240*600*600/6, label:'集成材 240×600'},
+      {b:240, h:750, Z: 240*750*750/6, label:'集成材 240×750'},
+      {b:300, h:900, Z: 300*900*900/6, label:'集成材 300×900 (大空間用)'},
+    ];
+    // 大スパン (>9m) は中間柱を1本入れる想定でスパンを半分に
+    let effSpan = beamSpan;
+    let intermediateSupport = false;
+    if (beamSpan > 9) {
+      effSpan = beamSpan / 2;
+      intermediateSupport = true;
+    }
+    const M_eff = beamLoad * effSpan * effSpan / 8 * 1000;
+    const Z_req_eff = M_eff * 1000 / allowableSigma;
+    const selected = beamSizes.find(s => s.Z >= Z_req_eff) || beamSizes[beamSizes.length - 1];
+    const sigma = M_eff * 1000 / selected.Z;
     const beamOK = sigma <= allowableSigma;
 
     return {
       loads: {dl, ll, sl, w, total_v, horizForce: horizForce.toFixed(1)},
       wallReqs: {req1: required1.toFixed(0), req2: required2.toFixed(0), req3: required3.toFixed(0), provided: provided.toFixed(0)},
       grade,
-      beam: {span: beamSpan.toFixed(2), sigma: sigma.toFixed(1), allowable: allowableSigma, ok: beamOK},
+      beam: {span: beamSpan.toFixed(2), effSpan: effSpan.toFixed(2), sigma: sigma.toFixed(1), allowable: allowableSigma, ok: beamOK, size: selected.label, intermediateSupport},
     };
   }
 
@@ -2320,16 +2369,24 @@ export function createViewer(container, opts = {}) {
     const siteArea = opts.siteArea || (buildingFootprint * 3.5);   // default 3.5x footprint
     const buildingCoverage = (buildingFootprint / siteArea) * 100;  // %
     const FAR = (totalFloor / siteArea) * 100;                       // % (容積率)
-    const useZone = opts.useZone || '第一種低層住居専用地域';
-    // Zone limits (representative)
+    // Default zone based on plan type
+    const isUrban = ['pod','stack','tower','flat','duo','yield','roots'].includes(p.id);
+    const isCommercial = ['kosmos'].includes(p.id);
+    const defaultZone = isCommercial ? '商業地域'
+      : isUrban && stories >= 2 ? '第一種中高層住居専用地域'
+      : isUrban ? '第一種住居地域'
+      : '無指定 (弟子屈町外)';
+    const useZone = opts.useZone || defaultZone;
+    // Zone limits (representative). north_base = 北側斜線基本高さ (m) — slope 1.25
     const zoneLimits = {
-      '第一種低層住居専用地域': {bcr: 50, far: 100, height: 10, north: true, dayShadow: false},
-      '第二種低層住居専用地域': {bcr: 60, far: 200, height: 10, north: true, dayShadow: false},
-      '第一種中高層住居専用地域': {bcr: 60, far: 300, height: null, north: true, dayShadow: true},
-      '第一種住居地域': {bcr: 60, far: 300, height: null, north: false, dayShadow: true},
-      '商業地域': {bcr: 80, far: 600, height: null, north: false, dayShadow: false},
-      '準工業地域': {bcr: 60, far: 300, height: null, north: false, dayShadow: false},
-      '無指定 (弟子屈町外)': {bcr: 70, far: 200, height: null, north: false, dayShadow: false},
+      '第一種低層住居専用地域':   {bcr: 50, far: 100, height: 10, north_base: 5,  dayShadow: false},
+      '第二種低層住居専用地域':   {bcr: 60, far: 200, height: 10, north_base: 5,  dayShadow: false},
+      '第一種中高層住居専用地域': {bcr: 60, far: 300, height: null, north_base: 10, dayShadow: true},
+      '第二種中高層住居専用地域': {bcr: 60, far: 300, height: null, north_base: 10, dayShadow: true},
+      '第一種住居地域':         {bcr: 60, far: 300, height: null, north_base: null, dayShadow: true},
+      '商業地域':               {bcr: 80, far: 600, height: null, north_base: null, dayShadow: false},
+      '準工業地域':             {bcr: 60, far: 300, height: null, north_base: null, dayShadow: false},
+      '無指定 (弟子屈町外)':     {bcr: 70, far: 200, height: null, north_base: null, dayShadow: false},
     };
     const limit = zoneLimits[useZone] || zoneLimits['無指定 (弟子屈町外)'];
 
@@ -2339,10 +2396,11 @@ export function createViewer(container, opts = {}) {
     const ridgeH = p.dome ? Math.max(W,D)/2*0.95 : (p.roofType === 'gable' ? (D/2 + EAVE_OUT) * pitch : 0.45);
     const peakH = totalH + ridgeH;
 
-    // 北側斜線: 5m + 1.25H 以下
-    const northSetback = opts.northSetback || 4.0;       // distance to north boundary (m)
-    const northSlopeAllowed = 5.0 + northSetback * 1.25;
-    const northOK = !limit.north || peakH <= northSlopeAllowed;
+    // 北側斜線: north_base + 1.25 × 隣地境界距離 (1低/2低=5m基準, 1中高/2中高=10m基準, 他は不適用)
+    const northSetback = opts.northSetback || 4.0;
+    const northBase = limit.north_base;     // 5 or 10 or null
+    const northSlopeAllowed = northBase != null ? northBase + northSetback * 1.25 : Infinity;
+    const northOK = !northBase || peakH <= northSlopeAllowed;
 
     // 道路斜線: 道路幅 + 1.25 (住居系)
     const roadWidth = opts.roadWidth || 6.0;
@@ -2367,7 +2425,7 @@ export function createViewer(container, opts = {}) {
       farLimit: limit.far, farOK: FAR <= limit.far,
       peakH: peakH.toFixed(1),
       heightLimit: limit.height, heightOK,
-      northOK, northSlopeAllowed: northSlopeAllowed.toFixed(1),
+      northOK, northSlopeAllowed: northSlopeAllowed === Infinity ? '不適用' : northSlopeAllowed.toFixed(1),
       roadOK, roadSlopeAllowed: roadSlopeAllowed.toFixed(1),
       adjacentOK, adjacentSlopeAllowed: adjacentSlopeAllowed.toFixed(1),
       dayShadowApplies: limit.dayShadow,
@@ -2413,12 +2471,29 @@ export function createViewer(container, opts = {}) {
     const p = currentPlan;
     const W = p.W * MM, D = p.D * MM;
     const stories = p.stories || 1;
-    const area = W * D * stories;
+    const areaPerFloor = W * D;                         // 階別床面積
+    const area = areaPerFloor * stories;                 // 延床
     const opening = p.openings?.south;
     const opW = opening ? (opening.w > 100 ? opening.w * MM : opening.w) : 0;
     const opH = opening ? (opening.h > 100 ? opening.h * MM : opening.h) : 0;
-    const lightArea = opW * opH;
-    const lightRatio = area > 0 ? lightArea / area : 0;
+    let lightArea = 0;
+    let sideWindows = 0;        // 東西側面窓
+    if (p.openings?.units) {
+      // YIELD: each unit has 2 windows (south main 1.5×1.6 + north small 0.9×1.2)
+      lightArea = p.openings.units * (1.5 * 1.6 + 0.9 * 1.2);
+    } else {
+      const lightArea_gf = opW * opH;
+      const lightArea_upper = stories > 1 ? opW * 0.9 * (stories - 1) : 0;
+      // 東西側面の小窓 (0.9 × 1.2 each, 4 walls, per story)
+      sideWindows = 0.9 * 1.2 * 4 * stories;
+      lightArea = lightArea_gf + lightArea_upper + sideWindows;
+      // 天窓 (skylight) ボーナス: MYTH/KOSMOS用
+      if (p.openings?.skylight) lightArea += 2.4 * 6 * 1.5;     // skylight 採光補正係数1.5
+    }
+    // 法28条: 居室の床面積に対して採光1/7
+    // 居室面積 ≒ 床面積の70% (廊下・収納・トイレ・浴室を除外)
+    const occupiedAreaPerFloor = areaPerFloor * 0.70;
+    const lightRatio = occupiedAreaPerFloor > 0 ? (lightArea / stories) / occupiedAreaPerFloor : 0;
     const lightRequired = 1/7;
 
     // 24時間換気 (0.5 ACH) — 第一種換気システム or 第三種(Φ150メインファン+各室Φ100排気)
@@ -2726,7 +2801,7 @@ export function createViewer(container, opts = {}) {
     exportGLTF, exportUSDZ, generateIFC, structuralAnalysis, codeCompliance,
     urbanPlanningCheck, primaryEnergy,
     getVRButton, getARButton, clashDetect,
-    manufacturingCSV, constructionSchedule, daylightFactor,
+    manufacturingCSV, constructionSchedule, daylightFactor, diagnoseAllPlans,
     getPlan: () => currentPlan,
   };
 }
