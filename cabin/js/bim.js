@@ -14,29 +14,30 @@ import { VRButton } from 'three/addons/webxr/VRButton.js';
 import { ARButton } from 'three/addons/webxr/ARButton.js';
 
 export const PLANS = {
-  mini:     {W: 3640,  D: 2730,  H: 2400, stories: 1, roofType: 'mono', roofPitch: 0.20, openings: {south: {w: 1500, h: 1170}, solar: 2}, name: 'MEBUKI', label: '9.9m²', tag: '建築確認不要'},
-  standard: {W: 5460,  D: 4550,  H: 3000, stories: 1, roofType: 'mono', roofPitch: 0.25, openings: {south: {w: 3000, h: 2200}, solar: 4}, name: 'SU', label: '24.8m²', tag: '本ガイドの標準'},
+  mini:     {W: 3640,  D: 2730,  H: 2400, stories: 1, roofType: 'mono', roofPitch: 0.15, openings: {south: {w: 1820, h: 1800}, solar: 2}, name: 'MEBUKI', label: '9.9m²', tag: '建築確認不要'},
+  standard: {W: 5460,  D: 4550,  H: 3000, stories: 1, roofType: 'mono', roofPitch: 0.15, openings: {south: {w: 3640, h: 2400}, solar: 4}, name: 'SU', label: '24.8m²', tag: '本ガイドの標準'},
   dome:     {W: 5900,  D: 5900,  H: 2500, dome: true, openings: {south: {w: 1500, h: 1800}, solar: 4}, name: 'TAMA', label: '40m²', tag: '2Vジオデシックドーム'},
-  large:    {W: 7280,  D: 5460,  H: 3000, stories: 1, roofType: 'mono', roofPitch: 0.25, openings: {south: {w: 4000, h: 2400}, solar: 6}, name: 'AN', label: '40m²', tag: 'ファミリー向け'},
-  xl:       {W: 9100,  D: 7280,  H: 3500, stories: 1, roofType: 'mono', roofPitch: 0.25, openings: {south: {w: 5000, h: 2400}, solar: 8}, name: 'MUNE', label: '66m²', tag: 'ゲストハウス運営可'},
-  villa:    {W: 9100,  D: 13200, H: 3200, stories: 1, roofType: 'mono', roofPitch: 0.20, openings: {south: {w: 6000, h: 2400}, solar: 12}, name: 'VILLA', label: '120m²', tag: 'リトリート平屋'},
-  grand:    {W: 13650, D: 7280,  H: 3000, stories: 2, roofType: 'mono', roofPitch: 0.25, openings: {south: {w: 6000, h: 2400}, solar: 18}, name: 'GRAND', label: '200m²', tag: 'SOLUNAベース'},
-  myth:     {W: 16380, D: 9100,  H: 3200, stories: 2, roofType: 'mono', roofPitch: 0.30, openings: {south: {w: 7000, h: 2400}, skylight: true, solar: 24}, name: 'MYTH', label: '300m²', tag: 'SOLUNAリトリート', deck: true, sauna: true},
-  kosmos:   {W: 22000, D: 11000, H: 3200, stories: 2, roofType: 'mono', roofPitch: 0.30, openings: {south: {w: 10000, h: 2700}, skylight: true, solar: 30}, name: 'KOSMOS', label: '500m²', tag: '中規模リトリート', deck: true},
-  pod:      {W: 3500,  D: 8000,  H: 3500, stories: 1, roofType: 'mono', roofPitch: 0.20, openings: {south: {w: 2500, h: 2000}}, name: 'POD', label: '25m²', tag: '都市ワンルーム'},
-  stack:    {W: 5000,  D: 9000,  H: 3000, stories: 2, roofType: 'mono', roofPitch: 0.20, openings: {south: {w: 4000, h: 2400}}, name: 'STACK', label: '75m²', tag: '都市標準'},
-  tower:    {W: 5000,  D: 10000, H: 3000, stories: 3, roofType: 'flat', pilotis: true, rooftopTerrace: true, openings: {south: {w: 4000, h: 2700}}, name: 'TOWER', label: '130m²', tag: '3階建て・賃貸併用'},
-  flat:     {W: 12000, D: 8000,  H: 3400, stories: 1, roofType: 'mono', roofPitch: 0.20, openings: {south: {w: 4500, h: 2400}, solar: 14}, name: 'FLAT', label: '95m²', tag: '平屋ファミリー'},
-  duo:      {W: 9000,  D: 11000, H: 3000, stories: 2, roofType: 'mono', roofPitch: 0.25, openings: {south: {w: 4500, h: 2200}, solar: 18}, name: 'DUO', label: '160m²', tag: '二世帯同居'},
-  yield:    {W: 12000, D: 8000,  H: 3000, stories: 2, roofType: 'flat', openings: {units: 6, south: {w: 1700, h: 1800}}, name: 'YIELD', label: '180m² 1K×6戸', tag: '投資1K×6戸'},
-  roots:    {W: 9000,  D: 7000,  H: 3000, stories: 1, roofType: 'mono', roofPitch: 0.20, openings: {south: {w: 4500, h: 2200}, solar: 10}, name: 'ROOTS', label: '60m²', tag: '終の住処'},
+  large:    {W: 7280,  D: 5460,  H: 3000, stories: 1, roofType: 'mono', roofPitch: 0.15, openings: {south: {w: 5460, h: 2400}, solar: 6}, name: 'AN', label: '40m²', tag: 'ファミリー向け'},
+  xl:       {W: 9100,  D: 7280,  H: 3500, stories: 1, roofType: 'mono', roofPitch: 0.15, openings: {south: {w: 7280, h: 2700}, solar: 8}, name: 'MUNE', label: '66m²', tag: 'ゲストハウス運営可'},
+  villa:    {W: 9100,  D: 13200, H: 3200, stories: 1, roofType: 'mono', roofPitch: 0.12, openings: {south: {w: 7280, h: 2700}, solar: 12}, name: 'VILLA', label: '120m²', tag: 'リトリート平屋'},
+  grand:    {W: 13650, D: 7280,  H: 3000, stories: 2, roofType: 'mono', roofPitch: 0.15, openings: {south: {w: 9100, h: 2400}, solar: 18}, name: 'GRAND', label: '200m²', tag: 'SOLUNAベース'},
+  myth:     {W: 16380, D: 9100,  H: 3200, stories: 2, roofType: 'mono', roofPitch: 0.15, openings: {south: {w: 10920, h: 2700}, skylight: true, solar: 24}, name: 'MYTH', label: '300m²', tag: 'SOLUNAリトリート', deck: true, sauna: true},
+  kosmos:   {W: 22000, D: 11000, H: 3200, stories: 2, roofType: 'mono', roofPitch: 0.12, openings: {south: {w: 14560, h: 2700}, skylight: true, solar: 30}, name: 'KOSMOS', label: '500m²', tag: '中規模リトリート', deck: true},
+  pod:      {W: 3500,  D: 8000,  H: 3500, stories: 1, roofType: 'mono', roofPitch: 0.15, openings: {south: {w: 2730, h: 2700}}, name: 'POD', label: '25m²', tag: '都市ワンルーム'},
+  stack:    {W: 5000,  D: 9000,  H: 3000, stories: 2, roofType: 'mono', roofPitch: 0.15, openings: {south: {w: 3640, h: 2400}}, name: 'STACK', label: '75m²', tag: '都市標準'},
+  tower:    {W: 5000,  D: 10000, H: 3000, stories: 3, roofType: 'flat', pilotis: true, rooftopTerrace: true, openings: {south: {w: 3640, h: 2700}}, name: 'TOWER', label: '130m²', tag: '3階建て・賃貸併用'},
+  flat:     {W: 12000, D: 8000,  H: 3400, stories: 1, roofType: 'mono', roofPitch: 0.15, openings: {south: {w: 9100, h: 2700}, solar: 14}, name: 'FLAT', label: '95m²', tag: '平屋ファミリー'},
+  duo:      {W: 9000,  D: 11000, H: 3000, stories: 2, roofType: 'mono', roofPitch: 0.15, openings: {south: {w: 7280, h: 2400}, solar: 18}, name: 'DUO', label: '160m²', tag: '二世帯同居'},
+  yield:    {W: 12000, D: 8000,  H: 3000, stories: 2, roofType: 'flat', openings: {units: 6, south: {w: 1820, h: 2100}}, name: 'YIELD', label: '180m² 1K×6戸', tag: '投資1K×6戸'},
+  roots:    {W: 9000,  D: 7000,  H: 3000, stories: 1, roofType: 'mono', roofPitch: 0.12, openings: {south: {w: 7280, h: 2400}, solar: 10}, name: 'ROOTS', label: '60m²', tag: '終の住処'},
 };
 
 const MM = 0.001;            // mm → m
 const FL_OFFSET = 0.40;      // GL→FL段差 400mm (北海道凍結深度対応)
-const EAVE_OUT  = 0.45;      // 軒の出 450mm
+const EAVE_OUT  = 0.70;      // 軒の出 700mm (深軒で影が強く・水切りも有利)
 const PANEL_W   = 0.910;     // SIPs 910mm モジュール
 const SASH_T    = 0.045;     // サッシ枠 45mm
+const YAKISUGI_RATIO = 0.33; // 上部 1/3 を焼杉に (two-tone facade)
 
 // ========= Color presets (5 finishes + custom) =========
 export const COLOR_PRESETS = {
@@ -382,6 +383,13 @@ function buildMaterials() {
     roughness: 0.82, metalness: 0, envMapIntensity: 0.7,
     normalScale: new THREE.Vector2(1.0, 1.0),
   });
+  // 焼杉 (yakisugi / shou sugi ban) — 表面炭化、墨色
+  const yakisugiPack = packRepeat(texCedar(0x1a1612), 2, 1);
+  MATS.yakisugi = new THREE.MeshStandardMaterial({
+    color: 0x1a1612, ...yakisugiPack,
+    roughness: 0.95, metalness: 0, envMapIntensity: 0.4,
+    normalScale: new THREE.Vector2(1.4, 1.4),     // 炭化で凹凸が深い
+  });
   MATS.glass = new THREE.MeshPhysicalMaterial({
     color: COLORS.glass, roughness: 0.02, metalness: 0,
     transmission: 0.92, transparent: true, opacity: 0.45,
@@ -452,6 +460,47 @@ export const COST_COEFS = {
   cleanup:      {label: '廃材処分・最終清掃', pct: 0.025, note: '材料費の2.5%（産廃マニフェスト）'},
   contingency:  {label: '予備費 (Contingency)', pct: 0.08, note: '材料費の8% (寒冷地天候リスク)'},
 };
+
+// コストモード切替: 標準/DIY内装/シェルキット/PPA太陽光/オフサイト
+// それぞれ材料費・労務費に倍率を掛ける
+export const COST_MODES = {
+  standard: {
+    label: '標準 (フル施工・引渡し)',
+    matMult: 1.0, laborMult: 1.0, removeKeys: [],
+    note: '建築士監理 + 施工会社一括 + 内装込',
+  },
+  diy_interior: {
+    label: 'DIY内装 (施主仕上げ)',
+    matMult: 0.92, laborMult: 0.55, removeKeys: [],
+    note: '床貼り・壁塗装・棚は施主、外皮・設備は施工会社',
+  },
+  shell_kit: {
+    label: 'シェルキット (外皮+屋根+開口部のみ)',
+    matMult: 0.55, laborMult: 0.40, removeKeys: ['septic','rainwater','electric_in'],
+    note: '外皮・屋根・サッシのみ。基礎・内装・水回りは別発注 (¥298万〜)',
+  },
+  ppa_solar: {
+    label: 'PPA太陽光 (PV分を本体から外す)',
+    matMult: 1.0, laborMult: 1.0, removeKeys: [],
+    note: '太陽光・パワコンは月額¥7,500で別契約 → 本体価格-15-30万/kW',
+    pvOffset: true,
+  },
+  offsite_factory: {
+    label: 'オフサイト工場プレカット (現場5日)',
+    matMult: 0.95, laborMult: 0.65, removeKeys: [],
+    note: '弟子屈SIPs工場でプレカット → 現場工期14→5日、人件費-35%',
+  },
+  cooperative: {
+    label: 'コーポラティブ (共同所有10名)',
+    matMult: 1.0, laborMult: 1.0, removeKeys: [],
+    note: '1棟を10名で共同所有 → 1人あたり1/10の費用',
+    divBy: 10,
+  },
+};
+export let CURRENT_COST_MODE = 'standard';
+export function setCostMode(key) {
+  if (COST_MODES[key]) CURRENT_COST_MODE = key;
+}
 
 // 季節別工期係数 (12-3月は基礎打設不可、施工費1.5倍)
 export const SEASON_FACTORS = {
@@ -765,6 +814,51 @@ function buildSIPs(plan) {
   west.position.set(-W/2 + t/2, baseY + totalH/2, 0);
   tagWallArea(west, D, totalH);
   g.add(west);
+
+  // ── 焼杉 (yakisugi) 上部 1/3 オーバーレイ — two-tone facade ──
+  // Inset 5mm outside the existing cladding so it reads as a separate band
+  const ysH = totalH * YAKISUGI_RATIO;
+  const ysT = 0.012;
+  const ysY = baseY + totalH - ysH/2;     // 上部に配置
+  const overlay = (w, depth, x, z, ry) => {
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, ysH, ysT), MATS.yakisugi);
+    m.position.set(x, ysY, z);
+    if (ry) m.rotation.y = ry;
+    g.add(m);
+    g.add(edge(m, COLORS.line, 0.3));
+  };
+  overlay(W,  ysT,  0,  D/2 - t/2 + ysT/2 + 0.005, 0);              // south band
+  overlay(W,  ysT,  0, -D/2 + t/2 - ysT/2 - 0.005, 0);              // north band
+  overlay(D,  ysT,  W/2 - t/2 + ysT/2 + 0.005, 0,  Math.PI/2);      // east band
+  overlay(D,  ysT, -W/2 + t/2 - ysT/2 - 0.005, 0,  Math.PI/2);      // west band
+
+  // ── 木製縦ルーバー (south slats over windows) — sun-shading + visual rhythm ──
+  if (plan.openings?.south && !plan.openings?.units) {
+    const op = plan.openings.south;
+    const oW = (op.w || 3000) * MM;
+    const oH = (op.h || 2400) * MM;
+    const slatN = Math.max(6, Math.floor(oW / 0.18));    // 180mm pitch
+    const slatT = 0.04;
+    const slatD = 0.05;
+    const lvBaseY = baseY + 0.10;
+    const lvH = oH + 0.30;     // 開口 + 上下マージン
+    const lvW = oW + 0.20;     // 開口 + 左右マージン
+    const offset = 0.30;        // 30cm 開口前にオフセット
+    const startX = -lvW/2 + slatT/2;
+    const stepX = (lvW - slatT) / (slatN - 1);
+    for (let i = 0; i < slatN; i++) {
+      const slat = box(slatT, lvH, slatD, MATS.cedar);
+      slat.position.set(startX + i * stepX, lvBaseY + lvH/2, D/2 + offset);
+      g.add(slat);
+    }
+    // ルーバー支柱 (top + bottom rail)
+    const railT = 0.05;
+    for (const yOff of [0.05, lvH - 0.05]) {
+      const rail = box(lvW, railT, slatD, MATS.cedarLite);
+      rail.position.set(0, lvBaseY + yOff + railT/2, D/2 + offset);
+      g.add(rail);
+    }
+  }
 
   // Inter-floor band (showing slab edge)
   for (let s = 1; s < stories; s++) {
@@ -1308,24 +1402,39 @@ function buildDeck(plan) {
   const W = plan.W * MM, D = plan.D * MM;
   const baseY = plan.pilotis ? 2.4 + FL_OFFSET : FL_OFFSET;
   const dDeck = Math.min(3.0, D * 0.25);
-  const deck = box(W * 0.95, 0.10, dDeck, MATS.deck);
-  deck.position.set(0, baseY - 0.05, D/2 + dDeck/2);
-  tagItem(deck, 'deck_wood', W * 0.95 * dDeck);
-  g.add(deck);
-  g.add(edge(deck, COLORS.line, 0.4));
-  // Deck joists pattern (just visible from below as edges) — skip for simplicity
-  // Cedar railing (knee height 1100)
+
+  // ── 縁側 (engawa) — 二段デッキ: 上段 (FL同) + 下段 (中間段) + 黒砂利 ──
+  const upperW = W * 0.95;
+  const upper = box(upperW, 0.10, dDeck, MATS.deck);
+  upper.position.set(0, baseY - 0.05, D/2 + dDeck/2);
+  tagItem(upper, 'deck_wood', upperW * dDeck);
+  g.add(upper);
+  g.add(edge(upper, COLORS.line, 0.4));
+
+  // 下段 (FL - 200mm)
+  const lowerW = upperW * 0.85;
+  const lowerD = dDeck * 0.7;
+  const lower = box(lowerW, 0.08, lowerD, MATS.deck);
+  lower.position.set(0, baseY - 0.25, D/2 + dDeck + lowerD/2);
+  tagItem(lower, 'deck_wood', lowerW * lowerD);
+  g.add(lower);
+  g.add(edge(lower, COLORS.line, 0.4));
+
+  // 黒砂利 area (deck の前 + 周囲)
+  const gravelW = upperW * 1.2;
+  const gravelD = 1.4;
+  const gravelMat = new THREE.MeshStandardMaterial({color: 0x252220, roughness: 1.0, metalness: 0});
+  const gravel = box(gravelW, 0.04, gravelD, gravelMat);
+  gravel.position.set(0, -0.32, D/2 + dDeck + lowerD + gravelD/2);
+  g.add(gravel);
+  g.add(edge(gravel, 0x000000, 0.2));
+
+  // ── 手すり (rail) — 上段デッキの両端のみ (前面はオープン) ──
   const railH = 1.05, railT = 0.04;
-  const railTop = box(W * 0.95, railT, railT, MATS.cedar);
-  railTop.position.set(0, baseY + railH, D/2 + dDeck);
-  g.add(railTop);
-  // Posts
-  const postCount = Math.max(2, Math.ceil(W / 1.5));
-  for (let i = 0; i <= postCount; i++) {
-    const x = -W * 0.95 / 2 + i * (W * 0.95 / postCount);
-    const post = box(railT, railH, railT, MATS.cedar);
-    post.position.set(x, baseY + railH/2, D/2 + dDeck);
-    g.add(post);
+  for (const xSign of [1, -1]) {
+    const sideRail = box(railT, railH, dDeck, MATS.cedar);
+    sideRail.position.set(xSign * upperW/2, baseY + railH/2, D/2 + dDeck/2);
+    g.add(sideRail);
   }
 
   // Sauna barrel (MYTH)
@@ -2949,18 +3058,33 @@ export function createViewer(container, opts = {}) {
     });
   }
 
-  // ── 諸経費・労務費自動計算 ──
+  // ── 諸経費・労務費自動計算 (CURRENT_COST_MODE 適用) ──
   function softCosts() {
     const items = takeoff();
-    const matTotal = items.reduce((s, r) => s + r.cost, 0);
+    const mode = COST_MODES[CURRENT_COST_MODE] || COST_MODES.standard;
+    let matTotal = items.reduce((s, r) => s + r.cost, 0);
+    // PPA: PVパネル・パワコンを本体から外す
+    if (mode.pvOffset) {
+      const pvCost = items.filter(r => r.itemId === 'pv_panel' || r.itemId === 'pv_inverter').reduce((s,r)=>s+r.cost, 0);
+      matTotal -= pvCost;
+    }
+    matTotal = matTotal * (mode.matMult || 1.0);
     const breakdown = [];
     let total = matTotal;
     for (const [k, c] of Object.entries(COST_COEFS)) {
-      const cost = c.pct ? matTotal * c.pct : (c.fixed || 0);
+      if (mode.removeKeys && mode.removeKeys.includes(k)) continue;
+      const isLabor = k === 'labor';
+      const mult = isLabor ? (mode.laborMult || 1.0) : 1.0;
+      const cost = (c.pct ? matTotal * c.pct : (c.fixed || 0)) * mult;
       breakdown.push({key: k, label: c.label, note: c.note, cost});
       total += cost;
     }
-    return {matTotal, breakdown, grandTotal: total};
+    if (mode.divBy) {
+      total = total / mode.divBy;
+      matTotal = matTotal / mode.divBy;
+      for (const b of breakdown) b.cost = b.cost / mode.divBy;
+    }
+    return {matTotal, breakdown, grandTotal: total, mode: mode.label, modeNote: mode.note};
   }
 
   // ── UA値計算 (envelope thermal performance) ──
@@ -3130,6 +3254,9 @@ export function createViewer(container, opts = {}) {
     urbanPlanningCheck, primaryEnergy,
     getVRButton, getARButton, clashDetect,
     manufacturingCSV, constructionSchedule, daylightFactor, diagnoseAllPlans,
+    setCostMode: (k) => { setCostMode(k); if (currentPlan) loadPlan(currentPlan.id); },
+    getCostMode: () => CURRENT_COST_MODE,
+    listCostModes: () => COST_MODES,
     getPlan: () => currentPlan,
   };
 }

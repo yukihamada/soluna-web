@@ -365,6 +365,17 @@
   <button id="importBtn" style="width:100%;margin-bottom:4px">📥 SketchUp/Revit/IFC 取込</button>
   <button id="installBtn" style="width:100%;margin-bottom:4px;display:none">📲 アプリとしてインストール</button>
   <button id="collabBtn" style="width:100%;margin-bottom:4px">👥 リアルタイム協調編集</button>
+  <hr style="border:0;border-top:1px solid #d6d2c8;margin:8px 0">
+  <label style="font-size:11px;color:#666;display:block;margin-bottom:4px">💴 コストモード切替</label>
+  <select id="costModeSelect" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:11px;margin-bottom:6px;font-family:inherit">
+    <option value="standard">標準 (フル施工・引渡し)</option>
+    <option value="diy_interior">DIY内装 (-25%)</option>
+    <option value="shell_kit">シェルキット 外皮のみ (-45%)</option>
+    <option value="ppa_solar">PPA太陽光 (PV分外し)</option>
+    <option value="offsite_factory">オフサイト工場プレカット (-15%)</option>
+    <option value="cooperative">コーポラティブ 共同所有10名</option>
+  </select>
+  <div id="costModeNote" style="font-size:10px;color:#888;margin-bottom:8px;line-height:1.4"></div>
   <button id="quoteBtn" style="width:100%;background:#1a6b3a;color:#fff;border-color:#1a6b3a">✉️ 見積依頼を送る</button>
 </div>
 
@@ -2223,6 +2234,31 @@ if (!localStorage.getItem('bim_visited')) {
   setTimeout(startTutorial, 1500);
   localStorage.setItem('bim_visited', '1');
 }
+
+// ─── コストモード切替 ───
+const costSel = document.getElementById('costModeSelect');
+const costNote = document.getElementById('costModeNote');
+const COST_MODE_NOTES = {
+  standard: '建築士監理 + 施工会社一括 + 内装込',
+  diy_interior: '床貼り・壁塗装・棚は施主、外皮・設備は施工会社',
+  shell_kit: '外皮・屋根・サッシのみ。基礎・内装・水回りは別発注 (¥298万〜)',
+  ppa_solar: '太陽光・パワコンは月額¥7,500で別契約',
+  offsite_factory: '弟子屈SIPs工場でプレカット → 現場工期14→5日',
+  cooperative: '1棟を10名で共同所有 → 1人あたり1/10の費用',
+};
+function refreshCostNote() {
+  costNote.textContent = COST_MODE_NOTES[costSel.value] || '';
+}
+refreshCostNote();
+costSel.addEventListener('change', () => {
+  refreshCostNote();
+  if (viewer.setCostMode) viewer.setCostMode(costSel.value);
+  // Refresh BOM modal if open
+  const bomModal = document.getElementById('bomModal');
+  if (bomModal && bomModal.style.display !== 'none') {
+    document.getElementById('bomBtn')?.click();
+  }
+});
 
 // ─── PWA: ServiceWorker registration + Install prompt ───
 if ('serviceWorker' in navigator) {
