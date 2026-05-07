@@ -14,22 +14,22 @@ import { VRButton } from 'three/addons/webxr/VRButton.js';
 import { ARButton } from 'three/addons/webxr/ARButton.js';
 
 export const PLANS = {
-  mini:     {W: 3640,  D: 2730,  H: 2400, stories: 1, roofType: 'gable', roofPitch: 0.20, openings: {south: {w: 1500, h: 1170}, solar: 2}, name: 'MEBUKI', label: '9.9m²', tag: '建築確認不要'},
-  standard: {W: 5460,  D: 4550,  H: 3000, stories: 1, roofType: 'gable', roofPitch: 0.25, openings: {south: {w: 3000, h: 2200}, solar: 4}, name: 'SU', label: '24.8m²', tag: '本ガイドの標準'},
+  mini:     {W: 3640,  D: 2730,  H: 2400, stories: 1, roofType: 'mono', roofPitch: 0.20, openings: {south: {w: 1500, h: 1170}, solar: 2}, name: 'MEBUKI', label: '9.9m²', tag: '建築確認不要'},
+  standard: {W: 5460,  D: 4550,  H: 3000, stories: 1, roofType: 'mono', roofPitch: 0.25, openings: {south: {w: 3000, h: 2200}, solar: 4}, name: 'SU', label: '24.8m²', tag: '本ガイドの標準'},
   dome:     {W: 5900,  D: 5900,  H: 2500, dome: true, openings: {south: {w: 1500, h: 1800}, solar: 4}, name: 'TAMA', label: '40m²', tag: '2Vジオデシックドーム'},
-  large:    {W: 7280,  D: 5460,  H: 3000, stories: 1, roofType: 'gable', roofPitch: 0.25, openings: {south: {w: 4000, h: 2400}, solar: 6}, name: 'AN', label: '40m²', tag: 'ファミリー向け'},
-  xl:       {W: 9100,  D: 7280,  H: 3500, stories: 1, roofType: 'gable', roofPitch: 0.25, openings: {south: {w: 5000, h: 2400}, solar: 8}, name: 'MUNE', label: '66m²', tag: 'ゲストハウス運営可'},
-  villa:    {W: 9100,  D: 13200, H: 3200, stories: 1, roofType: 'gable', roofPitch: 0.20, openings: {south: {w: 6000, h: 2400}, solar: 12}, name: 'VILLA', label: '120m²', tag: 'リトリート平屋'},
-  grand:    {W: 13650, D: 7280,  H: 3000, stories: 2, roofType: 'gable', roofPitch: 0.25, openings: {south: {w: 6000, h: 2400}, solar: 18}, name: 'GRAND', label: '200m²', tag: 'SOLUNAベース'},
-  myth:     {W: 16380, D: 9100,  H: 3200, stories: 2, roofType: 'gable', roofPitch: 0.30, openings: {south: {w: 7000, h: 2400}, skylight: true, solar: 24}, name: 'MYTH', label: '300m²', tag: 'SOLUNAリトリート', deck: true, sauna: true},
-  kosmos:   {W: 22000, D: 11000, H: 3200, stories: 2, roofType: 'gable', roofPitch: 0.30, openings: {south: {w: 10000, h: 2700}, skylight: true, solar: 30}, name: 'KOSMOS', label: '500m²', tag: '中規模リトリート', deck: true},
-  pod:      {W: 3500,  D: 8000,  H: 3500, stories: 1, roofType: 'gable', roofPitch: 0.20, openings: {south: {w: 2500, h: 2000}}, name: 'POD', label: '25m²', tag: '都市ワンルーム'},
-  stack:    {W: 5000,  D: 9000,  H: 3000, stories: 2, roofType: 'gable', roofPitch: 0.20, openings: {south: {w: 4000, h: 2400}}, name: 'STACK', label: '75m²', tag: '都市標準'},
+  large:    {W: 7280,  D: 5460,  H: 3000, stories: 1, roofType: 'mono', roofPitch: 0.25, openings: {south: {w: 4000, h: 2400}, solar: 6}, name: 'AN', label: '40m²', tag: 'ファミリー向け'},
+  xl:       {W: 9100,  D: 7280,  H: 3500, stories: 1, roofType: 'mono', roofPitch: 0.25, openings: {south: {w: 5000, h: 2400}, solar: 8}, name: 'MUNE', label: '66m²', tag: 'ゲストハウス運営可'},
+  villa:    {W: 9100,  D: 13200, H: 3200, stories: 1, roofType: 'mono', roofPitch: 0.20, openings: {south: {w: 6000, h: 2400}, solar: 12}, name: 'VILLA', label: '120m²', tag: 'リトリート平屋'},
+  grand:    {W: 13650, D: 7280,  H: 3000, stories: 2, roofType: 'mono', roofPitch: 0.25, openings: {south: {w: 6000, h: 2400}, solar: 18}, name: 'GRAND', label: '200m²', tag: 'SOLUNAベース'},
+  myth:     {W: 16380, D: 9100,  H: 3200, stories: 2, roofType: 'mono', roofPitch: 0.30, openings: {south: {w: 7000, h: 2400}, skylight: true, solar: 24}, name: 'MYTH', label: '300m²', tag: 'SOLUNAリトリート', deck: true, sauna: true},
+  kosmos:   {W: 22000, D: 11000, H: 3200, stories: 2, roofType: 'mono', roofPitch: 0.30, openings: {south: {w: 10000, h: 2700}, skylight: true, solar: 30}, name: 'KOSMOS', label: '500m²', tag: '中規模リトリート', deck: true},
+  pod:      {W: 3500,  D: 8000,  H: 3500, stories: 1, roofType: 'mono', roofPitch: 0.20, openings: {south: {w: 2500, h: 2000}}, name: 'POD', label: '25m²', tag: '都市ワンルーム'},
+  stack:    {W: 5000,  D: 9000,  H: 3000, stories: 2, roofType: 'mono', roofPitch: 0.20, openings: {south: {w: 4000, h: 2400}}, name: 'STACK', label: '75m²', tag: '都市標準'},
   tower:    {W: 5000,  D: 10000, H: 3000, stories: 3, roofType: 'flat', pilotis: true, rooftopTerrace: true, openings: {south: {w: 4000, h: 2700}}, name: 'TOWER', label: '130m²', tag: '3階建て・賃貸併用'},
-  flat:     {W: 12000, D: 8000,  H: 3400, stories: 1, roofType: 'gable', roofPitch: 0.20, openings: {south: {w: 4500, h: 2400}, solar: 14}, name: 'FLAT', label: '95m²', tag: '平屋ファミリー'},
-  duo:      {W: 9000,  D: 11000, H: 3000, stories: 2, roofType: 'gable', roofPitch: 0.25, openings: {south: {w: 4500, h: 2200}, solar: 18}, name: 'DUO', label: '160m²', tag: '二世帯同居'},
+  flat:     {W: 12000, D: 8000,  H: 3400, stories: 1, roofType: 'mono', roofPitch: 0.20, openings: {south: {w: 4500, h: 2400}, solar: 14}, name: 'FLAT', label: '95m²', tag: '平屋ファミリー'},
+  duo:      {W: 9000,  D: 11000, H: 3000, stories: 2, roofType: 'mono', roofPitch: 0.25, openings: {south: {w: 4500, h: 2200}, solar: 18}, name: 'DUO', label: '160m²', tag: '二世帯同居'},
   yield:    {W: 12000, D: 8000,  H: 3000, stories: 2, roofType: 'flat', openings: {units: 6, south: {w: 1700, h: 1800}}, name: 'YIELD', label: '180m² 1K×6戸', tag: '投資1K×6戸'},
-  roots:    {W: 9000,  D: 7000,  H: 3000, stories: 1, roofType: 'gable', roofPitch: 0.20, openings: {south: {w: 4500, h: 2200}, solar: 10}, name: 'ROOTS', label: '60m²', tag: '終の住処'},
+  roots:    {W: 9000,  D: 7000,  H: 3000, stories: 1, roofType: 'mono', roofPitch: 0.20, openings: {south: {w: 4500, h: 2200}, solar: 10}, name: 'ROOTS', label: '60m²', tag: '終の住処'},
 };
 
 const MM = 0.001;            // mm → m
@@ -676,8 +676,8 @@ function buildStructure(plan) {
     g.add(top);
   }
 
-  // 露し梁 KD杉 105×180mm — 平屋＆ガブル屋根のみ、桁行方向に等間隔配置
-  if (plan.roofType === 'gable' && stories === 1) {
+  // 露し梁 KD杉 105×180mm — 平屋＆勾配屋根のみ、桁行方向に等間隔配置
+  if ((plan.roofType === 'gable' || plan.roofType === 'mono') && stories === 1) {
     const beamN = Math.max(2, Math.ceil(W / 1.82));      // 1820mmピッチ
     const beamW = 0.105, beamH = 0.18;
     const beamY = baseY + storyH - beamH/2 - 0.05;
@@ -689,19 +689,22 @@ function buildStructure(plan) {
     }
   }
 
-  // ロフト床（屋根裏） — MEBUKI/SU/AN/MUNE のような小〜中規模平屋に追加
-  if (plan.roofType === 'gable' && stories === 1 && (plan.H || 3000) <= 3500) {
+  // ロフト床（屋根裏） — 平屋の小〜中規模に追加。gable=ridge下、mono=高側に配置
+  if ((plan.roofType === 'gable' || plan.roofType === 'mono') && stories === 1 && (plan.H || 3000) <= 3500) {
     const pitch = plan.roofPitch || 0.25;
-    const ridgeH = (D/2 + EAVE_OUT) * pitch;
+    const isMono = plan.roofType === 'mono';
+    // gable: 棟高さ = (D/2+EAVE) * pitch ; mono: 高側ピーク = (D + 2*EAVE) * pitch
+    const peakH = isMono ? (D + EAVE_OUT * 2) * pitch : (D/2 + EAVE_OUT) * pitch;
     const loftAreaHmin = 1.4;        // ロフト床上の最低空間
-    if (ridgeH > loftAreaHmin) {
-      // ロフト床面積：屋根勾配で天井1.4m以上を確保できる範囲
-      const loftDepthRatio = Math.max(0, (ridgeH - loftAreaHmin) / ridgeH);
+    if (peakH > loftAreaHmin) {
+      const loftDepthRatio = Math.max(0, (peakH - loftAreaHmin) / peakH);
       const loftD = D * 0.55 * loftDepthRatio;
       if (loftD > 1.5) {
         const loftFloor = box(W - 0.4, 0.10, loftD, MATS.cedarLite);
         const loftY = baseY + storyH - 0.05 + 0.05;
-        loftFloor.position.set(0, loftY + 0.05, 0);
+        // mono: 北側(高側)に寄せる、gable: 中央
+        const loftZ = isMono ? -(D/2 - loftD/2 - 0.5) : 0;
+        loftFloor.position.set(0, loftY + 0.05, loftZ);
         g.add(loftFloor);
         g.add(edge(loftFloor, COLORS.line, 0.6));
 
@@ -710,14 +713,14 @@ function buildStructure(plan) {
         const stepCnt = 7;
         const ladW = 0.45;
         const sideR = box(0.04, ladderH, 0.04, MATS.cedarLite);
-        sideR.position.set(-W/2 + 0.5, baseY + ladderH/2, -loftD/2 + 0.05);
+        sideR.position.set(-W/2 + 0.5, baseY + ladderH/2, loftZ - loftD/2 + 0.05);
         g.add(sideR);
         const sideR2 = sideR.clone();
         sideR2.position.x += ladW;
         g.add(sideR2);
         for (let i = 0; i < stepCnt; i++) {
           const step = box(ladW + 0.04, 0.025, 0.06, MATS.cedarLite);
-          step.position.set(-W/2 + 0.5 + ladW/2, baseY + 0.15 + i * (ladderH - 0.3) / (stepCnt - 1), -loftD/2 + 0.05);
+          step.position.set(-W/2 + 0.5 + ladW/2, baseY + 0.15 + i * (ladderH - 0.3) / (stepCnt - 1), loftZ - loftD/2 + 0.05);
           g.add(step);
         }
       }
@@ -958,6 +961,90 @@ function buildRoof(plan) {
     return g;
   }
 
+  // 片屋根 (mono-pitch): high edge at NORTH (-Z), low edge at SOUTH (+Z).
+  // → Roof surface faces SOUTH (good for solar + snow shed in 北海道).
+  if (plan.roofType === 'mono') {
+    const pitch = plan.roofPitch || 0.25;
+    const run = D + EAVE_OUT * 2;       // total span N→S
+    const dropH = run * pitch;          // rise from south to north
+    const tRoof = 0.10;
+    const roofW = W + EAVE_OUT * 2;
+    const slope = Math.atan(pitch);
+    const cosS = Math.cos(slope);
+    const tVert = tRoof / cosS;
+
+    // Profile in (Z, Y) plane:
+    //   south_eave = ( D/2 + EAVE_OUT ,  eaveY                 )  ← low side
+    //   north_eave = ( -D/2 - EAVE_OUT,  eaveY + dropH         )  ← high side
+    //   north_top  = ( -D/2 - EAVE_OUT,  eaveY + dropH + tVert )
+    //   south_top  = ( D/2  + EAVE_OUT,  eaveY + tVert         )
+    const south = D/2 + EAVE_OUT;
+    const north = -D/2 - EAVE_OUT;
+    const profile = new THREE.Shape();
+    profile.moveTo(north, eaveY + dropH);
+    profile.lineTo(south, eaveY);
+    profile.lineTo(south, eaveY + tVert);
+    profile.lineTo(north, eaveY + dropH + tVert);
+    profile.closePath();
+    const roofGeo = new THREE.ExtrudeGeometry(profile, {
+      depth: roofW, bevelEnabled: false, curveSegments: 1,
+    });
+    const roof = new THREE.Mesh(roofGeo, MATS.steel);
+    roof.rotation.y = -Math.PI / 2;
+    roof.position.x = roofW / 2;
+    const slopeLen = Math.hypot(run, dropH);
+    tagItem(roof, 'sips_roof', roofW * slopeLen);     // single slope (not 2× like gable)
+    g.add(roof);
+    g.add(edge(roof, COLORS.line, 0.45));
+
+    // East/West side gable-fill — right triangle: south-low, north-high
+    // The wall stops at eaveY; the roof underside slopes up north-ward,
+    // so the gap between wall-top and roof-underside is a triangle that
+    // peaks at the north wall (height = dropH * D / run).
+    const sideTriH = dropH * (D / run);
+    for (const xSign of [1, -1]) {
+      const shape = new THREE.Shape();
+      shape.moveTo( D/2, 0);                      // south-low corner (zero rise)
+      shape.lineTo(-D/2, 0);                      // north corner at wall top
+      shape.lineTo(-D/2, sideTriH);               // north corner at roof underside
+      shape.closePath();
+      const tri = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, {depth: 0.02, bevelEnabled: false}), MATS.steel);
+      tri.rotation.y = Math.PI / 2;
+      tri.position.set(xSign * (W/2 - 0.01), eaveY, 0);
+      g.add(tri);
+      g.add(edge(tri, COLORS.line, 0.6));
+    }
+
+    // 雨樋 — only at the LOW side (south)
+    const gutter = box(roofW, 0.06, 0.10, MATS.steelDark);
+    gutter.position.set(0, eaveY - 0.04, D/2 + EAVE_OUT - 0.06);
+    g.add(gutter);
+
+    // Skylight cube on north (high side) — for MYTH/KOSMOS
+    if (plan.openings?.skylight) {
+      const skW = Math.min(2.6, W * 0.18);
+      const skH = 1.0;
+      const skD = Math.min(D * 0.30, 4);
+      const skZ = -D/2 + skD/2 + 0.5;
+      const skYBase = eaveY + dropH * (1 - (skZ + D/2) / run);
+      const tower = box(skW, skH, skD, MATS.steelDark);
+      tower.position.set(0, skYBase + skH/2, skZ);
+      g.add(tower);
+      g.add(edge(tower, 0xffffff, 0.4));
+      const glass = box(skW - 0.20, 0.10, skD - 0.20, MATS.skylight);
+      glass.position.set(0, skYBase + skH, skZ);
+      g.add(glass);
+    }
+
+    // Chimney — west-side near low eave (typical)
+    const chimH = dropH * 0.6 + 0.8;
+    const chim = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, chimH, 16), MATS.steelDark);
+    chim.position.set(W/2 - 0.6, eaveY + chimH/2 + 0.5, D/4);
+    g.add(chim);
+
+    return g;
+  }
+
   // Gable: ridge along X. Half-depth = D/2. Pitch = rise/run.
   // Build the roof as a single ExtrudeGeometry — gable profile (with overhang + thickness) extruded along W.
   // This guarantees no gap at the ridge.
@@ -1156,14 +1243,24 @@ function buildSolar(plan) {
     return g;
   }
 
-  // Gable: south slope (+Z). Panels sit ON TOP of the roof outer surface.
-  // Roof outer surface (south side): goes from (z=run, y=eaveY+tVert) to (z=0, y=eaveY+ridgeH+tVert)
+  // Sloped roof — gable south slope OR mono-pitch (south face). Panels sit ON the outer surface.
+  // mono: full N-S span. gable: south half only.
+  const isMono = plan.roofType === 'mono';
+  const monoRun = D + EAVE_OUT * 2;
+  const monoDropH = monoRun * pitch;
+  const monoSlope = Math.atan(pitch);
+  const monoSlopeLen = Math.hypot(monoRun, monoDropH);
+  const usedSlope = isMono ? monoSlope : slope;
+  const usedSlopeLen = isMono ? monoSlopeLen : slopeLen;
+  const usedRun = isMono ? monoRun : run;
+  const usedDropH = isMono ? monoDropH : ridgeH;
   const tRoof = 0.10;                        // matches buildRoof
-  const tVert = tRoof / Math.cos(slope);
+  const tVert = tRoof / Math.cos(usedSlope);
   const standoff = 0.05 + 0.0225;             // 50mm bracket + half panel thickness
-  const standoffY = standoff * Math.cos(slope);
-  const standoffZ = standoff * Math.sin(slope);
-  const usableSlope = slopeLen - margin - ridgeMargin;
+  const standoffY = standoff * Math.cos(usedSlope);
+  const standoffZ = standoff * Math.sin(usedSlope);
+  // Mono has more usable slope (entire N-S span); gable only south half. ridgeMargin = at top (north for mono, ridge for gable)
+  const usableSlope = usedSlopeLen - margin - ridgeMargin;
   const usableW = W - margin * 2;
   const cols = Math.max(1, Math.floor(usableW / (pW + gap)));
   const totalRowW = cols * pW + (cols - 1) * gap;
@@ -1174,13 +1271,14 @@ function buildSolar(plan) {
     for (let c = 0; c < cols; c++) {
       if (placed >= count) break;
       const along = margin + r * (pH + gap) + pH/2;
-      // Position on the OUTER roof surface, then offset by standoff perpendicular to slope
-      const z = (D/2 + EAVE_OUT) - along * Math.cos(slope) - standoffZ;
-      const y = eaveY + tVert + along * Math.sin(slope) + standoffY;
+      // Outer roof surface starts at south-eave (z = D/2+EAVE_OUT, y = eaveY+tVert)
+      // Travels north along slope. For each "along" distance, z decreases and y increases.
+      const z = (D/2 + EAVE_OUT) - along * Math.cos(usedSlope) - standoffZ;
+      const y = eaveY + tVert + along * Math.sin(usedSlope) + standoffY;
       const panel = new THREE.Mesh(new THREE.BoxGeometry(pW - 0.005, 0.045, pH - 0.005), MATS.solar);
       const x = -totalRowW/2 + c * (pW + gap) + pW/2;
       panel.position.set(x, y, z);
-      panel.rotation.x = -slope;
+      panel.rotation.x = -usedSlope;
       tagItem(panel, 'pv_panel', 1);
       g.add(panel);
       g.add(edge(panel, COLORS.solarFr, 0.8));
@@ -1188,16 +1286,16 @@ function buildSolar(plan) {
     }
   }
 
-  // 雪止め (snow guard) — black bar across south slope, near eave (sits on roof surface)
+  // 雪止め (snow guard) — near south eave (low side), spans whole width
   const snowGuard = box(W - 0.2, 0.05, 0.05, MATS.steelDark);
   const sgAlong = margin * 0.5;
-  const sgStandoff = 0.025;       // sits flush on roof
+  const sgStandoff = 0.025;
   snowGuard.position.set(
     0,
-    eaveY + tVert + sgAlong * Math.sin(slope) + sgStandoff * Math.cos(slope),
-    (D/2 + EAVE_OUT) - sgAlong * Math.cos(slope) - sgStandoff * Math.sin(slope),
+    eaveY + tVert + sgAlong * Math.sin(usedSlope) + sgStandoff * Math.cos(usedSlope),
+    (D/2 + EAVE_OUT) - sgAlong * Math.cos(usedSlope) - sgStandoff * Math.sin(usedSlope),
   );
-  snowGuard.rotation.x = -slope;
+  snowGuard.rotation.x = -usedSlope;
   g.add(snowGuard);
 
   return g;
@@ -1353,7 +1451,7 @@ function buildEquipment(plan) {
     g.add(ds);
   }
 
-  // ── 棟板金 (ridge cap) — gable roof only ──
+  // ── 棟板金 (ridge cap) — gable roof only / 高側軒先キャップ — mono ──
   if (plan.roofType === 'gable' && !plan.dome) {
     const pitch = plan.roofPitch || 0.25;
     const run = D/2 + EAVE_OUT;
@@ -1363,39 +1461,74 @@ function buildEquipment(plan) {
     tagItem(cap, 'ridge_cap', W + EAVE_OUT*2);
     g.add(cap);
   }
-
-  // ── 破風板 (verge board) along gable ends — slope from eave (low) to ridge (high) ──
-  if (plan.roofType === 'gable' && !plan.dome) {
+  if (plan.roofType === 'mono' && !plan.dome) {
     const pitch = plan.roofPitch || 0.25;
-    const run = D/2 + EAVE_OUT;
-    const ridgeH = run * pitch;
-    const slopeLen = Math.hypot(run, ridgeH);
-    const slope = Math.atan(pitch);
-    for (const xSign of [1, -1]) {
-      for (const zSign of [1, -1]) {
+    const dropH = (D + EAVE_OUT*2) * pitch;
+    // 高側 (north) 軒先キャップ
+    const capH = box(W + EAVE_OUT*2, 0.10, 0.30, MATS.steelDark);
+    capH.position.set(0, eaveY + dropH + 0.05, -D/2 - EAVE_OUT + 0.15);
+    tagItem(capH, 'ridge_cap', W + EAVE_OUT*2);
+    g.add(capH);
+  }
+
+  // ── 破風板 (verge board) along gable/mono ends ──
+  if ((plan.roofType === 'gable' || plan.roofType === 'mono') && !plan.dome) {
+    const pitch = plan.roofPitch || 0.25;
+    if (plan.roofType === 'gable') {
+      const run = D/2 + EAVE_OUT;
+      const ridgeH = run * pitch;
+      const slopeLen = Math.hypot(run, ridgeH);
+      const slope = Math.atan(pitch);
+      for (const xSign of [1, -1]) {
+        for (const zSign of [1, -1]) {
+          const verge = box(0.04, 0.18, slopeLen, MATS.steelDark);
+          tagItem(verge, 'verge_board', slopeLen);
+          verge.position.set(
+            xSign * (W/2 + EAVE_OUT - 0.02),
+            eaveY + ridgeH / 2,
+            zSign * (run / 2)
+          );
+          verge.rotation.x = zSign * slope;
+          g.add(verge);
+        }
+      }
+    } else {
+      // mono: 単一スロープ。両端(東・西)に1本ずつ、南→北で上昇
+      const run = D + EAVE_OUT*2;
+      const dropH = run * pitch;
+      const slopeLen = Math.hypot(run, dropH);
+      const slope = Math.atan(pitch);
+      for (const xSign of [1, -1]) {
         const verge = box(0.04, 0.18, slopeLen, MATS.steelDark);
-      tagItem(verge, 'verge_board', slopeLen);
-        // Center along the slope from eave (z=zSign*run, y=eaveY) to ridge (z=0, y=eaveY+ridgeH)
+        tagItem(verge, 'verge_board', slopeLen);
         verge.position.set(
           xSign * (W/2 + EAVE_OUT - 0.02),
-          eaveY + ridgeH / 2,
-          zSign * (run / 2)
+          eaveY + dropH / 2,
+          0
         );
-        // Rotation: for zSign=+1 (south), need +Z end at south eave (low), -Z at ridge (high)
-        // Rx(+slope) makes +Z dive down, -Z rise up → correct.
-        verge.rotation.x = zSign * slope;
+        // rotate around X so +Z (south, low) is at eaveY, -Z (north, high) is at eaveY+dropH
+        verge.rotation.x = -slope;
         g.add(verge);
       }
     }
   }
 
-  // ── 薪ストーブ煙突キャップ (chimney cap) — already have pipe in roof ──
-  // Adding the rain cap on top
-  if (plan.roofType === 'gable' && !plan.dome && !plan.pilotis) {
+  // ── 煙突キャップ (chimney cap) ──
+  if ((plan.roofType === 'gable' || plan.roofType === 'mono') && !plan.dome && !plan.pilotis) {
     const pitch = plan.roofPitch || 0.25;
-    const ridgeY = eaveY + (D/2 + EAVE_OUT) * pitch + 0.85;
+    let chimX, chimY, chimZ;
+    if (plan.roofType === 'gable') {
+      chimX = W/2 - 0.6; chimZ = 0;
+      chimY = eaveY + (D/2 + EAVE_OUT) * pitch + 0.85;
+    } else {
+      chimX = W/2 - 0.6; chimZ = D/4;     // matches buildRoof mono chimney
+      // chimX,Z is at (D/4) from north — the slope rise at z = D/4 is:
+      const zFromSouth = D/2 - D/4;       // distance from south eave
+      const yAtChim = eaveY + (zFromSouth + EAVE_OUT) * pitch;
+      chimY = yAtChim + 0.85;
+    }
     const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.05, 12), MATS.steelDark);
-    cap.position.set(W/2 - 0.6, ridgeY, 0);
+    cap.position.set(chimX, chimY, chimZ);
     g.add(cap);
   }
 
@@ -1947,7 +2080,10 @@ export function createViewer(container, opts = {}) {
     const stories = currentPlan.stories || 1;
     const H = (currentPlan.H || 3000) * MM * stories + (currentPlan.pilotis ? 2.4 : 0) + FL_OFFSET;
     const pitch = currentPlan.roofPitch || 0.25;
-    const ridgeH = currentPlan.dome ? Math.max(W,D)/2*0.95 : (currentPlan.roofType === 'gable' ? (D/2 + EAVE_OUT) * pitch : 0.45);
+    const ridgeH = currentPlan.dome ? Math.max(W,D)/2*0.95
+      : currentPlan.roofType === 'gable' ? (D/2 + EAVE_OUT) * pitch
+      : currentPlan.roofType === 'mono'  ? (D + EAVE_OUT * 2) * pitch
+      : 0.45;
     const totalH = H + ridgeH;
     const widest = Math.max(W + EAVE_OUT*2, D + EAVE_OUT*2);
     // Fit: distance proportional to building's largest extent + height contribution
@@ -1992,7 +2128,10 @@ export function createViewer(container, opts = {}) {
     const stories = currentPlan.stories || 1;
     const H = (currentPlan.H || 3000) * MM * stories + (currentPlan.pilotis ? 2.4 : 0) + FL_OFFSET;
     const pitch = currentPlan.roofPitch || 0.25;
-    const ridgeH = currentPlan.dome ? Math.max(W,D)/2*0.95 : (currentPlan.roofType === 'gable' ? (D/2 + EAVE_OUT) * pitch : 0.45);
+    const ridgeH = currentPlan.dome ? Math.max(W,D)/2*0.95
+      : currentPlan.roofType === 'gable' ? (D/2 + EAVE_OUT) * pitch
+      : currentPlan.roofType === 'mono'  ? (D + EAVE_OUT * 2) * pitch
+      : 0.45;
     const totalH = H + ridgeH;
     const widest = Math.max(W + EAVE_OUT*2, D + EAVE_OUT*2);
     const fov = camera.fov * Math.PI / 180;
@@ -2579,7 +2718,10 @@ export function createViewer(container, opts = {}) {
     // Building total height
     const totalH = stories * (p.H || 3000) * MM + (p.pilotis ? 2.4 : 0);
     const pitch = p.roofPitch || 0.25;
-    const ridgeH = p.dome ? Math.max(W,D)/2*0.95 : (p.roofType === 'gable' ? (D/2 + EAVE_OUT) * pitch : 0.45);
+    const ridgeH = p.dome ? Math.max(W,D)/2*0.95
+      : p.roofType === 'gable' ? (D/2 + EAVE_OUT) * pitch
+      : p.roofType === 'mono'  ? (D + EAVE_OUT * 2) * pitch
+      : 0.45;
     const peakH = totalH + ridgeH;
 
     // 北側斜線: north_base + 1.25 × 隣地境界距離 (1低/2低=5m基準, 1中高/2中高=10m基準, 他は不適用)
@@ -2906,7 +3048,7 @@ export function createViewer(container, opts = {}) {
     // Hokkaido east monthly insolation (MJ/m²/day, source: NEDO 2024)
     const monthlyMJ = [9.0, 11.5, 14.5, 16.0, 17.0, 16.5, 15.5, 15.0, 13.5, 11.0, 8.5, 7.5];
     const days = [31,28,31,30,31,30,31,31,30,31,30,31];
-    const tilt = (currentPlan && !currentPlan.dome && currentPlan.roofType === 'gable') ? 0.95 : 0.85; // tilt factor
+    const tilt = (currentPlan && !currentPlan.dome && (currentPlan.roofType === 'gable' || currentPlan.roofType === 'mono')) ? 0.95 : 0.85; // tilt factor
     const efficiency = 0.78;                     // PCS + cable + soil
     const monthly = monthlyMJ.map((mj, i) => {
       // MJ/m²/day → kWh/m²/day → kWh per panel (1.95 m²) → totalKW
