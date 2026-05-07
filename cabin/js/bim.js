@@ -1653,6 +1653,106 @@ function buildEquipment(plan) {
     g.add(lid);
   }
 
+  // ── エコキュート 370L (heat pump water heater) — 屋外貯湯ユニット + ヒートポンプ ──
+  // 北壁外側 (積雪期 給湯凍結防止のため給水配管と近接配置)
+  if (!plan.openings?.units && !plan.dome) {
+    const ecoMat = new THREE.MeshStandardMaterial({color: 0xe8e6dc, roughness: 0.45, metalness: 0.3});
+    const tankBox = box(0.66, 1.85, 0.72, ecoMat);
+    tankBox.position.set(-W/2 - 0.45, FL_OFFSET + 0.92, -D/2 + 1.5);
+    g.add(tankBox);
+    g.add(edge(tankBox, COLORS.line, 0.5));
+    // ヒートポンプユニット (separate)
+    const hp = box(0.85, 0.65, 0.30, ecoMat);
+    hp.position.set(-W/2 - 0.45, FL_OFFSET + 0.32, -D/2 + 2.6);
+    g.add(hp);
+    g.add(edge(hp, COLORS.line, 0.5));
+    // ファン (黒円板)
+    const fan = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.04, 16),
+      new THREE.MeshStandardMaterial({color: 0x222222, roughness: 0.7}));
+    fan.rotation.z = Math.PI / 2;
+    fan.position.set(-W/2 - 0.62, FL_OFFSET + 0.32, -D/2 + 2.6);
+    g.add(fan);
+    // 配管接続 (銅管・断熱被覆)
+    const pipeMat = new THREE.MeshStandardMaterial({color: 0xd4c4a8, roughness: 0.7});
+    const pipe = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 1.2, 8), pipeMat);
+    pipe.position.set(-W/2 - 0.38, FL_OFFSET + 0.6, -D/2 + 2.05);
+    pipe.rotation.x = Math.PI / 2;
+    g.add(pipe);
+  }
+
+  // ── エアコン室外機 (AC outdoor unit) — 西壁外、各居室分 ──
+  if (!plan.openings?.units && !plan.dome) {
+    const acCnt = Math.min(stories * 2, 4);
+    const acMat = new THREE.MeshStandardMaterial({color: 0xeeece6, roughness: 0.5, metalness: 0.2});
+    for (let i = 0; i < acCnt; i++) {
+      const ac = box(0.78, 0.55, 0.30, acMat);
+      ac.position.set(-W/2 - 0.20, FL_OFFSET + 0.30 + Math.floor(i / 2) * (storyH * 0.95),
+        D/2 - 1.5 - (i % 2) * 1.5);
+      g.add(ac);
+      g.add(edge(ac, COLORS.line, 0.4));
+      // ファングリル
+      const grill = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.025, 12),
+        new THREE.MeshStandardMaterial({color: 0x666666, roughness: 0.6}));
+      grill.rotation.z = Math.PI / 2;
+      grill.position.set(-W/2 - 0.35, FL_OFFSET + 0.30 + Math.floor(i / 2) * (storyH * 0.95),
+        D/2 - 1.5 - (i % 2) * 1.5);
+      g.add(grill);
+    }
+    // 配管カバー (室外機 → 壁面 縦樋風)
+    const coverMat = new THREE.MeshStandardMaterial({color: 0xeae6dc, roughness: 0.7});
+    const cover = box(0.10, storyH * stories * 0.9, 0.08, coverMat);
+    cover.position.set(-W/2 + 0.06, FL_OFFSET + storyH * stories * 0.45, D/2 - 1.0);
+    g.add(cover);
+  }
+
+  // ── 分電盤・電力量計 (electric panel + meter, 北西外壁) ──
+  if (!plan.openings?.units && !plan.dome) {
+    const panelMat = new THREE.MeshStandardMaterial({color: 0xfafaf6, roughness: 0.5});
+    const panel = box(0.40, 0.55, 0.12, panelMat);
+    panel.position.set(-W/2 + 0.04, FL_OFFSET + 1.20, -D/2 + 0.6);
+    g.add(panel);
+    g.add(edge(panel, COLORS.line, 0.5));
+    // 電力量計 (上部)
+    const meter = box(0.20, 0.20, 0.10, new THREE.MeshStandardMaterial({color: 0x222222, roughness: 0.4}));
+    meter.position.set(-W/2 + 0.04, FL_OFFSET + 1.65, -D/2 + 0.6);
+    g.add(meter);
+    // メータ表示窓 (エミッシブ赤)
+    const display = box(0.10, 0.04, 0.005, new THREE.MeshStandardMaterial({
+      color: 0xff4040, emissive: 0xff2020, emissiveIntensity: 0.8,
+    }));
+    display.position.set(-W/2 - 0.01, FL_OFFSET + 1.65, -D/2 + 0.6);
+    g.add(display);
+  }
+
+  // ── 太陽光パワコン (PV inverter / PCS) — 北壁西側 ──
+  if (plan.openings?.solar && !plan.openings?.units) {
+    const pcsMat = new THREE.MeshStandardMaterial({color: 0xeeece6, roughness: 0.5, metalness: 0.2});
+    const pcs = box(0.55, 0.45, 0.18, pcsMat);
+    pcs.position.set(-W/2 + 0.10, FL_OFFSET + 1.30, -D/2 - 0.10);
+    g.add(pcs);
+    g.add(edge(pcs, COLORS.line, 0.5));
+    // 表示パネル (LED グリーン)
+    const led = box(0.10, 0.02, 0.005, new THREE.MeshStandardMaterial({
+      color: 0x40ff40, emissive: 0x40ff40, emissiveIntensity: 1.0,
+    }));
+    led.position.set(-W/2 + 0.10, FL_OFFSET + 1.50, -D/2 - 0.20);
+    g.add(led);
+  }
+
+  // ── インターホン (玄関子機) ──
+  if (!plan.openings?.units && !plan.dome) {
+    const intMat = new THREE.MeshStandardMaterial({color: 0xfafaf6, roughness: 0.4});
+    const intercom = box(0.10, 0.18, 0.04, intMat);
+    intercom.position.set(W/4, FL_OFFSET + 1.45, D/2 + 0.04);
+    g.add(intercom);
+    // カメラ部
+    const cam = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.01, 12),
+      new THREE.MeshStandardMaterial({color: 0x222222, roughness: 0.3}));
+    cam.rotation.x = Math.PI / 2;
+    cam.position.set(W/4, FL_OFFSET + 1.55, D/2 + 0.06);
+    g.add(cam);
+  }
+
   // ── コンポストトイレ排気管 (small white PVC, Φ50, on roof, north slope) ──
   if (plan.roofType !== 'flat' && !plan.openings?.units) {
     const vent = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.85, 12),
@@ -1866,6 +1966,161 @@ function buildSite(plan) {
   road.rotation.x = -Math.PI / 2;
   road.position.set(sxOffset, -0.29, szOffset + sD/2 + 2);
   g.add(road);
+
+  // ── カーポート (1-2台) — 西側 道路から見えにくい位置 ──
+  if (!plan.openings?.units) {
+    const cpX = -W/2 - 4.0;
+    const cpZ = D/2 - 3.0;
+    const cpW = 5.5, cpD = 3.0, cpH = 2.4;
+    // 屋根 (透明ポリカ)
+    const cpRoof = box(cpW, 0.05, cpD, new THREE.MeshPhysicalMaterial({
+      color: 0xc8d4dc, roughness: 0.15, transmission: 0.4,
+      transparent: true, opacity: 0.6, side: THREE.DoubleSide,
+    }));
+    cpRoof.position.set(cpX, FL_OFFSET + cpH, cpZ);
+    g.add(cpRoof);
+    // 4本柱
+    for (const px of [-cpW/2 + 0.10, cpW/2 - 0.10]) {
+      for (const pz of [-cpD/2 + 0.10, cpD/2 - 0.10]) {
+        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, cpH, 12),
+          new THREE.MeshStandardMaterial({color: 0x444444, roughness: 0.5, metalness: 0.5}));
+        post.position.set(cpX + px, FL_OFFSET + cpH/2, cpZ + pz);
+        g.add(post);
+      }
+    }
+    // 駐車スペース (砕石)
+    const cpFloor = new THREE.Mesh(new THREE.PlaneGeometry(cpW, cpD),
+      new THREE.MeshStandardMaterial({color: 0xb8a890, roughness: 1}));
+    cpFloor.rotation.x = -Math.PI/2;
+    cpFloor.position.set(cpX, -0.28, cpZ);
+    g.add(cpFloor);
+    // 簡易車 (ジムニー風 4×1.7×1.7)
+    const carBody = box(1.7, 0.85, 4.0,
+      new THREE.MeshStandardMaterial({color: 0x4a5a4a, roughness: 0.6, metalness: 0.4}));
+    carBody.position.set(cpX - 1.2, FL_OFFSET + 0.50, cpZ);
+    g.add(carBody);
+    const carRoof = box(1.6, 0.65, 2.6, carBody.material);
+    carRoof.position.set(cpX - 1.2, FL_OFFSET + 1.20, cpZ - 0.2);
+    g.add(carRoof);
+    // タイヤ4本
+    const tireMat = new THREE.MeshStandardMaterial({color: 0x222222, roughness: 0.85});
+    for (const tx of [-0.75, 0.75]) {
+      for (const tz of [-1.2, 1.3]) {
+        const tire = new THREE.Mesh(new THREE.CylinderGeometry(0.30, 0.30, 0.25, 16), tireMat);
+        tire.rotation.z = Math.PI/2;
+        tire.position.set(cpX - 1.2 + tx, FL_OFFSET + 0.20, cpZ + tz);
+        g.add(tire);
+      }
+    }
+  }
+
+  // ── 物置 (storage shed, 除雪機・DIY道具) — 北西角 ──
+  if (!plan.openings?.units) {
+    const shX = -W/2 - 1.6;
+    const shZ = -D/2 - 0.5;
+    const shW = 1.5, shD = 1.2, shH = 2.0;
+    const shed = box(shW, shH, shD, MATS.steelDark);
+    shed.position.set(shX, FL_OFFSET + shH/2, shZ);
+    g.add(shed);
+    g.add(edge(shed, COLORS.line, 0.5));
+    // 屋根 (片流れ)
+    const shRoof = box(shW + 0.10, 0.04, shD + 0.10, MATS.steel);
+    shRoof.position.set(shX, FL_OFFSET + shH + 0.06, shZ - 0.05);
+    shRoof.rotation.x = -0.10;
+    g.add(shRoof);
+    // ドア (両開き)
+    const shDoor = box(shW * 0.7, shH * 0.85, 0.02, MATS.cedar);
+    shDoor.position.set(shX, FL_OFFSET + shH/2 - 0.05, shZ + shD/2 + 0.01);
+    g.add(shDoor);
+  }
+
+  // ── 玄関ポスト・宅配ボックス (門柱兼用) ──
+  if (!plan.openings?.units && !plan.dome) {
+    const postX = W/2 - 2.5;
+    const postZ = D/2 + 2.5;
+    // 門柱 (黒い細長い箱)
+    const post = box(0.30, 1.6, 0.30,
+      new THREE.MeshStandardMaterial({color: 0x1c1c1c, roughness: 0.5}));
+    post.position.set(postX, FL_OFFSET + 0.80, postZ);
+    g.add(post);
+    g.add(edge(post, COLORS.line, 0.4));
+    // 表札 (金属プレート)
+    const plate = box(0.20, 0.10, 0.005,
+      new THREE.MeshStandardMaterial({color: 0xc0a060, roughness: 0.3, metalness: 0.7}));
+    plate.position.set(postX, FL_OFFSET + 1.30, postZ + 0.16);
+    g.add(plate);
+    // ポスト投入口
+    const slot = box(0.22, 0.04, 0.03,
+      new THREE.MeshStandardMaterial({color: 0x666666, roughness: 0.4}));
+    slot.position.set(postX, FL_OFFSET + 1.05, postZ + 0.16);
+    g.add(slot);
+    // 宅配ボックス (大型、門柱の足元)
+    const delivery = box(0.50, 0.50, 0.45,
+      new THREE.MeshStandardMaterial({color: 0x2a2a2a, roughness: 0.5}));
+    delivery.position.set(postX + 0.4, FL_OFFSET + 0.25, postZ);
+    g.add(delivery);
+    g.add(edge(delivery, COLORS.line, 0.4));
+  }
+
+  // ── 玄関アプローチ (gravel path 道路 → 玄関) ──
+  if (!plan.openings?.units) {
+    const pathMat = new THREE.MeshStandardMaterial({color: 0xc8b8a0, roughness: 1});
+    const pathW = 1.2;
+    const pathL = sD/2 + 2;        // 道路から建物南面まで
+    const path = box(pathW, 0.04, pathL, pathMat);
+    path.position.set(0, -0.28, D/2 + pathL/2 - 1);
+    g.add(path);
+    // 飛び石 (大きめの石、5枚)
+    const stoneMat = new THREE.MeshStandardMaterial({color: 0x4a4a48, roughness: 0.95});
+    for (let i = 0; i < 5; i++) {
+      const stone = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.30, 0.32, 0.06, 8),
+        stoneMat,
+      );
+      stone.position.set(
+        Math.sin(i * 0.6) * 0.3,
+        -0.25,
+        D/2 + 0.3 + i * (pathL / 5),
+      );
+      g.add(stone);
+    }
+  }
+
+  // ── 屋外水栓柱 (garden water tap) — 庭側 ──
+  if (!plan.openings?.units && !plan.dome) {
+    const tapMat = new THREE.MeshStandardMaterial({color: 0x9a948a, roughness: 0.6});
+    const tap = box(0.10, 0.85, 0.10, tapMat);
+    tap.position.set(W/2 + 1.5, FL_OFFSET + 0.42, -D/2 + 2.5);
+    g.add(tap);
+    // 蛇口
+    const faucet = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.10, 8),
+      new THREE.MeshStandardMaterial({color: 0xc8c8c8, roughness: 0.3, metalness: 0.85}));
+    faucet.rotation.z = Math.PI / 2;
+    faucet.position.set(W/2 + 1.55, FL_OFFSET + 0.70, -D/2 + 2.5);
+    g.add(faucet);
+    // 受け皿 (砂利)
+    const dish = new THREE.Mesh(new THREE.CylinderGeometry(0.30, 0.30, 0.04, 16),
+      new THREE.MeshStandardMaterial({color: 0xb8a890, roughness: 1}));
+    dish.position.set(W/2 + 1.5, FL_OFFSET - 0.20, -D/2 + 2.5);
+    g.add(dish);
+  }
+
+  // ── 基礎植栽 (foundation planting) — 笹・低木 ──
+  if (!plan.openings?.units && !plan.dome) {
+    const leafMat = new THREE.MeshStandardMaterial({color: 0x4a6a3a, roughness: 0.85});
+    // 南面・東西面 に低木を点在
+    const positions = [
+      [-W/2 + 1, D/2 + 1.5], [W/2 - 1, D/2 + 1.5],
+      [-W/2 - 1.5, 0], [W/2 + 1.5, 1.5],
+      [-W/2 - 1.5, -D/4], [W/2 + 1.5, -D/4],
+    ];
+    for (const [px, pz] of positions) {
+      const bush = new THREE.Mesh(new THREE.SphereGeometry(0.45, 8, 6), leafMat);
+      bush.position.set(px, FL_OFFSET - 0.15, pz);
+      bush.scale.set(1, 0.7, 1);
+      g.add(bush);
+    }
+  }
 
   return g;
 }
@@ -2104,6 +2359,88 @@ function buildInterior(plan) {
     const toilet = box(0.40, 0.50, 0.55, new THREE.MeshStandardMaterial({color: 0xe8e3d8, roughness: 0.6}));
     toilet.position.set(bX, FL + 0.25, bZ + 0.10);
     g.add(toilet);
+  }
+
+  // ── 浴室・洗面 (bath + sink) — 24m²以上のプランに ──
+  if (area > 24 && !plan.openings?.units) {
+    const bathW = 1.60, bathD = 1.80, bathH = 2.10;
+    const bathX = W/2 - 0.4 - bathW/2;
+    const bathZ = -D/2 + 1.8 + bathD/2;       // toilet boothのすぐ南
+    const wt = 0.04;
+    // 浴室間仕切り壁 (3面、北側はトイレ隣接)
+    const bWalls = [
+      {w: bathW, h: bathH, d: wt, x: bathX, y: FL + bathH/2, z: bathZ + bathD/2 - wt/2},
+      {w: wt, h: bathH, d: bathD, x: bathX - bathW/2 + wt/2, y: FL + bathH/2, z: bathZ},
+    ];
+    for (const w of bWalls) {
+      const m = box(w.w, w.h, w.d, MATS.cedar);
+      m.position.set(w.x, w.y, w.z);
+      g.add(m);
+    }
+    // 浴槽 (FRP / 洋式 1600×800)
+    const tubMat = new THREE.MeshStandardMaterial({color: 0xfafaf6, roughness: 0.3, metalness: 0.05});
+    const tub = box(1.50, 0.55, 0.75, tubMat);
+    tub.position.set(bathX, FL + 0.30, bathZ - 0.30);
+    g.add(tub);
+    // 洗面台
+    const vanity = box(0.70, 0.85, 0.50, MATS.cedar);
+    vanity.position.set(bathX + bathW/2 - 0.5, FL + 0.43, bathZ + bathD/2 - 0.30);
+    g.add(vanity);
+    const sinkMat = new THREE.MeshStandardMaterial({color: 0xf0ece4, roughness: 0.4});
+    const sink = box(0.55, 0.04, 0.40, sinkMat);
+    sink.position.set(bathX + bathW/2 - 0.5, FL + 0.86, bathZ + bathD/2 - 0.30);
+    g.add(sink);
+    // 鏡
+    const mirror = box(0.60, 0.50, 0.02, new THREE.MeshStandardMaterial({color: 0xc0d0d8, roughness: 0.05, metalness: 0.85}));
+    mirror.position.set(bathX + bathW/2 - 0.5, FL + 1.40, bathZ + bathD/2 - 0.06);
+    g.add(mirror);
+  }
+
+  // ── 主階段 (main interior stairs) — 2階建て以上のプラン ──
+  // 折返し階段 14段、踏面 250mm、蹴上 storyH/14
+  const stories = plan.stories || 1;
+  if (stories >= 2 && !plan.openings?.units && !plan.dome) {
+    const stW = 1.0, stairLen = 3.0;          // 折返し2フライト分
+    const stX = -W/2 + 0.6 + stW/2;            // 北西角
+    const stZ = -D/2 + 0.6 + stairLen/2;
+    for (let s = 1; s < stories; s++) {
+      const startY = baseY + (s - 1) * storyH;
+      const stepCnt = 14;
+      const tread = 0.25;
+      const riseH = storyH / stepCnt;
+      // 上り (前半: 西→東 7段)
+      for (let i = 0; i < 7; i++) {
+        const t = box(stW * 0.9, 0.04, tread, MATS.cedar);
+        t.position.set(stX - stW/4 + i * tread * 0.3, startY + (i + 1) * riseH, stZ - stairLen/2 + 0.5 + i * tread);
+        g.add(t);
+        // 蹴込み板
+        const r = box(stW * 0.9, riseH, 0.02, MATS.cedarLite);
+        r.position.set(stX - stW/4 + i * tread * 0.3, startY + i * riseH + riseH/2, stZ - stairLen/2 + 0.5 + i * tread - tread/2);
+        g.add(r);
+      }
+      // 踊場
+      const landing = box(stW + 0.4, 0.05, 1.0, MATS.cedar);
+      landing.position.set(stX, startY + 7 * riseH, stZ + 0.3);
+      g.add(landing);
+      // 下り (後半: 東→西 7段)
+      for (let i = 0; i < 7; i++) {
+        const t = box(stW * 0.9, 0.04, tread, MATS.cedar);
+        t.position.set(stX + stW/4 - i * tread * 0.3, startY + (i + 8) * riseH, stZ + 0.5 - i * tread);
+        g.add(t);
+      }
+      // 階段下手すり (両側)
+      for (const dx of [-stW/2, stW/2]) {
+        const rail = box(0.04, 0.95, stairLen, MATS.cedarLite);
+        rail.position.set(stX + dx, startY + storyH/2, stZ);
+        g.add(rail);
+      }
+      // 上下端の手すり束
+      for (const ez of [-stairLen/2, stairLen/2]) {
+        const post = box(0.05, 1.0, 0.05, MATS.cedarLite);
+        post.position.set(stX, startY + storyH/2, stZ + ez);
+        g.add(post);
+      }
+    }
   }
 
   // ── 行灯ペンダント (warm pendant lamps) — over dining + bed ──
