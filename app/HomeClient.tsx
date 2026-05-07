@@ -205,11 +205,20 @@ export default function Home() {
   const kbAnims = ["kb1","kb2","kb3"];
 
   // ── URL sync ─────────────────────────────────────────────────────────────────
+  // NOTE: Use hash-based URLs (#path) instead of pathname-based pushState.
+  // Next.js 16 App Router intercepts pathname changes via patched history.pushState,
+  // which causes HomeClient to remount, re-running the init effect that calls
+  // replaceUrl("/", ...) and effectively closes the window we just opened.
+  // Hash-only changes are not intercepted by Next.js routing.
   const pushUrl = useCallback((url: string, title: string) => {
-    history.pushState({ winUrl: url, title }, title, url);
+    const hash = url === "/" ? "" : "#" + url.replace(/^\//, "").replace(/\?.*/, "");
+    history.pushState({ winUrl: url, title }, "", window.location.pathname + window.location.search + hash);
+    if (typeof document !== "undefined") document.title = title;
   }, []);
   const replaceUrl = useCallback((url: string, title: string) => {
-    history.replaceState({ winUrl: url, title }, title, url);
+    const hash = url === "/" ? "" : "#" + url.replace(/^\//, "").replace(/\?.*/, "");
+    history.replaceState({ winUrl: url, title }, "", window.location.pathname + window.location.search + hash);
+    if (typeof document !== "undefined") document.title = title;
   }, []);
 
   // ── Global mouse handler (single listener for all drag/resize) ───────────────
@@ -504,10 +513,11 @@ export default function Home() {
         .then(r => r.json()).then(d => { if (d.member) setMember(d.member); }).catch(() => {});
     }
 
-    const path = window.location.pathname;
-    if (path !== "/") {
-      const title = PAGE_TITLES[path] || path.replace("/","");
-      replaceUrl("/", "SOLUNA");
+    // Restore window from hash (e.g. /#properties → open properties window)
+    const hash = window.location.hash.replace(/^#/, "");
+    if (hash) {
+      const path = "/" + hash;
+      const title = PAGE_TITLES[path] || hash;
       setTimeout(() => openWin(path, title), 50);
     }
 
