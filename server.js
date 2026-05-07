@@ -10899,21 +10899,86 @@ if (fs.existsSync(CABIN_DIR)) {
     if (req.query.embed === "1") return serveWithEmbed(p, res);
     return res.sendFile(p);
   });
-  // /build/:plan → build.html (plan ID is read by client JS via location.pathname)
+  // ── SSR plan metadata loader (build-data.js / urban-data.js から抽出) ─────
+  function _loadPlansFromDataJs(file) {
+    try {
+      const code = fs.readFileSync(path.join(CABIN_DIR, file), "utf8");
+      const win = {};
+      // Sandbox: build a function from the source. window.BUILD_PLANS = [...]
+      const fn = new Function("window", code);
+      fn(win);
+      return win.BUILD_PLANS || [];
+    } catch (e) {
+      console.warn(`[ssr] Failed to load ${file}:`, e.message);
+      return [];
+    }
+  }
+  let _BUILD_PLANS_CACHE = null, _URBAN_PLANS_CACHE = null;
+  function _getBuildPlans() {
+    if (!_BUILD_PLANS_CACHE) _BUILD_PLANS_CACHE = _loadPlansFromDataJs("build-data.js");
+    return _BUILD_PLANS_CACHE;
+  }
+  function _getUrbanPlans() {
+    if (!_URBAN_PLANS_CACHE) _URBAN_PLANS_CACHE = _loadPlansFromDataJs("urban-data.js");
+    return _URBAN_PLANS_CACHE;
+  }
+
+  // SSR: 個別プランページに plan 固有の <title>/<meta>/SEO HTML を注入
+  function _ssrPlanPage(htmlPath, plan, series, res) {
+    let html = fs.readFileSync(htmlPath, "utf8");
+    const fmtPrice = n => n >= 100000000 ? `¥${(n/100000000).toFixed(1)}億` : `¥${Math.round(n/10000)}万`;
+    const matStr = fmtPrice(plan.totalMat);
+    const contractor = (plan.routes || []).find(r => r.name && r.name.includes('工務店'));
+    const conStr = contractor ? fmtPrice(contractor.cost) : '—';
+    const isPhase2 = (plan.desc || '').includes('Phase 2');
+    const seriesLabel = series === 'build' ? 'SOLUNA BUILD（鄙シリーズ）' : 'SOLUNA URBAN（都市シリーズ）';
+    const planTitle = `${plan.name} ${plan.label} | ${seriesLabel} | SOLUNA`;
+    const planDesc = `${plan.name}（${plan.label}・延床${plan.area}m²）${plan.tag||''}。本体価格レンジ ${matStr}〜${conStr}。工期${plan.weeks}週間。${isPhase2?'※Phase2/大臣認定取得後リリース予定。':''}構造: ${(plan.specs.find(s=>s.k==='構造')||{}).v||''}。${(plan.desc||'').slice(0, 80)}`;
+
+    // Replace <title>
+    html = html.replace(/<title>[^<]*<\/title>/, `<title>${planTitle}</title>`);
+    // Replace og:title and meta description
+    html = html.replace(/<meta property="og:title"[^/]*\/>/, `<meta property="og:title" content="${planTitle}"/>`);
+    html = html.replace(/<meta name="description"[^/]*\/>/, `<meta name="description" content="${planDesc}"/>`);
+
+    // Inject SSR plan info as a hidden noscript-friendly block right after <body>
+    const specsHtml = plan.specs.slice(0, 12).map(s => `<dt>${s.k}</dt><dd>${s.v}</dd>`).join('');
+    const ssrBlock = `
+<!-- SSR plan metadata for crawlers/architects -->
+<div id="ssr-plan-meta" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+  <h1>${plan.name} — ${plan.label}（${seriesLabel}）</h1>
+  <p>${planDesc}</p>
+  <p>本体価格レンジ: ${matStr} 〜 ${conStr}（材料費〜工務店フル依頼）／ 工期: ${plan.weeks}週間 ／ 補助金最大: ${fmtPrice(plan.subsidyMax||0)}</p>
+  <h2>仕様</h2>
+  <dl>${specsHtml}</dl>
+  ${isPhase2 ? '<p><strong>Phase 2: 大臣認定取得後リリース予定。即時着工不可。</strong></p>' : ''}
+  <p>※本ページは概念紹介資料です。性能・価格・工期は標準仕様での試算値で、敷地条件・施工により変動します。実際の建設は提携1級建築士事務所との個別契約で進めます。</p>
+</div>`;
+    html = html.replace('<body>', '<body>' + ssrBlock);
+
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.send(html);
+  }
+
+  // /build/:plan → build.html (SSR: plan固有のtitle/meta/SEOコンテンツ注入)
   const BUILD_PLAN_IDS = ["mini","standard","dome","large","xl","villa","grand","myth","kosmos"];
   app.get("/build/:plan", (req, res, next) => {
     if (!BUILD_PLAN_IDS.includes(req.params.plan)) return next();
     const p = path.join(CABIN_DIR, "build.html");
     if (req.query.embed === "1") return serveWithEmbed(p, res);
-    return res.sendFile(p);
+    const plan = _getBuildPlans().find(x => x.id === req.params.plan);
+    if (!plan) return res.sendFile(p);
+    return _ssrPlanPage(p, plan, 'build', res);
   });
-  // /urban/:plan → urban.html (都市型 SIPs キャビンシリーズ)
+  // /urban/:plan → urban.html (SSR)
   const URBAN_PLAN_IDS = ["pod","stack","tower","flat","duo","yield","roots"];
   app.get("/urban/:plan", (req, res, next) => {
     if (!URBAN_PLAN_IDS.includes(req.params.plan)) return next();
     const p = path.join(CABIN_DIR, "urban.html");
     if (req.query.embed === "1") return serveWithEmbed(p, res);
-    return res.sendFile(p);
+    const plan = _getUrbanPlans().find(x => x.id === req.params.plan);
+    if (!plan) return res.sendFile(p);
+    return _ssrPlanPage(p, plan, 'urban', res);
   });
   console.log("✓ Cabin static files served from /cabin");
 }
