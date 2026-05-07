@@ -138,6 +138,26 @@
   </div>
 </div>
 
+<!-- Custom dimension sliders -->
+<div class="panel" id="dimcustom" style="top:62px;right:484px;width:220px;display:none">
+  <h3>📐 寸法カスタマイズ</h3>
+  <label style="display:block;font-size:11px;margin-bottom:4px">W (幅): <span id="dW">5,460</span> mm
+    <input type="range" id="custW" min="3000" max="22000" step="100" style="width:100%">
+  </label>
+  <label style="display:block;font-size:11px;margin-bottom:4px">D (奥行): <span id="dD">4,550</span> mm
+    <input type="range" id="custD" min="2400" max="14000" step="100" style="width:100%">
+  </label>
+  <label style="display:block;font-size:11px;margin-bottom:4px">H (階高): <span id="dH">3,000</span> mm
+    <input type="range" id="custH" min="2400" max="4000" step="50" style="width:100%">
+  </label>
+  <label style="display:block;font-size:11px;margin-bottom:4px">屋根勾配: <span id="dP">2.5</span>/10
+    <input type="range" id="custP" min="0.05" max="0.50" step="0.05" style="width:100%">
+  </label>
+  <button id="dimReset" style="width:100%;font-size:10px">プラン値にリセット</button>
+</div>
+
+<button id="customDimToggle" style="position:fixed;top:62px;right:710px;width:36px;height:36px;font-size:14px;cursor:pointer;padding:0;background:#fffefb;border:1px solid #d6d2c8;border-radius:8px;z-index:20" title="寸法カスタマイズ">📐</button>
+
 <div class="panel" id="finish">
   <h3>仕上げ</h3>
   <select id="presetSelect" style="width:100%;padding:6px;border:1px solid #c8c2b6;border-radius:5px;background:#fff;font-family:inherit;font-size:11px;margin-bottom:8px">
@@ -661,6 +681,65 @@ document.getElementById('pvBtn').addEventListener('click', () => {
 });
 document.getElementById('pvClose').addEventListener('click', () => {
   document.getElementById('pvModal').style.display = 'none';
+});
+
+// ─── 寸法カスタマイズ ───
+const dimcustom = document.getElementById('dimcustom');
+const dimToggle = document.getElementById('customDimToggle');
+const sliders = {
+  W: document.getElementById('custW'),
+  D: document.getElementById('custD'),
+  H: document.getElementById('custH'),
+  P: document.getElementById('custP'),
+};
+const labels = {
+  W: document.getElementById('dW'),
+  D: document.getElementById('dD'),
+  H: document.getElementById('dH'),
+  P: document.getElementById('dP'),
+};
+function syncSlidersFromPlan() {
+  const p = viewer.getPlan();
+  sliders.W.value = p.W; labels.W.textContent = p.W.toLocaleString();
+  sliders.D.value = p.D; labels.D.textContent = p.D.toLocaleString();
+  sliders.H.value = p.H || 3000; labels.H.textContent = (p.H || 3000).toLocaleString();
+  const pitch = p.roofPitch || 0.25;
+  sliders.P.value = pitch; labels.P.textContent = (pitch * 10).toFixed(1);
+}
+dimToggle.addEventListener('click', () => {
+  dimcustom.style.display = dimcustom.style.display === 'none' ? 'block' : 'none';
+  if (dimcustom.style.display !== 'none') syncSlidersFromPlan();
+});
+let dimTimer = null;
+function applyCustomDims() {
+  const p = viewer.getPlan();
+  p.W = parseInt(sliders.W.value);
+  p.D = parseInt(sliders.D.value);
+  p.H = parseInt(sliders.H.value);
+  p.roofPitch = parseFloat(sliders.P.value);
+  labels.W.textContent = p.W.toLocaleString();
+  labels.D.textContent = p.D.toLocaleString();
+  labels.H.textContent = p.H.toLocaleString();
+  labels.P.textContent = (p.roofPitch * 10).toFixed(1);
+  viewer.loadPlan(p.id);
+  updateInfo(p);
+}
+for (const k of ['W','D','H','P']) {
+  sliders[k].addEventListener('input', () => {
+    clearTimeout(dimTimer);
+    dimTimer = setTimeout(applyCustomDims, 80);
+  });
+}
+document.getElementById('dimReset').addEventListener('click', () => {
+  // Reset to original PLANS values from bim.js
+  import('/js/bim.js').then(({PLANS}) => {
+    const id = viewer.getPlan().id;
+    const orig = PLANS[id];
+    Object.assign(viewer.getPlan(), {W: orig.W, D: orig.D, H: orig.H, roofPitch: orig.roofPitch});
+    syncSlidersFromPlan();
+    viewer.loadPlan(id);
+    updateInfo(viewer.getPlan());
+  });
 });
 
 // ─── ウォークスルー動画エクスポート ───
