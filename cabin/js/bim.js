@@ -5,6 +5,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 export const PLANS = {
   mini:     {W: 3640,  D: 2730,  H: 2400, stories: 1, roofType: 'gable', roofPitch: 0.20, openings: {south: {w: 1500, h: 1170}, solar: 2}, name: 'MEBUKI', label: '9.9m²', tag: '建築確認不要'},
@@ -31,43 +32,219 @@ const EAVE_OUT  = 0.45;      // 軒の出 450mm
 const PANEL_W   = 0.910;     // SIPs 910mm モジュール
 const SASH_T    = 0.045;     // サッシ枠 45mm
 
+// ========= Color presets (5 finishes + custom) =========
+export const COLOR_PRESETS = {
+  black_gal: {
+    label: '黒ガルバ × 杉（標準）',
+    bg: 0xeeece6, ground: 0xe8e6dc,
+    foundation: 0x6a625a,
+    steel: 0x1c1c1c, steelDark: 0x141414,
+    cedar: 0xa9824f, cedarLite: 0xc09865,
+    sash: 0x2a2a2a,
+    deck: 0x8a6a3e,
+    sauna: 0x6b4220,
+  },
+  yakisugi: {
+    label: '焼杉 × ベンガラ',
+    bg: 0xeeece6, ground: 0xe8e6dc,
+    foundation: 0x6a625a,
+    steel: 0x2a1815, steelDark: 0x1a0e0c,
+    cedar: 0x8b6a3e, cedarLite: 0xa68450,
+    sash: 0x4a2820,
+    deck: 0x6a4220,
+    sauna: 0x442010,
+  },
+  white_cedar: {
+    label: 'ホワイト × 杉',
+    bg: 0xeeece6, ground: 0xe8e6dc,
+    foundation: 0x9a948c,
+    steel: 0xe6e2da, steelDark: 0xc9c4ba,
+    cedar: 0xb8945c, cedarLite: 0xceaa70,
+    sash: 0x4a4a4a,
+    deck: 0x8a6a3e,
+    sauna: 0x6b4220,
+  },
+  charcoal_hinoki: {
+    label: 'チャコール × 桧',
+    bg: 0xeeece6, ground: 0xe8e6dc,
+    foundation: 0x4a4540,
+    steel: 0x36383c, steelDark: 0x282a2e,
+    cedar: 0xd8b88c, cedarLite: 0xe4c89a,
+    sash: 0x1c1c1c,
+    deck: 0xc09865,
+    sauna: 0x8a6a3e,
+  },
+  natural_wood: {
+    label: 'ナチュラル木造',
+    bg: 0xeeece6, ground: 0xe8e6dc,
+    foundation: 0x8a8278,
+    steel: 0xa9824f, steelDark: 0x8a6a3e,        // outer cladding = cedar plank
+    cedar: 0xc8a672, cedarLite: 0xdcc090,
+    sash: 0x4a3a28,
+    deck: 0x9a7848,
+    sauna: 0x7a5c30,
+  },
+};
+
 const COLORS = {
-  bg:        0xeeece6,
-  ground:    0xd8d2c2,
-  groundSnow:0xe8e6dc,
-  foundation:0x6a625a,
-  steel:     0x1c1c1c,        // 黒ガルバ
-  steelDark: 0x141414,
-  cedar:     0xa9824f,
-  cedarLite: 0xc09865,
+  ...COLOR_PRESETS.black_gal,
   glass:     0x9bd5e8,
   glassEdge: 0x507a85,
-  sash:      0x2a2a2a,        // アルミサッシ
   solar:     0x142036,
   solarFr:   0x6a7588,
-  deck:      0x8a6a3e,
-  sauna:     0x6b4220,
   line:      0x222222,
   dim:       0x506068,
   skylight:  0xf6e6c0,
   human:     0x3a3a3a,
 };
 
+// ========= Procedural textures (canvas → CanvasTexture) =========
+const TEX_CACHE = {};
+function makeCanvas(w, h) {
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  return c;
+}
+function rgbHex(hex, a = 1) {
+  const r = (hex >> 16) & 0xff, g = (hex >> 8) & 0xff, b = hex & 0xff;
+  return `rgba(${r},${g},${b},${a})`;
+}
+function shade(hex, amt) {
+  const r = Math.max(0, Math.min(255, ((hex >> 16) & 0xff) + amt));
+  const g = Math.max(0, Math.min(255, ((hex >> 8) & 0xff) + amt));
+  const b = Math.max(0, Math.min(255, (hex & 0xff) + amt));
+  return (r << 16) | (g << 8) | b;
+}
+
+function texCedar(baseColor) {
+  const key = 'cedar_' + baseColor;
+  if (TEX_CACHE[key]) return TEX_CACHE[key];
+  const c = makeCanvas(512, 512);
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = rgbHex(baseColor);
+  ctx.fillRect(0, 0, 512, 512);
+  // Wood grain — vertical streaks with subtle hue noise
+  for (let i = 0; i < 220; i++) {
+    const x = Math.random() * 512;
+    const w = 0.5 + Math.random() * 2;
+    const dark = Math.random() < 0.5 ? -25 : -10;
+    ctx.fillStyle = rgbHex(shade(baseColor, dark), 0.18 + Math.random() * 0.20);
+    ctx.fillRect(x, 0, w, 512);
+  }
+  // Plank seams (every 145 px = 145mm planks at 512px = 1m scale)
+  ctx.strokeStyle = rgbHex(shade(baseColor, -50), 0.55);
+  ctx.lineWidth = 1.0;
+  for (let x = 145; x < 512; x += 145) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 512); ctx.stroke();
+  }
+  // Subtle horizontal knots
+  for (let i = 0; i < 10; i++) {
+    const x = Math.random() * 512, y = Math.random() * 512;
+    const r = 4 + Math.random() * 8;
+    const grad = ctx.createRadialGradient(x, y, 1, x, y, r);
+    grad.addColorStop(0, rgbHex(shade(baseColor, -60), 0.5));
+    grad.addColorStop(1, rgbHex(shade(baseColor, -20), 0));
+    ctx.fillStyle = grad;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.colorSpace = THREE.SRGBColorSpace;
+  TEX_CACHE[key] = tex;
+  return tex;
+}
+
+function texGalvSteel(baseColor) {
+  const key = 'galv_' + baseColor;
+  if (TEX_CACHE[key]) return TEX_CACHE[key];
+  const c = makeCanvas(512, 512);
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = rgbHex(baseColor);
+  ctx.fillRect(0, 0, 512, 512);
+  // Vertical seams (角波 standing-seam, every 64px = ~150mm)
+  ctx.strokeStyle = rgbHex(shade(baseColor, -30), 0.85);
+  ctx.lineWidth = 1.4;
+  for (let x = 0; x < 512; x += 64) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 512); ctx.stroke();
+  }
+  // Subtle highlight band beside each seam (raised standing seam)
+  ctx.strokeStyle = rgbHex(shade(baseColor, +18), 0.45);
+  ctx.lineWidth = 0.7;
+  for (let x = 6; x < 512; x += 64) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 512); ctx.stroke();
+  }
+  // Metallic noise
+  for (let i = 0; i < 1200; i++) {
+    const x = Math.random() * 512, y = Math.random() * 512;
+    ctx.fillStyle = rgbHex(shade(baseColor, Math.random() < 0.5 ? +15 : -12), 0.10);
+    ctx.fillRect(x, y, 1.2, 1.2);
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.colorSpace = THREE.SRGBColorSpace;
+  TEX_CACHE[key] = tex;
+  return tex;
+}
+
+function texConcrete() {
+  const key = 'concrete';
+  if (TEX_CACHE[key]) return TEX_CACHE[key];
+  const c = makeCanvas(256, 256);
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#6f6760';
+  ctx.fillRect(0, 0, 256, 256);
+  for (let i = 0; i < 800; i++) {
+    const x = Math.random() * 256, y = Math.random() * 256;
+    const v = -20 + Math.random() * 40;
+    ctx.fillStyle = `rgba(${110+v},${100+v},${94+v},0.30)`;
+    ctx.fillRect(x, y, 1.5, 1.5);
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.colorSpace = THREE.SRGBColorSpace;
+  TEX_CACHE[key] = tex;
+  return tex;
+}
+
 const MATS = {};
 function buildMaterials() {
-  MATS.foundation = new THREE.MeshStandardMaterial({color: COLORS.foundation, roughness: 0.95, metalness: 0});
-  MATS.steel      = new THREE.MeshStandardMaterial({color: COLORS.steel,      roughness: 0.45, metalness: 0.45});
-  MATS.steelDark  = new THREE.MeshStandardMaterial({color: COLORS.steelDark,  roughness: 0.4,  metalness: 0.5});
-  MATS.cedar      = new THREE.MeshStandardMaterial({color: COLORS.cedar,      roughness: 0.85, metalness: 0});
-  MATS.cedarLite  = new THREE.MeshStandardMaterial({color: COLORS.cedarLite,  roughness: 0.85, metalness: 0});
-  MATS.glass      = new THREE.MeshPhysicalMaterial({color: COLORS.glass, roughness: 0.05, metalness: 0, transmission: 0.85, transparent: true, opacity: 0.5, ior: 1.45, thickness: 0.02});
-  MATS.sash       = new THREE.MeshStandardMaterial({color: COLORS.sash, roughness: 0.5, metalness: 0.55});
-  MATS.solar      = new THREE.MeshStandardMaterial({color: COLORS.solar, roughness: 0.18, metalness: 0.7});
-  MATS.solarFr    = new THREE.MeshStandardMaterial({color: COLORS.solarFr, roughness: 0.55, metalness: 0.5});
-  MATS.deck       = new THREE.MeshStandardMaterial({color: COLORS.deck, roughness: 0.9, metalness: 0});
-  MATS.sauna      = new THREE.MeshStandardMaterial({color: COLORS.sauna, roughness: 0.85, metalness: 0});
-  MATS.skylight   = new THREE.MeshPhysicalMaterial({color: COLORS.skylight, roughness: 0.1, metalness: 0, transmission: 0.7, transparent: true, opacity: 0.5});
+  // Procedural textures (per-color so preset switch refreshes)
+  const cedarMap = texCedar(COLORS.cedar);
+  cedarMap.repeat.set(2, 1);
+  const cedarLiteMap = texCedar(COLORS.cedarLite);
+  cedarLiteMap.repeat.set(2, 1);
+  const galvMap = texGalvSteel(COLORS.steel);
+  galvMap.repeat.set(4, 1);
+  const galvDarkMap = texGalvSteel(COLORS.steelDark);
+  galvDarkMap.repeat.set(4, 1);
+  const concMap = texConcrete();
+  concMap.repeat.set(3, 0.4);
+  const deckMap = texCedar(COLORS.deck);
+  deckMap.repeat.set(3, 1);
+  const saunaMap = texCedar(COLORS.sauna);
+  saunaMap.repeat.set(2, 1);
+
+  MATS.foundation = new THREE.MeshStandardMaterial({color: COLORS.foundation, map: concMap, roughness: 0.95, metalness: 0});
+  MATS.steel      = new THREE.MeshStandardMaterial({color: COLORS.steel, map: galvMap, roughness: 0.42, metalness: 0.55, envMapIntensity: 0.85});
+  MATS.steelDark  = new THREE.MeshStandardMaterial({color: COLORS.steelDark, map: galvDarkMap, roughness: 0.38, metalness: 0.6, envMapIntensity: 0.95});
+  MATS.cedar      = new THREE.MeshStandardMaterial({color: COLORS.cedar, map: cedarMap, roughness: 0.82, metalness: 0});
+  MATS.cedarLite  = new THREE.MeshStandardMaterial({color: COLORS.cedarLite, map: cedarLiteMap, roughness: 0.82, metalness: 0});
+  MATS.glass      = new THREE.MeshPhysicalMaterial({color: COLORS.glass, roughness: 0.02, metalness: 0, transmission: 0.92, transparent: true, opacity: 0.45, ior: 1.45, thickness: 0.012, envMapIntensity: 1.2, clearcoat: 0.4, clearcoatRoughness: 0.05});
+  MATS.sash       = new THREE.MeshStandardMaterial({color: COLORS.sash, roughness: 0.42, metalness: 0.6, envMapIntensity: 0.7});
+  MATS.solar      = new THREE.MeshStandardMaterial({color: COLORS.solar, roughness: 0.12, metalness: 0.75, envMapIntensity: 1.4});
+  MATS.solarFr    = new THREE.MeshStandardMaterial({color: COLORS.solarFr, roughness: 0.5, metalness: 0.6, envMapIntensity: 0.8});
+  MATS.deck       = new THREE.MeshStandardMaterial({color: COLORS.deck, map: deckMap, roughness: 0.88, metalness: 0});
+  MATS.sauna      = new THREE.MeshStandardMaterial({color: COLORS.sauna, map: saunaMap, roughness: 0.85, metalness: 0});
+  MATS.skylight   = new THREE.MeshPhysicalMaterial({color: COLORS.skylight, roughness: 0.08, metalness: 0, transmission: 0.75, transparent: true, opacity: 0.5, ior: 1.45, thickness: 0.01, envMapIntensity: 1.0});
   MATS.human      = new THREE.MeshStandardMaterial({color: COLORS.human, roughness: 0.9, metalness: 0});
+}
+
+// Apply a color preset (or partial overrides) and rebuild materials
+export function applyColors(overrides) {
+  Object.assign(COLORS, overrides);
+  // Clear texture cache so new shades regenerate
+  for (const k of Object.keys(TEX_CACHE)) delete TEX_CACHE[k];
+  buildMaterials();
 }
 
 function box(w, h, d, mat) { return new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); }
@@ -431,27 +608,49 @@ function buildRoof(plan) {
   }
 
   // Gable: ridge along X. Half-depth = D/2. Pitch = rise/run.
+  // Build the roof as a single ExtrudeGeometry — gable profile (with overhang + thickness) extruded along W.
+  // This guarantees no gap at the ridge.
   const pitch = plan.roofPitch || 0.25;
   const run = D/2 + EAVE_OUT;
   const ridgeH = run * pitch;
-  const slope = Math.atan(pitch);
-  const slopeLen = Math.hypot(run, ridgeH);
-  const tRoof = 0.20;
+  const tRoof = 0.10;        // roof slab thickness 100mm
   const roofW = W + EAVE_OUT * 2;
+  const slope = Math.atan(pitch);
+  const cosS = Math.cos(slope), sinS = Math.sin(slope);
+  // Vertical thickness of slab when measured upright = tRoof / cos(slope)
+  const tVert = tRoof / cosS;
 
-  // Two slope planes (south +Z, north -Z)
-  for (const sign of [1, -1]) {
-    const plane = new THREE.Mesh(
-      new THREE.BoxGeometry(roofW, tRoof, slopeLen),
-      sign === 1 ? MATS.steel : MATS.steelDark
-    );
-    plane.position.set(0, eaveY + ridgeH/2, sign * (run / 2));
-    plane.rotation.x = -sign * slope;
-    g.add(plane);
-    g.add(edge(plane, COLORS.line, 0.55));
-  }
+  // Profile in the (z, y) plane, extruded along x
+  // Outer top: south_eave_top (run, eaveY+tVert) → ridge_top (0, eaveY+ridgeH+tVert) → north_eave_top (-run, eaveY+tVert)
+  // Inner bottom: south_eave_bot (run, eaveY) → ridge_bot (0, eaveY+ridgeH) → north_eave_bot (-run, eaveY)
+  const profile = new THREE.Shape();
+  profile.moveTo(-run, eaveY);
+  profile.lineTo( run, eaveY);
+  profile.lineTo( run, eaveY + tVert);
+  profile.lineTo( 0,   eaveY + ridgeH + tVert);
+  profile.lineTo(-run, eaveY + tVert);
+  profile.closePath();
+  const roofGeo = new THREE.ExtrudeGeometry(profile, {
+    depth: roofW, bevelEnabled: false, curveSegments: 1,
+  });
+  // ExtrudeGeometry extrudes along +Z by default. Profile is in XY where X=z-direction, Y=height.
+  // We need profile-X to be world-Z, profile-Y to be world-Y, extrude direction to be world-X.
+  // So rotate around Y by -90deg, then translate to center on X axis.
+  const roof = new THREE.Mesh(roofGeo, MATS.steel);
+  roof.rotation.y = -Math.PI / 2;
+  roof.position.x = -roofW / 2;       // extrude goes +Z which after Y rotation is -X
+  // After rotation Y by -90deg: (x_local, y_local, z_local) → (z_local, y_local, -x_local)
+  // So extrude direction (z_local) maps to world +X. Good.
+  // The profile X (which was world Z direction in shape) after Y rot → ... wait let me re-check.
+  // Y rotation by -π/2: (x, y, z) → (-z, y, x). So profile point (z_p, y_p) at local (z_p, y_p, 0) → world (0, y_p, z_p).
+  // Extrude depth direction is local +Z, after rotation → world -X. So extrusion goes from x=0 to x=-roofW.
+  // Center on X by moving +roofW/2.
+  roof.position.x = roofW / 2;
+  g.add(roof);
+  g.add(edge(roof, COLORS.line, 0.45));
 
-  // Gable end triangles (east +X, west -X)
+  // Gable end triangles (east +X, west -X) — close the gable openings
+  // Inner triangle (matches profile's inner top: eave-line + ridge)
   for (const xSign of [1, -1]) {
     const shape = new THREE.Shape();
     shape.moveTo(-D/2, 0);
@@ -460,9 +659,9 @@ function buildRoof(plan) {
     shape.closePath();
     const tri = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, {depth: 0.02, bevelEnabled: false}), MATS.steel);
     tri.rotation.y = Math.PI / 2;
-    tri.position.set(xSign * (W/2), eaveY, 0);
+    tri.position.set(xSign * (W/2 - 0.01), eaveY, 0);
     g.add(tri);
-    g.add(edge(tri, COLORS.line, 0.7));
+    g.add(edge(tri, COLORS.line, 0.6));
   }
 
   // 雨樋 (gutter) on each eave
@@ -791,17 +990,25 @@ function buildEquipment(plan) {
     g.add(cap);
   }
 
-  // ── 破風板 (verge board) along gable ends ──
+  // ── 破風板 (verge board) along gable ends — slope from eave (low) to ridge (high) ──
   if (plan.roofType === 'gable' && !plan.dome) {
     const pitch = plan.roofPitch || 0.25;
     const run = D/2 + EAVE_OUT;
-    const slopeLen = Math.hypot(run, run * pitch);
+    const ridgeH = run * pitch;
+    const slopeLen = Math.hypot(run, ridgeH);
     const slope = Math.atan(pitch);
     for (const xSign of [1, -1]) {
       for (const zSign of [1, -1]) {
-        const verge = box(0.10, 0.18, slopeLen, MATS.steelDark);
-        verge.position.set(xSign * (W/2 + EAVE_OUT - 0.05), eaveY + run * pitch / 2, zSign * (run / 2));
-        verge.rotation.x = -zSign * slope;
+        const verge = box(0.04, 0.18, slopeLen, MATS.steelDark);
+        // Center along the slope from eave (z=zSign*run, y=eaveY) to ridge (z=0, y=eaveY+ridgeH)
+        verge.position.set(
+          xSign * (W/2 + EAVE_OUT - 0.02),
+          eaveY + ridgeH / 2,
+          zSign * (run / 2)
+        );
+        // Rotation: for zSign=+1 (south), need +Z end at south eave (low), -Z at ridge (high)
+        // Rx(+slope) makes +Z dive down, -Z rise up → correct.
+        verge.rotation.x = zSign * slope;
         g.add(verge);
       }
     }
@@ -869,7 +1076,7 @@ export function createViewer(container, opts = {}) {
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMappingExposure = 1.15;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   container.appendChild(renderer.domElement);
@@ -885,20 +1092,65 @@ export function createViewer(container, opts = {}) {
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(opts.bg ?? COLORS.bg);
-  scene.fog = new THREE.Fog(opts.bg ?? COLORS.bg, 60, 280);
+  scene.fog = new THREE.Fog(opts.bg ?? COLORS.bg, 80, 320);
 
-  // Ground (snow texture)
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(300, 300), new THREE.MeshStandardMaterial({color: COLORS.groundSnow, roughness: 1}));
+  // ── PBR environment for proper reflections ──
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+  // ── Ground (snow + ground texture) ──
+  const groundMat = new THREE.MeshStandardMaterial({color: COLORS.ground, roughness: 1});
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), groundMat);
   ground.rotation.x = -Math.PI / 2;
   ground.position.y = -0.30;
   ground.receiveShadow = true;
   scene.add(ground);
 
+  // ── Snow patches (random) ──
+  const snowGroup = new THREE.Group();
+  snowGroup.name = 'env_snow';
+  const snowMat = new THREE.MeshStandardMaterial({color: 0xf5f3ee, roughness: 1, metalness: 0});
+  for (let i = 0; i < 24; i++) {
+    const r = 1.5 + Math.random() * 4;
+    const patch = new THREE.Mesh(new THREE.CircleGeometry(r, 16), snowMat);
+    patch.rotation.x = -Math.PI / 2;
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 12 + Math.random() * 60;
+    patch.position.set(Math.cos(angle) * dist, -0.29, Math.sin(angle) * dist);
+    patch.scale.set(1 + Math.random() * 0.5, 1, 0.7 + Math.random() * 0.5);
+    patch.receiveShadow = true;
+    snowGroup.add(patch);
+  }
+  scene.add(snowGroup);
+
+  // ── Cedar trees (low-poly) — instanced cones + trunks ──
+  const treeGroup = new THREE.Group();
+  treeGroup.name = 'env_trees';
+  const trunkMat = new THREE.MeshStandardMaterial({color: 0x4a3624, roughness: 1});
+  const conifMat = new THREE.MeshStandardMaterial({color: 0x2e3f24, roughness: 0.95});
+  const conifMatLite = new THREE.MeshStandardMaterial({color: 0x435a30, roughness: 0.95});
+  for (let i = 0; i < 36; i++) {
+    const angle = (i / 36) * Math.PI * 2 + Math.random() * 0.3;
+    const dist = 25 + Math.random() * 60;
+    const x = Math.cos(angle) * dist;
+    const z = Math.sin(angle) * dist;
+    const tH = 5 + Math.random() * 9;
+    const tR = 0.6 + Math.random() * 0.8;
+    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.18, tH * 0.25, 6), trunkMat);
+    trunk.position.set(x, -0.30 + tH * 0.125, z);
+    treeGroup.add(trunk);
+    const cone = new THREE.Mesh(new THREE.ConeGeometry(tR, tH, 7), Math.random() < 0.5 ? conifMat : conifMatLite);
+    cone.position.set(x, -0.30 + tH * 0.5, z);
+    cone.castShadow = true;
+    treeGroup.add(cone);
+  }
+  scene.add(treeGroup);
+
   // Grid (0.91m =  SIPs panel module)
   const grid = new THREE.GridHelper(300, 330, 0x99928a, 0xc0baad);
   grid.position.y = -0.295;
   grid.material.transparent = true;
-  grid.material.opacity = 0.32;
+  grid.material.opacity = 0.20;
   scene.add(grid);
 
   // Lights — set sun for ~10am winter Hokkaido (low angle, south)
@@ -1031,5 +1283,34 @@ export function createViewer(container, opts = {}) {
   }
   window.addEventListener('resize', onResize);
 
-  return {scene, camera, renderer, controls, loadPlan, setLayer, setView, setXray, fitCamera, getPlan: () => currentPlan};
+  // Apply color preset and rebuild current plan
+  function applyPreset(presetKey) {
+    const preset = COLOR_PRESETS[presetKey];
+    if (!preset) return;
+    applyOverrides(preset);
+  }
+
+  // Apply arbitrary color overrides (custom picker)
+  function applyOverrides(overrides) {
+    applyColors(overrides);
+    if (overrides.ground) groundMat.color.setHex(COLORS.ground);
+    if (overrides.bg) {
+      scene.background = new THREE.Color(COLORS.bg);
+      scene.fog = new THREE.Fog(scene.background.getHex(), 80, 320);
+    }
+    if (currentPlan) loadPlan(currentPlan.id);
+  }
+
+  // Toggle environment props (trees + snow)
+  function setEnvironment(visible) {
+    snowGroup.visible = visible;
+    treeGroup.visible = visible;
+  }
+
+  return {
+    scene, camera, renderer, controls,
+    loadPlan, setLayer, setView, setXray, fitCamera,
+    applyPreset, applyOverrides, setEnvironment,
+    getPlan: () => currentPlan,
+  };
 }

@@ -48,8 +48,12 @@
   #plans .plan-grid button .lb{opacity:.55;font-size:9px;display:block}
   #plans .group-title{font-size:10px;letter-spacing:.06em;opacity:.5;text-transform:uppercase;padding:8px 0 4px}
 
-  #layers{top:62px;right:14px;width:200px}
+  #layers{top:62px;right:14px;width:220px}
   #layers .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+  #finish{top:62px;right:244px;width:220px}
+  @media(max-width:780px){
+    #finish{position:static;margin:54px 14px 0 14px;width:auto;max-width:none}
+  }
 
   #views{bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;padding:8px 10px}
 
@@ -132,6 +136,29 @@
   </div>
 </div>
 
+<div class="panel" id="finish">
+  <h3>仕上げ</h3>
+  <select id="presetSelect" style="width:100%;padding:6px;border:1px solid #c8c2b6;border-radius:5px;background:#fff;font-family:inherit;font-size:11px;margin-bottom:8px">
+    <option value="black_gal" selected>黒ガルバ × 杉（標準）</option>
+    <option value="yakisugi">焼杉 × ベンガラ</option>
+    <option value="white_cedar">ホワイト × 杉</option>
+    <option value="charcoal_hinoki">チャコール × 桧</option>
+    <option value="natural_wood">ナチュラル木造</option>
+  </select>
+  <div class="swatch-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:3px;margin-bottom:6px">
+    <button data-preset="black_gal"      title="黒ガルバ × 杉" style="background:#1c1c1c;height:18px;border:1px solid #888;border-radius:2px;cursor:pointer"></button>
+    <button data-preset="yakisugi"       title="焼杉 × ベンガラ" style="background:#2a1815;height:18px;border:1px solid #888;border-radius:2px;cursor:pointer"></button>
+    <button data-preset="white_cedar"    title="ホワイト × 杉" style="background:#e6e2da;height:18px;border:1px solid #888;border-radius:2px;cursor:pointer"></button>
+    <button data-preset="charcoal_hinoki" title="チャコール × 桧" style="background:#36383c;height:18px;border:1px solid #888;border-radius:2px;cursor:pointer"></button>
+    <button data-preset="natural_wood"   title="ナチュラル木造" style="background:#a9824f;height:18px;border:1px solid #888;border-radius:2px;cursor:pointer"></button>
+  </div>
+  <div style="display:flex;gap:4px;align-items:center;font-size:10px;opacity:.7">
+    <label style="cursor:pointer">外壁<input type="color" id="cstmSteel" value="#1c1c1c" style="width:18px;height:18px;border:0;cursor:pointer;vertical-align:middle"></label>
+    <label style="cursor:pointer">木部<input type="color" id="cstmCedar" value="#a9824f" style="width:18px;height:18px;border:0;cursor:pointer;vertical-align:middle"></label>
+    <label style="cursor:pointer">サッシ<input type="color" id="cstmSash" value="#2a2a2a" style="width:18px;height:18px;border:0;cursor:pointer;vertical-align:middle"></label>
+  </div>
+</div>
+
 <div class="panel" id="layers">
   <h3>レイヤ</h3>
   <label><input type="checkbox" data-layer="foundation" checked> 基礎</label>
@@ -144,6 +171,7 @@
   <label><input type="checkbox" data-layer="scale" checked> 人物スケール</label>
   <label><input type="checkbox" data-layer="dims"> 寸法線</label>
   <label style="margin-top:6px;border-top:1px dashed #c8c2b6;padding-top:6px"><input type="checkbox" id="xrayToggle"> X線モード（壁透視）</label>
+  <label><input type="checkbox" id="envToggle" checked> 周辺環境（杉・雪）</label>
 </div>
 
 <div class="panel" id="views">
@@ -218,6 +246,55 @@ for (const cb of document.querySelectorAll('[data-layer]')) {
   cb.addEventListener('change', () => viewer.setLayer(cb.dataset.layer, cb.checked));
 }
 document.getElementById('xrayToggle').addEventListener('change', e => viewer.setXray(e.target.checked));
+document.getElementById('envToggle').addEventListener('change', e => viewer.setEnvironment(e.target.checked));
+
+// Color preset selector
+const presetSelect = document.getElementById('presetSelect');
+function applyPresetByKey(key) {
+  presetSelect.value = key;
+  viewer.applyPreset(key);
+  // Sync custom pickers to the preset's primary colors
+  const presetColor = (k) => {
+    const palette = {
+      black_gal:        {steel:'#1c1c1c',cedar:'#a9824f',sash:'#2a2a2a'},
+      yakisugi:         {steel:'#2a1815',cedar:'#8b6a3e',sash:'#4a2820'},
+      white_cedar:      {steel:'#e6e2da',cedar:'#b8945c',sash:'#4a4a4a'},
+      charcoal_hinoki:  {steel:'#36383c',cedar:'#d8b88c',sash:'#1c1c1c'},
+      natural_wood:     {steel:'#a9824f',cedar:'#c8a672',sash:'#4a3a28'},
+    };
+    return palette[k] || palette.black_gal;
+  };
+  const c = presetColor(key);
+  document.getElementById('cstmSteel').value = c.steel;
+  document.getElementById('cstmCedar').value = c.cedar;
+  document.getElementById('cstmSash').value = c.sash;
+}
+presetSelect.addEventListener('change', e => applyPresetByKey(e.target.value));
+for (const b of document.querySelectorAll('[data-preset]')) {
+  b.addEventListener('click', () => applyPresetByKey(b.dataset.preset));
+}
+// Custom color pickers
+function applyCustom() {
+  const hex = (id) => parseInt(document.getElementById(id).value.replace('#',''), 16);
+  const steel = hex('cstmSteel');
+  const cedar = hex('cstmCedar');
+  const sash = hex('cstmSash');
+  const darken  = (h, p) => (((((h>>16)&0xff) * (1-p)|0) << 16) | ((((h>>8)&0xff) * (1-p)|0) << 8) | (((h&0xff) * (1-p)|0)));
+  const lighten = (h, p) => ((Math.min(255, ((h>>16)&0xff) * (1+p)|0) << 16) | (Math.min(255, ((h>>8)&0xff) * (1+p)|0) << 8) | (Math.min(255, (h&0xff) * (1+p)|0)));
+  viewer.applyOverrides({
+    steel, steelDark: darken(steel, 0.18),
+    cedar, cedarLite: lighten(cedar, 0.14),
+    sash,
+    deck: cedar, sauna: darken(cedar, 0.30),
+  });
+}
+let cstmTimer = null;
+for (const id of ['cstmSteel','cstmCedar','cstmSash']) {
+  document.getElementById(id).addEventListener('input', () => {
+    clearTimeout(cstmTimer);
+    cstmTimer = setTimeout(applyCustom, 80);     // debounce so dragging the picker isn't laggy
+  });
+}
 for (const b of document.querySelectorAll('#views button')) {
   b.addEventListener('click', () => {
     document.querySelectorAll('#views button').forEach(x => x.classList.remove('active'));
