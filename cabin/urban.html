@@ -712,10 +712,14 @@ function fmtM(n){ return '¥' + Math.round(n/10000) + '万'; }
 
 // ── ALL PLANS GRID ─────────────────────────────────────────────────────
 const pgGrid = document.getElementById('planGrid');
+function _fmtPrice(n) {
+  return n >= 100000000 ? `¥${(n/100000000).toFixed(1)}億` : `¥${Math.round(n/10000)}万`;
+}
 BUILD_PLANS.forEach(p => {
-  const priceStr = p.totalMat >= 100000000
-    ? `¥${(p.totalMat/100000000).toFixed(1)}億`
-    : `¥${Math.round(p.totalMat/10000)}万`;
+  const matStr = _fmtPrice(p.totalMat);
+  const contractor = (p.routes || []).find(r => r.name && r.name.includes('工務店'));
+  const contractorMax = contractor ? contractor.cost : Math.round(p.totalMat * 1.7);
+  const conStr = _fmtPrice(contractorMax);
   const card = document.createElement('div');
   card.className = 'pg-card' + (p.id === currentPlan.id ? ' pg-active' : '');
   card.id = 'pgcard-' + p.id;
@@ -724,9 +728,14 @@ BUILD_PLANS.forEach(p => {
     <div class="pg-svg">${p.floorSvg || ''}</div>
     <div class="pg-name" style="color:${p.color}">${p.name}</div>
     <div class="pg-lbl">${p.area}m² · ${p.weeks}週間</div>
-    <div class="pg-bottom">
-      <span class="pg-area">${(p.dims||'').split('×')[0].trim().replace('W ','')}</span>
-      <span class="pg-price" style="color:${p.color}">${priceStr}</span>
+    <div class="pg-bottom" style="flex-direction:column;align-items:flex-start;gap:4px">
+      <div style="display:flex;justify-content:space-between;width:100%;align-items:center">
+        <span class="pg-area">${(p.dims||'').split('×')[0].trim().replace('W ','')}</span>
+        <span class="pg-price" style="color:${p.color}">${matStr}</span>
+      </div>
+      <div style="font-size:9.5px;color:rgba(237,233,225,.32);width:100%;display:flex;justify-content:space-between">
+        <span>本体価格レンジ</span><span>${matStr} 〜 ${conStr}</span>
+      </div>
     </div>`;
   card.onclick = () => {
     selectPlan(p);
