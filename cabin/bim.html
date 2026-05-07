@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=2.0">
+<title>SOLUNA BIM Viewer — 3Dグリグリ動かせる立体図</title>
+<meta name="description" content="SOLUNAのSIPsキャビン全16プランを、ブラウザ上の3DビューでグリグリPlot。マウス／タッチで自由に回転・拡大できる軽量BIMビューワー。">
+<meta property="og:title" content="SOLUNA BIM — Web3Dビューワー">
+<meta property="og:description" content="SIPsキャビン16プランを3DでグリグリPlot。MEBUKI 9.9m²からKOSMOS 500m²まで。">
+<meta property="og:url" content="https://solun.art/bim">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://solun.art/bim">
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.1/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.1/examples/jsm/"
+  }
+}
+</script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#f2f0eb;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Helvetica Neue",sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:14px;padding:10px 16px;background:rgba(242,240,235,.92);backdrop-filter:blur(8px);border-bottom:1px solid #d6d2c8}
+  .topbar .brand{font-weight:600;letter-spacing:.04em;font-size:14px}
+  .topbar .brand small{opacity:.55;font-weight:400;margin-left:6px}
+  .topbar .links{margin-left:auto;display:flex;gap:14px;font-size:12px;opacity:.75}
+  .topbar .links a{text-decoration:none;border-bottom:1px solid transparent}
+  .topbar .links a:hover{border-bottom-color:#777}
+
+  #stage{position:fixed;inset:0;top:48px}
+
+  .panel{position:fixed;background:#fffefb;border:1px solid #d6d2c8;border-radius:8px;padding:12px 14px;font-size:12px;box-shadow:0 1px 2px rgba(0,0,0,.04);max-width:260px}
+  .panel h3{font-size:11px;font-weight:600;letter-spacing:.08em;opacity:.55;text-transform:uppercase;margin-bottom:10px}
+  .panel label{display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer;user-select:none}
+  .panel label input{accent-color:#222}
+  .panel button{background:#fff;border:1px solid #c8c2b6;border-radius:5px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:inherit}
+  .panel button:hover{background:#f0eee7}
+  .panel button.active{background:#222;color:#fff;border-color:#222}
+
+  #plans{top:62px;left:14px;max-height:calc(100vh - 80px);overflow-y:auto;width:200px}
+  #plans select{width:100%;padding:8px;border:1px solid #c8c2b6;border-radius:5px;background:#fff;font-family:inherit;font-size:12px;margin-bottom:10px}
+  #plans .plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+  #plans .plan-grid button{padding:6px 4px;text-align:center;font-size:10px;line-height:1.3}
+  #plans .plan-grid button .nm{font-weight:600;display:block;font-size:10px}
+  #plans .plan-grid button .lb{opacity:.55;font-size:9px;display:block}
+  #plans .group-title{font-size:10px;letter-spacing:.06em;opacity:.5;text-transform:uppercase;padding:8px 0 4px}
+
+  #layers{top:62px;right:14px;width:200px}
+  #layers .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+
+  #views{bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;padding:8px 10px}
+
+  #info{bottom:14px;left:14px;max-width:280px}
+  #info .name{font-size:18px;font-weight:600;letter-spacing:.04em;margin-bottom:2px}
+  #info .meta{font-size:11px;opacity:.6;margin-bottom:8px}
+  #info .tag{display:inline-block;background:#222;color:#fff;font-size:10px;padding:2px 7px;border-radius:3px;letter-spacing:.05em;margin-right:4px;margin-bottom:4px}
+  #info .dim{font-size:11px;opacity:.7;margin-top:6px;font-feature-settings:"tnum"}
+  #info a.detail{display:inline-block;margin-top:8px;font-size:11px;color:#222;border:1px solid #222;border-radius:4px;padding:4px 8px;text-decoration:none}
+  #info a.detail:hover{background:#222;color:#fff}
+
+  /* Mobile */
+  @media (max-width:780px){
+    .panel{padding:8px 10px;font-size:11px;max-width:160px}
+    #plans{width:160px;max-height:calc(50vh - 80px)}
+    #plans .plan-grid{grid-template-columns:1fr}
+    #layers{width:160px}
+    #info{max-width:170px;font-size:10px}
+    #info .name{font-size:14px}
+    #views{padding:6px 8px}
+    #views button{padding:4px 6px;font-size:10px}
+    .topbar{padding:8px 10px;gap:8px}
+    .topbar .brand{font-size:12px}
+    .topbar .links{font-size:11px;gap:8px}
+  }
+
+  .hint{position:fixed;bottom:62px;left:50%;transform:translateX(-50%);font-size:10px;background:rgba(34,34,34,.85);color:#fff;padding:5px 10px;border-radius:99px;letter-spacing:.05em;pointer-events:none;opacity:0;transition:opacity .4s}
+  .hint.show{opacity:1}
+
+  .compass{position:fixed;top:62px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.1em;opacity:.55;pointer-events:none}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">SOLUNA <small>BIM Viewer · β</small></div>
+  <div class="links">
+    <a href="/build">/build</a>
+    <a href="/urban">/urban</a>
+    <a href="/">solun.art</a>
+  </div>
+</div>
+
+<div id="stage"></div>
+
+<div class="compass">N ↑</div>
+
+<div class="panel" id="plans">
+  <h3>プラン選択</h3>
+  <select id="planSelect">
+    <optgroup label="弟子屈・郊外">
+      <option value="mini">MEBUKI · 9.9m²</option>
+      <option value="standard" selected>SU · 24.8m²</option>
+      <option value="dome">TAMA · 40m² ドーム</option>
+      <option value="large">AN · 40m²</option>
+      <option value="xl">MUNE · 66m²</option>
+      <option value="villa">VILLA · 120m²</option>
+      <option value="grand">GRAND · 200m²</option>
+      <option value="myth">MYTH · 300m²</option>
+      <option value="kosmos">KOSMOS · 500m²</option>
+    </optgroup>
+    <optgroup label="都市">
+      <option value="pod">POD · 25m²</option>
+      <option value="stack">STACK · 75m²</option>
+      <option value="tower">TOWER · 130m²</option>
+      <option value="flat">FLAT · 95m²</option>
+      <option value="duo">DUO · 160m²</option>
+      <option value="yield">YIELD · 1K×6戸</option>
+      <option value="roots">ROOTS · 60m²</option>
+    </optgroup>
+  </select>
+  <div class="group-title">クイック切替</div>
+  <div class="plan-grid">
+    <button data-plan="mini"><span class="nm">MEBUKI</span><span class="lb">9.9m²</span></button>
+    <button data-plan="standard"><span class="nm">SU</span><span class="lb">24.8m²</span></button>
+    <button data-plan="dome"><span class="nm">TAMA</span><span class="lb">40m²</span></button>
+    <button data-plan="myth"><span class="nm">MYTH</span><span class="lb">300m²</span></button>
+    <button data-plan="kosmos"><span class="nm">KOSMOS</span><span class="lb">500m²</span></button>
+    <button data-plan="tower"><span class="nm">TOWER</span><span class="lb">130m²</span></button>
+  </div>
+</div>
+
+<div class="panel" id="layers">
+  <h3>レイヤ</h3>
+  <label><input type="checkbox" data-layer="foundation" checked> 基礎</label>
+  <label><input type="checkbox" data-layer="structure" checked> 構造躯体</label>
+  <label><input type="checkbox" data-layer="sips" checked> SIPs外皮</label>
+  <label><input type="checkbox" data-layer="roof" checked> 屋根</label>
+  <label><input type="checkbox" data-layer="solar" checked> 太陽光</label>
+  <label><input type="checkbox" data-layer="deck" checked> デッキ</label>
+  <label><input type="checkbox" data-layer="dims"> 寸法線</label>
+</div>
+
+<div class="panel" id="views">
+  <button data-view="iso" class="active">アイソ</button>
+  <button data-view="front">正面</button>
+  <button data-view="side">側面</button>
+  <button data-view="top">平面</button>
+</div>
+
+<div class="panel" id="info">
+  <div class="name" id="planName">SU</div>
+  <div class="meta" id="planMeta">本ガイドの標準</div>
+  <div id="planTags"></div>
+  <div class="dim" id="planDim">5,460 × 4,550 × 3,000mm</div>
+  <a class="detail" id="planLink" href="/build/standard">詳細スペック →</a>
+</div>
+
+<div class="hint" id="hint">マウス・指でグリグリ動かせます</div>
+
+<script type="module">
+import { createViewer, PLANS } from '/js/bim.js';
+
+const stage = document.getElementById('stage');
+const viewer = createViewer(stage);
+
+function updateInfo(plan) {
+  document.getElementById('planName').textContent = plan.name;
+  document.getElementById('planMeta').textContent = plan.label + (plan.tag ? '　·　' + plan.tag : '');
+  document.getElementById('planDim').textContent =
+    `${plan.W.toLocaleString()} × ${plan.D.toLocaleString()} × ${(plan.H||3000).toLocaleString()}mm` +
+    (plan.stories > 1 ? `　·　${plan.stories}階建て` : '');
+  const tags = [];
+  if (plan.dome) tags.push('Dome');
+  if (plan.pilotis) tags.push('ピロティ');
+  if (plan.rooftopTerrace) tags.push('屋上テラス');
+  if (plan.openings?.skylight) tags.push('天窓');
+  if (plan.openings?.solar) tags.push(`PV ${plan.openings.solar}枚`);
+  if (plan.openings?.units) tags.push(`${plan.openings.units}戸`);
+  document.getElementById('planTags').innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join('');
+  // detail link: urban plans go to /urban/:id, rest to /build/:id
+  const urbanIds = ['pod','stack','tower','flat','duo','yield','roots'];
+  const detailBase = urbanIds.includes(plan.id) ? '/urban' : '/build';
+  document.getElementById('planLink').href = `${detailBase}/${plan.id}`;
+}
+
+function loadPlan(id) {
+  const {plan} = viewer.loadPlan(id);
+  plan.id = id;
+  updateInfo(plan);
+  // sync the select
+  document.getElementById('planSelect').value = id;
+  // sync layer checkboxes (dims off by default)
+  for (const cb of document.querySelectorAll('[data-layer]')) {
+    viewer.setLayer(cb.dataset.layer, cb.checked);
+  }
+  // url state
+  const u = new URL(location.href);
+  u.searchParams.set('plan', id);
+  history.replaceState(null, '', u);
+}
+
+// initial plan from ?plan= or hash, fallback to standard
+const initial = (new URL(location.href).searchParams.get('plan')) || location.hash.replace('#','') || 'standard';
+loadPlan(PLANS[initial] ? initial : 'standard');
+
+// Wire UI
+document.getElementById('planSelect').addEventListener('change', e => loadPlan(e.target.value));
+for (const btn of document.querySelectorAll('#plans .plan-grid button')) {
+  btn.addEventListener('click', () => loadPlan(btn.dataset.plan));
+}
+for (const cb of document.querySelectorAll('[data-layer]')) {
+  cb.addEventListener('change', () => viewer.setLayer(cb.dataset.layer, cb.checked));
+}
+for (const b of document.querySelectorAll('#views button')) {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('#views button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    viewer.setView(b.dataset.view);
+  });
+}
+
+// hint pop
+const hint = document.getElementById('hint');
+hint.classList.add('show');
+setTimeout(() => hint.classList.remove('show'), 3500);
+</script>
+
+</body>
+</html>
