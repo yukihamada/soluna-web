@@ -164,6 +164,27 @@
   <div id="drawerContent"></div>
 </div>
 
+<!-- AI Assistant chat (右下) -->
+<div id="aiChat" style="position:fixed;bottom:14px;right:266px;z-index:25;width:300px;display:none">
+  <div class="float-win" style="position:relative;width:100%;height:380px">
+    <div class="fw-header" style="cursor:default">
+      <span class="fw-title">🤖 SOLUNA AI アシスタント</span>
+      <div class="fw-actions">
+        <button class="ai-min" title="最小化">_</button>
+        <button class="ai-close" title="閉じる">×</button>
+      </div>
+    </div>
+    <div id="aiMessages" class="fw-body" style="font-size:11px;display:flex;flex-direction:column;gap:8px;background:#f8f6f0">
+      <div style="padding:8px 12px;background:#fff;border:1px solid #ddd;border-radius:8px;align-self:flex-start;max-width:90%">こんにちは！SOLUNA BIM AIです。予算・家族構成・敷地条件をお聞かせください。最適なプランをご提案します。</div>
+    </div>
+    <div style="padding:8px;background:#fff;border-top:1px solid #ddd;display:flex;gap:6px">
+      <input id="aiInput" placeholder="例: 予算3000万、夫婦+子1、札幌" style="flex:1;font-size:11px;padding:6px 8px;border:1px solid #ccc;border-radius:4px;font-family:inherit">
+      <button id="aiSend" style="background:#222;color:#fff;border:0;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:11px">送信</button>
+    </div>
+  </div>
+</div>
+<button id="aiToggle" style="position:fixed;bottom:54px;right:266px;z-index:24;background:#222;color:#fff;border:0;border-radius:50%;width:48px;height:48px;font-size:22px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)" title="AIアシスタント">🤖</button>
+
 <!-- Mobile bottom info bar -->
 <div id="info-mobile" style="position:fixed;bottom:54px;left:8px;right:8px;background:#fffefb;border:1px solid #d6d2c8;border-radius:6px;padding:8px 12px;font-size:11px;z-index:18">
   <span id="infoMobileName" style="font-weight:600">SU</span> <span id="infoMobileMeta" style="opacity:.6">24.8m²</span>
@@ -326,6 +347,12 @@
   <button id="compareBtn" style="width:100%;margin-bottom:4px">📊 全16プラン比較表</button>
   <button id="gltfBtn" style="width:100%;margin-bottom:4px">⬇ glTF (Android AR)</button>
   <button id="usdzBtn" style="width:100%;margin-bottom:4px">⬇ USDZ (iOS AR / Vision Pro)</button>
+  <button id="gisBtn" style="width:100%;margin-bottom:4px">🗺 実敷地連携 (GIS)</button>
+  <button id="roiBtn" style="width:100%;margin-bottom:4px">💹 ROI/IRR (投資家モード)</button>
+  <button id="brochureBtn" style="width:100%;margin-bottom:4px">📰 SNS用画像生成</button>
+  <button id="photoBtn" style="width:100%;margin-bottom:4px">📷 進捗写真管理</button>
+  <button id="tutorialBtn" style="width:100%;margin-bottom:4px">❓ チュートリアル</button>
+  <button id="saveBtn" style="width:100%;margin-bottom:4px">☁️ クラウド保存・共有</button>
   <button id="quoteBtn" style="width:100%;background:#1a6b3a;color:#fff;border-color:#1a6b3a">✉️ 見積依頼を送る</button>
 </div>
 
@@ -1728,6 +1755,366 @@ document.getElementById('costBtn').addEventListener('click', () => {
 document.getElementById('tcoClose').addEventListener('click', () => {
   document.getElementById('tcoModal').style.display = 'none';
 });
+
+// ─── クラウド保存・共有リンク ───
+async function getCurrentBimState() {
+  const plan = viewer.getPlan();
+  return {
+    planId: plan.id,
+    overrides: {W: plan.W, D: plan.D, H: plan.H, roofPitch: plan.roofPitch},
+    colors: window.__currentColorPreset || 'black_gal',
+    timestamp: Date.now(),
+  };
+}
+document.getElementById('saveBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true; btn.textContent = '⏳ 保存中...';
+  try {
+    const state = await getCurrentBimState();
+    const r = await fetch('/api/bim/save', {
+      method: 'POST',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify({planId: state.planId, data: state}),
+    });
+    const j = await r.json();
+    if (j.url) {
+      const html = `<h3 style="margin:0 0 12px 0">☁️ クラウド保存完了</h3>
+        <p style="font-size:12px">共有URLが生成されました。このURLを開くと現在のプラン設定が再現されます。</p>
+        <input value="${j.url}" readonly style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:11px;margin:8px 0" onclick="this.select()">
+        <button onclick="navigator.clipboard.writeText('${j.url}');this.textContent='✓ コピー済'" style="background:#222;color:#fff;border:0;padding:8px 16px;border-radius:4px;cursor:pointer">📋 URLをコピー</button>
+        <p style="font-size:10px;opacity:.6;margin-top:10px">※保存期間: 90日</p>`;
+      showSimpleModal(html);
+    } else {
+      alert('保存失敗: ' + (j.error || 'unknown'));
+    }
+  } catch (e) {
+    // Fallback: localStorage
+    const state = await getCurrentBimState();
+    const id = 'local_' + Date.now().toString(36);
+    localStorage.setItem('bim_share_' + id, JSON.stringify(state));
+    const url = `${location.origin}/bim?share=${id}`;
+    alert(`オフライン保存しました（このブラウザのみ）\n${url}`);
+  }
+  btn.disabled = false; btn.textContent = '☁️ クラウド保存・共有';
+});
+
+// Load shared state on init
+const shareId = new URL(location.href).searchParams.get('share');
+if (shareId) {
+  (async () => {
+    let state = null;
+    if (shareId.startsWith('local_')) {
+      const raw = localStorage.getItem('bim_share_' + shareId);
+      if (raw) state = JSON.parse(raw);
+    } else {
+      try {
+        const r = await fetch('/api/bim/load/' + shareId);
+        if (r.ok) state = (await r.json()).data;
+      } catch {}
+    }
+    if (state) {
+      loadPlan(state.planId);
+      if (state.overrides) {
+        const p = viewer.getPlan();
+        Object.assign(p, state.overrides);
+        viewer.loadPlan(p.id);
+      }
+      if (state.colors) viewer.applyPreset(state.colors);
+    }
+  })();
+}
+
+// ─── AI アシスタント ───
+const aiToggle = document.getElementById('aiToggle');
+const aiChat = document.getElementById('aiChat');
+const aiMessages = document.getElementById('aiMessages');
+const aiInput = document.getElementById('aiInput');
+const aiSend = document.getElementById('aiSend');
+const aiHistory = [];
+aiToggle.addEventListener('click', () => {
+  aiChat.style.display = aiChat.style.display === 'none' ? 'block' : 'none';
+});
+aiChat.querySelector('.ai-close').addEventListener('click', () => aiChat.style.display = 'none');
+aiChat.querySelector('.ai-min').addEventListener('click', () => aiChat.querySelector('.float-win').classList.toggle('minimized'));
+function appendChat(role, text) {
+  const div = document.createElement('div');
+  const isUser = role === 'user';
+  div.style.cssText = `padding:8px 12px;background:${isUser?'#222':'#fff'};color:${isUser?'#fff':'#222'};border:1px solid ${isUser?'#222':'#ddd'};border-radius:8px;align-self:${isUser?'flex-end':'flex-start'};max-width:90%;font-size:11px;line-height:1.5`;
+  div.textContent = text;
+  aiMessages.appendChild(div);
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+}
+async function sendAI() {
+  const text = aiInput.value.trim();
+  if (!text) return;
+  aiInput.value = '';
+  appendChat('user', text);
+  aiHistory.push({role: 'user', content: text});
+  appendChat('assistant', '⏳');
+  try {
+    const plan = viewer.getPlan();
+    const r = await fetch('/api/bim/ai', {
+      method: 'POST', headers: {'content-type':'application/json'},
+      body: JSON.stringify({
+        messages: aiHistory.slice(-10),
+        context: {planName: plan.name, planLabel: plan.label},
+      }),
+    });
+    const j = await r.json();
+    aiMessages.removeChild(aiMessages.lastChild);
+    if (j.text) {
+      appendChat('assistant', j.text);
+      aiHistory.push({role: 'assistant', content: j.text});
+      if (j.switchPlan && PLANS[j.switchPlan]) {
+        setTimeout(() => loadPlan(j.switchPlan), 500);
+      }
+    } else {
+      appendChat('assistant', '⚠️ ' + (j.error || 'AIエラー'));
+    }
+  } catch (e) {
+    aiMessages.removeChild(aiMessages.lastChild);
+    appendChat('assistant', 'AI接続エラー: ' + e.message);
+  }
+}
+aiSend.addEventListener('click', sendAI);
+aiInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendAI(); });
+
+// ─── GIS 実敷地連携 (国土地理院タイル) ───
+document.getElementById('gisBtn').addEventListener('click', () => {
+  const html = `
+    <h3 style="margin:0 0 12px 0">🗺 実敷地連携 (国土地理院タイル)</h3>
+    <p style="font-size:12px;margin-bottom:10px">建設予定地の住所または座標を入力してください</p>
+    <input id="gisAddr" placeholder="住所 例: 北海道川上郡弟子屈町美留和" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;margin-bottom:8px;font-family:inherit">
+    <button id="gisSearch" style="background:#222;color:#fff;border:0;padding:8px 16px;border-radius:4px;cursor:pointer;width:100%;margin-bottom:10px">📍 検索</button>
+    <div id="gisMap" style="width:100%;height:280px;background:#eee;border:1px solid #ccc"></div>
+    <p style="font-size:10px;opacity:.55;margin-top:10px">※国土地理院タイル使用。住所→座標は国土地理院ジオコーダAPI使用</p>`;
+  showSimpleModal(html);
+  // Load Leaflet on demand
+  ensureLib('L', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js').then(() => {
+    if (!document.querySelector('link[href*="leaflet"]')) {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(css);
+    }
+    setTimeout(() => {
+      const mapEl = document.getElementById('gisMap');
+      if (!mapEl) return;
+      const map = L.map(mapEl).setView([43.5, 144.45], 13);   // 弟子屈
+      L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.gsi.go.jp/">国土地理院</a>', maxZoom: 18,
+      }).addTo(map);
+      // Building footprint marker
+      const W = viewer.getPlan().W / 1000, D = viewer.getPlan().D / 1000;
+      L.marker([43.5, 144.45]).bindPopup(`SOLUNA 建設地<br>${W}m × ${D}m`).addTo(map);
+      document.getElementById('gisSearch').addEventListener('click', async () => {
+        const addr = document.getElementById('gisAddr').value;
+        if (!addr) return;
+        try {
+          const r = await fetch(`https://msearch.gsi.go.jp/address-search/AddressSearch?q=${encodeURIComponent(addr)}`);
+          const j = await r.json();
+          if (j[0]?.geometry?.coordinates) {
+            const [lon, lat] = j[0].geometry.coordinates;
+            map.setView([lat, lon], 17);
+            L.marker([lat, lon]).bindPopup(`📍 ${addr}<br>${W}m × ${D}m`).addTo(map);
+          }
+        } catch (e) { alert('地名検索失敗: ' + e.message); }
+      });
+    }, 100);
+  });
+});
+
+// ─── ROI/IRR 投資家モード ───
+document.getElementById('roiBtn').addEventListener('click', () => {
+  const plan = viewer.getPlan();
+  const soft = viewer.softCosts();
+  const total = soft.grandTotal * 1.1;     // 税込
+  const isYield = plan.openings?.units;
+  const isLodge = ['villa','myth','kosmos'].includes(plan.id);
+  // Estimated rental income
+  let monthlyRent = 0, occupancy = 0;
+  if (isYield) {
+    monthlyRent = plan.openings.units * 75000;     // 1K@¥75,000
+    occupancy = 0.92;
+  } else if (isLodge) {
+    monthlyRent = plan.W * plan.D / 1e6 * 1500 * 30 * 0.6;     // 別荘貸出
+    occupancy = 0.55;
+  } else {
+    monthlyRent = plan.W * plan.D / 1e6 * 2200;
+    occupancy = 0.95;
+  }
+  const annualIncome = monthlyRent * 12 * occupancy;
+  const annualExp = annualIncome * 0.25;        // 経費・修繕25%
+  const annualNoi = annualIncome - annualExp;
+  const grossYield = (annualIncome / total) * 100;
+  const netYield = (annualNoi / total) * 100;
+  const payback = total / annualNoi;
+  // 30y IRR (simplified: assume terminal value = 50% of cost)
+  const cashFlows30 = Array(30).fill(annualNoi);
+  cashFlows30[29] += total * 0.5;
+  let irr = 0;
+  for (let r = 0.001; r < 0.20; r += 0.001) {
+    let npv = -total;
+    cashFlows30.forEach((cf, i) => npv += cf / Math.pow(1 + r, i + 1));
+    if (npv < 0) { irr = r - 0.001; break; }
+  }
+  const html = `
+    <h3 style="margin:0 0 12px 0">💹 ROI / IRR 投資シミュレーション</h3>
+    <table style="width:100%;font-feature-settings:'tnum';font-size:12px">
+      <tr><td>初期投資 (税込)</td><td style="text-align:right">${yenFmt(total)}</td></tr>
+      <tr><td>月額収入想定</td><td style="text-align:right">${yenFmt(monthlyRent)}</td></tr>
+      <tr><td>稼働率想定</td><td style="text-align:right">${(occupancy*100).toFixed(0)}%</td></tr>
+      <tr><td>年間収入</td><td style="text-align:right">${yenFmt(annualIncome)}</td></tr>
+      <tr><td>年間経費(25%)</td><td style="text-align:right">−${yenFmt(annualExp)}</td></tr>
+      <tr><td><b>年間NOI (Net Operating Income)</b></td><td style="text-align:right;font-weight:600">${yenFmt(annualNoi)}</td></tr>
+      <tr style="border-top:2px solid #222"><td><b>表面利回り</b></td><td style="text-align:right;color:#1a6b3a;font-weight:700">${grossYield.toFixed(2)}%</td></tr>
+      <tr><td><b>実質利回り (NOI/投資)</b></td><td style="text-align:right;color:#1a6b3a;font-weight:700">${netYield.toFixed(2)}%</td></tr>
+      <tr><td><b>投資回収期間</b></td><td style="text-align:right;font-weight:600">${payback.toFixed(1)} 年</td></tr>
+      <tr><td><b>30年IRR (終価50%想定)</b></td><td style="text-align:right;color:#c8801c;font-weight:700">${(irr*100).toFixed(1)}%</td></tr>
+    </table>
+    <p style="font-size:10px;opacity:.55;margin-top:10px">※稼働率・賃料は地域・運営・物件規模で変動。賃貸案件はYIELD想定、別荘貸出はVILLA/MYTH/KOSMOS想定。</p>`;
+  showSimpleModal(html);
+});
+
+// ─── SNS用画像生成 (canvas) ───
+document.getElementById('brochureBtn').addEventListener('click', async () => {
+  viewer.setView('iso');
+  await new Promise(r => setTimeout(r, 500));
+  const isoImg = viewer.renderer.domElement.toDataURL('image/png');
+  const plan = viewer.getPlan();
+  const soft = viewer.softCosts();
+  const ua = viewer.uaValue();
+  // Render to canvas (1080×1080 Instagram square)
+  const c = document.createElement('canvas');
+  c.width = 1080; c.height = 1080;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#1a1a1a'; ctx.fillRect(0, 0, 1080, 1080);
+  // Iso image
+  const img = new Image();
+  await new Promise(res => { img.onload = res; img.src = isoImg; });
+  ctx.drawImage(img, 60, 100, 960, 600);
+  // Text
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 64px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText(`SOLUNA ${plan.name}`, 60, 60);
+  ctx.font = '32px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillStyle = '#c8a455';
+  ctx.fillText(`${plan.label} · ${plan.tag || ''}`, 60, 100);
+  // Bottom info
+  ctx.fillStyle = '#fff';
+  ctx.font = '28px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText(`本体価格 ${yenFmt(soft.matTotal)}〜`, 60, 780);
+  ctx.fillText(`UA ${ua.UA.toFixed(2)} W/m²K (${ua.grade})`, 60, 820);
+  ctx.fillText(`${plan.W}×${plan.D}×${plan.H||3000}mm`, 60, 860);
+  ctx.font = 'bold 38px sans-serif';
+  ctx.fillStyle = '#c8a455';
+  ctx.fillText('solun.art/bim/' + plan.id, 60, 990);
+  ctx.font = '24px sans-serif';
+  ctx.fillStyle = '#888';
+  ctx.fillText('北海道弟子屈SIPsキャビン · 全16プラン', 60, 1030);
+  // Download
+  c.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `SOLUNA_${plan.name}_SNS.png`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }, 'image/png');
+});
+
+// ─── 進捗写真管理 (localStorage) ───
+document.getElementById('photoBtn').addEventListener('click', () => {
+  const plan = viewer.getPlan();
+  const photos = JSON.parse(localStorage.getItem('photos_' + plan.id) || '[]');
+  const html = `
+    <h3 style="margin:0 0 12px 0">📷 進捗写真管理 (${plan.name})</h3>
+    <input type="file" id="photoUpload" accept="image/*" multiple style="margin-bottom:14px;font-size:11px">
+    <select id="photoPhase" style="margin-left:8px;padding:4px;border:1px solid #ccc;border-radius:4px">
+      <option>① 敷地</option><option>② 基礎</option><option>③ 構造</option><option>④ 外皮</option>
+      <option>⑤ 屋根</option><option>⑥ 開口</option><option>⑦ 設備</option><option>⑧ 内装</option><option>⑨ 完了</option>
+    </select>
+    <div id="photoGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-height:380px;overflow-y:auto"></div>
+    <p style="font-size:10px;opacity:.55;margin-top:10px">※ローカル保存。10年瑕疵担保のため重要写真はクラウドバックアップ推奨。</p>`;
+  showSimpleModal(html);
+  const grid = document.getElementById('photoGrid');
+  function refreshGrid() {
+    grid.innerHTML = photos.map((p, i) => `
+      <div style="position:relative;background:#000;height:90px">
+        <img src="${p.data}" style="width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.7);color:#fff;font-size:9px;padding:2px 4px">${p.phase} · ${new Date(p.date).toLocaleDateString()}</div>
+        <button data-i="${i}" class="del-photo" style="position:absolute;top:2px;right:2px;background:rgba(200,50,50,.85);color:#fff;border:0;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:12px">×</button>
+      </div>`).join('');
+    grid.querySelectorAll('.del-photo').forEach(b => b.addEventListener('click', () => {
+      photos.splice(parseInt(b.dataset.i), 1);
+      localStorage.setItem('photos_' + plan.id, JSON.stringify(photos));
+      refreshGrid();
+    }));
+  }
+  refreshGrid();
+  document.getElementById('photoUpload').addEventListener('change', async (e) => {
+    const phase = document.getElementById('photoPhase').value;
+    for (const file of e.target.files) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        photos.push({phase, data: reader.result, date: Date.now()});
+        try {
+          localStorage.setItem('photos_' + plan.id, JSON.stringify(photos));
+          refreshGrid();
+        } catch (err) { alert('localStorage容量超過。古い写真を削除してください'); }
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+});
+
+// ─── チュートリアル ───
+document.getElementById('tutorialBtn').addEventListener('click', startTutorial);
+function startTutorial() {
+  const steps = [
+    {target: '#planSelect', text: '①プラン選択: 9つのBUILDシリーズと7つのURBANシリーズから選べます'},
+    {target: '#bim-tools', text: '②BIMツール: 数量・コスト・UA値・構造解析・各種PDF出力'},
+    {target: '#layers', text: '③レイヤ: 基礎・構造・SIPs外皮・屋根・太陽光などのON/OFF'},
+    {target: '#finish', text: '④仕上げ: 5色プリセット + カラーピッカーで外観カスタマイズ'},
+    {target: '#views', text: '⑤ビュー切替: アイソ/正面/側面/平面 + 中に入る'},
+    {target: '#sun-panel', text: '⑥太陽軌道: 月・時刻スライダー + 季節別アニメ + PV発電予測'},
+    {target: '#aiToggle', text: '⑦AIアシスタント: 予算・家族構成から最適プラン提案'},
+    {target: '#saveBtn', text: '⑧クラウド保存: カスタマイズしたプランをURLで共有'},
+  ];
+  let idx = 0;
+  function show() {
+    const old = document.querySelector('.tut-overlay');
+    if (old) old.remove();
+    if (idx >= steps.length) return;
+    const s = steps[idx];
+    const el = document.querySelector(s.target);
+    if (!el) { idx++; return show(); }
+    const r = el.getBoundingClientRect();
+    const overlay = document.createElement('div');
+    overlay.className = 'tut-overlay';
+    overlay.style.cssText = `position:fixed;inset:0;z-index:80;pointer-events:auto;background:rgba(0,0,0,.55)`;
+    overlay.innerHTML = `
+      <div style="position:absolute;left:${r.left-4}px;top:${r.top-4}px;width:${r.width+8}px;height:${r.height+8}px;border:3px solid #c8a455;border-radius:8px;background:transparent;box-shadow:0 0 0 9999px rgba(0,0,0,.55);pointer-events:none"></div>
+      <div style="position:absolute;left:${Math.min(window.innerWidth-340, r.right+12)}px;top:${Math.min(window.innerHeight-150, r.top)}px;width:320px;background:#fff;border-radius:8px;padding:14px;font-size:13px">
+        <p style="margin:0 0 10px">${s.text}</p>
+        <div style="display:flex;gap:6px;justify-content:space-between">
+          <span style="font-size:11px;color:#888">${idx+1}/${steps.length}</span>
+          <div>
+            <button class="tut-skip" style="background:none;border:0;cursor:pointer;color:#888;font-size:11px">スキップ</button>
+            <button class="tut-next" style="background:#222;color:#fff;border:0;padding:6px 14px;border-radius:4px;cursor:pointer;font-size:11px">${idx===steps.length-1?'完了':'次へ'}</button>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    overlay.querySelector('.tut-next').addEventListener('click', () => { idx++; show(); });
+    overlay.querySelector('.tut-skip').addEventListener('click', () => { overlay.remove(); });
+  }
+  show();
+}
+// Auto-start tutorial on first visit
+if (!localStorage.getItem('bim_visited')) {
+  setTimeout(startTutorial, 1500);
+  localStorage.setItem('bim_visited', '1');
+}
 
 // ─── 見積依頼フォーム ───
 document.getElementById('quoteBtn').addEventListener('click', () => {

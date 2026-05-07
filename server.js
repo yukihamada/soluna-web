@@ -10972,10 +10972,77 @@ if (fs.existsSync(CABIN_DIR)) {
     if (!ALL_BIM_IDS.includes(req.params.plan)) return next();
     const p = path.join(CABIN_DIR, "bim.html");
     let html = fs.readFileSync(p, "utf8");
-    // Pre-set the initial plan in URL (the page reads ?plan= from location)
     html = html.replace("</head>", `<script>history.replaceState(null,'','/bim?plan=${req.params.plan}')</script></head>`);
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.send(html);
+  });
+
+  // ── BIM cloud save: ?share=<id> で保存・共有 ──
+  // Stored in libsql table bim_shares
+  try {
+    db.execute("CREATE TABLE IF NOT EXISTS bim_shares (id TEXT PRIMARY KEY, plan_id TEXT NOT NULL, data TEXT NOT NULL, created_at INTEGER NOT NULL)").catch(()=>{});
+  } catch (e) {}
+  app.post("/api/bim/save", express.json({limit: '1mb'}), async (req, res) => {
+    try {
+      const { planId, data } = req.body;
+      if (!planId || !data) return res.status(400).json({error: 'planId and data required'});
+      const id = crypto.randomBytes(8).toString('base64url');
+      await db.execute({
+        sql: "INSERT INTO bim_shares (id, plan_id, data, created_at) VALUES (?, ?, ?, ?)",
+        args: [id, planId, JSON.stringify(data), Date.now()],
+      });
+      res.json({id, url: `https://solun.art/bim?share=${id}`});
+    } catch (e) {
+      res.status(500).json({error: e.message});
+    }
+  });
+  app.get("/api/bim/load/:id", async (req, res) => {
+    try {
+      const r = await db.execute({sql: "SELECT plan_id, data FROM bim_shares WHERE id = ?", args: [req.params.id]});
+      if (!r.rows[0]) return res.status(404).json({error: 'not found'});
+      res.json({planId: r.rows[0].plan_id, data: JSON.parse(r.rows[0].data)});
+    } catch (e) {
+      res.status(500).json({error: e.message});
+    }
+  });
+
+  // ── BIM AI assistant: Claude API proxy ──
+  app.post("/api/bim/ai", express.json({limit: '256kb'}), async (req, res) => {
+    try {
+      const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+      if (!ANTHROPIC_API_KEY) return res.status(503).json({error: 'AI offline (key not configured)'});
+      const { messages, context } = req.body;
+      if (!messages || !Array.isArray(messages)) return res.status(400).json({error: 'messages required'});
+      const sys = `あなたはSOLUNAの専門BIMアシスタント（北海道弟子屈SIPsキャビン特化）。
+ユーザーの予算・家族構成・敷地条件から最適なSOLUNAプランを提案する。
+回答は簡潔に（200字以内）、必要に応じて以下の16プランから推薦：
+MEBUKI(9.9m²/¥135万) SU(24.8m²/¥328万) TAMA(40m²ドーム) AN(40m²) MUNE(66m²) VILLA(120m²) GRAND(200m²) MYTH(300m²) KOSMOS(500m²)
+都市: POD(25m²) STACK(75m²) TOWER(130m²) FLAT(95m²) DUO(160m²) YIELD(投資1K×6) ROOTS(60m²)
+現在表示中のプラン: ${context?.planName || 'unknown'} (${context?.planLabel || ''})
+プラン名は「→ プランID」形式で末尾に書くと自動切替: 例「→ standard」`;
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-api-key': ANTHROPIC_API_KEY,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 800,
+          system: sys,
+          messages,
+        }),
+      });
+      if (!r.ok) return res.status(500).json({error: 'AI API error: ' + r.status});
+      const j = await r.json();
+      const text = j.content?.[0]?.text || '';
+      // Extract plan switch directive: "→ planId"
+      const switchMatch = text.match(/→\s*(\w+)/);
+      res.json({text, switchPlan: switchMatch ? switchMatch[1] : null});
+    } catch (e) {
+      res.status(500).json({error: e.message});
+    }
   });
 
   // /build/:plan → build.html (SSR: plan固有のtitle/meta/SEOコンテンツ注入)
