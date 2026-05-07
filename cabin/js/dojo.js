@@ -26,12 +26,12 @@ export const PLANS = {
     sail: true, hasElevator: false,
   },
   dojo_m: {
-    W: 24000, D: 18000, wingD: 5000, backD: 5000, modW: 6000, modH: 2700,
-    sideStories: 2, backStories: 3,
+    W: 24000, D: 18000, wingD: 5000, backD: 5000, modW: 6000, modH: 3300,
+    sideStories: 1, backStories: 1,
     name: 'DOJO M',
-    label: '230㎡ + 中庭120㎡',
-    tag: '中規模リトリート / 道場',
-    sail: true, hasElevator: true,
+    label: '250㎡ + 中庭120㎡ (平屋)',
+    tag: '平屋ワンフロア / 道場・リトリート',
+    sail: true, hasElevator: false,
   },
   dojo_l: {
     W: 32000, D: 24000, wingD: 6000, backD: 6000, modW: 6000, modH: 2700,
@@ -602,10 +602,13 @@ function buildEntrance(g, plan) {
   const W = plan.W * MM, D = plan.D * MM;
   const wingD = plan.wingD * MM, backD = plan.backD * MM;
   const backZ = -D/2 + backD/2;
-  // 玄関キャノピー (Cantilever 大屋根)
+  // 玄関キャノピー (Cantilever 大屋根) — 棟高さに合わせて配置
   const canopyW = 4.5;
   const canopyD = 2.5;
-  const canopyY = baseY + 2 * plan.modH * MM + 0.30;     // 2階分の高さ
+  const backStories = plan.backStories || 1;
+  // 平屋なら棟最上部 - 0.4m (室内2.4m高さ)、2階以上なら2階分
+  const canopyY = baseY + Math.min(backStories, 2) * plan.modH * MM
+                 + (backStories === 1 ? -0.30 : 0.30);
   const canopyMat = new THREE.MeshStandardMaterial({color: 0x1c1c1c, roughness: 0.5, metalness: 0.4});
   const canopy = box(canopyW, 0.12, canopyD, canopyMat);
   canopy.position.set(0, canopyY, backZ + backD/2 + canopyD/2);
@@ -717,28 +720,30 @@ function buildDojo(plan) {
     stories: backStories, modH, withRoofDeck: false, monoRoof: true});
   root.add(wingsG);
 
-  // ── 階段塔 (stair towers) — 各棟に1箇所、北棟は2箇所 (2方向避難) ──
+  // ── 階段塔 (stair towers) — 平屋 (1階) なら不要 ──
   const stairsG = group('stairs');
-  // 西棟階段 (北端)
-  buildStairTower(stairsG, {
-    x: wingX_W, z: -wingLen/2 + 1.5, w: wingD * 0.7, d: 2.8,
-    stories: sideStories, modH,
-  });
-  // 東棟階段 (北端)
-  buildStairTower(stairsG, {
-    x: wingX_E, z: -wingLen/2 + 1.5, w: wingD * 0.7, d: 2.8,
-    stories: sideStories, modH,
-  });
-  // 北棟 階段A (西寄り)
-  buildStairTower(stairsG, {
-    x: backX - backW/4, z: backZ, w: 2.4, d: backD * 0.5,
-    stories: backStories, modH,
-  });
-  // 北棟 階段B (東寄り — 2方向避難)
-  buildStairTower(stairsG, {
-    x: backX + backW/4, z: backZ, w: 2.4, d: backD * 0.5,
-    stories: backStories, modH,
-  });
+  if (sideStories >= 2) {
+    buildStairTower(stairsG, {
+      x: wingX_W, z: -wingLen/2 + 1.5, w: wingD * 0.7, d: 2.8,
+      stories: sideStories, modH,
+    });
+    buildStairTower(stairsG, {
+      x: wingX_E, z: -wingLen/2 + 1.5, w: wingD * 0.7, d: 2.8,
+      stories: sideStories, modH,
+    });
+  }
+  if (backStories >= 2) {
+    // 北棟 階段A (西寄り)
+    buildStairTower(stairsG, {
+      x: backX - backW/4, z: backZ, w: 2.4, d: backD * 0.5,
+      stories: backStories, modH,
+    });
+    // 北棟 階段B (東寄り — 2方向避難)
+    buildStairTower(stairsG, {
+      x: backX + backW/4, z: backZ, w: 2.4, d: backD * 0.5,
+      stories: backStories, modH,
+    });
+  }
   // 中庭側 屋外避難階段 (側棟・北棟の合流点 — 国基準 2方向避難用)
   // 北棟外部に金属階段 (中庭側へ降りる)
   if (backStories >= 3) {
