@@ -1998,6 +1998,75 @@ export function createViewer(container, opts = {}) {
 
   function getPhases() { return PHASES; }
 
+  // ── ウォークスルー動画エクスポート (MediaRecorder) ──
+  async function recordWalkthrough({duration = 14, fps = 30, onProgress} = {}) {
+    if (!currentPlan) return null;
+    if (!renderer.domElement.captureStream) {
+      throw new Error('captureStream not supported');
+    }
+    // Build camera path: outside circle → entry → interior swing
+    const W = currentPlan.W * MM, D = currentPlan.D * MM;
+    const stories = currentPlan.stories || 1;
+    const H = (currentPlan.H || 3000) * MM * stories + (currentPlan.pilotis ? 2.4 : 0) + FL_OFFSET;
+    const r = Math.max(W, D) * 1.4;
+    const targetMid = new THREE.Vector3(0, H * 0.4, 0);
+    const interiorTarget = new THREE.Vector3(0, FL_OFFSET + 1.6, 0);
+    function camAt(t) {
+      // 0 - 0.6: orbit around the building (1.5 turns), camera high
+      // 0.6 - 0.8: zoom in on south facade
+      // 0.8 - 1.0: enter and pan interior
+      if (t < 0.6) {
+        const a = (t / 0.6) * Math.PI * 2 * 1.5 + Math.PI / 4;
+        return {
+          pos: new THREE.Vector3(Math.cos(a) * r, H * 0.55 + Math.sin(t * 5) * 1, Math.sin(a) * r),
+          target: targetMid,
+        };
+      } else if (t < 0.8) {
+        const u = (t - 0.6) / 0.2;
+        return {
+          pos: new THREE.Vector3(0, H * 0.5 - u * 0.5, r * (1 - u * 0.7)),
+          target: targetMid.clone().lerp(interiorTarget, u),
+        };
+      } else {
+        const u = (t - 0.8) / 0.2;
+        return {
+          pos: new THREE.Vector3(Math.sin(u * Math.PI * 2) * D * 0.3, FL_OFFSET + 1.6, D * 0.3 - u * D * 0.6),
+          target: interiorTarget,
+        };
+      }
+    }
+    // Setup MediaRecorder
+    const stream = renderer.domElement.captureStream(fps);
+    const chunks = [];
+    const recorder = new MediaRecorder(stream, {mimeType: 'video/webm;codecs=vp9', videoBitsPerSecond: 8e6});
+    recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+    const stopped = new Promise(res => recorder.onstop = res);
+    recorder.start();
+    // Disable orbit controls during animation
+    orbitControls.enabled = false;
+    const startTime = performance.now();
+    return new Promise((resolve) => {
+      function frame() {
+        const t = (performance.now() - startTime) / (duration * 1000);
+        if (t >= 1) {
+          recorder.stop();
+          stopped.then(() => {
+            const blob = new Blob(chunks, {type: 'video/webm'});
+            orbitControls.enabled = true;
+            resolve(blob);
+          });
+          return;
+        }
+        const c = camAt(t);
+        camera.position.copy(c.pos);
+        camera.lookAt(c.target);
+        if (onProgress) onProgress(t);
+        requestAnimationFrame(frame);
+      }
+      frame();
+    });
+  }
+
   // ── 諸経費・労務費自動計算 ──
   function softCosts() {
     const items = takeoff();
@@ -2128,7 +2197,7 @@ export function createViewer(container, opts = {}) {
     applyPreset, applyOverrides, setEnvironment,
     setInteriorMode, isInteriorMode,
     onElementClick, takeoff, softCosts, uaValue, setPhase, playConstructionSequence, getPhases,
-    setSunPosition, pvEstimate, playSunCycle,
+    setSunPosition, pvEstimate, playSunCycle, recordWalkthrough,
     getPlan: () => currentPlan,
   };
 }
