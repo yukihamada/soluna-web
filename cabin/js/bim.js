@@ -4,8 +4,10 @@
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { Sky } from 'three/addons/objects/Sky.js';
 
 export const PLANS = {
   mini:     {W: 3640,  D: 2730,  H: 2400, stories: 1, roofType: 'gable', roofPitch: 0.20, openings: {south: {w: 1500, h: 1170}, solar: 2}, name: 'MEBUKI', label: '9.9m²', tag: '建築確認不要'},
@@ -1085,6 +1087,147 @@ function buildEquipment(plan) {
   return g;
 }
 
+// ========= Interior furniture / 内装家具 =========
+// Adds furniture appropriate to plan size: bed, kitchen, table, wood stove, toilet booth
+function buildInterior(plan) {
+  const g = group('interior');
+  if (plan.dome) return g;
+  const W = plan.W * MM, D = plan.D * MM;
+  const storyH = (plan.H || 3000) * MM;
+  const baseY = plan.pilotis ? 2.4 + FL_OFFSET : FL_OFFSET;
+  const FL = baseY + 0.18;          // floor finish level (top of floor slab)
+  const area = W * D;
+
+  // ── 薪ストーブ (wood stove, all build plans) ──
+  if (!plan.pilotis && !plan.openings?.units) {
+    const stove = box(0.50, 0.65, 0.45, MATS.steelDark);
+    stove.position.set(W/2 - 0.7, FL + 0.325, 0);
+    g.add(stove);
+    // Heat shield base (concrete pad)
+    const pad = box(0.80, 0.04, 0.75, MATS.foundation);
+    pad.position.set(W/2 - 0.7, FL + 0.02, 0);
+    g.add(pad);
+    // Stove door (small bright square — fire visible)
+    const door = box(0.04, 0.20, 0.20, new THREE.MeshStandardMaterial({color: 0xff7a30, emissive: 0xff5510, emissiveIntensity: 0.8}));
+    door.position.set(W/2 - 0.95, FL + 0.32, 0);
+    g.add(door);
+  }
+
+  // ── Bed (single, all plans except YIELD which has 6 units) ──
+  if (!plan.openings?.units) {
+    const bedW = 1.05, bedL = 2.05, bedH = 0.38;
+    const bedX = -W/2 + 0.6 + bedW/2;
+    const bedZ = -D/2 + 0.5 + bedL/2;
+    // Bed frame (cedar)
+    const frame = box(bedW, 0.10, bedL, MATS.cedar);
+    frame.position.set(bedX, FL + 0.05, bedZ);
+    g.add(frame);
+    // Mattress (white linen)
+    const mattress = box(bedW - 0.04, 0.18, bedL - 0.04, new THREE.MeshStandardMaterial({color: 0xf2efea, roughness: 0.9}));
+    mattress.position.set(bedX, FL + 0.10 + 0.09, bedZ);
+    g.add(mattress);
+    // Pillow (small)
+    const pillow = box(0.45, 0.08, 0.30, new THREE.MeshStandardMaterial({color: 0xe8e3da, roughness: 0.9}));
+    pillow.position.set(bedX, FL + 0.10 + 0.18 + 0.04, bedZ - bedL/2 + 0.30);
+    g.add(pillow);
+    // Wool blanket (dark)
+    const blanket = box(bedW - 0.02, 0.06, bedL * 0.55, new THREE.MeshStandardMaterial({color: 0x4a3c2c, roughness: 0.95}));
+    blanket.position.set(bedX, FL + 0.10 + 0.18 + 0.03, bedZ + bedL * 0.18);
+    g.add(blanket);
+  }
+
+  // ── Kitchen counter (cedar with steel sink) ──
+  if (area > 18) {
+    const kchnW = Math.min(W * 0.4, 2.4);
+    const kchnD = 0.65;
+    const kchnH = 0.85;
+    const kchnX = -W/2 + 0.4 + kchnW/2;
+    const kchnZ = D/2 - 0.4 - kchnD/2;
+    // Counter top (cedar)
+    const counter = box(kchnW, 0.04, kchnD, MATS.cedarLite);
+    counter.position.set(kchnX, FL + kchnH, kchnZ);
+    g.add(counter);
+    // Cabinet body
+    const cab = box(kchnW, kchnH, kchnD - 0.05, MATS.cedar);
+    cab.position.set(kchnX, FL + kchnH/2, kchnZ);
+    g.add(cab);
+    // Sink (recessed steel)
+    const sink = box(0.55, 0.04, 0.42, new THREE.MeshStandardMaterial({color: 0xc6c6c6, roughness: 0.3, metalness: 0.7}));
+    sink.position.set(kchnX + 0.3, FL + kchnH + 0.005, kchnZ);
+    g.add(sink);
+    // Faucet (thin chrome arc)
+    const faucet = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.30, 8), new THREE.MeshStandardMaterial({color: 0xc8c8c8, roughness: 0.2, metalness: 0.85}));
+    faucet.position.set(kchnX + 0.3, FL + kchnH + 0.15, kchnZ - kchnD/2 + 0.05);
+    g.add(faucet);
+  }
+
+  // ── Dining table (for area > 24m²) ──
+  if (area > 24 && !plan.openings?.units) {
+    const tlW = Math.min(W * 0.35, 2.2);
+    const tlD = Math.min(D * 0.18, 0.95);
+    const tlH = 0.74;
+    // Table top (cedar)
+    const top = box(tlW, 0.04, tlD, MATS.cedarLite);
+    top.position.set(0, FL + tlH, 0);
+    g.add(top);
+    // Legs (4)
+    for (const lx of [-tlW/2 + 0.10, tlW/2 - 0.10]) {
+      for (const lz of [-tlD/2 + 0.10, tlD/2 - 0.10]) {
+        const leg = box(0.05, tlH, 0.05, MATS.cedar);
+        leg.position.set(lx, FL + tlH/2, lz);
+        g.add(leg);
+      }
+    }
+    // Chairs (2-4 depending on size)
+    const chairCnt = Math.min(Math.floor(tlW / 0.55), 4);
+    for (let i = 0; i < chairCnt; i++) {
+      const cx = -tlW/2 + (i + 0.5) * (tlW / chairCnt);
+      for (const cz of [-tlD/2 - 0.45, tlD/2 + 0.45]) {
+        const seat = box(0.40, 0.04, 0.40, MATS.cedar);
+        seat.position.set(cx, FL + 0.45, cz);
+        g.add(seat);
+        // Backrest
+        const back = box(0.40, 0.40, 0.04, MATS.cedar);
+        back.position.set(cx, FL + 0.65, cz + (cz > 0 ? 0.18 : -0.18));
+        g.add(back);
+        // Legs
+        for (const lx of [-0.18, 0.18]) {
+          for (const lzo of [-0.18, 0.18]) {
+            const leg = box(0.03, 0.45, 0.03, MATS.cedar);
+            leg.position.set(cx + lx, FL + 0.225, cz + lzo);
+            g.add(leg);
+          }
+        }
+      }
+    }
+  }
+
+  // ── Toilet booth (compost toilet enclosure) ──
+  if (area > 14 && !plan.openings?.units) {
+    const bW = 0.95, bD = 1.20, bH = 2.05;
+    const bX = W/2 - 0.5 - bW/2;
+    const bZ = -D/2 + 0.5 + bD/2;
+    // Walls (3 sides + opening on north)
+    const wt = 0.04;
+    const walls = [
+      {w: bW, h: bH, d: wt, x: bX, y: FL + bH/2, z: bZ + bD/2 - wt/2}, // back
+      {w: wt, h: bH, d: bD, x: bX - bW/2 + wt/2, y: FL + bH/2, z: bZ}, // left
+      {w: wt, h: bH, d: bD, x: bX + bW/2 - wt/2, y: FL + bH/2, z: bZ}, // right
+    ];
+    for (const w of walls) {
+      const m = box(w.w, w.h, w.d, MATS.cedar);
+      m.position.set(w.x, w.y, w.z);
+      g.add(m);
+    }
+    // Toilet seat (Separett style)
+    const toilet = box(0.40, 0.50, 0.55, new THREE.MeshStandardMaterial({color: 0xe8e3d8, roughness: 0.6}));
+    toilet.position.set(bX, FL + 0.25, bZ + 0.10);
+    g.add(toilet);
+  }
+
+  return g;
+}
+
 // ========= Human scale figure (180cm) =========
 function buildHumanScale(plan) {
   const g = group('scale');
@@ -1117,6 +1260,7 @@ export function buildPlan(planId) {
     solar:      buildSolar(plan),
     deck:       buildDeck(plan),
     equipment:  buildEquipment(plan),
+    interior:   buildInterior(plan),
     scale:      buildHumanScale(plan),
     dims:       buildDimensions(plan),
   };
@@ -1134,7 +1278,7 @@ export function createViewer(container, opts = {}) {
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.15;
+  renderer.toneMappingExposure = 0.85;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   container.appendChild(renderer.domElement);
@@ -1152,9 +1296,26 @@ export function createViewer(container, opts = {}) {
   scene.background = new THREE.Color(opts.bg ?? COLORS.bg);
   scene.fog = new THREE.Fog(opts.bg ?? COLORS.bg, 80, 320);
 
-  // ── PBR environment for proper reflections ──
+  // ── Sky environment (procedural sky w/ sun) for realistic reflections ──
+  const sky = new Sky();
+  sky.scale.setScalar(1000);
+  const skyU = sky.material.uniforms;
+  skyU.turbidity.value = 4;
+  skyU.rayleigh.value = 1.5;
+  skyU.mieCoefficient.value = 0.004;
+  skyU.mieDirectionalG.value = 0.7;
+  // Sun position (winter Hokkaido morning, ~10am)
+  const sunPos = new THREE.Vector3();
+  const phi = THREE.MathUtils.degToRad(90 - 28);     // sun elevation 28° (winter)
+  const theta = THREE.MathUtils.degToRad(155);        // azimuth from south
+  sunPos.setFromSphericalCoords(1, phi, theta);
+  skyU.sunPosition.value.copy(sunPos);
+  scene.add(sky);
+
+  // ── PBR environment from sky ──
   const pmrem = new THREE.PMREMGenerator(renderer);
-  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  scene.environment = pmrem.fromScene(sky, 0.04).texture;
+  scene.environmentIntensity = 0.6;
 
   // ── Ground (snow + ground texture) ──
   const groundMat = new THREE.MeshStandardMaterial({color: COLORS.ground, roughness: 1});
@@ -1211,29 +1372,55 @@ export function createViewer(container, opts = {}) {
   grid.material.opacity = 0.20;
   scene.add(grid);
 
-  // Lights — set sun for ~10am winter Hokkaido (low angle, south)
-  const hemi = new THREE.HemisphereLight(0xfff0d6, 0x88796a, 0.62);
+  // Lights — sun position matches sky's sun
+  const hemi = new THREE.HemisphereLight(0xb8d4f0, 0xb0a99a, 0.45);
   scene.add(hemi);
-  const sun = new THREE.DirectionalLight(0xffeacb, 1.35);
-  sun.position.set(8, 28, 18);   // light from south-east
+  const sun = new THREE.DirectionalLight(0xfff2d8, 2.2);
+  sun.position.copy(sunPos).multiplyScalar(50);
   sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048);
   sun.shadow.camera.near = 0.5;
-  sun.shadow.camera.far = 120;
-  sun.shadow.camera.left = -40;
-  sun.shadow.camera.right = 40;
-  sun.shadow.camera.top = 40;
-  sun.shadow.camera.bottom = -40;
-  sun.shadow.bias = -0.0005;
+  sun.shadow.camera.far = 200;
+  sun.shadow.camera.left = -50;
+  sun.shadow.camera.right = 50;
+  sun.shadow.camera.top = 50;
+  sun.shadow.camera.bottom = -50;
+  sun.shadow.bias = -0.0003;
+  sun.shadow.normalBias = 0.02;
   scene.add(sun);
 
-  const camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 0.1, 500);
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.08;
-  controls.minDistance = 3;
-  controls.maxDistance = 150;
-  controls.maxPolarAngle = Math.PI * 0.495;
+  const camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 0.05, 500);
+  const orbitControls = new OrbitControls(camera, renderer.domElement);
+  orbitControls.enableDamping = true;
+  orbitControls.dampingFactor = 0.08;
+  orbitControls.minDistance = 3;
+  orbitControls.maxDistance = 150;
+  orbitControls.maxPolarAngle = Math.PI * 0.495;
+  let controls = orbitControls;
+
+  // Pointer-lock first-person walking controls (for interior mode)
+  const fpControls = new PointerLockControls(camera, renderer.domElement);
+  let interiorMode = false;
+  const moveState = {forward: 0, right: 0, up: 0};
+  const moveSpeed = 2.4;       // m/s
+  let lastTime = performance.now();
+
+  function onKey(down) {
+    return (e) => {
+      if (!interiorMode) return;
+      const k = e.code;
+      const v = down ? 1 : 0;
+      if (k === 'KeyW' || k === 'ArrowUp')   moveState.forward = down ? 1 : 0;
+      if (k === 'KeyS' || k === 'ArrowDown') moveState.forward = down ? -1 : 0;
+      if (k === 'KeyD' || k === 'ArrowRight')moveState.right = down ? 1 : 0;
+      if (k === 'KeyA' || k === 'ArrowLeft') moveState.right = down ? -1 : 0;
+      if (k === 'KeyQ')                       moveState.up = down ? -1 : 0;
+      if (k === 'KeyE' || k === 'Space')      moveState.up = down ? 1 : 0;
+      if (k === 'Escape' && interiorMode)     setInteriorMode(false);
+    };
+  }
+  document.addEventListener('keydown', onKey(true));
+  document.addEventListener('keyup',   onKey(false));
 
   let currentRoot = null;
   let currentPlan = null;
@@ -1326,7 +1513,22 @@ export function createViewer(container, opts = {}) {
 
   function render() {
     requestAnimationFrame(render);
-    controls.update();
+    const now = performance.now();
+    const dt = Math.min(0.05, (now - lastTime) / 1000);
+    lastTime = now;
+    if (interiorMode && fpControls.isLocked) {
+      // WASD movement
+      const front = new THREE.Vector3();
+      camera.getWorldDirection(front);
+      front.y = 0; front.normalize();
+      const right = new THREE.Vector3().crossVectors(front, new THREE.Vector3(0, 1, 0));
+      const dx = front.clone().multiplyScalar(moveState.forward * moveSpeed * dt)
+        .add(right.multiplyScalar(moveState.right * moveSpeed * dt));
+      camera.position.add(dx);
+      camera.position.y += moveState.up * moveSpeed * dt;
+    } else if (controls.update) {
+      controls.update();
+    }
     renderer.render(scene, camera);
     labelRenderer.render(scene, camera);
   }
@@ -1365,10 +1567,60 @@ export function createViewer(container, opts = {}) {
     treeGroup.visible = visible;
   }
 
+  // Interior walk-around mode
+  function setInteriorMode(on) {
+    interiorMode = on;
+    if (on) {
+      orbitControls.enabled = false;
+      // Place camera inside building at eye height (1.6m)
+      if (currentPlan) {
+        const baseY = currentPlan.pilotis ? 2.4 + FL_OFFSET : FL_OFFSET;
+        camera.position.set(0, baseY + 1.6, currentPlan.D * MM * 0.25);
+        camera.lookAt(0, baseY + 1.6, currentPlan.D * MM * -0.25);
+      }
+      controls = fpControls;
+      fpControls.lock();
+      // Make outer cladding semi-transparent so interior is visible
+      setXrayInternal(true, 0.08);
+    } else {
+      fpControls.unlock();
+      orbitControls.enabled = true;
+      controls = orbitControls;
+      setXrayInternal(false);
+      fitCamera();
+    }
+  }
+
+  // Internal x-ray (for interior mode auto)
+  function setXrayInternal(on, opacity) {
+    if (!currentGroups) return;
+    const opa = opacity ?? 0.18;
+    for (const layerName of ['sips', 'roof']) {
+      const grp = currentGroups[layerName];
+      if (!grp) continue;
+      grp.traverse(o => {
+        if (o.isMesh && o.material) {
+          if (Array.isArray(o.material)) {
+            o.material.forEach(m => { m.transparent = on; m.opacity = on ? opa : 1; m.depthWrite = !on; m.side = on ? THREE.DoubleSide : THREE.FrontSide; });
+          } else {
+            o.material.transparent = on;
+            o.material.opacity = on ? opa : 1;
+            o.material.depthWrite = !on;
+            o.material.side = on ? THREE.DoubleSide : THREE.FrontSide;
+          }
+        }
+      });
+    }
+  }
+
+  function isInteriorMode() { return interiorMode; }
+
   return {
-    scene, camera, renderer, controls,
+    scene, camera, renderer,
+    get controls() { return controls; },
     loadPlan, setLayer, setView, setXray, fitCamera,
     applyPreset, applyOverrides, setEnvironment,
+    setInteriorMode, isInteriorMode,
     getPlan: () => currentPlan,
   };
 }
