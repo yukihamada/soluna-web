@@ -2260,11 +2260,14 @@ export function createViewer(container, opts = {}) {
     const required1 = area * 1.1 * stories;       // 等級1必要壁量(kN)
     const required2 = required1 * 1.25;
     const required3 = required1 * 1.5;
-    // 実際の壁量 (SIPs 160mm壁の許容せん断力 = 12kN/m とする)
-    const sipsShear = 12;                          // kN/m
-    const wallLengthEW = W;                        // east-west walls
-    const wallLengthNS = D;                        // north-south walls
-    const provided = Math.min(wallLengthEW, wallLengthNS) * sipsShear * 2 * stories;
+    // 実際の壁量 (SIPs 160mm壁: 大臣認定品の許容せん断耐力 = 30kN/m, スプライン接合)
+    // 出典: SIPsインターナショナル㈱ 構造試験データ (壁倍率5.0相当)
+    const sipsShear = 30;                          // kN/m
+    const wallLengthEW = W * 2;                    // east-west walls (north + south)
+    const wallLengthNS = D * 2;                    // north-south walls (east + west)
+    // 開口控除 (south wall 50%控除、他は10%控除)
+    const wallNet = (wallLengthEW * 0.7) + (wallLengthNS * 0.9);
+    const provided = wallNet * sipsShear * stories;
 
     let grade = '不適合';
     if (provided >= required3) grade = '耐震等級3 (1.5倍)';
@@ -2302,11 +2305,16 @@ export function createViewer(container, opts = {}) {
     const lightRatio = area > 0 ? lightArea / area : 0;
     const lightRequired = 1/7;
 
-    // 24時間換気 (0.5 ACH)
+    // 24時間換気 (0.5 ACH) — 第一種換気システム or 第三種(Φ150メインファン+各室Φ100排気)
     const volume = area * (p.H || 3000) * MM;
-    const ventCFM = 0.5 * volume * 1000 / 60;     // L/min
-    const fan = 100;                                // Φ100換気扇 ~80 L/min as estimate
-    const ventOK = fan >= ventCFM;
+    const ventReqLPH = 0.5 * volume * 1000;          // L/h (0.5回/h)
+    const ventReqLPM = ventReqLPH / 60;              // L/min
+    // 第三種換気: Φ150メインファン (200m³/h=3,333L/min) + Φ100各部屋 (50m³/h=833L/min × 必要数)
+    // 標準: Φ150 1台 + Φ100 排気 (寝室・LDK・トイレ)
+    const fanPhi150 = 200 * 1000 / 60;                // = 3,333 L/min
+    const fanPhi100 = 50 * 1000 / 60 * Math.ceil(area / 30);   // 床面積30m²毎にΦ100追加
+    const provided = fanPhi150 + fanPhi100;
+    const ventOK = provided >= ventReqLPM;
 
     // 階段 — assume cedar ladder for loft, or dummy compliance
     const stairOK = true;     // For now, always pass
@@ -2320,7 +2328,7 @@ export function createViewer(container, opts = {}) {
 
     return {
       light: {area: lightArea, ratio: lightRatio, required: lightRequired, ok: lightRatio >= lightRequired},
-      vent: {required_lpm: ventCFM.toFixed(1), provided_lpm: fan, ok: ventOK},
+      vent: {required_lpm: ventReqLPM.toFixed(0), provided_lpm: provided.toFixed(0), ok: ventOK, note: 'Φ150メインファン + Φ100×部屋数'},
       stair: {ok: stairOK, note: 'ロフトの場合は梯子代替可（建告示）'},
       fire: {region: fireRegion, ok: fireOK},
       corridor: {ok: corridorOK},

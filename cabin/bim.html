@@ -97,6 +97,50 @@
   .hint.show{opacity:1}
 
   .compass{position:fixed;top:62px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.1em;opacity:.55;pointer-events:none}
+
+  /* Make existing modal-style overlays into draggable+resizable floating windows */
+  div[id$="Modal"]{
+    background:transparent !important;          /* remove dark overlay so canvas stays interactive */
+    inset:auto !important;
+    pointer-events:none;
+    position:fixed !important;
+    top:80px;left:50%;transform:translateX(-50%);
+  }
+  div[id$="Modal"] > div{
+    pointer-events:auto;
+    resize:both;
+    overflow:auto !important;
+    max-width:90vw;max-height:78vh;
+    min-width:320px;min-height:200px;
+    cursor:move;
+    box-shadow:0 8px 32px rgba(0,0,0,.25);
+  }
+  div[id$="Modal"] > div > *:not(div:first-child){cursor:default}
+  div[id$="Modal"] > div > div:first-child{cursor:move;background:#222;color:#fff;margin:-16px -16px 12px -16px;padding:10px 14px;border-radius:7px 7px 0 0}
+  div[id$="Modal"] > div > div:first-child h3{color:#fff !important;font-size:13px !important}
+  div[id$="Modal"] > div > div:first-child button{color:#fff !important}
+
+  /* Floating draggable windows (replaces modal overlay style) */
+  .float-win{
+    position:fixed;background:#fffefb;border:1px solid #222;border-radius:8px;
+    box-shadow:0 4px 16px rgba(0,0,0,.18);font-size:12px;
+    min-width:280px;min-height:160px;max-width:90vw;max-height:85vh;
+    display:flex;flex-direction:column;z-index:60;overflow:hidden;
+    resize:both;
+  }
+  .float-win .fw-header{
+    cursor:move;user-select:none;padding:8px 12px;background:#222;color:#fff;
+    display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600
+  }
+  .float-win .fw-header .fw-actions{display:flex;gap:4px}
+  .float-win .fw-header button{
+    background:none;border:0;color:#fff;cursor:pointer;font-size:14px;
+    width:24px;height:24px;border-radius:4px;padding:0;line-height:1
+  }
+  .float-win .fw-header button:hover{background:rgba(255,255,255,.15)}
+  .float-win .fw-body{padding:12px 16px;overflow:auto;flex:1}
+  .float-win.minimized .fw-body{display:none}
+  .float-win.minimized{height:auto !important;min-height:0}
 </style>
 </head>
 <body>
@@ -680,7 +724,7 @@ function refreshBOM() {
 
 document.getElementById('bomBtn').addEventListener('click', () => {
   refreshBOM();
-  document.getElementById('bomModal').style.display = 'flex';
+  showFloatingModal('bomModal');
 });
 document.getElementById('bomClose').addEventListener('click', () => {
   document.getElementById('bomModal').style.display = 'none';
@@ -760,22 +804,79 @@ document.getElementById('codeBtn').addEventListener('click', () => {
   showSimpleModal(html);
 });
 
-// Generic modal helper
-function showSimpleModal(html) {
-  let modal = document.getElementById('genericModal');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'genericModal';
-    modal.style.cssText = 'position:fixed;inset:0;z-index:60;background:rgba(34,34,34,.55);display:flex;align-items:center;justify-content:center';
-    modal.innerHTML = `<div style="background:#fffefb;border:1px solid #222;border-radius:8px;padding:18px;max-width:560px;max-height:80vh;overflow:auto;font-size:12px;position:relative">
-      <button id="gmClose" style="position:absolute;top:6px;right:10px;background:none;border:0;font-size:20px;cursor:pointer">×</button>
-      <div id="gmContent"></div>
-    </div>`;
-    document.body.appendChild(modal);
-    document.getElementById('gmClose').addEventListener('click', () => modal.style.display = 'none');
+// ─── Floating draggable window factory ───
+let floatWinZ = 70;
+const openWindows = {};
+function openFloatingWindow(id, title, contentHtml, opts = {}) {
+  const w = opts.width || 480;
+  const h = opts.height || 360;
+  let win = openWindows[id];
+  if (!win) {
+    win = document.createElement('div');
+    win.className = 'float-win';
+    win.style.cssText = `width:${w}px;height:${h}px;left:calc(50% - ${w/2}px);top:80px;z-index:${++floatWinZ}`;
+    win.innerHTML = `
+      <div class="fw-header">
+        <span class="fw-title">${title}</span>
+        <div class="fw-actions">
+          <button class="fw-min" title="最小化">_</button>
+          <button class="fw-close" title="閉じる">×</button>
+        </div>
+      </div>
+      <div class="fw-body"></div>`;
+    document.body.appendChild(win);
+    openWindows[id] = win;
+    // Drag
+    const header = win.querySelector('.fw-header');
+    let dragging = false, sx, sy, ox, oy;
+    header.addEventListener('mousedown', (e) => {
+      if (e.target.tagName === 'BUTTON') return;
+      dragging = true; sx = e.clientX; sy = e.clientY;
+      const r = win.getBoundingClientRect();
+      ox = r.left; oy = r.top;
+      win.style.zIndex = ++floatWinZ;
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', (e) => {
+      if (!dragging) return;
+      win.style.left = (ox + e.clientX - sx) + 'px';
+      win.style.top  = Math.max(48, oy + e.clientY - sy) + 'px';
+    });
+    document.addEventListener('mouseup', () => dragging = false);
+    // Touch
+    header.addEventListener('touchstart', (e) => {
+      if (e.target.tagName === 'BUTTON') return;
+      dragging = true; const t = e.touches[0]; sx = t.clientX; sy = t.clientY;
+      const r = win.getBoundingClientRect(); ox = r.left; oy = r.top;
+      e.preventDefault();
+    }, {passive: false});
+    document.addEventListener('touchmove', (e) => {
+      if (!dragging) return;
+      const t = e.touches[0];
+      win.style.left = (ox + t.clientX - sx) + 'px';
+      win.style.top  = Math.max(48, oy + t.clientY - sy) + 'px';
+    }, {passive: true});
+    document.addEventListener('touchend', () => dragging = false);
+    // Buttons
+    win.querySelector('.fw-min').addEventListener('click', () => win.classList.toggle('minimized'));
+    win.querySelector('.fw-close').addEventListener('click', () => { win.remove(); delete openWindows[id]; });
+    // Bring to front on click
+    win.addEventListener('mousedown', () => win.style.zIndex = ++floatWinZ);
   }
-  modal.style.display = 'flex';
-  document.getElementById('gmContent').innerHTML = html;
+  win.querySelector('.fw-title').textContent = title;
+  win.querySelector('.fw-body').innerHTML = contentHtml;
+  win.style.display = 'flex';
+  win.classList.remove('minimized');
+  return win;
+}
+
+// Convenience: legacy showSimpleModal becomes openFloatingWindow
+function showSimpleModal(html) {
+  // Extract title from h3 if present
+  const m = html.match(/<h3[^>]*>(.+?)<\/h3>/);
+  const title = m ? m[1].replace(/<[^>]+>/g, '') : 'BIM 情報';
+  const content = m ? html.replace(/<h3[^>]*>.+?<\/h3>/, '') : html;
+  openFloatingWindow('generic', title, content, {width: 520, height: 420});
 }
 
 // 4D phase animation
@@ -1574,6 +1675,58 @@ for (const b of document.querySelectorAll('#views button')) {
 const hint = document.getElementById('hint');
 hint.classList.add('show');
 setTimeout(() => hint.classList.remove('show'), 3500);
+
+// ─── Make all id$=Modal draggable via header + reset on first open ───
+function showFloatingModal(id) {
+  const overlay = document.getElementById(id);
+  if (!overlay) return;
+  overlay.style.display = 'block';
+  // Initialize once
+  if (!overlay.dataset.dragInit) {
+    overlay.dataset.dragInit = '1';
+    const inner = overlay.firstElementChild;
+    if (!inner) return;
+    const header = inner.firstElementChild;          // first div is title bar (the close button area)
+    let dragging = false, sx, sy, ox, oy;
+    const onDown = (e) => {
+      const t = e.target;
+      if (t.tagName === 'BUTTON' || t.tagName === 'INPUT') return;
+      dragging = true;
+      const ev = e.touches ? e.touches[0] : e;
+      sx = ev.clientX; sy = ev.clientY;
+      const r = overlay.getBoundingClientRect(); ox = r.left; oy = r.top;
+      // Pin position so transform doesn't override drag
+      overlay.style.left = ox + 'px';
+      overlay.style.top  = oy + 'px';
+      overlay.style.transform = 'none';
+      e.preventDefault();
+    };
+    const onMove = (e) => {
+      if (!dragging) return;
+      const ev = e.touches ? e.touches[0] : e;
+      overlay.style.left = (ox + ev.clientX - sx) + 'px';
+      overlay.style.top  = Math.max(48, oy + ev.clientY - sy) + 'px';
+    };
+    const onUp = () => dragging = false;
+    header.addEventListener('mousedown', onDown);
+    header.addEventListener('touchstart', onDown, {passive: false});
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('touchmove', onMove, {passive: true});
+    document.addEventListener('mouseup', onUp);
+    document.addEventListener('touchend', onUp);
+  }
+}
+// Patch all existing show calls to use showFloatingModal
+document.addEventListener('click', (e) => {
+  // Auto-detect "open modal" pattern
+  if (e.target.tagName !== 'BUTTON') return;
+  const btnId = e.target.id;
+  // Map of button id → modal id
+  const map = {energyBtn: 'energyModal', costBtn: 'tcoModal', pvBtn: 'pvModal', compareBtn: 'compareModal', quoteBtn: 'quoteModal'};
+  if (map[btnId]) {
+    setTimeout(() => showFloatingModal(map[btnId]), 0);
+  }
+});
 
 // ─── Mobile drawer: move all panels into drawer on mobile ───
 function setupMobileDrawer() {
