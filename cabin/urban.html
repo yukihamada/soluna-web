@@ -683,11 +683,18 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
 <footer>
   <p class="foot-logo">SOLUNA URBAN</p>
   <div class="foot-links"><a href="/">ホーム</a><a href="/build">SOLUNA BUILD</a><a href="/village">美留和ビレッジ</a><a href="/kumaushi">KUMAUSHI BASE</a></div>
-  <div style="max-width:680px;margin:14px auto 0;padding:14px 18px;font-size:9.5px;color:rgba(237,233,225,.32);line-height:1.85;text-align:center;border-top:1px solid rgba(237,233,225,.06)">
+  <div style="max-width:720px;margin:14px auto 0;padding:14px 18px;font-size:9.5px;color:rgba(237,233,225,.32);line-height:1.85;text-align:center;border-top:1px solid rgba(237,233,225,.06)">
+    <div style="margin-bottom:10px;padding:8px 12px;background:rgba(200,144,32,.06);border:1px solid rgba(200,144,32,.18);border-radius:6px;color:rgba(237,233,225,.55)">
+      <strong style="color:rgba(200,144,32,.85)">設計監理体制</strong>: 提携1級建築士事務所と物件ごとに個別契約。<strong style="color:rgba(237,233,225,.65)">事務所名・建築士事務所登録番号・管理建築士氏名は契約時に書面で開示</strong>します（建築士法第24条に基づく重要事項説明）。
+    </div>
     本ページに掲載のプランは概念設計です。実際の建設は提携1級建築士事務所が個別に意匠/構造/設備設計を行い、建築基準法・消防法・各自治体条例に基づく確認申請を経て施工します。
     SIPs+ALC耐火被覆構成の防火地域30分耐火認定（POD/STACK/FLAT/DUO/ROOTS）および3階建て木造耐火認定（TOWER）、共同住宅の準耐火構造認定（YIELD）は、現在大臣認定取得準備中です。
     UA値・C値は標準仕様での試算値で、施工条件・気象条件・実測により変動します。
     こどもエコホーム・ZEH・自治体補助金・住宅ローン控除・贈与税特例の適用可否は、建築主の属性・敷地・年度予算により異なります。各窓口で必ず最新情報をご確認ください。
+    <br><br>
+    <strong style="color:rgba(237,233,225,.55)">2025年4月施行 建築基準法改正（4号特例縮小）対応</strong>:
+    新2号建築物（木造2階建て・延床200m²超）以上は構造関係規定の審査必須・省エネ適判必要。
+    全プラン提携建築士事務所が壁量計算・構造計算（許容応力度計算）・省エネ計算・確認申請・完了検査までワンストップで対応します。
   </div>
   <p class="foot-copy" style="margin-top:14px">© 2026 SOLUNA合同会社. All rights reserved.</p>
 </footer>
@@ -724,7 +731,11 @@ BUILD_PLANS.forEach(p => {
   card.className = 'pg-card' + (p.id === currentPlan.id ? ' pg-active' : '');
   card.id = 'pgcard-' + p.id;
   card.style.setProperty('--pc', p.color);
+  const phase2 = (p.desc || '').includes('Phase 2');
+  const phaseBadge = phase2 ? `<div style="position:absolute;top:8px;right:8px;background:rgba(208,64,96,.85);color:#fff;font-size:9px;font-weight:700;letter-spacing:.05em;padding:3px 8px;border-radius:10px;z-index:2">PHASE 2 / 認定取得後</div>` : '';
+  card.style.position = 'relative';
   card.innerHTML = `
+    ${phaseBadge}
     <div class="pg-svg">${p.floorSvg || ''}</div>
     <div class="pg-name" style="color:${p.color}">${p.name}</div>
     <div class="pg-lbl">${p.area}m² · ${p.weeks}週間</div>
@@ -797,7 +808,9 @@ function renderOverview() {
   wrap.classList.add('in'); // ensure visible regardless of IntersectionObserver timing
   wrap.innerHTML = `<img src="${imgSrc}" alt="${p.name} イメージ" onerror="this.parentElement.style.display='none'">`;
 
-  document.getElementById('planDesc').innerHTML = `<strong style="color:${p.color};display:block;margin-bottom:8px;font-size:15px">${p.name} — ${p.label}</strong>` + p.desc;
+  const isPhase2 = (p.desc || '').includes('Phase 2');
+  const phase2Banner = isPhase2 ? `<div style="margin:12px 0;padding:14px 18px;background:rgba(208,64,96,.08);border:1px solid rgba(208,64,96,.35);border-radius:10px;display:flex;align-items:flex-start;gap:12px"><span style="font-size:22px">⚠️</span><div style="font-size:12.5px;color:rgba(237,233,225,.85);line-height:1.85"><strong style="color:rgba(208,64,96,.95);display:block;margin-bottom:4px">Phase 2: 大臣認定取得後リリース予定</strong>本プランは <strong>3階建て木造耐火認定（${p.id==='tower'?'TOWER':''}${p.id==='yield'?'共同住宅・準耐火構造認定':''}）</strong>が必要なため、現在SOLUNA提携建築士事務所で大臣認定（または個別認定）取得準備中です。確定情報・正式見積は認定取得後（2026〜2027年予定）にご案内します。お問い合わせは可能ですが、即時着工はできません。</div></div>` : '';
+  document.getElementById('planDesc').innerHTML = phase2Banner + `<strong style="color:${p.color};display:block;margin-bottom:8px;font-size:15px">${p.name} — ${p.label}</strong>` + p.desc.replace('【Phase 2 / 大臣認定取得後リリース予定】', '');
   document.getElementById('planKeyStats').innerHTML = [
     {l:"材料費合計", v: fmt(p.totalMat), c: p.color},
     {l:"建設期間", v: p.weeks + "週間", c: "#ddd"},
