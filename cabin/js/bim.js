@@ -265,36 +265,87 @@ function lineSegment(start, end, color = 0x000000, opacity = 0.6) {
   return new THREE.Line(g, new THREE.LineBasicMaterial({color, transparent: true, opacity}));
 }
 
-// ========= Foundation (布基礎風 + 凍結深度 + GL→FL段差) =========
+// ========= Foundation: スクリュー杭 + 鋼製土台 (Hokkaido cold-climate standard) =========
+// 凍結深度1,000mm対応 / コンクリート基礎より速施工 / 撤去可
 function buildFoundation(plan) {
   const g = group('foundation');
   const W = plan.W * MM, D = plan.D * MM;
-  const stripT = 0.18;     // 布基礎厚 180mm
-  const stripH = FL_OFFSET + 0.20;   // 立ち上がり全体 GL+150mm を表現
-  const slabH  = 0.12;
   const baseY  = plan.pilotis ? 2.4 + FL_OFFSET : FL_OFFSET;
 
-  // ベタ基礎スラブ (foundation slab)
-  const slab = box(W + 0.10, slabH, D + 0.10, MATS.foundation);
-  slab.position.y = -slabH / 2;
-  g.add(slab);
+  // ── スクリュー杭 (helical screw piles) Φ100mm ──
+  const pileR = 0.05;                        // Φ100mm pile
+  const pileTopY = FL_OFFSET - 0.06;          // top of pile cap (below sill)
+  const pileBotY = -1.5;                       // 1500mm below GL (well past frost depth 1000mm)
+  const pileH = pileTopY - pileBotY;
 
-  // 立ち上がり (stem walls / 布基礎 perimeter)
-  const stems = [
-    {w: W + stripT*2, d: stripT, x: 0, z:  D/2 + stripT/2},
-    {w: W + stripT*2, d: stripT, x: 0, z: -D/2 - stripT/2},
-    {w: stripT, d: D + stripT*2, x:  W/2 + stripT/2, z: 0},
-    {w: stripT, d: D + stripT*2, x: -W/2 - stripT/2, z: 0},
-  ];
-  for (const s of stems) {
-    const m = box(s.w, stripH, s.d, MATS.foundation);
-    m.position.set(s.x, stripH/2 - 0.10, s.z);
-    g.add(m);
+  // Pile layout: 1820mm grid along perimeter + interior for spans > 3640mm
+  const spacing = 1.82;
+  const colsX = Math.max(2, Math.ceil(W / spacing));
+  const colsZ = Math.max(2, Math.ceil(D / spacing));
+  const stepX = W / (colsX);                  // edge-to-edge spacing
+  const stepZ = D / (colsZ);
+  const piles = [];
+  // Perimeter
+  for (let i = 0; i <= colsX; i++) {
+    const x = -W/2 + i * stepX;
+    piles.push([x, +D/2]);
+    piles.push([x, -D/2]);
+  }
+  for (let j = 1; j < colsZ; j++) {
+    const z = -D/2 + j * stepZ;
+    piles.push([+W/2, z]);
+    piles.push([-W/2, z]);
+  }
+  // Interior — every other intersection on a coarser grid for spans > 3640mm
+  if (W > 3.64 && D > 3.64) {
+    for (let i = 1; i < colsX; i++) {
+      for (let j = 1; j < colsZ; j++) {
+        if ((i + j) % 2 === 0) continue;       // checkerboard pattern
+        piles.push([-W/2 + i * stepX, -D/2 + j * stepZ]);
+      }
+    }
   }
 
-  // Pilotis: 4 cedar columns lifting the building (TOWER)
+  for (const [x, z] of piles) {
+    // Pile shaft (galvanized steel pipe)
+    const pile = new THREE.Mesh(new THREE.CylinderGeometry(pileR, pileR, pileH, 12), MATS.steelDark);
+    pile.position.set(x, (pileTopY + pileBotY) / 2, z);
+    g.add(pile);
+    // Helical screw blade at bottom (single rotation for visualization)
+    const blade = new THREE.Mesh(new THREE.CylinderGeometry(pileR * 2.6, pileR * 2.2, 0.06, 16), MATS.steelDark);
+    blade.position.set(x, pileBotY + 0.10, z);
+    g.add(blade);
+    // Pile cap plate (top connector)
+    const cap = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.025, 0.18), MATS.steelDark);
+    cap.position.set(x, pileTopY + 0.012, z);
+    g.add(cap);
+  }
+
+  // ── 鋼製土台 (steel grade beam / sill) — H形鋼 perimeter ──
+  const sillT = 0.10, sillH = 0.20;
+  const sillY = pileTopY + 0.025 + sillH / 2;
+  const sills = [
+    {w: W + 0.10, h: sillH, d: sillT, x: 0, y: sillY, z:  D/2},
+    {w: W + 0.10, h: sillH, d: sillT, x: 0, y: sillY, z: -D/2},
+    {w: sillT, h: sillH, d: D - 0.10, x:  W/2, y: sillY, z: 0},
+    {w: sillT, h: sillH, d: D - 0.10, x: -W/2, y: sillY, z: 0},
+  ];
+  for (const s of sills) {
+    const m = box(s.w, s.h, s.d, MATS.steelDark);
+    m.position.set(s.x, s.y, s.z);
+    g.add(m);
+    g.add(edge(m, COLORS.line, 0.5));
+  }
+  // Interior cross beams for buildings > 5m wide
+  if (W > 5) {
+    const cross = box(sillT, sillH, D - 0.10, MATS.steelDark);
+    cross.position.set(0, sillY, 0);
+    g.add(cross);
+  }
+
+  // ── Pilotis (TOWER): 4 steel columns instead of piles ──
   if (plan.pilotis) {
-    const colH = 2.4, colW = 0.35;
+    const colH = 2.4, colW = 0.30;
     const inset = 0.6;
     const positions = [
       [-W/2 + inset, FL_OFFSET + colH/2, -D/2 + inset],
@@ -310,15 +361,22 @@ function buildFoundation(plan) {
     }
   }
 
-  // Steps up to entry (south side)
+  // ── Entry steps (south side) — cedar planks on steel angle ──
   if (!plan.pilotis && !plan.dome) {
-    const stepW = Math.min(W * 0.25, 1.6);
+    const stepW = Math.min(W * 0.30, 1.8);
     const tread = 0.30;
-    const nSteps = Math.max(1, Math.ceil(FL_OFFSET / 0.20));
+    const nSteps = Math.max(2, Math.ceil(FL_OFFSET / 0.20));
     for (let i = 0; i < nSteps; i++) {
-      const s = box(stepW, FL_OFFSET / nSteps, tread, MATS.foundation);
-      s.position.set(0, (i + 0.5) * (FL_OFFSET / nSteps) - 0.10, D/2 + tread * (nSteps - i - 0.5));
+      const s = box(stepW, FL_OFFSET / nSteps, tread, MATS.cedar);
+      s.position.set(0, (i + 0.5) * (FL_OFFSET / nSteps) - 0.10, D/2 + tread * (nSteps - i - 0.3));
       g.add(s);
+      // Steel stringers under the cedar tread
+      const strL = box(0.04, FL_OFFSET / nSteps + 0.02, tread + 0.02, MATS.steelDark);
+      strL.position.set(-stepW/2 + 0.06, (i + 0.5) * (FL_OFFSET / nSteps) - 0.11, D/2 + tread * (nSteps - i - 0.3));
+      g.add(strL);
+      const strR = strL.clone();
+      strR.position.x = stepW/2 - 0.06;
+      g.add(strR);
     }
   }
 
