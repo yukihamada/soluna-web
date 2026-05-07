@@ -260,6 +260,10 @@
   <button id="bomBtn" style="width:100%;margin-bottom:4px">📊 数量・コスト・諸経費</button>
   <button id="energyBtn" style="width:100%;margin-bottom:4px">🌡 UA値・断熱性能</button>
   <button id="costBtn" style="width:100%;margin-bottom:4px">💰 30年TCO・光熱費・CO2</button>
+  <button id="structBtn" style="width:100%;margin-bottom:4px">🏗 構造解析・耐震等級</button>
+  <button id="codeBtn" style="width:100%;margin-bottom:4px">📋 法規チェック</button>
+  <button id="clashBtn" style="width:100%;margin-bottom:4px">⚠ 干渉検出 (Clash)</button>
+  <div id="xrButtons" style="display:flex;gap:4px;margin-bottom:4px"></div>
   <button id="phaseBtn" style="width:100%;margin-bottom:4px">⏱ 4D 施工アニメ</button>
   <button id="csvBtn" style="width:100%;margin-bottom:4px">⬇ BOM CSV</button>
   <button id="ifcBtn" style="width:100%;margin-bottom:4px">⬇ IFC</button>
@@ -696,21 +700,80 @@ document.getElementById('csvBtn').addEventListener('click', () => {
   URL.revokeObjectURL(url);
 });
 
-// IFC download (links to the existing /cabin/cad/SOLUNA_<NAME>_<area>.ifc)
+// IFC download (動的生成)
 document.getElementById('ifcBtn').addEventListener('click', () => {
+  const blob = viewer.generateIFC();
+  if (!blob) { alert('IFC生成に失敗しました'); return; }
   const plan = viewer.getPlan();
-  const map = {
-    mini:'SOLUNA_MEBUKI_9.9m2', standard:'SOLUNA_SU_24.8m2', dome:'SOLUNA_TAMA_27m2',
-    large:'SOLUNA_AN_40m2', xl:'SOLUNA_MUNE_66m2', villa:'SOLUNA_VILLA_120m2',
-    grand:'SOLUNA_GRAND_200m2', myth:'SOLUNA_MYTH_300m2',
-  };
-  const slug = map[plan.id];
-  if (!slug) { alert('IFC ファイルは BUILD シリーズのみ対応中（KOSMOS/URBAN は調整中）'); return; }
-  const a = document.createElement('a');
-  a.href = `/cad/${slug}.ifc`;
-  a.download = `${slug}.ifc`;
-  a.click();
+  downloadBlob(blob, `SOLUNA_${plan.name}_${plan.label.replace(/[^a-zA-Z0-9.]/g,'_')}.ifc`);
 });
+
+// 構造解析モーダル
+document.getElementById('structBtn').addEventListener('click', () => {
+  const s = viewer.structuralAnalysis();
+  if (!s) return;
+  const beamRow = `<tr><td colspan="2" style="padding-top:10px"><b>梁応力チェック (KD杉 105×180)</b></td></tr>
+    <tr><td>スパン</td><td style="text-align:right">${s.beam.span} m</td></tr>
+    <tr><td>発生応力 σ</td><td style="text-align:right">${s.beam.sigma} N/mm²</td></tr>
+    <tr><td>許容応力</td><td style="text-align:right">${s.beam.allowable} N/mm²</td></tr>
+    <tr><td>判定</td><td style="text-align:right;color:${s.beam.ok?'#1a6b3a':'#c83030'};font-weight:600">${s.beam.ok?'✓ OK':'✗ NG'}</td></tr>`;
+  const html = `
+    <h3 style="margin:0 0 12px 0">🏗 構造解析・耐震等級</h3>
+    <table style="width:100%;font-feature-settings:'tnum';font-size:12px">
+      <tr><td colspan="2"><b>荷重 (kN/m²)</b></td></tr>
+      <tr><td>固定 (DL)</td><td style="text-align:right">${s.loads.dl}</td></tr>
+      <tr><td>積載 (LL)</td><td style="text-align:right">${s.loads.ll}</td></tr>
+      <tr><td>積雪 (SL, 北海道1m積雪)</td><td style="text-align:right">${s.loads.sl}</td></tr>
+      <tr><td>風 (W, V0=30m/s)</td><td style="text-align:right">${s.loads.w}</td></tr>
+      <tr><td>水平力 (地震)</td><td style="text-align:right">${s.loads.horizForce} kN</td></tr>
+      <tr><td colspan="2" style="padding-top:10px"><b>耐震等級 (壁量計算)</b></td></tr>
+      <tr><td>必要壁量 等級1</td><td style="text-align:right">${s.wallReqs.req1} kN</td></tr>
+      <tr><td>必要壁量 等級2 (×1.25)</td><td style="text-align:right">${s.wallReqs.req2} kN</td></tr>
+      <tr><td>必要壁量 等級3 (×1.5)</td><td style="text-align:right">${s.wallReqs.req3} kN</td></tr>
+      <tr><td>SIPs提供壁量</td><td style="text-align:right;font-weight:600">${s.wallReqs.provided} kN</td></tr>
+      <tr><td><b>判定</b></td><td style="text-align:right;color:#1a6b3a;font-weight:700">${s.grade}</td></tr>
+      ${beamRow}
+    </table>
+    <p style="font-size:10px;opacity:.5;margin-top:10px">※簡易計算。建築確認時には1級建築士による構造計算書 (許容応力度計算 or 限界耐力計算) が必要です。</p>`;
+  showSimpleModal(html);
+});
+
+// 法規チェックモーダル
+document.getElementById('codeBtn').addEventListener('click', () => {
+  const c = viewer.codeCompliance();
+  if (!c) return;
+  const ok = (b) => b ? '<span style="color:#1a6b3a">✓</span>' : '<span style="color:#c83030">✗</span>';
+  const html = `
+    <h3 style="margin:0 0 12px 0">📋 建築基準法 簡易適合チェック</h3>
+    <p style="font-size:14px;margin-bottom:12px"><b>${c.summary}</b></p>
+    <table style="width:100%;font-feature-settings:'tnum';font-size:12px">
+      <tr><td>採光面積比 (法28条)</td><td style="text-align:right">${(c.light.ratio*100).toFixed(1)}% / 必要 ${(c.light.required*100).toFixed(1)}%</td><td>${ok(c.light.ok)}</td></tr>
+      <tr><td>24h換気量 (法28条の2)</td><td style="text-align:right">${c.vent.provided_lpm} / ${c.vent.required_lpm} L/min</td><td>${ok(c.vent.ok)}</td></tr>
+      <tr><td>階段・梯子</td><td style="text-align:right;font-size:10px">${c.stair.note}</td><td>${ok(c.stair.ok)}</td></tr>
+      <tr><td>防火地域</td><td style="text-align:right">${c.fire.region}</td><td>${ok(c.fire.ok)}</td></tr>
+      <tr><td>通路幅 (≧780mm)</td><td style="text-align:right">${c.corridor.ok?'OK':'要検討'}</td><td>${ok(c.corridor.ok)}</td></tr>
+    </table>
+    <p style="font-size:10px;opacity:.5;margin-top:10px">※簡易チェック。実際の確認申請には建築士による精査が必要です。<br>採光・換気・防火・避難等の詳細は地域・用途で異なります。</p>`;
+  showSimpleModal(html);
+});
+
+// Generic modal helper
+function showSimpleModal(html) {
+  let modal = document.getElementById('genericModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'genericModal';
+    modal.style.cssText = 'position:fixed;inset:0;z-index:60;background:rgba(34,34,34,.55);display:flex;align-items:center;justify-content:center';
+    modal.innerHTML = `<div style="background:#fffefb;border:1px solid #222;border-radius:8px;padding:18px;max-width:560px;max-height:80vh;overflow:auto;font-size:12px;position:relative">
+      <button id="gmClose" style="position:absolute;top:6px;right:10px;background:none;border:0;font-size:20px;cursor:pointer">×</button>
+      <div id="gmContent"></div>
+    </div>`;
+    document.body.appendChild(modal);
+    document.getElementById('gmClose').addEventListener('click', () => modal.style.display = 'none');
+  }
+  modal.style.display = 'flex';
+  document.getElementById('gmContent').innerHTML = html;
+}
 
 // 4D phase animation
 const phaseHud = document.getElementById('phaseHud');
@@ -1112,6 +1175,36 @@ document.getElementById('permitBtn').addEventListener('click', async () => {
   viewer.setView('iso');
   btn.disabled = false; btn.textContent = '⬇ 建築確認申請図書PDF';
 });
+
+// ─── 干渉検出 (Clash) ───
+document.getElementById('clashBtn').addEventListener('click', () => {
+  const clashes = viewer.clashDetect();
+  let html = `<h3 style="margin:0 0 12px 0">⚠ 干渉検出 (Clash Detection)</h3>`;
+  if (clashes.length === 0) {
+    html += `<p style="color:#1a6b3a;font-size:14px;font-weight:600">✓ 干渉ゼロ — クリーン</p>
+      <p style="font-size:11px;opacity:.6">設備配管 vs 構造躯体・基礎の重なりは検出されませんでした。</p>`;
+  } else {
+    html += `<p style="font-size:13px;color:#c83030"><b>${clashes.length}箇所の干渉を検出</b></p>
+      <table style="width:100%;font-size:11px;margin-top:10px">
+        <thead><tr style="border-bottom:1px solid #888"><th style="text-align:left">設備</th><th style="text-align:left">構造</th><th>重要度</th></tr></thead>
+        <tbody>${clashes.map(c => `<tr><td>${c.a}</td><td>${c.b}</td><td style="text-align:center">${c.severity}</td></tr>`).join('')}</tbody>
+      </table>`;
+  }
+  showSimpleModal(html);
+});
+
+// ─── WebXR (VR/AR) ───
+const xrContainer = document.getElementById('xrButtons');
+try {
+  const vrBtn = viewer.getVRButton();
+  vrBtn.style.cssText = 'flex:1;font-size:9px;padding:4px;background:#222;color:#fff;border:0;border-radius:4px;cursor:pointer';
+  xrContainer.appendChild(vrBtn);
+} catch (e) {}
+try {
+  const arBtn = viewer.getARButton();
+  arBtn.style.cssText = 'flex:1;font-size:9px;padding:4px;background:#222;color:#fff;border:0;border-radius:4px;cursor:pointer';
+  xrContainer.appendChild(arBtn);
+} catch (e) {}
 
 // ─── glTF/USDZ AR エクスポート ───
 async function downloadBlob(blob, filename) {
