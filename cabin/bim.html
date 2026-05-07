@@ -239,7 +239,8 @@
   <button id="poBtn" style="width:100%;margin-bottom:4px">⬇ 発注書PDF</button>
   <button id="reportBtn" style="width:100%;margin-bottom:4px">⬇ 1ページサマリーPDF</button>
   <button id="permitBtn" style="width:100%;margin-bottom:4px">⬇ 建築確認申請図書PDF</button>
-  <button id="videoBtn" style="width:100%">🎬 ウォークスルー動画</button>
+  <button id="videoBtn" style="width:100%;margin-bottom:4px">🎬 ウォークスルー動画</button>
+  <button id="compareBtn" style="width:100%">📊 全16プラン比較表</button>
 </div>
 
 <!-- Sun path simulator (right side) -->
@@ -313,6 +314,36 @@
   </div>
 </div>
 
+<!-- Compare modal -->
+<div id="compareModal" style="display:none;position:fixed;inset:0;z-index:60;background:rgba(34,34,34,.55);align-items:center;justify-content:center">
+  <div style="background:#fffefb;border:1px solid #222;border-radius:8px;padding:16px;max-width:1100px;max-height:90vh;overflow:auto;font-size:11px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <h3 style="margin:0;font-size:14px">📊 全16プラン横断比較</h3>
+      <button id="compareClose" style="background:none;border:0;font-size:20px;cursor:pointer">×</button>
+    </div>
+    <div id="compareLoading" style="padding:40px;text-align:center">計算中... (各プランで全機能を実行)</div>
+    <table id="compareTable" style="width:100%;border-collapse:collapse;font-feature-settings:'tnum';display:none">
+      <thead>
+        <tr style="border-bottom:2px solid #222;background:#f0eee7;font-size:10px">
+          <th style="text-align:left;padding:5px 6px;position:sticky;top:0;background:#f0eee7">プラン</th>
+          <th style="text-align:right;padding:5px 6px;position:sticky;top:0;background:#f0eee7">面積</th>
+          <th style="text-align:right;padding:5px 6px;position:sticky;top:0;background:#f0eee7">W×D×H</th>
+          <th style="text-align:right;padding:5px 6px;position:sticky;top:0;background:#f0eee7">階数</th>
+          <th style="text-align:right;padding:5px 6px;position:sticky;top:0;background:#f0eee7">材料費</th>
+          <th style="text-align:right;padding:5px 6px;position:sticky;top:0;background:#f0eee7">総工費(税抜)</th>
+          <th style="text-align:right;padding:5px 6px;position:sticky;top:0;background:#f0eee7">坪単価</th>
+          <th style="text-align:right;padding:5px 6px;position:sticky;top:0;background:#f0eee7">UA値</th>
+          <th style="text-align:left;padding:5px 6px;position:sticky;top:0;background:#f0eee7">グレード</th>
+          <th style="text-align:right;padding:5px 6px;position:sticky;top:0;background:#f0eee7">PV枚</th>
+          <th style="text-align:right;padding:5px 6px;position:sticky;top:0;background:#f0eee7">PV発電/年</th>
+          <th style="padding:5px 6px;position:sticky;top:0;background:#f0eee7"></th>
+        </tr>
+      </thead>
+      <tbody id="compareTbody"></tbody>
+    </table>
+  </div>
+</div>
+
 <!-- Energy/UA modal -->
 <div id="energyModal" style="display:none;position:fixed;inset:0;z-index:60;background:rgba(34,34,34,.55);align-items:center;justify-content:center">
   <div style="background:#fffefb;border:1px solid #222;border-radius:8px;padding:16px;max-width:560px;max-height:80vh;overflow:auto;font-size:12px">
@@ -340,10 +371,7 @@
       <span style="opacity:.55">※C値（隙間相当面積）は気密測定で別途検証必要。SIPs工法目標値 C ≦ 0.5 cm²/m²</span>
     </div>
   </div>
-</div>
-
-<!-- Phase animation overlay -->
-<div id="phaseHud" style="display:none;position:fixed;top:62px;left:50%;transform:translateX(-50%);z-index:30;background:rgba(34,34,34,.92);color:#fff;font-size:13px;padding:10px 18px;border-radius:6px;letter-spacing:.05em">
+</div><div id="phaseHud" style="display:none;position:fixed;top:62px;left:50%;transform:translateX(-50%);z-index:30;background:rgba(34,34,34,.92);color:#fff;font-size:13px;padding:10px 18px;border-radius:6px;letter-spacing:.05em">
   <b id="phaseHudName">—</b> <span id="phaseHudIdx" style="opacity:.6;margin-left:8px">—</span>
 </div>
 
@@ -682,6 +710,80 @@ document.getElementById('pvBtn').addEventListener('click', () => {
 });
 document.getElementById('pvClose').addEventListener('click', () => {
   document.getElementById('pvModal').style.display = 'none';
+});
+
+// ─── 全プラン比較表 ───
+document.getElementById('compareBtn').addEventListener('click', async () => {
+  document.getElementById('compareModal').style.display = 'flex';
+  document.getElementById('compareLoading').style.display = 'block';
+  document.getElementById('compareTable').style.display = 'none';
+  // Save current plan to restore later
+  const originalId = viewer.getPlan().id;
+  const allIds = Object.keys(PLANS);
+  const results = [];
+  // Iterate through each plan, load it, capture metrics
+  for (const id of allIds) {
+    viewer.loadPlan(id);
+    await new Promise(r => setTimeout(r, 60));    // let render settle
+    const p = viewer.getPlan();
+    const items = viewer.takeoff();
+    const soft = viewer.softCosts();
+    const ua = viewer.uaValue();
+    const pv = viewer.pvEstimate();
+    const area = p.W * p.D / 1e6 * (p.stories || 1);
+    const tsubo = area / 3.3058;
+    results.push({
+      id,
+      name: p.name,
+      label: p.label,
+      area,
+      tsubo,
+      W: p.W, D: p.D, H: p.H || 3000,
+      stories: p.stories || 1,
+      matCost: soft.matTotal,
+      grandTotal: soft.grandTotal,
+      tsuboPrice: soft.grandTotal / tsubo,
+      ua: ua.UA,
+      grade: ua.grade.replace(/\(.*\)/, '').trim(),
+      pvPanels: pv ? pv.panelCount : 0,
+      pvAnnual: pv ? Math.round(pv.annualKWh) : 0,
+    });
+  }
+  // Restore original
+  viewer.loadPlan(originalId);
+  // Render table
+  const tbody = document.getElementById('compareTbody');
+  tbody.innerHTML = '';
+  for (const r of results) {
+    const tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid #e0dcd2';
+    tr.innerHTML = `
+      <td style="padding:5px 6px"><b>${r.name}</b><br><span style="opacity:.6">${r.label}</span></td>
+      <td style="text-align:right;padding:5px 6px">${r.area.toFixed(1)} m²<br><span style="opacity:.5;font-size:9px">${r.tsubo.toFixed(1)}坪</span></td>
+      <td style="text-align:right;padding:5px 6px">${r.W.toLocaleString()}×${r.D.toLocaleString()}×${r.H.toLocaleString()}</td>
+      <td style="text-align:right;padding:5px 6px">${r.stories}</td>
+      <td style="text-align:right;padding:5px 6px">${yenFmt(r.matCost)}</td>
+      <td style="text-align:right;padding:5px 6px;font-weight:600">${yenFmt(r.grandTotal)}</td>
+      <td style="text-align:right;padding:5px 6px">${yenFmt(r.tsuboPrice)}/坪</td>
+      <td style="text-align:right;padding:5px 6px">${r.ua.toFixed(2)}</td>
+      <td style="padding:5px 6px;font-size:10px">${r.grade}</td>
+      <td style="text-align:right;padding:5px 6px">${r.pvPanels || '-'}</td>
+      <td style="text-align:right;padding:5px 6px">${r.pvAnnual ? r.pvAnnual.toLocaleString() + 'kWh' : '-'}</td>
+      <td style="text-align:right;padding:5px 6px"><button data-pid="${r.id}" style="font-size:9px;padding:2px 6px">表示</button></td>`;
+    tbody.appendChild(tr);
+  }
+  // Quick switch buttons
+  for (const b of tbody.querySelectorAll('button[data-pid]')) {
+    b.addEventListener('click', () => {
+      loadPlan(b.dataset.pid);
+      document.getElementById('compareModal').style.display = 'none';
+    });
+  }
+  document.getElementById('compareLoading').style.display = 'none';
+  document.getElementById('compareTable').style.display = 'table';
+});
+document.getElementById('compareClose').addEventListener('click', () => {
+  document.getElementById('compareModal').style.display = 'none';
 });
 
 // ─── 寸法カスタマイズ ───
