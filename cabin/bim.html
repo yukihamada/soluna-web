@@ -207,13 +207,27 @@
 </div>
 
 <!-- BIM tools panel -->
-<div class="panel" id="bim-tools" style="top:62px;left:228px;width:200px">
+<div class="panel" id="bim-tools" style="top:62px;left:228px;width:220px">
   <h3>BIM ツール</h3>
-  <button id="bomBtn" style="width:100%;margin-bottom:4px">📊 数量・コスト</button>
+  <button id="bomBtn" style="width:100%;margin-bottom:4px">📊 数量・コスト・諸経費</button>
+  <button id="energyBtn" style="width:100%;margin-bottom:4px">🌡 UA値・断熱性能</button>
   <button id="phaseBtn" style="width:100%;margin-bottom:4px">⏱ 4D 施工アニメ</button>
-  <button id="csvBtn" style="width:100%;margin-bottom:4px">⬇ BOM CSVダウンロード</button>
-  <button id="ifcBtn" style="width:100%;margin-bottom:4px">⬇ IFC ダウンロード</button>
-  <button id="poBtn" style="width:100%">⬇ 発注書PDF</button>
+  <button id="csvBtn" style="width:100%;margin-bottom:4px">⬇ BOM CSV</button>
+  <button id="ifcBtn" style="width:100%;margin-bottom:4px">⬇ IFC</button>
+  <button id="poBtn" style="width:100%;margin-bottom:4px">⬇ 発注書PDF</button>
+  <button id="reportBtn" style="width:100%">⬇ 1ページサマリーPDF</button>
+</div>
+
+<!-- Sun path simulator (right side) -->
+<div class="panel" id="sun-panel" style="bottom:14px;right:14px;width:230px">
+  <h3>☀️ 太陽軌道（弟子屈 lat 43.5°）</h3>
+  <label style="display:block;font-size:11px;margin-bottom:4px">月: <span id="sunMonthLbl">3月</span>
+    <input type="range" id="sunMonth" min="1" max="12" step="1" value="3" style="width:100%">
+  </label>
+  <label style="display:block;font-size:11px">時刻: <span id="sunHourLbl">10:00</span>
+    <input type="range" id="sunHour" min="5" max="19" step="0.5" value="10" style="width:100%">
+  </label>
+  <div id="sunInfo" style="font-size:10px;opacity:.7;margin-top:6px;font-feature-settings:'tnum'">高度 28.0°　方位 +25°（南東）</div>
 </div>
 
 <!-- BOM modal -->
@@ -245,6 +259,35 @@
       </tfoot>
     </table>
     <p style="font-size:10px;opacity:.55;margin-top:10px">※プレカット・配送・施工費別途。3Dモデル上のジオメトリから自動拾い。誤差±5%。</p>
+  </div>
+</div>
+
+<!-- Energy/UA modal -->
+<div id="energyModal" style="display:none;position:fixed;inset:0;z-index:60;background:rgba(34,34,34,.55);align-items:center;justify-content:center">
+  <div style="background:#fffefb;border:1px solid #222;border-radius:8px;padding:16px;max-width:560px;max-height:80vh;overflow:auto;font-size:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <h3 style="margin:0;font-size:14px">🌡 断熱性能 (外皮平均熱貫流率 UA値)</h3>
+      <button id="energyClose" style="background:none;border:0;font-size:20px;cursor:pointer">×</button>
+    </div>
+    <div id="uaResult" style="font-size:24px;font-weight:600;margin-bottom:6px;color:#1a6b3a">UA = — W/m²K</div>
+    <div id="uaGrade" style="font-size:13px;margin-bottom:12px">—</div>
+    <table style="width:100%;border-collapse:collapse;font-feature-settings:'tnum'">
+      <thead>
+        <tr style="border-bottom:1px solid #222;background:#f0eee7">
+          <th style="text-align:left;padding:5px 8px">外皮要素</th>
+          <th style="text-align:right;padding:5px 8px">U値 W/m²K</th>
+          <th style="text-align:right;padding:5px 8px">面積 m²</th>
+          <th style="text-align:right;padding:5px 8px">寄与 (UA分)</th>
+        </tr>
+      </thead>
+      <tbody id="uaTbody"></tbody>
+    </table>
+    <div style="margin-top:14px;padding:10px;background:#f0eee7;border-radius:5px;font-size:11px;line-height:1.6">
+      <b>HEAT20 グレード基準 (北海道 6地域):</b><br>
+      G3 ≦ 0.20 (NZEB水準) ／ G2 ≦ 0.28 (高断熱) ／ G1 ≦ 0.34 (高水準)<br>
+      ZEH ≦ 0.40 ／ H28省エネ基準 ≦ 0.46<br>
+      <span style="opacity:.55">※C値（隙間相当面積）は気密測定で別途検証必要。SIPs工法目標値 C ≦ 0.5 cm²/m²</span>
+    </div>
   </div>
 </div>
 
@@ -369,14 +412,13 @@ viewer.onElementClick((info) => {
 });
 document.getElementById('epClose').addEventListener('click', () => popup.style.display = 'none');
 
-// BOM modal
+// BOM modal — now includes labor + soft costs
 function refreshBOM() {
   const items = viewer.takeoff();
+  const soft = viewer.softCosts();
   const tbody = document.getElementById('bomTbody');
   tbody.innerHTML = '';
-  let total = 0;
   for (const r of items) {
-    total += r.cost;
     const tr = document.createElement('tr');
     tr.style.borderBottom = '1px solid #e0dcd2';
     tr.innerHTML = `
@@ -389,7 +431,25 @@ function refreshBOM() {
       <td style="padding:5px 8px;font-size:10px">${r.vendor || '-'}</td>`;
     tbody.appendChild(tr);
   }
-  document.getElementById('bomTotal').textContent = yenFmt(total);
+  // Subtotal row
+  const sub = document.createElement('tr');
+  sub.style.borderTop = '1px solid #222';
+  sub.innerHTML = `
+    <td colspan="5" style="padding:6px 8px;text-align:right;font-weight:600">材料費 小計</td>
+    <td style="text-align:right;padding:6px 8px;font-weight:600">${yenFmt(soft.matTotal)}</td><td></td>`;
+  tbody.appendChild(sub);
+  // Soft costs
+  for (const sc of soft.breakdown) {
+    const tr = document.createElement('tr');
+    tr.style.borderBottom = '1px dashed #ccc';
+    tr.style.background = '#fafaf6';
+    tr.innerHTML = `
+      <td colspan="3" style="padding:5px 8px;font-style:italic">${sc.label}</td>
+      <td colspan="2" style="text-align:right;padding:5px 8px;font-size:10px;opacity:.6">${sc.note || ''}</td>
+      <td style="text-align:right;padding:5px 8px">${yenFmt(sc.cost)}</td><td></td>`;
+    tbody.appendChild(tr);
+  }
+  document.getElementById('bomTotal').textContent = yenFmt(soft.grandTotal) + ' (税抜)';
   return items;
 }
 
@@ -508,6 +568,115 @@ document.getElementById('poBtn').addEventListener('click', async () => {
     pageNum++;
   }
   pdf.save(`SOLUNA_PO_${plan.name}_${today}.pdf`);
+});
+
+// ─── Sun path simulator ───
+const monthSlider = document.getElementById('sunMonth');
+const hourSlider = document.getElementById('sunHour');
+const monthLbl = document.getElementById('sunMonthLbl');
+const hourLbl = document.getElementById('sunHourLbl');
+const sunInfo = document.getElementById('sunInfo');
+function updateSun() {
+  const m = parseInt(monthSlider.value);
+  const h = parseFloat(hourSlider.value);
+  monthLbl.textContent = `${m}月`;
+  hourLbl.textContent = `${Math.floor(h)}:${String(Math.round((h%1)*60)).padStart(2,'0')}`;
+  const r = viewer.setSunPosition(h, m);
+  const azDir = r.azim < -22.5 ? '南東' : r.azim < 22.5 ? '南' : r.azim < 67.5 ? '南西' : r.azim < 112.5 ? '西' : '北';
+  sunInfo.textContent = `太陽高度 ${r.elev.toFixed(1)}°　方位 ${r.azim > 0 ? '+' : ''}${r.azim.toFixed(0)}°（${azDir}）`;
+}
+monthSlider.addEventListener('input', updateSun);
+hourSlider.addEventListener('input', updateSun);
+updateSun();
+
+// ─── Energy/UA modal ───
+document.getElementById('energyBtn').addEventListener('click', () => {
+  const ua = viewer.uaValue();
+  document.getElementById('uaResult').textContent = `UA = ${ua.UA.toFixed(2)} W/m²K`;
+  document.getElementById('uaGrade').innerHTML = `<b>${ua.grade}</b>　外皮総面積: ${ua.totalArea.toFixed(1)} m²`;
+  const tbody = document.getElementById('uaTbody');
+  tbody.innerHTML = '';
+  for (const e of ua.elements) {
+    const tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid #e0dcd2';
+    tr.innerHTML = `
+      <td style="padding:5px 8px">${e.label}</td>
+      <td style="text-align:right;padding:5px 8px">${e.U.toFixed(2)}</td>
+      <td style="text-align:right;padding:5px 8px">${e.area.toFixed(1)}</td>
+      <td style="text-align:right;padding:5px 8px">${e.contribution.toFixed(2)}</td>`;
+    tbody.appendChild(tr);
+  }
+  document.getElementById('energyModal').style.display = 'flex';
+});
+document.getElementById('energyClose').addEventListener('click', () => {
+  document.getElementById('energyModal').style.display = 'none';
+});
+
+// ─── 1ページサマリーPDF ───
+document.getElementById('reportBtn').addEventListener('click', async () => {
+  if (!window.jspdf) {
+    await new Promise(res => {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js';
+      s.onload = res;
+      document.head.appendChild(s);
+    });
+  }
+  const plan = viewer.getPlan();
+  const items = viewer.takeoff();
+  const soft = viewer.softCosts();
+  const ua = viewer.uaValue();
+  // Capture iso view as PNG via WebGL canvas
+  viewer.setView('iso');
+  await new Promise(r => setTimeout(r, 400));
+  const canvas = viewer.renderer.domElement;
+  // Force render then capture
+  const dataURL = canvas.toDataURL('image/png');
+
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({orientation:'landscape', unit:'mm', format:'a4'});
+  pdf.setFontSize(18); pdf.text(`SOLUNA ${plan.name} ${plan.label}`, 14, 16);
+  pdf.setFontSize(10); pdf.text(plan.tag || '', 14, 23);
+  pdf.text(`寸法: ${plan.W.toLocaleString()} × ${plan.D.toLocaleString()} × ${(plan.H||3000).toLocaleString()}mm`, 14, 28);
+  pdf.text(`UA = ${ua.UA.toFixed(2)} W/m²K（${ua.grade}）`, 14, 33);
+
+  // Embed iso screenshot (left half)
+  try { pdf.addImage(dataURL, 'PNG', 14, 38, 130, 90); } catch (e) {}
+
+  // Right column: cost breakdown
+  let y = 42;
+  pdf.setFontSize(11); pdf.text('概算コスト内訳 (税抜)', 155, y); y += 6;
+  pdf.setFontSize(9);
+  pdf.text(`材料費 小計`, 155, y); pdf.text(yenFmt(soft.matTotal), 270, y, {align:'right'}); y += 5;
+  for (const sc of soft.breakdown) {
+    pdf.text(sc.label.slice(0, 22), 155, y);
+    pdf.text(yenFmt(sc.cost), 270, y, {align:'right'});
+    y += 4.5;
+  }
+  pdf.setFontSize(11); pdf.text('総工費（税抜）', 155, y + 2);
+  pdf.text(yenFmt(soft.grandTotal), 270, y + 2, {align:'right'}); y += 8;
+  pdf.text(`+消費税10%`, 155, y); pdf.text(yenFmt(soft.grandTotal * 0.10), 270, y, {align:'right'}); y += 5;
+  pdf.setFontSize(13); pdf.text(`総合計（税込）`, 155, y);
+  pdf.text(yenFmt(soft.grandTotal * 1.10), 270, y, {align:'right'});
+
+  // Top BOM items below image
+  y = 138;
+  pdf.setFontSize(10); pdf.text('主要材料 (上位10品目)', 14, y); y += 5;
+  pdf.setFontSize(8);
+  const top10 = [...items].sort((a, b) => b.cost - a.cost).slice(0, 10);
+  for (const r of top10) {
+    pdf.text(r.name.slice(0, 32), 14, y);
+    pdf.text(qtyFmt(r.qty, r.unit), 95, y, {align:'right'});
+    pdf.text(yenFmt(r.cost), 130, y, {align:'right'});
+    pdf.text(r.vendor || '', 138, y);
+    y += 4;
+  }
+
+  // Footer
+  pdf.setFontSize(7); pdf.setTextColor(120);
+  pdf.text(`SOLUNA BIM Auto-Report | https://solun.art/bim?plan=${plan.id} | 生成日: ${new Date().toISOString().slice(0,10)}`, 14, 200);
+  pdf.text('※本資料は概算値。実際の施工・材料費は敷地条件・施工方法により変動。3D BIMモデルからの自動算出。', 14, 204);
+  pdf.save(`SOLUNA_Summary_${plan.name}.pdf`);
 });
 
 // Color preset selector
