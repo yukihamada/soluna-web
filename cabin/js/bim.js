@@ -1114,6 +1114,37 @@ function buildRoof(plan) {
     gutter.position.set(0, eaveY - 0.04, D/2 + EAVE_OUT - 0.06);
     g.add(gutter);
 
+    // 軒下リニアLED (warm strip under south eave) — 夜のドラマ照明
+    const ledMat = new THREE.MeshStandardMaterial({
+      color: 0xfff0c8, emissive: 0xffd070, emissiveIntensity: 0.9,
+      roughness: 0.5, metalness: 0,
+    });
+    const led = box(roofW - 0.30, 0.015, 0.015, ledMat);
+    led.position.set(0, eaveY - 0.02, D/2 + EAVE_OUT - 0.20);
+    g.add(led);
+
+    // 玄関ファサードキャノピー (foyer canopy) — south entry has its own deep overhang
+    // ※ 既に深軒 700mm があるので、追加で玄関位置に小屋根を出す
+    if (!plan.openings?.units && !plan.pilotis && plan.id !== 'mini') {
+      const foyerW = Math.min(2.4, W * 0.35);
+      const foyerD = 1.20;       // 玄関ポーチ depth
+      const foyerH = baseY + storyH + 0.20;
+      const foyerSlab = box(foyerW, 0.08, foyerD, MATS.steelDark);
+      foyerSlab.position.set(0, foyerH, D/2 + foyerD/2 - 0.10);
+      g.add(foyerSlab);
+      g.add(edge(foyerSlab, COLORS.line, 0.5));
+      // 玄関吊り梁 (cantilever support beams)
+      for (const xs of [-foyerW/2 + 0.20, foyerW/2 - 0.20]) {
+        const arm = box(0.08, 0.18, foyerD - 0.10, MATS.cedarLite);
+        arm.position.set(xs, foyerH - 0.13, D/2 + foyerD/2 - 0.15);
+        g.add(arm);
+      }
+      // 玄関 step lighting (低い行灯)
+      const stepLed = box(foyerW * 0.7, 0.015, 0.015, ledMat);
+      stepLed.position.set(0, foyerH - 0.06, D/2 + foyerD - 0.10);
+      g.add(stepLed);
+    }
+
     // Skylight cube on north (high side) — for MYTH/KOSMOS
     if (plan.openings?.skylight) {
       const skW = Math.min(2.6, W * 0.18);
@@ -1940,6 +1971,57 @@ function buildInterior(plan) {
     const toilet = box(0.40, 0.50, 0.55, new THREE.MeshStandardMaterial({color: 0xe8e3d8, roughness: 0.6}));
     toilet.position.set(bX, FL + 0.25, bZ + 0.10);
     g.add(toilet);
+  }
+
+  // ── 行灯ペンダント (warm pendant lamps) — over dining + bed ──
+  if (!plan.openings?.units && !plan.dome) {
+    const ceilingH = baseY + storyH - 0.05;
+    const lampMat = new THREE.MeshStandardMaterial({
+      color: 0xfff2d0, emissive: 0xffd97a, emissiveIntensity: 1.4,
+      roughness: 0.8, metalness: 0,
+    });
+    const cordMat = new THREE.MeshStandardMaterial({color: 0x161616, roughness: 0.95, metalness: 0});
+    const placePendant = (x, z, n=1) => {
+      for (let i = 0; i < n; i++) {
+        const off = (n > 1) ? (i - (n-1)/2) * 0.5 : 0;
+        const cordH = 0.6;
+        const cord = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.005, cordH, 6), cordMat);
+        cord.position.set(x + off, ceilingH - cordH/2, z);
+        g.add(cord);
+        // 行灯シェード (cylinder + warm glow)
+        const shade = new THREE.Mesh(new THREE.CylinderGeometry(0.10, 0.13, 0.20, 12), MATS.cedar);
+        shade.position.set(x + off, ceilingH - cordH - 0.10, z);
+        g.add(shade);
+        const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.07, 12, 8), lampMat);
+        bulb.position.set(x + off, ceilingH - cordH - 0.10, z);
+        g.add(bulb);
+        const ptLight = new THREE.PointLight(0xffd97a, 6, 4, 1.8);
+        ptLight.position.set(x + off, ceilingH - cordH - 0.05, z);
+        g.add(ptLight);
+      }
+    };
+    if (area > 24) placePendant(0, 0, Math.min(3, Math.max(1, Math.floor(W / 1.8))));     // dining
+    placePendant(-W/2 + 1.0, -D/2 + 1.5, 1);                                                // bedside
+    if (area > 18) placePendant(W/2 - 1.5, D/2 - 1.5, 1);                                   // kitchen
+  }
+
+  // ── 露し垂木 (exposed rafters) — mono roof underside, 909mm pitch ──
+  if (plan.roofType === 'mono' && (plan.stories || 1) === 1) {
+    const ceilingH = baseY + storyH;
+    const pitch = plan.roofPitch || 0.15;
+    const dropH = (D + EAVE_OUT * 2) * pitch;
+    const slope = Math.atan(pitch);
+    const slopeLen = Math.hypot(D + EAVE_OUT * 2, dropH);
+    const rafterPitch = 0.910;
+    const rafterN = Math.max(2, Math.floor(W / rafterPitch));
+    const rafW = 0.045, rafH = 0.12;
+    for (let i = 0; i < rafterN; i++) {
+      const x = -W/2 + 0.4 + i * ((W - 0.8) / Math.max(1, rafterN - 1));
+      const raf = box(rafW, rafH, slopeLen * 0.92, MATS.cedarLite);
+      raf.position.set(x, ceilingH + dropH/2 - 0.15, 0);
+      raf.rotation.x = -slope;
+      g.add(raf);
+    }
   }
 
   return g;
