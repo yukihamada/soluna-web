@@ -85,10 +85,7 @@ h2{font-size:clamp(1.5rem,3.5vw,2.3rem);font-weight:800;letter-spacing:-.03em;li
 .bar-track{background:rgba(255,255,255,.05);border-radius:3px;height:14px;overflow:hidden}
 .bar-fill{height:100%;border-radius:3px;transition:width 1.1s cubic-bezier(.25,.46,.45,.94)}
 .bar-val{font-size:12px;font-weight:700;text-align:right;white-space:nowrap}
-.cost-boxes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-@media(max-width:980px){.cost-boxes{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.cost-boxes{grid-template-columns:1fr}}
-.cbox-arrow{display:flex;align-items:center;justify-content:center;color:rgba(237,233,225,.2);font-size:18px;font-weight:300}
+.cost-boxes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}@media(max-width:480px){.cost-boxes{grid-template-columns:1fr}}
 .cbox{padding:18px 22px;border-radius:12px}
 .cbox-gold{background:rgba(200,164,85,.07);border:1px solid rgba(200,164,85,.2)}
 .cbox-green{background:rgba(80,200,160,.07);border:1px solid rgba(80,200,160,.2)}
@@ -381,7 +378,6 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
     <a href="#how">工程</a>
     <a href="#drawings">設計図</a>
     <a href="#materials">材料</a>
-    <a href="#precut">プレカット</a>
     <a class="nav-cta" href="mailto:info@solun.art?subject=SOLUNA URBAN 都市住宅の相談">相談する</a>
   </div>
 </nav>
@@ -445,87 +441,24 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
     <div class="bar-chart r" id="barChart"></div>
     <div class="cost-boxes r">
       <div class="cbox cbox-gold">
-        <div class="cbox-l">① 材料費（建材+設計監理）</div>
+        <div class="cbox-l">材料費合計（プレカット・配送込み）</div>
         <div class="cbox-v" id="costTotal" style="color:var(--gold)"></div>
         <div class="cbox-s">プレカット・配送・建築確認申請込み</div>
       </div>
-      <div class="cbox" style="border-color:rgba(200,144,32,.25);background:rgba(200,144,32,.04)">
-        <div class="cbox-l">② セルフビルド全部入り総額</div>
-        <div class="cbox-v" id="costAllIn" style="color:#c89020"></div>
-        <div class="cbox-s">①+ 基礎/上下水/電気/ガス/工具 (土地代除く)</div>
-      </div>
-      <div class="cbox" style="border-color:rgba(96,128,192,.25);background:rgba(96,128,192,.04)">
-        <div class="cbox-l">③ 工務店フル依頼</div>
-        <div class="cbox-v" id="costContractor" style="color:#80a0c8"></div>
-        <div class="cbox-s">設計+施工+保証フルパッケージ・最も安心ルート</div>
-      </div>
       <div class="cbox cbox-green">
-        <div class="cbox-l">④ 補助金フル活用後（子育て世帯）</div>
+        <div class="cbox-l">補助金フル活用後（子育て世帯）</div>
         <div class="cbox-v" id="costAfterSubsidy" style="color:rgba(80,200,160,.9)"></div>
         <div class="cbox-s">①から最大補助金を控除した実質負担額</div>
       </div>
     </div>
-    <div class="fcn r" id="fullCostNote">
-      <div class="fcn-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="fcn-title">💡 実際にかかる全費用（建材費以外）を見る</div>
-        <span class="fcn-chev">▼</span>
-      </div>
-      <div class="fcn-body" id="fullCostBody"></div>
-    </div>
     <div class="route-grid r" id="routeGrid"></div>
     <div class="regional-note r" id="regionalNote" style="display:none"></div>
-
-    <!-- ROUTE COMPARISON: 3つの建て方 -->
-    <div class="route-compare r" style="margin-top:36px;border-top:1px solid rgba(237,233,225,.08);padding-top:36px">
-      <p class="lbl" style="margin-bottom:6px">3 BUILD ROUTES</p>
-      <h3 style="font-size:24px;font-weight:600;letter-spacing:.02em;margin-bottom:8px">3つの建て方から選ぶ</h3>
-      <p style="font-size:13.5px;color:rgba(237,233,225,.55);margin-bottom:24px;line-height:1.8">DIY経験ゼロでも建てられます。SOLUNA URBAN の全プランは「あなたの参加度」で3つのルートを選択可能。</p>
-      <div class="rc-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px" id="routeCompare3"></div>
-      <div style="margin-top:18px;padding:16px;background:rgba(80,200,160,.06);border:1px solid rgba(80,200,160,.2);border-radius:10px;font-size:12.5px;color:rgba(237,233,225,.7);line-height:1.8">
-        💡 <strong style="color:rgba(80,200,160,.9)">迷ったら ②SOLUNA提携建築会社</strong> がおすすめ。建築士・施工チーム・SOLUNAの3者が連携、自由設計+10年瑕疵保証+住宅ローン提携の安心感と、工務店フル依頼より20〜30%安い価格を両立できます。
-      </div>
-    </div>
-    <style>
-      .rc3-card{padding:20px 16px;border-radius:14px;background:rgba(20,20,22,.6);border:1px solid rgba(237,233,225,.08);position:relative}
-      .rc3-card.rc3-pick{border-color:rgba(80,200,160,.45);background:rgba(80,200,160,.05)}
-      .rc3-rank{font-size:9px;letter-spacing:.15em;color:rgba(237,233,225,.4);margin-bottom:6px}
-      .rc3-name{font-size:17px;font-weight:600;margin-bottom:4px}
-      .rc3-target{font-size:11px;color:rgba(237,233,225,.5);margin-bottom:14px;line-height:1.6}
-      .rc3-cost{font-size:22px;font-weight:600;margin-bottom:4px}
-      .rc3-cost-s{font-size:10.5px;color:rgba(237,233,225,.45);margin-bottom:14px}
-      .rc3-list{list-style:none;padding:0;margin:0;font-size:11.5px;color:rgba(237,233,225,.7);line-height:1.85}
-      .rc3-list li{padding:3px 0 3px 18px;position:relative}
-      .rc3-list li::before{content:"✓";position:absolute;left:0;color:rgba(80,200,160,.7)}
-      .rc3-pick-badge{position:absolute;top:-9px;right:14px;background:rgba(80,200,160,.85);color:#0a0a0a;font-size:9.5px;padding:3px 9px;border-radius:10px;font-weight:600;letter-spacing:.05em}
-      @media(max-width:780px){.rc-grid{grid-template-columns:1fr!important}}
-    </style>
     <div class="land-cta r">
       <div>
         <div class="land-cta-t">🏙️ 全国の都市・郊外で建てられます</div>
         <div class="land-cta-s">東京23区・横浜・大阪・名古屋・福岡など主要都市の準防火/防火地域に対応。郊外住宅地・地方都市駅近にも実績あり。<br>土地探し・建築確認・地域補助金（ZEH・こどもエコ・都市移住）の調査から一緒に進められます。</div>
       </div>
       <a class="vendor-btn" href="mailto:info@solun.art?subject=SOLUNA URBAN 都市狭小地相談" style="white-space:nowrap;flex-shrink:0">土地から相談する →</a>
-    </div>
-  </div>
-</section>
-
-<!-- RENTAL POTENTIAL -->
-<section class="s" id="rental">
-  <div class="w">
-    <p class="lbl r">RENTAL POTENTIAL</p>
-    <h2 class="r">収益試算</h2>
-    <p class="sub r">この小屋を貸し出した場合の想定収益と材料費回収期間。プランと稼働日数を変えて試算できます。</p>
-    <div class="rental-tabs r" id="rentalTabs">
-      <button class="rt-tab" onclick="selectRental(36)">月3泊（36泊/年）</button>
-      <button class="rt-tab active" onclick="selectRental(72)">月6泊（72泊/年）</button>
-      <button class="rt-tab" onclick="selectRental(120)">月10泊（120泊/年）</button>
-    </div>
-    <div class="rental-result r" id="rentalResult"></div>
-    <div class="rental-programs r">
-      <div class="rp-card"><span class="rp-em">🏡</span><div><div class="rp-nm">Airbnb・一棟貸し</div><div class="rp-nt">農村部の一棟貸しは都市部より稼働率が高い傾向。1泊¥10,000〜¥80,000。繁忙期は単価2〜3倍。</div></div></div>
-      <div class="rp-card"><span class="rp-em">👥</span><div><div class="rp-nm">SOLUNAメンバーへの提供</div><div class="rp-nt">SOLUNAオーナーとして登録すると会員向け宿泊施設として提供可能。会員が利用した夜数に応じて収益シェア。</div></div></div>
-      <div class="rp-card"><span class="rp-em">💼</span><div><div class="rp-nm">ワーケーション法人契約</div><div class="rp-nt">法人の福利厚生契約で安定収入。月額¥5〜15万の定額契約が増加中。稼働・非稼働に関わらず収入が安定。</div></div></div>
-      <div class="rp-card"><span class="rp-em">🌱</span><div><div class="rp-nm">土地付きで資産保有</div><div class="rp-nt">駅近・準防火地域は資産価値が下がりにくい。賃貸併用（TOWER/YIELD）なら家賃収入で住宅ローン相殺も可能。</div></div></div>
     </div>
   </div>
 </section>
@@ -693,176 +626,6 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
   </div>
 </section>
 
-<!-- UPGRADES -->
-<section class="s" id="upgrades">
-  <div class="w">
-    <p class="lbl r">UPGRADE OPTIONS</p>
-    <h2 class="r">アップグレードオプション</h2>
-    <p class="sub r">タップして追加すると合計費用に反映されます。プランに応じた費用を自動計算。</p>
-    <div class="upg-grid r" id="upgGrid"></div>
-    <div class="upg-total-bar r" id="upgTotalBar" style="display:none">
-      <div>
-        <div class="utb-l">ベース材料費 + 選択オプション合計</div>
-        <div class="utb-d" id="upgDetail"></div>
-      </div>
-      <div class="utb-v" id="upgTotalVal"></div>
-    </div>
-  </div>
-</section>
-
-<!-- COST DOWN -->
-<section class="s cband" id="costdown">
-  <div class="w">
-    <p class="lbl r">COST REDUCTION</p>
-    <h2 class="r">コストダウン戦略</h2>
-    <p class="sub r">タップして組み合わせると節約額を自動計算。複数を重ねるほど効果大。</p>
-    <div class="cdn-grid r" id="cdnGrid"></div>
-    <div class="gt-bar r" id="grandTotalBar" style="display:none">
-      <div class="gt-left">
-        <div class="gt-label">実質費用シミュレーション</div>
-        <div class="gt-detail" id="gtDetail"></div>
-        <div class="gt-saving" id="gtSaving" style="display:none"></div>
-      </div>
-      <div class="gt-total" id="gtTotal"></div>
-    </div>
-  </div>
-</section>
-
-<!-- SUPPLY GUIDE -->
-<section class="s" id="supply">
-  <div class="w">
-    <p class="lbl r">STABLE SUPPLY</p>
-    <h2 class="r">調達先ガイド</h2>
-    <p class="sub r">安定して入手できる主要カテゴリの調達先。クリックで展開。</p>
-    <div class="r" id="sgList"></div>
-  </div>
-</section>
-
-<!-- PRECUT -->
-<section class="s cband" id="precut">
-  <div class="w">
-    <p class="lbl r">PRECUT ORDERING</p>
-    <h2 class="r">プレカット発注</h2>
-    <p class="sub r">構造材を工場でカット・番号付きで届ける。現場加工ゼロ。</p>
-    <div class="pc-grid r">
-      <div class="pc-card"><div class="pc-num">01</div><div class="pc-t">図面を準備</div><div class="pc-b">平面図・軸組図・梁伏せ図をDXF/JWWまたは手書きA3スキャンで。SOLUNA標準図面のご相談は <a href="mailto:info@solun.art?subject=SOLUNA URBAN 図面ご相談" style="color:var(--gold)">個別連絡</a> ください。</div></div>
-      <div class="pc-card"><div class="pc-num">02</div><div class="pc-t">業者に見積依頼</div><div class="pc-b">図面を送るだけ。3〜5日で見積が届く。納期10〜14日。都市部・郊外への配送は¥2〜4万別途。</div></div>
-      <div class="pc-card"><div class="pc-num">03</div><div class="pc-t">金物も同時発注</div><div class="pc-b">柱・梁・土台・間柱が番号付きで届く。ホールダウン・羽子板ボルトも同時発注でスムーズ。</div></div>
-      <div class="pc-card"><div class="pc-num">04</div><div class="pc-t">棟上げ</div><div class="pc-b">プランMINIなら3人・5時間。STANDARDなら4人・8時間で棟上げ完了。番号通りに組むだけ。</div></div>
-    </div>
-    <div class="vendors r">
-      <div class="vendor"><div><div class="vendor-nm">ヤマサン木材（全国対応）</div><div class="vendor-nt">CAD入力〜加工〜配送一括。都市部・郊外への配送実績あり</div><div class="vendor-pr">加工費 材積×¥15,000〜</div></div><a class="vendor-btn" href="https://yamasanmokuzai.co.jp" target="_blank">見積依頼 →</a></div>
-      <div class="vendor"><div><div class="vendor-nm">カネシン プレカット</div><div class="vendor-nt">金物工法対応。SE構法・KES構法向けプレカット</div><div class="vendor-pr">見積無料・納期10〜14日</div></div><a class="vendor-btn" href="https://www.kanesin.co.jp" target="_blank">見積依頼 →</a></div>
-      <div class="vendor"><div><div class="vendor-nm">モノタロウ 木材カット</div><div class="vendor-nt">小物・羽柄材の追加カット注文に最適</div><div class="vendor-pr">1カット¥55〜</div></div><a class="vendor-btn" href="https://www.monotaro.com/g/01291754/" target="_blank">注文 →</a></div>
-    </div>
-    <div class="checklist r" style="margin-top:12px">
-      <div class="cl"><span class="cl-c">□</span><span>平面図・軸組図（CAD/A3スキャン）</span></div>
-      <div class="cl"><span class="cl-c">□</span><span>梁伏せ図（スパン・荷重明記）</span></div>
-      <div class="cl"><span class="cl-c">□</span><span>仕口・接合部リスト</span></div>
-      <div class="cl"><span class="cl-c">□</span><span>使用樹種・乾燥区分（KD/AD）</span></div>
-      <div class="cl"><span class="cl-c">□</span><span>納品先住所と搬入路の確認</span></div>
-      <div class="cl"><span class="cl-c">□</span><span>ホールダウン・羽子板ボルト同時発注</span></div>
-    </div>
-    <div class="sips-note r" id="sipsNote">
-      <div class="sips-head" onclick="this.parentElement.classList.toggle('open')">
-        <span style="font-size:18px">🧱</span>
-        <span class="sips-head-txt">SIPsパネル施工のポイント（Persona D 向け技術詳細）</span>
-        <span class="sips-chev">▼</span>
-      </div>
-      <div class="sips-body">
-        <div class="sips-point"><span class="sips-point-ico">📐</span><div><strong style="color:#e0e0e0">コーナー接合</strong><br>コーナーにスパイン（LVL材 105×105）を立て、両側のSIPsパネルをビス止め。スパインとパネルの接触面に気密テープ（エプトシーラー15mm幅）を貼ってから接合。コーキングは内側に追加施工。</div></div>
-        <div class="sips-point"><span class="sips-point-ico">🔌</span><div><strong style="color:#e0e0e0">電気配管チャンネル</strong><br>SIPsパネルは配線が困難。事前に「ワイヤーチェイス」として5mmφの貫通穴を工場加工で指定するか、コア温度計で内部を溶かして通線。後からは困難なので配線経路を先に決める。</div></div>
-        <div class="sips-point"><span class="sips-point-ico">💨</span><div><strong style="color:#e0e0e0">気密テープの選定</strong><br>パネル同士の継ぎ目には2液型ポリウレタン接着剤（Henkel PU940等）+ 室内側に気密テープ（HB-100 or ユラソール）。C値0.3以下を目指すなら追加でブローアドア試験を推奨。</div></div>
-        <div class="sips-point"><span class="sips-point-ico">🌧️</span><div><strong style="color:#e0e0e0">土台との接合と防水</strong><br>SIPsパネル下端と土台の間に必ず防水テープ（デュポン タイベックテープ等）を貼る。パネル底面の OSB 端部が雨水を吸うと腐れる。通気胴縁18mmを経由した外壁仕上げで長期防水を確保。</div></div>
-        <div class="sips-point"><span class="sips-point-ico">📏</span><div><strong style="color:#e0e0e0">標準パネルサイズと2枚積み工法</strong><br>SOLUNA BUILDでは910×1820mm（3×6尺）の標準OSBパネルを採用。特注カット不要でコスト削減（¥11,000/m²）。壁高さは2枚積みにすることで3,000〜3,200mmの高天井を実現——継ぎ目には防湿テープ+スプライン接合で気密を確保。</div></div>
-        <div class="sips-point"><span class="sips-point-ico">📦</span><div><strong style="color:#e0e0e0">国内調達先</strong><br>ウッドビルド（ネット発注可）・アキレス建材（Achilles Jr. SIPs）・AMSIPS（アム建材）。5棟以上は工場直仕入れで20%割引可能。標準断熱 UA値0.16達成には160mm厚（EPS 160mm+OSB各11mm）を選ぶ。</div></div>
-      </div>
-    </div>
-    <div class="r" style="margin-top:28px;text-align:center">
-      <a href="/manual" style="display:inline-flex;align-items:center;gap:10px;padding:16px 32px;background:rgba(200,164,85,.12);border:1.5px solid rgba(200,164,85,.4);border-radius:12px;color:var(--gold);font-size:14px;font-weight:700;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(200,164,85,.2)'" onmouseout="this.style.background='rgba(200,164,85,.12)'">
-        <span style="font-size:22px">📐</span>
-        <span>施工マニュアル・プレカット設計書を開く →</span>
-      </a>
-      <div style="margin-top:10px;font-size:11px;color:#666">木材カット表・金物リスト・基礎配置図・組み立て手順書（全プラン対応）</div>
-    </div>
-  </div>
-</section>
-
-<!-- SUBSIDY -->
-<section class="s" id="subsidy">
-  <div class="w">
-    <p class="lbl r">SUBSIDY GUIDE</p>
-    <h2 class="r">補助金・支援制度</h2>
-    <p class="sub r">最大 <strong style="color:var(--gold)">¥315万円〜</strong>（都市部・子育て世帯）＋自治体独自補助金で更に上乗せ。<span class="warn">プログラムは毎年変更あり。着工前に必ず確認を</span></p>
-    <div class="sub-grid r">
-      <div class="sub-card"><div class="sub-ico">👨‍👩‍👧</div><div class="sub-amt">¥160万</div><div class="sub-nm">子育てエコホーム支援</div><div class="sub-cn">子育て・若者夫婦世帯の新築<br>✅ 2026年継続中</div></div>
-      <div class="sub-card"><div class="sub-ico">⚡</div><div class="sub-amt">¥55〜100万</div><div class="sub-nm">ZEH支援事業</div><div class="sub-cn">ZEH ¥55万 / ZEH+ ¥100万<br>✅ 2026年継続中</div></div>
-      <div class="sub-card"><div class="sub-ico">🏘️</div><div class="sub-amt">¥50〜200万</div><div class="sub-nm">自治体 移住・定住補助</div><div class="sub-cn">東京近郊→地方移住・空き家活用 等<br>⚠ 自治体ごとに条件大きく異なる</div></div>
-      <div class="sub-card"><div class="sub-ico">🏗️</div><div class="sub-amt">¥40〜150万</div><div class="sub-nm">三世代同居・賃貸住宅補助</div><div class="sub-cn">DUO/YIELDプラン向け<br>三世代¥150万 / 賃貸¥40万×戸数</div></div>
-    </div>
-    <div class="sub-result r" id="subResult"></div>
-    <div class="sub-note r">申請先：国交省 住宅省エネポータル／環境共創イニシアチブ（ZEH）／各市区町村 住宅課・建築指導課。各補助金は併用制限・年度予算・申請期間があります。<strong style="color:rgba(237,233,225,.5)">着工前に必ず各窓口で最新情報を確認してください。</strong></div>
-  </div>
-</section>
-
-<!-- TRUST & FINANCE -->
-<section class="s" id="trust" style="background:rgba(20,20,22,.4)">
-  <div class="w">
-    <p class="lbl r">TRUST &amp; FINANCE</p>
-    <h2 class="r">保証・住宅ローン・税金</h2>
-    <p class="sub r">家を買うのは人生最大の決断のひとつ。SOLUNA URBAN は <strong style="color:#e0e0e0">10年瑕疵保証・住宅ローン・贈与税対策</strong> まで個別相談でサポートします。</p>
-    <div class="trust-grid r">
-      <div class="trust-card">
-        <div class="trust-ico">🛡️</div>
-        <div class="trust-amt">10年</div>
-        <div class="trust-nm">住宅瑕疵担保責任保険</div>
-        <div class="trust-cn">住宅瑕疵担保履行法に基づく10年保証（構造躯体・防水）。SOLUNA提携建築会社プランは標準加入。<br><strong style="color:rgba(237,233,225,.7)">住宅ローン本審査の必須要件</strong>です。</div>
-      </div>
-      <div class="trust-card">
-        <div class="trust-ico">🏦</div>
-        <div class="trust-amt">相談可</div>
-        <div class="trust-nm">住宅ローンの選び方相談</div>
-        <div class="trust-cn"><strong style="color:rgba(237,233,225,.7)">フラット35S</strong>（金利優遇 −0.25%/10年・ZEH適合で利用可）／<strong style="color:rgba(237,233,225,.7)">変動金利型</strong>（メガバンク・ネット銀行）／<strong style="color:rgba(237,233,225,.7)">ARUHI 等の独立系</strong>。建築士監修プランは適合証明書発行可で審査が有利になります。具体的な金融機関選びは個別相談で。</div>
-      </div>
-      <div class="trust-card">
-        <div class="trust-ico">🎁</div>
-        <div class="trust-amt">¥1,000万</div>
-        <div class="trust-nm">住宅取得資金贈与の非課税特例</div>
-        <div class="trust-cn">親から子への住宅資金贈与は<strong style="color:rgba(237,233,225,.7)">省エネ住宅で最大¥1,000万円まで非課税</strong>（2026年度継続）。SOLUNA URBANは全プランZEH対応で適用可能。両親からの援助で頭金を厚くできます。</div>
-      </div>
-      <div class="trust-card">
-        <div class="trust-ico">📊</div>
-        <div class="trust-amt">投資</div>
-        <div class="trust-nm">YIELD/TOWER 投資家向け融資</div>
-        <div class="trust-cn">YIELD（1K×6戸）・TOWER（賃貸併用）の<strong style="color:rgba(237,233,225,.7)">アパートローンは個別相談</strong>。木造の法定耐用年数22年で減価償却可。30年キャッシュフロー試算・出口戦略のシミュレーションを個別作成できます。</div>
-      </div>
-    </div>
-    <div class="trust-note r">
-      <p style="font-size:12px;color:rgba(237,233,225,.55);line-height:1.9">※ 住宅ローン審査の通りやすさはプラン・建築会社・申請者属性により異なります。SOLUNA提携建築会社プラン（ROUTE ②）は瑕疵保険・建築士設計・適合証明（フラット35S）が標準で揃うため、最も審査が通りやすい構成です。</p>
-    </div>
-  </div>
-</section>
-<style>
-  .trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
-  @media(max-width:980px){.trust-grid{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:520px){.trust-grid{grid-template-columns:1fr}}
-  .trust-card{padding:22px 18px;border-radius:14px;background:rgba(8,8,10,.7);border:1px solid rgba(237,233,225,.08)}
-  .trust-ico{font-size:30px;margin-bottom:10px}
-  .trust-amt{font-size:24px;font-weight:700;color:rgba(237,233,225,.95);letter-spacing:.02em;margin-bottom:6px}
-  .trust-nm{font-size:13px;color:rgba(237,233,225,.85);font-weight:600;margin-bottom:10px}
-  .trust-cn{font-size:11.5px;color:rgba(237,233,225,.55);line-height:1.85}
-  .trust-note{padding:14px 16px;border-radius:10px;background:rgba(237,233,225,.03);border:1px solid rgba(237,233,225,.06)}
-</style>
-
-<!-- FAQ -->
-<section class="s" id="faq">
-  <div class="w">
-    <p class="lbl r">FAQ</p>
-    <h2 class="r">よくある質問</h2>
-    <div class="r" id="faqList"></div>
-  </div>
-</section>
-
 <!-- NEXT STEPS / CTA -->
 <section class="s cband" id="start">
   <div class="w">
@@ -997,13 +760,6 @@ function renderAll() {
   renderSteps();
   renderDrawings();
   renderMaterials();
-  renderUpgrades();
-  renderFullCost();
-  renderRental();
-  renderCostdowns();
-  renderSupplyGuide();
-  renderFaq();
-  renderSubsidy();
 }
 
 function renderOverview() {
@@ -1061,65 +817,8 @@ function renderCost() {
   // URBAN: 4列の cost-boxes を埋める
   const _sub = p.subsidyMax || 3150000;
   const after = Math.max(0, p.totalMat - _sub);
-  // 全部入り（土地代除く）= 材料費 + 諸費用上限（土地代以外の項目を urban の規模に合わせて）
-  const ALLIN_ADD_BY_AREA = p.area < 50 ? 1500000 : p.area < 100 ? 2500000 : p.area < 150 ? 3500000 : p.area < 200 ? 5000000 : 7000000;
-  const allIn = p.totalMat + ALLIN_ADD_BY_AREA;
-  // 工務店フル依頼 = routes から「工務店」を含むものを抽出
-  const contractorRoute = (p.routes || []).find(r => r.name && r.name.includes('工務店'));
-  const contractorCost = contractorRoute ? contractorRoute.cost : Math.round(p.totalMat * 1.7);
   document.getElementById('costTotal').textContent = fmt(p.totalMat);
-  document.getElementById('costAllIn').textContent = fmt(allIn);
-  document.getElementById('costContractor').textContent = fmt(contractorCost);
   document.getElementById('costAfterSubsidy').textContent = after === 0 ? '実質 ¥0〜' : fmt(after);
-
-  // 3 ROUTES COMPARE (URBAN)
-  const middleCost = Math.round((p.totalMat + contractorCost) * 0.6);
-  const rc3El = document.getElementById('routeCompare3');
-  if (rc3El) {
-    rc3El.innerHTML = `
-      <div class="rc3-card">
-        <div class="rc3-rank">ROUTE ① · DIY参加型</div>
-        <div class="rc3-name">セルフビルド+建築士監修</div>
-        <div class="rc3-target">対象: DIY経験あり / 工期に余裕あり / コスト最優先</div>
-        <div class="rc3-cost" style="color:var(--gold)">${fmt(allIn)}</div>
-        <div class="rc3-cost-s">材料費 + 諸費用込み（土地除く）</div>
-        <ul class="rc3-list">
-          <li>建築確認・基礎・電気は外注</li>
-          <li>内装・断熱・木工は施主参加可</li>
-          <li>工期 ${p.weeks}週間（プロチーム参加時）</li>
-          <li>10年瑕疵保証 (建築士監修分)</li>
-        </ul>
-      </div>
-      <div class="rc3-card rc3-pick">
-        <div class="rc3-pick-badge">RECOMMENDED</div>
-        <div class="rc3-rank">ROUTE ② · ハイブリッド</div>
-        <div class="rc3-name">SOLUNA提携建築会社</div>
-        <div class="rc3-target">対象: 共働き多忙 / 自由設計 / 安心と価格両立</div>
-        <div class="rc3-cost" style="color:rgba(80,200,160,.9)">${fmt(middleCost)}</div>
-        <div class="rc3-cost-s">①+20〜30% / ③より20〜30%安い</div>
-        <ul class="rc3-list">
-          <li>建築士・施工チーム・SOLUNAの3者連携</li>
-          <li>意思決定は週1ミーティングのみ</li>
-          <li>工期 ${Math.round(p.weeks * 0.85)}〜${p.weeks}週間</li>
-          <li>10年瑕疵保証 / 住宅ローン適合証明発行可</li>
-          <li>自治体補助金申請の代行</li>
-        </ul>
-      </div>
-      <div class="rc3-card">
-        <div class="rc3-rank">ROUTE ③ · プロ完全依頼</div>
-        <div class="rc3-name">工務店フルパッケージ</div>
-        <div class="rc3-target">対象: 安心最優先 / 多忙 / 大手と比較検討中</div>
-        <div class="rc3-cost" style="color:#80a0c8">${fmt(contractorCost)}</div>
-        <div class="rc3-cost-s">設計+施工+保証フル / 最も安心</div>
-        <ul class="rc3-list">
-          <li>引き渡しまで完全おまかせ</li>
-          <li>地域の工務店ネットワークから選定支援</li>
-          <li>工期 ${Math.round(p.weeks * 0.7)}〜${Math.round(p.weeks * 0.85)}週間</li>
-          <li>30年メンテナンス契約は工務店との個別契約可</li>
-          <li>住宅ローン審査通りやすい</li>
-        </ul>
-      </div>`;
-  }
   document.getElementById('routeGrid').innerHTML = p.routes.map(r =>
     `<div class="route-card ${r.hi?'rc-hi':''} ${r.gr?'rc-gr':''}">
       <div class="rc-name">${r.name}</div>
@@ -1231,228 +930,6 @@ function renderMaterials() {
 function toggleMat(cat) {
   openMat = openMat === cat ? null : cat;
   renderMaterials();
-}
-
-function renderUpgrades() {
-  const p = currentPlan;
-  const upgrades = window.BUILD_UPGRADES || [];
-  document.getElementById('upgGrid').innerHTML = upgrades.map(u => {
-    const cost = u.costs[p.id] || 0;
-    const sel = selectedUpgrades.has(u.id);
-    return `<div class="upg-card ${sel?'sel':''}" onclick="toggleUpgrade('${u.id}')">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">
-        <div>
-          <span style="font-size:22px;margin-right:8px">${u.icon}</span>
-          <span class="upg-btn" style="background:${u.tagColor}22;color:${u.tagColor};border:1px solid ${u.tagColor}44">${u.tag}</span>
-        </div>
-        <div style="font-size:11px;color:${sel?'#80ffcc':'#666'};font-weight:700;letter-spacing:.05em">${sel?'✓ 選択中':'タップで追加'}</div>
-      </div>
-      <div style="font-size:14px;font-weight:700;color:#e8e8e8;margin-bottom:6px">${u.name}</div>
-      <div style="font-size:11px;color:#aaa;margin-bottom:8px">${u.desc||''}</div>
-      ${u.impact?`<div style="font-size:10px;color:${u.tagColor};font-weight:600;margin-bottom:8px;padding:5px 8px;background:${u.tagColor}10;border-radius:6px">${u.impact}</div>`:''}
-      ${u.pros?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px">${u.pros.map(pr=>`<span style="font-size:9px;color:#999;background:#ffffff0a;border:1px solid #333;border-radius:12px;padding:2px 7px">${pr}</span>`).join('')}</div>`:''}
-      <div class="upg-cost" style="color:${u.tagColor}">+ ${fmt(cost)}</div>
-    </div>`;
-  }).join('');
-  updateUpgradeTotal();
-}
-
-function toggleUpgrade(id) {
-  if (selectedUpgrades.has(id)) selectedUpgrades.delete(id);
-  else selectedUpgrades.add(id);
-  renderUpgrades();
-}
-
-function updateUpgradeTotal() {
-  const p = currentPlan;
-  const upgrades = window.BUILD_UPGRADES || [];
-  const sel = upgrades.filter(u => selectedUpgrades.has(u.id));
-  const bar = document.getElementById('upgTotalBar');
-  if (sel.length === 0) { bar.style.display = 'none'; }
-  else {
-    const upgSum = sel.reduce((s, u) => s + (u.costs[p.id] || 0), 0);
-    document.getElementById('upgDetail').textContent =
-      `${fmt(p.totalMat)} + ${sel.map(u => u.name).join(' + ')} (${fmt(upgSum)})`;
-    document.getElementById('upgTotalVal').textContent = fmt(p.totalMat + upgSum);
-    bar.style.display = 'flex';
-  }
-  updateGrandTotal();
-}
-
-function renderCostdowns() {
-  const p = currentPlan;
-  const cds = window.BUILD_COSTDOWNS || [];
-  document.getElementById('cdnGrid').innerHTML = cds.map(cd => {
-    const saving = cd.savings[p.id] || 0;
-    const sel = selectedCostdowns.has(cd.id);
-    const stars = '★'.repeat(cd.supplyRating) + '☆'.repeat(5 - cd.supplyRating);
-    return `<div class="cdn-card ${sel ? 'sel' : ''}" onclick="toggleCostdown('${cd.id}')">
-      <div class="cdn-top">
-        <span style="font-size:24px;line-height:1">${cd.icon}</span>
-        <div style="flex:1">
-          <div class="cdn-name">${cd.name}</div>
-          <span class="cdn-tag" style="background:${cd.tagColor}22;color:${cd.tagColor};border:1px solid ${cd.tagColor}44">${cd.tag}</span>
-        </div>
-        <div class="cdn-sel" style="color:${sel ? '#80ffcc' : '#555'}">${sel ? '✓ 適用中' : '+ 適用'}</div>
-      </div>
-      <div class="cdn-desc">${cd.desc}</div>
-      <div class="cdn-impact" style="background:${cd.tagColor}12;border:1px solid ${cd.tagColor}30;color:${cd.tagColor}">${cd.impact}</div>
-      <div class="cdn-supply"><span class="cdn-supply-stars">${stars}</span><span>${cd.supplyNote}</span></div>
-      <div class="cdn-pros">${cd.pros.map(pr => `<span class="cdn-pro">${pr}</span>`).join('')}</div>
-      <div class="cdn-saving ${cd.isDeferred ? 'deferred' : ''}">▲ ${fmt(saving)}${cd.isDeferred ? ' (初期費用)' : ' 削減'}</div>
-    </div>`;
-  }).join('');
-  updateGrandTotal();
-}
-
-function toggleCostdown(id) {
-  if (selectedCostdowns.has(id)) selectedCostdowns.delete(id);
-  else selectedCostdowns.add(id);
-  renderCostdowns();
-}
-
-function updateGrandTotal() {
-  const p = currentPlan;
-  const cds = window.BUILD_COSTDOWNS || [];
-  const ups = window.BUILD_UPGRADES || [];
-  const selCd = cds.filter(c => selectedCostdowns.has(c.id));
-  const selUp = ups.filter(u => selectedUpgrades.has(u.id));
-  const cdSum = selCd.reduce((s, c) => s + (c.savings[p.id] || 0), 0);
-  const upSum = selUp.reduce((s, u) => s + (u.costs[p.id] || 0), 0);
-  const bar = document.getElementById('grandTotalBar');
-  if (selCd.length === 0 && selUp.length === 0) { bar.style.display = 'none'; return; }
-  const net = p.totalMat - cdSum + upSum;
-  let detail = `ベース ${fmt(p.totalMat)}`;
-  if (cdSum > 0) detail += ` − コストダウン ${fmt(cdSum)}`;
-  if (upSum > 0) detail += ` + アップグレード ${fmt(upSum)}`;
-  document.getElementById('gtDetail').textContent = detail;
-  const savEl = document.getElementById('gtSaving');
-  if (cdSum > 0) { savEl.textContent = `▲ ${fmt(cdSum)} 削減`; savEl.style.display = ''; }
-  else savEl.style.display = 'none';
-  document.getElementById('gtTotal').textContent = fmt(net);
-  bar.style.display = 'flex';
-}
-
-function renderSupplyGuide() {
-  const guide = window.SUPPLY_GUIDE || [];
-  document.getElementById('sgList').innerHTML = guide.map((g, gi) => {
-    const isOpen = openSgCat === gi;
-    return `<div class="sg-cat ${isOpen ? 'open' : ''}" id="sgCat${gi}">
-      <div class="sg-cat-head" onclick="toggleSgCat(${gi})">
-        <span class="sg-cat-em">${g.emoji}</span>
-        <div style="flex:1">
-          <div class="sg-cat-nm">${g.cat}</div>
-          <div class="sg-cat-note">${g.note}</div>
-        </div>
-        <span class="sg-cat-chev">▼</span>
-      </div>
-      <div class="sg-suppliers">
-        ${g.suppliers.map(s => `<div class="sg-row">
-          <div class="sg-nm">${s.name}</div>
-          <div class="sg-lead">${s.lead}</div>
-          <div class="sg-nt">${s.note}</div>
-          ${s.url ? `<a class="sg-link" href="${s.url}" target="_blank" onclick="event.stopPropagation()">開く →</a>` : '<span></span>'}
-        </div>`).join('')}
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function toggleSgCat(i) {
-  openSgCat = openSgCat === i ? null : i;
-  renderSupplyGuide();
-}
-
-function selectRental(n) {
-  rentalNights = n;
-  document.querySelectorAll('.rt-tab').forEach(t => {
-    const v = parseInt(t.getAttribute('onclick').match(/\d+/)[0]);
-    t.classList.toggle('active', v === n);
-  });
-  renderRental();
-}
-
-function renderRental() {
-  const p = currentPlan;
-  const nightly = p.rentPerNight || 0;
-  const annual = nightly * rentalNights;
-  const monthly = Math.round(annual / 12);
-  const payback = annual > 0 ? (p.totalMat / annual) : 0;
-  const paybackStr = payback > 0 ? (payback >= 10 ? '10年以上' : payback.toFixed(1) + '年') : '—';
-  const subsidyNet = Math.max(0, p.totalMat - (p.subsidyMax || 3150000));
-  const paybackSubsidy = annual > 0 && subsidyNet > 0 ? (subsidyNet / annual).toFixed(1) + '年' : annual > 0 ? '即回収' : '—';
-  document.getElementById('rentalResult').innerHTML = `
-    <div class="rr-card">
-      <div class="rr-val">${fmtM(annual)}</div>
-      <div class="rr-lbl">年間想定収入</div>
-    </div>
-    <div class="rr-card">
-      <div class="rr-val">${fmtM(monthly)}<span style="font-size:12px;font-weight:400">/月</span></div>
-      <div class="rr-lbl">月間想定収入（${rentalNights}泊÷12）</div>
-    </div>
-    <div class="rr-card accent">
-      <div class="rr-val">${paybackStr}</div>
-      <div class="rr-lbl">材料費回収期間 / 補助後: ${paybackSubsidy}</div>
-    </div>`;
-}
-
-function renderFullCost() {
-  const p = currentPlan;
-  const land = {mini:'¥30〜150万', standard:'¥50〜200万', large:'¥80〜300万', xl:'¥100〜500万', villa:'¥150〜600万', grand:'¥200〜1,000万'};
-  const tools = {mini:'¥20〜50万', standard:'¥30〜70万', large:'¥40〜80万', xl:'¥50〜100万', villa:'¥60〜100万', grand:'¥80〜120万'};
-  const misc = {mini:'¥15〜25万', standard:'¥20〜35万', large:'¥25〜45万', xl:'¥30〜60万', villa:'¥40〜80万', grand:'¥60〜120万'};
-  const matStr = fmtM(p.totalMat);
-  document.getElementById('fullCostBody').innerHTML = `
-    <div class="fcn-row"><span class="fcn-lbl">建材費（本ページの試算）</span><span class="fcn-val">${matStr}</span></div>
-    <div class="fcn-row"><span class="fcn-lbl">土地代（農地・山林）</span><span class="fcn-val">${land[p.id] || '¥50〜300万'}</span></div>
-    <div class="fcn-row"><span class="fcn-lbl">工具セット（丸ノコ・ドリル等）</span><span class="fcn-val">${tools[p.id] || '¥30〜80万'} ※レンタル可</span></div>
-    <div class="fcn-row"><span class="fcn-lbl">基礎工事（スクリュー杭等）</span><span class="fcn-val">¥10〜60万</span></div>
-    <div class="fcn-row"><span class="fcn-lbl">諸費用（登記・保険・申請等）</span><span class="fcn-val">${misc[p.id] || '¥20〜50万'}</span></div>
-    <div class="fcn-row total"><span class="fcn-lbl">概算合計（建材費込み）</span><span class="fcn-val">建材費 + ¥100〜450万前後</span></div>
-    <div style="font-size:9.5px;color:#555;margin-top:8px;line-height:1.7">※土地代は地域・形態により大きく変動。農地転用が必要な場合は別途申請費用がかかります。工具は仲間と共同購入・レンタルで節約可能。</div>`;
-}
-
-const FAQS = [
-  {q:"建築確認申請は必要ですか？",
-   a:"<strong style='color:#e0e0e0'>都市の建物は原則すべて必要</strong>です。SOLUNA URBAN 全プラン（25m²以上）は建築確認申請を前提に設計しています。準防火地域はSIPs+ALC耐火被覆、防火地域は木造耐火認定構造で対応。建築士による設計・申請が必要です（料金はプラン材料費に含まれています）。"},
-  {q:"都市部でセルフビルドは現実的ですか？",
-   a:"全プラン<strong style='color:#e0e0e0'>「セルフビルド+建築士監修+部分外注」が標準ルート</strong>です。基礎・棟上げ・電気・ガス・防火被覆など法令で資格が必要な工程は専門業者に外注し、内装・断熱・気密・木工は施主が参加する形。完全DIYは都市部では現実的でないため推奨していません。工期は専門チームを雇った場合の数字です。"},
-  {q:"土地代は含まれていますか？実際の総費用は？",
-   a:"ページの費用は<strong style='color:#e0e0e0'>建材費+設計料+工事費（建物のみ）</strong>です。土地代は地域により大きく異なります：都市部狭小地¥800〜3,000万、郊外住宅地¥500〜1,500万、地方都市駅近¥300〜800万。土地+建物の合計で住宅ローン+補助金で組むのが基本パターンです。"},
-  {q:"補助金は確実にもらえますか？",
-   a:"こどもエコホーム支援（最大¥160万・子育て世帯）とZEH支援（¥55〜100万）は<strong style='color:#e0e0e0'>2026年度継続中</strong>。自治体の移住補助・三世代同居補助・賃貸住宅補助は地域により異なるため、土地が決まった段階で<strong style='color:#e0e0e0'>市区町村の住宅課・建築指導課で最新情報を必ず確認</strong>してください。"},
-  {q:"準防火地域・防火地域でも建てられますか？",
-   a:"はい。POD/STACK/FLAT/DUO/ROOTS/YIELDは<strong style='color:#e0e0e0'>SIPs+ALC30mm耐火被覆</strong>で準防火地域30分耐火認定に対応。TOWERは防火地域の<strong style='color:#e0e0e0'>木造耐火認定構造（1時間耐火）</strong>に対応。東京23区・横浜・大阪・名古屋・福岡など都心部での建設実績があります。"},
-  {q:"SOLUNAはどんなサポートをしてくれますか？",
-   a:"①プラン選定の相談（土地・予算・家族構成から最適提案）②建築士・施工チームの紹介③補助金申請の同行④施主参加可能な工程の見極め（コスト圧縮）⑤完成後の賃貸・民泊運用支援（TOWER/YIELD向け）。<strong style='color:#e0e0e0'>「設計者と施主と施工者の3者を繋ぐ」がSOLUNAのスタイル</strong>です。"},
-  {q:"賃貸・賃貸併用で収益化できますか？",
-   a:"<strong style='color:#e0e0e0'>YIELD（1K×6戸投資物件）</strong>は表面利回り6.6%、<strong style='color:#e0e0e0'>TOWER（3階建て賃貸併用）</strong>は1Kサブユニット¥10万/月+主棟¥35万/月の収益が想定。<strong style='color:#e0e0e0'>DUO（二世帯）</strong>は親世帯空室時に¥30万/月で賃貸化可能。家賃は地域・駅距離・築年数で大きく変動するため、エリアの相場を確認してください。"},
-];
-
-function renderFaq() {
-  document.getElementById('faqList').innerHTML = FAQS.map((f, i) => `
-    <div class="faq-item" id="faq${i}">
-      <div class="faq-q" onclick="toggleFaq(${i})">${f.q}<span class="faq-chev">▼</span></div>
-      <div class="faq-a">${f.a}</div>
-    </div>`).join('');
-}
-
-function toggleFaq(i) {
-  document.getElementById('faq' + i).classList.toggle('open');
-}
-
-function renderSubsidy() {
-  const p = currentPlan;
-  // URBAN: プラン別 subsidyMax を実値で使用
-  const sub = p.subsidyMax || 3150000;
-  const after = Math.max(0, p.totalMat - sub);
-  document.getElementById('subResult').innerHTML = `
-    <div>
-      <div class="sr-l">${p.name}プランで使える補助金（都市部・標準的な組合せ）</div>
-      <div class="sr-s">こどもエコ¥160万 + ZEH¥55万 + 自治体補助¥100万 ＝ <strong style="color:rgba(80,200,160,.9)">合計 ${fmtM(sub)}</strong>（プラン別最大値）<br>
-      ${p.name}プラン材料費 ${fmtM(p.totalMat)} − 補助 ${fmtM(sub)} ＝ 実質 <strong style="color:rgba(80,200,160,.9)">${after===0?'¥0（+'+fmtM(sub-p.totalMat)+'収入）':fmtM(after)}</strong></div>
-    </div>
-    <div class="sr-v">${after===0?'¥0':fmtM(after)}</div>`;
 }
 
 // ── INIT ───────────────────────────────────────────────────────────────
