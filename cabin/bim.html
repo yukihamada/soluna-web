@@ -140,7 +140,10 @@
   <label><input type="checkbox" data-layer="roof" checked> 屋根</label>
   <label><input type="checkbox" data-layer="solar" checked> 太陽光</label>
   <label><input type="checkbox" data-layer="deck" checked> デッキ</label>
+  <label><input type="checkbox" data-layer="equipment" checked> 設備（雨水/換気/煙突等）</label>
+  <label><input type="checkbox" data-layer="scale" checked> 人物スケール</label>
   <label><input type="checkbox" data-layer="dims"> 寸法線</label>
+  <label style="margin-top:6px;border-top:1px dashed #c8c2b6;padding-top:6px"><input type="checkbox" id="xrayToggle"> X線モード（壁透視）</label>
 </div>
 
 <div class="panel" id="views">
@@ -214,6 +217,7 @@ for (const btn of document.querySelectorAll('#plans .plan-grid button')) {
 for (const cb of document.querySelectorAll('[data-layer]')) {
   cb.addEventListener('change', () => viewer.setLayer(cb.dataset.layer, cb.checked));
 }
+document.getElementById('xrayToggle').addEventListener('change', e => viewer.setXray(e.target.checked));
 for (const b of document.querySelectorAll('#views button')) {
   b.addEventListener('click', () => {
     document.querySelectorAll('#views button').forEach(x => x.classList.remove('active'));

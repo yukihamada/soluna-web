@@ -1,9 +1,10 @@
 // SOLUNA BIM Viewer — Three.js 0.160 (ES module)
 // Parametric model builder for 16 plans. Loaded by /bim.html
-// Layers: foundation / structure / sips / roof / openings / solar / deck / dims
+// Layers: foundation / structure / sips / roof / openings / solar / deck / dims / scale
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 
 export const PLANS = {
   mini:     {W: 3640,  D: 2730,  H: 2400, stories: 1, roofType: 'gable', roofPitch: 0.20, openings: {south: {w: 1500, h: 1170}, solar: 2}, name: 'MEBUKI', label: '9.9m²', tag: '建築確認不要'},
@@ -24,334 +25,501 @@ export const PLANS = {
   roots:    {W: 9000,  D: 7000,  H: 3000, stories: 1, roofType: 'gable', roofPitch: 0.20, openings: {south: {w: 4500, h: 2200}, solar: 10}, name: 'ROOTS', label: '60m²', tag: '終の住処'},
 };
 
-// Scale: 1 unit = 1 mm. Camera distances are large; we'll scale geometry to meters (÷1000) for sanity.
-const MM = 0.001; // mm → m
+const MM = 0.001;            // mm → m
+const FL_OFFSET = 0.40;      // GL→FL段差 400mm (北海道凍結深度対応)
+const EAVE_OUT  = 0.45;      // 軒の出 450mm
+const PANEL_W   = 0.910;     // SIPs 910mm モジュール
+const SASH_T    = 0.045;     // サッシ枠 45mm
 
 const COLORS = {
-  bg:        0xf2f0eb,           // architectural drawing background
-  ground:    0xe8e4d8,
-  foundation:0x6e6862,
-  steel:     0x1a1a1a,           // black galvanized
-  cedar:     0xa9824f,           // cedar plank
+  bg:        0xeeece6,
+  ground:    0xd8d2c2,
+  groundSnow:0xe8e6dc,
+  foundation:0x6a625a,
+  steel:     0x1c1c1c,        // 黒ガルバ
+  steelDark: 0x141414,
+  cedar:     0xa9824f,
+  cedarLite: 0xc09865,
   glass:     0x9bd5e8,
   glassEdge: 0x507a85,
-  solar:     0x1c2a4a,
-  solarFrame:0x5a6680,
+  sash:      0x2a2a2a,        // アルミサッシ
+  solar:     0x142036,
+  solarFr:   0x6a7588,
   deck:      0x8a6a3e,
   sauna:     0x6b4220,
   line:      0x222222,
   dim:       0x506068,
   skylight:  0xf6e6c0,
+  human:     0x3a3a3a,
 };
 
 const MATS = {};
-
 function buildMaterials() {
   MATS.foundation = new THREE.MeshStandardMaterial({color: COLORS.foundation, roughness: 0.95, metalness: 0});
-  MATS.steel      = new THREE.MeshStandardMaterial({color: COLORS.steel,      roughness: 0.55, metalness: 0.4});
+  MATS.steel      = new THREE.MeshStandardMaterial({color: COLORS.steel,      roughness: 0.45, metalness: 0.45});
+  MATS.steelDark  = new THREE.MeshStandardMaterial({color: COLORS.steelDark,  roughness: 0.4,  metalness: 0.5});
   MATS.cedar      = new THREE.MeshStandardMaterial({color: COLORS.cedar,      roughness: 0.85, metalness: 0});
-  MATS.glass      = new THREE.MeshPhysicalMaterial({color: COLORS.glass, roughness: 0.05, metalness: 0, transmission: 0.85, transparent: true, opacity: 0.55, ior: 1.45, thickness: 0.02});
-  MATS.solar      = new THREE.MeshStandardMaterial({color: COLORS.solar, roughness: 0.25, metalness: 0.6});
-  MATS.solarFrame = new THREE.MeshStandardMaterial({color: COLORS.solarFrame, roughness: 0.6, metalness: 0.5});
-  MATS.deck       = new THREE.MeshStandardMaterial({color: COLORS.deck, roughness: 0.95, metalness: 0});
+  MATS.cedarLite  = new THREE.MeshStandardMaterial({color: COLORS.cedarLite,  roughness: 0.85, metalness: 0});
+  MATS.glass      = new THREE.MeshPhysicalMaterial({color: COLORS.glass, roughness: 0.05, metalness: 0, transmission: 0.85, transparent: true, opacity: 0.5, ior: 1.45, thickness: 0.02});
+  MATS.sash       = new THREE.MeshStandardMaterial({color: COLORS.sash, roughness: 0.5, metalness: 0.55});
+  MATS.solar      = new THREE.MeshStandardMaterial({color: COLORS.solar, roughness: 0.18, metalness: 0.7});
+  MATS.solarFr    = new THREE.MeshStandardMaterial({color: COLORS.solarFr, roughness: 0.55, metalness: 0.5});
+  MATS.deck       = new THREE.MeshStandardMaterial({color: COLORS.deck, roughness: 0.9, metalness: 0});
   MATS.sauna      = new THREE.MeshStandardMaterial({color: COLORS.sauna, roughness: 0.85, metalness: 0});
   MATS.skylight   = new THREE.MeshPhysicalMaterial({color: COLORS.skylight, roughness: 0.1, metalness: 0, transmission: 0.7, transparent: true, opacity: 0.5});
-  MATS.lineDark   = new THREE.LineBasicMaterial({color: COLORS.line});
-  MATS.lineDim    = new THREE.LineBasicMaterial({color: COLORS.dim});
+  MATS.human      = new THREE.MeshStandardMaterial({color: COLORS.human, roughness: 0.9, metalness: 0});
 }
 
-function edge(mesh, color) {
+function box(w, h, d, mat) { return new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); }
+function group(name) { const g = new THREE.Group(); g.name = name; return g; }
+
+function edge(mesh, color, opacity = 0.85) {
   const e = new THREE.EdgesGeometry(mesh.geometry, 18);
-  const lines = new THREE.LineSegments(e, new THREE.LineBasicMaterial({color: color ?? COLORS.line, transparent: true, opacity: 0.85}));
+  const lines = new THREE.LineSegments(e, new THREE.LineBasicMaterial({color: color ?? COLORS.line, transparent: true, opacity}));
   lines.position.copy(mesh.position);
   lines.rotation.copy(mesh.rotation);
   lines.scale.copy(mesh.scale);
   return lines;
 }
 
-function box(w, h, d, mat) {
-  const g = new THREE.BoxGeometry(w, h, d);
-  return new THREE.Mesh(g, mat);
+// thin black line as a separate mesh (for panel joints, sash divisions, etc.)
+function lineSegment(start, end, color = 0x000000, opacity = 0.6) {
+  const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...start), new THREE.Vector3(...end)]);
+  return new THREE.Line(g, new THREE.LineBasicMaterial({color, transparent: true, opacity}));
 }
 
-function group(name) {
-  const g = new THREE.Group();
-  g.name = name;
-  return g;
-}
-
-// ========= Geometry builders =========
+// ========= Foundation (布基礎風 + 凍結深度 + GL→FL段差) =========
 function buildFoundation(plan) {
   const g = group('foundation');
   const W = plan.W * MM, D = plan.D * MM;
-  const slab = box(W + 0.4, 0.4, D + 0.4, MATS.foundation);
-  slab.position.y = -0.2;
+  const stripT = 0.18;     // 布基礎厚 180mm
+  const stripH = FL_OFFSET + 0.20;   // 立ち上がり全体 GL+150mm を表現
+  const slabH  = 0.12;
+  const baseY  = plan.pilotis ? 2.4 + FL_OFFSET : FL_OFFSET;
+
+  // ベタ基礎スラブ (foundation slab)
+  const slab = box(W + 0.10, slabH, D + 0.10, MATS.foundation);
+  slab.position.y = -slabH / 2;
   g.add(slab);
-  g.add(edge(slab, COLORS.line));
-  // Stem walls (visible thicker base)
+
+  // 立ち上がり (stem walls / 布基礎 perimeter)
+  const stems = [
+    {w: W + stripT*2, d: stripT, x: 0, z:  D/2 + stripT/2},
+    {w: W + stripT*2, d: stripT, x: 0, z: -D/2 - stripT/2},
+    {w: stripT, d: D + stripT*2, x:  W/2 + stripT/2, z: 0},
+    {w: stripT, d: D + stripT*2, x: -W/2 - stripT/2, z: 0},
+  ];
+  for (const s of stems) {
+    const m = box(s.w, stripH, s.d, MATS.foundation);
+    m.position.set(s.x, stripH/2 - 0.10, s.z);
+    g.add(m);
+  }
+
+  // Pilotis: 4 cedar columns lifting the building (TOWER)
   if (plan.pilotis) {
-    // 4 cedar columns lifting the building
-    const colH = 2.4, colW = 0.3;
+    const colH = 2.4, colW = 0.35;
+    const inset = 0.6;
     const positions = [
-      [-W/2 + colW/2, colH/2 - 0.0, -D/2 + colW/2],
-      [ W/2 - colW/2, colH/2 - 0.0, -D/2 + colW/2],
-      [-W/2 + colW/2, colH/2 - 0.0,  D/2 - colW/2],
-      [ W/2 - colW/2, colH/2 - 0.0,  D/2 - colW/2],
+      [-W/2 + inset, FL_OFFSET + colH/2, -D/2 + inset],
+      [ W/2 - inset, FL_OFFSET + colH/2, -D/2 + inset],
+      [-W/2 + inset, FL_OFFSET + colH/2,  D/2 - inset],
+      [ W/2 - inset, FL_OFFSET + colH/2,  D/2 - inset],
     ];
     for (const [x, y, z] of positions) {
-      const c = box(colW, colH, colW, MATS.steel);
+      const c = box(colW, colH, colW, MATS.steelDark);
       c.position.set(x, y, z);
       g.add(c);
       g.add(edge(c));
     }
   }
+
+  // Steps up to entry (south side)
+  if (!plan.pilotis && !plan.dome) {
+    const stepW = Math.min(W * 0.25, 1.6);
+    const tread = 0.30;
+    const nSteps = Math.max(1, Math.ceil(FL_OFFSET / 0.20));
+    for (let i = 0; i < nSteps; i++) {
+      const s = box(stepW, FL_OFFSET / nSteps, tread, MATS.foundation);
+      s.position.set(0, (i + 0.5) * (FL_OFFSET / nSteps) - 0.10, D/2 + tread * (nSteps - i - 0.5));
+      g.add(s);
+    }
+  }
+
   return g;
 }
 
+// ========= Structure (柱・床スラブ・梁・ロフト) =========
 function buildStructure(plan) {
   const g = group('structure');
+  if (plan.dome) return g;
   const W = plan.W * MM, D = plan.D * MM;
   const storyH = (plan.H || 3000) * MM;
   const stories = plan.stories || 1;
-  const baseY = plan.pilotis ? 2.4 : 0;
+  const baseY = plan.pilotis ? 2.4 + FL_OFFSET : FL_OFFSET;
 
-  // Floor slabs per story (cedar look)
+  // 床スラブ per story (cedar) — 構造合板24mm + フローリング表現
   for (let s = 0; s < stories; s++) {
-    const slab = box(W - 0.05, 0.18, D - 0.05, MATS.cedar);
+    const slab = box(W - 0.06, 0.18, D - 0.06, MATS.cedar);
     slab.position.set(0, baseY + s * storyH + 0.09, 0);
     g.add(slab);
-    g.add(edge(slab));
   }
-  // Top floor / ceiling slab (only show as thin band on flat roof)
+  // Top slab/ceiling for flat roof or upper terrace
   if (plan.roofType === 'flat' || plan.rooftopTerrace) {
-    const top = box(W - 0.05, 0.20, D - 0.05, MATS.cedar);
+    const top = box(W - 0.06, 0.20, D - 0.06, MATS.cedar);
     top.position.set(0, baseY + stories * storyH + 0.10, 0);
     g.add(top);
-    g.add(edge(top));
+  }
+
+  // 露し梁 KD杉 105×180mm — 平屋＆ガブル屋根のみ、桁行方向に等間隔配置
+  if (plan.roofType === 'gable' && stories === 1) {
+    const beamN = Math.max(2, Math.ceil(W / 1.82));      // 1820mmピッチ
+    const beamW = 0.105, beamH = 0.18;
+    const beamY = baseY + storyH - beamH/2 - 0.05;
+    for (let i = 0; i < beamN; i++) {
+      const x = -W/2 + 0.4 + i * ((W - 0.8) / Math.max(1, beamN - 1));
+      const beam = box(beamW, beamH, D - 0.4, MATS.cedarLite);
+      beam.position.set(x, beamY, 0);
+      g.add(beam);
+    }
+  }
+
+  // ロフト床（屋根裏） — MEBUKI/SU/AN/MUNE のような小〜中規模平屋に追加
+  if (plan.roofType === 'gable' && stories === 1 && (plan.H || 3000) <= 3500) {
+    const pitch = plan.roofPitch || 0.25;
+    const ridgeH = (D/2 + EAVE_OUT) * pitch;
+    const loftAreaHmin = 1.4;        // ロフト床上の最低空間
+    if (ridgeH > loftAreaHmin) {
+      // ロフト床面積：屋根勾配で天井1.4m以上を確保できる範囲
+      const loftDepthRatio = Math.max(0, (ridgeH - loftAreaHmin) / ridgeH);
+      const loftD = D * 0.55 * loftDepthRatio;
+      if (loftD > 1.5) {
+        const loftFloor = box(W - 0.4, 0.10, loftD, MATS.cedarLite);
+        const loftY = baseY + storyH - 0.05 + 0.05;
+        loftFloor.position.set(0, loftY + 0.05, 0);
+        g.add(loftFloor);
+        g.add(edge(loftFloor, COLORS.line, 0.6));
+
+        // ロフト梯子 (cedar ladder, 7段)
+        const ladderH = storyH;
+        const stepCnt = 7;
+        const ladW = 0.45;
+        const sideR = box(0.04, ladderH, 0.04, MATS.cedarLite);
+        sideR.position.set(-W/2 + 0.5, baseY + ladderH/2, -loftD/2 + 0.05);
+        g.add(sideR);
+        const sideR2 = sideR.clone();
+        sideR2.position.x += ladW;
+        g.add(sideR2);
+        for (let i = 0; i < stepCnt; i++) {
+          const step = box(ladW + 0.04, 0.025, 0.06, MATS.cedarLite);
+          step.position.set(-W/2 + 0.5 + ladW/2, baseY + 0.15 + i * (ladderH - 0.3) / (stepCnt - 1), -loftD/2 + 0.05);
+          g.add(step);
+        }
+      }
+    }
   }
   return g;
 }
 
+// ========= SIPs envelope (壁＋目地 910mm) =========
 function buildSIPs(plan) {
   const g = group('sips');
-  // Dome plans: the dome IS the envelope. Skip wall construction.
   if (plan.dome) return g;
   const W = plan.W * MM, D = plan.D * MM;
   const storyH = (plan.H || 3000) * MM;
   const stories = plan.stories || 1;
   const totalH = storyH * stories;
-  const baseY = plan.pilotis ? 2.4 : 0;
-  const t = 0.16; // SIPs panel thickness 160mm
+  const baseY = plan.pilotis ? 2.4 + FL_OFFSET : FL_OFFSET;
+  const t = 0.16;
 
-  // 4 walls — black galvanized cladding (we model the panel as simple boxes)
-  // South wall (front, +Z direction). Has main opening.
-  const south = openingWall({W: W, H: totalH, depth: t, opening: plan.openings?.south, units: plan.openings?.units});
+  // South wall (+Z) — main opening
+  const south = wallWithOpenings({W, H: totalH, t, opening: plan.openings?.south, units: plan.openings?.units, side: false});
   south.position.set(0, baseY + totalH/2, D/2 - t/2);
   g.add(south);
 
-  // North wall (back) — solid
-  const north = box(W, totalH, t, MATS.steel);
+  // North wall (solid)
+  const north = solidWall(W, totalH, t);
   north.position.set(0, baseY + totalH/2, -D/2 + t/2);
   g.add(north);
-  g.add(edge(north));
 
-  // East / West walls — show small windows
-  const sideOpening = {w: Math.min(0.9, D * 0.08), h: 1.2};
-  const east = openingWall({W: D, H: totalH, depth: t, opening: sideOpening, count: stories, side: true});
+  // East/West (+X / -X) — small windows per story
+  const sideOp = {w: 0.9, h: 1.2};
+  const east = wallWithOpenings({W: D, H: totalH, t, opening: sideOp, side: true, count: stories});
   east.rotation.y = Math.PI / 2;
   east.position.set(W/2 - t/2, baseY + totalH/2, 0);
   g.add(east);
 
-  const west = openingWall({W: D, H: totalH, depth: t, opening: sideOpening, count: stories, side: true});
+  const west = wallWithOpenings({W: D, H: totalH, t, opening: sideOp, side: true, count: stories});
   west.rotation.y = -Math.PI / 2;
   west.position.set(-W/2 + t/2, baseY + totalH/2, 0);
   g.add(west);
 
-  // Inter-floor ribbon (dark band) at story breaks
+  // Inter-floor band (showing slab edge)
   for (let s = 1; s < stories; s++) {
-    const band = box(W + 0.02, 0.06, D + 0.02, MATS.steel);
+    const band = box(W + 0.04, 0.08, D + 0.04, MATS.steelDark);
     band.position.set(0, baseY + s * storyH, 0);
-    band.userData.layer = 'sips';
     g.add(band);
   }
 
   return g;
 }
 
-// Wall with one or more openings (south facade big glass, side windows, or rental units)
-function openingWall({W, H, depth, opening, count, units, side}) {
+function solidWall(W, H, t) {
   const g = new THREE.Group();
-  g.name = 'wall';
+  const m = box(W, H, t, MATS.steel);
+  g.add(m);
+  // 910mmモジュール目地
+  const cols = Math.max(1, Math.round(W / PANEL_W));
+  for (let c = 1; c < cols; c++) {
+    const x = -W/2 + c * (W / cols);
+    g.add(lineSegment([x, -H/2, t/2 + 0.001], [x, H/2, t/2 + 0.001], 0x000, 0.35));
+  }
+  // Horizontal joint at mid-height for 1820 stack (if H > 2.0)
+  if (H > 2.0) {
+    g.add(lineSegment([-W/2, -H/2 + 1.82, t/2 + 0.001], [W/2, -H/2 + 1.82, t/2 + 0.001], 0x000, 0.35));
+  }
+  return g;
+}
 
-  // If this is the YIELD-style multi-unit wall, draw a grid of small windows
+function sashFrame(w, h, depth) {
+  // L-shaped frame: 4 thin bars around opening
+  const f = new THREE.Group();
+  const top = box(w + SASH_T*2, SASH_T, depth + 0.01, MATS.sash);
+  top.position.set(0, h/2 + SASH_T/2, 0); f.add(top);
+  const bot = top.clone(); bot.position.y = -h/2 - SASH_T/2; f.add(bot);
+  const left = box(SASH_T, h, depth + 0.01, MATS.sash);
+  left.position.set(-w/2 - SASH_T/2, 0, 0); f.add(left);
+  const right = left.clone(); right.position.x = w/2 + SASH_T/2; f.add(right);
+  // Mullion (vertical divide for big openings)
+  if (w > 2.5) {
+    const mul = box(SASH_T * 0.6, h, depth + 0.01, MATS.sash);
+    mul.position.set(0, 0, 0); f.add(mul);
+  }
+  return f;
+}
+
+function wallWithOpenings({W, H, t, opening, count, units, side}) {
+  const g = new THREE.Group();
+
+  // Multi-unit (YIELD)
   if (units && units > 0) {
-    // Solid wall first
-    const solid = box(W, H, depth, MATS.steel);
+    const solid = solidWall(W, H, t);
     g.add(solid);
-    g.add(edge(solid));
-    const cols = 3;       // 1K×6戸 = 3 columns × 2 stories
-    const rows = Math.ceil(units / cols);
+    const cols = 3, rows = Math.ceil(units / cols);
     const winW = 1.5, winH = 1.6;
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         const x = -W/2 + (c + 0.5) * (W / cols);
         const y = -H/2 + (r + 0.5) * (H / rows);
-        const win = box(winW, winH, depth + 0.01, MATS.glass);
+        const sub = group('opening');
+        const win = box(winW, winH, t + 0.005, MATS.glass);
         win.position.set(x, y, 0);
-        g.add(win);
-        g.add(edge(win, COLORS.glassEdge));
+        sub.add(win);
+        const fr = sashFrame(winW, winH, t);
+        fr.position.set(x, y, t/2);
+        sub.add(fr);
+        // Door (each unit)
+        const doorW = 0.85, doorH = 2.0;
+        const dx = -W/2 + (c + 0.5) * (W / cols);
+        const dy = -H/2 + (r + 0.5) * (H / rows) - winH/2 - 0.5 - doorH/2 + 0.4;
+        // Skip doors if too crowded
+        g.add(sub);
       }
     }
     return g;
   }
 
-  // Simple wall + single (or per-story repeated) opening
-  const op = opening || {w: 1.5, h: 1.5};
-  const opW = (op.w || 1500) > 100 ? (op.w * MM) : op.w; // accept mm or m
-  const opH = (op.h || 1200) > 100 ? (op.h * MM) : op.h;
-  const cnt = side ? (count || 1) : 1;
+  // Solid wall background
+  g.add(solidWall(W, H, t));
 
-  const solid = box(W, H, depth, MATS.steel);
-  g.add(solid);
-  g.add(edge(solid));
+  const op = opening || {w: 1.5, h: 1.5};
+  const opW = op.w > 100 ? op.w * MM : op.w;
+  const opH = op.h > 100 ? op.h * MM : op.h;
 
   if (side) {
-    // small window per story, centered
+    // small windows per story
+    const cnt = count || 1;
     const storyH = H / cnt;
     for (let s = 0; s < cnt; s++) {
       const yc = -H/2 + (s + 0.5) * storyH;
-      const win = box(opW, opH, depth + 0.01, MATS.glass);
-      win.position.set(0, yc - storyH * 0.05, 0);
-      g.add(win);
-      g.add(edge(win, COLORS.glassEdge));
+      const win = box(opW, opH, t + 0.005, MATS.glass);
+      win.position.set(0, yc, 0); g.add(win);
+      const fr = sashFrame(opW, opH, t);
+      fr.position.set(0, yc, t/2); g.add(fr);
     }
   } else {
-    // Big south opening on ground floor + thin ribbon on upper floors
-    const winY = -H/2 + opH/2 + 0.4;   // sill 400mm
-    const win = box(opW, opH, depth + 0.01, MATS.glass);
-    win.position.set(0, winY, 0);
-    g.add(win);
-    g.add(edge(win, COLORS.glassEdge));
-    if (H > opH * 1.5) {
-      const ribbon = box(opW, 0.9, depth + 0.01, MATS.glass);
-      ribbon.position.set(0, winY + opH/2 + 1.6, 0);
-      g.add(ribbon);
-      g.add(edge(ribbon, COLORS.glassEdge));
+    // Big south opening on ground floor — sill 400mm above FL
+    const sill = -H/2 + 0.40 + opH/2;
+    const win = box(opW, opH, t + 0.005, MATS.glass);
+    win.position.set(0, sill, 0); g.add(win);
+    const fr = sashFrame(opW, opH, t);
+    fr.position.set(0, sill, t/2); g.add(fr);
+
+    // Cedar entry door (offset to left of glass)
+    const doorW = 0.90, doorH = 2.05;
+    const dx = -opW/2 - doorW/2 - 0.30;
+    if (dx - doorW/2 > -W/2 + 0.30) {
+      const dy = -H/2 + doorH/2;
+      const door = box(doorW, doorH, t + 0.01, MATS.cedar);
+      door.position.set(dx, dy, 0); g.add(door);
+      const dframe = sashFrame(doorW, doorH, t);
+      dframe.position.set(dx, dy, t/2); g.add(dframe);
+    }
+
+    // Upper story ribbon window if multi-story
+    if (H > opH * 1.5 + 1.0) {
+      const ribH = 0.9;
+      const ribY = sill + opH/2 + 1.4 + ribH/2;
+      if (ribY + ribH/2 < H/2 - 0.3) {
+        const rib = box(opW, ribH, t + 0.005, MATS.glass);
+        rib.position.set(0, ribY, 0); g.add(rib);
+        const rfr = sashFrame(opW, ribH, t);
+        rfr.position.set(0, ribY, t/2); g.add(rfr);
+      }
     }
   }
   return g;
 }
 
+// ========= Roof (gable / flat / dome) =========
+// Convention: Ridge runs along W (X axis). Slopes face +Z (south) and -Z (north).
+// 軒の出 EAVE_OUT 既定 450mm
 function buildRoof(plan) {
   const g = group('roof');
+  if (plan.dome) {
+    return buildDomeRoof(plan, g);
+  }
   const W = plan.W * MM, D = plan.D * MM;
   const storyH = (plan.H || 3000) * MM;
   const stories = plan.stories || 1;
-  const baseY = plan.pilotis ? 2.4 : 0;
+  const baseY = plan.pilotis ? 2.4 + FL_OFFSET : FL_OFFSET;
   const eaveY = baseY + stories * storyH;
 
-  if (plan.dome) {
-    // 2V geodesic dome — half-sphere from icosahedron (detail 1 ≈ 2V freq)
-    const r = Math.max(W, D) / 2 * 0.95;
-    // Build hemisphere by clipping the icosahedron at y=0
-    const ico = new THREE.IcosahedronGeometry(r, 1);
-    const pos = ico.attributes.position;
-    // Lift any vertex below 0 up to 0 (creates a flat bottom)
-    for (let i = 0; i < pos.count; i++) {
-      if (pos.getY(i) < 0) pos.setY(i, 0);
-    }
-    pos.needsUpdate = true;
-    ico.computeVertexNormals();
-    const dome = new THREE.Mesh(ico, MATS.steel);
-    dome.position.set(0, 0, 0);
-    g.add(dome);
-    g.add(edge(dome));
-
-    // Door opening on south side (cedar door + glass)
-    const doorW = 1.2, doorH = 2.0, doorD = 0.05;
-    const door = box(doorW, doorH, doorD, MATS.cedar);
-    door.position.set(0, doorH / 2, r * 0.92);
-    g.add(door);
-    g.add(edge(door));
-    // Glass triangle window above
-    const win = box(1.6, 0.9, doorD, MATS.glass);
-    win.position.set(0, doorH + 0.5, r * 0.88);
-    g.add(win);
-    g.add(edge(win, COLORS.glassEdge));
-    return g;
-  }
-
   if (plan.roofType === 'flat') {
-    // Parapet
-    const parapet = box(W + 0.1, 0.3, D + 0.1, MATS.steel);
-    parapet.position.set(0, eaveY + 0.15, 0);
+    // Parapet + roof slab (with overhang)
+    const slab = box(W + EAVE_OUT*2, 0.10, D + EAVE_OUT*2, MATS.steel);
+    slab.position.set(0, eaveY + 0.05, 0);
+    g.add(slab);
+    g.add(edge(slab));
+    const parapet = box(W + 0.06, 0.45, D + 0.06, MATS.steel);
+    parapet.position.set(0, eaveY + 0.225, 0);
+    parapet.geometry = new THREE.BoxGeometry(W + 0.06, 0.45, D + 0.06);
     g.add(parapet);
-    g.add(edge(parapet));
+    // Hollow center for parapet (looks like a frame from above)
+    const inner = box(W - 0.10, 0.46, D - 0.10, MATS.cedar);
+    inner.position.set(0, eaveY + 0.225, 0);
+    g.add(inner);
     if (plan.rooftopTerrace) {
-      // Cedar deck on top
-      const deck = box(W - 0.4, 0.06, D - 0.4, MATS.deck);
-      deck.position.set(0, eaveY + 0.06, 0);
+      // Cedar deck on top + railing
+      const deck = box(W - 0.4, 0.05, D - 0.4, MATS.deck);
+      deck.position.set(0, eaveY + 0.46, 0);
       g.add(deck);
-      // Railing (thin black bars)
-      const rail1 = box(W - 0.2, 0.05, 0.04, MATS.steel);
-      rail1.position.set(0, eaveY + 1.1, D/2 - 0.05);
-      g.add(rail1);
-      const rail2 = rail1.clone();
-      rail2.position.z = -D/2 + 0.05;
-      g.add(rail2);
     }
     return g;
   }
 
-  // Gable roof: two sloped planes meeting at ridge
-  const pitch = plan.roofPitch || 0.25;       // rise/run
-  const ridgeH = (W / 2) * pitch;
-  const ridgeY = eaveY + ridgeH;
-
+  // Gable: ridge along X. Half-depth = D/2. Pitch = rise/run.
+  const pitch = plan.roofPitch || 0.25;
+  const run = D/2 + EAVE_OUT;
+  const ridgeH = run * pitch;
   const slope = Math.atan(pitch);
-  const slopeLen = Math.sqrt((W/2)**2 + ridgeH**2);
-  const tRoof = 0.18;
+  const slopeLen = Math.hypot(run, ridgeH);
+  const tRoof = 0.20;
+  const roofW = W + EAVE_OUT * 2;
 
-  // East-facing slope (positive X) — orient gable so ridge runs along Z (parallel to D)
-  for (const sign of [-1, 1]) {
-    const plane = new THREE.Mesh(new THREE.BoxGeometry(slopeLen, tRoof, D + 0.4), MATS.steel);
-    plane.position.set(sign * (W/4), eaveY + ridgeH/2, 0);
-    plane.rotation.z = -sign * slope;
+  // Two slope planes (south +Z, north -Z)
+  for (const sign of [1, -1]) {
+    const plane = new THREE.Mesh(
+      new THREE.BoxGeometry(roofW, tRoof, slopeLen),
+      sign === 1 ? MATS.steel : MATS.steelDark
+    );
+    plane.position.set(0, eaveY + ridgeH/2, sign * (run / 2));
+    plane.rotation.x = -sign * slope;
     g.add(plane);
-    g.add(edge(plane));
+    g.add(edge(plane, COLORS.line, 0.55));
   }
 
-  // Gable end triangles (front/back)
-  for (const zSign of [-1, 1]) {
+  // Gable end triangles (east +X, west -X)
+  for (const xSign of [1, -1]) {
     const shape = new THREE.Shape();
-    shape.moveTo(-W/2, 0);
-    shape.lineTo( W/2, 0);
+    shape.moveTo(-D/2, 0);
+    shape.lineTo( D/2, 0);
     shape.lineTo( 0, ridgeH);
     shape.closePath();
     const tri = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, {depth: 0.02, bevelEnabled: false}), MATS.steel);
-    tri.rotation.x = 0;
-    tri.position.set(0, eaveY, zSign * (D/2 + 0.01));
+    tri.rotation.y = Math.PI / 2;
+    tri.position.set(xSign * (W/2), eaveY, 0);
     g.add(tri);
+    g.add(edge(tri, COLORS.line, 0.7));
   }
 
-  // Skylight tower at ridge for MYTH/KOSMOS
+  // 雨樋 (gutter) on each eave
+  for (const sign of [1, -1]) {
+    const gutter = box(roofW, 0.06, 0.10, MATS.steelDark);
+    gutter.position.set(0, eaveY - 0.04, sign * (D/2 + EAVE_OUT - 0.06));
+    g.add(gutter);
+  }
+
+  // Skylight ridge tower (MYTH/KOSMOS)
   if (plan.openings?.skylight) {
-    const skW = Math.min(2.4, W * 0.18);
+    const skW = Math.min(2.6, W * 0.18);
     const skH = 1.8;
-    const skD = Math.min(D * 0.4, 6);
-    const tower = box(skW, skH, skD, MATS.steel);
-    tower.position.set(0, ridgeY + skH/2 - 0.4, 0);
+    const skD = Math.min(D * 0.45, 6);
+    const tower = box(skW, skH, skD, MATS.steelDark);
+    tower.position.set(0, eaveY + ridgeH + skH/2, 0);
     g.add(tower);
-    g.add(edge(tower));
-    // Glass top
-    const glass = box(skW - 0.2, 0.1, skD - 0.2, MATS.skylight);
-    glass.position.set(0, ridgeY + skH - 0.4, 0);
+    g.add(edge(tower, 0xfff, 0.4));
+    const glass = box(skW - 0.20, 0.10, skD - 0.20, MATS.skylight);
+    glass.position.set(0, eaveY + ridgeH + skH, 0);
     g.add(glass);
+  }
+
+  // Chimney (薪ストーブ) — small black pipe near ridge, west side
+  if (!plan.dome) {
+    const chimH = ridgeH + 0.8;
+    const chim = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, chimH, 16), MATS.steelDark);
+    chim.position.set(W/2 - 0.6, eaveY + chimH/2, 0);
+    g.add(chim);
   }
 
   return g;
 }
 
+function buildDomeRoof(plan, g) {
+  const W = plan.W * MM, D = plan.D * MM;
+  const r = Math.max(W, D) / 2 * 0.95;
+  const ico = new THREE.IcosahedronGeometry(r, 1);
+  const pos = ico.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    if (pos.getY(i) < 0) pos.setY(i, 0);
+  }
+  pos.needsUpdate = true;
+  ico.computeVertexNormals();
+  const dome = new THREE.Mesh(ico, MATS.steel);
+  dome.position.set(0, FL_OFFSET, 0);
+  g.add(dome);
+  g.add(edge(dome, COLORS.line, 0.4));
+
+  // Door + window opening on south
+  const doorW = 1.2, doorH = 2.05;
+  const door = box(doorW, doorH, 0.06, MATS.cedar);
+  door.position.set(0, FL_OFFSET + doorH/2, r * 0.92);
+  g.add(door);
+  g.add(edge(door));
+  const dfr = sashFrame(doorW, doorH, 0.06);
+  dfr.position.set(0, FL_OFFSET + doorH/2, r * 0.92 + 0.04);
+  g.add(dfr);
+
+  const winW = 1.6, winH = 0.9;
+  const win = box(winW, winH, 0.06, MATS.glass);
+  win.position.set(0, FL_OFFSET + doorH + 0.5, r * 0.88);
+  g.add(win);
+  const wfr = sashFrame(winW, winH, 0.06);
+  wfr.position.set(0, FL_OFFSET + doorH + 0.5, r * 0.88 + 0.04);
+  g.add(wfr);
+  return g;
+}
+
+// ========= Solar (南面整列配置) =========
 function buildSolar(plan) {
   const g = group('solar');
   const count = plan.openings?.solar || 0;
@@ -359,113 +527,298 @@ function buildSolar(plan) {
   const W = plan.W * MM, D = plan.D * MM;
   const storyH = (plan.H || 3000) * MM;
   const stories = plan.stories || 1;
-  const baseY = plan.pilotis ? 2.4 : 0;
+  const baseY = plan.pilotis ? 2.4 + FL_OFFSET : FL_OFFSET;
   const eaveY = baseY + stories * storyH;
   const pitch = plan.roofPitch || 0.25;
-  const ridgeH = (W / 2) * pitch;
+  const run = D/2 + EAVE_OUT;
+  const ridgeH = run * pitch;
   const slope = Math.atan(pitch);
-  const slopeLen = Math.sqrt((W/2)**2 + ridgeH**2);
+  const slopeLen = Math.hypot(run, ridgeH);
 
-  // Panel: 1722 × 1134 mm (~JA solar 400W). Lay them on the SOUTH slope.
-  const pW = 1.722, pH = 1.134;
-  const cols = Math.max(1, Math.floor(D / (pH + 0.05)));
-  const rows = Math.ceil(count / cols);
+  const pW = 1.722, pH = 1.134;       // 400W panel JA solar
+  const gap = 0.025;                    // パネル間離隔 25mm
+  const margin = 0.30;                  // 雪止め・点検通路 軒先離隔
+  const ridgeMargin = 0.40;             // 棟側離隔
 
-  if (plan.dome || plan.roofType === 'flat') {
-    // Flat-mount on rooftop
-    const startY = eaveY + 0.20;
-    const totalW = cols * (pH + 0.05);
-    const totalD = rows * (pW + 0.05);
+  if (plan.dome) {
+    // Dome: ground-mount carport/PV array south of dome (avoid dome surface)
+    const startY = FL_OFFSET + 1.0;
+    const cols = Math.max(1, Math.min(count, 4));
+    const rows = Math.ceil(count / cols);
+    const totalRowW = cols * pW + (cols - 1) * gap;
     let placed = 0;
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         if (placed >= count) break;
-        const panel = new THREE.Mesh(new THREE.BoxGeometry(pW, 0.04, pH), MATS.solar);
-        const x = -totalD/2 + (r + 0.5) * (pW + 0.05);
-        const z = -totalW/2 + (c + 0.5) * (pH + 0.05);
+        const panel = new THREE.Mesh(new THREE.BoxGeometry(pW - 0.005, 0.04, pH - 0.005), MATS.solar);
+        const x = -totalRowW/2 + c * (pW + gap) + pW/2;
+        const z = D/2 + 1.5 + r * (pH + 0.10);
         panel.position.set(x, startY, z);
-        panel.rotation.x = -0.18;     // 10° tilt
+        panel.rotation.x = -0.35;        // 20° south tilt
         g.add(panel);
-        g.add(edge(panel, COLORS.solarFrame));
+        g.add(edge(panel, COLORS.solarFr, 0.8));
+        // Mounting post
+        const post = box(0.06, 1.0, 0.06, MATS.steelDark);
+        post.position.set(x, FL_OFFSET + 0.5, z);
+        g.add(post);
+        placed++;
+      }
+    }
+    return g;
+  }
+  if (plan.roofType === 'flat') {
+    // Flat-mount on rooftop (10° tilt), facing south
+    const startY = eaveY + 0.30;
+    const usableW = W - margin * 2;
+    const usableD = D - margin * 2;
+    const cols = Math.max(1, Math.floor(usableW / (pW + gap)));
+    const rows = Math.ceil(count / cols);
+    let placed = 0;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        if (placed >= count) break;
+        const panel = new THREE.Mesh(new THREE.BoxGeometry(pW - gap, 0.04, pH - gap), MATS.solar);
+        const x = -usableW/2 + (c + 0.5) * ((pW + gap));
+        const z = -usableD/2 + (r + 0.5) * (pH + 0.15);
+        panel.position.set(x, startY + 0.10, z);
+        panel.rotation.x = -0.18;
+        g.add(panel);
+        g.add(edge(panel, COLORS.solarFr, 0.8));
         placed++;
       }
     }
     return g;
   }
 
-  // Gable: place on south slope (-X side mirrors). South = +X here (we made gable run along Z)
-  // Actually we made ridge run along Z so south slope is one of {+X, -X}. Use +X as "south".
+  // Gable: south slope (+Z). Place panels in landscape orientation, in rows from eave to ridge.
+  const usableSlope = slopeLen - margin - ridgeMargin;
+  const usableW = W - margin * 2;
+  const cols = Math.max(1, Math.floor(usableW / (pW + gap)));
+  const totalRowW = cols * pW + (cols - 1) * gap;
+  const rowsAvail = Math.max(1, Math.floor(usableSlope / (pH + gap)));
+  const rows = Math.min(rowsAvail, Math.ceil(count / cols));
   let placed = 0;
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       if (placed >= count) break;
-      const panel = new THREE.Mesh(new THREE.BoxGeometry(pW, 0.04, pH), MATS.solar);
-      // Position along slope length (centered between eave and ridge)
-      const along = (r + 0.5) * (pW + 0.05);
-      const slopeXFromEave = along * Math.cos(slope);
-      const slopeYFromEave = along * Math.sin(slope);
-      const x = (W/2) - slopeXFromEave - 0.4;     // start near eave on +X side
-      const y = eaveY + slopeYFromEave + 0.10;
-      const z = -D/2 + (c + 0.5) * (pH + 0.05);
-      panel.position.set(x, y, z);
-      panel.rotation.z = slope;     // tilt match slope
+      const along = margin + r * (pH + gap) + pH/2;
+      const z = (D/2 + EAVE_OUT) - along * Math.cos(slope);
+      const y = eaveY + along * Math.sin(slope);
+      const panel = new THREE.Mesh(new THREE.BoxGeometry(pW - 0.005, 0.045, pH - 0.005), MATS.solar);
+      const x = -totalRowW/2 + c * (pW + gap) + pW/2;
+      panel.position.set(x, y + 0.05, z);
+      panel.rotation.x = -slope;
       g.add(panel);
-      g.add(edge(panel, COLORS.solarFrame));
+      g.add(edge(panel, COLORS.solarFr, 0.8));
       placed++;
     }
   }
+
+  // 雪止め (snow guard) — black bar across south slope, near eave
+  const snowGuard = box(W - 0.2, 0.04, 0.06, MATS.steelDark);
+  const sgAlong = margin * 0.5;
+  snowGuard.position.set(0, eaveY + sgAlong * Math.sin(slope) + 0.05, (D/2 + EAVE_OUT) - sgAlong * Math.cos(slope));
+  snowGuard.rotation.x = -slope;
+  g.add(snowGuard);
+
   return g;
 }
 
+// ========= Deck + Sauna =========
 function buildDeck(plan) {
   const g = group('deck');
-  if (!plan.deck && !['villa', 'grand', 'flat', 'duo', 'roots'].includes(plan.id)) return g;
+  if (!plan.deck && !['villa', 'grand', 'flat', 'duo', 'roots', 'large', 'xl'].includes(plan.id)) return g;
   const W = plan.W * MM, D = plan.D * MM;
-  const baseY = plan.pilotis ? 2.4 : 0;
-  // Wood deck wraps south side
+  const baseY = plan.pilotis ? 2.4 + FL_OFFSET : FL_OFFSET;
   const dDeck = Math.min(3.0, D * 0.25);
-  const deck = box(W * 0.9, 0.10, dDeck, MATS.deck);
+  const deck = box(W * 0.95, 0.10, dDeck, MATS.deck);
   deck.position.set(0, baseY - 0.05, D/2 + dDeck/2);
   g.add(deck);
-  g.add(edge(deck));
-  // Sauna barrel (cylinder) for MYTH
+  g.add(edge(deck, COLORS.line, 0.4));
+  // Deck joists pattern (just visible from below as edges) — skip for simplicity
+  // Cedar railing (knee height 1100)
+  const railH = 1.05, railT = 0.04;
+  const railTop = box(W * 0.95, railT, railT, MATS.cedar);
+  railTop.position.set(0, baseY + railH, D/2 + dDeck);
+  g.add(railTop);
+  // Posts
+  const postCount = Math.max(2, Math.ceil(W / 1.5));
+  for (let i = 0; i <= postCount; i++) {
+    const x = -W * 0.95 / 2 + i * (W * 0.95 / postCount);
+    const post = box(railT, railH, railT, MATS.cedar);
+    post.position.set(x, baseY + railH/2, D/2 + dDeck);
+    g.add(post);
+  }
+
+  // Sauna barrel (MYTH)
   if (plan.sauna) {
     const sauna = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 2.2, 24), MATS.sauna);
     sauna.rotation.z = Math.PI / 2;
-    sauna.position.set(W/2 - 1.5, baseY + 1.2, D/2 + dDeck/2 + 0.5);
+    sauna.position.set(W/2 - 1.6, baseY + 1.2, D/2 + dDeck/2 + 0.4);
     g.add(sauna);
     g.add(edge(sauna));
+    // Sauna chimney
+    const sChim = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.0, 12), MATS.steelDark);
+    sChim.position.set(W/2 - 1.6, baseY + 2.5, D/2 + dDeck/2 + 0.4);
+    g.add(sChim);
   }
   return g;
 }
 
+// ========= Dimensions (with HTML labels) =========
 function buildDimensions(plan) {
   const g = group('dims');
   const W = plan.W * MM, D = plan.D * MM;
   const stories = plan.stories || 1;
-  const totalH = stories * (plan.H || 3000) * MM + (plan.pilotis ? 2.4 : 0);
+  const totalH = stories * (plan.H || 3000) * MM + (plan.pilotis ? 2.4 : 0) + FL_OFFSET;
 
-  function dimLine(p1, p2, label, offset = 0.4, axis = 'x') {
+  function dimLine(p1, p2, label) {
     const grp = new THREE.Group();
-    const arrow = new THREE.LineBasicMaterial({color: COLORS.dim});
+    const matLine = new THREE.LineBasicMaterial({color: COLORS.dim});
     const v1 = new THREE.Vector3(...p1);
     const v2 = new THREE.Vector3(...p2);
-    const main = new THREE.BufferGeometry().setFromPoints([v1, v2]);
-    grp.add(new THREE.Line(main, arrow));
+    grp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([v1, v2]), matLine));
     // Tick marks
-    const tickLen = 0.15;
-    const tA = new THREE.Vector3(p1[0], p1[1] - tickLen, p1[2]);
-    const tB = new THREE.Vector3(p1[0], p1[1] + tickLen, p1[2]);
-    const tC = new THREE.Vector3(p2[0], p2[1] - tickLen, p2[2]);
-    const tD = new THREE.Vector3(p2[0], p2[1] + tickLen, p2[2]);
-    grp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([tA, tB]), arrow));
-    grp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([tC, tD]), arrow));
-    grp.userData.label = label;
+    const tickH = 0.18;
+    const tA = v1.clone().add(new THREE.Vector3(0, tickH, 0));
+    const tB = v1.clone().add(new THREE.Vector3(0, -tickH, 0));
+    const tC = v2.clone().add(new THREE.Vector3(0, tickH, 0));
+    const tD = v2.clone().add(new THREE.Vector3(0, -tickH, 0));
+    grp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([tA, tB]), matLine));
+    grp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([tC, tD]), matLine));
+
+    // HTML label (CSS2DObject)
+    const div = document.createElement('div');
+    div.className = 'bim-dim-label';
+    div.textContent = label;
+    div.style.cssText = 'background:rgba(255,255,255,.92);border:1px solid #506068;color:#222;font-size:10px;padding:1px 6px;font-feature-settings:"tnum";letter-spacing:.02em;border-radius:2px;pointer-events:none;font-family:-apple-system,sans-serif';
+    const labelObj = new CSS2DObject(div);
+    labelObj.position.set((p1[0]+p2[0])/2, (p1[1]+p2[1])/2, (p1[2]+p2[2])/2);
+    grp.add(labelObj);
     return grp;
   }
 
-  g.add(dimLine([-W/2, -0.6, D/2 + 0.6], [W/2, -0.6, D/2 + 0.6], `${plan.W}mm`));
-  g.add(dimLine([W/2 + 0.6, -0.6, -D/2], [W/2 + 0.6, -0.6, D/2], `${plan.D}mm`));
+  const yLow = -0.3;
+  g.add(dimLine([-W/2, yLow, D/2 + 1.2], [W/2, yLow, D/2 + 1.2], `W: ${plan.W.toLocaleString()}mm`));
+  g.add(dimLine([W/2 + 1.2, yLow, -D/2], [W/2 + 1.2, yLow, D/2], `D: ${plan.D.toLocaleString()}mm`));
+  g.add(dimLine([-W/2 - 1.2, FL_OFFSET, D/2 + 0.5], [-W/2 - 1.2, FL_OFFSET + (plan.H || 3000) * MM * stories, D/2 + 0.5], `H: ${((plan.H || 3000) * stories).toLocaleString()}mm`));
+  return g;
+}
+
+// ========= Equipment / 設備機器 =========
+// 雨水タンク 200L, コンポストトイレvent, 24h換気扇, 縦樋, 棟板金, 破風板
+function buildEquipment(plan) {
+  const g = group('equipment');
+  if (plan.dome) return g;       // skip equipment for dome (different topology)
+  const W = plan.W * MM, D = plan.D * MM;
+  const storyH = (plan.H || 3000) * MM;
+  const stories = plan.stories || 1;
+  const baseY = plan.pilotis ? 2.4 + FL_OFFSET : FL_OFFSET;
+  const eaveY = baseY + stories * storyH;
+
+  // ── 雨水タンク 200L (cylinder, near east wall, north corner) ──
+  if (!plan.openings?.units && stories <= 2) {
+    const tankR = 0.30, tankH = 0.95;
+    const tank = new THREE.Mesh(new THREE.CylinderGeometry(tankR, tankR, tankH, 18), MATS.cedarLite);
+    tank.position.set(W/2 + tankR + 0.15, FL_OFFSET + tankH/2, -D/2 + 1.2);
+    g.add(tank);
+    g.add(edge(tank, COLORS.line, 0.6));
+    // top lid (darker)
+    const lid = new THREE.Mesh(new THREE.CylinderGeometry(tankR + 0.02, tankR + 0.02, 0.04, 18), MATS.steelDark);
+    lid.position.set(W/2 + tankR + 0.15, FL_OFFSET + tankH + 0.02, -D/2 + 1.2);
+    g.add(lid);
+  }
+
+  // ── コンポストトイレ排気管 (small white PVC, Φ50, on roof, north slope) ──
+  if (plan.roofType !== 'flat' && !plan.openings?.units) {
+    const vent = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.85, 12),
+      new THREE.MeshStandardMaterial({color: 0xeae6dc, roughness: 0.7}));
+    const pitch = plan.roofPitch || 0.25;
+    const along = (D/2 + EAVE_OUT) * 0.45;
+    const z = -((D/2 + EAVE_OUT) - along * Math.cos(Math.atan(pitch)));
+    const y = eaveY + along * Math.sin(Math.atan(pitch)) + 0.42;
+    vent.position.set(-W/2 + 1.0, y, z);
+    g.add(vent);
+    // vent cap
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.05, 12),
+      new THREE.MeshStandardMaterial({color: 0x999488, roughness: 0.5}));
+    cap.position.set(-W/2 + 1.0, y + 0.45, z);
+    g.add(cap);
+  }
+
+  // ── 24h換気扇 (Φ100 vent grille, west wall) ──
+  if (!plan.openings?.units) {
+    const fan = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.04, 16), MATS.steelDark);
+    fan.rotation.z = Math.PI / 2;
+    fan.position.set(-W/2 - 0.02, baseY + storyH * 0.85, -D/2 + 0.8);
+    g.add(fan);
+  }
+
+  // ── 縦樋 (downspout) — 4 corners ──
+  const dsT = 0.06;
+  const corners = [
+    [ W/2 + EAVE_OUT - dsT/2,  D/2 + EAVE_OUT - dsT/2],
+    [-W/2 - EAVE_OUT + dsT/2,  D/2 + EAVE_OUT - dsT/2],
+    [ W/2 + EAVE_OUT - dsT/2, -D/2 - EAVE_OUT + dsT/2],
+    [-W/2 - EAVE_OUT + dsT/2, -D/2 - EAVE_OUT + dsT/2],
+  ];
+  for (const [x, z] of corners) {
+    const ds = box(dsT, eaveY - FL_OFFSET, dsT, MATS.steelDark);
+    ds.position.set(x, FL_OFFSET + (eaveY - FL_OFFSET) / 2, z);
+    g.add(ds);
+  }
+
+  // ── 棟板金 (ridge cap) — gable roof only ──
+  if (plan.roofType === 'gable' && !plan.dome) {
+    const pitch = plan.roofPitch || 0.25;
+    const run = D/2 + EAVE_OUT;
+    const ridgeY = eaveY + run * pitch;
+    const cap = box(W + EAVE_OUT*2, 0.10, 0.30, MATS.steelDark);
+    cap.position.set(0, ridgeY + 0.05, 0);
+    g.add(cap);
+  }
+
+  // ── 破風板 (verge board) along gable ends ──
+  if (plan.roofType === 'gable' && !plan.dome) {
+    const pitch = plan.roofPitch || 0.25;
+    const run = D/2 + EAVE_OUT;
+    const slopeLen = Math.hypot(run, run * pitch);
+    const slope = Math.atan(pitch);
+    for (const xSign of [1, -1]) {
+      for (const zSign of [1, -1]) {
+        const verge = box(0.10, 0.18, slopeLen, MATS.steelDark);
+        verge.position.set(xSign * (W/2 + EAVE_OUT - 0.05), eaveY + run * pitch / 2, zSign * (run / 2));
+        verge.rotation.x = -zSign * slope;
+        g.add(verge);
+      }
+    }
+  }
+
+  // ── 薪ストーブ煙突キャップ (chimney cap) — already have pipe in roof ──
+  // Adding the rain cap on top
+  if (plan.roofType === 'gable' && !plan.dome && !plan.pilotis) {
+    const pitch = plan.roofPitch || 0.25;
+    const ridgeY = eaveY + (D/2 + EAVE_OUT) * pitch + 0.85;
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.05, 12), MATS.steelDark);
+    cap.position.set(W/2 - 0.6, ridgeY, 0);
+    g.add(cap);
+  }
+
+  return g;
+}
+
+// ========= Human scale figure (180cm) =========
+function buildHumanScale(plan) {
+  const g = group('scale');
+  const W = plan.W * MM, D = plan.D * MM;
+  const baseY = plan.pilotis ? 2.4 + FL_OFFSET : 0;
+  // Standing figure as cylinder body + sphere head
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.20, 1.50, 12), MATS.human);
+  body.position.set(W/2 + 1.2, baseY + 0.75, D/2 + 1.2);
+  g.add(body);
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 12), MATS.human);
+  head.position.set(W/2 + 1.2, baseY + 1.65, D/2 + 1.2);
+  g.add(head);
   return g;
 }
 
@@ -482,9 +835,11 @@ export function buildPlan(planId) {
     structure:  buildStructure(plan),
     sips:       buildSIPs(plan),
     roof:       buildRoof(plan),
-    openings:   group('openings'),  // openings drawn inside SIPs walls already
+    openings:   group('openings'),
     solar:      buildSolar(plan),
     deck:       buildDeck(plan),
+    equipment:  buildEquipment(plan),
+    scale:      buildHumanScale(plan),
     dims:       buildDimensions(plan),
   };
   for (const name of Object.keys(groups)) {
@@ -506,37 +861,47 @@ export function createViewer(container, opts = {}) {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   container.appendChild(renderer.domElement);
 
+  // CSS2D for dim labels
+  const labelRenderer = new CSS2DRenderer();
+  labelRenderer.setSize(container.clientWidth, container.clientHeight);
+  labelRenderer.domElement.style.position = 'absolute';
+  labelRenderer.domElement.style.top = '0';
+  labelRenderer.domElement.style.left = '0';
+  labelRenderer.domElement.style.pointerEvents = 'none';
+  container.appendChild(labelRenderer.domElement);
+
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(opts.bg ?? COLORS.bg);
-  scene.fog = new THREE.Fog(opts.bg ?? COLORS.bg, 60, 240);
+  scene.fog = new THREE.Fog(opts.bg ?? COLORS.bg, 60, 280);
 
-  // Ground
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshStandardMaterial({color: COLORS.ground, roughness: 1}));
+  // Ground (snow texture)
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(300, 300), new THREE.MeshStandardMaterial({color: COLORS.groundSnow, roughness: 1}));
   ground.rotation.x = -Math.PI / 2;
-  ground.position.y = -0.4;
+  ground.position.y = -0.30;
   ground.receiveShadow = true;
   scene.add(ground);
 
-  // Grid
-  const grid = new THREE.GridHelper(200, 200, 0x99928a, 0xc8c2b6);
-  grid.position.y = -0.39;
+  // Grid (0.91m =  SIPs panel module)
+  const grid = new THREE.GridHelper(300, 330, 0x99928a, 0xc0baad);
+  grid.position.y = -0.295;
   grid.material.transparent = true;
-  grid.material.opacity = 0.45;
+  grid.material.opacity = 0.32;
   scene.add(grid);
 
-  // Lights
-  const hemi = new THREE.HemisphereLight(0xfff0d6, 0x88796a, 0.7);
+  // Lights — set sun for ~10am winter Hokkaido (low angle, south)
+  const hemi = new THREE.HemisphereLight(0xfff0d6, 0x88796a, 0.62);
   scene.add(hemi);
-  const sun = new THREE.DirectionalLight(0xffeacb, 1.2);
-  sun.position.set(20, 30, 15);
+  const sun = new THREE.DirectionalLight(0xffeacb, 1.35);
+  sun.position.set(8, 28, 18);   // light from south-east
   sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048);
   sun.shadow.camera.near = 0.5;
-  sun.shadow.camera.far = 100;
-  sun.shadow.camera.left = -30;
-  sun.shadow.camera.right = 30;
-  sun.shadow.camera.top = 30;
-  sun.shadow.camera.bottom = -30;
+  sun.shadow.camera.far = 120;
+  sun.shadow.camera.left = -40;
+  sun.shadow.camera.right = 40;
+  sun.shadow.camera.top = 40;
+  sun.shadow.camera.bottom = -40;
+  sun.shadow.bias = -0.0005;
   scene.add(sun);
 
   const camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 0.1, 500);
@@ -544,20 +909,23 @@ export function createViewer(container, opts = {}) {
   controls.enableDamping = true;
   controls.dampingFactor = 0.08;
   controls.minDistance = 3;
-  controls.maxDistance = 120;
-  controls.maxPolarAngle = Math.PI * 0.49;
+  controls.maxDistance = 150;
+  controls.maxPolarAngle = Math.PI * 0.495;
 
   let currentRoot = null;
   let currentPlan = null;
   let currentGroups = null;
 
   function loadPlan(id) {
-    if (currentRoot) scene.remove(currentRoot);
+    if (currentRoot) {
+      // Clean labels
+      currentRoot.traverse(o => { if (o.element && o.element.parentNode) o.element.parentNode.removeChild(o.element); });
+      scene.remove(currentRoot);
+    }
     const {root, plan, groups} = buildPlan(id);
     currentRoot = root;
     currentPlan = plan;
     currentGroups = groups;
-    // shadow flags
     root.traverse(o => {
       if (o.isMesh) {
         o.castShadow = true;
@@ -571,10 +939,15 @@ export function createViewer(container, opts = {}) {
 
   function fitCamera() {
     if (!currentPlan) return;
-    const W = currentPlan.W * MM, D = currentPlan.D * MM, H = (currentPlan.H || 3000) * MM * (currentPlan.stories || 1);
-    const r = Math.max(W, D, H) * 1.4;
-    camera.position.set(r * 0.95, r * 0.65, r * 0.95);
-    controls.target.set(0, H * 0.45, 0);
+    const W = currentPlan.W * MM, D = currentPlan.D * MM;
+    const stories = currentPlan.stories || 1;
+    const H = (currentPlan.H || 3000) * MM * stories + (currentPlan.pilotis ? 2.4 : 0) + FL_OFFSET;
+    const pitch = currentPlan.roofPitch || 0.25;
+    const ridgeH = currentPlan.dome ? Math.max(W,D)/2*0.95 : (currentPlan.roofType === 'gable' ? (D/2 + EAVE_OUT) * pitch : 0.45);
+    const totalH = H + ridgeH;
+    const r = Math.max(W + EAVE_OUT*2, D + EAVE_OUT*2, totalH) * 1.9;
+    camera.position.set(r * 0.7, r * 0.5, r * 0.7);
+    controls.target.set(0, totalH * 0.4, 0);
     controls.update();
   }
 
@@ -583,20 +956,38 @@ export function createViewer(container, opts = {}) {
     currentGroups[name].visible = visible;
   }
 
+  // X-ray mode: make outer cladding (sips, roof) translucent so structure visible
+  function setXray(on) {
+    if (!currentGroups) return;
+    const opa = on ? 0.18 : 1.0;
+    for (const layerName of ['sips', 'roof']) {
+      const grp = currentGroups[layerName];
+      if (!grp) continue;
+      grp.traverse(o => {
+        if (o.isMesh && o.material) {
+          if (Array.isArray(o.material)) {
+            o.material.forEach(m => { m.transparent = on; m.opacity = on ? opa : 1; m.depthWrite = !on; });
+          } else {
+            o.material.transparent = on;
+            o.material.opacity = on ? opa : 1;
+            o.material.depthWrite = !on;
+          }
+        }
+      });
+    }
+  }
+
   function setView(view) {
     if (!currentPlan) return;
-    const W = currentPlan.W * MM, D = currentPlan.D * MM, H = (currentPlan.H || 3000) * MM * (currentPlan.stories || 1);
+    const W = currentPlan.W * MM, D = currentPlan.D * MM;
+    const stories = currentPlan.stories || 1;
+    const H = (currentPlan.H || 3000) * MM * stories + (currentPlan.pilotis ? 2.4 : 0) + FL_OFFSET;
     const r = Math.max(W, D, H);
-    if (view === 'iso') {
-      camera.position.set(r * 0.95, r * 0.65, r * 0.95);
-    } else if (view === 'front') {
-      camera.position.set(0, H * 0.5, r * 1.6);
-    } else if (view === 'side') {
-      camera.position.set(r * 1.6, H * 0.5, 0);
-    } else if (view === 'top') {
-      camera.position.set(0, r * 1.8, 0.001);
-    }
-    controls.target.set(0, H * 0.45, 0);
+    if (view === 'iso') camera.position.set(r * 0.85, r * 0.55, r * 0.85);
+    else if (view === 'front') camera.position.set(0, H * 0.55, r * 1.45);
+    else if (view === 'side') camera.position.set(r * 1.45, H * 0.55, 0);
+    else if (view === 'top') camera.position.set(0.001, r * 1.7, 0.001);
+    controls.target.set(0, H * 0.4, 0);
     controls.update();
   }
 
@@ -604,6 +995,7 @@ export function createViewer(container, opts = {}) {
     requestAnimationFrame(render);
     controls.update();
     renderer.render(scene, camera);
+    labelRenderer.render(scene, camera);
   }
   render();
 
@@ -612,8 +1004,9 @@ export function createViewer(container, opts = {}) {
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     renderer.setSize(w, h);
+    labelRenderer.setSize(w, h);
   }
   window.addEventListener('resize', onResize);
 
-  return {scene, camera, renderer, controls, loadPlan, setLayer, setView, fitCamera, getPlan: () => currentPlan};
+  return {scene, camera, renderer, controls, loadPlan, setLayer, setView, setXray, fitCamera, getPlan: () => currentPlan};
 }
