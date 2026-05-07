@@ -700,6 +700,41 @@ function buildFoundation(plan) {
     }
   }
 
+  // ── 基礎水切り (foundation flashing) — FL_OFFSET 高さに 4辺周回 ──
+  // 雨水を基礎天端で外側に弾く防水ライン
+  if (!plan.dome) {
+    const flashY = FL_OFFSET - 0.04;
+    const flashOut = 0.04;       // 外側に40mm出す
+    const flashH = 0.08;         // 高さ80mm
+    const flashMat = MATS.steelDark;
+    const sides = [
+      {w: W + flashOut*2, h: flashH, d: 0.02, x: 0, z:  D/2 + flashOut/2 + 0.01},
+      {w: W + flashOut*2, h: flashH, d: 0.02, x: 0, z: -D/2 - flashOut/2 - 0.01},
+      {w: 0.02, h: flashH, d: D + flashOut*2, x:  W/2 + flashOut/2 + 0.01, z: 0},
+      {w: 0.02, h: flashH, d: D + flashOut*2, x: -W/2 - flashOut/2 - 0.01, z: 0},
+    ];
+    for (const s of sides) {
+      const fl = box(s.w, s.h, s.d, flashMat);
+      fl.position.set(s.x, flashY, s.z);
+      g.add(fl);
+    }
+  }
+
+  // ── 凍結深度マーカー (frost depth indicator) — GL-1m ライン ──
+  // 北海道弟子屈の凍結深度 1.0m。視覚的に基礎の埋設深さを示す
+  if (!plan.dome) {
+    const frostMat = new THREE.LineDashedMaterial({color: 0x88aaff, dashSize: 0.3, gapSize: 0.15, opacity: 0.6, transparent: true});
+    const fdY = -1.0;
+    const corners = [
+      [-W/2-0.5, fdY, -D/2-0.5], [ W/2+0.5, fdY, -D/2-0.5],
+      [ W/2+0.5, fdY,  D/2+0.5], [-W/2+0.5, fdY,  D/2+0.5], [-W/2-0.5, fdY, -D/2-0.5],
+    ];
+    const fdGeo = new THREE.BufferGeometry().setFromPoints(corners.map(p => new THREE.Vector3(...p)));
+    const fdLine = new THREE.Line(fdGeo, frostMat);
+    fdLine.computeLineDistances();
+    g.add(fdLine);
+  }
+
   return g;
 }
 
@@ -735,6 +770,32 @@ function buildStructure(plan) {
       const beam = box(beamW, beamH, D - 0.4, MATS.cedarLite);
       beam.position.set(x, beamY, 0);
       g.add(beam);
+    }
+  }
+
+  // 大開口リンテル (3.6m以上の開口にH形鋼/集成材梁を視覚化) — SIPs構造補強
+  // 開口幅が SIPsパネル910mm × 4 (3.64m) を超えると荷重伝達のため独立梁が必要
+  const opW_mm = plan.openings?.south?.w || 0;
+  if (opW_mm >= 3640 && !plan.openings?.units) {
+    const opW = opW_mm * MM;
+    const opH = (plan.openings.south.h || 2400) * MM;
+    // H-200×100×5.5×8 程度のスチール梁 (8m超は H-300×150)
+    const lintelH = opW_mm >= 7280 ? 0.30 : 0.20;
+    const lintelB = opW_mm >= 7280 ? 0.15 : 0.10;
+    for (let s = 0; s < (plan.stories || 1); s++) {
+      const sillH = baseY + s * storyH + 0.10;
+      const lintel = box(opW + 0.40, lintelH, lintelB,
+        new THREE.MeshStandardMaterial({color: 0x6a6a6a, roughness: 0.4, metalness: 0.7}));
+      lintel.position.set(0, sillH + opH + lintelH/2, D/2 - 0.18);
+      g.add(lintel);
+      g.add(edge(lintel, 0xff8800, 0.6));         // 強調 (構造重要部材)
+      // 梁端の接合プレート (両端)
+      for (const xs of [-opW/2 - 0.18, opW/2 + 0.18]) {
+        const plate = box(0.20, lintelH + 0.10, lintelB + 0.02,
+          new THREE.MeshStandardMaterial({color: 0x4a4a4a, roughness: 0.3, metalness: 0.85}));
+        plate.position.set(xs, sillH + opH + lintelH/2, D/2 - 0.18);
+        g.add(plate);
+      }
     }
   }
 
@@ -1439,25 +1500,29 @@ function buildSolar(plan) {
   }
 
   // 雪止め (snow guard) — 低側軒先 (gable: south, mono: north)
-  const snowGuard = box(W - 0.2, 0.05, 0.05, MATS.steelDark);
-  const sgAlong = margin * 0.5;
-  const sgStandoff = 0.025;
-  if (isMono) {
-    snowGuard.position.set(
-      0,
-      eaveY + tVert + sgAlong * Math.sin(usedSlope) + sgStandoff * Math.cos(usedSlope),
-      -(D/2 + EAVE_OUT) + sgAlong * Math.cos(usedSlope) - sgStandoff * Math.sin(usedSlope),
-    );
-    snowGuard.rotation.x = +usedSlope;
-  } else {
-    snowGuard.position.set(
-      0,
-      eaveY + tVert + sgAlong * Math.sin(usedSlope) + sgStandoff * Math.cos(usedSlope),
-      (D/2 + EAVE_OUT) - sgAlong * Math.cos(usedSlope) - sgStandoff * Math.sin(usedSlope),
-    );
-    snowGuard.rotation.x = -usedSlope;
+  // 緩勾配 (<15°/0.27) では 1段では不足 → 軒先 + 中段 + 棟側に3段配置 (北海道道東基準)
+  const isLowPitch = isMono && pitch < 0.27;
+  const snowGuardPositions = isLowPitch ? [margin * 0.5, usedSlopeLen * 0.4, usedSlopeLen * 0.75] : [margin * 0.5];
+  for (const sgAlong of snowGuardPositions) {
+    const snowGuard = box(W - 0.2, 0.05, 0.05, MATS.steelDark);
+    const sgStandoff = 0.025;
+    if (isMono) {
+      snowGuard.position.set(
+        0,
+        eaveY + tVert + sgAlong * Math.sin(usedSlope) + sgStandoff * Math.cos(usedSlope),
+        -(D/2 + EAVE_OUT) + sgAlong * Math.cos(usedSlope) - sgStandoff * Math.sin(usedSlope),
+      );
+      snowGuard.rotation.x = +usedSlope;
+    } else {
+      snowGuard.position.set(
+        0,
+        eaveY + tVert + sgAlong * Math.sin(usedSlope) + sgStandoff * Math.cos(usedSlope),
+        (D/2 + EAVE_OUT) - sgAlong * Math.cos(usedSlope) - sgStandoff * Math.sin(usedSlope),
+      );
+      snowGuard.rotation.x = -usedSlope;
+    }
+    g.add(snowGuard);
   }
-  g.add(snowGuard);
 
   return g;
 }
@@ -1708,6 +1773,31 @@ function buildEquipment(plan) {
     const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.05, 12), MATS.steelDark);
     cap.position.set(chimX, chimY, chimZ);
     g.add(cap);
+
+    // ── 煙突フラッシング (chimney flashing) — 屋根貫通部の防水・防火 ──
+    // 煙突周囲に350mm四方のスチール板で屋根面と密着、シーリング処理
+    if (plan.roofType === 'mono') {
+      const dropH = (D + EAVE_OUT*2) * pitch;
+      const run = D + EAVE_OUT*2;
+      const yAtChim = eaveY + dropH * (chimZ + D/2 + EAVE_OUT) / run;
+      const flash = box(0.35, 0.02, 0.35, MATS.steelDark);
+      flash.position.set(chimX, yAtChim + 0.05, chimZ);
+      flash.rotation.x = +Math.atan(pitch);
+      g.add(flash);
+      g.add(edge(flash, COLORS.line, 0.5));
+    }
+  }
+
+  // ── 軒先キャップ (eave cap / 唐草) — 板金水切り、低側軒先 ──
+  if (plan.roofType === 'mono' && !plan.dome) {
+    const pitch = plan.roofPitch || 0.15;
+    const roofW = W + EAVE_OUT*2;
+    // 北側 (低側) の軒先キャップ
+    const eaveCap = box(roofW + 0.02, 0.04, 0.12, MATS.steelDark);
+    eaveCap.position.set(0, eaveY - 0.06, -D/2 - EAVE_OUT + 0.06);
+    g.add(eaveCap);
+    g.add(edge(eaveCap, COLORS.line, 0.4));
+    tagItem(eaveCap, 'verge_board', roofW);
   }
 
   return g;
@@ -2904,11 +2994,28 @@ export function createViewer(container, opts = {}) {
     const sigma = M_eff * 1000 / selected.Z;
     const beamOK = sigma <= allowableSigma;
 
+    // ── 一級建築士目線の警告 ──
+    const warnings = [];
+    const pitch = p.roofPitch || 0.15;
+    const isMonoLow = p.roofType === 'mono' && pitch < 0.27;
+    if (isMonoLow) {
+      warnings.push(`緩勾配mono ${(Math.atan(pitch)*180/Math.PI).toFixed(1)}° → 雪が滑り落ちず堆積。雪止め3段配置済 + 雪降ろし通路 + 構造補強が必要 (積雪荷重1.5kN/m²で年間最大1m積雪を保持)`);
+    }
+    const opW_mm = p.openings?.south?.w || 0;
+    if (opW_mm >= 3640 && !p.openings?.units) {
+      warnings.push(`大開口 ${opW_mm}mm → SIPsだけでは荷重伝達不可。${opW_mm >= 7280 ? 'H-300×150' : 'H-200×100'} スチール梁リンテル必須 (図示済 オレンジハイライト)`);
+    }
+    if (p.roofType === 'mono' && p.stories >= 2) {
+      warnings.push('片屋根+2階建て → 偏心率増大 (南面開口大の場合)。釘仕舞い (HD金物) 増し打ち推奨');
+    }
+
     return {
       loads: {dl, ll, sl, w, total_v, horizForce: horizForce.toFixed(1)},
       wallReqs: {req1: required1.toFixed(0), req2: required2.toFixed(0), req3: required3.toFixed(0), provided: provided.toFixed(0)},
-      grade,
+      grade, seismicGrade: grade,
       beam: {span: beamSpan.toFixed(2), effSpan: effSpan.toFixed(2), sigma: sigma.toFixed(1), allowable: allowableSigma, ok: beamOK, size: selected.label, intermediateSupport},
+      requiredWallShort: required1, actualWallShort: provided, beamRatio: sigma / allowableSigma,
+      warnings,
     };
   }
 
@@ -3292,16 +3399,32 @@ export function createViewer(container, opts = {}) {
     // Hokkaido east monthly insolation (MJ/m²/day, source: NEDO 2024)
     const monthlyMJ = [9.0, 11.5, 14.5, 16.0, 17.0, 16.5, 15.5, 15.0, 13.5, 11.0, 8.5, 7.5];
     const days = [31,28,31,30,31,30,31,31,30,31,30,31];
-    const tilt = (currentPlan && !currentPlan.dome && (currentPlan.roofType === 'gable' || currentPlan.roofType === 'mono')) ? 0.95 : 0.85; // tilt factor
+    // mono pitch < 15° は北面/緩傾斜で発電効率落ちる
+    const isMono = currentPlan?.roofType === 'mono';
+    const pitch = currentPlan?.roofPitch || 0.15;
+    const angleDeg = Math.atan(pitch) * 180 / Math.PI;
+    // 角度効果: 30°南面=1.0, 15°南面=0.95, 北傾斜は -10%
+    let tilt;
+    if (currentPlan?.dome) tilt = 0.85;
+    else if (isMono) tilt = 0.85 + 0.10 * (angleDeg / 30);     // 北傾斜緩勾配 → 0.85〜0.92
+    else if (currentPlan?.roofType === 'gable') tilt = 0.95;   // 切妻南面ベスト
+    else tilt = 0.85;                                            // 陸屋根=10°架台
+    // ❄ 北海道道東 積雪期降雪ロス係数 (パネル上の雪堆積による発電停止)
+    // 緩勾配mono (<15°) は雪が滑り落ちず堆積、急勾配 (>30°) は自然落雪
+    const snowLoss = (isMono && angleDeg < 15)
+      ? [0.05, 0.10, 0.30, 0.85, 1.00, 1.00, 1.00, 1.00, 1.00, 0.90, 0.50, 0.10]   // J-D 12-3月ほぼゼロ
+      : [0.50, 0.65, 0.85, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 0.95, 0.85, 0.55];  // 急勾配は雪滑りやすい
     const efficiency = 0.78;                     // PCS + cable + soil
     const monthly = monthlyMJ.map((mj, i) => {
-      // MJ/m²/day → kWh/m²/day → kWh per panel (1.95 m²) → totalKW
-      const kWhPerKWday = mj / 3.6 * tilt * efficiency;       // PR factor
+      const kWhPerKWday = mj / 3.6 * tilt * efficiency * snowLoss[i];
       return kWhPerKWday * totalKW * days[i];
     });
     const annualKWh = monthly.reduce((s, m) => s + m, 0);
     const tariff = 35;                           // ¥/kWh self-consumption
-    return {panelCount, totalKW, monthly, annualKWh, annualValue: annualKWh * tariff, tariff};
+    const snowAnnualLoss = 1 - snowLoss.reduce((s,v,i) => s + v * monthlyMJ[i] * days[i], 0)
+                              / monthlyMJ.reduce((s,v,i) => s + v * days[i], 0);
+    return {panelCount, totalKW, monthly, annualKWh, annualValue: annualKWh * tariff, tariff,
+      tiltFactor: tilt, snowLossPct: (snowAnnualLoss * 100).toFixed(0)};
   }
 
   // ── 日影アニメ: 冬至・春分・夏至の太陽軌道を時間軸で再生 ──
