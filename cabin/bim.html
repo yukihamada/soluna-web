@@ -187,6 +187,70 @@
   <b>内観モード</b>　WASD: 移動 ／ マウス: 視線 ／ Space: 上昇 ／ Q: 下降 ／ Esc: 退出
 </div>
 
+<!-- BIM click popup -->
+<div id="elementPopup" style="display:none;position:fixed;z-index:35;background:#fffefb;border:1px solid #222;border-radius:6px;padding:10px 14px;font-size:12px;box-shadow:0 4px 16px rgba(0,0,0,.15);max-width:280px;font-feature-settings:'tnum'">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+    <div style="font-weight:700" id="epName">—</div>
+    <button id="epClose" style="background:none;border:0;cursor:pointer;font-size:16px;line-height:1;padding:0">×</button>
+  </div>
+  <div id="epCat" style="font-size:10px;letter-spacing:.06em;opacity:.55;margin-bottom:4px">—</div>
+  <div id="epSpec" style="font-size:11px;opacity:.7;margin-bottom:8px">—</div>
+  <div style="display:grid;grid-template-columns:auto auto;gap:2px 12px;font-size:11px">
+    <span style="opacity:.55">数量</span><span id="epQty">—</span>
+    <span style="opacity:.55">単価</span><span id="epUnit">—</span>
+    <span style="opacity:.55">小計</span><span id="epCost" style="font-weight:600;color:#1a6b3a">—</span>
+    <span style="opacity:.55">業者</span><span id="epVendor">—</span>
+    <span style="opacity:.55">工程</span><span id="epPhase">—</span>
+  </div>
+</div>
+
+<!-- BIM tools panel -->
+<div class="panel" id="bim-tools" style="bottom:54px;left:14px;width:200px">
+  <h3>BIM ツール</h3>
+  <button id="bomBtn" style="width:100%;margin-bottom:4px">📊 数量・コスト</button>
+  <button id="phaseBtn" style="width:100%;margin-bottom:4px">⏱ 4D 施工アニメ</button>
+  <button id="csvBtn" style="width:100%;margin-bottom:4px">⬇ BOM CSVダウンロード</button>
+  <button id="ifcBtn" style="width:100%;margin-bottom:4px">⬇ IFC ダウンロード</button>
+  <button id="poBtn" style="width:100%">⬇ 発注書PDF</button>
+</div>
+
+<!-- BOM modal -->
+<div id="bomModal" style="display:none;position:fixed;inset:0;z-index:60;background:rgba(34,34,34,.55);align-items:center;justify-content:center">
+  <div style="background:#fffefb;border:1px solid #222;border-radius:8px;padding:16px;max-width:760px;max-height:80vh;overflow:auto;font-size:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <h3 style="margin:0;font-size:14px">数量・コスト計算（3Dから自動拾い）</h3>
+      <button id="bomClose" style="background:none;border:0;font-size:20px;cursor:pointer">×</button>
+    </div>
+    <table id="bomTable" style="width:100%;border-collapse:collapse;font-feature-settings:'tnum'">
+      <thead>
+        <tr style="border-bottom:1px solid #222;background:#f0eee7">
+          <th style="text-align:left;padding:6px 8px">工程</th>
+          <th style="text-align:left;padding:6px 8px">分類</th>
+          <th style="text-align:left;padding:6px 8px">部材</th>
+          <th style="text-align:right;padding:6px 8px">数量</th>
+          <th style="text-align:right;padding:6px 8px">単価</th>
+          <th style="text-align:right;padding:6px 8px">小計</th>
+          <th style="text-align:left;padding:6px 8px">業者</th>
+        </tr>
+      </thead>
+      <tbody id="bomTbody"></tbody>
+      <tfoot>
+        <tr style="border-top:2px solid #222;font-weight:700">
+          <td colspan="5" style="padding:6px 8px;text-align:right">材料費合計</td>
+          <td id="bomTotal" style="text-align:right;padding:6px 8px">¥0</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+    <p style="font-size:10px;opacity:.55;margin-top:10px">※プレカット・配送・施工費別途。3Dモデル上のジオメトリから自動拾い。誤差±5%。</p>
+  </div>
+</div>
+
+<!-- Phase animation overlay -->
+<div id="phaseHud" style="display:none;position:fixed;top:62px;left:50%;transform:translateX(-50%);z-index:30;background:rgba(34,34,34,.92);color:#fff;font-size:13px;padding:10px 18px;border-radius:6px;letter-spacing:.05em">
+  <b id="phaseHudName">—</b> <span id="phaseHudIdx" style="opacity:.6;margin-left:8px">—</span>
+</div>
+
 <div class="panel" id="info">
   <div class="name" id="planName">SU</div>
   <div class="meta" id="planMeta">本ガイドの標準</div>
@@ -273,6 +337,175 @@ document.addEventListener('pointerlockchange', () => {
     interiorBtn.classList.remove('active');
     interiorHint.style.display = 'none';
   }
+});
+
+// ─── BIM TOOLS ───
+const yenFmt = (n) => '¥' + Math.round(n).toLocaleString();
+const qtyFmt = (q, u) => q.toLocaleString(undefined, {maximumFractionDigits: 1}) + (u ? ' ' + u : '');
+
+// Click → element popup
+const popup = document.getElementById('elementPopup');
+viewer.onElementClick((info) => {
+  if (!info) { popup.style.display = 'none'; return; }
+  const it = info.item;
+  document.getElementById('epName').textContent = it.name;
+  document.getElementById('epCat').textContent = it.category + ' / 工程' + it.phase;
+  document.getElementById('epSpec').textContent = (info.itemId === 'sips_wall' || info.itemId === 'sips_roof' || info.itemId === 'window_resin' || info.itemId === 'deck_wood')
+    ? `モジュール 910×1820mm。本部材は単体タグ。` : '—';
+  document.getElementById('epQty').textContent  = qtyFmt(info.qty, it.unit);
+  document.getElementById('epUnit').textContent = yenFmt(it.unitPrice) + ' / ' + it.unit;
+  document.getElementById('epCost').textContent = yenFmt(info.cost);
+  document.getElementById('epVendor').textContent = it.vendor;
+  document.getElementById('epPhase').textContent = it.phase;
+  // Position near click point (project to screen)
+  const v = info.point.clone().project(viewer.camera);
+  const x = (v.x * 0.5 + 0.5) * window.innerWidth + 14;
+  const y = (-v.y * 0.5 + 0.5) * window.innerHeight - 14;
+  popup.style.left = Math.min(window.innerWidth - 290, x) + 'px';
+  popup.style.top  = Math.min(window.innerHeight - 250, y) + 'px';
+  popup.style.display = 'block';
+});
+document.getElementById('epClose').addEventListener('click', () => popup.style.display = 'none');
+
+// BOM modal
+function refreshBOM() {
+  const items = viewer.takeoff();
+  const tbody = document.getElementById('bomTbody');
+  tbody.innerHTML = '';
+  let total = 0;
+  for (const r of items) {
+    total += r.cost;
+    const tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid #e0dcd2';
+    tr.innerHTML = `
+      <td style="padding:5px 8px">${r.phase}</td>
+      <td style="padding:5px 8px">${r.category || '-'}</td>
+      <td style="padding:5px 8px">${r.name}</td>
+      <td style="text-align:right;padding:5px 8px">${qtyFmt(r.qty, r.unit)}</td>
+      <td style="text-align:right;padding:5px 8px">${yenFmt(r.unitPrice)}</td>
+      <td style="text-align:right;padding:5px 8px;font-weight:600">${yenFmt(r.cost)}</td>
+      <td style="padding:5px 8px;font-size:10px">${r.vendor || '-'}</td>`;
+    tbody.appendChild(tr);
+  }
+  document.getElementById('bomTotal').textContent = yenFmt(total);
+  return items;
+}
+
+document.getElementById('bomBtn').addEventListener('click', () => {
+  refreshBOM();
+  document.getElementById('bomModal').style.display = 'flex';
+});
+document.getElementById('bomClose').addEventListener('click', () => {
+  document.getElementById('bomModal').style.display = 'none';
+});
+
+// CSV download
+document.getElementById('csvBtn').addEventListener('click', () => {
+  const items = viewer.takeoff();
+  const plan = viewer.getPlan();
+  const rows = [
+    ['工程','分類','部材ID','部材名','数量','単位','単価','小計','業者'],
+    ...items.map(r => [r.phase, r.category || '', r.itemId, r.name, r.qty.toFixed(2), r.unit, r.unitPrice, r.cost, r.vendor || ''])
+  ];
+  const csv = '﻿' + rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\r\n');
+  const blob = new Blob([csv], {type: 'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `SOLUNA_BOM_${plan.name}_${plan.label.replace(/[^a-zA-Z0-9.]/g,'_')}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// IFC download (links to the existing /cabin/cad/SOLUNA_<NAME>_<area>.ifc)
+document.getElementById('ifcBtn').addEventListener('click', () => {
+  const plan = viewer.getPlan();
+  const map = {
+    mini:'SOLUNA_MEBUKI_9.9m2', standard:'SOLUNA_SU_24.8m2', dome:'SOLUNA_TAMA_27m2',
+    large:'SOLUNA_AN_40m2', xl:'SOLUNA_MUNE_66m2', villa:'SOLUNA_VILLA_120m2',
+    grand:'SOLUNA_GRAND_200m2', myth:'SOLUNA_MYTH_300m2',
+  };
+  const slug = map[plan.id];
+  if (!slug) { alert('IFC ファイルは BUILD シリーズのみ対応中（KOSMOS/URBAN は調整中）'); return; }
+  const a = document.createElement('a');
+  a.href = `/cad/${slug}.ifc`;
+  a.download = `${slug}.ifc`;
+  a.click();
+});
+
+// 4D phase animation
+const phaseHud = document.getElementById('phaseHud');
+document.getElementById('phaseBtn').addEventListener('click', async () => {
+  phaseHud.style.display = 'block';
+  await viewer.playConstructionSequence((idx, ph) => {
+    document.getElementById('phaseHudName').textContent = ph.name;
+    document.getElementById('phaseHudIdx').textContent  = `Phase ${idx} / ${viewer.getPhases().length}`;
+  }, 1100);
+  setTimeout(() => phaseHud.style.display = 'none', 1500);
+});
+
+// PO PDF (using jsPDF from CDN)
+document.getElementById('poBtn').addEventListener('click', async () => {
+  if (!window.jspdf) {
+    await new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js';
+      s.onload = res; s.onerror = rej;
+      document.head.appendChild(s);
+    });
+  }
+  const items = viewer.takeoff();
+  const plan = viewer.getPlan();
+  // Group by vendor
+  const byVendor = {};
+  for (const r of items) {
+    const v = r.vendor || '未指定';
+    if (!byVendor[v]) byVendor[v] = [];
+    byVendor[v].push(r);
+  }
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({orientation:'portrait', unit:'mm', format:'a4'});
+  const today = new Date().toISOString().slice(0, 10);
+  let pageNum = 1;
+  for (const [vendor, rows] of Object.entries(byVendor)) {
+    if (pageNum > 1) pdf.addPage();
+    pdf.setFontSize(16); pdf.text('発注書 (PURCHASE ORDER)', 20, 20);
+    pdf.setFontSize(10);
+    pdf.text(`発注者: 株式会社イネブラ (Enabler Inc.)`, 20, 30);
+    pdf.text(`東京都千代田区九段南1-5-6 りそな九段ビル5F`, 20, 35);
+    pdf.text(`TEL: 090-7409-0407 / mail@yukihamada.jp`, 20, 40);
+    pdf.text(`発注日: ${today}`, 150, 30);
+    pdf.text(`案件: SOLUNA ${plan.name} ${plan.label}`, 150, 35);
+    pdf.line(20, 48, 190, 48);
+    pdf.setFontSize(12); pdf.text(`御中: ${vendor}`, 20, 56);
+    pdf.setFontSize(9);
+    let y = 70;
+    pdf.text('Phase', 20, y); pdf.text('Item', 35, y); pdf.text('Qty', 130, y, {align:'right'});
+    pdf.text('Unit Price', 158, y, {align:'right'}); pdf.text('Subtotal', 188, y, {align:'right'});
+    pdf.line(20, y+2, 190, y+2);
+    y += 8;
+    let total = 0;
+    for (const r of rows) {
+      const name = r.name.length > 50 ? r.name.slice(0, 47) + '...' : r.name;
+      pdf.text(String(r.phase), 20, y);
+      pdf.text(name, 35, y);
+      pdf.text(qtyFmt(r.qty, r.unit), 130, y, {align:'right'});
+      pdf.text(yenFmt(r.unitPrice), 158, y, {align:'right'});
+      pdf.text(yenFmt(r.cost), 188, y, {align:'right'});
+      total += r.cost;
+      y += 6;
+      if (y > 270) { pdf.addPage(); y = 20; }
+    }
+    pdf.line(20, y, 190, y); y += 6;
+    pdf.setFontSize(11); pdf.text(`合計 (税抜): ${yenFmt(total)}`, 188, y, {align:'right'});
+    y += 5;
+    pdf.text(`消費税 (10%): ${yenFmt(total * 0.10)}`, 188, y, {align:'right'});
+    y += 5;
+    pdf.setFontSize(13); pdf.text(`総合計: ${yenFmt(total * 1.10)}`, 188, y, {align:'right'});
+    pdf.setFontSize(8);
+    pdf.text('※納品先・支払条件は別途打合せ。本書は3D BIMモデルからの自動算出値。', 20, 280);
+    pageNum++;
+  }
+  pdf.save(`SOLUNA_PO_${plan.name}_${today}.pdf`);
 });
 
 // Color preset selector

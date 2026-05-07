@@ -252,6 +252,52 @@ export function applyColors(overrides) {
 function box(w, h, d, mat) { return new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); }
 function group(name) { const g = new THREE.Group(); g.name = name; return g; }
 
+// ========= BIM item registry (BOM tagging) =========
+// Maps internal id → human-readable spec, unit price, vendor, construction phase
+export const BIM_ITEMS = {
+  // 1: site, 2: foundation, 3: frame, 4: envelope, 5: roof, 6: openings, 7: equipment, 8: interior
+  pile_screw:        {name:'鋼管杭 Φ100×L1500',    unit:'本',   unitPrice: 4500, vendor:'第一機材',     phase:2, category:'基礎'},
+  sill_steel:        {name:'鋼製土台 100×200×t6 (角パイプ)', unit:'m', unitPrice: 3800, vendor:'JFE鋼材',  phase:2, category:'基礎'},
+  beam_floor:        {name:'KD杉 構造用集成材 105×180', unit:'m', unitPrice: 1850, vendor:'銘建工業',     phase:3, category:'構造'},
+  slab_floor:        {name:'構造用合板 24mm + 杉フローリング', unit:'m²', unitPrice: 5500, vendor:'西垣林業', phase:3, category:'構造'},
+  beam_exposed:      {name:'露し梁 KD杉 105×180',     unit:'m',   unitPrice: 1850, vendor:'銘建工業',     phase:3, category:'構造'},
+  loft:              {name:'ロフト床 + 杉梯子',       unit:'式',   unitPrice: 65000, vendor:'銘建工業',    phase:3, category:'構造'},
+  sips_wall:         {name:'SIPsパネル 壁用 910×1820×t160', unit:'m²', unitPrice: 11000, vendor:'鈴工 / Big Box', phase:4, category:'外皮'},
+  sips_roof:         {name:'SIPsパネル 屋根用 910×1820×t200', unit:'m²', unitPrice: 14000, vendor:'鈴工 / Big Box', phase:5, category:'屋根'},
+  cladding_galv:     {name:'ガルバ波板 黒 t0.35',     unit:'m²', unitPrice: 1200,  vendor:'JFE鋼板',      phase:4, category:'外皮'},
+  ridge_cap:         {name:'棟板金 + 役物',           unit:'m',  unitPrice: 1800,  vendor:'JFE鋼板',      phase:5, category:'屋根'},
+  verge_board:       {name:'破風板 ガルバ',           unit:'m',  unitPrice: 1200,  vendor:'JFE鋼板',      phase:5, category:'屋根'},
+  gutter:            {name:'雨樋 + 縦樋 Φ60',         unit:'m',  unitPrice: 1500,  vendor:'パナソニック', phase:5, category:'屋根'},
+  window_resin:      {name:'樹脂サッシ 引違 トリプルガラス', unit:'m²', unitPrice: 78000, vendor:'YKK AP', phase:6, category:'開口部'},
+  door_entry:        {name:'断熱玄関ドア (杉集成材+EPS)', unit:'枚', unitPrice: 31000, vendor:'三協アルミ',phase:6, category:'開口部'},
+  skylight:          {name:'天窓 (FIX固定)',          unit:'枚', unitPrice: 95000, vendor:'VELUX',        phase:5, category:'屋根'},
+  pv_panel:          {name:'400W単結晶 PVパネル',     unit:'枚', unitPrice: 15000, vendor:'JA Solar',     phase:7, category:'設備'},
+  battery_pack:      {name:'LiFePO4 12V 200Ah + 600Wインバーター', unit:'式', unitPrice: 58000, vendor:'CATL/EVE', phase:7, category:'設備'},
+  vent_fan:          {name:'24h換気扇 Φ100',         unit:'台', unitPrice: 18000, vendor:'パナソニック', phase:7, category:'設備'},
+  vent_compost:      {name:'コンポストvent + キャップ', unit:'式', unitPrice: 8500,  vendor:'盛光',         phase:7, category:'設備'},
+  rainwater_tank:    {name:'雨水タンク 200L + ポンプ', unit:'式', unitPrice: 30000, vendor:'タキロン',     phase:7, category:'設備'},
+  toilet_compost:    {name:'Separett Villa 9215 コンポストトイレ', unit:'台', unitPrice: 75000, vendor:'Separett', phase:7, category:'設備'},
+  stove_wood:        {name:'小型鋼板薪ストーブ + 煙突一式', unit:'式', unitPrice: 48000, vendor:'時計型',  phase:7, category:'設備'},
+  bed_cedar:         {name:'杉プラットフォームベッド + マットレス', unit:'台', unitPrice: 65000, vendor:'STAYLING', phase:8, category:'家具'},
+  kitchen_counter:   {name:'造作キッチン (杉+SUS)',    unit:'m', unitPrice: 95000, vendor:'造作',         phase:8, category:'家具'},
+  dining_set:        {name:'杉ダイニングテーブル+椅子',unit:'式', unitPrice: 80000, vendor:'造作',         phase:8, category:'家具'},
+  deck_wood:         {name:'杉デッキ + 手すり',       unit:'m²', unitPrice: 8500,  vendor:'西垣林業',     phase:7, category:'設備'},
+  sauna_barrel:      {name:'バレルサウナ 8人用',      unit:'台', unitPrice: 800000, vendor:'Saunum',      phase:7, category:'設備'},
+  sash_frame:        {name:'アルミサッシ枠 + 役物',  unit:'m', unitPrice: 4500,  vendor:'YKK AP',         phase:6, category:'開口部'},
+  steps_entry:       {name:'杉踏み板 + 鋼ストリンガー', unit:'段', unitPrice: 12000, vendor:'造作',        phase:2, category:'基礎'},
+  pilotis_column:    {name:'鋼製柱 H300×300×t12',    unit:'本', unitPrice: 28000, vendor:'JFE鋼材',       phase:2, category:'基礎'},
+};
+
+function tagItem(mesh, itemId, qty) {
+  if (!BIM_ITEMS[itemId]) return mesh;
+  mesh.userData.bim = {
+    itemId, qty,
+    item: BIM_ITEMS[itemId],
+    cost: qty * (BIM_ITEMS[itemId].unitPrice || 0),
+  };
+  return mesh;
+}
+
 function edge(mesh, color, opacity = 0.85) {
   const e = new THREE.EdgesGeometry(mesh.geometry, 18);
   const lines = new THREE.LineSegments(e, new THREE.LineBasicMaterial({color: color ?? COLORS.line, transparent: true, opacity}));
@@ -309,15 +355,14 @@ function buildFoundation(plan) {
   }
 
   for (const [x, z] of piles) {
-    // Pile shaft (galvanized steel pipe)
+    // Pile shaft (galvanized steel pipe) — tagged
     const pile = new THREE.Mesh(new THREE.CylinderGeometry(pileR, pileR, pileH, 12), MATS.steelDark);
     pile.position.set(x, (pileTopY + pileBotY) / 2, z);
+    tagItem(pile, 'pile_screw', 1);
     g.add(pile);
-    // Helical screw blade at bottom (single rotation for visualization)
     const blade = new THREE.Mesh(new THREE.CylinderGeometry(pileR * 2.6, pileR * 2.2, 0.06, 16), MATS.steelDark);
     blade.position.set(x, pileBotY + 0.10, z);
     g.add(blade);
-    // Pile cap plate (top connector)
     const cap = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.025, 0.18), MATS.steelDark);
     cap.position.set(x, pileTopY + 0.012, z);
     g.add(cap);
@@ -332,16 +377,19 @@ function buildFoundation(plan) {
     {w: sillT, h: sillH, d: D - 0.10, x:  W/2, y: sillY, z: 0},
     {w: sillT, h: sillH, d: D - 0.10, x: -W/2, y: sillY, z: 0},
   ];
+  let sillTotalLen = 0;
   for (const s of sills) {
     const m = box(s.w, s.h, s.d, MATS.steelDark);
     m.position.set(s.x, s.y, s.z);
+    sillTotalLen += Math.max(s.w, s.d);
+    tagItem(m, 'sill_steel', Math.max(s.w, s.d));
     g.add(m);
     g.add(edge(m, COLORS.line, 0.5));
   }
-  // Interior cross beams for buildings > 5m wide
   if (W > 5) {
     const cross = box(sillT, sillH, D - 0.10, MATS.steelDark);
     cross.position.set(0, sillY, 0);
+    tagItem(cross, 'sill_steel', D - 0.10);
     g.add(cross);
   }
 
@@ -471,11 +519,13 @@ function buildSIPs(plan) {
   // South wall (+Z) — main opening
   const south = wallWithOpenings({W, H: totalH, t, opening: plan.openings?.south, units: plan.openings?.units, side: false});
   south.position.set(0, baseY + totalH/2, D/2 - t/2);
+  tagWallArea(south, W, totalH);
   g.add(south);
 
   // North wall (solid)
   const north = solidWall(W, totalH, t);
   north.position.set(0, baseY + totalH/2, -D/2 + t/2);
+  tagWallArea(north, W, totalH);
   g.add(north);
 
   // East/West (+X / -X) — small windows per story
@@ -483,11 +533,13 @@ function buildSIPs(plan) {
   const east = wallWithOpenings({W: D, H: totalH, t, opening: sideOp, side: true, count: stories});
   east.rotation.y = Math.PI / 2;
   east.position.set(W/2 - t/2, baseY + totalH/2, 0);
+  tagWallArea(east, D, totalH);
   g.add(east);
 
   const west = wallWithOpenings({W: D, H: totalH, t, opening: sideOp, side: true, count: stories});
   west.rotation.y = -Math.PI / 2;
   west.position.set(-W/2 + t/2, baseY + totalH/2, 0);
+  tagWallArea(west, D, totalH);
   g.add(west);
 
   // Inter-floor band (showing slab edge)
@@ -498,6 +550,20 @@ function buildSIPs(plan) {
   }
 
   return g;
+}
+
+// Helper to tag an entire wall group with its area
+function tagWallArea(wallGroup, w, h) {
+  const area = w * h;
+  // Find the first solid mesh in the group and tag it (ignore openings/windows)
+  let tagged = false;
+  wallGroup.traverse(o => {
+    if (tagged) return;
+    if (o.isMesh && o.material === MATS.steel) {
+      tagItem(o, 'sips_wall', area);
+      tagged = true;
+    }
+  });
 }
 
 function solidWall(W, H, t) {
@@ -587,7 +653,9 @@ function wallWithOpenings({W, H, t, opening, count, units, side}) {
     // Big south opening on ground floor — sill 400mm above FL
     const sill = -H/2 + 0.40 + opH/2;
     const win = box(opW, opH, t + 0.005, MATS.glass);
-    win.position.set(0, sill, 0); g.add(win);
+    win.position.set(0, sill, 0);
+    tagItem(win, 'window_resin', opW * opH);
+    g.add(win);
     const fr = sashFrame(opW, opH, t);
     fr.position.set(0, sill, t/2); g.add(fr);
 
@@ -597,7 +665,9 @@ function wallWithOpenings({W, H, t, opening, count, units, side}) {
     if (dx - doorW/2 > -W/2 + 0.30) {
       const dy = -H/2 + doorH/2;
       const door = box(doorW, doorH, t + 0.01, MATS.cedar);
-      door.position.set(dx, dy, 0); g.add(door);
+      door.position.set(dx, dy, 0);
+      tagItem(door, 'door_entry', 1);
+      g.add(door);
       const dframe = sashFrame(doorW, doorH, t);
       dframe.position.set(dx, dy, t/2); g.add(dframe);
     }
@@ -699,6 +769,9 @@ function buildRoof(plan) {
   const roof = new THREE.Mesh(roofGeo, MATS.steel);
   roof.rotation.y = -Math.PI / 2;
   roof.position.x = -roofW / 2;       // extrude goes +Z which after Y rotation is -X
+  // Roof area = 2 slopes × (W × slopeLen)
+  const slopeLen = Math.hypot(run, ridgeH);
+  tagItem(roof, 'sips_roof', 2 * roofW * slopeLen);
   // After rotation Y by -90deg: (x_local, y_local, z_local) → (z_local, y_local, -x_local)
   // So extrude direction (z_local) maps to world +X. Good.
   // The profile X (which was world Z direction in shape) after Y rot → ... wait let me re-check.
@@ -880,6 +953,7 @@ function buildSolar(plan) {
       const x = -totalRowW/2 + c * (pW + gap) + pW/2;
       panel.position.set(x, y + 0.05, z);
       panel.rotation.x = -slope;
+      tagItem(panel, 'pv_panel', 1);
       g.add(panel);
       g.add(edge(panel, COLORS.solarFr, 0.8));
       placed++;
@@ -905,6 +979,7 @@ function buildDeck(plan) {
   const dDeck = Math.min(3.0, D * 0.25);
   const deck = box(W * 0.95, 0.10, dDeck, MATS.deck);
   deck.position.set(0, baseY - 0.05, D/2 + dDeck/2);
+  tagItem(deck, 'deck_wood', W * 0.95 * dDeck);
   g.add(deck);
   g.add(edge(deck, COLORS.line, 0.4));
   // Deck joists pattern (just visible from below as edges) — skip for simplicity
@@ -927,6 +1002,7 @@ function buildDeck(plan) {
     const sauna = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 2.2, 24), MATS.sauna);
     sauna.rotation.z = Math.PI / 2;
     sauna.position.set(W/2 - 1.6, baseY + 1.2, D/2 + dDeck/2 + 0.4);
+    tagItem(sauna, 'sauna_barrel', 1);
     g.add(sauna);
     g.add(edge(sauna));
     // Sauna chimney
@@ -993,6 +1069,7 @@ function buildEquipment(plan) {
     const tankR = 0.30, tankH = 0.95;
     const tank = new THREE.Mesh(new THREE.CylinderGeometry(tankR, tankR, tankH, 18), MATS.cedarLite);
     tank.position.set(W/2 + tankR + 0.15, FL_OFFSET + tankH/2, -D/2 + 1.2);
+    tagItem(tank, 'rainwater_tank', 1);
     g.add(tank);
     g.add(edge(tank, COLORS.line, 0.6));
     // top lid (darker)
@@ -1102,6 +1179,7 @@ function buildInterior(plan) {
   if (!plan.pilotis && !plan.openings?.units) {
     const stove = box(0.50, 0.65, 0.45, MATS.steelDark);
     stove.position.set(W/2 - 0.7, FL + 0.325, 0);
+    tagItem(stove, 'stove_wood', 1);
     g.add(stove);
     // Heat shield base (concrete pad)
     const pad = box(0.80, 0.04, 0.75, MATS.foundation);
@@ -1615,12 +1693,111 @@ export function createViewer(container, opts = {}) {
 
   function isInteriorMode() { return interiorMode; }
 
+  // ── BIM Click → spec/price popup (raycaster) ──
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+  let onClickCallback = null;
+
+  function onCanvasClick(ev) {
+    if (interiorMode) return;
+    const rect = renderer.domElement.getBoundingClientRect();
+    mouse.x = ((ev.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((ev.clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    if (!currentRoot) return;
+    const hits = raycaster.intersectObjects(currentRoot.children, true);
+    for (const hit of hits) {
+      let obj = hit.object;
+      while (obj && !obj.userData?.bim) obj = obj.parent;
+      if (obj && obj.userData?.bim) {
+        if (onClickCallback) onClickCallback({...obj.userData.bim, point: hit.point, mesh: obj});
+        return;
+      }
+    }
+    if (onClickCallback) onClickCallback(null);
+  }
+  renderer.domElement.addEventListener('click', onCanvasClick);
+
+  function onElementClick(cb) { onClickCallback = cb; }
+
+  // ── Quantity Takeoff (3D BOM aggregation) ──
+  function takeoff() {
+    if (!currentRoot) return [];
+    const totals = {};
+    currentRoot.traverse(o => {
+      const bim = o.userData?.bim;
+      if (!bim) return;
+      const id = bim.itemId;
+      if (!totals[id]) {
+        totals[id] = {
+          itemId: id, ...bim.item,
+          qty: 0, cost: 0, count: 0,
+        };
+      }
+      totals[id].qty += bim.qty;
+      totals[id].cost += bim.cost;
+      totals[id].count += 1;
+    });
+    return Object.values(totals).sort((a, b) => a.phase - b.phase || (b.cost - a.cost));
+  }
+
+  // ── 4D Construction sequence animation ──
+  // Phase mapping → group visibility
+  // 1: site (env), 2: foundation, 3: structure, 4: sips (envelope), 5: roof, 6: openings, 7: equipment+solar+deck, 8: interior
+  const PHASES = [
+    {id: 1, name: '敷地', layers: []},
+    {id: 2, name: '基礎工事', layers: ['foundation']},
+    {id: 3, name: '構造躯体', layers: ['structure']},
+    {id: 4, name: 'SIPs外皮', layers: ['sips']},
+    {id: 5, name: '屋根', layers: ['roof']},
+    {id: 6, name: '開口部', layers: ['openings']},
+    {id: 7, name: '設備・太陽光', layers: ['equipment', 'solar']},
+    {id: 8, name: 'デッキ・外構', layers: ['deck']},
+    {id: 9, name: '内装家具', layers: ['interior']},
+  ];
+  let currentPhase = PHASES.length;     // all visible by default
+
+  function setPhase(phaseIdx) {
+    if (!currentGroups) return;
+    currentPhase = phaseIdx;
+    // Hide everything visible-by-default first
+    for (const layerName of ['foundation','structure','sips','roof','openings','solar','deck','equipment','interior']) {
+      if (currentGroups[layerName]) currentGroups[layerName].visible = false;
+    }
+    // Show layers up through phaseIdx
+    for (let i = 0; i < phaseIdx && i < PHASES.length; i++) {
+      for (const ln of PHASES[i].layers) {
+        if (currentGroups[ln]) currentGroups[ln].visible = true;
+      }
+    }
+  }
+
+  function playConstructionSequence(onPhaseChange, stepMs = 800) {
+    return new Promise((resolve) => {
+      let i = 0;
+      function step() {
+        setPhase(i + 1);
+        if (onPhaseChange) onPhaseChange(i + 1, PHASES[i]);
+        i++;
+        if (i < PHASES.length) {
+          setTimeout(step, stepMs);
+        } else {
+          resolve();
+        }
+      }
+      step();
+    });
+  }
+
+  function getPhases() { return PHASES; }
+
   return {
     scene, camera, renderer,
     get controls() { return controls; },
     loadPlan, setLayer, setView, setXray, fitCamera,
     applyPreset, applyOverrides, setEnvironment,
     setInteriorMode, isInteriorMode,
+    onElementClick, takeoff, setPhase, playConstructionSequence, getPhases,
     getPlan: () => currentPlan,
   };
 }
