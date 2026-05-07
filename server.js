@@ -10476,9 +10476,7 @@ app.get("/api/pages", async (req, res) => {
   res.json({ pages: result, total: result.length });
 });
 
-app.all("/api/*", (_req, res) => {
-  res.status(404).json({ error: "Not found" });
-});
+// (moved /api/* catch-all to AFTER all bim/voice-memo/transcribe routes — see below)
 
 // ── Auth-gated sensitive files ────────────────────────────────────────────────
 const GATED_IMG_FILES = new Set(['teshikaga_97_detail.pdf']);
@@ -11099,6 +11097,11 @@ MEBUKI(9.9m²/¥135万) SU(24.8m²/¥328万) TAMA(40m²ドーム) AN(40m²) MUNE
   app.post("/api/bim/convert", async (req, res) => {
     // Stub: real implementation would proxy to Forge / Speckle / Forma
     res.status(503).json({error:'CAD変換APIは現在連携準備中です (Forge/Speckle統合)。glTF/OBJ/FBXに変換してアップロードしてください。'});
+  });
+
+  // ── /api/* catch-all 404 (must come AFTER all real /api routes) ──
+  app.all("/api/*", (_req, res) => {
+    res.status(404).json({ error: "Not found" });
   });
 
   // /build/:plan → build.html (SSR: plan固有のtitle/meta/SEOコンテンツ注入)

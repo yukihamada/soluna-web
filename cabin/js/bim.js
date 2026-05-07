@@ -104,7 +104,7 @@ const COLORS = {
   human:     0x3a3a3a,
 };
 
-// ========= Procedural textures (canvas → CanvasTexture) =========
+// ========= Procedural textures (canvas → CanvasTexture, with normal/roughness maps) =========
 const TEX_CACHE = {};
 function makeCanvas(w, h) {
   const c = document.createElement('canvas');
@@ -121,15 +121,50 @@ function shade(hex, amt) {
   const b = Math.max(0, Math.min(255, (hex & 0xff) + amt));
   return (r << 16) | (g << 8) | b;
 }
+// Convert a grayscale "height" canvas to a normal map canvas via Sobel
+function heightToNormal(srcCanvas, strength = 2.0) {
+  const w = srcCanvas.width, h = srcCanvas.height;
+  const sctx = srcCanvas.getContext('2d');
+  const src = sctx.getImageData(0, 0, w, h).data;
+  const dst = makeCanvas(w, h);
+  const dctx = dst.getContext('2d');
+  const out = dctx.createImageData(w, h);
+  const lum = (i) => 0.299 * src[i] + 0.587 * src[i + 1] + 0.114 * src[i + 2];
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const xL = (x - 1 + w) % w, xR = (x + 1) % w;
+      const yU = (y - 1 + h) % h, yD = (y + 1) % h;
+      const dx = (lum((y * w + xR) * 4) - lum((y * w + xL) * 4)) / 255 * strength;
+      const dy = (lum((yD * w + x) * 4) - lum((yU * w + x) * 4)) / 255 * strength;
+      const len = Math.hypot(dx, dy, 1);
+      const nx = (-dx / len) * 0.5 + 0.5;
+      const ny = (-dy / len) * 0.5 + 0.5;
+      const nz = (1 / len) * 0.5 + 0.5;
+      const o = (y * w + x) * 4;
+      out.data[o] = nx * 255;
+      out.data[o + 1] = ny * 255;
+      out.data[o + 2] = nz * 255;
+      out.data[o + 3] = 255;
+    }
+  }
+  dctx.putImageData(out, 0, 0);
+  return dst;
+}
+function setupTex(c, anisotropy = 8) {
+  const tex = new THREE.CanvasTexture(c);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.anisotropy = anisotropy;
+  return tex;
+}
 
 function texCedar(baseColor) {
   const key = 'cedar_' + baseColor;
   if (TEX_CACHE[key]) return TEX_CACHE[key];
+  // Albedo (color) canvas
   const c = makeCanvas(512, 512);
   const ctx = c.getContext('2d');
   ctx.fillStyle = rgbHex(baseColor);
   ctx.fillRect(0, 0, 512, 512);
-  // Wood grain — vertical streaks with subtle hue noise
   for (let i = 0; i < 220; i++) {
     const x = Math.random() * 512;
     const w = 0.5 + Math.random() * 2;
@@ -137,13 +172,11 @@ function texCedar(baseColor) {
     ctx.fillStyle = rgbHex(shade(baseColor, dark), 0.18 + Math.random() * 0.20);
     ctx.fillRect(x, 0, w, 512);
   }
-  // Plank seams (every 145 px = 145mm planks at 512px = 1m scale)
   ctx.strokeStyle = rgbHex(shade(baseColor, -50), 0.55);
   ctx.lineWidth = 1.0;
   for (let x = 145; x < 512; x += 145) {
     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 512); ctx.stroke();
   }
-  // Subtle horizontal knots
   for (let i = 0; i < 10; i++) {
     const x = Math.random() * 512, y = Math.random() * 512;
     const r = 4 + Math.random() * 8;
@@ -153,11 +186,47 @@ function texCedar(baseColor) {
     ctx.fillStyle = grad;
     ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
   }
-  const tex = new THREE.CanvasTexture(c);
-  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-  tex.colorSpace = THREE.SRGBColorSpace;
-  TEX_CACHE[key] = tex;
-  return tex;
+  // Height canvas (grayscale: dark = recessed, plank seams = deep grooves)
+  const hc = makeCanvas(512, 512);
+  const hctx = hc.getContext('2d');
+  hctx.fillStyle = '#9a9a9a';
+  hctx.fillRect(0, 0, 512, 512);
+  for (let i = 0; i < 220; i++) {
+    const x = Math.random() * 512;
+    const w = 0.5 + Math.random() * 2;
+    hctx.fillStyle = `rgba(${Math.random() < 0.5 ? 70 : 110},${Math.random() < 0.5 ? 70 : 110},${Math.random() < 0.5 ? 70 : 110},${0.18 + Math.random() * 0.20})`;
+    hctx.fillRect(x, 0, w, 512);
+  }
+  hctx.strokeStyle = 'rgba(20,20,20,1)';   // deep plank seam grooves
+  hctx.lineWidth = 1.6;
+  for (let x = 145; x < 512; x += 145) {
+    hctx.beginPath(); hctx.moveTo(x, 0); hctx.lineTo(x, 512); hctx.stroke();
+  }
+  for (let i = 0; i < 10; i++) {
+    const x = Math.random() * 512, y = Math.random() * 512;
+    const r = 4 + Math.random() * 8;
+    const g2 = hctx.createRadialGradient(x, y, 1, x, y, r);
+    g2.addColorStop(0, 'rgba(40,40,40,0.6)');
+    g2.addColorStop(1, 'rgba(120,120,120,0)');
+    hctx.fillStyle = g2;
+    hctx.beginPath(); hctx.arc(x, y, r, 0, Math.PI * 2); hctx.fill();
+  }
+  // Roughness canvas (knots more rough, base wood wax slightly smoother)
+  const rc = makeCanvas(256, 256);
+  const rctx = rc.getContext('2d');
+  rctx.fillStyle = '#bbbbbb';   // 0.73 roughness baseline
+  rctx.fillRect(0, 0, 256, 256);
+  for (let i = 0; i < 60; i++) {
+    const x = Math.random() * 256, y = Math.random() * 256;
+    rctx.fillStyle = `rgba(${200},${200},${200},${0.4})`;
+    rctx.fillRect(x, y, 1 + Math.random() * 4, 1 + Math.random() * 4);
+  }
+  const albedo = setupTex(c);
+  albedo.colorSpace = THREE.SRGBColorSpace;
+  const normal = setupTex(heightToNormal(hc, 2.4));
+  const rough = setupTex(rc);
+  TEX_CACHE[key] = {map: albedo, normalMap: normal, roughnessMap: rough};
+  return TEX_CACHE[key];
 }
 
 function texGalvSteel(baseColor) {
@@ -167,29 +236,50 @@ function texGalvSteel(baseColor) {
   const ctx = c.getContext('2d');
   ctx.fillStyle = rgbHex(baseColor);
   ctx.fillRect(0, 0, 512, 512);
-  // Vertical seams (角波 standing-seam, every 64px = ~150mm)
   ctx.strokeStyle = rgbHex(shade(baseColor, -30), 0.85);
   ctx.lineWidth = 1.4;
   for (let x = 0; x < 512; x += 64) {
     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 512); ctx.stroke();
   }
-  // Subtle highlight band beside each seam (raised standing seam)
   ctx.strokeStyle = rgbHex(shade(baseColor, +18), 0.45);
   ctx.lineWidth = 0.7;
   for (let x = 6; x < 512; x += 64) {
     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 512); ctx.stroke();
   }
-  // Metallic noise
   for (let i = 0; i < 1200; i++) {
     const x = Math.random() * 512, y = Math.random() * 512;
     ctx.fillStyle = rgbHex(shade(baseColor, Math.random() < 0.5 ? +15 : -12), 0.10);
     ctx.fillRect(x, y, 1.2, 1.2);
   }
-  const tex = new THREE.CanvasTexture(c);
-  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-  tex.colorSpace = THREE.SRGBColorSpace;
-  TEX_CACHE[key] = tex;
-  return tex;
+  // Height: standing-seam ribs are raised
+  const hc = makeCanvas(512, 512);
+  const hctx = hc.getContext('2d');
+  hctx.fillStyle = '#7a7a7a';
+  hctx.fillRect(0, 0, 512, 512);
+  // Raised seam rib (white = up) over a thin valley
+  for (let x = 0; x < 512; x += 64) {
+    // valley
+    hctx.fillStyle = 'rgba(20,20,20,1)';
+    hctx.fillRect(x - 1, 0, 2, 512);
+    // rib peak
+    hctx.fillStyle = 'rgba(245,245,245,1)';
+    hctx.fillRect(x + 4, 0, 4, 512);
+  }
+  // Roughness: metal slightly variable
+  const rc = makeCanvas(256, 256);
+  const rctx = rc.getContext('2d');
+  rctx.fillStyle = '#6c6c6c';   // ~0.42 roughness
+  rctx.fillRect(0, 0, 256, 256);
+  for (let i = 0; i < 200; i++) {
+    rctx.fillStyle = `rgba(${100 + Math.random() * 60},${100 + Math.random() * 60},${100 + Math.random() * 60},0.35)`;
+    rctx.fillRect(Math.random() * 256, Math.random() * 256, 2, 2);
+  }
+  const albedo = setupTex(c);
+  albedo.colorSpace = THREE.SRGBColorSpace;
+  const normal = setupTex(heightToNormal(hc, 3.0));
+  const rough = setupTex(rc);
+  TEX_CACHE[key] = {map: albedo, normalMap: normal, roughnessMap: rough};
+  return TEX_CACHE[key];
 }
 
 function texConcrete() {
@@ -205,44 +295,128 @@ function texConcrete() {
     ctx.fillStyle = `rgba(${110+v},${100+v},${94+v},0.30)`;
     ctx.fillRect(x, y, 1.5, 1.5);
   }
-  const tex = new THREE.CanvasTexture(c);
-  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-  tex.colorSpace = THREE.SRGBColorSpace;
-  TEX_CACHE[key] = tex;
-  return tex;
+  // Form-tie marks (uniformly spaced dimples typical of cast concrete)
+  for (let y = 32; y < 256; y += 80) {
+    for (let x = 32; x < 256; x += 80) {
+      const grad = ctx.createRadialGradient(x, y, 1, x, y, 4);
+      grad.addColorStop(0, 'rgba(60,55,50,0.6)');
+      grad.addColorStop(1, 'rgba(110,100,94,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+  // Height for normal: aggregate bumps + form-tie indentations
+  const hc = makeCanvas(256, 256);
+  const hctx = hc.getContext('2d');
+  hctx.fillStyle = '#9a9a9a';
+  hctx.fillRect(0, 0, 256, 256);
+  for (let i = 0; i < 800; i++) {
+    const x = Math.random() * 256, y = Math.random() * 256;
+    hctx.fillStyle = `rgba(${110 + Math.random() * 50},${110 + Math.random() * 50},${110 + Math.random() * 50},0.4)`;
+    hctx.fillRect(x, y, 1.5, 1.5);
+  }
+  for (let y = 32; y < 256; y += 80) {
+    for (let x = 32; x < 256; x += 80) {
+      const grad = hctx.createRadialGradient(x, y, 1, x, y, 4);
+      grad.addColorStop(0, 'rgba(20,20,20,1)');
+      grad.addColorStop(1, 'rgba(150,150,150,0)');
+      hctx.fillStyle = grad;
+      hctx.beginPath(); hctx.arc(x, y, 4, 0, Math.PI * 2); hctx.fill();
+    }
+  }
+  const rc = makeCanvas(128, 128);
+  const rctx = rc.getContext('2d');
+  rctx.fillStyle = '#e0e0e0';   // very rough ~0.95
+  rctx.fillRect(0, 0, 128, 128);
+  const albedo = setupTex(c);
+  albedo.colorSpace = THREE.SRGBColorSpace;
+  const normal = setupTex(heightToNormal(hc, 1.5));
+  const rough = setupTex(rc);
+  TEX_CACHE[key] = {map: albedo, normalMap: normal, roughnessMap: rough};
+  return TEX_CACHE[key];
 }
 
 const MATS = {};
+// Apply repeat to all maps in a pack (color/normal/rough share UVs)
+function packRepeat(pack, rx, ry) {
+  for (const k of ['map', 'normalMap', 'roughnessMap']) {
+    if (pack[k]) {
+      // Clone-style: ensure each instance can have its own repeat without affecting cache
+      const t = pack[k];
+      t.repeat.set(rx, ry);
+      t.needsUpdate = true;
+    }
+  }
+  return pack;
+}
 function buildMaterials() {
-  // Procedural textures (per-color so preset switch refreshes)
-  const cedarMap = texCedar(COLORS.cedar);
-  cedarMap.repeat.set(2, 1);
-  const cedarLiteMap = texCedar(COLORS.cedarLite);
-  cedarLiteMap.repeat.set(2, 1);
-  const galvMap = texGalvSteel(COLORS.steel);
-  galvMap.repeat.set(4, 1);
-  const galvDarkMap = texGalvSteel(COLORS.steelDark);
-  galvDarkMap.repeat.set(4, 1);
-  const concMap = texConcrete();
-  concMap.repeat.set(3, 0.4);
-  const deckMap = texCedar(COLORS.deck);
-  deckMap.repeat.set(3, 1);
-  const saunaMap = texCedar(COLORS.sauna);
-  saunaMap.repeat.set(2, 1);
+  const cedarPack     = packRepeat(texCedar(COLORS.cedar), 2, 1);
+  const cedarLitePack = packRepeat(texCedar(COLORS.cedarLite), 2, 1);
+  const galvPack      = packRepeat(texGalvSteel(COLORS.steel), 4, 1);
+  const galvDarkPack  = packRepeat(texGalvSteel(COLORS.steelDark), 4, 1);
+  const concPack      = packRepeat(texConcrete(), 3, 0.4);
+  const deckPack      = packRepeat(texCedar(COLORS.deck), 3, 1);
+  const saunaPack     = packRepeat(texCedar(COLORS.sauna), 2, 1);
 
-  MATS.foundation = new THREE.MeshStandardMaterial({color: COLORS.foundation, map: concMap, roughness: 0.95, metalness: 0});
-  MATS.steel      = new THREE.MeshStandardMaterial({color: COLORS.steel, map: galvMap, roughness: 0.42, metalness: 0.55, envMapIntensity: 0.85});
-  MATS.steelDark  = new THREE.MeshStandardMaterial({color: COLORS.steelDark, map: galvDarkMap, roughness: 0.38, metalness: 0.6, envMapIntensity: 0.95});
-  MATS.cedar      = new THREE.MeshStandardMaterial({color: COLORS.cedar, map: cedarMap, roughness: 0.82, metalness: 0});
-  MATS.cedarLite  = new THREE.MeshStandardMaterial({color: COLORS.cedarLite, map: cedarLiteMap, roughness: 0.82, metalness: 0});
-  MATS.glass      = new THREE.MeshPhysicalMaterial({color: COLORS.glass, roughness: 0.02, metalness: 0, transmission: 0.92, transparent: true, opacity: 0.45, ior: 1.45, thickness: 0.012, envMapIntensity: 1.2, clearcoat: 0.4, clearcoatRoughness: 0.05});
-  MATS.sash       = new THREE.MeshStandardMaterial({color: COLORS.sash, roughness: 0.42, metalness: 0.6, envMapIntensity: 0.7});
-  MATS.solar      = new THREE.MeshStandardMaterial({color: COLORS.solar, roughness: 0.12, metalness: 0.75, envMapIntensity: 1.4});
-  MATS.solarFr    = new THREE.MeshStandardMaterial({color: COLORS.solarFr, roughness: 0.5, metalness: 0.6, envMapIntensity: 0.8});
-  MATS.deck       = new THREE.MeshStandardMaterial({color: COLORS.deck, map: deckMap, roughness: 0.88, metalness: 0});
-  MATS.sauna      = new THREE.MeshStandardMaterial({color: COLORS.sauna, map: saunaMap, roughness: 0.85, metalness: 0});
-  MATS.skylight   = new THREE.MeshPhysicalMaterial({color: COLORS.skylight, roughness: 0.08, metalness: 0, transmission: 0.75, transparent: true, opacity: 0.5, ior: 1.45, thickness: 0.01, envMapIntensity: 1.0});
-  MATS.human      = new THREE.MeshStandardMaterial({color: COLORS.human, roughness: 0.9, metalness: 0});
+  MATS.foundation = new THREE.MeshStandardMaterial({
+    color: COLORS.foundation, ...concPack,
+    roughness: 0.95, metalness: 0, normalScale: new THREE.Vector2(0.6, 0.6),
+  });
+  MATS.steel = new THREE.MeshStandardMaterial({
+    color: COLORS.steel, ...galvPack,
+    roughness: 0.42, metalness: 0.55, envMapIntensity: 1.1,
+    normalScale: new THREE.Vector2(0.85, 0.85),
+  });
+  MATS.steelDark = new THREE.MeshStandardMaterial({
+    color: COLORS.steelDark, ...galvDarkPack,
+    roughness: 0.38, metalness: 0.6, envMapIntensity: 1.2,
+    normalScale: new THREE.Vector2(0.85, 0.85),
+  });
+  MATS.cedar = new THREE.MeshStandardMaterial({
+    color: COLORS.cedar, ...cedarPack,
+    roughness: 0.82, metalness: 0, envMapIntensity: 0.7,
+    normalScale: new THREE.Vector2(1.0, 1.0),
+  });
+  MATS.cedarLite = new THREE.MeshStandardMaterial({
+    color: COLORS.cedarLite, ...cedarLitePack,
+    roughness: 0.82, metalness: 0, envMapIntensity: 0.7,
+    normalScale: new THREE.Vector2(1.0, 1.0),
+  });
+  MATS.glass = new THREE.MeshPhysicalMaterial({
+    color: COLORS.glass, roughness: 0.02, metalness: 0,
+    transmission: 0.92, transparent: true, opacity: 0.45,
+    ior: 1.5, thickness: 0.018, envMapIntensity: 1.5,
+    clearcoat: 0.7, clearcoatRoughness: 0.04,
+    reflectivity: 0.35,
+  });
+  MATS.sash = new THREE.MeshStandardMaterial({
+    color: COLORS.sash, roughness: 0.42, metalness: 0.6, envMapIntensity: 0.85,
+  });
+  MATS.solar = new THREE.MeshPhysicalMaterial({
+    color: COLORS.solar, roughness: 0.18, metalness: 0.85, envMapIntensity: 1.6,
+    clearcoat: 0.85, clearcoatRoughness: 0.10,
+  });
+  MATS.solarFr = new THREE.MeshStandardMaterial({
+    color: COLORS.solarFr, roughness: 0.5, metalness: 0.6, envMapIntensity: 0.9,
+  });
+  MATS.deck = new THREE.MeshStandardMaterial({
+    color: COLORS.deck, ...deckPack,
+    roughness: 0.88, metalness: 0, envMapIntensity: 0.5,
+    normalScale: new THREE.Vector2(0.9, 0.9),
+  });
+  MATS.sauna = new THREE.MeshStandardMaterial({
+    color: COLORS.sauna, ...saunaPack,
+    roughness: 0.85, metalness: 0, envMapIntensity: 0.55,
+    normalScale: new THREE.Vector2(0.9, 0.9),
+  });
+  MATS.skylight = new THREE.MeshPhysicalMaterial({
+    color: COLORS.skylight, roughness: 0.08, metalness: 0,
+    transmission: 0.75, transparent: true, opacity: 0.5,
+    ior: 1.5, thickness: 0.012, envMapIntensity: 1.3,
+  });
+  MATS.human = new THREE.MeshStandardMaterial({
+    color: COLORS.human, roughness: 0.9, metalness: 0,
+  });
 }
 
 // Apply a color preset (or partial overrides) and rebuild materials
@@ -1582,10 +1756,20 @@ export function createViewer(container, opts = {}) {
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.85;
+  renderer.toneMappingExposure = 0.95;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   container.appendChild(renderer.domElement);
+  // Bump default anisotropy on all CanvasTextures for crisp grazing-angle texels
+  const _maxAniso = renderer.capabilities.getMaxAnisotropy();
+  for (const k of Object.keys(TEX_CACHE)) {
+    const pack = TEX_CACHE[k];
+    if (pack && typeof pack === 'object') {
+      ['map','normalMap','roughnessMap'].forEach(slot => {
+        if (pack[slot]) pack[slot].anisotropy = Math.min(16, _maxAniso);
+      });
+    }
+  }
 
   // CSS2D for dim labels
   const labelRenderer = new CSS2DRenderer();
@@ -1679,18 +1863,20 @@ export function createViewer(container, opts = {}) {
   // Lights — sun position matches sky's sun
   const hemi = new THREE.HemisphereLight(0xb8d4f0, 0xb0a99a, 0.45);
   scene.add(hemi);
-  const sun = new THREE.DirectionalLight(0xfff2d8, 2.2);
+  const sun = new THREE.DirectionalLight(0xfff2d8, 2.6);
   sun.position.copy(sunPos).multiplyScalar(50);
   sun.castShadow = true;
-  sun.shadow.mapSize.set(2048, 2048);
+  sun.shadow.mapSize.set(4096, 4096);   // 2k → 4k for sharper, less aliased contact shadows
   sun.shadow.camera.near = 0.5;
   sun.shadow.camera.far = 200;
   sun.shadow.camera.left = -50;
   sun.shadow.camera.right = 50;
   sun.shadow.camera.top = 50;
   sun.shadow.camera.bottom = -50;
-  sun.shadow.bias = -0.0003;
-  sun.shadow.normalBias = 0.02;
+  sun.shadow.bias = -0.00018;
+  sun.shadow.normalBias = 0.025;
+  sun.shadow.radius = 4;          // PCF soft penumbra
+  sun.shadow.blurSamples = 16;
   scene.add(sun);
 
   const camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 0.05, 500);
@@ -2786,7 +2972,7 @@ export function createViewer(container, opts = {}) {
     const dayAmount = Math.max(0, Math.sin(elev));
     sun.intensity = 0.3 + dayAmount * 1.9;
     hemi.intensity = 0.15 + dayAmount * 0.40;
-    renderer.toneMappingExposure = 0.55 + dayAmount * 0.45;
+    renderer.toneMappingExposure = 0.65 + dayAmount * 0.50;
     return {elev: elev * 180 / Math.PI, azim: azim * 180 / Math.PI};
   }
 
