@@ -1206,6 +1206,162 @@ function buildEquipment(plan) {
   return g;
 }
 
+// ========= 敷地・法規チェック (site + code compliance) =========
+function buildSite(plan) {
+  const g = group('site');
+  const W = plan.W * MM, D = plan.D * MM;
+  // 敷地サイズ: 建物 + 周囲 5m (semi-detached)、北側 4m setback
+  const sW = W + 10;       // 5m on each side
+  const sD = D + 9;        // 5m south + 4m north
+  const sxOffset = 0;
+  const szOffset = -0.5;   // shift north slightly so building is south-leaning
+
+  // 敷地境界線 (orange dashed)
+  const boundaryMat = new THREE.LineDashedMaterial({color: 0xc8801c, dashSize: 0.4, gapSize: 0.2, transparent: true, opacity: 0.85});
+  const corners = [
+    [sxOffset - sW/2, -0.28, szOffset - sD/2 - 4],   // NW (north pushed back)
+    [sxOffset + sW/2, -0.28, szOffset - sD/2 - 4],   // NE
+    [sxOffset + sW/2, -0.28, szOffset + sD/2],       // SE
+    [sxOffset - sW/2, -0.28, szOffset + sD/2],       // SW
+  ];
+  for (let i = 0; i < 4; i++) {
+    const a = new THREE.Vector3(...corners[i]);
+    const b = new THREE.Vector3(...corners[(i + 1) % 4]);
+    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), boundaryMat);
+    line.computeLineDistances();
+    g.add(line);
+  }
+
+  // 北側斜線 (北海道 高度地区: GL+5m から 北方向に 1.25:1)
+  // Visualize as a sloped plane on the north side
+  const northZ = szOffset - sD/2 - 4;        // boundary z
+  const setbackStart = 5.0;                   // 5m above GL
+  const slopeFactor = 1.25;                   // 1.25 vertical : 1 horizontal
+  const planeLen = 8;
+  const slopePts = [
+    [-sW/2, setbackStart, northZ],
+    [ sW/2, setbackStart, northZ],
+    [ sW/2, setbackStart + planeLen * slopeFactor, northZ + planeLen],
+    [-sW/2, setbackStart + planeLen * slopeFactor, northZ + planeLen],
+  ];
+  const slopeShape = new THREE.BufferGeometry();
+  slopeShape.setFromPoints(slopePts.map(p => new THREE.Vector3(...p)));
+  slopeShape.setIndex([0, 1, 2, 0, 2, 3]);
+  slopeShape.computeVertexNormals();
+  const slopeMesh = new THREE.Mesh(slopeShape, new THREE.MeshBasicMaterial({color: 0xff8844, transparent: true, opacity: 0.18, side: THREE.DoubleSide, wireframe: false}));
+  g.add(slopeMesh);
+  // wireframe outline
+  const wfMat = new THREE.LineBasicMaterial({color: 0xc8801c});
+  for (let i = 0; i < 4; i++) {
+    const a = new THREE.Vector3(...slopePts[i]);
+    const b = new THREE.Vector3(...slopePts[(i + 1) % 4]);
+    g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), wfMat));
+  }
+
+  // 道路 (south side, gravel) — simple visual
+  const roadW = sW + 4;
+  const road = new THREE.Mesh(new THREE.PlaneGeometry(roadW, 4), new THREE.MeshStandardMaterial({color: 0x9a948a, roughness: 1}));
+  road.rotation.x = -Math.PI / 2;
+  road.position.set(sxOffset, -0.29, szOffset + sD/2 + 2);
+  g.add(road);
+
+  return g;
+}
+
+// ========= MEP: 給排水・電気・換気ルーティング =========
+function buildMEP(plan) {
+  const g = group('mep');
+  if (plan.dome || plan.openings?.units || plan.pilotis) return g;
+  const W = plan.W * MM, D = plan.D * MM;
+  const storyH = (plan.H || 3000) * MM;
+  const stories = plan.stories || 1;
+  const baseY = plan.pilotis ? 2.4 + FL_OFFSET : FL_OFFSET;
+  const FL = baseY + 0.18;
+  const ceilH = baseY + storyH - 0.05;     // ceiling for routing
+
+  const matSupply = new THREE.MeshStandardMaterial({color: 0x4a7fc8, roughness: 0.5});  // blue cold water
+  const matDrain  = new THREE.MeshStandardMaterial({color: 0x7a7670, roughness: 0.6});  // grey drain
+  const matElec   = new THREE.MeshStandardMaterial({color: 0xc84844, roughness: 0.6});  // red electrical conduit
+  const matHVAC   = new THREE.MeshStandardMaterial({color: 0x4ab070, roughness: 0.7});  // green ventilation duct
+
+  // ── 給水管 (cold water supply) — Φ20mm PEX, blue ──
+  // Path: rainwater tank (east, north corner) → kitchen (west, south)
+  const supplyPath = [
+    [W/2 + 0.45, FL + 0.2, -D/2 + 1.2],     // tank
+    [W/2 + 0.45, FL - 0.05, -D/2 + 1.2],    // descend
+    [-W/2 + 0.6, FL - 0.05, -D/2 + 1.2],    // run under floor
+    [-W/2 + 0.6, FL - 0.05, D/2 - 0.6],     // route to kitchen
+    [-W/2 + 0.6, FL + 0.85, D/2 - 0.6],     // up to faucet
+  ];
+  drawPipe(g, supplyPath, 0.012, matSupply);
+
+  // ── 排水管 (drain) — Φ50mm PVC, grey, kitchen+toilet → outside ──
+  const drainPath = [
+    [-W/2 + 0.6, FL + 0.40, D/2 - 0.6],     // sink drain
+    [-W/2 + 0.6, FL - 0.10, D/2 - 0.6],     // descend
+    [-W/2 + 0.6, FL - 0.10, 0],              // route through floor
+    [W/2 - 0.5, FL - 0.10, 0],
+    [W/2 - 0.5, FL - 0.10, -D/2 + 0.5],     // toilet area drain join
+    [W/2 - 0.5, FL - 0.30, -D/2 + 0.5],     // exit through floor
+    [W/2 - 0.5, -0.30, -D/2 + 0.5],         // to ground
+  ];
+  drawPipe(g, drainPath, 0.025, matDrain);
+
+  // ── 電気配線 (electrical conduit, ceiling + walls) — red ──
+  // From inverter (under PV) → distribution panel → ceiling lights + outlets
+  const elecPath = [
+    [W/2 + 0.05, ceilH, D/2 - 0.3],         // come from outside (PV inverter)
+    [W/2 - 0.30, ceilH, D/2 - 0.3],
+    [W/2 - 0.30, ceilH, 0],                  // distribution panel
+    [-W/2 + 0.30, ceilH, 0],                 // ceiling main run
+    [-W/2 + 0.30, ceilH, D/2 - 0.5],         // to kitchen lights
+  ];
+  drawPipe(g, elecPath, 0.010, matElec);
+
+  // Outlet box markers (small black squares on walls)
+  const outletPositions = [
+    [-W/2 + 0.05, FL + 0.30, 0],             // west wall
+    [-W/2 + 0.05, FL + 0.30, D/2 - 1.2],
+    [W/2 - 0.05, FL + 0.30, 0],              // east wall
+  ];
+  for (const [x, y, z] of outletPositions) {
+    const out = box(0.06, 0.10, 0.10, MATS.steelDark);
+    out.position.set(x, y, z);
+    g.add(out);
+  }
+
+  // ── 24h換気ダクト (HVAC) — green, Φ100mm flex duct ──
+  // From vent fan (west wall) → ceiling → outlet (south, near eave)
+  const hvacPath = [
+    [-W/2 + 0.05, FL + storyH * 0.85 - FL_OFFSET + baseY, -D/2 + 0.8],   // intake (west wall fan)
+    [-W/2 + 0.30, ceilH, -D/2 + 0.8],
+    [0, ceilH, 0],
+    [0, ceilH, D/2 - 0.5],                    // exhaust (south ceiling)
+  ];
+  drawPipe(g, hvacPath, 0.05, matHVAC);
+
+  return g;
+}
+
+function drawPipe(parent, points, radius, material) {
+  for (let i = 0; i < points.length - 1; i++) {
+    const a = new THREE.Vector3(...points[i]);
+    const b = new THREE.Vector3(...points[i + 1]);
+    const dir = new THREE.Vector3().subVectors(b, a);
+    const len = dir.length();
+    const cyl = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, len, 8), material);
+    cyl.position.copy(a).add(b).multiplyScalar(0.5);
+    cyl.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize());
+    parent.add(cyl);
+    // Joint sphere at b
+    if (i < points.length - 2) {
+      const joint = new THREE.Mesh(new THREE.SphereGeometry(radius * 1.3, 8, 8), material);
+      joint.position.copy(b);
+      parent.add(joint);
+    }
+  }
+}
+
 // ========= Interior furniture / 内装家具 =========
 // Adds furniture appropriate to plan size: bed, kitchen, table, wood stove, toilet booth
 function buildInterior(plan) {
@@ -1383,7 +1539,9 @@ export function buildPlan(planId) {
     solar:      buildSolar(plan),
     deck:       buildDeck(plan),
     equipment:  buildEquipment(plan),
+    mep:        buildMEP(plan),
     interior:   buildInterior(plan),
+    site:       buildSite(plan),
     scale:      buildHumanScale(plan),
     dims:       buildDimensions(plan),
   };
@@ -1566,6 +1724,10 @@ export function createViewer(container, opts = {}) {
       }
     });
     scene.add(root);
+    // Default visibility: site, mep, dims are off
+    if (groups.site) groups.site.visible = false;
+    if (groups.mep) groups.mep.visible = false;
+    if (groups.dims) groups.dims.visible = false;
     fitCamera();
     return {plan, groups};
   }
