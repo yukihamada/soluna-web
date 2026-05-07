@@ -2246,96 +2246,370 @@ function buildInterior(plan) {
     g.add(door);
   }
 
-  // ── Bed (single, all plans except YIELD which has 6 units) ──
+  // ── ベッド (Japandi: ライトオーク低床プラットフォーム + リネン + ウールスロー) ──
   if (!plan.openings?.units) {
-    const bedW = 1.05, bedL = 2.05, bedH = 0.38;
-    const bedX = -W/2 + 0.6 + bedW/2;
-    const bedZ = -D/2 + 0.5 + bedL/2;
-    // Bed frame (cedar)
-    const frame = box(bedW, 0.10, bedL, MATS.cedar);
+    const bedW = 1.40, bedL = 2.05, bedH = 0.30;        // ダブル sized
+    const bedX = -W/2 + 0.7 + bedW/2;
+    const bedZ = -D/2 + 0.6 + bedL/2;
+    // ライトオーク platform (extended frame for floating look)
+    const oakMat = new THREE.MeshStandardMaterial({color: 0xc8a580, roughness: 0.75, metalness: 0});
+    const frame = box(bedW + 0.15, 0.05, bedL + 0.15, oakMat);
     frame.position.set(bedX, FL + 0.05, bedZ);
     tagItem(frame, 'bed_cedar', 1);
     g.add(frame);
-    // Mattress (white linen)
-    const mattress = box(bedW - 0.04, 0.18, bedL - 0.04, new THREE.MeshStandardMaterial({color: 0xf2efea, roughness: 0.9}));
-    mattress.position.set(bedX, FL + 0.10 + 0.09, bedZ);
+    // 厚マットレス + ホワイトリネン
+    const mattress = box(bedW, 0.22, bedL, new THREE.MeshStandardMaterial({color: 0xf6f3ec, roughness: 0.9}));
+    mattress.position.set(bedX, FL + 0.10 + 0.11, bedZ);
     g.add(mattress);
-    // Pillow (small)
-    const pillow = box(0.45, 0.08, 0.30, new THREE.MeshStandardMaterial({color: 0xe8e3da, roughness: 0.9}));
-    pillow.position.set(bedX, FL + 0.10 + 0.18 + 0.04, bedZ - bedL/2 + 0.30);
-    g.add(pillow);
-    // Wool blanket (dark)
-    const blanket = box(bedW - 0.02, 0.06, bedL * 0.55, new THREE.MeshStandardMaterial({color: 0x4a3c2c, roughness: 0.95}));
-    blanket.position.set(bedX, FL + 0.10 + 0.18 + 0.03, bedZ + bedL * 0.18);
-    g.add(blanket);
+    // 枕 ×2
+    for (const px of [-0.26, 0.26]) {
+      const pillow = box(0.50, 0.10, 0.32, new THREE.MeshStandardMaterial({color: 0xeee9df, roughness: 0.92}));
+      pillow.position.set(bedX + px, FL + 0.32, bedZ - bedL/2 + 0.30);
+      g.add(pillow);
+    }
+    // ウール無地スロー (dark navy)
+    const throw_ = box(bedW * 0.95, 0.04, bedL * 0.55, new THREE.MeshStandardMaterial({color: 0x2a3140, roughness: 0.95}));
+    throw_.position.set(bedX, FL + 0.34, bedZ + bedL * 0.18);
+    g.add(throw_);
+    // サイドテーブル (黒丸 small)
+    const sideMat = new THREE.MeshStandardMaterial({color: 0x1a1a1a, roughness: 0.55, metalness: 0.2});
+    const sideTop = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.20, 0.025, 16), sideMat);
+    sideTop.position.set(bedX + bedW/2 + 0.30, FL + 0.50, bedZ - bedL/2 + 0.20);
+    g.add(sideTop);
+    const sideLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.50, 8), sideMat);
+    sideLeg.position.set(bedX + bedW/2 + 0.30, FL + 0.25, bedZ - bedL/2 + 0.20);
+    g.add(sideLeg);
+    // テーブルライト (ガラスシェード + 球)
+    const lampGlass = new THREE.Mesh(new THREE.SphereGeometry(0.10, 12, 8),
+      new THREE.MeshPhysicalMaterial({color: 0xfff4d6, transmission: 0.7, transparent: true, opacity: 0.7, roughness: 0.05}));
+    lampGlass.position.set(bedX + bedW/2 + 0.30, FL + 0.62, bedZ - bedL/2 + 0.20);
+    g.add(lampGlass);
+    const lampBulb = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 6),
+      new THREE.MeshStandardMaterial({color: 0xfff2c0, emissive: 0xffd97a, emissiveIntensity: 1.6}));
+    lampBulb.position.set(bedX + bedW/2 + 0.30, FL + 0.62, bedZ - bedL/2 + 0.20);
+    g.add(lampBulb);
   }
 
-  // ── Kitchen counter (cedar with steel sink) ──
+  // ── キッチン (Japandi: マットブラック + ウォルナット + IH+レンジフード+冷蔵庫) ──
   if (area > 18) {
-    const kchnW = Math.min(W * 0.4, 2.4);
+    const kchnW = Math.min(W * 0.45, 3.0);
     const kchnD = 0.65;
-    const kchnH = 0.85;
+    const kchnH = 0.88;
     const kchnX = -W/2 + 0.4 + kchnW/2;
     const kchnZ = D/2 - 0.4 - kchnD/2;
-    // Counter top (cedar)
-    const counter = box(kchnW, 0.04, kchnD, MATS.cedarLite);
+    // ウォルナット カウンタートップ (厚 4cm)
+    const walnutMat = new THREE.MeshStandardMaterial({color: 0x5a3c28, roughness: 0.55, metalness: 0});
+    const counter = box(kchnW, 0.04, kchnD, walnutMat);
     counter.position.set(kchnX, FL + kchnH, kchnZ);
     tagItem(counter, 'kitchen_counter', kchnW);
     g.add(counter);
-    // Cabinet body
-    const cab = box(kchnW, kchnH, kchnD - 0.05, MATS.cedar);
+    // マットブラック キャビネット本体
+    const matBlackMat = new THREE.MeshStandardMaterial({color: 0x1c1c1c, roughness: 0.7, metalness: 0});
+    const cab = box(kchnW, kchnH, kchnD - 0.05, matBlackMat);
     cab.position.set(kchnX, FL + kchnH/2, kchnZ);
     g.add(cab);
-    // Sink (recessed steel)
-    const sink = box(0.55, 0.04, 0.42, new THREE.MeshStandardMaterial({color: 0xc6c6c6, roughness: 0.3, metalness: 0.7}));
-    sink.position.set(kchnX + 0.3, FL + kchnH + 0.005, kchnZ);
+    // 引き出しの目地 (細いライン3本)
+    for (let i = 0; i < 3; i++) {
+      const groove = box(kchnW - 0.08, 0.02, 0.005,
+        new THREE.MeshStandardMaterial({color: 0x444, roughness: 0.9}));
+      groove.position.set(kchnX, FL + 0.15 + i * 0.22, kchnZ - kchnD/2 + 0.025);
+      g.add(groove);
+    }
+    // シンク (角型 ステンレス、フラット埋込)
+    const sink = box(0.60, 0.04, 0.42,
+      new THREE.MeshStandardMaterial({color: 0x9a9a9a, roughness: 0.25, metalness: 0.85}));
+    sink.position.set(kchnX + kchnW/4, FL + kchnH + 0.005, kchnZ);
     g.add(sink);
-    // Faucet (thin chrome arc)
-    const faucet = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.30, 8), new THREE.MeshStandardMaterial({color: 0xc8c8c8, roughness: 0.2, metalness: 0.85}));
-    faucet.position.set(kchnX + 0.3, FL + kchnH + 0.15, kchnZ - kchnD/2 + 0.05);
+    // 蛇口 (グースネック マットブラック)
+    const faucet = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.36, 8),
+      new THREE.MeshStandardMaterial({color: 0x1c1c1c, roughness: 0.5, metalness: 0.6}));
+    faucet.position.set(kchnX + kchnW/4, FL + kchnH + 0.18, kchnZ - kchnD/2 + 0.06);
     g.add(faucet);
+    const faucetTop = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.18, 8),
+      faucet.material);
+    faucetTop.rotation.z = Math.PI/2;
+    faucetTop.position.set(kchnX + kchnW/4 + 0.02, FL + kchnH + 0.36, kchnZ - kchnD/2 + 0.06);
+    g.add(faucetTop);
+    // IHクッキングヒーター (黒ガラストップ 600×510)
+    const ih = box(0.60, 0.02, 0.51,
+      new THREE.MeshPhysicalMaterial({color: 0x0a0a0a, roughness: 0.05, metalness: 0.1, clearcoat: 0.9, clearcoatRoughness: 0.05}));
+    ih.position.set(kchnX - kchnW/4, FL + kchnH + 0.02, kchnZ);
+    g.add(ih);
+    // IH ヒーターサークル (3口)
+    const heaterMat = new THREE.MeshStandardMaterial({color: 0x2a2a2a, roughness: 0.4});
+    for (const [hx, hz, hr] of [[-0.15, -0.08, 0.10], [0.15, -0.08, 0.10], [0, 0.13, 0.08]]) {
+      const heater = new THREE.Mesh(new THREE.CylinderGeometry(hr, hr, 0.005, 24), heaterMat);
+      heater.position.set(kchnX - kchnW/4 + hx, FL + kchnH + 0.025, kchnZ + hz);
+      g.add(heater);
+    }
+    // レンジフード (天井吊 ステンレス)
+    const ceilingH = baseY + storyH - 0.05;
+    const hood = box(0.80, 0.30, 0.55, new THREE.MeshStandardMaterial({color: 0xb8b8b8, roughness: 0.3, metalness: 0.85}));
+    hood.position.set(kchnX - kchnW/4, ceilingH - 0.55, kchnZ);
+    g.add(hood);
+    const hoodPipe = new THREE.Mesh(new THREE.CylinderGeometry(0.10, 0.10, 0.40, 12),
+      new THREE.MeshStandardMaterial({color: 0xb8b8b8, roughness: 0.4, metalness: 0.7}));
+    hoodPipe.position.set(kchnX - kchnW/4, ceilingH - 0.20, kchnZ);
+    g.add(hoodPipe);
+    // 冷蔵庫 (大型 600L、艶ホワイト or ステンレス)
+    const fridgeW = 0.68, fridgeD = 0.65, fridgeH = 1.85;
+    const fridgeMat = new THREE.MeshPhysicalMaterial({color: 0xeeeeee, roughness: 0.35, metalness: 0.4, clearcoat: 0.4});
+    const fridge = box(fridgeW, fridgeH, fridgeD, fridgeMat);
+    fridge.position.set(kchnX - kchnW/2 - fridgeW/2 - 0.05, FL + fridgeH/2, kchnZ);
+    g.add(fridge);
+    g.add(edge(fridge, COLORS.line, 0.4));
+    // 冷蔵庫ハンドル (上下2本)
+    for (const hy of [0.6, 1.4]) {
+      const handle = box(0.025, 0.30, 0.025,
+        new THREE.MeshStandardMaterial({color: 0x444, roughness: 0.5, metalness: 0.6}));
+      handle.position.set(kchnX - kchnW/2 - 0.05 - 0.02, FL + hy, kchnZ - fridgeD/2 + 0.05);
+      g.add(handle);
+    }
+    // 食洗機 (引出し型) — area > 30
+    if (area > 30) {
+      const dw = box(0.45, 0.45, kchnD - 0.05, matBlackMat);
+      dw.position.set(kchnX + kchnW/2 - 0.30, FL + 0.30, kchnZ);
+      g.add(dw);
+      const dwHandle = box(0.40, 0.02, 0.005,
+        new THREE.MeshStandardMaterial({color: 0x666, roughness: 0.5}));
+      dwHandle.position.set(kchnX + kchnW/2 - 0.30, FL + 0.30, kchnZ - kchnD/2 + 0.025);
+      g.add(dwHandle);
+    }
+    // ペンダントライト (キッチンカウンター上 ×2)
+    const ceilingH2 = baseY + storyH - 0.05;
+    for (const px of [-kchnW/4, kchnW/4]) {
+      const cordPK = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.005, 1.0, 6),
+        new THREE.MeshStandardMaterial({color: 0x161616, roughness: 0.95}));
+      cordPK.position.set(kchnX + px, ceilingH2 - 0.50, kchnZ + 0.20);
+      g.add(cordPK);
+      const shadeP = new THREE.Mesh(new THREE.ConeGeometry(0.12, 0.18, 16, 1, true),
+        new THREE.MeshStandardMaterial({color: 0x1c1c1c, roughness: 0.6, side: THREE.DoubleSide}));
+      shadeP.position.set(kchnX + px, ceilingH2 - 1.10, kchnZ + 0.20);
+      g.add(shadeP);
+      const bulbP = new THREE.Mesh(new THREE.SphereGeometry(0.04, 12, 8),
+        new THREE.MeshStandardMaterial({color: 0xfff2c0, emissive: 0xffd97a, emissiveIntensity: 1.4}));
+      bulbP.position.set(kchnX + px, ceilingH2 - 1.18, kchnZ + 0.20);
+      g.add(bulbP);
+    }
   }
 
-  // ── Dining table (for area > 24m²) ──
+  // ── ダイニング (Japandi: ライトオーク楕円テーブル + Wishbone風チェア) ──
   if (area > 24 && !plan.openings?.units) {
-    const tlW = Math.min(W * 0.35, 2.2);
-    const tlD = Math.min(D * 0.18, 0.95);
+    const tlW = Math.min(W * 0.30, 2.0);
+    const tlD = Math.min(D * 0.18, 1.0);
     const tlH = 0.74;
-    // Table top (cedar)
-    const top = box(tlW, 0.04, tlD, MATS.cedarLite);
+    const oakMat = new THREE.MeshStandardMaterial({color: 0xc8a580, roughness: 0.65, metalness: 0});
+    // 楕円テーブル天板 (薄め 30mm)
+    const top = new THREE.Mesh(new THREE.CylinderGeometry(tlW/2, tlW/2, 0.03, 32, 1, false), oakMat);
+    top.scale.z = tlD / tlW;
     top.position.set(0, FL + tlH, 0);
     tagItem(top, 'dining_set', 1);
     g.add(top);
-    // Legs (4)
-    for (const lx of [-tlW/2 + 0.10, tlW/2 - 0.10]) {
-      for (const lz of [-tlD/2 + 0.10, tlD/2 - 0.10]) {
-        const leg = box(0.05, tlH, 0.05, MATS.cedar);
-        leg.position.set(lx, FL + tlH/2, lz);
-        g.add(leg);
-      }
-    }
-    // Chairs (2-4 depending on size)
+    // 1本中央脚 (台形ベース)
+    const baseLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, tlH - 0.05, 8), oakMat);
+    baseLeg.position.set(0, FL + (tlH-0.05)/2, 0);
+    g.add(baseLeg);
+    const baseFoot = new THREE.Mesh(new THREE.CylinderGeometry(0.30, 0.32, 0.04, 16),
+      new THREE.MeshStandardMaterial({color: 0x1c1c1c, roughness: 0.5}));
+    baseFoot.position.set(0, FL + 0.02, 0);
+    g.add(baseFoot);
+    // Wishbone風チェア (ペーパーコード座 + フォーム背)
+    const seatMat = new THREE.MeshStandardMaterial({color: 0xe8d4a0, roughness: 0.85});
     const chairCnt = Math.min(Math.floor(tlW / 0.55), 4);
     for (let i = 0; i < chairCnt; i++) {
-      const cx = -tlW/2 + (i + 0.5) * (tlW / chairCnt);
-      for (const cz of [-tlD/2 - 0.45, tlD/2 + 0.45]) {
-        const seat = box(0.40, 0.04, 0.40, MATS.cedar);
-        seat.position.set(cx, FL + 0.45, cz);
+      const cx = -tlW/2 + 0.30 + (i + 0.5) * ((tlW - 0.6) / chairCnt);
+      for (const cz of [-tlD/2 - 0.42, tlD/2 + 0.42]) {
+        // 座面 (ペーパーコード風)
+        const seat = box(0.42, 0.03, 0.42, seatMat);
+        seat.position.set(cx, FL + 0.46, cz);
         g.add(seat);
-        // Backrest
-        const back = box(0.40, 0.40, 0.04, MATS.cedar);
-        back.position.set(cx, FL + 0.65, cz + (cz > 0 ? 0.18 : -0.18));
-        g.add(back);
-        // Legs
+        // Y字背もたれ (ライトオーク)
+        const backArc = new THREE.Mesh(new THREE.TorusGeometry(0.21, 0.014, 6, 12, Math.PI),
+          new THREE.MeshStandardMaterial({color: 0xc8a580, roughness: 0.55}));
+        backArc.position.set(cx, FL + 0.85, cz + (cz > 0 ? 0.16 : -0.16));
+        backArc.rotation.x = (cz > 0 ? Math.PI : 0);
+        g.add(backArc);
+        // 4本脚 (薄テーパード)
         for (const lx of [-0.18, 0.18]) {
           for (const lzo of [-0.18, 0.18]) {
-            const leg = box(0.03, 0.45, 0.03, MATS.cedar);
-            leg.position.set(cx + lx, FL + 0.225, cz + lzo);
+            const leg = new THREE.Mesh(
+              new THREE.CylinderGeometry(0.012, 0.018, 0.46, 6),
+              new THREE.MeshStandardMaterial({color: 0xc8a580, roughness: 0.55}),
+            );
+            leg.position.set(cx + lx, FL + 0.23, cz + lzo);
             g.add(leg);
           }
         }
       }
     }
+    // ダイニングペンダント (3連リネアー、テーブル長手方向)
+    const ceilingH3 = baseY + storyH - 0.05;
+    for (let pi = -1; pi <= 1; pi++) {
+      const cordD = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.005, 0.85, 6),
+        new THREE.MeshStandardMaterial({color: 0x161616, roughness: 0.95}));
+      cordD.position.set(pi * tlW * 0.30, ceilingH3 - 0.42, 0);
+      g.add(cordD);
+      const shadeD = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 12),
+        new THREE.MeshPhysicalMaterial({
+          color: 0xfff4d6, transmission: 0.65, transparent: true, opacity: 0.75,
+          roughness: 0.1, ior: 1.45,
+        }));
+      shadeD.position.set(pi * tlW * 0.30, ceilingH3 - 0.94, 0);
+      g.add(shadeD);
+      const bulbD = new THREE.Mesh(new THREE.SphereGeometry(0.045, 8, 6),
+        new THREE.MeshStandardMaterial({color: 0xfff2c0, emissive: 0xffd97a, emissiveIntensity: 1.6}));
+      bulbD.position.set(pi * tlW * 0.30, ceilingH3 - 0.94, 0);
+      g.add(bulbD);
+    }
+  }
+
+  // ── ソファ + コーヒーテーブル (リビング) — 30m²超のプラン ──
+  if (area > 30 && !plan.openings?.units) {
+    const sofaW = Math.min(W * 0.32, 2.4), sofaD = 0.95, sofaH = 0.72;
+    const sofaX = W/4;
+    const sofaZ = -D/4;
+    const linenMat = new THREE.MeshStandardMaterial({color: 0xbab0a0, roughness: 0.92});
+    // 座フレーム (低床 black metal)
+    const sofaBase = box(sofaW, 0.08, sofaD,
+      new THREE.MeshStandardMaterial({color: 0x222, roughness: 0.5, metalness: 0.4}));
+    sofaBase.position.set(sofaX, FL + 0.08, sofaZ);
+    g.add(sofaBase);
+    // 座面クッション
+    const seat = box(sofaW * 0.96, 0.18, sofaD * 0.85, linenMat);
+    seat.position.set(sofaX, FL + 0.20, sofaZ);
+    g.add(seat);
+    // 背もたれ (薄め)
+    const back = box(sofaW * 0.96, 0.55, 0.20, linenMat);
+    back.position.set(sofaX, FL + 0.45, sofaZ - sofaD/2 + 0.10);
+    g.add(back);
+    // アクセントクッション ×2
+    const accent1 = box(0.40, 0.12, 0.40,
+      new THREE.MeshStandardMaterial({color: 0x4a3c2c, roughness: 0.95}));
+    accent1.position.set(sofaX - sofaW/3, FL + 0.36, sofaZ - 0.10);
+    accent1.rotation.x = 0.15;
+    g.add(accent1);
+    const accent2 = box(0.40, 0.12, 0.40,
+      new THREE.MeshStandardMaterial({color: 0xc4a880, roughness: 0.92}));
+    accent2.position.set(sofaX + sofaW/3, FL + 0.36, sofaZ - 0.10);
+    accent2.rotation.x = -0.10;
+    g.add(accent2);
+    // コーヒーテーブル (ローバー楕円 + 黒鉄脚)
+    const ctW = 1.10, ctD = 0.55, ctH = 0.36;
+    const ctTop = new THREE.Mesh(new THREE.CylinderGeometry(ctW/2, ctW/2, 0.04, 24),
+      new THREE.MeshStandardMaterial({color: 0xc8a580, roughness: 0.55}));
+    ctTop.scale.z = ctD / ctW;
+    ctTop.position.set(sofaX, FL + ctH, sofaZ + sofaD/2 + 0.50);
+    g.add(ctTop);
+    for (const cx of [-ctW/2 + 0.10, ctW/2 - 0.10]) {
+      const ctLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, ctH, 6),
+        new THREE.MeshStandardMaterial({color: 0x222, roughness: 0.5, metalness: 0.5}));
+      ctLeg.position.set(sofaX + cx, FL + ctH/2, sofaZ + sofaD/2 + 0.50);
+      g.add(ctLeg);
+    }
+    // ラグ (ベージュウール)
+    const rugMat = new THREE.MeshStandardMaterial({color: 0xd6c8a8, roughness: 0.95});
+    const rug = box(sofaW * 1.2, 0.015, sofaD * 2.0, rugMat);
+    rug.position.set(sofaX, FL + 0.0075, sofaZ + 0.30);
+    g.add(rug);
+    // フロアランプ (3脚トライポッド + リネンシェード)
+    const fLampMat = new THREE.MeshStandardMaterial({color: 0xc8a580, roughness: 0.55});
+    for (let li = 0; li < 3; li++) {
+      const ang = (li / 3) * Math.PI * 2;
+      const flLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.018, 1.50, 6), fLampMat);
+      flLeg.position.set(sofaX + sofaW/2 + 0.5 + Math.sin(ang) * 0.18, FL + 0.75,
+        sofaZ + Math.cos(ang) * 0.18);
+      flLeg.rotation.x = Math.cos(ang) * 0.12;
+      flLeg.rotation.z = Math.sin(ang) * -0.12;
+      g.add(flLeg);
+    }
+    const flShade = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.25, 0.30, 16, 1, true),
+      new THREE.MeshStandardMaterial({color: 0xeee9df, roughness: 0.95, side: THREE.DoubleSide}));
+    flShade.position.set(sofaX + sofaW/2 + 0.5, FL + 1.65, sofaZ);
+    g.add(flShade);
+    const flBulb = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 6),
+      new THREE.MeshStandardMaterial({color: 0xfff2c0, emissive: 0xffd97a, emissiveIntensity: 1.5}));
+    flBulb.position.set(sofaX + sofaW/2 + 0.5, FL + 1.60, sofaZ);
+    g.add(flBulb);
+    // ラウンジチェア (Wegnerシェル + ウッドレッグ) — area > 60
+    if (area > 60) {
+      const lcMat = new THREE.MeshStandardMaterial({color: 0x6a5a4a, roughness: 0.85});
+      const lcSeat = box(0.70, 0.08, 0.70, lcMat);
+      lcSeat.position.set(sofaX - sofaW/2 - 1.0, FL + 0.42, sofaZ + 0.5);
+      g.add(lcSeat);
+      const lcBack = box(0.70, 0.55, 0.10, lcMat);
+      lcBack.position.set(sofaX - sofaW/2 - 1.0, FL + 0.70, sofaZ + 0.20);
+      lcBack.rotation.x = -0.12;
+      g.add(lcBack);
+      for (const lcx of [-0.30, 0.30]) {
+        for (const lcz of [-0.30, 0.30]) {
+          const lcLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.020, 0.40, 6),
+            new THREE.MeshStandardMaterial({color: 0xc8a580, roughness: 0.55}));
+          lcLeg.position.set(sofaX - sofaW/2 - 1.0 + lcx, FL + 0.20, sofaZ + 0.5 + lcz);
+          g.add(lcLeg);
+        }
+      }
+    }
+  }
+
+  // ── 観葉植物 (大型・中型 各1鉢) — 全プラン ──
+  if (!plan.openings?.units && !plan.dome) {
+    const potMat = new THREE.MeshStandardMaterial({color: 0xb89968, roughness: 0.85});
+    // 大型 (Bird of Paradise風)
+    const potBig = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.28, 0.40, 16), potMat);
+    potBig.position.set(W/2 - 0.5, FL + 0.20, D/2 - 0.6);
+    g.add(potBig);
+    // 葉 (緑の縦長楕円 ×3)
+    const leafMatI = new THREE.MeshStandardMaterial({color: 0x4a6a3a, roughness: 0.85});
+    for (let li = 0; li < 4; li++) {
+      const ang = (li / 4) * Math.PI * 2;
+      const leaf = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.10, 0.95, 6),
+        leafMatI);
+      leaf.scale.x = 0.3;
+      leaf.position.set(W/2 - 0.5 + Math.sin(ang) * 0.05, FL + 0.85, D/2 - 0.6 + Math.cos(ang) * 0.05);
+      leaf.rotation.x = Math.cos(ang) * 0.10;
+      leaf.rotation.z = Math.sin(ang) * 0.10;
+      g.add(leaf);
+    }
+    // 中型 (オリーブ風 床置き)
+    if (area > 18) {
+      const potMid = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.20, 0.30, 16), potMat);
+      potMid.position.set(-W/2 + 0.5, FL + 0.15, D/2 - 0.6);
+      g.add(potMid);
+      const leafBall = new THREE.Mesh(new THREE.SphereGeometry(0.30, 8, 6),
+        new THREE.MeshStandardMaterial({color: 0x6a8050, roughness: 0.85}));
+      leafBall.position.set(-W/2 + 0.5, FL + 0.55, D/2 - 0.6);
+      leafBall.scale.set(0.85, 1.1, 0.85);
+      g.add(leafBall);
+    }
+  }
+
+  // ── 洗濯機 (drum 縦置き) — area > 30 ──
+  if (area > 30 && !plan.openings?.units) {
+    const wmMat = new THREE.MeshPhysicalMaterial({color: 0xeeeeee, roughness: 0.4, clearcoat: 0.4});
+    const wm = box(0.65, 0.90, 0.65, wmMat);
+    wm.position.set(W/2 - 0.5, FL + 0.45, -D/2 + 2.5);
+    g.add(wm);
+    g.add(edge(wm, COLORS.line, 0.4));
+    // ドアガラス (黒円)
+    const wmDoor = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.20, 0.04, 16),
+      new THREE.MeshPhysicalMaterial({color: 0x1a1a1a, transmission: 0.3, opacity: 0.8, transparent: true, roughness: 0.1}));
+    wmDoor.rotation.x = Math.PI/2;
+    wmDoor.position.set(W/2 - 0.5, FL + 0.50, -D/2 + 2.5 + 0.32);
+    g.add(wmDoor);
+  }
+
+  // ── 壁面アート (1点・大きめ黒フレーム) ──
+  if (area > 24 && !plan.openings?.units) {
+    const artW = 1.20, artH = 0.85, artT = 0.04;
+    const frame = box(artW + 0.06, artH + 0.06, artT,
+      new THREE.MeshStandardMaterial({color: 0x1a1a1a, roughness: 0.4}));
+    frame.position.set(0, FL + 1.50, -D/2 + 0.18);
+    g.add(frame);
+    // アート面 (ニュートラル色 単色)
+    const art = box(artW, artH, artT - 0.02,
+      new THREE.MeshStandardMaterial({color: 0xe8dec8, roughness: 0.9}));
+    art.position.set(0, FL + 1.50, -D/2 + 0.20);
+    g.add(art);
   }
 
   // ── Toilet booth (compost toilet enclosure) ──
