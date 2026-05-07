@@ -252,6 +252,31 @@ export function applyColors(overrides) {
 function box(w, h, d, mat) { return new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); }
 function group(name) { const g = new THREE.Group(); g.name = name; return g; }
 
+// ========= 諸経費・労務費・運搬の係数 (Construction soft-cost coefficients) =========
+export const COST_COEFS = {
+  labor:        {label: '施工費・労務費',     pct: 0.30, note: '材料費の30%（小屋セルフビルド除く）'},
+  prefab_cut:   {label: 'プレカット加工費',   pct: 0.06, note: '材料費の6%'},
+  transport:    {label: '運搬費（弟子屈まで4tトラック）', pct: 0.08, note: '材料費の8%'},
+  scaffolding:  {label: '足場・仮設工事',     pct: 0.04, note: '材料費の4%'},
+  crane:        {label: '重機・揚重費',       pct: 0.03, note: '材料費の3%（パネル取付）'},
+  insurance:    {label: '労災・建築保険',     pct: 0.015, note: '材料費の1.5%'},
+  design:       {label: '設計監理 (1級建築士)', pct: 0.10, note: '材料費の10%（建築士法24条）'},
+  permit:       {label: '建築確認申請',       fixed: 280000, note: '4号特例縮小後（指定確認検査機関）'},
+  contingency:  {label: '予備費 (Contingency)', pct: 0.05, note: '材料費の5%'},
+};
+
+// ========= 熱性能係数 (per element thermal coefficients for UA calculation) =========
+// U value = heat transmission coefficient, W/m²K
+export const U_VALUES = {
+  sips_wall:    {U: 0.21, label:'SIPs壁 (EPS160mm)'},
+  sips_roof:    {U: 0.16, label:'SIPs屋根 (EPS200mm)'},
+  window_resin: {U: 1.10, label:'樹脂サッシ トリプル'},
+  door_entry:   {U: 1.40, label:'断熱玄関ドア'},
+  skylight:     {U: 1.40, label:'天窓 (FIX)'},
+  // floor over crawlspace / pile foundation
+  slab_floor:   {U: 0.24, label:'断熱床 SIPs同等'},
+};
+
 // ========= BIM item registry (BOM tagging) =========
 // Maps internal id → human-readable spec, unit price, vendor, construction phase
 export const BIM_ITEMS = {
@@ -935,7 +960,13 @@ function buildSolar(plan) {
     return g;
   }
 
-  // Gable: south slope (+Z). Place panels in landscape orientation, in rows from eave to ridge.
+  // Gable: south slope (+Z). Panels sit ON TOP of the roof outer surface.
+  // Roof outer surface (south side): goes from (z=run, y=eaveY+tVert) to (z=0, y=eaveY+ridgeH+tVert)
+  const tRoof = 0.10;                        // matches buildRoof
+  const tVert = tRoof / Math.cos(slope);
+  const standoff = 0.05 + 0.0225;             // 50mm bracket + half panel thickness
+  const standoffY = standoff * Math.cos(slope);
+  const standoffZ = standoff * Math.sin(slope);
   const usableSlope = slopeLen - margin - ridgeMargin;
   const usableW = W - margin * 2;
   const cols = Math.max(1, Math.floor(usableW / (pW + gap)));
@@ -947,11 +978,12 @@ function buildSolar(plan) {
     for (let c = 0; c < cols; c++) {
       if (placed >= count) break;
       const along = margin + r * (pH + gap) + pH/2;
-      const z = (D/2 + EAVE_OUT) - along * Math.cos(slope);
-      const y = eaveY + along * Math.sin(slope);
+      // Position on the OUTER roof surface, then offset by standoff perpendicular to slope
+      const z = (D/2 + EAVE_OUT) - along * Math.cos(slope) - standoffZ;
+      const y = eaveY + tVert + along * Math.sin(slope) + standoffY;
       const panel = new THREE.Mesh(new THREE.BoxGeometry(pW - 0.005, 0.045, pH - 0.005), MATS.solar);
       const x = -totalRowW/2 + c * (pW + gap) + pW/2;
-      panel.position.set(x, y + 0.05, z);
+      panel.position.set(x, y, z);
       panel.rotation.x = -slope;
       tagItem(panel, 'pv_panel', 1);
       g.add(panel);
@@ -960,10 +992,15 @@ function buildSolar(plan) {
     }
   }
 
-  // 雪止め (snow guard) — black bar across south slope, near eave
-  const snowGuard = box(W - 0.2, 0.04, 0.06, MATS.steelDark);
+  // 雪止め (snow guard) — black bar across south slope, near eave (sits on roof surface)
+  const snowGuard = box(W - 0.2, 0.05, 0.05, MATS.steelDark);
   const sgAlong = margin * 0.5;
-  snowGuard.position.set(0, eaveY + sgAlong * Math.sin(slope) + 0.05, (D/2 + EAVE_OUT) - sgAlong * Math.cos(slope));
+  const sgStandoff = 0.025;       // sits flush on roof
+  snowGuard.position.set(
+    0,
+    eaveY + tVert + sgAlong * Math.sin(slope) + sgStandoff * Math.cos(slope),
+    (D/2 + EAVE_OUT) - sgAlong * Math.cos(slope) - sgStandoff * Math.sin(slope),
+  );
   snowGuard.rotation.x = -slope;
   g.add(snowGuard);
 
@@ -1082,6 +1119,7 @@ function buildEquipment(plan) {
   if (plan.roofType !== 'flat' && !plan.openings?.units) {
     const vent = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.85, 12),
       new THREE.MeshStandardMaterial({color: 0xeae6dc, roughness: 0.7}));
+    tagItem(vent, 'vent_compost', 1);
     const pitch = plan.roofPitch || 0.25;
     const along = (D/2 + EAVE_OUT) * 0.45;
     const z = -((D/2 + EAVE_OUT) - along * Math.cos(Math.atan(pitch)));
@@ -1100,6 +1138,7 @@ function buildEquipment(plan) {
     const fan = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.04, 16), MATS.steelDark);
     fan.rotation.z = Math.PI / 2;
     fan.position.set(-W/2 - 0.02, baseY + storyH * 0.85, -D/2 + 0.8);
+    tagItem(fan, 'vent_fan', 1);
     g.add(fan);
   }
 
@@ -1114,6 +1153,7 @@ function buildEquipment(plan) {
   for (const [x, z] of corners) {
     const ds = box(dsT, eaveY - FL_OFFSET, dsT, MATS.steelDark);
     ds.position.set(x, FL_OFFSET + (eaveY - FL_OFFSET) / 2, z);
+    tagItem(ds, 'gutter', eaveY - FL_OFFSET);
     g.add(ds);
   }
 
@@ -1124,6 +1164,7 @@ function buildEquipment(plan) {
     const ridgeY = eaveY + run * pitch;
     const cap = box(W + EAVE_OUT*2, 0.10, 0.30, MATS.steelDark);
     cap.position.set(0, ridgeY + 0.05, 0);
+    tagItem(cap, 'ridge_cap', W + EAVE_OUT*2);
     g.add(cap);
   }
 
@@ -1137,6 +1178,7 @@ function buildEquipment(plan) {
     for (const xSign of [1, -1]) {
       for (const zSign of [1, -1]) {
         const verge = box(0.04, 0.18, slopeLen, MATS.steelDark);
+      tagItem(verge, 'verge_board', slopeLen);
         // Center along the slope from eave (z=zSign*run, y=eaveY) to ridge (z=0, y=eaveY+ridgeH)
         verge.position.set(
           xSign * (W/2 + EAVE_OUT - 0.02),
@@ -1199,6 +1241,7 @@ function buildInterior(plan) {
     // Bed frame (cedar)
     const frame = box(bedW, 0.10, bedL, MATS.cedar);
     frame.position.set(bedX, FL + 0.05, bedZ);
+    tagItem(frame, 'bed_cedar', 1);
     g.add(frame);
     // Mattress (white linen)
     const mattress = box(bedW - 0.04, 0.18, bedL - 0.04, new THREE.MeshStandardMaterial({color: 0xf2efea, roughness: 0.9}));
@@ -1224,6 +1267,7 @@ function buildInterior(plan) {
     // Counter top (cedar)
     const counter = box(kchnW, 0.04, kchnD, MATS.cedarLite);
     counter.position.set(kchnX, FL + kchnH, kchnZ);
+    tagItem(counter, 'kitchen_counter', kchnW);
     g.add(counter);
     // Cabinet body
     const cab = box(kchnW, kchnH, kchnD - 0.05, MATS.cedar);
@@ -1247,6 +1291,7 @@ function buildInterior(plan) {
     // Table top (cedar)
     const top = box(tlW, 0.04, tlD, MATS.cedarLite);
     top.position.set(0, FL + tlH, 0);
+    tagItem(top, 'dining_set', 1);
     g.add(top);
     // Legs (4)
     for (const lx of [-tlW/2 + 0.10, tlW/2 - 0.10]) {
@@ -1791,13 +1836,84 @@ export function createViewer(container, opts = {}) {
 
   function getPhases() { return PHASES; }
 
+  // ── 諸経費・労務費自動計算 ──
+  function softCosts() {
+    const items = takeoff();
+    const matTotal = items.reduce((s, r) => s + r.cost, 0);
+    const breakdown = [];
+    let total = matTotal;
+    for (const [k, c] of Object.entries(COST_COEFS)) {
+      const cost = c.pct ? matTotal * c.pct : (c.fixed || 0);
+      breakdown.push({key: k, label: c.label, note: c.note, cost});
+      total += cost;
+    }
+    return {matTotal, breakdown, grandTotal: total};
+  }
+
+  // ── UA値計算 (envelope thermal performance) ──
+  function uaValue() {
+    const items = takeoff();
+    let totalArea = 0, sumUA = 0;
+    const elements = [];
+    for (const r of items) {
+      const u = U_VALUES[r.itemId];
+      if (!u) continue;
+      // Use qty as area for elements measured in m²
+      let area = r.qty;
+      if (r.unit === '枚') area = area * 2.0;        // approx panel size for windows
+      if (r.unit === '本' || r.unit === '式' || r.unit === '本') continue;
+      totalArea += area;
+      sumUA += u.U * area;
+      elements.push({label: u.label, U: u.U, area, contribution: u.U * area});
+    }
+    const UA = totalArea > 0 ? sumUA / totalArea : 0;
+    // Heat20 zoning: G3<0.20, G2<0.28, G1<0.34, ZEH<0.40, H28<0.46
+    let grade = 'H28準拠';
+    if (UA <= 0.20) grade = 'HEAT20 G3 (NZEB水準)';
+    else if (UA <= 0.28) grade = 'HEAT20 G2 (高断熱)';
+    else if (UA <= 0.34) grade = 'HEAT20 G1 (高水準)';
+    else if (UA <= 0.40) grade = 'ZEH 水準';
+    return {UA, totalArea, elements, grade};
+  }
+
+  // ── 太陽位置を時刻・季節で更新 ──
+  function setSunPosition(hour, month) {
+    // Simplified: latitude 43.5 (Teshikaga), declination by month
+    const lat = 43.5 * Math.PI / 180;
+    const declination = 23.45 * Math.sin(2 * Math.PI * (284 + (month * 30 + 15)) / 365) * Math.PI / 180;
+    const hourAngle = (hour - 12) * 15 * Math.PI / 180;
+    // Sun elevation
+    const elev = Math.asin(Math.sin(lat)*Math.sin(declination) + Math.cos(lat)*Math.cos(declination)*Math.cos(hourAngle));
+    // Sun azimuth (from south, positive west)
+    const azim = Math.atan2(
+      Math.sin(hourAngle),
+      Math.cos(hourAngle)*Math.sin(lat) - Math.tan(declination)*Math.cos(lat)
+    );
+    const sunDir = new THREE.Vector3(
+      Math.sin(azim) * Math.cos(elev),
+      Math.sin(elev),
+      -Math.cos(azim) * Math.cos(elev)
+    );
+    sun.position.copy(sunDir).multiplyScalar(60);
+    skyU.sunPosition.value.copy(sunDir);
+    // Update environment from sky
+    scene.environment = pmrem.fromScene(sky, 0.04).texture;
+    // Adjust ambient/exposure based on sun height
+    const dayAmount = Math.max(0, Math.sin(elev));
+    sun.intensity = 0.3 + dayAmount * 1.9;
+    hemi.intensity = 0.15 + dayAmount * 0.40;
+    renderer.toneMappingExposure = 0.55 + dayAmount * 0.45;
+    return {elev: elev * 180 / Math.PI, azim: azim * 180 / Math.PI};
+  }
+
   return {
     scene, camera, renderer,
     get controls() { return controls; },
     loadPlan, setLayer, setView, setXray, fitCamera,
     applyPreset, applyOverrides, setEnvironment,
     setInteriorMode, isInteriorMode,
-    onElementClick, takeoff, setPhase, playConstructionSequence, getPhases,
+    onElementClick, takeoff, softCosts, uaValue, setPhase, playConstructionSequence, getPhases,
+    setSunPosition,
     getPlan: () => currentPlan,
   };
 }
