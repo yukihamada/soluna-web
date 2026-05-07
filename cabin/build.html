@@ -797,7 +797,11 @@ BUILD_PLANS.forEach(p => {
   card.className = 'pg-card' + (p.id === currentPlan.id ? ' pg-active' : '');
   card.id = 'pgcard-' + p.id;
   card.style.setProperty('--pc', p.color);
+  const phase2 = (p.desc || '').includes('Phase 2');
+  const phaseBadge = phase2 ? `<div style="position:absolute;top:8px;right:8px;background:rgba(208,64,96,.85);color:#fff;font-size:9px;font-weight:700;letter-spacing:.05em;padding:3px 8px;border-radius:10px;z-index:2">PHASE 2 / 認定取得後</div>` : '';
+  card.style.position = 'relative';
   card.innerHTML = `
+    ${phaseBadge}
     <div class="pg-svg">${p.floorSvg || ''}</div>
     <div class="pg-name" style="color:${p.color}">${p.name}</div>
     <div class="pg-lbl">${p.area}m² · ${p.weeks}週間</div>
@@ -870,7 +874,9 @@ function renderOverview() {
   wrap.classList.add('in'); // ensure visible regardless of IntersectionObserver timing
   wrap.innerHTML = `<img src="${imgSrc}" alt="${p.name} イメージ" onerror="this.parentElement.style.display='none'">`;
 
-  document.getElementById('planDesc').innerHTML = `<strong style="color:${p.color};display:block;margin-bottom:8px;font-size:15px">${p.name} — ${p.label}</strong>` + p.desc;
+  const isPhase2 = (p.desc || '').includes('Phase 2');
+  const phase2Banner = isPhase2 ? `<div style="margin:12px 0;padding:14px 18px;background:rgba(208,64,96,.08);border:1px solid rgba(208,64,96,.35);border-radius:10px;display:flex;align-items:flex-start;gap:12px"><span style="font-size:22px">⚠️</span><div style="font-size:12.5px;color:rgba(237,233,225,.85);line-height:1.85"><strong style="color:rgba(208,64,96,.95);display:block;margin-bottom:4px">Phase 2: 認定取得後リリース予定</strong>本プランは <strong>${p.id==='myth'?'旅館業法+消防法+特殊建築物耐火認定':''}${p.id==='kosmos'?'旅館業法+消防法+耐火2級認定':''}</strong>が必要なため、現在SOLUNA提携建築士事務所で大臣認定（または個別認定）取得準備中です。確定情報・正式見積は認定取得後（2026Q4〜2027Q2予定）にご案内します。お問い合わせは可能ですが、即時着工はできません。</div></div>` : '';
+  document.getElementById('planDesc').innerHTML = phase2Banner + `<strong style="color:${p.color};display:block;margin-bottom:8px;font-size:15px">${p.name} — ${p.label}</strong>` + p.desc.replace(/【Phase 2 \/ [^】]*】/, '');
   document.getElementById('planKeyStats').innerHTML = [
     {l:"材料費合計", v: fmt(p.totalMat), c: p.color},
     {l:"建設期間", v: p.weeks + "週間", c: "#ddd"},
