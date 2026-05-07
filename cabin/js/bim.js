@@ -1092,30 +1092,41 @@ function buildRoof(plan) {
     g.add(roof);
     g.add(edge(roof, COLORS.line, 0.45));
 
-    // ── 妻側 (east/west) と 南側壁の上部 — gap-fill above wall top ──
-    // 高側=南なので、妻壁は南高・北低 の直角三角形、南壁上に矩形帯
-    const sideTriH = dropH * (D / run);
-
-    // East/West right-triangle: south-high, north-low.
+    // ── 妻側 (east/west) と 南北壁上部 — boxed-eave style gap fill ──
+    // 屋根裏面の傾き: y(z) = eaveY + dropH * (z + D/2 + EAVE_OUT) / run
+    //   z = -D/2 - EAVE_OUT (北軒先): y = eaveY              (低)
+    //   z = -D/2            (北壁外面):    y = eaveY + dropH * EAVE_OUT     / run
+    //   z = +D/2            (南壁外面):    y = eaveY + dropH * (D+EAVE_OUT) / run
+    //   z = +D/2 + EAVE_OUT (南軒先): y = eaveY + dropH      (高)
+    const heightAtNorthWall = dropH * EAVE_OUT / run;
+    const heightAtSouthWall = dropH * (D + EAVE_OUT) / run;
     const fillMat = MATS.yakisugi || MATS.steel;
+
+    // East/West gable end — full triangle spanning eave-to-eave (boxed eave)
     for (const xSign of [1, -1]) {
       const shape = new THREE.Shape();
-      shape.moveTo(-D/2, 0);                      // north corner at wall top
-      shape.lineTo( D/2, 0);                      // south corner at wall top
-      shape.lineTo( D/2, sideTriH);               // south corner at roof underside (peak)
+      shape.moveTo(-D/2 - EAVE_OUT, 0);                  // north eave (low, base)
+      shape.lineTo( D/2 + EAVE_OUT, 0);                  // south eave (base)
+      shape.lineTo( D/2 + EAVE_OUT, dropH);              // south eave (peak)
       shape.closePath();
       const tri = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, {depth: 0.02, bevelEnabled: false}), fillMat);
-      tri.rotation.y = -Math.PI / 2;              // local +X → world +Z (south)
+      tri.rotation.y = -Math.PI / 2;                     // local +X → world +Z (south)
       tri.position.set(xSign * (W/2 + 0.005), eaveY, 0);
       g.add(tri);
       g.add(edge(tri, COLORS.line, 0.6));
     }
 
-    // 南壁上部の矩形帯 — 南面の wall top → 屋根裏面 (高さ = sideTriH)
-    const sExt = box(W + 0.01, sideTriH, 0.02, fillMat);
-    sExt.position.set(0, eaveY + sideTriH/2, D/2 + 0.005);
+    // 南壁上部の矩形帯 — 南壁外面(z=D/2)から屋根裏面まで
+    const sExt = box(W + 0.01, heightAtSouthWall, 0.02, fillMat);
+    sExt.position.set(0, eaveY + heightAtSouthWall/2, D/2 + 0.005);
     g.add(sExt);
     g.add(edge(sExt, COLORS.line, 0.5));
+
+    // 北壁上部の矩形帯 — 北壁外面(z=-D/2)から屋根裏面まで (小さい gap)
+    const nExt = box(W + 0.01, heightAtNorthWall, 0.02, fillMat);
+    nExt.position.set(0, eaveY + heightAtNorthWall/2, -D/2 - 0.005);
+    g.add(nExt);
+    g.add(edge(nExt, COLORS.line, 0.5));
 
     // 雨樋 — only at the LOW side (north)
     const gutter = box(roofW, 0.06, 0.10, MATS.steelDark);
