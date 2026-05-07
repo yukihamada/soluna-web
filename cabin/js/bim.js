@@ -1490,8 +1490,10 @@ function buildSolar(plan) {
       const panel = new THREE.Mesh(new THREE.BoxGeometry(pW - 0.005, 0.045, pH - 0.005), MATS.solar);
       const x = -totalRowW/2 + c * (pW + gap) + pW/2;
       panel.position.set(x, y, z);
-      // mono: panel tilts north (ridge側=south、low側=north) → rotation.x = +slope
-      panel.rotation.x = isMono ? +usedSlope : -usedSlope;
+      // mono (南高/北低): 屋根面の outward normal は (+Y, -Z) = 上+北。
+      // パネル面 +Y を (-Z 方向に倒す) → rotation.x = -slope
+      // gable south slope: outward normal は (+Y, +Z) = 上+南。 rotation.x = -slope (既存、要検証)
+      panel.rotation.x = -usedSlope;
       tagItem(panel, 'pv_panel', 1);
       g.add(panel);
       g.add(edge(panel, COLORS.solarFr, 0.8));
@@ -1512,7 +1514,8 @@ function buildSolar(plan) {
         eaveY + tVert + sgAlong * Math.sin(usedSlope) + sgStandoff * Math.cos(usedSlope),
         -(D/2 + EAVE_OUT) + sgAlong * Math.cos(usedSlope) - sgStandoff * Math.sin(usedSlope),
       );
-      snowGuard.rotation.x = +usedSlope;
+      // 南高/北低: 屋根 normal は (+Y, -Z) → -slope (PVと同符号)
+      snowGuard.rotation.x = -usedSlope;
     } else {
       snowGuard.position.set(
         0,
@@ -1747,8 +1750,10 @@ function buildEquipment(plan) {
           eaveY + dropH / 2,
           0
         );
-        // 北 (-Z, low) → 南 (+Z, high) で上昇 → rotation.x = +slope
-        verge.rotation.x = +slope;
+        // Three.js Euler-X による rotation: 局所 +Z は (0,-sinθ,cosθ) へ。
+        // 局所 +Z 端を世界 +Z (南) で 上に持ち上げたい → 局所 +Z 端を上方向に回したい
+        // (0,-sinθ,cosθ) で sinθ < 0 → θ = -slope が正解
+        verge.rotation.x = -slope;
         g.add(verge);
       }
     }
@@ -2147,7 +2152,7 @@ function buildInterior(plan) {
       const x = -W/2 + 0.4 + i * ((W - 0.8) / Math.max(1, rafterN - 1));
       const raf = box(rafW, rafH, slopeLen * 0.92, MATS.cedarLite);
       raf.position.set(x, ceilingH + dropH/2 - 0.15, 0);
-      raf.rotation.x = +slope;     // 高側=南なので +slope
+      raf.rotation.x = -slope;     // 高側=南: 局所+Z端を上にしたい → -slope
       g.add(raf);
     }
   }
