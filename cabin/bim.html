@@ -238,6 +238,7 @@
   <button id="ifcBtn" style="width:100%;margin-bottom:4px">⬇ IFC</button>
   <button id="poBtn" style="width:100%;margin-bottom:4px">⬇ 発注書PDF</button>
   <button id="reportBtn" style="width:100%;margin-bottom:4px">⬇ 1ページサマリーPDF</button>
+  <button id="permitBtn" style="width:100%;margin-bottom:4px">⬇ 建築確認申請図書PDF</button>
   <button id="videoBtn" style="width:100%">🎬 ウォークスルー動画</button>
 </div>
 
@@ -740,6 +741,135 @@ document.getElementById('dimReset').addEventListener('click', () => {
     viewer.loadPlan(id);
     updateInfo(viewer.getPlan());
   });
+});
+
+// ─── 建築確認申請図書 PDF (multi-page) ───
+async function captureView(viewName, ms = 350) {
+  viewer.setView(viewName);
+  await new Promise(r => setTimeout(r, ms));
+  return viewer.renderer.domElement.toDataURL('image/png');
+}
+document.getElementById('permitBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('permitBtn');
+  if (!window.jspdf) {
+    await new Promise(res => {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js';
+      s.onload = res; document.head.appendChild(s);
+    });
+  }
+  btn.disabled = true; btn.textContent = '⏳ 図書生成中...';
+  const plan = viewer.getPlan();
+  const items = viewer.takeoff();
+  const soft = viewer.softCosts();
+  const ua = viewer.uaValue();
+  const pv = viewer.pvEstimate();
+
+  // Capture views
+  btn.textContent = '⏳ アイソ撮影...';
+  const isoImg = await captureView('iso', 500);
+  btn.textContent = '⏳ 平面撮影...';
+  const topImg = await captureView('top', 400);
+  btn.textContent = '⏳ 正面撮影...';
+  const frontImg = await captureView('front', 400);
+  btn.textContent = '⏳ 側面撮影...';
+  const sideImg = await captureView('side', 400);
+
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({orientation:'portrait', unit:'mm', format:'a3'});
+  const today = new Date().toISOString().slice(0, 10);
+
+  // Page 1: 表紙 (cover)
+  pdf.setFontSize(28); pdf.text('建築確認申請図書', 30, 50);
+  pdf.setFontSize(14); pdf.text(`SOLUNA ${plan.name} ${plan.label} ${plan.tag||''}`, 30, 65);
+  pdf.line(30, 72, 290, 72);
+  pdf.setFontSize(11);
+  let y = 85;
+  const meta = [
+    ['プロジェクト名', `SOLUNA ${plan.name} (${plan.label})`],
+    ['構造種別', 'SIPs構造（OSB/EPS160/OSB）+ 鋼管杭基礎'],
+    ['階数', `${plan.stories || 1}階建て`],
+    ['延床面積', `約 ${(plan.W * plan.D / 1e6 * (plan.stories || 1)).toFixed(1)} m²`],
+    ['敷地面積', '相談（既存敷地に建設）'],
+    ['用途', '専用住宅 / 別荘'],
+    ['UA値', `${ua.UA.toFixed(2)} W/m²K (${ua.grade})`],
+    ['暖房設備', '薪ストーブ + 床暖房（オプション）'],
+    ['給湯設備', 'ガス給湯器 / 太陽熱給湯（オプション）'],
+    ['発電設備', pv ? `太陽光発電 ${pv.totalKW.toFixed(1)}kW (${pv.panelCount}枚)` : '無'],
+    ['設計', '株式会社イネブラ + 提携1級建築士事務所'],
+    ['発行日', today],
+  ];
+  for (const [k, v] of meta) {
+    pdf.text(k + ':', 30, y);
+    pdf.text(v, 90, y);
+    y += 8;
+  }
+  pdf.setFontSize(9); pdf.setTextColor(120);
+  pdf.text('※本図書は3D BIMモデルから自動生成された概念図書です。実際の確認申請には1級建築士事務所による精査・押印が必要です。', 30, 280);
+  pdf.setTextColor(0);
+
+  // Page 2: 配置図 + 平面図 (top view)
+  pdf.addPage();
+  pdf.setFontSize(14); pdf.text(`配置図・平面図　Site & Floor Plan　1:200`, 30, 20);
+  pdf.line(30, 24, 290, 24);
+  try { pdf.addImage(topImg, 'PNG', 30, 30, 240, 280); } catch (e) {}
+  pdf.setFontSize(8); pdf.text(`W ${plan.W.toLocaleString()}mm × D ${plan.D.toLocaleString()}mm`, 30, 320);
+
+  // Page 3: 立面図 (4 elevations)
+  pdf.addPage();
+  pdf.setFontSize(14); pdf.text('立面図 Elevations', 30, 20);
+  pdf.line(30, 24, 290, 24);
+  pdf.setFontSize(10);
+  pdf.text('南立面 South Elevation', 30, 35);
+  try { pdf.addImage(frontImg, 'PNG', 30, 38, 120, 90); } catch (e) {}
+  pdf.text('東立面 East Elevation', 160, 35);
+  try { pdf.addImage(sideImg, 'PNG', 160, 38, 120, 90); } catch (e) {}
+  pdf.text('アイソ Isometric', 30, 145);
+  try { pdf.addImage(isoImg, 'PNG', 30, 148, 250, 160); } catch (e) {}
+
+  // Page 4: 仕様書 + BOM
+  pdf.addPage();
+  pdf.setFontSize(14); pdf.text('仕様書・概算工事費', 30, 20);
+  pdf.line(30, 24, 290, 24);
+  pdf.setFontSize(10); pdf.text('断熱性能', 30, 35);
+  pdf.setFontSize(9);
+  pdf.text(`UA値: ${ua.UA.toFixed(2)} W/m²K (${ua.grade})`, 30, 41);
+  pdf.text(`外皮総面積: ${ua.totalArea.toFixed(1)} m²`, 30, 47);
+  pdf.text(`目標C値: ≦ 0.5 cm²/m² (SIPs工法気密測定で検証)`, 30, 53);
+
+  pdf.setFontSize(10); pdf.text('概算工事費 (税抜)', 30, 65);
+  pdf.setFontSize(9);
+  let yy = 71;
+  pdf.text('材料費 小計', 30, yy); pdf.text(yenFmt(soft.matTotal), 100, yy, {align:'right'}); yy += 5;
+  for (const sc of soft.breakdown) {
+    pdf.text(sc.label, 30, yy);
+    pdf.text(yenFmt(sc.cost), 100, yy, {align:'right'});
+    yy += 5;
+  }
+  pdf.setFontSize(11);
+  pdf.text('総工費（税抜）', 30, yy + 2);
+  pdf.text(yenFmt(soft.grandTotal), 100, yy + 2, {align:'right'});
+
+  // BOM (right column, top items)
+  pdf.setFontSize(10); pdf.text('主要材料 (上位15品目)', 130, 35);
+  pdf.setFontSize(7);
+  let by = 42;
+  const top15 = [...items].sort((a, b) => b.cost - a.cost).slice(0, 15);
+  for (const r of top15) {
+    pdf.text(r.name.slice(0, 35), 130, by);
+    pdf.text(qtyFmt(r.qty, r.unit), 230, by, {align:'right'});
+    pdf.text(yenFmt(r.cost), 280, by, {align:'right'});
+    by += 4;
+  }
+
+  pdf.setFontSize(7); pdf.setTextColor(120);
+  pdf.text(`SOLUNA BIM | https://solun.art/bim?plan=${plan.id} | ${today}`, 30, 410);
+  pdf.text('※本書は概念設計レベル(LOD 200)。実施設計図書は1級建築士事務所と契約後に作成します。', 30, 414);
+
+  pdf.save(`SOLUNA_PermitDocs_${plan.name}_${today}.pdf`);
+  // Restore view
+  viewer.setView('iso');
+  btn.disabled = false; btn.textContent = '⬇ 建築確認申請図書PDF';
 });
 
 // ─── ウォークスルー動画エクスポート ───
