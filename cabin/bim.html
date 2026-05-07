@@ -307,6 +307,11 @@
   <button id="structBtn" style="width:100%;margin-bottom:4px">🏗 構造解析・耐震等級</button>
   <button id="codeBtn" style="width:100%;margin-bottom:4px">📋 法規チェック</button>
   <button id="clashBtn" style="width:100%;margin-bottom:4px">⚠ 干渉検出 (Clash)</button>
+  <button id="urbanBtn" style="width:100%;margin-bottom:4px">🏘 建ぺい/容積/斜線</button>
+  <button id="energyBELSBtn" style="width:100%;margin-bottom:4px">🔋 一次エネ (BELS/ZEH)</button>
+  <button id="manualBtn" style="width:100%;margin-bottom:4px">⬇ SIPs施工マニュアルPDF</button>
+  <button id="structPDFBtn" style="width:100%;margin-bottom:4px">⬇ 構造計算書PDF</button>
+  <button id="inspectBtn" style="width:100%;margin-bottom:4px">⬇ 検査チェックリスト</button>
   <button id="ganttBtn" style="width:100%;margin-bottom:4px">📅 工程表 (Gantt)</button>
   <button id="daylightBtn" style="width:100%;margin-bottom:4px">💡 昼光率 Daylight</button>
   <button id="mfgBtn" style="width:100%;margin-bottom:4px">⬇ 製造CSV (パネル割付)</button>
@@ -1278,6 +1283,229 @@ document.getElementById('permitBtn').addEventListener('click', async () => {
   // Restore view
   viewer.setView('iso');
   btn.disabled = false; btn.textContent = '⬇ 建築確認申請図書PDF';
+});
+
+// ─── 建ぺい/容積/斜線チェック ───
+document.getElementById('urbanBtn').addEventListener('click', () => {
+  const u = viewer.urbanPlanningCheck();
+  if (!u) return;
+  const ok = (b) => b ? '<span style="color:#1a6b3a;font-weight:600">✓ 適合</span>' : '<span style="color:#c83030;font-weight:600">✗ 超過</span>';
+  const html = `
+    <h3 style="margin:0 0 12px 0">🏘 建ぺい率・容積率・斜線制限</h3>
+    <p style="font-size:11px;opacity:.6;margin-bottom:10px">用途地域: <b>${u.useZone}</b> （想定値）</p>
+    <table style="width:100%;font-feature-settings:'tnum';font-size:12px">
+      <tr><td>敷地面積（想定）</td><td style="text-align:right">${u.siteArea.toFixed(1)} m²</td></tr>
+      <tr><td>建築面積</td><td style="text-align:right">${u.buildingFootprint.toFixed(1)} m²</td></tr>
+      <tr><td>延床面積</td><td style="text-align:right">${u.totalFloor.toFixed(1)} m²</td></tr>
+      <tr style="border-top:1px solid #888"><td><b>建ぺい率</b></td><td style="text-align:right">${u.buildingCoverage}% / 制限 ${u.bcrLimit}%</td><td>${ok(u.bcrOK)}</td></tr>
+      <tr><td><b>容積率</b></td><td style="text-align:right">${u.FAR}% / 制限 ${u.farLimit}%</td><td>${ok(u.farOK)}</td></tr>
+      <tr style="border-top:1px solid #888"><td><b>建物最高高さ</b></td><td style="text-align:right">${u.peakH} m${u.heightLimit?' / 制限 '+u.heightLimit+'m':''}</td><td>${u.heightLimit?ok(u.heightOK):'-'}</td></tr>
+      <tr><td><b>北側斜線</b></td><td style="text-align:right">許容 ${u.northSlopeAllowed} m</td><td>${ok(u.northOK)}</td></tr>
+      <tr><td><b>道路斜線</b></td><td style="text-align:right">許容 ${u.roadSlopeAllowed} m</td><td>${ok(u.roadOK)}</td></tr>
+      <tr><td><b>隣地斜線</b></td><td style="text-align:right">許容 ${u.adjacentSlopeAllowed} m</td><td>${ok(u.adjacentOK)}</td></tr>
+      <tr><td><b>日影規制</b></td><td style="text-align:right">${u.dayShadowApplies ? '対象 (要詳細検討)' : '非対象'}</td><td>-</td></tr>
+    </table>
+    <p style="font-size:10px;opacity:.55;margin-top:10px">※敷地面積は建築面積×3.5の想定値。実際の敷地で再計算必要。</p>`;
+  showSimpleModal(html);
+});
+
+// ─── 一次エネルギー消費 BELS/ZEH ───
+document.getElementById('energyBELSBtn').addEventListener('click', () => {
+  const pe = viewer.primaryEnergy();
+  if (!pe) return;
+  const stars = '★'.repeat(pe.bels) + '☆'.repeat(5 - pe.bels);
+  const html = `
+    <h3 style="margin:0 0 12px 0">🔋 一次エネルギー消費 (BELS / ZEH)</h3>
+    <div style="font-size:18px;margin-bottom:6px">BEI = <b>${pe.bei}</b> (基準値比)</div>
+    <div style="font-size:24px;color:#c8a455;margin-bottom:8px">BELS: ${stars}</div>
+    <div style="font-size:13px;margin-bottom:14px">
+      ${pe.zeh ? '<span style="color:#1a6b3a;font-weight:700">✓ ZEH 適合 (Net Zero Energy House)</span>' : pe.nearZEH ? '<span style="color:#c8a455">Nearly ZEH 適合</span>' : 'ZEH未達 (PV発電量不足)'}
+    </div>
+    <table style="width:100%;font-feature-settings:'tnum';font-size:12px">
+      <tr><td>年間一次エネルギー消費</td><td style="text-align:right">${pe.total} MJ/年 (${pe.totalGJ} GJ)</td></tr>
+      <tr><td>基準値 (北海道道東 6地域)</td><td style="text-align:right">${pe.standard} MJ/年</td></tr>
+      <tr><td>BEI = 設計値 / 基準値</td><td style="text-align:right">${pe.bei}</td></tr>
+    </table>
+    <div style="margin-top:14px;padding:10px;background:#f0eee7;border-radius:5px;font-size:11px;line-height:1.6">
+      <b>BELS グレード:</b><br>
+      ★★★★★ BEI≦0.6 (ZEH水準) / ★★★★ ≦0.7 / ★★★ ≦0.8 / ★★ ≦0.9 / ★ ≦1.0<br>
+      <b>ZEH 認定要件:</b> BEI≦0.8 + PV発電量で年間消費を相殺
+    </div>`;
+  showSimpleModal(html);
+});
+
+// ─── SIPs施工マニュアルPDF ───
+document.getElementById('manualBtn').addEventListener('click', async () => {
+  if (!window.jspdf) {
+    await new Promise(res => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js'; s.onload = res; document.head.appendChild(s); });
+  }
+  const plan = viewer.getPlan();
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({orientation:'portrait', unit:'mm', format:'a4'});
+  const today = new Date().toISOString().slice(0, 10);
+  // Cover
+  pdf.setFontSize(20); pdf.text('SIPs施工マニュアル', 20, 30);
+  pdf.setFontSize(12); pdf.text(`SOLUNA ${plan.name} ${plan.label}`, 20, 42);
+  pdf.text(`発行日: ${today}`, 20, 50);
+  pdf.line(20, 56, 190, 56);
+  pdf.setFontSize(10);
+  const sections = [
+    ['1. 安全管理', [
+      '・ヘルメット・安全帯・安全靴 必須',
+      '・足場2.0m以上は手すり・幅木設置',
+      '・SIPsパネル吊り上げ時は2-3名+クレーン (4tユニック以上)',
+      '・降雨時は SIPs 内部濡れ防止のためブルーシート養生',
+    ]],
+    ['2. 基礎・土台工事', [
+      '・スクリュー杭打設 (Φ100×L1500、ピッチ1820mm)',
+      '・地耐力測定後、必要に応じ砕石置換',
+      '・鋼製土台 (100×200×t6 角パイプ) アンカーボルトM16',
+      '・水平精度 ±3mm/3m 以内',
+    ]],
+    ['3. SIPs パネル建方', [
+      '・パネル吊り上げはクレーン+吊りアングル使用',
+      '・スプライン接合 (OSB210×30 t9.5、ボンドG17+38ステープル@150mm)',
+      '・コーナー部は専用L字パネル使用',
+      '・気密テープ (ジョイントシール) 全継ぎ目処理',
+    ]],
+    ['4. 屋根工事', [
+      '・屋根SIPs(t200) 棟から軒先へ並べる',
+      '・棟部スプライン接合+棟換気金物',
+      '・ゴムアスルーフィング (t1.0) 全面敷込',
+      '・ガルバ縦ハゼ葺き (t0.35)、棟板金 (t0.4)、破風板',
+    ]],
+    ['5. サッシ・玄関ドア', [
+      '・樹脂サッシ トリプルガラス YKK APW330',
+      '・サッシ枠取付前に防水テープ (両面ブチル) 下地施工',
+      '・サッシまわりウレタン充填 (防水・気密)',
+      '・玄関ドア 断熱仕様 (k値1.4以下)',
+    ]],
+    ['6. 設備工事', [
+      '・電気: 配線CD管、コンセントボックス埋込',
+      '・給排水: 給水PEX、排水VP50',
+      '・換気: Φ150メインファン+Φ100部屋数 (第三種換気)',
+      '・薪ストーブ: 煙突Φ120mm、棟貫通部の防火措置',
+    ]],
+    ['7. 内装仕上げ', [
+      '・SIPs内側に石膏ボード t12.5 直貼り (ビス@150mm)',
+      '・壁紙クロス or 塗装 (準不燃以上)',
+      '・床: 杉無垢フローリング t15、釘打ち+ボンド併用',
+      '・建具: 既製品 引違 or 開き戸',
+    ]],
+    ['8. 検査・引渡し', [
+      '・C値測定 (気密測定) ≦0.5 cm²/m² 目標',
+      '・換気量測定 (各室)',
+      '・電気絶縁抵抗測定',
+      '・施工写真 30-50枚/工程 を10年保管',
+      '・JIO瑕疵担保保険 加入手続き',
+    ]],
+  ];
+  let y = 65;
+  for (const [title, lines] of sections) {
+    if (y > 250) { pdf.addPage(); y = 20; }
+    pdf.setFontSize(13); pdf.text(title, 20, y); y += 6;
+    pdf.setFontSize(10);
+    for (const l of lines) { pdf.text(l, 25, y); y += 5.5; }
+    y += 4;
+  }
+  pdf.setFontSize(8); pdf.setTextColor(120);
+  pdf.text('※本マニュアルは標準的な施工手順。SIPsインターナショナル㈱の大臣認定品の場合は同社専用マニュアル準拠。', 20, 285);
+  pdf.save(`SOLUNA_SIPs_Manual_${plan.name}.pdf`);
+});
+
+// ─── 構造計算書PDF ───
+document.getElementById('structPDFBtn').addEventListener('click', async () => {
+  if (!window.jspdf) {
+    await new Promise(res => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js'; s.onload = res; document.head.appendChild(s); });
+  }
+  const plan = viewer.getPlan();
+  const s = viewer.structuralAnalysis();
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({orientation:'portrait', unit:'mm', format:'a4'});
+  pdf.setFontSize(18); pdf.text('構造計算書 (許容応力度計算)', 20, 25);
+  pdf.setFontSize(11); pdf.text(`SOLUNA ${plan.name} ${plan.label}`, 20, 34);
+  pdf.text(`構造種別: SIPs構造（OSB+EPS+OSB）+ 鋼管杭基礎`, 20, 40);
+  pdf.text(`想定地域: 北海道弟子屈町`, 20, 46);
+  pdf.line(20, 50, 190, 50);
+
+  pdf.setFontSize(13); pdf.text('1. 設計条件', 20, 60);
+  pdf.setFontSize(10);
+  let y = 67;
+  pdf.text(`地震地域係数 Z = 1.0 (弟子屈)`, 25, y); y += 5;
+  pdf.text(`基準風速 V0 = 30 m/s`, 25, y); y += 5;
+  pdf.text(`基準積雪量 d = 100 cm (弟子屈町多雪区域)`, 25, y); y += 5;
+  pdf.text(`地盤種別 第二種地盤 (Tc=0.6s)`, 25, y); y += 5;
+
+  pdf.setFontSize(13); pdf.text('2. 荷重 (kN/m²)', 20, y + 8); y += 14;
+  pdf.setFontSize(10);
+  pdf.text(`固定荷重 DL = ${s.loads.dl}`, 25, y); y += 5;
+  pdf.text(`積載荷重 LL = ${s.loads.ll}`, 25, y); y += 5;
+  pdf.text(`積雪荷重 SL = ${s.loads.sl}`, 25, y); y += 5;
+  pdf.text(`風荷重 W = ${s.loads.w}`, 25, y); y += 5;
+  pdf.text(`水平力 (地震時想定) = ${s.loads.horizForce} kN`, 25, y); y += 5;
+
+  pdf.setFontSize(13); pdf.text('3. 壁量計算', 20, y + 8); y += 14;
+  pdf.setFontSize(10);
+  pdf.text(`必要壁量 等級1 = ${s.wallReqs.req1} kN`, 25, y); y += 5;
+  pdf.text(`必要壁量 等級2 (×1.25) = ${s.wallReqs.req2} kN`, 25, y); y += 5;
+  pdf.text(`必要壁量 等級3 (×1.5) = ${s.wallReqs.req3} kN`, 25, y); y += 5;
+  pdf.text(`SIPs壁 提供壁量 = ${s.wallReqs.provided} kN`, 25, y); y += 5;
+  pdf.setFontSize(12); pdf.text(`判定: ${s.grade}`, 25, y + 2); y += 12;
+
+  pdf.setFontSize(13); pdf.text('4. 横架材応力計算 (KD杉 105×180)', 20, y); y += 7;
+  pdf.setFontSize(10);
+  pdf.text(`スパン = ${s.beam.span} m`, 25, y); y += 5;
+  pdf.text(`発生応力 σ = ${s.beam.sigma} N/mm²`, 25, y); y += 5;
+  pdf.text(`許容応力 σa = ${s.beam.allowable} N/mm² (KD-D14)`, 25, y); y += 5;
+  pdf.text(`判定: ${s.beam.ok ? 'OK' : 'NG'}`, 25, y); y += 8;
+
+  pdf.setFontSize(13); pdf.text('5. SIPs壁仕様', 20, y); y += 7;
+  pdf.setFontSize(10);
+  pdf.text(`壁構成: OSB t11.1 + EPS t160 + OSB t11.1`, 25, y); y += 5;
+  pdf.text(`スプライン接合: OSB 210×30 t9.5、ボンドG17+38ステープル@150mm`, 25, y); y += 5;
+  pdf.text(`許容せん断耐力 = 30 kN/m (大臣認定品 試験値)`, 25, y); y += 5;
+  pdf.text(`壁倍率換算 ≒ 5.0`, 25, y); y += 5;
+
+  pdf.setFontSize(8); pdf.setTextColor(120);
+  pdf.text('※簡易計算書。実際の確認申請には1級建築士による精査・押印・電算出力が必要です。', 20, 280);
+  pdf.text('※SIPs構造は「型式適合認定」or「大臣認定」または「個別認定」が必要です。', 20, 285);
+  pdf.save(`SOLUNA_StructCalc_${plan.name}.pdf`);
+});
+
+// ─── 検査チェックリストPDF ───
+document.getElementById('inspectBtn').addEventListener('click', async () => {
+  if (!window.jspdf) {
+    await new Promise(res => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js'; s.onload = res; document.head.appendChild(s); });
+  }
+  const plan = viewer.getPlan();
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({orientation:'portrait', unit:'mm', format:'a4'});
+  pdf.setFontSize(16); pdf.text('施工検査チェックリスト', 20, 25);
+  pdf.setFontSize(11); pdf.text(`SOLUNA ${plan.name} ${plan.label}`, 20, 34);
+  pdf.line(20, 38, 190, 38);
+  const sections = [
+    ['配筋検査 (基礎工事完了時)', ['鉄筋径・本数', 'かぶり厚 ≧40mm', 'スペーサー設置', 'アンカーボルト位置', '鉄筋継手長さ', '結束線処理', '型枠精度']],
+    ['中間検査 (上棟時)', ['アンカーボルト緊結', 'ホールダウン金物施工', 'SIPsパネル建方寸法', 'スプライン接合状況', '気密テープ施工', '筋交い・耐力壁配置', '小屋組水平確認']],
+    ['防火・防災検査', ['防火区画 (隣戸境)', '排煙設備', '誘導灯', '消火器設置', '非常照明 (該当する場合)']],
+    ['完了検査', ['階高・通路幅', '採光面積比', '24h換気作動', 'C値測定 (≦0.5)', '電気絶縁抵抗', '排水勾配', 'サッシ防水', '外壁仕上げ', '内装仕上げ']],
+    ['JIO瑕疵担保保険検査', ['構造耐力上主要部分', '雨水浸入防止部分', '土台・梁・桁・柱', '小屋組・床版', '屋根葺き材', 'バルコニー手摺', '排水設備']],
+  ];
+  let y = 45;
+  for (const [title, items] of sections) {
+    if (y > 240) { pdf.addPage(); y = 20; }
+    pdf.setFontSize(12); pdf.text(title, 20, y); y += 6;
+    pdf.setFontSize(10);
+    for (const it of items) {
+      pdf.rect(25, y - 3.5, 4, 4);     // checkbox
+      pdf.text(it, 32, y);
+      pdf.text('日付:____ サイン:____', 130, y);
+      y += 5.5;
+    }
+    y += 4;
+  }
+  pdf.setFontSize(8); pdf.setTextColor(120);
+  pdf.text('※各検査時に確認・写真撮影を行い、本紙にサイン。10年瑕疵担保期間 保管必須。', 20, 285);
+  pdf.save(`SOLUNA_InspectionChecklist_${plan.name}.pdf`);
 });
 
 // ─── 工程表 Gantt ───
