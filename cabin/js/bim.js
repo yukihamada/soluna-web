@@ -8,6 +8,8 @@ import { PointerLockControls } from 'three/addons/controls/PointerLockControls.j
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { Sky } from 'three/addons/objects/Sky.js';
+import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+import { USDZExporter } from 'three/addons/exporters/USDZExporter.js';
 
 export const PLANS = {
   mini:     {W: 3640,  D: 2730,  H: 2400, stories: 1, roofType: 'gable', roofPitch: 0.20, openings: {south: {w: 1500, h: 1170}, solar: 2}, name: 'MEBUKI', label: '9.9m²', tag: '建築確認不要'},
@@ -1998,6 +2000,31 @@ export function createViewer(container, opts = {}) {
 
   function getPhases() { return PHASES; }
 
+  // ── glTF/USDZ エクスポート (AR表示用) ──
+  async function exportGLTF() {
+    if (!currentRoot) return null;
+    const exporter = new GLTFExporter();
+    return new Promise((resolve, reject) => {
+      exporter.parse(
+        currentRoot,
+        (gltf) => {
+          const blob = gltf instanceof ArrayBuffer
+            ? new Blob([gltf], {type: 'model/gltf-binary'})
+            : new Blob([JSON.stringify(gltf)], {type: 'model/gltf+json'});
+          resolve(blob);
+        },
+        (err) => reject(err),
+        {binary: true, embedImages: true},
+      );
+    });
+  }
+  async function exportUSDZ() {
+    if (!currentRoot) return null;
+    const exporter = new USDZExporter();
+    const arr = await exporter.parse(currentRoot);
+    return new Blob([arr], {type: 'model/vnd.usdz+zip'});
+  }
+
   // ── ウォークスルー動画エクスポート (MediaRecorder) ──
   async function recordWalkthrough({duration = 14, fps = 30, onProgress} = {}) {
     if (!currentPlan) return null;
@@ -2244,6 +2271,7 @@ export function createViewer(container, opts = {}) {
     setInteriorMode, isInteriorMode,
     onElementClick, takeoff, softCosts, uaValue, setPhase, playConstructionSequence, getPhases,
     setSunPosition, pvEstimate, annualEnergy, playSunCycle, recordWalkthrough,
+    exportGLTF, exportUSDZ,
     getPlan: () => currentPlan,
   };
 }

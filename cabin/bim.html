@@ -67,20 +67,31 @@
 
   /* Mobile */
   @media (max-width:780px){
-    .panel{padding:8px 10px;font-size:11px;max-width:160px}
-    #plans{width:160px;max-height:calc(50vh - 80px)}
-    #plans .plan-grid{grid-template-columns:1fr}
-    #layers{width:160px}
-    #info{max-width:170px;font-size:10px}
-    #info .name{font-size:14px}
-    #views{padding:6px 8px}
+    /* Hide all desktop panels by default; show via drawer */
+    #plans, #layers, #finish, #bim-tools, #sun-panel, #dimcustom, #info, #customDimToggle{
+      display:none;
+    }
+    body.drawer-open #drawerOverlay{display:block}
+    body.drawer-open #drawer{transform:translateX(0)}
+    #drawer{
+      position:fixed;top:0;right:0;bottom:0;width:88vw;max-width:340px;
+      background:#fffefb;border-left:1px solid #d6d2c8;z-index:55;
+      transform:translateX(100%);transition:transform .25s ease-out;
+      overflow-y:auto;padding:60px 16px 24px;box-shadow:-2px 0 12px rgba(0,0,0,.15)
+    }
+    #drawerOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:54;animation:fadeIn .25s}
+    #drawer .panel{position:static;display:block !important;margin-bottom:14px;max-width:none;width:auto;box-shadow:none}
+    #drawerToggle{display:flex !important}
+    #drawerClose{display:block !important}
+    #views{padding:5px 6px;bottom:10px}
     #views button{padding:4px 6px;font-size:10px}
     .topbar{padding:8px 10px;gap:8px}
     .topbar .brand{font-size:12px}
     .topbar .links{font-size:11px;gap:8px}
-    #bim-tools{display:none}
-    #finish{display:none}
+    #info-mobile{display:block}
   }
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  #drawerToggle, #drawerClose, #drawer, #drawerOverlay, #info-mobile{display:none}
 
   .hint{position:fixed;bottom:62px;left:50%;transform:translateX(-50%);font-size:10px;background:rgba(34,34,34,.85);color:#fff;padding:5px 10px;border-radius:99px;letter-spacing:.05em;pointer-events:none;opacity:0;transition:opacity .4s}
   .hint.show{opacity:1}
@@ -92,11 +103,26 @@
 
 <div class="topbar">
   <div class="brand">SOLUNA <small>BIM Viewer · β</small></div>
+  <button id="drawerToggle" style="background:none;border:1px solid #888;border-radius:5px;padding:4px 10px;font-size:12px;cursor:pointer;margin-left:auto">☰ メニュー</button>
   <div class="links">
+    <a href="?lang=ja" id="langJa">日本語</a>
+    <a href="?lang=en" id="langEn">EN</a>
     <a href="/build">/build</a>
     <a href="/urban">/urban</a>
     <a href="/">solun.art</a>
   </div>
+</div>
+
+<!-- Mobile drawer (panels cloned in here) -->
+<div id="drawerOverlay"></div>
+<div id="drawer">
+  <button id="drawerClose" style="position:absolute;top:14px;right:14px;background:none;border:0;font-size:20px;cursor:pointer">×</button>
+  <div id="drawerContent"></div>
+</div>
+
+<!-- Mobile bottom info bar -->
+<div id="info-mobile" style="position:fixed;bottom:54px;left:8px;right:8px;background:#fffefb;border:1px solid #d6d2c8;border-radius:6px;padding:8px 12px;font-size:11px;z-index:18">
+  <span id="infoMobileName" style="font-weight:600">SU</span> <span id="infoMobileMeta" style="opacity:.6">24.8m²</span>
 </div>
 
 <div id="stage"></div>
@@ -242,6 +268,8 @@
   <button id="permitBtn" style="width:100%;margin-bottom:4px">⬇ 建築確認申請図書PDF</button>
   <button id="videoBtn" style="width:100%;margin-bottom:4px">🎬 ウォークスルー動画</button>
   <button id="compareBtn" style="width:100%;margin-bottom:4px">📊 全16プラン比較表</button>
+  <button id="gltfBtn" style="width:100%;margin-bottom:4px">⬇ glTF (Android AR)</button>
+  <button id="usdzBtn" style="width:100%;margin-bottom:4px">⬇ USDZ (iOS AR / Vision Pro)</button>
   <button id="quoteBtn" style="width:100%;background:#1a6b3a;color:#fff;border-color:#1a6b3a">✉️ 見積依頼を送る</button>
 </div>
 
@@ -440,6 +468,60 @@
 <script type="module">
 import { createViewer, PLANS } from '/js/bim.js';
 
+// ─── i18n (?lang=en or ?lang=ja, default ja) ───
+const lang = (new URL(location.href).searchParams.get('lang')) || (navigator.language.startsWith('en') ? 'en' : 'ja');
+const I18N = {
+  ja: {/* defaults already JA */},
+  en: {
+    'プラン選択':'Plans', 'クイック切替':'Quick switch',
+    '仕上げ':'Finish', '外壁':'Wall', '木部':'Wood', 'サッシ':'Sash',
+    'レイヤ':'Layers', '基礎':'Foundation', '構造躯体':'Structure', 'SIPs外皮':'SIPs envelope',
+    '屋根':'Roof', '太陽光':'Solar', 'デッキ':'Deck',
+    '設備（雨水/換気/煙突等）':'Equipment (water/vent/chimney)',
+    'MEP（給水/排水/電気/換気）':'MEP (water/drain/elec/HVAC)',
+    '敷地・北側斜線・道路':'Site/North setback/Road',
+    '内装家具':'Interior furniture', '人物スケール':'Human scale', '寸法線':'Dimensions',
+    'X線モード（壁透視）':'X-ray (wall transparency)', '周辺環境（杉・雪）':'Environment (cedars/snow)',
+    'BIM ツール':'BIM Tools',
+    '📊 数量・コスト・諸経費':'📊 Quantities / Costs',
+    '🌡 UA値・断熱性能':'🌡 UA value / Insulation',
+    '💰 30年TCO・光熱費・CO2':'💰 30-yr TCO / Energy / CO2',
+    '⏱ 4D 施工アニメ':'⏱ 4D Construction',
+    '⬇ BOM CSV':'⬇ BOM CSV',
+    '⬇ IFC':'⬇ IFC',
+    '⬇ 発注書PDF':'⬇ Purchase Order PDF',
+    '⬇ 1ページサマリーPDF':'⬇ 1-page Summary PDF',
+    '⬇ 建築確認申請図書PDF':'⬇ Building Permit PDF',
+    '🎬 ウォークスルー動画':'🎬 Walkthrough video',
+    '📊 全16プラン比較表':'📊 Compare all 16 plans',
+    '⬇ glTF (Android AR)':'⬇ glTF (Android AR)',
+    '⬇ USDZ (iOS AR / Vision Pro)':'⬇ USDZ (iOS AR / Vision Pro)',
+    '✉️ 見積依頼を送る':'✉️ Request quote',
+    'アイソ':'Iso', '正面':'Front', '側面':'Side', '平面':'Top',
+    '🚪 中に入る':'🚪 Walk inside', '🚪 外に出る (Esc)':'🚪 Exit (Esc)',
+    '☀️ 太陽軌道（弟子屈 lat 43.5°）':'☀️ Sun path (Teshikaga 43.5°N)',
+    '冬至':'Winter ☃', '春分':'Spring 🌸', '夏至':'Summer ☀', '秋分':'Autumn 🍁',
+    '⚡ PV発電量予測':'⚡ PV generation forecast',
+    '詳細スペック →':'Details →',
+    '☰ メニュー':'☰ Menu',
+    '本ガイドの標準':'Default plan',
+  },
+};
+function t(s) { return (lang === 'en' && I18N.en[s]) ? I18N.en[s] : s; }
+function applyI18n() {
+  if (lang !== 'en') return;
+  document.documentElement.lang = 'en';
+  // Walk all text nodes/buttons matching keys
+  for (const [ja, en] of Object.entries(I18N.en)) {
+    document.querySelectorAll('button, h3, label, a, span, div, option').forEach(el => {
+      // Only replace exact text match
+      if (el.children.length === 0 && el.textContent.trim() === ja) el.textContent = en;
+    });
+  }
+}
+setTimeout(applyI18n, 100);    // run after DOM render
+
+
 const stage = document.getElementById('stage');
 const viewer = createViewer(stage);
 
@@ -449,6 +531,11 @@ function updateInfo(plan) {
   document.getElementById('planDim').textContent =
     `${plan.W.toLocaleString()} × ${plan.D.toLocaleString()} × ${(plan.H||3000).toLocaleString()}mm` +
     (plan.stories > 1 ? `　·　${plan.stories}階建て` : '');
+  // Mobile info bar
+  const mn = document.getElementById('infoMobileName');
+  const mm = document.getElementById('infoMobileMeta');
+  if (mn) mn.textContent = plan.name;
+  if (mm) mm.textContent = plan.label + (plan.tag ? ' · ' + plan.tag : '');
   const tags = [];
   if (plan.dome) tags.push('Dome');
   if (plan.pilotis) tags.push('ピロティ');
@@ -1026,6 +1113,44 @@ document.getElementById('permitBtn').addEventListener('click', async () => {
   btn.disabled = false; btn.textContent = '⬇ 建築確認申請図書PDF';
 });
 
+// ─── glTF/USDZ AR エクスポート ───
+async function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+document.getElementById('gltfBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('gltfBtn');
+  btn.disabled = true; btn.textContent = '⏳ glTF生成中...';
+  try {
+    const blob = await viewer.exportGLTF();
+    const plan = viewer.getPlan();
+    await downloadBlob(blob, `SOLUNA_${plan.name}.glb`);
+  } catch (e) { alert('glTFエクスポート失敗: ' + e.message); }
+  btn.disabled = false; btn.textContent = '⬇ glTF (Android AR)';
+});
+document.getElementById('usdzBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('usdzBtn');
+  btn.disabled = true; btn.textContent = '⏳ USDZ生成中...';
+  try {
+    const blob = await viewer.exportUSDZ();
+    const plan = viewer.getPlan();
+    await downloadBlob(blob, `SOLUNA_${plan.name}.usdz`);
+    // On iOS, also offer to open in Quick Look (AR)
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.rel = 'ar'; link.href = url;
+      const img = document.createElement('img'); img.src = '/img/ar-icon.png'; link.appendChild(img);
+      document.body.appendChild(link); link.click();
+      setTimeout(() => { link.remove(); URL.revokeObjectURL(url); }, 2000);
+    }
+  } catch (e) { alert('USDZエクスポート失敗: ' + e.message); }
+  btn.disabled = false; btn.textContent = '⬇ USDZ (iOS AR / Vision Pro)';
+});
+
 // ─── ウォークスルー動画エクスポート ───
 document.getElementById('videoBtn').addEventListener('click', async () => {
   const btn = document.getElementById('videoBtn');
@@ -1293,6 +1418,35 @@ for (const b of document.querySelectorAll('#views button')) {
 const hint = document.getElementById('hint');
 hint.classList.add('show');
 setTimeout(() => hint.classList.remove('show'), 3500);
+
+// ─── Mobile drawer: move all panels into drawer on mobile ───
+function setupMobileDrawer() {
+  if (window.innerWidth > 780) return;
+  const drawer = document.getElementById('drawerContent');
+  // Clone selected panels into drawer (refs preserved by event delegation on document)
+  for (const id of ['plans', 'finish', 'layers', 'bim-tools', 'sun-panel', 'dimcustom']) {
+    const el = document.getElementById(id);
+    if (el && !drawer.contains(el)) {
+      drawer.appendChild(el);
+      el.style.display = 'block';
+    }
+  }
+}
+setupMobileDrawer();
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 780) {
+    document.body.classList.remove('drawer-open');
+  }
+});
+document.getElementById('drawerToggle').addEventListener('click', () => {
+  document.body.classList.toggle('drawer-open');
+});
+document.getElementById('drawerClose').addEventListener('click', () => {
+  document.body.classList.remove('drawer-open');
+});
+document.getElementById('drawerOverlay').addEventListener('click', () => {
+  document.body.classList.remove('drawer-open');
+});
 </script>
 
 </body>
