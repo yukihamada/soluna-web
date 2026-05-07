@@ -839,8 +839,8 @@ function fmtM(n){ return '¥' + Math.round(n/10000) + '万'; }
 // ── ALL PLANS GRID ─────────────────────────────────────────────────────
 const pgGrid = document.getElementById('planGrid');
 BUILD_PLANS.forEach(p => {
-  const priceStr = p.totalMat >= 10000000
-    ? `¥${(p.totalMat/10000000).toFixed(1)}億`
+  const priceStr = p.totalMat >= 100000000
+    ? `¥${(p.totalMat/100000000).toFixed(1)}億`
     : `¥${Math.round(p.totalMat/10000)}万`;
   const card = document.createElement('div');
   card.className = 'pg-card' + (p.id === 'standard' ? ' pg-active' : '');
