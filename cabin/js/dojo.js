@@ -12,11 +12,10 @@ import { Sky } from 'three/addons/objects/Sky.js';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 
 // ── PLANS — U-shape DOJO with module-based SIPs stacks ──
-// W = overall width, D = overall depth (south is +Z, north is -Z)
-// wingD = depth of east/west wings, backD = depth of north (back) wing
-// modW = SIPs module width (default 6m, container-like)
-// modH = floor-to-floor height (default 2.7m, container-like)
-// stories = vertical stack count
+// 法規対応:
+//  - 木造SIPsの安全高さ上限: 3階(地上11m以下)。4階以上は鉄骨ハイブリッドフレーム必要
+//  - 各棟に階段室必須・2方向避難 (居室→階段歩行距離≦50m)
+//  - 北棟中央にエレベーター塔 (3階以上)
 export const PLANS = {
   dojo_s: {
     W: 18000, D: 14000, wingD: 4000, backD: 4000, modW: 6000, modH: 2700,
@@ -24,7 +23,7 @@ export const PLANS = {
     name: 'DOJO S',
     label: '120㎡ + 中庭60㎡',
     tag: '弟子屈の道場・小規模リトリート',
-    sail: true,
+    sail: true, hasElevator: false,
   },
   dojo_m: {
     W: 24000, D: 18000, wingD: 5000, backD: 5000, modW: 6000, modH: 2700,
@@ -32,7 +31,7 @@ export const PLANS = {
     name: 'DOJO M',
     label: '230㎡ + 中庭120㎡',
     tag: '中規模リトリート / 道場',
-    sail: true,
+    sail: true, hasElevator: true,
   },
   dojo_l: {
     W: 32000, D: 24000, wingD: 6000, backD: 6000, modW: 6000, modH: 2700,
@@ -40,15 +39,16 @@ export const PLANS = {
     name: 'DOJO L',
     label: '430㎡ + 中庭240㎡',
     tag: '本格 道場 / 合宿施設',
-    sail: true,
+    sail: true, hasElevator: true,
   },
+  // XL は 3階上限に変更 (法規対応・SIPs+鉄骨ハイブリッド)
   dojo_xl: {
     W: 40000, D: 30000, wingD: 6000, backD: 7200, modW: 6000, modH: 2700,
-    sideStories: 3, backStories: 4,
+    sideStories: 3, backStories: 3,         // ← 4階 → 3階 (法規対応)
     name: 'DOJO XL',
-    label: '720㎡ + 中庭420㎡',
+    label: '600㎡ + 中庭420㎡',
     tag: '大型カンファレンス / リゾート',
-    sail: true,
+    sail: true, hasElevator: true,
   },
 };
 
@@ -185,7 +185,7 @@ function edge(mesh, color = 0x4a4a4a, opacity = 0.45) {
 }
 
 // ── Build a single wing (rectangular SIPs stack) with module grid + window openings ──
-function buildWing(g, {x, z, w, d, stories, modH, withRoofDeck, label}) {
+function buildWing(g, {x, z, w, d, stories, modH, withRoofDeck, monoRoof, label}) {
   const baseY = FL_OFFSET;
   const totalH = stories * modH;
   // Body
@@ -211,16 +211,61 @@ function buildWing(g, {x, z, w, d, stories, modH, withRoofDeck, label}) {
     g.add(seam);
   }
 
-  // Window openings — facing the courtyard side (passed via `windowSide`: 'south'/'north'/'east'/'west' relative to wing)
-  // For our U layout, courtyard side depends on wing orientation; handled by caller via two windows per face.
+  // 通し柱 (continuous columns) at module corners — 3階以上は構造重要
+  if (stories >= 3) {
+    const colMat = new THREE.MeshStandardMaterial({color: 0x222222, roughness: 0.4, metalness: 0.6});
+    // 4 corners + intermediate at module seams
+    const xs = [-w/2 + 0.05, w/2 - 0.05];
+    const zs = [-d/2 + 0.05, d/2 - 0.05];
+    // Add intermediate corners along longer dimension
+    for (let i = 1; i < segCnt; i++) {
+      xs.push(-w/2 + i * (w / segCnt));
+    }
+    xs.forEach(cx => zs.forEach(cz => {
+      const col = box(0.12, totalH, 0.12, colMat);
+      col.position.set(x + cx, baseY + totalH/2, z + cz);
+      g.add(col);
+    }));
+  }
 
-  // Roof
-  if (withRoofDeck) {
-    // Flat roof + parapet + cedar deck
+  // Roof — 北海道の積雪対応 mono-pitch (1m積雪で平屋根は崩壊リスク)
+  if (monoRoof) {
+    // Mono-pitch roof: 北側 (背面) を高く、開放側を低く (snow shed)
+    const pitch = 0.18;       // 10°
+    const dropH = d * pitch;
+    const tRoof = 0.10;
+    const roofW = w + 0.40;
+    const slope = Math.atan(pitch);
+    const cosS = Math.cos(slope);
+    const tVert = tRoof / cosS;
+    const profile = new THREE.Shape();
+    const south = d/2 + 0.20;
+    const north = -d/2 - 0.20;
+    profile.moveTo(north, dropH);
+    profile.lineTo(south, 0);
+    profile.lineTo(south, tVert);
+    profile.lineTo(north, dropH + tVert);
+    profile.closePath();
+    const roofGeo = new THREE.ExtrudeGeometry(profile, {depth: roofW, bevelEnabled: false});
+    const roof = new THREE.Mesh(roofGeo, MATS.dark);
+    roof.rotation.y = -Math.PI / 2;
+    roof.position.set(x + roofW/2, baseY + totalH, z);
+    g.add(roof);
+    g.add(edge(roof, COLORS.line, 0.4));
+    // 雪止め (snow guard) — 緩勾配3段
+    for (let i = 0; i < 3; i++) {
+      const along = 0.5 + i * (Math.hypot(d + 0.4, dropH) / 4);
+      const sg = box(w - 0.4, 0.04, 0.04, MATS.dark);
+      sg.position.set(x, baseY + totalH + tVert + along * Math.sin(slope) - 0.02,
+                     z + d/2 + 0.20 - along * cosS);
+      sg.rotation.x = -slope;
+      g.add(sg);
+    }
+  } else if (withRoofDeck) {
+    // 屋上テラス + パラペット (低層棟は緩勾配mono不可なら屋上利用)
     const slab = box(w + 0.20, 0.10, d + 0.20, MATS.dark);
     slab.position.set(x, baseY + totalH + 0.05, z);
     g.add(slab);
-    // Parapet
     const pH = 0.40, pT = 0.08;
     const sides = [
       {w: w + 0.20, h: pH, d: pT, x: x, z: z + d/2 + 0.10 - pT/2},
@@ -233,41 +278,110 @@ function buildWing(g, {x, z, w, d, stories, modH, withRoofDeck, label}) {
       m.position.set(s.x, baseY + totalH + 0.10 + pH/2, s.z);
       g.add(m);
     }
-    // Cedar deck on top
     const deck = box(w - 0.30, 0.05, d - 0.30, MATS.deck);
     deck.position.set(x, baseY + totalH + 0.13, z);
     g.add(deck);
-    // Lounge seating (low blocks)
     const cushMat = new THREE.MeshStandardMaterial({color: 0xd0c8b8, roughness: 0.85});
     for (let cx = -0.5; cx <= 0.5; cx += 1.0) {
       const cushion = box(1.6, 0.32, 0.7, cushMat);
       cushion.position.set(x + cx * (w/2 - 1.5), baseY + totalH + 0.3, z + (cx > 0 ? -0.6 : 0.6));
       g.add(cushion);
     }
-    // Planters (cedar)
     for (let pz = -1; pz <= 1; pz += 2) {
       const planter = box(0.4, 0.4, 0.4, MATS.cedar);
       planter.position.set(x - w/2 + 0.6, baseY + totalH + 0.32, z + pz * (d/2 - 0.7));
       g.add(planter);
     }
-    // Glass railing
+    // Glass railing (中庭側のみ — 落雪対策で外周はパラペット高く)
     const glassR = box(w - 0.30, 1.0, 0.012, MATS.glass);
     glassR.position.set(x, baseY + totalH + 0.6, z + d/2 + 0.03);
     g.add(glassR);
-    // String lights (warm dots along railing)
     const lightMat = new THREE.MeshStandardMaterial({color: 0xfff2c0, emissive: 0xffe098, emissiveIntensity: 1.4});
     for (let lx = -w/2 + 0.5; lx < w/2; lx += 0.6) {
       const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 6), lightMat);
       bulb.position.set(x + lx, baseY + totalH + 1.05, z + d/2 + 0.03);
       g.add(bulb);
     }
+    // 折り畳みオーニング (winter cover) — 屋上ソファの上に半分だけ
+    const awningMat = new THREE.MeshStandardMaterial({color: 0x4a4a4a, roughness: 0.85, side: THREE.DoubleSide});
+    const awning = box(w - 0.5, 0.04, d * 0.5, awningMat);
+    awning.position.set(x, baseY + totalH + 1.6, z - d/4);
+    g.add(awning);
+    // 支柱
+    for (const cz of [-d/4 + d/4, -d/4 - d/4]) {
+      const post = box(0.05, 1.6, 0.05, MATS.dark);
+      post.position.set(x - w/2 + 0.4, baseY + totalH + 0.8, z + cz);
+      g.add(post);
+    }
   } else {
-    // Mono-pitch low roof with parapet (still flat-looking cap on top)
+    // Default flat (北棟向け mono-pitch なし用): パラペット付き flat
     const slab = box(w + 0.20, 0.10, d + 0.20, MATS.dark);
     slab.position.set(x, baseY + totalH + 0.05, z);
     g.add(slab);
     g.add(edge(slab, COLORS.line, 0.45));
   }
+}
+
+// ── 階段塔 (stair tower) ──
+// 法規: 木造階段は不燃化処理、踊場必須。階段室は耐火区画で囲う
+function buildStairTower(g, {x, z, w, d, stories, modH, exterior}) {
+  const baseY = FL_OFFSET;
+  const totalH = stories * modH;
+  const matWall = exterior ? MATS.dark : MATS.module;
+  // 階段室の外壁
+  if (!exterior) {
+    const shaft = box(w, totalH, d, matWall);
+    shaft.position.set(x, baseY + totalH/2, z);
+    g.add(shaft);
+    g.add(edge(shaft, COLORS.line, 0.5));
+  }
+  // 階段の踏み板 (visual: 折返し階段)
+  const stepW = w * 0.45, stepD = 0.28, stepH = modH / 14;       // 14段で1階分
+  for (let s = 0; s < stories; s++) {
+    const flightY = baseY + s * modH;
+    // 上り (前半: x方向)
+    for (let i = 0; i < 7; i++) {
+      const tread = box(stepW, 0.04, stepD, MATS.cedar);
+      tread.position.set(x - w/4, flightY + (i + 1) * stepH, z - d/2 + 0.5 + i * stepD);
+      g.add(tread);
+    }
+    // 踊場
+    const landing = box(w - 0.2, 0.06, d * 0.4, MATS.cedar);
+    landing.position.set(x, flightY + 7 * stepH, z + 0.2);
+    g.add(landing);
+    // 下り (後半: 反対方向)
+    for (let i = 0; i < 7; i++) {
+      const tread = box(stepW, 0.04, stepD, MATS.cedar);
+      tread.position.set(x + w/4, flightY + (i + 8) * stepH, z + 0.5 - i * stepD);
+      g.add(tread);
+    }
+  }
+  // 手すり (両側)
+  const railMat = MATS.dark;
+  for (const xs of [-w/4, w/4]) {
+    const rail = box(0.04, 1.0, d - 0.4, railMat);
+    rail.position.set(x + xs - (xs<0?stepW/2:-stepW/2)*0.5, baseY + totalH/2, z);
+    g.add(rail);
+  }
+}
+
+// ── エレベーター塔 (elevator shaft) ──
+function buildElevator(g, {x, z, stories, modH}) {
+  const baseY = FL_OFFSET;
+  const totalH = stories * modH + 1.5;     // 機械室分+1.5m
+  const carW = 1.6, carD = 1.8;
+  const shaft = box(carW, totalH, carD, MATS.dark);
+  shaft.position.set(x, baseY + totalH/2, z);
+  g.add(shaft);
+  g.add(edge(shaft, COLORS.line, 0.6));
+  // EV 表示マーク
+  const door = box(0.9, 2.0, 0.04, new THREE.MeshStandardMaterial({color: 0xc0c0c0, roughness: 0.4, metalness: 0.7}));
+  door.position.set(x, baseY + 1.0, z + carD/2 + 0.025);
+  g.add(door);
+  // 機械室屋根
+  const cap = box(carW + 0.2, 0.10, carD + 0.2, MATS.dark);
+  cap.position.set(x, baseY + totalH + 0.05, z);
+  g.add(cap);
 }
 
 // ── Add window cutouts (visual: dark box recessed) on a face ──
@@ -359,11 +473,33 @@ function buildSail(g, plan, baseY) {
   const sail = new THREE.Mesh(geom, MATS.sail);
   g.add(sail);
 
-  // Anchor poles at south corners
+  // 南側アンカー — 風荷重対応 Φ150鋼管 + コンクリート墓石 (deadman)
+  // 風速30m/s で 帆面に揚力 + 引張荷重 = 数十kN → 細いポールでは絶対不可
   for (const c of [corners[2], corners[3]]) {
-    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, c.y, 12), MATS.dark);
+    // メインポール Φ150 鋼管
+    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, c.y, 16), MATS.dark);
     pole.position.set(c.x, c.y / 2, c.z);
     g.add(pole);
+    // ベース (コンクリ墓石 1m × 1m × 0.6m, 鉄筋アンカー埋設)
+    const baseFoot = box(1.0, 0.6, 1.0,
+      new THREE.MeshStandardMaterial({color: 0x6a625a, roughness: 0.95}));
+    baseFoot.position.set(c.x, -0.05, c.z);
+    g.add(baseFoot);
+    g.add(edge(baseFoot, COLORS.line, 0.4));
+    // 支線 (テンションロープ) — 北方向に控え
+    const guy = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.012, 0.012, Math.hypot(2, c.y), 6),
+      new THREE.MeshStandardMaterial({color: 0x444444, roughness: 0.7, metalness: 0.5}),
+    );
+    const angle = Math.atan2(c.y, 2);
+    guy.position.set(c.x, c.y / 2, c.z - 1);
+    guy.rotation.x = Math.PI/2 - angle;
+    g.add(guy);
+    // 支線ベース (もう一つの墓石)
+    const guyBase = box(0.6, 0.4, 0.6,
+      new THREE.MeshStandardMaterial({color: 0x6a625a, roughness: 0.95}));
+    guyBase.position.set(c.x, -0.10, c.z - 2);
+    g.add(guyBase);
   }
   // String lights along sail edges
   const lightMat = new THREE.MeshStandardMaterial({color: 0xfff2c0, emissive: 0xffe098, emissiveIntensity: 1.5});
@@ -379,7 +515,7 @@ function buildSail(g, plan, baseY) {
   }
 }
 
-// ── Courtyard wooden deck ──
+// ── Courtyard: 杉デッキ + 道場マット + 石舞台 + 用途ゾーニング ──
 function buildCourtyard(g, plan) {
   const W = plan.W * MM, D = plan.D * MM;
   const wingD = plan.wingD * MM, backD = plan.backD * MM;
@@ -388,25 +524,171 @@ function buildCourtyard(g, plan) {
   const cyZ = -D/2 + backD + cyD/2;
   const baseY = FL_OFFSET;
 
-  // Cedar deck (raised platform)
+  // 杉デッキ (外周ゾーン: 縁側として使用)
   const deck = box(cyW - 0.2, 0.10, cyD - 0.2, MATS.deck);
   deck.position.set(0, baseY - 0.05, cyZ);
   g.add(deck);
   g.add(edge(deck, COLORS.line, 0.4));
 
-  // White stage area (concrete plaza near south end)
-  const stage = box(cyW * 0.4, 0.04, cyD * 0.35,
+  // 道場マット (青色タタミ風) — 中央 28.8㎡ (旧 dojo-story 仕様)
+  const matW = Math.min(cyW * 0.6, 7.2);
+  const matD = Math.min(cyD * 0.4, 4.0);
+  const matMat = new THREE.MeshStandardMaterial({color: 0x2a4a78, roughness: 0.92});
+  const tatami = box(matW, 0.05, matD, matMat);
+  tatami.position.set(0, baseY + 0.01, cyZ + 0.5);
+  g.add(tatami);
+  // マットの目地 (1.8m × 0.9m パネルで分割)
+  const matPanelW = 1.8, matPanelD = 0.9;
+  const matCols = Math.floor(matW / matPanelW);
+  const matRows = Math.floor(matD / matPanelD);
+  for (let i = 1; i < matCols; i++) {
+    const seam = box(0.02, 0.06, matD, MATS.dark);
+    seam.position.set(-matW/2 + i * matPanelW, baseY + 0.04, cyZ + 0.5);
+    g.add(seam);
+  }
+  for (let j = 1; j < matRows; j++) {
+    const seam = box(matW, 0.06, 0.02, MATS.dark);
+    seam.position.set(0, baseY + 0.04, cyZ + 0.5 - matD/2 + j * matPanelD);
+    g.add(seam);
+  }
+
+  // 石舞台 (ステージ) — マットの北側 (北棟前)
+  const stage = box(cyW * 0.35, 0.04, cyD * 0.20,
     new THREE.MeshStandardMaterial({color: 0xeeebe0, roughness: 0.9}));
-  stage.position.set(0, baseY + 0.02, cyZ + cyD * 0.1);
+  stage.position.set(0, baseY + 0.02, cyZ - cyD * 0.30);
   g.add(stage);
 
-  // Foundation under entire footprint
-  const foot = box(W + 0.1, 0.1, D + 0.1, MATS.foundation);
-  foot.position.set(0, -0.30, 0);
-  g.add(foot);
+  // ── 基礎: 布基礎 + ベタ基礎 (4階建てSIPsスタックの荷重対応) ──
+  // ベタ基礎 (slab on grade) under entire footprint
+  const matFootMat = new THREE.MeshStandardMaterial({color: 0x6a625a, roughness: 0.95});
+  const slab = box(W + 0.5, 0.30, D + 0.5, matFootMat);
+  slab.position.set(0, -0.35, 0);
+  g.add(slab);
+  // 布基礎 (perimeter strip footing) — 各棟の下に
+  const stripH = 0.85, stripT = 0.30;
+  const wingX_W = -W/2 + wingD/2;
+  const wingX_E =  W/2 - wingD/2;
+  const backZ = -D/2 + backD/2;
+  // 西棟下
+  const wStrip = [
+    {x: wingX_W, z: 0, w: wingD + 0.10, d: stripT},
+    {x: wingX_W, z: D/2 - stripT/2 - 0.05, w: wingD + 0.10, d: stripT},
+    {x: wingX_W, z: -D/2 + stripT/2 + 0.05, w: wingD + 0.10, d: stripT},
+    {x: wingX_W - wingD/2 + stripT/2, z: 0, w: stripT, d: D - 0.1},
+  ];
+  for (const s of [...wStrip,
+    ...wStrip.map(w => ({...w, x: w.x === wingX_W ? wingX_E : (W - 2 * wingD)/2 + wingD/2 + (w.x - wingX_W)})),
+  ]) {
+    const sf = box(s.w, stripH, s.d, matFootMat);
+    sf.position.set(s.x, -0.30 + stripH/2, s.z);
+    g.add(sf);
+  }
+  // 北棟下
+  const backW = W - 2 * wingD;
+  const nStrip = [
+    {x: 0, z: backZ + backD/2 - stripT/2, w: backW + 0.1, d: stripT},
+    {x: 0, z: backZ - backD/2 + stripT/2, w: backW + 0.1, d: stripT},
+  ];
+  for (const s of nStrip) {
+    const sf = box(s.w, stripH, s.d, matFootMat);
+    sf.position.set(s.x, -0.30 + stripH/2, s.z);
+    g.add(sf);
+  }
 }
 
-// ── Build all wings + courtyard + sail ──
+// ── エントランス・玄関ポーチ (北棟中央 中庭側) ──
+function buildEntrance(g, plan) {
+  const baseY = FL_OFFSET;
+  const W = plan.W * MM, D = plan.D * MM;
+  const wingD = plan.wingD * MM, backD = plan.backD * MM;
+  const backZ = -D/2 + backD/2;
+  // 玄関キャノピー (Cantilever 大屋根)
+  const canopyW = 4.5;
+  const canopyD = 2.5;
+  const canopyY = baseY + 2 * plan.modH * MM + 0.30;     // 2階分の高さ
+  const canopyMat = new THREE.MeshStandardMaterial({color: 0x1c1c1c, roughness: 0.5, metalness: 0.4});
+  const canopy = box(canopyW, 0.12, canopyD, canopyMat);
+  canopy.position.set(0, canopyY, backZ + backD/2 + canopyD/2);
+  g.add(canopy);
+  g.add(edge(canopy, COLORS.line, 0.5));
+  // Cantilever brackets
+  for (const xs of [-canopyW/2 + 0.30, canopyW/2 - 0.30]) {
+    const arm = box(0.10, 0.20, canopyD - 0.20, canopyMat);
+    arm.position.set(xs, canopyY - 0.16, backZ + backD/2 + canopyD/2);
+    g.add(arm);
+  }
+  // 玄関ドア (ガラスダブル両開き、黒枠)
+  const doorMat = MATS.glass;
+  const door = box(2.4, 2.4, 0.05, doorMat);
+  door.position.set(0, baseY + 1.2, backZ + backD/2 + 0.06);
+  g.add(door);
+  // ドアフレーム
+  const fT = 0.10;
+  const top = box(2.6, fT, 0.08, MATS.dark);
+  top.position.set(0, baseY + 2.4 + fT/2, backZ + backD/2 + 0.06);
+  g.add(top);
+  for (const fx of [-1.2 - fT/2, 1.2 + fT/2]) {
+    const fr = box(fT, 2.5, 0.08, MATS.dark);
+    fr.position.set(fx, baseY + 1.25, backZ + backD/2 + 0.06);
+    g.add(fr);
+  }
+  // 中央マリオン
+  const mul = box(0.06, 2.4, 0.08, MATS.dark);
+  mul.position.set(0, baseY + 1.2, backZ + backD/2 + 0.07);
+  g.add(mul);
+  // 玄関ステップ (石)
+  const stepMat = new THREE.MeshStandardMaterial({color: 0xc8c4b8, roughness: 0.8});
+  for (let i = 0; i < 3; i++) {
+    const step = box(3.0 - i * 0.4, 0.10, 0.30, stepMat);
+    step.position.set(0, -0.15 + i * 0.10, backZ + backD/2 + 0.30 + i * 0.30);
+    g.add(step);
+  }
+  // 玄関スポット照明 (キャノピー下)
+  const spotMat = new THREE.MeshStandardMaterial({
+    color: 0xfff0c8, emissive: 0xffd070, emissiveIntensity: 1.6,
+  });
+  for (const sx of [-1.0, 1.0]) {
+    const sp = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.05, 12), spotMat);
+    sp.position.set(sx, canopyY - 0.10, backZ + backD/2 + canopyD - 0.30);
+    g.add(sp);
+  }
+}
+
+// ── 駐車場 + アプローチ動線 (合宿施設なら最低15台) ──
+function buildParking(g, plan) {
+  const W = plan.W * MM, D = plan.D * MM;
+  const carCnt = plan.id === 'dojo_xl' ? 20 : plan.id === 'dojo_l' ? 15 : 8;
+  // 駐車場は西側に配置 (アプローチ南から、駐車エリア北へ)
+  const parkX = -W/2 - 12;
+  const parkZ = -D/2 + 4;
+  const parkMat = new THREE.MeshStandardMaterial({color: 0x4a4a48, roughness: 0.95});
+  const parkW = 9, parkDtotal = (carCnt / 2) * 5.2;
+  const park = box(parkW, 0.04, parkDtotal, parkMat);
+  park.position.set(parkX, -0.30, parkZ + parkDtotal/2);
+  g.add(park);
+  // 駐車区画ライン (白)
+  const lineMat = new THREE.MeshStandardMaterial({color: 0xffffff, roughness: 0.9});
+  for (let i = 0; i <= Math.ceil(carCnt / 2); i++) {
+    const ln = box(parkW, 0.045, 0.08, lineMat);
+    ln.position.set(parkX, -0.29, parkZ + i * 5.2);
+    g.add(ln);
+  }
+  // アプローチパス (砂利)
+  const pathMat = new THREE.MeshStandardMaterial({color: 0xb8a890, roughness: 1});
+  const path = box(3.5, 0.04, 18, pathMat);
+  path.position.set(-W/2 - 6, -0.30, 4);
+  g.add(path);
+  // アプローチサイン
+  const signMat = new THREE.MeshStandardMaterial({color: 0x222222, roughness: 0.5});
+  const sign = box(0.08, 1.8, 0.40, signMat);
+  sign.position.set(parkX + 4, 0.6, parkZ - 1);
+  g.add(sign);
+  const signTop = box(0.4, 0.5, 0.08, MATS.module);
+  signTop.position.set(parkX + 4, 1.6, parkZ - 1);
+  g.add(signTop);
+}
+
+// ── Build all wings + courtyard + sail + stairs + elevator + entrance + parking ──
 function buildDojo(plan) {
   const root = group('root');
   const baseY = FL_OFFSET;
@@ -421,16 +703,82 @@ function buildDojo(plan) {
   const wingLen = D;       // east/west wings span full N-S
   const wingX_W = -W/2 + wingD/2;
   const wingX_E =  W/2 - wingD/2;
-  // West wing
-  buildWing(wingsG, {x: wingX_W, z: 0, w: wingD, d: wingLen, stories: sideStories, modH, withRoofDeck: true});
-  // East wing
-  buildWing(wingsG, {x: wingX_E, z: 0, w: wingD, d: wingLen, stories: sideStories, modH, withRoofDeck: true});
-  // North (back) wing — between east/west wings
+  // West wing — mono roof for snow shed (寒冷地対応)
+  buildWing(wingsG, {x: wingX_W, z: 0, w: wingD, d: wingLen,
+    stories: sideStories, modH, withRoofDeck: false, monoRoof: true});
+  // East wing — same
+  buildWing(wingsG, {x: wingX_E, z: 0, w: wingD, d: wingLen,
+    stories: sideStories, modH, withRoofDeck: false, monoRoof: true});
+  // North (back) wing — 中庭側を低くした mono roof
   const backW = W - 2 * wingD;
   const backX = 0;
   const backZ = -D/2 + backD/2;
-  buildWing(wingsG, {x: backX, z: backZ, w: backW, d: backD, stories: backStories, modH, withRoofDeck: false});
+  buildWing(wingsG, {x: backX, z: backZ, w: backW, d: backD,
+    stories: backStories, modH, withRoofDeck: false, monoRoof: true});
   root.add(wingsG);
+
+  // ── 階段塔 (stair towers) — 各棟に1箇所、北棟は2箇所 (2方向避難) ──
+  const stairsG = group('stairs');
+  // 西棟階段 (北端)
+  buildStairTower(stairsG, {
+    x: wingX_W, z: -wingLen/2 + 1.5, w: wingD * 0.7, d: 2.8,
+    stories: sideStories, modH,
+  });
+  // 東棟階段 (北端)
+  buildStairTower(stairsG, {
+    x: wingX_E, z: -wingLen/2 + 1.5, w: wingD * 0.7, d: 2.8,
+    stories: sideStories, modH,
+  });
+  // 北棟 階段A (西寄り)
+  buildStairTower(stairsG, {
+    x: backX - backW/4, z: backZ, w: 2.4, d: backD * 0.5,
+    stories: backStories, modH,
+  });
+  // 北棟 階段B (東寄り — 2方向避難)
+  buildStairTower(stairsG, {
+    x: backX + backW/4, z: backZ, w: 2.4, d: backD * 0.5,
+    stories: backStories, modH,
+  });
+  // 中庭側 屋外避難階段 (側棟・北棟の合流点 — 国基準 2方向避難用)
+  // 北棟外部に金属階段 (中庭側へ降りる)
+  if (backStories >= 3) {
+    const extX = -backW/4;        // 北棟西側のすぐ外
+    const extZ = backZ + backD/2 + 1.0;
+    const stepCnt = backStories * 14;
+    const stepRiseTotal = backStories * modH;
+    const stepRun = 0.28;
+    for (let i = 0; i < stepCnt; i++) {
+      const flight = Math.floor(i / 14);
+      const inFlight = i % 14;
+      const tread = box(1.2, 0.04, stepRun, MATS.dark);
+      // ジグザグ折返し
+      const dir = flight % 2 === 0 ? 1 : -1;
+      tread.position.set(
+        extX + dir * (inFlight - 6.5) * stepRun,
+        baseY + (flight * modH) + (inFlight + 1) * (modH / 14),
+        extZ + flight * 1.2,
+      );
+      stairsG.add(tread);
+    }
+    // 鉄骨フレーム
+    const frameMat = MATS.dark;
+    for (let f = 0; f <= backStories; f++) {
+      const post = box(0.08, modH, 0.08, frameMat);
+      post.position.set(extX, baseY + f * modH, extZ + f * 1.2);
+      stairsG.add(post);
+    }
+  }
+  root.add(stairsG);
+
+  // ── エレベーター塔 (3階以上) ──
+  if (plan.hasElevator) {
+    const elG = group('elevator');
+    buildElevator(elG, {
+      x: backX, z: backZ + backD/2 - 1.2,    // 北棟中央南面 (中庭側エントランス近く)
+      stories: backStories, modH,
+    });
+    root.add(elG);
+  }
 
   // Windows (courtyard-facing primarily, plus exterior)
   const winsG = group('windows');
@@ -448,10 +796,20 @@ function buildDojo(plan) {
   addWindows(winsG, {x: backX, z: backZ, w: backW, d: backD, stories: backStories, modH, side: 'north'});
   root.add(winsG);
 
-  // Courtyard deck + plaza
+  // Courtyard deck + 道場マット + 石舞台 + 布基礎/ベタ基礎
   const cyG = group('courtyard');
   buildCourtyard(cyG, plan);
   root.add(cyG);
+
+  // エントランス・玄関 (北棟中央 中庭側)
+  const entG = group('entrance');
+  buildEntrance(entG, plan);
+  root.add(entG);
+
+  // 駐車場 + アプローチ
+  const parkG = group('parking');
+  buildParking(parkG, plan);
+  root.add(parkG);
 
   // Sail canopy
   if (plan.sail) {
@@ -616,33 +974,82 @@ export function createViewer(container) {
     loadPlan, setView, setLayer, fitCamera,
     getPlan: () => currentPlan,
     takeoff: () => {
-      // Quick BOM stub
       if (!currentPlan) return [];
       const p = currentPlan;
       const sideArea = (p.wingD * MM) * (p.D * MM) * p.sideStories * 2;
       const backArea = ((p.W - 2 * p.wingD) * MM) * (p.backD * MM) * p.backStories;
       const totalArea = sideArea + backArea;
       const cyArea = (p.W - 2 * p.wingD) * MM * (p.D - p.backD) * MM;
-      return [
-        {itemId: 'sips_module', name: 'SIPs モジュール (910mm × 6×2.7m unit)', qty: Math.ceil(totalArea / 16.2), unit: '個', unitPrice: 380000, cost: Math.ceil(totalArea / 16.2) * 380000},
-        {itemId: 'foundation', name: 'スクリュー杭基礎 + 床スラブ', qty: 1, unit: '式', unitPrice: 2400000, cost: 2400000},
-        {itemId: 'sail', name: 'PVCコーティング帆布 + テンション金物', qty: 1, unit: '式', unitPrice: 1800000, cost: 1800000},
-        {itemId: 'courtyard_deck', name: '中庭杉デッキ + 石舞台', qty: cyArea, unit: 'm²', unitPrice: 14000, cost: cyArea * 14000},
-        {itemId: 'roof_deck', name: '屋上デッキ + ガラス手すり + ストリングライト', qty: 2, unit: '棟', unitPrice: 1200000, cost: 2400000},
-        {itemId: 'windows', name: '黒枠FIX/引違サッシ (大型ペアガラス)', qty: Math.ceil(totalArea / 8), unit: '枚', unitPrice: 95000, cost: Math.ceil(totalArea / 8) * 95000},
+      const stairCnt = p.backStories >= 3 ? 5 : 4;          // 4 inner + 1 outer evac
+      const isHighRise = p.backStories >= 3 || p.sideStories >= 3;
+      const items = [
+        {itemId: 'sips_module', name: 'SIPs モジュール (壁厚160 + 屋根200mm 大臣認定)',
+          qty: Math.ceil(totalArea / 16.2), unit: '個', unitPrice: 480000, cost: Math.ceil(totalArea / 16.2) * 480000},
       ];
+      if (isHighRise) {
+        items.push({itemId: 'steel_frame', name: '鉄骨ハイブリッドフレーム (3階以上 SIPs補強 H-300×150)',
+          qty: totalArea, unit: 'm²', unitPrice: 18000, cost: totalArea * 18000});
+      }
+      items.push(
+        {itemId: 'foundation_slab', name: 'ベタ基礎 (RC150 + 配筋 D13@200)',
+          qty: (p.W * MM) * (p.D * MM), unit: 'm²', unitPrice: 28000, cost: (p.W * MM) * (p.D * MM) * 28000},
+        {itemId: 'foundation_strip', name: '布基礎 (深さ1m 凍結深度対応 RC)',
+          qty: 2 * ((p.W * MM) + (p.D * MM)) + (p.W - 2 * p.wingD) * MM * 2, unit: 'm', unitPrice: 38000,
+          cost: (2 * ((p.W * MM) + (p.D * MM)) + (p.W - 2 * p.wingD) * MM * 2) * 38000},
+        {itemId: 'fire_resistive', name: '準耐火構造 (1時間) 石膏ボード+ロックウール 法27条対応',
+          qty: totalArea, unit: 'm²', unitPrice: 8500, cost: totalArea * 8500},
+        {itemId: 'stairs', name: `階段塔 ${stairCnt}箇所 (杉踏板 + 不燃化処理 + 手摺)`,
+          qty: stairCnt, unit: '基', unitPrice: 1200000, cost: stairCnt * 1200000},
+        {itemId: 'evac_stair', name: '屋外避難階段 (鉄骨製 + 集成材踏板, ジグザグ折返)',
+          qty: p.backStories >= 3 ? 1 : 0, unit: '基', unitPrice: 2400000, cost: p.backStories >= 3 ? 2400000 : 0},
+      );
+      if (p.hasElevator) {
+        items.push({itemId: 'elevator', name: `エレベーター (車椅子対応 9人乗 ${p.backStories}停 三菱・日立)`,
+          qty: 1, unit: '基', unitPrice: 8500000 + (p.backStories - 2) * 1200000,
+          cost: 8500000 + (p.backStories - 2) * 1200000});
+      }
+      items.push(
+        {itemId: 'sail', name: 'PVCコーティング帆布 + Φ150鋼管+コンクリ墓石アンカー (風荷重60kN対応)',
+          qty: 1, unit: '式', unitPrice: 4800000, cost: 4800000},
+        {itemId: 'courtyard_deck', name: '中庭杉デッキ + 道場マット28㎡ + 石舞台',
+          qty: cyArea, unit: 'm²', unitPrice: 16000, cost: cyArea * 16000},
+        {itemId: 'roof_mono', name: '片屋根 SIPs t200 + ガルバリウム立平 + 雪止め3段',
+          qty: totalArea / Math.max(p.sideStories, p.backStories), unit: 'm²',
+          unitPrice: 24000, cost: (totalArea / Math.max(p.sideStories, p.backStories)) * 24000},
+        {itemId: 'windows_lg', name: '黒枠ペアサッシ (大型FIX/引違 LIXIL TW)',
+          qty: Math.ceil(totalArea / 5), unit: '枚', unitPrice: 145000, cost: Math.ceil(totalArea / 5) * 145000},
+        {itemId: 'entrance', name: '玄関ポーチ (キャノピー + 自動ガラスドア + スポット照明 + 石ステップ)',
+          qty: 1, unit: '式', unitPrice: 1800000, cost: 1800000},
+        {itemId: 'parking', name: `駐車場 ${p.id === 'dojo_xl' ? 20 : p.id === 'dojo_l' ? 15 : 8}台 + 砕石舗装 + 区画ライン`,
+          qty: 1, unit: '式', unitPrice: 850000, cost: 850000},
+        {itemId: 'mep', name: '機械設備 (HRV第一種換気 + 床暖 + エコキュート + 給排水)',
+          qty: totalArea, unit: 'm²', unitPrice: 28000, cost: totalArea * 28000},
+        {itemId: 'fire_alarm', name: '自動火災報知設備 + 排煙設備 + 非常照明 (令126)',
+          qty: 1, unit: '式', unitPrice: 2400000 + (totalArea > 500 ? 800000 : 0),
+          cost: 2400000 + (totalArea > 500 ? 800000 : 0)},
+      );
+      return items;
     },
     softCosts: function() {
       const items = this.takeoff();
+      const p = currentPlan;
       const matTotal = items.reduce((s, r) => s + r.cost, 0);
+      const isHighRise = p.backStories >= 3 || p.sideStories >= 3;
+      const totalArea = items.find(i => i.itemId === 'fire_resistive')?.qty || 200;
       const breakdown = [
-        {key: 'labor', label: '施工費 (北海道道東)', cost: matTotal * 0.50, note: '材料の50%'},
-        {key: 'transport', label: '運搬・揚重', cost: matTotal * 0.10, note: '材料の10%'},
-        {key: 'design', label: '設計監理', cost: matTotal * 0.10, note: '建築士法 24条'},
-        {key: 'permit', label: '建築確認申請', cost: 480000, note: '指定確認検査機関'},
-        {key: 'septic', label: '合併浄化槽 7人槽', cost: 1800000, note: '弟子屈下水未接続'},
-        {key: 'electric', label: '電力引込・分電盤', cost: 480000, note: '北電引込'},
-        {key: 'contingency', label: '予備費 (Contingency)', cost: matTotal * 0.08, note: '材料の8%'},
+        {key: 'labor', label: '施工費 (北海道道東 遠隔地割増)', cost: matTotal * 0.55, note: '材料の55% (3階以上は揚重費追加)'},
+        {key: 'transport', label: '運搬・大型クレーン揚重', cost: matTotal * 0.12, note: '材料の12% (SIPs搬入+25t車)'},
+        {key: 'scaffold', label: '足場・仮設工事 (3階以上 + 落下防止網)', cost: matTotal * 0.06, note: '材料の6%'},
+        {key: 'design', label: '設計監理 (1級建築士事務所)', cost: matTotal * 0.10, note: '建築士法 24条'},
+        {key: 'structural', label: '構造設計 (1級構造設計士)', cost: 1800000 + (isHighRise ? 1200000 : 0),
+          note: '木鉄ハイブリッド・許容応力度計算'},
+        {key: 'permit', label: '建築確認申請 (中間検査含)', cost: 680000, note: '指定確認検査機関 / 4号特例外'},
+        {key: 'fire_consult', label: '消防法 防火対象物届出 + 消防同意', cost: 380000, note: 'スプリンクラー・誘導灯協議'},
+        {key: 'septic', label: '合併浄化槽 (人槽 = 利用人数による)', cost: totalArea > 500 ? 4200000 : 2800000,
+          note: '弟子屈下水未接続 / 合宿用'},
+        {key: 'electric', label: '電力引込・キュービクル (高圧3相)', cost: isHighRise ? 1200000 : 480000,
+          note: '北電 / 50kVA以上は高圧'},
+        {key: 'contingency', label: '予備費 (寒冷地+特殊建築物 不確実性)', cost: matTotal * 0.10, note: '材料の10%'},
       ];
       const total = matTotal + breakdown.reduce((s, r) => s + r.cost, 0);
       return {matTotal, breakdown, grandTotal: total};
