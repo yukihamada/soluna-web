@@ -432,10 +432,18 @@ var APPS = [
   // ── 共同所有リゾート（スキーム理解 → 物件閲覧 → 購入の順） ──
   {id:'scheme',    em:'🗺️', lbl:'スキーム',        en:'How It Works',   url:'/scheme',        dock:true,  group:'resort'},
   {id:'collection',em:'🏡', lbl:'物件一覧',        en:'Properties',     url:'/collection',    dock:true,  group:'resort'},
+  {id:'bim',       em:'🧱', lbl:'BIM 3D ビューア',  en:'BIM 3D Viewer',  url:'/bim',          dock:true,  group:'resort'},
+  {id:'dojo',      em:'🥋', lbl:'DOJO 3D ビューア', en:'DOJO 3D Viewer', url:'/dojo',         dock:true,  group:'resort'},
   {id:'tapkop',    em:'🏔️', lbl:'TAPKOP',          en:'TAPKOP',         url:'/tapkop',        dock:false, group:'resort'},
+  {id:'lodge',     em:'🪵', lbl:'THE LODGE',       en:'THE LODGE',      url:'/lodge',         dock:false, group:'resort'},
+  {id:'nesting',   em:'🏕️', lbl:'NESTING',         en:'NESTING',        url:'/nesting',       dock:false, group:'resort'},
+  {id:'instant',   em:'⛺', lbl:'インスタントハウス', en:'Instant House',  url:'/instant',       dock:false, group:'resort'},
   {id:'kumaushi',  em:'⛩️', lbl:'KUMAUSHI BASE',   en:'Kumaushi Base',  url:'/kumaushi',      dock:false, group:'resort'},
+  {id:'village',   em:'🏘️', lbl:'美留和ビレッジ',  en:'Birawa Village', url:'/village',       dock:false, group:'resort'},
+  {id:'atami',     em:'🌊', lbl:'WHITE HOUSE 熱海', en:'WHITE HOUSE Atami', url:'/atami',     dock:false, group:'resort'},
+  {id:'honolulu',  em:'🌺', lbl:'HONOLULU VILLA',  en:'HONOLULU VILLA', url:'/honolulu',      dock:false, group:'resort'},
+  {id:'hawaii-kai',em:'🏝️', lbl:'HAWAII KAI',      en:'HAWAII KAI',     url:'/hawaii-kai',    dock:false, group:'resort'},
   {id:'buy',       em:'💰', lbl:'購入・申込',       en:'Buy / Apply',    url:'/buy',           dock:true,  group:'resort'},
-  {id:'village',   em:'🏘️', lbl:'ビレッジ',        en:'Village',        url:'/village',       dock:false, group:'resort'},
   {id:'invest',    em:'📋', lbl:'オーナー向け資料',   en:'Owner Info',     url:'/brochure',      dock:false, group:'resort'},
   {id:'tiny-house',em:'🏠', lbl:'タイニーハウス',    en:'Tiny House',     url:'/tiny-house',    dock:false, group:'resort'},
   // ── 空き家プロジェクト ──
@@ -557,10 +565,17 @@ function buildUI(){
 
   // Mobile: property image grid at top
   var PROP_CARDS = [
-    {url:'/tapkop',    img:'/img/tapkop_real2.webp',            tag:'北海道',     name:'TAPKOP'},
-    {url:'/lodge',     img:'/img/lodge_exterior_snow.webp',     tag:'北海道',     name:'THE LODGE'},
-    {url:'/atami',     img:'/img/atami_sunset_ocean.webp',      tag:'熱海',       name:'WHITE HOUSE'},
-    {url:'/honolulu',  img:'/img/property-honolulu.webp',       tag:'ハワイ',     name:'HONOLULU'},
+    {url:'/tapkop',    img:'/img/tapkop_real2.webp',                    tag:'北海道 弟子屈',  name:'TAPKOP'},
+    {url:'/lodge',     img:'/img/lodge_exterior_snow.webp',             tag:'北海道 美留和',  name:'THE LODGE'},
+    {url:'/nesting',   img:'/img/nesting_exterior.webp',                tag:'北海道 美留和',  name:'NESTING'},
+    {url:'/instant',   img:'/img/instant_dome_snow.webp',               tag:'北海道',         name:'INSTANT HOUSE'},
+    {url:'/kumaushi',  img:'/img/kumaushi_b_spring_wildflowers.webp',   tag:'北海道 熊牛',    name:'KUMAUSHI'},
+    {url:'/village',   img:'/img/village_lux_ext.jpg',                  tag:'北海道 美留和',  name:'美留和ビレッジ'},
+    {url:'/atami',     img:'/img/atami_sunset_ocean.webp',              tag:'熱海',           name:'WHITE HOUSE'},
+    {url:'/honolulu',  img:'/img/property-honolulu.webp',               tag:'ハワイ',         name:'HONOLULU'},
+    {url:'/hawaii-kai',img:'/img/hawaii-kai-1.webp',                    tag:'ハワイ',         name:'HAWAII KAI'},
+    {url:'/bim',       img:'/img/bim_hero.webp',                        tag:'3D BIM',        name:'16プラン BIM'},
+    {url:'/dojo',      img:'/img/dojo_hero.webp',                       tag:'3D BIM',        name:'DOJO U-shape'},
   ];
   var propGrid = document.createElement('div');
   propGrid.className = 'm-prop-grid';

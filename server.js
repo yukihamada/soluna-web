@@ -10975,6 +10975,21 @@ if (fs.existsSync(CABIN_DIR)) {
     res.send(html);
   });
 
+  // /dojo/:plan → dojo.html (U-shape SIPs courtyard building BIM)
+  const ALL_DOJO_IDS = ["dojo_s","dojo_m","dojo_l","dojo_xl"];
+  app.get("/dojo/:plan", (req, res, next) => {
+    if (!ALL_DOJO_IDS.includes(req.params.plan)) return next();
+    const p = path.join(CABIN_DIR, "dojo.html");
+    let html = fs.readFileSync(p, "utf8");
+    html = html.replace("</head>", `<script>history.replaceState(null,'','/dojo?plan=${req.params.plan}')</script></head>`);
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.send(html);
+  });
+  // /dojo-story → 旧 dojo.html (柔術道場マーケティング)
+  app.get("/dojo-story", (_req, res) => {
+    res.sendFile(path.join(CABIN_DIR, "dojo-story.html"));
+  });
+
   // ── BIM cloud save: ?share=<id> で保存・共有 ──
   // Stored in libsql table bim_shares
   try {
