@@ -200,6 +200,160 @@ h2{font-size:clamp(1.5rem,3.5vw,2.3rem);font-weight:800;letter-spacing:-.03em;li
 .plan-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
 .plan-img-gen{display:none}
 
+/* LIFESTYLE IMAGES */
+.life-section{margin-bottom:32px}
+.life-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media(max-width:600px){.life-grid{grid-template-columns:repeat(2,1fr);gap:6px}}
+.life-item{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:4/3;background:var(--card)}
+.life-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
+.life-item:hover img{transform:scale(1.04)}
+.life-cap{position:absolute;bottom:0;left:0;right:0;padding:8px 10px 9px;background:linear-gradient(transparent,rgba(4,4,4,.82));font-size:10px;color:rgba(237,233,225,.75);letter-spacing:.02em;line-height:1.4}
+
+/* UPGRADES */
+.upg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;margin-bottom:20px}
+@media(max-width:580px){.upg-grid{grid-template-columns:1fr}}
+.upg-card{background:var(--card);border:1px solid var(--line);border-radius:13px;overflow:hidden;cursor:pointer;transition:border-color .25s,box-shadow .25s;padding:18px 20px 16px}
+.upg-card:hover{border-color:rgba(255,255,255,.1)}
+.upg-card.sel{border-color:var(--plan-color-var,var(--gold));box-shadow:0 0 0 1px var(--plan-color-var,var(--gold))22}
+.upg-head{padding:18px 20px 16px}
+.upg-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.upg-icon{font-size:30px;line-height:1}
+.upg-btn{padding:5px 13px;border-radius:100px;font-size:10px;font-weight:700;border:1px solid rgba(255,255,255,.1);color:rgba(237,233,225,.4);background:transparent;cursor:pointer;transition:all .2s;pointer-events:none}
+.upg-card.sel .upg-btn{background:var(--plan-color-var,var(--gold));color:#040404;border-color:transparent}
+.upg-name{font-size:14px;font-weight:800;margin-bottom:5px}
+.upg-tag{font-size:8px;font-weight:700;padding:2px 8px;border-radius:100px;display:inline-block;margin-bottom:9px}
+.upg-desc{font-size:11px;color:rgba(237,233,225,.38);line-height:1.8;margin-bottom:10px}
+.upg-pros{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
+.upg-pro{font-size:9px;padding:2px 7px;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:rgba(237,233,225,.45)}
+.upg-foot{border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+.upg-cost{font-size:20px;font-weight:800}
+.upg-impact{font-size:9.5px;color:rgba(237,233,225,.35);line-height:1.5}
+.upg-total-bar{margin-top:16px;padding:18px 22px;background:rgba(200,164,85,.07);border:1px solid rgba(200,164,85,.22);border-radius:11px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.utb-l{font-size:12px;font-weight:600;color:rgba(237,233,225,.5);margin-bottom:3px}
+.utb-d{font-size:10px;color:rgba(237,233,225,.25)}
+.utb-v{font-size:26px;font-weight:800;color:var(--gold);white-space:nowrap}
+
+/* WARN BADGE */
+.warn{display:inline-block;font-size:8.5px;font-weight:700;padding:2px 7px;border-radius:100px;background:rgba(240,160,50,.15);color:#f0a030;border:1px solid rgba(240,160,50,.3);vertical-align:middle;margin-left:5px}
+.sub-card .warn{display:block;margin:4px 0 0;font-size:8px}
+/* FULL COST NOTE */
+.fcn{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:11px;padding:18px 20px;margin-top:16px}
+.fcn-head{display:flex;align-items:center;justify-content:space-between;cursor:pointer;margin-bottom:0}
+.fcn-title{font-size:12px;font-weight:700;color:rgba(237,233,225,.6)}
+.fcn-chev{font-size:11px;color:#555;transition:transform .2s}
+.fcn.open .fcn-chev{transform:rotate(180deg)}
+.fcn-body{display:none;margin-top:14px}
+.fcn.open .fcn-body{display:block}
+.fcn-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:11px}
+.fcn-row:last-child{border-bottom:none;padding-top:10px;font-weight:700}
+.fcn-lbl{color:rgba(237,233,225,.5)}
+.fcn-val{color:rgba(237,233,225,.8);font-weight:600}
+.fcn-row.total .fcn-lbl,.fcn-row.total .fcn-val{color:var(--gold)}
+/* FAQ */
+.faq-item{border-bottom:1px solid var(--line);overflow:hidden}
+.faq-item:first-child{border-top:1px solid var(--line)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 4px;cursor:pointer;font-size:13px;font-weight:600;color:rgba(237,233,225,.85);line-height:1.5}
+.faq-chev{font-size:11px;color:#555;flex-shrink:0;transition:transform .2s}
+.faq-item.open .faq-chev{transform:rotate(180deg)}
+.faq-item.open .faq-q{color:#e8e8e8}
+.faq-a{display:none;padding:0 4px 18px;font-size:12px;color:rgba(237,233,225,.5);line-height:1.9}
+.faq-item.open .faq-a{display:block}
+/* NEXT STEPS */
+.ns-flow{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:28px}
+.ns-step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.ns-num{font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--gold);margin-bottom:8px}
+.ns-t{font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:5px}
+.ns-s{font-size:10px;color:#777;line-height:1.6}
+/* RENTAL */
+.rental-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.rt-tab{padding:8px 18px;border-radius:100px;border:1px solid var(--line);background:transparent;color:rgba(237,233,225,.45);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s}
+.rt-tab.active{background:var(--plan-color-var,var(--gold));color:#040404;border-color:transparent;font-weight:700}
+.rental-result{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+@media(max-width:540px){.rental-result{grid-template-columns:1fr 1fr}}
+.rr-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.rr-val{font-size:22px;font-weight:900;margin-bottom:3px;color:rgba(237,233,225,.95)}
+.rr-lbl{font-size:9.5px;color:rgba(237,233,225,.35);letter-spacing:.07em;text-transform:uppercase}
+.rr-card.accent{border-color:rgba(80,200,160,.3);background:rgba(80,200,160,.05)}
+.rr-card.accent .rr-val{color:rgba(80,200,160,.95)}
+.rental-programs{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:4px}
+.rp-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.rp-em{font-size:20px;line-height:1.2;flex-shrink:0}
+.rp-nm{font-size:11px;font-weight:700;color:#e0e0e0;margin-bottom:3px}
+.rp-nt{font-size:10px;color:#777;line-height:1.6}
+/* LAND CTA */
+.land-cta{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;background:rgba(200,164,85,.05);border:1px solid rgba(200,164,85,.18);border-radius:11px;margin-top:16px;flex-wrap:wrap}
+.land-cta-t{font-size:12px;font-weight:700;color:rgba(237,233,225,.7);margin-bottom:3px}
+.land-cta-s{font-size:10px;color:rgba(237,233,225,.35);line-height:1.6}
+/* SIPS DETAIL */
+.sips-note{background:var(--card);border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-top:16px}
+.sips-head{padding:14px 18px;display:flex;align-items:center;gap:10px;cursor:pointer}
+.sips-head-txt{flex:1;font-size:12px;font-weight:700;color:#e0e0e0}
+.sips-body{display:none;padding:0 18px 16px;border-top:1px solid var(--line)}
+.sips-note.open .sips-body{display:block}
+.sips-note.open .sips-chev{transform:rotate(180deg)}
+.sips-chev{font-size:11px;color:#555;transition:transform .2s}
+.sips-point{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:11px;color:#aaa;line-height:1.6}
+.sips-point:last-child{border-bottom:none}
+.sips-point-ico{font-size:16px;flex-shrink:0;line-height:1.3}
+/* ALL PLANS GRID */
+.pgs{padding:48px 0 40px;border-bottom:1px solid var(--line)}
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-top:20px}
+@media(max-width:480px){.plan-grid{grid-template-columns:1fr 1fr;gap:8px}}
+.pg-card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .18s,border-color .18s;text-align:left}
+.pg-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.1)}
+.pg-card.pg-active{border-color:var(--pc)}
+.pg-svg{padding:10px 14px 0;height:96px;display:flex;align-items:center;justify-content:center}
+.pg-svg svg{width:100%;height:100%;display:block}
+.pg-name{padding:2px 14px;font-size:17px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.pg-lbl{padding:1px 14px 8px;font-size:8.5px;color:#3a3a3a;font-weight:600;letter-spacing:.05em}
+.pg-bottom{border-top:1px solid var(--line);padding:9px 14px;display:flex;justify-content:space-between;align-items:center}
+.pg-area{font-size:11px;font-weight:700;color:#555}
+.pg-price{font-size:11px;font-weight:800}
+/* COST DOWN */
+.cdn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;margin-bottom:20px}
+@media(max-width:580px){.cdn-grid{grid-template-columns:1fr}}
+.cdn-card{background:var(--card);border:1.5px solid var(--line);border-radius:13px;padding:18px 20px 14px;cursor:pointer;transition:border-color .25s,box-shadow .25s;position:relative}
+.cdn-card:hover{border-color:rgba(255,255,255,.12)}
+.cdn-card.sel{border-color:#80ffcc;box-shadow:0 0 0 1px #80ffcc22}
+.cdn-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.cdn-name{font-size:14px;font-weight:800;color:#e8e8e8;margin-bottom:5px}
+.cdn-tag{font-size:9px;font-weight:700;padding:3px 9px;border-radius:100px;display:inline-block}
+.cdn-sel{font-size:10px;font-weight:700;margin-left:auto;white-space:nowrap}
+.cdn-desc{font-size:11px;color:#999;line-height:1.7;margin-bottom:8px}
+.cdn-impact{font-size:10px;font-weight:600;padding:5px 9px;border-radius:7px;margin-bottom:8px}
+.cdn-supply{display:flex;align-items:flex-start;gap:6px;font-size:9.5px;color:#777;margin-bottom:8px;line-height:1.5}
+.cdn-supply-stars{color:#f0c040;letter-spacing:1px;white-space:nowrap}
+.cdn-pros{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:11px}
+.cdn-pro{font-size:9px;padding:2px 7px;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:rgba(237,233,225,.5)}
+.cdn-saving{font-size:19px;font-weight:800;color:#80ffcc;letter-spacing:-.02em}
+.cdn-saving.deferred{color:#f0a030;font-size:15px}
+.cdn-saving.deferred::after{content:" (初期費用)";font-size:10px;font-weight:400;color:#888}
+/* GRAND TOTAL BAR */
+.gt-bar{margin-top:18px;padding:20px 24px;background:rgba(128,255,204,.05);border:1.5px solid rgba(128,255,204,.2);border-radius:13px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.gt-left{flex:1;min-width:180px}
+.gt-label{font-size:12px;font-weight:700;color:rgba(237,233,225,.5);margin-bottom:4px;letter-spacing:.08em}
+.gt-detail{font-size:10px;color:rgba(237,233,225,.28);line-height:1.6;margin-bottom:4px}
+.gt-saving{font-size:11px;font-weight:700;color:#80ffcc}
+.gt-total{font-size:28px;font-weight:900;color:#80ffcc;white-space:nowrap}
+/* SUPPLY GUIDE */
+.sg-cat{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:14px;overflow:hidden}
+.sg-cat-head{padding:16px 20px;display:flex;align-items:center;gap:10px;cursor:pointer}
+.sg-cat-em{font-size:20px}
+.sg-cat-nm{font-size:13px;font-weight:700;color:#e8e8e8;flex:1}
+.sg-cat-note{font-size:10px;color:#777;display:none}
+.sg-cat.open .sg-cat-note{display:block}
+.sg-cat-chev{font-size:11px;color:#666;transition:transform .2s}
+.sg-cat.open .sg-cat-chev{transform:rotate(180deg)}
+.sg-suppliers{display:none;border-top:1px solid var(--line)}
+.sg-cat.open .sg-suppliers{display:block}
+.sg-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:8px 14px;align-items:center;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.04);font-size:11px}
+.sg-row:last-child{border-bottom:none}
+.sg-nm{font-weight:700;color:#e0e0e0}
+.sg-nt{color:#777;font-size:10px;grid-column:2}
+.sg-lead{color:#aaa;white-space:nowrap;font-size:10px}
+.sg-link{font-size:9px;padding:3px 8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:5px;color:#ccc;text-decoration:none;white-space:nowrap}
+.sg-link:hover{background:rgba(255,255,255,.12)}
+@media(max-width:580px){.sg-row{grid-template-columns:1fr 1fr;}.sg-nt,.sg-lead{grid-column:1/-1}}
 /* REGIONAL NOTE */
 .regional-note{margin-top:14px;padding:14px 18px;background:rgba(80,184,160,.05);border:1px solid rgba(80,184,160,.18);border-radius:9px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
 .rn-txt{font-size:11.5px;color:rgba(237,233,225,.5);line-height:1.75}
@@ -234,15 +388,25 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
 <div class="hero">
   <img src="/img/lodge_exterior_snow.webp" alt="北海道タイニーハウス"/>
   <div class="hero-body">
-    <p class="eyebrow">SOLUNA BUILD GUIDE — 弟子屈タイニーハウス</p>
-    <h1>北海道タイニーハウス<br><em>完全建設ガイド</em></h1>
-    <p class="hero-sub">6サイズから選べる。設計図・材料・プレカット発注・補助金まで全公開。北海道仕様の実材料費を公開。</p>
+    <p class="eyebrow">SOLUNA BUILD GUIDE — タイニーハウスをゼロから建てる</p>
+    <h1>タイニーハウス<br><em>完全建設ガイド</em></h1>
+    <p class="hero-sub">8プランから選べる。設計図・木材カット表・補助金まで全公開。弟子屈（北海道）基準の実材料費を公開。温暖地では最大▲300万。</p>
     <div class="hcta">
       <a class="btn btng" href="#plan-select">プランを選ぶ</a>
       <a class="btn btngh" href="#cost">コストを見る</a>
     </div>
   </div>
 </div>
+
+<!-- ALL PLANS GRID -->
+<section class="pgs s" id="all-plans">
+  <div class="w">
+    <p class="lbl r">ALL PLANS</p>
+    <h2 class="r">全プランを比較する</h2>
+    <p class="sub r">タップでそのプランの詳細に移動します</p>
+    <div class="plan-grid" id="planGrid"></div>
+  </div>
+</section>
 
 <!-- PLAN SELECTOR -->
 <div class="plan-selector" id="plan-select">
@@ -259,6 +423,10 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
       <div class="plan-key-stats" id="planKeyStats"></div>
     </div>
     <div class="plan-specs r" id="planSpecs"></div>
+    <div class="life-section r" id="lifeSection" style="display:none">
+      <p class="lbl" style="margin-bottom:12px">LIFESTYLE — 暮らしのイメージ</p>
+      <div class="life-grid" id="lifeGrid"></div>
+    </div>
   </div>
 </section>
 
@@ -276,18 +444,53 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
         <div class="cbox-s">工具・仮設レンタル¥15〜30万 別途</div>
       </div>
       <div class="cbox cbox-green">
-        <div class="cbox-l">補助金フル活用後（子育て世帯）</div>
+        <div class="cbox-l">補助金フル活用後（子育て世帯・弟子屈）</div>
         <div class="cbox-v" id="costAfterSubsidy" style="color:rgba(80,200,160,.9)"></div>
-        <div class="cbox-s">移住¥100万+こどもエコ¥60万+道¥25万+子育て¥50万</div>
+        <div class="cbox-s">移住¥100万 + 子育て¥50万 + 道省エネ¥25万 <span class="warn">※要確認</span></div>
       </div>
+    </div>
+    <div class="fcn r" id="fullCostNote">
+      <div class="fcn-head" onclick="this.parentElement.classList.toggle('open')">
+        <div class="fcn-title">💡 実際にかかる全費用（建材費以外）を見る</div>
+        <span class="fcn-chev">▼</span>
+      </div>
+      <div class="fcn-body" id="fullCostBody"></div>
     </div>
     <div class="route-grid r" id="routeGrid"></div>
     <div class="regional-note r" id="regionalNote" style="display:none"></div>
+    <div class="land-cta r">
+      <div>
+        <div class="land-cta-t">🗾 全国どこでも建てられます</div>
+        <div class="land-cta-s">弟子屈（北海道）以外にも、瀬戸内・和歌山・阿蘇・長野など全国各地での建設に対応。<br>土地探し・建設許可・地域補助金の調査から一緒に進められます。</div>
+      </div>
+      <a class="vendor-btn" href="mailto:info@solun.art?subject=タイニーハウス建設の土地相談" style="white-space:nowrap;flex-shrink:0">土地から相談する →</a>
+    </div>
+  </div>
+</section>
+
+<!-- RENTAL POTENTIAL -->
+<section class="s" id="rental">
+  <div class="w">
+    <p class="lbl r">RENTAL POTENTIAL</p>
+    <h2 class="r">収益試算</h2>
+    <p class="sub r">この小屋を貸し出した場合の想定収益と材料費回収期間。プランと稼働日数を変えて試算できます。</p>
+    <div class="rental-tabs r" id="rentalTabs">
+      <button class="rt-tab" onclick="selectRental(36)">月3泊（36泊/年）</button>
+      <button class="rt-tab active" onclick="selectRental(72)">月6泊（72泊/年）</button>
+      <button class="rt-tab" onclick="selectRental(120)">月10泊（120泊/年）</button>
+    </div>
+    <div class="rental-result r" id="rentalResult"></div>
+    <div class="rental-programs r">
+      <div class="rp-card"><span class="rp-em">🏡</span><div><div class="rp-nm">Airbnb・一棟貸し</div><div class="rp-nt">農村部の一棟貸しは都市部より稼働率が高い傾向。1泊¥10,000〜¥80,000。繁忙期は単価2〜3倍。</div></div></div>
+      <div class="rp-card"><span class="rp-em">👥</span><div><div class="rp-nm">SOLUNAメンバーへの提供</div><div class="rp-nt">SOLUNAオーナーとして登録すると会員向け宿泊施設として提供可能。会員が利用した夜数に応じて収益シェア。</div></div></div>
+      <div class="rp-card"><span class="rp-em">💼</span><div><div class="rp-nm">ワーケーション法人契約</div><div class="rp-nt">法人の福利厚生契約で安定収入。月額¥5〜15万の定額契約が増加中。稼働・非稼働に関わらず収入が安定。</div></div></div>
+      <div class="rp-card"><span class="rp-em">🌱</span><div><div class="rp-nm">土地付きで資産保有</div><div class="rp-nt">農地・山林付きで取得すると将来の売却益も見込める。弟子屈エリアは地価上昇傾向（観光需要増）。</div></div></div>
+    </div>
   </div>
 </section>
 
 <!-- HOW TO BUILD -->
-<section class="s" id="how">
+<section class="s cband" id="how">
   <div class="w">
     <p class="lbl r">BUILD PROCESS</p>
     <h2 class="r">どう作るか</h2>
@@ -368,6 +571,51 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
   </div>
 </section>
 
+<!-- UPGRADES -->
+<section class="s" id="upgrades">
+  <div class="w">
+    <p class="lbl r">UPGRADE OPTIONS</p>
+    <h2 class="r">アップグレードオプション</h2>
+    <p class="sub r">タップして追加すると合計費用に反映されます。プランに応じた費用を自動計算。</p>
+    <div class="upg-grid r" id="upgGrid"></div>
+    <div class="upg-total-bar r" id="upgTotalBar" style="display:none">
+      <div>
+        <div class="utb-l">ベース材料費 + 選択オプション合計</div>
+        <div class="utb-d" id="upgDetail"></div>
+      </div>
+      <div class="utb-v" id="upgTotalVal"></div>
+    </div>
+  </div>
+</section>
+
+<!-- COST DOWN -->
+<section class="s cband" id="costdown">
+  <div class="w">
+    <p class="lbl r">COST REDUCTION</p>
+    <h2 class="r">コストダウン戦略</h2>
+    <p class="sub r">タップして組み合わせると節約額を自動計算。複数を重ねるほど効果大。</p>
+    <div class="cdn-grid r" id="cdnGrid"></div>
+    <div class="gt-bar r" id="grandTotalBar" style="display:none">
+      <div class="gt-left">
+        <div class="gt-label">実質費用シミュレーション</div>
+        <div class="gt-detail" id="gtDetail"></div>
+        <div class="gt-saving" id="gtSaving" style="display:none"></div>
+      </div>
+      <div class="gt-total" id="gtTotal"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPLY GUIDE -->
+<section class="s" id="supply">
+  <div class="w">
+    <p class="lbl r">STABLE SUPPLY</p>
+    <h2 class="r">調達先ガイド</h2>
+    <p class="sub r">安定して入手できる主要カテゴリの調達先。クリックで展開。</p>
+    <div class="r" id="sgList"></div>
+  </div>
+</section>
+
 <!-- PRECUT -->
 <section class="s cband" id="precut">
   <div class="w">
@@ -393,6 +641,27 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
       <div class="cl"><span class="cl-c">□</span><span>納品先住所と搬入路の確認</span></div>
       <div class="cl"><span class="cl-c">□</span><span>ホールダウン・羽子板ボルト同時発注</span></div>
     </div>
+    <div class="sips-note r" id="sipsNote">
+      <div class="sips-head" onclick="this.parentElement.classList.toggle('open')">
+        <span style="font-size:18px">🧱</span>
+        <span class="sips-head-txt">SIPsパネル施工のポイント（Persona D 向け技術詳細）</span>
+        <span class="sips-chev">▼</span>
+      </div>
+      <div class="sips-body">
+        <div class="sips-point"><span class="sips-point-ico">📐</span><div><strong style="color:#e0e0e0">コーナー接合</strong><br>コーナーにスパイン（LVL材 105×105）を立て、両側のSIPsパネルをビス止め。スパインとパネルの接触面に気密テープ（エプトシーラー15mm幅）を貼ってから接合。コーキングは内側に追加施工。</div></div>
+        <div class="sips-point"><span class="sips-point-ico">🔌</span><div><strong style="color:#e0e0e0">電気配管チャンネル</strong><br>SIPsパネルは配線が困難。事前に「ワイヤーチェイス」として5mmφの貫通穴を工場加工で指定するか、コア温度計で内部を溶かして通線。後からは困難なので配線経路を先に決める。</div></div>
+        <div class="sips-point"><span class="sips-point-ico">💨</span><div><strong style="color:#e0e0e0">気密テープの選定</strong><br>パネル同士の継ぎ目には2液型ポリウレタン接着剤（Henkel PU940等）+ 室内側に気密テープ（HB-100 or ユラソール）。C値0.3以下を目指すなら追加でブローアドア試験を推奨。</div></div>
+        <div class="sips-point"><span class="sips-point-ico">🌧️</span><div><strong style="color:#e0e0e0">土台との接合と防水</strong><br>SIPsパネル下端と土台の間に必ず防水テープ（デュポン タイベックテープ等）を貼る。パネル底面の OSB 端部が雨水を吸うと腐れる。通気胴縁18mmを経由した外壁仕上げで長期防水を確保。</div></div>
+        <div class="sips-point"><span class="sips-point-ico">📦</span><div><strong style="color:#e0e0e0">国内調達先</strong><br>ウッドビルド（ネット発注可）・アキレス建材（Achilles Jr. SIPs）・AMSIPS（アム建材）。5棟以上は工場直仕入れで20%割引可能。標準断熱 UA値0.16達成には160mm厚（硬質ウレタン120mm+OSB各20mm）を選ぶ。</div></div>
+      </div>
+    </div>
+    <div class="r" style="margin-top:28px;text-align:center">
+      <a href="/manual" style="display:inline-flex;align-items:center;gap:10px;padding:16px 32px;background:rgba(200,164,85,.12);border:1.5px solid rgba(200,164,85,.4);border-radius:12px;color:var(--gold);font-size:14px;font-weight:700;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(200,164,85,.2)'" onmouseout="this.style.background='rgba(200,164,85,.12)'">
+        <span style="font-size:22px">📐</span>
+        <span>施工マニュアル・プレカット設計書を開く →</span>
+      </a>
+      <div style="margin-top:10px;font-size:11px;color:#666">木材カット表・金物リスト・基礎配置図・組み立て手順書（全プラン対応）</div>
+    </div>
   </div>
 </section>
 
@@ -401,28 +670,68 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
   <div class="w">
     <p class="lbl r">SUBSIDY GUIDE</p>
     <h2 class="r">補助金・支援制度</h2>
-    <p class="sub r">重複申請OK。最大 <strong style="color:var(--gold)">¥235万円</strong>。材料費を超える可能性あり。</p>
+    <p class="sub r">最大 <strong style="color:var(--gold)">¥175万円〜</strong>（2026年確認済み）＋後継プログラム次第でさらに増額の可能性。<span class="warn">プログラムは毎年変更あり。着工前に必ず確認を</span></p>
     <div class="sub-grid r">
-      <div class="sub-card"><div class="sub-ico">🏘️</div><div class="sub-amt">¥100万</div><div class="sub-nm">弟子屈町 移住支援</div><div class="sub-cn">U・Iターン／世帯主30〜49歳</div></div>
-      <div class="sub-card"><div class="sub-ico">👨‍👩‍👧</div><div class="sub-amt">¥50万</div><div class="sub-nm">子育て世帯加算</div><div class="sub-cn">子育て世帯のみ加算</div></div>
-      <div class="sub-card"><div class="sub-ico">♻️</div><div class="sub-amt">¥60万</div><div class="sub-nm">こどもエコすまい</div><div class="sub-cn">ZEH・高断熱住宅</div></div>
-      <div class="sub-card"><div class="sub-ico">❄️</div><div class="sub-amt">¥25万</div><div class="sub-nm">北海道省エネ支援</div><div class="sub-cn">UA値0.2以下の新築</div></div>
+      <div class="sub-card"><div class="sub-ico">🏘️</div><div class="sub-amt">¥100万</div><div class="sub-nm">弟子屈町 移住支援</div><div class="sub-cn">U・Iターン／世帯主30〜49歳<br>✅ 2026年継続確認済み</div></div>
+      <div class="sub-card"><div class="sub-ico">👨‍👩‍👧</div><div class="sub-amt">¥50万</div><div class="sub-nm">子育て世帯加算</div><div class="sub-cn">子育て世帯のみ加算<br>✅ 2026年継続確認済み</div></div>
+      <div class="sub-card" style="border-color:rgba(240,160,50,.3)"><div class="sub-ico">♻️</div><div class="sub-amt" style="color:rgba(240,160,50,.8)">要確認</div><div class="sub-nm">住宅省エネ支援</div><div class="sub-cn">こどもエコすまいは2024年終了。後継の「子育てエコホーム支援」を申請前に確認。<span class="warn">要最新確認</span></div></div>
+      <div class="sub-card"><div class="sub-ico">❄️</div><div class="sub-amt">¥25万</div><div class="sub-nm">北海道省エネ支援</div><div class="sub-cn">UA値0.2以下の新築<br>⚠ 年度予算による変動あり</div></div>
     </div>
     <div class="sub-result r" id="subResult"></div>
-    <div class="sub-note r">申請先：弟子屈町役場 建設課（0154-82-2111）／北海道庁 住宅局／国交省 住宅省エネポータル。条件・申請タイミングは変更の場合あり。事前確認のうえ着工のこと。</div>
+    <div class="sub-note r">申請先：弟子屈町役場 建設課（0154-82-2111）／北海道庁 住宅局／国交省 住宅省エネポータル。各補助金は併用制限・年度予算・申請期間があります。<strong style="color:rgba(237,233,225,.5)">着工前に必ず各窓口で最新情報を確認してください。</strong></div>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="s cband">
+<!-- FAQ -->
+<section class="s" id="faq">
   <div class="w">
-    <div class="cta-box r">
-      <h2>一緒に建てませんか？</h2>
-      <p style="font-size:13px;color:rgba(237,233,225,.45);max-width:480px;margin:0 auto;line-height:1.9">図面 DXF・プレカット発注サポート・補助金申請同行を提供します。まずはメールで現況をお知らせください。</p>
-      <div class="cta-btns">
-        <a class="btn btng" href="mailto:info@solun.art?subject=弟子屈タイニーハウス建設の相談">メールで相談する</a>
-        <a class="btn btngh" href="https://line.me/ti/p/~@soluna" target="_blank">LINEで質問</a>
+    <p class="lbl r">FAQ</p>
+    <h2 class="r">よくある質問</h2>
+    <div class="r" id="faqList"></div>
+  </div>
+</section>
+
+<!-- NEXT STEPS / CTA -->
+<section class="s cband" id="start">
+  <div class="w">
+    <p class="lbl r">GET STARTED</p>
+    <h2 class="r">はじめかた</h2>
+    <p class="sub r">建設まで平均6〜12ヶ月。SOLUNAは各ステップで伴走します。</p>
+    <div class="ns-flow r">
+      <div class="ns-step">
+        <div class="ns-num">STEP 01</div>
+        <div class="ns-t">プランを決める</div>
+        <div class="ns-s">このページで面積・予算・用途を検討。プレカット設計書・マニュアルを無料ダウンロード。</div>
       </div>
+      <div class="ns-step">
+        <div class="ns-num">STEP 02</div>
+        <div class="ns-t">土地を探す</div>
+        <div class="ns-s">弟子屈エリアは農林地の転用・利用権設定で¥30〜200万から。SOLUNAが相談に乗ります。</div>
+      </div>
+      <div class="ns-step">
+        <div class="ns-num">STEP 03</div>
+        <div class="ns-t">補助金を確認</div>
+        <div class="ns-s">移住支援¥100万は着工前申請。町役場と一緒に書類を準備。SOLUNAが同行可能。</div>
+      </div>
+      <div class="ns-step">
+        <div class="ns-num">STEP 04</div>
+        <div class="ns-t">資材を発注</div>
+        <div class="ns-s">プレカット発注書を工場へ。5棟以上のまとめ発注でSOLUNA割引あり。納期10〜14日。</div>
+      </div>
+      <div class="ns-step">
+        <div class="ns-num">STEP 05</div>
+        <div class="ns-t">ワークパーティーで建てる</div>
+        <div class="ns-s">SOLUNAメンバーの相互扶助で施工。プロ不要・仲間と建てる体験がSOLUNAの本質。</div>
+      </div>
+    </div>
+    <div class="cta-box r" style="margin-top:0">
+      <h2 style="font-size:22px">まず30分、話しましょう</h2>
+      <p style="font-size:12px;color:rgba(237,233,225,.4);max-width:440px;margin:0 auto 20px;line-height:1.9">土地・予算・プラン・補助金。現時点でどこまで決まっていても大丈夫。オンラインで無料相談を受け付けています。</p>
+      <div class="cta-btns">
+        <a class="btn btng" href="mailto:info@solun.art?subject=タイニーハウス建設・30分無料相談希望&body=・希望地域：%0A・プラン：%0A・建設時期の目安：%0A・現状（土地あり/なし）：">30分無料相談を申し込む</a>
+        <a class="btn btngh" href="/manual">設計書・マニュアルを見る</a>
+      </div>
+      <p style="font-size:10px;color:rgba(237,233,225,.2);margin-top:16px">メールにて48時間以内に返信。営業・勧誘は一切しません。</p>
     </div>
   </div>
 </section>
@@ -437,9 +746,38 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
 <script>
 let currentPlan = BUILD_PLANS[1]; // default: STANDARD
 let openMat = null, openStep = null;
+let selectedUpgrades = new Set();
+let selectedCostdowns = new Set();
+let openSgCat = null;
+let rentalNights = 72;
 
 function fmt(n){ return '¥' + n.toLocaleString(); }
 function fmtM(n){ return '¥' + Math.round(n/10000) + '万'; }
+
+// ── ALL PLANS GRID ─────────────────────────────────────────────────────
+const pgGrid = document.getElementById('planGrid');
+BUILD_PLANS.forEach(p => {
+  const priceStr = p.totalMat >= 10000000
+    ? `¥${(p.totalMat/10000000).toFixed(1)}億`
+    : `¥${Math.round(p.totalMat/10000)}万`;
+  const card = document.createElement('div');
+  card.className = 'pg-card' + (p.id === 'standard' ? ' pg-active' : '');
+  card.id = 'pgcard-' + p.id;
+  card.style.setProperty('--pc', p.color);
+  card.innerHTML = `
+    <div class="pg-svg">${p.floorSvg || ''}</div>
+    <div class="pg-name" style="color:${p.color}">${p.name}</div>
+    <div class="pg-lbl">${p.area}m² · ${p.weeks}週間</div>
+    <div class="pg-bottom">
+      <span class="pg-area">${(p.dims||'').split('×')[0].trim().replace('W ','')}</span>
+      <span class="pg-price" style="color:${p.color}">${priceStr}</span>
+    </div>`;
+  card.onclick = () => {
+    selectPlan(p);
+    document.getElementById('plan-select').scrollIntoView({behavior:'smooth',block:'start'});
+  };
+  pgGrid.appendChild(card);
+});
 
 // ── PLAN TABS ──────────────────────────────────────────────────────────
 const tabsEl = document.getElementById('planTabs');
@@ -457,8 +795,13 @@ BUILD_PLANS.forEach((plan, i) => {
 function selectPlan(plan) {
   currentPlan = plan;
   openMat = null; openStep = null;
+  selectedUpgrades = new Set();
+  selectedCostdowns = new Set();
   document.querySelectorAll('.plan-tab').forEach((t, i) => {
     t.classList.toggle('active', BUILD_PLANS[i].id === plan.id);
+  });
+  document.querySelectorAll('.pg-card').forEach(c => {
+    c.classList.toggle('pg-active', c.id === 'pgcard-' + plan.id);
   });
   document.documentElement.style.setProperty('--plan-color-var', plan.color);
   renderAll();
@@ -471,6 +814,12 @@ function renderAll() {
   renderSteps();
   renderDrawings();
   renderMaterials();
+  renderUpgrades();
+  renderFullCost();
+  renderRental();
+  renderCostdowns();
+  renderSupplyGuide();
+  renderFaq();
   renderSubsidy();
 }
 
@@ -480,8 +829,9 @@ function renderOverview() {
 
   // plan image
   const wrap = document.getElementById('planImgWrap');
-  const imgSrc = `/img/build/${p.id}.jpg`;
+  const imgSrc = p.img || `/img/build/${p.id}.jpg`;
   wrap.style.display = '';
+  wrap.classList.add('in'); // ensure visible regardless of IntersectionObserver timing
   wrap.innerHTML = `<img src="${imgSrc}" alt="${p.name} イメージ" onerror="this.parentElement.style.display='none'">`;
 
   document.getElementById('planDesc').innerHTML = `<strong style="color:${p.color};display:block;margin-bottom:8px;font-size:15px">${p.name} — ${p.label}</strong>` + p.desc;
@@ -494,6 +844,21 @@ function renderOverview() {
   document.getElementById('planSpecs').innerHTML = p.specs.map(s =>
     `<div class="spec"><span class="spec-k">${s.k}</span><span class="spec-v">${s.v}</span></div>`
   ).join('');
+
+  // lifestyle images
+  const lifeSec = document.getElementById('lifeSection');
+  const lifeGrid = document.getElementById('lifeGrid');
+  if (p.lifeImgs && p.lifeImgs.length) {
+    lifeGrid.innerHTML = p.lifeImgs.map(im =>
+      `<div class="life-item">
+        <img src="${im.src}" alt="${im.cap}" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="life-cap">${im.cap}</div>
+      </div>`
+    ).join('');
+    lifeSec.style.display = '';
+  } else {
+    lifeSec.style.display = 'none';
+  }
 }
 
 function renderCost() {
@@ -623,6 +988,214 @@ function renderMaterials() {
 function toggleMat(cat) {
   openMat = openMat === cat ? null : cat;
   renderMaterials();
+}
+
+function renderUpgrades() {
+  const p = currentPlan;
+  const upgrades = window.BUILD_UPGRADES || [];
+  document.getElementById('upgGrid').innerHTML = upgrades.map(u => {
+    const cost = u.costs[p.id] || 0;
+    const sel = selectedUpgrades.has(u.id);
+    return `<div class="upg-card ${sel?'sel':''}" onclick="toggleUpgrade('${u.id}')">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">
+        <div>
+          <span style="font-size:22px;margin-right:8px">${u.icon}</span>
+          <span class="upg-btn" style="background:${u.tagColor}22;color:${u.tagColor};border:1px solid ${u.tagColor}44">${u.tag}</span>
+        </div>
+        <div style="font-size:11px;color:${sel?'#80ffcc':'#666'};font-weight:700;letter-spacing:.05em">${sel?'✓ 選択中':'タップで追加'}</div>
+      </div>
+      <div style="font-size:14px;font-weight:700;color:#e8e8e8;margin-bottom:6px">${u.name}</div>
+      <div style="font-size:11px;color:#aaa;margin-bottom:8px">${u.desc||''}</div>
+      ${u.impact?`<div style="font-size:10px;color:${u.tagColor};font-weight:600;margin-bottom:8px;padding:5px 8px;background:${u.tagColor}10;border-radius:6px">${u.impact}</div>`:''}
+      ${u.pros?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px">${u.pros.map(pr=>`<span style="font-size:9px;color:#999;background:#ffffff0a;border:1px solid #333;border-radius:12px;padding:2px 7px">${pr}</span>`).join('')}</div>`:''}
+      <div class="upg-cost" style="color:${u.tagColor}">+ ${fmt(cost)}</div>
+    </div>`;
+  }).join('');
+  updateUpgradeTotal();
+}
+
+function toggleUpgrade(id) {
+  if (selectedUpgrades.has(id)) selectedUpgrades.delete(id);
+  else selectedUpgrades.add(id);
+  renderUpgrades();
+}
+
+function updateUpgradeTotal() {
+  const p = currentPlan;
+  const upgrades = window.BUILD_UPGRADES || [];
+  const sel = upgrades.filter(u => selectedUpgrades.has(u.id));
+  const bar = document.getElementById('upgTotalBar');
+  if (sel.length === 0) { bar.style.display = 'none'; }
+  else {
+    const upgSum = sel.reduce((s, u) => s + (u.costs[p.id] || 0), 0);
+    document.getElementById('upgDetail').textContent =
+      `${fmt(p.totalMat)} + ${sel.map(u => u.name).join(' + ')} (${fmt(upgSum)})`;
+    document.getElementById('upgTotalVal').textContent = fmt(p.totalMat + upgSum);
+    bar.style.display = 'flex';
+  }
+  updateGrandTotal();
+}
+
+function renderCostdowns() {
+  const p = currentPlan;
+  const cds = window.BUILD_COSTDOWNS || [];
+  document.getElementById('cdnGrid').innerHTML = cds.map(cd => {
+    const saving = cd.savings[p.id] || 0;
+    const sel = selectedCostdowns.has(cd.id);
+    const stars = '★'.repeat(cd.supplyRating) + '☆'.repeat(5 - cd.supplyRating);
+    return `<div class="cdn-card ${sel ? 'sel' : ''}" onclick="toggleCostdown('${cd.id}')">
+      <div class="cdn-top">
+        <span style="font-size:24px;line-height:1">${cd.icon}</span>
+        <div style="flex:1">
+          <div class="cdn-name">${cd.name}</div>
+          <span class="cdn-tag" style="background:${cd.tagColor}22;color:${cd.tagColor};border:1px solid ${cd.tagColor}44">${cd.tag}</span>
+        </div>
+        <div class="cdn-sel" style="color:${sel ? '#80ffcc' : '#555'}">${sel ? '✓ 適用中' : '+ 適用'}</div>
+      </div>
+      <div class="cdn-desc">${cd.desc}</div>
+      <div class="cdn-impact" style="background:${cd.tagColor}12;border:1px solid ${cd.tagColor}30;color:${cd.tagColor}">${cd.impact}</div>
+      <div class="cdn-supply"><span class="cdn-supply-stars">${stars}</span><span>${cd.supplyNote}</span></div>
+      <div class="cdn-pros">${cd.pros.map(pr => `<span class="cdn-pro">${pr}</span>`).join('')}</div>
+      <div class="cdn-saving ${cd.isDeferred ? 'deferred' : ''}">▲ ${fmt(saving)}${cd.isDeferred ? ' (初期費用)' : ' 削減'}</div>
+    </div>`;
+  }).join('');
+  updateGrandTotal();
+}
+
+function toggleCostdown(id) {
+  if (selectedCostdowns.has(id)) selectedCostdowns.delete(id);
+  else selectedCostdowns.add(id);
+  renderCostdowns();
+}
+
+function updateGrandTotal() {
+  const p = currentPlan;
+  const cds = window.BUILD_COSTDOWNS || [];
+  const ups = window.BUILD_UPGRADES || [];
+  const selCd = cds.filter(c => selectedCostdowns.has(c.id));
+  const selUp = ups.filter(u => selectedUpgrades.has(u.id));
+  const cdSum = selCd.reduce((s, c) => s + (c.savings[p.id] || 0), 0);
+  const upSum = selUp.reduce((s, u) => s + (u.costs[p.id] || 0), 0);
+  const bar = document.getElementById('grandTotalBar');
+  if (selCd.length === 0 && selUp.length === 0) { bar.style.display = 'none'; return; }
+  const net = p.totalMat - cdSum + upSum;
+  let detail = `ベース ${fmt(p.totalMat)}`;
+  if (cdSum > 0) detail += ` − コストダウン ${fmt(cdSum)}`;
+  if (upSum > 0) detail += ` + アップグレード ${fmt(upSum)}`;
+  document.getElementById('gtDetail').textContent = detail;
+  const savEl = document.getElementById('gtSaving');
+  if (cdSum > 0) { savEl.textContent = `▲ ${fmt(cdSum)} 削減`; savEl.style.display = ''; }
+  else savEl.style.display = 'none';
+  document.getElementById('gtTotal').textContent = fmt(net);
+  bar.style.display = 'flex';
+}
+
+function renderSupplyGuide() {
+  const guide = window.SUPPLY_GUIDE || [];
+  document.getElementById('sgList').innerHTML = guide.map((g, gi) => {
+    const isOpen = openSgCat === gi;
+    return `<div class="sg-cat ${isOpen ? 'open' : ''}" id="sgCat${gi}">
+      <div class="sg-cat-head" onclick="toggleSgCat(${gi})">
+        <span class="sg-cat-em">${g.emoji}</span>
+        <div style="flex:1">
+          <div class="sg-cat-nm">${g.cat}</div>
+          <div class="sg-cat-note">${g.note}</div>
+        </div>
+        <span class="sg-cat-chev">▼</span>
+      </div>
+      <div class="sg-suppliers">
+        ${g.suppliers.map(s => `<div class="sg-row">
+          <div class="sg-nm">${s.name}</div>
+          <div class="sg-lead">${s.lead}</div>
+          <div class="sg-nt">${s.note}</div>
+          ${s.url ? `<a class="sg-link" href="${s.url}" target="_blank" onclick="event.stopPropagation()">開く →</a>` : '<span></span>'}
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleSgCat(i) {
+  openSgCat = openSgCat === i ? null : i;
+  renderSupplyGuide();
+}
+
+function selectRental(n) {
+  rentalNights = n;
+  document.querySelectorAll('.rt-tab').forEach(t => {
+    const v = parseInt(t.getAttribute('onclick').match(/\d+/)[0]);
+    t.classList.toggle('active', v === n);
+  });
+  renderRental();
+}
+
+function renderRental() {
+  const p = currentPlan;
+  const nightly = p.rentPerNight || 0;
+  const annual = nightly * rentalNights;
+  const monthly = Math.round(annual / 12);
+  const payback = annual > 0 ? (p.totalMat / annual) : 0;
+  const paybackStr = payback > 0 ? (payback >= 10 ? '10年以上' : payback.toFixed(1) + '年') : '—';
+  const subsidyNet = Math.max(0, p.totalMat - 2350000);
+  const paybackSubsidy = annual > 0 && subsidyNet > 0 ? (subsidyNet / annual).toFixed(1) + '年' : annual > 0 ? '即回収' : '—';
+  document.getElementById('rentalResult').innerHTML = `
+    <div class="rr-card">
+      <div class="rr-val">${fmtM(annual)}</div>
+      <div class="rr-lbl">年間想定収入</div>
+    </div>
+    <div class="rr-card">
+      <div class="rr-val">${fmtM(monthly)}<span style="font-size:12px;font-weight:400">/月</span></div>
+      <div class="rr-lbl">月間想定収入（${rentalNights}泊÷12）</div>
+    </div>
+    <div class="rr-card accent">
+      <div class="rr-val">${paybackStr}</div>
+      <div class="rr-lbl">材料費回収期間 / 補助後: ${paybackSubsidy}</div>
+    </div>`;
+}
+
+function renderFullCost() {
+  const p = currentPlan;
+  const land = {mini:'¥30〜150万', standard:'¥50〜200万', large:'¥80〜300万', xl:'¥100〜500万', villa:'¥150〜600万', grand:'¥200〜1,000万'};
+  const tools = {mini:'¥20〜50万', standard:'¥30〜70万', large:'¥40〜80万', xl:'¥50〜100万', villa:'¥60〜100万', grand:'¥80〜120万'};
+  const misc = {mini:'¥15〜25万', standard:'¥20〜35万', large:'¥25〜45万', xl:'¥30〜60万', villa:'¥40〜80万', grand:'¥60〜120万'};
+  const matStr = fmtM(p.totalMat);
+  document.getElementById('fullCostBody').innerHTML = `
+    <div class="fcn-row"><span class="fcn-lbl">建材費（本ページの試算）</span><span class="fcn-val">${matStr}</span></div>
+    <div class="fcn-row"><span class="fcn-lbl">土地代（農地・山林）</span><span class="fcn-val">${land[p.id] || '¥50〜300万'}</span></div>
+    <div class="fcn-row"><span class="fcn-lbl">工具セット（丸ノコ・ドリル等）</span><span class="fcn-val">${tools[p.id] || '¥30〜80万'} ※レンタル可</span></div>
+    <div class="fcn-row"><span class="fcn-lbl">基礎工事（スクリュー杭等）</span><span class="fcn-val">¥10〜60万</span></div>
+    <div class="fcn-row"><span class="fcn-lbl">諸費用（登記・保険・申請等）</span><span class="fcn-val">${misc[p.id] || '¥20〜50万'}</span></div>
+    <div class="fcn-row total"><span class="fcn-lbl">概算合計（建材費込み）</span><span class="fcn-val">建材費 + ¥100〜450万前後</span></div>
+    <div style="font-size:9.5px;color:#555;margin-top:8px;line-height:1.7">※土地代は地域・形態により大きく変動。農地転用が必要な場合は別途申請費用がかかります。工具は仲間と共同購入・レンタルで節約可能。</div>`;
+}
+
+const FAQS = [
+  {q:"建築確認申請は本当に不要ですか？",
+   a:"10m²未満の建物は原則不要（建築基準法第6条）。ただし①防火・準防火地域、②農地転用が必要な場合、③市街化調整区域、④一部市町村条例では例外があります。薪ストーブ設置は市町村の火災予防条例の確認が必要。弟子屈町の農村エリアは多くのケースで不要ですが、<strong style='color:#e0e0e0'>着工前に必ず役場へ確認を</strong>。"},
+  {q:"初心者が一人で建てられますか？実際の工期は？",
+   a:"MINIプランは初心者でも建てられます。ただし<strong style='color:#e0e0e0'>ページ記載の工期は経験者3〜4名グループの場合</strong>。初心者が週末のみ作業すると3〜6ヶ月が目安です。SOLUNAのワークパーティー（参加者相互扶助）を活用すると、技術を習得しながら現実的なペースで建てられます。"},
+  {q:"土地代は含まれていますか？実際の総費用は？",
+   a:"ページの費用は<strong style='color:#e0e0e0'>建材費のみ</strong>です。実際には土地代（¥30〜300万）・工具（¥20〜80万、レンタル可）・基礎工事（¥10〜60万）・諸費用（¥15〜60万）が別途かかります。「実際にかかる全費用」ボタンを展開すると概算が確認できます。"},
+  {q:"補助金は確実にもらえますか？",
+   a:"弟子屈町移住支援（¥100万）と子育て加算（¥50万）は<strong style='color:#e0e0e0'>2026年度継続を確認済み</strong>。こどもエコすまい（¥60万）は2024年度で終了しており後継プログラムの確認が必要。北海道省エネ支援は年度予算次第。<strong style='color:#e0e0e0'>着工前に必ず各窓口で最新情報を確認してください。</strong>"},
+  {q:"冬の弟子屈（-30℃）でも暖かく過ごせますか？",
+   a:"STANDARDプラン以上（SIPs160mm + UA値0.16）なら快適に越冬できます。MINIは断熱性能が低めのため薪ストーブを常時稼働する「山小屋的利用」が向いています。なお<strong style='color:#e0e0e0'>DIY施工の場合、熱橋や気密処理の甘さでUA値が+0.05〜0.10悪化する</strong>ことがあります。プロによる気密検査を推奨。"},
+  {q:"SOLUNAはどんなサポートをしてくれますか？",
+   a:"①木材カット表・設計参考図の無料提供（このページ下部から）②プレカット業者・補助金申請への同行③ワークパーティーの調整④建設後のSOLUNA会員向け宿泊施設としての登録。<strong style='color:#e0e0e0'>設計・施工の完全代行はしていません。</strong>「一緒に建てる」がSOLUNAのスタイルです。"},
+  {q:"賃貸・民泊で収益化できますか？",
+   a:"Airbnb等での一棟貸しは可能です。ただし弟子屈などの農村部では<strong style='color:#e0e0e0'>実態の単価は¥8,000〜¥12,000/泊</strong>（ページの試算は条件の良いケース）。繁忙期（夏・スキーシーズン）は単価が上がります。民泊新法に基づく届出と、農地・市街化調整区域の制限確認が必要。"},
+];
+
+function renderFaq() {
+  document.getElementById('faqList').innerHTML = FAQS.map((f, i) => `
+    <div class="faq-item" id="faq${i}">
+      <div class="faq-q" onclick="toggleFaq(${i})">${f.q}<span class="faq-chev">▼</span></div>
+      <div class="faq-a">${f.a}</div>
+    </div>`).join('');
+}
+
+function toggleFaq(i) {
+  document.getElementById('faq' + i).classList.toggle('open');
 }
 
 function renderSubsidy() {
