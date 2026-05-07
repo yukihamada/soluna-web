@@ -263,6 +263,9 @@
   <button id="structBtn" style="width:100%;margin-bottom:4px">🏗 構造解析・耐震等級</button>
   <button id="codeBtn" style="width:100%;margin-bottom:4px">📋 法規チェック</button>
   <button id="clashBtn" style="width:100%;margin-bottom:4px">⚠ 干渉検出 (Clash)</button>
+  <button id="ganttBtn" style="width:100%;margin-bottom:4px">📅 工程表 (Gantt)</button>
+  <button id="daylightBtn" style="width:100%;margin-bottom:4px">💡 昼光率 Daylight</button>
+  <button id="mfgBtn" style="width:100%;margin-bottom:4px">⬇ 製造CSV (パネル割付)</button>
   <div id="xrButtons" style="display:flex;gap:4px;margin-bottom:4px"></div>
   <button id="phaseBtn" style="width:100%;margin-bottom:4px">⏱ 4D 施工アニメ</button>
   <button id="csvBtn" style="width:100%;margin-bottom:4px">⬇ BOM CSV</button>
@@ -1174,6 +1177,66 @@ document.getElementById('permitBtn').addEventListener('click', async () => {
   // Restore view
   viewer.setView('iso');
   btn.disabled = false; btn.textContent = '⬇ 建築確認申請図書PDF';
+});
+
+// ─── 工程表 Gantt ───
+document.getElementById('ganttBtn').addEventListener('click', () => {
+  const sched = viewer.constructionSchedule();
+  const fmt = (d) => `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
+  const totalWeeks = sched.totalWeeks;
+  const html = `
+    <h3 style="margin:0 0 12px 0">📅 工程表 (Gantt)</h3>
+    <p style="font-size:12px;margin-bottom:10px">
+      着工: <b>${fmt(sched.start)}</b> → 完成: <b>${fmt(sched.end)}</b><br>
+      総工期: <b>${totalWeeks}週間 (${(totalWeeks/4).toFixed(1)}ヶ月)</b>
+    </p>
+    <div style="border:1px solid #ccc;padding:8px">
+      ${sched.tasks.map((t, i) => {
+        const offset = (t.start - sched.start) / (1000*60*60*24*7);
+        const widthPct = (t.weeks / totalWeeks) * 100;
+        const offsetPct = (offset / totalWeeks) * 100;
+        return `<div style="display:flex;align-items:center;font-size:11px;margin-bottom:3px">
+          <div style="width:160px;flex-shrink:0">${t.name}</div>
+          <div style="flex:1;background:#f0eee7;height:18px;position:relative">
+            <div style="position:absolute;left:${offsetPct}%;width:${widthPct}%;height:100%;background:#c8a455;display:flex;align-items:center;padding:0 4px;color:#fff;font-size:9px">${t.weeks}w</div>
+          </div>
+          <div style="width:90px;text-align:right;font-size:10px;opacity:.6">${fmt(t.end)}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <p style="font-size:10px;opacity:.55;margin-top:10px">※標準的な工期。天候・敷地条件で前後します。冬季 (12-3月) は弟子屈で1.3倍程度の余裕を見てください。</p>`;
+  showSimpleModal(html);
+});
+
+// ─── 昼光率 ───
+document.getElementById('daylightBtn').addEventListener('click', () => {
+  const d = viewer.daylightFactor();
+  const html = `
+    <h3 style="margin:0 0 12px 0">💡 昼光率 (Daylight Factor)</h3>
+    <div style="font-size:24px;font-weight:600;color:#c8a455;margin-bottom:8px">DF = ${d.df}%</div>
+    <p style="font-size:14px;margin-bottom:14px"><b>${d.assessment}</b></p>
+    <table style="width:100%;font-feature-settings:'tnum';font-size:12px">
+      <tr><td>南面ガラス面積</td><td style="text-align:right">${d.glassArea} m²</td></tr>
+      <tr><td>床面積</td><td style="text-align:right">${d.floorArea} m²</td></tr>
+      <tr><td>透過率 (トリプル)</td><td style="text-align:right">70%</td></tr>
+    </table>
+    <div style="margin-top:14px;padding:10px;background:#f0eee7;border-radius:5px;font-size:11px;line-height:1.6">
+      <b>評価基準 (CIE / JIS):</b><br>
+      DF ≥ 5%: 優秀（終日自然光）<br>
+      3-5%: 良好（日中ほぼ照明不要）<br>
+      2-3%: 標準（作業エリアに照明補助）<br>
+      1-2%: 最低限<br>
+      &lt; 1%: 不足
+    </div>`;
+  showSimpleModal(html);
+});
+
+// ─── 製造CSV (パネル割付) ───
+document.getElementById('mfgBtn').addEventListener('click', () => {
+  const csv = viewer.manufacturingCSV();
+  const blob = new Blob([csv], {type: 'text/csv;charset=utf-8'});
+  const plan = viewer.getPlan();
+  downloadBlob(blob, `SOLUNA_${plan.name}_PanelLayout.csv`);
 });
 
 // ─── 干渉検出 (Clash) ───

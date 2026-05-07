@@ -2041,6 +2041,101 @@ export function createViewer(container, opts = {}) {
 
   function getPhases() { return PHASES; }
 
+  // ── 製造CSV: SIPsパネル割り付け + プレカット集計 ──
+  function manufacturingCSV() {
+    if (!currentPlan) return null;
+    const p = currentPlan;
+    const W = p.W, D = p.D, H = (p.H || 3000);
+    const stories = p.stories || 1;
+    const totalH = stories * H;
+    const PANEL_W_MM = 910;
+    const PANEL_H_MM = 1820;
+
+    // SIPs panel layout — split walls into 910x1820 panels
+    const panels = [];
+    function tilePanels(wallName, wallW, wallH) {
+      const cols = Math.ceil(wallW / PANEL_W_MM);
+      const rows = Math.ceil(wallH / PANEL_H_MM);
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const isLastCol = c === cols - 1;
+          const isLastRow = r === rows - 1;
+          const cutW = isLastCol ? (wallW - c * PANEL_W_MM) : PANEL_W_MM;
+          const cutH = isLastRow ? (wallH - r * PANEL_H_MM) : PANEL_H_MM;
+          panels.push({
+            wall: wallName,
+            id: `${wallName}-${r+1}-${c+1}`,
+            originalSize: `${PANEL_W_MM}×${PANEL_H_MM}`,
+            cutSize: `${cutW}×${cutH}`,
+            isCut: cutW < PANEL_W_MM || cutH < PANEL_H_MM,
+            area_m2: (cutW * cutH / 1e6).toFixed(2),
+          });
+        }
+      }
+    }
+    tilePanels('S(南)', W, totalH);
+    tilePanels('N(北)', W, totalH);
+    tilePanels('E(東)', D, totalH);
+    tilePanels('W(西)', D, totalH);
+
+    // CSV
+    const rows = [
+      ['壁','パネルID','標準サイズ(mm)','カット後(mm)','カット要否','面積(m²)'],
+      ...panels.map(p => [p.wall, p.id, p.originalSize, p.cutSize, p.isCut ? 'YES' : 'NO', p.area_m2])
+    ];
+    return '﻿' + rows.map(r => r.map(c => `"${c}"`).join(',')).join('\r\n');
+  }
+
+  // ── 工程Gantt生成 (週単位) ──
+  function constructionSchedule(startDate) {
+    if (!currentPlan) return null;
+    const start = startDate ? new Date(startDate) : new Date();
+    const phases = [
+      {name: '敷地造成・地盤調査',     weeks: 1},
+      {name: 'スクリュー杭基礎工事',    weeks: 1},
+      {name: '鋼製土台組立',           weeks: 1},
+      {name: 'SIPsパネル建方',         weeks: currentPlan.stories > 1 ? 2 : 1},
+      {name: '屋根工事 (SIPs+ガルバ)', weeks: 1},
+      {name: 'サッシ・玄関ドア取付',   weeks: 1},
+      {name: '電気・水道・換気工事',   weeks: 2},
+      {name: '内装仕上げ',             weeks: 2},
+      {name: '太陽光・蓄電池設置',     weeks: 1},
+      {name: 'デッキ・外構',           weeks: 1},
+      {name: '完了検査・引渡し',       weeks: 1},
+    ];
+    let cursor = new Date(start);
+    const tasks = phases.map(ph => {
+      const taskStart = new Date(cursor);
+      cursor.setDate(cursor.getDate() + ph.weeks * 7);
+      const taskEnd = new Date(cursor);
+      return {name: ph.name, start: taskStart, end: taskEnd, weeks: ph.weeks};
+    });
+    return {start, end: cursor, totalWeeks: phases.reduce((s, p) => s + p.weeks, 0), tasks};
+  }
+
+  // ── 昼光率簡易計算 (Daylight Factor approximation) ──
+  function daylightFactor() {
+    if (!currentPlan) return null;
+    const p = currentPlan;
+    const W = p.W * MM, D = p.D * MM;
+    const stories = p.stories || 1;
+    const floorArea = W * D * stories;
+    const opening = p.openings?.south;
+    const opW = opening ? (opening.w > 100 ? opening.w * MM : opening.w) : 0;
+    const opH = opening ? (opening.h > 100 ? opening.h * MM : opening.h) : 0;
+    const glassArea = opW * opH;
+    const glassTransmission = 0.7;        // triple glazing
+    // Simplified DF = (glass area × τ × 0.5) / floor area × 100  (Lynes)
+    const df = floorArea > 0 ? (glassArea * glassTransmission * 50 / floorArea) : 0;
+    let assessment = '';
+    if (df >= 5) assessment = '優秀 (照明不要・終日自然光)';
+    else if (df >= 3) assessment = '良好 (日中ほぼ照明不要)';
+    else if (df >= 2) assessment = '標準 (作業エリアに照明補助)';
+    else if (df >= 1) assessment = '最低限 (照明常時必要)';
+    else assessment = '不足 (開口拡大検討)';
+    return {df: df.toFixed(1), glassArea: glassArea.toFixed(1), floorArea: floorArea.toFixed(1), assessment};
+  }
+
   // ── IFC4 動的生成 (minimal STEP file) ──
   function generateIFC() {
     if (!currentPlan) return null;
@@ -2506,6 +2601,7 @@ export function createViewer(container, opts = {}) {
     setSunPosition, pvEstimate, annualEnergy, playSunCycle, recordWalkthrough,
     exportGLTF, exportUSDZ, generateIFC, structuralAnalysis, codeCompliance,
     getVRButton, getARButton, clashDetect,
+    manufacturingCSV, constructionSchedule, daylightFactor,
     getPlan: () => currentPlan,
   };
 }
