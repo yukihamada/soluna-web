@@ -168,6 +168,7 @@
   <label><input type="checkbox" data-layer="solar" checked> 太陽光</label>
   <label><input type="checkbox" data-layer="deck" checked> デッキ</label>
   <label><input type="checkbox" data-layer="equipment" checked> 設備（雨水/換気/煙突等）</label>
+  <label><input type="checkbox" data-layer="interior" checked> 内装家具</label>
   <label><input type="checkbox" data-layer="scale" checked> 人物スケール</label>
   <label><input type="checkbox" data-layer="dims"> 寸法線</label>
   <label style="margin-top:6px;border-top:1px dashed #c8c2b6;padding-top:6px"><input type="checkbox" id="xrayToggle"> X線モード（壁透視）</label>
@@ -179,6 +180,11 @@
   <button data-view="front">正面</button>
   <button data-view="side">側面</button>
   <button data-view="top">平面</button>
+  <button id="interiorBtn" style="margin-left:12px;border-color:#222">🚪 中に入る</button>
+</div>
+
+<div id="interiorHint" style="display:none;position:fixed;top:60px;left:50%;transform:translateX(-50%);z-index:30;background:rgba(34,34,34,.92);color:#fff;font-size:12px;padding:8px 14px;border-radius:6px;letter-spacing:.04em;line-height:1.6">
+  <b>内観モード</b>　WASD: 移動 ／ マウス: 視線 ／ Space: 上昇 ／ Q: 下降 ／ Esc: 退出
 </div>
 
 <div class="panel" id="info">
@@ -247,6 +253,27 @@ for (const cb of document.querySelectorAll('[data-layer]')) {
 }
 document.getElementById('xrayToggle').addEventListener('change', e => viewer.setXray(e.target.checked));
 document.getElementById('envToggle').addEventListener('change', e => viewer.setEnvironment(e.target.checked));
+
+// Interior walk-around mode
+const interiorBtn = document.getElementById('interiorBtn');
+const interiorHint = document.getElementById('interiorHint');
+interiorBtn.addEventListener('click', () => {
+  const isOn = viewer.isInteriorMode();
+  viewer.setInteriorMode(!isOn);
+  interiorBtn.textContent = !isOn ? '🚪 外に出る (Esc)' : '🚪 中に入る';
+  interiorBtn.classList.toggle('active', !isOn);
+  interiorHint.style.display = !isOn ? 'block' : 'none';
+  if (!isOn) setTimeout(() => { interiorHint.style.display = 'none'; }, 6000);
+});
+// Listen for ESC unlock from PointerLockControls
+document.addEventListener('pointerlockchange', () => {
+  if (!document.pointerLockElement && viewer.isInteriorMode()) {
+    viewer.setInteriorMode(false);
+    interiorBtn.textContent = '🚪 中に入る';
+    interiorBtn.classList.remove('active');
+    interiorHint.style.display = 'none';
+  }
+});
 
 // Color preset selector
 const presetSelect = document.getElementById('presetSelect');
