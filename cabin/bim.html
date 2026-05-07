@@ -233,6 +233,7 @@
   <h3>BIM ツール</h3>
   <button id="bomBtn" style="width:100%;margin-bottom:4px">📊 数量・コスト・諸経費</button>
   <button id="energyBtn" style="width:100%;margin-bottom:4px">🌡 UA値・断熱性能</button>
+  <button id="costBtn" style="width:100%;margin-bottom:4px">💰 30年TCO・光熱費・CO2</button>
   <button id="phaseBtn" style="width:100%;margin-bottom:4px">⏱ 4D 施工アニメ</button>
   <button id="csvBtn" style="width:100%;margin-bottom:4px">⬇ BOM CSV</button>
   <button id="ifcBtn" style="width:100%;margin-bottom:4px">⬇ IFC</button>
@@ -240,7 +241,8 @@
   <button id="reportBtn" style="width:100%;margin-bottom:4px">⬇ 1ページサマリーPDF</button>
   <button id="permitBtn" style="width:100%;margin-bottom:4px">⬇ 建築確認申請図書PDF</button>
   <button id="videoBtn" style="width:100%;margin-bottom:4px">🎬 ウォークスルー動画</button>
-  <button id="compareBtn" style="width:100%">📊 全16プラン比較表</button>
+  <button id="compareBtn" style="width:100%;margin-bottom:4px">📊 全16プラン比較表</button>
+  <button id="quoteBtn" style="width:100%;background:#1a6b3a;color:#fff;border-color:#1a6b3a">✉️ 見積依頼を送る</button>
 </div>
 
 <!-- Sun path simulator (right side) -->
@@ -341,6 +343,56 @@
       </thead>
       <tbody id="compareTbody"></tbody>
     </table>
+  </div>
+</div>
+
+<!-- Quote modal -->
+<div id="quoteModal" style="display:none;position:fixed;inset:0;z-index:60;background:rgba(34,34,34,.55);align-items:center;justify-content:center">
+  <div style="background:#fffefb;border:1px solid #222;border-radius:8px;padding:18px;max-width:520px;font-size:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <h3 style="margin:0;font-size:14px">✉️ 見積・相談依頼</h3>
+      <button id="quoteClose" style="background:none;border:0;font-size:20px;cursor:pointer">×</button>
+    </div>
+    <p style="font-size:11px;opacity:.7;margin-bottom:10px">現在のBIMモデル（プラン・寸法・BOM・コスト・UA値）を含めて info@solun.art へ送信します。</p>
+    <div style="display:grid;gap:8px;margin-bottom:12px">
+      <input id="qName" placeholder="お名前 *" required style="padding:6px 8px;border:1px solid #c8c2b6;border-radius:4px;font-family:inherit">
+      <input id="qEmail" type="email" placeholder="メールアドレス *" required style="padding:6px 8px;border:1px solid #c8c2b6;border-radius:4px;font-family:inherit">
+      <input id="qPhone" type="tel" placeholder="電話番号 (任意)" style="padding:6px 8px;border:1px solid #c8c2b6;border-radius:4px;font-family:inherit">
+      <input id="qLocation" placeholder="建設予定地 (例: 北海道弟子屈町、長野県諏訪市)" style="padding:6px 8px;border:1px solid #c8c2b6;border-radius:4px;font-family:inherit">
+      <select id="qTiming" style="padding:6px 8px;border:1px solid #c8c2b6;border-radius:4px;font-family:inherit">
+        <option value="">建設時期 (任意選択)</option>
+        <option>3ヶ月以内</option>
+        <option>半年以内</option>
+        <option>1年以内</option>
+        <option>2年以内</option>
+        <option>未定・情報収集中</option>
+      </select>
+      <select id="qLand" style="padding:6px 8px;border:1px solid #c8c2b6;border-radius:4px;font-family:inherit">
+        <option value="">土地状況 (任意選択)</option>
+        <option>土地あり (購入済み)</option>
+        <option>土地探し中</option>
+        <option>SOLUNAビレッジ参加希望</option>
+      </select>
+      <textarea id="qMessage" placeholder="ご相談内容・ご質問など" rows="3" style="padding:6px 8px;border:1px solid #c8c2b6;border-radius:4px;font-family:inherit;resize:vertical"></textarea>
+    </div>
+    <button id="qSubmit" style="width:100%;background:#1a6b3a;color:#fff;border-color:#1a6b3a;padding:8px;font-size:13px">📧 メールアプリで開く（送信前に内容確認）</button>
+    <p style="font-size:10px;opacity:.5;margin-top:10px">※プライバシーポリシーに同意の上ご利用ください。お問合せ内容は info@solun.art まで暗号化チャネルで送信されます。</p>
+  </div>
+</div>
+
+<!-- TCO modal -->
+<div id="tcoModal" style="display:none;position:fixed;inset:0;z-index:60;background:rgba(34,34,34,.55);align-items:center;justify-content:center">
+  <div style="background:#fffefb;border:1px solid #222;border-radius:8px;padding:18px;max-width:560px;font-size:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <h3 style="margin:0;font-size:14px">💰 30年TCO・年間光熱費・CO2排出量</h3>
+      <button id="tcoClose" style="background:none;border:0;font-size:20px;cursor:pointer">×</button>
+    </div>
+    <div id="tcoContent"></div>
+    <p style="font-size:10px;opacity:.55;margin-top:14px">
+      ※暖房度日 4500 (弟子屈)・系統電力CO2係数 0.55kg/kWh (北海道)・電気単価¥35/kWh想定。<br>
+      ※ASHP COP=3 ／ 給湯1,500kWh/年 ／ 家電2,200kWh/年<br>
+      ※製造CO2は概算 (200kg-CO2/m²)、実際は構造工法で大きく変動
+    </p>
   </div>
 </div>
 
@@ -1020,6 +1072,99 @@ document.getElementById('energyBtn').addEventListener('click', () => {
 });
 document.getElementById('energyClose').addEventListener('click', () => {
   document.getElementById('energyModal').style.display = 'none';
+});
+
+// ─── TCO・光熱費・CO2 modal ───
+document.getElementById('costBtn').addEventListener('click', () => {
+  const e = viewer.annualEnergy();
+  if (!e) { alert('断熱要素未設定'); return; }
+  const co2t = (n) => (n / 1000).toFixed(2);
+  const html = `
+    <h4 style="margin:6px 0">年間エネルギー収支</h4>
+    <table style="width:100%;font-feature-settings:'tnum';margin-bottom:12px">
+      <tr><td>暖房 (HDD 4,500 / COP 3)</td><td style="text-align:right">${Math.round(e.heatingKWh).toLocaleString()} kWh</td></tr>
+      <tr><td>冷房 (CDD 50 / COP 3.5)</td><td style="text-align:right">${Math.round(e.coolingKWh).toLocaleString()} kWh</td></tr>
+      <tr><td>給湯</td><td style="text-align:right">${e.dhwKWh.toLocaleString()} kWh</td></tr>
+      <tr><td>家電基本</td><td style="text-align:right">${e.baseLoad.toLocaleString()} kWh</td></tr>
+      <tr style="border-top:1px solid #888"><td><b>消費合計</b></td><td style="text-align:right;font-weight:600">${Math.round(e.totalKWh).toLocaleString()} kWh</td></tr>
+      <tr style="color:#1a6b3a"><td>− PV発電量自家消費</td><td style="text-align:right">−${Math.round(e.pvOffset).toLocaleString()} kWh</td></tr>
+      <tr style="border-top:1px solid #888"><td><b>系統からの購入電力</b></td><td style="text-align:right;font-weight:700">${Math.round(e.netGridKWh).toLocaleString()} kWh</td></tr>
+    </table>
+
+    <h4 style="margin:6px 0">年間ランニングコスト</h4>
+    <table style="width:100%;font-feature-settings:'tnum';margin-bottom:12px">
+      <tr><td>電気代 (¥35/kWh)</td><td style="text-align:right">¥${Math.round(e.annualCost).toLocaleString()} / 年</td></tr>
+      <tr><td>薪代 (暖房20%を薪で)</td><td style="text-align:right">¥${Math.round(e.woodCost).toLocaleString()} / 年</td></tr>
+      <tr style="border-top:1px solid #888"><td><b>年間光熱費合計</b></td><td style="text-align:right;font-weight:700">¥${Math.round(e.annualCost + e.woodCost).toLocaleString()} / 年</td></tr>
+      <tr style="border-top:2px solid #222;font-size:14px"><td><b>30年TCO（光熱費のみ）</b></td><td style="text-align:right;font-weight:700;color:#c8801c">¥${Math.round(e.tco30).toLocaleString()}</td></tr>
+    </table>
+
+    <h4 style="margin:6px 0">CO2 排出量</h4>
+    <table style="width:100%;font-feature-settings:'tnum'">
+      <tr><td>製造時 (Embodied LCA)</td><td style="text-align:right">${co2t(e.co2embodied)} t-CO2</td></tr>
+      <tr><td>年間運用 (購入電力分)</td><td style="text-align:right">${co2t(e.co2annual)} t-CO2 / 年</td></tr>
+      <tr style="border-top:1px solid #888"><td><b>30年合計</b></td><td style="text-align:right;font-weight:600">${co2t(e.co2embodied + e.co2annual * 30)} t-CO2</td></tr>
+    </table>
+  `;
+  document.getElementById('tcoContent').innerHTML = html;
+  document.getElementById('tcoModal').style.display = 'flex';
+});
+document.getElementById('tcoClose').addEventListener('click', () => {
+  document.getElementById('tcoModal').style.display = 'none';
+});
+
+// ─── 見積依頼フォーム ───
+document.getElementById('quoteBtn').addEventListener('click', () => {
+  document.getElementById('quoteModal').style.display = 'flex';
+});
+document.getElementById('quoteClose').addEventListener('click', () => {
+  document.getElementById('quoteModal').style.display = 'none';
+});
+document.getElementById('qSubmit').addEventListener('click', () => {
+  const name = document.getElementById('qName').value.trim();
+  const email = document.getElementById('qEmail').value.trim();
+  if (!name || !email) { alert('お名前とメールアドレスは必須です'); return; }
+  const phone = document.getElementById('qPhone').value.trim();
+  const loc = document.getElementById('qLocation').value.trim();
+  const timing = document.getElementById('qTiming').value;
+  const land = document.getElementById('qLand').value;
+  const msg = document.getElementById('qMessage').value.trim();
+  const plan = viewer.getPlan();
+  const items = viewer.takeoff();
+  const soft = viewer.softCosts();
+  const ua = viewer.uaValue();
+  const pv = viewer.pvEstimate();
+  const e = viewer.annualEnergy();
+  const top10 = [...items].sort((a, b) => b.cost - a.cost).slice(0, 10);
+  let body = `SOLUNA BIM 見積依頼\n\n`;
+  body += `■お客様情報\n`;
+  body += `お名前: ${name}\n`;
+  body += `メール: ${email}\n`;
+  body += `電話: ${phone || '-'}\n`;
+  body += `建設予定地: ${loc || '-'}\n`;
+  body += `建設時期: ${timing || '-'}\n`;
+  body += `土地状況: ${land || '-'}\n`;
+  body += `\n■ご相談内容\n${msg || '-'}\n\n`;
+  body += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  body += `■プラン: SOLUNA ${plan.name} ${plan.label}\n`;
+  body += `寸法: ${plan.W}×${plan.D}×${plan.H||3000}mm (${plan.stories||1}階)\n`;
+  body += `延床: ${(plan.W*plan.D/1e6*(plan.stories||1)).toFixed(1)}m²\n\n`;
+  body += `■概算工事費 (税抜)\n`;
+  body += `材料費: ${yenFmt(soft.matTotal)}\n`;
+  for (const sc of soft.breakdown) body += `${sc.label}: ${yenFmt(sc.cost)}\n`;
+  body += `総工費: ${yenFmt(soft.grandTotal)} (税抜) / ${yenFmt(soft.grandTotal*1.1)} (税込)\n\n`;
+  body += `■性能\n`;
+  body += `UA値: ${ua.UA.toFixed(2)} W/m²K (${ua.grade})\n`;
+  if (pv) body += `PV: ${pv.totalKW.toFixed(1)}kW (年間${Math.round(pv.annualKWh).toLocaleString()}kWh発電)\n`;
+  if (e) body += `年間光熱費: ¥${Math.round(e.annualCost+e.woodCost).toLocaleString()} / 30年TCO ¥${Math.round(e.tco30).toLocaleString()}\n`;
+  body += `\n■主要材料 (上位10)\n`;
+  for (const r of top10) body += `・${r.name}: ${qtyFmt(r.qty, r.unit)} × ${yenFmt(r.unitPrice)} = ${yenFmt(r.cost)} (${r.vendor})\n`;
+  body += `\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  body += `BIMビューワー: https://solun.art/bim?plan=${plan.id}\n`;
+  body += `生成日: ${new Date().toISOString().slice(0,10)}\n`;
+  const subject = `[SOLUNA見積依頼] ${plan.name} ${plan.label} - ${name}様`;
+  const mailto = `mailto:info@solun.art?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailto;
 });
 
 // ─── 1ページサマリーPDF ───

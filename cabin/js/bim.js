@@ -2107,6 +2107,52 @@ export function createViewer(container, opts = {}) {
     return {UA, totalArea, elements, grade};
   }
 
+  // ── 年間冷暖房負荷・光熱費試算 + CO2排出量 ──
+  // 簡易計算: UA値 × 外皮面積 × 暖冷房度日 × 24h × 1日 ÷ COP
+  function annualEnergy() {
+    const ua = uaValue();
+    if (!ua.UA) return null;
+    // 弟子屈の暖房度日 (HDD18) ≈ 4500 / 冷房度日 (CDD24) ≈ 50 (北海道道東)
+    const HDD = 4500;
+    const CDD = 50;
+    const heatingLoss = ua.UA * ua.totalArea * HDD * 24 / 1000;     // kWh/year
+    const coolingLoss = ua.UA * ua.totalArea * CDD * 24 / 1000;
+    // 暖房: 薪ストーブ COP=1 + ヒートポンプCOP=3.5 mix。簡易には ASHP COP=3
+    const heatingKWh = heatingLoss / 3.0;
+    const coolingKWh = coolingLoss / 3.5;
+    const dhwKWh = 1500;       // 給湯標準値
+    const baseLoad = 2200;     // 家電基本
+    const totalKWh = heatingKWh + coolingKWh + dhwKWh + baseLoad;
+    const pv = pvEstimate();
+    const pvOffset = pv ? Math.min(pv.annualKWh, totalKWh) : 0;
+    const netGridKWh = Math.max(0, totalKWh - pvOffset);
+    const tariff = 35;        // ¥/kWh
+    const annualCost = netGridKWh * tariff;
+    // 薪ストーブ: 暖房分の20%を薪で賄う想定。10ka/m³ × 4000円 想定
+    const woodCost = (heatingLoss * 0.2 / 8) * 8000;     // 8kWh/kg × ¥8/kg
+    // 30年TCO
+    const tco30 = (annualCost + woodCost) * 30;
+    // CO2排出
+    // 系統電力CO2係数 北海道 0.55 kg-CO2/kWh
+    const co2elec = netGridKWh * 0.55;
+    // 製造CO2 (embodied): SIPs OSB+EPS=400kgCO2/m³, 杉=200kgCO2/m³, 鉄骨=2000kgCO2/m³
+    // 簡易: 建築面積 × 200kg/m² (LCAのざっくり値)
+    const W = currentPlan ? currentPlan.W * MM : 0;
+    const D = currentPlan ? currentPlan.D * MM : 0;
+    const stories = currentPlan ? (currentPlan.stories || 1) : 0;
+    const area = W * D * stories;
+    const co2embodied = area * 200;       // kg CO2
+    const co2annual = co2elec - (pvOffset * 0.55);     // PV is carbon-negative
+    return {
+      ua: ua.UA, totalArea: ua.totalArea,
+      heatingKWh, coolingKWh, dhwKWh, baseLoad, totalKWh,
+      pvOffset, netGridKWh,
+      annualCost, woodCost, tco30,
+      co2elec, co2embodied, co2annual,
+      tariff,
+    };
+  }
+
   // ── 年間PV発電量計算 (kWh/year) ──
   // 弟子屈の月別水平面日射量 (NEDO MONSOLA-11, MJ/m²/day)
   // 北海道道東・道北エリアの代表値
@@ -2197,7 +2243,7 @@ export function createViewer(container, opts = {}) {
     applyPreset, applyOverrides, setEnvironment,
     setInteriorMode, isInteriorMode,
     onElementClick, takeoff, softCosts, uaValue, setPhase, playConstructionSequence, getPhases,
-    setSunPosition, pvEstimate, playSunCycle, recordWalkthrough,
+    setSunPosition, pvEstimate, annualEnergy, playSunCycle, recordWalkthrough,
     getPlan: () => currentPlan,
   };
 }
