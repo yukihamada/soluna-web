@@ -2480,7 +2480,9 @@ function share(){
 </body></html>`);
 });
 
-const customRoutes = ["/", "/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/admin/construction", "/schedule", "/vip", "/lineup", "/info", "/guide", "/artist-lounge", "/vip-lounge", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press", "/hotel-plan", "/music", "/tickets", "/tickets/success", "/rights", "/developers", "/artist", "/contests", "/festivals", "/live", "/community", "/vision", "/vision-ja", "/pitch", "/proposal", "/sponsor-reiwa", "/lab", "/os", "/container-house"];
+// "/" removed — falls through to express.static(CABIN_DIR) to serve cabin/index.html (the marketing LP).
+// "/desktop" serves the Next.js OS UI (built from app/page.tsx → out/index.html).
+const customRoutes = ["/desktop", "/sponsor", "/investor", "/deal", "/contract", "/login", "/admin", "/admin/construction", "/schedule", "/vip", "/lineup", "/info", "/guide", "/artist-lounge", "/vip-lounge", "/production", "/safety", "/staff", "/venue-agreement", "/artist-contract", "/budget", "/press", "/hotel-plan", "/music", "/tickets", "/tickets/success", "/rights", "/developers", "/artist", "/contests", "/festivals", "/live", "/community", "/vision", "/vision-ja", "/pitch", "/proposal", "/sponsor-reiwa", "/lab", "/os", "/container-house"];
 // /blank is served from cabin/blank/index.html via express.static
 // NOTE: /privacy, /terms, /mint removed — served from cabin static files instead
 
@@ -2496,7 +2498,11 @@ function checkPreviewAuth(req) {
 
 const pageCache = {};
 customRoutes.forEach((route) => {
-  const htmlPath = path.join(STATIC_DIR, `${route}/index.html`);
+  // /desktop maps to the Next-built home page (out/index.html), since
+  // app/page.tsx remains the OS UI source.
+  const htmlPath = route === "/desktop"
+    ? path.join(STATIC_DIR, "index.html")
+    : path.join(STATIC_DIR, `${route}/index.html`);
   if (fs.existsSync(htmlPath)) pageCache[route] = fs.readFileSync(htmlPath, "utf8");
   app.get([route, `${route}/`], (req, res) => {
     if (PREVIEW_ROUTES.has(route) && !checkPreviewAuth(req)) {
@@ -10959,6 +10965,18 @@ if (fs.existsSync(CABIN_DIR)) {
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.send(html);
   }
+
+  // /bim/:plan → bim.html (Web 3D viewer for parametric SIPs models)
+  const ALL_BIM_IDS = ["mini","standard","dome","large","xl","villa","grand","myth","kosmos","pod","stack","tower","flat","duo","yield","roots"];
+  app.get("/bim/:plan", (req, res, next) => {
+    if (!ALL_BIM_IDS.includes(req.params.plan)) return next();
+    const p = path.join(CABIN_DIR, "bim.html");
+    let html = fs.readFileSync(p, "utf8");
+    // Pre-set the initial plan in URL (the page reads ?plan= from location)
+    html = html.replace("</head>", `<script>history.replaceState(null,'','/bim?plan=${req.params.plan}')</script></head>`);
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.send(html);
+  });
 
   // /build/:plan → build.html (SSR: plan固有のtitle/meta/SEOコンテンツ注入)
   const BUILD_PLAN_IDS = ["mini","standard","dome","large","xl","villa","grand","myth","kosmos"];
