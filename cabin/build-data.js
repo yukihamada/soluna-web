@@ -362,7 +362,7 @@ window.BUILD_PLANS = [
     warmClimateDiscount: 250000,
     rentPerNight: 30000,
     color: "#50b8d0",
-    img: "/img/real_dome.webp",
+    img: "/img/build/tama.jpg",
     lifeImgs: [
       {src:"/img/dome_interior_projector.webp", cap:"プロジェクターで映画、球体の光"},
       {src:"/img/dome_summer_deck.webp",        cap:"夏、デッキでキャンプファイアを囲む"},
