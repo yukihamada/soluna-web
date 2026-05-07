@@ -819,6 +819,7 @@ BUILD_PLANS.forEach(p => {
   card.style.position = 'relative';
   card.innerHTML = `
     ${phaseBadge}
+    <a href="/bim/${p.id}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="position:absolute;top:8px;left:8px;background:#0a0a0a;color:#fff;font-size:9px;font-weight:600;letter-spacing:.05em;padding:3px 8px;border-radius:10px;z-index:2;text-decoration:none;border:1px solid ${p.color}88" title="3D BIMで開く">🚀 3D BIM</a>
     <div class="pg-svg">${p.floorSvg || ''}</div>
     <div class="pg-name" style="color:${p.color}">${p.name}</div>
     <div class="pg-lbl">${p.area}m² · ${p.weeks}週間</div>
