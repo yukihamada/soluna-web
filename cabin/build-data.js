@@ -10,8 +10,8 @@ window.BUILD_PLANS = [
     weeks: 5,
     tag: "建築確認不要",
     tagColor: "#50b8a0",
-    desc: "10m²の制約がデザインを研ぎ澄ます。黒ガルバ一枚皮、露し梁、南窓1枚。余分を削ぎ落とした結果がそのままデザインになる。ロフト梁をあえて見せ、壁はSIPsのOSB面を一部露出。建てることと住むことの本質を体験できる最小限の家。",
-    totalMat: 1152258,
+    desc: "10m²の制約がデザインを研ぎ澄ます。910×1820mm標準SIPsパネルが4枚で四周の壁が完成する——特注カット不要、DIY初心者でも精度が出る。黒ガルバ一枚皮、露しOSB面、南窓1枚。余分を削ぎ落とした結果がそのままデザインになる。建築確認不要・ロフト付きで最小限の家を体験する。",
+    totalMat: 1411258,
     subsidyMax: 1350000,
     warmClimateDiscount: 65000,
     rentPerNight: 15000,
@@ -20,8 +20,9 @@ window.BUILD_PLANS = [
     specs: [
       {k:"延床面積", v:"9.9 m²（3坪）"},
       {k:"外形寸法", v:"W 3,640 × D 2,730 × H 3,800 mm"},
-      {k:"構造", v:"木造軸組 + スタイロ外張り断熱"},
-      {k:"断熱性能", v:"UA値 0.20 W/m²K"},
+      {k:"構造", v:"木造軸組 + SIPsパネル（壁・屋根）"},
+      {k:"天井高", v:"1,800mm（SIPs 910×1820mm 単層・ロフト下）"},
+      {k:"断熱性能", v:"UA値 0.18 W/m²K"},
       {k:"暖房", v:"小型薪ストーブ"},
       {k:"電力", v:"オフグリッド 400W + 2kWh"},
       {k:"トイレ", v:"コンポストトイレ"},
@@ -38,13 +39,11 @@ window.BUILD_PLANS = [
          {name:"ロフト床 パーチクルボード",qty:"3枚",unit:"¥2,800/枚",total:8400,note:""},
          {name:"ロフト梯子材",qty:"一式",unit:"¥23,800",total:23800,note:""},
        ]},
-      {cat:"断熱（外張りスタイロ）", emoji:"🌡️", total:145000, color:"#7080e0",
+      {cat:"SIPsパネル（壁・屋根）", emoji:"🏗️", total:404000, color:"#50b8a0",
        items:[
-         {name:"スタイロフォーム 100mm 壁外張り",qty:"30 m²",unit:"¥3,200/m²",total:96000,note:""},
-         {name:"スタイロフォーム 50mm 床下",qty:"7 m²",unit:"¥1,800/m²",total:12600,note:""},
-         {name:"気密テープ 75mm",qty:"5巻",unit:"¥1,403/巻",total:7015,note:""},
-         {name:"先張り気密シート",qty:"15 m²",unit:"¥600/m²",total:9000,note:""},
-         {name:"ガルバ胴縁・通気材",qty:"一式",unit:"¥20,385",total:20385,note:""},
+         {name:"SIPsパネル 壁用 910×1820mm 単層 160mm",qty:"20 m²",unit:"¥11,000/m²",total:220000,note:"標準OSBサイズ・単層で壁高1,820mm・ロフトロフト下高さ確保"},
+         {name:"SIPsパネル 屋根用 910×1820mm 200mm",qty:"11 m²",unit:"¥14,000/m²",total:154000,note:"片流れ屋根・断熱一体型"},
+         {name:"スプライン材・気密テープ一式",qty:"一式",unit:"¥30,000",total:30000,note:"パネル継ぎ目処理・C値0.5以下目標"},
        ]},
       {cat:"外装", emoji:"🖤", total:72000, color:"#888",
        items:[
@@ -110,9 +109,9 @@ window.BUILD_PLANS = [
       {week:"W2",phase:"土台・床・ロフト骨組み",icon:"🪵",cost:95000,diff:"★★☆☆☆",people:"2人",
        desc:"土台を敷き、根太・床合板を張る。同時にロフト梯子・梁も仮組みしておく。",
        tools:["インパクト","丸ノコ","水平器"],tips:"ロフト高さは1,400mm以上確保。230cmの天井高があれば大人が立てる。"},
-      {week:"W3",phase:"棟上げ・外張り断熱",icon:"🏗️",cost:145000,diff:"★★★☆☆",people:"3人",
-       desc:"柱・梁を組んで棟上げ。スタイロ100mmを外張りし、タイベック・胴縁まで一気に進める。",
-       tools:["インパクト","丸ノコ","カッター"],tips:"外張り断熱はスタイロを隙間なく。継ぎ目は気密テープで完全処理。"},
+      {week:"W3",phase:"棟上げ・SIPsパネル取付",icon:"🏗️",cost:404000,diff:"★★★☆☆",people:"3人",
+       desc:"柱・梁を組んで棟上げ。910×1820mm SIPsパネルを単層で4面に取付。タイベック・胴縁まで一気に進める。",
+       tools:["インパクト","丸ノコ","カッター","コーキングガン"],tips:"単層パネルは1820mm → 壁高さそのまま。スプライン溝にPU接着剤を充填してから積む。"},
       {week:"W4",phase:"外装・窓・設備",icon:"🖤",cost:371000,diff:"★★★☆☆",people:"2人",
        desc:"ガルバ外壁・屋根を張り、窓を取り付ける。コンポストトイレ・ソーラーも同週に設置。",
        tools:["電動ドリル","コーキングガン","脚立"],tips:"小屋なら1人でもガルバ張りが可能。"},
@@ -121,8 +120,8 @@ window.BUILD_PLANS = [
        tools:["フィニッシュネイラー","カンナ","丸ノコ"],tips:"5週間でコンパクトな週末小屋が完成。"},
     ],
     routes: [
-      {name:"セルフビルド",cost:1099658,color:"#50b8a0",hi:true},
-      {name:"補助金後",cost:0,color:"rgba(80,200,160,.9)",gr:true,note:"移住補助¥100万で材料費全額カバー"},
+      {name:"セルフビルド",cost:1358658,color:"#50b8a0",hi:true},
+      {name:"補助金後",cost:61258,color:"rgba(80,200,160,.9)",gr:true,note:"移住補助¥135万活用後（実質¥6万）"},
       {name:"工務店依頼",cost:2800000,color:"#555"},
       {name:"キット小屋",cost:1200000,color:"#555",note:"組立キット"},
     ],
@@ -146,19 +145,38 @@ window.BUILD_PLANS = [
       <circle cx="45" cy="75" r="6" fill="rgba(224,96,48,.2)" stroke="rgba(224,96,48,.5)" stroke-width="1.2"/>
       <text x="45" y="79" fill="rgba(224,96,48,.8)" font-size="5.5" text-anchor="middle">炉</text>
     </svg>`,
-    elevSvg: `<svg viewBox="0 0 200 160" style="width:100%;background:#050505;display:block">
-      <line x1="10" y1="140" x2="190" y2="140" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <rect x="30" y="55" width="140" height="85" fill="rgba(28,28,28,.95)" stroke="#666" stroke-width="1.5"/>
-      <polygon points="22,55 100,15 178,55" fill="rgba(22,22,22,.98)" stroke="#50b8a0" stroke-width="1.5"/>
-      <rect x="55" y="20" width="10" height="35" fill="rgba(50,50,50,.95)" stroke="#666" stroke-width="1"/>
-      <rect x="100" y="78" width="50" height="55" fill="rgba(70,184,208,.1)" stroke="#4ab8d0" stroke-width="1.5"/>
-      <rect x="162" y="105" width="20" height="35" fill="rgba(50,32,12,.4)" stroke="#666" stroke-width="1.2"/>
-      <text x="100" y="8" fill="#50b8a0" font-size="8" text-anchor="middle">MEBUKI — 南立面</text>
-      <text x="125" y="112" fill="#888" font-size="7" text-anchor="middle">南窓</text>
-      <line x1="30" y1="148" x2="170" y2="148" stroke="#444" stroke-width="1"/>
-      <text x="100" y="158" fill="#444" font-size="7.5" text-anchor="middle">3,640 mm</text>
-      <rect x="40" y="55" width="45" height="55" fill="rgba(80,184,160,.08)" stroke="rgba(80,184,160,.3)" stroke-width="1" stroke-dasharray="2,2"/>
-      <text x="62" y="88" fill="rgba(80,184,160,.6)" font-size="6.5" text-anchor="middle">ロフト</text>
+    elevSvg: `<svg viewBox="0 0 200 175" style="width:100%;background:#050505;display:block">
+      <text x="100" y="10" fill="#50b8a0" font-size="8" text-anchor="middle">MEBUKI — 南立面（SIPs単層）</text>
+      <!-- Ground line -->
+      <line x1="10" y1="155" x2="190" y2="155" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <!-- Roof -->
+      <polygon points="22,70 100,28 178,70" fill="rgba(22,22,22,.98)" stroke="#50b8a0" stroke-width="1.5"/>
+      <!-- Chimney -->
+      <rect x="55" y="35" width="10" height="35" fill="rgba(50,50,50,.95)" stroke="#666" stroke-width="1"/>
+      <!-- SIPs wall panels — show panel boundaries -->
+      <!-- Wall: y=70 to y=155 (85px = 1820mm) -->
+      <rect x="30" y="70" width="140" height="85" fill="rgba(14,32,48,.95)" stroke="rgba(74,184,208,.45)" stroke-width="1.5"/>
+      <!-- Panel vertical joins (910mm grid → ~48px wide each panel at 140px total → 2 panels + 1 join) -->
+      <line x1="30" y1="70" x2="30" y2="155" stroke="rgba(74,184,208,.6)" stroke-width="1.5"/>
+      <line x1="79" y1="70" x2="79" y2="155" stroke="rgba(74,184,208,.3)" stroke-width=".8" stroke-dasharray="3,2"/>
+      <line x1="128" y1="70" x2="128" y2="155" stroke="rgba(74,184,208,.3)" stroke-width=".8" stroke-dasharray="3,2"/>
+      <line x1="170" y1="70" x2="170" y2="155" stroke="rgba(74,184,208,.6)" stroke-width="1.5"/>
+      <!-- South window -->
+      <rect x="104" y="82" width="52" height="45" fill="rgba(70,184,208,.1)" stroke="#4ab8d0" stroke-width="1.5"/>
+      <text x="130" y="108" fill="#888" font-size="6.5" text-anchor="middle">南窓 780×1170</text>
+      <!-- Door -->
+      <rect x="162" y="115" width="20" height="40" fill="rgba(50,32,12,.4)" stroke="#888" stroke-width="1"/>
+      <!-- Loft zone (upper half of wall) -->
+      <rect x="32" y="70" width="44" height="42" fill="rgba(80,184,160,.08)" stroke="rgba(80,184,160,.3)" stroke-width="1" stroke-dasharray="2,2"/>
+      <text x="54" y="95" fill="rgba(80,184,160,.6)" font-size="6.5" text-anchor="middle">ロフト</text>
+      <!-- Height dimension: wall height = 1820mm -->
+      <line x1="14" y1="70" x2="14" y2="155" stroke="rgba(74,184,208,.4)" stroke-width=".8"/>
+      <line x1="10" y1="70" x2="18" y2="70" stroke="rgba(74,184,208,.6)" stroke-width=".8"/>
+      <line x1="10" y1="155" x2="18" y2="155" stroke="rgba(74,184,208,.6)" stroke-width=".8"/>
+      <text x="100" y="167" fill="rgba(74,184,208,.5)" font-size="6" text-anchor="middle">壁高 1,820mm（SIPs 910×1820mm 単層）</text>
+      <!-- Width dimension -->
+      <line x1="30" y1="163" x2="170" y2="163" stroke="#444" stroke-width="1"/>
+      <text x="100" y="173" fill="#444" font-size="7" text-anchor="middle">3,640 mm</text>
     </svg>`,
   },
 
@@ -274,7 +292,7 @@ window.BUILD_PLANS = [
        desc:"プレカット済みの土台・大引を組む。28mm剛床合板を張る。",tools:["インパクト","丸ノコ","水平器"],tips:"土台は防腐処理材。床合板の継ぎ目は大引の上で割り付け。"},
       {week:"W3",phase:"棟上げ",icon:"🏗️",cost:0,diff:"★★★★☆",people:"4人（1日）",
        desc:"プレカット材で柱・梁・母屋を一気に組む。4人・8時間で棟上げ完了。",tools:["インパクト","ハンマー","仮筋交い"],tips:"番号通りに組むだけ。前日に並び順を確認しておく。"},
-      {week:"W4",phase:"SIPsパネル取付",icon:"🔷",cost:1480000,diff:"★★★☆☆",people:"4人",
+      {week:"W4",phase:"SIPsパネル取付",icon:"🔷",cost:1400000,diff:"★★★☆☆",people:"4人",
        desc:"工場製作SIPsパネルを壁・屋根に建て込む。スプライン接合→コーキングで断熱完成。",tools:["インパクト","コーキングガン","クランプ"],tips:"継ぎ目の気密処理が断熱性能を決める。"},
       {week:"W5",phase:"外装仕上げ",icon:"🖤",cost:272378,diff:"★★★☆☆",people:"2人",
        desc:"タイベック→胴縁→黒ガルバリウム外壁。屋根は立平葺き。",tools:["丸ノコ","タッカー","脚立"],tips:"通気層21mmは省かないこと。"},
@@ -286,8 +304,8 @@ window.BUILD_PLANS = [
        desc:"杉羽目板・フローリング張り、造作棚・キッチン設置。清掃・検査で完成。",tools:["フィニッシュネイラー","丸ノコ","塗料"],tips:"杉無垢は養生をしっかり。"},
     ],
     routes: [
-      {name:"セルフビルド",cost:3849168,color:"#c8a455",hi:true},
-      {name:"補助金後（子育て）",cost:1499168,color:"rgba(80,200,160,.9)",gr:true},
+      {name:"セルフビルド",cost:3772168,color:"#c8a455",hi:true},
+      {name:"補助金後（子育て）",cost:1422168,color:"rgba(80,200,160,.9)",gr:true},
       {name:"工務店依頼",cost:7500000,color:"#555"},
       {name:"コンテナ改造",cost:2800000,color:"#555"},
     ],
@@ -634,7 +652,7 @@ window.BUILD_PLANS = [
        desc:"プレカット材で土台・大引・根太を組む。32枚の剛床合板を張る。",tools:["インパクト","丸ノコ","水平器"],tips:"スパンが長いので大引の間隔に注意。"},
       {week:"W4",phase:"棟上げ",icon:"🏗️",cost:0,diff:"★★★★☆",people:"5〜6人（1日）",
        desc:"大型になるため人手が必要。レンタルミニクレーン（¥40,000/日）の活用も検討。",tools:["インパクト","仮筋交い","クランプ"],tips:"大梁はミニクレーンで吊ると安全・確実。"},
-      {week:"W5〜6",phase:"SIPsパネル取付",icon:"🔷",cost:2480000,diff:"★★★☆☆",people:"4人",
+      {week:"W5〜6",phase:"SIPsパネル取付",icon:"🔷",cost:2340000,diff:"★★★☆☆",people:"4人",
        desc:"壁・屋根パネルを建て込む。大型なので2週間かける。継ぎ目の気密処理を念入りに。",tools:["インパクト","コーキングガン","クランプ"],tips:"屋根パネルは安全帯必須。"},
       {week:"W7",phase:"外装・デッキ",icon:"🌳",cost:415000,diff:"★★★☆☆",people:"2〜3人",
        desc:"ガルバ外壁・屋根仕上げ＋ウッドデッキの骨組みと床張り。",tools:["丸ノコ","タッカー","インパクト"],tips:"デッキ材は事前に塗料処理しておくと耐久性アップ。"},
@@ -646,8 +664,8 @@ window.BUILD_PLANS = [
        desc:"羽目板・フローリング・キッチン・洗面台を設置。清掃・検査で完成。",tools:["フィニッシュネイラー","丸ノコ"],tips:"40m²なら本格的な生活空間が完成。"},
     ],
     routes: [
-      {name:"セルフビルド",cost:6083000,color:"#e08030",hi:true},
-      {name:"補助金後",cost:3733000,color:"rgba(80,200,160,.9)",gr:true},
+      {name:"セルフビルド",cost:5943000,color:"#e08030",hi:true},
+      {name:"補助金後",cost:3593000,color:"rgba(80,200,160,.9)",gr:true},
       {name:"工務店依頼",cost:12000000,color:"#555"},
       {name:"ユニット工法",cost:6500000,color:"#555"},
     ],
@@ -807,7 +825,7 @@ window.BUILD_PLANS = [
        desc:"大断面梁のプレカット材を組む。剛床50枚。ロフト梁も同時に仮組み。",tools:["インパクト","丸ノコ","ミニクレーン"],tips:"大断面梁はミニクレーン活用で安全。"},
       {week:"W5〜6",phase:"棟上げ・ロフト",icon:"🏗️",cost:0,diff:"★★★★★",people:"6〜8人（2日）",
        desc:"大型のため2日かけて棟上げ。ロフト梁・床も同時に施工。ミニクレーン（¥40,000/日）必須。",tools:["ミニクレーン","インパクト","仮筋交い"],tips:"安全が最優先。プロの鳶職人に棟上げのみ依頼（¥5〜10万）も検討。"},
-      {week:"W7〜9",phase:"SIPsパネル取付",icon:"🔷",cost:3850000,diff:"★★★☆☆",people:"4〜5人",
+      {week:"W7〜9",phase:"SIPsパネル取付",icon:"🔷",cost:3630000,diff:"★★★☆☆",people:"4〜5人",
        desc:"面積が大きいため3週間。屋根パネルは安全帯必須。継ぎ目のコーキングを徹底。",tools:["インパクト","コーキングガン","足場"],tips:"足場をレンタル（¥50,000〜）すると安全・効率大幅向上。"},
       {week:"W10〜11",phase:"外装・大デッキ",icon:"🌳",cost:680000,diff:"★★★☆☆",people:"3人",
        desc:"ガルバ外壁・屋根仕上げ＋30m²の大型ウッドデッキ施工。",tools:["丸ノコ","タッカー","インパクト"],tips:"デッキ材は事前に塗料処理。イタウバは耐久性が高い。"},
@@ -819,8 +837,8 @@ window.BUILD_PLANS = [
        desc:"160m²の羽目板・66m²フローリング・業務用キッチン・洗面台2台。清掃・検査で完成。",tools:["フィニッシュネイラー","丸ノコ"],tips:"ゲストハウス運営には旅館業の簡易宿所届出が必要（弟子屈町保健所）。"},
     ],
     routes: [
-      {name:"セルフビルド",cost:9436000,color:"#9060e0",hi:true},
-      {name:"補助金後",cost:7086000,color:"rgba(80,200,160,.9)",gr:true},
+      {name:"セルフビルド",cost:9216000,color:"#9060e0",hi:true},
+      {name:"補助金後",cost:6866000,color:"rgba(80,200,160,.9)",gr:true},
       {name:"工務店依頼",cost:18000000,color:"#555"},
       {name:"民泊収益（年）",cost:-720000,color:"#9060e0",note:"年¥72万収益想定"},
     ],
@@ -1001,7 +1019,7 @@ window.BUILD_PLANS = [
       {week:"W6〜9",phase:"棟上げ・2F骨組み",icon:"🏗️",cost:0,diff:"★★★★★",people:"6〜8人（2〜3日）",
        desc:"1F柱・梁を棟上げし、2F床梁・柱・屋根まで組む。ミニクレーン（¥40,000/日）必須。プロの鳶職人を招くと確実（¥10〜20万）。",
        tools:["ミニクレーン","インパクト","仮筋交い","安全帯"],tips:"2Fは高所作業。安全帯+ランヤード全員着用。棟上げ前日に順番と人員配置を綿密に計画。"},
-      {week:"W10〜14",phase:"SIPsパネル取付（全面）",icon:"🔷",cost:5050000,diff:"★★★☆☆",people:"4〜6人",
+      {week:"W10〜14",phase:"SIPsパネル取付（全面）",icon:"🔷",cost:4750000,diff:"★★★☆☆",people:"4〜6人",
        desc:"300m²の壁パネル＋100m²の屋根パネル。5週間かけて建て込む。足場レンタル（¥80,000〜）を強く推奨。",
        tools:["インパクト","コーキングガン","足場（レンタル）"],tips:"継ぎ目の気密テープ処理が断熱性能を決める。"},
       {week:"W15〜16",phase:"外装仕上げ・大型デッキ",icon:"🌳",cost:1076000,diff:"★★★☆☆",people:"3人",
@@ -1018,8 +1036,8 @@ window.BUILD_PLANS = [
        tools:["フィニッシュネイラー","丸ノコ"],tips:"民泊（簡易宿所）届出は弟子屈町保健所へ。Airbnb登録もこのタイミングで。"},
     ],
     routes: [
-      {name:"セルフビルド+部分外注",cost:15520000,color:"#d04060",hi:true},
-      {name:"補助金後",cost:13170000,color:"rgba(80,200,160,.9)",gr:true},
+      {name:"セルフビルド+部分外注",cost:15220000,color:"#d04060",hi:true},
+      {name:"補助金後",cost:12870000,color:"rgba(80,200,160,.9)",gr:true},
       {name:"工務店依頼",cost:42000000,color:"#555"},
       {name:"リトリート収益（年）",cost:-2400000,color:"#d04060",note:"20名×¥10,000×12泊/月=年¥240万"},
     ],
@@ -1197,7 +1215,7 @@ window.BUILD_PLANS = [
       {week:"W8〜13",phase:"棟上げ・2F骨組み",icon:"🏗️",cost:0,diff:"★★★★★",people:"8〜10人（3日）",
        desc:"大型のため3日かけて棟上げ。1F→2F→屋根の順。プロの鳶職人同行を強く推奨（¥20〜30万）。ミニクレーン必須。",
        tools:["ミニクレーン","インパクト","安全帯","足場"],tips:"人命最優先。棟上げプロへの依頼を惜しまない。"},
-      {week:"W14〜20",phase:"SIPsパネル取付（全面）",icon:"🔷",cost:8440000,diff:"★★★☆☆",people:"5〜8人",
+      {week:"W14〜20",phase:"SIPsパネル取付（全面）",icon:"🔷",cost:7940000,diff:"★★★☆☆",people:"5〜8人",
        desc:"500m²の壁パネル＋170m²の屋根パネルを7週間かけて施工。足場（¥120,000〜）必須。屋根は安全帯+ランヤード全員着用。",
        tools:["インパクト","コーキングガン","足場"],tips:"屋根パネルの気密処理は特に念入りに。"},
       {week:"W21〜24",phase:"外装・大型デッキ（100m²）",icon:"🌳",cost:1750000,diff:"★★★☆☆",people:"4人",
@@ -1214,8 +1232,8 @@ window.BUILD_PLANS = [
        tools:["フィニッシュネイラー","丸ノコ"],tips:"旅館業許可取得には1〜3ヶ月かかる。申請書類の準備を並行して進める。"},
     ],
     routes: [
-      {name:"セルフビルド+部分外注",cost:24500000,color:"#1878c8",hi:true},
-      {name:"補助金後",cost:22150000,color:"rgba(80,200,160,.9)",gr:true},
+      {name:"セルフビルド+部分外注",cost:24000000,color:"#1878c8",hi:true},
+      {name:"補助金後",cost:21650000,color:"rgba(80,200,160,.9)",gr:true},
       {name:"工務店依頼",cost:60000000,color:"#555"},
       {name:"民泊収益（年）",cost:-3000000,color:"#1878c8",note:"20名稼働¥300万/年"},
     ],
@@ -1409,7 +1427,7 @@ window.BUILD_PLANS = [
       {week:"W11〜18",phase:"棟上げ・2F骨組み",icon:"🏗️",cost:0,diff:"★★★★★",people:"12〜15人（4日）",
        desc:"MYTH級の棟上げは4日がかり。プロの鳶職人チームを必ず呼ぶ（¥30〜50万）。ラフタークレーン25t必須。命に関わる作業。",
        tools:["ラフタークレーン25t","インパクト","安全帯","足場"],tips:"「できるかな」ではなく「プロに頼む」が正解。棟上げだけは絶対プロへ。"},
-      {week:"W19〜34",phase:"SIPsパネル取付（全面）",icon:"🔷",cost:10120000,diff:"★★★★☆",people:"6〜10人",
+      {week:"W19〜34",phase:"SIPsパネル取付（全面）",icon:"🔷",cost:9370000,diff:"★★★★☆",people:"6〜10人",
        desc:"650m²の壁パネル＋160m²の屋根パネルを16週間かけて施工。足場（¥200,000〜）全周設置必須。これだけで工期の1/3を占める。",
        tools:["インパクト","コーキングガン","足場（全周）"],tips:"継ぎ目の気密処理こそがMYTH品質を決める。手を抜くな。"},
       {week:"W35〜40",phase:"外装・超大型デッキ（120m²）",icon:"🌳",cost:1564000,diff:"★★★★☆",people:"5人",
@@ -1426,8 +1444,8 @@ window.BUILD_PLANS = [
        tools:["フィニッシュネイラー","丸ノコ"],tips:"完成したとき、それはもうMYTHだ。"},
     ],
     routes: [
-      {name:"セルフビルド+建築士監修",cost:28735000,color:"#c89020",hi:true},
-      {name:"補助金後",cost:26385000,color:"rgba(80,200,160,.9)",gr:true},
+      {name:"セルフビルド+建築士監修",cost:27985000,color:"#c89020",hi:true},
+      {name:"補助金後",cost:25635000,color:"rgba(80,200,160,.9)",gr:true},
       {name:"工務店依頼",cost:80000000,color:"#555"},
       {name:"宿泊収益（年）",cost:-5000000,color:"#c89020",note:"28名稼働¥500万/年"},
     ],
