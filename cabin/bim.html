@@ -217,7 +217,8 @@
   <button id="csvBtn" style="width:100%;margin-bottom:4px">⬇ BOM CSV</button>
   <button id="ifcBtn" style="width:100%;margin-bottom:4px">⬇ IFC</button>
   <button id="poBtn" style="width:100%;margin-bottom:4px">⬇ 発注書PDF</button>
-  <button id="reportBtn" style="width:100%">⬇ 1ページサマリーPDF</button>
+  <button id="reportBtn" style="width:100%;margin-bottom:4px">⬇ 1ページサマリーPDF</button>
+  <button id="videoBtn" style="width:100%">🎬 ウォークスルー動画</button>
 </div>
 
 <!-- Sun path simulator (right side) -->
@@ -660,6 +661,31 @@ document.getElementById('pvBtn').addEventListener('click', () => {
 });
 document.getElementById('pvClose').addEventListener('click', () => {
   document.getElementById('pvModal').style.display = 'none';
+});
+
+// ─── ウォークスルー動画エクスポート ───
+document.getElementById('videoBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('videoBtn');
+  if (!viewer.renderer.domElement.captureStream) {
+    alert('お使いのブラウザでは動画録画に対応していません（Chrome / Firefox / Edge推奨）');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '🎬 録画中...';
+  try {
+    const blob = await viewer.recordWalkthrough({
+      duration: 14,
+      onProgress: (t) => { btn.textContent = `🎬 録画中 ${Math.round(t * 100)}%`; },
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const plan = viewer.getPlan();
+    a.href = url; a.download = `SOLUNA_Walkthrough_${plan.name}.webm`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch (e) {
+    alert('録画エラー: ' + e.message);
+  }
+  btn.disabled = false; btn.textContent = '🎬 ウォークスルー動画';
 });
 
 // ─── Energy/UA modal ───
