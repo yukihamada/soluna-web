@@ -1444,8 +1444,8 @@ window.BUILD_PLANS = [
        tools:["フィニッシュネイラー","丸ノコ"],tips:"完成したとき、それはもうMYTHだ。"},
     ],
     routes: [
-      {name:"セルフビルド+建築士監修",cost:27985000,color:"#c89020",hi:true},
-      {name:"補助金後",cost:25635000,color:"rgba(80,200,160,.9)",gr:true},
+      {name:"セルフビルド+建築士監修",cost:39000000,color:"#c89020",hi:true},
+      {name:"補助金後",cost:36650000,color:"rgba(80,200,160,.9)",gr:true},
       {name:"工務店依頼",cost:80000000,color:"#555"},
       {name:"宿泊収益（年）",cost:-5000000,color:"#c89020",note:"28名稼働¥500万/年"},
     ],
