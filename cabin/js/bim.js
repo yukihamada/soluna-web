@@ -1396,7 +1396,7 @@ export function buildPlan(planId) {
 
 // ========= Viewer =========
 export function createViewer(container, opts = {}) {
-  const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+  const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true, preserveDrawingBuffer: true});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
