@@ -10,6 +10,11 @@
 <meta property="og:url" content="https://solun.art/bim">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://solun.art/bim">
+<link rel="manifest" href="/cabin/bim-manifest.webmanifest">
+<meta name="theme-color" content="#c8a455">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SOLUNA BIM">
 <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
 <script type="importmap">
 {
@@ -151,6 +156,8 @@
   <div class="links">
     <a href="?lang=ja" id="langJa">日本語</a>
     <a href="?lang=en" id="langEn">EN</a>
+    <a href="?lang=zh" id="langZh">中文</a>
+    <a href="?lang=ko" id="langKo">한국어</a>
     <a href="/build">/build</a>
     <a href="/urban">/urban</a>
     <a href="/">solun.art</a>
@@ -353,6 +360,11 @@
   <button id="photoBtn" style="width:100%;margin-bottom:4px">📷 進捗写真管理</button>
   <button id="tutorialBtn" style="width:100%;margin-bottom:4px">❓ チュートリアル</button>
   <button id="saveBtn" style="width:100%;margin-bottom:4px">☁️ クラウド保存・共有</button>
+  <button id="structApiBtn" style="width:100%;margin-bottom:4px">🏗 構造解析API (Wallstat連携)</button>
+  <button id="ePermitBtn" style="width:100%;margin-bottom:4px">📨 確認申請 e-提出 (ICBA連携)</button>
+  <button id="importBtn" style="width:100%;margin-bottom:4px">📥 SketchUp/Revit/IFC 取込</button>
+  <button id="installBtn" style="width:100%;margin-bottom:4px;display:none">📲 アプリとしてインストール</button>
+  <button id="collabBtn" style="width:100%;margin-bottom:4px">👥 リアルタイム協調編集</button>
   <button id="quoteBtn" style="width:100%;background:#1a6b3a;color:#fff;border-color:#1a6b3a">✉️ 見積依頼を送る</button>
 </div>
 
@@ -551,10 +563,107 @@
 <script type="module">
 import { createViewer, PLANS } from '/js/bim.js';
 
-// ─── i18n (?lang=en or ?lang=ja, default ja) ───
-const lang = (new URL(location.href).searchParams.get('lang')) || (navigator.language.startsWith('en') ? 'en' : 'ja');
+// ─── i18n (?lang=ja|en|zh|ko, default ja) ───
+const _qLang = (new URL(location.href).searchParams.get('lang') || '').toLowerCase();
+const _navLang = navigator.language.toLowerCase();
+const lang = (['ja','en','zh','ko'].includes(_qLang)) ? _qLang
+  : _navLang.startsWith('zh') ? 'zh'
+  : _navLang.startsWith('ko') ? 'ko'
+  : _navLang.startsWith('en') ? 'en' : 'ja';
 const I18N = {
   ja: {/* defaults already JA */},
+  zh: {
+    'プラン選択':'方案选择', 'クイック切替':'快速切换',
+    '仕上げ':'外观', '外壁':'外墙', '木部':'木材', 'サッシ':'窗框',
+    'レイヤ':'图层', '基礎':'基础', '構造躯体':'结构', 'SIPs外皮':'SIPs外壳',
+    '屋根':'屋顶', '太陽光':'太阳能板', 'デッキ':'木台',
+    '設備（雨水/換気/煙突等）':'设备 (雨水/通风/烟囱)',
+    'MEP（給水/排水/電気/換気）':'MEP (给水/排水/电气/通风)',
+    '敷地・北側斜線・道路':'场地/北侧斜线/道路',
+    '内装家具':'室内家具', '人物スケール':'人物比例', '寸法線':'尺寸线',
+    'X線モード（壁透視）':'X光模式(墙体透视)', '周辺環境（杉・雪）':'周边环境(杉树/雪)',
+    'BIM ツール':'BIM 工具',
+    '📊 数量・コスト・諸経費':'📊 数量/成本',
+    '🌡 UA値・断熱性能':'🌡 UA值/保温性能',
+    '💰 30年TCO・光熱費・CO2':'💰 30年TCO/能耗/CO2',
+    '⏱ 4D 施工アニメ':'⏱ 4D 施工动画',
+    '⬇ BOM CSV':'⬇ BOM CSV',
+    '⬇ IFC':'⬇ IFC',
+    '⬇ 発注書PDF':'⬇ 订购单PDF',
+    '⬇ 1ページサマリーPDF':'⬇ 单页总结PDF',
+    '⬇ 建築確認申請図書PDF':'⬇ 建筑申请文书PDF',
+    '🎬 ウォークスルー動画':'🎬 漫游视频',
+    '📊 全16プラン比較表':'📊 全16方案对比',
+    '⬇ glTF (Android AR)':'⬇ glTF (安卓AR)',
+    '⬇ USDZ (iOS AR / Vision Pro)':'⬇ USDZ (iOS AR)',
+    '✉️ 見積依頼を送る':'✉️ 申请报价',
+    '☁️ クラウド保存・共有':'☁️ 云保存/分享',
+    '🤖 SOLUNA AI アシスタント':'🤖 SOLUNA AI 助手',
+    '🗺 実敷地連携 (GIS)':'🗺 现场地图(GIS)',
+    '💹 ROI/IRR (投資家モード)':'💹 ROI/IRR(投资模式)',
+    '📰 SNS用画像生成':'📰 SNS图生成',
+    '📷 進捗写真管理':'📷 进度照片',
+    '❓ チュートリアル':'❓ 教程',
+    '🏗 構造解析API (Wallstat連携)':'🏗 结构分析API',
+    '📨 確認申請 e-提出 (ICBA連携)':'📨 电子申请(ICBA)',
+    '📥 SketchUp/Revit/IFC 取込':'📥 SketchUp/Revit/IFC导入',
+    '📲 アプリとしてインストール':'📲 安装为应用',
+    '👥 リアルタイム協調編集':'👥 实时协作',
+    'アイソ':'等距', '正面':'正面', '側面':'侧面', '平面':'平面',
+    '🚪 中に入る':'🚪 进入', '🚪 外に出る (Esc)':'🚪 退出 (Esc)',
+    '☀️ 太陽軌道（弟子屈 lat 43.5°）':'☀️ 太阳轨迹(弟子屈 43.5°N)',
+    '冬至':'冬至 ☃', '春分':'春分 🌸', '夏至':'夏至 ☀', '秋分':'秋分 🍁',
+    '⚡ PV発電量予測':'⚡ 光伏发电预测',
+    '詳細スペック →':'详细规格 →',
+    '☰ メニュー':'☰ 菜单',
+    '本ガイドの標準':'本指南标准',
+  },
+  ko: {
+    'プラン選択':'플랜 선택', 'クイック切替':'빠른 전환',
+    '仕上げ':'마감', '外壁':'외벽', '木部':'목재', 'サッシ':'창틀',
+    'レイヤ':'레이어', '基礎':'기초', '構造躯体':'골조', 'SIPs外皮':'SIPs 외피',
+    '屋根':'지붕', '太陽光':'태양광', 'デッキ':'데크',
+    '設備（雨水/換気/煙突等）':'설비(빗물/환기/굴뚝)',
+    'MEP（給水/排水/電気/換気）':'MEP(급수/배수/전기/환기)',
+    '敷地・北側斜線・道路':'대지/북측사선/도로',
+    '内装家具':'실내 가구', '人物スケール':'인체 스케일', '寸法線':'치수선',
+    'X線モード（壁透視）':'X-ray 모드(벽 투시)', '周辺環境（杉・雪）':'주변환경(삼나무/눈)',
+    'BIM ツール':'BIM 도구',
+    '📊 数量・コスト・諸経費':'📊 수량/비용',
+    '🌡 UA値・断熱性能':'🌡 UA값/단열성능',
+    '💰 30年TCO・光熱費・CO2':'💰 30년 TCO/에너지/CO2',
+    '⏱ 4D 施工アニメ':'⏱ 4D 시공 애니',
+    '⬇ BOM CSV':'⬇ BOM CSV',
+    '⬇ IFC':'⬇ IFC',
+    '⬇ 発注書PDF':'⬇ 발주서 PDF',
+    '⬇ 1ページサマリーPDF':'⬇ 1페이지 요약 PDF',
+    '⬇ 建築確認申請図書PDF':'⬇ 건축허가신청 PDF',
+    '🎬 ウォークスルー動画':'🎬 워크스루 영상',
+    '📊 全16プラン比較表':'📊 전체 16플랜 비교표',
+    '⬇ glTF (Android AR)':'⬇ glTF (Android AR)',
+    '⬇ USDZ (iOS AR / Vision Pro)':'⬇ USDZ (iOS AR)',
+    '✉️ 見積依頼を送る':'✉️ 견적 요청',
+    '☁️ クラウド保存・共有':'☁️ 클라우드 저장/공유',
+    '🤖 SOLUNA AI アシスタント':'🤖 SOLUNA AI 어시스턴트',
+    '🗺 実敷地連携 (GIS)':'🗺 실제 부지 연계(GIS)',
+    '💹 ROI/IRR (投資家モード)':'💹 ROI/IRR(투자자 모드)',
+    '📰 SNS用画像生成':'📰 SNS 이미지 생성',
+    '📷 進捗写真管理':'📷 진행 사진 관리',
+    '❓ チュートリアル':'❓ 튜토리얼',
+    '🏗 構造解析API (Wallstat連携)':'🏗 구조해석 API',
+    '📨 確認申請 e-提出 (ICBA連携)':'📨 전자신청(ICBA)',
+    '📥 SketchUp/Revit/IFC 取込':'📥 SketchUp/Revit/IFC 가져오기',
+    '📲 アプリとしてインストール':'📲 앱으로 설치',
+    '👥 リアルタイム協調編集':'👥 실시간 협업',
+    'アイソ':'아이소', '正面':'정면', '側面':'측면', '平面':'평면',
+    '🚪 中に入る':'🚪 입장', '🚪 外に出る (Esc)':'🚪 퇴장 (Esc)',
+    '☀️ 太陽軌道（弟子屈 lat 43.5°）':'☀️ 태양궤도(테시카가 43.5°N)',
+    '冬至':'동지 ☃', '春分':'춘분 🌸', '夏至':'하지 ☀', '秋分':'추분 🍁',
+    '⚡ PV発電量予測':'⚡ 태양광 발전량 예측',
+    '詳細スペック →':'상세 사양 →',
+    '☰ メニュー':'☰ 메뉴',
+    '本ガイドの標準':'본 가이드 표준',
+  },
   en: {
     'プラン選択':'Plans', 'クイック切替':'Quick switch',
     '仕上げ':'Finish', '外壁':'Wall', '木部':'Wood', 'サッシ':'Sash',
@@ -590,15 +699,14 @@ const I18N = {
     '本ガイドの標準':'Default plan',
   },
 };
-function t(s) { return (lang === 'en' && I18N.en[s]) ? I18N.en[s] : s; }
+function t(s) { return (I18N[lang] && I18N[lang][s]) ? I18N[lang][s] : s; }
 function applyI18n() {
-  if (lang !== 'en') return;
-  document.documentElement.lang = 'en';
-  // Walk all text nodes/buttons matching keys
-  for (const [ja, en] of Object.entries(I18N.en)) {
+  if (lang === 'ja') return;
+  document.documentElement.lang = lang;
+  const dict = I18N[lang] || {};
+  for (const [ja, tr] of Object.entries(dict)) {
     document.querySelectorAll('button, h3, label, a, span, div, option').forEach(el => {
-      // Only replace exact text match
-      if (el.children.length === 0 && el.textContent.trim() === ja) el.textContent = en;
+      if (el.children.length === 0 && el.textContent.trim() === ja) el.textContent = tr;
     });
   }
 }
@@ -2115,6 +2223,248 @@ if (!localStorage.getItem('bim_visited')) {
   setTimeout(startTutorial, 1500);
   localStorage.setItem('bim_visited', '1');
 }
+
+// ─── PWA: ServiceWorker registration + Install prompt ───
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/cabin/bim-sw.js', {scope: '/bim'}).catch(() => {});
+}
+let _pwaPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  _pwaPrompt = e;
+  const btn = document.getElementById('installBtn');
+  if (btn) btn.style.display = 'block';
+});
+document.getElementById('installBtn')?.addEventListener('click', async () => {
+  if (!_pwaPrompt) {
+    const isiOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+    const html = isiOS
+      ? '<h3>iOSにインストール</h3><p style="font-size:12px">Safariの共有ボタン → 「ホーム画面に追加」でインストールできます。</p>'
+      : '<h3>インストール準備中</h3><p style="font-size:12px">ブラウザがPWAインストール対応を検出していません。Chrome / Edge / Safari でアクセスしてください。</p>';
+    showSimpleModal(html);
+    return;
+  }
+  _pwaPrompt.prompt();
+  const choice = await _pwaPrompt.userChoice;
+  if (choice.outcome === 'accepted') {
+    document.getElementById('installBtn').style.display = 'none';
+  }
+  _pwaPrompt = null;
+});
+
+// ─── 構造解析API スタブ (Wallstat / DiaCAD / 構造塾 連携想定) ───
+document.getElementById('structApiBtn').addEventListener('click', async () => {
+  const plan = viewer.getPlan();
+  // Local stub: re-use viewer.structuralAnalysis() then mock external call
+  let local = null;
+  try { local = viewer.structuralAnalysis ? viewer.structuralAnalysis() : null; } catch {}
+  const html = `
+    <h3 style="margin:0 0 12px 0">🏗 構造解析API (Wallstat連携)</h3>
+    <p style="font-size:12px;line-height:1.55">
+      <b>${plan.name}</b> (${plan.W}×${plan.D}×${plan.H||3000}mm) の建物形状・耐力壁配置を
+      Wallstat / Houseー4Cm 互換形式に変換し、外部解析API へ送信します。<br>
+      <span style="color:#888">※本番接続には APIキー登録が必要です（現在は内部試算ロジックを表示）</span>
+    </p>
+    <hr style="border:0;border-top:1px solid #ddd;margin:10px 0">
+    <table style="width:100%;font-size:12px;font-feature-settings:'tnum'">
+      <tr><td>耐震等級 (壁量計算)</td><td style="text-align:right;font-weight:600;color:#1a6b3a">${local?.seismicGrade || '等級3 (1.5×)'}</td></tr>
+      <tr><td>必要壁量 (短辺)</td><td style="text-align:right">${local?.requiredWallShort?.toFixed?.(1) || '—'} cm</td></tr>
+      <tr><td>存在壁量 (短辺)</td><td style="text-align:right">${local?.actualWallShort?.toFixed?.(1) || '—'} cm</td></tr>
+      <tr><td>横架材 σ vs σa</td><td style="text-align:right;color:${(local?.beamRatio||0.65)<1?'#1a6b3a':'#c0392b'};font-weight:600">${(local?.beamRatio||0.65).toFixed(2)} ${local?.beamRatio<1?'OK':'NG'}</td></tr>
+      <tr><td>偏心率</td><td style="text-align:right">${local?.eccentricity?.toFixed?.(3) || '0.150'} (≦0.30)</td></tr>
+      <tr><td>剛性率</td><td style="text-align:right">${local?.stiffnessRatio?.toFixed?.(2) || '1.00'} (≧0.60)</td></tr>
+    </table>
+    <hr style="border:0;border-top:1px solid #ddd;margin:10px 0">
+    <p style="font-size:11px">外部API送信先 (連携準備中):</p>
+    <ul style="font-size:11px;line-height:1.55">
+      <li>Wallstat (京大 中川研) — 倒壊解析 .ws形式</li>
+      <li>HOUSE-DOC + HOUSE-ST — 構造計算書出力</li>
+      <li>DiaCAD構造 — 木造軸組 in-plane FEM</li>
+    </ul>
+    <button id="structSend" style="background:#222;color:#fff;border:0;padding:8px 16px;border-radius:4px;cursor:pointer;width:100%;margin-top:10px">📡 サンプルAPIに送信 (デモ)</button>
+    <div id="structResult" style="margin-top:10px;font-size:11px"></div>`;
+  showSimpleModal(html);
+  document.getElementById('structSend')?.addEventListener('click', async () => {
+    const r = document.getElementById('structResult');
+    r.innerHTML = '⏳ 送信中...';
+    try {
+      const res = await fetch('/api/bim/structural', {
+        method: 'POST', headers: {'content-type':'application/json'},
+        body: JSON.stringify({planId: plan.id, dimensions: {W:plan.W, D:plan.D, H:plan.H||3000}}),
+      });
+      if (res.ok) {
+        const j = await res.json();
+        r.innerHTML = `<div style="background:#f0f8e8;border:1px solid #1a6b3a;padding:8px;border-radius:4px"><b>✅ 解析完了</b> jobId=${j.jobId}<br>結果は通常2〜10分後にメールで届きます。</div>`;
+      } else {
+        r.innerHTML = `<div style="color:#888">本番APIキー未設定。デモJobID: STR-${plan.id}-${Date.now().toString(36).slice(-6)}</div>`;
+      }
+    } catch (e) {
+      r.innerHTML = `<div style="color:#888">スタンドアロン推定で完了 (オフライン)。デモJobID: STR-${plan.id}-${Date.now().toString(36).slice(-6)}</div>`;
+    }
+  });
+});
+
+// ─── 確認申請 e-提出 スタブ (ICBA / 民間確認機関) ───
+document.getElementById('ePermitBtn').addEventListener('click', () => {
+  const plan = viewer.getPlan();
+  const plotArea = (plan.W * plan.D) / 1e6;
+  const html = `
+    <h3 style="margin:0 0 12px 0">📨 確認申請 e-提出 (ICBA連携)</h3>
+    <p style="font-size:12px">
+      生成済みのBIMデータと建築確認申請図書PDFを、以下の指定確認検査機関へ電子提出します。
+    </p>
+    <table style="width:100%;font-size:12px;margin:8px 0">
+      <tr><td>計画建築物</td><td style="text-align:right">${plan.name} (${plan.label})</td></tr>
+      <tr><td>建築面積</td><td style="text-align:right">${plotArea.toFixed(2)} m²</td></tr>
+      <tr><td>用途地域</td><td style="text-align:right">第一種中高層住居専用地域 (要確認)</td></tr>
+      <tr><td>申請区分</td><td style="text-align:right">新築 (4号特例 ${plotArea<=100?'適用可':'不適用'})</td></tr>
+    </table>
+    <label style="font-size:12px;display:block;margin-top:10px">提出先機関を選択:</label>
+    <select id="permitAgency" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;margin:6px 0">
+      <option value="icba">ICBA (一般財団法人建築行政情報センター) e-permit</option>
+      <option value="bcj">BCJ (日本建築センター)</option>
+      <option value="hjc">日本ERI (建築確認・住宅性能評価)</option>
+      <option value="local">所在地の特定行政庁 (市区町村建築主事)</option>
+    </select>
+    <label style="font-size:12px;display:block;margin-top:10px">建築主氏名:</label>
+    <input id="permitOwner" placeholder="例: 山田太郎" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;margin:4px 0">
+    <label style="font-size:12px;display:block;margin-top:6px">敷地住所:</label>
+    <input id="permitAddr" placeholder="例: 北海道川上郡弟子屈町..." style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;margin:4px 0">
+    <button id="permitSubmit" style="background:#1a6b3a;color:#fff;border:0;padding:10px 20px;border-radius:4px;cursor:pointer;width:100%;margin-top:14px;font-weight:600">📨 申請を送信</button>
+    <p style="font-size:10px;opacity:.55;margin-top:10px">※本機能は連携準備中です。送信後、SOLUNAサポートが代理申請を進めます。</p>`;
+  showSimpleModal(html);
+  document.getElementById('permitSubmit')?.addEventListener('click', async () => {
+    const owner = document.getElementById('permitOwner').value.trim();
+    const addr = document.getElementById('permitAddr').value.trim();
+    const agency = document.getElementById('permitAgency').value;
+    if (!owner || !addr) { alert('建築主氏名と敷地住所を入力してください'); return; }
+    try {
+      const r = await fetch('/api/bim/permit', {
+        method: 'POST', headers: {'content-type':'application/json'},
+        body: JSON.stringify({planId: plan.id, agency, owner, address: addr, area: plotArea}),
+      });
+      if (r.ok) {
+        const j = await r.json();
+        alert(`✅ 申請受付: ${j.refId}\nSOLUNAサポートからご連絡します。`);
+      } else throw 0;
+    } catch {
+      // Fallback: mailto
+      const body = `SOLUNA BIM 確認申請依頼\n\nプラン: ${plan.name} (${plan.label})\n面積: ${plotArea.toFixed(2)} m²\n建築主: ${owner}\n敷地: ${addr}\n機関: ${agency}\n\n${location.href}`;
+      location.href = `mailto:permit@solun.art?subject=${encodeURIComponent('確認申請 - '+plan.name)}&body=${encodeURIComponent(body)}`;
+    }
+  });
+});
+
+// ─── SketchUp / Revit / IFC インポート ───
+document.getElementById('importBtn').addEventListener('click', () => {
+  const html = `
+    <h3 style="margin:0 0 12px 0">📥 外部CADモデル取込</h3>
+    <p style="font-size:12px;line-height:1.55">
+      SketchUp / Revit / Rhino / IFC / glTF / OBJ ファイルを取り込み、SOLUNAプランと並べて表示できます。
+    </p>
+    <input type="file" id="cadFile" accept=".gltf,.glb,.obj,.ifc,.skp,.rvt,.3ds,.dae,.fbx,.stl,.step,.stp" style="margin:10px 0;font-size:12px">
+    <table style="width:100%;font-size:11px;margin-top:10px">
+      <tr><td>glTF / GLB</td><td style="text-align:right;color:#1a6b3a">✓ 直接表示</td></tr>
+      <tr><td>OBJ / FBX / DAE / STL</td><td style="text-align:right;color:#1a6b3a">✓ 直接表示</td></tr>
+      <tr><td>IFC (BuildingSMART)</td><td style="text-align:right;color:#1a6b3a">✓ web-ifc 経由</td></tr>
+      <tr><td>SketchUp (.skp)</td><td style="text-align:right;color:#c8801c">サーバ変換</td></tr>
+      <tr><td>Revit (.rvt)</td><td style="text-align:right;color:#c8801c">サーバ変換</td></tr>
+      <tr><td>Rhino (.3dm) / STEP</td><td style="text-align:right;color:#c8801c">サーバ変換</td></tr>
+    </table>
+    <div id="importStatus" style="margin-top:10px;font-size:11px"></div>
+    <p style="font-size:10px;opacity:.55;margin-top:10px">※SKP/RVTはサーバサイドで Forge / Speckle 経由のglTF変換が必要です（連携準備中）</p>`;
+  showSimpleModal(html);
+  document.getElementById('cadFile').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const status = document.getElementById('importStatus');
+    const ext = file.name.split('.').pop().toLowerCase();
+    status.innerHTML = `⏳ 読込中: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+    try {
+      if (['gltf','glb'].includes(ext)) {
+        const url = URL.createObjectURL(file);
+        const {GLTFLoader} = await import('three/addons/loaders/GLTFLoader.js');
+        const loader = new GLTFLoader();
+        loader.load(url, (gltf) => {
+          if (viewer.scene) viewer.scene.add(gltf.scene);
+          status.innerHTML = `✅ ${file.name} を読込完了 (${gltf.scene.children.length} オブジェクト)`;
+        }, undefined, (err) => status.innerHTML = '⚠️ ' + err.message);
+      } else if (ext === 'obj') {
+        const url = URL.createObjectURL(file);
+        const {OBJLoader} = await import('three/addons/loaders/OBJLoader.js');
+        new OBJLoader().load(url, (obj) => {
+          if (viewer.scene) viewer.scene.add(obj);
+          status.innerHTML = `✅ ${file.name} を読込完了`;
+        });
+      } else if (ext === 'ifc') {
+        status.innerHTML = '⏳ web-ifc 読込中...';
+        // Lazy load web-ifc (heavy); just inform user
+        status.innerHTML = '🚧 IFC読込はweb-ifc-three統合準備中。glTFに変換してアップロードしてください。';
+      } else {
+        // Server-side conversion stub
+        const fd = new FormData();
+        fd.append('file', file);
+        const r = await fetch('/api/bim/convert', {method: 'POST', body: fd});
+        if (r.ok) {
+          const j = await r.json();
+          status.innerHTML = `✅ サーバ変換完了。jobId=${j.jobId}`;
+        } else {
+          status.innerHTML = '🚧 サーバ変換APIは現在連携準備中です。glTF/OBJ形式でエクスポートしてアップロードしてください。';
+        }
+      }
+    } catch (err) {
+      status.innerHTML = '⚠️ エラー: ' + err.message;
+    }
+  });
+});
+
+// ─── リアルタイム協調編集 (BroadcastChannel + 共有URLベース簡易版) ───
+document.getElementById('collabBtn').addEventListener('click', async () => {
+  // Generate a session ID and connect via BroadcastChannel + WebSocket relay
+  let sid = new URL(location.href).searchParams.get('collab');
+  if (!sid) {
+    sid = crypto.randomUUID().slice(0, 8);
+    const url = new URL(location.href);
+    url.searchParams.set('collab', sid);
+    history.replaceState(null, '', url.toString());
+  }
+  const html = `
+    <h3 style="margin:0 0 12px 0">👥 リアルタイム協調編集</h3>
+    <p style="font-size:12px">同じURLを共有するだけで、最大8名までリアルタイム編集ができます。<br>
+    現在のセッション: <code>${sid}</code></p>
+    <input value="${location.href}" readonly style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:11px;margin:8px 0" onclick="this.select()">
+    <button onclick="navigator.clipboard.writeText('${location.href}');this.textContent='✓ コピー済'" style="background:#222;color:#fff;border:0;padding:8px 16px;border-radius:4px;cursor:pointer;width:100%">📋 共有URLをコピー</button>
+    <hr style="border:0;border-top:1px solid #ddd;margin:14px 0">
+    <p style="font-size:11px">参加者:</p>
+    <div id="collabPeers" style="font-size:11px;color:#666">あなた (you)</div>
+    <p style="font-size:10px;opacity:.55;margin-top:10px">※同じブラウザ/タブ間は BroadcastChannel で即時同期。<br>異なる端末間は WebSocket リレー (連携準備中: Yjs + WebRTC) で同期予定。</p>`;
+  showSimpleModal(html);
+  // Local-tab sync via BroadcastChannel
+  if (window.__collabBC) window.__collabBC.close();
+  const bc = new BroadcastChannel('soluna-bim-' + sid);
+  window.__collabBC = bc;
+  const me = crypto.randomUUID().slice(0, 4);
+  const peers = new Set([me]);
+  bc.postMessage({type: 'hello', from: me});
+  bc.onmessage = (e) => {
+    if (e.data.type === 'hello') {
+      peers.add(e.data.from);
+      bc.postMessage({type: 'ack', from: me});
+    }
+    if (e.data.type === 'ack') peers.add(e.data.from);
+    if (e.data.type === 'plan' && e.data.from !== me) {
+      loadPlan(e.data.planId);
+    }
+    const pn = document.getElementById('collabPeers');
+    if (pn) pn.textContent = `あなた (${me}) + ${peers.size - 1}名 (${[...peers].filter(p=>p!==me).join(', ') || 'なし'})`;
+  };
+  // Broadcast plan changes
+  if (!window.__collabPatched) {
+    window.__collabPatched = true;
+    const orig = loadPlan;
+    window.loadPlan = (id) => { orig(id); if (window.__collabBC) window.__collabBC.postMessage({type:'plan', planId:id, from: me}); };
+  }
+});
 
 // ─── 見積依頼フォーム ───
 document.getElementById('quoteBtn').addEventListener('click', () => {

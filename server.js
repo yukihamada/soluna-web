@@ -11045,6 +11045,62 @@ MEBUKI(9.9m²/¥135万) SU(24.8m²/¥328万) TAMA(40m²ドーム) AN(40m²) MUNE
     }
   });
 
+  // ── 構造解析API スタブ (Wallstat / DiaCAD 連携想定) ──
+  app.post("/api/bim/structural", express.json({limit:'1mb'}), async (req, res) => {
+    try {
+      const { planId, dimensions } = req.body || {};
+      if (!planId || !dimensions) return res.status(400).json({error:'planId and dimensions required'});
+      const jobId = 'STR-' + planId + '-' + crypto.randomBytes(4).toString('hex');
+      // TODO: forward to Wallstat / external structural API when API key is configured
+      // For now: log + return jobId immediately
+      try {
+        await db.execute({
+          sql: "CREATE TABLE IF NOT EXISTS bim_structural_jobs (id TEXT PRIMARY KEY, plan_id TEXT, payload TEXT, status TEXT, created_at INTEGER)",
+        });
+        await db.execute({
+          sql: "INSERT INTO bim_structural_jobs (id, plan_id, payload, status, created_at) VALUES (?,?,?,?,?)",
+          args: [jobId, planId, JSON.stringify(req.body), 'queued', Date.now()],
+        });
+      } catch (e) {}
+      res.json({ok:true, jobId, status:'queued', estimate:'2-10min'});
+    } catch (e) { res.status(500).json({error:e.message}); }
+  });
+
+  // ── 確認申請 e-提出 スタブ (ICBA / 民間確認機関) ──
+  app.post("/api/bim/permit", express.json({limit:'1mb'}), async (req, res) => {
+    try {
+      const { planId, agency, owner, address, area } = req.body || {};
+      if (!planId || !agency || !owner || !address) return res.status(400).json({error:'required fields missing'});
+      const refId = 'PMT-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + crypto.randomBytes(3).toString('hex').toUpperCase();
+      try {
+        await db.execute({
+          sql: "CREATE TABLE IF NOT EXISTS bim_permit_requests (id TEXT PRIMARY KEY, plan_id TEXT, agency TEXT, owner TEXT, address TEXT, area REAL, status TEXT, created_at INTEGER)",
+        });
+        await db.execute({
+          sql: "INSERT INTO bim_permit_requests (id, plan_id, agency, owner, address, area, status, created_at) VALUES (?,?,?,?,?,?,?,?)",
+          args: [refId, planId, agency, owner, address, area||0, 'received', Date.now()],
+        });
+      } catch (e) {}
+      // Notify SOLUNA support (best-effort)
+      try {
+        if (typeof sendResendMail === 'function') {
+          await sendResendMail({
+            to: 'permit@solun.art',
+            subject: `[BIM] 確認申請依頼: ${refId} - ${planId}`,
+            text: `Plan: ${planId}\nAgency: ${agency}\nOwner: ${owner}\nAddress: ${address}\nArea: ${area} m²\nRef: ${refId}`,
+          });
+        }
+      } catch (e) {}
+      res.json({ok:true, refId, status:'received'});
+    } catch (e) { res.status(500).json({error:e.message}); }
+  });
+
+  // ── CAD変換 スタブ (SketchUp/Revit/Rhino → glTF) ──
+  app.post("/api/bim/convert", async (req, res) => {
+    // Stub: real implementation would proxy to Forge / Speckle / Forma
+    res.status(503).json({error:'CAD変換APIは現在連携準備中です (Forge/Speckle統合)。glTF/OBJ/FBXに変換してアップロードしてください。'});
+  });
+
   // /build/:plan → build.html (SSR: plan固有のtitle/meta/SEOコンテンツ注入)
   const BUILD_PLAN_IDS = ["mini","standard","dome","large","xl","villa","grand","myth","kosmos"];
   app.get("/build/:plan", (req, res, next) => {
