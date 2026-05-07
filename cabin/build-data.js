@@ -343,7 +343,15 @@ window.BUILD_PLANS = [
     warmClimateDiscount: 250000,
     rentPerNight: 30000,
     color: "#50b8d0",
-    img: "/img/dome_exterior_winter.webp",
+    img: "/img/real_dome.webp",
+    lifeImgs: [
+      {src:"/img/dome_interior_projector.webp", cap:"プロジェクターで映画、球体の光"},
+      {src:"/img/dome_summer_deck.webp",        cap:"夏、デッキでキャンプファイアを囲む"},
+      {src:"/img/kumaushi_c_dome_interior_winter.webp", cap:"雪の日、薪ストーブで温まる"},
+      {src:"/img/kumaushi_c_snow_dome_night.webp",      cap:"夜は満天の星の下に黒い球体"},
+      {src:"/img/instant_dome_interior.webp",           cap:"幾何学が内装になる、OSB露し"},
+      {src:"/img/dome_exterior_winter.webp",            cap:"北海道の冬、雪原の中に佇む"},
+    ],
     specs: [
       {k:"延床面積", v:"27 m²（π×2.95²）"},
       {k:"外形寸法", v:"直径 5,900mm × 高さ 2,500mm"},
@@ -1275,7 +1283,15 @@ window.BUILD_PLANS = [
     warmClimateDiscount: 4500000,
     rentPerNight: 200000,
     color: "#c89020",
-    img: "/img/kumaushi_a_courtyard.webp",
+    img: "/img/kumaushi_sips_exterior_winter.webp",
+    lifeImgs: [
+      {src:"/img/village_lux_living.jpg",   cap:"大きなラウンジ・共有スペース"},
+      {src:"/img/village_lux_dining.jpg",   cap:"共同食堂・大テーブル"},
+      {src:"/img/village_lux_bedroom.jpg",  cap:"ゲスト個室（10室）"},
+      {src:"/img/village_lux_bath.jpg",     cap:"バスルーム"},
+      {src:"/img/village_lux_cellar.jpg",   cap:"地下ワインセラー・貯蔵庫"},
+      {src:"/img/pro_village_cinematic.webp", cap:"弟子屈の広大な敷地に建つ"},
+    ],
     specs: [
       {k:"延床面積", v:"300 m²（90.8坪）1F: 149m² / 2F: 149m²"},
       {k:"外形寸法", v:"W 16,380 × D 9,100 × H 8,000 mm（2階建て）"},
