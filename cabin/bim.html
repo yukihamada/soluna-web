@@ -219,7 +219,7 @@
 </div>
 
 <!-- Sun path simulator (right side) -->
-<div class="panel" id="sun-panel" style="bottom:14px;right:14px;width:230px">
+<div class="panel" id="sun-panel" style="bottom:14px;right:14px;width:240px">
   <h3>☀️ 太陽軌道（弟子屈 lat 43.5°）</h3>
   <label style="display:block;font-size:11px;margin-bottom:4px">月: <span id="sunMonthLbl">3月</span>
     <input type="range" id="sunMonth" min="1" max="12" step="1" value="3" style="width:100%">
@@ -228,6 +228,33 @@
     <input type="range" id="sunHour" min="5" max="19" step="0.5" value="10" style="width:100%">
   </label>
   <div id="sunInfo" style="font-size:10px;opacity:.7;margin-top:6px;font-feature-settings:'tnum'">高度 28.0°　方位 +25°（南東）</div>
+  <div style="display:flex;gap:3px;margin-top:8px">
+    <button data-season="winter" style="flex:1;font-size:10px;padding:4px">冬至</button>
+    <button data-season="spring" style="flex:1;font-size:10px;padding:4px">春分</button>
+    <button data-season="summer" style="flex:1;font-size:10px;padding:4px">夏至</button>
+    <button data-season="autumn" style="flex:1;font-size:10px;padding:4px">秋分</button>
+  </div>
+  <button id="pvBtn" style="width:100%;margin-top:6px;font-size:11px">⚡ PV発電量予測</button>
+</div>
+
+<!-- PV modal -->
+<div id="pvModal" style="display:none;position:fixed;inset:0;z-index:60;background:rgba(34,34,34,.55);align-items:center;justify-content:center">
+  <div style="background:#fffefb;border:1px solid #222;border-radius:8px;padding:16px;max-width:560px;font-size:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <h3 style="margin:0;font-size:14px">⚡ 太陽光発電量予測（NEDO日射量データベース）</h3>
+      <button id="pvClose" style="background:none;border:0;font-size:20px;cursor:pointer">×</button>
+    </div>
+    <div id="pvSummary" style="font-size:13px;margin-bottom:14px"></div>
+    <div id="pvChart" style="display:flex;align-items:flex-end;height:120px;gap:4px;border-bottom:1px solid #888;border-left:1px solid #888;padding:4px 6px;margin-bottom:6px"></div>
+    <div style="display:flex;justify-content:space-between;font-size:9px;opacity:.55">
+      <span>1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span><span>6月</span>
+      <span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span>
+    </div>
+    <p style="font-size:10px;opacity:.55;margin-top:10px">
+      ※NEDO MONSOLA-11 道東代表値、PR=78%（汚れ・配線・PCS損失込）<br>
+      ※自家消費単価¥35/kWh想定。売電(FIT)時は別途計算。
+    </p>
+  </div>
 </div>
 
 <!-- BOM modal -->
@@ -588,6 +615,50 @@ function updateSun() {
 monthSlider.addEventListener('input', updateSun);
 hourSlider.addEventListener('input', updateSun);
 updateSun();
+
+// Seasonal shadow animation
+for (const btn of document.querySelectorAll('[data-season]')) {
+  btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    await viewer.playSunCycle(btn.dataset.season, 8000, ({hour, month}) => {
+      monthLbl.textContent = `${month}月`;
+      hourLbl.textContent = `${Math.floor(hour)}:${String(Math.round((hour%1)*60)).padStart(2,'0')}`;
+    });
+    btn.disabled = false;
+    updateSun();
+  });
+}
+
+// PV estimate modal
+document.getElementById('pvBtn').addEventListener('click', () => {
+  const pv = viewer.pvEstimate();
+  if (!pv) { alert('このプランには太陽光パネルが設定されていません。'); return; }
+  const summary = document.getElementById('pvSummary');
+  summary.innerHTML = `
+    <b>${pv.totalKW.toFixed(1)} kW システム</b> (${pv.panelCount}枚 × 400W)<br>
+    年間発電量: <b style="color:#1a6b3a">${Math.round(pv.annualKWh).toLocaleString()} kWh</b>
+    自家消費価値: <b>${yenFmt(pv.annualValue)}/年</b><br>
+    投資回収目安: 約 ${(pv.totalKW * 200000 / pv.annualValue).toFixed(1)} 年
+    <span style="opacity:.5;font-size:10px">（システム¥20万/kW想定）</span>
+  `;
+  // chart
+  const chart = document.getElementById('pvChart');
+  chart.innerHTML = '';
+  const max = Math.max(...pv.monthly);
+  for (const m of pv.monthly) {
+    const bar = document.createElement('div');
+    bar.style.cssText = `flex:1;background:linear-gradient(to top,#c8a455,#e0c46b);border-radius:2px 2px 0 0;height:${(m/max*100)}%;position:relative;min-height:2px`;
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'position:absolute;top:-14px;left:0;right:0;text-align:center;font-size:8px;color:#444';
+    lbl.textContent = Math.round(m);
+    bar.appendChild(lbl);
+    chart.appendChild(bar);
+  }
+  document.getElementById('pvModal').style.display = 'flex';
+});
+document.getElementById('pvClose').addEventListener('click', () => {
+  document.getElementById('pvModal').style.display = 'none';
+});
 
 // ─── Energy/UA modal ───
 document.getElementById('energyBtn').addEventListener('click', () => {

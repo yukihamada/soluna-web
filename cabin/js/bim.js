@@ -1876,6 +1876,59 @@ export function createViewer(container, opts = {}) {
     return {UA, totalArea, elements, grade};
   }
 
+  // ── 年間PV発電量計算 (kWh/year) ──
+  // 弟子屈の月別水平面日射量 (NEDO MONSOLA-11, MJ/m²/day)
+  // 北海道道東・道北エリアの代表値
+  function pvEstimate() {
+    const items = takeoff();
+    const pv = items.find(r => r.itemId === 'pv_panel');
+    if (!pv) return null;
+    const panelCount = pv.count;
+    const wattPerPanel = 400;                    // 400W
+    const totalKW = panelCount * wattPerPanel / 1000;
+    // Hokkaido east monthly insolation (MJ/m²/day, source: NEDO 2024)
+    const monthlyMJ = [9.0, 11.5, 14.5, 16.0, 17.0, 16.5, 15.5, 15.0, 13.5, 11.0, 8.5, 7.5];
+    const days = [31,28,31,30,31,30,31,31,30,31,30,31];
+    const tilt = (currentPlan && !currentPlan.dome && currentPlan.roofType === 'gable') ? 0.95 : 0.85; // tilt factor
+    const efficiency = 0.78;                     // PCS + cable + soil
+    const monthly = monthlyMJ.map((mj, i) => {
+      // MJ/m²/day → kWh/m²/day → kWh per panel (1.95 m²) → totalKW
+      const kWhPerKWday = mj / 3.6 * tilt * efficiency;       // PR factor
+      return kWhPerKWday * totalKW * days[i];
+    });
+    const annualKWh = monthly.reduce((s, m) => s + m, 0);
+    const tariff = 35;                           // ¥/kWh self-consumption
+    return {panelCount, totalKW, monthly, annualKWh, annualValue: annualKWh * tariff, tariff};
+  }
+
+  // ── 日影アニメ: 冬至・春分・夏至の太陽軌道を時間軸で再生 ──
+  function playSunCycle(season = 'winter', durationMs = 8000, onTick) {
+    const seasons = {
+      winter: 12,        // Dec
+      spring: 3,         // Mar
+      summer: 6,         // Jun
+      autumn: 9,         // Sep
+    };
+    const month = seasons[season] || 3;
+    const start = performance.now();
+    const startHour = 6, endHour = 18;
+    return new Promise(resolve => {
+      function tick() {
+        const t = (performance.now() - start) / durationMs;
+        const hour = startHour + t * (endHour - startHour);
+        if (t >= 1) {
+          setSunPosition(12, month);
+          if (onTick) onTick({hour: 12, month, done: true});
+          return resolve();
+        }
+        const r = setSunPosition(hour, month);
+        if (onTick) onTick({hour, month, elev: r.elev, azim: r.azim});
+        requestAnimationFrame(tick);
+      }
+      tick();
+    });
+  }
+
   // ── 太陽位置を時刻・季節で更新 ──
   function setSunPosition(hour, month) {
     // Simplified: latitude 43.5 (Teshikaga), declination by month
@@ -1913,7 +1966,7 @@ export function createViewer(container, opts = {}) {
     applyPreset, applyOverrides, setEnvironment,
     setInteriorMode, isInteriorMode,
     onElementClick, takeoff, softCosts, uaValue, setPhase, playConstructionSequence, getPhases,
-    setSunPosition,
+    setSunPosition, pvEstimate, playSunCycle,
     getPlan: () => currentPlan,
   };
 }
