@@ -85,7 +85,8 @@ h2{font-size:clamp(1.5rem,3.5vw,2.3rem);font-weight:800;letter-spacing:-.03em;li
 .bar-track{background:rgba(255,255,255,.05);border-radius:3px;height:14px;overflow:hidden}
 .bar-fill{height:100%;border-radius:3px;transition:width 1.1s cubic-bezier(.25,.46,.45,.94)}
 .bar-val{font-size:12px;font-weight:700;text-align:right;white-space:nowrap}
-.cost-boxes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.cost-boxes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:980px){.cost-boxes{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.cost-boxes{grid-template-columns:1fr}}
 .cbox{padding:18px 22px;border-radius:12px}
 .cbox-gold{background:rgba(200,164,85,.07);border:1px solid rgba(200,164,85,.2)}
@@ -390,10 +391,14 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
   <div class="hero-body">
     <p class="eyebrow">SOLUNA BUILD GUIDE — 小屋から300m²施設までゼロから建てる</p>
     <h1>SIPsキャビン<br><em>完全建設ガイド</em></h1>
-    <p class="hero-sub">14m²の週末小屋から300m²のリトリート施設まで8プラン。SIPs 910×1820mm 2枚積みで天井高3,000mm超——山小屋とは思えない縦の開放感。設計図・材料費・補助金まで全公開。</p>
+    <p class="hero-sub">14m²の週末小屋から500m²のリトリート施設まで9プラン。SIPs 910×1820mm 2枚積みで天井高3,000mm超。<strong style="color:#fff">DIY参加 / 共同所有 / 工務店フル の3ルート</strong> から選べます。</p>
     <div class="hcta">
-      <a class="btn btng" href="#plan-select">プランを選ぶ</a>
-      <a class="btn btngh" href="#cost">コストを見る</a>
+      <a class="btn btng" href="mailto:info@solun.art?subject=SOLUNA BUILD 組立体験ワークショップ参加希望&body=・希望日時(候補3つ)：%0A・参加人数：%0A・興味のあるプラン：%0A・現状(土地あり/なし)：">🔨 弟子屈・組立体験ワークショップ申込</a>
+      <a class="btn btngh" href="mailto:info@solun.art?subject=SOLUNA BUILD 資料請求&body=・お名前：%0A・郵送先住所：%0A・電話番号：%0A・興味のあるプラン：">📦 郵送パンフ請求(無料)</a>
+      <a class="btn btngh" href="#plan-select">プランを見る →</a>
+    </div>
+    <div style="margin-top:14px;font-size:11.5px;color:rgba(237,233,225,.5);line-height:1.7">
+      ✅ 弟子屈で月1回・組立体験会 ¥0 ✅ 30分オンライン相談OK ✅ 設計図DXF/JWW無料配布
     </div>
   </div>
 </div>
@@ -439,12 +444,22 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
     <div class="bar-chart r" id="barChart"></div>
     <div class="cost-boxes r">
       <div class="cbox cbox-gold">
-        <div class="cbox-l">材料費合計（プレカット・配送込み）</div>
+        <div class="cbox-l">① 材料費（プレカット・配送込み）</div>
         <div class="cbox-v" id="costTotal" style="color:var(--gold)"></div>
         <div class="cbox-s">工具・仮設レンタル¥15〜30万 別途</div>
       </div>
+      <div class="cbox" style="border-color:rgba(200,144,32,.25);background:rgba(200,144,32,.04)">
+        <div class="cbox-l">② セルフビルド全部入り総額</div>
+        <div class="cbox-v" id="costAllIn" style="color:#c89020"></div>
+        <div class="cbox-s">①+ 基礎/上下水/電気/工具/諸費用 (土地代除く)</div>
+      </div>
+      <div class="cbox" style="border-color:rgba(96,128,192,.25);background:rgba(96,128,192,.04)">
+        <div class="cbox-l">③ 工務店フル依頼</div>
+        <div class="cbox-v" id="costContractor" style="color:#80a0c8"></div>
+        <div class="cbox-s">設計+施工+保証フル・最も安心ルート</div>
+      </div>
       <div class="cbox cbox-green">
-        <div class="cbox-l">補助金フル活用後（子育て世帯・弟子屈）</div>
+        <div class="cbox-l">④ 補助金フル活用後（子育て世帯・弟子屈）</div>
         <div class="cbox-v" id="costAfterSubsidy" style="color:rgba(80,200,160,.9)"></div>
         <div class="cbox-s">移住¥100万 + 子育て¥50万 + 道省エネ¥25万 <span class="warn">※要確認</span></div>
       </div>
@@ -458,6 +473,32 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
     </div>
     <div class="route-grid r" id="routeGrid"></div>
     <div class="regional-note r" id="regionalNote" style="display:none"></div>
+
+    <!-- ROUTE COMPARISON: 3つの建て方 -->
+    <div class="route-compare r" style="margin-top:36px;border-top:1px solid rgba(237,233,225,.08);padding-top:36px">
+      <p class="lbl" style="margin-bottom:6px">3 BUILD ROUTES</p>
+      <h3 style="font-size:24px;font-weight:600;letter-spacing:.02em;margin-bottom:8px">3つの建て方から選ぶ</h3>
+      <p style="font-size:13.5px;color:rgba(237,233,225,.55);margin-bottom:24px;line-height:1.8">DIY未経験でも建てられます。SOLUNA BUILD の全プランは「あなたの参加度」で3つのルートを選択可能。</p>
+      <div class="rc-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px" id="routeCompare3"></div>
+      <div style="margin-top:18px;padding:16px;background:rgba(80,200,160,.06);border:1px solid rgba(80,200,160,.2);border-radius:10px;font-size:12.5px;color:rgba(237,233,225,.7);line-height:1.8">
+        💡 <strong style="color:rgba(80,200,160,.9)">迷ったら ②SOLUNA共同所有/ワークパーティー</strong> がおすすめ。複数家族で1棟をシェア、または有志10名で施工に参加。<strong>1家族あたりの負担は 1/3〜1/5に圧縮</strong>、SOLUNAビレッジのコミュニティで季節ごとに利用できます。
+      </div>
+    </div>
+    <style>
+      .rc3-card{padding:20px 16px;border-radius:14px;background:rgba(20,20,22,.6);border:1px solid rgba(237,233,225,.08);position:relative}
+      .rc3-card.rc3-pick{border-color:rgba(80,200,160,.45);background:rgba(80,200,160,.05)}
+      .rc3-rank{font-size:9px;letter-spacing:.15em;color:rgba(237,233,225,.4);margin-bottom:6px}
+      .rc3-name{font-size:17px;font-weight:600;margin-bottom:4px}
+      .rc3-target{font-size:11px;color:rgba(237,233,225,.5);margin-bottom:14px;line-height:1.6}
+      .rc3-cost{font-size:22px;font-weight:600;margin-bottom:4px}
+      .rc3-cost-s{font-size:10.5px;color:rgba(237,233,225,.45);margin-bottom:14px}
+      .rc3-list{list-style:none;padding:0;margin:0;font-size:11.5px;color:rgba(237,233,225,.7);line-height:1.85}
+      .rc3-list li{padding:3px 0 3px 18px;position:relative}
+      .rc3-list li::before{content:"✓";position:absolute;left:0;color:rgba(80,200,160,.7)}
+      .rc3-pick-badge{position:absolute;top:-9px;right:14px;background:rgba(80,200,160,.85);color:#0a0a0a;font-size:9.5px;padding:3px 9px;border-radius:10px;font-weight:600;letter-spacing:.05em}
+      @media(max-width:780px){.rc-grid{grid-template-columns:1fr!important}}
+    </style>
+
     <div class="land-cta r">
       <div>
         <div class="land-cta-t">🗾 全国どこでも建てられます</div>
@@ -764,6 +805,55 @@ footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center}
   </div>
 </section>
 
+<!-- TRUST & FINANCE -->
+<section class="s" id="trust" style="background:rgba(20,20,22,.4)">
+  <div class="w">
+    <p class="lbl r">TRUST &amp; FINANCE</p>
+    <h2 class="r">保証・住宅ローン・共同所有スキーム</h2>
+    <p class="sub r">SOLUNAは「DIYで終わり」ではなく、<strong style="color:#e0e0e0">10年瑕疵保証・別荘ローン・冬季管理・共同所有スキーム</strong> まで一緒に考えます。</p>
+    <div class="trust-grid r">
+      <div class="trust-card">
+        <div class="trust-ico">🛡️</div>
+        <div class="trust-amt">10年</div>
+        <div class="trust-nm">住宅瑕疵担保責任保険</div>
+        <div class="trust-cn">セルフビルドでも建築士監修プランなら加入可能。<strong style="color:rgba(237,233,225,.7)">構造躯体・防水10年保証</strong>。工務店ルート（ROUTE ③）は標準加入、ローン審査の必須要件です。</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-ico">🏦</div>
+        <div class="trust-amt">提携</div>
+        <div class="trust-nm">別荘ローン・住宅ローン提携</div>
+        <div class="trust-cn"><strong style="color:rgba(237,233,225,.7)">北洋銀行・北海道銀行</strong>（地銀・別荘融資強い）／<strong style="color:rgba(237,233,225,.7)">フラット35S</strong>（セカンドハウスは要件確認）／<strong style="color:rgba(237,233,225,.7)">ARUHI</strong>（自営業対応）。リバースモーゲージも相談可能。</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-ico">🤝</div>
+        <div class="trust-amt">1/3〜1/5</div>
+        <div class="trust-nm">SOLUNA共同所有スキーム</div>
+        <div class="trust-cn">3〜5家族で1棟を共同所有。建設・運用・清掃・予約管理を SOLUNA が一括代行。<strong style="color:rgba(237,233,225,.7)">1家族あたり ¥800〜1,500万から別荘オーナーに</strong>。美留和ビレッジ・KUMAUSHI BASE のコミュニティ参加も。</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-ico">❄️</div>
+        <div class="trust-amt">月¥3万〜</div>
+        <div class="trust-nm">冬季管理・遠隔監視</div>
+        <div class="trust-cn">不在中の凍結対策（凍結防止帯+水抜き+遠隔温度監視）／除雪委託（月3〜5回）／屋根雪下ろし（年2回）／薪ストーブ煙突清掃。共働き二拠点世帯の最大不安を解消します。</div>
+      </div>
+    </div>
+    <div class="trust-note r">
+      <p style="font-size:12px;color:rgba(237,233,225,.55);line-height:1.9">※ 別荘・セカンドハウス融資は通常の住宅ローンより金利・LTVが厳しめです。SOLUNA共同所有スキーム（ROUTE ②）は登記・税金・ローンを SOLUNA 側が窓口になるため、個人で組むより条件が良くなる場合があります。</p>
+    </div>
+  </div>
+</section>
+<style>
+  .trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+  @media(max-width:980px){.trust-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.trust-grid{grid-template-columns:1fr}}
+  .trust-card{padding:22px 18px;border-radius:14px;background:rgba(8,8,10,.7);border:1px solid rgba(237,233,225,.08)}
+  .trust-ico{font-size:30px;margin-bottom:10px}
+  .trust-amt{font-size:24px;font-weight:700;color:rgba(237,233,225,.95);letter-spacing:.02em;margin-bottom:6px}
+  .trust-nm{font-size:13px;color:rgba(237,233,225,.85);font-weight:600;margin-bottom:10px}
+  .trust-cn{font-size:11.5px;color:rgba(237,233,225,.55);line-height:1.85}
+  .trust-note{padding:14px 16px;border-radius:10px;background:rgba(237,233,225,.03);border:1px solid rgba(237,233,225,.06)}
+</style>
+
 <!-- FAQ -->
 <section class="s" id="faq">
   <div class="w">
@@ -968,9 +1058,71 @@ function renderCost() {
     </div>`;
   }).join('');
 
-  const after = Math.max(0, p.totalMat - 2350000);
+  // 4列の cost-boxes を埋める
+  const _sub = p.subsidyMax || 2350000;
+  const after = Math.max(0, p.totalMat - _sub);
+  // 全部入り（土地代除く）= 材料費 + 諸費用上限 (面積ベース)
+  const ALLIN_ADD_BY_AREA = p.area < 25 ? 800000 : p.area < 50 ? 1500000 : p.area < 100 ? 2500000 : p.area < 150 ? 3500000 : p.area < 250 ? 5000000 : 8000000;
+  const allIn = p.totalMat + ALLIN_ADD_BY_AREA;
+  // 工務店フル依頼 = routes から「工務店」を含むものを抽出
+  const contractorRoute = (p.routes || []).find(r => r.name && r.name.includes('工務店'));
+  const contractorCost = contractorRoute ? contractorRoute.cost : Math.round(p.totalMat * 1.7);
   document.getElementById('costTotal').textContent = fmt(p.totalMat);
+  const allInEl = document.getElementById('costAllIn');
+  if (allInEl) allInEl.textContent = fmt(allIn);
+  const conEl = document.getElementById('costContractor');
+  if (conEl) conEl.textContent = fmt(contractorCost);
   document.getElementById('costAfterSubsidy').textContent = after === 0 ? '実質 ¥0〜' : fmt(after);
+
+  // 3 ROUTES COMPARE (BUILD)
+  const middleCost = Math.round((p.totalMat + contractorCost) * 0.55);
+  const sharedCost = Math.round(allIn / 3);
+  const rc3El = document.getElementById('routeCompare3');
+  if (rc3El) {
+    rc3El.innerHTML = `
+      <div class="rc3-card">
+        <div class="rc3-rank">ROUTE ① · DIY最安</div>
+        <div class="rc3-name">セルフビルド+ワークパーティー</div>
+        <div class="rc3-target">対象: 大工道具コレクター / 別荘DIY / 工期に余裕</div>
+        <div class="rc3-cost" style="color:var(--gold)">${fmt(allIn)}</div>
+        <div class="rc3-cost-s">材料費 + 諸費用込み（土地除く）</div>
+        <ul class="rc3-list">
+          <li>SOLUNAワークパーティー(参加者相互扶助)で材料費のみ</li>
+          <li>建築確認は10m²未満なら不要・以上は外注</li>
+          <li>工期 ${p.weeks}〜${Math.round(p.weeks*2)}週間（経験者参加時）</li>
+          <li>毎月1回・組立体験会で技術習得</li>
+        </ul>
+      </div>
+      <div class="rc3-card rc3-pick">
+        <div class="rc3-pick-badge">RECOMMENDED</div>
+        <div class="rc3-rank">ROUTE ② · 共同所有</div>
+        <div class="rc3-name">SOLUNA共同所有プラン</div>
+        <div class="rc3-target">対象: 別荘ライト層 / 子育て世代 / 月数日利用</div>
+        <div class="rc3-cost" style="color:rgba(80,200,160,.9)">${fmt(sharedCost)}〜</div>
+        <div class="rc3-cost-s">3〜5組で1棟シェア / 1組あたり負担額</div>
+        <ul class="rc3-list">
+          <li>3〜5家族で1棟を共同所有・予約制で利用</li>
+          <li>建設・運用・清掃を SOLUNA が一括代行</li>
+          <li>美留和ビレッジ・KUMAUSHI BASE のコミュニティ参加</li>
+          <li>登記・税金・ローン・保証もSOLUNAが対応</li>
+          <li>季節ごとに利用 (夏=家族、冬=リトリート等)</li>
+        </ul>
+      </div>
+      <div class="rc3-card">
+        <div class="rc3-rank">ROUTE ③ · プロ完全依頼</div>
+        <div class="rc3-name">工務店フルパッケージ</div>
+        <div class="rc3-target">対象: 1棟丸ごと所有 / 安心最優先 / 多忙</div>
+        <div class="rc3-cost" style="color:#80a0c8">${fmt(contractorCost)}</div>
+        <div class="rc3-cost-s">設計+施工+保証フル / 引き渡しまでおまかせ</div>
+        <ul class="rc3-list">
+          <li>地元工務店(弟子屈・帯広・釧路等)から選定</li>
+          <li>工期 ${Math.round(p.weeks*0.7)}〜${Math.round(p.weeks*0.9)}週間</li>
+          <li>10年瑕疵保証+30年メンテナンス契約可</li>
+          <li>住宅ローン提携 (北海道銀行・北洋銀行)</li>
+          <li>冬季の凍結対策・遠隔監視オプション付</li>
+        </ul>
+      </div>`;
+  }
   document.getElementById('routeGrid').innerHTML = p.routes.map(r =>
     `<div class="route-card ${r.hi?'rc-hi':''} ${r.gr?'rc-gr':''}">
       <div class="rc-name">${r.name}</div>
