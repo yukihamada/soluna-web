@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="robots" content="noindex"/>
+<title>設計図ダウンロード | SOLUNA Members</title>
+<meta property="og:title" content="設計図ダウンロード | SOLUNA Members"/>
+<style>
+:root{--bg:#070707;--ink:#ede9e1;--gold:#c8a455;--gold-dim:rgba(200,164,85,.5);--green:rgba(80,200,160,.9)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7}
+a{color:var(--gold);text-decoration:none}
+.wrap{max-width:920px;margin:0 auto;padding:60px 24px 100px}
+.eyebrow{font-size:11px;letter-spacing:.18em;color:rgba(237,233,225,.45);text-transform:uppercase;margin:0 0 14px}
+h1{font-size:34px;font-weight:600;letter-spacing:.02em;margin:0 0 14px;line-height:1.3}
+.sub{font-size:14.5px;color:rgba(237,233,225,.65);max-width:620px;margin:0 0 40px;line-height:1.85}
+.card{padding:28px 24px;border-radius:14px;background:rgba(20,20,22,.55);border:1px solid rgba(237,233,225,.08);margin-bottom:18px}
+.card h3{font-size:18px;font-weight:600;margin:0 0 8px;color:var(--ink)}
+.card p{font-size:13.5px;color:rgba(237,233,225,.7);margin:0 0 14px;line-height:1.85}
+.btn{display:inline-block;padding:12px 22px;border-radius:8px;font-size:13.5px;font-weight:600;letter-spacing:.02em;text-decoration:none;cursor:pointer;border:none}
+.btn-gold{background:var(--gold);color:#0a0a0a}
+.btn-ghost{border:1px solid var(--gold-dim);color:var(--gold);background:transparent}
+.dl-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}
+@media(max-width:640px){.dl-grid{grid-template-columns:1fr}}
+.dl-card{padding:18px 16px;border-radius:10px;background:rgba(8,8,10,.7);border:1px solid rgba(237,233,225,.08)}
+.dl-name{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.dl-meta{font-size:11px;color:rgba(237,233,225,.4);margin-bottom:12px}
+.dl-files{font-size:12px;color:rgba(237,233,225,.55);line-height:1.85;margin-bottom:14px}
+.dl-files li{margin-left:18px}
+.warn{padding:14px 16px;border-radius:10px;background:rgba(240,160,50,.08);border:1px solid rgba(240,160,50,.25);color:rgba(240,200,150,.85);font-size:12.5px;line-height:1.85;margin-bottom:24px}
+.note{font-size:11.5px;color:rgba(237,233,225,.4);margin-top:32px;line-height:1.85}
+.foot{margin-top:80px;padding-top:30px;border-top:1px solid rgba(237,233,225,.08);font-size:11px;color:rgba(237,233,225,.3);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">SOLUNA MEMBERS · DRAWINGS</p>
+  <h1>設計図ダウンロード</h1>
+  <p class="sub">SOLUNA BUILD / URBAN 全プランの DXF / JWW / PDF 設計図一式。会員登録（無料・メール認証のみ）後にダウンロードできます。</p>
+
+  <div id="loading" class="card">
+    <p style="margin:0">読み込み中...</p>
+  </div>
+
+  <div id="loggedOut" class="card" style="display:none">
+    <h3>🔒 会員ログインが必要です</h3>
+    <p>SOLUNA設計図はメンバー限定で配布しています。メールアドレスのみで会員登録（無料）できます。<br>登録後すぐにDXF / JWW / PDF をダウンロード可能になります。</p>
+    <a class="btn btn-gold" href="/app?next=/drawings">📧 メールで会員登録 / ログイン →</a>
+    <p style="font-size:11.5px;color:rgba(237,233,225,.4);margin-top:18px">※ 既に会員の方も同じボタンからログインできます。</p>
+  </div>
+
+  <div id="loggedIn" style="display:none">
+    <div class="warn">⚠️ 設計図は <strong>個人利用・施主による建設準備の目的</strong> に限定して配布しています。商用転売・無断再配布は禁止です。プレカット業者への提出は問題ありません。</div>
+
+    <div class="card">
+      <h3>SOLUNA BUILD（鄙シリーズ・9プラン）</h3>
+      <p>北海道弟子屈・別荘地での建設前提。SIPs+集成材ハイブリッド、オフグリッド対応、HEAT20 G3 仕様。</p>
+      <div class="dl-grid" id="buildList"></div>
+    </div>
+
+    <div class="card">
+      <h3>SOLUNA URBAN（都市シリーズ・7プラン）</h3>
+      <p>都市の準防火/防火地域での建設前提。SIPs+ALC耐火被覆、系統連系・上下水道・都市ガス、ZEH対応。</p>
+      <div class="dl-grid" id="urbanList"></div>
+    </div>
+
+    <p class="note">※ 各プラン PDF（平面図・立面図・矩計図）+ DXF（プレカット業者提出用） + JWW（建築士提出用）を含むzipです。標準仕様の参考図です。土地・敷地条件に合わせた最終図面は建築士による作成が必要です。<br>※ ダウンロード時に、利用目的を任意でお伺いするフォームが表示される場合があります。</p>
+  </div>
+
+  <div class="foot">© SOLUNA合同会社 · <a href="/build">/build</a> · <a href="/urban">/urban</a> · <a href="/app">会員ページ</a></div>
+</div>
+
+<script>
+const BUILD_PLANS = [
+  {id:"mini",       name:"MEBUKI（萌芽）",  area:"14m²",  weeks:"5週", note:"ミニマム週末小屋"},
+  {id:"standard",   name:"SU（巣）",        area:"24.8m²", weeks:"8週", note:"単身完全生活"},
+  {id:"dome",       name:"TAMA（玉）",      area:"40m²",  weeks:"6週", note:"ジオデシックドーム"},
+  {id:"large",      name:"AN（庵）",        area:"40m²",  weeks:"12週", note:"家族最小限"},
+  {id:"xl",         name:"MUNE（棟）",      area:"66m²",  weeks:"18週", note:"2世帯/シェア"},
+  {id:"villa",      name:"VILLA",           area:"120m²", weeks:"30週", note:"本格別荘"},
+  {id:"grand",      name:"GRAND",           area:"200m²", weeks:"40週", note:"2階建て大型"},
+  {id:"myth",       name:"MYTH（神話）",    area:"300m²", weeks:"52週", note:"リトリート施設"},
+  {id:"kosmos",     name:"KOSMOS（コスモス）",area:"500m²",weeks:"75週", note:"中規模合宿"},
+];
+const URBAN_PLANS = [
+  {id:"pod",        name:"POD",             area:"25m²",  weeks:"16週", note:"都市ワンルーム"},
+  {id:"stack",      name:"STACK",           area:"75m²",  weeks:"28週", note:"都市2階建て"},
+  {id:"flat",       name:"FLAT",            area:"95m²",  weeks:"28週", note:"郊外平屋"},
+  {id:"tower",      name:"TOWER",           area:"130m²", weeks:"45週", note:"3階建て賃貸併用"},
+  {id:"duo",        name:"DUO",             area:"160m²", weeks:"40週", note:"二世帯同居"},
+  {id:"yield",      name:"YIELD",           area:"180m²", weeks:"50週", note:"投資用1K×6"},
+  {id:"roots",      name:"ROOTS",           area:"60m²",  weeks:"22週", note:"終の住処バリアフリー"},
+];
+
+function fmtCard(p, series) {
+  return `<div class="dl-card">
+    <div class="dl-name">${p.name}</div>
+    <div class="dl-meta">${p.area} · ${p.weeks}間 · ${p.note}</div>
+    <ul class="dl-files">
+      <li>平面図・立面図・矩計図 (PDF)</li>
+      <li>プレカット用 (DXF)</li>
+      <li>建築士提出用 (JWW)</li>
+    </ul>
+    <a class="btn btn-ghost" href="mailto:info@solun.art?subject=SOLUNA ${series.toUpperCase()} ${p.id} 設計図請求&body=会員ID:%0Aプラン:${p.name}%0A利用目的(任意):">📥 ダウンロード申請</a>
+  </div>`;
+}
+
+async function init() {
+  const token = localStorage.getItem('sln_token');
+  if (!token) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('loggedOut').style.display = '';
+    return;
+  }
+  // verify token
+  try {
+    const r = await fetch('/api/soluna/me', { headers: { 'Authorization': 'Bearer ' + token } });
+    if (!r.ok) throw new Error('auth fail');
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('loggedIn').style.display = '';
+    document.getElementById('buildList').innerHTML = BUILD_PLANS.map(p => fmtCard(p, 'build')).join('');
+    document.getElementById('urbanList').innerHTML = URBAN_PLANS.map(p => fmtCard(p, 'urban')).join('');
+  } catch (e) {
+    localStorage.removeItem('sln_token');
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('loggedOut').style.display = '';
+  }
+}
+init();
+</script>
+</body>
+</html>
