@@ -395,24 +395,37 @@ function buildRoof(plan) {
   const eaveY = baseY + stories * storyH;
 
   if (plan.roofType === 'flat') {
-    // Parapet + roof slab (with overhang)
-    const slab = box(W + EAVE_OUT*2, 0.10, D + EAVE_OUT*2, MATS.steel);
-    slab.position.set(0, eaveY + 0.05, 0);
+    // Roof slab — positioned above the structure top slab (FFL+200) to cover it
+    const slab = box(W + EAVE_OUT, 0.10, D + EAVE_OUT, MATS.steel);
+    slab.position.set(0, eaveY + 0.25, 0);
     g.add(slab);
     g.add(edge(slab));
-    const parapet = box(W + 0.06, 0.45, D + 0.06, MATS.steel);
-    parapet.position.set(0, eaveY + 0.225, 0);
-    parapet.geometry = new THREE.BoxGeometry(W + 0.06, 0.45, D + 0.06);
-    g.add(parapet);
-    // Hollow center for parapet (looks like a frame from above)
-    const inner = box(W - 0.10, 0.46, D - 0.10, MATS.cedar);
-    inner.position.set(0, eaveY + 0.225, 0);
-    g.add(inner);
+    // Parapet (4 thin walls only, hollow center)
+    const pH = 0.45, pT = 0.10;
+    const sides = [
+      {w: W + EAVE_OUT, h: pH, d: pT, x: 0, z:  D/2 + EAVE_OUT/2 - pT/2},
+      {w: W + EAVE_OUT, h: pH, d: pT, x: 0, z: -D/2 - EAVE_OUT/2 + pT/2},
+      {w: pT, h: pH, d: D + EAVE_OUT - pT*2, x:  W/2 + EAVE_OUT/2 - pT/2, z: 0},
+      {w: pT, h: pH, d: D + EAVE_OUT - pT*2, x: -W/2 - EAVE_OUT/2 + pT/2, z: 0},
+    ];
+    for (const s of sides) {
+      const m = box(s.w, s.h, s.d, MATS.steel);
+      m.position.set(s.x, eaveY + 0.30 + pH/2, s.z);
+      g.add(m);
+      g.add(edge(m, COLORS.line, 0.5));
+    }
     if (plan.rooftopTerrace) {
-      // Cedar deck on top + railing
+      // Cedar deck on top + simple railing
       const deck = box(W - 0.4, 0.05, D - 0.4, MATS.deck);
-      deck.position.set(0, eaveY + 0.46, 0);
+      deck.position.set(0, eaveY + 0.33, 0);
       g.add(deck);
+      // Railing posts
+      const rH = 1.10;
+      for (const [x, z] of [[ W/2 - 0.3, 0], [-W/2 + 0.3, 0], [0,  D/2 - 0.3], [0, -D/2 + 0.3]]) {
+        const post = box(0.05, rH, 0.05, MATS.cedar);
+        post.position.set(x, eaveY + 0.30 + rH/2, z);
+        g.add(post);
+      }
     }
     return g;
   }
@@ -945,9 +958,14 @@ export function createViewer(container, opts = {}) {
     const pitch = currentPlan.roofPitch || 0.25;
     const ridgeH = currentPlan.dome ? Math.max(W,D)/2*0.95 : (currentPlan.roofType === 'gable' ? (D/2 + EAVE_OUT) * pitch : 0.45);
     const totalH = H + ridgeH;
-    const r = Math.max(W + EAVE_OUT*2, D + EAVE_OUT*2, totalH) * 1.9;
-    camera.position.set(r * 0.7, r * 0.5, r * 0.7);
-    controls.target.set(0, totalH * 0.4, 0);
+    const widest = Math.max(W + EAVE_OUT*2, D + EAVE_OUT*2);
+    // Fit: distance proportional to building's largest extent + height contribution
+    const fov = camera.fov * Math.PI / 180;
+    const dHoriz = (widest * 1.55) / (2 * Math.tan(fov / 2));
+    const dVert  = (totalH * 1.45) / (2 * Math.tan(fov / 2));
+    const r = Math.max(dHoriz, dVert) * 1.05;
+    camera.position.set(r * 0.65, r * 0.45, r * 0.65);
+    controls.target.set(0, totalH * 0.42, 0);
     controls.update();
   }
 
@@ -982,12 +1000,17 @@ export function createViewer(container, opts = {}) {
     const W = currentPlan.W * MM, D = currentPlan.D * MM;
     const stories = currentPlan.stories || 1;
     const H = (currentPlan.H || 3000) * MM * stories + (currentPlan.pilotis ? 2.4 : 0) + FL_OFFSET;
-    const r = Math.max(W, D, H);
-    if (view === 'iso') camera.position.set(r * 0.85, r * 0.55, r * 0.85);
-    else if (view === 'front') camera.position.set(0, H * 0.55, r * 1.45);
-    else if (view === 'side') camera.position.set(r * 1.45, H * 0.55, 0);
-    else if (view === 'top') camera.position.set(0.001, r * 1.7, 0.001);
-    controls.target.set(0, H * 0.4, 0);
+    const pitch = currentPlan.roofPitch || 0.25;
+    const ridgeH = currentPlan.dome ? Math.max(W,D)/2*0.95 : (currentPlan.roofType === 'gable' ? (D/2 + EAVE_OUT) * pitch : 0.45);
+    const totalH = H + ridgeH;
+    const widest = Math.max(W + EAVE_OUT*2, D + EAVE_OUT*2);
+    const fov = camera.fov * Math.PI / 180;
+    const dist = Math.max(widest * 1.55, totalH * 1.45) / (2 * Math.tan(fov / 2)) * 1.1;
+    if (view === 'iso')        camera.position.set(dist * 0.65, dist * 0.45, dist * 0.65);
+    else if (view === 'front') camera.position.set(0, totalH * 0.55, dist * 0.95);
+    else if (view === 'side')  camera.position.set(dist * 0.95, totalH * 0.55, 0);
+    else if (view === 'top')   camera.position.set(0.001, dist * 1.1, 0.001);
+    controls.target.set(0, totalH * 0.42, 0);
     controls.update();
   }
 
