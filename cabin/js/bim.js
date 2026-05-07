@@ -1091,23 +1091,30 @@ function buildRoof(plan) {
     g.add(roof);
     g.add(edge(roof, COLORS.line, 0.45));
 
-    // East/West side gable-fill — right triangle: south-low, north-high
-    // The wall stops at eaveY; the roof underside slopes up north-ward,
-    // so the gap between wall-top and roof-underside is a triangle that
-    // peaks at the north wall (height = dropH * D / run).
+    // ── 妻側 (east/west) と 北側壁の上部 — gap-fill above wall top ──
+    // Mono roof: 南低・北高 → 妻壁は直角三角形、北壁は矩形帯で gap を埋める
     const sideTriH = dropH * (D / run);
+
+    // East/West right-triangle (south-low, north-high). Rotate Y -π/2 so local +X → world +Z.
+    const fillMat = MATS.yakisugi || MATS.steel;
     for (const xSign of [1, -1]) {
       const shape = new THREE.Shape();
-      shape.moveTo( D/2, 0);                      // south-low corner (zero rise)
+      shape.moveTo( D/2, 0);                      // south corner at wall top
       shape.lineTo(-D/2, 0);                      // north corner at wall top
       shape.lineTo(-D/2, sideTriH);               // north corner at roof underside
       shape.closePath();
-      const tri = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, {depth: 0.02, bevelEnabled: false}), MATS.steel);
-      tri.rotation.y = Math.PI / 2;
-      tri.position.set(xSign * (W/2 - 0.01), eaveY, 0);
+      const tri = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, {depth: 0.02, bevelEnabled: false}), fillMat);
+      tri.rotation.y = -Math.PI / 2;              // local +X → world +Z (south)
+      tri.position.set(xSign * (W/2 + 0.005), eaveY, 0);
       g.add(tri);
       g.add(edge(tri, COLORS.line, 0.6));
     }
+
+    // 北壁上部の矩形帯 — 北壁から屋根裏面まで (高さ = sideTriH)
+    const nExt = box(W + 0.01, sideTriH, 0.02, fillMat);
+    nExt.position.set(0, eaveY + sideTriH/2, -D/2 - 0.005);
+    g.add(nExt);
+    g.add(edge(nExt, COLORS.line, 0.5));
 
     // 雨樋 — only at the LOW side (south)
     const gutter = box(roofW, 0.06, 0.10, MATS.steelDark);
