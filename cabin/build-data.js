@@ -1508,6 +1508,220 @@ window.BUILD_PLANS = [
       <text x="20" y="8" fill="#c89020" font-size="8" font-weight="bold">MYTH — 南立面（2階建て・28名収容）</text>
     </svg>`,
   },
+  // ===== KOSMOS (500m²) =====
+  {
+    id: "kosmos",
+    name: "KOSMOS",
+    label: "500m²",
+    area: 500,
+    dims: "W 22,000 × D 11,000 mm（2階建て）",
+    weeks: 75,
+    tag: "中規模リトリート・合宿施設",
+    tagColor: "#20a8c0",
+    desc: "500m²はもう「家」ではなく「施設」。1F食堂ホール150m²+大浴場+サウナ+ライブラリ、2F個室22室と共用ラウンジ。50名が3泊4日のリトリートを過ごせる規模。SIPs単体では強度不足になるため集成材ハイブリッド構造に切り替え、建築士の設計+構造計算+消防設計を前提とする。セルフビルドの度合いは下がるが、内装・断熱・電気の一部は施主主導が可能。",
+    totalMat: 52000000,
+    subsidyMax: 2350000,
+    coldClimateUpgrade: 7000000,
+    rentPerNight: 280000,
+    color: "#20a8c0",
+    img: "/img/build/hero_all_plans.jpg",
+    lifeImgs: [
+      {src:"/img/village_lux_living.jpg",   cap:"食堂ホール 150m²（収容50名）"},
+      {src:"/img/village_lux_dining.jpg",   cap:"中央キッチン・大テーブル×6卓"},
+      {src:"/img/village_lux_bedroom.jpg",  cap:"ゲスト個室 22室"},
+      {src:"/img/village_lux_bath.jpg",     cap:"檜の大浴場・12人槽"},
+      {src:"/img/village_lux_cellar.jpg",   cap:"ライブラリ・静寂室"},
+      {src:"/img/pro_village_cinematic.webp", cap:"敷地一体の中央拠点"},
+    ],
+    specs: [
+      {k:"延床面積", v:"500 m²（151坪）1F: 250m² / 2F: 250m²"},
+      {k:"外形寸法", v:"W 22,000 × D 11,000 × H 8,200 mm（2階建て）"},
+      {k:"間取り", v:"1F 食堂ホール150m²+大浴場+サウナ+ライブラリ+厨房+水回り / 2F 個室×22室+共用ラウンジ"},
+      {k:"収容人数", v:"最大50名（個室22室+ロフト+ホール仮眠対応）"},
+      {k:"構造", v:"SIPs+集成材ハイブリッド 2階建て（建築士・構造計算・消防設計必須）"},
+      {k:"天井高", v:"1F食堂 5,000mm吹抜け / 1F一般 3,000mm / 2F 2,800mm"},
+      {k:"断熱性能", v:"UA値 0.30 W/m²K（HEAT20 G2 本州標準）"},
+      {k:"暖房", v:"ペレット中央暖房 30kW + 床下温水パネル（薪サウナ別系統）"},
+      {k:"電力", v:"18kW + 96kWh（30枚 + LiFePO4 2000Ah）+ 系統連系オプション"},
+      {k:"運営許可", v:"旅館業（旅館・ホテル営業）+ 消防法（耐火2級）+ 食品衛生法 + 公衆浴場法"},
+      {k:"建築確認", v:"必須（建築士設計・構造計算・消防設計・耐火2級認定）"},
+    ],
+    materials: [
+      {cat:"SIPsパネル+集成材ハイブリッド構造",emoji:"🏗️",total:15720000,color:"#20a8c0",url:"",alt:"",
+       items:[
+         {name:"SIPsパネル 壁用 910×1820mm 2枚積み 160mm",qty:"1,100 m²",unit:"¥11,000/m²",total:12100000,note:"1F+2F全周+間仕切り+22室区画"},
+         {name:"SIPsパネル 屋根用 200mm",qty:"250 m²",unit:"¥14,000/m²",total:3500000,note:""},
+         {name:"スプライン・コーキング一式",qty:"一式",unit:"¥120,000",total:120000,note:"500m²超は気密処理シビア"},
+       ]},
+      {cat:"集成材ハイブリッド構造材",emoji:"📐",total:4200000,color:"#b07850",url:"",
+       items:[
+         {name:"米松集成材 大断面柱 180×360",qty:"12本",unit:"¥250,000/本",total:3000000,note:"1F食堂吹抜けの主柱（5,000mm）"},
+         {name:"米松集成材 大梁 180×540",qty:"8本",unit:"¥150,000/本",total:1200000,note:"スパン10m対応"},
+       ]},
+      {cat:"オフグリッド電力（業務級）",emoji:"☀️",total:2800000,color:"#f0c040",url:"",
+       items:[
+         {name:"600W 単結晶パネル（JA Solar / Longi）",qty:"30枚",unit:"¥18,000/枚",total:540000,note:"18kW・系統連系オプション"},
+         {name:"LiFePO4 96V 2000Ah + 30kW 三相インバーター一式",qty:"1式",unit:"¥1,800,000",total:1800000,note:"≈96kWh・施設全体対応"},
+         {name:"MPPT 400A + 主分電盤一式",qty:"1式",unit:"¥460,000",total:460000,note:""},
+       ]},
+      {cat:"窓・開口部",emoji:"🪟",total:3500000,color:"#4ab8d0",url:"",
+       items:[
+         {name:"南面超大開口 W10000×H2700",qty:"1枚",unit:"¥1,800,000",total:1800000,note:"ペアLow-E 食堂全面"},
+         {name:"樹脂窓 W780×H1170",qty:"36枚",unit:"¥38,000/枚",total:1368000,note:"2F個室22室+共用14"},
+         {name:"玄関ドア 業務用断熱",qty:"1枚",unit:"¥250,000",total:250000,note:""},
+         {name:"浴室高窓",qty:"4枚",unit:"¥20,500/枚",total:82000,note:""},
+       ]},
+      {cat:"内装・仕上げ（業務用）",emoji:"🪵",total:7400000,color:"#a07850",url:"",
+       items:[
+         {name:"国産杉 羽目板 15mm",qty:"700 m²",unit:"¥2,800/m²",total:1960000,note:""},
+         {name:"杉無垢フローリング 15mm",qty:"480 m²",unit:"¥5,000/m²",total:2400000,note:"業務グレード"},
+         {name:"業務用キッチン（IH8口×2+食洗機×2+冷蔵庫業務用）",qty:"1式",unit:"¥1,500,000",total:1500000,note:"50名対応・大型"},
+         {name:"洗面台×12 + 造作棚",qty:"一式",unit:"¥30,000/台",total:360000,note:"共用+個室階各所"},
+         {name:"個室ベッドフレーム",qty:"22台",unit:"¥40,000/台",total:880000,note:""},
+         {name:"バレルサウナ（12人用）+ 薪ストーブ",qty:"1基",unit:"¥300,000",total:300000,note:"既存サウナ一覧との価格整合"},
+       ]},
+      {cat:"給排水・大浴場",emoji:"💧",total:2500000,color:"#50b8a0",url:"",
+       items:[
+         {name:"檜の大浴場（12人槽・タイル仕上げ）",qty:"1基",unit:"¥800,000",total:800000,note:"循環ろ過+加温"},
+         {name:"Separett Villa 9215 尿分離型コンポスト",qty:"6台",unit:"¥75,000/台",total:450000,note:"50名対応・浄化槽併用"},
+         {name:"合併浄化槽 50人槽（公衆浴場対応）",qty:"1基",unit:"¥600,000",total:600000,note:"公衆浴場法のため必須"},
+         {name:"雨水タンク 25,000L",qty:"1基",unit:"¥420,000",total:420000,note:""},
+         {name:"シャワーユニット",qty:"10式",unit:"¥23,000/式",total:230000,note:"男女+スパ+個室階"},
+       ]},
+      {cat:"大型ウッドデッキ",emoji:"🌳",total:1200000,color:"#507840",url:"",
+       items:[
+         {name:"国産杉 ACQ防腐処理 デッキ材",qty:"200 m²",unit:"¥3,500/m²",total:700000,note:"食堂南面・耐久20年以上"},
+         {name:"根太・束柱・手すり一式",qty:"一式",unit:"¥500,000",total:500000,note:""},
+       ]},
+      {cat:"外装",emoji:"🖤",total:1800000,color:"#888",url:"",
+       items:[
+         {name:"ガルバリウム波板 黒",qty:"850 m²",unit:"¥1,350/m²",total:1148000,note:""},
+         {name:"タイベック + 胴縁 + コーキング",qty:"一式",unit:"¥520,000",total:520000,note:""},
+         {name:"軒・水切り金物一式",qty:"一式",unit:"¥132,000",total:132000,note:""},
+       ]},
+      {cat:"ペレット中央暖房",emoji:"🔥",total:1000000,color:"#e06030",url:"",
+       items:[
+         {name:"ペレットボイラー 30kW（本州標準）",qty:"1基",unit:"¥600,000",total:600000,note:"寒冷地は50kWに+¥25万"},
+         {name:"床下温水配管+ヘッダー一式",qty:"一式",unit:"¥280,000",total:280000,note:""},
+         {name:"ペレットサイロ 3t",qty:"1基",unit:"¥120,000",total:120000,note:""},
+       ]},
+      {cat:"断熱・気密",emoji:"🌡️",total:1000000,color:"#7080e0",url:"",
+       items:[
+         {name:"スタイロフォーム 50mm 床下",qty:"500 m²",unit:"¥1,200/m²",total:600000,note:"本州仕様"},
+         {name:"気密テープ + 先張りシート（大型）",qty:"一式",unit:"¥400,000",total:400000,note:"500m²対応"},
+       ]},
+      {cat:"基礎（独立コンクリート 50点）",emoji:"⚓",total:900000,color:"#606060",url:"",
+       items:[
+         {name:"生コン 凍結深度500mm（本州標準）",qty:"18 m³",unit:"¥18,000/m³",total:324000,note:"寒冷地は1,000mm深 +¥40万"},
+         {name:"型枠・鉄筋・アンカー一式",qty:"一式",unit:"¥576,000",total:576000,note:"50点+耐震金物"},
+       ]},
+      {cat:"旅館業設備+設計監理+消防",emoji:"🏨",total:6200000,color:"#c06080",url:"",
+       items:[
+         {name:"スプリンクラー設備（自動式・全館50点）",qty:"一式",unit:"¥2,800,000",total:2800000,note:"耐火2級・旅館業要件"},
+         {name:"旅館業什器（エアコン×22+寝具一式+備品）",qty:"一式",unit:"¥1,800,000",total:1800000,note:"22室×¥80,000+共用"},
+         {name:"建築士費用（設計+確認申請+構造計算+消防設計+音響）",qty:"一式",unit:"¥1,400,000",total:1400000,note:"500m²超・専門設計必須"},
+         {name:"外部工事（外構+駐車場舗装+外部照明+サイン）",qty:"一式",unit:"¥200,000",total:200000,note:""},
+       ]},
+      {cat:"附帯工事・搬入",emoji:"🚚",total:3780000,color:"#607080",
+       items:[
+         {name:"24時間熱交換換気ユニット（業務用第一種・5ユニット）",qty:"5台",unit:"¥170,000/台",total:850000,note:"建築基準法対応"},
+         {name:"室内電気配線（分電盤600A+業務用配線+非常灯+誘導灯）",qty:"一式",unit:"¥1,400,000",total:1400000,note:"旅館業法・消防法対応"},
+         {name:"雨樋・水切り金物・防蟻（ホウ酸塩）処理",qty:"一式",unit:"¥450,000",total:450000,note:""},
+         {name:"階段（杉無垢×3基）",qty:"3基",unit:"¥200,000/基",total:600000,note:"2Fアクセス+避難用"},
+         {name:"建具金物（業務用ドア×24+引き戸金物一式）",qty:"一式",unit:"¥180,000",total:180000,note:""},
+         {name:"運搬費（弟子屈・地方まで・10t×3便）",qty:"1式",unit:"¥300,000",total:300000,note:"本州近郊"},
+       ]},
+    ],
+    steps: [
+      {week:"W1〜6",phase:"地盤調査・基礎工事（50点）",icon:"⚓",cost:900000,diff:"★★★★★",people:"6〜8人",
+       desc:"地盤調査（¥30〜50万）・柱状改良。50点独立基礎を6週間。建築士の基礎設計+第三者監理必須。ミニユンボ2台+ダンプ。",
+       tools:["ミニユンボ×2","測量器具","型枠","鉄筋","ダンプ"],tips:"500m²超は地盤改良の判断が命綱。ボーリング調査は必ず実施。"},
+      {week:"W7〜12",phase:"土台・1F床組み（集成材柱建て込み）",icon:"🪵",cost:4200000,diff:"★★★★☆",people:"6〜8人",
+       desc:"米松集成材180×360柱（5,000mm長）12本をクレーンで建て込み。180×540大梁8本を10mスパンで架ける。剛床合板240枚。",
+       tools:["インパクト","丸ノコ","ラフタークレーン25t","チェーンブロック"],tips:"集成材大断面は1本300kg超。クレーン+合図者必須。"},
+      {week:"W13〜22",phase:"棟上げ・2F骨組み・小屋組",icon:"🏗️",cost:0,diff:"★★★★★",people:"15〜18人（5日）",
+       desc:"棟上げは5日がかり。プロ鳶職人チーム必須（¥50〜80万）。ラフタークレーン35t必須。建築士+構造設計士の現場立会い必須。",
+       tools:["ラフタークレーン35t","インパクト","安全帯","足場（全周5層）"],tips:"500m²棟上げは全工程で最も危険。プロ起用の妥協は許されない。"},
+      {week:"W23〜44",phase:"SIPsパネル取付（全面・1,350m²）",icon:"🔷",cost:13720000,diff:"★★★★☆",people:"8〜12人",
+       desc:"1,100m²の壁パネル＋250m²の屋根パネルを22週間で施工。足場（¥400,000〜）全周設置。これだけで工期の1/3。",
+       tools:["インパクト","コーキングガン","足場（全周5層）"],tips:"22室区画のSIPs納まりは設計図通りに。後からの開口追加は気密破壊。"},
+      {week:"W45〜52",phase:"外装・大型デッキ（200m²）",icon:"🌳",cost:3000000,diff:"★★★★☆",people:"6〜8人",
+       desc:"ガルバ外壁850m²＋200m²のデッキ施工。8週間。ACQ防腐処理＋塗料処理で耐久20年確保。",
+       tools:["丸ノコ","タッカー","インパクト","リフト"],tips:"ガルバ波板の取付は重ね幅と防水テープを徹底。"},
+      {week:"W53〜56",phase:"窓・気密処理（40枚＋大開口）",icon:"🪟",cost:3500000,diff:"★★★★☆",people:"5〜6人",
+       desc:"南面超大開口W10m+36枚の樹脂窓+業務用ドアを取付。C値0.5以下を目標に気密測定実施。",
+       tools:["気密テープ","測定機","クレーン"],tips:"超大開口W10mは10人がかり。専門業者依頼推奨（¥30万）。"},
+      {week:"W57〜68",phase:"設備工事（業務級・大浴場・スプリンクラー）",icon:"🔥",cost:14580000,diff:"★★★★★",people:"6〜10人",
+       desc:"30枚ソーラー・2000Ah蓄電池・ペレットボイラー30kW・檜大浴場（12人槽）・コンポスト×6・浄化槽50人槽・スプリンクラー50点設置。消防+保健所事前協議必須。",
+       tools:["配線工具","配管工具","消防設備","重機"],tips:"消防+保健所+浴場法は着工8ヶ月前から協議。許可なく着工すると致命的。"},
+      {week:"W69〜75",phase:"内装・什器・検査・竣工",icon:"✨",cost:11600000,diff:"★★★★☆",people:"8〜12人",
+       desc:"700m²の羽目板・480m²のフローリング・業務用キッチン・個室22室設備。建築完了検査・消防検査・保健所検査・旅館業検査・公衆浴場検査の5検査に合格して竣工。",
+       tools:["フィニッシュネイラー","丸ノコ"],tips:"5検査同時並行は段取りが命。建築士+施工管理士のスケジュール調整を最優先。"},
+    ],
+    routes: [
+      {name:"セルフビルド+建築士監修+施工チーム",cost:58000000,color:"#20a8c0",hi:true},
+      {name:"補助金後",cost:55650000,color:"rgba(80,200,160,.9)",gr:true},
+      {name:"工務店依頼",cost:130000000,color:"#555"},
+      {name:"宿泊収益（年）",cost:-9000000,color:"#20a8c0",note:"50名稼働¥900万/年"},
+    ],
+    floorSvg: `<svg viewBox="0 0 600 360" style="width:100%;background:#050505;display:block">
+      <rect x="20" y="30" width="540" height="290" fill="none" stroke="#20a8c0" stroke-width="4"/>
+      <line x1="20" y1="180" x2="560" y2="180" stroke="#555" stroke-width="1.5"/>
+      <line x1="270" y1="30" x2="270" y2="180" stroke="#555" stroke-width="1.5"/>
+      <line x1="420" y1="30" x2="420" y2="180" stroke="#555" stroke-width="1.5"/>
+      <line x1="180" y1="180" x2="180" y2="320" stroke="#555" stroke-width="1.5"/>
+      <line x1="360" y1="180" x2="360" y2="320" stroke="#555" stroke-width="1.5"/>
+      <rect x="180" y="195" width="180" height="115" fill="rgba(80,184,160,.08)" stroke="#50b8a0" stroke-width="1.5"/>
+      <text x="270" y="252" fill="#50b8a0" font-size="11" text-anchor="middle">檜の大浴場</text>
+      <text x="270" y="268" fill="#666" font-size="8" text-anchor="middle">12人槽 · 男女別</text>
+      <rect x="30" y="195" width="140" height="115" fill="rgba(200,80,32,.06)" stroke="rgba(200,80,32,.45)" stroke-width="1.5"/>
+      <text x="100" y="252" fill="rgba(200,80,32,.8)" font-size="10" text-anchor="middle">サウナ</text>
+      <text x="100" y="268" fill="#666" font-size="7.5" text-anchor="middle">12人 + 水風呂 + 外気浴</text>
+      <text x="145" y="105" fill="#ddd" font-size="14" text-anchor="middle">食堂ホール</text>
+      <text x="145" y="123" fill="#666" font-size="9" text-anchor="middle">150 m² · 収容50名 · 吹抜け5m</text>
+      <text x="345" y="105" fill="#ddd" font-size="11" text-anchor="middle">ライブラリ</text>
+      <text x="345" y="120" fill="#666" font-size="8.5" text-anchor="middle">静寂室 · 30 m²</text>
+      <text x="490" y="105" fill="#ddd" font-size="11" text-anchor="middle">業務厨房</text>
+      <text x="490" y="120" fill="#666" font-size="8.5" text-anchor="middle">50名対応 · 40 m²</text>
+      <text x="450" y="252" fill="#ddd" font-size="10" text-anchor="middle">スタッフ+倉庫</text>
+      <text x="450" y="268" fill="#666" font-size="7.5" text-anchor="middle">30 m²</text>
+      <rect x="560" y="30" width="35" height="290" fill="rgba(80,120,64,.15)" stroke="#507840" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="578" y="180" fill="#507840" font-size="7" text-anchor="middle" transform="rotate(90,578,180)">大デッキ 200m²</text>
+      <text x="20" y="22" fill="#20a8c0" font-size="9" font-weight="bold">KOSMOS 1F — 250m²（2F: 個室×22室+共用ラウンジ 250m²）</text>
+      <line x1="20" y1="335" x2="560" y2="335" stroke="#333" stroke-width="1"/>
+      <text x="20" y="349" fill="#666" font-size="7.5">22,000 mm</text>
+    </svg>`,
+    elevSvg: `<svg viewBox="0 0 640 320" style="width:100%;background:#050505;display:block">
+      <line x1="10" y1="280" x2="630" y2="280" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <rect x="30" y="160" width="580" height="120" fill="rgba(32,32,32,.95)" stroke="#666" stroke-width="2"/>
+      <rect x="30" y="56" width="580" height="104" fill="rgba(28,30,40,.95)" stroke="#666" stroke-width="2"/>
+      <polygon points="20,56 320,12 620,56" fill="rgba(26,26,26,.98)" stroke="#20a8c0" stroke-width="2"/>
+      <rect x="60" y="172" width="380" height="98" fill="rgba(70,184,208,.1)" stroke="#4ab8d0" stroke-width="2"/>
+      <line x1="250" y1="172" x2="250" y2="270" stroke="#4ab8d0" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="250" y="226" fill="#4ab8d0" font-size="9" text-anchor="middle">食堂大開口 W10m × H2.7m</text>
+      <g fill="rgba(70,184,208,.08)" stroke="#4ab8d0" stroke-width="1.5">
+        <rect x="40" y="68" width="46" height="60"/>
+        <rect x="100" y="68" width="46" height="60"/>
+        <rect x="160" y="68" width="46" height="60"/>
+        <rect x="220" y="68" width="46" height="60"/>
+        <rect x="280" y="68" width="46" height="60"/>
+        <rect x="340" y="68" width="46" height="60"/>
+        <rect x="400" y="68" width="46" height="60"/>
+        <rect x="460" y="68" width="46" height="60"/>
+        <rect x="520" y="68" width="46" height="60"/>
+      </g>
+      <line x1="30" y1="160" x2="610" y2="160" stroke="#888" stroke-width="2"/>
+      <rect x="610" y="200" width="20" height="80" fill="rgba(80,120,64,.2)" stroke="#507840" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="620" y="245" fill="#507840" font-size="6.5" text-anchor="middle" transform="rotate(90,620,245)">デッキ</text>
+      <rect x="180" y="22" width="280" height="32" fill="rgba(32,168,192,.15)" stroke="rgba(32,168,192,.3)" stroke-width="1" rx="2"/>
+      <text x="320" y="42" fill="rgba(32,168,192,.7)" font-size="9" text-anchor="middle">ソーラー × 30枚（系統連系オプション）</text>
+      <text x="8" y="220" fill="#666" font-size="8" text-anchor="middle">1F</text>
+      <text x="8" y="110" fill="#666" font-size="8" text-anchor="middle">2F</text>
+      <line x1="30" y1="290" x2="610" y2="290" stroke="#444" stroke-width="1"/>
+      <text x="320" y="306" fill="#555" font-size="9" text-anchor="middle">22,000 mm</text>
+      <text x="20" y="9" fill="#20a8c0" font-size="9" font-weight="bold">KOSMOS — 南立面（2階建て・50名収容・耐火2級）</text>
+    </svg>`,
+  },
 ];
 
 // ── アップグレードオプション ──────────────────────────────────────────────

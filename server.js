@@ -10900,7 +10900,7 @@ if (fs.existsSync(CABIN_DIR)) {
     return res.sendFile(p);
   });
   // /build/:plan → build.html (plan ID is read by client JS via location.pathname)
-  const BUILD_PLAN_IDS = ["mini","standard","dome","large","xl","villa","grand","myth"];
+  const BUILD_PLAN_IDS = ["mini","standard","dome","large","xl","villa","grand","myth","kosmos"];
   app.get("/build/:plan", (req, res, next) => {
     if (!BUILD_PLAN_IDS.includes(req.params.plan)) return next();
     const p = path.join(CABIN_DIR, "build.html");
