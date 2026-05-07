@@ -10907,6 +10907,14 @@ if (fs.existsSync(CABIN_DIR)) {
     if (req.query.embed === "1") return serveWithEmbed(p, res);
     return res.sendFile(p);
   });
+  // /urban/:plan → urban.html (都市型 SIPs キャビンシリーズ)
+  const URBAN_PLAN_IDS = ["pod","stack","tower","flat","duo","yield","roots"];
+  app.get("/urban/:plan", (req, res, next) => {
+    if (!URBAN_PLAN_IDS.includes(req.params.plan)) return next();
+    const p = path.join(CABIN_DIR, "urban.html");
+    if (req.query.embed === "1") return serveWithEmbed(p, res);
+    return res.sendFile(p);
+  });
   console.log("✓ Cabin static files served from /cabin");
 }
 
