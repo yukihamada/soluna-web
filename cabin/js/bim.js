@@ -256,17 +256,35 @@ export function applyColors(overrides) {
 function box(w, h, d, mat) { return new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); }
 function group(name) { const g = new THREE.Group(); g.name = name; return g; }
 
-// ========= 諸経費・労務費・運搬の係数 (Construction soft-cost coefficients) =========
+// ========= 諸経費・労務費・運搬の係数 (現場監督・施工会社レビュー反映後) =========
 export const COST_COEFS = {
-  labor:        {label: '施工費・労務費',     pct: 0.30, note: '材料費の30%（小屋セルフビルド除く）'},
+  labor:        {label: '施工費・労務費 (北海道道東遠隔地)', pct: 0.50, note: '材料費の50%（道東で職人運搬・宿泊込）'},
   prefab_cut:   {label: 'プレカット加工費',   pct: 0.06, note: '材料費の6%'},
-  transport:    {label: '運搬費（弟子屈まで4tトラック）', pct: 0.08, note: '材料費の8%'},
-  scaffolding:  {label: '足場・仮設工事',     pct: 0.04, note: '材料費の4%'},
-  crane:        {label: '重機・揚重費',       pct: 0.03, note: '材料費の3%（パネル取付）'},
-  insurance:    {label: '労災・建築保険',     pct: 0.015, note: '材料費の1.5%'},
+  transport:    {label: '運搬費（4t/10t車・弟子屈搬入）', pct: 0.10, note: '材料費の10%（道東遠隔地）'},
+  scaffolding:  {label: '足場・仮設工事',     pct: 0.05, note: '材料費の5%'},
+  temp_facility:{label: '仮設便所・現場事務所', fixed: 180000, note: '工期中レンタル+設置撤去'},
+  temp_power:   {label: '仮設電源・水道引込', fixed: 220000, note: '北電仮設+町水道'},
+  crane:        {label: '重機・揚重費',       pct: 0.04, note: '材料費の4%（SIPsパネル取付）'},
+  ground_imp:   {label: '地盤改良・砕石置換', fixed: 350000, note: '凍結融解対策（地耐力測定後）'},
+  septic:       {label: '合併浄化槽 5人槽',   fixed: 1500000, note: '弟子屈下水未接続エリア'},
+  rainwater:    {label: '雨水浸透桝・排水桝', fixed: 180000, note: '町条例'},
+  electric_in:  {label: '電力引込・分電盤',   fixed: 380000, note: '北電引込+主開閉器+分電盤'},
+  insurance:    {label: '労災・建築保険',     pct: 0.02, note: '材料費の2%'},
+  jio:          {label: '住宅瑕疵担保保険 (JIO)', fixed: 95000, note: '10年保証義務'},
+  construction_ins:{label: '建設工事保険',    fixed: 65000, note: '工事中事故保険'},
   design:       {label: '設計監理 (1級建築士)', pct: 0.10, note: '材料費の10%（建築士法24条）'},
   permit:       {label: '建築確認申請',       fixed: 280000, note: '4号特例縮小後（指定確認検査機関）'},
-  contingency:  {label: '予備費 (Contingency)', pct: 0.05, note: '材料費の5%'},
+  inspection:   {label: '配筋・中間・完了検査', fixed: 120000, note: '3回検査+防災検査'},
+  cleanup:      {label: '廃材処分・最終清掃', pct: 0.025, note: '材料費の2.5%（産廃マニフェスト）'},
+  contingency:  {label: '予備費 (Contingency)', pct: 0.08, note: '材料費の8% (寒冷地天候リスク)'},
+};
+
+// 季節別工期係数 (12-3月は基礎打設不可、施工費1.5倍)
+export const SEASON_FACTORS = {
+  spring: {label: '春 (4-5月)', factor: 1.0, note: '標準'},
+  summer: {label: '夏 (6-8月)', factor: 1.0, note: '標準・最も施工効率良'},
+  autumn: {label: '秋 (9-11月)', factor: 1.05, note: '日没早く工期5%増'},
+  winter: {label: '冬 (12-3月)', factor: 1.5, note: '基礎打設不可・養生費用大'},
 };
 
 // ========= 熱性能係数 (per element thermal coefficients for UA calculation) =========
@@ -2291,6 +2309,104 @@ export function createViewer(container, opts = {}) {
     };
   }
 
+  // ── 建ぺい率・容積率・3種斜線・日影規制 (urban planning compliance) ──
+  function urbanPlanningCheck(opts = {}) {
+    if (!currentPlan) return null;
+    const p = currentPlan;
+    const W = p.W * MM, D = p.D * MM;
+    const stories = p.stories || 1;
+    const buildingFootprint = W * D;
+    const totalFloor = buildingFootprint * stories;
+    const siteArea = opts.siteArea || (buildingFootprint * 3.5);   // default 3.5x footprint
+    const buildingCoverage = (buildingFootprint / siteArea) * 100;  // %
+    const FAR = (totalFloor / siteArea) * 100;                       // % (容積率)
+    const useZone = opts.useZone || '第一種低層住居専用地域';
+    // Zone limits (representative)
+    const zoneLimits = {
+      '第一種低層住居専用地域': {bcr: 50, far: 100, height: 10, north: true, dayShadow: false},
+      '第二種低層住居専用地域': {bcr: 60, far: 200, height: 10, north: true, dayShadow: false},
+      '第一種中高層住居専用地域': {bcr: 60, far: 300, height: null, north: true, dayShadow: true},
+      '第一種住居地域': {bcr: 60, far: 300, height: null, north: false, dayShadow: true},
+      '商業地域': {bcr: 80, far: 600, height: null, north: false, dayShadow: false},
+      '準工業地域': {bcr: 60, far: 300, height: null, north: false, dayShadow: false},
+      '無指定 (弟子屈町外)': {bcr: 70, far: 200, height: null, north: false, dayShadow: false},
+    };
+    const limit = zoneLimits[useZone] || zoneLimits['無指定 (弟子屈町外)'];
+
+    // Building total height
+    const totalH = stories * (p.H || 3000) * MM + (p.pilotis ? 2.4 : 0);
+    const pitch = p.roofPitch || 0.25;
+    const ridgeH = p.dome ? Math.max(W,D)/2*0.95 : (p.roofType === 'gable' ? (D/2 + EAVE_OUT) * pitch : 0.45);
+    const peakH = totalH + ridgeH;
+
+    // 北側斜線: 5m + 1.25H 以下
+    const northSetback = opts.northSetback || 4.0;       // distance to north boundary (m)
+    const northSlopeAllowed = 5.0 + northSetback * 1.25;
+    const northOK = !limit.north || peakH <= northSlopeAllowed;
+
+    // 道路斜線: 道路幅 + 1.25 (住居系)
+    const roadWidth = opts.roadWidth || 6.0;
+    const roadSetback = opts.roadSetback || 5.0;
+    const roadSlopeAllowed = (roadWidth + roadSetback) * 1.25;
+    const roadOK = peakH <= roadSlopeAllowed;
+
+    // 隣地斜線: 20m + 1.25H (住居系)、商業系 31m+2.5H
+    const adjacentSetback = opts.adjacentSetback || 1.0;
+    const adjacentSlopeAllowed = 20 + adjacentSetback * 1.25;
+    const adjacentOK = peakH <= adjacentSlopeAllowed;
+
+    // 絶対高さ制限
+    const heightOK = !limit.height || peakH <= limit.height;
+
+    return {
+      siteArea, buildingFootprint, totalFloor,
+      buildingCoverage: buildingCoverage.toFixed(1),
+      FAR: FAR.toFixed(1),
+      useZone,
+      bcrLimit: limit.bcr, bcrOK: buildingCoverage <= limit.bcr,
+      farLimit: limit.far, farOK: FAR <= limit.far,
+      peakH: peakH.toFixed(1),
+      heightLimit: limit.height, heightOK,
+      northOK, northSlopeAllowed: northSlopeAllowed.toFixed(1),
+      roadOK, roadSlopeAllowed: roadSlopeAllowed.toFixed(1),
+      adjacentOK, adjacentSlopeAllowed: adjacentSlopeAllowed.toFixed(1),
+      dayShadowApplies: limit.dayShadow,
+    };
+  }
+
+  // ── 一次エネルギー消費量計算 (建築物省エネ法 BELS) ──
+  function primaryEnergy() {
+    const e = annualEnergy();
+    if (!e) return null;
+    // 一次エネ係数 (環境省/経産省告示)
+    // 電力 = 9.76 MJ/kWh, ガス = 45 MJ/m³, 灯油 = 36.7 MJ/L
+    const elecCoef = 9.76;
+    const elec = e.netGridKWh * elecCoef;             // MJ/year
+    // 家電・照明・調理は別系 (BELS用)
+    // 簡易: 全電化で一次エネ ≈ totalKWh × 9.76
+    const total = e.totalKWh * elecCoef;
+    const totalGJ = total / 1000;
+    // 基準値 (北海道道東 6地域・住宅): 床面積×84 MJ/m²
+    const W = currentPlan.W * MM, D = currentPlan.D * MM, st = currentPlan.stories || 1;
+    const area = W * D * st;
+    const standard = area * 84;
+    const ratio = total / standard;        // BEI
+    let bels = 0;
+    if (ratio <= 0.6) bels = 5;
+    else if (ratio <= 0.7) bels = 4;
+    else if (ratio <= 0.8) bels = 3;
+    else if (ratio <= 0.9) bels = 2;
+    else if (ratio <= 1.0) bels = 1;
+    return {
+      total: total.toFixed(0), totalGJ: totalGJ.toFixed(1),
+      standard: standard.toFixed(0),
+      bei: ratio.toFixed(2),
+      bels,
+      zeh: ratio <= 0.8 && (e.pvOffset || 0) >= e.totalKWh,    // ZEH ≧ 100% net zero
+      nearZEH: ratio <= 0.8 && (e.pvOffset || 0) >= e.totalKWh * 0.75,
+    };
+  }
+
   // ── 法規自動チェック (採光・換気・階段・防火) ──
   function codeCompliance() {
     if (!currentPlan) return null;
@@ -2608,6 +2724,7 @@ export function createViewer(container, opts = {}) {
     onElementClick, takeoff, softCosts, uaValue, setPhase, playConstructionSequence, getPhases,
     setSunPosition, pvEstimate, annualEnergy, playSunCycle, recordWalkthrough,
     exportGLTF, exportUSDZ, generateIFC, structuralAnalysis, codeCompliance,
+    urbanPlanningCheck, primaryEnergy,
     getVRButton, getARButton, clashDetect,
     manufacturingCSV, constructionSchedule, daylightFactor,
     getPlan: () => currentPlan,
