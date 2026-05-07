@@ -751,8 +751,8 @@ function buildStructure(plan) {
       if (loftD > 1.5) {
         const loftFloor = box(W - 0.4, 0.10, loftD, MATS.cedarLite);
         const loftY = baseY + storyH - 0.05 + 0.05;
-        // mono: 北側(高側)に寄せる、gable: 中央
-        const loftZ = isMono ? -(D/2 - loftD/2 - 0.5) : 0;
+        // mono: 南側(高側)に寄せる、gable: 中央
+        const loftZ = isMono ? (D/2 - loftD/2 - 0.5) : 0;
         loftFloor.position.set(0, loftY + 0.05, loftZ);
         g.add(loftFloor);
         g.add(edge(loftFloor, COLORS.line, 0.6));
@@ -1055,30 +1055,31 @@ function buildRoof(plan) {
     return g;
   }
 
-  // 片屋根 (mono-pitch): high edge at NORTH (-Z), low edge at SOUTH (+Z).
-  // → Roof surface faces SOUTH (good for solar + snow shed in 北海道).
+  // 片屋根 (mono-pitch): high edge at SOUTH (+Z), low edge at NORTH (-Z).
+  // → 南面ファサードを高く ドラマチック大開口、雪は北落とし、
+  //   PVは北傾斜の屋根面に最適化はできないが地上ラック/PPAで補える。
   if (plan.roofType === 'mono') {
-    const pitch = plan.roofPitch || 0.25;
-    const run = D + EAVE_OUT * 2;       // total span N→S
-    const dropH = run * pitch;          // rise from south to north
+    const pitch = plan.roofPitch || 0.15;
+    const run = D + EAVE_OUT * 2;       // total span S→N
+    const dropH = run * pitch;          // rise from north (low) to south (high)
     const tRoof = 0.10;
     const roofW = W + EAVE_OUT * 2;
     const slope = Math.atan(pitch);
     const cosS = Math.cos(slope);
     const tVert = tRoof / cosS;
 
-    // Profile in (Z, Y) plane:
-    //   south_eave = ( D/2 + EAVE_OUT ,  eaveY                 )  ← low side
-    //   north_eave = ( -D/2 - EAVE_OUT,  eaveY + dropH         )  ← high side
-    //   north_top  = ( -D/2 - EAVE_OUT,  eaveY + dropH + tVert )
-    //   south_top  = ( D/2  + EAVE_OUT,  eaveY + tVert         )
+    // Profile in (Z, Y) plane (高側=南/+Z, 低側=北/-Z):
+    //   south_eave = ( D/2 + EAVE_OUT,  eaveY + dropH         )  ← high
+    //   north_eave = ( -D/2 - EAVE_OUT, eaveY                 )  ← low
+    //   north_top  = ( -D/2 - EAVE_OUT, eaveY + tVert         )
+    //   south_top  = ( D/2  + EAVE_OUT, eaveY + dropH + tVert )
     const south = D/2 + EAVE_OUT;
     const north = -D/2 - EAVE_OUT;
     const profile = new THREE.Shape();
-    profile.moveTo(north, eaveY + dropH);
-    profile.lineTo(south, eaveY);
-    profile.lineTo(south, eaveY + tVert);
-    profile.lineTo(north, eaveY + dropH + tVert);
+    profile.moveTo(south, eaveY + dropH);
+    profile.lineTo(north, eaveY);
+    profile.lineTo(north, eaveY + tVert);
+    profile.lineTo(south, eaveY + dropH + tVert);
     profile.closePath();
     const roofGeo = new THREE.ExtrudeGeometry(profile, {
       depth: roofW, bevelEnabled: false, curveSegments: 1,
@@ -1087,21 +1088,21 @@ function buildRoof(plan) {
     roof.rotation.y = -Math.PI / 2;
     roof.position.x = roofW / 2;
     const slopeLen = Math.hypot(run, dropH);
-    tagItem(roof, 'sips_roof', roofW * slopeLen);     // single slope (not 2× like gable)
+    tagItem(roof, 'sips_roof', roofW * slopeLen);
     g.add(roof);
     g.add(edge(roof, COLORS.line, 0.45));
 
-    // ── 妻側 (east/west) と 北側壁の上部 — gap-fill above wall top ──
-    // Mono roof: 南低・北高 → 妻壁は直角三角形、北壁は矩形帯で gap を埋める
+    // ── 妻側 (east/west) と 南側壁の上部 — gap-fill above wall top ──
+    // 高側=南なので、妻壁は南高・北低 の直角三角形、南壁上に矩形帯
     const sideTriH = dropH * (D / run);
 
-    // East/West right-triangle (south-low, north-high). Rotate Y -π/2 so local +X → world +Z.
+    // East/West right-triangle: south-high, north-low.
     const fillMat = MATS.yakisugi || MATS.steel;
     for (const xSign of [1, -1]) {
       const shape = new THREE.Shape();
-      shape.moveTo( D/2, 0);                      // south corner at wall top
-      shape.lineTo(-D/2, 0);                      // north corner at wall top
-      shape.lineTo(-D/2, sideTriH);               // north corner at roof underside
+      shape.moveTo(-D/2, 0);                      // north corner at wall top
+      shape.lineTo( D/2, 0);                      // south corner at wall top
+      shape.lineTo( D/2, sideTriH);               // south corner at roof underside (peak)
       shape.closePath();
       const tri = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, {depth: 0.02, bevelEnabled: false}), fillMat);
       tri.rotation.y = -Math.PI / 2;              // local +X → world +Z (south)
@@ -1110,55 +1111,56 @@ function buildRoof(plan) {
       g.add(edge(tri, COLORS.line, 0.6));
     }
 
-    // 北壁上部の矩形帯 — 北壁から屋根裏面まで (高さ = sideTriH)
-    const nExt = box(W + 0.01, sideTriH, 0.02, fillMat);
-    nExt.position.set(0, eaveY + sideTriH/2, -D/2 - 0.005);
-    g.add(nExt);
-    g.add(edge(nExt, COLORS.line, 0.5));
+    // 南壁上部の矩形帯 — 南面の wall top → 屋根裏面 (高さ = sideTriH)
+    const sExt = box(W + 0.01, sideTriH, 0.02, fillMat);
+    sExt.position.set(0, eaveY + sideTriH/2, D/2 + 0.005);
+    g.add(sExt);
+    g.add(edge(sExt, COLORS.line, 0.5));
 
-    // 雨樋 — only at the LOW side (south)
+    // 雨樋 — only at the LOW side (north)
     const gutter = box(roofW, 0.06, 0.10, MATS.steelDark);
-    gutter.position.set(0, eaveY - 0.04, D/2 + EAVE_OUT - 0.06);
+    gutter.position.set(0, eaveY - 0.04, -D/2 - EAVE_OUT + 0.06);
     g.add(gutter);
 
-    // 軒下リニアLED (warm strip under south eave) — 夜のドラマ照明
+    // 軒下リニアLED — 南側の高い軒下にも配置
     const ledMat = new THREE.MeshStandardMaterial({
       color: 0xfff0c8, emissive: 0xffd070, emissiveIntensity: 0.9,
       roughness: 0.5, metalness: 0,
     });
     const led = box(roofW - 0.30, 0.015, 0.015, ledMat);
-    led.position.set(0, eaveY - 0.02, D/2 + EAVE_OUT - 0.20);
+    // 南面 (高側) 軒下: 屋根裏面 = eaveY + dropH at z = D/2 + EAVE_OUT
+    led.position.set(0, eaveY + dropH - 0.02, D/2 + EAVE_OUT - 0.20);
     g.add(led);
 
-    // 玄関ファサードキャノピー (foyer canopy) — south entry has its own deep overhang
-    // ※ 既に深軒 700mm があるので、追加で玄関位置に小屋根を出す
+    // 玄関ファサードキャノピー — 南側 (高側) entry。屋根の下にもう一段
     if (!plan.openings?.units && !plan.pilotis && plan.id !== 'mini') {
       const foyerW = Math.min(2.4, W * 0.35);
-      const foyerD = 1.20;       // 玄関ポーチ depth
+      const foyerD = 1.20;
+      // 南壁高 = wall top + sideTriH = eaveY + sideTriH (the top of the south-extended wall)
+      // 玄関キャノピーは wall top 付近に配置 (室内2.4mくらいの高さ)
       const foyerH = baseY + storyH + 0.20;
       const foyerSlab = box(foyerW, 0.08, foyerD, MATS.steelDark);
       foyerSlab.position.set(0, foyerH, D/2 + foyerD/2 - 0.10);
       g.add(foyerSlab);
       g.add(edge(foyerSlab, COLORS.line, 0.5));
-      // 玄関吊り梁 (cantilever support beams)
       for (const xs of [-foyerW/2 + 0.20, foyerW/2 - 0.20]) {
         const arm = box(0.08, 0.18, foyerD - 0.10, MATS.cedarLite);
         arm.position.set(xs, foyerH - 0.13, D/2 + foyerD/2 - 0.15);
         g.add(arm);
       }
-      // 玄関 step lighting (低い行灯)
       const stepLed = box(foyerW * 0.7, 0.015, 0.015, ledMat);
       stepLed.position.set(0, foyerH - 0.06, D/2 + foyerD - 0.10);
       g.add(stepLed);
     }
 
-    // Skylight cube on north (high side) — for MYTH/KOSMOS
+    // Skylight cube on south (high side) — for MYTH/KOSMOS
     if (plan.openings?.skylight) {
       const skW = Math.min(2.6, W * 0.18);
       const skH = 1.0;
       const skD = Math.min(D * 0.30, 4);
-      const skZ = -D/2 + skD/2 + 0.5;
-      const skYBase = eaveY + dropH * (1 - (skZ + D/2) / run);
+      const skZ = D/2 - skD/2 - 0.5;
+      // 屋根裏面の高さ at z=skZ: y = eaveY + dropH * (z + D/2 + EAVE_OUT) / run
+      const skYBase = eaveY + dropH * (skZ + D/2 + EAVE_OUT) / run;
       const tower = box(skW, skH, skD, MATS.steelDark);
       tower.position.set(0, skYBase + skH/2, skZ);
       g.add(tower);
@@ -1168,10 +1170,13 @@ function buildRoof(plan) {
       g.add(glass);
     }
 
-    // Chimney — west-side near low eave (typical)
-    const chimH = dropH * 0.6 + 0.8;
+    // Chimney — west-side, position at z=-D/4 (low side area to keep south facade clean)
+    const chimZ = -D/4;
+    // 屋根裏面の高さ at z=chimZ
+    const yAtChim = eaveY + dropH * (chimZ + D/2 + EAVE_OUT) / run;
+    const chimH = (yAtChim - eaveY) + 0.8;
     const chim = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, chimH, 16), MATS.steelDark);
-    chim.position.set(W/2 - 0.6, eaveY + chimH/2 + 0.5, D/4);
+    chim.position.set(W/2 - 0.6, eaveY + chimH/2 + 0.5, chimZ);
     g.add(chim);
 
     return g;
@@ -1375,8 +1380,8 @@ function buildSolar(plan) {
     return g;
   }
 
-  // Sloped roof — gable south slope OR mono-pitch (south face). Panels sit ON the outer surface.
-  // mono: full N-S span. gable: south half only.
+  // Sloped roof — gable south slope OR mono-pitch (高側=南). Panels sit ON the outer surface.
+  // gable: south half. mono: full N-S span (面は北向きだが緩勾配なので発電影響は小)
   const isMono = plan.roofType === 'mono';
   const monoRun = D + EAVE_OUT * 2;
   const monoDropH = monoRun * pitch;
@@ -1384,14 +1389,11 @@ function buildSolar(plan) {
   const monoSlopeLen = Math.hypot(monoRun, monoDropH);
   const usedSlope = isMono ? monoSlope : slope;
   const usedSlopeLen = isMono ? monoSlopeLen : slopeLen;
-  const usedRun = isMono ? monoRun : run;
-  const usedDropH = isMono ? monoDropH : ridgeH;
   const tRoof = 0.10;                        // matches buildRoof
   const tVert = tRoof / Math.cos(usedSlope);
   const standoff = 0.05 + 0.0225;             // 50mm bracket + half panel thickness
   const standoffY = standoff * Math.cos(usedSlope);
   const standoffZ = standoff * Math.sin(usedSlope);
-  // Mono has more usable slope (entire N-S span); gable only south half. ridgeMargin = at top (north for mono, ridge for gable)
   const usableSlope = usedSlopeLen - margin - ridgeMargin;
   const usableW = W - margin * 2;
   const cols = Math.max(1, Math.floor(usableW / (pW + gap)));
@@ -1403,14 +1405,21 @@ function buildSolar(plan) {
     for (let c = 0; c < cols; c++) {
       if (placed >= count) break;
       const along = margin + r * (pH + gap) + pH/2;
-      // Outer roof surface starts at south-eave (z = D/2+EAVE_OUT, y = eaveY+tVert)
-      // Travels north along slope. For each "along" distance, z decreases and y increases.
-      const z = (D/2 + EAVE_OUT) - along * Math.cos(usedSlope) - standoffZ;
-      const y = eaveY + tVert + along * Math.sin(usedSlope) + standoffY;
+      let z, y;
+      if (isMono) {
+        // mono: 高側=南、低側=北。north-eave (z=-D/2-EAVE_OUT, y=eaveY) からスロープ上に向かって行く
+        z = -(D/2 + EAVE_OUT) + along * Math.cos(usedSlope) - standoffZ;
+        y = eaveY + along * Math.sin(usedSlope) + tVert + standoffY;
+      } else {
+        // gable: south slope, ridgeに向かって上昇 (south-eave=low, ridge=high)
+        z = (D/2 + EAVE_OUT) - along * Math.cos(usedSlope) - standoffZ;
+        y = eaveY + tVert + along * Math.sin(usedSlope) + standoffY;
+      }
       const panel = new THREE.Mesh(new THREE.BoxGeometry(pW - 0.005, 0.045, pH - 0.005), MATS.solar);
       const x = -totalRowW/2 + c * (pW + gap) + pW/2;
       panel.position.set(x, y, z);
-      panel.rotation.x = -usedSlope;
+      // mono: panel tilts north (ridge側=south、low側=north) → rotation.x = +slope
+      panel.rotation.x = isMono ? +usedSlope : -usedSlope;
       tagItem(panel, 'pv_panel', 1);
       g.add(panel);
       g.add(edge(panel, COLORS.solarFr, 0.8));
@@ -1418,16 +1427,25 @@ function buildSolar(plan) {
     }
   }
 
-  // 雪止め (snow guard) — near south eave (low side), spans whole width
+  // 雪止め (snow guard) — 低側軒先 (gable: south, mono: north)
   const snowGuard = box(W - 0.2, 0.05, 0.05, MATS.steelDark);
   const sgAlong = margin * 0.5;
   const sgStandoff = 0.025;
-  snowGuard.position.set(
-    0,
-    eaveY + tVert + sgAlong * Math.sin(usedSlope) + sgStandoff * Math.cos(usedSlope),
-    (D/2 + EAVE_OUT) - sgAlong * Math.cos(usedSlope) - sgStandoff * Math.sin(usedSlope),
-  );
-  snowGuard.rotation.x = -usedSlope;
+  if (isMono) {
+    snowGuard.position.set(
+      0,
+      eaveY + tVert + sgAlong * Math.sin(usedSlope) + sgStandoff * Math.cos(usedSlope),
+      -(D/2 + EAVE_OUT) + sgAlong * Math.cos(usedSlope) - sgStandoff * Math.sin(usedSlope),
+    );
+    snowGuard.rotation.x = +usedSlope;
+  } else {
+    snowGuard.position.set(
+      0,
+      eaveY + tVert + sgAlong * Math.sin(usedSlope) + sgStandoff * Math.cos(usedSlope),
+      (D/2 + EAVE_OUT) - sgAlong * Math.cos(usedSlope) - sgStandoff * Math.sin(usedSlope),
+    );
+    snowGuard.rotation.x = -usedSlope;
+  }
   g.add(snowGuard);
 
   return g;
@@ -1611,9 +1629,9 @@ function buildEquipment(plan) {
   if (plan.roofType === 'mono' && !plan.dome) {
     const pitch = plan.roofPitch || 0.25;
     const dropH = (D + EAVE_OUT*2) * pitch;
-    // 高側 (north) 軒先キャップ
+    // 高側 (south) 軒先キャップ
     const capH = box(W + EAVE_OUT*2, 0.10, 0.30, MATS.steelDark);
-    capH.position.set(0, eaveY + dropH + 0.05, -D/2 - EAVE_OUT + 0.15);
+    capH.position.set(0, eaveY + dropH + 0.05, D/2 + EAVE_OUT - 0.15);
     tagItem(capH, 'ridge_cap', W + EAVE_OUT*2);
     g.add(capH);
   }
@@ -1640,7 +1658,7 @@ function buildEquipment(plan) {
         }
       }
     } else {
-      // mono: 単一スロープ。両端(東・西)に1本ずつ、南→北で上昇
+      // mono: 単一スロープ。両端(東・西)に1本ずつ、北→南で上昇 (高側=南)
       const run = D + EAVE_OUT*2;
       const dropH = run * pitch;
       const slopeLen = Math.hypot(run, dropH);
@@ -1653,8 +1671,8 @@ function buildEquipment(plan) {
           eaveY + dropH / 2,
           0
         );
-        // rotate around X so +Z (south, low) is at eaveY, -Z (north, high) is at eaveY+dropH
-        verge.rotation.x = -slope;
+        // 北 (-Z, low) → 南 (+Z, high) で上昇 → rotation.x = +slope
+        verge.rotation.x = +slope;
         g.add(verge);
       }
     }
@@ -1668,10 +1686,12 @@ function buildEquipment(plan) {
       chimX = W/2 - 0.6; chimZ = 0;
       chimY = eaveY + (D/2 + EAVE_OUT) * pitch + 0.85;
     } else {
-      chimX = W/2 - 0.6; chimZ = D/4;     // matches buildRoof mono chimney
-      // chimX,Z is at (D/4) from north — the slope rise at z = D/4 is:
-      const zFromSouth = D/2 - D/4;       // distance from south eave
-      const yAtChim = eaveY + (zFromSouth + EAVE_OUT) * pitch;
+      chimX = W/2 - 0.6; chimZ = -D/4;       // matches buildRoof mono chimney (low side)
+      // mono: 屋根裏面の高さ at z = -D/4
+      // y = eaveY + dropH * (z + D/2 + EAVE_OUT) / run
+      const dropH = (D + EAVE_OUT*2) * pitch;
+      const run = D + EAVE_OUT*2;
+      const yAtChim = eaveY + dropH * (chimZ + D/2 + EAVE_OUT) / run;
       chimY = yAtChim + 0.85;
     }
     const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.05, 12), MATS.steelDark);
@@ -2026,7 +2046,7 @@ function buildInterior(plan) {
       const x = -W/2 + 0.4 + i * ((W - 0.8) / Math.max(1, rafterN - 1));
       const raf = box(rafW, rafH, slopeLen * 0.92, MATS.cedarLite);
       raf.position.set(x, ceilingH + dropH/2 - 0.15, 0);
-      raf.rotation.x = -slope;
+      raf.rotation.x = +slope;     // 高側=南なので +slope
       g.add(raf);
     }
   }
