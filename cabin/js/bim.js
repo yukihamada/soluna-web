@@ -14,7 +14,7 @@ import { VRButton } from 'three/addons/webxr/VRButton.js';
 import { ARButton } from 'three/addons/webxr/ARButton.js';
 
 export const PLANS = {
-  mini:     {W: 3640,  D: 2730,  H: 2400, stories: 1, roofType: 'mono', roofPitch: 0.15, openings: {south: {w: 1820, h: 1800}, solar: 2}, name: 'MEBUKI', label: '9.9m²', tag: '建築確認不要'},
+  mini:     {W: 3640,  D: 2730,  H: 2400, stories: 1, roofType: 'mono', roofPitch: 0.15, openings: {south: {w: 1820, h: 1800}, solar: 2}, name: 'MEBUKI', label: '9.9m²', tag: '建築確認不要', tiny: true},
   standard: {W: 5460,  D: 4550,  H: 3000, stories: 1, roofType: 'mono', roofPitch: 0.15, openings: {south: {w: 3640, h: 2400}, solar: 4}, name: 'SU', label: '24.8m²', tag: '本ガイドの標準'},
   dome:     {W: 5900,  D: 5900,  H: 2500, dome: true, openings: {south: {w: 1500, h: 1800}, solar: 4}, name: 'TAMA', label: '40m²', tag: '2Vジオデシックドーム'},
   large:    {W: 7280,  D: 5460,  H: 3000, stories: 1, roofType: 'mono', roofPitch: 0.15, openings: {south: {w: 5460, h: 2400}, solar: 6}, name: 'AN', label: '40m²', tag: 'ファミリー向け'},
@@ -439,24 +439,26 @@ function box(w, h, d, mat) { return new THREE.Mesh(new THREE.BoxGeometry(w, h, d
 function group(name) { const g = new THREE.Group(); g.name = name; return g; }
 
 // ========= 諸経費・労務費・運搬の係数 (現場監督・施工会社レビュー反映後) =========
+// minArea: この面積以下のプランでは適用しない (tiny house は不要)
+// scaleByArea: true の場合 area/40m² を係数として fixed コストをスケール (上限1.0)
 export const COST_COEFS = {
   labor:        {label: '施工費・労務費 (北海道道東遠隔地)', pct: 0.50, note: '材料費の50%（道東で職人運搬・宿泊込）'},
   prefab_cut:   {label: 'プレカット加工費',   pct: 0.06, note: '材料費の6%'},
   transport:    {label: '運搬費（4t/10t車・弟子屈搬入）', pct: 0.10, note: '材料費の10%（道東遠隔地）'},
   scaffolding:  {label: '足場・仮設工事',     pct: 0.05, note: '材料費の5%'},
-  temp_facility:{label: '仮設便所・現場事務所', fixed: 180000, note: '工期中レンタル+設置撤去'},
-  temp_power:   {label: '仮設電源・水道引込', fixed: 220000, note: '北電仮設+町水道'},
+  temp_facility:{label: '仮設便所・現場事務所', fixed: 180000, scaleByArea: true, note: '工期中レンタル+設置撤去 (面積比例)'},
+  temp_power:   {label: '仮設電源・水道引込', fixed: 220000, scaleByArea: true, note: '北電仮設+町水道 (面積比例)'},
   crane:        {label: '重機・揚重費',       pct: 0.04, note: '材料費の4%（SIPsパネル取付）'},
-  ground_imp:   {label: '地盤改良・砕石置換', fixed: 350000, note: '凍結融解対策（地耐力測定後）'},
-  septic:       {label: '合併浄化槽 5人槽',   fixed: 1500000, note: '弟子屈下水未接続エリア'},
-  rainwater:    {label: '雨水浸透桝・排水桝', fixed: 180000, note: '町条例'},
-  electric_in:  {label: '電力引込・分電盤',   fixed: 380000, note: '北電引込+主開閉器+分電盤'},
+  ground_imp:   {label: '地盤改良・砕石置換', fixed: 350000, scaleByArea: true, note: '凍結融解対策'},
+  septic:       {label: '合併浄化槽 5人槽',   fixed: 1500000, minArea: 14, note: '弟子屈下水未接続 (キッチン/水洗トイレ有のプランのみ)'},
+  rainwater:    {label: '雨水浸透桝・排水桝', fixed: 180000, minArea: 14, note: '町条例 (浄化槽併設プラン)'},
+  electric_in:  {label: '電力引込・分電盤',   fixed: 380000, scaleByArea: true, note: '北電引込+主開閉器+分電盤 (面積比例)'},
   insurance:    {label: '労災・建築保険',     pct: 0.02, note: '材料費の2%'},
-  jio:          {label: '住宅瑕疵担保保険 (JIO)', fixed: 95000, note: '10年保証義務'},
-  construction_ins:{label: '建設工事保険',    fixed: 65000, note: '工事中事故保険'},
+  jio:          {label: '住宅瑕疵担保保険 (JIO)', fixed: 95000, minArea: 10, note: '10年保証義務 (居住用住宅)'},
+  construction_ins:{label: '建設工事保険',    fixed: 65000, scaleByArea: true, note: '工事中事故保険'},
   design:       {label: '設計監理 (1級建築士)', pct: 0.10, note: '材料費の10%（建築士法24条）'},
-  permit:       {label: '建築確認申請',       fixed: 280000, note: '4号特例縮小後（指定確認検査機関）'},
-  inspection:   {label: '配筋・中間・完了検査', fixed: 120000, note: '3回検査+防災検査'},
+  permit:       {label: '建築確認申請',       fixed: 280000, minArea: 10, note: '10m²超で必須 (4号特例)'},
+  inspection:   {label: '配筋・中間・完了検査', fixed: 120000, minArea: 10, note: '建築確認申請有のプランのみ'},
   cleanup:      {label: '廃材処分・最終清掃', pct: 0.025, note: '材料費の2.5%（産廃マニフェスト）'},
   contingency:  {label: '予備費 (Contingency)', pct: 0.08, note: '材料費の8% (寒冷地天候リスク)'},
 };
@@ -3901,7 +3903,7 @@ export function createViewer(container, opts = {}) {
     });
   }
 
-  // ── 諸経費・労務費自動計算 (CURRENT_COST_MODE 適用) ──
+  // ── 諸経費・労務費自動計算 (CURRENT_COST_MODE 適用 + プラン規模で固定費スケール) ──
   function softCosts() {
     const items = takeoff();
     const mode = COST_MODES[CURRENT_COST_MODE] || COST_MODES.standard;
@@ -3912,13 +3914,37 @@ export function createViewer(container, opts = {}) {
       matTotal -= pvCost;
     }
     matTotal = matTotal * (mode.matMult || 1.0);
+    // プラン床面積 (㎡) — fixed cost の minArea / scaleByArea 判定に使用
+    const areaM2 = currentPlan
+      ? (currentPlan.W / 1000) * (currentPlan.D / 1000) * (currentPlan.stories || 1)
+      : 40;
+    const areaScale = Math.min(1.0, Math.max(0.25, areaM2 / 40));     // 40m²基準で 0.25-1.0
+    const isTiny = currentPlan?.tiny === true;       // 規格品 tiny house (建築確認不要 ≦10m²)
+    // tiny プラン: 規格品キット組立想定で coef を大幅削減
+    // labor 50%→25% (1日組立) / design 10%→3% (規格品) / scaffold 5%→0 / crane 4%→0 / contingency 8%→4%
+    const tinyOverride = {
+      labor: 0.25, design: 0.03, scaffolding: 0, crane: 0, contingency: 0.04, prefab_cut: 0.03,
+    };
     const breakdown = [];
     let total = matTotal;
     for (const [k, c] of Object.entries(COST_COEFS)) {
       if (mode.removeKeys && mode.removeKeys.includes(k)) continue;
+      // minArea: この面積以下のプランでは適用せず (¥0)
+      if (c.minArea && areaM2 < c.minArea) {
+        breakdown.push({key: k, label: c.label, note: `${c.note} (${areaM2.toFixed(1)}㎡で適用外)`, cost: 0});
+        continue;
+      }
       const isLabor = k === 'labor';
       const mult = isLabor ? (mode.laborMult || 1.0) : 1.0;
-      const cost = (c.pct ? matTotal * c.pct : (c.fixed || 0)) * mult;
+      let baseCost;
+      if (c.pct) {
+        const pct = (isTiny && k in tinyOverride) ? tinyOverride[k] : c.pct;
+        baseCost = matTotal * pct;
+      } else if (c.fixed) {
+        // scaleByArea: 床面積に応じてスケール (40m²基準・最小25%)
+        baseCost = c.scaleByArea ? c.fixed * areaScale : c.fixed;
+      } else baseCost = 0;
+      const cost = baseCost * mult;
       breakdown.push({key: k, label: c.label, note: c.note, cost});
       total += cost;
     }
