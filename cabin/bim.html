@@ -66,8 +66,27 @@
   #modeToggle:hover{background:#f0eee7}
   #showProBtn{display:none;position:fixed;top:62px;left:14px;z-index:21;background:#222;color:#fff;border:0;border-radius:5px;padding:6px 12px;font-size:11px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)}
   /* ── price prominence in info ── */
-  #info .price{font-size:14px;font-weight:700;color:#1a6b3a;margin:4px 0;font-feature-settings:"tnum"}
-  #info .price small{font-size:10px;font-weight:400;opacity:.55;margin-left:4px}
+  #info .price{font-size:18px;font-weight:700;color:#1a6b3a;margin:4px 0;font-feature-settings:"tnum"}
+  #info .price small{font-size:11px;font-weight:400;opacity:.55;margin-left:4px}
+  #info .loan{font-size:12px;color:#666;margin:2px 0 4px;font-feature-settings:"tnum"}
+  #info .maint{font-size:11px;color:#888;margin-bottom:6px;font-feature-settings:"tnum"}
+  /* ── アクセシビリティ font 全体大きめ ── */
+  body{font-size:13px}
+  .panel{font-size:13px}
+  /* ── 全画面ボタン (右下) ── */
+  #fsBtn{position:fixed;top:62px;right:14px;z-index:24;width:36px;height:36px;font-size:14px;cursor:pointer;padding:0;background:#fffefb;border:1px solid #d6d2c8;border-radius:8px}
+  /* ── 環境 (昼/夜) トグル ── */
+  #envTimeToggle{position:fixed;top:104px;right:14px;z-index:24;width:36px;height:36px;font-size:14px;cursor:pointer;padding:0;background:#fffefb;border:1px solid #d6d2c8;border-radius:8px}
+  /* ── 連絡先 fixed ── */
+  #contactBar{position:fixed;bottom:60px;left:14px;z-index:18;background:#fffefb;border:1px solid #d6d2c8;border-radius:8px;padding:6px 10px;font-size:11px;color:#666;display:none;max-width:200px}
+  body.mode-simple #contactBar{display:block}
+  /* 見積フォームモーダル */
+  #quoteFormModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:60;align-items:center;justify-content:center;padding:20px}
+  #quoteFormModal[data-open="1"]{display:flex}
+  #quoteFormModal .box{background:#fff;border-radius:10px;padding:24px;max-width:500px;width:100%;max-height:90vh;overflow:auto}
+  #quoteFormModal label{display:block;font-size:11px;color:#666;margin:8px 0 3px}
+  #quoteFormModal input,#quoteFormModal select,#quoteFormModal textarea{width:100%;padding:8px;border:1px solid #ccc;border-radius:5px;font-size:13px;font-family:inherit;background:#fff}
+  #quoteFormModal textarea{min-height:60px}
   .panel h3{font-size:11px;font-weight:600;letter-spacing:.08em;opacity:.55;text-transform:uppercase;margin-bottom:10px}
   .panel label{display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer;user-select:none}
   .panel label input{accent-color:#222}
@@ -181,7 +200,7 @@
 <body>
 
 <div class="topbar">
-  <div class="brand">SOLUNA <small>BIM Viewer · β</small></div>
+  <div class="brand">SOLUNA <small>3Dビューワー · プラン・価格・施工</small></div>
   <button id="modeToggle" style="margin-left:auto" title="表示モード切替 (シンプル ↔ プロ)">✨ シンプル</button>
   <button id="drawerToggle" style="background:none;border:1px solid #888;border-radius:5px;padding:4px 10px;font-size:12px;cursor:pointer">☰ メニュー</button>
   <div class="links">
@@ -232,6 +251,58 @@
 
 <!-- シンプルモード時のみ表示: 詳細ツールを開くボタン -->
 <button id="showProBtn" title="詳細ツール (プロモード)">🔧 詳細ツール</button>
+
+<!-- 全画面 + 昼夜トグル -->
+<button id="fsBtn" title="全画面表示">⛶</button>
+<button id="envTimeToggle" title="昼景 ↔ 夜景 切替">🌙</button>
+
+<!-- 連絡先 (シンプルモードのみ) -->
+<div id="contactBar">
+  📞 <a href="tel:09074090407" style="color:#1a6b3a;font-weight:600;text-decoration:none">090-7409-0407</a><br>
+  ✉️ <a href="mailto:info@solun.art" style="color:#1a6b3a;text-decoration:none">info@solun.art</a><br>
+  <span style="opacity:.6;font-size:10px">10:00-19:00 JST 通話可</span>
+</div>
+
+<!-- 見積依頼フォームモーダル -->
+<div id="quoteFormModal">
+  <div class="box">
+    <button id="quoteFormClose" style="float:right;background:none;border:0;font-size:20px;cursor:pointer">×</button>
+    <h3 style="margin:0 0 6px">✉️ 見積・相談依頼</h3>
+    <p style="font-size:12px;color:#888;margin-bottom:14px">担当 (濱田) より24時間以内にご連絡します。電話希望の方は <a href="tel:09074090407" style="color:#1a6b3a">090-7409-0407</a> へ直接どうぞ。</p>
+    <form id="quoteForm">
+      <label>お名前 *</label>
+      <input id="qfName" required placeholder="例: 山田太郎">
+      <label>連絡先 (Email or 電話) *</label>
+      <input id="qfContact" required placeholder="example@email.com / 090-XXXX-XXXX">
+      <label>関心プラン</label>
+      <input id="qfPlan" readonly>
+      <label>建設地 (市区町村)</label>
+      <input id="qfLocation" placeholder="例: 北海道弟子屈町、東京都〇〇市">
+      <label>ご予算</label>
+      <select id="qfBudget">
+        <option value="">選択してください</option>
+        <option value="〜500万">〜500万 (tiny house)</option>
+        <option value="500-1500万">500-1500万 (小規模)</option>
+        <option value="1500-3000万">1500-3000万 (標準)</option>
+        <option value="3000-6000万">3000-6000万 (中規模)</option>
+        <option value="6000万-1億">6000万-1億 (大型)</option>
+        <option value="1億〜">1億〜 (リトリート/別荘)</option>
+        <option value="未定">未定 (相談したい)</option>
+      </select>
+      <label>建設希望時期</label>
+      <select id="qfTiming">
+        <option value="3ヶ月以内">3ヶ月以内</option>
+        <option value="半年以内" selected>半年以内</option>
+        <option value="1年以内">1年以内</option>
+        <option value="2年以内">2年以内</option>
+        <option value="未定">未定 (情報収集中)</option>
+      </select>
+      <label>ご質問・要望 (任意)</label>
+      <textarea id="qfMessage" placeholder="例: 太陽光は必須で、家族3人で住みたい"></textarea>
+      <button type="submit" style="background:#1a6b3a;color:#fff;border:0;padding:10px 24px;border-radius:5px;font-size:13px;cursor:pointer;width:100%;margin-top:14px;font-weight:600">📨 送信</button>
+    </form>
+  </div>
+</div>
 
 <div class="compass">N ↑</div>
 
@@ -636,9 +707,11 @@
   <div id="planTags"></div>
   <div class="dim" id="planDim">5,460 × 4,550 × 3,000mm</div>
   <div class="price" id="planPrice">¥— <small>税込</small></div>
+  <div class="loan" id="planLoan">月々 ¥— (35年・1.0%)</div>
+  <div class="maint" id="planMaint">30年メンテ ¥—</div>
   <div style="display:flex;gap:6px;margin-top:8px">
-    <a class="detail" id="planLink" href="/build/standard">詳細スペック →</a>
-    <button id="quoteBtn" style="background:#1a6b3a;color:#fff;border:1px solid #1a6b3a;border-radius:4px;padding:5px 10px;font-size:11px;cursor:pointer">✉️ 見積依頼</button>
+    <a class="detail" id="planLink" href="/build/standard">詳細 →</a>
+    <button id="quoteBtn" style="background:#1a6b3a;color:#fff;border:1px solid #1a6b3a;border-radius:4px;padding:6px 12px;font-size:12px;cursor:pointer;font-weight:600">✉️ 見積依頼</button>
   </div>
 </div>
 
@@ -781,6 +854,18 @@ const I18N = {
     '詳細スペック →':'Details →',
     '☰ メニュー':'☰ Menu',
     '本ガイドの標準':'Default plan',
+    '✨ シンプル':'✨ Simple',
+    '🛠 プロ':'🛠 Pro',
+    '🔧 詳細ツール':'🔧 Pro Tools',
+    '📊 コスト・性能':'📊 Costs / Performance',
+    '🏗 構造・法規':'🏗 Structure / Code',
+    '⏱ 施工・工程':'⏱ Construction',
+    '📤 出力 (PDF/CSV/CAD/AR)':'📤 Export',
+    '🤝 コラボ・拡張':'🤝 Collab / Extensions',
+    '✉️ 見積依頼':'✉️ Request Quote',
+    '詳細 →':'Details →',
+    '中文':'中文',
+    '한국어':'한국어',
   },
 };
 function t(s) { return (I18N[lang] && I18N[lang][s]) ? I18N[lang][s] : s; }
@@ -823,8 +908,10 @@ function updateInfo(plan) {
   const urbanIds = ['pod','stack','tower','flat','duo','yield','roots'];
   const detailBase = urbanIds.includes(plan.id) ? '/urban' : '/build';
   document.getElementById('planLink').href = `${detailBase}/${plan.id}`;
-  // 価格を即座に表示 (ヘビー計算は次フレーム)
+  // 価格 + 月額ローン + 30年メンテ (ヘビー計算は次フレーム)
   const priceEl = document.getElementById('planPrice');
+  const loanEl = document.getElementById('planLoan');
+  const maintEl = document.getElementById('planMaint');
   if (priceEl) {
     priceEl.textContent = '計算中…';
     requestAnimationFrame(() => {
@@ -832,6 +919,20 @@ function updateInfo(plan) {
         const soft = viewer.softCosts();
         const grand = soft.grandTotal * 1.10;
         priceEl.innerHTML = '¥' + Math.round(grand).toLocaleString() + ' <small>税込</small>';
+        // 月額返済 (35年・1.0% フラット35想定 / 元利均等)
+        const r = 0.01 / 12;        // 月利
+        const n = 35 * 12;
+        const monthly = grand * r * Math.pow(1+r, n) / (Math.pow(1+r, n) - 1);
+        if (loanEl) loanEl.textContent = '月々 ¥' + Math.round(monthly).toLocaleString() + ' (35年・1.0%)';
+        // 30年メンテコスト試算 (外壁塗装10年/屋根20年/設備15年/シロアリ5年)
+        const area = (plan.W/1000) * (plan.D/1000) * (plan.stories || 1);
+        const repaint = 3 * (area * 4500);          // 外壁塗装 30年で3回
+        const roof = 1 * (area * 8000);              // 屋根葺替 30年で1回
+        const equip = 2 * (area * 12000);            // 設備更新 15年×2回
+        const termite = 6 * 80000;                   // シロアリ5年毎
+        const inspection30 = 30 * 25000;             // 年次点検 ¥25k×30年
+        const maint = repaint + roof + equip + termite + inspection30;
+        if (maintEl) maintEl.textContent = '30年メンテ ¥' + Math.round(maint).toLocaleString() + ' (外壁/屋根/設備/シロアリ/点検)';
       } catch (e) { priceEl.textContent = '—'; }
     });
   }
@@ -2625,10 +2726,64 @@ document.getElementById('collabBtn').addEventListener('click', async () => {
   }
 });
 
-// ─── 見積依頼フォーム ───
+// ─── 見積依頼フォーム (新フォーム優先) ───
 document.getElementById('quoteBtn').addEventListener('click', () => {
-  document.getElementById('quoteModal').style.display = 'flex';
+  // 現プラン名を埋める
+  const p = viewer.getPlan?.();
+  const f = document.getElementById('qfPlan');
+  if (p && f) f.value = `${p.name} (${p.label})`;
+  document.getElementById('quoteFormModal').setAttribute('data-open', '1');
 });
+// 新フォーム close + submit
+document.getElementById('quoteFormClose')?.addEventListener('click', () => {
+  document.getElementById('quoteFormModal').removeAttribute('data-open');
+});
+document.getElementById('quoteForm')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = document.getElementById('qfName').value.trim();
+  const contact = document.getElementById('qfContact').value.trim();
+  const planTxt = document.getElementById('qfPlan').value;
+  const loc = document.getElementById('qfLocation').value.trim();
+  const budget = document.getElementById('qfBudget').value;
+  const timing = document.getElementById('qfTiming').value;
+  const msg = document.getElementById('qfMessage').value.trim();
+  if (!name || !contact) { alert('お名前と連絡先は必須です'); return; }
+  const body = `お名前: ${name}\n連絡先: ${contact}\nプラン: ${planTxt}\n建設地: ${loc}\n予算: ${budget}\n時期: ${timing}\nメッセージ: ${msg}\n\nプラン詳細URL: ${location.href}`;
+  // mailto fallback (server endpoint があれば優先送信)
+  try {
+    const res = await fetch('/api/bim/quote', {
+      method: 'POST', headers: {'content-type': 'application/json'},
+      body: JSON.stringify({name, contact, plan: planTxt, location: loc, budget, timing, message: msg, url: location.href}),
+    });
+    if (res.ok) {
+      alert(`✉️ 送信完了\n\n${name} 様\n24時間以内に担当 (濱田) よりご連絡します。\nお急ぎの場合は 090-7409-0407 まで。`);
+      document.getElementById('quoteFormModal').removeAttribute('data-open');
+      return;
+    }
+  } catch {}
+  // mailto fallback
+  location.href = `mailto:info@solun.art?subject=${encodeURIComponent('SOLUNA 見積依頼 - ' + planTxt)}&body=${encodeURIComponent(body)}`;
+});
+
+// 全画面 + 昼夜トグル
+document.getElementById('fsBtn')?.addEventListener('click', () => {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+  else document.exitFullscreen?.();
+});
+document.getElementById('envTimeToggle')?.addEventListener('click', (e) => {
+  const isNight = e.currentTarget.dataset.night === '1';
+  if (isNight) {
+    viewer.setSunPosition?.(6, 12);                  // June noon
+    e.currentTarget.dataset.night = '0';
+    e.currentTarget.textContent = '🌙';
+  } else {
+    viewer.setSunPosition?.(12, 22);                 // December 10pm = night
+    e.currentTarget.dataset.night = '1';
+    e.currentTarget.textContent = '☀️';
+  }
+});
+
+// 旧 quoteModal も使えるよう保持 (legacy)
 document.getElementById('quoteClose').addEventListener('click', () => {
   document.getElementById('quoteModal').style.display = 'none';
 });

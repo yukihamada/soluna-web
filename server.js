@@ -11114,6 +11114,40 @@ MEBUKI(9.9m²/¥135万) SU(24.8m²/¥328万) TAMA(40m²ドーム) AN(40m²) MUNE
     res.status(503).json({error:'CAD変換APIは現在連携準備中です (Forge/Speckle統合)。glTF/OBJ/FBXに変換してアップロードしてください。'});
   });
 
+  // ── 見積依頼フォーム送信 ──
+  app.post("/api/bim/quote", express.json({limit:'128kb'}), async (req, res) => {
+    try {
+      const { name, contact, plan, location, budget, timing, message, url } = req.body || {};
+      if (!name || !contact) return res.status(400).json({error:'name and contact required'});
+      // libsql に保存
+      try {
+        await db.execute({
+          sql: "CREATE TABLE IF NOT EXISTS bim_quote_requests (id TEXT PRIMARY KEY, name TEXT, contact TEXT, plan TEXT, location TEXT, budget TEXT, timing TEXT, message TEXT, source_url TEXT, created_at INTEGER)",
+        });
+        const id = 'Q-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + crypto.randomBytes(3).toString('hex').toUpperCase();
+        await db.execute({
+          sql: "INSERT INTO bim_quote_requests (id, name, contact, plan, location, budget, timing, message, source_url, created_at) VALUES (?,?,?,?,?,?,?,?,?,?)",
+          args: [id, name, contact, plan||'', location||'', budget||'', timing||'', message||'', url||'', Date.now()],
+        });
+        // 通知メール (best-effort)
+        try {
+          if (typeof sendResendMail === 'function') {
+            await sendResendMail({
+              to: 'info@solun.art',
+              subject: `[BIM見積依頼] ${name} 様 - ${plan||'未選択'}`,
+              text: `見積依頼 (${id})\n\n名前: ${name}\n連絡先: ${contact}\nプラン: ${plan}\n建設地: ${location}\n予算: ${budget}\n時期: ${timing}\nメッセージ: ${message}\n\n${url}`,
+            });
+          }
+        } catch (e) {}
+        return res.json({ok:true, id});
+      } catch (e) {
+        return res.status(500).json({error: e.message});
+      }
+    } catch (e) {
+      res.status(500).json({error:e.message});
+    }
+  });
+
   // ── /api/* catch-all 404 (must come AFTER all real /api routes) ──
   app.all("/api/*", (_req, res) => {
     res.status(404).json({ error: "Not found" });
