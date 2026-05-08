@@ -381,20 +381,20 @@
       <optgroup label="🪚 セルフビルド系">
         <option value="diy_interior">DIY内装 (-25%)</option>
         <option value="shell_kit">シェルキット 外皮のみ (-45%)</option>
-        <option value="workparty">🪚 ワークパーティDIY (-40%)</option>
+        <option value="workparty">🪚 ワークパーティDIY (-28%)</option>
         <option value="loft_no_2f">🏠 ロフト+平屋化 (-18%)</option>
       </optgroup>
       <optgroup label="🌞 インフラ・調達">
-        <option value="offgrid">🌞 完全オフグリッド (-20%)</option>
-        <option value="self_finish">📦 施主支給 (-15%)</option>
-        <option value="bundled_order">📦 複数棟一括発注 (-12%)</option>
+        <option value="offgrid">🌞 完全オフグリッド (-8%)</option>
+        <option value="self_finish">📦 施主支給 (-8%)</option>
+        <option value="bundled_order">📦 複数棟一括発注 (-10%)</option>
         <option value="compact_spec">🔧 コンパクト仕様 (-10%)</option>
         <option value="ppa_solar">PPA太陽光 (PV月額化)</option>
         <option value="offsite_factory">オフサイト工場 (-15%)</option>
       </optgroup>
       <optgroup label="🤝 共同・最大">
         <option value="cooperative">コーポラティブ 共同所有10名 (÷10)</option>
-        <option value="combo_max">⚡ 最大節約 (-65%)</option>
+        <option value="combo_real">⚡ 全部適用 (現実上限 -50%)</option>
       </optgroup>
     </select>
     <div id="costModeNote" style="font-size:10px;color:#888;margin-bottom:4px;line-height:1.4"></div>
@@ -2331,13 +2331,13 @@ const COST_MODE_NOTES = {
   ppa_solar: '太陽光・パワコンは月額¥7,500で別契約',
   offsite_factory: '弟子屈SIPs工場でプレカット → 現場工期14→5日',
   cooperative: '1棟を10名で共同所有 → 1人あたり1/10の費用',
-  offgrid: 'PV+蓄電池+雨水+コンポストトイレ → 浄化槽・電気引込・町水道すべて不要',
-  workparty: 'SOLUNA仲間20名で土日に建てる → 人件費80%カット (棟梁1名のみ雇用)',
-  self_finish: 'キッチン/UB/サッシをIKEA/楽天/メルカリで施主直購入 → 中間マージンカット',
-  bundled_order: '同年度3棟以上発注で材料一括仕入れ・現場連続稼働で経費圧縮',
+  offgrid: '浄化槽¥150万+電気引込¥38万削減。但し蓄電池/雨水処理の代替設備で材料増 → 実質 -5〜10%',
+  workparty: 'SOLUNA仲間20名+棟梁1名で施工。人件費 -60%。労災保険/指導費/期間延長は別計上。SOLUNA実例 -25〜30%',
+  self_finish: 'キッチン/UB/サッシ施主直購入で中間マージン10-15%カット。保証は施主負担',
+  bundled_order: '同年度3棟以上で材料一括仕入れ -8〜12%。現場連続稼働で人件費5%圧縮',
   loft_no_2f: '2階を諦めロフト+吹き抜けに → 階段・床スラブ削減、構造シンプル化',
   compact_spec: 'UB1216/エコジョーズ/サッシ簡素化 → 設備グレードダウン',
-  combo_max: '全節約手法スタック: DIY内装 + オフグリッド + 施主支給 + ワークパーティ',
+  combo_real: 'DIY+オフグリッド+施主支給+WP+一括 を組合せ (重複控除済)。SOLUNA実例ベース、現実上限 -45〜55%',
 };
 function refreshCostNote() {
   costNote.textContent = COST_MODE_NOTES[costSel.value] || '';

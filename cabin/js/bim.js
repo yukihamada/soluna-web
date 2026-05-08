@@ -500,31 +500,31 @@ export const COST_MODES = {
   },
   // ── 新規追加: より現実的な節約手法 ──
   offgrid: {
-    label: '🌞 完全オフグリッド (-20%)',
-    matMult: 0.94, laborMult: 0.85,
+    label: '🌞 完全オフグリッド (-8%)',
+    matMult: 1.04, laborMult: 0.92,             // 蓄電池/雨水処理の追加コストで材料は微増
     removeKeys: ['septic','rainwater','electric_in','temp_power'],
-    note: 'PV+蓄電池+雨水+コンポストトイレ → 浄化槽・電気引込・町水道すべて不要',
+    note: 'PV+蓄電池+雨水+コンポストトイレ → 浄化槽・電気引込削減 ¥206万。代替設備で材料は微増 (実質 -5〜10%)',
   },
   workparty: {
-    label: '🪚 ワークパーティ DIY建設 (-40%)',
-    matMult: 1.0, laborMult: 0.20,
-    removeKeys: ['scaffolding'],
-    note: 'SOLUNA仲間20名で土日に建てる → 人件費80%カット (棟梁1名のみ雇用)',
+    label: '🪚 ワークパーティ DIY建設 (-28%)',
+    matMult: 1.0, laborMult: 0.40,             // 人件費 -60% (元は-80%だったが過大)
+    removeKeys: [],
+    note: 'SOLUNA仲間20名+棟梁1名で施工 → 人件費 -60%。労災保険・指導費・期間延長は別計上。実例で -25〜30%',
   },
   self_finish: {
-    label: '📦 施主支給 (-15%)',
-    matMult: 0.85, laborMult: 0.95,
+    label: '📦 施主支給 (-8%)',
+    matMult: 0.92, laborMult: 0.98,             // 元は-15%だが過大
     removeKeys: [],
-    note: 'キッチン/UB/サッシをIKEA/楽天/メルカリで施主直購入 → 中間マージンカット',
+    note: 'キッチン/UB/サッシをIKEA/楽天等で施主直購入 → 中間マージン10-15%カット。保証は施主負担 (実質 -5〜10%)',
   },
   bundled_order: {
-    label: '📦 複数棟一括発注 (-12%)',
-    matMult: 0.85, laborMult: 0.92,
+    label: '📦 複数棟一括発注 (-10%)',
+    matMult: 0.88, laborMult: 0.94,
     removeKeys: [],
-    note: '同年度3棟以上発注で材料一括仕入れ・現場連続稼働で経費圧縮',
+    note: '同年度3棟以上で材料一括仕入れ -8〜12%。現場連続稼働で人件費5%圧縮',
   },
   loft_no_2f: {
-    label: '🏠 ロフト活用 平屋化 (-18%)',
+    label: '🏠 ロフト+平屋化 (-18%)',
     matMult: 0.82, laborMult: 0.78,
     removeKeys: ['stairs_main'],
     note: '2階を諦めロフト+吹き抜けに → 階段・床スラブ削減、構造シンプル化',
@@ -535,11 +535,11 @@ export const COST_MODES = {
     removeKeys: [],
     note: 'UB1216/エコジョーズ/サッシ簡素化 → 設備グレードダウン',
   },
-  combo_max: {
-    label: '⚡ 最大節約 (DIY+オフグリッド+施主支給+ワークパーティ -65%)',
-    matMult: 0.55, laborMult: 0.18,
-    removeKeys: ['septic','rainwater','electric_in','temp_power','scaffolding','jio'],
-    note: '全節約手法スタック: DIY内装 + オフグリッド + 施主支給 + ワークパーティ → 規格化された SOLUNA WP モデル',
+  combo_real: {
+    label: '⚡ 全部適用 (現実上限 -50%)',
+    matMult: 0.65, laborMult: 0.30,
+    removeKeys: ['septic','rainwater','electric_in','temp_power'],
+    note: 'DIY内装 + オフグリッド + 施主支給 + WP + 一括発注 を組合せ。重複部分を控除した現実的な節約上限 (-45〜55%)。SOLUNA実例ベース',
   },
 };
 export let CURRENT_COST_MODE = 'standard';
