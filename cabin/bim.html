@@ -38,6 +38,36 @@
   #stage{position:fixed;inset:0;top:48px}
 
   .panel{position:fixed;background:#fffefb;border:1px solid #d6d2c8;border-radius:8px;padding:12px 14px;font-size:12px;box-shadow:0 1px 2px rgba(0,0,0,.04);max-width:260px}
+  /* ── 折りたたみ可能パネル: クリックヘッダーで開閉 ── */
+  .panel.collapsible h3{cursor:pointer;margin-bottom:0;display:flex;align-items:center;gap:6px;user-select:none}
+  .panel.collapsible h3::before{content:'▾';font-size:10px;opacity:.7;transition:transform .15s}
+  .panel.collapsible.collapsed h3{margin-bottom:0}
+  .panel.collapsible.collapsed h3::before{transform:rotate(-90deg)}
+  .panel.collapsible.collapsed > *:not(h3){display:none !important}
+  .panel.collapsible:not(.collapsed) h3{margin-bottom:10px}
+  /* ── シンプルモード: パネル類を非表示 ── */
+  body.mode-simple #finish,
+  body.mode-simple #layers,
+  body.mode-simple #sun-panel,
+  body.mode-simple #bim-tools,
+  body.mode-simple #customDimToggle,
+  body.mode-simple #dimcustom{display:none !important}
+  body.mode-simple #showProBtn{display:inline-block !important}
+  /* ── ツール グループ <details>/<summary> ── */
+  .panel details{border-top:1px solid #ece8de;padding:6px 0}
+  .panel details:first-of-type{border-top:0}
+  .panel details summary{cursor:pointer;font-size:11px;font-weight:600;letter-spacing:.04em;padding:4px 0;list-style:none;display:flex;align-items:center;gap:6px;user-select:none}
+  .panel details summary::-webkit-details-marker{display:none}
+  .panel details summary::before{content:'▸';font-size:10px;opacity:.6;transition:transform .15s}
+  .panel details[open] summary::before{transform:rotate(90deg)}
+  .panel details > *:not(summary){margin-top:6px}
+  /* ── モードトグル ── */
+  #modeToggle{margin-right:8px;background:#fff;border:1px solid #c8c2b6;border-radius:5px;padding:3px 10px;font-size:11px;cursor:pointer;font-family:inherit}
+  #modeToggle:hover{background:#f0eee7}
+  #showProBtn{display:none;position:fixed;top:62px;left:14px;z-index:21;background:#222;color:#fff;border:0;border-radius:5px;padding:6px 12px;font-size:11px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+  /* ── price prominence in info ── */
+  #info .price{font-size:14px;font-weight:700;color:#1a6b3a;margin:4px 0;font-feature-settings:"tnum"}
+  #info .price small{font-size:10px;font-weight:400;opacity:.55;margin-left:4px}
   .panel h3{font-size:11px;font-weight:600;letter-spacing:.08em;opacity:.55;text-transform:uppercase;margin-bottom:10px}
   .panel label{display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer;user-select:none}
   .panel label input{accent-color:#222}
@@ -152,7 +182,8 @@
 
 <div class="topbar">
   <div class="brand">SOLUNA <small>BIM Viewer · β</small></div>
-  <button id="drawerToggle" style="background:none;border:1px solid #888;border-radius:5px;padding:4px 10px;font-size:12px;cursor:pointer;margin-left:auto">☰ メニュー</button>
+  <button id="modeToggle" style="margin-left:auto" title="表示モード切替 (シンプル ↔ プロ)">✨ シンプル</button>
+  <button id="drawerToggle" style="background:none;border:1px solid #888;border-radius:5px;padding:4px 10px;font-size:12px;cursor:pointer">☰ メニュー</button>
   <div class="links">
     <a href="?lang=ja" id="langJa">日本語</a>
     <a href="?lang=en" id="langEn">EN</a>
@@ -198,6 +229,9 @@
 </div>
 
 <div id="stage"></div>
+
+<!-- シンプルモード時のみ表示: 詳細ツールを開くボタン -->
+<button id="showProBtn" title="詳細ツール (プロモード)">🔧 詳細ツール</button>
 
 <div class="compass">N ↑</div>
 
@@ -256,7 +290,7 @@
 
 <button id="customDimToggle" style="position:fixed;top:62px;right:710px;width:36px;height:36px;font-size:14px;cursor:pointer;padding:0;background:#fffefb;border:1px solid #d6d2c8;border-radius:8px;z-index:20" title="寸法カスタマイズ">📐</button>
 
-<div class="panel" id="finish">
+<div class="panel collapsible collapsed" id="finish">
   <h3>仕上げ</h3>
   <select id="presetSelect" style="width:100%;padding:6px;border:1px solid #c8c2b6;border-radius:5px;background:#fff;font-family:inherit;font-size:11px;margin-bottom:8px">
     <option value="black_gal" selected>黒ガルバ × 杉（標準）</option>
@@ -279,7 +313,7 @@
   </div>
 </div>
 
-<div class="panel" id="layers">
+<div class="panel collapsible collapsed" id="layers">
   <h3>レイヤ</h3>
   <label><input type="checkbox" data-layer="foundation" checked> 基礎</label>
   <label><input type="checkbox" data-layer="structure" checked> 構造躯体</label>
@@ -326,61 +360,80 @@
   </div>
 </div>
 
-<!-- BIM tools panel -->
-<div class="panel" id="bim-tools" style="top:62px;left:228px;width:220px">
-  <h3>BIM ツール</h3>
-  <button id="bomBtn" style="width:100%;margin-bottom:4px">📊 数量・コスト・諸経費</button>
-  <button id="energyBtn" style="width:100%;margin-bottom:4px">🌡 UA値・断熱性能</button>
-  <button id="costBtn" style="width:100%;margin-bottom:4px">💰 30年TCO・光熱費・CO2</button>
-  <button id="structBtn" style="width:100%;margin-bottom:4px">🏗 構造解析・耐震等級</button>
-  <button id="codeBtn" style="width:100%;margin-bottom:4px">📋 法規チェック</button>
-  <button id="clashBtn" style="width:100%;margin-bottom:4px">⚠ 干渉検出 (Clash)</button>
-  <button id="urbanBtn" style="width:100%;margin-bottom:4px">🏘 建ぺい/容積/斜線</button>
-  <button id="energyBELSBtn" style="width:100%;margin-bottom:4px">🔋 一次エネ (BELS/ZEH)</button>
-  <button id="manualBtn" style="width:100%;margin-bottom:4px">⬇ SIPs施工マニュアルPDF</button>
-  <button id="structPDFBtn" style="width:100%;margin-bottom:4px">⬇ 構造計算書PDF</button>
-  <button id="inspectBtn" style="width:100%;margin-bottom:4px">⬇ 検査チェックリスト</button>
-  <button id="ganttBtn" style="width:100%;margin-bottom:4px">📅 工程表 (Gantt)</button>
-  <button id="daylightBtn" style="width:100%;margin-bottom:4px">💡 昼光率 Daylight</button>
-  <button id="mfgBtn" style="width:100%;margin-bottom:4px">⬇ 製造CSV (パネル割付)</button>
-  <div id="xrButtons" style="display:flex;gap:4px;margin-bottom:4px"></div>
-  <button id="phaseBtn" style="width:100%;margin-bottom:4px">⏱ 4D 施工アニメ</button>
-  <button id="csvBtn" style="width:100%;margin-bottom:4px">⬇ BOM CSV</button>
-  <button id="ifcBtn" style="width:100%;margin-bottom:4px">⬇ IFC</button>
-  <button id="poBtn" style="width:100%;margin-bottom:4px">⬇ 発注書PDF</button>
-  <button id="reportBtn" style="width:100%;margin-bottom:4px">⬇ 1ページサマリーPDF</button>
-  <button id="permitBtn" style="width:100%;margin-bottom:4px">⬇ 建築確認申請図書PDF</button>
-  <button id="videoBtn" style="width:100%;margin-bottom:4px">🎬 ウォークスルー動画</button>
-  <button id="compareBtn" style="width:100%;margin-bottom:4px">📊 全16プラン比較表</button>
-  <button id="gltfBtn" style="width:100%;margin-bottom:4px">⬇ glTF (Android AR)</button>
-  <button id="usdzBtn" style="width:100%;margin-bottom:4px">⬇ USDZ (iOS AR / Vision Pro)</button>
-  <button id="gisBtn" style="width:100%;margin-bottom:4px">🗺 実敷地連携 (GIS)</button>
-  <button id="roiBtn" style="width:100%;margin-bottom:4px">💹 ROI/IRR (投資家モード)</button>
-  <button id="brochureBtn" style="width:100%;margin-bottom:4px">📰 SNS用画像生成</button>
-  <button id="photoBtn" style="width:100%;margin-bottom:4px">📷 進捗写真管理</button>
-  <button id="tutorialBtn" style="width:100%;margin-bottom:4px">❓ チュートリアル</button>
-  <button id="saveBtn" style="width:100%;margin-bottom:4px">☁️ クラウド保存・共有</button>
-  <button id="structApiBtn" style="width:100%;margin-bottom:4px">🏗 構造解析API (Wallstat連携)</button>
-  <button id="ePermitBtn" style="width:100%;margin-bottom:4px">📨 確認申請 e-提出 (ICBA連携)</button>
-  <button id="importBtn" style="width:100%;margin-bottom:4px">📥 SketchUp/Revit/IFC 取込</button>
-  <button id="installBtn" style="width:100%;margin-bottom:4px;display:none">📲 アプリとしてインストール</button>
-  <button id="collabBtn" style="width:100%;margin-bottom:4px">👥 リアルタイム協調編集</button>
-  <hr style="border:0;border-top:1px solid #d6d2c8;margin:8px 0">
-  <label style="font-size:11px;color:#666;display:block;margin-bottom:4px">💴 コストモード切替</label>
-  <select id="costModeSelect" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:11px;margin-bottom:6px;font-family:inherit">
-    <option value="standard">標準 (フル施工・引渡し)</option>
-    <option value="diy_interior">DIY内装 (-25%)</option>
-    <option value="shell_kit">シェルキット 外皮のみ (-45%)</option>
-    <option value="ppa_solar">PPA太陽光 (PV分外し)</option>
-    <option value="offsite_factory">オフサイト工場プレカット (-15%)</option>
-    <option value="cooperative">コーポラティブ 共同所有10名</option>
-  </select>
-  <div id="costModeNote" style="font-size:10px;color:#888;margin-bottom:8px;line-height:1.4"></div>
-  <button id="quoteBtn" style="width:100%;background:#1a6b3a;color:#fff;border-color:#1a6b3a">✉️ 見積依頼を送る</button>
+<!-- BIM tools panel — グループ化されたアコーディオン -->
+<div class="panel collapsible collapsed" id="bim-tools" style="top:62px;left:228px;width:240px;max-height:calc(100vh - 80px);overflow-y:auto">
+  <h3>🔧 BIM ツール</h3>
+
+  <details>
+    <summary>📊 コスト・性能</summary>
+    <button id="bomBtn" style="width:100%;margin-bottom:4px">📊 数量・コスト・諸経費</button>
+    <button id="energyBtn" style="width:100%;margin-bottom:4px">🌡 UA値・断熱性能</button>
+    <button id="costBtn" style="width:100%;margin-bottom:4px">💰 30年TCO・光熱費・CO2</button>
+    <button id="energyBELSBtn" style="width:100%;margin-bottom:4px">🔋 一次エネ (BELS/ZEH)</button>
+    <button id="daylightBtn" style="width:100%;margin-bottom:4px">💡 昼光率 Daylight</button>
+    <button id="roiBtn" style="width:100%;margin-bottom:4px">💹 ROI/IRR (投資家モード)</button>
+    <hr style="border:0;border-top:1px solid #ece8de;margin:6px 0">
+    <label style="font-size:11px;color:#666;display:block;margin-bottom:4px">💴 コストモード</label>
+    <select id="costModeSelect" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:11px;margin-bottom:6px;font-family:inherit">
+      <option value="standard">標準 (フル施工)</option>
+      <option value="diy_interior">DIY内装 (-25%)</option>
+      <option value="shell_kit">シェルキット (-45%)</option>
+      <option value="ppa_solar">PPA太陽光</option>
+      <option value="offsite_factory">オフサイト工場 (-15%)</option>
+      <option value="cooperative">コーポラティブ ÷10</option>
+    </select>
+    <div id="costModeNote" style="font-size:10px;color:#888;margin-bottom:4px;line-height:1.4"></div>
+  </details>
+
+  <details>
+    <summary>🏗 構造・法規</summary>
+    <button id="structBtn" style="width:100%;margin-bottom:4px">🏗 構造解析・耐震等級</button>
+    <button id="codeBtn" style="width:100%;margin-bottom:4px">📋 法規チェック (採光/換気)</button>
+    <button id="urbanBtn" style="width:100%;margin-bottom:4px">🏘 建ぺい/容積/斜線</button>
+    <button id="clashBtn" style="width:100%;margin-bottom:4px">⚠ 干渉検出 (Clash)</button>
+    <button id="structApiBtn" style="width:100%;margin-bottom:4px">🏗 構造解析API (Wallstat)</button>
+    <button id="ePermitBtn" style="width:100%;margin-bottom:4px">📨 確認申請 e-提出 (ICBA)</button>
+  </details>
+
+  <details>
+    <summary>⏱ 施工・工程</summary>
+    <button id="phaseBtn" style="width:100%;margin-bottom:4px">⏱ 4D 施工アニメ</button>
+    <button id="ganttBtn" style="width:100%;margin-bottom:4px">📅 工程表 (Gantt)</button>
+    <button id="manualBtn" style="width:100%;margin-bottom:4px">⬇ SIPs施工マニュアルPDF</button>
+    <button id="inspectBtn" style="width:100%;margin-bottom:4px">⬇ 検査チェックリスト</button>
+    <button id="mfgBtn" style="width:100%;margin-bottom:4px">⬇ 製造CSV (パネル割付)</button>
+    <button id="photoBtn" style="width:100%;margin-bottom:4px">📷 進捗写真管理</button>
+  </details>
+
+  <details>
+    <summary>📤 出力 (PDF/CSV/CAD/AR)</summary>
+    <button id="csvBtn" style="width:100%;margin-bottom:4px">⬇ BOM CSV</button>
+    <button id="ifcBtn" style="width:100%;margin-bottom:4px">⬇ IFC (BIMモデル)</button>
+    <button id="gltfBtn" style="width:100%;margin-bottom:4px">⬇ glTF (Android AR)</button>
+    <button id="usdzBtn" style="width:100%;margin-bottom:4px">⬇ USDZ (iOS AR)</button>
+    <button id="poBtn" style="width:100%;margin-bottom:4px">⬇ 発注書PDF</button>
+    <button id="reportBtn" style="width:100%;margin-bottom:4px">⬇ 1ページサマリーPDF</button>
+    <button id="permitBtn" style="width:100%;margin-bottom:4px">⬇ 建築確認申請図書PDF</button>
+    <button id="structPDFBtn" style="width:100%;margin-bottom:4px">⬇ 構造計算書PDF</button>
+    <button id="videoBtn" style="width:100%;margin-bottom:4px">🎬 ウォークスルー動画</button>
+    <button id="brochureBtn" style="width:100%;margin-bottom:4px">📰 SNS用画像生成</button>
+    <button id="compareBtn" style="width:100%;margin-bottom:4px">📊 全16プラン比較表</button>
+    <button id="importBtn" style="width:100%;margin-bottom:4px">📥 SketchUp/Revit/IFC 取込</button>
+    <div id="xrButtons" style="display:flex;gap:4px;margin-bottom:4px"></div>
+  </details>
+
+  <details>
+    <summary>🤝 コラボ・拡張</summary>
+    <button id="gisBtn" style="width:100%;margin-bottom:4px">🗺 実敷地連携 (GIS)</button>
+    <button id="saveBtn" style="width:100%;margin-bottom:4px">☁️ クラウド保存・共有</button>
+    <button id="collabBtn" style="width:100%;margin-bottom:4px">👥 リアルタイム協調編集</button>
+    <button id="tutorialBtn" style="width:100%;margin-bottom:4px">❓ チュートリアル</button>
+    <button id="installBtn" style="width:100%;margin-bottom:4px;display:none">📲 アプリとしてインストール</button>
+  </details>
 </div>
 
 <!-- Sun path simulator (right side) -->
-<div class="panel" id="sun-panel" style="bottom:14px;right:14px;width:240px">
+<div class="panel collapsible collapsed" id="sun-panel" style="bottom:14px;right:14px;width:240px">
   <h3>☀️ 太陽軌道（弟子屈 lat 43.5°）</h3>
   <label style="display:block;font-size:11px;margin-bottom:4px">月: <span id="sunMonthLbl">3月</span>
     <input type="range" id="sunMonth" min="1" max="12" step="1" value="3" style="width:100%">
@@ -566,7 +619,11 @@
   <div class="meta" id="planMeta">本ガイドの標準</div>
   <div id="planTags"></div>
   <div class="dim" id="planDim">5,460 × 4,550 × 3,000mm</div>
-  <a class="detail" id="planLink" href="/build/standard">詳細スペック →</a>
+  <div class="price" id="planPrice">¥— <small>税込</small></div>
+  <div style="display:flex;gap:6px;margin-top:8px">
+    <a class="detail" id="planLink" href="/build/standard">詳細スペック →</a>
+    <button id="quoteBtn" style="background:#1a6b3a;color:#fff;border:1px solid #1a6b3a;border-radius:4px;padding:5px 10px;font-size:11px;cursor:pointer">✉️ 見積依頼</button>
+  </div>
 </div>
 
 <div class="hint" id="hint">マウス・指でグリグリ動かせます</div>
@@ -750,6 +807,18 @@ function updateInfo(plan) {
   const urbanIds = ['pod','stack','tower','flat','duo','yield','roots'];
   const detailBase = urbanIds.includes(plan.id) ? '/urban' : '/build';
   document.getElementById('planLink').href = `${detailBase}/${plan.id}`;
+  // 価格を即座に表示 (ヘビー計算は次フレーム)
+  const priceEl = document.getElementById('planPrice');
+  if (priceEl) {
+    priceEl.textContent = '計算中…';
+    requestAnimationFrame(() => {
+      try {
+        const soft = viewer.softCosts();
+        const grand = soft.grandTotal * 1.10;
+        priceEl.innerHTML = '¥' + Math.round(grand).toLocaleString() + ' <small>税込</small>';
+      } catch (e) { priceEl.textContent = '—'; }
+    });
+  }
 }
 
 function loadPlan(id) {
@@ -2738,6 +2807,26 @@ window.addEventListener('resize', () => {
 });
 document.getElementById('drawerToggle').addEventListener('click', () => {
   document.body.classList.toggle('drawer-open');
+});
+
+// ─── モード切替 (シンプル ↔ プロ) + 折りたたみ panel ───
+const SAVED_MODE = localStorage.getItem('bim_mode') || 'simple';
+function applyMode(mode) {
+  document.body.classList.toggle('mode-simple', mode === 'simple');
+  const btn = document.getElementById('modeToggle');
+  if (btn) btn.textContent = mode === 'simple' ? '✨ シンプル' : '🛠 プロ';
+  localStorage.setItem('bim_mode', mode);
+}
+applyMode(SAVED_MODE);
+document.getElementById('modeToggle')?.addEventListener('click', () => {
+  const cur = document.body.classList.contains('mode-simple') ? 'simple' : 'pro';
+  applyMode(cur === 'simple' ? 'pro' : 'simple');
+});
+document.getElementById('showProBtn')?.addEventListener('click', () => applyMode('pro'));
+
+// 折りたたみパネル: ヘッダークリックで開閉
+document.querySelectorAll('.panel.collapsible h3').forEach(h => {
+  h.addEventListener('click', () => h.parentElement.classList.toggle('collapsed'));
 });
 document.getElementById('drawerClose').addEventListener('click', () => {
   document.body.classList.remove('drawer-open');
