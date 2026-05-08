@@ -10986,7 +10986,7 @@ if (fs.existsSync(CABIN_DIR)) {
   });
 
   // /dojo/:plan → dojo.html (U-shape SIPs courtyard building BIM)
-  const ALL_DOJO_IDS = ["dojo_s","dojo_m","dojo_l","dojo_xl"];
+  const ALL_DOJO_IDS = ["dojo_s","dojo_m","dojo_l","dojo_xl","tapkop"];
   app.get("/dojo/:plan", (req, res, next) => {
     if (!ALL_DOJO_IDS.includes(req.params.plan)) return next();
     const p = path.join(CABIN_DIR, "dojo.html");

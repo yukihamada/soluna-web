@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=2.0">
-<title>SOLUNA DOJO — U字型SIPs建築 BIMビューワー</title>
-<meta name="description" content="SOLUNA DOJO: U字型コートヤード建築をSIPs工法で実現。3棟連結で中庭+セイルキャノピー、屋上デッキ。BIMビューワーで4プラン (S/M/L/XL) を3Dグリグリ確認。">
-<meta property="og:title" content="SOLUNA DOJO — U字型SIPs建築 BIM">
-<meta property="og:description" content="3棟連結 + セイルキャノピー + 屋上デッキ。SIPs工法で中庭付き道場・リトリート施設を建てる。">
-<meta property="og:url" content="https://solun.art/dojo">
+<title>TAPKOP DOJO — 摩周湖を望む山頂の合宿地 | SOLUNA</title>
+<meta name="description" content="北海道弟子屈・熊牛原野の山頂 (海抜640m) に立つ U字型SIPs建築の合宿地。摩周湖・斜里岳ビュー、柔術28畳道場・温泉・サウナ・焚き火中庭・ヨガデッキ・隣接サラブレッド牧場。3棟連結 + 中庭 + セイルキャノピー。世界一の星空保護区。">
+<meta name="keywords" content="TAPKOP,摩周湖,弟子屈,熊牛,山頂,合宿,道場,リトリート,SIPs,北海道,星空保護区,温泉,サウナ,柔術">
+<meta property="og:title" content="TAPKOP DOJO — 摩周湖を望む山頂の合宿地">
+<meta property="og:description" content="海抜640m、3棟U字型 + 焚き火中庭 + 露天温泉 + ヨガデッキ + 馬牧場。摩周湖・星空保護区・地産食 — みんなが帰ってきたくなる場所。">
+<meta property="og:url" content="https://dojo.solun.art">
 <meta property="og:type" content="website">
-<link rel="canonical" href="https://solun.art/dojo">
+<link rel="canonical" href="https://dojo.solun.art">
 <link rel="manifest" href="/cabin/bim-manifest.webmanifest">
 <meta name="theme-color" content="#c8a455">
 <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
@@ -87,20 +88,23 @@ body{font-family:-apple-system,'Hiragino Sans',sans-serif;background:#1a1a1a;col
 
 <aside id="side">
   <h3>プラン</h3>
+  <button data-plan="tapkop" style="background:linear-gradient(135deg,#1a6b3a,#2a8a5a);color:#fff;border-color:#1a6b3a;font-weight:700">⛰️ TAPKOP DOJO — 摩周湖ビュー山頂合宿地</button>
   <button data-plan="dojo_s">DOJO S — 120㎡ + 中庭60㎡</button>
-  <button data-plan="dojo_m">DOJO M — 230㎡ + 中庭120㎡</button>
+  <button data-plan="dojo_m">DOJO M — 250㎡ + 中庭120㎡ (平屋)</button>
   <button data-plan="dojo_l">DOJO L — 430㎡ + 中庭240㎡</button>
-  <button data-plan="dojo_xl">DOJO XL — 720㎡ + 中庭420㎡</button>
+  <button data-plan="dojo_xl">DOJO XL — 600㎡ + 中庭420㎡</button>
 
   <h3>レイヤ</h3>
   <label><input type="checkbox" data-layer="wings" checked> 棟 (SIPs躯体)</label>
   <label><input type="checkbox" data-layer="windows" checked> 黒枠サッシ</label>
-  <label><input type="checkbox" data-layer="stairs" checked> 階段塔 (4箇所)</label>
+  <label><input type="checkbox" data-layer="stairs" checked> 階段塔</label>
   <label><input type="checkbox" data-layer="elevator" checked> エレベーター</label>
   <label><input type="checkbox" data-layer="entrance" checked> 玄関ポーチ</label>
   <label><input type="checkbox" data-layer="courtyard" checked> 中庭・布基礎</label>
   <label><input type="checkbox" data-layer="parking" checked> 駐車場・アプローチ</label>
   <label><input type="checkbox" data-layer="sail" checked> セイルキャノピー</label>
+  <label><input type="checkbox" data-layer="tapkop" checked> 🔥 焚き火・温泉・ヨガ・牧場 (TAPKOPのみ)</label>
+  <label><input type="checkbox" data-layer="stars"> 🌌 星空 (夜景演出)</label>
   <label><input type="checkbox" data-layer="scale" checked> 人物 (180cm)</label>
   <label><input type="checkbox" data-layer="ground" checked> 草地</label>
 
@@ -109,21 +113,30 @@ body{font-family:-apple-system,'Hiragino Sans',sans-serif;background:#1a1a1a;col
   <button id="brochureBtn">📰 SNS用画像生成</button>
   <button id="quoteBtn" style="background:#1a6b3a;color:#fff;border-color:#1a6b3a;font-weight:600">✉️ 見積依頼</button>
 
-  <h3 style="color:#c8a455">構成 (一級建築士監修)</h3>
-  <div style="font-size:10.5px;line-height:1.6;color:#666">
-  3棟連結 U字型 (法規・寒冷地対応):<br>
-  ・<b>東/西棟</b>: 2-3階SIPsスタック (片屋根)<br>
-  ・<b>北棟</b>: 2-3階 (3階以上は鉄骨ハイブリッド)<br>
-  ・<b>階段</b>: 各棟2箇所 = 4-5基 (2方向避難)<br>
-  ・<b>EV</b>: M/L/XL に搭載 (法34条 車椅子対応)<br>
-  ・<b>玄関</b>: 北棟中央 中庭側 (ガラス自動扉+石ステップ)<br>
-  ・<b>中庭</b>: 杉縁側 + 道場マット28㎡ + 石舞台<br>
-  ・<b>セイル</b>: PVC帆布 + Φ150鋼管 + コンクリ墓石アンカー<br>
-  ・<b>基礎</b>: ベタ基礎 + 布基礎深さ1m (凍結深度対応)<br>
-  ・<b>屋根</b>: 全棟 片屋根 (北高/南低、雪止め3段)<br>
-  ・<b>耐火</b>: 準耐火構造1時間 (法27条 対応)<br>
-  ・<b>駐車</b>: S=8台 / M=8 / L=15 / XL=20<br>
-  ※SIPsパネル 910×1820 規格、UA≤0.30、耐震等級3
+  <h3 style="color:#c8a455">⛰️ TAPKOP コンセプト</h3>
+  <div style="font-size:10.5px;line-height:1.65;color:#666">
+  <b>「摩周湖を望む山頂の合宿地」</b><br>
+  北海道弟子屈・熊牛原野・海抜640m<br><br>
+  <b>Why come?</b><br>
+  ⛰️ 摩周湖・斜里岳・知床連山 360°<br>
+  🌌 星空保護区 (世界一の天の川)<br>
+  🥋 柔術28畳・ヨガ・瞑想<br>
+  🔥 焚き火中庭 (毎晩)<br>
+  ♨️ 露天温泉 + サウナ + 水風呂<br>
+  🐎 馬との朝ラン (隣接牧場)<br>
+  🍽 弟子屈チーズ・養老牛・摩周そば<br>
+  📵 デジタルデトックス<br><br>
+  <b>3棟U字レイアウト</b><br>
+  ・<b>北棟3F</b>: 1F道場 / 2Fヨガ / 3Fライブラリー<br>
+  ・<b>東棟2F</b>: ロビー + ゲストルーム×8<br>
+  ・<b>西棟2F</b>: サウナ・温泉・水風呂・レストラン30席<br>
+  ・<b>中庭</b>: 焚き火・石舞台・道場マット<br>
+  ・<b>屋上</b>: ヨガデッキ (摩周湖ビュー)<br><br>
+  <b>料金</b><br>
+  ・1泊 ¥48,000〜<br>
+  ・3泊リトリート ¥250,000<br>
+  ・年間メンバー ¥120万 (年30泊)<br><br>
+  <span style="color:#888">構造: SIPs + 鉄骨ハイブリッド (3階)、UA≤0.30、耐震3、準耐火1h、雪止め3段</span>
   </div>
 </aside>
 
@@ -172,8 +185,8 @@ document.querySelectorAll('[data-layer]').forEach(cb => {
   cb.addEventListener('change', () => viewer.setLayer(cb.dataset.layer, cb.checked));
 });
 
-const initial = new URL(location.href).searchParams.get('plan') || 'dojo_m';
-loadPlan(PLANS[initial] ? initial : 'dojo_m');
+const initial = new URL(location.href).searchParams.get('plan') || 'tapkop';
+loadPlan(PLANS[initial] ? initial : 'tapkop');
 
 function showModal(html) {
   document.getElementById('modalContent').innerHTML = html;

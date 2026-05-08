@@ -50,6 +50,36 @@ export const PLANS = {
     tag: '大型カンファレンス / リゾート',
     sail: true, hasElevator: true,
   },
+  // ── TAPKOP: 熊牛原野・山頂・摩周湖ビューの合宿地 ──
+  // 海抜640m、3棟U字 + 焚き火中庭 + 温泉露天 + 馬牧場ジョギング
+  tapkop: {
+    W: 36000, D: 28000, wingD: 7000, backD: 8000, modW: 6000, modH: 3000,
+    sideStories: 2, backStories: 3,
+    name: 'TAPKOP DOJO',
+    label: '630㎡ + 中庭480㎡ · 海抜640m',
+    tag: '摩周湖ビュー山頂合宿地 (熊牛原野)',
+    sail: true, hasElevator: true,
+    // TAPKOP 専用フラグ
+    isTapkop: true,
+    bonfire: true,         // 中庭中央 焚き火台
+    onsen: true,           // 西棟 露天温泉
+    yogaDeck: true,        // 北棟屋上 ヨガデッキ (摩周湖を見ながら)
+    horseRanch: true,      // 隣接サラブレッド牧場 (visual only)
+    starshow: true,        // 星空保護区 (夜の演出強化)
+    program: {
+      dojo: '1F 柔術28畳 + 武道',
+      yoga: '2F ヨガ・瞑想 (床暖+調光)',
+      library: '3F ライブラリー (摩周湖ビュー+暖炉)',
+      stay: 'ゲストルーム×8室',
+      wellness: 'サウナ + 温泉 + 水風呂',
+      dining: 'レストラン30席 + 厨房',
+    },
+    pricing: {
+      nightly: 48000,
+      retreat3n: 250000,
+      yearly: 1200000,
+    },
+  },
 };
 
 const MM = 0.001;
@@ -821,6 +851,207 @@ function buildDojo(plan) {
     const sailG = group('sail');
     buildSail(sailG, plan, baseY);
     root.add(sailG);
+  }
+
+  // ── TAPKOP 限定: 焚き火台 + 温泉露天 + ヨガデッキ + 馬牧場 + 星空 ──
+  if (plan.isTapkop) {
+    const tapG = group('tapkop');
+    const cyW = (plan.W - 2 * plan.wingD) * MM;
+    const cyD = (plan.D - plan.backD) * MM;
+    const cyZ = -D/2 + plan.backD * MM + cyD/2;
+
+    // 焚き火台 (中庭中央)
+    if (plan.bonfire) {
+      const stoneMat = new THREE.MeshStandardMaterial({color: 0x3a3a38, roughness: 0.95});
+      // 円形ストーンサークル (Φ2.5m)
+      const ring = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.40, 0.30, 24), stoneMat);
+      ring.position.set(0, baseY + 0.10, cyZ);
+      tapG.add(ring);
+      // 中央の灰皿 (黒鉄)
+      const pit = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 0.95, 0.20, 16),
+        new THREE.MeshStandardMaterial({color: 0x111, roughness: 0.6, metalness: 0.4}));
+      pit.position.set(0, baseY + 0.20, cyZ);
+      tapG.add(pit);
+      // 炎 (emissive cone) — 夜景時に映える
+      const fireMat = new THREE.MeshStandardMaterial({
+        color: 0xff7a30, emissive: 0xff5510, emissiveIntensity: 1.8,
+        roughness: 0.9, transparent: true, opacity: 0.9,
+      });
+      const flame = new THREE.Mesh(new THREE.ConeGeometry(0.55, 1.2, 12, 1, true), fireMat);
+      flame.position.set(0, baseY + 0.85, cyZ);
+      tapG.add(flame);
+      // 焚き火光 (PointLight)
+      const fireLight = new THREE.PointLight(0xff8030, 12, 14, 2.0);
+      fireLight.position.set(0, baseY + 1.0, cyZ);
+      tapG.add(fireLight);
+      // 周囲のベンチ (円形 6脚)
+      const benchMat = new THREE.MeshStandardMaterial({color: 0x6a4a30, roughness: 0.85});
+      for (let i = 0; i < 6; i++) {
+        const a = (i / 6) * Math.PI * 2;
+        const r = 3.2;
+        const bench = box(1.6, 0.40, 0.45, benchMat);
+        bench.position.set(Math.cos(a) * r, baseY + 0.20, cyZ + Math.sin(a) * r);
+        bench.rotation.y = -a + Math.PI / 2;
+        tapG.add(bench);
+      }
+    }
+
+    // 温泉露天 (西棟北隣・摩周湖向き)
+    if (plan.onsen) {
+      const onsenX = -W/2 - 4.5;
+      const onsenZ = -D/2 + plan.backD * MM + 2.0;
+      // 大谷石風縁石
+      const stoneMat2 = new THREE.MeshStandardMaterial({color: 0x988570, roughness: 0.95});
+      const onsenRim = new THREE.Mesh(new THREE.RingGeometry(1.8, 2.6, 24),
+        stoneMat2);
+      onsenRim.rotation.x = -Math.PI / 2;
+      onsenRim.position.set(onsenX, baseY + 0.15, onsenZ);
+      tapG.add(onsenRim);
+      // 湯面 (透明青緑、湯気イメージ)
+      const onsenMat = new THREE.MeshPhysicalMaterial({
+        color: 0xa8d4e0, roughness: 0.05, metalness: 0,
+        transmission: 0.55, transparent: true, opacity: 0.85,
+        clearcoat: 0.95, clearcoatRoughness: 0.05, ior: 1.33,
+      });
+      const water = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 1.8, 0.20, 32), onsenMat);
+      water.position.set(onsenX, baseY + 0.10, onsenZ);
+      tapG.add(water);
+      // 浴槽 (内側、深さ60cm)
+      const tubMat = new THREE.MeshStandardMaterial({color: 0x4a4a48, roughness: 0.9});
+      const tub = new THREE.Mesh(new THREE.CylinderGeometry(1.85, 2.1, 0.60, 32, 1, true), tubMat);
+      tub.position.set(onsenX, baseY - 0.20, onsenZ);
+      tapG.add(tub);
+      // 木製デッキ (温泉周囲)
+      const deckMat = new THREE.MeshStandardMaterial({color: 0x9c8260, roughness: 0.9});
+      const deck = box(6, 0.05, 5, deckMat);
+      deck.position.set(onsenX, baseY - 0.04, onsenZ);
+      tapG.add(deck);
+      // 屏風 (露天プライバシー)
+      for (const xs of [-2.5, 2.5]) {
+        const screen = box(0.04, 1.8, 4.5, MATS.dark);
+        screen.position.set(onsenX + xs, baseY + 0.85, onsenZ);
+        tapG.add(screen);
+      }
+      // のれん (湯) — シンボル
+      const norenMat = new THREE.MeshStandardMaterial({color: 0x4a3c2c, roughness: 0.9, side: THREE.DoubleSide});
+      const noren = box(1.0, 0.40, 0.02, norenMat);
+      noren.position.set(onsenX, baseY + 1.7, onsenZ + 2.4);
+      tapG.add(noren);
+      // 案内灯 (行灯)
+      const lanternMat = new THREE.MeshStandardMaterial({
+        color: 0xfff2c0, emissive: 0xffb070, emissiveIntensity: 1.4,
+      });
+      for (let i = 0; i < 3; i++) {
+        const lant = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.30, 8),
+          lanternMat);
+        lant.position.set(onsenX + (i - 1) * 1.0, baseY + 0.85, onsenZ + 2.6);
+        tapG.add(lant);
+      }
+    }
+
+    // 北棟屋上 ヨガデッキ (3階屋上)
+    if (plan.yogaDeck) {
+      const backW = (plan.W - 2 * plan.wingD) * MM;
+      const yY = baseY + plan.backStories * (plan.modH * MM) + 0.20;
+      const yZ = -D/2 + (plan.backD * MM) / 2;
+      // ヨガマットエリア (青緑 6畳分)
+      const matMat = new THREE.MeshStandardMaterial({color: 0x4a8090, roughness: 0.9});
+      const yogaMat = box(3.6, 0.04, 5.4, matMat);
+      yogaMat.position.set(0, yY + 0.02, yZ);
+      tapG.add(yogaMat);
+      // ヨガマット個別 (4枚並べる)
+      const indMat = new THREE.MeshStandardMaterial({color: 0x6a9080, roughness: 0.9});
+      for (let i = 0; i < 4; i++) {
+        const m = box(0.7, 0.02, 1.8, indMat);
+        m.position.set(-1.2 + i * 0.8, yY + 0.05, yZ);
+        tapG.add(m);
+      }
+      // 屋上手すり (湖側のみ・ガラス)
+      const railG = box(backW - 0.4, 1.0, 0.012, MATS.glass);
+      railG.position.set(0, yY + 0.50, yZ + plan.backD * MM / 2 - 0.05);
+      tapG.add(railG);
+      // 摩周湖ビュー方位サイン
+      const signMat = new THREE.MeshStandardMaterial({color: 0x222, roughness: 0.5});
+      const sign = box(1.0, 0.10, 0.04, signMat);
+      sign.position.set(0, yY + 1.10, yZ + plan.backD * MM / 2);
+      tapG.add(sign);
+    }
+
+    // 馬牧場 (visual: 遠景に柵 + 馬3頭)
+    if (plan.horseRanch) {
+      const rancheX = W/2 + 16;
+      const rancheZ = -D/2 + 4;
+      // 柵
+      const fenceMat = new THREE.MeshStandardMaterial({color: 0xc8a580, roughness: 0.85});
+      for (let fz = 0; fz < 30; fz += 2) {
+        const post = box(0.10, 1.0, 0.10, fenceMat);
+        post.position.set(rancheX, baseY + 0.40, rancheZ + fz);
+        tapG.add(post);
+        if (fz < 28) {
+          const rail = box(0.05, 0.05, 2, fenceMat);
+          rail.position.set(rancheX, baseY + 0.65, rancheZ + fz + 1);
+          tapG.add(rail);
+        }
+      }
+      // 馬 (3頭、サラブレッド: cylinder body + cone head)
+      const horseMat = new THREE.MeshStandardMaterial({color: 0x6a3c20, roughness: 0.85});
+      for (let h = 0; h < 3; h++) {
+        const horseG = group('horse-' + h);
+        const bodyM = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.45, 1.8, 12), horseMat);
+        bodyM.rotation.z = Math.PI / 2;
+        bodyM.position.set(rancheX + 5 + h * 4, baseY + 1.10, rancheZ + 8 + h * 6);
+        horseG.add(bodyM);
+        // 首
+        const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.30, 1.0, 12), horseMat);
+        neck.position.set(rancheX + 5 + h * 4 + 0.85, baseY + 1.55, rancheZ + 8 + h * 6);
+        neck.rotation.z = -0.5;
+        horseG.add(neck);
+        // 頭
+        const head = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.30, 0.30), horseMat);
+        head.position.set(rancheX + 5 + h * 4 + 1.40, baseY + 1.85, rancheZ + 8 + h * 6);
+        horseG.add(head);
+        // 4本足
+        for (const lx of [-0.55, 0.55]) {
+          for (const lz of [-0.20, 0.20]) {
+            const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.10, 6), horseMat);
+            leg.position.set(rancheX + 5 + h * 4 + lx, baseY + 0.55, rancheZ + 8 + h * 6 + lz);
+            horseG.add(leg);
+          }
+        }
+        tapG.add(horseG);
+      }
+    }
+
+    // 星空 (高い位置に小さい emissive 点を多数)
+    if (plan.starshow) {
+      const starMat = new THREE.MeshStandardMaterial({
+        color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 1.5,
+      });
+      const starG = group('stars');
+      for (let i = 0; i < 200; i++) {
+        const star = new THREE.Mesh(new THREE.SphereGeometry(0.06, 4, 3), starMat);
+        const r = 60 + Math.random() * 40;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = (Math.random() * 0.4 + 0.05) * Math.PI;        // 上半球
+        star.position.set(
+          r * Math.sin(phi) * Math.cos(theta),
+          r * Math.cos(phi),
+          r * Math.sin(phi) * Math.sin(theta),
+        );
+        starG.add(star);
+      }
+      tapG.add(starG);
+    }
+
+    // 標高プラットフォーム (山頂演出: 周囲の地面を斜面に落とす)
+    const hillMat = new THREE.MeshStandardMaterial({color: 0x70805a, roughness: 1});
+    const hillRing = new THREE.Mesh(new THREE.RingGeometry(W/2 + 2, W * 1.5, 24, 1),
+      hillMat);
+    hillRing.rotation.x = -Math.PI / 2;
+    hillRing.position.y = -0.34;
+    tapG.add(hillRing);
+
+    root.add(tapG);
   }
 
   // Human scale (180cm) for reference
