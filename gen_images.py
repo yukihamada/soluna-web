@@ -2,7 +2,7 @@
 """Generate hero + feature images for SOLUNA artist landing page using Gemini."""
 import os, base64, json, urllib.request, urllib.error
 
-GEMINI_KEY = "<REDACTED-LEAKED-KEY-DISABLED>"
+GEMINI_KEY = os.environ["GEMINI_API_KEY"]  # set in env, never commit
 OUT_DIR = os.path.join(os.path.dirname(__file__), "public", "images")
 os.makedirs(OUT_DIR, exist_ok=True)
 

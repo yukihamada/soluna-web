@@ -6,7 +6,7 @@ D型ハウス = D字型断面の大型ドラム建築（半円柱形）
 import os, base64, json, urllib.request
 from pathlib import Path
 
-API_KEY = os.environ.get("GEMINI_API_KEY", "<REDACTED-LEAKED-KEY-DISABLED>")
+API_KEY = os.environ["GEMINI_API_KEY"]  # set in env, never commit
 IMG_DIR = Path("/Users/yuki/workspace/teshikaga-cabin/img")
 
 SHOTS = [
