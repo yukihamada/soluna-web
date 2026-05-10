@@ -23,8 +23,8 @@ export default function Page() {
       */}
       <noscript>
         <div style={{ position:"fixed", inset:0, padding:"40px 24px", overflow:"auto", background:"#080808", color:"#f0ece4", fontFamily:"sans-serif", lineHeight:1.8, zIndex:9999 }}>
-          <h1 style={{ fontSize:"24px", marginBottom:"16px" }}>SOLUNA — 別荘共同所有 | 北海道・熱海・ハワイ 1口780万円〜</h1>
-          <p>JavaScriptを有効にすると体験的なホームUIが表示されます。リンクから各物件・申込ページに進めます。</p>
+          <h1 style={{ fontSize:"24px", marginBottom:"16px" }}>SOLUNA — 建築でつなぐ、暮らしと地域とよろこびのコミュニティ</h1>
+          <p>建築を軸に、空き家再生・新築・ウェルネス・フェス・柔術を 1 つのストーリーでつなぐプロジェクト。北海道弟子屈・熱海・瀬戸内・和歌山・ハワイ。1 口 50 万円から仲間と所有して、年 30 泊滞在できます。</p>
           <h2 style={{ fontSize:"16px", margin:"20px 0 8px" }}>物件一覧</h2>
           <ul>
             {SSR_PROPERTIES.map((p) => (

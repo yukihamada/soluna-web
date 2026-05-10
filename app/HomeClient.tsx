@@ -101,11 +101,12 @@ const APPS = [
 ];
 
 const CATEGORIES = [
-  { id: "invest", label: "別荘投資",      emoji: "🏡", ids: ["properties","buy","scheme","founders","collection","homes","hold","plan","brochure","getfree","referral","gift","mint","crypto","pass"] },
+  { id: "invest", label: "ホーム",         emoji: "🌅", ids: ["properties","buy","scheme","founders","collection","homes","hold","plan","brochure","getfree","referral","gift","mint","crypto","pass"] },
   { id: "props",  label: "物件",          emoji: "🏠", ids: ["tapkop","lodge","nesting","instant","atami","kumaushi","honolulu","village","miruwa-grand","kussharo","tapkop-story","lodge-story","nesting-story","atami-story","dome-story"] },
-  { id: "akiya",  label: "空き家活用",    emoji: "🌊", ids: ["kagawa","wakayama","boso","hakuba","sanin","akiya","workparty","renovation"] },
+  { id: "akiya",  label: "空き家再生",    emoji: "🏘️", ids: ["kagawa","wakayama","boso","hakuba","sanin","akiya","workparty","renovation"] },
+  { id: "wellness", label: "ウェルネス・柔術", emoji: "🌿", ids: ["kumaushi","village","tower-sauna","kussharo"] },
   { id: "fest",   label: "フェスティバル",emoji: "🎪", ids: ["zamna","tickets","lineup","schedule"] },
-  { id: "build",  label: "建築・素材",    emoji: "🔨", ids: ["village-c","village-d","construction","blueprint","structural","sips","sips-lab","materials","kits","offgrid","design","floorplans","tower-sauna","handcraft","mycelium","sumigaki"] },
+  { id: "build",  label: "建築・素材",    emoji: "🏗️", ids: ["village-c","village-d","construction","blueprint","structural","sips","sips-lab","materials","kits","offgrid","design","floorplans","tower-sauna","handcraft","mycelium","sumigaki"] },
   { id: "comm",   label: "コミュニティ",  emoji: "💬", ids: ["community","app","owners","guide","members","network","song","join"] },
   { id: "about",  label: "ストーリー",    emoji: "📖", ids: ["story","origin","blog",...Array.from({length:9},(_,i)=>`blog-${i+1}`),"place","founding"] },
   { id: "info",   label: "情報・サポート",emoji: "ℹ️", ids: ["faq","press","safety","contact","company","privacy","terms","tokushoho","login"] },
@@ -119,32 +120,39 @@ const PERSONA_CONFIG: Record<string, {
   btns: { label: string; primary?: boolean; id: string }[];
 }> = {
   invest: {
-    label: "投資家", emoji: "💰",
+    label: "ホーム", emoji: "🌅",
     dockIds: ["properties","buy","scheme"],
-    heroLine1: "別荘を持つ、", heroLine2: "新しい形。",
-    heroDesc: "10口シェアで登記所有。780万円から、年間30泊。\n使わない期間はプロが管理・運営をサポートします。",
-    btns: [{ label: "物件を見る →", primary: true, id: "properties" }, { label: "スキームを詳しく", id: "scheme" }],
+    heroLine1: "建築でつなぐ、", heroLine2: "暮らしと地域とよろこび。",
+    heroDesc: "空き家再生・新築・ウェルネス・フェス・柔術 — ぜんぶを 1 つの建築軸でつなぐコミュニティ。\n北海道弟子屈・熱海・瀬戸内・ハワイで仲間と所有して、年 30 泊滞在。",
+    btns: [{ label: "物件を見る →", primary: true, id: "properties" }, { label: "ストーリー", id: "scheme" }],
   },
   akiya: {
-    label: "空き家活用", emoji: "🏚️",
+    label: "空き家再生", emoji: "🏘️",
     dockIds: ["kagawa","wakayama","boso","workparty"],
-    heroLine1: "空き家を、", heroLine2: "人が集まる場所へ。",
-    heroDesc: "香川・和歌山・房総・白馬。\n全国の空き家をSOLUNAとリノベーション。",
+    heroLine1: "空き家を、", heroLine2: "町のよろこびに。",
+    heroDesc: "全国 900 万戸の空き家から、町と人が好きな物件だけを SOLUNA が再生。\n香川・和歌山・房総・白馬で、町を愛して住み続ける仲間を増やします。",
     btns: [{ label: "空き家を探す →", primary: true, id: "kagawa" }, { label: "Work Party に参加", id: "workparty" }],
+  },
+  wellness: {
+    label: "ウェルネス・柔術", emoji: "🌿",
+    dockIds: ["kumaushi","village","build","scheme"],
+    heroLine1: "整える場所を、", heroLine2: "建築から作る。",
+    heroDesc: "柔術・ヨガ・サウナ・温泉。「天空の道場（熊牛 BASE）」を起点に、心と体を整えるリトリートを全国 10 拠点へ。\n建てて終わりじゃなく、その場で過ごす時間も SOLUNA が一緒に設計します。",
+    btns: [{ label: "天空の道場 →", primary: true, id: "kumaushi" }, { label: "美留和ビレッジ", id: "village" }],
   },
   fest: {
     label: "フェス", emoji: "🎪",
     dockIds: ["zamna","tickets","lineup","schedule"],
-    heroLine1: "ZAMNA HAWAII", heroLine2: "2026",
-    heroDesc: "ハワイ・オアフ島。2026年秋。\nZAMNA × SOLUNA — 最高のサウンドを体験しよう。",
-    btns: [{ label: "フェスを見る →", primary: true, id: "zamna" }, { label: "ラインナップ", id: "lineup" }],
+    heroLine1: "ZAMNA × SOLUNA、", heroLine2: "リアルに繋がる場所。",
+    heroDesc: "弟子屈（夏）・熱海（春）・ハワイ（秋）。年 3 回、音楽 + アート + 建築 + 自然のフェスで、SOLUNA の仲間と世界中から来た人が出会う。",
+    btns: [{ label: "ZAMNA HAWAII 2026 →", primary: true, id: "zamna" }, { label: "ラインナップ", id: "lineup" }],
   },
   build: {
-    label: "建築ファン", emoji: "🔨",
+    label: "建築ファン", emoji: "🏗️",
     dockIds: ["village-c","sips","construction","materials"],
-    heroLine1: "自然建材で、", heroLine2: "家を建てよう。",
-    heroDesc: "杉CLT・籾殻断熱・竹SIPs。\nSOLUNAビレッジで建築ワークショップ参加者募集中。",
-    btns: [{ label: "ビレッジ構想を見る →", primary: true, id: "village-c" }, { label: "SIPs工法を学ぶ", id: "sips" }],
+    heroLine1: "建てる体験、", heroLine2: "町に残るかたち。",
+    heroDesc: "杉 CLT・籾殻断熱・SIPs。北海道弟子屈の美留和ビレッジで、自然建材で家を建てるワークショップを開催。\n設計・確認申請・施工までの全プロセスは bim.house で公開。",
+    btns: [{ label: "ビレッジ構想 →", primary: true, id: "village-c" }, { label: "SIPs 工法", id: "sips" }],
   },
 };
 
@@ -648,12 +656,12 @@ export default function Home() {
           <h1 style={{ fontFamily:"Anton,sans-serif", fontSize:"clamp(2.8rem,7vw,5rem)",
             letterSpacing:".04em", lineHeight:.95, color:"#fff",
             textShadow:"0 4px 24px rgba(0,0,0,.7)", margin:"0 0 16px" }}>
-            {pc ? pc.heroLine1 : "別荘を持つ、"}<br />
-            <span style={{ color:"#c9a962" }}>{pc ? pc.heroLine2 : "新しい形。"}</span>
+            {pc ? pc.heroLine1 : "建築でつなぐ、"}<br />
+            <span style={{ color:"#c9a962" }}>{pc ? pc.heroLine2 : "暮らしと地域とよろこび。"}</span>
           </h1>
           <p style={{ fontSize:".82rem", color:"rgba(255,255,255,.55)", lineHeight:1.7, marginBottom:28,
             fontFamily:"Inter,sans-serif", textShadow:"0 2px 8px rgba(0,0,0,.8)", whiteSpace:"pre-line" }}>
-            {pc ? pc.heroDesc : "10口シェアで登記所有。780万円から、年間30泊。\n使わない期間はプロが管理・運営をサポートします。"}
+            {pc ? pc.heroDesc : "空き家再生・新築・ウェルネス・フェス・柔術 — ぜんぶを 1 つの建築軸でつなぐコミュニティ。\n北海道弟子屈・熱海・瀬戸内・ハワイで仲間と所有して、年 30 泊滞在。"}
           </p>
           <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap" }}>
             {pc ? pc.btns.map(b => {

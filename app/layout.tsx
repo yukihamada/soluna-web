@@ -11,26 +11,26 @@ export const viewport: Viewport = {
 const GA_MEASUREMENT_ID = "G-XWZTCMLK4M";
 
 export const metadata: Metadata = {
-  title: "SOLUNA — 別荘共同所有・フェス体験 | 北海道・熱海・ハワイ 780万円〜",
+  title: "SOLUNA — 建築でつなぐ、暮らしと地域とよろこびのコミュニティ",
   description:
-    "10口シェアで登記所有。北海道3万坪・熱海・ハワイの別荘を780万円から所有。使わない期間はプロが管理。ZAMNA HAWAII 2026も開催。",
+    "建築を軸に、空き家再生・地域活性・ウェルネスリトリート・フェス・柔術コミュニティを 1 つのストーリーでつなぐプロジェクト。北海道弟子屈・熱海・瀬戸内・ハワイ。1 口 50 万円から仲間と所有して、年 30 泊滞在。ZAMNA HAWAII 2026 開催。",
   metadataBase: new URL("https://solun.art"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "SOLUNA — 別荘共同所有・フェス体験",
-    description: "10口シェアで登記所有。北海道・熱海・ハワイの別荘を780万円から。ZAMNA HAWAII 2026開催。",
+    title: "SOLUNA — 建築でつなぐ、暮らしと地域とよろこびのコミュニティ",
+    description: "空き家再生・新築・ウェルネス・フェス・柔術 — ぜんぶを 1 つの建築軸でつなぐ場所。北海道・熱海・瀬戸内・ハワイで仲間と所有。",
     type: "website",
     url: "https://solun.art",
     siteName: "SOLUNA",
     locale: "ja_JP",
-    images: [{ url: "https://solun.art/img/tapkop_real2.webp", width: 1200, height: 630, alt: "SOLUNA — 北海道3万坪のプライベート原野" }],
+    images: [{ url: "https://solun.art/img/tapkop_real2.webp", width: 1200, height: 630, alt: "SOLUNA — 建築でつなぐコミュニティ" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SOLUNA — 別荘共同所有・フェス体験",
-    description: "10口シェアで登記所有。北海道・熱海・ハワイの別荘を780万円から。ZAMNA HAWAII 2026開催。",
+    title: "SOLUNA — 建築でつなぐ、暮らしと地域とよろこびのコミュニティ",
+    description: "空き家再生・新築・ウェルネス・フェス・柔術。ぜんぶを 1 つの建築軸でつなぐ。",
     site: "@solaborig",
     images: ["https://solun.art/img/tapkop_real2.webp"],
   },
@@ -64,7 +64,7 @@ export default function RootLayout({
                   url: "https://solun.art/",
                   name: "SOLUNA",
                   description:
-                    "定額型別荘所有プラットフォーム — 北海道・熱海・ハワイ",
+                    "建築でつなぐ、暮らしと地域とよろこびのコミュニティ。空き家再生・新築・ウェルネス・フェス・柔術を 1 つの建築軸でつなぐ。",
                   inLanguage: "ja-JP",
                 },
                 {
@@ -77,7 +77,7 @@ export default function RootLayout({
                     url: "https://solun.art/img/tapkop_real2.webp",
                   },
                   description:
-                    "土地と建築と運営を一体で設計する定額型別荘所有プラットフォーム。北海道3万坪・熱海・ハワイ。1口780万円〜、年間30泊の滞在権つき共有持分所有。",
+                    "建築を軸に地域と人をつなぐコミュニティプロジェクト。空き家再生・新築 SIPs キャビン・ウェルネスリトリート・フェス運営・柔術道場を 1 つの世界観で繋ぐ。北海道弟子屈・熱海・瀬戸内・和歌山・ハワイ。1 口 50 万円から仲間と所有、年 30 泊滞在。",
                   foundingDate: "2020",
                   areaServed: ["JP", "US"],
                   email: "info@solun.art",
