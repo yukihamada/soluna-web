@@ -80,10 +80,17 @@ h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;line
 /* PROPERTY CARDS */
 .props{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin:24px 0}
 @media(max-width:768px){.props{grid-template-columns:1fr}}
-.prop{background:#0a0a0a;border:1px solid #1a1a1a;display:flex;flex-direction:column;overflow:hidden}
+.prop{background:#0a0a0a;border:1px solid #1a1a1a;display:flex;flex-direction:column;overflow:hidden;position:relative}
 .prop-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#0e0e0e}
 .prop-body{padding:24px 26px 28px;display:flex;flex-direction:column;flex:1}
 .prop-tag{font-size:9px;letter-spacing:.22em;color:var(--gold);font-weight:700;margin-bottom:8px}
+.prop-badge{position:absolute;top:14px;right:14px;background:var(--gold);color:#040404;font-size:9px;font-weight:800;letter-spacing:.1em;padding:5px 10px;border-radius:100px;z-index:2}
+.prop-badge.coming{background:#252525;color:#888}
+.prop-buy{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.prop-buy button{background:var(--gold);color:#040404;font-weight:800;font-size:12px;padding:13px;border-radius:100px;border:none;cursor:pointer;transition:all .2s;letter-spacing:.04em}
+.prop-buy button:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(200,164,85,.25)}
+.prop-buy button:disabled{background:#222;color:#555;cursor:not-allowed;transform:none;box-shadow:none}
+.prop-buy select{background:#0d0d0d;border:1px solid #1a1a1a;color:#aaa;font-size:11.5px;padding:9px 12px;border-radius:8px;cursor:pointer;outline:none;font-family:inherit}
 .prop-name{font-size:16px;font-weight:800;color:var(--text);letter-spacing:-.01em;margin-bottom:6px}
 .prop-loc{font-size:10.5px;color:#555;margin-bottom:16px}
 .prop-price{font-size:1.5rem;font-weight:800;color:var(--gold);letter-spacing:-.02em;line-height:1}
@@ -166,9 +173,10 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
   <span class="num">¥594,000〜</span>
   <span class="unit">/ 1セット（年3連泊×30年）</span>
 </div>
-<p class="r" style="text-align:center;color:#666;font-size:11.5px;line-height:1.9;margin-top:14px;letter-spacing:.04em"><strong style="color:var(--gold)">毎年3連泊×30年=合計90泊</strong>の宿泊権 · <strong style="color:var(--gold)">1泊あたり¥6,600</strong>相当 · 連泊保証・固定資産税ゼロ</p>
+<p class="r" style="text-align:center;color:#666;font-size:11.5px;line-height:1.9;margin-top:14px;letter-spacing:.04em"><strong style="color:var(--gold)">毎年3連泊×30年=合計90泊</strong>の宿泊権 · <strong style="color:var(--gold)">1泊あたり¥6,600〜</strong>相当 · 連泊保証・固定資産税ゼロ</p>
+<p class="r" style="text-align:center;color:#c8a455;font-size:11px;line-height:1.7;margin-top:14px;letter-spacing:.06em">✦ 営業中・旅館業許可済みの<strong>LODGE / NESTING / WHITE HOUSE熱海</strong>は<strong>今すぐ申込可能</strong></p>
 <div class="r" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px">
-<a class="cta-btn" href="#signup" data-sln-track="purchase_click">先行登録する</a>
+<a class="cta-btn" href="#properties" data-sln-track="purchase_click">物件を選んで申込む</a>
 <a class="cta-ghost" href="#how" style="border-color:rgba(200,164,85,.3);color:var(--gold)">仕組みを見る</a>
 </div>
 </div>
@@ -201,63 +209,151 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 </div>
 </div>
 
-<!-- PROPERTIES -->
-<div class="s" style="padding:80px 0">
+<!-- PROPERTIES — operating (purchasable) -->
+<div class="s" id="properties" style="padding:80px 0">
 <div class="w">
-<p class="label r">Properties · 対象物件</p>
-<h2 class="r">3つの拠点で、<span class="gold">展開中。</span></h2>
-<p class="sub r">2026年9月オープンの新物件3件で先行リリース。<strong style="color:var(--text)">最初は3連泊セットから販売開始</strong>（弟子屈は遠いので3連泊が滞在の最小単位）。1泊単位プランは2027年に追加予定。先行登録された方から優先案内します。</p>
+<p class="label r">Properties · 営業中物件（今すぐ申込可能）</p>
+<h2 class="r">3物件で、<span class="gold">販売中。</span></h2>
+<p class="sub r">旅館業許可済み・営業中の3物件で先行販売スタート。お申込み後、3営業日以内に会員契約書（電子署名）と重要事項説明書をお送りします。署名完了で初回の3連泊予約が可能に。</p>
 </div>
 <div class="ww">
 <div class="props r">
+
 <div class="prop">
-<img class="prop-img" src="/img/village_arc_sunset.webp" alt="SOLUNAビレッジ 美留和" loading="lazy"/>
+<span class="prop-badge">販売中</span>
+<img class="prop-img" src="/img/lodge_exterior_snow.webp" alt="THE LODGE 美留和" loading="lazy"/>
+<div class="prop-body">
+<div class="prop-tag">LODGE · 北海道弟子屈</div>
+<div class="prop-name">THE LODGE</div>
+<div class="prop-loc">美留和 · 摩周湖の麓</div>
+<div class="prop-price">¥594,000</div>
+<div class="prop-unit">/ 1セット（毎年3連泊×30年=90泊）</div>
+<div class="prop-meta">
+  最大4名 / 1泊あたり¥6,600相当<br/>
+  最大3セット購入可（年9連泊まで）<br/>
+  天然温泉・薪ストーブ・キッチン完備<br/>
+  Wi-Fi光回線 / 通年営業中<br/>
+  最寄: 釧路空港 70分
+</div>
+<div class="prop-buy">
+<select id="sets-lodge"><option value="1">1セット — 年3連泊</option><option value="2">2セット — 年6連泊</option><option value="3">3セット — 年9連泊</option></select>
+<button onclick="buyNightshare('lodge')">今すぐ申込む（Stripe決済）</button>
+</div>
+</div>
+</div>
+
+<div class="prop">
+<span class="prop-badge">販売中</span>
+<img class="prop-img" src="/img/nesting_exterior.webp" alt="NESTING 美留和" loading="lazy"/>
+<div class="prop-body">
+<div class="prop-tag">NESTING · 北海道弟子屈</div>
+<div class="prop-name">NESTING</div>
+<div class="prop-loc">美留和 · 森の中の隠れ家</div>
+<div class="prop-price">¥894,000</div>
+<div class="prop-unit">/ 1セット（毎年3連泊×30年=90泊）</div>
+<div class="prop-meta">
+  最大4名 / 1泊あたり¥9,933相当<br/>
+  最大2セット購入可（年6連泊まで）<br/>
+  サウナ・露天風呂・モダンキッチン<br/>
+  Wi-Fi光回線 / 通年営業中<br/>
+  最寄: 釧路空港 70分
+</div>
+<div class="prop-buy">
+<select id="sets-nesting"><option value="1">1セット — 年3連泊</option><option value="2">2セット — 年6連泊</option></select>
+<button onclick="buyNightshare('nesting')">今すぐ申込む（Stripe決済）</button>
+</div>
+</div>
+</div>
+
+<div class="prop">
+<span class="prop-badge">販売中</span>
+<img class="prop-img" src="/img/atami_sunset_ocean.webp" alt="WHITE HOUSE 熱海" loading="lazy"/>
+<div class="prop-body">
+<div class="prop-tag">WHITE HOUSE · 熱海</div>
+<div class="prop-name">WHITE HOUSE 熱海</div>
+<div class="prop-loc">熱海 · 海と夕日の見える別荘</div>
+<div class="prop-price">¥1,494,000</div>
+<div class="prop-unit">/ 1セット（毎年3連泊×30年=90泊）</div>
+<div class="prop-meta">
+  最大6名 / 1泊あたり¥16,600相当<br/>
+  最大2セット購入可（年6連泊まで）<br/>
+  オーシャンビュー・温泉・BBQデッキ<br/>
+  Wi-Fi光回線 / 通年営業中<br/>
+  最寄: 熱海駅 タクシー15分
+</div>
+<div class="prop-buy">
+<select id="sets-atami"><option value="1">1セット — 年3連泊</option><option value="2">2セット — 年6連泊</option></select>
+<button onclick="buyNightshare('atami')">今すぐ申込む（Stripe決済）</button>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- COMING SOON properties -->
+<div class="s" style="padding:60px 0;background:#070707;border-top:1px solid #1a1a1a">
+<div class="w">
+<p class="label r">Coming · 2026年9月オープン予定</p>
+<h2 class="r" style="font-size:clamp(1.4rem,3.5vw,2rem)">3拠点が、<span class="gold">追加予定。</span></h2>
+<p class="sub r">建設中の新物件は2026年9月オープン予定。先行登録された方から優先案内します。価格は同じ¥594K〜（1泊¥6,600相当）から。</p>
+</div>
+<div class="ww">
+<div class="props r">
+<div class="prop coming">
+<span class="prop-badge coming">9月予定</span>
+<img class="prop-img" src="/img/village_arc_sunset.webp" alt="SOLUNAビレッジ" loading="lazy"/>
 <div class="prop-body">
 <div class="prop-tag">VILLAGE · 北海道弟子屈</div>
 <div class="prop-name">SOLUNAビレッジ</div>
 <div class="prop-loc">美留和 · 摩周湖徒歩7分</div>
-<div class="prop-price">¥594,000</div>
-<div class="prop-unit">/ 1セット（毎年3連泊×30年）</div>
+<div class="prop-price" style="color:#666">¥594,000</div>
+<div class="prop-unit">/ 1セット（予価）</div>
 <div class="prop-meta">
-  最大4名 / ペット可（小型犬1頭まで）<br/>
-  最大3セット購入可（年9連泊まで）<br/>
-  キッチン・サウナ・薪ストーブ完備<br/>
-  Wi-Fi 200Mbps / デスク完備<br/>
-  最寄: 釧路空港 70分 / 摩周駅 8分<br/>
-  オープン: 2026年9月
+  最大4名 / ペット可（小型犬1頭）<br/>
+  キッチン・サウナ完備<br/>
+  オープン: 2026年9月予定
 </div>
-</div>
-</div>
-<div class="prop">
-<img class="prop-img" src="/img/kumaushi_a_exterior_dusk.webp" alt="天空の道場 熊牛原野" loading="lazy"/>
-<div class="prop-body">
-<div class="prop-tag">SKY DOJO · 北海道弟子屈</div>
-<div class="prop-name">天空の道場</div>
-<div class="prop-loc">熊牛原野 · 32,337坪の自社地</div>
-<div class="prop-price">¥894,000</div>
-<div class="prop-unit">/ 1セット（毎年3連泊×30年）</div>
-<div class="prop-meta">
-  最大6名 / ペット応相談<br/>
-  最大2セット購入可（年6連泊まで）<br/>
-  柔術マット・サウナ・薪火キッチン<br/>
-  Wi-Fi 200Mbps / 屋上ヨガデッキ<br/>
-  最寄: 釧路空港 80分 / 自家用車推奨<br/>
-  オープン: 2026年9月
+<div class="prop-buy">
+<button disabled>先行登録（下のフォーム）</button>
 </div>
 </div>
 </div>
 <div class="prop coming">
-<img class="prop-img" src="/img/wakayama_after_exterior.webp" alt="SOLUNA 和歌山 古民家" loading="lazy"/>
+<span class="prop-badge coming">9月予定</span>
+<img class="prop-img" src="/img/kumaushi_a_exterior_dusk.webp" alt="天空の道場" loading="lazy"/>
+<div class="prop-body">
+<div class="prop-tag">SKY DOJO · 北海道弟子屈</div>
+<div class="prop-name">天空の道場</div>
+<div class="prop-loc">熊牛原野 · 32,337坪の自社地</div>
+<div class="prop-price" style="color:#666">¥894,000</div>
+<div class="prop-unit">/ 1セット（予価）</div>
+<div class="prop-meta">
+  最大6名 / 柔術マット・サウナ<br/>
+  屋上ヨガデッキ<br/>
+  オープン: 2026年9月予定
+</div>
+<div class="prop-buy">
+<button disabled>先行登録（下のフォーム）</button>
+</div>
+</div>
+</div>
+<div class="prop coming">
+<span class="prop-badge coming">2026年内</span>
+<img class="prop-img" src="/img/wakayama_after_exterior.webp" alt="SOLUNA 和歌山" loading="lazy"/>
 <div class="prop-body">
 <div class="prop-tag">WAKAYAMA · 古民家</div>
 <div class="prop-name">SOLUNA 和歌山</div>
 <div class="prop-loc">調整中</div>
-<div class="prop-price">COMING</div>
+<div class="prop-price" style="color:#666">未定</div>
 <div class="prop-unit">2026年内オープン予定</div>
 <div class="prop-meta">
   価格未定<br/>
-  先行登録で優先案内<br/>
-  詳細: 2026年夏に発表
+  先行登録で優先案内
+</div>
+<div class="prop-buy">
+<button disabled>先行登録（下のフォーム）</button>
 </div>
 </div>
 </div>
@@ -359,7 +455,7 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <div class="legal r">
 <div class="legal-h">スキーム要約</div>
 <p class="legal-p">
-<strong>① 事業者</strong>: 株式会社Enabler（旅館業許可は2026年7月までに各物件で取得予定）<br/>
+<strong>① 事業者</strong>: 株式会社Enabler（LODGE / NESTING / WHITE HOUSE熱海は旅館業許可済み・営業中。村/道場/和歌山は2026年9月までに取得予定）<br/>
 <strong>② 契約形態</strong>: 宿泊サービス会員契約（前払式宿泊権・3連泊チケット型）<br/>
 <strong>③ 配分方法</strong>: 月次抽選方式（会員規約で配分ルールを書面明示）<br/>
 <strong>④ 譲渡</strong>: 運営承認制での名義変更（手数料 ¥10,000/口、価格は当事者合意・上限あり）<br/>
@@ -478,8 +574,12 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <div class="faq-a"><p>創業者・テック従事者・建築家・医師・編集者など、リモートワーク可で年数回の自然回帰を求める30〜50代が中心。SOLUNAのSHARE OWNER（30泊オーナー）も100名超、East Ventures出資先のスタートアップ経営者多数。<strong style="color:var(--text)">既存メンバーのSlackコミュニティに招待</strong>（任意参加）。</p></div>
 </div>
 <div class="faq-item">
-<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">先行登録すると何が起きる？</div>
-<div class="faq-a"><p>① 各物件のセット数を優先確保（村30セット限定 / 道場20セット限定）<br/>② 2026年7月の正式募集開始の優先案内<br/>③ 抽選シミュレーター・物件3D内覧会（オンライン）への招待<br/><strong style="color:var(--text)">料金は発生しません</strong>。登録 = 確保のみで、購入の意思決定は正式募集時に行います。</p></div>
+<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">今すぐ申込めるのはどの物件？</div>
+<div class="faq-a"><p>旅館業許可済みで営業中の<strong style="color:var(--text)">LODGE / NESTING / WHITE HOUSE熱海</strong>の3物件です。「今すぐ申込む」ボタンからStripe決済（カード）で即時購入可能。決済完了後3営業日以内に会員契約書と重要事項説明書（電子署名）をお送りします。署名完了で初回の3連泊予約が可能になります。</p></div>
+</div>
+<div class="faq-item">
+<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">9月オープン予定の3物件はどう申し込む？</div>
+<div class="faq-a"><p>SOLUNAビレッジ・天空の道場・和歌山は2026年9月オープン予定。下部の<strong style="color:var(--text)">先行登録フォーム</strong>からメール登録で優先案内枠を確保できます（料金は発生しません）。8月の正式募集開始時にメールでご案内します。</p></div>
 </div>
 </div>
 </div>
@@ -488,18 +588,18 @@ footer .copy{font-size:8.5px;color:#1a1a1a;letter-spacing:.2em;margin-top:24px}
 <!-- SIGNUP CTA -->
 <div class="s" id="signup" style="text-align:center;padding:100px 24px;background:#040404">
 <p class="label r" style="text-align:center">Pre-register · 先行登録（無料）</p>
-<h2 class="r" style="text-align:center;margin-bottom:16px">年3連泊から、<span class="gold">始めてみる。</span></h2>
-<p class="r" style="text-align:center;color:#666;font-size:13px;line-height:2;max-width:480px;margin:0 auto 32px">2026年9月の正式募集に向けて、優先案内のためのメール登録を受け付け中。<br/>料金は発生しません。物件の詳細・抽選シミュレーションも順次お送りします。</p>
+<h2 class="r" style="text-align:center;margin-bottom:16px">2026年9月の<span class="gold">新物件、先行登録。</span></h2>
+<p class="r" style="text-align:center;color:#666;font-size:13px;line-height:2;max-width:480px;margin:0 auto 32px">SOLUNAビレッジ・天空の道場・和歌山の<strong style="color:var(--text)">先行案内</strong>用メール登録。<br/>料金は発生しません。営業中の<strong style="color:var(--gold)">LODGE / NESTING / WHITE HOUSE熱海</strong>はこのページの上部から今すぐ申込可能です。</p>
 
 <div id="signup-form" class="r" style="max-width:440px;margin:0 auto;background:#070707;border:1px solid rgba(200,164,85,.2);border-radius:16px;padding:32px;text-align:left">
 <input id="ns-name" type="text" placeholder="お名前" style="width:100%;padding:12px 14px;background:#0d0d0d;border:1px solid #1a1a1a;border-radius:8px;color:#f0ece4;font-size:13px;outline:none;margin-bottom:10px"/>
 <input id="ns-email" type="email" placeholder="メールアドレス" style="width:100%;padding:12px 14px;background:#0d0d0d;border:1px solid #1a1a1a;border-radius:8px;color:#f0ece4;font-size:13px;outline:none;margin-bottom:10px"/>
 <select id="ns-prop" style="width:100%;padding:12px 14px;background:#0d0d0d;border:1px solid #1a1a1a;border-radius:8px;color:#888;font-size:13px;outline:none;margin-bottom:14px">
   <option value="">興味のある物件（任意）</option>
-  <option value="village">SOLUNAビレッジ（美留和）</option>
-  <option value="kumaushi">天空の道場（熊牛原野）</option>
-  <option value="wakayama">SOLUNA 和歌山</option>
-  <option value="all">すべて</option>
+  <option value="village">SOLUNAビレッジ（美留和・9月予定）</option>
+  <option value="kumaushi">天空の道場（熊牛原野・9月予定）</option>
+  <option value="wakayama">SOLUNA 和歌山（年内予定）</option>
+  <option value="all">9月予定の3物件すべて</option>
 </select>
 <button onclick="submitNightshare()" id="ns-submit" class="cta-btn" style="width:100%">先行登録する</button>
 <p id="ns-msg" style="font-size:11px;color:#666;text-align:center;margin-top:12px;min-height:14px"></p>
@@ -528,6 +628,37 @@ const io=new IntersectionObserver((entries)=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
 },{threshold:.12});
 document.querySelectorAll('.r').forEach(el=>io.observe(el));
+
+// purchase flow — Stripe Checkout via /api/cabin/nightshare/checkout
+async function buyNightshare(propId){
+  const sel = document.getElementById('sets-'+propId);
+  const sets = sel ? Number(sel.value) : 1;
+  const email = prompt('購入確認メールの送付先を入力してください\n\n（決済完了後、3営業日以内に会員契約書と重要事項説明書をお送りします）');
+  if(!email || !email.includes('@')){ if(email!==null) alert('メールアドレスを正しく入力してください'); return; }
+  const name = prompt('お名前（フルネーム）') || '';
+  try {
+    const r = await fetch('/api/cabin/nightshare/checkout',{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body: JSON.stringify({ property_id: propId, sets, name, email })
+    });
+    const data = await r.json();
+    if(!r.ok || !data.url){ alert('決済セッションの作成に失敗しました: '+(data.error||'unknown')); return; }
+    if(window.sln) sln.track('purchase_click', { source:'nightshare', property: propId, sets });
+    window.location.href = data.url;
+  } catch(e){
+    alert('通信エラーが発生しました。時間をおいて再度お試しください。');
+  }
+}
+
+// success/cancel URL handling
+const urlParams = new URLSearchParams(window.location.search);
+if(urlParams.get('paid')==='1'){
+  setTimeout(()=>{ alert('✓ ご購入ありがとうございます。\n\n3営業日以内に、会員契約書（電子署名）と重要事項説明書をご登録メールにお送りします。\n署名完了後、初回の3連泊予約フォームをご案内します。'); }, 200);
+}
+if(urlParams.get('cancel')==='1'){
+  setTimeout(()=>{ alert('決済をキャンセルしました。ご質問は info@solun.art までお問い合わせください。'); }, 200);
+}
 
 // EN/JA toggle (basic)
 function applyLang(lang){

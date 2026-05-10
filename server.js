@@ -218,6 +218,26 @@ const MONTH_OP_PROPS = {
 const KUMIAI_MAX_INVESTORS = 49;
 const MONTH_OP_ADVANCE = 6; // months ahead available for purchase
 
+// ── NIGHTSHARE config (3連泊×30年=合計90泊の宿泊会員権) ──────────────────────
+// 営業中で旅館業許可済みの3物件のみ販売（村/道場/和歌山は別途オープン後追加）
+const NIGHTSHARE_PROPS = {
+  lodge:   {
+    name: "THE LODGE", location: "北海道 弟子屈 / 美留和",
+    price_jpy: 594000, per_night_jpy: 6600, max_sets_per_member: 3, max_guests: 4,
+    retail_per_night: 35000, beds24_prop: 243408,
+  },
+  nesting: {
+    name: "NESTING", location: "北海道 弟子屈 / 美留和",
+    price_jpy: 894000, per_night_jpy: 9933, max_sets_per_member: 2, max_guests: 4,
+    retail_per_night: 50000, beds24_prop: 243409,
+  },
+  atami:   {
+    name: "WHITE HOUSE 熱海", location: "静岡県 熱海市",
+    price_jpy: 1494000, per_night_jpy: 16600, max_sets_per_member: 2, max_guests: 6,
+    retail_per_night: 55000, beds24_prop: 243406,
+  },
+};
+
 const PROP_DISPLAY = {
   tapkop:    "TAPKOP（弟子屈）",
   lodge:     "THE LODGE（弟子屈）",
@@ -898,6 +918,26 @@ async function initDb() {
     stripe_session_id TEXT,
     credit_issued INTEGER DEFAULT 0,
     created_at TEXT DEFAULT (datetime('now'))
+  )`).catch(() => {});
+
+  await db.execute(`CREATE TABLE IF NOT EXISTS nightshare_purchases (
+    id TEXT PRIMARY KEY,
+    property_id TEXT NOT NULL,
+    sets INTEGER NOT NULL DEFAULT 1,
+    buyer_name TEXT,
+    buyer_email TEXT NOT NULL,
+    buyer_phone TEXT,
+    price_jpy INTEGER NOT NULL,
+    status TEXT DEFAULT 'pending',
+    stripe_session_id TEXT,
+    contract_signed INTEGER DEFAULT 0,
+    nights_total INTEGER DEFAULT 90,
+    nights_used INTEGER DEFAULT 0,
+    valid_from TEXT,
+    valid_until TEXT,
+    notes TEXT,
+    created_at TEXT DEFAULT (datetime('now')),
+    paid_at TEXT
   )`).catch(() => {});
 
   await db.execute(`CREATE TABLE IF NOT EXISTS kumiai_applications (
@@ -6059,6 +6099,116 @@ app.post("/api/cabin/month/webhook", express.raw({ type: "application/json" }), 
                 翌月10日に実際の売上額を宿泊クレジットとして付与いたします。
               </p>
               <p style="font-size:12px;color:#555;margin-top:24px">SOLUNA — Enabler Inc.</p>
+            </div>`
+          })
+        }).catch(()=>{});
+      }
+    }
+  }
+  res.json({ ok: true });
+});
+
+// ── NIGHTSHARE: properties + checkout + webhook ──────────────────────────────
+app.get("/api/cabin/nightshare/properties", async (_req, res) => {
+  // 各物件の販売状況: total=固定枠, sold=決済済み数
+  const out = {};
+  for (const [propId, cfg] of Object.entries(NIGHTSHARE_PROPS)) {
+    const sold = (await db.execute({
+      sql: "SELECT COALESCE(SUM(sets),0) AS s FROM nightshare_purchases WHERE property_id=? AND status='paid'",
+      args: [propId]
+    })).rows[0]?.s || 0;
+    out[propId] = { ...cfg, sold: Number(sold) };
+  }
+  res.json({ properties: out });
+});
+
+app.post("/api/cabin/nightshare/checkout", async (req, res) => {
+  if (!STRIPE_SECRET_KEY) return res.status(503).json({ error: "Payment not configured" });
+  const { property_id, sets, name, email, phone } = req.body || {};
+  if (!property_id || !email) return res.status(400).json({ error: "Missing fields" });
+  const cfg = NIGHTSHARE_PROPS[property_id];
+  if (!cfg) return res.status(400).json({ error: "Invalid property" });
+  const setsN = Math.max(1, Math.min(Number(sets || 1), cfg.max_sets_per_member));
+
+  const stripe = require("stripe")(STRIPE_SECRET_KEY);
+  const id = crypto.randomBytes(8).toString("hex");
+  const totalJpy = cfg.price_jpy * setsN;
+  const validFrom  = new Date().toISOString().slice(0,10);
+  const validUntil = new Date(Date.now() + 30*365*24*60*60*1000).toISOString().slice(0,10);
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: [{
+      price_data: {
+        currency: "jpy",
+        product_data: {
+          name: `SOLUNA NIGHTSHARE — ${cfg.name}（毎年3連泊×30年×${setsN}セット）`,
+          description: `1セット=毎年3連泊×30年=合計90泊。${setsN}セット購入で年${3*setsN}連泊。1泊あたり¥${cfg.per_night_jpy.toLocaleString()}相当。`,
+        },
+        unit_amount: cfg.price_jpy,
+      },
+      quantity: setsN,
+    }],
+    mode: "payment",
+    customer_email: email,
+    success_url: `${BASE_URL}/nightshare?paid=1&id=${id}`,
+    cancel_url:  `${BASE_URL}/nightshare?cancel=1`,
+    metadata: { nightshare_id: id, property_id, sets: String(setsN), buyer_name: name||"", buyer_email: email, buyer_phone: phone||"" },
+  });
+
+  await db.execute({
+    sql: `INSERT INTO nightshare_purchases
+      (id, property_id, sets, buyer_name, buyer_email, buyer_phone, price_jpy, status, stripe_session_id, nights_total, valid_from, valid_until)
+      VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?, ?)`,
+    args: [id, property_id, setsN, name||"", email, phone||"", totalJpy, session.id, 90*setsN, validFrom, validUntil]
+  });
+
+  res.json({ url: session.url, id });
+});
+
+app.post("/api/cabin/nightshare/webhook", express.raw({ type: "application/json" }), async (req, res) => {
+  const sig = req.headers["stripe-signature"];
+  const wh  = process.env.STRIPE_WEBHOOK_SECRET_NIGHTSHARE || process.env.STRIPE_WEBHOOK_SECRET || "";
+  let event;
+  try {
+    event = wh
+      ? require("stripe")(STRIPE_SECRET_KEY).webhooks.constructEvent(req.body, sig, wh)
+      : JSON.parse(req.body);
+  } catch (e) { return res.status(400).send("Invalid signature"); }
+  if (event.type === "checkout.session.completed") {
+    const s = event.data.object;
+    const { nightshare_id, property_id, sets, buyer_name, buyer_email, buyer_phone } = s.metadata || {};
+    if (nightshare_id) {
+      await db.execute({
+        sql: "UPDATE nightshare_purchases SET status='paid', paid_at=datetime('now') WHERE id=?",
+        args: [nightshare_id]
+      });
+      const cfg = NIGHTSHARE_PROPS[property_id] || {};
+      const setsN = Number(sets||1);
+      sendTg(TG_CHAT, `🌙 *NIGHTSHARE 購入完了*\n\n🏡 ${cfg.name||property_id}\n📦 ${setsN}セット（年${3*setsN}連泊×30年）\n👤 ${buyer_name||"—"}\n📧 ${buyer_email}\n📞 ${buyer_phone||"—"}\n💴 ¥${((cfg.price_jpy||0)*setsN).toLocaleString()}`).catch(()=>{});
+      if (RESEND_API_KEY && buyer_email) {
+        fetch("https://api.resend.com/emails", { method:"POST",
+          headers: {"Content-Type":"application/json", Authorization:`Bearer ${RESEND_API_KEY}`},
+          body: JSON.stringify({
+            from: "SOLUNA <info@solun.art>",
+            to: [buyer_email],
+            bcc: ["info@solun.art"],
+            subject: `【SOLUNA NIGHTSHARE】${cfg.name||property_id} ご購入ありがとうございます`,
+            html: `<div style="background:#050505;color:#f0ece4;font-family:'Helvetica Neue',sans-serif;padding:40px;max-width:560px;margin:0 auto">
+              <p style="font-size:11px;letter-spacing:.2em;color:#c8a455">SOLUNA NIGHTSHARE</p>
+              <h2 style="font-size:20px;margin:16px 0">ご購入ありがとうございます</h2>
+              <p style="color:#aaa;line-height:1.9;font-size:14px">
+                ${buyer_name||""}様<br><br>
+                <strong style="color:#c8a455">${cfg.name||property_id}</strong> の年3連泊会員権 <strong>${setsN}セット</strong> のご購入を確認しました。<br><br>
+                <strong>ご購入内容</strong><br>
+                ・物件: ${cfg.name||property_id}（${cfg.location||""}）<br>
+                ・年間: 3連泊 × ${setsN}セット = 年${3*setsN}連泊<br>
+                ・期間: 30年（合計${90*setsN}泊）<br>
+                ・お支払い: ¥${((cfg.price_jpy||0)*setsN).toLocaleString()}<br><br>
+                3営業日以内に、会員契約書（電子署名）と重要事項説明書をお送りします。<br>
+                署名完了後、初回の3連泊予約フォームをご案内します。
+              </p>
+              <p style="font-size:12px;color:#555;margin-top:24px">SOLUNA — Enabler Inc.<br>info@solun.art</p>
             </div>`
           })
         }).catch(()=>{});
