@@ -89,7 +89,7 @@ h1{font-size:1.15rem;font-weight:700;color:var(--gold);letter-spacing:.08em;marg
 
 <div class="common-card" id="common-card">
   <div class="common-head">
-    <div class="common-title">🌕 連携3棟が全部空いている日</div>
+    <div class="common-title">🌕 LODGE/NESTING/インスタント が全部空いている日</div>
     <div class="common-count" id="common-count">読込中…</div>
   </div>
   <div class="cal-nav">
@@ -118,7 +118,7 @@ var PROPS = [
   {slug:'lodge',    name:'THE LODGE',           loc:'弟子屈町 · 美留和',         img:'/img/lodge_exterior_snow.webp', beds24:243408, url:'/lodge',    note:'天然温泉pH9.2 · 露天風呂'},
   {slug:'nesting',  name:'NESTING',             loc:'弟子屈町 · 美留和の森',     img:'/img/nesting_wide.webp',        beds24:243409, url:'/nesting',  note:'VUILD設計 · タワーサウナ'},
   {slug:'instant',  name:'インスタントハウス',  loc:'弟子屈町 · 美留和',         img:'/img/instant_dome_snow.webp',   beds24:322965, url:'/instant',  note:'オフグリッド · 即入居'},
-  {slug:'tapkop',   name:'TAPKOP',              loc:'弟子屈町 · 阿寒摩周国立公園', img:'/img/tapkop_lake_mashu_view.webp', beds24:0, url:'/tapkop',   note:'専任シェフ付きプライベートリゾート', status:'招待制'},
+  {slug:'tapkop',   name:'TAPKOP',              loc:'弟子屈町 · 阿寒摩周国立公園', img:'/img/tapkop_lake_mashu_view.webp', beds24:0, url:'/tapkop',   note:'専任シェフ付きプライベートリゾート', status:'tapkop.com で確認', extUrl:'https://tapkop.com/reservation/'},
   {slug:'kumaushi', name:'KUMAUSHI BASE',       loc:'弟子屈町 · 熊牛原野',       img:'/img/kumaushi_aerial_dawn.webp',beds24:0,     url:'/kumaushi', note:'プール・サウナ・バー・柔術道場', status:'2026年9月開業'},
   {slug:'village',  name:'美留和ビレッジ',      loc:'弟子屈町 · 美留和',         img:'/img/village_aerial.webp',      beds24:0,     url:'/village',  note:'100区画のコミュニティ',         status:'2026年9月開業'},
 ];
@@ -241,7 +241,11 @@ function makeCard(p){
       +'<div class="li"><div class="dot" style="background:rgba(78,203,141,.5)"></div>空き</div>'
       +'<div class="li"><div class="dot" style="background:rgba(230,90,90,.5)"></div>予約済</div>'
       +'</div>'
-    : '<div class="no-beds24">Beds24未連携の物件です<div class="small">'+(p.note||'')+'</div></div>';
+    : (p.extUrl
+        ? '<div class="no-beds24">空き状況は公式サイトでご確認ください<div class="small">'+(p.note||'')+'</div>'
+          +'<a class="prop-link" style="margin-top:10px" href="'+p.extUrl+'" target="_blank" rel="noopener">'+p.extUrl.replace(/^https?:\/\//,'').replace(/\/$/,'')+' で空きを見る →</a>'
+          +'</div>'
+        : '<div class="no-beds24">Beds24未連携の物件です<div class="small">'+(p.note||'')+'</div></div>');
   card.innerHTML =
     '<div class="prop-head" onclick="toggleCal(\''+p.slug+'\')">'
     +'<img src="'+p.img+'" alt="'+p.name+'" loading="lazy" onerror="this.style.opacity=.2">'
@@ -249,7 +253,7 @@ function makeCard(p){
     +badgeHtml
     +'</div>'
     +'<div class="cal-wrap" id="cal-'+p.slug+'">'+calInner
-    +'<a class="prop-link" href="'+p.url+'">'+p.name+' の詳細・予約 →</a>'
+    +'<a class="prop-link" href="'+p.url+'">'+p.name+' の詳細 →</a>'
     +'</div>';
   return card;
 }
