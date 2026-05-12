@@ -662,14 +662,14 @@ function buildUI(){
       dk.className = 'dkicon';
       dk.setAttribute('data-app-id', app.id);
       dk.innerHTML = '<span class="em">'+app.em+'</span><span class="lbl">'+label+'</span>';
-      dk.addEventListener('click', (function(a){ return function(){ openWin(a.url, t(a), a.em, a.id); }; })(app));
+      dk.addEventListener('click', (function(a){ return function(){ navigateOrOpen(a); }; })(app));
       dockAppsEl.appendChild(dk);
     } else {
       // Desktop icons (non-dock only)
       var d = document.createElement('div');
       d.className = 'dicon';
       d.innerHTML = '<span class="em">'+app.em+'</span><span class="lbl">'+label+'</span>';
-      d.addEventListener('click', (function(a){ return function(){ openWin(a.url, t(a), a.em, a.id); }; })(app));
+      d.addEventListener('click', (function(a){ return function(){ navigateOrOpen(a); }; })(app));
       desktopIconsEl.appendChild(d);
     }
 
@@ -686,8 +686,8 @@ function buildUI(){
     si.setAttribute('data-lbl', label+' '+app.id+' '+app.url);
     si.innerHTML = '<span class="em">'+app.em+'</span><span class="lbl">'+label+'</span>';
     si.addEventListener('click', (function(a){ return function(){
-      openWin(a.url, t(a), a.em, a.id);
       closeStart();
+      navigateOrOpen(a);
     }; })(app));
     startGridEl.appendChild(si);
 
@@ -741,11 +741,20 @@ function buildUI(){
 buildUI();
 
 // ── Hero CTA clicks ───────────────────────────────────────────────────────────
+// ── Open helper: editorial mode = full-page navigate, desktop mode = window ──
+function navigateOrOpen(app){
+  if (!app) return;
+  if (document.body.classList.contains('desktop-mode')){
+    openWin(app.url, t(app), app.em, app.id);
+  } else {
+    window.location.href = app.url;
+  }
+}
+
 document.querySelectorAll('.hcta[data-open]').forEach(function(btn){
   btn.addEventListener('click', function(){
     var id = btn.getAttribute('data-open');
-    var app = APPS.find(function(a){ return a.id === id; });
-    if (app) openWin(app.url, t(app), app.em, app.id);
+    navigateOrOpen(APPS.find(function(a){ return a.id === id; }));
   });
 });
 
@@ -754,8 +763,7 @@ document.querySelectorAll('.hcta[data-open]').forEach(function(btn){
 document.querySelectorAll('.mlbl[data-open]').forEach(function(el){
   el.addEventListener('click', function(){
     var id = el.getAttribute('data-open');
-    var app = APPS.find(function(a){ return a.id === id; });
-    if (app) openWin(app.url, app.lbl, app.em, app.id);
+    navigateOrOpen(APPS.find(function(a){ return a.id === id; }));
   });
 });
 
@@ -875,12 +883,14 @@ function getFrontAppId(){
 // ── Window manager ────────────────────────────────────────────────────────────
 function openWin(url, title, em, appId){
   topZ++;
-  var off = (winOffset % 10) * 28;
+  var off = (winOffset % 6) * 24;
   winOffset++;
   var vw = window.innerWidth, vh = window.innerHeight;
-  var ww = Math.min(980, vw - 60);
-  var wh = Math.min(660, vh - 100);
-  var x = 48 + off, y = 36 + off;
+  // 大きめデフォルト: ビューポートの92% × 88%、最大1440×900
+  var ww = Math.min(1440, Math.floor(vw * 0.92));
+  var wh = Math.min(900,  Math.floor(vh * 0.88));
+  var x = Math.max(20, Math.floor((vw - ww) / 2)) + off;
+  var y = Math.max(20, Math.floor((vh - wh) / 2)) + off;
 
   var id = 'w' + Date.now();
 
@@ -893,9 +903,9 @@ function openWin(url, title, em, appId){
   var bar = document.createElement('div');
   bar.className = 'winbar';
   bar.innerHTML =
-    '<button class="wbtn" style="background:#ff5f57" title="閉じる"></button>'+
-    '<button class="wbtn" style="background:#febc2e" title="最小化"></button>'+
-    '<button class="wbtn" style="background:#28c840" title="最大化"></button>'+
+    '<button type="button" class="wbtn" style="background:#ff5f57" title="閉じる" aria-label="閉じる"></button>'+
+    '<button type="button" class="wbtn" style="background:#febc2e" title="最小化" aria-label="最小化"></button>'+
+    '<button type="button" class="wbtn" style="background:#28c840" title="最大化" aria-label="最大化"></button>'+
     '<span class="wtitle">'+em+' '+title+'</span>';
 
   var body = document.createElement('div');
@@ -939,11 +949,11 @@ function openWin(url, title, em, appId){
   // Push hash URL
   if (appId) pushHash(appId, title);
 
-  // Buttons
+  // Buttons (defensive: stop propagation, prevent default to ensure no form submit / no nav)
   var btns = bar.querySelectorAll('.wbtn');
-  btns[0].addEventListener('click', function(e){ e.stopPropagation(); closeWin(id); });
-  btns[1].addEventListener('click', function(e){ e.stopPropagation(); toggleMin(id); });
-  btns[2].addEventListener('click', function(e){ e.stopPropagation(); maximizeWin(id); });
+  btns[0].addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); closeWin(id); });
+  btns[1].addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); toggleMin(id); });
+  btns[2].addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); maximizeWin(id); });
 
   // Drag
   bar.addEventListener('mousedown', function(e){
@@ -1031,14 +1041,15 @@ function updateDockMinimized(){
   minSep.style.display = hasMins ? '' : 'none';
 }
 
-// ── Hash routing: init + back button ─────────────────────────────────────────
+// ── Hash routing: init + back button (desktop-mode のみハッシュからウィンドウ復元) ──
 var initHash = location.hash.replace(/^#/, '');
-if (initHash) {
+if (initHash && document.body.classList.contains('desktop-mode')) {
   var initApp = findAppById(initHash);
   if (initApp) openWin(initApp.url, initApp.lbl, initApp.em, initApp.id);
 }
 
 window.addEventListener('popstate', function(){
+  if (!document.body.classList.contains('desktop-mode')) return;
   var hash = location.hash.replace(/^#/, '');
   if (!hash) return;
   var already = Object.keys(wins).some(function(id){ return wins[id].appId === hash; });
