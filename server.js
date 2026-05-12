@@ -8958,6 +8958,114 @@ app.post("/api/soluna/inquiry", express.json(), async (req, res) => {
   res.json({ ok: true });
 });
 
+// ── 北海道 物件の公開予約フォーム ────────────────────────────────────────────
+// LODGE / NESTING / INSTANT のみ対応。Beds24未連携のtapkop/kumaushi/villageは除外
+const HOKKAIDO_PLANS = {
+  basic:     { label: "素泊まり",                                 addon_per_night_per_guest: 0,     desc: "シンプルな自炊滞在。チェックイン15:00 / チェックアウト11:00。" },
+  breakfast: { label: "朝食付き（北海道食材）",                   addon_per_night_per_guest: 2500,  desc: "弟子屈町産の有機卵・野菜・パン・自家製ジャム。" },
+  onsen:     { label: "温泉&サウナ満喫プラン",                     addon_per_night_per_guest: 4500,  desc: "天然温泉pH9.2 + 薪サウナ + アロマセット。LODGE/NESTING推奨。" },
+  gibier:    { label: "道東ジビエディナー付き",                   addon_per_night_per_guest: 12000, desc: "蝦夷鹿・羆・知床牛のフルコース（地元シェフ調理）。要事前予約。" },
+  activity:  { label: "アクティビティプラン（カヌー or 乗馬）",   addon_per_night_per_guest: 18000, desc: "屈斜路湖SUP/カヌー or 美留和乗馬ガイド付き（半日）。" },
+};
+const HOKKAIDO_PROP_PRICE = { lodge: 35000, nesting: 38000, instant: 25000 };
+
+app.post("/api/hokkaido/book", express.json(), async (req, res) => {
+  try {
+    const { property_slug, plan_key, check_in, check_out } = req.body || {};
+    const name     = stripTags(String(req.body?.name     || "").trim().slice(0, 100));
+    const email    = stripTags(String(req.body?.email    || "").trim().slice(0, 254));
+    const phone    = stripTags(String(req.body?.phone    || "").trim().slice(0, 30));
+    const notes    = stripTags(String(req.body?.notes    || "").trim().slice(0, 1000));
+    const guests   = Math.max(1, Math.min(20, Number(req.body?.guests) || 2));
+
+    if (!HOKKAIDO_PROP_PRICE[property_slug])         return res.status(400).json({ error: "対象は LODGE / NESTING / INSTANT のみです" });
+    if (!HOKKAIDO_PLANS[plan_key])                    return res.status(400).json({ error: "プランが不正です" });
+    if (!check_in || !check_out)                      return res.status(400).json({ error: "チェックイン/アウト日を選んでください" });
+    if (!email.includes("@"))                         return res.status(400).json({ error: "メールアドレスが不正です" });
+    if (!name)                                        return res.status(400).json({ error: "お名前を入力してください" });
+
+    const ci = new Date(check_in), co = new Date(check_out);
+    if (isNaN(ci) || isNaN(co))                       return res.status(400).json({ error: "日付フォーマットが不正です" });
+    const nights = Math.round((co - ci) / 86400000);
+    if (nights <= 0 || nights > 30)                   return res.status(400).json({ error: "1〜30泊で指定してください" });
+
+    const propName = (SOLUNA_PROPERTIES[property_slug] || {}).name || property_slug;
+    const plan = HOKKAIDO_PLANS[plan_key];
+    const basePrice = HOKKAIDO_PROP_PRICE[property_slug];
+    const planAddon = plan.addon_per_night_per_guest * guests * nights;
+    const stayTotal = basePrice * nights;
+    const total = stayTotal + planAddon;
+    const ref = "HK-" + Math.random().toString(36).slice(2,6).toUpperCase() + Date.now().toString(36).slice(-4).toUpperCase();
+
+    // soluna_bookings に pending として記録（member_id=0 = 匿名問い合わせ）
+    try {
+      await db.execute({
+        sql: "INSERT INTO soluna_bookings (coupon_id,member_id,property_slug,check_in,check_out,nights,guests,status) VALUES (0,0,?,?,?,?,?,'pending')",
+        args: [property_slug, check_in, check_out, nights, guests],
+      });
+    } catch (e) { console.error("[hokkaido/book] db insert failed:", e?.message); }
+
+    const fmtYen = (n) => "¥" + n.toLocaleString("ja-JP");
+    const adminHtml = `
+      <h2>北海道 予約お問い合わせ（${esc(ref)}）</h2>
+      <table style="border-collapse:collapse">
+        <tr><td>物件</td><td>${esc(propName)}</td></tr>
+        <tr><td>プラン</td><td>${esc(plan.label)}</td></tr>
+        <tr><td>滞在</td><td>${esc(check_in)} 〜 ${esc(check_out)}（${nights}泊）</td></tr>
+        <tr><td>人数</td><td>${guests}名</td></tr>
+        <tr><td>宿泊料</td><td>${esc(fmtYen(stayTotal))}（${esc(fmtYen(basePrice))} × ${nights}泊）</td></tr>
+        <tr><td>プラン加算</td><td>${esc(fmtYen(planAddon))}（${esc(fmtYen(plan.addon_per_night_per_guest))} × ${guests}名 × ${nights}泊）</td></tr>
+        <tr><td><b>合計目安</b></td><td><b>${esc(fmtYen(total))}</b></td></tr>
+      </table>
+      <h3>お客様情報</h3>
+      <table style="border-collapse:collapse">
+        <tr><td>お名前</td><td>${esc(name)}</td></tr>
+        <tr><td>メール</td><td>${esc(email)}</td></tr>
+        <tr><td>電話</td><td>${esc(phone) || "—"}</td></tr>
+        <tr><td>備考</td><td style="white-space:pre-wrap">${esc(notes) || "なし"}</td></tr>
+      </table>
+    `;
+    const userHtml = `
+      <p>${esc(name)} 様</p>
+      <p>北海道（${esc(propName)}）への滞在お問い合わせを承りました。<br>担当者が空き状況を確認し、24時間以内にご連絡いたします。</p>
+      <table style="border-collapse:collapse">
+        <tr><td>受付番号</td><td><b>${esc(ref)}</b></td></tr>
+        <tr><td>物件</td><td>${esc(propName)}</td></tr>
+        <tr><td>プラン</td><td>${esc(plan.label)}</td></tr>
+        <tr><td>滞在</td><td>${esc(check_in)} 〜 ${esc(check_out)}（${nights}泊）</td></tr>
+        <tr><td>人数</td><td>${guests}名</td></tr>
+        <tr><td>料金目安</td><td>${esc(fmtYen(total))}（税込）</td></tr>
+      </table>
+      <p style="color:#666;font-size:12px">※こちらは受付確認メールです。空き状況確認の上、正式予約とご案内をいたします。</p>
+      <p>— SOLUNA チーム</p>
+    `;
+    if (RESEND_API_KEY) {
+      fetch("https://api.resend.com/emails", {
+        method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+        body: JSON.stringify({ from: "SOLUNA <info@solun.art>", to: ["mail@yukihamada.jp"], reply_to: email,
+          subject: `【北海道予約】${propName} ${check_in}〜 / ${plan.label} / ${name}`, html: adminHtml }),
+      }).catch(() => {});
+      fetch("https://api.resend.com/emails", {
+        method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+        body: JSON.stringify({ from: "SOLUNA <info@solun.art>", to: [email],
+          subject: "【SOLUNA】滞在お問い合わせを受け付けました", html: userHtml }),
+      }).catch(() => {});
+    }
+    res.json({ ok: true, ref, property: propName, plan: plan.label, nights, total });
+  } catch (e) {
+    console.error("[hokkaido/book] error:", e);
+    res.status(500).json({ error: "サーバーエラーが発生しました。時間をおいて再度お試しください。" });
+  }
+});
+
+// GET /api/hokkaido/plans — フロント表示用のプラン一覧
+app.get("/api/hokkaido/plans", (_req, res) => {
+  res.json({
+    plans: Object.entries(HOKKAIDO_PLANS).map(([key, p]) => ({ key, ...p })),
+    base_price: HOKKAIDO_PROP_PRICE,
+  });
+});
+
 // POST /api/soluna/founders-apply — founders pack application form
 app.post("/api/soluna/founders-apply", express.json(), async (req, res) => {
   const { name, email, plan, message } = req.body;

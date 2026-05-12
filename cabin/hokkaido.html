@@ -81,6 +81,46 @@ h1{font-size:1.15rem;font-weight:700;color:var(--gold);letter-spacing:.08em;marg
 .common-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;font-size:10px;color:#666}
 .common-legend .dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:-1px}
 .common-loading{font-size:11px;color:#666;text-align:center;padding:20px 0}
+
+/* 予約モーダル */
+.cta-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.book-btn{flex:1;min-width:130px;background:var(--gold);color:#1a1a18;border:0;border-radius:8px;padding:10px 14px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.04em}
+.book-btn:hover{background:#d4b46a}
+.book-btn.secondary{background:transparent;color:var(--gold);border:1px solid rgba(200,164,85,.4)}
+.book-btn.secondary:hover{background:rgba(200,164,85,.1)}
+.common-card .cal-day.all-open,.common-card .cal-day.some-open{cursor:pointer}
+.common-card .cal-day.all-open:hover,.common-card .cal-day.some-open:hover{outline:1px solid rgba(200,164,85,.5)}
+
+#book-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;overflow-y:auto;padding:30px 12px;backdrop-filter:blur(4px)}
+#book-modal.open{display:block}
+.bm-card{max-width:520px;margin:0 auto;background:#0f0f0d;border:1px solid var(--border);border-radius:14px;padding:18px 18px 22px}
+.bm-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.bm-title{font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.05em}
+.bm-close{background:transparent;border:0;color:#888;font-size:22px;cursor:pointer;line-height:1}
+.bm-close:hover{color:#fff}
+.bm-group{margin-bottom:14px}
+.bm-label{font-size:10px;color:#888;margin-bottom:5px;text-transform:uppercase;letter-spacing:.08em}
+.bm-input,.bm-select,.bm-textarea{width:100%;background:#1a1a18;border:1px solid #2a2a25;border-radius:6px;color:#fff;font-size:13px;padding:9px 11px;font-family:inherit}
+.bm-input:focus,.bm-select:focus,.bm-textarea:focus{outline:none;border-color:rgba(200,164,85,.5)}
+.bm-textarea{resize:vertical;min-height:60px}
+.bm-row{display:flex;gap:10px}
+.bm-row > *{flex:1}
+.bm-plans{display:flex;flex-direction:column;gap:6px}
+.bm-plan{background:#1a1a18;border:1px solid #2a2a25;border-radius:8px;padding:10px 12px;cursor:pointer;transition:all .15s}
+.bm-plan:hover{border-color:rgba(200,164,85,.3)}
+.bm-plan.active{border-color:var(--gold);background:rgba(200,164,85,.08)}
+.bm-plan-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.bm-plan-name{font-size:12px;font-weight:700;color:#e8e0cc}
+.bm-plan-price{font-size:10px;color:var(--gold);white-space:nowrap}
+.bm-plan-desc{font-size:10px;color:#666;margin-top:3px;line-height:1.45}
+.bm-summary{background:rgba(200,164,85,.06);border:1px solid rgba(200,164,85,.2);border-radius:8px;padding:10px 12px;margin-bottom:14px;font-size:11px;color:#bbb;line-height:1.7}
+.bm-summary .total{font-size:14px;color:var(--gold);font-weight:700}
+.bm-submit{width:100%;background:var(--gold);color:#1a1a18;border:0;border-radius:8px;padding:12px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.05em}
+.bm-submit:hover{background:#d4b46a}
+.bm-submit:disabled{opacity:.5;cursor:not-allowed}
+.bm-error{color:#e65a5a;font-size:11px;margin-top:8px;text-align:center}
+.bm-success{color:#4ecb8d;font-size:12px;line-height:1.7;text-align:center;padding:20px 0}
+.bm-success .ref{color:var(--gold);font-weight:700;letter-spacing:.05em}
 </style>
 <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
 </head>
@@ -112,6 +152,9 @@ h1{font-size:1.15rem;font-weight:700;color:var(--gold);letter-spacing:.08em;marg
     <span style="color:#888;border-left:1px solid #2a2a28;padding-left:10px;margin-left:2px">バッジ: <b style="color:#aaa">L</b>=LODGE / <b style="color:#aaa">N</b>=NESTING / <b style="color:#aaa">I</b>=INSTANT（赤＝予約済）</span>
   </div>
   <div class="next-list" id="next-list"></div>
+  <div class="cta-row" style="margin-top:14px">
+    <button class="book-btn" onclick="openBooking()">空き日から予約する</button>
+  </div>
 </div>
 
 <div class="prop-list" id="prop-list"></div>
@@ -119,6 +162,88 @@ h1{font-size:1.15rem;font-weight:700;color:var(--gold);letter-spacing:.08em;marg
 <div class="foot">
   Beds24 v2 API · 5分キャッシュ<br>
   <a href="/avail">全物件の空き状況 →</a> ／ <a href="/">SOLUNA トップ →</a>
+</div>
+
+<!-- 予約モーダル -->
+<div id="book-modal" onclick="if(event.target.id==='book-modal')closeBooking()">
+  <div class="bm-card">
+    <div class="bm-head">
+      <div class="bm-title">📅 北海道 滞在予約</div>
+      <button class="bm-close" onclick="closeBooking()" aria-label="閉じる">×</button>
+    </div>
+
+    <div id="bm-form">
+      <div class="bm-group">
+        <div class="bm-label">物件</div>
+        <select class="bm-select" id="bm-prop" onchange="updateSummary()">
+          <option value="lodge">THE LODGE — 美留和（¥35,000/泊）</option>
+          <option value="nesting">NESTING — 美留和の森（¥38,000/泊）</option>
+          <option value="instant">インスタントハウス — 美留和（¥25,000/泊）</option>
+        </select>
+      </div>
+
+      <div class="bm-row bm-group">
+        <div>
+          <div class="bm-label">チェックイン</div>
+          <input type="date" class="bm-input" id="bm-ci" onchange="updateSummary()">
+        </div>
+        <div>
+          <div class="bm-label">チェックアウト</div>
+          <input type="date" class="bm-input" id="bm-co" onchange="updateSummary()">
+        </div>
+      </div>
+
+      <div class="bm-row bm-group">
+        <div>
+          <div class="bm-label">人数</div>
+          <select class="bm-select" id="bm-guests" onchange="updateSummary()">
+            <option value="1">1名</option>
+            <option value="2" selected>2名</option>
+            <option value="3">3名</option>
+            <option value="4">4名</option>
+            <option value="5">5名</option>
+            <option value="6">6名</option>
+            <option value="8">8名</option>
+            <option value="10">10名</option>
+          </select>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="bm-group">
+        <div class="bm-label">プラン（タップで選択）</div>
+        <div class="bm-plans" id="bm-plans"></div>
+      </div>
+
+      <div class="bm-row bm-group">
+        <div>
+          <div class="bm-label">お名前 *</div>
+          <input type="text" class="bm-input" id="bm-name" placeholder="山田 太郎">
+        </div>
+        <div>
+          <div class="bm-label">電話</div>
+          <input type="tel" class="bm-input" id="bm-phone" placeholder="090-1234-5678">
+        </div>
+      </div>
+
+      <div class="bm-group">
+        <div class="bm-label">メールアドレス *</div>
+        <input type="email" class="bm-input" id="bm-email" placeholder="you@example.com">
+      </div>
+
+      <div class="bm-group">
+        <div class="bm-label">ご要望・備考</div>
+        <textarea class="bm-textarea" id="bm-notes" placeholder="食事制限、希望時刻、ご質問など"></textarea>
+      </div>
+
+      <div class="bm-summary" id="bm-summary">物件・日程・プランを選んでください</div>
+
+      <button class="bm-submit" id="bm-submit" onclick="submitBooking()">予約を申し込む</button>
+      <div class="bm-error" id="bm-error"></div>
+    </div>
+
+    <div id="bm-done" class="bm-success" style="display:none"></div>
+  </div>
 </div>
 
 <script>
@@ -294,7 +419,12 @@ function makeCard(p){
     +badgeHtml
     +'</div>'
     +'<div class="cal-wrap" id="cal-'+p.slug+'">'+calInner
-    +'<a class="prop-link" href="'+p.url+'">'+p.name+' の詳細 →</a>'
+    +(p.beds24 > 0
+      ? '<div class="cta-row">'
+        +'<button class="book-btn" onclick="event.stopPropagation();openBooking(\''+p.slug+'\')">この物件を予約する</button>'
+        +'<a class="book-btn secondary" href="'+p.url+'" style="text-decoration:none;text-align:center;line-height:1.6">詳細を見る</a>'
+        +'</div>'
+      : '<a class="prop-link" href="'+p.url+'">'+p.name+' の詳細 →</a>')
     +'</div>';
   return card;
 }
@@ -399,6 +529,152 @@ function updateBadge(slug, booked){
 }
 
 loadAll();
+
+// ── 予約モーダル ───────────────────────────────────────────
+var PLANS = [];
+var BASE_PRICE = {lodge:35000, nesting:38000, instant:25000};
+var selectedPlan = 'basic';
+
+fetch('/api/hokkaido/plans').then(function(r){return r.json();}).then(function(d){
+  PLANS = d.plans || [];
+  if(d.base_price) BASE_PRICE = d.base_price;
+  renderPlans();
+}).catch(function(){
+  // フォールバック（API失敗時）
+  PLANS = [
+    {key:'basic',     label:'素泊まり',                                addon_per_night_per_guest:0,     desc:'シンプルな自炊滞在。'},
+    {key:'breakfast', label:'朝食付き（北海道食材）',                  addon_per_night_per_guest:2500,  desc:'弟子屈町産の有機卵・野菜・パン。'},
+    {key:'onsen',     label:'温泉&サウナ満喫プラン',                    addon_per_night_per_guest:4500,  desc:'天然温泉pH9.2 + 薪サウナ + アロマ。'},
+    {key:'gibier',    label:'道東ジビエディナー付き',                  addon_per_night_per_guest:12000, desc:'蝦夷鹿・羆・知床牛のフルコース。'},
+    {key:'activity',  label:'アクティビティプラン（カヌー or 乗馬）',  addon_per_night_per_guest:18000, desc:'屈斜路湖カヌー or 美留和乗馬ガイド付き。'},
+  ];
+  renderPlans();
+});
+
+function renderPlans(){
+  var box = document.getElementById('bm-plans');
+  if(!box) return;
+  box.innerHTML = PLANS.map(function(p){
+    var addon = p.addon_per_night_per_guest;
+    var price = addon === 0 ? '基本料金のみ' : '+¥'+addon.toLocaleString('ja-JP')+'/泊・人';
+    var active = p.key === selectedPlan ? ' active' : '';
+    return '<div class="bm-plan'+active+'" data-key="'+p.key+'" onclick="selectPlan(\''+p.key+'\')">'
+      +'<div class="bm-plan-row"><div class="bm-plan-name">'+p.label+'</div><div class="bm-plan-price">'+price+'</div></div>'
+      +'<div class="bm-plan-desc">'+p.desc+'</div>'
+      +'</div>';
+  }).join('');
+}
+function selectPlan(key){ selectedPlan = key; renderPlans(); updateSummary(); }
+
+function openBooking(slug, dateStr){
+  document.getElementById('book-modal').classList.add('open');
+  document.getElementById('bm-form').style.display = '';
+  document.getElementById('bm-done').style.display = 'none';
+  document.getElementById('bm-error').textContent = '';
+  if(slug) document.getElementById('bm-prop').value = slug;
+  // 初期日付: 引数優先 / なければ翌日
+  var ci = document.getElementById('bm-ci');
+  var co = document.getElementById('bm-co');
+  if(dateStr){
+    ci.value = dateStr;
+    var d = new Date(dateStr); d.setDate(d.getDate()+1);
+    co.value = fmt(d);
+  } else if(!ci.value) {
+    var t = new Date(); t.setDate(t.getDate()+7);
+    ci.value = fmt(t);
+    var t2 = new Date(t); t2.setDate(t2.getDate()+2);
+    co.value = fmt(t2);
+  }
+  // チェックイン min: 今日
+  ci.min = fmt(new Date());
+  co.min = fmt(new Date());
+  updateSummary();
+}
+function closeBooking(){ document.getElementById('book-modal').classList.remove('open'); }
+
+function updateSummary(){
+  var sum = document.getElementById('bm-summary');
+  if(!sum) return;
+  var slug = document.getElementById('bm-prop').value;
+  var ci = document.getElementById('bm-ci').value;
+  var co = document.getElementById('bm-co').value;
+  var guests = Number(document.getElementById('bm-guests').value)||2;
+  if(!ci || !co){ sum.textContent = '日程を選んでください'; return; }
+  var nights = Math.round((new Date(co) - new Date(ci)) / 86400000);
+  if(nights <= 0){ sum.innerHTML = '<span style="color:#e65a5a">チェックアウト日はチェックイン日より後にしてください</span>'; return; }
+  var plan = PLANS.find(function(p){return p.key===selectedPlan;}) || PLANS[0];
+  var basePrice = BASE_PRICE[slug] || 35000;
+  var stayTotal = basePrice * nights;
+  var addon = (plan && plan.addon_per_night_per_guest || 0) * guests * nights;
+  var total = stayTotal + addon;
+  sum.innerHTML =
+    '宿泊料: ¥'+basePrice.toLocaleString('ja-JP')+' × '+nights+'泊 = ¥'+stayTotal.toLocaleString('ja-JP')+'<br>'
+    +'プラン加算: ¥'+(plan && plan.addon_per_night_per_guest || 0).toLocaleString('ja-JP')+' × '+guests+'名 × '+nights+'泊 = ¥'+addon.toLocaleString('ja-JP')+'<br>'
+    +'<span class="total">合計目安: ¥'+total.toLocaleString('ja-JP')+'</span>';
+}
+
+function submitBooking(){
+  var btn = document.getElementById('bm-submit');
+  var err = document.getElementById('bm-error');
+  err.textContent = '';
+  var body = {
+    property_slug: document.getElementById('bm-prop').value,
+    plan_key: selectedPlan,
+    check_in: document.getElementById('bm-ci').value,
+    check_out: document.getElementById('bm-co').value,
+    guests: Number(document.getElementById('bm-guests').value)||2,
+    name: document.getElementById('bm-name').value.trim(),
+    email: document.getElementById('bm-email').value.trim(),
+    phone: document.getElementById('bm-phone').value.trim(),
+    notes: document.getElementById('bm-notes').value.trim(),
+  };
+  if(!body.name){ err.textContent = 'お名前を入力してください'; return; }
+  if(!body.email || body.email.indexOf('@')<0){ err.textContent = 'メールアドレスを入力してください'; return; }
+  if(!body.check_in || !body.check_out){ err.textContent = '日程を選んでください'; return; }
+  btn.disabled = true; btn.textContent = '送信中…';
+  fetch('/api/hokkaido/book', {
+    method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)
+  }).then(function(r){return r.json().then(function(d){return {ok:r.ok, d:d};});})
+    .then(function(r){
+      btn.disabled = false; btn.textContent = '予約を申し込む';
+      if(!r.ok || !r.d.ok){ err.textContent = (r.d && r.d.error) || '送信に失敗しました'; return; }
+      document.getElementById('bm-form').style.display = 'none';
+      var done = document.getElementById('bm-done');
+      done.style.display = '';
+      done.innerHTML = '✓ お問い合わせを承りました<br><br>受付番号: <span class="ref">'+r.d.ref+'</span><br>'
+        + r.d.property + ' / ' + r.d.plan + ' / '+ r.d.nights +'泊 / 合計目安 ¥'+(r.d.total||0).toLocaleString('ja-JP')
+        + '<br><br><span style="color:#888;font-size:11px">確認メールを '+body.email+' に送信しました。<br>担当者が空き状況を確認し、24時間以内にご連絡いたします。</span>'
+        + '<br><br><button class="book-btn secondary" style="margin-top:8px" onclick="closeBooking()">閉じる</button>';
+      if(window.sln) sln.track('hokkaido_booking', {slug:body.property_slug, plan:body.plan_key, nights:Math.round((new Date(body.check_out)-new Date(body.check_in))/86400000)});
+    })
+    .catch(function(){
+      btn.disabled = false; btn.textContent = '予約を申し込む';
+      err.textContent = 'ネットワークエラー。時間をおいて再度お試しください。';
+    });
+}
+
+// カレンダーの日付タップで予約モーダルを開く
+document.addEventListener('click', function(e){
+  var cell = e.target.closest('.common-card .cal-day.all-open, .common-card .cal-day.some-open');
+  if(!cell) return;
+  var title = cell.getAttribute('title') || '';
+  var m = title.match(/\d{4}-\d{2}-\d{2}/);
+  if(!m) return;
+  // 一部空きの場合は空いている物件を自動選択
+  var slugMatch = title.match(/空き: ([^\/]+)/);
+  var slug = '';
+  if(slugMatch){
+    var openName = slugMatch[1].split(',')[0].trim();
+    var map = {LODGE:'lodge', NESTING:'nesting', INSTANT:'instant'};
+    slug = map[openName] || '';
+  }
+  openBooking(slug, m[0]);
+});
+
+// ESCで閉じる
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeBooking();
+});
 </script>
 <script src="/js/dc.js"></script>
 </body>
