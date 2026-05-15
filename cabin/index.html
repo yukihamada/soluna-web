@@ -139,6 +139,28 @@ body.desktop-mode #topnav{display:none}
 #mode-toggle:hover{background:rgba(0,0,0,.7);color:var(--gold);border-color:rgba(200,164,85,.4)}
 body.desktop-mode #mode-toggle{bottom:64px;background:rgba(200,164,85,.18);color:var(--gold);border-color:rgba(200,164,85,.5)}
 
+/* ── ZAMNA announcement strip (top) ── */
+#zamna-strip{
+  position:fixed;top:0;left:0;right:0;z-index:400;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:7px 16px;
+  background:linear-gradient(90deg,rgba(200,164,85,.92) 0%,rgba(232,201,122,.92) 50%,rgba(200,164,85,.92) 100%);
+  color:#0a0a0a;text-decoration:none;
+  font-size:.62rem;letter-spacing:.22em;font-weight:600;
+  font-family:'Inter',sans-serif;text-transform:uppercase;
+  backdrop-filter:blur(20px);
+  transition:opacity .25s;
+}
+#zamna-strip:hover{opacity:.85}
+#zamna-strip .arrow{font-weight:700;transition:transform .2s}
+#zamna-strip:hover .arrow{transform:translateX(3px)}
+body.desktop-mode #menubar{top:28px}
+body.desktop-mode #zamna-strip{height:28px;padding:0 16px}
+#topnav{top:28px}
+@media(max-width:767px){
+  #zamna-strip{font-size:.55rem;letter-spacing:.16em;padding:6px 12px}
+}
+
 /* ── Hero copy ── */
 #hero{
   position:fixed;bottom:100px;left:0;right:0;z-index:150;
@@ -377,6 +399,12 @@ body.desktop-mode #mode-toggle{bottom:64px;background:rgba(200,164,85,.18);color
   <div id="wallpaper-overlay"></div>
 </div>
 
+<!-- ZAMNA announcement strip -->
+<a id="zamna-strip" href="/zamna" data-sln-track="zamna_strip_click">
+  <span data-ja="🎪 ZAMNA × SOLUNA HAWAII — 2026.10.31" data-en="🎪 ZAMNA × SOLUNA HAWAII — Oct 31, 2026">🎪 ZAMNA × SOLUNA HAWAII — 2026.10.31</span>
+  <span class="arrow" data-ja="詳細 →" data-en="Details →">詳細 →</span>
+</a>
+
 <!-- Editorial top nav (default mode) -->
 <nav id="topnav">
   <a class="brand" href="/">SOLUNA</a>
@@ -416,6 +444,7 @@ body.desktop-mode #mode-toggle{bottom:64px;background:rgba(200,164,85,.18);color
   <div id="hero-ctas">
     <button class="hcta primary" data-open="nightshare" data-sln-track="purchase_click" data-ja="はじめる" data-en="Begin">はじめる</button>
     <button class="hcta" data-open="collection" data-sln-track="purchase_click" data-ja="物件を見る" data-en="Discover">物件を見る</button>
+    <button class="hcta" data-open="zamna" data-sln-track="zamna_hero_click" data-ja="ZAMNA FEST" data-en="ZAMNA FEST">ZAMNA FEST</button>
   </div>
   <p id="hero-trust" style="font-size:.58rem;color:rgba(255,255,255,.42);margin-top:18px;letter-spacing:.18em;font-weight:400"><span data-ja="¥594,000〜 / 年" data-en="From ¥594,000 / yr">¥594,000〜 / 年</span> &nbsp;·&nbsp; <span data-ja="全9物件" data-en="9 properties">全9物件</span> &nbsp;·&nbsp; <span data-ja="2020年創業 / East Ventures 出資" data-en="Est. 2020 / Backed by East Ventures">2020年創業 / East Ventures 出資</span></p>
 </div>
@@ -460,6 +489,7 @@ body.desktop-mode #mode-toggle{bottom:64px;background:rgba(200,164,85,.18);color
     <div class="m-ctas">
       <a href="/nightshare" class="mcta primary" id="m-cta1" data-sln-track="purchase_click" data-ja="はじめる" data-en="Begin">はじめる</a>
       <a href="/collection" class="mcta" id="m-cta2" data-ja="物件を見る" data-en="Discover">物件を見る</a>
+      <a href="/zamna" class="mcta" id="m-cta3" data-sln-track="zamna_hero_click" data-ja="ZAMNA FEST" data-en="ZAMNA FEST">ZAMNA FEST</a>
     </div>
     <p style="font-size:.55rem;color:rgba(255,255,255,.4);margin-top:18px;letter-spacing:.18em;font-weight:400" id="m-trust" data-ja="¥594,000〜 / 年 · 全9物件" data-en="From ¥594,000 / yr · 9 properties">¥594,000〜 / 年 · 全9物件</p>
     <button id="m-lang-btn">EN</button>
