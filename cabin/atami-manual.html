@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="https://solun.art/atami/manual" rel="canonical"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>WHITE HOUSE 熱海 — ハウスマニュアル｜House Manual</title>
+<meta name="description" content="WHITE HOUSE 熱海ご利用者様専用のハウスマニュアル。アクセス、入室方法、サウナ、カラオケ、BBQ、アメニティ、FAQ。"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;circle cx='16' cy='16' r='14' fill='%23c8a455'/&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.4);
+  --gold-soft:rgba(200,164,85,.07);
+  --accent:#66aabb;
+  --accent-dim:rgba(102,170,187,.3);
+  --accent-soft:rgba(102,170,187,.07);
+  --warn:#d49b4a;
+  --warn-soft:rgba(212,155,74,.08);
+  --bg:#040404;
+  --panel:#0a0a0a;
+  --line:#1a1a1a;
+  --text:#f0ece4;
+  --text-dim:#888;
+  --text-soft:#555;
+}
+html{scroll-behavior:smooth}
+body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline}
+img{display:block;max-width:100%;border-radius:6px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.78);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
+.nav-logo{font-size:10.5px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
+.nav-logo small{display:block;font-size:9px;color:var(--text-soft);letter-spacing:.15em;font-weight:600;margin-top:2px}
+.nav-back{font-size:10.5px;color:var(--text-soft);border:1px solid #222;padding:7px 14px;border-radius:100px}
+.nav-back:hover{color:var(--gold);border-color:var(--gold-dim);text-decoration:none}
+
+.wrap{max-width:780px;margin:0 auto;padding:0 24px}
+
+/* HEADER */
+.head{padding:64px 0 32px;text-align:center}
+.head-eyebrow{font-size:10px;letter-spacing:.38em;color:var(--accent);text-transform:uppercase;font-weight:700;margin-bottom:14px}
+.head h1{font-size:clamp(1.9rem,5vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:8px}
+.head .sub-en{font-size:13px;color:var(--text-soft);font-weight:400;letter-spacing:.04em;margin-top:2px}
+.head .tagline{margin-top:18px;font-size:13px;color:var(--text-dim);max-width:520px;margin-left:auto;margin-right:auto}
+
+/* WARN */
+.warn{background:var(--warn-soft);border:1px solid rgba(212,155,74,.3);border-radius:8px;padding:16px 18px;margin:24px 0;font-size:12.5px;color:var(--warn);line-height:1.75}
+.warn b{color:#f0ece4}
+
+/* FACT GRID */
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:28px 0 8px}
+.fact{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.fact-label{font-size:9px;letter-spacing:.22em;color:var(--text-soft);text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.fact-label small{display:block;font-size:8px;letter-spacing:.15em;color:#3a3a3a;margin-top:2px}
+.fact-val{font-size:14px;font-weight:700;color:var(--text)}
+.fact-val .ja{display:block}
+.fact-val .en{display:block;font-size:11px;color:var(--text-soft);font-weight:400;margin-top:3px}
+
+/* SECTION */
+section{padding:48px 0 8px;border-top:1px solid var(--line);margin-top:32px}
+section:first-of-type{border-top:0;margin-top:8px}
+.sec-h{margin-bottom:18px}
+.sec-h-label{font-size:9.5px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;font-weight:800;margin-bottom:8px}
+.sec-h h2{font-size:clamp(1.4rem,3.8vw,1.9rem);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.sec-h h2 .en{color:var(--text-soft);font-weight:500;font-size:.7em;margin-left:.5em;letter-spacing:.02em}
+
+/* SUBSECTION */
+.sub{padding:24px 0;border-bottom:1px dashed #131313}
+.sub:last-child{border-bottom:0}
+.sub h3{font-size:16px;font-weight:800;margin-bottom:6px;color:var(--text);letter-spacing:-.01em}
+.sub h3 .en{color:var(--text-soft);font-weight:500;font-size:13px;margin-left:.5em}
+.sub h4{font-size:13px;font-weight:700;margin:18px 0 6px;color:var(--gold)}
+.sub h4 .en{color:var(--text-soft);font-weight:400;font-size:11.5px;margin-left:.4em}
+.sub p{font-size:13.5px;color:#d4cfc4;margin-bottom:10px;line-height:1.85}
+.sub p.en{color:var(--text-soft);font-size:12px;font-style:italic;margin-top:-4px;margin-bottom:14px}
+.sub ul{margin:10px 0 14px 18px}
+.sub li{font-size:13px;color:#d4cfc4;margin-bottom:6px;line-height:1.7}
+.sub li .en{color:var(--text-soft);font-size:11.5px;display:block;margin-top:2px}
+.sub .figure{margin:16px 0;background:#070707;border:1px solid var(--line);border-radius:6px;padding:8px}
+.sub .figure img{border-radius:4px}
+.sub .figure-cap{font-size:11px;color:var(--text-soft);margin-top:8px;text-align:center;letter-spacing:.02em}
+.sub .figure-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}
+@media(max-width:560px){.sub .figure-grid{grid-template-columns:1fr}}
+
+/* CALLOUT */
+.callout{background:var(--gold-soft);border-left:3px solid var(--gold);padding:14px 18px;margin:14px 0;border-radius:0 6px 6px 0}
+.callout p{font-size:13px;color:#e4ddc8;margin:0;line-height:1.75}
+.callout p.en{color:var(--text-soft);font-size:11.5px;font-style:italic;margin-top:6px}
+.callout.accent{background:var(--accent-soft);border-left-color:var(--accent)}
+
+/* CODE BOX */
+.code-box{background:#0a0a0a;border:1px solid var(--accent-dim);border-radius:8px;padding:20px;margin:14px 0;text-align:center}
+.code-box .label{font-size:10px;letter-spacing:.22em;color:var(--accent);text-transform:uppercase;font-weight:800;margin-bottom:8px}
+.code-box .label small{display:block;font-size:8.5px;color:var(--text-soft);letter-spacing:.12em;margin-top:2px;font-weight:400}
+.code-box .val{font-size:30px;font-weight:900;color:var(--text);font-family:'SF Mono',ui-monospace,monospace;letter-spacing:.18em;line-height:1.1}
+.code-box .copy{display:inline-block;margin-top:10px;font-size:10px;color:var(--text-soft);border:1px solid #222;padding:5px 12px;border-radius:100px;cursor:pointer;transition:all .15s}
+.code-box .copy:hover{color:var(--accent);border-color:var(--accent-dim)}
+
+/* WIFI BOX */
+.wifi{background:#0a0a0a;border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin:14px 0}
+.wifi-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed #1a1a1a;font-size:13px}
+.wifi-row:last-child{border-bottom:0}
+.wifi-key{font-size:10px;letter-spacing:.2em;color:var(--text-soft);text-transform:uppercase;font-weight:700}
+.wifi-val{font-family:'SF Mono',ui-monospace,monospace;color:var(--text);font-weight:600;letter-spacing:.04em}
+
+/* CONTACT LIST */
+.contacts{margin:14px 0}
+.contact-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed #161616;font-size:13px}
+.contact-row:last-child{border-bottom:0}
+.contact-name{color:var(--text)}
+.contact-tel a{font-family:'SF Mono',ui-monospace,monospace;color:var(--gold);font-weight:600}
+
+/* MAP */
+.map-link{display:inline-block;margin:10px 0;padding:10px 16px;border:1px solid var(--accent-dim);color:var(--accent);font-size:12px;border-radius:100px;font-weight:700;letter-spacing:.04em}
+.map-link:hover{background:var(--accent-soft);text-decoration:none}
+
+/* FAQ */
+details{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin-bottom:10px;transition:border .2s}
+details[open]{border-color:var(--gold-dim)}
+summary{font-size:13.5px;font-weight:700;cursor:pointer;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;line-height:1.5}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';color:var(--gold);font-size:18px;font-weight:300;transition:transform .2s;margin-left:12px;flex-shrink:0}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:12px 0 4px;font-size:13px;color:#d4cfc4;line-height:1.8}
+details p.en{color:var(--text-soft);font-size:11.5px;font-style:italic;margin-top:6px}
+
+/* FOOT */
+footer{margin-top:64px;padding:32px 0 64px;border-top:1px solid var(--line);text-align:center}
+footer p{font-size:11px;color:var(--text-soft);letter-spacing:.04em;line-height:1.9}
+footer .logo{font-size:11px;font-weight:800;letter-spacing:.25em;color:var(--gold);margin-bottom:12px}
+footer a{color:var(--text-dim)}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px}
+.tag{font-size:10px;border:1px solid #1f1f1f;color:var(--text-dim);padding:5px 11px;border-radius:100px;letter-spacing:.04em}
+
+@media(max-width:560px){
+  body{padding-top:44px}
+  nav{padding:12px 16px}
+  .wrap{padding:0 18px}
+  .facts{grid-template-columns:1fr}
+  .head{padding:40px 0 20px}
+  section{padding:32px 0 0;margin-top:24px}
+  .code-box .val{font-size:24px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/atami" class="nav-logo">SOLUNA<small>WHITE HOUSE 熱海</small></a>
+  <a href="/atami" class="nav-back">← 物件ページへ / Back</a>
+</nav>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="head-eyebrow">House Manual · 利用案内</div>
+    <h1>WHITE HOUSE 熱海</h1>
+    <div class="sub-en">A white cliffside house with sauna, karaoke, and BBQ overlooking Sagami Bay</div>
+    <p class="tagline">海が一望できる熱海のサウナとカラオケとBBQがある真っ白な一軒家。<br>ご滞在前にひと通りご確認ください。</p>
+    <div class="tags">
+      <div class="tag">🌊 オーシャンビュー</div>
+      <div class="tag">🧖 サウナ＋水風呂</div>
+      <div class="tag">🎤 LIVE DAM Ai</div>
+      <div class="tag">🍖 BBQ</div>
+      <div class="tag">👥 最大6名</div>
+    </div>
+  </header>
+
+  <div class="warn">
+    🚧 <b>下記の注意事項に違反した場合、罰金が科せられる可能性がございます。</b><br>
+    <span style="opacity:.85">Failure to follow the rules below may result in a penalty fee.</span>
+  </div>
+
+  <div class="facts">
+    <div class="fact">
+      <div class="fact-label">施設名 <small>FACILITY NAME</small></div>
+      <div class="fact-val"><span class="ja">WHITE HOUSE 熱海</span></div>
+    </div>
+    <div class="fact">
+      <div class="fact-label">住所 <small>ADDRESS</small></div>
+      <div class="fact-val"><span class="ja">〒413-0033</span><span class="en">静岡県熱海市熱海1993-272</span></div>
+    </div>
+    <div class="fact">
+      <div class="fact-label">チェックイン <small>CHECK-IN</small></div>
+      <div class="fact-val"><span class="ja">16:00</span><span class="en">After 4:00 pm</span></div>
+    </div>
+    <div class="fact">
+      <div class="fact-label">チェックアウト <small>CHECK-OUT</small></div>
+      <div class="fact-val"><span class="ja">11:00</span><span class="en">By 11:00 am</span></div>
+    </div>
+  </div>
+
+  <!-- 1. ACCESS -->
+  <section>
+    <div class="sec-h">
+      <div class="sec-h-label">01 — Access</div>
+      <h2>アクセス<span class="en">Access</span></h2>
+    </div>
+
+    <!-- 行き方 -->
+    <div class="sub">
+      <h3>行き方<span class="en">How to Access</span></h3>
+      <div class="callout">
+        <p><b>住所 / Address：</b>〒413-0033 静岡県熱海市熱海1993-272</p>
+      </div>
+      <a class="map-link" href="https://goo.gl/maps/R2jBEd7vmpsg2pbC8" target="_blank" rel="noopener">📍 Google Mapで開く / Open in Google Maps</a>
+
+      <div class="callout accent">
+        <p>タクシーでお越しになる場合は「<b>（熱海城の上にある）ブルーシー熱海の隣の一軒家</b>」とお伝えください。<br>※熱海には「ブルーシ<b>ア</b>熱海」というマンションも存在します。間違えやすいのでお気をつけください。</p>
+        <p class="en">If you come by taxi, please tell the driver "the white house next to Blue Sea Atami (on top of Atami Castle)". Note: there is also an apartment called "Blue Sea<b>a</b> Atami" — be careful not to confuse them.</p>
+      </div>
+
+      <h4>タクシー会社<span class="en">Taxi companies</span></h4>
+      <div class="contacts">
+        <div class="contact-row"><span class="contact-name">第一交通 <span style="color:var(--text-soft);font-size:11px">Daiichi Kotsu</span></span><span class="contact-tel"><a href="tel:0557823101">0557-82-3101</a></span></div>
+        <div class="contact-row"><span class="contact-name">尾形タクシー <span style="color:var(--text-soft);font-size:11px">Ogata Taxi</span></span><span class="contact-tel"><a href="tel:0557825444">0557-82-5444</a></span></div>
+        <div class="contact-row"><span class="contact-name">泉都タクシー <span style="color:var(--text-soft);font-size:11px">Sento Taxi</span></span><span class="contact-tel"><a href="tel:0557822157">0557-82-2157</a></span></div>
+      </div>
+    </div>
+
+    <!-- 入室方法 -->
+    <div class="sub">
+      <h3>入室方法<span class="en">How to Enter</span></h3>
+      <p>玄関のスマートキーに、下記の番号を入力してご入室ください。</p>
+      <p class="en">Enter the number below on the smart lock at the front door.</p>
+      <div class="code-box">
+        <div class="label">鍵番号 <small>KEY CODE</small></div>
+        <div class="val" id="doorcode">645086</div>
+        <span class="copy" onclick="navigator.clipboard.writeText('645086');this.textContent='✓ Copied'">タップでコピー / Tap to copy</span>
+      </div>
+    </div>
+
+    <!-- 物件情報 -->
+    <div class="sub">
+      <h3>物件情報<span class="en">About the House</span></h3>
+
+      <h4>間取り<span class="en">Floor plan</span></h4>
+      <p>2LDK ＋ バルコニー ＋ サウナ（126㎡）</p>
+      <p class="en">2LDK + Balcony + Sauna (126 m²)</p>
+
+      <h4>定員<span class="en">Capacity</span></h4>
+      <p>6名 / 6 people</p>
+
+      <h4>設備<span class="en">Equipment</span></h4>
+      <ul>
+        <li>クイーンベッド × 2 / シングルベッド × 2<span class="en">Queen bed × 2 / Single bed × 2</span></li>
+        <li>サウナ ＋ チラー付き水風呂<span class="en">Sauna + chiller-cooled cold bath</span></li>
+        <li>バルコニーBBQグリル（Pulse 1000 電気式）<span class="en">Balcony BBQ grill (Pulse 1000 electric)</span></li>
+        <li>LIVE DAM Ai カラオケ<span class="en">LIVE DAM Ai karaoke system</span></li>
+        <li>80型 4K テレビ<span class="en">80-inch 4K TV</span></li>
+        <li>JBL スピーカー<span class="en">JBL speakers</span></li>
+        <li>ミニバー（有料）<span class="en">Mini Bar (paid)</span></li>
+        <li>PlayStation 5</li>
+      </ul>
+    </div>
+
+    <!-- 周辺情報 -->
+    <div class="sub">
+      <h3>周辺情報<span class="en">Neighborhood Info</span></h3>
+
+      <h4>熱海海上花火大会<span class="en">Atami Sea Fireworks Festival</span></h4>
+      <p style="font-size:12.5px">
+        春 Spring: 4/16(土)・5/2(月)・5/14(土)・5/21(土)<br>
+        夏 Summer: 7/29(金)・8/5(金)・8/8(月)・8/18(木)・8/21(日)・8/26(金)<br>
+        秋 Autumn: 9/19(月祝)・11/5(土)<br>
+        冬 Winter: 12/4(日)・12/18(日)
+      </p>
+      <div class="callout">
+        <p>残念ながら<b>当施設から花火はご覧になれません</b>。花火大会の日程は変更になる可能性がありますので、事前に <a href="https://www.ataminews.gr.jp/event/63/" target="_blank" rel="noopener">熱海公式観光ホームページ</a>をご確認ください。</p>
+        <p class="en">Unfortunately, fireworks cannot be seen from this property. Dates may change — please check the official Atami tourism website in advance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. USAGE -->
+  <section>
+    <div class="sec-h">
+      <div class="sec-h-label">02 — Usage</div>
+      <h2>利用方法<span class="en">How to Use</span></h2>
+    </div>
+
+    <!-- WiFi -->
+    <div class="sub">
+      <h3>Wi-Fi</h3>
+      <p>下記のネットワークに接続してください。</p>
+      <p class="en">Connect to the network below.</p>
+      <div class="wifi">
+        <div class="wifi-row"><span class="wifi-key">Network</span><span class="wifi-val">TR</span></div>
+        <div class="wifi-row"><span class="wifi-key">Password</span><span class="wifi-val">araigumatomato</span></div>
+      </div>
+      <p style="font-size:12px;color:var(--text-soft)">繋がらない場合はQ1（よくあるご質問）をご確認ください。</p>
+    </div>
+
+    <!-- 照明 -->
+    <div class="sub">
+      <h3>照明<span class="en">Lights</span></h3>
+
+      <h4>リビング<span class="en">Living Room</span></h4>
+      <p>キッチン横の扉を開けて、写真の赤枠のパネルとスイッチがリビングの照明です。</p>
+      <p class="en">Open the door next to the kitchen. The panel and switch in the red frame in the photo control the living room lights.</p>
+      <div class="figure">
+        <img src="/img/atami-manual/living-light.webp" alt="リビング照明パネル"/>
+        <div class="figure-cap">リビング照明スイッチパネル / Living room light panel</div>
+      </div>
+
+      <h4>キッチン<span class="en">Kitchen</span></h4>
+      <p>冷蔵庫横の隙間にスイッチがございます。</p>
+      <p class="en">The switch is located in the gap next to the refrigerator.</p>
+      <div class="figure">
+        <img src="/img/atami-manual/kitchen-light.webp" alt="キッチン照明スイッチ"/>
+        <div class="figure-cap">冷蔵庫横スイッチ / Switch beside refrigerator</div>
+      </div>
+    </div>
+
+    <!-- スピーカー -->
+    <div class="sub">
+      <h3>スピーカー<span class="en">Speaker</span></h3>
+      <div class="callout">
+        <p>テレビ台の上の <b>JBL スピーカーはカラオケに繋がっており、Bluetooth 接続はできません。</b></p>
+        <p class="en">The JBL speakers on the TV stand are connected to the karaoke system and cannot be used via Bluetooth.</p>
+      </div>
+      <p>音楽を流す場合は、テレビに内蔵しているアプリ（Spotify, YouTube Music, Amazon Music など）をご利用ください。</p>
+      <p class="en">To play music, please use the TV's built-in apps (Spotify, YouTube Music, Amazon Music, etc.).</p>
+    </div>
+
+    <!-- サウナと水風呂 -->
+    <div class="sub">
+      <h3>サウナと水風呂<span class="en">Sauna &amp; Cold Bath</span></h3>
+
+      <h4>サウナ<span class="en">Sauna</span></h4>
+      <div class="callout">
+        <p>サウナの温度が上がらない場合、<b>照明だけが点いていてサウナストーブが点いていない</b>ケースが多いです。</p>
+        <p class="en">If the sauna isn't heating up, in most cases only the lighting is on and the heater is off.</p>
+      </div>
+      <p>サウナ室の横についているボタンでオン・オフを操作できます。一度押すだけで作動します。</p>
+      <p class="en">Use the button on the side of the sauna room. A single press activates it.</p>
+      <ul>
+        <li><b>上のボタン（くぼみの無い方）：サウナストーブ</b><span class="en">Top button (without dimple): Sauna heater</span></li>
+        <li><b>下のボタン（くぼみのある方）：照明</b><span class="en">Bottom button (with dimple): Lighting</span></li>
+      </ul>
+      <div class="figure">
+        <img src="/img/atami-manual/sauna-button.webp" alt="サウナのボタン"/>
+        <div class="figure-cap">サウナ室横のボタン / Buttons on the side of the sauna</div>
+      </div>
+
+      <p style="margin-top:18px">それでもつかない場合は、<b>玄関の靴箱内にあるサウナ用スイッチ</b>をご確認ください。<br>数字が表示されていない場合は OFF になっています。<br>スイッチの下にある黒い装置は水風呂の水温管理用の装置です。</p>
+      <p class="en">If it still doesn't work, please check the sauna switch in the shoe cabinet at the entrance. If no number is displayed, it's OFF. The black device below the switch controls the cold bath water temperature.</p>
+      <div class="figure-grid">
+        <div class="figure">
+          <img src="/img/atami-manual/sauna-shoebox-diagram.webp" alt="靴箱内スイッチ位置図"/>
+          <div class="figure-cap">靴箱内の位置図 / Shoe-cabinet layout</div>
+        </div>
+        <div class="figure">
+          <img src="/img/atami-manual/sauna-shoebox-switch.webp" alt="靴箱内スイッチ"/>
+          <div class="figure-cap">サウナ用スイッチ / Sauna switch</div>
+        </div>
+      </div>
+
+      <h4 style="margin-top:24px">チラー（水風呂の冷却装置）<span class="en">Chiller (cold bath)</span></h4>
+      <div class="callout">
+        <p>水風呂内のポンプ口より高い水位まで水を溜めた後にチラーをオンにしてください。<b>水位が低い状態で稼働すると故障の原因になります。</b></p>
+        <p class="en">Turn on the chiller only after the water is above the pump outlet. Running it with low water can cause damage.</p>
+      </div>
+      <p>1階のキッチン横のコントロールパネルにある「<b>チラー・ポンプスイッチ</b>」よりオン・オフできます。</p>
+      <p class="en">You can switch it on/off from the "Chiller / Pump Switch" on the control panel beside the first-floor kitchen.</p>
+      <div class="figure">
+        <img src="/img/atami-manual/chiller-panel.webp" alt="チラー・ポンプスイッチ"/>
+        <div class="figure-cap">チラー・ポンプスイッチ / Chiller &amp; pump switch</div>
+      </div>
+    </div>
+
+    <!-- カラオケ -->
+    <div class="sub">
+      <h3>カラオケ<span class="en">Karaoke</span></h3>
+      <p>テレビ台の右下に <b>LIVE DAM Ai</b> を設置しております。</p>
+      <p class="en">A LIVE DAM Ai karaoke unit is installed in the lower-right of the TV stand.</p>
+
+      <h4>起動方法<span class="en">How to start</span></h4>
+      <ol style="margin:10px 0 16px 22px;font-size:13px;color:#d4cfc4">
+        <li style="margin-bottom:6px">テレビ台の右下の扉を開ける<br><span style="color:var(--text-soft);font-size:11.5px">Open the door at the bottom-right of the TV stand.</span></li>
+        <li style="margin-bottom:6px">写真の赤枠のボタンを押して電源を入れる<br><span style="color:var(--text-soft);font-size:11.5px">Press the button in the red frame to turn on the power.</span></li>
+        <li>テレビをつけて入力を切り替えれば完了<br><span style="color:var(--text-soft);font-size:11.5px">Turn on the TV, switch the input, and you're done.</span></li>
+      </ol>
+      <div class="figure-grid">
+        <div class="figure">
+          <img src="/img/atami-manual/karaoke-step1.webp" alt="カラオケ起動 1"/>
+          <div class="figure-cap">手順 1 / Step 1</div>
+        </div>
+        <div class="figure">
+          <img src="/img/atami-manual/karaoke-step2.webp" alt="カラオケ起動 2"/>
+          <div class="figure-cap">手順 2 / Step 2</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BBQ -->
+    <div class="sub">
+      <h3>BBQグリル<span class="en">BBQ Grill</span></h3>
+      <p>バルコニーに <b>Pulse 1000 電気グリル</b>を設置しております。</p>
+      <p class="en">A Pulse 1000 electric grill is installed on the balcony.</p>
+      <div class="callout">
+        <p><b>加熱の際はグリルの蓋をお閉めください。蓋を開けたままだと温度が上がりません。</b></p>
+        <p class="en">Please close the grill lid when heating. The grill will not reach proper temperature with the lid open.</p>
+      </div>
+      <a class="map-link" href="https://www.weber.com/JP/ja/grills/electric-grills/pulse-series/pulse-1000/81010008.html" target="_blank" rel="noopener">📖 Pulse 1000 取り扱い説明書 / Owner's manual</a>
+    </div>
+  </section>
+
+  <!-- 3. AMENITIES -->
+  <section>
+    <div class="sec-h">
+      <div class="sec-h-label">03 — Amenities</div>
+      <h2>アメニティ<span class="en">Amenities</span></h2>
+    </div>
+
+    <!-- Mini Bar -->
+    <div class="sub">
+      <h3>Mini Bar &amp; Food<span class="en">有料のドリンク・フード</span></h3>
+      <p>厳選されたシャンパン・ワイン・アイスクリームなどを取り揃えております。<br>※冷蔵庫内のソフトドリンクは無料です。</p>
+      <p class="en">Pay-as-you-go drink and food service: curated champagnes, wines, ice cream and more. Soft drinks in the refrigerator are free.</p>
+
+      <div class="callout">
+        <p><b>場所 / Location：</b>1階の階段下のワインセラーにドリンク、冷凍庫にフードを設置しています。<br><span style="color:var(--text-soft);font-size:11.5px">Drinks are in the wine cellar under the stairs (1F); food is in the freezer.</span></p>
+      </div>
+      <div class="callout">
+        <p><b>支払 / Payment：</b>下記の支払リンクからご利用前にお支払いください。<br>未払いの物があった場合、宿泊サイトより <b>15%</b> の手数料を追加して請求いたします。<br><span style="color:var(--text-soft);font-size:11.5px">Please pay before use. Unpaid items will be charged with a 15% handling fee via the booking site.</span></p>
+      </div>
+      <div class="callout accent">
+        <p><b>パスワード / Password：</b>支払完了後の確認画面に、ワインセラーのパスワードが表示されます。<br><span style="color:var(--text-soft);font-size:11.5px">The wine-cellar password appears on the payment confirmation screen.</span></p>
+      </div>
+    </div>
+
+    <!-- アメニティリスト -->
+    <div class="sub">
+      <h3>アメニティリスト<span class="en">Amenity List</span></h3>
+
+      <h4>お持ち帰り可能<span class="en">Take-home OK</span></h4>
+      <ul>
+        <li>歯ブラシ <span class="en">Toothbrush</span></li>
+        <li>カミソリ <span class="en">Razor</span></li>
+        <li>クシ <span class="en">Comb</span></li>
+        <li>ソフトドリンク（冷蔵庫内） <span class="en">Non-alcoholic drinks in the refrigerator</span></li>
+      </ul>
+
+      <h4>お持ち帰り不可<span class="en">Take-home not allowed</span></h4>
+      <ul>
+        <li>ドライヤー（Dyson） <span class="en">Hair dryer (Dyson)</span></li>
+        <li>バスタオル <span class="en">Bath towels</span></li>
+        <li>化粧水・乳液・洗顔（Clearful Orbis） <span class="en">Toner / lotion / face wash (Clearful Orbis)</span></li>
+        <li>コットン <span class="en">Cotton pads</span></li>
+        <li>綿棒 <span class="en">Cotton swabs</span></li>
+        <li>シャンプー・コンディショナー（LebeL） <span class="en">Shampoo &amp; conditioner (LebeL)</span></li>
+        <li>ボディソープ <span class="en">Body soap</span></li>
+        <li>ポンチョ（サウナ用） <span class="en">Sauna poncho</span></li>
+        <li>アロマオイル（サウナ用） <span class="en">Sauna aroma oil</span></li>
+        <li>お酒（有料） <span class="en">Alcohol (paid)</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. FAQ -->
+  <section>
+    <div class="sec-h">
+      <div class="sec-h-label">04 — FAQ</div>
+      <h2>よくあるご質問<span class="en">Frequently Asked Questions</span></h2>
+    </div>
+
+    <div style="padding:8px 0 24px">
+      <details>
+        <summary>Q1. Wi-Fiが使えません。 / Wi-Fi isn't working.</summary>
+        <p>テレビ台の左下にルーターとモデムがございます。一度電源を落とし、10〜30秒ほど待ってから再起動してください。</p>
+        <p class="en">The router and modem are located in the lower-left of the TV stand. Power them off, wait 10–30 seconds, and turn them back on.</p>
+      </details>
+
+      <details>
+        <summary>Q2. 定員6名ですが、7名以上の利用は可能ですか？ / Capacity is 6 — can we host 7 or more?</summary>
+        <p>7名様以上のご利用の場合、予約サイトのチャットよりご相談ください。当施設では追加の布団やベッドのご用意はございません。ご理解のほどよろしくお願いいたします。</p>
+        <p class="en">For groups of 7 or more, please contact us via the booking-site chat. We do not provide extra bedding or beds at this property. Thank you for your understanding.</p>
+      </details>
+
+      <details>
+        <summary>Q3. 花火は施設から見えますか？ / Can fireworks be seen from the property?</summary>
+        <p>残念ながら当施設から花火はご覧になれません。車で坂を下って見える位置まで移動して頂くか、熱海城の施設（有料）から見るかのどちらかをお勧めしております。</p>
+        <p class="en">Unfortunately, fireworks cannot be seen from the property. We recommend driving down the hill to a viewing spot, or visiting the Atami Castle facilities (paid).</p>
+      </details>
+
+      <details>
+        <summary>Q4. 近くの遊泳可能なビーチはありますか？ / Is there a nearby swimming beach?</summary>
+        <p>当施設から1番近いビーチは<b>サンビーチ</b>になります。海水浴場開きには期間がありますので、あらかじめご確認ください。また、サンビーチには海上アスレチックもございます。よろしければ併せてご利用ください。</p>
+        <p class="en">The closest beach is <b>Sun Beach</b>. The swimming season is limited — please check the dates in advance. Sun Beach also has a floating obstacle course; feel free to enjoy it as well.</p>
+      </details>
+    </div>
+  </section>
+
+  <footer>
+    <div class="logo">SOLUNA × WHITE HOUSE 熱海</div>
+    <p>
+      お困りごとがあれば予約サイトのチャット、または <a href="mailto:info@solun.art">info@solun.art</a> までご連絡ください。<br>
+      For any issues, please contact the booking-site chat or email <a href="mailto:info@solun.art">info@solun.art</a>.
+    </p>
+    <p style="margin-top:12px"><a href="/atami">← WHITE HOUSE 熱海 物件ページに戻る / Back to property page</a></p>
+  </footer>
+
+</div>
+
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</body>
+</html>

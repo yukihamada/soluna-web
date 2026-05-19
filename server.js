@@ -11054,6 +11054,7 @@ const GATED_PAGE_LABELS = {
   "management-fee":"管理費詳細","plan":"事業計画","plans":"プラン一覧",
   "buy":"オーナーになる","pay":"お支払い","referral":"紹介プログラム",
   "strategy":"ポジショニング戦略（非公開）",
+  "atami-manual":"WHITE HOUSE 熱海 ハウスマニュアル",
 };
 
 function authGatePage(pageKey, returnPath) {
@@ -11180,6 +11181,91 @@ app.use(async (req, res, next) => {
 
   if (req.method === "HEAD") return res.end();
   res.sendFile(filePath);
+});
+
+// ── /atami/manual : WHITE HOUSE 熱海 ハウスマニュアル（予約者・オーナー限定） ──
+// Block direct file access so the auth gate cannot be bypassed.
+app.get(["/atami-manual", "/atami-manual.html"], (_req, res) => res.redirect(301, "/atami/manual"));
+app.get(["/atami/manual", "/atami/manual/"], async (req, res) => {
+  const token = parseCookies(req).sln_tok || "";
+  let member = null;
+  if (token) {
+    const r = await db.execute({
+      sql: `SELECT s.member_id, m.email, m.name, m.nah_access, m.member_type
+            FROM soluna_sessions s
+            JOIN soluna_members m ON m.id = s.member_id
+            WHERE s.token = ? AND s.expires_at > datetime('now')`,
+      args: [token],
+    }).catch(() => null);
+    member = r && r.rows[0] ? r.rows[0] : null;
+  }
+
+  if (!member) {
+    res.status(401).setHeader("Content-Type", "text/html; charset=UTF-8");
+    return res.send(authGatePage("atami-manual", "/atami/manual"));
+  }
+
+  // Check atami access: coupon for atami OR confirmed atami purchase OR admin/staff
+  const SPECIAL = ["admin","founder","friend","cleaner","construction"];
+  let hasAccess = SPECIAL.includes(member.member_type) || member.nah_access === 1;
+  if (!hasAccess) {
+    const couponRow = await db.execute({
+      sql: "SELECT id FROM soluna_coupons WHERE member_id=? AND property_slug='atami' LIMIT 1",
+      args: [member.member_id],
+    }).catch(() => null);
+    if (couponRow && couponRow.rows.length > 0) hasAccess = true;
+  }
+  if (!hasAccess) {
+    const purchaseRow = await db.execute({
+      sql: "SELECT id FROM soluna_purchases WHERE member_id=? AND property_slug='atami' AND status='confirmed' LIMIT 1",
+      args: [member.member_id],
+    }).catch(() => null);
+    if (purchaseRow && purchaseRow.rows.length > 0) hasAccess = true;
+  }
+  if (!hasAccess) {
+    // Active booking from Beds24 with this email also counts (best-effort, optional)
+    const bookingRow = await db.execute({
+      sql: "SELECT id FROM soluna_bookings WHERE member_id=? AND property_slug='atami' AND status NOT IN ('cancelled','failed') LIMIT 1",
+      args: [member.member_id],
+    }).catch(() => null);
+    if (bookingRow && bookingRow.rows.length > 0) hasAccess = true;
+  }
+
+  if (!hasAccess) {
+    res.status(403).setHeader("Content-Type", "text/html; charset=UTF-8");
+    return res.send(`<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">
+<title>SOLUNA — 予約者限定ページ</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0908;color:#c8c0b0;font-family:'Helvetica Neue',-apple-system,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;line-height:1.7}
+.card{max-width:440px;width:100%;background:#141210;border:1px solid #2a2520;border-radius:8px;padding:40px 36px;text-align:center}
+.logo{font-size:11px;font-weight:800;letter-spacing:.25em;color:#c8a455;margin-bottom:24px}
+h2{font-size:18px;color:#f0ece4;margin-bottom:14px}
+p{font-size:12.5px;color:#888;margin-bottom:14px}
+.btn{display:inline-block;margin-top:12px;background:#c8a455;color:#0a0908;font-weight:800;font-size:11.5px;letter-spacing:.08em;padding:12px 24px;border-radius:100px;text-decoration:none}
+.btn-ghost{background:transparent;color:#888;border:1px solid #2a2520;margin-left:8px}
+</style>
+</head><body><div class="card">
+<div class="logo">SOLUNA</div>
+<h2>WHITE HOUSE 熱海 ハウスマニュアル</h2>
+<p>このページは熱海ご利用予定のお客様（オーナー・予約者）専用です。<br>ご利用予定がある場合は SOLUNA までお問い合わせください。</p>
+<p style="color:#666;font-size:11px">Logged in as: ${member.email}</p>
+<a class="btn" href="mailto:info@solun.art?subject=WHITE%20HOUSE%20%E7%86%B1%E6%B5%B7%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%AB%20%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9">問い合わせ / Contact</a>
+<a class="btn btn-ghost" href="/atami">← 物件ページへ</a>
+</div></body></html>`);
+  }
+
+  // Log the view (fire-and-forget)
+  const ip = (req.headers["x-forwarded-for"] || req.socket.remoteAddress || "").split(",")[0].trim();
+  const ua = (req.headers["user-agent"] || "").substring(0, 250);
+  db.execute({
+    sql: "INSERT INTO soluna_page_views (member_id,email,page,ip,ua) VALUES (?,?,?,?,?)",
+    args: [member.member_id, member.email, "/atami/manual", ip, ua],
+  }).catch(() => {});
+
+  res.setHeader("Cache-Control", "private, no-store");
+  res.sendFile(path.join(CABIN_DIR, "atami-manual.html"));
 });
 
 // ── Voice Memo API ────────────────────────────────────────────────────────────
