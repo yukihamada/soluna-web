@@ -6806,6 +6806,17 @@ db.execute(`CREATE TABLE IF NOT EXISTS soluna_page_views (
   ua TEXT,
   viewed_at TEXT DEFAULT (datetime('now'))
 )`).catch(() => {});
+db.execute(`CREATE TABLE IF NOT EXISTS soluna_property_secrets (
+  slug TEXT PRIMARY KEY,
+  door_code TEXT,
+  wifi_ssid TEXT,
+  wifi_pass TEXT,
+  checkin_time TEXT,
+  checkout_time TEXT,
+  updated_at TEXT DEFAULT (datetime('now')),
+  updated_by_member_id INTEGER,
+  updated_by_email TEXT
+)`).catch(() => {});
 db.execute("ALTER TABLE soluna_members ADD COLUMN nah_access INTEGER DEFAULT 0").catch(() => {});
 db.execute("ALTER TABLE soluna_members ADD COLUMN member_type TEXT DEFAULT 'member'").catch(() => {});
 db.execute("ALTER TABLE soluna_purchases ADD COLUMN ref_code TEXT").catch(() => {});
@@ -11264,8 +11275,132 @@ p{font-size:12.5px;color:#888;margin-bottom:14px}
     args: [member.member_id, member.email, "/atami/manual", ip, ua],
   }).catch(() => {});
 
+  // Load editable secrets (with sane defaults if row missing)
+  const secrets = await loadPropertySecrets("atami");
+  const isAdmin = isPropertyAdmin(member);
+
+  let html = await readPropertyManualTemplate();
+  html = html
+    .replaceAll("{{DOOR_CODE}}", escHtml(secrets.door_code))
+    .replaceAll("{{WIFI_SSID}}", escHtml(secrets.wifi_ssid))
+    .replaceAll("{{WIFI_PASS}}", escHtml(secrets.wifi_pass))
+    .replaceAll("{{CHECKIN}}", escHtml(secrets.checkin_time))
+    .replaceAll("{{CHECKOUT}}", escHtml(secrets.checkout_time))
+    .replaceAll("{{ADMIN_FLAG}}", isAdmin ? "1" : "0")
+    .replaceAll("{{ADMIN_EMAIL}}", isAdmin ? escHtml(member.email) : "");
+
   res.setHeader("Cache-Control", "private, no-store");
-  res.sendFile(path.join(CABIN_DIR, "atami-manual.html"));
+  res.setHeader("Content-Type", "text/html; charset=UTF-8");
+  res.send(html);
+});
+
+// ── Property secrets: load + admin endpoints ──────────────────────────────
+const PROPERTY_SECRET_DEFAULTS = {
+  atami: { door_code: "645086", wifi_ssid: "TR", wifi_pass: "araigumatomato", checkin_time: "16:00", checkout_time: "11:00" },
+};
+
+function escHtml(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+function isPropertyAdmin(member) {
+  if (!member) return false;
+  if (member.email === "mail@yukihamada.jp") return true;
+  return member.member_type === "admin" || member.member_type === "founder";
+}
+
+async function loadPropertySecrets(slug) {
+  const defaults = PROPERTY_SECRET_DEFAULTS[slug] || {};
+  try {
+    const r = await db.execute({
+      sql: "SELECT door_code,wifi_ssid,wifi_pass,checkin_time,checkout_time FROM soluna_property_secrets WHERE slug=? LIMIT 1",
+      args: [slug],
+    });
+    const row = r.rows[0] || {};
+    return {
+      door_code: row.door_code || defaults.door_code || "",
+      wifi_ssid: row.wifi_ssid || defaults.wifi_ssid || "",
+      wifi_pass: row.wifi_pass || defaults.wifi_pass || "",
+      checkin_time: row.checkin_time || defaults.checkin_time || "",
+      checkout_time: row.checkout_time || defaults.checkout_time || "",
+    };
+  } catch {
+    return { ...defaults };
+  }
+}
+
+let _manualTemplateCache = null;
+let _manualTemplateMtime = 0;
+async function readPropertyManualTemplate() {
+  const p = path.join(CABIN_DIR, "atami-manual.html");
+  try {
+    const stat = fs.statSync(p);
+    if (!_manualTemplateCache || stat.mtimeMs !== _manualTemplateMtime) {
+      _manualTemplateCache = fs.readFileSync(p, "utf8");
+      _manualTemplateMtime = stat.mtimeMs;
+    }
+    return _manualTemplateCache;
+  } catch {
+    return "";
+  }
+}
+
+// GET current values (admins only)
+app.get("/api/soluna/admin/property-secrets/:slug", async (req, res) => {
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+  const slug = String(req.params.slug || "").replace(/[^a-z0-9_-]/gi, "");
+  if (!slug) return res.status(400).json({ error: "bad slug" });
+  const data = await loadPropertySecrets(slug);
+  res.json({ ok: true, slug, data });
+});
+
+// PUT update (admins only)
+app.put("/api/soluna/admin/property-secrets/:slug", express.json(), async (req, res) => {
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+  const slug = String(req.params.slug || "").replace(/[^a-z0-9_-]/gi, "");
+  if (!slug) return res.status(400).json({ error: "bad slug" });
+
+  const body = req.body || {};
+  const clean = (v, max) => {
+    if (v == null) return null;
+    return String(v).trim().slice(0, max);
+  };
+  const door_code = clean(body.door_code, 32);
+  const wifi_ssid = clean(body.wifi_ssid, 64);
+  const wifi_pass = clean(body.wifi_pass, 128);
+  const checkin_time = clean(body.checkin_time, 16);
+  const checkout_time = clean(body.checkout_time, 16);
+
+  // Basic format validation
+  const timeRe = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+  if (checkin_time && !timeRe.test(checkin_time)) return res.status(400).json({ error: "checkin_time must be HH:MM" });
+  if (checkout_time && !timeRe.test(checkout_time)) return res.status(400).json({ error: "checkout_time must be HH:MM" });
+  if (door_code && !/^[A-Za-z0-9 \-#*]{1,32}$/.test(door_code)) return res.status(400).json({ error: "door_code has invalid characters" });
+
+  await db.execute({
+    sql: `INSERT INTO soluna_property_secrets (slug,door_code,wifi_ssid,wifi_pass,checkin_time,checkout_time,updated_at,updated_by_member_id,updated_by_email)
+          VALUES (?,?,?,?,?,?,datetime('now'),?,?)
+          ON CONFLICT(slug) DO UPDATE SET
+            door_code=excluded.door_code,
+            wifi_ssid=excluded.wifi_ssid,
+            wifi_pass=excluded.wifi_pass,
+            checkin_time=excluded.checkin_time,
+            checkout_time=excluded.checkout_time,
+            updated_at=datetime('now'),
+            updated_by_member_id=excluded.updated_by_member_id,
+            updated_by_email=excluded.updated_by_email`,
+    args: [slug, door_code, wifi_ssid, wifi_pass, checkin_time, checkout_time, member.member_id, member.email],
+  });
+  // Bust the cached HTML template so any user-visible static parts can be refreshed via mtime trigger
+  _manualTemplateMtime = 0;
+  const data = await loadPropertySecrets(slug);
+  res.json({ ok: true, slug, data });
 });
 
 // ── Voice Memo API ────────────────────────────────────────────────────────────

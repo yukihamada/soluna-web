@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <link href="https://solun.art/atami/manual" rel="canonical"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="#040404" name="theme-color"/>
 <meta name="robots" content="noindex,nofollow"/>
 <title>WHITE HOUSE 熱海 — ハウスマニュアル｜House Manual</title>
 <meta name="description" content="WHITE HOUSE 熱海ご利用者様専用のハウスマニュアル。アクセス、入室方法、サウナ、カラオケ、BBQ、アメニティ、FAQ。"/>
@@ -13,149 +14,360 @@
 :root{
   --gold:#c8a455;
   --gold-dim:rgba(200,164,85,.4);
-  --gold-soft:rgba(200,164,85,.07);
+  --gold-soft:rgba(200,164,85,.08);
   --accent:#66aabb;
   --accent-dim:rgba(102,170,187,.3);
-  --accent-soft:rgba(102,170,187,.07);
+  --accent-soft:rgba(102,170,187,.08);
   --warn:#d49b4a;
-  --warn-soft:rgba(212,155,74,.08);
+  --warn-soft:rgba(212,155,74,.09);
+  --danger:#c0392b;
   --bg:#040404;
   --panel:#0a0a0a;
+  --panel2:#0d0d0d;
   --line:#1a1a1a;
   --text:#f0ece4;
-  --text-dim:#888;
-  --text-soft:#555;
+  --text-dim:#9a9a9a;
+  --text-soft:#666;
+  --tap:48px;
 }
-html{scroll-behavior:smooth}
-body{padding-top:48px;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Helvetica Neue',-apple-system,BlinkMacSystemFont,'Noto Sans JP',sans-serif;
+  -webkit-font-smoothing:antialiased;line-height:1.7;
+  padding-top:max(56px,env(safe-area-inset-top));
+  padding-bottom:env(safe-area-inset-bottom);
+  font-size:15px;
+}
 a{color:var(--gold);text-decoration:none}
 a:hover{text-decoration:underline}
-img{display:block;max-width:100%;border-radius:6px}
+button{font-family:inherit;cursor:pointer}
+img{display:block;max-width:100%;height:auto;border-radius:6px}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,4,.78);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
-.nav-logo{font-size:10.5px;font-weight:800;letter-spacing:.22em;color:var(--gold)}
-.nav-logo small{display:block;font-size:9px;color:var(--text-soft);letter-spacing:.15em;font-weight:600;margin-top:2px}
-.nav-back{font-size:10.5px;color:var(--text-soft);border:1px solid #222;padding:7px 14px;border-radius:100px}
+nav.top{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  padding:12px 18px;padding-top:max(12px,env(safe-area-inset-top));
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  background:rgba(4,4,4,.82);backdrop-filter:saturate(140%) blur(20px);
+  border-bottom:1px solid rgba(255,255,255,.05);
+  min-height:56px;
+}
+.nav-logo{
+  font-size:10.5px;font-weight:800;letter-spacing:.22em;color:var(--gold);
+  line-height:1.1;
+}
+.nav-logo small{
+  display:block;font-size:9px;color:var(--text-soft);letter-spacing:.14em;
+  font-weight:600;margin-top:3px;
+}
+.nav-back{
+  font-size:11px;color:var(--text-dim);
+  border:1px solid #222;padding:9px 14px;border-radius:100px;
+  white-space:nowrap;line-height:1;
+  display:inline-flex;align-items:center;gap:6px;
+  min-height:36px;
+}
 .nav-back:hover{color:var(--gold);border-color:var(--gold-dim);text-decoration:none}
 
-.wrap{max-width:780px;margin:0 auto;padding:0 24px}
+.wrap{max-width:780px;margin:0 auto;padding:0 18px}
 
 /* HEADER */
-.head{padding:64px 0 32px;text-align:center}
-.head-eyebrow{font-size:10px;letter-spacing:.38em;color:var(--accent);text-transform:uppercase;font-weight:700;margin-bottom:14px}
-.head h1{font-size:clamp(1.9rem,5vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:8px}
-.head .sub-en{font-size:13px;color:var(--text-soft);font-weight:400;letter-spacing:.04em;margin-top:2px}
-.head .tagline{margin-top:18px;font-size:13px;color:var(--text-dim);max-width:520px;margin-left:auto;margin-right:auto}
+.head{padding:36px 0 24px;text-align:center}
+.head-eyebrow{font-size:10px;letter-spacing:.36em;color:var(--accent);text-transform:uppercase;font-weight:700;margin-bottom:12px}
+.head h1{font-size:clamp(1.7rem,7vw,2.6rem);font-weight:800;letter-spacing:-.025em;line-height:1.18;margin-bottom:10px}
+.head .sub-en{font-size:12.5px;color:var(--text-soft);font-weight:400;letter-spacing:.02em;margin-top:4px;padding:0 8px}
+.head .tagline{margin-top:16px;font-size:13px;color:var(--text-dim);max-width:520px;margin-left:auto;margin-right:auto;padding:0 8px;line-height:1.8}
+.tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:18px}
+.tag{font-size:10.5px;border:1px solid #1f1f1f;color:var(--text-dim);padding:6px 11px;border-radius:100px;letter-spacing:.02em;line-height:1}
 
 /* WARN */
-.warn{background:var(--warn-soft);border:1px solid rgba(212,155,74,.3);border-radius:8px;padding:16px 18px;margin:24px 0;font-size:12.5px;color:var(--warn);line-height:1.75}
+.warn{
+  background:var(--warn-soft);border:1px solid rgba(212,155,74,.32);
+  border-radius:10px;padding:14px 16px;margin:20px 0;
+  font-size:12.5px;color:var(--warn);line-height:1.75;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.warn .ic{font-size:16px;line-height:1}
 .warn b{color:#f0ece4}
 
 /* FACT GRID */
-.facts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:28px 0 8px}
-.fact{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
-.fact-label{font-size:9px;letter-spacing:.22em;color:var(--text-soft);text-transform:uppercase;font-weight:700;margin-bottom:6px}
-.fact-label small{display:block;font-size:8px;letter-spacing:.15em;color:#3a3a3a;margin-top:2px}
-.fact-val{font-size:14px;font-weight:700;color:var(--text)}
+.facts{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  margin:24px 0 8px;
+}
+.fact{
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:14px 14px 16px;position:relative;
+}
+.fact-label{
+  font-size:9px;letter-spacing:.2em;color:var(--text-soft);
+  text-transform:uppercase;font-weight:700;margin-bottom:6px;
+}
+.fact-label small{display:block;font-size:8px;letter-spacing:.12em;color:#3a3a3a;margin-top:2px;font-weight:600}
+.fact-val{font-size:14px;font-weight:700;color:var(--text);word-break:break-word}
 .fact-val .ja{display:block}
 .fact-val .en{display:block;font-size:11px;color:var(--text-soft);font-weight:400;margin-top:3px}
+.fact[data-editable] .pen{
+  position:absolute;top:8px;right:8px;width:30px;height:30px;
+  border-radius:50%;display:none;align-items:center;justify-content:center;
+  background:transparent;border:1px solid #222;color:var(--text-soft);
+  font-size:13px;line-height:1;padding:0;
+}
+.fact[data-editable] .pen:hover{color:var(--gold);border-color:var(--gold-dim)}
+body.is-admin .fact[data-editable] .pen{display:inline-flex}
 
 /* SECTION */
-section{padding:48px 0 8px;border-top:1px solid var(--line);margin-top:32px}
-section:first-of-type{border-top:0;margin-top:8px}
-.sec-h{margin-bottom:18px}
-.sec-h-label{font-size:9.5px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;font-weight:800;margin-bottom:8px}
-.sec-h h2{font-size:clamp(1.4rem,3.8vw,1.9rem);font-weight:800;letter-spacing:-.025em;line-height:1.25}
-.sec-h h2 .en{color:var(--text-soft);font-weight:500;font-size:.7em;margin-left:.5em;letter-spacing:.02em}
+section.s{padding:36px 0 0;border-top:1px solid var(--line);margin-top:28px;scroll-margin-top:72px}
+section.s:first-of-type{border-top:0;margin-top:8px;padding-top:16px}
+.sec-h{margin-bottom:14px}
+.sec-h-label{font-size:9.5px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;font-weight:800;margin-bottom:8px}
+.sec-h h2{font-size:clamp(1.35rem,5vw,1.85rem);font-weight:800;letter-spacing:-.02em;line-height:1.25}
+.sec-h h2 .en{color:var(--text-soft);font-weight:500;font-size:.62em;margin-left:.5em;letter-spacing:.02em;display:inline-block}
+@media(max-width:480px){.sec-h h2 .en{display:block;margin-left:0;margin-top:2px}}
 
 /* SUBSECTION */
-.sub{padding:24px 0;border-bottom:1px dashed #131313}
+.sub{padding:20px 0;border-bottom:1px dashed #131313}
 .sub:last-child{border-bottom:0}
-.sub h3{font-size:16px;font-weight:800;margin-bottom:6px;color:var(--text);letter-spacing:-.01em}
-.sub h3 .en{color:var(--text-soft);font-weight:500;font-size:13px;margin-left:.5em}
-.sub h4{font-size:13px;font-weight:700;margin:18px 0 6px;color:var(--gold)}
-.sub h4 .en{color:var(--text-soft);font-weight:400;font-size:11.5px;margin-left:.4em}
-.sub p{font-size:13.5px;color:#d4cfc4;margin-bottom:10px;line-height:1.85}
-.sub p.en{color:var(--text-soft);font-size:12px;font-style:italic;margin-top:-4px;margin-bottom:14px}
-.sub ul{margin:10px 0 14px 18px}
-.sub li{font-size:13px;color:#d4cfc4;margin-bottom:6px;line-height:1.7}
+.sub h3{font-size:16px;font-weight:800;margin-bottom:6px;color:var(--text);letter-spacing:-.01em;display:flex;flex-wrap:wrap;align-items:baseline;gap:.55em;position:relative}
+.sub h3 .en{color:var(--text-soft);font-weight:500;font-size:13px;letter-spacing:.01em}
+.sub h4{font-size:13px;font-weight:700;margin:18px 0 6px;color:var(--gold);display:flex;flex-wrap:wrap;align-items:baseline;gap:.5em}
+.sub h4 .en{color:var(--text-soft);font-weight:400;font-size:11.5px}
+.sub p{font-size:14px;color:#d4cfc4;margin-bottom:10px;line-height:1.85}
+.sub p.en{color:var(--text-soft);font-size:12.5px;font-style:italic;margin-top:-4px;margin-bottom:14px}
+.sub ul,.sub ol{margin:10px 0 14px 22px;padding:0}
+.sub li{font-size:13.5px;color:#d4cfc4;margin-bottom:8px;line-height:1.7}
 .sub li .en{color:var(--text-soft);font-size:11.5px;display:block;margin-top:2px}
-.sub .figure{margin:16px 0;background:#070707;border:1px solid var(--line);border-radius:6px;padding:8px}
-.sub .figure img{border-radius:4px}
+.sub .figure{margin:14px 0;background:#070707;border:1px solid var(--line);border-radius:8px;padding:8px}
+.sub .figure img{border-radius:5px;width:100%}
 .sub .figure-cap{font-size:11px;color:var(--text-soft);margin-top:8px;text-align:center;letter-spacing:.02em}
-.sub .figure-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}
+.sub .figure-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
 @media(max-width:560px){.sub .figure-grid{grid-template-columns:1fr}}
 
-/* CALLOUT */
-.callout{background:var(--gold-soft);border-left:3px solid var(--gold);padding:14px 18px;margin:14px 0;border-radius:0 6px 6px 0}
-.callout p{font-size:13px;color:#e4ddc8;margin:0;line-height:1.75}
-.callout p.en{color:var(--text-soft);font-size:11.5px;font-style:italic;margin-top:6px}
-.callout.accent{background:var(--accent-soft);border-left-color:var(--accent)}
+/* SUB edit pen */
+.sub h3 .pen{
+  display:none;width:32px;height:32px;border-radius:50%;
+  background:transparent;border:1px solid #222;color:var(--text-soft);
+  font-size:13px;line-height:1;padding:0;align-items:center;justify-content:center;
+  margin-left:auto;
+}
+.sub h3 .pen:hover{color:var(--gold);border-color:var(--gold-dim)}
+body.is-admin .sub h3 .pen{display:inline-flex}
 
-/* CODE BOX */
-.code-box{background:#0a0a0a;border:1px solid var(--accent-dim);border-radius:8px;padding:20px;margin:14px 0;text-align:center}
-.code-box .label{font-size:10px;letter-spacing:.22em;color:var(--accent);text-transform:uppercase;font-weight:800;margin-bottom:8px}
-.code-box .label small{display:block;font-size:8.5px;color:var(--text-soft);letter-spacing:.12em;margin-top:2px;font-weight:400}
-.code-box .val{font-size:30px;font-weight:900;color:var(--text);font-family:'SF Mono',ui-monospace,monospace;letter-spacing:.18em;line-height:1.1}
-.code-box .copy{display:inline-block;margin-top:10px;font-size:10px;color:var(--text-soft);border:1px solid #222;padding:5px 12px;border-radius:100px;cursor:pointer;transition:all .15s}
-.code-box .copy:hover{color:var(--accent);border-color:var(--accent-dim)}
+/* CALLOUT */
+.callout{
+  background:var(--gold-soft);border-left:3px solid var(--gold);
+  padding:13px 16px;margin:14px 0;border-radius:0 8px 8px 0;
+}
+.callout p{font-size:13.5px;color:#e4ddc8;margin:0;line-height:1.75}
+.callout p.en{color:var(--text-soft);font-size:12px;font-style:italic;margin-top:6px}
+.callout.accent{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout.danger{background:rgba(192,57,43,.08);border-left-color:var(--danger)}
+
+/* CODE BOX (door code) */
+.code-box{
+  background:#0a0a0a;border:1px solid var(--accent-dim);border-radius:12px;
+  padding:24px 18px;margin:16px 0;text-align:center;position:relative;
+}
+.code-box .label{font-size:10.5px;letter-spacing:.22em;color:var(--accent);text-transform:uppercase;font-weight:800;margin-bottom:10px}
+.code-box .label small{display:block;font-size:9px;color:var(--text-soft);letter-spacing:.12em;margin-top:3px;font-weight:500}
+.code-box .val{
+  font-size:clamp(28px,9vw,38px);font-weight:900;color:var(--text);
+  font-family:'SF Mono',ui-monospace,'Menlo','Cascadia Code',monospace;
+  letter-spacing:.18em;line-height:1.1;word-break:break-all;
+}
+.code-box .copy{
+  display:inline-flex;align-items:center;justify-content:center;
+  margin-top:14px;font-size:11px;color:var(--text-dim);
+  border:1px solid #232323;padding:10px 18px;border-radius:100px;
+  cursor:pointer;transition:all .15s;min-height:36px;
+  background:transparent;
+}
+.code-box .copy:hover,.code-box .copy:active{color:var(--accent);border-color:var(--accent-dim)}
+.code-box .pen{
+  position:absolute;top:10px;right:10px;width:32px;height:32px;
+  border-radius:50%;display:none;align-items:center;justify-content:center;
+  background:transparent;border:1px solid #232323;color:var(--text-soft);font-size:13px;
+}
+.code-box .pen:hover{color:var(--accent);border-color:var(--accent-dim)}
+body.is-admin .code-box .pen{display:inline-flex}
 
 /* WIFI BOX */
-.wifi{background:#0a0a0a;border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin:14px 0}
-.wifi-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed #1a1a1a;font-size:13px}
+.wifi{background:#0a0a0a;border:1px solid var(--line);border-radius:10px;padding:6px 16px;margin:14px 0;position:relative}
+.wifi-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 0;border-bottom:1px dashed #1a1a1a;font-size:14px;gap:12px;
+}
 .wifi-row:last-child{border-bottom:0}
-.wifi-key{font-size:10px;letter-spacing:.2em;color:var(--text-soft);text-transform:uppercase;font-weight:700}
-.wifi-val{font-family:'SF Mono',ui-monospace,monospace;color:var(--text);font-weight:600;letter-spacing:.04em}
+.wifi-key{
+  font-size:10px;letter-spacing:.2em;color:var(--text-soft);
+  text-transform:uppercase;font-weight:700;flex-shrink:0;
+}
+.wifi-val{
+  font-family:'SF Mono',ui-monospace,'Menlo',monospace;color:var(--text);
+  font-weight:700;letter-spacing:.04em;word-break:break-all;text-align:right;
+  font-size:14px;
+}
+.wifi .pen{
+  position:absolute;top:10px;right:10px;width:32px;height:32px;
+  border-radius:50%;display:none;align-items:center;justify-content:center;
+  background:transparent;border:1px solid #232323;color:var(--text-soft);font-size:13px;
+}
+.wifi .pen:hover{color:var(--gold);border-color:var(--gold-dim)}
+body.is-admin .wifi .pen{display:inline-flex}
 
 /* CONTACT LIST */
-.contacts{margin:14px 0}
-.contact-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed #161616;font-size:13px}
+.contacts{margin:12px 0}
+.contact-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 0;border-bottom:1px dashed #161616;gap:14px;
+}
 .contact-row:last-child{border-bottom:0}
-.contact-name{color:var(--text)}
-.contact-tel a{font-family:'SF Mono',ui-monospace,monospace;color:var(--gold);font-weight:600}
+.contact-name{font-size:13.5px;color:var(--text);line-height:1.4}
+.contact-name small{display:block;color:var(--text-soft);font-size:11px;margin-top:2px}
+.contact-tel a{
+  font-family:'SF Mono',ui-monospace,monospace;color:var(--gold);
+  font-weight:700;font-size:14px;
+  display:inline-flex;align-items:center;
+  border:1px solid var(--gold-dim);
+  padding:10px 14px;border-radius:100px;
+  min-height:40px;white-space:nowrap;
+}
+.contact-tel a:hover{background:var(--gold-soft);text-decoration:none}
 
-/* MAP */
-.map-link{display:inline-block;margin:10px 0;padding:10px 16px;border:1px solid var(--accent-dim);color:var(--accent);font-size:12px;border-radius:100px;font-weight:700;letter-spacing:.04em}
+/* MAP LINK */
+.map-link{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  margin:12px 0;padding:13px 20px;
+  border:1px solid var(--accent-dim);color:var(--accent);font-size:13px;
+  border-radius:100px;font-weight:700;letter-spacing:.02em;min-height:44px;
+}
 .map-link:hover{background:var(--accent-soft);text-decoration:none}
 
 /* FAQ */
-details{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin-bottom:10px;transition:border .2s}
-details[open]{border-color:var(--gold-dim)}
-summary{font-size:13.5px;font-weight:700;cursor:pointer;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;line-height:1.5}
-summary::-webkit-details-marker{display:none}
-summary::after{content:'+';color:var(--gold);font-size:18px;font-weight:300;transition:transform .2s;margin-left:12px;flex-shrink:0}
+details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:0;margin-bottom:10px;transition:border .2s,background .2s;overflow:hidden}
+details[open]{border-color:var(--gold-dim);background:var(--panel2)}
+summary{
+  font-size:14px;font-weight:700;cursor:pointer;color:var(--text);list-style:none;
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:16px 18px;line-height:1.5;min-height:var(--tap);
+}
+summary::-webkit-details-marker,summary::marker{display:none}
+summary::after{
+  content:'+';color:var(--gold);font-size:20px;font-weight:300;
+  transition:transform .2s;flex-shrink:0;width:24px;text-align:center;line-height:1;
+}
 details[open] summary::after{transform:rotate(45deg)}
-details p{margin:12px 0 4px;font-size:13px;color:#d4cfc4;line-height:1.8}
-details p.en{color:var(--text-soft);font-size:11.5px;font-style:italic;margin-top:6px}
+details .det-bd{padding:0 18px 16px}
+details p{margin:0 0 4px;font-size:13.5px;color:#d4cfc4;line-height:1.85}
+details p.en{color:var(--text-soft);font-size:12px;font-style:italic;margin-top:6px}
 
 /* FOOT */
-footer{margin-top:64px;padding:32px 0 64px;border-top:1px solid var(--line);text-align:center}
-footer p{font-size:11px;color:var(--text-soft);letter-spacing:.04em;line-height:1.9}
+footer{margin-top:48px;padding:32px 18px calc(48px + env(safe-area-inset-bottom));border-top:1px solid var(--line);text-align:center}
+footer p{font-size:11.5px;color:var(--text-soft);letter-spacing:.02em;line-height:1.9}
 footer .logo{font-size:11px;font-weight:800;letter-spacing:.25em;color:var(--gold);margin-bottom:12px}
 footer a{color:var(--text-dim)}
 
-/* TAGS */
-.tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px}
-.tag{font-size:10px;border:1px solid #1f1f1f;color:var(--text-dim);padding:5px 11px;border-radius:100px;letter-spacing:.04em}
+/* ADMIN BAR */
+.admin-bar{
+  display:none;position:fixed;top:max(56px,env(safe-area-inset-top));left:0;right:0;z-index:40;
+  background:linear-gradient(180deg,rgba(200,164,85,.16),rgba(200,164,85,.03));
+  border-bottom:1px solid rgba(200,164,85,.22);
+  padding:8px 18px;font-size:11.5px;color:var(--text-dim);
+  align-items:center;justify-content:space-between;gap:10px;
+}
+body.is-admin .admin-bar{display:flex}
+.admin-bar b{color:var(--gold);font-weight:800;letter-spacing:.06em}
+.admin-bar .a-actions{display:flex;gap:8px;flex-shrink:0}
+.admin-bar button.btn-sm{
+  background:transparent;border:1px solid #2a2520;color:var(--gold);
+  font-size:11px;letter-spacing:.04em;padding:6px 12px;border-radius:100px;
+}
+.admin-bar button.btn-sm:hover{background:var(--gold-soft)}
+body.is-admin{padding-top:calc(56px + 36px + env(safe-area-inset-top))}
 
-@media(max-width:560px){
-  body{padding-top:44px}
-  nav{padding:12px 16px}
-  .wrap{padding:0 18px}
-  .facts{grid-template-columns:1fr}
-  .head{padding:40px 0 20px}
-  section{padding:32px 0 0;margin-top:24px}
-  .code-box .val{font-size:24px}
+/* EDIT MODAL */
+.modal-back{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.78);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;padding:18px;
+  padding-bottom:max(18px,env(safe-area-inset-bottom));
+}
+.modal-back.show{display:flex}
+.modal{
+  width:100%;max-width:480px;max-height:calc(100dvh - 36px);overflow-y:auto;
+  background:#0c0c0c;border:1px solid #2a2520;border-radius:14px;
+  padding:24px 20px;display:flex;flex-direction:column;gap:14px;
+  -webkit-overflow-scrolling:touch;
+}
+.modal h3{font-size:15.5px;font-weight:800;color:var(--text);margin-bottom:2px;letter-spacing:.01em}
+.modal .sub{font-size:11.5px;color:var(--text-soft);margin-bottom:8px;padding:0;border:0}
+.modal label{display:block;font-size:10.5px;letter-spacing:.18em;color:var(--text-soft);text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.modal label small{display:block;font-size:9.5px;letter-spacing:.12em;color:#3a3a3a;margin-top:2px;font-weight:500;text-transform:none}
+.modal input{
+  width:100%;background:#070707;border:1px solid #1f1f1f;color:var(--text);
+  padding:13px 14px;border-radius:8px;font-size:15px;outline:none;
+  font-family:'SF Mono',ui-monospace,monospace;letter-spacing:.04em;
+  min-height:46px;-webkit-appearance:none;
+}
+.modal input:focus{border-color:var(--gold);background:#0a0a0a}
+.modal .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:380px){.modal .row{grid-template-columns:1fr}}
+.modal-actions{
+  display:flex;gap:10px;margin-top:8px;
+  padding-top:14px;border-top:1px solid var(--line);
+}
+.btn{
+  flex:1;padding:13px 18px;border-radius:100px;font-size:12.5px;
+  font-weight:800;letter-spacing:.06em;cursor:pointer;border:none;
+  min-height:48px;line-height:1;
+}
+.btn-primary{background:var(--gold);color:#040404}
+.btn-primary:active{opacity:.85}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-ghost{background:transparent;color:var(--text-dim);border:1px solid #2a2520}
+.modal-msg{font-size:12px;text-align:center;min-height:16px}
+.modal-msg.ok{color:#4a9a5a}
+.modal-msg.err{color:#c0392b}
+
+/* TOAST */
+.toast{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
+  background:#0e0e0e;border:1px solid var(--gold-dim);
+  color:var(--gold);font-size:12.5px;padding:11px 18px;border-radius:100px;
+  z-index:300;opacity:0;transition:all .25s;pointer-events:none;
+  white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Small phone tuning */
+@media(max-width:480px){
+  body{font-size:14.5px}
+  .wrap{padding:0 14px}
+  nav.top{padding-left:14px;padding-right:14px}
+  .nav-back{padding:9px 12px;font-size:10.5px}
+  .head{padding:28px 0 18px}
+  section.s{padding-top:28px;margin-top:22px}
+  .facts{grid-template-columns:1fr;gap:8px}
+  .fact{padding:13px 14px}
+  .contact-row{flex-direction:column;align-items:flex-start;gap:8px}
+  .contact-tel a{width:100%;justify-content:center}
 }
 </style>
 </head>
-<body>
+<body data-admin="{{ADMIN_FLAG}}">
 
-<nav>
+<nav class="top">
   <a href="/atami" class="nav-logo">SOLUNA<small>WHITE HOUSE 熱海</small></a>
-  <a href="/atami" class="nav-back">← 物件ページへ / Back</a>
+  <a href="/atami" class="nav-back">← 物件 / Back</a>
 </nav>
+
+<div class="admin-bar" id="adminBar">
+  <span>👤 <b>管理者</b> <span style="color:#777;font-size:11px">{{ADMIN_EMAIL}}</span></span>
+  <span class="a-actions">
+    <button class="btn-sm" type="button" data-edit="all">セキュリティ情報を編集</button>
+  </span>
+</div>
 
 <div class="wrap">
 
@@ -174,8 +386,9 @@ footer a{color:var(--text-dim)}
   </header>
 
   <div class="warn">
-    🚧 <b>下記の注意事項に違反した場合、罰金が科せられる可能性がございます。</b><br>
-    <span style="opacity:.85">Failure to follow the rules below may result in a penalty fee.</span>
+    <span class="ic">🚧</span>
+    <span><b>下記の注意事項に違反した場合、罰金が科せられる可能性がございます。</b><br>
+    <span style="opacity:.85">Failure to follow the rules below may result in a penalty fee.</span></span>
   </div>
 
   <div class="facts">
@@ -187,30 +400,31 @@ footer a{color:var(--text-dim)}
       <div class="fact-label">住所 <small>ADDRESS</small></div>
       <div class="fact-val"><span class="ja">〒413-0033</span><span class="en">静岡県熱海市熱海1993-272</span></div>
     </div>
-    <div class="fact">
+    <div class="fact" data-editable="checkin">
+      <button class="pen" type="button" data-edit="checkin" aria-label="編集">✎</button>
       <div class="fact-label">チェックイン <small>CHECK-IN</small></div>
-      <div class="fact-val"><span class="ja">16:00</span><span class="en">After 4:00 pm</span></div>
+      <div class="fact-val"><span class="ja" data-bind="checkin_time">{{CHECKIN}}</span><span class="en">From this time onwards</span></div>
     </div>
-    <div class="fact">
+    <div class="fact" data-editable="checkout">
+      <button class="pen" type="button" data-edit="checkout" aria-label="編集">✎</button>
       <div class="fact-label">チェックアウト <small>CHECK-OUT</small></div>
-      <div class="fact-val"><span class="ja">11:00</span><span class="en">By 11:00 am</span></div>
+      <div class="fact-val"><span class="ja" data-bind="checkout_time">{{CHECKOUT}}</span><span class="en">By this time</span></div>
     </div>
   </div>
 
   <!-- 1. ACCESS -->
-  <section>
+  <section class="s">
     <div class="sec-h">
       <div class="sec-h-label">01 — Access</div>
       <h2>アクセス<span class="en">Access</span></h2>
     </div>
 
-    <!-- 行き方 -->
     <div class="sub">
       <h3>行き方<span class="en">How to Access</span></h3>
       <div class="callout">
         <p><b>住所 / Address：</b>〒413-0033 静岡県熱海市熱海1993-272</p>
       </div>
-      <a class="map-link" href="https://goo.gl/maps/R2jBEd7vmpsg2pbC8" target="_blank" rel="noopener">📍 Google Mapで開く / Open in Google Maps</a>
+      <a class="map-link" href="https://goo.gl/maps/R2jBEd7vmpsg2pbC8" target="_blank" rel="noopener">📍 Google Map で開く / Open in Google Maps</a>
 
       <div class="callout accent">
         <p>タクシーでお越しになる場合は「<b>（熱海城の上にある）ブルーシー熱海の隣の一軒家</b>」とお伝えください。<br>※熱海には「ブルーシ<b>ア</b>熱海」というマンションも存在します。間違えやすいのでお気をつけください。</p>
@@ -219,35 +433,40 @@ footer a{color:var(--text-dim)}
 
       <h4>タクシー会社<span class="en">Taxi companies</span></h4>
       <div class="contacts">
-        <div class="contact-row"><span class="contact-name">第一交通 <span style="color:var(--text-soft);font-size:11px">Daiichi Kotsu</span></span><span class="contact-tel"><a href="tel:0557823101">0557-82-3101</a></span></div>
-        <div class="contact-row"><span class="contact-name">尾形タクシー <span style="color:var(--text-soft);font-size:11px">Ogata Taxi</span></span><span class="contact-tel"><a href="tel:0557825444">0557-82-5444</a></span></div>
-        <div class="contact-row"><span class="contact-name">泉都タクシー <span style="color:var(--text-soft);font-size:11px">Sento Taxi</span></span><span class="contact-tel"><a href="tel:0557822157">0557-82-2157</a></span></div>
+        <div class="contact-row">
+          <div class="contact-name">第一交通<small>Daiichi Kotsu</small></div>
+          <div class="contact-tel"><a href="tel:0557823101">📞 0557-82-3101</a></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-name">尾形タクシー<small>Ogata Taxi</small></div>
+          <div class="contact-tel"><a href="tel:0557825444">📞 0557-82-5444</a></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-name">泉都タクシー<small>Sento Taxi</small></div>
+          <div class="contact-tel"><a href="tel:0557822157">📞 0557-82-2157</a></div>
+        </div>
       </div>
     </div>
 
-    <!-- 入室方法 -->
     <div class="sub">
-      <h3>入室方法<span class="en">How to Enter</span></h3>
+      <h3>入室方法<span class="en">How to Enter</span><button class="pen" type="button" data-edit="door" aria-label="鍵番号を編集">✎</button></h3>
       <p>玄関のスマートキーに、下記の番号を入力してご入室ください。</p>
       <p class="en">Enter the number below on the smart lock at the front door.</p>
       <div class="code-box">
+        <button class="pen" type="button" data-edit="door" aria-label="編集">✎</button>
         <div class="label">鍵番号 <small>KEY CODE</small></div>
-        <div class="val" id="doorcode">645086</div>
-        <span class="copy" onclick="navigator.clipboard.writeText('645086');this.textContent='✓ Copied'">タップでコピー / Tap to copy</span>
+        <div class="val" data-bind="door_code">{{DOOR_CODE}}</div>
+        <button class="copy" type="button" onclick="copyVal(this,'door_code')">タップでコピー / Tap to copy</button>
       </div>
     </div>
 
-    <!-- 物件情報 -->
     <div class="sub">
       <h3>物件情報<span class="en">About the House</span></h3>
-
       <h4>間取り<span class="en">Floor plan</span></h4>
       <p>2LDK ＋ バルコニー ＋ サウナ（126㎡）</p>
       <p class="en">2LDK + Balcony + Sauna (126 m²)</p>
-
       <h4>定員<span class="en">Capacity</span></h4>
       <p>6名 / 6 people</p>
-
       <h4>設備<span class="en">Equipment</span></h4>
       <ul>
         <li>クイーンベッド × 2 / シングルベッド × 2<span class="en">Queen bed × 2 / Single bed × 2</span></li>
@@ -261,12 +480,10 @@ footer a{color:var(--text-dim)}
       </ul>
     </div>
 
-    <!-- 周辺情報 -->
     <div class="sub">
       <h3>周辺情報<span class="en">Neighborhood Info</span></h3>
-
       <h4>熱海海上花火大会<span class="en">Atami Sea Fireworks Festival</span></h4>
-      <p style="font-size:12.5px">
+      <p style="font-size:13px">
         春 Spring: 4/16(土)・5/2(月)・5/14(土)・5/21(土)<br>
         夏 Summer: 7/29(金)・8/5(金)・8/8(月)・8/18(木)・8/21(日)・8/26(金)<br>
         秋 Autumn: 9/19(月祝)・11/5(土)<br>
@@ -280,46 +497,48 @@ footer a{color:var(--text-dim)}
   </section>
 
   <!-- 2. USAGE -->
-  <section>
+  <section class="s">
     <div class="sec-h">
       <div class="sec-h-label">02 — Usage</div>
       <h2>利用方法<span class="en">How to Use</span></h2>
     </div>
 
-    <!-- WiFi -->
     <div class="sub">
-      <h3>Wi-Fi</h3>
+      <h3>Wi-Fi<button class="pen" type="button" data-edit="wifi" aria-label="Wi-Fiを編集">✎</button></h3>
       <p>下記のネットワークに接続してください。</p>
       <p class="en">Connect to the network below.</p>
       <div class="wifi">
-        <div class="wifi-row"><span class="wifi-key">Network</span><span class="wifi-val">TR</span></div>
-        <div class="wifi-row"><span class="wifi-key">Password</span><span class="wifi-val">araigumatomato</span></div>
+        <button class="pen" type="button" data-edit="wifi" aria-label="編集">✎</button>
+        <div class="wifi-row">
+          <span class="wifi-key">Network</span>
+          <span class="wifi-val" data-bind="wifi_ssid">{{WIFI_SSID}}</span>
+        </div>
+        <div class="wifi-row">
+          <span class="wifi-key">Password</span>
+          <span class="wifi-val" data-bind="wifi_pass">{{WIFI_PASS}}</span>
+        </div>
       </div>
-      <p style="font-size:12px;color:var(--text-soft)">繋がらない場合はQ1（よくあるご質問）をご確認ください。</p>
+      <p style="font-size:12px;color:var(--text-soft)">繋がらない場合は Q1（よくあるご質問）をご確認ください。</p>
     </div>
 
-    <!-- 照明 -->
     <div class="sub">
       <h3>照明<span class="en">Lights</span></h3>
-
       <h4>リビング<span class="en">Living Room</span></h4>
       <p>キッチン横の扉を開けて、写真の赤枠のパネルとスイッチがリビングの照明です。</p>
       <p class="en">Open the door next to the kitchen. The panel and switch in the red frame in the photo control the living room lights.</p>
       <div class="figure">
-        <img src="/img/atami-manual/living-light.webp" alt="リビング照明パネル"/>
+        <img src="/img/atami-manual/living-light.webp" alt="リビング照明パネル" loading="lazy"/>
         <div class="figure-cap">リビング照明スイッチパネル / Living room light panel</div>
       </div>
-
       <h4>キッチン<span class="en">Kitchen</span></h4>
       <p>冷蔵庫横の隙間にスイッチがございます。</p>
       <p class="en">The switch is located in the gap next to the refrigerator.</p>
       <div class="figure">
-        <img src="/img/atami-manual/kitchen-light.webp" alt="キッチン照明スイッチ"/>
+        <img src="/img/atami-manual/kitchen-light.webp" alt="キッチン照明スイッチ" loading="lazy"/>
         <div class="figure-cap">冷蔵庫横スイッチ / Switch beside refrigerator</div>
       </div>
     </div>
 
-    <!-- スピーカー -->
     <div class="sub">
       <h3>スピーカー<span class="en">Speaker</span></h3>
       <div class="callout">
@@ -330,10 +549,8 @@ footer a{color:var(--text-dim)}
       <p class="en">To play music, please use the TV's built-in apps (Spotify, YouTube Music, Amazon Music, etc.).</p>
     </div>
 
-    <!-- サウナと水風呂 -->
     <div class="sub">
       <h3>サウナと水風呂<span class="en">Sauna &amp; Cold Bath</span></h3>
-
       <h4>サウナ<span class="en">Sauna</span></h4>
       <div class="callout">
         <p>サウナの温度が上がらない場合、<b>照明だけが点いていてサウナストーブが点いていない</b>ケースが多いです。</p>
@@ -346,7 +563,7 @@ footer a{color:var(--text-dim)}
         <li><b>下のボタン（くぼみのある方）：照明</b><span class="en">Bottom button (with dimple): Lighting</span></li>
       </ul>
       <div class="figure">
-        <img src="/img/atami-manual/sauna-button.webp" alt="サウナのボタン"/>
+        <img src="/img/atami-manual/sauna-button.webp" alt="サウナのボタン" loading="lazy"/>
         <div class="figure-cap">サウナ室横のボタン / Buttons on the side of the sauna</div>
       </div>
 
@@ -354,53 +571,51 @@ footer a{color:var(--text-dim)}
       <p class="en">If it still doesn't work, please check the sauna switch in the shoe cabinet at the entrance. If no number is displayed, it's OFF. The black device below the switch controls the cold bath water temperature.</p>
       <div class="figure-grid">
         <div class="figure">
-          <img src="/img/atami-manual/sauna-shoebox-diagram.webp" alt="靴箱内スイッチ位置図"/>
+          <img src="/img/atami-manual/sauna-shoebox-diagram.webp" alt="靴箱内スイッチ位置図" loading="lazy"/>
           <div class="figure-cap">靴箱内の位置図 / Shoe-cabinet layout</div>
         </div>
         <div class="figure">
-          <img src="/img/atami-manual/sauna-shoebox-switch.webp" alt="靴箱内スイッチ"/>
+          <img src="/img/atami-manual/sauna-shoebox-switch.webp" alt="靴箱内スイッチ" loading="lazy"/>
           <div class="figure-cap">サウナ用スイッチ / Sauna switch</div>
         </div>
       </div>
 
       <h4 style="margin-top:24px">チラー（水風呂の冷却装置）<span class="en">Chiller (cold bath)</span></h4>
-      <div class="callout">
+      <div class="callout danger">
         <p>水風呂内のポンプ口より高い水位まで水を溜めた後にチラーをオンにしてください。<b>水位が低い状態で稼働すると故障の原因になります。</b></p>
         <p class="en">Turn on the chiller only after the water is above the pump outlet. Running it with low water can cause damage.</p>
       </div>
       <p>1階のキッチン横のコントロールパネルにある「<b>チラー・ポンプスイッチ</b>」よりオン・オフできます。</p>
       <p class="en">You can switch it on/off from the "Chiller / Pump Switch" on the control panel beside the first-floor kitchen.</p>
       <div class="figure">
-        <img src="/img/atami-manual/chiller-panel.webp" alt="チラー・ポンプスイッチ"/>
+        <img src="/img/atami-manual/chiller-panel.webp" alt="チラー・ポンプスイッチ" loading="lazy"/>
         <div class="figure-cap">チラー・ポンプスイッチ / Chiller &amp; pump switch</div>
       </div>
     </div>
 
-    <!-- カラオケ -->
     <div class="sub">
       <h3>カラオケ<span class="en">Karaoke</span></h3>
       <p>テレビ台の右下に <b>LIVE DAM Ai</b> を設置しております。</p>
       <p class="en">A LIVE DAM Ai karaoke unit is installed in the lower-right of the TV stand.</p>
 
       <h4>起動方法<span class="en">How to start</span></h4>
-      <ol style="margin:10px 0 16px 22px;font-size:13px;color:#d4cfc4">
-        <li style="margin-bottom:6px">テレビ台の右下の扉を開ける<br><span style="color:var(--text-soft);font-size:11.5px">Open the door at the bottom-right of the TV stand.</span></li>
-        <li style="margin-bottom:6px">写真の赤枠のボタンを押して電源を入れる<br><span style="color:var(--text-soft);font-size:11.5px">Press the button in the red frame to turn on the power.</span></li>
-        <li>テレビをつけて入力を切り替えれば完了<br><span style="color:var(--text-soft);font-size:11.5px">Turn on the TV, switch the input, and you're done.</span></li>
+      <ol>
+        <li>テレビ台の右下の扉を開ける<span class="en">Open the door at the bottom-right of the TV stand.</span></li>
+        <li>写真の赤枠のボタンを押して電源を入れる<span class="en">Press the button in the red frame to turn on the power.</span></li>
+        <li>テレビをつけて入力を切り替えれば完了<span class="en">Turn on the TV, switch the input, and you're done.</span></li>
       </ol>
       <div class="figure-grid">
         <div class="figure">
-          <img src="/img/atami-manual/karaoke-step1.webp" alt="カラオケ起動 1"/>
+          <img src="/img/atami-manual/karaoke-step1.webp" alt="カラオケ起動 1" loading="lazy"/>
           <div class="figure-cap">手順 1 / Step 1</div>
         </div>
         <div class="figure">
-          <img src="/img/atami-manual/karaoke-step2.webp" alt="カラオケ起動 2"/>
+          <img src="/img/atami-manual/karaoke-step2.webp" alt="カラオケ起動 2" loading="lazy"/>
           <div class="figure-cap">手順 2 / Step 2</div>
         </div>
       </div>
     </div>
 
-    <!-- BBQ -->
     <div class="sub">
       <h3>BBQグリル<span class="en">BBQ Grill</span></h3>
       <p>バルコニーに <b>Pulse 1000 電気グリル</b>を設置しております。</p>
@@ -409,18 +624,17 @@ footer a{color:var(--text-dim)}
         <p><b>加熱の際はグリルの蓋をお閉めください。蓋を開けたままだと温度が上がりません。</b></p>
         <p class="en">Please close the grill lid when heating. The grill will not reach proper temperature with the lid open.</p>
       </div>
-      <a class="map-link" href="https://www.weber.com/JP/ja/grills/electric-grills/pulse-series/pulse-1000/81010008.html" target="_blank" rel="noopener">📖 Pulse 1000 取り扱い説明書 / Owner's manual</a>
+      <a class="map-link" href="https://www.weber.com/JP/ja/grills/electric-grills/pulse-series/pulse-1000/81010008.html" target="_blank" rel="noopener">📖 Pulse 1000 取り扱い説明書</a>
     </div>
   </section>
 
   <!-- 3. AMENITIES -->
-  <section>
+  <section class="s">
     <div class="sec-h">
       <div class="sec-h-label">03 — Amenities</div>
       <h2>アメニティ<span class="en">Amenities</span></h2>
     </div>
 
-    <!-- Mini Bar -->
     <div class="sub">
       <h3>Mini Bar &amp; Food<span class="en">有料のドリンク・フード</span></h3>
       <p>厳選されたシャンパン・ワイン・アイスクリームなどを取り揃えております。<br>※冷蔵庫内のソフトドリンクは無料です。</p>
@@ -437,10 +651,8 @@ footer a{color:var(--text-dim)}
       </div>
     </div>
 
-    <!-- アメニティリスト -->
     <div class="sub">
       <h3>アメニティリスト<span class="en">Amenity List</span></h3>
-
       <h4>お持ち帰り可能<span class="en">Take-home OK</span></h4>
       <ul>
         <li>歯ブラシ <span class="en">Toothbrush</span></li>
@@ -448,7 +660,6 @@ footer a{color:var(--text-dim)}
         <li>クシ <span class="en">Comb</span></li>
         <li>ソフトドリンク（冷蔵庫内） <span class="en">Non-alcoholic drinks in the refrigerator</span></li>
       </ul>
-
       <h4>お持ち帰り不可<span class="en">Take-home not allowed</span></h4>
       <ul>
         <li>ドライヤー（Dyson） <span class="en">Hair dryer (Dyson)</span></li>
@@ -466,35 +677,40 @@ footer a{color:var(--text-dim)}
   </section>
 
   <!-- 4. FAQ -->
-  <section>
+  <section class="s">
     <div class="sec-h">
       <div class="sec-h-label">04 — FAQ</div>
       <h2>よくあるご質問<span class="en">Frequently Asked Questions</span></h2>
     </div>
 
-    <div style="padding:8px 0 24px">
+    <div style="padding:8px 0 16px">
       <details>
-        <summary>Q1. Wi-Fiが使えません。 / Wi-Fi isn't working.</summary>
-        <p>テレビ台の左下にルーターとモデムがございます。一度電源を落とし、10〜30秒ほど待ってから再起動してください。</p>
-        <p class="en">The router and modem are located in the lower-left of the TV stand. Power them off, wait 10–30 seconds, and turn them back on.</p>
+        <summary>Q1. Wi-Fi が使えません。 / Wi-Fi isn't working.</summary>
+        <div class="det-bd">
+          <p>テレビ台の左下にルーターとモデムがございます。一度電源を落とし、10〜30秒ほど待ってから再起動してください。</p>
+          <p class="en">The router and modem are located in the lower-left of the TV stand. Power them off, wait 10–30 seconds, and turn them back on.</p>
+        </div>
       </details>
-
       <details>
-        <summary>Q2. 定員6名ですが、7名以上の利用は可能ですか？ / Capacity is 6 — can we host 7 or more?</summary>
-        <p>7名様以上のご利用の場合、予約サイトのチャットよりご相談ください。当施設では追加の布団やベッドのご用意はございません。ご理解のほどよろしくお願いいたします。</p>
-        <p class="en">For groups of 7 or more, please contact us via the booking-site chat. We do not provide extra bedding or beds at this property. Thank you for your understanding.</p>
+        <summary>Q2. 定員6名ですが、7名以上の利用は可能ですか？</summary>
+        <div class="det-bd">
+          <p>7名様以上のご利用の場合、予約サイトのチャットよりご相談ください。当施設では追加の布団やベッドのご用意はございません。ご理解のほどよろしくお願いいたします。</p>
+          <p class="en">For groups of 7 or more, please contact us via the booking-site chat. We do not provide extra bedding or beds at this property.</p>
+        </div>
       </details>
-
       <details>
-        <summary>Q3. 花火は施設から見えますか？ / Can fireworks be seen from the property?</summary>
-        <p>残念ながら当施設から花火はご覧になれません。車で坂を下って見える位置まで移動して頂くか、熱海城の施設（有料）から見るかのどちらかをお勧めしております。</p>
-        <p class="en">Unfortunately, fireworks cannot be seen from the property. We recommend driving down the hill to a viewing spot, or visiting the Atami Castle facilities (paid).</p>
+        <summary>Q3. 花火は施設から見えますか？</summary>
+        <div class="det-bd">
+          <p>残念ながら当施設から花火はご覧になれません。車で坂を下って見える位置まで移動して頂くか、熱海城の施設（有料）から見るかのどちらかをお勧めしております。</p>
+          <p class="en">Unfortunately, fireworks cannot be seen from the property. We recommend driving down the hill to a viewing spot, or visiting the Atami Castle facilities (paid).</p>
+        </div>
       </details>
-
       <details>
-        <summary>Q4. 近くの遊泳可能なビーチはありますか？ / Is there a nearby swimming beach?</summary>
-        <p>当施設から1番近いビーチは<b>サンビーチ</b>になります。海水浴場開きには期間がありますので、あらかじめご確認ください。また、サンビーチには海上アスレチックもございます。よろしければ併せてご利用ください。</p>
-        <p class="en">The closest beach is <b>Sun Beach</b>. The swimming season is limited — please check the dates in advance. Sun Beach also has a floating obstacle course; feel free to enjoy it as well.</p>
+        <summary>Q4. 近くの遊泳可能なビーチはありますか？</summary>
+        <div class="det-bd">
+          <p>当施設から1番近いビーチは<b>サンビーチ</b>になります。海水浴場開きには期間がありますので、あらかじめご確認ください。また、サンビーチには海上アスレチックもございます。よろしければ併せてご利用ください。</p>
+          <p class="en">The closest beach is <b>Sun Beach</b>. The swimming season is limited — please check the dates in advance. Sun Beach also has a floating obstacle course; feel free to enjoy it as well.</p>
+        </div>
       </details>
     </div>
   </section>
@@ -509,6 +725,184 @@ footer a{color:var(--text-dim)}
   </footer>
 
 </div>
+
+<!-- EDIT MODAL (admins only — guarded by body.is-admin) -->
+<div class="modal-back" id="editModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+    <h3 id="editModalTitle">セキュリティ情報を編集</h3>
+    <div class="sub">変更内容はサーバーに保存され、即座にすべての閲覧者へ反映されます。</div>
+
+    <div data-field="door">
+      <label>鍵番号 <small>Door / Key code</small></label>
+      <input id="f_door_code" type="text" inputmode="text" maxlength="32" autocomplete="off"/>
+    </div>
+    <div data-field="wifi">
+      <label>Wi-Fi ネットワーク名 <small>SSID</small></label>
+      <input id="f_wifi_ssid" type="text" maxlength="64" autocomplete="off"/>
+    </div>
+    <div data-field="wifi">
+      <label>Wi-Fi パスワード <small>Password</small></label>
+      <input id="f_wifi_pass" type="text" maxlength="128" autocomplete="off"/>
+    </div>
+    <div class="row">
+      <div data-field="checkin">
+        <label>チェックイン <small>HH:MM</small></label>
+        <input id="f_checkin_time" type="time" autocomplete="off"/>
+      </div>
+      <div data-field="checkout">
+        <label>チェックアウト <small>HH:MM</small></label>
+        <input id="f_checkout_time" type="time" autocomplete="off"/>
+      </div>
+    </div>
+
+    <div class="modal-msg" id="editMsg"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" type="button" id="editCancel">キャンセル</button>
+      <button class="btn btn-primary" type="button" id="editSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  const isAdmin = document.body.getAttribute('data-admin') === '1';
+  if (isAdmin) document.body.classList.add('is-admin');
+
+  // ── Copy door code ────────────────────────────
+  window.copyVal = function(btn, key){
+    const el = document.querySelector('[data-bind="'+key+'"]');
+    if (!el) return;
+    const txt = el.textContent.trim();
+    if (!txt) return;
+    const fallback = ()=>{
+      const ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch(e){}
+      document.body.removeChild(ta);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).catch(fallback);
+    } else { fallback(); }
+    btn.textContent = '✓ Copied';
+    showToast('コピーしました / Copied');
+    setTimeout(()=>{ btn.textContent = 'タップでコピー / Tap to copy'; }, 1800);
+  };
+
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(()=>t.classList.remove('show'), 2200);
+  }
+
+  if (!isAdmin) return; // rest is admin-only
+
+  // ── Admin edit flow ──────────────────────────
+  const modal = document.getElementById('editModal');
+  const msg   = document.getElementById('editMsg');
+  const btnSave   = document.getElementById('editSave');
+  const btnCancel = document.getElementById('editCancel');
+  const fields = ['door_code','wifi_ssid','wifi_pass','checkin_time','checkout_time'];
+
+  function getToken(){ try { return localStorage.getItem('sln_token') || ''; } catch(e){ return ''; } }
+
+  function fillForm(d){
+    document.getElementById('f_door_code').value     = d.door_code     || '';
+    document.getElementById('f_wifi_ssid').value     = d.wifi_ssid     || '';
+    document.getElementById('f_wifi_pass').value     = d.wifi_pass     || '';
+    document.getElementById('f_checkin_time').value  = d.checkin_time  || '';
+    document.getElementById('f_checkout_time').value = d.checkout_time || '';
+  }
+  function bindUI(d){
+    document.querySelectorAll('[data-bind]').forEach(el=>{
+      const k = el.getAttribute('data-bind');
+      if (d[k] != null) el.textContent = d[k];
+    });
+  }
+
+  async function load(){
+    msg.className='modal-msg'; msg.textContent='読み込み中…';
+    try {
+      const r = await fetch('/api/soluna/admin/property-secrets/atami', {
+        headers: { 'Authorization': 'Bearer '+getToken() }
+      });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || 'load failed');
+      fillForm(j.data);
+      msg.textContent='';
+    } catch(e){
+      msg.className='modal-msg err'; msg.textContent = e.message;
+    }
+  }
+
+  function openModal(scrollToField){
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+    msg.className='modal-msg'; msg.textContent='';
+    load().then(()=>{
+      if (scrollToField){
+        const el = modal.querySelector('[data-field="'+scrollToField+'"]');
+        if (el) el.scrollIntoView({ block:'center', behavior:'smooth' });
+        const input = el && el.querySelector('input');
+        if (input) setTimeout(()=>input.focus(), 200);
+      }
+    });
+  }
+  function closeModal(){
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  }
+
+  btnCancel.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e)=>{ if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e)=>{
+    if (e.key === 'Escape' && modal.classList.contains('show')) closeModal();
+  });
+
+  document.querySelectorAll('[data-edit]').forEach(btn=>{
+    btn.addEventListener('click', ()=> openModal(btn.getAttribute('data-edit')));
+  });
+
+  btnSave.addEventListener('click', async ()=>{
+    const payload = {
+      door_code:    document.getElementById('f_door_code').value.trim(),
+      wifi_ssid:    document.getElementById('f_wifi_ssid').value.trim(),
+      wifi_pass:    document.getElementById('f_wifi_pass').value.trim(),
+      checkin_time: document.getElementById('f_checkin_time').value.trim(),
+      checkout_time:document.getElementById('f_checkout_time').value.trim(),
+    };
+    btnSave.disabled = true;
+    msg.className='modal-msg'; msg.textContent='保存中…';
+    try {
+      const r = await fetch('/api/soluna/admin/property-secrets/atami', {
+        method:'PUT',
+        headers:{
+          'Content-Type':'application/json',
+          'Authorization':'Bearer '+getToken()
+        },
+        body: JSON.stringify(payload)
+      });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || 'save failed');
+      bindUI(j.data);
+      msg.className='modal-msg ok'; msg.textContent='✓ 保存しました';
+      showToast('セキュリティ情報を更新しました');
+      setTimeout(closeModal, 700);
+    } catch(e){
+      msg.className='modal-msg err'; msg.textContent = e.message;
+    } finally {
+      btnSave.disabled = false;
+    }
+  });
+})();
+</script>
 
 <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
 </body>
