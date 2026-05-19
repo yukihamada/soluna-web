@@ -11066,6 +11066,9 @@ const GATED_PAGE_LABELS = {
   "buy":"オーナーになる","pay":"お支払い","referral":"紹介プログラム",
   "strategy":"ポジショニング戦略（非公開）",
   "atami-manual":"WHITE HOUSE 熱海 ハウスマニュアル",
+  "lodge-manual":"THE LODGE ハウスマニュアル",
+  "nesting-manual":"NESTING ハウスマニュアル",
+  "instant-manual":"インスタントハウス ハウスマニュアル",
 };
 
 function authGatePage(pageKey, returnPath) {
@@ -11194,10 +11197,32 @@ app.use(async (req, res, next) => {
   res.sendFile(filePath);
 });
 
-// ── /atami/manual : WHITE HOUSE 熱海 ハウスマニュアル（予約者・オーナー限定） ──
+// ── /<slug>/manual : 物件ごとのハウスマニュアル（予約者・オーナー限定） ──
+// Slugs that have a manual file at cabin/<slug>-manual.html.
+const MANUAL_SLUGS = new Set(["atami","lodge","nesting","instant"]);
+const MANUAL_PROPERTY_NAME = {
+  atami: "WHITE HOUSE 熱海",
+  lodge: "THE LODGE",
+  nesting: "NESTING",
+  instant: "インスタントハウス",
+};
+
 // Block direct file access so the auth gate cannot be bypassed.
-app.get(["/atami-manual", "/atami-manual.html"], (_req, res) => res.redirect(301, "/atami/manual"));
-app.get(["/atami/manual", "/atami/manual/"], async (req, res) => {
+for (const _slug of MANUAL_SLUGS) {
+  app.get([`/${_slug}-manual`, `/${_slug}-manual.html`], (_req, res) => res.redirect(301, `/${_slug}/manual`));
+}
+
+app.get("/:slug/manual", async (req, res, next) => {
+  if (!MANUAL_SLUGS.has(req.params.slug)) return next();
+  return renderPropertyManual(req.params.slug, req, res);
+});
+app.get("/:slug/manual/", async (req, res, next) => {
+  if (!MANUAL_SLUGS.has(req.params.slug)) return next();
+  return renderPropertyManual(req.params.slug, req, res);
+});
+
+async function renderPropertyManual(slug, req, res) {
+  const propName = MANUAL_PROPERTY_NAME[slug] || slug;
   const token = parseCookies(req).sln_tok || "";
   let member = null;
   if (token) {
@@ -11213,37 +11238,37 @@ app.get(["/atami/manual", "/atami/manual/"], async (req, res) => {
 
   if (!member) {
     res.status(401).setHeader("Content-Type", "text/html; charset=UTF-8");
-    return res.send(authGatePage("atami-manual", "/atami/manual"));
+    return res.send(authGatePage(`${slug}-manual`, `/${slug}/manual`));
   }
 
-  // Check atami access: coupon for atami OR confirmed atami purchase OR admin/staff
+  // Check property access: coupon / confirmed purchase / active booking / staff
   const SPECIAL = ["admin","founder","friend","cleaner","construction"];
   let hasAccess = SPECIAL.includes(member.member_type) || member.nah_access === 1;
   if (!hasAccess) {
     const couponRow = await db.execute({
-      sql: "SELECT id FROM soluna_coupons WHERE member_id=? AND property_slug='atami' LIMIT 1",
-      args: [member.member_id],
+      sql: "SELECT id FROM soluna_coupons WHERE member_id=? AND property_slug=? LIMIT 1",
+      args: [member.member_id, slug],
     }).catch(() => null);
     if (couponRow && couponRow.rows.length > 0) hasAccess = true;
   }
   if (!hasAccess) {
     const purchaseRow = await db.execute({
-      sql: "SELECT id FROM soluna_purchases WHERE member_id=? AND property_slug='atami' AND status='confirmed' LIMIT 1",
-      args: [member.member_id],
+      sql: "SELECT id FROM soluna_purchases WHERE member_id=? AND property_slug=? AND status='confirmed' LIMIT 1",
+      args: [member.member_id, slug],
     }).catch(() => null);
     if (purchaseRow && purchaseRow.rows.length > 0) hasAccess = true;
   }
   if (!hasAccess) {
-    // Active booking from Beds24 with this email also counts (best-effort, optional)
     const bookingRow = await db.execute({
-      sql: "SELECT id FROM soluna_bookings WHERE member_id=? AND property_slug='atami' AND status NOT IN ('cancelled','failed') LIMIT 1",
-      args: [member.member_id],
+      sql: "SELECT id FROM soluna_bookings WHERE member_id=? AND property_slug=? AND status NOT IN ('cancelled','failed') LIMIT 1",
+      args: [member.member_id, slug],
     }).catch(() => null);
     if (bookingRow && bookingRow.rows.length > 0) hasAccess = true;
   }
 
   if (!hasAccess) {
     res.status(403).setHeader("Content-Type", "text/html; charset=UTF-8");
+    const subj = encodeURIComponent(`${propName} マニュアル アクセス`);
     return res.send(`<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">
 <title>SOLUNA — 予約者限定ページ</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -11259,11 +11284,11 @@ p{font-size:12.5px;color:#888;margin-bottom:14px}
 </style>
 </head><body><div class="card">
 <div class="logo">SOLUNA</div>
-<h2>WHITE HOUSE 熱海 ハウスマニュアル</h2>
-<p>このページは熱海ご利用予定のお客様（オーナー・予約者）専用です。<br>ご利用予定がある場合は SOLUNA までお問い合わせください。</p>
-<p style="color:#666;font-size:11px">Logged in as: ${member.email}</p>
-<a class="btn" href="mailto:info@solun.art?subject=WHITE%20HOUSE%20%E7%86%B1%E6%B5%B7%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%AB%20%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9">問い合わせ / Contact</a>
-<a class="btn btn-ghost" href="/atami">← 物件ページへ</a>
+<h2>${escHtml(propName)} ハウスマニュアル</h2>
+<p>このページはご利用予定のお客様（オーナー・予約者）専用です。<br>ご利用予定がある場合は SOLUNA までお問い合わせください。</p>
+<p style="color:#666;font-size:11px">Logged in as: ${escHtml(member.email)}</p>
+<a class="btn" href="mailto:info@solun.art?subject=${subj}">問い合わせ / Contact</a>
+<a class="btn btn-ghost" href="/${slug}">← 物件ページへ</a>
 </div></body></html>`);
   }
 
@@ -11272,31 +11297,39 @@ p{font-size:12.5px;color:#888;margin-bottom:14px}
   const ua = (req.headers["user-agent"] || "").substring(0, 250);
   db.execute({
     sql: "INSERT INTO soluna_page_views (member_id,email,page,ip,ua) VALUES (?,?,?,?,?)",
-    args: [member.member_id, member.email, "/atami/manual", ip, ua],
+    args: [member.member_id, member.email, `/${slug}/manual`, ip, ua],
   }).catch(() => {});
 
   // Load editable secrets (with sane defaults if row missing)
-  const secrets = await loadPropertySecrets("atami");
+  const secrets = await loadPropertySecrets(slug);
   const isAdmin = isPropertyAdmin(member);
 
-  let html = await readPropertyManualTemplate();
+  let html = await readPropertyManualTemplate(slug);
+  if (!html) return res.status(404).type("text/plain").send("Manual template not found");
+
+  const placeholder = (v, fallback) => v ? escHtml(v) : (fallback || '<span style="color:#666;font-weight:500">未設定</span>');
   html = html
-    .replaceAll("{{DOOR_CODE}}", escHtml(secrets.door_code))
-    .replaceAll("{{WIFI_SSID}}", escHtml(secrets.wifi_ssid))
-    .replaceAll("{{WIFI_PASS}}", escHtml(secrets.wifi_pass))
-    .replaceAll("{{CHECKIN}}", escHtml(secrets.checkin_time))
-    .replaceAll("{{CHECKOUT}}", escHtml(secrets.checkout_time))
+    .replaceAll("{{DOOR_CODE}}", placeholder(secrets.door_code))
+    .replaceAll("{{WIFI_SSID}}", placeholder(secrets.wifi_ssid))
+    .replaceAll("{{WIFI_PASS}}", placeholder(secrets.wifi_pass))
+    .replaceAll("{{CHECKIN}}",   placeholder(secrets.checkin_time, '—'))
+    .replaceAll("{{CHECKOUT}}",  placeholder(secrets.checkout_time, '—'))
+    .replaceAll("{{SLUG}}", slug)
+    .replaceAll("{{PROPERTY_NAME}}", escHtml(propName))
     .replaceAll("{{ADMIN_FLAG}}", isAdmin ? "1" : "0")
     .replaceAll("{{ADMIN_EMAIL}}", isAdmin ? escHtml(member.email) : "");
 
   res.setHeader("Cache-Control", "private, no-store");
   res.setHeader("Content-Type", "text/html; charset=UTF-8");
   res.send(html);
-});
+}
 
 // ── Property secrets: load + admin endpoints ──────────────────────────────
 const PROPERTY_SECRET_DEFAULTS = {
-  atami: { door_code: "645086", wifi_ssid: "TR", wifi_pass: "araigumatomato", checkin_time: "16:00", checkout_time: "11:00" },
+  atami:   { door_code: "645086", wifi_ssid: "TR",                  wifi_pass: "araigumatomato", checkin_time: "16:00", checkout_time: "11:00" },
+  lodge:   { door_code: "",       wifi_ssid: "THE_LODGE_Biruwa",    wifi_pass: "",               checkin_time: "16:00", checkout_time: "10:00" },
+  nesting: { door_code: "",       wifi_ssid: "NESTING_Biruwa",      wifi_pass: "",               checkin_time: "16:00", checkout_time: "10:00" },
+  instant: { door_code: "",       wifi_ssid: "InstantHouse_Biruwa", wifi_pass: "",               checkin_time: "16:00", checkout_time: "10:00" },
 };
 
 function escHtml(s) {
@@ -11331,17 +11364,18 @@ async function loadPropertySecrets(slug) {
   }
 }
 
-let _manualTemplateCache = null;
-let _manualTemplateMtime = 0;
-async function readPropertyManualTemplate() {
-  const p = path.join(CABIN_DIR, "atami-manual.html");
+const _manualTplCache = new Map(); // slug -> { html, mtime }
+async function readPropertyManualTemplate(slug) {
+  const p = path.join(CABIN_DIR, `${slug}-manual.html`);
   try {
     const stat = fs.statSync(p);
-    if (!_manualTemplateCache || stat.mtimeMs !== _manualTemplateMtime) {
-      _manualTemplateCache = fs.readFileSync(p, "utf8");
-      _manualTemplateMtime = stat.mtimeMs;
+    const entry = _manualTplCache.get(slug);
+    if (!entry || entry.mtime !== stat.mtimeMs) {
+      const html = fs.readFileSync(p, "utf8");
+      _manualTplCache.set(slug, { html, mtime: stat.mtimeMs });
+      return html;
     }
-    return _manualTemplateCache;
+    return entry.html;
   } catch {
     return "";
   }
@@ -11397,8 +11431,8 @@ app.put("/api/soluna/admin/property-secrets/:slug", express.json(), async (req, 
             updated_by_email=excluded.updated_by_email`,
     args: [slug, door_code, wifi_ssid, wifi_pass, checkin_time, checkout_time, member.member_id, member.email],
   });
-  // Bust the cached HTML template so any user-visible static parts can be refreshed via mtime trigger
-  _manualTemplateMtime = 0;
+  // Bust the per-slug HTML template cache so changes appear immediately
+  _manualTplCache.delete(slug);
   const data = await loadPropertySecrets(slug);
   res.json({ ok: true, slug, data });
 });
