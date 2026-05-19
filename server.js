@@ -11084,9 +11084,9 @@ body{background:#0a0908;color:#c8c0b0;font-family:'Helvetica Neue',Helvetica,Ari
 h2{font-size:20px;font-weight:900;margin-bottom:8px;color:#f0ece4}
 .sub{font-size:12px;color:#666;margin-bottom:28px;line-height:1.7}
 label{display:block;font-size:9px;letter-spacing:.15em;color:#555;margin-bottom:6px;text-transform:uppercase}
-input{width:100%;background:#0e0c0a;border:1px solid #2a2520;color:#c8c0b0;padding:12px 14px;border-radius:4px;font-size:13px;outline:none;margin-bottom:12px;font-family:inherit}
+input{width:100%;background:#0e0c0a;border:1px solid #2a2520;color:#c8c0b0;padding:14px;border-radius:6px;font-size:15px;outline:none;margin-bottom:14px;font-family:inherit;min-height:48px;-webkit-appearance:none}
 input:focus{border-color:#c8a455}
-.btn{width:100%;background:#c8a455;color:#0a0908;font-weight:800;font-size:12px;letter-spacing:.12em;padding:14px;border:none;border-radius:4px;cursor:pointer;margin-top:4px}
+.btn{width:100%;background:#c8a455;color:#0a0908;font-weight:800;font-size:13px;letter-spacing:.1em;padding:14px;border:none;border-radius:100px;cursor:pointer;margin-top:4px;min-height:48px}
 .btn:hover{background:#d4b068}
 .msg{margin-top:14px;font-size:12px;min-height:20px;text-align:center}
 .msg.ok{color:#4a9a5a}.msg.err{color:#c0392b}
