@@ -11683,19 +11683,27 @@ app.put("/api/soluna/admin/property-secrets/:slug", express.json(), async (req, 
   if (!slug) return res.status(400).json({ error: "bad slug" });
   if (!MANUAL_SLUGS.has(slug)) return res.status(400).json({ error: "unknown slug" });
 
-  // For audit: snapshot the current values before mutating.
-  const before = await loadPropertySecrets(slug);
+  // For audit + partial-update semantics: snapshot current raw DB values.
+  const dbBefore = await db.execute({
+    sql: `SELECT door_code,wifi_ssid,wifi_pass,checkin_time,checkout_time
+          FROM soluna_property_secrets WHERE slug=? LIMIT 1`,
+    args: [slug],
+  });
+  const beforeRow = dbBefore.rows[0] || {};
 
   const body = req.body || {};
+  // Partial update: only fields explicitly present in the body are updated.
+  // `null` means "clear this field"; `undefined` (key missing) means "keep as-is".
+  const hasOwn = (k) => Object.prototype.hasOwnProperty.call(body, k);
   const clean = (v, max) => {
     if (v == null) return null;
     return String(v).trim().slice(0, max);
   };
-  const door_code = clean(body.door_code, 32);
-  const wifi_ssid = clean(body.wifi_ssid, 64);
-  const wifi_pass = clean(body.wifi_pass, 128);
-  const checkin_time = clean(body.checkin_time, 16);
-  const checkout_time = clean(body.checkout_time, 16);
+  const door_code     = hasOwn("door_code")     ? clean(body.door_code, 32)     : (beforeRow.door_code     ?? null);
+  const wifi_ssid     = hasOwn("wifi_ssid")     ? clean(body.wifi_ssid, 64)     : (beforeRow.wifi_ssid     ?? null);
+  const wifi_pass     = hasOwn("wifi_pass")     ? clean(body.wifi_pass, 128)    : (beforeRow.wifi_pass     ?? null);
+  const checkin_time  = hasOwn("checkin_time")  ? clean(body.checkin_time, 16)  : (beforeRow.checkin_time  ?? null);
+  const checkout_time = hasOwn("checkout_time") ? clean(body.checkout_time, 16) : (beforeRow.checkout_time ?? null);
 
   // Basic format validation
   const timeRe = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
@@ -11721,9 +11729,13 @@ app.put("/api/soluna/admin/property-secrets/:slug", express.json(), async (req, 
   _manualTplCache.delete(slug);
   const data = await loadPropertySecrets(slug);
 
-  // Audit each changed field
-  for (const [field, newVal] of Object.entries({ door_code, wifi_ssid, wifi_pass, checkin_time, checkout_time })) {
-    await recordAudit({ slug, field, oldValue: before[field], newValue: newVal, action: "edit", member, req });
+  // Audit each EXPLICITLY changed field (skip unchanged + unspecified)
+  const newVals = { door_code, wifi_ssid, wifi_pass, checkin_time, checkout_time };
+  for (const [field, newVal] of Object.entries(newVals)) {
+    if (!hasOwn(field)) continue; // not in request → not touched → no audit row
+    const oldVal = beforeRow[field] ?? null;
+    if (oldVal === newVal) continue;
+    await recordAudit({ slug, field, oldValue: oldVal, newValue: newVal, action: "edit", member, req });
   }
 
   res.json({ ok: true, slug, data });
@@ -11768,7 +11780,9 @@ app.post("/api/soluna/admin/property-secrets/:slug/rotate-door", express.json(),
   }
   if (!code) code = String(Math.floor(100000 + Math.random() * 900000));
 
-  // 7-day grace: keep the previous code accessible in audit + on the dashboard
+  // 7-day grace: keep the previous code accessible in audit + on the dashboard.
+  // Use loadPropertySecrets() which falls back to defaults so that the previous
+  // code reflects what guests / staff were actually seeing (not the raw NULL in DB).
   const before = await loadPropertySecrets(slug);
   await db.execute({
     sql: `INSERT INTO soluna_property_secrets (slug,door_code,previous_door_code,previous_door_expires_at,
@@ -11776,7 +11790,7 @@ app.post("/api/soluna/admin/property-secrets/:slug/rotate-door", express.json(),
                                               lock_sync_status,lock_attempted_at)
           VALUES (?,?,?,datetime('now','+7 days'),datetime('now'),?,?,'pending',datetime('now'))
           ON CONFLICT(slug) DO UPDATE SET
-            previous_door_code=soluna_property_secrets.door_code,
+            previous_door_code=COALESCE(soluna_property_secrets.door_code, excluded.previous_door_code),
             previous_door_expires_at=datetime('now','+7 days'),
             door_code=excluded.door_code,
             updated_at=datetime('now'),
