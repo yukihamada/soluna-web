@@ -6817,6 +6817,41 @@ db.execute(`CREATE TABLE IF NOT EXISTS soluna_property_secrets (
   updated_by_member_id INTEGER,
   updated_by_email TEXT
 )`).catch(() => {});
+// rotate / 7-day grace / KAGI sync columns
+db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN previous_door_code TEXT").catch(() => {});
+db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN previous_door_expires_at TEXT").catch(() => {});
+db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_provider TEXT DEFAULT 'switchbot'").catch(() => {});
+db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_device_id TEXT").catch(() => {});
+db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_sync_status TEXT").catch(() => {}); // 'pending' | 'ok' | 'error'
+db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_sync_message TEXT").catch(() => {});
+db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_synced_at TEXT").catch(() => {});
+db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_attempted_at TEXT").catch(() => {});
+db.execute(`CREATE TABLE IF NOT EXISTS soluna_secret_audit (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  slug TEXT NOT NULL,
+  field TEXT NOT NULL,
+  old_value TEXT,
+  new_value TEXT,
+  action TEXT NOT NULL,
+  by_member_id INTEGER,
+  by_email TEXT,
+  client_ip TEXT,
+  client_ua TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+)`).catch(() => {});
+db.execute("CREATE INDEX IF NOT EXISTS idx_secret_audit_slug ON soluna_secret_audit(slug, created_at DESC)").catch(() => {});
+db.execute(`CREATE TABLE IF NOT EXISTS soluna_lock_sync_log (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  slug TEXT NOT NULL,
+  status TEXT NOT NULL,
+  applied_door_code TEXT,
+  key_id TEXT,
+  error TEXT,
+  by_email TEXT,
+  client_ip TEXT,
+  client_ua TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+)`).catch(() => {});
 db.execute("ALTER TABLE soluna_members ADD COLUMN nah_access INTEGER DEFAULT 0").catch(() => {});
 db.execute("ALTER TABLE soluna_members ADD COLUMN member_type TEXT DEFAULT 'member'").catch(() => {});
 db.execute("ALTER TABLE soluna_purchases ADD COLUMN ref_code TEXT").catch(() => {});
@@ -11383,7 +11418,12 @@ async function loadPropertySecrets(slug) {
   const defaults = PROPERTY_SECRET_DEFAULTS[slug] || {};
   try {
     const r = await db.execute({
-      sql: "SELECT door_code,wifi_ssid,wifi_pass,checkin_time,checkout_time,updated_at,updated_by_email FROM soluna_property_secrets WHERE slug=? LIMIT 1",
+      sql: `SELECT door_code,wifi_ssid,wifi_pass,checkin_time,checkout_time,
+                   updated_at,updated_by_email,
+                   previous_door_code,previous_door_expires_at,
+                   lock_provider,lock_device_id,lock_sync_status,lock_sync_message,
+                   lock_synced_at,lock_attempted_at
+            FROM soluna_property_secrets WHERE slug=? LIMIT 1`,
       args: [slug],
     });
     const row = r.rows[0] || {};
@@ -11395,10 +11435,58 @@ async function loadPropertySecrets(slug) {
       checkout_time: row.checkout_time || defaults.checkout_time || "",
       updated_at:    row.updated_at    || null,
       updated_by_email: row.updated_by_email || null,
+      previous_door_code: row.previous_door_code || null,
+      previous_door_expires_at: row.previous_door_expires_at || null,
+      lock_provider: row.lock_provider || "switchbot",
+      lock_device_id: row.lock_device_id || null,
+      lock_sync_status: row.lock_sync_status || null,
+      lock_sync_message: row.lock_sync_message || null,
+      lock_synced_at: row.lock_synced_at || null,
+      lock_attempted_at: row.lock_attempted_at || null,
     };
   } catch {
-    return { ...defaults, updated_at: null, updated_by_email: null };
+    return { ...defaults, updated_at: null, updated_by_email: null,
+             previous_door_code: null, previous_door_expires_at: null,
+             lock_provider: "switchbot", lock_device_id: null,
+             lock_sync_status: null, lock_sync_message: null,
+             lock_synced_at: null, lock_attempted_at: null };
   }
+}
+
+// Defense-in-depth CSRF: require X-Requested-With on browser-issued mutations.
+// CLI clients can opt-in by sending the same header.
+function requireXHR(req) {
+  return (req.headers["x-requested-with"] || "").toLowerCase() === "xmlhttprequest";
+}
+
+// Returns the number of bookings actively in-progress for a property,
+// plus the guest emails for notification.
+async function inFlightGuests(slug) {
+  try {
+    const r = await db.execute({
+      sql: `SELECT b.id, b.check_in, b.check_out, b.member_id, m.email
+            FROM soluna_bookings b LEFT JOIN soluna_members m ON m.id = b.member_id
+            WHERE b.property_slug=?
+              AND b.status NOT IN ('cancelled','failed')
+              AND date('now') BETWEEN date(b.check_in) AND date(b.check_out)`,
+      args: [slug],
+    });
+    return r.rows || [];
+  } catch {
+    return [];
+  }
+}
+
+async function recordAudit({ slug, field, oldValue, newValue, action, member, req }) {
+  if (oldValue === newValue) return;
+  const ip = (req && (req.headers["x-forwarded-for"] || req.socket?.remoteAddress) || "").toString().split(",")[0].trim();
+  const ua = (req && req.headers["user-agent"] || "").toString().slice(0, 250);
+  await db.execute({
+    sql: `INSERT INTO soluna_secret_audit (slug,field,old_value,new_value,action,by_member_id,by_email,client_ip,client_ua)
+          VALUES (?,?,?,?,?,?,?,?,?)`,
+    args: [slug, field, oldValue ?? null, newValue ?? null, action,
+           member?.member_id ?? null, member?.email ?? null, ip, ua],
+  }).catch(() => {});
 }
 
 // ── Same-origin / rate-limit guards for admin mutations ────────────────────
@@ -11466,6 +11554,7 @@ app.get("/api/soluna/admin/property-secrets/:slug", async (req, res) => {
 // PUT update (admins only)
 app.put("/api/soluna/admin/property-secrets/:slug", express.json(), async (req, res) => {
   if (!sameOriginOk(req)) return res.status(403).json({ error: "bad origin" });
+  if (!requireXHR(req)) return res.status(403).json({ error: "missing X-Requested-With" });
   const member = await solunaAuth(req);
   if (!member) return res.status(401).json({ error: "unauthorized" });
   if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
@@ -11475,6 +11564,9 @@ app.put("/api/soluna/admin/property-secrets/:slug", express.json(), async (req, 
   const slug = String(req.params.slug || "").replace(/[^a-z0-9_-]/gi, "");
   if (!slug) return res.status(400).json({ error: "bad slug" });
   if (!MANUAL_SLUGS.has(slug)) return res.status(400).json({ error: "unknown slug" });
+
+  // For audit: snapshot the current values before mutating.
+  const before = await loadPropertySecrets(slug);
 
   const body = req.body || {};
   const clean = (v, max) => {
@@ -11510,12 +11602,21 @@ app.put("/api/soluna/admin/property-secrets/:slug", express.json(), async (req, 
   // Bust the per-slug HTML template cache so changes appear immediately
   _manualTplCache.delete(slug);
   const data = await loadPropertySecrets(slug);
+
+  // Audit each changed field
+  for (const [field, newVal] of Object.entries({ door_code, wifi_ssid, wifi_pass, checkin_time, checkout_time })) {
+    await recordAudit({ slug, field, oldValue: before[field], newValue: newVal, action: "edit", member, req });
+  }
+
   res.json({ ok: true, slug, data });
 });
 
 // POST rotate-door — generates a new random 6-digit door code, saves it, returns it.
-app.post("/api/soluna/admin/property-secrets/:slug/rotate-door", async (req, res) => {
+// Requires `?confirm=1` OR body `{confirm:true}` if there are in-flight guests;
+// otherwise responds 412 with the guest list so the UI can warn the admin.
+app.post("/api/soluna/admin/property-secrets/:slug/rotate-door", express.json(), async (req, res) => {
   if (!sameOriginOk(req)) return res.status(403).json({ error: "bad origin" });
+  if (!requireXHR(req)) return res.status(403).json({ error: "missing X-Requested-With" });
   const member = await solunaAuth(req);
   if (!member) return res.status(401).json({ error: "unauthorized" });
   if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
@@ -11524,6 +11625,19 @@ app.post("/api/soluna/admin/property-secrets/:slug/rotate-door", async (req, res
   }
   const slug = String(req.params.slug || "").replace(/[^a-z0-9_-]/gi, "");
   if (!MANUAL_SLUGS.has(slug)) return res.status(400).json({ error: "unknown slug" });
+
+  const confirm = req.query.confirm === "1" || req.query.confirm === "true"
+               || req.body?.confirm === true || req.body?.confirm === "true";
+  const guests = await inFlightGuests(slug);
+  if (guests.length > 0 && !confirm) {
+    return res.status(412).json({
+      error: "in_flight_guests",
+      slug,
+      in_flight_count: guests.length,
+      guests: guests.map(g => ({ email: g.email || null, check_in: g.check_in, check_out: g.check_out })),
+      message: "現在ご滞在中のお客様がいます。鍵を回す前に通知してください。{confirm:true} を再送してください。",
+    });
+  }
 
   // Generate a 6-digit code that avoids trivial patterns
   const TRIVIAL = new Set(["000000","111111","222222","333333","444444","555555","666666","777777","888888","999999","123456","654321","012345","000123"]);
@@ -11535,19 +11649,140 @@ app.post("/api/soluna/admin/property-secrets/:slug/rotate-door", async (req, res
   }
   if (!code) code = String(Math.floor(100000 + Math.random() * 900000));
 
+  // 7-day grace: keep the previous code accessible in audit + on the dashboard
+  const before = await loadPropertySecrets(slug);
   await db.execute({
-    sql: `INSERT INTO soluna_property_secrets (slug,door_code,updated_at,updated_by_member_id,updated_by_email)
-          VALUES (?,?,datetime('now'),?,?)
+    sql: `INSERT INTO soluna_property_secrets (slug,door_code,previous_door_code,previous_door_expires_at,
+                                              updated_at,updated_by_member_id,updated_by_email,
+                                              lock_sync_status,lock_attempted_at)
+          VALUES (?,?,?,datetime('now','+7 days'),datetime('now'),?,?,'pending',datetime('now'))
           ON CONFLICT(slug) DO UPDATE SET
+            previous_door_code=soluna_property_secrets.door_code,
+            previous_door_expires_at=datetime('now','+7 days'),
             door_code=excluded.door_code,
             updated_at=datetime('now'),
             updated_by_member_id=excluded.updated_by_member_id,
-            updated_by_email=excluded.updated_by_email`,
-    args: [slug, code, member.member_id, member.email],
+            updated_by_email=excluded.updated_by_email,
+            lock_sync_status='pending',
+            lock_attempted_at=datetime('now')`,
+    args: [slug, code, before.door_code || null, member.member_id, member.email],
   });
   _manualTplCache.delete(slug);
+  await recordAudit({ slug, field: "door_code", oldValue: before.door_code, newValue: code, action: "rotate", member, req });
   const data = await loadPropertySecrets(slug);
-  res.json({ ok: true, slug, data, rotated: true, new_door_code: code });
+  res.json({
+    ok: true, slug, data, rotated: true, new_door_code: code,
+    in_flight_count: guests.length,
+    notified_guests: guests.length, // notification dispatch handled separately
+  });
+});
+
+// ── Owner-facing secrets API (KAGI iOS app polls this) ────────────────────
+// GET — returns secrets if the caller has a coupon / purchase / in-window booking,
+// or is staff. Used by the KAGI iOS app to detect door_code changes for SwitchBot sync.
+app.get("/api/soluna/owner/property-secrets/:slug", async (req, res) => {
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  const slug = String(req.params.slug || "").replace(/[^a-z0-9_-]/gi, "");
+  if (!MANUAL_SLUGS.has(slug)) return res.status(400).json({ error: "unknown slug" });
+
+  const SPECIAL = ["admin","founder","friend","cleaner","construction"];
+  let allowed = SPECIAL.includes(member.member_type) || member.nah_access === 1;
+  if (!allowed) {
+    const a = await db.execute({
+      sql: "SELECT 1 FROM soluna_coupons WHERE member_id=? AND property_slug=? LIMIT 1",
+      args: [member.member_id, slug],
+    }).catch(() => null);
+    if (a && a.rows.length > 0) allowed = true;
+  }
+  if (!allowed) {
+    const b = await db.execute({
+      sql: `SELECT 1 FROM soluna_purchases WHERE member_id=? AND property_slug=? AND status='confirmed' LIMIT 1`,
+      args: [member.member_id, slug],
+    }).catch(() => null);
+    if (b && b.rows.length > 0) allowed = true;
+  }
+  if (!allowed) {
+    const c = await db.execute({
+      sql: `SELECT 1 FROM soluna_bookings WHERE member_id=? AND property_slug=?
+            AND status NOT IN ('cancelled','failed')
+            AND date('now') BETWEEN date(check_in,'-14 days') AND date(check_out,'+7 days') LIMIT 1`,
+      args: [member.member_id, slug],
+    }).catch(() => null);
+    if (c && c.rows.length > 0) allowed = true;
+  }
+  if (!allowed) return res.status(403).json({ error: "forbidden" });
+
+  const s = await loadPropertySecrets(slug);
+  res.json({
+    ok: true, slug,
+    door_code: s.door_code,
+    wifi_ssid: s.wifi_ssid,
+    wifi_pass: s.wifi_pass,
+    checkin_time: s.checkin_time,
+    checkout_time: s.checkout_time,
+    previous_door_code: s.previous_door_code,
+    previous_door_expires_at: s.previous_door_expires_at,
+    lock_provider: s.lock_provider,
+    lock_device_id: s.lock_device_id,
+    lock_sync_status: s.lock_sync_status,
+    lock_synced_at: s.lock_synced_at,
+    updated_at: s.updated_at,
+    version: s.updated_at ? Date.parse(s.updated_at + "Z") : 0,
+  });
+});
+
+// POST sync-ack — KAGI iOS reports the outcome of writing a passcode to the SwitchBot lock.
+// Auth: solunaAuth + admin/staff (only the owner-side daemon should call this).
+app.post("/api/soluna/owner/sync-ack", express.json(), async (req, res) => {
+  if (!sameOriginOk(req)) return res.status(403).json({ error: "bad origin" });
+  if (!requireXHR(req)) return res.status(403).json({ error: "missing X-Requested-With" });
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+
+  const { slug, status, applied_door_code, key_id, error: errMsg, lock_provider, lock_device_id } = req.body || {};
+  const cleanSlug = String(slug || "").replace(/[^a-z0-9_-]/gi, "");
+  if (!MANUAL_SLUGS.has(cleanSlug)) return res.status(400).json({ error: "unknown slug" });
+  if (!["ok","error"].includes(String(status))) return res.status(400).json({ error: "status must be ok|error" });
+
+  const ip = (req.headers["x-forwarded-for"] || req.socket?.remoteAddress || "").toString().split(",")[0].trim();
+  const ua = (req.headers["user-agent"] || "").toString().slice(0, 250);
+
+  await db.execute({
+    sql: `INSERT INTO soluna_lock_sync_log (slug,status,applied_door_code,key_id,error,by_email,client_ip,client_ua)
+          VALUES (?,?,?,?,?,?,?,?)`,
+    args: [cleanSlug, status, applied_door_code || null, key_id || null, errMsg || null, member.email, ip, ua],
+  });
+
+  const newStatus = status === "ok" ? "ok" : "error";
+  await db.execute({
+    sql: `UPDATE soluna_property_secrets
+          SET lock_sync_status=?, lock_sync_message=?,
+              lock_synced_at=CASE WHEN ?='ok' THEN datetime('now') ELSE lock_synced_at END,
+              lock_provider=COALESCE(?, lock_provider),
+              lock_device_id=COALESCE(?, lock_device_id)
+          WHERE slug=?`,
+    args: [newStatus, errMsg || null, status, lock_provider || null, lock_device_id || null, cleanSlug],
+  });
+  _manualTplCache.delete(cleanSlug);
+  res.json({ ok: true });
+});
+
+// GET audit log (admin only)
+app.get("/api/soluna/admin/property-secrets/:slug/audit", async (req, res) => {
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+  const slug = String(req.params.slug || "").replace(/[^a-z0-9_-]/gi, "");
+  if (!MANUAL_SLUGS.has(slug)) return res.status(400).json({ error: "unknown slug" });
+  const limit = Math.min(parseInt(req.query.limit || "50", 10) || 50, 200);
+  const r = await db.execute({
+    sql: `SELECT id, field, old_value, new_value, action, by_email, client_ip, created_at
+          FROM soluna_secret_audit WHERE slug=? ORDER BY id DESC LIMIT ?`,
+    args: [slug, limit],
+  });
+  res.json({ ok: true, slug, audit: r.rows });
 });
 
 // ── Voice Memo API ────────────────────────────────────────────────────────────

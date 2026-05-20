@@ -523,16 +523,6 @@ body[data-lang="en"] :is(p,li,div,summary,h3,h4) > .en{
       <div class="fact-label">住所 <small>ADDRESS</small></div>
       <div class="fact-val"><span class="ja">北海道川上郡</span><span class="en">弟子屈町美留和</span></div>
     </div>
-    <div class="fact" data-editable="checkin">
-      <button class="pen" type="button" data-edit="checkin" aria-label="編集">✎</button>
-      <div class="fact-label">チェックイン <small>CHECK-IN</small></div>
-      <div class="fact-val"><span class="ja" data-bind="checkin_time">{{CHECKIN}}</span><span class="en">From this time onwards</span></div>
-    </div>
-    <div class="fact" data-editable="checkout">
-      <button class="pen" type="button" data-edit="checkout" aria-label="編集">✎</button>
-      <div class="fact-label">チェックアウト <small>CHECK-OUT</small></div>
-      <div class="fact-val"><span class="ja" data-bind="checkout_time">{{CHECKOUT}}</span><span class="en">By this time</span></div>
-    </div>
   </div>
 
   <!-- 1. ACCESS -->
@@ -915,7 +905,7 @@ body[data-lang="en"] :is(p,li,div,summary,h3,h4) > .en{
       navigator.clipboard.writeText(txt).catch(fallback);
     } else { fallback(); }
     btn.textContent = '✓ Copied';
-    showToast('コピーしました / Copied');
+    showToast('✓ ' + (txt.length > 20 ? txt.slice(0,18)+'…' : txt) + ' copied');
     setTimeout(()=>{ btn.textContent = 'タップでコピー / Tap to copy'; }, 1800);
   };
 
@@ -969,7 +959,7 @@ body[data-lang="en"] :is(p,li,div,summary,h3,h4) > .en{
     msg.className='modal-msg'; msg.textContent='読み込み中…';
     try {
       const r = await fetch('/api/soluna/admin/property-secrets/{{SLUG}}', {
-        headers: { 'Authorization': 'Bearer '+getToken() }
+        headers: { 'Authorization': 'Bearer '+getToken(), 'X-Requested-With': 'XMLHttpRequest' }
       });
       const j = await r.json();
       if (!r.ok) throw new Error(j.error || 'load failed');
@@ -1025,7 +1015,8 @@ body[data-lang="en"] :is(p,li,div,summary,h3,h4) > .en{
         method:'PUT',
         headers:{
           'Content-Type':'application/json',
-          'Authorization':'Bearer '+getToken()
+          'Authorization':'Bearer '+getToken(),
+          'X-Requested-With':'XMLHttpRequest'
         },
         body: JSON.stringify(payload)
       });
