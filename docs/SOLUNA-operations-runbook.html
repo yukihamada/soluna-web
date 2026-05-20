@@ -284,14 +284,16 @@ ul.clean li { padding: 0.5mm 0; }
   <ol>
     <li><span class="name">このマニュアルについて</span><span class="page">3</span></li>
     <li><span class="name">物件クイックリファレンス（4 物件 × 1 ページ）</span><span class="page">4</span></li>
-    <li><span class="name">/admin/secrets ダッシュボードの使い方</span><span class="page">8</span></li>
-    <li><span class="name">鍵番号のローテーション手順</span><span class="page">10</span></li>
-    <li><span class="name">Wi-Fi パスワード / チェックイン時刻の変更</span><span class="page">12</span></li>
-    <li><span class="name">KAGI iOS app による物理ロック自動同期</span><span class="page">13</span></li>
-    <li><span class="name">緊急時の対応フロー</span><span class="page">16</span></li>
-    <li><span class="name">監査ログ / トラブルシュート</span><span class="page">17</span></li>
-    <li><span class="name">よくある質問 (FAQ)</span><span class="page">19</span></li>
-    <li><span class="name">付録: API リファレンス</span><span class="page">20</span></li>
+    <li><span class="name">初回ログインとプロフィール登録 (名前 + 電話番号)</span><span class="page">8</span></li>
+    <li><span class="name">/admin/secrets ダッシュボードの使い方</span><span class="page">9</span></li>
+    <li><span class="name">鍵番号のローテーション手順</span><span class="page">11</span></li>
+    <li><span class="name">Wi-Fi パスワード / チェックイン時刻の変更</span><span class="page">13</span></li>
+    <li><span class="name">メンバー管理 — admin を増やす / LINE Login</span><span class="page">14</span></li>
+    <li><span class="name">KAGI iOS app による物理ロック自動同期</span><span class="page">16</span></li>
+    <li><span class="name">緊急時の対応フロー</span><span class="page">19</span></li>
+    <li><span class="name">監査ログ / トラブルシュート</span><span class="page">20</span></li>
+    <li><span class="name">よくある質問 (FAQ)</span><span class="page">22</span></li>
+    <li><span class="name">付録: API リファレンス</span><span class="page">23</span></li>
   </ol>
 </div>
 
@@ -441,9 +443,65 @@ ul.clean li { padding: 0.5mm 0; }
 </div>
 </section>
 
-<!-- ═══════════════════════════════════ 03 /admin/secrets ═══════════════════════════════════ -->
+<!-- ═══════════════════════════════════ 02b INITIAL LOGIN ═══════════════════════════════════ -->
 <section class="page-break">
-<h2>03. /admin/secrets ダッシュボードの使い方</h2>
+<h2>03. 初回ログインとプロフィール登録</h2>
+
+<p>SOLUNA admin / 管理ページにはじめてアクセスする際は、必ず <b>名前</b> と <b>電話番号</b> の登録が必要です。緊急時のご連絡や監査ログのために使います。</p>
+
+<h3>ログイン方法は 2 通り</h3>
+<div class="two-col">
+  <div class="prop-card" style="margin:0">
+    <div class="head"><h3 style="font-size:13pt">📧 メール OTP</h3></div>
+    <ol class="steps">
+      <li><span class="step-title">メールアドレスを入力</span></li>
+      <li><span class="step-title">6 桁のコードがメールで届く</span></li>
+      <li><span class="step-title">コードを入力 → ログイン完了</span></li>
+    </ol>
+  </div>
+  <div class="prop-card" style="margin:0">
+    <div class="head"><h3 style="font-size:13pt">💬 LINE で続行</h3></div>
+    <ol class="steps">
+      <li><span class="step-title">「LINE で続行」をタップ</span></li>
+      <li><span class="step-title">LINE アプリで認可</span></li>
+      <li><span class="step-title">SOLUNA に自動でログイン</span><span class="step-body">LINE 表示名が名前にプリフィル</span></li>
+    </ol>
+  </div>
+</div>
+
+<div class="callout">
+  <div class="title">💡 LINE Login が表示されない場合</div>
+  <p>LINE Login は <code>LINE_LOGIN_CHANNEL_ID</code> + <code>LINE_LOGIN_CHANNEL_SECRET</code> が設定されているときだけ画面に出ます。詳しくは「メンバー管理」章の LINE Login セットアップ手順を参照。</p>
+</div>
+
+<h3>プロフィール入力画面</h3>
+<p>ログイン直後に <code>https://solun.art/profile</code> が表示されます。下記 2 項目を入力して「保存して続ける」。</p>
+
+<div class="mock">
+  <div class="mock-title">/profile — 初回登録フォーム</div>
+  <p style="font-size:11pt"><b>SOLUNA · プロフィール設定</b></p>
+  <p style="font-size:9.5pt;color:#666">your@email.com &nbsp; <span style="color:#c8a455">[ログイン済]</span></p>
+  <p style="margin-top:4mm"><b>お名前</b><br>例: 濱田 優貴 ────────</p>
+  <p style="margin-top:3mm"><b>電話番号</b><br>例: 090-7409-0407 ────────</p>
+  <p style="margin-top:4mm"><span class="mock-button">保存して続ける</span></p>
+</div>
+
+<h3>登録した情報の使い道</h3>
+<ul class="clean">
+  <li><b>名前</b> — /admin/team のメンバー一覧、監査ログの "by_email" 表示の補助</li>
+  <li><b>電話番号</b> — 緊急時の SOLUNA 運営からの連絡（鍵故障 / 在室ゲストへの再通知）</li>
+  <li>後から変更可能。<code>/profile</code> を再訪すれば編集可</li>
+</ul>
+
+<div class="callout warn">
+  <div class="title">⚠ 入力しないと先に進めません</div>
+  <p>プロフィールが未完了のままだと、<code>/admin/secrets</code> / <code>/admin/team</code> / 各物件マニュアル全てで自動的に <code>/profile</code> に転送されます。</p>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════ 04 /admin/secrets ═══════════════════════════════════ -->
+<section class="page-break">
+<h2>04. /admin/secrets ダッシュボードの使い方</h2>
 
 <p>管理者専用ページ。鍵番号・Wi-Fi・チェックイン時刻を一画面で管理できます。</p>
 
@@ -490,7 +548,7 @@ ul.clean li { padding: 0.5mm 0; }
 
 <!-- ═══════════════════════════════════ 04 ROTATE DOOR ═══════════════════════════════════ -->
 <section class="page-break">
-<h2>04. 鍵番号のローテーション手順</h2>
+<h2>05. 鍵番号のローテーション手順</h2>
 
 <p>チェックアウトごと、または最低でも 30 日に 1 回は鍵番号をローテーション（変更）することを推奨します。<b>ローテーションすると旧コードは即座に無効になります</b>。</p>
 
@@ -533,7 +591,7 @@ ul.clean li { padding: 0.5mm 0; }
 
 <!-- ═══════════════════════════════════ 05 WIFI / CHECKIN ═══════════════════════════════════ -->
 <section class="page-break">
-<h2>05. Wi-Fi パスワード / チェックイン時刻の変更</h2>
+<h2>06. Wi-Fi パスワード / チェックイン時刻の変更</h2>
 
 <p>鍵番号と違い、Wi-Fi / 時刻はローテートではなく <b>編集モーダル</b> で値を直接入力します。</p>
 
@@ -569,9 +627,65 @@ ul.clean li { padding: 0.5mm 0; }
 </ul>
 </section>
 
-<!-- ═══════════════════════════════════ 06 KAGI iOS ═══════════════════════════════════ -->
+<!-- ═══════════════════════════════════ 07 TEAM ═══════════════════════════════════ -->
 <section class="page-break">
-<h2>06. KAGI iOS app による物理ロック自動同期</h2>
+<h2>07. メンバー管理 — admin を増やす / LINE Login</h2>
+
+<p>SOLUNA の運用を複数人で行うために、admin / staff / cleaner / construction の 4 つの役割を招待型で追加できます。<b>owner だけが招待可能</b>です。</p>
+
+<h3>役割と権限</h3>
+<table class="t">
+  <tr><th style="width:32mm">役割</th><th>権限</th></tr>
+  <tr><td><b>owner</b></td><td>mail@yukihamada.jp 固定。全権限。剥奪不可</td></tr>
+  <tr><td><b>admin</b></td><td>/admin/secrets 編集・⟳ ローテート・メンバー招待</td></tr>
+  <tr><td><b>staff</b></td><td>各物件マニュアル本文閲覧可（編集不可）</td></tr>
+  <tr><td><b>cleaner</b></td><td>清掃担当向け閲覧（鍵番号も見える）</td></tr>
+  <tr><td><b>construction</b></td><td>建設工事担当向け閲覧</td></tr>
+</table>
+
+<h3>新しい admin を招待</h3>
+<ol class="steps">
+  <li><span class="step-title"><code>https://solun.art/admin/team</code> を開く</span><span class="step-body">owner / admin のみアクセス可</span></li>
+  <li><span class="step-title">「NEW INVITE」フォームに招待先メール + 役割を入力</span></li>
+  <li><span class="step-title">「招待を送る」を押す</span><span class="step-body">72 時間有効・1 回限り使用可能な URL が発行される。Resend 経由でメール送付も自動。</span></li>
+  <li><span class="step-title">招待された人が URL を開く</span><span class="step-body">指定メールで OTP ログイン → /profile 入力 → 役割が即時付与 → /admin/secrets へ転送</span></li>
+</ol>
+
+<div class="callout">
+  <div class="title">📋 URL を手動で送りたい場合</div>
+  <p>Resend が落ちていてもフォーム送信後に「招待リンクを発行しました」と URL が表示されます。LINE / Slack / Discord などで直接共有可能。</p>
+</div>
+
+<h3>権限の剥奪</h3>
+<p>/admin/team のメンバー一覧で各行の「権限剥奪」ボタンで <code>member_type</code> を <code>member</code> に戻す。owner (mail@yukihamada.jp) は剥奪不可（システムで保護）。</p>
+
+<h3>LINE Login のセットアップ</h3>
+<p>LINE Login を有効にすると、「LINE で続行」ボタンがゲートページと /profile に追加され、OTP メールなしでログイン可能になります。</p>
+
+<ol class="steps">
+  <li><span class="step-title">LINE Developers Console で Login channel を作成</span><span class="step-body">https://developers.line.biz/console/ → 新規 Provider → Login channel</span></li>
+  <li><span class="step-title">Callback URL に <code>https://solun.art/api/soluna/auth/line/callback</code> を登録</span></li>
+  <li><span class="step-title">scope を <code>profile openid email</code> に設定</span><span class="step-body">email は LINE で電話認証済みのユーザーから取得可</span></li>
+  <li><span class="step-title">Channel ID + Channel Secret を Fly secrets にセット</span><span class="step-body"><code>fly secrets set LINE_LOGIN_CHANNEL_ID=… LINE_LOGIN_CHANNEL_SECRET=… -a soluna-web</code></span></li>
+  <li><span class="step-title">deploy 後、auto-detection でボタン表示</span><span class="step-body"><code>/api/soluna/auth/line/available</code> が <code>enabled:true</code> を返したら OK</span></li>
+</ol>
+
+<h3>SOLUNA 既存メールと LINE アカウントの紐付け</h3>
+<ul class="clean">
+  <li>LINE で初回ログインした際、LINE 連携メールが SOLUNA に既存 → そのアカウントに line_user_id を紐付け</li>
+  <li>メールが新規 → 新規 soluna_members 行を作成（LINE 表示名を name にプリフィル）</li>
+  <li>LINE が email を返さなかった場合 → 内部用 sentinel email <code>line:&lt;id&gt;@line.local</code> で作成</li>
+</ul>
+
+<div class="callout warn">
+  <div class="title">⚠ LINE のみで作ったアカウントは admin になれない</div>
+  <p>LINE Login で新規作成された行は <code>member_type=member</code>。 admin にするには owner が /admin/team から該当メールに対し「招待」を発行 → 受諾フローを通す。</p>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════ 08 KAGI iOS ═══════════════════════════════════ -->
+<section class="page-break">
+<h2>08. KAGI iOS app による物理ロック自動同期</h2>
 
 <p>
 SOLUNA の DB を変えると、<b>KAGI iOS app（管理者の iPhone）が自動で SwitchBot Lock に書き込み</b>を行います。<br>
@@ -629,7 +743,7 @@ soluna-web: lock_sync_status = 'ok'
 
 <!-- ═══════════════════════════════════ 07 EMERGENCY ═══════════════════════════════════ -->
 <section class="page-break">
-<h2>07. 緊急時の対応フロー</h2>
+<h2>09. 緊急時の対応フロー</h2>
 
 <h3>火事 / 救急（人命優先）</h3>
 <ol class="steps">
@@ -667,7 +781,7 @@ soluna-web: lock_sync_status = 'ok'
 
 <!-- ═══════════════════════════════════ 08 AUDIT ═══════════════════════════════════ -->
 <section class="page-break">
-<h2>08. 監査ログ / トラブルシュート</h2>
+<h2>10. 監査ログ / トラブルシュート</h2>
 
 <h3>誰がいつ何を変えたか</h3>
 <p>
@@ -719,7 +833,7 @@ X-Requested-With: XMLHttpRequest</pre>
 
 <!-- ═══════════════════════════════════ 09 FAQ ═══════════════════════════════════ -->
 <section class="page-break">
-<h2>09. よくある質問 (FAQ)</h2>
+<h2>11. よくある質問 (FAQ)</h2>
 
 <div class="faq-q">Q1. 鍵番号はどのくらいの頻度でローテートすべき？</div>
 <div class="faq-a">最低でも 30 日に 1 回、理想は <b>チェックアウトごと</b>。次のゲストの安全のため。</div>
@@ -749,7 +863,7 @@ X-Requested-With: XMLHttpRequest</pre>
 
 <!-- ═══════════════════════════════════ 10 API REFERENCE ═══════════════════════════════════ -->
 <section class="page-break">
-<h2>10. 付録: API リファレンス</h2>
+<h2>12. 付録: API リファレンス</h2>
 
 <h3>管理者 API（admin のみ）</h3>
 <table class="t">

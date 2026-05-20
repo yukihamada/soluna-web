@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>SOLUNA ORIGIN — Investor Memorandum</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&display=swap');
+
+@page { size: A4; margin: 0; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  font-family: 'Noto Serif JP', 'Cormorant Garamond', serif;
+  color: #1e1e1e;
+  background: #2a2a2a;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+.page {
+  width: 210mm;
+  height: 297mm;
+  overflow: hidden;
+  page-break-after: always;
+  position: relative;
+  margin: 0 auto 8mm;
+  background: #f8f5f0;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+}
+
+.page.dark {
+  background: #0d1117;
+  color: #f8f5f0;
+}
+
+.page-num {
+  position: absolute;
+  bottom: 8mm;
+  right: 12mm;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt;
+  color: #c9a84c;
+  letter-spacing: 0.3em;
+}
+
+.page-tag {
+  position: absolute;
+  top: 8mm;
+  left: 12mm;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 8.5pt;
+  letter-spacing: 0.4em;
+  color: #c9a84c;
+  text-transform: uppercase;
+}
+
+.page-tag.dark { color: #c9a84c; }
+
+/* ===========================
+   PAGE 1 — COVER
+   =========================== */
+.cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18mm 16mm;
+  background: radial-gradient(ellipse at 50% 70%, #1a2030 0%, #0d1117 70%);
+  color: #f8f5f0;
+}
+
+.cover-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt;
+  letter-spacing: 0.4em;
+  color: #c9a84c;
+  text-transform: uppercase;
+}
+
+.cover-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 11pt;
+  letter-spacing: 0.05em;
+  color: #f8f5f0;
+}
+
+.cover-mark span { color: #c9a84c; }
+
+.cover-center {
+  text-align: center;
+  margin-top: -10mm;
+}
+
+.cover-svg-wrap {
+  margin: 0 auto 14mm;
+  width: 130mm;
+  height: 80mm;
+  position: relative;
+}
+
+.cover-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 64pt;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  margin-bottom: 4mm;
+}
+
+.cover-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: #c9a84c;
+}
+
+.cover-sub {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 11pt;
+  letter-spacing: 0.3em;
+  color: rgba(248,245,240,0.75);
+  margin-bottom: 2mm;
+  font-weight: 200;
+}
+
+.cover-sub-en {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13pt;
+  letter-spacing: 0.15em;
+  color: #c9a84c;
+}
+
+.cover-quote {
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13pt;
+  line-height: 1.7;
+  color: rgba(248,245,240,0.85);
+  max-width: 140mm;
+  margin: 0 auto;
+  font-weight: 300;
+}
+
+.cover-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9.5pt;
+  letter-spacing: 0.25em;
+  color: rgba(248,245,240,0.55);
+  text-transform: uppercase;
+}
+
+.cover-bottom .lhs strong {
+  display: block;
+  color: #c9a84c;
+  font-weight: 400;
+  font-size: 10.5pt;
+  margin-bottom: 1mm;
+}
+
+.thin-line {
+  display: inline-block;
+  width: 40mm;
+  height: 1px;
+  background: #c9a84c;
+  vertical-align: middle;
+  margin: 0 4mm;
+}
+
+/* ===========================
+   PAGE — SHARED
+   =========================== */
+.page-content {
+  padding: 22mm 18mm 18mm;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+h2.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 28pt;
+  letter-spacing: 0.05em;
+  color: #1e1e1e;
+  line-height: 1.1;
+  margin-bottom: 1mm;
+}
+
+h2.section-title em {
+  font-style: italic;
+  color: #c9a84c;
+  font-weight: 400;
+}
+
+.section-jp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 10.5pt;
+  letter-spacing: 0.2em;
+  color: #6b6258;
+  margin-bottom: 6mm;
+  font-weight: 300;
+}
+
+.divider-thin {
+  height: 1px;
+  background: linear-gradient(to right, #c9a84c 0%, #c9a84c 30mm, rgba(201,168,76,0.15) 30mm, rgba(201,168,76,0.15) 100%);
+  margin-bottom: 6mm;
+}
+
+.divider-dark {
+  background: linear-gradient(to right, #c9a84c 0%, #c9a84c 30mm, rgba(201,168,76,0.2) 30mm, rgba(201,168,76,0.2) 100%);
+}
+
+p.body {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9.5pt;
+  line-height: 1.85;
+  color: #2a2620;
+  font-weight: 300;
+}
+
+/* ===========================
+   PAGE 2 — FOUNDER
+   =========================== */
+.founder-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10mm;
+  flex: 1;
+  margin-top: 2mm;
+}
+
+.evolution-flow {
+  margin: 4mm 0 6mm;
+}
+
+.evolution-step {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 4mm;
+  padding-bottom: 3mm;
+  border-bottom: 1px solid rgba(201,168,76,0.25);
+}
+
+.evolution-step:last-child { border-bottom: none; }
+
+.evo-year {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 10pt;
+  letter-spacing: 0.2em;
+  color: #c9a84c;
+  width: 22mm;
+  flex-shrink: 0;
+}
+
+.evo-role {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13pt;
+  font-weight: 400;
+  color: #1e1e1e;
+  width: 50mm;
+  flex-shrink: 0;
+}
+
+.evo-arrow {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9pt;
+  color: #6b6258;
+  font-style: italic;
+}
+
+.evo-arrow strong {
+  font-weight: 400;
+  color: #1e1e1e;
+}
+
+.founder-quote {
+  background: #fff;
+  border-left: 3px solid #c9a84c;
+  padding: 5mm 6mm;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 10pt;
+  line-height: 1.85;
+  color: #2a2620;
+  font-weight: 300;
+  margin-top: 4mm;
+  font-style: normal;
+}
+
+.founder-quote::before {
+  content: '"';
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36pt;
+  color: #c9a84c;
+  line-height: 0.5;
+  vertical-align: -8mm;
+  margin-right: 2mm;
+  font-style: italic;
+}
+
+.metrics-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 4mm;
+}
+
+.metric-row {
+  background: #fff;
+  padding: 5mm 6mm;
+  border-top: 1px solid rgba(201,168,76,0.3);
+  border-bottom: 1px solid rgba(201,168,76,0.3);
+}
+
+.metric-row.highlighted {
+  background: #0d1117;
+  color: #f8f5f0;
+}
+
+.metric-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #c9a84c;
+  margin-bottom: 1.5mm;
+}
+
+.metric-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22pt;
+  font-weight: 300;
+  color: #1e1e1e;
+  line-height: 1.1;
+  margin-bottom: 1mm;
+}
+
+.metric-row.highlighted .metric-value { color: #f8f5f0; }
+.metric-row.highlighted .metric-value em { color: #c9a84c; }
+
+.metric-value em {
+  font-style: italic;
+  color: #c9a84c;
+}
+
+.metric-note {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8pt;
+  color: #6b6258;
+  letter-spacing: 0.05em;
+  font-weight: 300;
+}
+
+.metric-row.highlighted .metric-note { color: rgba(248,245,240,0.7); }
+
+.thesis-box {
+  margin-top: 6mm;
+  padding: 5mm 6mm;
+  background: rgba(201,168,76,0.07);
+  border: 1px solid rgba(201,168,76,0.3);
+}
+
+.thesis-box .label {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 10pt;
+  color: #c9a84c;
+  letter-spacing: 0.15em;
+  margin-bottom: 2mm;
+}
+
+.thesis-box .text {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9.5pt;
+  line-height: 1.75;
+  color: #2a2620;
+  font-weight: 300;
+}
+
+.thesis-box .text strong {
+  color: #1e1e1e;
+  font-weight: 400;
+  background: linear-gradient(transparent 60%, rgba(201,168,76,0.25) 60%);
+}
+
+/* ===========================
+   PAGE 3 — JOURNEY
+   =========================== */
+.journey-day {
+  margin-bottom: 5mm;
+}
+
+.day-header {
+  display: flex;
+  align-items: baseline;
+  gap: 6mm;
+  margin-bottom: 3mm;
+  padding-bottom: 2mm;
+  border-bottom: 1px solid rgba(201,168,76,0.4);
+}
+
+.day-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22pt;
+  color: #c9a84c;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.day-num em { font-style: italic; }
+
+.day-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16pt;
+  letter-spacing: 0.08em;
+  color: #1e1e1e;
+  font-weight: 400;
+}
+
+.day-title em {
+  font-style: italic;
+  color: #c9a84c;
+}
+
+.day-jp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9pt;
+  color: #6b6258;
+  letter-spacing: 0.15em;
+  margin-left: auto;
+  font-weight: 300;
+}
+
+.timeline-row {
+  display: grid;
+  grid-template-columns: 18mm 1fr;
+  gap: 4mm;
+  padding: 2mm 0;
+  align-items: baseline;
+}
+
+.timeline-time {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11pt;
+  color: #c9a84c;
+  letter-spacing: 0.1em;
+  font-weight: 400;
+}
+
+.timeline-content {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8.8pt;
+  line-height: 1.7;
+  color: #2a2620;
+  font-weight: 300;
+}
+
+.timeline-content strong {
+  font-weight: 400;
+  color: #1e1e1e;
+}
+
+.timeline-content .micro {
+  display: block;
+  font-size: 7.5pt;
+  color: #6b6258;
+  font-style: italic;
+  margin-top: 0.5mm;
+  letter-spacing: 0.02em;
+}
+
+.protocol-callout {
+  margin-top: 3mm;
+  padding: 4mm 5mm;
+  background: rgba(201,168,76,0.08);
+  border-left: 2px solid #c9a84c;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8pt;
+  line-height: 1.7;
+  color: #3a342c;
+}
+
+.protocol-callout strong {
+  font-weight: 400;
+  color: #c9a84c;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt;
+  letter-spacing: 0.15em;
+}
+
+.certificate-strip {
+  margin-top: 4mm;
+  background: #0d1117;
+  color: #f8f5f0;
+  padding: 4mm 6mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.certificate-strip .left {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 12pt;
+  letter-spacing: 0.05em;
+}
+
+.certificate-strip .left em { color: #c9a84c; }
+
+.certificate-strip .right {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8pt;
+  color: rgba(248,245,240,0.7);
+  letter-spacing: 0.1em;
+  text-align: right;
+  font-weight: 300;
+}
+
+/* ===========================
+   PAGE 4 — ECOSYSTEM
+   =========================== */
+.eco-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8mm;
+  margin-bottom: 6mm;
+}
+
+.eco-pillar {
+  background: #fff;
+  padding: 6mm 6mm 5mm;
+  border-top: 3px solid #c9a84c;
+  position: relative;
+}
+
+.eco-pillar.dark {
+  background: #0d1117;
+  color: #f8f5f0;
+  border-top-color: #c9a84c;
+}
+
+.eco-pin {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt;
+  letter-spacing: 0.3em;
+  color: #c9a84c;
+  text-transform: uppercase;
+  margin-bottom: 1mm;
+}
+
+.eco-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22pt;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: #1e1e1e;
+  margin-bottom: 1mm;
+}
+
+.eco-pillar.dark .eco-name { color: #f8f5f0; }
+
+.eco-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 12pt;
+  color: #c9a84c;
+  margin-bottom: 4mm;
+  letter-spacing: 0.05em;
+}
+
+.eco-elements {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8.5pt;
+  line-height: 1.85;
+  color: #3a342c;
+  font-weight: 300;
+}
+
+.eco-pillar.dark .eco-elements { color: rgba(248,245,240,0.85); }
+
+.eco-elements .ele-row {
+  display: flex;
+  gap: 3mm;
+  padding: 1.5mm 0;
+  border-bottom: 1px dotted rgba(201,168,76,0.25);
+}
+
+.eco-elements .ele-row:last-child { border-bottom: none; }
+
+.eco-elements .key {
+  font-family: 'Cormorant Garamond', serif;
+  color: #c9a84c;
+  font-size: 9pt;
+  width: 22mm;
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
+  font-style: italic;
+}
+
+.eco-revenue {
+  margin-top: 3mm;
+  padding-top: 2.5mm;
+  border-top: 1px solid rgba(201,168,76,0.3);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11pt;
+  font-style: italic;
+  color: #c9a84c;
+  letter-spacing: 0.05em;
+}
+
+.network-map-wrap {
+  background: #fff;
+  padding: 6mm;
+  margin-bottom: 5mm;
+  border-top: 1px solid rgba(201,168,76,0.3);
+  border-bottom: 1px solid rgba(201,168,76,0.3);
+}
+
+.network-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13pt;
+  font-style: italic;
+  color: #1e1e1e;
+  margin-bottom: 3mm;
+  letter-spacing: 0.05em;
+}
+
+.network-title em { color: #c9a84c; }
+
+.tech-stack {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4mm;
+  margin-top: 3mm;
+}
+
+.tech-card {
+  padding: 4mm;
+  border-left: 2px solid #c9a84c;
+  background: #f8f5f0;
+}
+
+.tech-card .tech-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13pt;
+  font-style: italic;
+  color: #1e1e1e;
+  font-weight: 400;
+  margin-bottom: 1mm;
+}
+
+.tech-card .tech-desc {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8pt;
+  line-height: 1.6;
+  color: #4a4338;
+  font-weight: 300;
+}
+
+/* ===========================
+   PAGE 5 — BUSINESS MODEL
+   =========================== */
+.bm-pillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8mm;
+  margin-bottom: 5mm;
+}
+
+.bm-pillar-card {
+  padding: 6mm;
+  background: #fff;
+  border-top: 3px solid #c9a84c;
+  position: relative;
+}
+
+.bm-pillar-card .pillar-num {
+  position: absolute;
+  top: -6mm;
+  left: 6mm;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 28pt;
+  color: #c9a84c;
+  background: #f8f5f0;
+  padding: 0 3mm;
+  line-height: 1;
+}
+
+.pillar-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16pt;
+  font-weight: 400;
+  color: #1e1e1e;
+  margin-top: 2mm;
+  margin-bottom: 1mm;
+  letter-spacing: 0.05em;
+}
+
+.pillar-title em { font-style: italic; color: #c9a84c; }
+
+.pillar-jp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8pt;
+  color: #6b6258;
+  letter-spacing: 0.2em;
+  margin-bottom: 4mm;
+  font-weight: 300;
+}
+
+.pillar-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22pt;
+  font-style: italic;
+  color: #1e1e1e;
+  font-weight: 300;
+  margin-bottom: 2mm;
+  line-height: 1.1;
+}
+
+.pillar-headline em { color: #c9a84c; font-style: italic; }
+
+.pillar-body {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8.5pt;
+  line-height: 1.8;
+  color: #2a2620;
+  font-weight: 300;
+  margin-bottom: 3mm;
+}
+
+.pillar-body strong {
+  font-weight: 400;
+  color: #1e1e1e;
+  background: linear-gradient(transparent 60%, rgba(201,168,76,0.18) 60%);
+}
+
+.facility-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3mm;
+  margin-top: 3mm;
+}
+
+.facility-card {
+  padding: 3mm;
+  background: #f8f5f0;
+  border-top: 1px solid #c9a84c;
+}
+
+.facility-card .fc-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt;
+  font-style: italic;
+  color: #1e1e1e;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  margin-bottom: 0.5mm;
+}
+
+.facility-card .fc-jp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 7pt;
+  color: #6b6258;
+  margin-bottom: 1.5mm;
+  font-weight: 300;
+}
+
+.facility-card .fc-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 8pt;
+  color: #c9a84c;
+  letter-spacing: 0.04em;
+}
+
+.proof-strip {
+  margin-top: 4mm;
+  padding: 3mm 5mm;
+  background: #0d1117;
+  color: #f8f5f0;
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt;
+  letter-spacing: 0.15em;
+}
+
+.proof-strip strong {
+  color: #c9a84c;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ===========================
+   PAGE 6 — FINANCIALS
+   =========================== */
+.fin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 3mm 0 4mm;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 7.5pt;
+  background: #fff;
+}
+
+.fin-table th, .fin-table td {
+  padding: 2mm 2.5mm;
+  text-align: left;
+  border-bottom: 1px solid rgba(201,168,76,0.3);
+  vertical-align: middle;
+  font-weight: 300;
+}
+
+.fin-table th {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 8.5pt;
+  letter-spacing: 0.2em;
+  color: #c9a84c;
+  text-transform: uppercase;
+  font-weight: 400;
+  border-bottom: 1px solid #c9a84c;
+  background: rgba(201,168,76,0.05);
+}
+
+.fin-table td.num {
+  text-align: right;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt;
+  color: #1e1e1e;
+  font-weight: 400;
+}
+
+.fin-table tr.total-row {
+  background: #0d1117;
+  color: #f8f5f0;
+}
+
+.fin-table tr.total-row td {
+  color: #f8f5f0;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 9pt;
+  border-bottom: none;
+  padding: 2.5mm;
+}
+
+.fin-table tr.total-row td.num {
+  color: #c9a84c;
+  font-size: 11pt;
+}
+
+.fin-table tr.ebitda-row {
+  background: rgba(201,168,76,0.1);
+}
+
+.fin-table tr.ebitda-row td {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-style: italic;
+  color: #1e1e1e;
+}
+
+.fin-table .basis {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 7pt;
+  color: #6b6258;
+  font-weight: 300;
+}
+
+.fin-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 6mm;
+  margin-top: 3mm;
+}
+
+.capex-block, .irr-block {
+  padding: 4mm 5mm;
+  background: #fff;
+  border-top: 2px solid #c9a84c;
+}
+
+.capex-block h4, .irr-block h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11pt;
+  font-style: italic;
+  color: #c9a84c;
+  letter-spacing: 0.1em;
+  margin-bottom: 2mm;
+  font-weight: 400;
+}
+
+.capex-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.2mm 0;
+  border-bottom: 1px dotted rgba(201,168,76,0.3);
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8pt;
+  font-weight: 300;
+  color: #2a2620;
+}
+
+.capex-row .val {
+  font-family: 'Cormorant Garamond', serif;
+  color: #1e1e1e;
+  font-weight: 400;
+  font-size: 9pt;
+}
+
+.capex-row.total {
+  border-top: 1px solid #c9a84c;
+  border-bottom: none;
+  margin-top: 1mm;
+  padding-top: 2mm;
+  font-weight: 400;
+  font-size: 9pt;
+}
+
+.capex-row.total .val { color: #c9a84c; font-size: 11pt; }
+
+.irr-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32pt;
+  font-style: italic;
+  color: #c9a84c;
+  font-weight: 300;
+  line-height: 1;
+  margin: 2mm 0;
+}
+
+.irr-headline em { font-style: italic; }
+
+.irr-note {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 7.5pt;
+  color: #4a4338;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.bar-chart {
+  margin-top: 3mm;
+  padding: 0 1mm;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 14mm 1fr 16mm;
+  gap: 2mm;
+  align-items: center;
+  margin-bottom: 1.5mm;
+}
+
+.bar-row .yr {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt;
+  color: #c9a84c;
+  letter-spacing: 0.1em;
+}
+
+.bar-track {
+  height: 4mm;
+  background: rgba(201,168,76,0.1);
+  position: relative;
+}
+
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(to right, #c9a84c, #d4b75c);
+}
+
+.bar-row .val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt;
+  color: #1e1e1e;
+  text-align: right;
+  font-weight: 400;
+}
+
+/* ===========================
+   PAGE 7 — CLOSING
+   =========================== */
+.closing {
+  background: #0d1117;
+  color: #f8f5f0;
+}
+
+.closing .section-title { color: #f8f5f0; }
+.closing .section-jp { color: rgba(248,245,240,0.7); }
+.closing p.body { color: rgba(248,245,240,0.85); }
+
+.vision-block {
+  margin: 4mm 0 6mm;
+  padding: 6mm 7mm;
+  background: rgba(201,168,76,0.08);
+  border-left: 3px solid #c9a84c;
+}
+
+.vision-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22pt;
+  font-weight: 300;
+  line-height: 1.3;
+  color: #f8f5f0;
+  margin-bottom: 3mm;
+}
+
+.vision-headline em { color: #c9a84c; }
+
+.vision-body {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9pt;
+  line-height: 1.85;
+  color: rgba(248,245,240,0.85);
+  font-weight: 300;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4mm;
+  margin: 4mm 0;
+}
+
+.kpi-card {
+  padding: 4mm 4mm 5mm;
+  background: rgba(248,245,240,0.05);
+  border-top: 1px solid #c9a84c;
+}
+
+.kpi-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 8pt;
+  letter-spacing: 0.2em;
+  color: #c9a84c;
+  text-transform: uppercase;
+  margin-bottom: 1.5mm;
+}
+
+.kpi-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20pt;
+  font-style: italic;
+  color: #f8f5f0;
+  font-weight: 300;
+  line-height: 1;
+  margin-bottom: 1mm;
+}
+
+.kpi-desc {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 7.5pt;
+  color: rgba(248,245,240,0.7);
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+.timeline-strip {
+  margin: 4mm 0;
+  padding: 4mm 0;
+  border-top: 1px solid rgba(201,168,76,0.3);
+  border-bottom: 1px solid rgba(201,168,76,0.3);
+}
+
+.timeline-strip .strip-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 11pt;
+  color: #c9a84c;
+  letter-spacing: 0.1em;
+  margin-bottom: 3mm;
+}
+
+.timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3mm;
+}
+
+.tl-cell {
+  padding-left: 3mm;
+  border-left: 1px solid rgba(201,168,76,0.4);
+}
+
+.tl-cell .yr {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11pt;
+  color: #c9a84c;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  margin-bottom: 1mm;
+}
+
+.tl-cell .ev {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 7.5pt;
+  color: rgba(248,245,240,0.85);
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+.next-steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6mm;
+  margin-top: 4mm;
+}
+
+.ns-block {
+  padding: 4mm 5mm;
+  background: rgba(248,245,240,0.04);
+}
+
+.ns-block .ns-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 11pt;
+  color: #c9a84c;
+  letter-spacing: 0.1em;
+  margin-bottom: 2mm;
+  font-weight: 400;
+}
+
+.ns-block ul {
+  list-style: none;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8pt;
+  line-height: 1.85;
+  color: rgba(248,245,240,0.85);
+  font-weight: 300;
+}
+
+.ns-block ul li::before {
+  content: '—';
+  color: #c9a84c;
+  margin-right: 2mm;
+}
+
+.closing-signature {
+  margin-top: auto;
+  padding-top: 5mm;
+  border-top: 1px solid rgba(201,168,76,0.4);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt;
+  letter-spacing: 0.2em;
+  color: rgba(248,245,240,0.6);
+}
+
+.closing-signature .sig-name {
+  color: #c9a84c;
+  font-style: italic;
+  font-size: 11pt;
+  letter-spacing: 0.1em;
+}
+
+.risk-row {
+  display: grid;
+  grid-template-columns: 16mm 1fr;
+  padding: 1.5mm 0;
+  border-bottom: 1px dotted rgba(201,168,76,0.3);
+  font-family: 'Noto Serif JP', serif;
+  font-size: 7.8pt;
+  font-weight: 300;
+  color: rgba(248,245,240,0.85);
+  line-height: 1.6;
+}
+
+.risk-row .rl {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  letter-spacing: 0.1em;
+}
+
+.risk-row .rl.high { color: #d4665a; }
+.risk-row .rl.med { color: #c9a84c; }
+.risk-row .rl.low { color: #7a9b6b; }
+
+@media print {
+  body { background: #fff; }
+  .page { margin: 0; box-shadow: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     PAGE 1 — COVER
+     ============================================================ -->
+<section class="page dark cover">
+  <div class="cover-top">
+    <div>SOLUNA NETWORK / PROJECT ORIGIN</div>
+    <div class="cover-mark">Sol<span>·</span>Luna</div>
+  </div>
+
+  <div class="cover-center">
+    <div class="cover-svg-wrap">
+      <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+        <!-- Sky gradient -->
+        <defs>
+          <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#f4d27a" stop-opacity="1"/>
+            <stop offset="40%" stop-color="#e0a847" stop-opacity="0.95"/>
+            <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a2a3a" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#0d1117" stop-opacity="1"/>
+          </linearGradient>
+          <linearGradient id="rock" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a3530" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#0d1117" stop-opacity="1"/>
+          </linearGradient>
+          <linearGradient id="rope" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.85"/>
+            <stop offset="50%" stop-color="#f4d27a" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#c9a84c" stop-opacity="0.85"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Sun rising between rocks -->
+        <circle cx="200" cy="155" r="68" fill="url(#sun)"/>
+        <circle cx="200" cy="155" r="32" fill="#f4d27a" opacity="0.9"/>
+
+        <!-- Light rays -->
+        <g stroke="#c9a84c" stroke-width="0.4" opacity="0.4">
+          <line x1="200" y1="20" x2="200" y2="155"/>
+          <line x1="80" y1="40" x2="200" y2="155"/>
+          <line x1="320" y1="40" x2="200" y2="155"/>
+          <line x1="40" y1="100" x2="200" y2="155"/>
+          <line x1="360" y1="100" x2="200" y2="155"/>
+        </g>
+
+        <!-- Sea -->
+        <rect x="0" y="170" width="400" height="70" fill="url(#sea)"/>
+
+        <!-- Sea reflection of sun -->
+        <ellipse cx="200" cy="172" rx="50" ry="3" fill="#f4d27a" opacity="0.7"/>
+        <ellipse cx="200" cy="180" rx="35" ry="2" fill="#e0a847" opacity="0.5"/>
+        <ellipse cx="200" cy="188" rx="22" ry="1.5" fill="#c9a84c" opacity="0.4"/>
+
+        <!-- Wave lines -->
+        <g stroke="#c9a84c" stroke-width="0.3" fill="none" opacity="0.25">
+          <path d="M0,200 Q40,196 80,200 T160,200 T240,200 T320,200 T400,200"/>
+          <path d="M0,212 Q40,208 80,212 T160,212 T240,212 T320,212 T400,212"/>
+          <path d="M0,224 Q40,220 80,224 T160,224 T240,224 T320,224 T400,224"/>
+        </g>
+
+        <!-- Left rock (Otoko-iwa) - larger -->
+        <path d="M 130,170 L 125,140 L 120,110 L 122,80 L 130,55 L 145,40 L 160,38 L 168,55 L 170,90 L 168,130 L 165,170 Z"
+              fill="url(#rock)"/>
+        <!-- Torii on left rock -->
+        <g stroke="#c9a84c" stroke-width="1.2" fill="none" opacity="0.85">
+          <line x1="138" y1="38" x2="160" y2="38"/>
+          <line x1="135" y1="34" x2="163" y2="34"/>
+          <line x1="142" y1="34" x2="142" y2="50"/>
+          <line x1="156" y1="34" x2="156" y2="50"/>
+        </g>
+
+        <!-- Right rock (Onna-iwa) - smaller -->
+        <path d="M 252,170 L 254,148 L 256,130 L 260,115 L 268,108 L 275,112 L 280,128 L 280,150 L 278,170 Z"
+              fill="url(#rock)"/>
+
+        <!-- Sacred rope (shimenawa) -->
+        <path d="M 165,55 Q 210,42 252,118"
+              stroke="url(#rope)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <!-- Shide tassels on rope -->
+        <g stroke="#c9a84c" stroke-width="0.6" opacity="0.7">
+          <line x1="185" y1="48" x2="185" y2="58"/>
+          <line x1="210" y1="50" x2="210" y2="60"/>
+          <line x1="232" y1="68" x2="234" y2="78"/>
+        </g>
+
+        <!-- Horizon line -->
+        <line x1="0" y1="170" x2="400" y2="170" stroke="#c9a84c" stroke-width="0.3" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <div class="cover-sub">プロジェクト オリジン ／ 三重・伊勢 二見浦</div>
+    <h1 class="cover-title">SOLUNA <em>ORIGIN</em></h1>
+    <div class="cover-sub-en">Where the Sun Rises Between Two Sacred Rocks</div>
+  </div>
+
+  <div>
+    <div class="cover-quote">
+      "Mercariは商品と人を、Not A Hotelは物件と人を、SOLUNAは自然と人を繋いだ。<br>
+      <em>ORIGINで繋ぐのは、人と自分自身である。</em>"
+    </div>
+    <div style="text-align:center; margin: 8mm 0 0;">
+      <span class="thin-line"></span>
+      <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; color: #c9a84c; font-size: 10pt; letter-spacing: 0.2em;">YUKI HAMADA · CONFIDENTIAL · 2026</span>
+      <span class="thin-line"></span>
+    </div>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="lhs">
+      <strong>INVESTOR MEMORANDUM</strong>
+      Series A Preview
+    </div>
+    <div style="text-align:right;">
+      Enabler Inc. / SOLUNA<br>
+      <span style="color:#c9a84c;">May 2026</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     PAGE 2 — FOUNDER & SOLUNA TRACK RECORD
+     ============================================================ -->
+<section class="page">
+  <div class="page-tag">— I — Founder &amp; Track Record</div>
+  <div class="page-content">
+    <h2 class="section-title">The Architect of <em>Connection</em></h2>
+    <div class="section-jp">繋ぐということ ── 12年間、同じ問いを設計し続けてきた</div>
+    <div class="divider-thin"></div>
+
+    <div class="evolution-flow">
+      <div class="evolution-step">
+        <div class="evo-year">2014–2021</div>
+        <div class="evo-role">Mercari · CPO</div>
+        <div class="evo-arrow"><strong>商品と人を繋ぐ</strong> — 取締役CPOとして購買体験を設計。月間2,000万人へ。</div>
+      </div>
+      <div class="evolution-step">
+        <div class="evo-year">2018–2024</div>
+        <div class="evo-role">Not A Hotel · Co-founder</div>
+        <div class="evo-arrow"><strong>物件と人を繋ぐ</strong> — 共有持分による分散リゾート所有モデルを共同創業。</div>
+      </div>
+      <div class="evolution-step">
+        <div class="evo-year">2024–</div>
+        <div class="evo-role">SOLUNA 弟子屈</div>
+        <div class="evo-arrow"><strong>自然と人を繋ぐ</strong> — 北海道弟子屈に複数物件展開。TAPKOP / THE LODGE 稼働中。</div>
+      </div>
+      <div class="evolution-step">
+        <div class="evo-year">2026–</div>
+        <div class="evo-role">SOLUNA <em style="font-style: italic; color:#c9a84c;">ORIGIN</em></div>
+        <div class="evo-arrow"><strong>人と自分自身を繋ぐ</strong> — 二見浦。CPOとして設計した最も深い "体験のプロダクト"。</div>
+      </div>
+    </div>
+
+    <div class="founder-grid">
+      <div>
+        <div class="founder-quote">
+          まだ二見浦で個人的な体験はない。弟子屈も最初は偶然だった。作りながら、<strong style="font-weight:400;color:#c9a84c;">愛着が生まれてきた。</strong>体験は"場所"ではなく"設計"から生まれる。それが私のCPOとしての本質である。
+        </div>
+
+        <div class="thesis-box">
+          <div class="label">— Investment Thesis</div>
+          <div class="text">
+            日本に <strong>「祈り×ウェルネス×ラグジュアリー」</strong> のカテゴリは未開。Aman・Six Senses・星のや 界 の上位空間、年間830万人が訪れる伊勢神宮の <strong>97%が二見浦に泊まらない</strong> 構造的空白。SOLUNAの実績ある共有持分モデルで、CAPEXリスクを切り離して着工する。
+          </div>
+        </div>
+      </div>
+
+      <div class="metrics-stack">
+        <div class="metric-row">
+          <div class="metric-label">Enabler Inc. Valuation</div>
+          <div class="metric-value">¥<em>1.0</em>B</div>
+          <div class="metric-note">East Ventures より ¥5,000万調達済み（pre-IPO）</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-label">TAPKOP — 稼働実績</div>
+          <div class="metric-value">¥<em>2,200</em>万</div>
+          <div class="metric-note">年商実績 / 1泊¥34万 稼働中 — 持分¥7,800万/口（販売準備中）</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-label">THE LODGE / WHITE HOUSE 熱海</div>
+          <div class="metric-value">¥<em>2,800</em>万</div>
+          <div class="metric-note">弟子屈¥1,000万 + 熱海¥1,800万 年商実績 (2025) — 持分は今後販売予定</div>
+        </div>
+
+        <div class="metric-row highlighted">
+          <div class="metric-label">SOLUNA Tech Stack — In-house</div>
+          <div class="metric-value">KAGI · Pon · 予約PF</div>
+          <div class="metric-note">スマートホーム・電子契約・予約管理を自社実装。展開時のCAPEX/OPEX削減。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">02 / 07</div>
+</section>
+
+
+<!-- ============================================================
+     PAGE 3 — GUEST JOURNEY
+     ============================================================ -->
+<section class="page">
+  <div class="page-tag">— II — Guest Journey</div>
+  <div class="page-content">
+    <h2 class="section-title">Three Days to <em>Cross the Threshold</em></h2>
+    <div class="section-jp">禊（みそぎ）── 1000年の浄化の地で、自分自身と再会する3日間</div>
+    <div class="divider-thin"></div>
+
+    <!-- Day 1 -->
+    <div class="journey-day">
+      <div class="day-header">
+        <div class="day-num"><em>i.</em></div>
+        <div class="day-title">Arrive &amp; <em>Purify</em></div>
+        <div class="day-jp">到着と禊</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-time">15:00</div>
+        <div class="timeline-content"><strong>ヘリコプターで専用ヘリパッドへ</strong>。名古屋から20分。<span class="micro">空からの俯瞰で「日常から離れる」を物理化する。</span></div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-time">16:00</div>
+        <div class="timeline-content"><strong>初禊 — 禊師による海水入水（2分）</strong>。<span class="micro">迷走神経刺激 → コルチゾール低下。神道作法 × Cold Exposure 科学の二重設計。</span></div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-time">19:00</div>
+        <div class="timeline-content"><strong>海女 吉田サチエ氏（70代）</strong> が今日獲ったアワビ・真珠貝のウェルカムディナー。<span class="micro">UNESCO無形文化遺産・平均年齢67歳。今しか組めない縁。</span></div>
+      </div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="journey-day">
+      <div class="day-header">
+        <div class="day-num"><em>ii.</em></div>
+        <div class="day-title">Dive <em>Deep</em></div>
+        <div class="day-jp">潜る、手放す</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-time">05:30</div>
+        <div class="timeline-content"><strong>夫婦岩 夜明け瞑想</strong>。<span class="micro">冬至は岩の間から日の出 ── SOLUNAのロゴが現実になる瞬間。</span></div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-time">08:00</div>
+        <div class="timeline-content"><strong>海女と共に潜る</strong>。自分で伊勢海老・アワビを獲る。<span class="micro">UNESCO文化遺産への能動的"参加"。観光ではなく継承。</span></div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-time">10:30</div>
+        <div class="timeline-content"><strong>12-Step Misogi Protocol（3時間）</strong>。
+          <div class="protocol-callout">
+            <strong>① 精塩</strong>　<strong>② 冷水3分×3</strong>　<strong>③ Box Breathing</strong>　<strong>④ 断食意図設定</strong>　<strong>⑤ 40分瞑想</strong>　<strong>⑥ 神職祝詞</strong>　<strong>⑦ 感謝書き出し</strong>　<strong>⑧ 身体スキャン</strong>　<strong>⑨ 沈黙の海歩き</strong>　<strong>⑩ 過去の手放し儀式</strong>　<strong>⑪ 未来の誓い</strong>　<strong>⑫ 再入水完了</strong>
+            <br><br>
+            監修：神経内科医 × 伊勢神宮神職 × ウェルネスコーチ（元 Six Senses）。全工程 HRV ウェアラブルで生体計測。
+          </div>
+        </div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-time">19:30</div>
+        <div class="timeline-content"><strong>今朝獲ったものを食べる8皿コース</strong>。<span class="micro">"獲る・捧げる・食す" の循環。海女料理の構造化。</span></div>
+      </div>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="journey-day">
+      <div class="day-header">
+        <div class="day-num"><em>iii.</em></div>
+        <div class="day-title">Begin <em>Anew</em></div>
+        <div class="day-jp">閾（しきい）を越える</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-time">06:00</div>
+        <div class="timeline-content"><strong>二見興玉神社 夜明け参拝</strong>（一般公開前の貸切時間）。神職が和紙に手書きする<strong>「禊完了の証明書」</strong>授与。<span class="micro">氏名・日付・「汝は閾を越えた」を墨で記す。物質化された変容の証。</span></div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-time">10:00</div>
+        <div class="timeline-content"><strong>伊勢神宮 内宮への巡礼に出発</strong>。<span class="micro">二見浦は1000年以上、伊勢参宮前の "禊の地" であった。SOLUNA ORIGIN はその系譜の現代的再生である。</span></div>
+      </div>
+    </div>
+
+    <div class="certificate-strip">
+      <div class="left">"汝は閾を越えた" — <em>Thou Hast Crossed the Threshold</em></div>
+      <div class="right">墨書証明書／神職署名／和紙<br>3日間 ¥350,000〜（Misogi Protocol Full）</div>
+    </div>
+  </div>
+  <div class="page-num">03 / 07</div>
+</section>
+
+
+<!-- ============================================================
+     PAGE 4 — ECOSYSTEM
+     ============================================================ -->
+<section class="page">
+  <div class="page-tag">— III — SOLUNA Ecosystem</div>
+  <div class="page-content">
+    <h2 class="section-title">Two Sacred Geographies, <em>One Network</em></h2>
+    <div class="section-jp">弟子屈（北の聖地）と二見浦（南の禊地）── 一つのSOLUNA</div>
+    <div class="divider-thin"></div>
+
+    <div class="eco-grid">
+      <!-- Teshikaga -->
+      <div class="eco-pillar">
+        <div class="eco-pin">— Hokkaido Teshikaga · 弟子屈</div>
+        <div class="eco-name">SOLUNA</div>
+        <div class="eco-tagline">"Return to Nature"</div>
+        <div class="eco-elements">
+          <div class="ele-row"><span class="key">Theme</span>自然への帰還 — 火山・湖・星空・サウナ</div>
+          <div class="ele-row"><span class="key">Heritage</span>アイヌ聖地・摩周湖・屈斜路湖</div>
+          <div class="ele-row"><span class="key">Element</span>森・水蒸気・寒気・薪火</div>
+          <div class="ele-row"><span class="key">Assets</span>TAPKOP / THE LODGE / WHITE HOUSE 熱海</div>
+        </div>
+        <div class="eco-revenue">¥3.9B raised / Operating since 2024</div>
+      </div>
+
+      <!-- Futamigaura -->
+      <div class="eco-pillar dark">
+        <div class="eco-pin">— Mie Futamigaura · 二見浦</div>
+        <div class="eco-name">SOLUNA <em style="font-style:italic;color:#c9a84c;">ORIGIN</em></div>
+        <div class="eco-tagline">"Transformation &amp; Purification"</div>
+        <div class="eco-elements">
+          <div class="ele-row"><span class="key">Theme</span>変容と浄化 — 神道・海・禊・朝日</div>
+          <div class="ele-row"><span class="key">Heritage</span>夫婦岩／伊勢神宮 (1000+ years)</div>
+          <div class="ele-row"><span class="key">Element</span>潮・塩・冷水・冬至光</div>
+          <div class="ele-row"><span class="key">Assets</span>20 Domes / Misogi Spa / Ama Gastronomy</div>
+        </div>
+        <div class="eco-revenue">¥1.5–1.7B CAPEX · launching 2027</div>
+      </div>
+    </div>
+
+    <!-- Network Map -->
+    <div class="network-map-wrap">
+      <div class="network-title">— SOLUNA <em>Network Map</em> · 2026 → 2030</div>
+      <svg viewBox="0 0 600 130" xmlns="http://www.w3.org/2000/svg" width="100%" height="40mm">
+        <defs>
+          <linearGradient id="japanFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f8f5f0"/>
+            <stop offset="100%" stop-color="#ede5d4"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Japan silhouette (stylized) -->
+        <path d="M 460,18 L 478,22 L 488,32 L 500,40 L 510,55 L 505,68 L 490,76 L 480,82 L 470,80 L 460,72 L 458,60 L 462,48 Z"
+              fill="url(#japanFill)" stroke="#c9a84c" stroke-width="0.6"/>
+
+        <path d="M 350,55 L 370,52 L 388,55 L 405,62 L 420,72 L 425,84 L 418,92 L 405,96 L 388,94 L 372,88 L 358,80 L 348,68 Z"
+              fill="url(#japanFill)" stroke="#c9a84c" stroke-width="0.6"/>
+
+        <path d="M 280,80 L 300,78 L 318,82 L 332,90 L 340,100 L 335,108 L 320,112 L 305,110 L 290,104 L 282,94 Z"
+              fill="url(#japanFill)" stroke="#c9a84c" stroke-width="0.6"/>
+
+        <path d="M 245,98 L 260,96 L 272,100 L 280,108 L 275,116 L 262,118 L 250,114 L 244,106 Z"
+              fill="url(#japanFill)" stroke="#c9a84c" stroke-width="0.6"/>
+
+        <!-- Teshikaga marker (Hokkaido east) -->
+        <circle cx="500" cy="45" r="4" fill="#c9a84c"/>
+        <circle cx="500" cy="45" r="9" fill="none" stroke="#c9a84c" stroke-width="0.5" opacity="0.5"/>
+        <circle cx="500" cy="45" r="14" fill="none" stroke="#c9a84c" stroke-width="0.3" opacity="0.3"/>
+        <text x="510" y="48" font-family="Cormorant Garamond" font-style="italic" font-size="9" fill="#1e1e1e">Teshikaga</text>
+        <text x="510" y="58" font-family="Cormorant Garamond" font-size="6.5" fill="#6b6258" letter-spacing="0.1em">SOLUNA · OPERATING</text>
+
+        <!-- Futamigaura marker (Mie) -->
+        <circle cx="395" cy="80" r="5" fill="#c9a84c"/>
+        <circle cx="395" cy="80" r="10" fill="none" stroke="#c9a84c" stroke-width="0.6" opacity="0.6"/>
+        <circle cx="395" cy="80" r="16" fill="none" stroke="#c9a84c" stroke-width="0.4" opacity="0.4"/>
+        <circle cx="395" cy="80" r="22" fill="none" stroke="#c9a84c" stroke-width="0.25" opacity="0.25"/>
+        <text x="408" y="78" font-family="Cormorant Garamond" font-style="italic" font-size="10" font-weight="600" fill="#c9a84c">Futamigaura — ORIGIN</text>
+        <text x="408" y="88" font-family="Cormorant Garamond" font-size="6.5" fill="#6b6258" letter-spacing="0.1em">FLAGSHIP · LAUNCHING 2027</text>
+
+        <!-- Future markers (faded) -->
+        <circle cx="375" cy="86" r="2.5" fill="#c9a84c" opacity="0.4"/>
+        <text x="365" y="98" font-family="Cormorant Garamond" font-style="italic" font-size="6.5" fill="#6b6258">Kōyasan ’29</text>
+
+        <circle cx="335" cy="82" r="2.5" fill="#c9a84c" opacity="0.4"/>
+        <text x="295" y="80" font-family="Cormorant Garamond" font-style="italic" font-size="6.5" fill="#6b6258">Izumo ’30</text>
+
+        <circle cx="278" cy="115" r="2.5" fill="#c9a84c" opacity="0.4"/>
+        <text x="225" y="118" font-family="Cormorant Garamond" font-style="italic" font-size="6.5" fill="#6b6258">Yakushima ’31</text>
+
+        <!-- Connection line -->
+        <path d="M 500,45 Q 450,30 395,80" stroke="#c9a84c" stroke-width="0.7" stroke-dasharray="2,2" fill="none" opacity="0.7"/>
+
+        <!-- Title -->
+        <text x="20" y="22" font-family="Cormorant Garamond" font-style="italic" font-size="11" fill="#c9a84c">North to South</text>
+        <text x="20" y="34" font-family="Noto Serif JP" font-size="7" fill="#3a342c">弟子屈 = 北・自然</text>
+        <text x="20" y="46" font-family="Noto Serif JP" font-size="7" fill="#3a342c">二見浦 = 南・浄化</text>
+        <text x="20" y="62" font-family="Cormorant Garamond" font-size="7" fill="#6b6258" letter-spacing="0.1em">2030 ROADMAP →</text>
+        <text x="20" y="73" font-family="Noto Serif JP" font-size="6.5" fill="#6b6258">出雲・高野山・屋久島</text>
+        <text x="20" y="83" font-family="Noto Serif JP" font-size="6.5" fill="#6b6258">5拠点ネットワーク化</text>
+      </svg>
+    </div>
+
+    <!-- Tech Stack -->
+    <div>
+      <div class="network-title" style="margin-bottom: 3mm;">— Proprietary <em>Tech Stack</em></div>
+      <div class="tech-stack">
+        <div class="tech-card">
+          <div class="tech-name">KAGI</div>
+          <div class="tech-desc">スマートホーム管理。鍵・空調・照明・セキュリティを統合制御。OPEX 30% 削減実績。</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-name">Pon</div>
+          <div class="tech-desc">電子契約PF。共有持分契約・婚礼契約・スポット予約まで一元化。コンプライアンス内製。</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-name">SOLUNA Booking</div>
+          <div class="tech-desc">会員制予約PF。年間36泊優先権・収益配分・チャネル管理。Beds24連携。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">04 / 07</div>
+</section>
+
+
+<!-- ============================================================
+     PAGE 5 — BUSINESS MODEL
+     ============================================================ -->
+<section class="page">
+  <div class="page-tag">— IV — Business Model</div>
+  <div class="page-content">
+    <h2 class="section-title">Two Pillars, <em>De-risked CAPEX</em></h2>
+    <div class="section-jp">共有持分販売による先行資金化（初回ローンチ）＋ 8系統の運営収益</div>
+    <div class="divider-thin"></div>
+
+    <div class="bm-pillars">
+      <!-- Pillar 1 -->
+      <div class="bm-pillar-card">
+        <div class="pillar-num"><em>I</em></div>
+        <div class="pillar-title">Co-Ownership <em>First Launch</em></div>
+        <div class="pillar-jp">共有持分 ── 初回ローンチ（運営収益で価値を実証済み）</div>
+
+        <div class="pillar-headline">¥<em>5</em>億 目標調達</div>
+        <div class="pillar-body">
+          20棟 × <strong>¥2,500万/棟</strong>（2口×¥1,250万 or 1口）。<br>
+          Phase 1 (10棟) ¥2.5億 → 建設着工資金。<br>
+          Phase 2 (10棟) ¥2.5億 → 稼働後に追加販売。<br><br>
+          購入者特典：<strong>年間36泊優先権 + 未使用日の収益配分</strong>。<br>
+          価値根拠：TAPKOP年商¥2,200万（1泊¥34万）の稼働実績が持分価値を裏付ける。<br>
+          ※TAPKOP・LODGE・WHITE HOUSE 各物件の共有持分は販売準備中。ORIGINが初の正式ローンチ。
+        </div>
+      </div>
+
+      <!-- Pillar 2 -->
+      <div class="bm-pillar-card" style="border-top-color:#0d1117; background:#0d1117; color:#f8f5f0;">
+        <div class="pillar-num" style="background:#0d1117;"><em>II</em></div>
+        <div class="pillar-title" style="color:#f8f5f0;">Operating <em>Revenue</em></div>
+        <div class="pillar-jp" style="color:rgba(248,245,240,0.6);">運営収益 ── 8系統のユニットエコノミクス</div>
+
+        <div class="pillar-headline" style="color:#f8f5f0;">Y5: ¥<em>13.4</em>億 / EBITDA <em>25%</em></div>
+        <div class="pillar-body" style="color:rgba(248,245,240,0.85);">
+          <strong style="color:#c9a84c;background:none;">8つの収益柱</strong>がリスクを分散。<br>
+          グランピング・海女料理・Misogiスパ・婚礼・<br>巡礼センター・職人工房・ヘリ送迎・会員/B2B。<br><br>
+          根拠：星野リゾート EBITDA <strong style="color:#c9a84c;background:none;">25%</strong>、Aman <strong style="color:#c9a84c;background:none;">30%</strong> 参照。<br>
+          界 ADR ¥65–82K、Six Senses Spa ¥37–60K 比較済。
+        </div>
+      </div>
+    </div>
+
+    <!-- Facilities -->
+    <h3 style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13pt;color:#c9a84c;letter-spacing:0.08em;margin-bottom:2mm;font-weight:400;">Six Sites of Transformation</h3>
+    <div class="facility-grid">
+      <div class="facility-card">
+        <div class="fc-name">Origin Gate</div>
+        <div class="fc-jp">巡礼センター</div>
+        <div class="fc-price">¥5,000〜 / 巡礼セット ¥35,000〜</div>
+      </div>
+      <div class="facility-card">
+        <div class="fc-name">Misogi Spa</div>
+        <div class="fc-jp">12-Step プロトコル</div>
+        <div class="fc-price">1日 ¥45,000 / 3日 ¥350,000〜</div>
+      </div>
+      <div class="facility-card">
+        <div class="fc-name">Sacred Bond Lounge</div>
+        <div class="fc-jp">縁結い ── 婚礼・記念日</div>
+        <div class="fc-price">婚礼 ¥500万〜 / 記念日 ¥80,000〜</div>
+      </div>
+      <div class="facility-card">
+        <div class="fc-name">Ama Gastronomy</div>
+        <div class="fc-jp">海女料理 ── 8皿コース</div>
+        <div class="fc-price">体験+夕食 ¥55,000 / Private ¥180,000〜</div>
+      </div>
+      <div class="facility-card">
+        <div class="fc-name">Glamping Domes ×20</div>
+        <div class="fc-jp">独立露天・ガラス天井・温泉</div>
+        <div class="fc-price">¥80,000〜/泊 / 冬至特別 ¥500,000</div>
+      </div>
+      <div class="facility-card">
+        <div class="fc-name">Artisan Row</div>
+        <div class="fc-jp">職人工房 ── 真珠・木工</div>
+        <div class="fc-price">体験 ¥10,000〜 / Custom ¥100,000〜</div>
+      </div>
+    </div>
+
+    <div class="proof-strip">
+      <div>WEDDING / GENERAL — <strong>棟・日程を完全分離</strong>。婚礼の閉鎖性と一般客の静寂を両立。</div>
+      <div>20 DOMES <strong>×</strong> 8 STREAMS <strong>×</strong> 365 DAYS</div>
+    </div>
+  </div>
+  <div class="page-num">05 / 07</div>
+</section>
+
+
+<!-- ============================================================
+     PAGE 6 — FINANCIALS
+     ============================================================ -->
+<section class="page">
+  <div class="page-tag">— V — Unit Economics &amp; Returns</div>
+  <div class="page-content">
+    <h2 class="section-title">Financial <em>Architecture</em></h2>
+    <div class="section-jp">ユニットエコノミクス・CAPEX構造・IRR ── すべて根拠付き</div>
+    <div class="divider-thin"></div>
+
+    <table class="fin-table">
+      <thead>
+        <tr>
+          <th style="width:24mm;">Stream</th>
+          <th>Formula</th>
+          <th>Basis</th>
+          <th class="num" style="width:13mm;">Y1</th>
+          <th class="num" style="width:13mm;">Y3</th>
+          <th class="num" style="width:13mm;">Y5</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Glamping</td>
+          <td>20棟×¥80K×68%×365d</td>
+          <td class="basis">界 ADR ¥65–82K, occ.65%</td>
+          <td class="num">¥1.2億</td><td class="num">¥3.0億</td><td class="num">¥4.0億</td>
+        </tr>
+        <tr>
+          <td>Ama Gastronomy</td>
+          <td>60席×¥22K×1.2T×70%×270d</td>
+          <td class="basis">志摩観光ホテル ¥20–35K</td>
+          <td class="num">¥0.7億</td><td class="num">¥2.0億</td><td class="num">¥3.0億</td>
+        </tr>
+        <tr>
+          <td>Misogi Spa</td>
+          <td>25名×¥45K×68%×280d</td>
+          <td class="basis">Six Senses ¥37–60K</td>
+          <td class="num">¥0.5億</td><td class="num">¥1.4億</td><td class="num">¥2.1億</td>
+        </tr>
+        <tr>
+          <td>Wedding / Bond</td>
+          <td>4組/月×¥500万×12</td>
+          <td class="basis">Aman Wedding ¥750万</td>
+          <td class="num">¥0.5億</td><td class="num">¥1.5億</td><td class="num">¥2.5億</td>
+        </tr>
+        <tr>
+          <td>Origin Gate</td>
+          <td>500名×¥3K×280d</td>
+          <td class="basis">おかげ横丁 日均3,000名</td>
+          <td class="num">¥0.2億</td><td class="num">¥0.3億</td><td class="num">¥0.4億</td>
+        </tr>
+        <tr>
+          <td>Artisan Row</td>
+          <td>250名×¥8K×280d</td>
+          <td class="basis">体験工房平均 ¥7–12K</td>
+          <td class="num">¥0.2億</td><td class="num">¥0.4億</td><td class="num">¥0.6億</td>
+        </tr>
+        <tr>
+          <td>Heli &amp; Transfer</td>
+          <td>500組×¥15万</td>
+          <td class="basis">離島ヘリ ¥8–20万/便</td>
+          <td class="num">¥0.1億</td><td class="num">¥0.2億</td><td class="num">¥0.3億</td>
+        </tr>
+        <tr>
+          <td>Membership / B2B</td>
+          <td>年会費 + 企業研修</td>
+          <td class="basis">Soho House $2K〜 参照</td>
+          <td class="num">¥0.1億</td><td class="num">¥0.3億</td><td class="num">¥0.5億</td>
+        </tr>
+        <tr class="total-row">
+          <td>Total Revenue</td>
+          <td colspan="2" style="font-style:italic;">8 streams aggregated</td>
+          <td class="num">¥3.5億</td><td class="num">¥9.1億</td><td class="num">¥13.4億</td>
+        </tr>
+        <tr class="ebitda-row">
+          <td>EBITDA (25%)</td>
+          <td colspan="2" class="basis">星野R 25%, Aman 30% 参照</td>
+          <td class="num">¥0.9億</td><td class="num">¥2.3億</td><td class="num">¥3.4億</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="fin-grid">
+      <div class="capex-block">
+        <h4>— CAPEX Structure</h4>
+        <div class="capex-row"><span>土地賃借（30年）</span><span class="val">¥2–4億</span></div>
+        <div class="capex-row"><span>グランピング 20棟（@¥1,500万）</span><span class="val">¥3.0億</span></div>
+        <div class="capex-row"><span>複合施設・Misogi Spa</span><span class="val">¥6.0億</span></div>
+        <div class="capex-row"><span>IT / KAGI / ヘリパッド</span><span class="val">¥0.8億</span></div>
+        <div class="capex-row"><span>FF&amp;E・開業前費用</span><span class="val">¥2.0億</span></div>
+        <div class="capex-row total"><span>Gross CAPEX</span><span class="val">¥15–17億</span></div>
+        <div class="capex-row" style="margin-top:1mm;border:none;"><span style="color:#c9a84c;font-style:italic;">⊖ 共有持分販売（初回ローンチ目標）</span><span class="val" style="color:#c9a84c;">¥5億</span></div>
+        <div class="capex-row total" style="border-top:2px solid #0d1117;"><span style="color:#0d1117;">Net Investment Required</span><span class="val" style="color:#0d1117;font-size:13pt;">¥10–12億</span></div>
+      </div>
+
+      <div class="irr-block">
+        <h4>— Investor Returns</h4>
+        <div class="irr-headline">IRR <em>17–20%</em></div>
+        <div class="irr-note">
+          純投資 ¥10–12億 / Y5 EBITDA ¥3.4億 ベース。<br>
+          TAPKOP年商¥2,200万（1泊¥34万）の<strong style="color:#c9a84c;font-weight:400;">稼働収益実績</strong>が持分価値の裏付け。ORIGINで初の正式共有持分ローンチ。<br><br>
+          <span style="color:#c9a84c;font-family:'Cormorant Garamond';font-style:italic;font-size:9pt;">— Revenue Build —</span>
+          <div class="bar-chart">
+            <div class="bar-row">
+              <div class="yr">Y1</div>
+              <div class="bar-track"><div class="bar-fill" style="width:26%;"></div></div>
+              <div class="val">¥3.5億</div>
+            </div>
+            <div class="bar-row">
+              <div class="yr">Y3</div>
+              <div class="bar-track"><div class="bar-fill" style="width:68%;"></div></div>
+              <div class="val">¥9.1億</div>
+            </div>
+            <div class="bar-row">
+              <div class="yr">Y5</div>
+              <div class="bar-track"><div class="bar-fill" style="width:100%;"></div></div>
+              <div class="val">¥13.4億</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">06 / 07</div>
+</section>
+
+
+<!-- ============================================================
+     PAGE 7 — CLOSING
+     ============================================================ -->
+<section class="page closing">
+  <div class="page-tag dark">— VI — Vision &amp; Next Steps</div>
+  <div class="page-content">
+    <h2 class="section-title">A New <em>Category</em> of Travel</h2>
+    <div class="section-jp">日本にしかできない、「祈り×ウェルネス×ラグジュアリー」</div>
+    <div class="divider-thin divider-dark"></div>
+
+    <div class="vision-block">
+      <div class="vision-headline">"完璧な企画書とは、<em>変容の物語</em>である。"</div>
+      <div class="vision-body">
+        Aman・Six Sensesが世界に示したように、ラグジュアリーは "豪華" ではなく "意味" で定義される時代になった。SOLUNA ORIGIN は、伊勢神宮830万人参拝者の97%が泊まらない "<strong style="color:#c9a84c;font-weight:400;">構造的空白</strong>" を、1000年前から在った "禊" の系譜で埋める。これは新しい場所ではなく、忘れられていた場所の再起動である。<br><br>
+        ファウンダー濱田優貴のCPOキャリアは、Mercari 商品 → NAH 物件 → SOLUNA 自然 → ORIGIN 自分自身、と一貫して "繋ぐ" を設計してきた。最後のフロンティアは、人と自分自身の再会である。
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Pre-Sale Target</div>
+        <div class="kpi-num">¥<em>5</em>億</div>
+        <div class="kpi-desc">共有持分 20棟<br>(Phase 1 + Phase 2)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Net Investment</div>
+        <div class="kpi-num">¥<em>10–12</em>億</div>
+        <div class="kpi-desc">Series A 想定<br>純投資必要額</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Y5 EBITDA</div>
+        <div class="kpi-num">¥<em>3.4</em>億</div>
+        <div class="kpi-desc">25%マージン<br>(星野R / Aman 参照)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Investor IRR</div>
+        <div class="kpi-num"><em>17–20</em>%</div>
+        <div class="kpi-desc">SOLUNA実績ベース<br>高信頼度</div>
+      </div>
+    </div>
+
+    <div class="timeline-strip">
+      <div class="strip-title">— Roadmap to Grand Opening &amp; Beyond</div>
+      <div class="timeline-grid">
+        <div class="tl-cell">
+          <div class="yr">2026 H1</div>
+          <div class="ev">土地確保・環境省協議・海女漁協提携・Phase 1 持分販売開始</div>
+        </div>
+        <div class="tl-cell">
+          <div class="yr">2026–27</div>
+          <div class="ev">Phase 1 建設（10棟+レストラン+巡礼センター+ヘリパッド）</div>
+        </div>
+        <div class="tl-cell">
+          <div class="yr">2027 Q3–4</div>
+          <div class="ev">ソフトオープン／<strong style="color:#c9a84c;font-weight:400;">2027/12/22 冬至イベント</strong> 世界発信</div>
+        </div>
+        <div class="tl-cell">
+          <div class="yr">2028</div>
+          <div class="ev">Phase 2 建設 → Q4 グランドオープン（Misogi Spa+縁結いサロン）</div>
+        </div>
+        <div class="tl-cell">
+          <div class="yr">2030 →</div>
+          <div class="ev">ORIGIN ブランド展開（出雲・高野山・屋久島）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-steps">
+      <div class="ns-block">
+        <div class="ns-title">— Risk Register</div>
+        <div class="risk-row"><span class="rl high">HIGH</span><span>国立公園規制 → 環境省事前協議・仮設構造物ルート</span></div>
+        <div class="risk-row"><span class="rl high">HIGH</span><span>海女高齢化 → 育成プログラム投資・収益シェア</span></div>
+        <div class="risk-row"><span class="rl med">MED</span><span>Misogi 医療リスク → 常駐医師・健康チェック必須</span></div>
+        <div class="risk-row"><span class="rl med">MED</span><span>稼働率到達遅延 → Phase 1 共有持分販売資金（¥2.5億）でランウェイ確保</span></div>
+        <div class="risk-row" style="border:none;"><span class="rl low">LOW</span><span>競合参入 → 海女独占提携・先行ブランド</span></div>
+      </div>
+
+      <div class="ns-block">
+        <div class="ns-title">— Next Steps for Partners</div>
+        <ul>
+          <li>Series A LOI / 共有持分 1口（¥1,250万）</li>
+          <li>環境省・三重県・伊勢市との3者協議への陪席</li>
+          <li>海女漁協・神社庁との提携締結への参加</li>
+          <li>2027/12/22 冬至 ソフトオープン招待（限定80名）</li>
+          <li>SOLUNA 弟子屈 視察ツアー（既存実績の確認）</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="closing-signature">
+      <div>SOLUNA / ENABLER INC. — CONFIDENTIAL</div>
+      <div class="sig-name">Yuki Hamada / Founder &amp; CEO<br><span style="color:rgba(248,245,240,0.5);font-size:8pt;font-style:normal;letter-spacing:0.2em;">mail@yukihamada.jp</span></div>
+    </div>
+  </div>
+  <div class="page-num" style="color:#c9a84c;">07 / 07</div>
+</section>
+
+</body>
+</html>

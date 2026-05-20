@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>SOLUNA ORIGIN — Twin-Axis Master Plan</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400;500&display=swap');
+
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  font-family: 'Noto Serif JP', 'Cormorant Garamond', serif;
+  color: #1e1e1e;
+  background: #2a2a2a;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+.page {
+  width: 210mm;
+  height: 297mm;
+  overflow: hidden;
+  page-break-after: always;
+  position: relative;
+  margin: 0 auto 8mm;
+  background: #f8f5f0;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+}
+
+.page.dark { background: #0d1117; color: #f8f5f0; }
+
+.page-num {
+  position: absolute;
+  bottom: 8mm; right: 12mm;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt; color: #c9a84c;
+  letter-spacing: 0.3em;
+}
+.page-tag {
+  position: absolute;
+  top: 8mm; left: 12mm;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 8.5pt;
+  letter-spacing: 0.4em;
+  color: #c9a84c;
+  text-transform: uppercase;
+}
+
+/* ============================
+   COVER (page 1)
+   ============================ */
+.cover {
+  width: 100%; height: 100%;
+  position: relative;
+  background: #0d1117;
+  color: #f8f5f0;
+  overflow: hidden;
+}
+.cover-img {
+  position: absolute;
+  inset: 0;
+  background-image: url('01_cover.png');
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.78) saturate(0.85);
+}
+.cover-shade {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(13,17,23,0.55) 0%, rgba(13,17,23,0.25) 35%, rgba(13,17,23,0.85) 100%);
+}
+.cover-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18mm 16mm;
+}
+.cover-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt; letter-spacing: 0.4em;
+  color: #c9a84c; text-transform: uppercase;
+}
+.cover-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 11pt;
+  letter-spacing: 0.05em; color: #f8f5f0;
+}
+.cover-mark span { color: #c9a84c; }
+
+.cover-mid { text-align: left; }
+.cover-eyebrow {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9.5pt; letter-spacing: 0.3em;
+  color: rgba(248,245,240,0.75);
+  margin-bottom: 4mm; font-weight: 200;
+}
+.cover-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300; font-size: 70pt;
+  letter-spacing: 0.12em;
+  line-height: 1; margin-bottom: 2mm;
+}
+.cover-title em { font-style: italic; font-weight: 400; color: #c9a84c; }
+.cover-version {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 14pt;
+  letter-spacing: 0.2em; color: #c9a84c;
+  margin-bottom: 6mm;
+}
+.cover-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 14pt;
+  letter-spacing: 0.05em;
+  color: rgba(248,245,240,0.92);
+  max-width: 150mm;
+}
+.cover-tagline span { color: #c9a84c; }
+
+.cover-bottom {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9.5pt; letter-spacing: 0.25em;
+  color: rgba(248,245,240,0.65);
+  text-transform: uppercase;
+}
+.cover-bottom .lhs strong {
+  display: block; color: #c9a84c; font-weight: 400;
+  font-size: 10.5pt; margin-bottom: 1mm;
+}
+
+/* ============================
+   STANDARD PAGE
+   ============================ */
+.page-content {
+  padding: 22mm 18mm 18mm;
+  height: 100%;
+  display: flex; flex-direction: column;
+}
+h2.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300; font-size: 28pt;
+  letter-spacing: 0.04em; color: #1e1e1e;
+  line-height: 1.1; margin-bottom: 1.5mm;
+}
+.page.dark h2.section-title { color: #f8f5f0; }
+h2.section-title em { font-style: italic; color: #c9a84c; font-weight: 400; }
+
+.section-jp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 10pt; letter-spacing: 0.2em;
+  color: #6b6258; margin-bottom: 6mm; font-weight: 300;
+}
+.page.dark .section-jp { color: rgba(248,245,240,0.65); }
+
+.divider-thin {
+  height: 1px;
+  background: linear-gradient(to right, #c9a84c 0%, #c9a84c 30mm, rgba(201,168,76,0.15) 30mm, rgba(201,168,76,0.15) 100%);
+  margin-bottom: 6mm;
+}
+.page.dark .divider-thin {
+  background: linear-gradient(to right, #c9a84c 0%, #c9a84c 30mm, rgba(201,168,76,0.2) 30mm, rgba(201,168,76,0.2) 100%);
+}
+p.body {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9.5pt; line-height: 1.85;
+  color: #2a2620; font-weight: 300;
+}
+.page.dark p.body { color: rgba(248,245,240,0.85); }
+
+/* ============================
+   PAGE 2 — DIAGNOSIS
+   ============================ */
+.diag-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8mm;
+  margin-top: 4mm;
+}
+.diag-col h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14pt; font-weight: 400;
+  letter-spacing: 0.1em;
+  color: #1e1e1e;
+  margin-bottom: 2mm;
+}
+.diag-col h3 em { font-style: italic; color: #c9a84c; }
+.diag-col .sub {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9pt; color: #6b6258;
+  margin-bottom: 4mm; letter-spacing: 0.1em;
+}
+.diag-col p {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9pt; line-height: 1.85;
+  color: #2a2620; font-weight: 300;
+}
+.diag-col p strong {
+  font-weight: 500;
+  background: linear-gradient(transparent 60%, rgba(201,168,76,0.25) 60%);
+}
+
+.kill-box {
+  margin-top: 6mm;
+  padding: 6mm 7mm;
+  background: #1a1f2a;
+  color: #f8f5f0;
+  border-left: 3px solid #c9a84c;
+}
+.kill-box .label {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 11pt;
+  letter-spacing: 0.15em; color: #c9a84c;
+  margin-bottom: 3mm;
+}
+.kill-box ul {
+  list-style: none;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9pt; line-height: 1.8;
+  font-weight: 300;
+}
+.kill-box ul li {
+  padding-left: 6mm; position: relative;
+  margin-bottom: 2mm;
+}
+.kill-box ul li::before {
+  content: '×'; position: absolute; left: 0;
+  color: #c9a84c; font-family: 'Cormorant Garamond', serif;
+  font-size: 12pt;
+}
+.kill-box ul li strong { color: #c9a84c; font-weight: 500; }
+
+.thesis-flag {
+  margin-top: 6mm;
+  padding: 5mm 6mm;
+  border: 1px solid rgba(201,168,76,0.4);
+  background: rgba(201,168,76,0.06);
+}
+.thesis-flag .label {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 10pt;
+  color: #c9a84c; letter-spacing: 0.2em;
+  margin-bottom: 2mm;
+  text-transform: uppercase;
+}
+.thesis-flag .text {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 10pt; line-height: 1.8;
+  color: #1e1e1e; font-weight: 400;
+}
+.thesis-flag .text em {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; color: #c9a84c;
+  font-weight: 500;
+}
+
+/* ============================
+   PAGE 3 — MASTERPLAN HERO
+   ============================ */
+.hero-image {
+  width: 100%;
+  height: 105mm;
+  background-size: cover;
+  background-position: center;
+  margin: 6mm 0;
+  border: 1px solid rgba(201,168,76,0.3);
+}
+.legend-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6mm;
+}
+.legend {
+  padding: 4mm 5mm;
+  background: rgba(13,17,23,0.04);
+  border-top: 2px solid #c9a84c;
+}
+.legend.b { border-top-color: #6b8a4c; }
+.legend .key {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 10pt;
+  letter-spacing: 0.2em; color: #c9a84c;
+  text-transform: uppercase;
+  margin-bottom: 2mm;
+}
+.legend.b .key { color: #6b8a4c; }
+.legend h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14pt; font-weight: 400;
+  letter-spacing: 0.05em;
+  color: #1e1e1e; margin-bottom: 2mm;
+}
+.legend .meta {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8.5pt; line-height: 1.7;
+  color: #4a4640; font-weight: 300;
+}
+.legend .meta strong {
+  font-weight: 500; color: #1e1e1e;
+}
+
+/* ============================
+   PAGE 4 — AXIS A DETAIL
+   ============================ */
+.axis-page {
+  background: #0d1117 !important;
+  color: #f8f5f0 !important;
+}
+.axis-img {
+  width: 100%;
+  height: 90mm;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 6mm;
+}
+.axis-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 8mm;
+  flex: 1;
+}
+.axis-grid .left h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13pt; font-weight: 400;
+  letter-spacing: 0.1em;
+  color: #c9a84c; margin-bottom: 3mm;
+  text-transform: uppercase;
+}
+.axis-grid .left p {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9pt; line-height: 1.85;
+  color: rgba(248,245,240,0.88);
+  font-weight: 300;
+  margin-bottom: 4mm;
+}
+.axis-grid .left p strong {
+  color: #c9a84c; font-weight: 500;
+}
+.axis-table {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8.5pt;
+  width: 100%; border-collapse: collapse;
+}
+.axis-table th, .axis-table td {
+  padding: 3mm 2mm;
+  text-align: left; vertical-align: top;
+  border-bottom: 1px solid rgba(201,168,76,0.25);
+  color: rgba(248,245,240,0.92);
+  font-weight: 300;
+}
+.axis-table th {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt; letter-spacing: 0.15em;
+  color: #c9a84c; text-transform: uppercase;
+  font-weight: 400;
+}
+.axis-table .right { text-align: right; font-feature-settings: "tnum"; }
+.axis-table tr.total td {
+  border-top: 1px solid #c9a84c;
+  border-bottom: none;
+  color: #f8f5f0; font-weight: 500;
+  padding-top: 4mm;
+}
+.axis-table tr.total td .yen {
+  color: #c9a84c;
+}
+
+/* ============================
+   PAGE — REVENUE SHEET (combined)
+   ============================ */
+.combined-table {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8.5pt;
+  width: 100%; border-collapse: collapse;
+  margin-top: 4mm;
+}
+.combined-table th, .combined-table td {
+  padding: 2mm 2mm;
+  text-align: left; vertical-align: top;
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  font-weight: 300;
+}
+.combined-table th {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt; letter-spacing: 0.15em;
+  color: #c9a84c; text-transform: uppercase;
+  font-weight: 400; border-bottom: 1px solid #c9a84c;
+}
+.combined-table td.right { text-align: right; font-feature-settings: "tnum"; }
+.combined-table tr.axis-row {
+  background: rgba(201,168,76,0.08);
+}
+.combined-table tr.axis-row td {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 10pt;
+  letter-spacing: 0.1em; color: #c9a84c;
+  font-weight: 400; padding-top: 4mm;
+}
+.combined-table tr.subtotal td {
+  border-top: 1px dashed rgba(201,168,76,0.5);
+  border-bottom: none;
+  font-weight: 500; color: #1e1e1e;
+}
+.combined-table tr.grand-total td {
+  border-top: 2px solid #c9a84c;
+  border-bottom: 2px solid #c9a84c;
+  background: #1a1f2a;
+  color: #f8f5f0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12pt; font-weight: 500;
+  letter-spacing: 0.1em;
+  padding: 4mm 2mm;
+}
+.combined-table tr.grand-total .yen { color: #c9a84c; }
+
+.uplift-box {
+  margin-top: 4mm;
+  padding: 4mm 6mm;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6mm;
+  background: #0d1117; color: #f8f5f0;
+}
+.uplift-box .cell .lbl {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 8.5pt; letter-spacing: 0.2em;
+  color: #c9a84c; text-transform: uppercase;
+  margin-bottom: 1mm;
+}
+.uplift-box .cell .val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18pt; font-weight: 300;
+  color: #f8f5f0; line-height: 1.05;
+}
+.uplift-box .cell .val em {
+  font-style: italic; color: #c9a84c;
+}
+.uplift-box .cell .note {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8pt; color: rgba(248,245,240,0.65);
+  margin-top: 1mm; font-weight: 300;
+}
+
+/* ============================
+   PAGE — CAPEX & ROADMAP
+   ============================ */
+.capex-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8mm;
+  margin-top: 4mm;
+}
+.capex-table {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9pt;
+  width: 100%; border-collapse: collapse;
+}
+.capex-table td {
+  padding: 2.5mm 1mm;
+  border-bottom: 1px dotted rgba(201,168,76,0.3);
+  font-weight: 300; color: #2a2620;
+}
+.capex-table td.right { text-align: right; font-feature-settings: "tnum"; }
+.capex-table tr.sum td {
+  border-top: 1px solid #c9a84c;
+  border-bottom: none;
+  font-weight: 500; color: #1e1e1e;
+  padding-top: 3mm;
+}
+.capex-table tr.net td {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13pt; font-weight: 400;
+  color: #c9a84c; padding-top: 3mm;
+  border-bottom: none;
+}
+
+.roadmap {
+  margin-top: 4mm;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4mm;
+}
+.rm-step {
+  padding: 4mm 4mm;
+  border-top: 2px solid #c9a84c;
+  background: rgba(201,168,76,0.05);
+}
+.rm-step .yr {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11pt; font-weight: 500;
+  letter-spacing: 0.1em; color: #c9a84c;
+  margin-bottom: 1.5mm;
+}
+.rm-step .what {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8pt; line-height: 1.6;
+  color: #2a2620; font-weight: 300;
+}
+
+/* ============================
+   PAGE — RISK & NEXT
+   ============================ */
+.risk-table {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9pt;
+  width: 100%; border-collapse: collapse;
+  margin-top: 4mm;
+}
+.risk-table td {
+  padding: 3mm 2mm;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  font-weight: 300; color: #2a2620;
+  vertical-align: top;
+}
+.risk-table .lvl {
+  width: 18mm;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt; font-weight: 500;
+  letter-spacing: 0.15em;
+}
+.risk-table .lvl.high { color: #b94747; }
+.risk-table .lvl.med  { color: #c9a84c; }
+.risk-table .lvl.low  { color: #6b8a4c; }
+
+.next-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6mm;
+  margin-top: 6mm;
+}
+.next-card {
+  padding: 5mm 6mm;
+  background: rgba(201,168,76,0.05);
+  border: 1px solid rgba(201,168,76,0.3);
+}
+.next-card h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12pt; font-weight: 400;
+  letter-spacing: 0.1em; color: #c9a84c;
+  text-transform: uppercase;
+  margin-bottom: 3mm;
+}
+.next-card ul {
+  list-style: none;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8.5pt; line-height: 1.75;
+  font-weight: 300;
+}
+.next-card ul li {
+  padding-left: 5mm; position: relative;
+  margin-bottom: 2mm;
+}
+.next-card ul li::before {
+  content: '—'; position: absolute; left: 0;
+  color: #c9a84c;
+}
+
+/* ============================
+   PAGE — CLOSING
+   ============================ */
+.closing {
+  width: 100%; height: 100%;
+  position: relative;
+  background: #0d1117; color: #f8f5f0;
+}
+.closing-img {
+  position: absolute; inset: 0;
+  background-image: url('07_omotesando.png');
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.55) saturate(0.9);
+}
+.closing-shade {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(13,17,23,0.5) 0%, rgba(13,17,23,0.9) 80%);
+}
+.closing-content {
+  position: relative; z-index: 2;
+  height: 100%;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  padding: 0 22mm;
+}
+.closing-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 26pt;
+  letter-spacing: 0.04em; line-height: 1.4;
+  color: #f8f5f0;
+  max-width: 160mm;
+}
+.closing-quote em { color: #c9a84c; font-style: italic; }
+.closing-jp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 11pt; line-height: 1.95;
+  color: rgba(248,245,240,0.85);
+  margin-top: 8mm; max-width: 160mm;
+  font-weight: 300;
+}
+.closing-sig {
+  margin-top: 14mm;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 13pt;
+  letter-spacing: 0.15em;
+  color: #c9a84c;
+}
+.closing-sig span {
+  display: block;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9pt;
+  letter-spacing: 0.3em;
+  font-style: normal;
+  color: rgba(248,245,240,0.6);
+  margin-top: 2mm;
+}
+
+/* full-bleed gallery row at bottom of some pages */
+.gallery-strip {
+  margin-top: 4mm;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3mm;
+  height: 50mm;
+}
+.gallery-strip > div {
+  background-size: cover;
+  background-position: center;
+}
+</style>
+</head>
+<body>
+
+<!-- ============================
+     PAGE 1 — COVER
+     ============================ -->
+<section class="page">
+  <div class="cover">
+    <div class="cover-img"></div>
+    <div class="cover-shade"></div>
+    <div class="cover-content">
+      <div class="cover-top">
+        <div>SOLUNA NETWORK / PROJECT ORIGIN</div>
+        <div class="cover-mark">SOL<span>·</span>LUNA</div>
+      </div>
+
+      <div class="cover-mid">
+        <div class="cover-eyebrow">プロジェクト オリジン ／ 三重・伊勢 二見浦</div>
+        <div class="cover-title">SOLUNA <em>ORIGIN</em></div>
+        <div class="cover-version">— Twin-Axis Master Plan —</div>
+        <div class="cover-tagline">
+          海岸の <span>希少性</span>、駅前の <span>通過量</span>。<br>
+          一つの土地、二つのエンジン。Y5 ¥23.6億 / EBITDA ¥5.8億。
+        </div>
+      </div>
+
+      <div class="cover-bottom">
+        <div class="lhs">
+          <strong>INVESTOR MEMORANDUM</strong>
+          MASTER PLAN ・ SERIES A
+        </div>
+        <div class="rhs">
+          ENABLER INC. / SOLUNA<br>
+          MAY 2026
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     PAGE 2 — DIAGNOSIS
+     ============================ -->
+<section class="page">
+  <div class="page-tag">— I — diagnosis</div>
+  <div class="page-content">
+    <h2 class="section-title">Strategic <em>Diagnosis</em></h2>
+    <div class="section-jp">なぜ単軸では足りないか ── 二極設計の根拠</div>
+    <div class="divider-thin"></div>
+
+    <p class="body" style="margin-bottom:5mm;">
+      二見浦は、伊勢神宮 <strong>年間830万参拝者の97%が泊まらない</strong> 構造的空白の地である<sup style="font-size:6.5pt; color:#c9a84c;">[1]</sup>。
+      希少性プレミアムだけの単軸設計では、Y5 <strong style="color:#c9a84c;">¥13.4億 / EBITDA ¥3.4億</strong>
+      に達するが、それは「泊まる3%を取りに行く」設計に留まる。
+      <strong>97%は通り過ぎる</strong>。これは収益最大化の観点で重大な機会損失である。
+      本企画は、その97%にも課金する <em style="color:#c9a84c; font-style:italic;">二極設計</em> を採る。
+    </p>
+
+    <div class="diag-grid">
+      <div class="diag-col">
+        <h3>希少性軸の<em>強み</em></h3>
+        <div class="sub">— Axis A foundation</div>
+        <p>
+          ・希少性プレミアム（20棟・¥80K/泊）<br>
+          ・Aman/Six Senses比較対象としてのカテゴリ創出<br>
+          ・共有持分による先行資金化（¥5億）<br>
+          ・1000年の禊の系譜という物語的根拠<br>
+          ・自社テック（KAGI / Pon / Booking）の償却基盤
+        </p>
+      </div>
+      <div class="diag-col">
+        <h3>単軸の<em>盲点</em></h3>
+        <div class="sub">— what Axis B solves</div>
+        <p>
+          ・<strong>97%の日帰り客は売上計上ゼロ</strong>。<br>
+          ・夫婦岩→駅の動線に商業空白。<br>
+          ・繁閑差（婚礼Off-peak、平日）を埋める<br>
+          　デイ売上が存在しない。<br>
+          ・ピルグリム/B2B の入口商品が無く、<br>
+          　高単価宿泊への顧客育成路が断絶。
+        </p>
+      </div>
+    </div>
+
+    <div class="kill-box">
+      <div class="label">— KILL ・ 検討段階で却下した案</div>
+      <ul>
+        <li><strong>4〜10F ホテルタワー（駅前複合）</strong> — 伊勢志摩国立公園・第2種特別地域は事実上 高さ13m上限。建築不可リスクHIGH。</li>
+        <li><strong>56室商業ホテル化</strong> — Aman/Six Sensesの希少性比較から脱落 → ADR ¥80K → ¥35Kに転落、IRR 17-20%が消滅。</li>
+        <li><strong>共有持分の客室化</strong> — Not A Hotel型のリゾート性が消え、初回 ¥5億の先行資金化スキームが崩壊。</li>
+      </ul>
+    </div>
+
+    <div class="thesis-flag">
+      <div class="label">— master thesis</div>
+      <div class="text">
+        海岸側の希少性は <em>守りきる</em>。同時に、駅↔表参道↔夫婦岩の<em>線</em>に、
+        3F以下の低層複合 <em>"ORIGIN GATE"</em> を配し、日帰り830万人を <em>滞在</em> へ昇格させる。
+        <strong>軸A: 希少 × 軸B: 通過量</strong>の二極一体で、Y5 <em>¥23.6億 / EBITDA ¥5.8億</em>。
+      </div>
+    </div>
+
+    <div style="margin-top:3mm; font-family:'Cormorant Garamond',serif; font-size:7pt; color:#6b6258; letter-spacing:0.1em; line-height:1.5;">
+      [1] 観光庁「宿泊旅行統計調査」年報・伊勢市「観光客動向調査」より集計（2024年実績ベース）
+    </div>
+  </div>
+  <div class="page-num">02 / 11</div>
+</section>
+
+<!-- ============================
+     PAGE 3 — FOUNDER × CREATIVE DIRECTION
+     ============================ -->
+<section class="page dark">
+  <div class="page-tag">— II — founder × creative direction</div>
+  <div class="page-content">
+    <h2 class="section-title">Founder × <em>Creative Direction</em></h2>
+    <div class="section-jp">「繋ぐ」を設計してきた人 × 「物語る」を設計してきた人</div>
+    <div class="divider-thin"></div>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8mm; margin-top:3mm;">
+      <!-- LEFT: YUKI -->
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:11pt; letter-spacing:0.2em; color:#c9a84c; text-transform:uppercase; margin-bottom:1.5mm;">— Founder</div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:22pt; font-weight:300; letter-spacing:0.04em; color:#f8f5f0; line-height:1.05; margin-bottom:1mm;">Yuki <em style="font-style:italic; color:#c9a84c;">Hamada</em></div>
+        <div style="font-family:'Noto Serif JP',serif; font-size:8.5pt; color:rgba(248,245,240,0.7); letter-spacing:0.15em; font-weight:300; margin-bottom:5mm;">CEO, Enabler Inc.</div>
+
+        <div style="font-family:'Noto Serif JP',serif; font-size:8.5pt; line-height:1.85; color:rgba(248,245,240,0.92); font-weight:300;">
+          <div style="display:flex; align-items:baseline; gap:3mm; padding-bottom:2.5mm; margin-bottom:2.5mm; border-bottom:1px solid rgba(201,168,76,0.25);">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em; width:18mm; flex-shrink:0;">2014-21</div>
+            <div><strong style="color:#c9a84c; font-weight:500;">Mercari CPO</strong><br><span style="color:rgba(248,245,240,0.75); font-size:8pt;">商品と人を繋ぐ — 月間2,000万人へ</span></div>
+          </div>
+          <div style="display:flex; align-items:baseline; gap:3mm; padding-bottom:2.5mm; margin-bottom:2.5mm; border-bottom:1px solid rgba(201,168,76,0.25);">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em; width:18mm; flex-shrink:0;">2018-24</div>
+            <div><strong style="color:#c9a84c; font-weight:500;">Not A Hotel Co-founder</strong><br><span style="color:rgba(248,245,240,0.75); font-size:8pt;">物件と人を繋ぐ — 共有持分リゾート</span></div>
+          </div>
+          <div style="display:flex; align-items:baseline; gap:3mm; padding-bottom:2.5mm; margin-bottom:2.5mm; border-bottom:1px solid rgba(201,168,76,0.25);">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em; width:18mm; flex-shrink:0;">2024-</div>
+            <div><strong style="color:#c9a84c; font-weight:500;">SOLUNA 弟子屈</strong><br><span style="color:rgba(248,245,240,0.75); font-size:8pt;">自然と人を繋ぐ — TAPKOP / LODGE / WHITE HOUSE 稼働中</span></div>
+          </div>
+          <div style="display:flex; align-items:baseline; gap:3mm;">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em; width:18mm; flex-shrink:0;">2026-</div>
+            <div><strong style="color:#f8f5f0; font-weight:500;">SOLUNA <em style="font-style:italic; color:#c9a84c;">ORIGIN</em></strong><br><span style="color:rgba(248,245,240,0.75); font-size:8pt;">人と自分自身を繋ぐ — 二見浦</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: KENJI -->
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:11pt; letter-spacing:0.2em; color:#c9a84c; text-transform:uppercase; margin-bottom:1.5mm;">— Creative Director ・ in conversation</div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:22pt; font-weight:300; letter-spacing:0.04em; color:#f8f5f0; line-height:1.05; margin-bottom:1mm;">Kenji <em style="font-style:italic; color:#c9a84c;">Kohashi</em></div>
+        <div style="font-family:'Noto Serif JP',serif; font-size:8.5pt; color:rgba(248,245,240,0.7); letter-spacing:0.15em; font-weight:300; margin-bottom:5mm;">CEO, The Human Miracle</div>
+
+        <div style="font-family:'Noto Serif JP',serif; font-size:8.5pt; line-height:1.85; color:rgba(248,245,240,0.92); font-weight:300;">
+          <div style="display:flex; align-items:baseline; gap:3mm; padding-bottom:2.5mm; margin-bottom:2.5mm; border-bottom:1px solid rgba(201,168,76,0.25);">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em; width:18mm; flex-shrink:0;">2014-</div>
+            <div><strong style="color:#c9a84c; font-weight:500;">ULTRA JAPAN</strong><br><span style="color:rgba(248,245,240,0.75); font-size:8pt;">海外の物語を日本へ — Creative Director</span></div>
+          </div>
+          <div style="display:flex; align-items:baseline; gap:3mm; padding-bottom:2.5mm; margin-bottom:2.5mm; border-bottom:1px solid rgba(201,168,76,0.25);">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em; width:18mm; flex-shrink:0;">2017-21</div>
+            <div><strong style="color:#c9a84c; font-weight:500;">STAR ISLAND / Tokyo 2020</strong><br><span style="color:rgba(248,245,240,0.75); font-size:8pt;">Cool Japan特別賞／パラ閉会式 ショーディレクター</span></div>
+          </div>
+          <div style="display:flex; align-items:baseline; gap:3mm; padding-bottom:2.5mm; margin-bottom:2.5mm; border-bottom:1px solid rgba(201,168,76,0.25);">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em; width:18mm; flex-shrink:0;">2025</div>
+            <div><strong style="color:#c9a84c; font-weight:500;">大阪・関西万博 催事企画プロデューサー</strong><br><span style="color:rgba(248,245,240,0.75); font-size:8pt;">開閉会式・全催事統括 — 184日間 / 来場2,800万人</span></div>
+          </div>
+          <div style="display:flex; align-items:baseline; gap:3mm;">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em; width:18mm; flex-shrink:0;">2026-</div>
+            <div><strong style="color:#f8f5f0; font-weight:500;">SOLUNA <em style="font-style:italic; color:#c9a84c;">ORIGIN</em></strong><br><span style="color:rgba(248,245,240,0.75); font-size:8pt;">変容と浄化を演出する — 物理的なホーム</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONVERGENCE -->
+    <div style="margin-top:6mm; padding:5mm 6mm; background:rgba(201,168,76,0.10); border:1px solid rgba(201,168,76,0.4);">
+      <div style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:10pt; letter-spacing:0.2em; color:#c9a84c; text-transform:uppercase; margin-bottom:3mm;">— Vision Convergence ・ 言葉レベルで一致する</div>
+      <table style="width:100%; font-family:'Noto Serif JP',serif; font-size:8.5pt; line-height:1.7; border-collapse:collapse; color:rgba(248,245,240,0.92);">
+        <tr style="border-bottom:1px solid rgba(201,168,76,0.2);">
+          <td style="padding:2mm 3mm; width:48%; font-style:italic; color:#c9a84c;">Designing Future Society for Our Lives <span style="color:rgba(248,245,240,0.5); font-size:7.5pt;">— 万博メインコンセプト</span></td>
+          <td style="padding:2mm 3mm; text-align:right; width:4%; color:#c9a84c;">＝</td>
+          <td style="padding:2mm 3mm; width:48%;">人と <strong style="color:#c9a84c;">自分自身</strong> を繋ぐ <span style="color:rgba(248,245,240,0.5); font-size:7.5pt;">— SOLUNA ORIGIN</span></td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(201,168,76,0.2);">
+          <td style="padding:2mm 3mm; font-style:italic; color:#c9a84c;">Return to their natural way</td>
+          <td style="padding:2mm 3mm; text-align:right; color:#c9a84c;">＝</td>
+          <td style="padding:2mm 3mm;">Return to Nature（弟子屈）／ Transformation &amp; Purification（ORIGIN）</td>
+        </tr>
+        <tr>
+          <td style="padding:2mm 3mm; font-style:italic; color:#c9a84c;">Move beyond comfort zones / Global Empathy</td>
+          <td style="padding:2mm 3mm; text-align:right; color:#c9a84c;">＝</td>
+          <td style="padding:2mm 3mm;">12-Step Misogi Protocol ／ 1000年の禊の系譜</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- ROLE STRIP -->
+    <div style="margin-top:5mm; padding:4mm 5mm; border-left:2px solid #c9a84c; background:rgba(13,17,23,0.5);">
+      <div style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:10pt; letter-spacing:0.15em; color:#c9a84c; margin-bottom:2mm;">— Engagement Model</div>
+      <div style="font-family:'Noto Serif JP',serif; font-size:8.5pt; line-height:1.75; color:rgba(248,245,240,0.92); font-weight:300;">
+        <strong style="color:#f8f5f0; font-weight:500;">Title:</strong> Creative Director, SOLUNA Network Experience　|
+        <strong style="color:#f8f5f0; font-weight:500;">Scope:</strong> 体験設計監修（12-Step Misogi・夜明け参拝・海女ガストロノミー）／<strong style="color:#c9a84c;">2027/12/22 冬至ソフトオープン世界発信イベント 総合プロデュース</strong>／SOLUNA Network ブランド世界観統括／ART BASE ZERO レジデンス連携。
+        <span style="color:rgba(248,245,240,0.55); font-size:7.5pt; font-style:italic;">　※正式契約は協議中。</span>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">03 / 11</div>
+</section>
+
+<!-- ============================
+     PAGE 4 — MASTERPLAN HERO
+     ============================ -->
+<section class="page">
+  <div class="page-tag">— II — master plan</div>
+  <div class="page-content">
+    <h2 class="section-title">Two <em>Axes</em>, One Pilgrimage</h2>
+    <div class="section-jp">海岸 ＝ 希少性／駅前 ＝ 通過量　── 表参道で繋ぐ</div>
+    <div class="divider-thin"></div>
+
+    <div class="hero-image" style="background-image:url('04_masterplan.png');"></div>
+
+    <div class="legend-grid">
+      <div class="legend">
+        <div class="key">— axis A ・ coastal</div>
+        <h4>SOLUNA ORIGIN <em>Sanctuary</em></h4>
+        <div class="meta">
+          <strong>夫婦岩adjacent ・ 希少性プレミアム</strong><br>
+          20棟グランピング ／ Misogiスパ ／ 海女ガストロノミー ／ 婚礼サロン<br>
+          ADR ¥80K / 共有持分 ¥5,000万・棟<br>
+          <strong>密度を上げない、希少性を守る</strong>
+        </div>
+      </div>
+      <div class="legend b">
+        <div class="key">— axis B ・ station front</div>
+        <h4>ORIGIN GATE <em>Pilgrim Plaza</em></h4>
+        <div class="meta">
+          <strong>3F以下・低層複合 ・ 滞在化への昇格</strong><br>
+          1F 物販ストリート ／ 2F 巡礼センター・デイ禊 ／ 3F Pilgrim Inn 20室<br>
+          客単価 ¥3K-30K / 日次500-700人収容<br>
+          <strong>日帰り→1泊→3日への入口</strong>
+        </div>
+      </div>
+    </div>
+
+    <p class="body" style="margin-top:5mm; font-size:9pt;">
+      二極は <strong>表参道（pedestrian spine、駅↔夫婦岩 約700m）</strong>で繋ぐ。
+      軸Aは <strong>森を挟んだ反対側の海岸ridge（軸Bから直線約450m・徒歩動線分離）</strong>に配置し、
+      希少性帯と日帰り帯のゲスト動線をクロスさせない。
+      日帰り客 → デイ禊 → Pilgrim Innに1泊 → 軸AのOrigin 3日間、という
+      <strong style="background:linear-gradient(transparent 60%, rgba(201,168,76,0.3) 60%);">LTV昇格パイプライン</strong>を物理空間として実装する。
+    </p>
+    <table style="width:100%; font-family:'Noto Serif JP',serif; font-size:8pt; line-height:1.6; margin-top:3mm; border-collapse:collapse; color:#2a2620;">
+      <tr style="border-top:1px solid rgba(201,168,76,0.4); border-bottom:1px solid rgba(201,168,76,0.2);">
+        <td style="padding:2mm 3mm; width:18%; font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em;">SITE</td>
+        <td style="padding:2mm 3mm;">軸A 約 1.8ha（海岸ridge）／軸B 約 0.4ha（駅前）／合算 約 2.2ha</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(201,168,76,0.2);">
+        <td style="padding:2mm 3mm; font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em;">ZONING</td>
+        <td style="padding:2mm 3mm;">軸A 国立公園第2種特別地域想定（高さ13m・建蔽率20%）／軸B 商業地域・準防火想定（容積率200%・3F以下）</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(201,168,76,0.4);">
+        <td style="padding:2mm 3mm; font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em;">GFA</td>
+        <td style="padding:2mm 3mm;">軸A グランピング合算 1,200㎡＋共用棟 600㎡／軸B 延床 2,500㎡（1F 1,200/2F 800/3F 500）</td>
+      </tr>
+    </table>
+  </div>
+  <div class="page-num">04 / 11</div>
+</section>
+
+<!-- ============================
+     PAGE 4 — AXIS A DETAIL (DARK)
+     ============================ -->
+<section class="page dark">
+  <div class="page-tag">— III — axis A</div>
+  <div class="page-content">
+    <h2 class="section-title">Axis A · <em>Sanctuary</em></h2>
+    <div class="section-jp">海岸の希少性 ── 本企画のコア、絶対に守る</div>
+    <div class="divider-thin"></div>
+
+    <div class="axis-img" style="background-image:url('02_axis_a_glamping.png');"></div>
+
+    <div class="axis-grid">
+      <div class="left">
+        <h3>— Program</h3>
+        <p>
+          夫婦岩adjacentの希少パーセル（推定 1.5-2.0ha）に
+          <strong>20棟ドーム+Misogiスパ+婚礼+海女ガストロノミー</strong>。
+          散在配置、grid禁止。Aman京都24棟・Six Senses京都81室の希少性帯。
+        </p>
+        <h3>— Why protected</h3>
+        <p>
+          IRR 19-22%は希少性プレミアムから来る。ここに密度を持ち込めば
+          <strong>比較対象がアマン → 相鉄フレッサインに墜ちる</strong>。
+          軸Aは1棟も増やさない、1Fも上げない。
+        </p>
+        <h3>— Co-ownership</h3>
+        <p>
+          20棟 × ¥5,000万＝<strong>¥10億 先行ローンチ</strong>（Aman級80-100㎡棟・露天付）。
+          Phase1 (10棟・¥5億)＝2026-27 ／ Phase2 (10棟・¥5億)＝2027-28 稼働後追加販売。
+          オーナー特典：年間36泊優先権 ＋ <strong>未使用日収益の70%還元</strong>
+          ＋ 二次流通サポート（NAH持分 2.5-3.0x実績） ＋
+          <strong>2027/12/22 冬至 インビテーション・プレビュー 80名自動枠</strong>。
+        </p>
+        <h3>— Operating track</h3>
+        <p>
+          TAPKOP <strong>年商 ¥2,200万（1泊¥34万）</strong>、LODGE / WHITE HOUSE 熱海 合算 <strong>年商 ¥2,800万</strong>。
+          稼働実績が ¥2,500万持分の価値を裏付ける。
+        </p>
+      </div>
+      <div class="right">
+        <table class="axis-table">
+          <tr><th>STREAM</th><th class="right">Y5</th></tr>
+          <tr><td>Glamping (20棟×¥80K×68%×365)</td><td class="right">¥4.0億</td></tr>
+          <tr><td>Ama Gastronomy</td><td class="right">¥3.0億</td></tr>
+          <tr><td>Misogi Spa (residential)</td><td class="right">¥2.1億</td></tr>
+          <tr><td>Wedding / Bond</td><td class="right">¥2.5億</td></tr>
+          <tr><td>Origin Gate (resi)</td><td class="right">¥0.4億</td></tr>
+          <tr><td>Artisan Row (resi)</td><td class="right">¥0.6億</td></tr>
+          <tr><td>Heli &amp; Transfer</td><td class="right">¥0.3億</td></tr>
+          <tr><td>Membership / B2B</td><td class="right">¥0.5億</td></tr>
+          <tr class="total"><td>Axis A Subtotal</td><td class="right"><span class="yen">¥13.4億</span></td></tr>
+        </table>
+        <p style="font-size:8pt; line-height:1.7; color:rgba(248,245,240,0.55); margin-top:4mm;">
+          根拠：星野リゾートEBITDA 25%、Aman 30%、界 ADR ¥65-82K、Six Senses Spa ¥37-60K 比較済み。
+        </p>
+      </div>
+    </div>
+
+    <div style="margin-top:5mm; padding:4mm 5mm; background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.3);">
+      <div style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:10pt; letter-spacing:0.2em; color:#c9a84c; text-transform:uppercase; margin-bottom:3mm;">— Local Partnerships ・ 地域協働構造</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:5mm; font-family:'Noto Serif JP',serif; font-size:8pt; line-height:1.7; color:rgba(248,245,240,0.92); font-weight:300;">
+        <div>
+          <strong style="color:#c9a84c; font-weight:500;">伊勢神宮（神宮司庁）</strong><br>
+          二見興玉神社 夜明け参拝（一般公開前 貸切）の正式協力／神職による禊作法監修／参道の延長線という位置付けでの長期協議。
+        </div>
+        <div>
+          <strong style="color:#c9a84c; font-weight:500;">海女漁協（鳥羽・志摩）</strong><br>
+          パートナーシップ契約：<strong>収益シェア 売上の8%</strong>／海女育成プログラム（年5名・3年）／地元雇用 海女・スタッフ計 <strong>30名</strong>。
+        </div>
+        <div>
+          <strong style="color:#c9a84c; font-weight:500;">三重県・伊勢市</strong><br>
+          地元発注比率目標 <strong>建設70% / 運営60%</strong>／推定 直接雇用 <strong>80名</strong>＋間接 200名／年間税収貢献 <strong>~¥1.5億</strong>（固定資産税＋宿泊税）。
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">05 / 11</div>
+</section>
+
+<!-- ============================
+     PAGE 5 — AXIS B DETAIL
+     ============================ -->
+<section class="page">
+  <div class="page-tag">— IV — axis B</div>
+  <div class="page-content">
+    <h2 class="section-title">Axis B · <em>Pilgrim Plaza</em></h2>
+    <div class="section-jp">駅前の通過量 ── 97%の日帰り客から課金する</div>
+    <div class="divider-thin"></div>
+
+    <div class="axis-img" style="background-image:url('03_axis_b_gate.png'); height:62mm;"></div>
+
+    <p class="body" style="margin-bottom:3mm; font-size:9pt;">
+      <strong>3F以下・延床 2,500㎡</strong>。横展開でAman希少性帯と動線完全分離。
+      おかげ横丁の駅前ラグジュアリー版。建築は伊勢神宮系の入母屋低勾配＋焼杉＋石。
+      風致地区 高さ規制（13m級）完全準拠。
+    </p>
+
+    <table class="axis-table" style="color:#1e1e1e; margin-bottom:4mm;">
+      <tr style="border-bottom: 1px solid #c9a84c;">
+        <th style="color:#1e1e1e; font-weight:500;">FLOOR</th>
+        <th style="color:#1e1e1e; font-weight:500;">PROGRAM</th>
+        <th style="color:#1e1e1e; font-weight:500;" class="right">客単価</th>
+        <th style="color:#1e1e1e; font-weight:500;" class="right">想定 Y5 売上</th>
+      </tr>
+      <tr style="color:#1e1e1e; border-bottom: 1px solid rgba(201,168,76,0.2);">
+        <td style="color:#1e1e1e;">1F</td>
+        <td style="color:#1e1e1e;">物販ストリート（海女漁協直販・神宮酒・真珠・木工）</td>
+        <td class="right" style="color:#1e1e1e;">¥3K</td>
+        <td class="right" style="color:#1e1e1e;">¥4.2億</td>
+      </tr>
+      <tr style="color:#1e1e1e; border-bottom: 1px solid rgba(201,168,76,0.2);">
+        <td style="color:#1e1e1e;">1F奥</td>
+        <td style="color:#1e1e1e;">デイカフェ・海女BBQ立食・F&amp;B</td>
+        <td class="right" style="color:#1e1e1e;">¥2.5K</td>
+        <td class="right" style="color:#1e1e1e;">¥1.8億</td>
+      </tr>
+      <tr style="color:#1e1e1e; border-bottom: 1px solid rgba(201,168,76,0.2);">
+        <td style="color:#1e1e1e;">2F</td>
+        <td style="color:#1e1e1e;">巡礼センター + ロッカー + デイ禊（90分）</td>
+        <td class="right" style="color:#1e1e1e;">¥12K</td>
+        <td class="right" style="color:#1e1e1e;">¥2.7億</td>
+      </tr>
+      <tr style="color:#1e1e1e; border-bottom: 1px solid rgba(201,168,76,0.2);">
+        <td style="color:#1e1e1e;">3F</td>
+        <td style="color:#1e1e1e;">Pilgrim Inn 20室（軸AのADR帯と分離）</td>
+        <td class="right" style="color:#1e1e1e;">¥30K</td>
+        <td class="right" style="color:#1e1e1e;">¥1.5億</td>
+      </tr>
+      <tr class="total" style="color:#1e1e1e;">
+        <td colspan="3" style="color:#1e1e1e;">Axis B Subtotal — Y5</td>
+        <td class="right"><span class="yen">¥10.2億</span></td>
+      </tr>
+    </table>
+
+    <table style="width:100%; font-family:'Noto Serif JP',serif; font-size:8pt; line-height:1.6; border-collapse:collapse; color:#2a2620;">
+      <tr style="border-top:1px solid rgba(201,168,76,0.4);">
+        <td style="padding:1.8mm 3mm; width:24%; font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em;">BENCHMARK</td>
+        <td style="padding:1.8mm 3mm;">おかげ横丁：年来訪 550万人／年商 約 ¥160億／客単価 ~¥3,000<sup style="font-size:6.5pt; color:#c9a84c;">[2]</sup></td>
+      </tr>
+      <tr style="border-top:1px solid rgba(201,168,76,0.2);">
+        <td style="padding:1.8mm 3mm; font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em;">捕捉率</td>
+        <td style="padding:1.8mm 3mm;">伊勢神宮 830万人 ÷ 365 ≒ 2.27万人/日 → <strong>2.2%が二見浦立ち寄り（500人/日）</strong>をY3-5想定</td>
+      </tr>
+      <tr style="border-top:1px solid rgba(201,168,76,0.2);">
+        <td style="padding:1.8mm 3mm; font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em;">Day Misogi</td>
+        <td style="padding:1.8mm 3mm;">¥12K/90分 ＝ Six Senses Spa 90分 ¥18-22K の 60%帯。日帰り旅館スパ（¥6-8K）と差別化</td>
+      </tr>
+      <tr style="border-top:1px solid rgba(201,168,76,0.2); border-bottom:1px solid rgba(201,168,76,0.4);">
+        <td style="padding:1.8mm 3mm; font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em;">分離</td>
+        <td style="padding:1.8mm 3mm;">¥3K日帰り客 vs ¥35万滞在客でカニばらず、軸A稼働率を平滑化。テック償却が二極で効く。</td>
+      </tr>
+    </table>
+    <div style="margin-top:2mm; font-family:'Cormorant Garamond',serif; font-size:7pt; color:#6b6258; letter-spacing:0.1em;">
+      [2] 伊勢市観光統計／神宮司庁・おかげ横丁公式（株式会社伊勢福）公開数値より
+    </div>
+  </div>
+  <div class="page-num">06 / 11</div>
+</section>
+
+<!-- ============================
+     PAGE 6 — COMBINED REVENUE
+     ============================ -->
+<section class="page">
+  <div class="page-tag">— V — financials</div>
+  <div class="page-content">
+    <h2 class="section-title">Combined <em>Revenue</em> Architecture</h2>
+    <div class="section-jp">二極合算 ── Y5 ¥23.6億 / EBITDA ¥5.8億</div>
+    <div class="divider-thin"></div>
+
+    <table style="width:100%; font-family:'Noto Serif JP',serif; font-size:8pt; margin-bottom:3mm; border-collapse:collapse;">
+      <tr style="border-top:1px solid #c9a84c; border-bottom:1px solid rgba(201,168,76,0.3);">
+        <td style="width:14%; padding:2mm 2mm; font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em;">PERIOD</td>
+        <td style="width:14%; padding:2mm 2mm; color:#1e1e1e;"><strong>Y1 = 2029</strong></td>
+        <td style="width:14%; padding:2mm 2mm; color:#1e1e1e;"><strong>Y3 = 2031</strong></td>
+        <td style="width:14%; padding:2mm 2mm; color:#1e1e1e;"><strong>Y5 = 2033</strong></td>
+        <td style="padding:2mm 2mm; color:#6b6258;">2027/12/22 冬至インビテーション・プレビュー／2028 Q3-4 軸A Phase1 ソフトオープン／Y1=軸A通年初年度＋軸B建設中／Y3=軸B本稼働 Y2／Y5=両軸ステイブル</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(201,168,76,0.3);">
+        <td style="padding:2mm 2mm; font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; letter-spacing:0.15em;">OCC</td>
+        <td style="padding:2mm 2mm; color:#1e1e1e;">軸A 35% / 軸B 30%</td>
+        <td style="padding:2mm 2mm; color:#1e1e1e;">軸A 60% / 軸B 60%</td>
+        <td style="padding:2mm 2mm; color:#1e1e1e;">軸A 68% / 軸B 70%</td>
+        <td style="padding:2mm 2mm; color:#6b6258;">界・星のや初年度 30-40%、Y3 で 60% 着地が業界標準</td>
+      </tr>
+    </table>
+
+    <table class="combined-table">
+      <thead>
+        <tr>
+          <th style="width:30%;">STREAM</th>
+          <th style="width:30%;">FORMULA / BASIS</th>
+          <th class="right" style="width:13%;">Y1</th>
+          <th class="right" style="width:13%;">Y3</th>
+          <th class="right" style="width:14%;">Y5</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="axis-row"><td colspan="5">— Axis A · Coastal Sanctuary</td></tr>
+        <tr><td>Glamping</td><td>20棟×¥80K×68%×365</td><td class="right">¥1.2億</td><td class="right">¥3.0億</td><td class="right">¥4.0億</td></tr>
+        <tr><td>Ama Gastronomy</td><td>60席×¥22K×1.2T×70%×270d</td><td class="right">¥0.7億</td><td class="right">¥2.0億</td><td class="right">¥3.0億</td></tr>
+        <tr><td>Misogi Spa (resi)</td><td>25名×¥45K×68%×280d</td><td class="right">¥0.5億</td><td class="right">¥1.4億</td><td class="right">¥2.1億</td></tr>
+        <tr><td>Wedding / Bond</td><td>4組/月×¥500万×12</td><td class="right">¥0.5億</td><td class="right">¥1.5億</td><td class="right">¥2.5億</td></tr>
+        <tr><td>Other (Heli/B2B/Artisan)</td><td>巡礼+工房+B2B合算</td><td class="right">¥0.6億</td><td class="right">¥1.2億</td><td class="right">¥1.8億</td></tr>
+        <tr class="subtotal"><td colspan="2">Axis A Subtotal</td><td class="right">¥3.5億</td><td class="right">¥9.1億</td><td class="right">¥13.4億</td></tr>
+
+        <tr class="axis-row"><td colspan="5">— Axis B · Pilgrim Plaza</td></tr>
+        <tr><td>Retail Street</td><td>500人/日×¥3K×280d</td><td class="right">¥1.5億</td><td class="right">¥3.5億</td><td class="right">¥4.2億</td></tr>
+        <tr><td>Day Misogi</td><td>80人/日×¥12K×280d</td><td class="right">¥0.8億</td><td class="right">¥2.1億</td><td class="right">¥2.7億</td></tr>
+        <tr><td>Day F&amp;B / Cafe</td><td>200人/日×¥2.5K×365d</td><td class="right">¥0.6億</td><td class="right">¥1.4億</td><td class="right">¥1.8億</td></tr>
+        <tr><td>Pilgrim Inn (20室)</td><td>20×¥30K×70%×365</td><td class="right">¥0.4億</td><td class="right">¥1.2億</td><td class="right">¥1.5億</td></tr>
+        <tr class="subtotal"><td colspan="2">Axis B Subtotal</td><td class="right">¥3.3億</td><td class="right">¥8.2億</td><td class="right">¥10.2億</td></tr>
+
+        <tr class="grand-total"><td colspan="2">TOTAL — 8 streams aggregated</td><td class="right"><span class="yen">¥6.8億</span></td><td class="right"><span class="yen">¥17.3億</span></td><td class="right"><span class="yen">¥23.6億</span></td></tr>
+        <tr style="background:#0d1117; color:#f8f5f0;">
+          <td colspan="2" style="color:rgba(248,245,240,0.85); padding:3mm 2mm; font-style:italic;">EBITDA (blended 24-25%)</td>
+          <td class="right" style="color:#c9a84c; padding:3mm 2mm;">¥1.6億</td>
+          <td class="right" style="color:#c9a84c; padding:3mm 2mm;">¥4.2億</td>
+          <td class="right" style="color:#c9a84c; padding:3mm 2mm;">¥5.8億</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="uplift-box">
+      <div class="cell">
+        <div class="lbl">— Bull (上振れ)</div>
+        <div class="val"><em>¥30.0億</em></div>
+        <div class="note">OCC 75% / ADR +10% / IRR 25%+</div>
+      </div>
+      <div class="cell">
+        <div class="lbl">— Base (中央値)</div>
+        <div class="val"><em>¥23.6億</em></div>
+        <div class="note">本書前提 / IRR 19-22%</div>
+      </div>
+      <div class="cell">
+        <div class="lbl">— Bear (下振れ)</div>
+        <div class="val"><em>¥17.0億</em></div>
+        <div class="note">OCC 50% / ADR -10% / IRR 12%</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">07 / 11</div>
+</section>
+
+<!-- ============================
+     PAGE 7 — CAPEX & ROADMAP
+     ============================ -->
+<section class="page">
+  <div class="page-tag">— VI — capex / roadmap</div>
+  <div class="page-content">
+    <h2 class="section-title">CAPEX <em>de-risked</em>, two-stage</h2>
+    <div class="section-jp">二極 CAPEX 分離 ── 軸B は別法人/地域ファンドで組成</div>
+    <div class="divider-thin"></div>
+
+    <div class="capex-grid">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif; font-style:italic; color:#c9a84c; font-size:11pt; letter-spacing:0.15em; margin-bottom:3mm;">— Axis A CAPEX (Aman-grade)</div>
+        <table class="capex-table">
+          <tr><td>土地賃借（30年）</td><td class="right">¥3-5億</td></tr>
+          <tr><td>グランピング 20棟（@¥4,000万・80-100㎡+露天）</td><td class="right">¥8.0億</td></tr>
+          <tr><td>Misogi Spa＋婚礼サロン＋共用棟</td><td class="right">¥7.5億</td></tr>
+          <tr><td>IT / KAGI / ヘリパッド</td><td class="right">¥1.0億</td></tr>
+          <tr><td>FF&amp;E・開業前費用</td><td class="right">¥3.0億</td></tr>
+          <tr class="sum"><td>Gross CAPEX</td><td class="right">¥22.5-24.5億</td></tr>
+          <tr><td>共有持分販売（20棟@¥5,000万）</td><td class="right">−¥10億</td></tr>
+          <tr class="net"><td>Net Investment (Series A)</td><td class="right">¥12.5-14.5億</td></tr>
+        </table>
+      </div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif; font-style:italic; color:#6b8a4c; font-size:11pt; letter-spacing:0.15em; margin-bottom:3mm;">— Axis B CAPEX</div>
+        <table class="capex-table">
+          <tr><td>駅前パーセル取得 / 借地</td><td class="right">¥1-2億</td></tr>
+          <tr><td>低層複合 (3F・2,500㎡)</td><td class="right">¥4.0億</td></tr>
+          <tr><td>店舗内装・Pilgrim Inn FF&amp;E</td><td class="right">¥1.5億</td></tr>
+          <tr><td>デイ禊スパ設備</td><td class="right">¥0.5億</td></tr>
+          <tr class="sum"><td>Gross CAPEX</td><td class="right">¥6-8億</td></tr>
+          <tr><td>地域ファンド/デット組成想定</td><td class="right">−¥4億</td></tr>
+          <tr class="net" style="color:#6b8a4c;"><td>Net Investment</td><td class="right">¥2-4億</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <p class="body" style="font-size:9pt; margin-top:5mm;">
+      <strong>分離設計の意義</strong>：軸B CAPEXはSeries A本体に乗せず、地域ファンド（三重県／伊勢市／神宮系）＋
+      地銀デットで組成可能。理由は軸B が「地域経済還元・観光振興」のナラティブに完全合致するため、
+      Series Aの希薄化を増やさず、軸AのIRR根拠（CAPEX対EBITDA比）を維持できる。
+    </p>
+
+    <div style="margin-top:6mm; font-family:'Cormorant Garamond',serif; font-style:italic; color:#c9a84c; font-size:11pt; letter-spacing:0.15em; margin-bottom:3mm;">— Roadmap to Grand Opening</div>
+    <div class="roadmap">
+      <div class="rm-step">
+        <div class="yr">2026</div>
+        <div class="what">国立公園地域区分照会／環境省・三重県・伊勢市3者協議／海女漁協MoU／Series A クローズ／土地確保</div>
+      </div>
+      <div class="rm-step">
+        <div class="yr">2027</div>
+        <div class="what">Axis A 基本設計・確認申請／持分販売Phase1 ¥5億／Axis A Phase1着工／<strong style="color:#c9a84c;">12/22 冬至 インビテーション・プレビュー（建設中現地・80名招待）</strong></div>
+      </div>
+      <div class="rm-step">
+        <div class="yr">2028</div>
+        <div class="what">Axis A Phase1 完成／<strong style="color:#c9a84c;">Q3-Q4 ソフトオープン（10棟+共用棟）</strong>／Axis B 着工／持分販売Phase2 ¥5億</div>
+      </div>
+      <div class="rm-step">
+        <div class="yr">2029</div>
+        <div class="what">Axis A Phase2（Misogi Spa+婚礼サロン）完成／Axis B グランドオープン（物販+デイ禊+Pilgrim Inn）／Y1通年</div>
+      </div>
+      <div class="rm-step">
+        <div class="yr">2031 →</div>
+        <div class="what">ORIGINブランド Network展開（出雲・高野山・屋久島）／二極モデル横展開</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">08 / 11</div>
+</section>
+
+<!-- ============================
+     PAGE — USE OF PROCEEDS + EXIT
+     ============================ -->
+<section class="page dark">
+  <div class="page-tag">— VII — use of proceeds &amp; exit</div>
+  <div class="page-content">
+    <h2 class="section-title">Use of <em>Proceeds</em> &amp; Exit</h2>
+    <div class="section-jp">¥13億 を、何に・いつまでに・なぜ使うか ── 出口は3経路</div>
+    <div class="divider-thin"></div>
+
+    <div style="display:grid; grid-template-columns: 1.4fr 1fr; gap:8mm; flex:1;">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif; font-style:italic; color:#c9a84c; font-size:11pt; letter-spacing:0.15em; margin-bottom:3mm;">— Use of Proceeds (Series A ¥13億)</div>
+        <table style="width:100%; font-family:'Noto Serif JP',serif; font-size:8.5pt; border-collapse:collapse;">
+          <tr style="border-bottom:1px solid #c9a84c;">
+            <th style="text-align:left; padding:2mm 2mm; font-family:'Cormorant Garamond',serif; font-size:9pt; letter-spacing:0.15em; color:#c9a84c; font-weight:400;">使途</th>
+            <th style="text-align:right; padding:2mm 2mm; font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; font-weight:400;">配分</th>
+            <th style="text-align:right; padding:2mm 2mm; font-family:'Cormorant Garamond',serif; font-size:9pt; color:#c9a84c; font-weight:400;">時期</th>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(201,168,76,0.2); color:rgba(248,245,240,0.92);">
+            <td style="padding:2.5mm 2mm;">土地取得・賃借（軸A）</td><td style="text-align:right; padding:2.5mm 2mm;">¥3.0億</td><td style="text-align:right; padding:2.5mm 2mm;">2026 H2</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(201,168,76,0.2); color:rgba(248,245,240,0.92);">
+            <td style="padding:2.5mm 2mm;">Phase1 建設（10棟@¥4,000万＋共用棟）</td><td style="text-align:right; padding:2.5mm 2mm;">¥4.0億</td><td style="text-align:right; padding:2.5mm 2mm;">2027-28</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(201,168,76,0.2); color:rgba(248,245,240,0.92);">
+            <td style="padding:2.5mm 2mm;">Misogi Spa＋婚礼サロン（Phase2）</td><td style="text-align:right; padding:2.5mm 2mm;">¥1.7億</td><td style="text-align:right; padding:2.5mm 2mm;">2028-29</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(201,168,76,0.2); color:rgba(248,245,240,0.92);">
+            <td style="padding:2.5mm 2mm;">FF&amp;E・KAGI/Pon連携・ヘリパッド</td><td style="text-align:right; padding:2.5mm 2mm;">¥1.5億</td><td style="text-align:right; padding:2.5mm 2mm;">2028</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(201,168,76,0.2); color:rgba(248,245,240,0.92);">
+            <td style="padding:2.5mm 2mm;">Pre-opening・人件費（30ヶ月）</td><td style="text-align:right; padding:2.5mm 2mm;">¥1.5億</td><td style="text-align:right; padding:2.5mm 2mm;">2026-28</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(201,168,76,0.2); color:rgba(248,245,240,0.92);">
+            <td style="padding:2.5mm 2mm;">Creative Direction &amp; Opening Production</td><td style="text-align:right; padding:2.5mm 2mm;">¥0.5億</td><td style="text-align:right; padding:2.5mm 2mm;">2026-28</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(201,168,76,0.2); color:rgba(248,245,240,0.92);">
+            <td style="padding:2.5mm 2mm;">マーケ・ブランディング・PR</td><td style="text-align:right; padding:2.5mm 2mm;">¥0.5億</td><td style="text-align:right; padding:2.5mm 2mm;">2027 onward</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(201,168,76,0.2); color:rgba(248,245,240,0.92);">
+            <td style="padding:2.5mm 2mm;">予備費・建設費インフレ・運転資金</td><td style="text-align:right; padding:2.5mm 2mm;">¥0.3億</td><td style="text-align:right; padding:2.5mm 2mm;">継続</td>
+          </tr>
+          <tr style="border-top:1px solid #c9a84c; color:#f8f5f0;">
+            <td style="padding:3mm 2mm; font-weight:500; font-family:'Cormorant Garamond',serif; font-size:11pt; letter-spacing:0.1em;">TOTAL</td>
+            <td style="text-align:right; padding:3mm 2mm; font-weight:500; color:#c9a84c; font-family:'Cormorant Garamond',serif; font-size:13pt;">¥13.0億</td>
+            <td style="text-align:right; padding:3mm 2mm; font-family:'Cormorant Garamond',serif; font-style:italic; color:rgba(248,245,240,0.65);">36-mo runway</td>
+          </tr>
+        </table>
+        <p style="font-family:'Noto Serif JP',serif; font-size:8pt; line-height:1.7; color:rgba(248,245,240,0.7); margin-top:3mm; font-weight:300;">
+          ※ 軸B CAPEX ¥6-8億 は本ラウンドに含めず、地域ファンド／三重銀行・百五銀行のプロジェクトデットで別組成。
+          Series A の希薄化を増やさず、軸AのIRR根拠（CAPEX対EBITDA比）を維持する設計。
+        </p>
+      </div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif; font-style:italic; color:#c9a84c; font-size:11pt; letter-spacing:0.15em; margin-bottom:3mm;">— Exit Strategy (Y5-7)</div>
+
+        <div style="border-left:2px solid #c9a84c; padding:2mm 4mm; margin-bottom:5mm;">
+          <div style="font-family:'Cormorant Garamond',serif; font-size:11pt; color:#c9a84c; letter-spacing:0.1em;">PATH 1 — Strategic M&amp;A</div>
+          <div style="font-family:'Noto Serif JP',serif; font-size:8.5pt; line-height:1.75; color:rgba(248,245,240,0.88); font-weight:300; margin-top:1.5mm;">
+            想定取得候補：星野リゾート、Aman Group、Marriott Autograph、IHG Vignette、Hyatt Unbound。
+            EBITDA <strong style="color:#c9a84c;">15-20x</strong>（高級リゾート業界中央値）→ 想定買収額 <strong style="color:#c9a84c;">¥85-115億</strong>。
+          </div>
+        </div>
+
+        <div style="border-left:2px solid #c9a84c; padding:2mm 4mm; margin-bottom:5mm;">
+          <div style="font-family:'Cormorant Garamond',serif; font-size:11pt; color:#c9a84c; letter-spacing:0.1em;">PATH 2 — IPO / TSE Growth</div>
+          <div style="font-family:'Noto Serif JP',serif; font-size:8.5pt; line-height:1.75; color:rgba(248,245,240,0.88); font-weight:300; margin-top:1.5mm;">
+            Network化（出雲・高野山・屋久島）後にSOLUNA Network単体上場。
+            時価総額目標 <strong style="color:#c9a84c;">¥120-180億</strong>。比較：星野R REIT、共立メンテ。
+          </div>
+        </div>
+
+        <div style="border-left:2px solid #c9a84c; padding:2mm 4mm;">
+          <div style="font-family:'Cormorant Garamond',serif; font-size:11pt; color:#c9a84c; letter-spacing:0.1em;">PATH 3 — Secondary</div>
+          <div style="font-family:'Noto Serif JP',serif; font-size:8.5pt; line-height:1.75; color:rgba(248,245,240,0.88); font-weight:300; margin-top:1.5mm;">
+            Y3-5でPEファンド（ベインキャピタル、Carlyle Asia 観光セクター）へ持分セカンダリ。
+            <strong style="color:#c9a84c;">5-7x マネーマルチプル</strong>想定。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">09 / 11</div>
+</section>
+
+<!-- ============================
+     PAGE 8 — RISK & NEXT
+     ============================ -->
+<section class="page">
+  <div class="page-tag">— VII — risk &amp; next</div>
+  <div class="page-content">
+    <h2 class="section-title">Risk <em>Register</em> &amp; Next Steps</h2>
+    <div class="section-jp">主要リスクと、最初の90日にやるべきこと</div>
+    <div class="divider-thin"></div>
+
+    <table class="risk-table">
+      <tr>
+        <td class="lvl high">HIGH</td>
+        <td><strong>国立公園 風致地区規制</strong> — 軸A／軸B 双方の地域区分（特別/普通/海域公園）次第で 高さ・建蔽率・形態制限が決まる。<br>
+        <span style="color:#6b6258;">→ 環境省中部地方環境事務所への地域区分照会を最優先（書面 30日以内）。仮設構造物ルートも並走検討。</span></td>
+      </tr>
+      <tr>
+        <td class="lvl high">HIGH</td>
+        <td><strong>軸B 駅前パーセル取得</strong> — 既存住居あり、地権者交渉サイズの不確定。<br>
+        <span style="color:#6b6258;">→ 伊勢市都市計画課ヒアリング + 候補地3か所同時並走。代替：駅徒歩5分圏 遊休地・空き旅館の活用。</span></td>
+      </tr>
+      <tr>
+        <td class="lvl high">HIGH</td>
+        <td><strong>建築コストインフレ</strong> — 2024-26 で建築費 +18%、職人不足。¥15-17億 CAPEX が ¥18-20億に膨張するリスク。<br>
+        <span style="color:#6b6258;">→ 早期GC指名（鈴木工務店ほか地場ゼネ）＋ 自社建材（弟子屈SIPs）を一部適用、コスト固定。</span></td>
+      </tr>
+      <tr>
+        <td class="lvl med">MED</td>
+        <td><strong>許認可スタック</strong> — 旅館業法（簡易宿所/旅館）・食品衛生法・温泉法（人工温浴扱い）・建築基準法・消防法・海域占用許可（夫婦岩前ボードウォーク）・農振除外。<br>
+        <span style="color:#6b6258;">→ 行政書士＋建築設計者で許認可マトリクス管理。旅館業申請は2027 Q2まで。</span></td>
+      </tr>
+      <tr>
+        <td class="lvl med">MED</td>
+        <td><strong>軸A・軸B のブランド分離</strong> — 同名で運営すると軸AのADR帯に下方圧力。<br>
+        <span style="color:#6b6258;">→ "SOLUNA ORIGIN" = 軸A、"ORIGIN GATE by SOLUNA" = 軸B、で名称階層を明示する設計。</span></td>
+      </tr>
+      <tr>
+        <td class="lvl med">MED</td>
+        <td><strong>海女高齢化</strong> — Ama Gastronomy/海女BBQ両方の供給制約。<br>
+        <span style="color:#6b6258;">→ 育成プログラム投資（年5名・3年）+ 漁協収益シェア8%。鳥羽市答志島・志摩市和具との提携並走。</span></td>
+      </tr>
+      <tr>
+        <td class="lvl med">MED</td>
+        <td><strong>稼働率到達遅延</strong> — Y3進捗が想定を下回った場合。<br>
+        <span style="color:#6b6258;">→ Axis A Phase2 共有持分 ¥2.5億 をランウェイ確保に流用可能。軸Bは資金分離のため軸Aへ波及しない。</span></td>
+      </tr>
+      <tr>
+        <td class="lvl med">MED</td>
+        <td><strong>競合参入</strong> — 星野リゾート 界シリーズ／Aman 国内拡大が加速。先行優位は12-18ヶ月。<br>
+        <span style="color:#6b6258;">→ 海女独占提携 + 1000年禊ブランド + 共有持分(NAH流) の三層障壁で抜かれない設計。</span></td>
+      </tr>
+      <tr>
+        <td class="lvl med">MED</td>
+        <td><strong>規制リスク</strong> — 不動産特定共同事業法（共有持分）／海域占用許可（夫婦岩前ボードウォーク）。<br>
+        <span style="color:#6b6258;">→ NAH型認可スキームに準拠／海域占用は申請前ヒアリングを2026 Q3に。</span></td>
+      </tr>
+      <tr>
+        <td class="lvl low">LOW</td>
+        <td><strong>マクロ・為替</strong> — インバウンド比率 70%想定／円高反転リスク。<br>
+        <span style="color:#6b6258;">→ 国内HNW 30%＋婚礼/デイ等 内需収益で 50% 以上を国内化。</span></td>
+      </tr>
+    </table>
+
+    <div class="next-grid">
+      <div class="next-card">
+        <h4>— next 30 days</h4>
+        <ul>
+          <li>環境省中部地方環境事務所に両パーセルの地域区分照会（書面）</li>
+          <li>伊勢市・神社庁・海女漁協 3者会談セットアップ</li>
+          <li>Axis B 駅前パーセル候補地3か所リストアップ・地権者把握</li>
+          <li>Series A LOI 既存投資家への共有・反応確認</li>
+          <li>Creative Director 招聘交渉（The Human Miracle / 小橋賢児氏 ほか候補）</li>
+        </ul>
+      </div>
+      <div class="next-card">
+        <h4>— next 90 days</h4>
+        <ul>
+          <li>規制クリア後の 基本構想設計（Axis A・B 同時）／概算CAPEXのRFP化</li>
+          <li>地域ファンド／三重銀行・百五銀行 デット交渉</li>
+          <li>Phase1 共有持分 ¥2.5億 先行販売開始（既存 SOLUNA 持分購入者向け優先）</li>
+          <li>2027/12/22 冬至 ソフトオープン 招待リスト 確定（限定80名）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">10 / 11</div>
+</section>
+
+<!-- ============================
+     PAGE 10 — CLOSING
+     ============================ -->
+<section class="page dark">
+  <div class="closing">
+    <div class="closing-img"></div>
+    <div class="closing-shade"></div>
+    <div class="closing-content">
+      <div style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:11pt; letter-spacing:0.4em; color:#c9a84c; text-transform:uppercase; margin-bottom:8mm;">— closing</div>
+      <div class="closing-quote">
+        "完璧な企画書とは、<em>変容の物語</em>である。<br>
+        ── そして、その物語には <em>導線</em>がいる。"
+      </div>
+      <div class="closing-jp">
+        伊勢神宮を訪れる年間830万人のうち <strong style="color:#c9a84c;">"通り過ぎてきた97%"</strong> を、
+        日帰り → 1泊 → 3日 と段階的に深層へ導く <strong style="color:#c9a84c;">物理的なパイプライン</strong>。
+        それが SOLUNA ORIGIN の基本構造である。<br><br>
+        海岸の希少性を守り、駅前で通過量を獲り、表参道で繋ぐ。
+        二極一体の構造で、Y5 売上 ¥23.6億 / EBITDA ¥5.8億 / IRR 19-22%。
+        Series A の根拠は希少性と通過量の両輪で支えられ、軸 B の地域経済貢献は地元合意の追い風となる。
+        <br><br>
+        問いは「これは新しい場所か？」ではない。<br>
+        <strong style="color:#c9a84c;">「忘れられていた線を、誰が、どう、再起動するか」</strong>──それだけである。
+      </div>
+      <div class="closing-sig">
+        Yuki Hamada
+        <span>Founder &amp; CEO ・ Enabler Inc. ・ MAY 2026</span>
+        <span style="display:block; margin-top:5mm; font-style:italic; font-family:'Cormorant Garamond',serif; color:rgba(248,245,240,0.7); letter-spacing:0.15em; font-size:9.5pt;">
+          mail@yukihamada.jp ／ +81 90 7409 0407<br>
+          株式会社イネブラ ／ 〒102-0074 東京都千代田区九段南 1-5-6 りそな九段ビル 5F KSフロア
+        </span>
+        <span style="display:block; margin-top:6mm; font-size:8.5pt; font-style:italic; font-family:'Cormorant Garamond',serif; color:rgba(248,245,240,0.45); letter-spacing:0.15em;">
+          Creative Direction ・ in conversation with The Human Miracle
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>SOLUNA ORIGIN — A Letter to Kenji Kohashi</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400;500&display=swap');
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: 'Noto Serif JP', 'Cormorant Garamond', serif;
+  background: #2a2a2a;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 300;
+}
+.page {
+  width: 210mm; height: 297mm;
+  position: relative;
+  margin: 0 auto;
+  background: #0d1117;
+  color: #f8f5f0;
+  overflow: hidden;
+}
+
+/* Hero image */
+.hero {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 95mm;
+  background-image: url('07_omotesando.png');
+  background-size: cover;
+  background-position: center 60%;
+  filter: brightness(0.55) saturate(0.85);
+}
+.hero-shade {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 95mm;
+  background: linear-gradient(180deg, rgba(13,17,23,0.4) 0%, rgba(13,17,23,0.3) 50%, rgba(13,17,23,1) 100%);
+}
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 95mm;
+  padding: 14mm 16mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
+}
+.hero-tag {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt;
+  letter-spacing: 0.4em;
+  color: #c9a84c;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.hero-tag .right {
+  font-style: italic;
+  font-size: 10.5pt;
+  letter-spacing: 0.05em;
+  color: #f8f5f0;
+}
+.hero-tag .right span { color: #c9a84c; }
+
+.hero-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 24pt;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: #f8f5f0;
+  line-height: 1.35;
+  max-width: 165mm;
+}
+.hero-headline em { color: #c9a84c; font-style: italic; }
+
+.hero-subline {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 10pt;
+  color: rgba(248,245,240,0.78);
+  letter-spacing: 0.18em;
+  margin-top: 4mm;
+  font-weight: 300;
+}
+
+/* Body */
+.body {
+  position: absolute;
+  top: 95mm;
+  left: 0; right: 0; bottom: 0;
+  padding: 8mm 16mm 12mm;
+  z-index: 3;
+}
+
+.salutation {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13pt;
+  letter-spacing: 0.04em;
+  color: #c9a84c;
+  margin-bottom: 5mm;
+}
+
+.intro {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9.5pt;
+  line-height: 1.95;
+  color: rgba(248,245,240,0.92);
+  font-weight: 300;
+  margin-bottom: 6mm;
+}
+.intro strong {
+  font-weight: 400;
+  color: #c9a84c;
+  background: linear-gradient(transparent 60%, rgba(201,168,76,0.18) 60%);
+}
+
+/* Two-column section */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8mm;
+  margin-bottom: 6mm;
+}
+.col h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 11pt;
+  letter-spacing: 0.18em;
+  color: #c9a84c;
+  text-transform: uppercase;
+  margin-bottom: 3mm;
+}
+.col p, .col ul {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8.5pt;
+  line-height: 1.85;
+  color: rgba(248,245,240,0.88);
+  font-weight: 300;
+}
+.col ul {
+  list-style: none;
+}
+.col ul li {
+  padding-left: 4mm;
+  position: relative;
+  margin-bottom: 1.5mm;
+}
+.col ul li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: #c9a84c;
+}
+.col strong {
+  font-weight: 400;
+  color: #f8f5f0;
+}
+
+/* Convergence stripe */
+.convergence {
+  margin: 1mm 0 6mm;
+  padding: 4mm 5mm;
+  background: rgba(201,168,76,0.07);
+  border: 1px solid rgba(201,168,76,0.3);
+}
+.conv-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 9pt;
+  letter-spacing: 0.2em;
+  color: #c9a84c;
+  text-transform: uppercase;
+  margin-bottom: 2mm;
+}
+.conv-table {
+  width: 100%;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8pt;
+  line-height: 1.65;
+  color: rgba(248,245,240,0.9);
+  font-weight: 300;
+}
+.conv-table td {
+  padding: 1mm 1mm;
+  vertical-align: top;
+}
+.conv-table .left-cell {
+  width: 47%;
+  font-style: italic;
+  color: #c9a84c;
+}
+.conv-table .eq-cell {
+  width: 6%;
+  text-align: center;
+  color: #c9a84c;
+}
+
+/* Ask block */
+.ask {
+  margin-top: 2mm;
+  padding: 5mm 6mm;
+  border-left: 2px solid #c9a84c;
+  background: rgba(13,17,23,0.6);
+}
+.ask-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 10pt;
+  letter-spacing: 0.2em;
+  color: #c9a84c;
+  margin-bottom: 2.5mm;
+  text-transform: uppercase;
+}
+.ask-text {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9pt;
+  line-height: 1.85;
+  color: rgba(248,245,240,0.95);
+  font-weight: 300;
+}
+.ask-text strong { color: #c9a84c; font-weight: 400; }
+
+/* Signature */
+.sig {
+  position: absolute;
+  bottom: 12mm;
+  left: 16mm;
+  right: 16mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9pt;
+  color: rgba(248,245,240,0.6);
+  letter-spacing: 0.18em;
+}
+.sig .name {
+  font-style: italic;
+  color: #c9a84c;
+  font-size: 13pt;
+  letter-spacing: 0.12em;
+}
+.sig .name span {
+  display: block;
+  font-style: normal;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 8.5pt;
+  color: rgba(248,245,240,0.6);
+  letter-spacing: 0.15em;
+  margin-top: 1.5mm;
+}
+.sig .right-side {
+  text-align: right;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 9pt;
+  color: rgba(248,245,240,0.65);
+  line-height: 1.7;
+}
+</style>
+</head>
+<body>
+
+<section class="page">
+  <!-- HERO -->
+  <div class="hero"></div>
+  <div class="hero-shade"></div>
+  <div class="hero-overlay">
+    <div class="hero-tag">
+      <div>A LETTER ・ FROM YUKI HAMADA ・ MAY 2026</div>
+      <div class="right">SOL<span>·</span>LUNA</div>
+    </div>
+    <div>
+      <div class="hero-headline">
+        あの <em>184日間</em> が終わった。<br>
+        その先の <em>キャンバス</em> を、<br>
+        神域に張ろうとしています。
+      </div>
+      <div class="hero-subline">SOLUNA ORIGIN ─ 三重・伊勢 二見浦 ─ Phase 1 ・ 2028 オープン</div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+    <div class="salutation">小橋 賢児 様</div>
+
+    <p class="intro">
+      万博が掲げた <strong>"Designing Future Society for Our Lives"</strong>、
+      <strong>"Return to their natural way"</strong>、<strong>"Move beyond comfort zones"</strong>
+      ── これらは、私が三重・伊勢二見浦で着工する <strong>SOLUNA ORIGIN</strong> の
+      設計言語と、ほぼそのまま重なっています。
+      偶然ではなく、同じ問いを別の角度から設計してきた結果だと思います。
+    </p>
+
+    <div class="convergence">
+      <div class="conv-label">— Vision Convergence ・ 言葉レベルで一致する</div>
+      <table class="conv-table">
+        <tr>
+          <td class="left-cell">Designing Future Society for Our Lives</td>
+          <td class="eq-cell">＝</td>
+          <td>人と <strong style="color:#f8f5f0;">自分自身</strong> を繋ぐ ／ SOLUNA ORIGIN</td>
+        </tr>
+        <tr>
+          <td class="left-cell">Return to their natural way</td>
+          <td class="eq-cell">＝</td>
+          <td>Return to Nature（弟子屈）／ Transformation &amp; Purification（ORIGIN）</td>
+        </tr>
+        <tr>
+          <td class="left-cell">Move beyond comfort zones / Global Empathy</td>
+          <td class="eq-cell">＝</td>
+          <td>12-Step Misogi Protocol ／ 1000年の禊の系譜</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="grid">
+      <div class="col">
+        <h3>— なぜ あなたか</h3>
+        <p>
+          Aman / Six Senses は世界観を物理化できる。星野は運営を磨ける。
+          ただ、SOLUNA ORIGIN にどうしても要るのが、その2つを <strong>物語として一発で世界に伝える人</strong>。
+          ULTRA を日本に持ち込み、CONTACT で 500機のドローンを夜空に上げ、東京2020パラ閉会式を編み、
+          そして万博 184日間を統括した あなたの仕事を、私はずっと見ていました。
+          ORIGIN は、その続きとして在るべきだと思います。
+        </p>
+      </div>
+      <div class="col">
+        <h3>— 一緒に作りたいもの</h3>
+        <ul>
+          <li><strong>2027/12/22 冬至 Invitation Preview</strong>（建設中の現地・限定80名）── 万博閉会式の延長線にある、最も静かで濃密なオープニング</li>
+          <li><strong>12-Step Misogi Protocol</strong> の演出監修（神道作法 × Cold Exposure 科学）</li>
+          <li><strong>SOLUNA Network</strong> ブランド世界観の統括（弟子屈→二見浦→出雲→高野山→屋久島）</li>
+          <li><strong>ART BASE ZERO</strong> アーティスト・イン・レジデンスの物理ホーム化</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ask">
+      <div class="ask-label">— The Ask ・ 30分、それだけ</div>
+      <div class="ask-text">
+        企画書（11p）は出来ていますが、最初に渡すのは違うと思っています。
+        まずは、<strong>30分</strong>。場所はどこでも構いません。<br>
+        ── 北海道 弟子屈SOLUNA / TAPKOP の体験招待でも、東京で1杯でも、二見浦の <strong>夜明け</strong>でも。
+        私から伺います。
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="sig">
+    <div class="name">
+      Yuki Hamada
+      <span>濱田 優貴 ／ Founder &amp; CEO ・ Enabler Inc.</span>
+    </div>
+    <div class="right-side">
+      mail@yukihamada.jp<br>
+      +81 90 7409 0407<br>
+      <span style="font-size:8pt; color:rgba(248,245,240,0.45);">株式会社イネブラ ／ 千代田区九段南</span>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
