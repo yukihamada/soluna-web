@@ -11675,6 +11675,7 @@ app.put("/api/soluna/admin/property-secrets/:slug", express.json(), async (req, 
   const member = await solunaAuth(req);
   if (!member) return res.status(401).json({ error: "unauthorized" });
   if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+  if (!profileComplete(member)) return res.status(412).json({ error: "profile_incomplete", redirect: "/profile" });
   if (!adminRateOk(`secrets:${member.member_id}`, 20, 60_000)) {
     return res.status(429).json({ error: "rate limited" });
   }
@@ -11737,6 +11738,7 @@ app.post("/api/soluna/admin/property-secrets/:slug/rotate-door", express.json(),
   const member = await solunaAuth(req);
   if (!member) return res.status(401).json({ error: "unauthorized" });
   if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+  if (!profileComplete(member)) return res.status(412).json({ error: "profile_incomplete", redirect: "/profile" });
   if (!adminRateOk(`rotate:${member.member_id}`, 10, 60_000)) {
     return res.status(429).json({ error: "rate limited" });
   }
@@ -11922,11 +11924,19 @@ app.post("/api/soluna/admin/team/invite", express.json(), async (req, res) => {
   const member = await solunaAuth(req);
   if (!member) return res.status(401).json({ error: "unauthorized" });
   if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+  if (!profileComplete(member)) return res.status(412).json({ error: "profile_incomplete", redirect: "/profile" });
   if (!adminRateOk(`invite:${member.member_id}`, 10, 60_000)) return res.status(429).json({ error: "rate limited" });
 
   const email = String(req.body?.email || "").trim().toLowerCase();
   const role = ["admin","founder","staff","cleaner","construction"].includes(req.body?.role) ? req.body.role : "admin";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: "invalid email" });
+
+  // Warn if already same-or-higher role
+  const ROLE_RANK = { member:0, staff:1, cleaner:1, construction:1, admin:2, founder:3 };
+  const existing = await db.execute({ sql: "SELECT member_type FROM soluna_members WHERE email=? LIMIT 1", args: [email] });
+  if (existing.rows[0] && (ROLE_RANK[existing.rows[0].member_type] || 0) >= (ROLE_RANK[role] || 0)) {
+    return res.status(409).json({ error: "already has equal or higher role", current_role: existing.rows[0].member_type });
+  }
 
   const token = crypto.randomBytes(24).toString("base64url");
   await db.execute({
@@ -12015,15 +12025,20 @@ app.get(["/admin/accept","/admin/accept/"], async (req, res) => {
   if (!profileComplete(me)) {
     return res.redirect(302, "/profile?next=" + encodeURIComponent("/admin/accept?token=" + token));
   }
-  // Mark accepted + promote role
+  // Mark accepted + promote role (never demote)
+  const ROLE_RANK = { member:0, staff:1, cleaner:1, construction:1, admin:2, founder:3 };
+  const curRank = ROLE_RANK[me.member_type] || 0;
+  const newRank = ROLE_RANK[invite.role] || 0;
   await db.execute({
     sql: `UPDATE soluna_admin_invites SET accepted_at=datetime('now'), accepted_by_member_id=? WHERE token=?`,
     args: [me.member_id, token],
   });
-  await db.execute({
-    sql: "UPDATE soluna_members SET member_type=? WHERE id=?",
-    args: [invite.role, me.member_id],
-  });
+  if (newRank > curRank) {
+    await db.execute({
+      sql: "UPDATE soluna_members SET member_type=? WHERE id=?",
+      args: [invite.role, me.member_id],
+    });
+  }
   res.redirect(302, "/admin/secrets");
 });
 
