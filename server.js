@@ -6826,6 +6826,10 @@ db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_sync_status TEXT
 db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_sync_message TEXT").catch(() => {});
 db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_synced_at TEXT").catch(() => {});
 db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_attempted_at TEXT").catch(() => {});
+db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_alert_sent_at TEXT").catch(() => {});
+// One-time cleanup: clear stuck 'pending' for properties with no lock_device_id
+// (these can never sync since no SwitchBot device is registered yet)
+db.execute("UPDATE soluna_property_secrets SET lock_sync_status=NULL, lock_attempted_at=NULL WHERE lock_sync_status='pending' AND (lock_device_id IS NULL OR lock_device_id='')").catch(() => {});
 db.execute(`CREATE TABLE IF NOT EXISTS soluna_secret_audit (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   slug TEXT NOT NULL,
@@ -11784,11 +11788,14 @@ app.post("/api/soluna/admin/property-secrets/:slug/rotate-door", express.json(),
   // Use loadPropertySecrets() which falls back to defaults so that the previous
   // code reflects what guests / staff were actually seeing (not the raw NULL in DB).
   const before = await loadPropertySecrets(slug);
+  // Only mark "pending sync" if a physical SwitchBot device is actually registered.
+  // Otherwise we'd show a misleading "🟡 Syncing..." badge forever.
+  const willSync = !!(before.lock_device_id);
   await db.execute({
     sql: `INSERT INTO soluna_property_secrets (slug,door_code,previous_door_code,previous_door_expires_at,
                                               updated_at,updated_by_member_id,updated_by_email,
-                                              lock_sync_status,lock_attempted_at)
-          VALUES (?,?,?,datetime('now','+7 days'),datetime('now'),?,?,'pending',datetime('now'))
+                                              lock_sync_status,lock_attempted_at,lock_alert_sent_at)
+          VALUES (?,?,?,datetime('now','+7 days'),datetime('now'),?,?,?,?,NULL)
           ON CONFLICT(slug) DO UPDATE SET
             previous_door_code=COALESCE(soluna_property_secrets.door_code, excluded.previous_door_code),
             previous_door_expires_at=datetime('now','+7 days'),
@@ -11796,10 +11803,21 @@ app.post("/api/soluna/admin/property-secrets/:slug/rotate-door", express.json(),
             updated_at=datetime('now'),
             updated_by_member_id=excluded.updated_by_member_id,
             updated_by_email=excluded.updated_by_email,
-            lock_sync_status='pending',
-            lock_attempted_at=datetime('now')`,
-    args: [slug, code, before.door_code || null, member.member_id, member.email],
+            lock_sync_status=excluded.lock_sync_status,
+            lock_attempted_at=excluded.lock_attempted_at,
+            lock_alert_sent_at=NULL`,
+    args: [slug, code, before.door_code || null, member.member_id, member.email,
+           willSync ? "pending" : null,
+           willSync ? null : null /* placeholder; SQL fn cant inline */],
   });
+  // The placeholder above doesn't directly inject `datetime('now')`, so set
+  // lock_attempted_at via a follow-up update when willSync.
+  if (willSync) {
+    await db.execute({
+      sql: "UPDATE soluna_property_secrets SET lock_attempted_at=datetime('now') WHERE slug=?",
+      args: [slug],
+    });
+  }
   _manualTplCache.delete(slug);
   await recordAudit({ slug, field: "door_code", oldValue: before.door_code, newValue: code, action: "rotate", member, req });
   const data = await loadPropertySecrets(slug);
@@ -13022,6 +13040,36 @@ initDb().then(() => {
   // Hourly cleaning task sync
   syncCleaningTasks().catch(() => {});
   setInterval(() => syncCleaningTasks().catch(() => {}), 60 * 60 * 1000);
+
+  // ── Lock-sync watchdog (every 1h): alert when a rotate hasn't been
+  //    picked up by KAGI iOS within 24h, or when sync failed.
+  async function lockSyncWatchdog() {
+    try {
+      const r = await db.execute({
+        sql: `SELECT slug, lock_sync_status, lock_sync_message, lock_attempted_at, lock_alert_sent_at
+              FROM soluna_property_secrets
+              WHERE lock_sync_status IN ('pending','error')
+                AND lock_attempted_at IS NOT NULL
+                AND lock_attempted_at <= datetime('now','-24 hours')
+                AND (lock_alert_sent_at IS NULL
+                     OR lock_alert_sent_at <= datetime('now','-24 hours'))`,
+      });
+      for (const row of r.rows) {
+        const name = (MANUAL_PROPERTY_NAME[row.slug] || row.slug);
+        const status = row.lock_sync_status === "error" ? "🔴 失敗" : "🟡 24h 経過 (pending)";
+        const msg = `*SOLUNA Lock sync watchdog*\n物件: ${name} (/${row.slug})\n状態: ${status}\n最終試行: ${row.lock_attempted_at} UTC\n${row.lock_sync_message ? "メッセージ: " + row.lock_sync_message + "\n" : ""}KAGI iOS が動いていない可能性。\n/admin/secrets で確認 → https://solun.art/admin/secrets`;
+        await sendTg(TG_CHAT, msg).catch(() => {});
+        await db.execute({
+          sql: "UPDATE soluna_property_secrets SET lock_alert_sent_at=datetime('now') WHERE slug=?",
+          args: [row.slug],
+        }).catch(() => {});
+      }
+    } catch (e) {
+      console.warn("[lock-watchdog]", e?.message || e);
+    }
+  }
+  setTimeout(() => lockSyncWatchdog(), 30 * 1000);
+  setInterval(() => lockSyncWatchdog(), 60 * 60 * 1000);
 
   // Beds24 booking sync (every 5 min, initial after 15s)
   if (BEDS24_REFRESH) {

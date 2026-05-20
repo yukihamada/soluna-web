@@ -580,11 +580,23 @@ ul.clean li { padding: 0.5mm 0; }
 </ol>
 
 <div class="callout">
-  <div class="title">📌 7 日間の Grace Period</div>
+  <div class="title">📌 旧コードの「監査用」保持 (7 日間)</div>
   <p>
-    ローテーション後、<b>旧コードは DB の <code>previous_door_code</code> 欄に 7 日間保持</b>されます。<br>
-    「うっかり前の鍵を案内していた」場合、<code>/admin/secrets/&lt;slug&gt;/audit</code> から旧コードを参照できます。<br>
-    ※ ただし物理ロックは即時切り替わるため、旧コードでは開きません。
+    ローテーション後、旧コードは <code>previous_door_code</code> カラムに <b>監査目的</b>で 7 日間保存されます。
+    <b>解錠ではなく「あとから誰がいつ何の番号を回したか」を追うための情報</b>です。
+  </p>
+  <p style="margin-top:3mm">
+    ❌ <b>物理ロックは旧コードを受け付けません</b> — KAGI iOS が SwitchBot に書き込んだ瞬間に旧コードは無効。<br>
+    ✓ /admin/secrets の Last edit 行や <code>/admin/secrets/&lt;slug&gt;/audit</code> から「直前の番号は X だった」を確認できる
+  </p>
+</div>
+
+<div class="callout warn">
+  <div class="title">🔔 24h 経過アラート (Telegram watchdog)</div>
+  <p>
+    ローテーション後 <b>24 時間以上</b> KAGI iOS からの sync-ack が返らない場合、
+    soluna-web の watchdog が自動で Telegram (@yukihamada_ai_bot, chat 1136442501) に通知します。
+    KAGI iOS app が止まっている / SwitchBot が WiFi 切れ / バッテリー切れ等の検知に使ってください。
   </p>
 </div>
 </section>
@@ -839,7 +851,7 @@ X-Requested-With: XMLHttpRequest</pre>
 <div class="faq-a">最低でも 30 日に 1 回、理想は <b>チェックアウトごと</b>。次のゲストの安全のため。</div>
 
 <div class="faq-q">Q2. 鍵番号 6 桁は推測されないの？</div>
-<div class="faq-a">6 桁 = 100 万通り。スマートロックの試行回数制限と組み合わせれば実質安全。さらに <code>previous_door_code</code> は 7 日で失効。</div>
+<div class="faq-a">6 桁 = 100 万通り。スマートロックの試行回数制限と組み合わせれば実質安全。<b>旧コードは物理ロック書き換え時点で無効化</b>され、DB 上の <code>previous_door_code</code> 列に 7 日間「監査用」に残るのみ。</div>
 
 <div class="faq-q">Q3. KAGI iOS app を入れている iPhone を機種変したら？</div>
 <div class="faq-a">新端末で KAGI を再インストール → Apple ID 同期 or iCloud Drive backup から復元 → SwitchBot トークンの再入力（必要なら）。</div>
