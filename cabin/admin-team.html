@@ -206,7 +206,7 @@ footer a{color:var(--gold);text-decoration:none}
         +   '<div class="who">'
         +     '<div class="nm">'+esc(name)+(isMe?'<span class="you">YOU</span>':'')+profileChip+'</div>'
         +     '<div class="meta"><b>'+esc(a.email)+'</b>'
-        +       (a.phone ? ' · '+esc(a.phone) : '')
+        +       (a.phone ? ' · '+esc(a.phone_display || a.phone) : '')
         +       (a.line_display_name ? ' · LINE: '+esc(a.line_display_name) : '')
         +     '</div>'
         +   '</div>'
@@ -254,6 +254,7 @@ footer a{color:var(--gold);text-decoration:none}
         +   '</div>'
         +   '<div class="actions">'
         +     '<button class="btn-sm" data-copy="'+esc(url)+'">📋 URL コピー</button>'
+        +     '<button class="btn-sm danger" data-revoke-invite="'+esc(i.token)+'">取消</button>'
         +   '</div>'
         + '</div>';
     }).join('');
@@ -266,6 +267,22 @@ footer a{color:var(--gold);text-decoration:none}
           document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
         }
         showToast('URL をコピーしました');
+      });
+    });
+    $('invites').querySelectorAll('[data-revoke-invite]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('この招待を取り消します。リンクは無効になります。')) return;
+        const tok = btn.getAttribute('data-revoke-invite');
+        btn.disabled = true;
+        try {
+          const r = await fetch('/api/soluna/admin/team/invite/' + encodeURIComponent(tok) + '/revoke', {
+            method:'POST', headers: authH()
+          });
+          const j = await r.json();
+          if (!r.ok || j.ok === false) throw new Error(j.error || 'HTTP '+r.status);
+          showToast('招待を取り消しました');
+          load();
+        } catch(e){ alert('失敗: '+e.message); btn.disabled = false; }
       });
     });
   }

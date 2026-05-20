@@ -7585,6 +7585,15 @@ function normalizeJpPhone(raw) {
   if (/^0\d{9,10}$/.test(s))    return s;
   return null;
 }
+function formatJpPhone(digits) {
+  if (!digits) return "";
+  const s = String(digits);
+  // 09012345678 → 090-1234-5678; 0312345678 → 03-1234-5678
+  if (/^0[789]0\d{8}$/.test(s)) return s.slice(0,3)+"-"+s.slice(3,7)+"-"+s.slice(7);
+  if (/^0[2-689]\d{8,9}$/.test(s)) return s.slice(0,2)+"-"+s.slice(2,6)+"-"+s.slice(6);
+  if (/^\+81\d{9,11}$/.test(s))    return "+81-"+s.slice(3,6)+"-"+s.slice(6,10)+"-"+s.slice(10);
+  return s;
+}
 function profileComplete(member) {
   if (!member) return false;
   if (!member.name || String(member.name).trim().length === 0) return false;
@@ -7601,6 +7610,7 @@ app.get("/api/soluna/me/profile", async (req, res) => {
     email: m.email,
     name: m.name || "",
     phone: m.phone || "",
+    phone_display: formatJpPhone(m.phone),
     line_user_id: m.line_user_id || null,
     line_display_name: m.line_display_name || null,
     profile_completed_at: m.profile_completed_at || null,
@@ -7622,7 +7632,7 @@ app.post("/api/soluna/me/profile", express.json(), async (req, res) => {
     sql: `UPDATE soluna_members SET name=?, phone=?, profile_completed_at=datetime('now') WHERE id=?`,
     args: [name, phone, m.member_id],
   });
-  res.json({ ok: true, name, phone, profile_complete: true });
+  res.json({ ok: true, name, phone, phone_display: formatJpPhone(phone), profile_complete: true });
 });
 
 // DELETE /api/soluna/me — 退会（soft delete: status='withdrawn'）
@@ -11901,7 +11911,8 @@ app.get("/api/soluna/admin/team", async (req, res) => {
             ORDER BY created_at DESC`,
     }),
   ]);
-  res.json({ ok: true, admins: admins.rows, invites: invites.rows });
+  const adminsFmt = admins.rows.map(a => ({ ...a, phone_display: formatJpPhone(a.phone) }));
+  res.json({ ok: true, admins: adminsFmt, invites: invites.rows });
 });
 
 // POST /api/soluna/admin/team/invite { email, role }
@@ -11944,6 +11955,22 @@ app.post("/api/soluna/admin/team/invite", express.json(), async (req, res) => {
   }
 
   res.json({ ok: true, token, email, role, invite_url: inviteUrl, expires_in_hours: ADMIN_INVITE_TTL_HOURS });
+});
+
+// POST /api/soluna/admin/team/invite/:token/revoke — withdraw a pending invite
+app.post("/api/soluna/admin/team/invite/:token/revoke", async (req, res) => {
+  if (!sameOriginOk(req)) return res.status(403).json({ error: "bad origin" });
+  if (!requireXHR(req)) return res.status(403).json({ error: "missing X-Requested-With" });
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+  const token = String(req.params.token || "");
+  if (!token) return res.status(400).json({ error: "missing token" });
+  const r = await db.execute({
+    sql: `UPDATE soluna_admin_invites SET revoked_at=datetime('now') WHERE token=? AND accepted_at IS NULL`,
+    args: [token],
+  });
+  res.json({ ok: true });
 });
 
 // POST /api/soluna/admin/team/revoke { email }  — drops admin role (cannot remove yuki)
