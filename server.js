@@ -6827,6 +6827,15 @@ db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_sync_message TEX
 db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_synced_at TEXT").catch(() => {});
 db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_attempted_at TEXT").catch(() => {});
 db.execute("ALTER TABLE soluna_property_secrets ADD COLUMN lock_alert_sent_at TEXT").catch(() => {});
+// is_owner: replaces hardcoded mail@yukihamada.jp check across the codebase.
+db.execute("ALTER TABLE soluna_members ADD COLUMN is_owner INTEGER DEFAULT 0").catch(() => {});
+db.execute("UPDATE soluna_members SET is_owner=1 WHERE email='mail@yukihamada.jp' AND (is_owner IS NULL OR is_owner=0)").catch(() => {});
+// Rate-limit table (multi-machine safe). One row per hit; cleanup runs periodically.
+db.execute(`CREATE TABLE IF NOT EXISTS soluna_rate_limit (
+  key TEXT NOT NULL,
+  ts TEXT NOT NULL DEFAULT (datetime('now'))
+)`).catch(() => {});
+db.execute("CREATE INDEX IF NOT EXISTS idx_rate_limit_key_ts ON soluna_rate_limit(key, ts)").catch(() => {});
 // One-time cleanup: clear stuck 'pending' for properties with no lock_device_id
 // (these can never sync since no SwitchBot device is registered yet)
 db.execute("UPDATE soluna_property_secrets SET lock_sync_status=NULL, lock_attempted_at=NULL WHERE lock_sync_status='pending' AND (lock_device_id IS NULL OR lock_device_id='')").catch(() => {});
@@ -7231,7 +7240,7 @@ async function solunaAuth(req) {
   if (!token) return null;
   const r = await db.execute({
     sql: `SELECT s.member_id, m.email, m.name, m.phone, m.nah_access, m.member_type,
-                 m.line_user_id, m.line_display_name, m.profile_completed_at
+                 m.line_user_id, m.line_display_name, m.profile_completed_at, m.is_owner
           FROM soluna_sessions s
           JOIN soluna_members m ON m.id = s.member_id
           WHERE s.token = ? AND s.expires_at > datetime('now')`,
@@ -7619,6 +7628,9 @@ app.get("/api/soluna/me/profile", async (req, res) => {
     line_display_name: m.line_display_name || null,
     profile_completed_at: m.profile_completed_at || null,
     profile_complete: profileComplete(m),
+    is_owner: !!(m.is_owner === 1 || m.is_owner === true),
+    is_admin: isPropertyAdmin(m),
+    member_type: m.member_type || "member",
   });
 });
 
@@ -11531,8 +11543,11 @@ function escHtml(s) {
 
 function isPropertyAdmin(member) {
   if (!member) return false;
-  if (member.email === "mail@yukihamada.jp") return true;
+  if (member.is_owner === 1 || member.is_owner === true) return true;
   return member.member_type === "admin" || member.member_type === "founder";
+}
+function isOwner(member) {
+  return !!member && (member.is_owner === 1 || member.is_owner === true);
 }
 
 async function loadPropertySecrets(slug) {
@@ -11634,14 +11649,30 @@ function sameOriginOk(req) {
   }
   return false;
 }
+// L1 in-memory cache (fast path) + L2 libsql (multi-machine consistency).
 const _adminRate = new Map(); // key -> [ts]
 function adminRateOk(key, limit = 20, windowMs = 60_000) {
+  // L1 fast check (per-machine)
   const now = Date.now();
   const list = (_adminRate.get(key) || []).filter(t => now - t < windowMs);
   if (list.length >= limit) { _adminRate.set(key, list); return false; }
   list.push(now);
   _adminRate.set(key, list);
+  // L2 async insert (do not await — best-effort; multi-machine watchdog reads it)
+  db.execute({ sql: "INSERT INTO soluna_rate_limit (key, ts) VALUES (?, datetime('now'))", args: [key] }).catch(() => {});
   return true;
+}
+// L2 check for elevated-cost operations (rotate, invite). Single SQL COUNT.
+async function adminRateOkDb(key, limit, windowSeconds) {
+  try {
+    const r = await db.execute({
+      sql: `SELECT COUNT(*) AS c FROM soluna_rate_limit WHERE key=? AND ts > datetime('now', ?)`,
+      args: [key, `-${windowSeconds} seconds`],
+    });
+    if (r.rows[0]?.c >= limit) return false;
+    await db.execute({ sql: "INSERT INTO soluna_rate_limit (key, ts) VALUES (?, datetime('now'))", args: [key] });
+    return true;
+  } catch { return true; /* fail-open on DB error rather than lock everyone out */ }
 }
 
 const _manualTplCache = new Map(); // slug -> { html, mtime }
@@ -11755,7 +11786,7 @@ app.post("/api/soluna/admin/property-secrets/:slug/rotate-door", express.json(),
   if (!member) return res.status(401).json({ error: "unauthorized" });
   if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
   if (!profileComplete(member)) return res.status(412).json({ error: "profile_incomplete", redirect: "/profile" });
-  if (!adminRateOk(`rotate:${member.member_id}`, 10, 60_000)) {
+  if (!(await adminRateOkDb(`rotate:${member.member_id}`, 10, 60))) {
     return res.status(429).json({ error: "rate limited" });
   }
   const slug = String(req.params.slug || "").replace(/[^a-z0-9_-]/gi, "");
@@ -11933,10 +11964,10 @@ app.get("/api/soluna/admin/team", async (req, res) => {
   if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
   const [admins, invites] = await Promise.all([
     db.execute({
-      sql: `SELECT id, email, name, phone, line_display_name, member_type, profile_completed_at
+      sql: `SELECT id, email, name, phone, line_display_name, member_type, profile_completed_at, is_owner
             FROM soluna_members
-            WHERE member_type IN ('admin','founder') OR email='mail@yukihamada.jp'
-            ORDER BY (email='mail@yukihamada.jp') DESC, member_type, id`,
+            WHERE member_type IN ('admin','founder') OR is_owner=1
+            ORDER BY is_owner DESC, member_type, id`,
     }),
     db.execute({
       sql: `SELECT token, email, role, invited_by_email, expires_at, created_at
@@ -11957,7 +11988,7 @@ app.post("/api/soluna/admin/team/invite", express.json(), async (req, res) => {
   if (!member) return res.status(401).json({ error: "unauthorized" });
   if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
   if (!profileComplete(member)) return res.status(412).json({ error: "profile_incomplete", redirect: "/profile" });
-  if (!adminRateOk(`invite:${member.member_id}`, 10, 60_000)) return res.status(429).json({ error: "rate limited" });
+  if (!(await adminRateOkDb(`invite:${member.member_id}`, 10, 60))) return res.status(429).json({ error: "rate limited" });
 
   const email = String(req.body?.email || "").trim().toLowerCase();
   const role = ["admin","founder","staff","cleaner","construction"].includes(req.body?.role) ? req.body.role : "admin";
@@ -12025,9 +12056,25 @@ app.post("/api/soluna/admin/team/revoke", express.json(), async (req, res) => {
 
   const email = String(req.body?.email || "").trim().toLowerCase();
   if (!email) return res.status(400).json({ error: "email required" });
-  if (email === "mail@yukihamada.jp") return res.status(400).json({ error: "cannot revoke owner" });
+  const tgt = await db.execute({ sql: "SELECT is_owner FROM soluna_members WHERE email=? LIMIT 1", args: [email] });
+  if (tgt.rows[0]?.is_owner === 1) return res.status(400).json({ error: "cannot revoke owner" });
 
-  await db.execute({ sql: "UPDATE soluna_members SET member_type='member' WHERE email=?", args: [email] });
+  await db.execute({ sql: "UPDATE soluna_members SET member_type='member' WHERE email=? AND is_owner=0", args: [email] });
+  res.json({ ok: true });
+});
+
+// POST /api/soluna/admin/team/grant-owner { email } — owner-only; promote another admin to owner.
+app.post("/api/soluna/admin/team/grant-owner", express.json(), async (req, res) => {
+  if (!sameOriginOk(req)) return res.status(403).json({ error: "bad origin" });
+  if (!requireXHR(req)) return res.status(403).json({ error: "missing X-Requested-With" });
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isOwner(member)) return res.status(403).json({ error: "owner only" });
+  const email = String(req.body?.email || "").trim().toLowerCase();
+  if (!email) return res.status(400).json({ error: "email required" });
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: "invalid email" });
+  const r = await db.execute({ sql: "UPDATE soluna_members SET is_owner=1, member_type='admin' WHERE email=?", args: [email] });
+  if (!r.rowsAffected) return res.status(404).json({ error: "member not found (must have logged in once)" });
   res.json({ ok: true });
 });
 
@@ -12198,15 +12245,23 @@ app.get("/api/soluna/auth/line/callback", async (req, res) => {
 
   if (!lineUserId) return res.status(502).type("text/plain").send("could not resolve LINE user id");
 
-  // Upsert member
+  // PRIORITY 1: if the user is ALREADY logged in via cookie, link LINE to that
+  // existing member rather than creating a duplicate. This is the "merge"
+  // path for users who first signed up with email OTP then later connect LINE.
   let memberId = null;
-  if (email) {
-    const r3 = await db.execute({ sql: "SELECT id FROM soluna_members WHERE email=? LIMIT 1", args: [email] });
-    if (r3.rows[0]) memberId = r3.rows[0].id;
+  const currentMember = await solunaAuth(req);
+  if (currentMember && currentMember.member_id) {
+    memberId = currentMember.member_id;
   }
+  // PRIORITY 2: lookup by LINE user id (returning LINE user)
   if (!memberId) {
     const r4 = await db.execute({ sql: "SELECT id FROM soluna_members WHERE line_user_id=? LIMIT 1", args: [lineUserId] });
     if (r4.rows[0]) memberId = r4.rows[0].id;
+  }
+  // PRIORITY 3: lookup by email (first-time LINE Login but email matches an existing member)
+  if (!memberId && email) {
+    const r3 = await db.execute({ sql: "SELECT id FROM soluna_members WHERE email=? LIMIT 1", args: [email] });
+    if (r3.rows[0]) memberId = r3.rows[0].id;
   }
   if (!memberId) {
     if (!email) {
@@ -13070,6 +13125,22 @@ initDb().then(() => {
   }
   setTimeout(() => lockSyncWatchdog(), 30 * 1000);
   setInterval(() => lockSyncWatchdog(), 60 * 60 * 1000);
+
+  // ── Audit / rate-limit cleanup (every 6h): drop rows older than the
+  //    retention window so the tables don't grow without bound.
+  async function cleanupOldRows() {
+    try {
+      await db.execute("DELETE FROM soluna_secret_audit WHERE created_at < datetime('now','-90 days')");
+      await db.execute("DELETE FROM soluna_lock_sync_log WHERE created_at < datetime('now','-90 days')");
+      await db.execute("DELETE FROM soluna_rate_limit WHERE ts < datetime('now','-1 day')");
+      await db.execute("DELETE FROM soluna_admin_invites WHERE expires_at < datetime('now','-30 days') AND accepted_at IS NULL");
+      await db.execute("DELETE FROM soluna_login_state WHERE expires_at < datetime('now','-1 day')");
+    } catch (e) {
+      console.warn("[cleanup]", e?.message || e);
+    }
+  }
+  setTimeout(() => cleanupOldRows(), 90 * 1000);
+  setInterval(() => cleanupOldRows(), 6 * 60 * 60 * 1000);
 
   // Beds24 booking sync (every 5 min, initial after 15s)
   if (BEDS24_REFRESH) {

@@ -194,8 +194,9 @@ footer a{color:var(--gold);text-decoration:none}
     $('adminCount').textContent = list.length;
     if (!list.length) { $('admins').innerHTML = '<div class="empty">メンバーがいません</div>'; return; }
     $('admins').innerHTML = list.map(a => {
-      const isOwner = (a.email === 'mail@yukihamada.jp');
+      const isOwnerRow = (a.is_owner === 1 || a.is_owner === true);
       const isMe = (me && me.email && a.email === me.email);
+      const meIsOwner = (me && (me.is_owner === 1 || me.is_owner === true));
       const role = a.member_type || 'member';
       const name = a.name || a.line_display_name || '(名前未設定)';
       const profileChip = a.profile_completed_at
@@ -211,10 +212,14 @@ footer a{color:var(--gold);text-decoration:none}
         +     '</div>'
         +   '</div>'
         +   '<div class="actions">'
+        +     (isOwnerRow ? '<span class="role founder" title="サービス所有者">👑 OWNER</span>' : '')
         +     '<span class="role '+esc(role)+'">'+esc(role.toUpperCase())+'</span>'
-        +     (isOwner
-              ? '<span class="btn-sm" title="この行は削除不可" style="cursor:default;color:#3a3a3a;border-color:#1a1a1a">OWNER</span>'
-              : '<button class="btn-sm danger" data-revoke="'+esc(a.email)+'">権限剥奪</button>')
+        +     (isOwnerRow
+              ? '<span class="btn-sm" title="owner は削除不可" style="cursor:default;color:#3a3a3a;border-color:#1a1a1a">protected</span>'
+              : (
+                  '<button class="btn-sm danger" data-revoke="'+esc(a.email)+'">権限剥奪</button>'
+                  + (meIsOwner ? '<button class="btn-sm" data-grant-owner="'+esc(a.email)+'" title="owner に昇格 (owner のみ操作可)">👑 owner に昇格</button>' : '')
+                ))
         +   '</div>'
         + '</div>';
     }).join('');
@@ -231,6 +236,23 @@ footer a{color:var(--gold);text-decoration:none}
           const j = await r.json();
           if (!r.ok || j.ok === false) throw new Error(j.error || 'HTTP '+r.status);
           showToast(em + ' から権限を剥奪しました');
+          load();
+        } catch(e){ alert('失敗: '+e.message); btn.disabled = false; }
+      });
+    });
+    $('admins').querySelectorAll('[data-grant-owner]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const em = btn.getAttribute('data-grant-owner');
+        if (!confirm('⚠ ' + em + ' を OWNER に昇格します。OWNER は権限剥奪も削除もできません。本当に？')) return;
+        btn.disabled = true;
+        try {
+          const r = await fetch('/api/soluna/admin/team/grant-owner', {
+            method:'POST', headers: authH({ 'Content-Type':'application/json' }),
+            body: JSON.stringify({ email: em })
+          });
+          const j = await r.json();
+          if (!r.ok || j.ok === false) throw new Error(j.error || 'HTTP '+r.status);
+          showToast(em + ' を OWNER に昇格しました');
           load();
         } catch(e){ alert('失敗: '+e.message); btn.disabled = false; }
       });
