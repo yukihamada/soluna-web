@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>SOLUNA 物件運用マニュアル — Operations Runbook</title>
+<style>
+@page { size: A4; margin: 18mm 16mm 18mm 16mm; }
+@page :first { margin: 0; }
+* { box-sizing: border-box; }
+:root {
+  --gold:#c8a455;
+  --gold-soft:rgba(200,164,85,.08);
+  --accent:#66aabb;
+  --warn:#d49b4a;
+  --danger:#c0392b;
+  --ok:#4a9a5a;
+  --text:#1a1916;
+  --text-soft:#666;
+  --line:#dcd5c4;
+  --bg:#fff;
+  --panel:#faf7f0;
+}
+html, body { background: var(--bg); margin: 0; padding: 0; }
+body {
+  color: var(--text);
+  font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.65;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+a { color: #5a8090; text-decoration: none; }
+h1,h2,h3,h4 { font-family: 'Hiragino Sans', 'Yu Gothic', 'Helvetica Neue', Helvetica, sans-serif; line-height: 1.25; }
+
+/* COVER */
+.cover {
+  page-break-after: always;
+  width: 100%; height: 297mm;
+  background: linear-gradient(180deg,#0a0908 0%,#1a1612 100%);
+  color: #f0ece4;
+  padding: 60mm 24mm 30mm 24mm;
+  position: relative;
+}
+.cover .logo {
+  font-size: 11pt; letter-spacing: .28em; color: var(--gold);
+  font-weight: 800; margin-bottom: 40mm;
+}
+.cover h1 {
+  font-size: 38pt; font-weight: 900; letter-spacing: -.02em; line-height: 1.1;
+  margin: 0 0 12mm 0; color: #f0ece4;
+}
+.cover .sub {
+  font-size: 14pt; color: #c8c0b0; margin-bottom: 30mm; line-height: 1.5;
+}
+.cover .meta {
+  position: absolute; bottom: 28mm; left: 24mm; right: 24mm;
+  border-top: 1px solid rgba(200,164,85,.3); padding-top: 8mm;
+  font-size: 9pt; color: #888; line-height: 1.7;
+  display: flex; justify-content: space-between;
+}
+.cover .meta b { color: var(--gold); font-weight: 700; letter-spacing: .04em; }
+.cover .props {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6mm;
+  margin-top: 4mm;
+}
+.cover .prop-chip {
+  font-size: 10pt; color: #f0ece4;
+  background: rgba(255,255,255,.04); border: 1px solid rgba(200,164,85,.18);
+  border-radius: 4mm; padding: 4mm 5mm;
+}
+.cover .prop-chip b { color: var(--gold); display: block; font-size: 8.5pt; letter-spacing: .12em; margin-bottom: 1mm; }
+
+/* TOC */
+.toc {
+  page-break-after: always;
+  padding-top: 4mm;
+}
+.toc h2 { font-size: 22pt; color: var(--text); border-bottom: 2px solid var(--gold); padding-bottom: 4mm; margin: 0 0 6mm 0; }
+.toc ol { padding-left: 0; counter-reset: section; list-style: none; }
+.toc li {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 3mm 0; border-bottom: 1px dotted #ddd; gap: 6mm;
+  counter-increment: section;
+}
+.toc li::before {
+  content: counter(section, decimal-leading-zero) ".";
+  color: var(--gold); font-weight: 800; min-width: 12mm; font-size: 10pt;
+  letter-spacing: .04em;
+}
+.toc li .name { flex: 1; }
+.toc li .page { color: var(--text-soft); font-variant-numeric: tabular-nums; font-size: 10pt; }
+.toc li.sub::before { content: ''; min-width: 16mm; }
+.toc li.sub { padding-left: 6mm; }
+
+/* SECTION */
+section { page-break-inside: avoid; margin-bottom: 8mm; }
+section.page-break { page-break-before: always; }
+section h2 {
+  font-size: 20pt; color: var(--text); margin: 0 0 5mm 0;
+  border-left: 5pt solid var(--gold); padding-left: 5mm;
+}
+section h3 {
+  font-size: 13pt; color: var(--text); margin: 6mm 0 3mm 0;
+  border-bottom: 1px solid var(--line); padding-bottom: 2mm;
+}
+section h4 { font-size: 11pt; color: var(--gold); margin: 5mm 0 2mm 0; font-weight: 800; letter-spacing: .02em;}
+section p { margin: 0 0 3mm 0; }
+
+/* CALLOUTS */
+.callout {
+  background: var(--gold-soft);
+  border-left: 4pt solid var(--gold);
+  padding: 4mm 5mm; margin: 4mm 0;
+  border-radius: 0 2mm 2mm 0;
+}
+.callout.warn { background: rgba(212,155,74,.08); border-left-color: var(--warn); }
+.callout.danger { background: rgba(192,57,43,.07); border-left-color: var(--danger); }
+.callout.ok { background: rgba(74,154,90,.08); border-left-color: var(--ok); }
+.callout p { margin: 0; }
+.callout .title { font-weight: 800; margin-bottom: 1mm; font-size: 11pt; }
+.callout.warn .title { color: var(--warn); }
+.callout.danger .title { color: var(--danger); }
+.callout.ok .title { color: var(--ok); }
+
+/* STEPS */
+ol.steps { counter-reset: step; padding-left: 0; list-style: none; }
+ol.steps li {
+  counter-increment: step; padding: 3mm 0 3mm 14mm; position: relative;
+  border-bottom: 1px dotted var(--line); page-break-inside: avoid;
+}
+ol.steps li:last-child { border-bottom: 0; }
+ol.steps li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 4mm;
+  width: 9mm; height: 9mm; border-radius: 50%;
+  background: var(--gold); color: #fff;
+  font-weight: 800; font-size: 11pt;
+  display: flex; align-items: center; justify-content: center;
+  font-variant-numeric: tabular-nums;
+}
+ol.steps li .step-title { font-weight: 700; display: block; margin-bottom: 1mm; font-size: 10.5pt; }
+ol.steps li .step-body { color: var(--text-soft); font-size: 9.5pt; line-height: 1.6; }
+
+/* TABLES */
+table.t {
+  width: 100%; border-collapse: collapse;
+  margin: 3mm 0; font-size: 9.5pt; page-break-inside: avoid;
+}
+table.t th, table.t td {
+  border: 1px solid var(--line); padding: 2.5mm 3.5mm;
+  text-align: left; vertical-align: top;
+}
+table.t th { background: var(--panel); font-weight: 700; color: var(--text); }
+table.t td.mono { font-family: 'SF Mono', ui-monospace, monospace; font-size: 9pt; letter-spacing: .02em; }
+table.t td .small { font-size: 8.5pt; color: var(--text-soft); }
+
+/* PROPERTY CARDS */
+.prop-card {
+  border: 1px solid var(--line); border-radius: 3mm;
+  padding: 6mm; margin: 4mm 0;
+  background: var(--panel);
+  page-break-inside: avoid;
+}
+.prop-card .head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 1px solid var(--line); padding-bottom: 3mm; margin-bottom: 4mm;
+}
+.prop-card .head h3 { font-size: 16pt; margin: 0; border: 0; padding: 0; }
+.prop-card .head .slug {
+  font-family: 'SF Mono', monospace; font-size: 9pt; color: var(--gold);
+  background: var(--gold-soft); padding: 1mm 3mm; border-radius: 2mm;
+}
+.prop-card .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm 6mm; }
+.prop-card .kv { font-size: 9.5pt; }
+.prop-card .kv .k {
+  font-size: 8pt; letter-spacing: .14em; color: var(--text-soft);
+  text-transform: uppercase; font-weight: 700; margin-bottom: 1mm;
+}
+.prop-card .kv .v { font-weight: 600; font-size: 10pt; }
+.prop-card .kv .v.mono { font-family: 'SF Mono', monospace; }
+
+/* MOCK / SCREENS */
+.mock {
+  border: 1px solid var(--line);
+  background: #fff; border-radius: 2mm; padding: 5mm;
+  margin: 3mm 0; font-size: 9.5pt;
+  box-shadow: 0 2pt 4pt rgba(0,0,0,.03);
+  page-break-inside: avoid;
+}
+.mock-title {
+  font-size: 8pt; color: var(--text-soft); letter-spacing: .14em;
+  text-transform: uppercase; font-weight: 700; margin-bottom: 3mm;
+  border-bottom: 1px dashed var(--line); padding-bottom: 2mm;
+}
+.mock .mock-button {
+  display: inline-block; padding: 2.5mm 5mm; border-radius: 2mm;
+  background: var(--gold); color: #fff; font-weight: 700;
+  font-size: 9pt; margin: 1mm 2mm 1mm 0;
+}
+.mock .mock-button.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+.mock .mock-button.danger { background: var(--danger); }
+.mock .badge { display: inline-block; padding: 1mm 3mm; border-radius: 2mm; font-size: 8.5pt; font-weight: 700; }
+.mock .badge.ok { background: rgba(74,154,90,.15); color: #2a7a3a; border: 1px solid rgba(74,154,90,.3); }
+.mock .badge.err { background: rgba(192,57,43,.13); color: #962e23; border: 1px solid rgba(192,57,43,.32); }
+.mock .badge.pending { background: rgba(212,155,74,.15); color: #8a6020; border: 1px solid rgba(212,155,74,.32); }
+
+/* FAQ */
+.faq-q { font-weight: 800; color: var(--text); margin-top: 4mm; padding-left: 6mm; position: relative; }
+.faq-q::before { content: 'Q.'; position: absolute; left: 0; color: var(--gold); font-weight: 800; }
+.faq-a { padding-left: 6mm; position: relative; color: var(--text-soft); font-size: 10pt; }
+.faq-a::before { content: 'A.'; position: absolute; left: 0; color: var(--accent); font-weight: 800; }
+
+/* GRID */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4mm; }
+
+/* CODE BLOCKS */
+code, kbd {
+  font-family: 'SF Mono', ui-monospace, 'Menlo', monospace;
+  font-size: 9pt; background: #f5efe0; padding: 0.5mm 1.5mm;
+  border-radius: 1mm; color: #6a5226;
+}
+kbd { border: 1px solid var(--line); }
+pre.code {
+  background: #1a1612; color: #e6dfcc;
+  font-family: 'SF Mono', monospace; font-size: 8.5pt; line-height: 1.5;
+  padding: 4mm 5mm; border-radius: 2mm; margin: 3mm 0;
+  white-space: pre-wrap; word-break: break-all;
+  page-break-inside: avoid;
+}
+
+/* FOOTER (every printed page) */
+.runbook-footer {
+  position: fixed; bottom: 6mm; left: 16mm; right: 16mm;
+  font-size: 7.5pt; color: var(--text-soft);
+  display: flex; justify-content: space-between;
+  border-top: 1px solid var(--line); padding-top: 2mm;
+}
+.tag {
+  display: inline-block; padding: 1mm 3mm; border-radius: 2mm;
+  background: var(--gold-soft); color: #6a5226; font-size: 8.5pt;
+  font-weight: 700; letter-spacing: .04em;
+}
+.tag.danger { background: rgba(192,57,43,.1); color: #962e23; }
+.tag.ok { background: rgba(74,154,90,.13); color: #2a7a3a; }
+
+/* PAGE NUMBERING (won't render in some PDF engines) */
+@media print {
+  .runbook-footer .pn::after { content: " "; }
+}
+
+ul.clean { padding-left: 5mm; margin: 2mm 0; }
+ul.clean li { padding: 0.5mm 0; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ COVER ═══════════════════════════════════ -->
+<div class="cover">
+  <div class="logo">SOLUNA · 物件運用</div>
+  <h1>SOLUNA<br>物件運用<br>マニュアル</h1>
+  <div class="sub">
+    ハウスマニュアル / 鍵管理 / 緊急時対応 / KAGI 連携<br>
+    みんなが分かる SOLUNA オペレーションガイド
+  </div>
+
+  <div class="props">
+    <div class="prop-chip"><b>ATAMI</b>WHITE HOUSE 熱海<br>静岡県 熱海市 · 6名</div>
+    <div class="prop-chip"><b>LODGE</b>THE LODGE<br>北海道 弟子屈町 · 美留和 · 8名</div>
+    <div class="prop-chip"><b>NESTING</b>NESTING<br>北海道 弟子屈町 · 美留和の森 · 6名</div>
+    <div class="prop-chip"><b>INSTANT</b>インスタントハウス<br>北海道 弟子屈町 · 美留和 · 4名</div>
+  </div>
+
+  <div class="meta">
+    <span><b>Version</b> 1.0 / 2026-05-20</span>
+    <span><b>発行</b> Enabler Inc.</span>
+    <span><b>運用</b> SOLUNA Operations</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ TOC ═══════════════════════════════════ -->
+<div class="toc">
+  <h2>目次 — Contents</h2>
+  <ol>
+    <li><span class="name">このマニュアルについて</span><span class="page">3</span></li>
+    <li><span class="name">物件クイックリファレンス（4 物件 × 1 ページ）</span><span class="page">4</span></li>
+    <li><span class="name">/admin/secrets ダッシュボードの使い方</span><span class="page">8</span></li>
+    <li><span class="name">鍵番号のローテーション手順</span><span class="page">10</span></li>
+    <li><span class="name">Wi-Fi パスワード / チェックイン時刻の変更</span><span class="page">12</span></li>
+    <li><span class="name">KAGI iOS app による物理ロック自動同期</span><span class="page">13</span></li>
+    <li><span class="name">緊急時の対応フロー</span><span class="page">16</span></li>
+    <li><span class="name">監査ログ / トラブルシュート</span><span class="page">17</span></li>
+    <li><span class="name">よくある質問 (FAQ)</span><span class="page">19</span></li>
+    <li><span class="name">付録: API リファレンス</span><span class="page">20</span></li>
+  </ol>
+</div>
+
+<!-- ═══════════════════════════════════ 01 INTRO ═══════════════════════════════════ -->
+<section>
+<h2>01. このマニュアルについて</h2>
+
+<p>
+このマニュアルは、SOLUNA が運営する <b>4 物件</b>（WHITE HOUSE 熱海 / THE LODGE / NESTING / インスタントハウス）の運用に必要な情報を 1 冊にまとめたものです。
+ゲスト向けの「ハウスマニュアル」とは別に、<b>管理者と現地スタッフが使う運用手順書</b>として作成されています。
+</p>
+
+<div class="callout ok">
+  <div class="title">✓ このドキュメントが必要な人</div>
+  <p>
+    SOLUNA admin（鍵管理 / Wi-Fi 設定 / 監査）／ 現地スタッフ（チェックイン対応 / 鍵プログラム）／ KAGI iOS app を運用する人。<br>
+    ゲスト向けの情報は <code>https://solun.art/&lt;物件slug&gt;/manual</code> に掲載されています。
+  </p>
+</div>
+
+<h3>ドキュメント構成</h3>
+<table class="t">
+  <tr><th style="width:35mm">章</th><th>内容</th><th style="width:38mm">対象読者</th></tr>
+  <tr><td>02 物件リファレンス</td><td>各物件の住所 / 定員 / Wi-Fi SSID / アクセス情報</td><td>全員</td></tr>
+  <tr><td>03 /admin/secrets</td><td>ダッシュボードの開き方・編集方法</td><td>管理者</td></tr>
+  <tr><td>04 鍵番号ローテーション</td><td>⟳ ボタンの正しい使い方と在室ゲスト保護</td><td>管理者</td></tr>
+  <tr><td>05 その他の変更</td><td>Wi-Fi / チェックイン時刻の変更フロー</td><td>管理者</td></tr>
+  <tr><td>06 KAGI iOS 連携</td><td>物理 SwitchBot Lock との自動同期セットアップ</td><td>管理者 + iOS 担当</td></tr>
+  <tr><td>07 緊急時対応</td><td>119 / 110 / 設備故障時の連絡フロー</td><td>全員</td></tr>
+  <tr><td>08 監査・トラブル</td><td>誰がいつ何を変えたか / 復旧手順</td><td>管理者</td></tr>
+</table>
+
+<h3>共通の前提</h3>
+<ul class="clean">
+  <li>ドメイン: <code>https://solun.art</code></li>
+  <li>管理者メール: <code>mail@yukihamada.jp</code>（OTP ログイン）</li>
+  <li>サポートメール: <code>info@solun.art</code></li>
+  <li>本マニュアル PDF の最新版: <code>https://solun.art/docs/runbook.pdf</code></li>
+</ul>
+</section>
+
+<!-- ═══════════════════════════════════ 02 PROPERTY CARDS ═══════════════════════════════════ -->
+<section class="page-break">
+<h2>02. 物件クイックリファレンス</h2>
+<p>各物件 1 ページ。チェックイン直前にスタッフが見るための基本情報です。鍵番号 / Wi-Fi PW などの可変項目はマニュアルページ <code>/&lt;slug&gt;/manual</code> でリアルタイム確認してください。</p>
+</section>
+
+<!-- atami -->
+<section class="page-break">
+<div class="prop-card">
+  <div class="head">
+    <h3>WHITE HOUSE 熱海</h3>
+    <span class="slug">/atami</span>
+  </div>
+  <div class="grid">
+    <div class="kv"><div class="k">所在地</div><div class="v">〒413-0033<br>静岡県熱海市熱海 1993-272</div></div>
+    <div class="kv"><div class="k">区分・広さ</div><div class="v">2LDK + バルコニー + サウナ<br>126㎡ / 敷地 320㎡</div></div>
+    <div class="kv"><div class="k">定員</div><div class="v">最大 6 名<br>（クイーン × 2 / シングル × 2）</div></div>
+    <div class="kv"><div class="k">アクセス</div><div class="v">東京駅 → 新幹線 35 分<br>熱海駅から車 10 分（駐車場無料）</div></div>
+    <div class="kv"><div class="k">Wi-Fi SSID</div><div class="v mono">TR</div></div>
+    <div class="kv"><div class="k">特徴設備</div><div class="v">サウナ / 水風呂 / LIVE DAM Ai / Pulse 1000 BBQ / 80型 4K TV</div></div>
+    <div class="kv"><div class="k">Beds24 prop / room</div><div class="v mono">243406 / 512691</div></div>
+    <div class="kv"><div class="k">最寄り病院</div><div class="v">熱海所沢病院<br><code>0557-81-1161</code></div></div>
+  </div>
+</div>
+<div class="callout">
+  <div class="title">🛎 受け入れポイント</div>
+  <p>
+    タクシーには「<b>ブルーシー熱海の隣の一軒家</b>」と伝えるよう案内（"ブルーシ<b>ア</b>熱海"というマンションと混同しやすい）。<br>
+    熱海海上花火大会は施設からは見えない。坂を下って車移動 or 熱海城（有料）から。
+  </p>
+</div>
+</section>
+
+<!-- lodge -->
+<section class="page-break">
+<div class="prop-card">
+  <div class="head">
+    <h3>THE LODGE</h3>
+    <span class="slug">/lodge</span>
+  </div>
+  <div class="grid">
+    <div class="kv"><div class="k">所在地</div><div class="v">〒088-3221<br>北海道川上郡弟子屈町美留和 361</div></div>
+    <div class="kv"><div class="k">区分・広さ</div><div class="v">ログキャビン 120㎡<br>敷地 2,000㎡</div></div>
+    <div class="kv"><div class="k">定員</div><div class="v">最大 8 名</div></div>
+    <div class="kv"><div class="k">アクセス</div><div class="v">釧路たんちょう空港から車 1 時間<br>JR釧網本線 美留和駅 徒歩圏</div></div>
+    <div class="kv"><div class="k">Wi-Fi SSID</div><div class="v mono">THE_LODGE_Biruwa</div></div>
+    <div class="kv"><div class="k">特徴設備</div><div class="v">天然温泉 pH9.2 / 露天風呂 / 薪ストーブ / BBQ デッキ</div></div>
+    <div class="kv"><div class="k">Beds24 prop / room</div><div class="v mono">243408 / 512693</div></div>
+    <div class="kv"><div class="k">最寄り病院</div><div class="v">町立 釧路弟子屈病院<br><code>015-482-1611</code></div></div>
+  </div>
+</div>
+<div class="callout warn">
+  <div class="title">⚠ 冬季 (11-4 月) スタッドレス必須</div>
+  <p>4WD 推奨。釧路空港 / 釧路駅でレンタル可（トヨタレンタカー、ニッポンレンタカー）。雪深期は除雪状況を事前確認。</p>
+</div>
+</section>
+
+<!-- nesting -->
+<section class="page-break">
+<div class="prop-card">
+  <div class="head">
+    <h3>NESTING</h3>
+    <span class="slug">/nesting</span>
+  </div>
+  <div class="grid">
+    <div class="kv"><div class="k">所在地</div><div class="v">〒088-3221<br>北海道川上郡弟子屈町美留和 361<br>（THE LODGE 同敷地・別棟）</div></div>
+    <div class="kv"><div class="k">区分・広さ</div><div class="v">VUILD CLT 建築 85㎡<br>敷地 500㎡</div></div>
+    <div class="kv"><div class="k">定員</div><div class="v">最大 6 名</div></div>
+    <div class="kv"><div class="k">アクセス</div><div class="v">同 THE LODGE<br>現地は「NESTING」看板が目印</div></div>
+    <div class="kv"><div class="k">Wi-Fi SSID</div><div class="v mono">NESTING_Biruwa</div></div>
+    <div class="kv"><div class="k">特徴設備</div><div class="v">タワーサウナ（ボナ製） / 屋外ジャグジー / 暖炉 / フルキッチン</div></div>
+    <div class="kv"><div class="k">Beds24 prop / room</div><div class="v mono">243409 / 512694</div></div>
+    <div class="kv"><div class="k">最寄り病院</div><div class="v">町立 釧路弟子屈病院<br><code>015-482-1611</code></div></div>
+  </div>
+</div>
+<div class="callout danger">
+  <div class="title">🚨 ジャグジー水位 / サウナ運用注意</div>
+  <p>
+    <b>水位低でチラー稼働 → 故障</b>。ポンプ口より上まで水を溜めてから ON。<br>
+    タワーサウナ周辺に布類を置かない。飲酒後のジャグジー利用は脱水・低体温症の危険。
+  </p>
+</div>
+</section>
+
+<!-- instant -->
+<section class="page-break">
+<div class="prop-card">
+  <div class="head">
+    <h3>インスタントハウス</h3>
+    <span class="slug">/instant</span>
+  </div>
+  <div class="grid">
+    <div class="kv"><div class="k">所在地</div><div class="v">〒088-3221<br>北海道川上郡弟子屈町美留和</div></div>
+    <div class="kv"><div class="k">区分・広さ</div><div class="v">オフグリッドドーム 32㎡<br>敷地 100㎡</div></div>
+    <div class="kv"><div class="k">定員</div><div class="v">最大 4 名</div></div>
+    <div class="kv"><div class="k">アクセス</div><div class="v">同 LODGE / NESTING エリア</div></div>
+    <div class="kv"><div class="k">Wi-Fi SSID</div><div class="v mono">InstantHouse_Biruwa</div></div>
+    <div class="kv"><div class="k">特徴設備</div><div class="v">ソーラー+蓄電池 / FFヒーター / プロジェクター / 星空ルーフ</div></div>
+    <div class="kv"><div class="k">シャワー</div><div class="v">管理棟共用 (敷地内 30 秒)</div></div>
+    <div class="kv"><div class="k">最寄り病院</div><div class="v">町立 釧路弟子屈病院<br><code>015-482-1611</code></div></div>
+  </div>
+</div>
+<div class="callout danger">
+  <div class="title">🚨 バッテリー残量 20% で自動シャットダウン</div>
+  <p>高出力家電（ドライヤー / 電子レンジ）は晴天時のみ。シャワー・トイレは管理棟共用。冬季は 4WD 強く推奨。</p>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════ 03 /admin/secrets ═══════════════════════════════════ -->
+<section class="page-break">
+<h2>03. /admin/secrets ダッシュボードの使い方</h2>
+
+<p>管理者専用ページ。鍵番号・Wi-Fi・チェックイン時刻を一画面で管理できます。</p>
+
+<h3>アクセス方法</h3>
+<ol class="steps">
+  <li><span class="step-title">ブラウザで <code>https://solun.art/admin/secrets</code> を開く</span><span class="step-body">スマホ・PC どちらでも可。ブックマーク推奨。</span></li>
+  <li><span class="step-title">OTP ログイン</span><span class="step-body">メール <code>mail@yukihamada.jp</code> を入力 → 6 桁コードを受信 → 入力</span></li>
+  <li><span class="step-title">ダッシュボード表示</span><span class="step-body">4 物件のカードが上から順に並ぶ。「未設定」項目は赤いバッジで強調表示</span></li>
+</ol>
+
+<div class="callout warn">
+  <div class="title">⚠ アクセス可能なメンバー</div>
+  <p>
+    <b><code>mail@yukihamada.jp</code></b>、もしくは <code>member_type</code> が <code>admin</code> / <code>founder</code> のユーザーのみ。<br>
+    OAuth セッションは 365 日有効ですが、定期的にログアウト & 再ログインを推奨します。
+  </p>
+</div>
+
+<h3>画面構成</h3>
+<div class="mock">
+  <div class="mock-title">/admin/secrets — Property card layout</div>
+  <p style="font-size:11pt"><b>WHITE HOUSE 熱海</b> <code>/atami</code> <span class="badge ok">🟢 Lock synced 14:32</span></p>
+  <p style="margin:2mm 0">→ <span class="mock-button ghost">→ マニュアルを開く</span></p>
+  <table class="t" style="margin:2mm 0">
+    <tr><td>Door code</td><td class="mono">645086</td><td><span class="mock-button">✎</span><span class="mock-button">⟳ ローテート</span></td></tr>
+    <tr><td>Wi-Fi SSID</td><td class="mono">TR</td><td><span class="mock-button">✎</span></td></tr>
+    <tr><td>Wi-Fi password</td><td class="mono">•••••••• 👁</td><td><span class="mock-button">✎</span></td></tr>
+    <tr><td>Check-in</td><td class="mono">16:00</td><td><span class="mock-button">✎</span></td></tr>
+    <tr><td>Check-out</td><td class="mono">11:00</td><td><span class="mock-button">✎</span></td></tr>
+  </table>
+  <p style="font-size:9pt;color:#666"><b>Last edit</b> 2026-05-20 04:41 by mail@yukihamada.jp</p>
+</div>
+
+<h3>同期バッジの意味</h3>
+<table class="t">
+  <tr><th style="width:36mm">バッジ</th><th>意味</th><th>必要なアクション</th></tr>
+  <tr><td><span class="badge ok">🟢 Lock synced HH:MM</span></td><td>物理 SwitchBot Lock が DB と一致</td><td>なし</td></tr>
+  <tr><td><span class="badge pending">🟡 Syncing to lock…</span></td><td>KAGI iOS による書き込み待ち</td><td>5-15 分待つ</td></tr>
+  <tr><td><span class="badge err">🔴 Lock sync failed</span></td><td>SwitchBot 書き込み失敗（バッテリー切れ等）</td><td>06 章を参照</td></tr>
+  <tr><td>（バッジなし）</td><td>まだ一度も同期されていない</td><td>KAGI iOS app で初回同期</td></tr>
+</table>
+
+</section>
+
+<!-- ═══════════════════════════════════ 04 ROTATE DOOR ═══════════════════════════════════ -->
+<section class="page-break">
+<h2>04. 鍵番号のローテーション手順</h2>
+
+<p>チェックアウトごと、または最低でも 30 日に 1 回は鍵番号をローテーション（変更）することを推奨します。<b>ローテーションすると旧コードは即座に無効になります</b>。</p>
+
+<div class="callout danger">
+  <div class="title">🚨 在室ゲストへの影響</div>
+  <p>
+    <b>現地に滞在中のゲストがいる状態でローテートすると、そのゲストは締め出されます。</b><br>
+    システムが自動で在室判定し、警告ダイアログを出しますが、最終確認は人間が行ってください。
+  </p>
+</div>
+
+<h3>標準フロー</h3>
+<ol class="steps">
+  <li><span class="step-title"><code>/admin/secrets</code> を開く</span><span class="step-body">対象物件のカードを探す</span></li>
+  <li><span class="step-title">"Door code" 行の <span class="mock-button">⟳ ローテート</span> ボタンを押す</span><span class="step-body">確認モーダルが開く</span></li>
+  <li><span class="step-title">確認ダイアログ</span><span class="step-body">「鍵番号を新しい 6 桁に変更します。既存のゲストはアクセスできなくなります。続けますか？」 → <b>OK</b></span></li>
+  <li><span class="step-title">在室ゲストいる場合の二段階確認</span><span class="step-body">サーバーが 412 を返し、ブラウザは「いまご滞在中のお客様が N 組います: ...」を表示。本当に問題ない場合のみ OK</span></li>
+  <li><span class="step-title">新しい鍵番号がクリップボードにコピーされる</span><span class="step-body">トースト「新しい鍵番号: 530955 (コピーしました)」を表示。 DB と画面が即時更新</span></li>
+  <li><span class="step-title">同期バッジが 🟡 → 🟢 に変わるのを待つ</span><span class="step-body">KAGI iOS app が SwitchBot に書き込み完了 → 自動で 🟢 になる。最大 15 分</span></li>
+  <li><span class="step-title">マニュアルページで動作確認</span><span class="step-body"><code>/&lt;slug&gt;/manual</code> を開き、Quick info カードの鍵番号が新しいものになっているか確認</span></li>
+</ol>
+
+<h3>非常時 (KAGI 連携が動かない場合)</h3>
+<ol class="steps">
+  <li><span class="step-title">同期バッジ 🟡 が 15 分以上続く</span><span class="step-body">KAGI iOS app の Background Refresh が止まっている可能性</span></li>
+  <li><span class="step-title">KAGI iOS app を起動</span><span class="step-body">アプリを開くだけで foreground sync が走る</span></li>
+  <li><span class="step-title">「🔄 鍵を同期」ボタンを物件パネルから手動押下</span><span class="step-body">即時に SOLUNA → SwitchBot 書き込みが実行される</span></li>
+  <li><span class="step-title">それでも🔴 になる場合</span><span class="step-body">SwitchBot Hub のネット接続 / ロックのバッテリーを確認。最終手段として現地スタッフが手動プログラム</span></li>
+</ol>
+
+<div class="callout">
+  <div class="title">📌 7 日間の Grace Period</div>
+  <p>
+    ローテーション後、<b>旧コードは DB の <code>previous_door_code</code> 欄に 7 日間保持</b>されます。<br>
+    「うっかり前の鍵を案内していた」場合、<code>/admin/secrets/&lt;slug&gt;/audit</code> から旧コードを参照できます。<br>
+    ※ ただし物理ロックは即時切り替わるため、旧コードでは開きません。
+  </p>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════ 05 WIFI / CHECKIN ═══════════════════════════════════ -->
+<section class="page-break">
+<h2>05. Wi-Fi パスワード / チェックイン時刻の変更</h2>
+
+<p>鍵番号と違い、Wi-Fi / 時刻はローテートではなく <b>編集モーダル</b> で値を直接入力します。</p>
+
+<h3>編集手順</h3>
+<ol class="steps">
+  <li><span class="step-title"><code>/admin/secrets</code> を開く</span></li>
+  <li><span class="step-title">対象フィールドの <span class="mock-button">✎</span> ボタンを押す</span><span class="step-body">編集モーダルが開く</span></li>
+  <li><span class="step-title">新しい値を入力</span><span class="step-body">時刻は <code>HH:MM</code> 形式（例: 16:00）。Wi-Fi PW は 128 文字以内</span></li>
+  <li><span class="step-title">「保存」を押す</span><span class="step-body">トーストで保存確認 → モーダルが閉じる</span></li>
+  <li><span class="step-title">マニュアルページで反映確認</span><span class="step-body"><code>/&lt;slug&gt;/manual</code> をリロードして新しい値が出ているか</span></li>
+</ol>
+
+<h3>Wi-Fi 編集の注意</h3>
+<div class="callout warn">
+  <div class="title">⚠ 物理ルーターと一致させる</div>
+  <p>
+    <b>DB を変えても物理ルーターの SSID/PW は変わりません。</b><br>
+    Wi-Fi 変更時は必ず：
+  </p>
+  <ol class="clean" style="margin-top:2mm">
+    <li>(1) 現地ルーターの設定画面で SSID/PW を更新</li>
+    <li>(2) Wi-Fi が新パスワードで実際に繋がることを確認</li>
+    <li>(3) 確認後に <code>/admin/secrets</code> で同じ値を入力</li>
+  </ol>
+  <p>順番を逆にすると、ゲストに「Wi-Fi 繋がらない」苦情が来ます。</p>
+</div>
+
+<h3>チェックイン時刻の運用</h3>
+<ul class="clean">
+  <li>標準: <b>16:00 イン / 10:00 アウト</b>（北海道 3 物件）、<b>16:00 / 11:00</b>（atami）</li>
+  <li>変更例: シーズン繁忙期に 15:00 イン → 在室時間延長</li>
+  <li>過去の予約への影響: Beds24 側の予約は変更されない。新規予約から適用</li>
+</ul>
+</section>
+
+<!-- ═══════════════════════════════════ 06 KAGI iOS ═══════════════════════════════════ -->
+<section class="page-break">
+<h2>06. KAGI iOS app による物理ロック自動同期</h2>
+
+<p>
+SOLUNA の DB を変えると、<b>KAGI iOS app（管理者の iPhone）が自動で SwitchBot Lock に書き込み</b>を行います。<br>
+これにより「DB は新しいが現地ロックが古いまま」という事故を防ぎます。
+</p>
+
+<h3>仕組み（概要）</h3>
+<pre class="code">/admin/secrets で⟳ ローテート
+    ↓ DB 更新 (door_code = 530955)
+    ↓ lock_sync_status = 'pending'
+KAGI iOS app (yuki iPhone)
+    ↓ 15 分ごとに poll /api/soluna/owner/property-secrets/&lt;slug&gt;
+    ↓ home.doorCode != 新コード → 差分検知
+    ↓ SwitchBotClient.createPermanentPassword(...)
+    ↓ POST sync-ack {status: 'ok', key_id: ...}
+soluna-web: lock_sync_status = 'ok'
+   ↓ /admin/secrets バッジ 🟢 Lock synced</pre>
+
+<h3>初回セットアップ手順（物件 1 つにつき 1 回）</h3>
+<ol class="steps">
+  <li><span class="step-title">SwitchBot Lock を物件玄関に設置</span><span class="step-body">物理取付け + ペアリング。SwitchBot 公式アプリで一度動作確認</span></li>
+  <li><span class="step-title">SwitchBot OpenAPI トークン / Secret を取得</span><span class="step-body">SwitchBot 公式アプリ → プロフィール → 開発者向け → トークン取得</span></li>
+  <li><span class="step-title">KAGI iOS を開き「物件を追加」</span><span class="step-body">SOLUNA portfolio から自動取り込み or 手動で名前入力</span></li>
+  <li><span class="step-title">該当 Home の設定画面で以下を入力</span><span class="step-body">SwitchBot トークン / Secret / Lock デバイス ID（SwitchBotClient.fetchDevices で一覧化）</span></li>
+  <li><span class="step-title">「🔄 鍵を同期」ボタンで初回テスト</span><span class="step-body">SOLUNA の現在 door_code が SwitchBot に書き込まれる。成功すると Toast「鍵を同期しました」</span></li>
+  <li><span class="step-title">/admin/secrets で 🟢 Lock synced を確認</span></li>
+</ol>
+
+<h3>運用</h3>
+<ul class="clean">
+  <li>KAGI iOS app は <b>foreground 復帰時</b>と <b>15 分の Background Refresh</b> で自動 sync</li>
+  <li>iPhone がスリープ / 機内モードでも、復帰後に自動再開</li>
+  <li>手動同期: 各 Home パネルの「🔄 鍵を同期」ボタン</li>
+</ul>
+
+<div class="callout danger">
+  <div class="title">🚨 大事な制約</div>
+  <p>
+    KAGI iOS app は <b>管理者の iPhone 1 台</b>で全 4 物件の同期を担います。<br>
+    その iPhone を紛失 / 機種変したら、新端末で再セットアップが必要。<br>
+    バックアップとして iCloud Drive / Keychain Backup を有効化推奨。
+  </p>
+</div>
+
+<h3>トラブル: SwitchBot に書き込まれない</h3>
+<table class="t">
+  <tr><th style="width:50mm">症状</th><th>原因</th><th>対処</th></tr>
+  <tr><td>🟡 Syncing が 15 分以上続く</td><td>KAGI iOS が Background Refresh 停止</td><td>アプリを起動</td></tr>
+  <tr><td>🔴 Lock sync failed (battery low)</td><td>SwitchBot のバッテリー切れ</td><td>電池交換 → 「🔄 鍵を同期」</td></tr>
+  <tr><td>🔴 Lock sync failed (offline)</td><td>SwitchBot Hub が WiFi 切断</td><td>現地ルーター再起動</td></tr>
+  <tr><td>🔴 Lock sync failed (auth)</td><td>SwitchBot トークン期限切れ</td><td>新トークン取得して KAGI Home に再入力</td></tr>
+  <tr><td>🔴 Lock sync failed (invalid passcode)</td><td>door_code が SwitchBot 制約違反</td><td>6 桁数字に修正</td></tr>
+</table>
+</section>
+
+<!-- ═══════════════════════════════════ 07 EMERGENCY ═══════════════════════════════════ -->
+<section class="page-break">
+<h2>07. 緊急時の対応フロー</h2>
+
+<h3>火事 / 救急（人命優先）</h3>
+<ol class="steps">
+  <li><span class="step-title"><b>119</b> へ通報（消防・救急）</span><span class="step-body">場所を伝える。物件名（例: SOLUNA 美留和 THE LODGE）+ 住所</span></li>
+  <li><span class="step-title">ゲストを屋外に避難</span><span class="step-body">無理な救助は不要。ゲストとスタッフの命を優先</span></li>
+  <li><span class="step-title">SOLUNA 管理者に連絡</span><span class="step-body"><code>mail@yukihamada.jp</code> / <code>info@solun.art</code></span></li>
+  <li><span class="step-title">必要に応じて当該物件を一時閉鎖</span><span class="step-body">Beds24 / Stripe で新規予約を一時停止</span></li>
+</ol>
+
+<h3>盗難 / 不審者</h3>
+<ol class="steps">
+  <li><span class="step-title"><b>110</b> へ通報</span></li>
+  <li><span class="step-title">侵入があった場合 → /admin/secrets で鍵番号 ⟳ ローテート</span><span class="step-body">在室ゲストへ新コードを連絡（メール / 電話）</span></li>
+  <li><span class="step-title">Wi-Fi 不正利用の疑い → Wi-Fi PW 変更</span></li>
+</ol>
+
+<h3>設備故障（停電 / 給水停止 / Wi-Fi 死亡）</h3>
+<table class="t">
+  <tr><th style="width:40mm">設備</th><th>初動</th><th>連絡先</th></tr>
+  <tr><td>停電</td><td>ブレーカー確認 → 北海道電力 / 東京電力に確認</td><td><code>0120-995-007</code>（道電） <code>0120-995-001</code>（東電）</td></tr>
+  <tr><td>給水停止</td><td>水道メーター近くの止水栓確認</td><td>現地自治体水道課</td></tr>
+  <tr><td>Wi-Fi</td><td>ルーター電源 OFF → 30 秒 → ON</td><td>5G 携帯テザリングを案内</td></tr>
+  <tr><td>サウナ / ジャグジー</td><td>各物件マニュアル参照</td><td>SOLUNA サポート</td></tr>
+  <tr><td>車のトラブル</td><td>JAF を案内</td><td><code>#8139</code> または <code>0570-00-2910</code></td></tr>
+</table>
+
+<div class="callout warn">
+  <div class="title">⚠ 旅館業法に基づく報告義務</div>
+  <p>
+    重大事故（死亡・重傷・食中毒・感染症発生）は <b>所轄保健所</b> + <b>消防</b>に即時報告が必要。<br>
+    報告から 24 時間以内に SOLUNA 管理者へ書面報告。
+  </p>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════ 08 AUDIT ═══════════════════════════════════ -->
+<section class="page-break">
+<h2>08. 監査ログ / トラブルシュート</h2>
+
+<h3>誰がいつ何を変えたか</h3>
+<p>
+すべての変更は <code>soluna_secret_audit</code> テーブルに自動記録されています。
+</p>
+<pre class="code">GET /api/soluna/admin/property-secrets/&lt;slug&gt;/audit?limit=50
+Authorization: Bearer &lt;sln_token&gt;
+X-Requested-With: XMLHttpRequest</pre>
+
+<p>レスポンス例:</p>
+<pre class="code">{
+  "ok": true,
+  "slug": "lodge",
+  "audit": [
+    { "id":42, "field":"door_code", "old_value":"530955", "new_value":"744002",
+      "action":"rotate", "by_email":"mail@yukihamada.jp",
+      "client_ip":"203.0.113.5", "created_at":"2026-05-20 04:41:02" },
+    { "id":41, "field":"wifi_pass", "old_value":null, "new_value":"sunsetwifi",
+      "action":"edit", "by_email":"mail@yukihamada.jp",
+      "created_at":"2026-05-19 17:30:00" }
+  ]
+}</pre>
+
+<h3>SwitchBot 書き込み履歴</h3>
+<p><code>soluna_lock_sync_log</code> テーブルに、KAGI iOS app からの ack を時系列で保存。</p>
+
+<h3>よくあるトラブル</h3>
+
+<div class="faq-q">マニュアルページが 404 になる</div>
+<div class="faq-a">slug 名が誤り。<code>atami</code> / <code>lodge</code> / <code>nesting</code> / <code>instant</code> のいずれか。新物件は <code>MANUAL_SLUGS</code> に追加が必要。</div>
+
+<div class="faq-q">ローテーション後にゲストから「鍵が開かない」と連絡</div>
+<div class="faq-a">
+1) /admin/secrets を開いて新鍵番号を再確認 →
+2) ゲストに新番号をメール/電話で送る →
+3) SwitchBot Lock が物理的に書き換わっているか「🔄 鍵を同期」ボタンで確認。
+</div>
+
+<div class="faq-q">/admin/secrets で「未設定」が消えない</div>
+<div class="faq-a">該当フィールドの ✎ から実値を入力して保存。Wi-Fi PW は物理ルーターと一致確認後に。</div>
+
+<div class="faq-q">CSRF エラー「missing X-Requested-With」</div>
+<div class="faq-a">curl で直接叩いた場合に発生。<code>-H "X-Requested-With: XMLHttpRequest"</code> を追加。</div>
+
+<div class="faq-q">Rate limit エラー (HTTP 429)</div>
+<div class="faq-a">1 分に 20 回以上の PUT or 10 回以上の rotate でブロック。1 分待って再試行。</div>
+
+</section>
+
+<!-- ═══════════════════════════════════ 09 FAQ ═══════════════════════════════════ -->
+<section class="page-break">
+<h2>09. よくある質問 (FAQ)</h2>
+
+<div class="faq-q">Q1. 鍵番号はどのくらいの頻度でローテートすべき？</div>
+<div class="faq-a">最低でも 30 日に 1 回、理想は <b>チェックアウトごと</b>。次のゲストの安全のため。</div>
+
+<div class="faq-q">Q2. 鍵番号 6 桁は推測されないの？</div>
+<div class="faq-a">6 桁 = 100 万通り。スマートロックの試行回数制限と組み合わせれば実質安全。さらに <code>previous_door_code</code> は 7 日で失効。</div>
+
+<div class="faq-q">Q3. KAGI iOS app を入れている iPhone を機種変したら？</div>
+<div class="faq-a">新端末で KAGI を再インストール → Apple ID 同期 or iCloud Drive backup から復元 → SwitchBot トークンの再入力（必要なら）。</div>
+
+<div class="faq-q">Q4. 複数の管理者が同時に編集したら？</div>
+<div class="faq-a">現在は last-write-wins。<b>編集前に他管理者と口頭調整</b>を。今後 optimistic lock を実装予定。</div>
+
+<div class="faq-q">Q5. ゲストにマニュアル URL を案内するタイミングは？</div>
+<div class="faq-a">予約確定メールに <code>https://solun.art/&lt;slug&gt;/manual</code> を記載。ゲストは OTP ログイン後に閲覧可能。</div>
+
+<div class="faq-q">Q6. ゲストから「マニュアルが見れない」と連絡</div>
+<div class="faq-a">予約日が check-in 14 日前 〜 check-out 7 日後の窓に入っているか確認。窓外はアクセス不可。</div>
+
+<div class="faq-q">Q7. 新物件を追加するには？</div>
+<div class="faq-a">server.js の <code>MANUAL_SLUGS</code> / <code>MANUAL_PROPERTY_NAME</code> / <code>PROPERTY_SECRET_DEFAULTS</code> に追加 + <code>cabin/&lt;slug&gt;-manual.html</code> を作成 + /admin/secrets が自動表示。</div>
+
+<div class="faq-q">Q8. Wi-Fi パスワードは KAGI iOS 経由で同期される？</div>
+<div class="faq-a">door_code と同じく KAGI iOS が poll → home.wifiPassword を更新。ただし<b>物理ルーターは別途手動更新が必要</b>（KAGI app からの API 書き込み不可）。</div>
+
+</section>
+
+<!-- ═══════════════════════════════════ 10 API REFERENCE ═══════════════════════════════════ -->
+<section class="page-break">
+<h2>10. 付録: API リファレンス</h2>
+
+<h3>管理者 API（admin のみ）</h3>
+<table class="t">
+  <tr><th style="width:14mm">Method</th><th style="width:64mm">Path</th><th>説明</th></tr>
+  <tr><td class="mono">GET</td><td class="mono">/api/soluna/admin/property-secrets/:slug</td><td>5 フィールド + audit 情報を返す</td></tr>
+  <tr><td class="mono">PUT</td><td class="mono">/api/soluna/admin/property-secrets/:slug</td><td>フィールド更新（X-Requested-With 必須）</td></tr>
+  <tr><td class="mono">POST</td><td class="mono">/api/soluna/admin/property-secrets/:slug/rotate-door</td><td>6 桁ローテート。在室ゲスト時は 412 → confirm:true 再送</td></tr>
+  <tr><td class="mono">GET</td><td class="mono">/api/soluna/admin/property-secrets/:slug/audit</td><td>監査ログ（最大 200 件）</td></tr>
+</table>
+
+<h3>オーナー / 予約者 API（coupon / purchase / booking 保有者）</h3>
+<table class="t">
+  <tr><th style="width:14mm">Method</th><th style="width:64mm">Path</th><th>説明</th></tr>
+  <tr><td class="mono">GET</td><td class="mono">/api/soluna/owner/property-secrets/:slug</td><td>door_code / wifi / 時刻を返却。KAGI iOS が polling</td></tr>
+  <tr><td class="mono">POST</td><td class="mono">/api/soluna/owner/sync-ack</td><td>KAGI iOS が SwitchBot 書き込み結果を報告</td></tr>
+</table>
+
+<h3>ゲスト向け（要 booking）</h3>
+<table class="t">
+  <tr><th style="width:14mm">Method</th><th style="width:64mm">Path</th><th>説明</th></tr>
+  <tr><td class="mono">GET</td><td class="mono">/:slug/manual</td><td>ハウスマニュアル本体</td></tr>
+  <tr><td class="mono">GET</td><td class="mono">/:slug</td><td>物件 LP（マニュアルへのフッターリンクあり）</td></tr>
+</table>
+
+<h3>curl サンプル — 鍵番号ローテーション (CLI 経由)</h3>
+<pre class="code"># 1) OTP 発行 (本人にメール送信)
+curl -X POST https://solun.art/api/soluna/otp \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"mail@yukihamada.jp"}'
+
+# 2) verify (メールで届いた 6 桁を入れる)
+TOKEN=$(curl -s -X POST https://solun.art/api/soluna/verify \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"mail@yukihamada.jp","code":"123456"}' | jq -r .token)
+
+# 3) rotate (confirm 必須 — CLI でも在室ゲスト検知が走る)
+curl -X POST 'https://solun.art/api/soluna/admin/property-secrets/lodge/rotate-door?confirm=1' \
+  -H "Authorization: Bearer $TOKEN" \
+  -H 'X-Requested-With: XMLHttpRequest' \
+  -H 'Origin: https://solun.art'</pre>
+
+<div class="callout">
+  <div class="title">📞 困ったら</div>
+  <p>
+    <b>サポートメール</b> <code>info@solun.art</code><br>
+    <b>管理者直通</b> <code>mail@yukihamada.jp</code><br>
+    <b>マニュアル PDF 最新版</b> <code>https://solun.art/docs/runbook.pdf</code><br>
+    <b>運用 dashboard</b> <code>https://solun.art/admin/secrets</code>
+  </p>
+</div>
+
+<p style="text-align:center;color:#888;font-size:9pt;margin-top:20mm">
+— SOLUNA Operations Runbook v1.0 / 2026-05-20 / Enabler Inc. —
+</p>
+</section>
+
+</body>
+</html>
