@@ -353,6 +353,81 @@ body.is-admin{padding-top:calc(56px + 36px + env(safe-area-inset-top))}
   .contact-row{flex-direction:column;align-items:flex-start;gap:8px}
   .contact-tel a{width:100%;justify-content:center}
 }
+
+/* ── Quick-info card (pinned top summary) ─────────────────────────────── */
+.quick{
+  background:linear-gradient(180deg,#0d0d0d 0%,#080808 100%);
+  border:1px solid var(--gold-dim);border-radius:14px;
+  padding:22px 16px 18px;margin:8px 0 24px;
+  display:grid;grid-template-columns:1fr 1fr;gap:18px 22px;position:relative;
+}
+.quick::before{
+  content:'今すぐ必要な情報 · Quick Info';
+  position:absolute;top:-9px;left:14px;background:var(--bg);
+  font-size:9.5px;letter-spacing:.22em;color:var(--gold);
+  font-weight:800;text-transform:uppercase;padding:0 9px;
+}
+.q-row{display:flex;flex-direction:column;gap:4px;min-width:0}
+.q-row.wide{grid-column:1/-1}
+.q-key{font-size:9.5px;letter-spacing:.2em;color:var(--text-soft);text-transform:uppercase;font-weight:700;display:flex;align-items:center;gap:6px}
+.q-val{font-family:'SF Mono',ui-monospace,'Menlo',monospace;color:var(--text);font-weight:700;font-size:16px;letter-spacing:.04em;word-break:break-all;line-height:1.3}
+.q-val.code{font-size:22px;letter-spacing:.14em}
+.q-val.muted{color:#555;font-weight:400;font-style:italic;font-family:inherit;font-size:13px}
+.q-val.small{font-size:13px}
+.q-copy{
+  display:inline-flex;align-items:center;gap:5px;font-size:10.5px;color:var(--accent);
+  background:var(--accent-soft);border:1px solid var(--accent-dim);
+  padding:6px 11px;border-radius:100px;margin-top:6px;align-self:flex-start;
+  cursor:pointer;font-weight:600;line-height:1.4;font-family:inherit;
+}
+.q-copy:active{transform:scale(.96);background:rgba(102,170,187,.18)}
+@media(max-width:480px){.quick{grid-template-columns:1fr;gap:14px;padding:20px 14px 16px}}
+
+/* ── Emergency contacts ───────────────────────────────────────────────── */
+.emergency{
+  background:rgba(192,57,43,.07);border:1px solid rgba(192,57,43,.32);
+  border-radius:12px;padding:18px 16px;margin:0 0 28px;position:relative;
+}
+.emergency h3{font-size:14px;color:#d65a4d;font-weight:800;margin-bottom:10px;letter-spacing:.01em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.emergency h3 .en{color:#a04a40;font-weight:500;font-size:12px;letter-spacing:.01em}
+.emergency .em-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px dashed rgba(192,57,43,.18);gap:12px;flex-wrap:wrap}
+.emergency .em-row:last-child{border-bottom:0}
+.emergency .em-name{font-size:13px;color:var(--text);line-height:1.45;flex:1;min-width:140px}
+.emergency .em-name small{display:block;color:var(--text-soft);font-size:11px;margin-top:2px}
+.emergency .em-tel a{
+  font-family:'SF Mono',ui-monospace,monospace;color:#d65a4d;font-weight:700;font-size:13.5px;
+  border:1px solid rgba(192,57,43,.35);padding:9px 13px;border-radius:100px;
+  display:inline-flex;align-items:center;gap:5px;min-height:40px;white-space:nowrap;
+}
+.emergency .em-tel a:active{background:rgba(192,57,43,.12);text-decoration:none;transform:scale(.97)}
+
+/* ── Touch feedback + focus ring + JP wrap ────────────────────────────── */
+.code-box .copy:active,.map-link:active,.contact-tel a:active{transform:scale(.97);opacity:.85}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+button:focus-visible,a:focus-visible,details summary:focus-visible,input:focus-visible{outline-offset:3px}
+.head h1,.sec-h h2,.sub h3,.fact-val,.head .sub-en{word-break:keep-all;overflow-wrap:anywhere}
+
+/* ── Toast respects iPhone home indicator ─────────────────────────────── */
+.toast{bottom:calc(24px + env(safe-area-inset-bottom))}
+
+/* ── Lang toggle (small JP/EN floating pill) ──────────────────────────── */
+.lang-toggle{
+  position:fixed;top:calc(max(56px,env(safe-area-inset-top)) + 10px);right:14px;z-index:60;
+  background:rgba(10,10,10,.86);backdrop-filter:saturate(140%) blur(14px);
+  border:1px solid #232323;border-radius:100px;padding:4px;display:flex;gap:0;
+}
+body.is-admin .lang-toggle{top:calc(max(56px,env(safe-area-inset-top)) + 46px)}
+.lang-toggle button{
+  background:transparent;border:none;color:var(--text-soft);font-family:inherit;
+  font-size:10.5px;font-weight:700;padding:7px 12px;border-radius:100px;
+  cursor:pointer;letter-spacing:.06em;min-width:38px;min-height:32px;line-height:1;
+}
+.lang-toggle button.on{background:var(--gold);color:#040404}
+body[data-lang="en"] .ja-only{display:none !important}
+body[data-lang="ja"] .en-only{display:none !important}
+body[data-lang="en"] :is(p,li,div,summary,h3,h4) > .en{
+  display:block;font-style:normal;color:var(--text);font-size:inherit;margin-top:0;
+}
 </style>
 </head>
 <body data-admin="{{ADMIN_FLAG}}">
@@ -391,6 +466,54 @@ body.is-admin{padding-top:calc(56px + 36px + env(safe-area-inset-top))}
     <span style="opacity:.85">Failure to follow the rules below may result in a penalty fee.</span></span>
   </div>
 
+  <!-- Quick info: 鍵 / Wi-Fi / 時刻 — pinned at top so guests don't have to scroll -->
+  <aside class="quick" aria-label="今すぐ必要な情報 / Quick info">
+    <div class="q-row">
+      <div class="q-key">🔑 <span>鍵番号 / Door code</span></div>
+      <div class="q-val code" data-bind="door_code">{{DOOR_CODE}}</div>
+      <button class="q-copy" type="button" data-copy="door_code">📋 コピー / Copy</button>
+    </div>
+    <div class="q-row">
+      <div class="q-key">📶 <span>Wi-Fi</span></div>
+      <div class="q-val" data-bind="wifi_ssid">{{WIFI_SSID}}</div>
+      <div class="q-val small" data-bind="wifi_pass">{{WIFI_PASS}}</div>
+      <button class="q-copy" type="button" data-copy="wifi_pass">📋 PW コピー</button>
+    </div>
+    <div class="q-row">
+      <div class="q-key">🕓 <span>チェックイン / Check-in</span></div>
+      <div class="q-val" style="font-size:16px" data-bind="checkin_time">{{CHECKIN}}</div>
+    </div>
+    <div class="q-row">
+      <div class="q-key">🕚 <span>チェックアウト / Check-out</span></div>
+      <div class="q-val" style="font-size:16px" data-bind="checkout_time">{{CHECKOUT}}</div>
+    </div>
+  </aside>
+
+  <!-- Emergency contacts — required by 旅館業法 -->
+  <section class="emergency" aria-label="緊急連絡先">
+    <h3>🆘 緊急連絡先<span class="en">Emergency Contacts</span></h3>
+    <div class="em-row">
+      <div class="em-name">🚒 火事・救急<small>Fire &amp; Ambulance</small></div>
+      <div class="em-tel"><a href="tel:119">📞 119</a></div>
+    </div>
+    <div class="em-row">
+      <div class="em-name">👮 警察<small>Police</small></div>
+      <div class="em-tel"><a href="tel:110">📞 110</a></div>
+    </div>
+    <div class="em-row">
+      <div class="em-name">🚗 JAF ロードサービス<small>Auto roadside assistance · 24h</small></div>
+      <div class="em-tel"><a href="tel:0570002910">📞 0570-00-2910</a></div>
+    </div>
+    <div class="em-row">
+      <div class="em-name">🏥 熱海所沢病院<small>Atami Tokorozawa Hospital · 救急受付</small></div>
+      <div class="em-tel"><a href="tel:0557811161">📞 0557-81-1161</a></div>
+    </div>
+    <div class="em-row">
+      <div class="em-name">📩 SOLUNA サポート<small>info@solun.art · 滞在中のご質問</small></div>
+      <div class="em-tel"><a href="mailto:info@solun.art">📧 メール</a></div>
+    </div>
+  </section>
+
   <div class="facts">
     <div class="fact">
       <div class="fact-label">施設名 <small>FACILITY NAME</small></div>
@@ -424,7 +547,7 @@ body.is-admin{padding-top:calc(56px + 36px + env(safe-area-inset-top))}
       <div class="callout">
         <p><b>住所 / Address：</b>〒413-0033 静岡県熱海市熱海1993-272</p>
       </div>
-      <a class="map-link" href="https://goo.gl/maps/R2jBEd7vmpsg2pbC8" target="_blank" rel="noopener">📍 Google Map で開く / Open in Google Maps</a>
+      <a class="map-link" href="https://www.google.com/maps/place/35°05'02.5%22N+139°04'30.2%22E/@35.0840416,139.0750427,17z" target="_blank" rel="noopener">📍 Google Map で開く / Open in Google Maps</a>
 
       <div class="callout accent">
         <p>タクシーでお越しになる場合は「<b>（熱海城の上にある）ブルーシー熱海の隣の一軒家</b>」とお伝えください。<br>※熱海には「ブルーシ<b>ア</b>熱海」というマンションも存在します。間違えやすいのでお気をつけください。</p>
@@ -799,6 +922,18 @@ body.is-admin{padding-top:calc(56px + 36px + env(safe-area-inset-top))}
     clearTimeout(showToast._t);
     showToast._t = setTimeout(()=>t.classList.remove('show'), 2200);
   }
+
+  // Quick-info copy buttons (data-copy="<key>") — delegated, works for everyone
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-copy]');
+    if (!btn) return;
+    const key = btn.getAttribute('data-copy');
+    if (!key || typeof window.copyVal !== 'function') return;
+    const orig = btn.innerHTML;
+    window.copyVal(btn, key);
+    btn.innerHTML = '✓ ' + (key.includes('pass') ? 'PW' : '') + ' Copied';
+    setTimeout(()=>{ btn.innerHTML = orig; }, 1800);
+  });
 
   if (!isAdmin) return; // rest is admin-only
 

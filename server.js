@@ -11069,6 +11069,7 @@ const GATED_PAGE_LABELS = {
   "lodge-manual":"THE LODGE ハウスマニュアル",
   "nesting-manual":"NESTING ハウスマニュアル",
   "instant-manual":"インスタントハウス ハウスマニュアル",
+  "admin-secrets":"物件シークレット管理（管理者用）",
 };
 
 function authGatePage(pageKey, returnPath) {
@@ -11197,6 +11198,34 @@ app.use(async (req, res, next) => {
   res.sendFile(filePath);
 });
 
+// ── /admin/secrets : property-secrets dashboard (admins only) ─────────────
+app.get(["/admin/secrets", "/admin/secrets/"], async (req, res) => {
+  const token = parseCookies(req).sln_tok || "";
+  let member = null;
+  if (token) {
+    const r = await db.execute({
+      sql: `SELECT s.member_id, m.email, m.name, m.nah_access, m.member_type
+            FROM soluna_sessions s JOIN soluna_members m ON m.id = s.member_id
+            WHERE s.token=? AND s.expires_at > datetime('now')`,
+      args: [token],
+    }).catch(() => null);
+    member = r && r.rows[0] ? r.rows[0] : null;
+  }
+  if (!member) {
+    res.status(401).setHeader("Content-Type", "text/html; charset=UTF-8");
+    return res.send(authGatePage("admin-secrets", "/admin/secrets"));
+  }
+  if (!isPropertyAdmin(member)) {
+    res.status(403).setHeader("Content-Type", "text/html; charset=UTF-8");
+    return res.send(`<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>403</title>
+<style>body{background:#0a0908;color:#888;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center;padding:24px}p{font-size:.9rem;letter-spacing:.04em}</style></head>
+<body><p>このページは管理者専用です。<br><a href="/" style="color:#c8a455">ホームへ</a></p></body></html>`);
+  }
+  res.setHeader("Cache-Control", "private, no-store");
+  res.setHeader("Content-Type", "text/html; charset=UTF-8");
+  res.sendFile(path.join(CABIN_DIR, "admin-secrets.html"));
+});
+
 // ── /<slug>/manual : 物件ごとのハウスマニュアル（予約者・オーナー限定） ──
 // Slugs that have a manual file at cabin/<slug>-manual.html.
 const MANUAL_SLUGS = new Set(["atami","lodge","nesting","instant"]);
@@ -11259,8 +11288,14 @@ async function renderPropertyManual(slug, req, res) {
     if (purchaseRow && purchaseRow.rows.length > 0) hasAccess = true;
   }
   if (!hasAccess) {
+    // Allow access from 14 days before check-in to 7 days after check-out.
+    // Outside that window, a stale booking should NOT keep the door code visible.
     const bookingRow = await db.execute({
-      sql: "SELECT id FROM soluna_bookings WHERE member_id=? AND property_slug=? AND status NOT IN ('cancelled','failed') LIMIT 1",
+      sql: `SELECT id FROM soluna_bookings
+            WHERE member_id=? AND property_slug=?
+              AND status NOT IN ('cancelled','failed')
+              AND date('now') BETWEEN date(check_in, '-14 days') AND date(check_out, '+7 days')
+            LIMIT 1`,
       args: [member.member_id, slug],
     }).catch(() => null);
     if (bookingRow && bookingRow.rows.length > 0) hasAccess = true;
@@ -11348,20 +11383,56 @@ async function loadPropertySecrets(slug) {
   const defaults = PROPERTY_SECRET_DEFAULTS[slug] || {};
   try {
     const r = await db.execute({
-      sql: "SELECT door_code,wifi_ssid,wifi_pass,checkin_time,checkout_time FROM soluna_property_secrets WHERE slug=? LIMIT 1",
+      sql: "SELECT door_code,wifi_ssid,wifi_pass,checkin_time,checkout_time,updated_at,updated_by_email FROM soluna_property_secrets WHERE slug=? LIMIT 1",
       args: [slug],
     });
     const row = r.rows[0] || {};
     return {
-      door_code: row.door_code || defaults.door_code || "",
-      wifi_ssid: row.wifi_ssid || defaults.wifi_ssid || "",
-      wifi_pass: row.wifi_pass || defaults.wifi_pass || "",
-      checkin_time: row.checkin_time || defaults.checkin_time || "",
+      door_code:     row.door_code     || defaults.door_code     || "",
+      wifi_ssid:     row.wifi_ssid     || defaults.wifi_ssid     || "",
+      wifi_pass:     row.wifi_pass     || defaults.wifi_pass     || "",
+      checkin_time:  row.checkin_time  || defaults.checkin_time  || "",
       checkout_time: row.checkout_time || defaults.checkout_time || "",
+      updated_at:    row.updated_at    || null,
+      updated_by_email: row.updated_by_email || null,
     };
   } catch {
-    return { ...defaults };
+    return { ...defaults, updated_at: null, updated_by_email: null };
   }
+}
+
+// ── Same-origin / rate-limit guards for admin mutations ────────────────────
+const ADMIN_ALLOWED_ORIGINS = new Set([
+  "https://solun.art",
+  "https://www.solun.art",
+  "https://soluna-web.fly.dev",
+  // local dev
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+]);
+function sameOriginOk(req) {
+  // Block cross-origin browser POST/PUTs. CLI clients (no Origin / no Referer)
+  // are still allowed because they rely on Bearer auth anyway.
+  const origin = req.headers.origin;
+  const ref = req.headers.referer;
+  if (!origin && !ref) return true;
+  if (origin && ADMIN_ALLOWED_ORIGINS.has(origin)) return true;
+  if (ref) {
+    try {
+      const u = new URL(ref);
+      if (ADMIN_ALLOWED_ORIGINS.has(u.origin)) return true;
+    } catch {}
+  }
+  return false;
+}
+const _adminRate = new Map(); // key -> [ts]
+function adminRateOk(key, limit = 20, windowMs = 60_000) {
+  const now = Date.now();
+  const list = (_adminRate.get(key) || []).filter(t => now - t < windowMs);
+  if (list.length >= limit) { _adminRate.set(key, list); return false; }
+  list.push(now);
+  _adminRate.set(key, list);
+  return true;
 }
 
 const _manualTplCache = new Map(); // slug -> { html, mtime }
@@ -11394,11 +11465,16 @@ app.get("/api/soluna/admin/property-secrets/:slug", async (req, res) => {
 
 // PUT update (admins only)
 app.put("/api/soluna/admin/property-secrets/:slug", express.json(), async (req, res) => {
+  if (!sameOriginOk(req)) return res.status(403).json({ error: "bad origin" });
   const member = await solunaAuth(req);
   if (!member) return res.status(401).json({ error: "unauthorized" });
   if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+  if (!adminRateOk(`secrets:${member.member_id}`, 20, 60_000)) {
+    return res.status(429).json({ error: "rate limited" });
+  }
   const slug = String(req.params.slug || "").replace(/[^a-z0-9_-]/gi, "");
   if (!slug) return res.status(400).json({ error: "bad slug" });
+  if (!MANUAL_SLUGS.has(slug)) return res.status(400).json({ error: "unknown slug" });
 
   const body = req.body || {};
   const clean = (v, max) => {
@@ -11435,6 +11511,43 @@ app.put("/api/soluna/admin/property-secrets/:slug", express.json(), async (req, 
   _manualTplCache.delete(slug);
   const data = await loadPropertySecrets(slug);
   res.json({ ok: true, slug, data });
+});
+
+// POST rotate-door — generates a new random 6-digit door code, saves it, returns it.
+app.post("/api/soluna/admin/property-secrets/:slug/rotate-door", async (req, res) => {
+  if (!sameOriginOk(req)) return res.status(403).json({ error: "bad origin" });
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+  if (!adminRateOk(`rotate:${member.member_id}`, 10, 60_000)) {
+    return res.status(429).json({ error: "rate limited" });
+  }
+  const slug = String(req.params.slug || "").replace(/[^a-z0-9_-]/gi, "");
+  if (!MANUAL_SLUGS.has(slug)) return res.status(400).json({ error: "unknown slug" });
+
+  // Generate a 6-digit code that avoids trivial patterns
+  const TRIVIAL = new Set(["000000","111111","222222","333333","444444","555555","666666","777777","888888","999999","123456","654321","012345","000123"]);
+  let code = "";
+  for (let attempt = 0; attempt < 30; attempt++) {
+    const n = Math.floor(crypto.randomInt(100000, 1000000));
+    const s = String(n).padStart(6, "0");
+    if (!TRIVIAL.has(s)) { code = s; break; }
+  }
+  if (!code) code = String(Math.floor(100000 + Math.random() * 900000));
+
+  await db.execute({
+    sql: `INSERT INTO soluna_property_secrets (slug,door_code,updated_at,updated_by_member_id,updated_by_email)
+          VALUES (?,?,datetime('now'),?,?)
+          ON CONFLICT(slug) DO UPDATE SET
+            door_code=excluded.door_code,
+            updated_at=datetime('now'),
+            updated_by_member_id=excluded.updated_by_member_id,
+            updated_by_email=excluded.updated_by_email`,
+    args: [slug, code, member.member_id, member.email],
+  });
+  _manualTplCache.delete(slug);
+  const data = await loadPropertySecrets(slug);
+  res.json({ ok: true, slug, data, rotated: true, new_door_code: code });
 });
 
 // ── Voice Memo API ────────────────────────────────────────────────────────────
