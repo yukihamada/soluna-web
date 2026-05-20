@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>プロフィール設定 — SOLUNA</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#040404">
+<meta name="robots" content="noindex,nofollow">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455;
+  --gold-dim:rgba(200,164,85,.4);
+  --gold-soft:rgba(200,164,85,.08);
+  --accent:#66aabb;
+  --bg:#0a0908;
+  --panel:#141210;
+  --text:#f0ece4;
+  --text-dim:#9a9a9a;
+  --text-soft:#666;
+  --line:#2a2520;
+  --line:#1a1a1a;
+  --danger:#c0392b;
+  --ok:#4a9a5a;
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Helvetica Neue',-apple-system,BlinkMacSystemFont,'Noto Sans JP',sans-serif;
+  -webkit-font-smoothing:antialiased;line-height:1.6;
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:24px;padding-bottom:calc(24px + env(safe-area-inset-bottom));
+}
+.card{
+  width:100%;max-width:440px;background:var(--panel);
+  border:1px solid var(--line);border-radius:14px;padding:36px 28px;
+}
+.logo{font-size:11px;font-weight:800;letter-spacing:.25em;color:var(--gold);margin-bottom:8px}
+h1{font-size:22px;font-weight:800;margin-bottom:8px;color:var(--text);letter-spacing:-.015em}
+.sub{font-size:12.5px;color:var(--text-dim);line-height:1.7;margin-bottom:26px}
+.email-row{
+  background:var(--bg);border:1px solid var(--line);border-radius:8px;
+  padding:11px 14px;margin-bottom:18px;font-size:12.5px;color:var(--text-dim);
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+}
+.email-row .em{font-family:'SF Mono',ui-monospace,monospace;color:var(--text);font-size:13px;word-break:break-all}
+.email-row .chip{font-size:9.5px;letter-spacing:.16em;color:var(--gold);background:var(--gold-soft);padding:3px 8px;border-radius:100px;text-transform:uppercase;font-weight:700;flex-shrink:0}
+label{
+  display:block;font-size:10.5px;letter-spacing:.18em;color:var(--text-soft);
+  text-transform:uppercase;font-weight:700;margin:18px 0 6px;
+}
+label small{display:block;font-size:9.5px;letter-spacing:.12em;color:#3a3a3a;margin-top:2px;font-weight:500;text-transform:none}
+input{
+  width:100%;background:var(--bg);border:1px solid var(--line);
+  color:var(--text);padding:14px;border-radius:8px;
+  font-size:15px;outline:none;font-family:inherit;
+  min-height:48px;-webkit-appearance:none;
+  transition:border .15s;
+}
+input:focus{border-color:var(--gold)}
+input.invalid{border-color:var(--danger)}
+.hint{font-size:11px;color:var(--text-soft);margin-top:5px;line-height:1.55}
+.btn{
+  width:100%;background:var(--gold);color:#040404;
+  font-weight:800;font-size:13px;letter-spacing:.1em;
+  padding:14px;border:none;border-radius:100px;cursor:pointer;
+  margin-top:24px;min-height:48px;line-height:1;font-family:inherit;
+}
+.btn:active{opacity:.85}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.msg{font-size:12.5px;text-align:center;min-height:18px;margin-top:14px}
+.msg.ok{color:var(--ok)}
+.msg.err{color:var(--danger)}
+.divider{
+  position:relative;text-align:center;margin:28px 0 18px;
+  font-size:10px;color:var(--text-soft);letter-spacing:.2em;text-transform:uppercase;
+}
+.divider::before,.divider::after{
+  content:'';position:absolute;top:50%;width:38%;height:1px;background:var(--line);
+}
+.divider::before{left:0}
+.divider::after{right:0}
+.line-btn{
+  width:100%;background:#06c755;color:#fff;font-weight:700;
+  font-size:13px;letter-spacing:.06em;padding:14px;border-radius:100px;
+  text-align:center;text-decoration:none;display:block;min-height:48px;
+  line-height:20px;border:none;cursor:pointer;font-family:inherit;
+}
+.line-btn:active{opacity:.85}
+.line-btn[disabled]{opacity:.4;cursor:not-allowed}
+.line-note{font-size:11px;color:var(--text-soft);text-align:center;margin-top:8px;line-height:1.5}
+.foot{font-size:10.5px;color:var(--text-soft);margin-top:24px;text-align:center;line-height:1.7}
+.foot a{color:var(--gold);text-decoration:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+</style>
+</head>
+<body>
+<form class="card" id="form" onsubmit="return false">
+  <div class="logo">SOLUNA</div>
+  <h1 id="title">プロフィール設定</h1>
+  <p class="sub" id="sub">初回ログインありがとうございます。<br>サービス利用に必要な <b>お名前</b> と <b>電話番号</b> をご登録ください。</p>
+
+  <div class="email-row">
+    <span class="em" id="email">—</span>
+    <span class="chip">ログイン済</span>
+  </div>
+
+  <label for="name">お名前 <small>例: 濱田 優貴</small></label>
+  <input id="name" type="text" autocomplete="name" maxlength="80" required>
+
+  <label for="phone">電話番号 <small>例: 090-7409-0407 または +81-90-7409-0407</small></label>
+  <input id="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="0901234567" required>
+  <div class="hint">日本の固定電話・携帯電話に対応。緊急時のご連絡用です。</div>
+
+  <button class="btn" type="submit" id="save">保存して続ける</button>
+  <div class="msg" id="msg" role="status" aria-live="polite"></div>
+
+  <div class="divider" id="lineDivider" style="display:none">または</div>
+  <a class="line-btn" href="#" id="lineBtn" style="display:none">LINE で続行</a>
+  <p class="line-note" id="lineNote" style="display:none">LINE で続けると、お名前を LINE プロフィールから取得します。電話番号のみ別途入力をお願いします。</p>
+
+  <p class="foot">情報は SOLUNA 運営からの緊急連絡・予約確認のみに利用します。<br>
+  <a href="/privacy">プライバシーポリシー</a> · <a href="mailto:info@solun.art">info@solun.art</a></p>
+</form>
+
+<script>
+(function(){
+  const $ = (id) => document.getElementById(id);
+  function getToken(){ try { return localStorage.getItem('sln_token') || ''; } catch(e){ return ''; } }
+  function urlParam(name){ const u = new URLSearchParams(location.search); return u.get(name) || ''; }
+  const nextUrl = urlParam('next') || '/';
+
+  async function loadMe(){
+    try {
+      const r = await fetch('/api/soluna/me/profile', {
+        headers: { 'Authorization': 'Bearer '+getToken(), 'X-Requested-With': 'XMLHttpRequest' }
+      });
+      if (r.status === 401) {
+        // Not logged in — bounce to login page that will return here
+        location.replace('/login?next=' + encodeURIComponent('/profile?next=' + encodeURIComponent(nextUrl)));
+        return;
+      }
+      const j = await r.json();
+      $('email').textContent = j.email || '';
+      $('name').value = j.name || (j.line_display_name || '');
+      $('phone').value = j.phone || '';
+      if (j.profile_complete){
+        $('title').textContent = 'プロフィールを編集';
+        $('sub').innerHTML = '登録済みの情報を更新できます。';
+      }
+    } catch(e){
+      $('msg').className='msg err'; $('msg').textContent = '読み込みに失敗しました: ' + (e.message || e);
+    }
+  }
+
+  async function loadLineFeature(){
+    try {
+      const r = await fetch('/api/soluna/auth/line/available');
+      if (!r.ok) return;
+      const j = await r.json();
+      if (j.enabled){
+        $('lineDivider').style.display = 'block';
+        $('lineBtn').style.display = 'block';
+        $('lineNote').style.display = 'block';
+        $('lineBtn').href = '/api/soluna/auth/line/start?next=' + encodeURIComponent(nextUrl);
+      }
+    } catch(e){}
+  }
+
+  $('form').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const name = $('name').value.trim();
+    const phone = $('phone').value.trim();
+    $('msg').className = 'msg'; $('msg').textContent = '保存中…';
+    $('save').disabled = true;
+    try {
+      const r = await fetch('/api/soluna/me/profile', {
+        method:'POST',
+        headers: {
+          'Content-Type':'application/json',
+          'Authorization':'Bearer '+getToken(),
+          'X-Requested-With':'XMLHttpRequest'
+        },
+        body: JSON.stringify({ name, phone })
+      });
+      const j = await r.json();
+      if (!r.ok || j.ok === false) throw new Error(j.error || ('HTTP '+r.status));
+      $('msg').className='msg ok'; $('msg').textContent='✓ 保存しました';
+      setTimeout(()=>{ location.replace(nextUrl); }, 600);
+    } catch(e){
+      $('msg').className='msg err'; $('msg').textContent = e.message;
+      $('save').disabled = false;
+    }
+  });
+
+  loadMe();
+  loadLineFeature();
+})();
+</script>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</body>
+</html>

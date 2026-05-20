@@ -6856,6 +6856,29 @@ db.execute("ALTER TABLE soluna_members ADD COLUMN nah_access INTEGER DEFAULT 0")
 db.execute("ALTER TABLE soluna_members ADD COLUMN member_type TEXT DEFAULT 'member'").catch(() => {});
 db.execute("ALTER TABLE soluna_purchases ADD COLUMN ref_code TEXT").catch(() => {});
 db.execute("ALTER TABLE soluna_members ADD COLUMN line_user_id TEXT").catch(() => {});
+db.execute("ALTER TABLE soluna_members ADD COLUMN phone TEXT").catch(() => {});
+db.execute("ALTER TABLE soluna_members ADD COLUMN line_display_name TEXT").catch(() => {});
+db.execute("ALTER TABLE soluna_members ADD COLUMN profile_completed_at TEXT").catch(() => {});
+db.execute(`CREATE TABLE IF NOT EXISTS soluna_admin_invites (
+  token TEXT PRIMARY KEY,
+  email TEXT NOT NULL,
+  role TEXT NOT NULL DEFAULT 'admin',
+  invited_by_member_id INTEGER,
+  invited_by_email TEXT,
+  expires_at TEXT NOT NULL,
+  accepted_at TEXT,
+  accepted_by_member_id INTEGER,
+  revoked_at TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+)`).catch(() => {});
+db.execute("CREATE INDEX IF NOT EXISTS idx_admin_invites_email ON soluna_admin_invites(email)").catch(() => {});
+db.execute(`CREATE TABLE IF NOT EXISTS soluna_login_state (
+  state TEXT PRIMARY KEY,
+  redirect_to TEXT,
+  provider TEXT NOT NULL,
+  expires_at TEXT NOT NULL,
+  created_at TEXT DEFAULT (datetime('now'))
+)`).catch(() => {});
 db.execute(`CREATE TABLE IF NOT EXISTS soluna_community_messages (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   member_id INTEGER NOT NULL,
@@ -7203,7 +7226,9 @@ async function solunaAuth(req) {
   const token = (req.headers.authorization || "").replace("Bearer ", "").trim() || cookieToken;
   if (!token) return null;
   const r = await db.execute({
-    sql: `SELECT s.member_id, m.email, m.name, m.nah_access, m.member_type FROM soluna_sessions s
+    sql: `SELECT s.member_id, m.email, m.name, m.phone, m.nah_access, m.member_type,
+                 m.line_user_id, m.line_display_name, m.profile_completed_at
+          FROM soluna_sessions s
           JOIN soluna_members m ON m.id = s.member_id
           WHERE s.token = ? AND s.expires_at > datetime('now')`,
     args: [token],
@@ -7549,6 +7574,55 @@ app.patch("/api/soluna/me", express.json(), async (req, res) => {
   const name = (req.body.name || "").trim().slice(0, 80);
   if (name) await db.execute({ sql: "UPDATE soluna_members SET name=? WHERE id=?", args: [name, m.member_id] });
   res.json({ ok: true });
+});
+
+// ── Profile onboarding (name + phone required after first OTP login) ─────
+function normalizeJpPhone(raw) {
+  if (!raw) return null;
+  const s = String(raw).replace(/[\s\-\(\)]/g, "");
+  // accept +81... or 0... (10-11 digits)
+  if (/^\+81\d{9,11}$/.test(s)) return s;
+  if (/^0\d{9,10}$/.test(s))    return s;
+  return null;
+}
+function profileComplete(member) {
+  if (!member) return false;
+  if (!member.name || String(member.name).trim().length === 0) return false;
+  if (!member.phone || String(member.phone).trim().length === 0) return false;
+  return !!member.profile_completed_at;
+}
+
+// GET /api/soluna/me/profile — current profile + completeness
+app.get("/api/soluna/me/profile", async (req, res) => {
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  res.json({
+    ok: true,
+    email: m.email,
+    name: m.name || "",
+    phone: m.phone || "",
+    line_user_id: m.line_user_id || null,
+    line_display_name: m.line_display_name || null,
+    profile_completed_at: m.profile_completed_at || null,
+    profile_complete: profileComplete(m),
+  });
+});
+
+// POST /api/soluna/me/profile — required first-time onboarding step
+app.post("/api/soluna/me/profile", express.json(), async (req, res) => {
+  if (!requireXHR(req)) return res.status(403).json({ error: "missing X-Requested-With" });
+  const m = await solunaAuth(req);
+  if (!m) return res.status(401).json({ error: "unauthorized" });
+  const name = (req.body?.name || "").trim().slice(0, 80);
+  const phoneRaw = (req.body?.phone || "").trim().slice(0, 24);
+  if (!name) return res.status(400).json({ error: "name required" });
+  const phone = normalizeJpPhone(phoneRaw);
+  if (!phone) return res.status(400).json({ error: "phone invalid (expecting +81... or 0...)" });
+  await db.execute({
+    sql: `UPDATE soluna_members SET name=?, phone=?, profile_completed_at=datetime('now') WHERE id=?`,
+    args: [name, phone, m.member_id],
+  });
+  res.json({ ok: true, name, phone, profile_complete: true });
 });
 
 // DELETE /api/soluna/me — 退会（soft delete: status='withdrawn'）
@@ -11139,6 +11213,10 @@ input:focus{border-color:#c8a455}
     <input type="email" id="email" placeholder="your@email.com" autocomplete="email">
     <button class="btn" onclick="sendOtp()">コードを送信</button>
     <div class="msg" id="msg1"></div>
+    <div id="lineBox" style="display:none;margin-top:18px">
+      <div style="text-align:center;font-size:9.5px;color:#555;letter-spacing:.2em;margin-bottom:10px;text-transform:uppercase">または</div>
+      <a id="lineBtn" href="#" style="display:block;width:100%;background:#06c755;color:#fff;font-weight:700;font-size:13px;padding:14px;border-radius:100px;text-align:center;text-decoration:none;min-height:48px;line-height:20px">LINE で続行</a>
+    </div>
   </div>
   <div id="step2">
     <label>確認コード（メールに届いた6桁）</label>
@@ -11150,6 +11228,18 @@ input:focus{border-color:#c8a455}
 </div>
 <script>
 const RETURN=${JSON.stringify(returnPath)};
+// Surface LINE Login if the server has the channel configured.
+(async function(){
+  try {
+    const r = await fetch('/api/soluna/auth/line/available');
+    if (!r.ok) return;
+    const j = await r.json();
+    if (j.enabled){
+      document.getElementById('lineBox').style.display = '';
+      document.getElementById('lineBtn').href = '/api/soluna/auth/line/start?next=' + encodeURIComponent(RETURN);
+    }
+  } catch(e){}
+})();
 async function sendOtp(){
   const email=document.getElementById('email').value.trim();
   if(!email){document.getElementById('msg1').className='msg err';document.getElementById('msg1').textContent='メールアドレスを入力してください';return;}
@@ -11233,6 +11323,17 @@ app.use(async (req, res, next) => {
   res.sendFile(filePath);
 });
 
+// ── /profile : onboarding page (name + phone required after first login) ──
+app.get(["/profile","/profile/"], async (req, res) => {
+  const token = parseCookies(req).sln_tok || "";
+  if (!token) {
+    // not logged in — send to login gate that returns here
+    return res.redirect(302, "/login?next=" + encodeURIComponent("/profile?next=" + encodeURIComponent(req.query.next || "/")));
+  }
+  res.setHeader("Cache-Control", "private, no-store");
+  res.sendFile(path.join(CABIN_DIR, "profile.html"));
+});
+
 // ── /admin/secrets : property-secrets dashboard (admins only) ─────────────
 app.get(["/admin/secrets", "/admin/secrets/"], async (req, res) => {
   const token = parseCookies(req).sln_tok || "";
@@ -11249,6 +11350,9 @@ app.get(["/admin/secrets", "/admin/secrets/"], async (req, res) => {
   if (!member) {
     res.status(401).setHeader("Content-Type", "text/html; charset=UTF-8");
     return res.send(authGatePage("admin-secrets", "/admin/secrets"));
+  }
+  if (!profileComplete(member)) {
+    return res.redirect(302, "/profile?next=" + encodeURIComponent("/admin/secrets"));
   }
   if (!isPropertyAdmin(member)) {
     res.status(403).setHeader("Content-Type", "text/html; charset=UTF-8");
@@ -11303,6 +11407,9 @@ async function renderPropertyManual(slug, req, res) {
   if (!member) {
     res.status(401).setHeader("Content-Type", "text/html; charset=UTF-8");
     return res.send(authGatePage(`${slug}-manual`, `/${slug}/manual`));
+  }
+  if (!profileComplete(member)) {
+    return res.redirect(302, "/profile?next=" + encodeURIComponent(`/${slug}/manual`));
   }
 
   // Check property access: coupon / confirmed purchase / active booking / staff
@@ -11767,6 +11874,313 @@ app.post("/api/soluna/owner/sync-ack", express.json(), async (req, res) => {
   });
   _manualTplCache.delete(cleanSlug);
   res.json({ ok: true });
+});
+
+// ── Admin invite (multiple admins) ─────────────────────────────────────────
+const ADMIN_INVITE_TTL_HOURS = 72;
+function publicOrigin() {
+  return process.env.PUBLIC_ORIGIN || "https://solun.art";
+}
+
+// GET /api/soluna/admin/team — list current admins + pending invites
+app.get("/api/soluna/admin/team", async (req, res) => {
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+  const [admins, invites] = await Promise.all([
+    db.execute({
+      sql: `SELECT id, email, name, phone, line_display_name, member_type, profile_completed_at
+            FROM soluna_members
+            WHERE member_type IN ('admin','founder') OR email='mail@yukihamada.jp'
+            ORDER BY (email='mail@yukihamada.jp') DESC, member_type, id`,
+    }),
+    db.execute({
+      sql: `SELECT token, email, role, invited_by_email, expires_at, created_at
+            FROM soluna_admin_invites
+            WHERE accepted_at IS NULL AND revoked_at IS NULL AND expires_at > datetime('now')
+            ORDER BY created_at DESC`,
+    }),
+  ]);
+  res.json({ ok: true, admins: admins.rows, invites: invites.rows });
+});
+
+// POST /api/soluna/admin/team/invite { email, role }
+app.post("/api/soluna/admin/team/invite", express.json(), async (req, res) => {
+  if (!sameOriginOk(req)) return res.status(403).json({ error: "bad origin" });
+  if (!requireXHR(req)) return res.status(403).json({ error: "missing X-Requested-With" });
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+  if (!adminRateOk(`invite:${member.member_id}`, 10, 60_000)) return res.status(429).json({ error: "rate limited" });
+
+  const email = String(req.body?.email || "").trim().toLowerCase();
+  const role = ["admin","founder","staff","cleaner","construction"].includes(req.body?.role) ? req.body.role : "admin";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: "invalid email" });
+
+  const token = crypto.randomBytes(24).toString("base64url");
+  await db.execute({
+    sql: `INSERT INTO soluna_admin_invites (token,email,role,invited_by_member_id,invited_by_email,expires_at)
+          VALUES (?,?,?,?,?,datetime('now','+${ADMIN_INVITE_TTL_HOURS} hours'))`,
+    args: [token, email, role, member.member_id, member.email],
+  });
+
+  const inviteUrl = `${publicOrigin()}/admin/accept?token=${encodeURIComponent(token)}`;
+  if (RESEND_API_KEY) {
+    try {
+      const html = `<div style="font-family:system-ui;line-height:1.7;color:#222"><p>${escHtml(member.name || member.email)} さんから SOLUNA <b>${escHtml(role)}</b> として招待されました。</p><p style="margin:20px 0"><a href="${inviteUrl}" style="background:#c8a455;color:#0a0908;padding:12px 24px;border-radius:100px;text-decoration:none;font-weight:700">招待を受ける</a></p><p style="font-size:12px;color:#888">${inviteUrl}<br>有効期限: ${ADMIN_INVITE_TTL_HOURS} 時間</p></div>`;
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
+        body: JSON.stringify({
+          from: "SOLUNA <info@solun.art>",
+          to: [email],
+          subject: `SOLUNA 管理者招待 by ${member.name || member.email}`,
+          html,
+        }),
+      });
+    } catch (e) {
+      console.warn("[admin invite] email send failed:", e?.message || e);
+    }
+  }
+
+  res.json({ ok: true, token, email, role, invite_url: inviteUrl, expires_in_hours: ADMIN_INVITE_TTL_HOURS });
+});
+
+// POST /api/soluna/admin/team/revoke { email }  — drops admin role (cannot remove yuki)
+app.post("/api/soluna/admin/team/revoke", express.json(), async (req, res) => {
+  if (!sameOriginOk(req)) return res.status(403).json({ error: "bad origin" });
+  if (!requireXHR(req)) return res.status(403).json({ error: "missing X-Requested-With" });
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+
+  const email = String(req.body?.email || "").trim().toLowerCase();
+  if (!email) return res.status(400).json({ error: "email required" });
+  if (email === "mail@yukihamada.jp") return res.status(400).json({ error: "cannot revoke owner" });
+
+  await db.execute({ sql: "UPDATE soluna_members SET member_type='member' WHERE email=?", args: [email] });
+  res.json({ ok: true });
+});
+
+// GET /admin/accept?token=... — accept admin invite (auto-login or send to login first)
+app.get(["/admin/accept","/admin/accept/"], async (req, res) => {
+  const token = String(req.query.token || "");
+  if (!token) return res.status(400).type("text/plain").send("missing token");
+  const r = await db.execute({
+    sql: `SELECT email, role, expires_at, accepted_at, revoked_at
+          FROM soluna_admin_invites WHERE token=? LIMIT 1`,
+    args: [token],
+  });
+  const invite = r.rows[0];
+  if (!invite) return res.status(404).type("text/plain").send("invite not found");
+  if (invite.accepted_at) return res.status(410).type("text/plain").send("invite already accepted");
+  if (invite.revoked_at)  return res.status(410).type("text/plain").send("invite revoked");
+  if (new Date(invite.expires_at + "Z") < new Date()) return res.status(410).type("text/plain").send("invite expired");
+
+  // Must be logged in as the invited email
+  const me = await solunaAuth(req);
+  if (!me) {
+    return res.redirect(302, "/login?next=" + encodeURIComponent("/admin/accept?token=" + token));
+  }
+  if (String(me.email).toLowerCase() !== String(invite.email).toLowerCase()) {
+    return res.status(403).type("text/html; charset=UTF-8").send(`<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>SOLUNA invite</title></head><body style="background:#0a0908;color:#c8c0b0;font-family:sans-serif;text-align:center;padding:40px"><p>この招待は <b>${escHtml(invite.email)}</b> 宛です。<br>現在 <b>${escHtml(me.email)}</b> でログイン中。</p><p style="margin-top:20px;font-size:12px;color:#666"><a style="color:#c8a455" href="/login?next=${encodeURIComponent("/admin/accept?token=" + token)}">ログインし直す</a></p></body></html>`);
+  }
+  if (!profileComplete(me)) {
+    return res.redirect(302, "/profile?next=" + encodeURIComponent("/admin/accept?token=" + token));
+  }
+  // Mark accepted + promote role
+  await db.execute({
+    sql: `UPDATE soluna_admin_invites SET accepted_at=datetime('now'), accepted_by_member_id=? WHERE token=?`,
+    args: [me.member_id, token],
+  });
+  await db.execute({
+    sql: "UPDATE soluna_members SET member_type=? WHERE id=?",
+    args: [invite.role, me.member_id],
+  });
+  res.redirect(302, "/admin/secrets");
+});
+
+// /admin/team static page (serves cabin/admin-team.html, admin-gated)
+app.get(["/admin/team","/admin/team/"], async (req, res) => {
+  const token = parseCookies(req).sln_tok || "";
+  let member = null;
+  if (token) {
+    const r = await db.execute({
+      sql: `SELECT s.member_id, m.email, m.name, m.phone, m.nah_access, m.member_type, m.profile_completed_at
+            FROM soluna_sessions s JOIN soluna_members m ON m.id = s.member_id
+            WHERE s.token=? AND s.expires_at > datetime('now')`,
+      args: [token],
+    }).catch(() => null);
+    member = r && r.rows[0] ? r.rows[0] : null;
+  }
+  if (!member) return res.redirect(302, "/login?next=" + encodeURIComponent("/admin/team"));
+  if (!profileComplete(member)) return res.redirect(302, "/profile?next=" + encodeURIComponent("/admin/team"));
+  if (!isPropertyAdmin(member)) return res.status(403).type("text/plain").send("admin only");
+  res.setHeader("Cache-Control", "private, no-store");
+  res.sendFile(path.join(CABIN_DIR, "admin-team.html"));
+});
+
+// ── LINE Login (OAuth 2.1 / OIDC) ─────────────────────────────────────────
+const LINE_LOGIN_CHANNEL_ID = process.env.LINE_LOGIN_CHANNEL_ID || "";
+const LINE_LOGIN_CHANNEL_SECRET = process.env.LINE_LOGIN_CHANNEL_SECRET || "";
+const LINE_LOGIN_REDIRECT_URI = process.env.LINE_LOGIN_REDIRECT_URI || (publicOrigin() + "/api/soluna/auth/line/callback");
+
+app.get("/api/soluna/auth/line/available", (req, res) => {
+  res.json({
+    enabled: Boolean(LINE_LOGIN_CHANNEL_ID && LINE_LOGIN_CHANNEL_SECRET),
+    redirect_uri: LINE_LOGIN_REDIRECT_URI,
+  });
+});
+
+app.get("/api/soluna/auth/line/start", async (req, res) => {
+  if (!LINE_LOGIN_CHANNEL_ID || !LINE_LOGIN_CHANNEL_SECRET) {
+    return res.status(503).type("text/plain").send("LINE Login is not configured. Set LINE_LOGIN_CHANNEL_ID + LINE_LOGIN_CHANNEL_SECRET.");
+  }
+  const next = String(req.query.next || "/").slice(0, 256);
+  const state = crypto.randomBytes(24).toString("base64url");
+  await db.execute({
+    sql: `INSERT INTO soluna_login_state (state, redirect_to, provider, expires_at)
+          VALUES (?,?,?,datetime('now','+10 minutes'))`,
+    args: [state, next, "line"],
+  });
+  const nonce = crypto.randomBytes(12).toString("base64url");
+  const url = new URL("https://access.line.me/oauth2/v2.1/authorize");
+  url.searchParams.set("response_type", "code");
+  url.searchParams.set("client_id", LINE_LOGIN_CHANNEL_ID);
+  url.searchParams.set("redirect_uri", LINE_LOGIN_REDIRECT_URI);
+  url.searchParams.set("state", state);
+  url.searchParams.set("scope", "profile openid email");
+  url.searchParams.set("nonce", nonce);
+  url.searchParams.set("bot_prompt", "aggressive");
+  res.redirect(302, url.toString());
+});
+
+app.get("/api/soluna/auth/line/callback", async (req, res) => {
+  const code = String(req.query.code || "");
+  const state = String(req.query.state || "");
+  const err = req.query.error;
+  if (err) return res.status(400).type("text/plain").send("LINE login error: " + String(err));
+  if (!code || !state) return res.status(400).type("text/plain").send("missing code or state");
+
+  // Verify state
+  const s = await db.execute({
+    sql: `SELECT redirect_to, expires_at FROM soluna_login_state WHERE state=? AND provider='line' LIMIT 1`,
+    args: [state],
+  });
+  const row = s.rows[0];
+  if (!row) return res.status(400).type("text/plain").send("invalid state");
+  if (new Date(row.expires_at + "Z") < new Date()) {
+    return res.status(400).type("text/plain").send("state expired");
+  }
+  await db.execute({ sql: "DELETE FROM soluna_login_state WHERE state=?", args: [state] });
+
+  const redirectTo = row.redirect_to || "/";
+
+  // Exchange code → tokens
+  let tokens;
+  try {
+    const body = new URLSearchParams();
+    body.set("grant_type", "authorization_code");
+    body.set("code", code);
+    body.set("redirect_uri", LINE_LOGIN_REDIRECT_URI);
+    body.set("client_id", LINE_LOGIN_CHANNEL_ID);
+    body.set("client_secret", LINE_LOGIN_CHANNEL_SECRET);
+    const r = await fetch("https://api.line.me/oauth2/v2.1/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString(),
+    });
+    tokens = await r.json();
+    if (!r.ok || !tokens.access_token) throw new Error(tokens.error_description || JSON.stringify(tokens));
+  } catch (e) {
+    return res.status(502).type("text/plain").send("token exchange failed: " + (e?.message || e));
+  }
+
+  // Decode id_token (LINE returns a JWT; we'll parse the payload without verifying signature here for first-pass.
+  // LINE provides a verification endpoint we should hit in production:
+  // https://api.line.me/oauth2/v2.1/verify  but here we trust the channel secret + state.)
+  function decodeJwtPayload(jwt) {
+    try {
+      const parts = String(jwt).split(".");
+      if (parts.length < 2) return null;
+      const json = Buffer.from(parts[1].replace(/-/g, "+").replace(/_/g, "/"), "base64").toString("utf8");
+      return JSON.parse(json);
+    } catch { return null; }
+  }
+  const idPayload = decodeJwtPayload(tokens.id_token) || {};
+
+  // Fetch profile for displayName (in case scope omits openid)
+  let profile = {};
+  try {
+    const r2 = await fetch("https://api.line.me/v2/profile", {
+      headers: { Authorization: `Bearer ${tokens.access_token}` },
+    });
+    if (r2.ok) profile = await r2.json();
+  } catch {}
+
+  const lineUserId = idPayload.sub || profile.userId;
+  const displayName = profile.displayName || idPayload.name || "";
+  const email = (idPayload.email || "").toLowerCase();
+
+  if (!lineUserId) return res.status(502).type("text/plain").send("could not resolve LINE user id");
+
+  // Upsert member
+  let memberId = null;
+  if (email) {
+    const r3 = await db.execute({ sql: "SELECT id FROM soluna_members WHERE email=? LIMIT 1", args: [email] });
+    if (r3.rows[0]) memberId = r3.rows[0].id;
+  }
+  if (!memberId) {
+    const r4 = await db.execute({ sql: "SELECT id FROM soluna_members WHERE line_user_id=? LIMIT 1", args: [lineUserId] });
+    if (r4.rows[0]) memberId = r4.rows[0].id;
+  }
+  if (!memberId) {
+    if (!email) {
+      // LINE didn't return email (scope or user denied). Use synthetic sentinel email.
+      const synth = `line:${lineUserId}@line.local`;
+      await db.execute({ sql: "INSERT INTO soluna_members (email, name, line_user_id, line_display_name) VALUES (?,?,?,?)", args: [synth, displayName || "", lineUserId, displayName || ""] });
+      const r5 = await db.execute({ sql: "SELECT id FROM soluna_members WHERE email=? LIMIT 1", args: [synth] });
+      memberId = r5.rows[0]?.id;
+    } else {
+      await db.execute({ sql: "INSERT INTO soluna_members (email, name, line_user_id, line_display_name) VALUES (?,?,?,?)", args: [email, displayName || "", lineUserId, displayName || ""] });
+      const r5 = await db.execute({ sql: "SELECT id FROM soluna_members WHERE email=? LIMIT 1", args: [email] });
+      memberId = r5.rows[0]?.id;
+    }
+  } else {
+    await db.execute({
+      sql: "UPDATE soluna_members SET line_user_id=?, line_display_name=COALESCE(NULLIF(?, ''), line_display_name), name=COALESCE(NULLIF(name, ''), NULLIF(?, '')) WHERE id=?",
+      args: [lineUserId, displayName, displayName, memberId],
+    });
+  }
+  if (!memberId) return res.status(502).type("text/plain").send("member upsert failed");
+
+  // Issue session
+  const sessionToken = crypto.randomBytes(32).toString("hex");
+  const expIso = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().replace("T", " ").slice(0, 19);
+  await db.execute({
+    sql: "INSERT INTO soluna_sessions (member_id, token, expires_at) VALUES (?,?,?)",
+    args: [memberId, sessionToken, expIso],
+  });
+  res.cookie("sln_tok", sessionToken, {
+    httpOnly: true, sameSite: "Lax",
+    maxAge: 365 * 24 * 60 * 60 * 1000, path: "/",
+    secure: process.env.NODE_ENV === "production",
+  });
+
+  // Bounce through /profile if name+phone aren't set
+  const memRow = await db.execute({ sql: "SELECT name, phone, profile_completed_at FROM soluna_members WHERE id=?", args: [memberId] });
+  const mr = memRow.rows[0] || {};
+  const ok = mr.name && mr.phone && mr.profile_completed_at;
+  // also drop token into a redirect HTML so localStorage gets it (so XHR calls work post-redirect)
+  const finalNext = ok ? redirectTo : ("/profile?next=" + encodeURIComponent(redirectTo));
+  res.setHeader("Content-Type", "text/html; charset=UTF-8");
+  res.send(`<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>LINE login</title>
+<style>body{background:#0a0908;color:#c8c0b0;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center}</style></head>
+<body><p>LINEログイン完了しています…</p>
+<script>
+try { localStorage.setItem('sln_token', ${JSON.stringify(sessionToken)}); } catch(e){}
+location.replace(${JSON.stringify(finalNext)});
+</script></body></html>`);
 });
 
 // GET audit log (admin only)

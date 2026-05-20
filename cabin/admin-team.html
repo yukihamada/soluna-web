@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>SOLUNA · メンバー管理 — Admin Team</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#040404">
+<meta name="robots" content="noindex,nofollow">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a455; --gold-dim:rgba(200,164,85,.4); --gold-soft:rgba(200,164,85,.08);
+  --accent:#66aabb; --accent-soft:rgba(102,170,187,.08);
+  --bg:#040404; --panel:#0a0a0a; --panel2:#0d0d0d;
+  --line:#1a1a1a; --text:#f0ece4; --text-dim:#b4b4b4; --text-soft:#666;
+  --ok:#4a9a5a; --warn:#d49b4a; --danger:#c0392b;
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--text);min-height:100vh;
+  font-family:'Helvetica Neue',-apple-system,'Noto Sans JP',sans-serif;
+  -webkit-font-smoothing:antialiased;line-height:1.65;font-size:15px;
+  padding:max(20px,env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom));
+}
+.wrap{max-width:880px;margin:0 auto}
+nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+nav .logo{font-size:11px;font-weight:800;letter-spacing:.25em;color:var(--gold)}
+nav .links a{color:var(--text-dim);font-size:11.5px;border:1px solid #222;padding:8px 14px;border-radius:100px;margin-left:8px;text-decoration:none;display:inline-block;min-height:34px;line-height:1}
+nav .links a:hover{color:var(--gold);border-color:var(--gold-dim)}
+header.head{padding:8px 0 18px;border-bottom:1px solid var(--line);margin-bottom:24px}
+header h1{font-size:clamp(1.6rem,5vw,2rem);font-weight:800;letter-spacing:-.02em;line-height:1.2}
+header .sub{font-size:13px;color:var(--text-dim);margin-top:8px}
+
+section{margin-bottom:36px}
+section h2{font-size:16px;font-weight:800;margin-bottom:14px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+section h2 .badge{font-size:11px;background:var(--gold-soft);color:var(--gold);padding:3px 10px;border-radius:100px;font-weight:700}
+
+.row{
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;margin-bottom:10px;
+  display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.row .who{min-width:0;flex:1}
+.row .who .nm{font-size:14px;font-weight:700;color:var(--text);line-height:1.4;word-break:break-word}
+.row .who .nm .you{font-size:10px;background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:100px;margin-left:6px;letter-spacing:.04em;font-weight:700}
+.row .who .meta{font-size:11.5px;color:var(--text-soft);margin-top:3px;font-family:'SF Mono',ui-monospace,monospace;word-break:break-all;line-height:1.5}
+.row .who .meta b{color:var(--text-dim);font-weight:600}
+.row .actions{display:flex;gap:6px;flex-wrap:wrap}
+.role{
+  font-size:10.5px;letter-spacing:.06em;padding:5px 11px;border-radius:100px;
+  font-weight:700;line-height:1;border:1px solid;
+}
+.role.admin{color:var(--gold);background:var(--gold-soft);border-color:var(--gold-dim)}
+.role.founder{color:var(--accent);background:var(--accent-soft);border-color:rgba(102,170,187,.3)}
+.role.staff,.role.cleaner,.role.construction{color:var(--text-dim);background:#0e0e0e;border-color:#222}
+.btn-sm{
+  background:transparent;border:1px solid #222;color:var(--text-dim);
+  font-size:11px;padding:7px 11px;border-radius:100px;cursor:pointer;
+  min-height:32px;line-height:1;font-family:inherit;
+}
+.btn-sm:hover{color:var(--gold);border-color:var(--gold-dim)}
+.btn-sm.danger:hover{color:var(--danger);border-color:rgba(192,57,43,.4)}
+.empty{color:var(--text-soft);font-size:13px;padding:20px;text-align:center;background:var(--panel);border:1px dashed var(--line);border-radius:10px}
+
+/* Invite form */
+.invite{
+  background:linear-gradient(180deg,#0d0d0d 0%,#080808 100%);
+  border:1px solid var(--gold-dim);border-radius:14px;padding:22px 18px;position:relative;
+}
+.invite::before{
+  content:'NEW INVITE';position:absolute;top:-9px;left:14px;background:var(--bg);
+  font-size:9.5px;letter-spacing:.22em;color:var(--gold);font-weight:800;padding:0 9px;
+}
+.invite form{display:grid;grid-template-columns:1fr 130px 120px;gap:10px;align-items:end}
+.invite label{display:block;font-size:10px;letter-spacing:.18em;color:var(--text-soft);text-transform:uppercase;font-weight:700;margin-bottom:5px}
+.invite input,.invite select{
+  width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);
+  padding:13px 14px;border-radius:8px;font-size:14px;outline:none;min-height:46px;
+  font-family:inherit;-webkit-appearance:none;
+}
+.invite input:focus,.invite select:focus{border-color:var(--gold)}
+.invite .btn{
+  background:var(--gold);color:#040404;font-weight:800;font-size:12.5px;letter-spacing:.08em;
+  padding:13px 14px;border:none;border-radius:100px;cursor:pointer;min-height:46px;font-family:inherit;line-height:1;
+}
+.invite .btn:disabled{opacity:.5}
+.invite .hint{font-size:11px;color:var(--text-soft);margin-top:8px;line-height:1.6}
+@media(max-width:540px){.invite form{grid-template-columns:1fr}}
+
+.msg{font-size:12.5px;margin-top:10px;min-height:18px}
+.msg.ok{color:var(--ok)}
+.msg.err{color:var(--danger)}
+
+.toast{
+  position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));
+  transform:translateX(-50%) translateY(20px);
+  background:#0e0e0e;border:1px solid var(--gold-dim);color:var(--gold);
+  font-size:12.5px;padding:11px 18px;border-radius:100px;
+  z-index:300;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+footer{margin-top:48px;padding:24px 0 0;border-top:1px solid var(--line);text-align:center;font-size:11.5px;color:var(--text-soft)}
+footer a{color:var(--gold);text-decoration:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <span class="logo">SOLUNA · ADMIN</span>
+    <span class="links">
+      <a href="/admin/secrets">🔑 シークレット</a>
+      <a href="/docs/runbook.pdf" target="_blank">📖 マニュアル</a>
+    </span>
+  </nav>
+  <header class="head">
+    <h1>メンバー管理</h1>
+    <div class="sub">SOLUNA admin / staff を招待・管理します。招待リンクは 72 時間有効・1 回限り使用可能。</div>
+  </header>
+
+  <section>
+    <div class="invite">
+      <form id="inviteForm" autocomplete="off">
+        <div>
+          <label for="iEmail">招待するメールアドレス</label>
+          <input id="iEmail" type="email" placeholder="staff@example.com" required>
+        </div>
+        <div>
+          <label for="iRole">役割</label>
+          <select id="iRole">
+            <option value="admin">admin</option>
+            <option value="staff">staff</option>
+            <option value="cleaner">cleaner</option>
+            <option value="construction">construction</option>
+          </select>
+        </div>
+        <button class="btn" type="submit" id="iSubmit">招待を送る</button>
+      </form>
+      <div class="msg" id="iMsg"></div>
+      <div class="hint">
+        <b>admin</b> = /admin/secrets / /admin/team フル操作可。<br>
+        <b>staff / cleaner / construction</b> = 各物件マニュアルの本文閲覧可（鍵編集は不可）。
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>現在のメンバー <span class="badge" id="adminCount">…</span></h2>
+    <div id="admins"></div>
+  </section>
+
+  <section>
+    <h2>未受諾の招待 <span class="badge" id="inviteCount">…</span></h2>
+    <div id="invites"></div>
+  </section>
+
+  <footer>
+    Need help? <a href="mailto:info@solun.art">info@solun.art</a> · <a href="/docs/runbook.pdf">運用マニュアル PDF</a>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  const $ = (id) => document.getElementById(id);
+  function getToken(){ try { return localStorage.getItem('sln_token') || ''; } catch(e){ return ''; } }
+  function authH(extra){ return Object.assign({ 'Authorization':'Bearer '+getToken(), 'X-Requested-With':'XMLHttpRequest' }, extra||{}); }
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+  function showToast(t){ const el = $('toast'); el.textContent = t; el.classList.add('show'); clearTimeout(showToast._t); showToast._t = setTimeout(()=>el.classList.remove('show'), 2200); }
+
+  let me = null;
+  async function loadMe(){
+    try{
+      const r = await fetch('/api/soluna/me/profile', { headers: authH() });
+      if (r.ok) me = await r.json();
+    } catch(e){}
+  }
+
+  async function load(){
+    try {
+      const r = await fetch('/api/soluna/admin/team', { headers: authH() });
+      const j = await r.json();
+      if (!r.ok || j.ok === false) throw new Error(j.error || 'HTTP '+r.status);
+      renderAdmins(j.admins || []);
+      renderInvites(j.invites || []);
+    } catch(e){
+      $('admins').innerHTML = '<div class="empty">読み込み失敗: '+esc(e.message)+'</div>';
+    }
+  }
+
+  function renderAdmins(list){
+    $('adminCount').textContent = list.length;
+    if (!list.length) { $('admins').innerHTML = '<div class="empty">メンバーがいません</div>'; return; }
+    $('admins').innerHTML = list.map(a => {
+      const isOwner = (a.email === 'mail@yukihamada.jp');
+      const isMe = (me && me.email && a.email === me.email);
+      const role = a.member_type || 'member';
+      const name = a.name || a.line_display_name || '(名前未設定)';
+      const profileChip = a.profile_completed_at
+        ? ''
+        : ' <span class="role staff" style="font-size:9.5px">profile 未完了</span>';
+      return ''
+        + '<div class="row">'
+        +   '<div class="who">'
+        +     '<div class="nm">'+esc(name)+(isMe?'<span class="you">YOU</span>':'')+profileChip+'</div>'
+        +     '<div class="meta"><b>'+esc(a.email)+'</b>'
+        +       (a.phone ? ' · '+esc(a.phone) : '')
+        +       (a.line_display_name ? ' · LINE: '+esc(a.line_display_name) : '')
+        +     '</div>'
+        +   '</div>'
+        +   '<div class="actions">'
+        +     '<span class="role '+esc(role)+'">'+esc(role.toUpperCase())+'</span>'
+        +     (isOwner
+              ? '<span class="btn-sm" title="この行は削除不可" style="cursor:default;color:#3a3a3a;border-color:#1a1a1a">OWNER</span>'
+              : '<button class="btn-sm danger" data-revoke="'+esc(a.email)+'">権限剥奪</button>')
+        +   '</div>'
+        + '</div>';
+    }).join('');
+    $('admins').querySelectorAll('[data-revoke]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const em = btn.getAttribute('data-revoke');
+        if (!confirm(em + ' から admin 権限を剥奪します。よろしいですか？')) return;
+        btn.disabled = true;
+        try {
+          const r = await fetch('/api/soluna/admin/team/revoke', {
+            method:'POST', headers: authH({ 'Content-Type':'application/json' }),
+            body: JSON.stringify({ email: em })
+          });
+          const j = await r.json();
+          if (!r.ok || j.ok === false) throw new Error(j.error || 'HTTP '+r.status);
+          showToast(em + ' から権限を剥奪しました');
+          load();
+        } catch(e){ alert('失敗: '+e.message); btn.disabled = false; }
+      });
+    });
+  }
+
+  function renderInvites(list){
+    $('inviteCount').textContent = list.length;
+    if (!list.length) { $('invites').innerHTML = '<div class="empty">未受諾の招待はありません</div>'; return; }
+    $('invites').innerHTML = list.map(i => {
+      const url = location.origin + '/admin/accept?token=' + encodeURIComponent(i.token);
+      const exp = (i.expires_at || '').replace('T',' ').slice(0,16);
+      return ''
+        + '<div class="row">'
+        +   '<div class="who">'
+        +     '<div class="nm">'+esc(i.email)+' <span class="role '+esc(i.role)+'">'+esc(i.role.toUpperCase())+'</span></div>'
+        +     '<div class="meta">'
+        +       '招待元 ' + esc(i.invited_by_email || '') + ' · 有効期限 ' + esc(exp) + ' UTC<br>'
+        +       '<a style="color:#c8a455" href="'+esc(url)+'" target="_blank">'+esc(url)+'</a>'
+        +     '</div>'
+        +   '</div>'
+        +   '<div class="actions">'
+        +     '<button class="btn-sm" data-copy="'+esc(url)+'">📋 URL コピー</button>'
+        +   '</div>'
+        + '</div>';
+    }).join('');
+    $('invites').querySelectorAll('[data-copy]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const url = btn.getAttribute('data-copy');
+        try { await navigator.clipboard.writeText(url); }
+        catch(e){
+          const ta = document.createElement('textarea'); ta.value = url; ta.style.position='fixed'; ta.style.opacity='0';
+          document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+        }
+        showToast('URL をコピーしました');
+      });
+    });
+  }
+
+  $('inviteForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = $('iEmail').value.trim().toLowerCase();
+    const role  = $('iRole').value;
+    $('iMsg').className = 'msg'; $('iMsg').textContent = '招待を送っています…';
+    $('iSubmit').disabled = true;
+    try {
+      const r = await fetch('/api/soluna/admin/team/invite', {
+        method:'POST', headers: authH({ 'Content-Type':'application/json' }),
+        body: JSON.stringify({ email, role })
+      });
+      const j = await r.json();
+      if (!r.ok || j.ok === false) throw new Error(j.error || 'HTTP '+r.status);
+      $('iMsg').className='msg ok';
+      $('iMsg').innerHTML = '✓ 招待リンクを発行しました — '
+        + '<a style="color:#c8a455" href="'+j.invite_url+'" target="_blank">'+j.invite_url+'</a>'
+        + ' (メール送信も試行済み)';
+      $('iEmail').value = '';
+      load();
+    } catch(e){
+      $('iMsg').className='msg err'; $('iMsg').textContent = '失敗: '+e.message;
+    } finally {
+      $('iSubmit').disabled = false;
+    }
+  });
+
+  loadMe().then(load);
+})();
+</script>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</body>
+</html>
