@@ -11340,7 +11340,7 @@ app.get(["/admin/secrets", "/admin/secrets/"], async (req, res) => {
   let member = null;
   if (token) {
     const r = await db.execute({
-      sql: `SELECT s.member_id, m.email, m.name, m.nah_access, m.member_type
+      sql: `SELECT s.member_id, m.email, m.name, m.phone, m.nah_access, m.member_type, m.profile_completed_at
             FROM soluna_sessions s JOIN soluna_members m ON m.id = s.member_id
             WHERE s.token=? AND s.expires_at > datetime('now')`,
       args: [token],
@@ -11395,7 +11395,7 @@ async function renderPropertyManual(slug, req, res) {
   let member = null;
   if (token) {
     const r = await db.execute({
-      sql: `SELECT s.member_id, m.email, m.name, m.nah_access, m.member_type
+      sql: `SELECT s.member_id, m.email, m.name, m.phone, m.nah_access, m.member_type, m.profile_completed_at
             FROM soluna_sessions s
             JOIN soluna_members m ON m.id = s.member_id
             WHERE s.token = ? AND s.expires_at > datetime('now')`,
