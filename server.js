@@ -11326,6 +11326,7 @@ app.use(async (req, res, next) => {
   const pageKey = key.replace("manufacturing/", "");
 
   if (!member) {
+    applySecureHtmlHeaders(res, { admin: GATED_PAGES.has(key) || key.startsWith("admin") });
     return res.status(401).setHeader("Content-Type","text/html; charset=UTF-8").send(authGatePage(pageKey, returnPath));
   }
 
@@ -11376,6 +11377,7 @@ app.get(["/admin/secrets", "/admin/secrets/"], async (req, res) => {
     member = r && r.rows[0] ? r.rows[0] : null;
   }
   if (!member) {
+    applySecureHtmlHeaders(res, { admin: true });
     res.status(401).setHeader("Content-Type", "text/html; charset=UTF-8");
     return res.send(authGatePage("admin-secrets", "/admin/secrets"));
   }
@@ -11433,6 +11435,7 @@ async function renderPropertyManual(slug, req, res) {
   }
 
   if (!member) {
+    applySecureHtmlHeaders(res, { admin: false });
     res.status(401).setHeader("Content-Type", "text/html; charset=UTF-8");
     return res.send(authGatePage(`${slug}-manual`, `/${slug}/manual`));
   }

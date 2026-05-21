@@ -1,0 +1,39 @@
+name: smoke-public
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Every day at 00:00 UTC (= 09:00 JST)
+    - cron: "0 0 * * *"
+  workflow_dispatch: {}
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      # Wait briefly so a fresh deploy from the same push can land before we
+      # smoke it. Skipped on schedule + manual triggers.
+      - name: Wait for fly deploy
+        if: github.event_name == 'push'
+        run: |
+          echo "Waiting 6 minutes for fly deploy to propagate..."
+          sleep 360
+
+      - name: Run public smoke
+        env:
+          SOLUNA_HOST: https://solun.art
+        run: |
+          bash scripts/smoke-public.sh
+
+      - name: Notify Telegram on failure
+        if: failure() && secrets.TELEGRAM_BOT_TOKEN != ''
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "chat_id": "1136442501",
+              "text": "🔴 *SOLUNA smoke-public FAILED* on `'${{ github.event_name }}'` (`'${{ github.sha }}'`)\nRun: https://github.com/'${{ github.repository }}'/actions/runs/'${{ github.run_id }}'",
+              "parse_mode": "Markdown"
+            }'
