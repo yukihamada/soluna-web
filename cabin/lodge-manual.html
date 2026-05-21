@@ -367,6 +367,12 @@ body.is-admin{padding-top:calc(56px + 36px + env(safe-area-inset-top))}
   font-size:9.5px;letter-spacing:.22em;color:var(--gold);
   font-weight:800;text-transform:uppercase;padding:0 9px;
 }
+.quick-updated{
+  position:absolute;top:-9px;right:14px;background:var(--bg);
+  font-size:9.5px;letter-spacing:.04em;color:var(--accent);
+  font-weight:600;padding:0 9px;font-style:italic;
+}
+.quick-updated:empty{display:none}
 .q-row{display:flex;flex-direction:column;gap:4px;min-width:0}
 .q-row.wide{grid-column:1/-1}
 .q-key{font-size:9.5px;letter-spacing:.2em;color:var(--text-soft);text-transform:uppercase;font-weight:700;display:flex;align-items:center;gap:6px}
@@ -467,7 +473,8 @@ body[data-lang="en"] :is(p,li,div,summary,h3,h4) > .en{
   </div>
 
   <!-- Quick info: 鍵 / Wi-Fi / 時刻 — pinned at top so guests don't have to scroll -->
-  <aside class="quick" aria-label="今すぐ必要な情報 / Quick info">
+  <aside class="quick" aria-label="今すぐ必要な情報 / Quick info" data-updated-at="{{UPDATED_AT}}">
+    <div class="quick-updated">{{UPDATED_AGO}}</div>
     <div class="q-row">
       <div class="q-key">🔑 <span>鍵番号 / Door code</span></div>
       <div class="q-val code" data-bind="door_code">{{DOOR_CODE}}</div>

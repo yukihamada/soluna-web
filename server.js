@@ -11516,6 +11516,17 @@ p{font-size:12.5px;color:#888;margin-bottom:14px}
   if (!html) return res.status(404).type("text/plain").send("Manual template not found");
 
   const placeholder = (v, fallback) => v ? escHtml(v) : (fallback || '<span style="color:#666;font-weight:500">未設定</span>');
+  // Human-readable "updated N 分前" chip for the guest manual.
+  let updatedAgo = "";
+  if (secrets.updated_at) {
+    const d = new Date(secrets.updated_at.replace(" ", "T") + "Z");
+    if (!isNaN(d.getTime())) {
+      const min = Math.max(0, Math.floor((Date.now() - d.getTime()) / 60000));
+      if (min < 60)            updatedAgo = `更新 ${min} 分前`;
+      else if (min < 24 * 60)  updatedAgo = `更新 ${Math.floor(min/60)} 時間前`;
+      else                     updatedAgo = `更新 ${Math.floor(min/1440)} 日前`;
+    }
+  }
   html = html
     .replaceAll("{{DOOR_CODE}}", placeholder(secrets.door_code))
     .replaceAll("{{WIFI_SSID}}", placeholder(secrets.wifi_ssid))
@@ -11525,7 +11536,9 @@ p{font-size:12.5px;color:#888;margin-bottom:14px}
     .replaceAll("{{SLUG}}", slug)
     .replaceAll("{{PROPERTY_NAME}}", escHtml(propName))
     .replaceAll("{{ADMIN_FLAG}}", isAdmin ? "1" : "0")
-    .replaceAll("{{ADMIN_EMAIL}}", isAdmin ? escHtml(member.email) : "");
+    .replaceAll("{{ADMIN_EMAIL}}", isAdmin ? escHtml(member.email) : "")
+    .replaceAll("{{UPDATED_AGO}}", updatedAgo)
+    .replaceAll("{{UPDATED_AT}}",  secrets.updated_at || "");
 
   applySecureHtmlHeaders(res, { admin: false });
   res.setHeader("Content-Type", "text/html; charset=UTF-8");
