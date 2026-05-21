@@ -28,6 +28,29 @@ header.head{padding:8px 0 18px;border-bottom:1px solid var(--line);margin-bottom
 header h1{font-size:clamp(1.5rem,4.5vw,1.9rem);font-weight:800;letter-spacing:-.02em}
 header .sub{font-size:13px;color:var(--text-dim);margin-top:6px}
 
+.tabs{display:flex;gap:8px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+.tabs button{
+  background:transparent;border:none;color:var(--text-dim);
+  font-size:13px;letter-spacing:.04em;padding:11px 16px;cursor:pointer;
+  border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;font-weight:600;
+}
+.tabs button:hover{color:var(--text)}
+.tabs button.on{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-panel{display:none}
+.tab-panel.on{display:block}
+
+.log .row.signin{grid-template-columns:120px 78px 70px 1fr 1fr 1fr;}
+.log .row.signin.head{display:grid}
+.log .result{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:100px;line-height:1}
+.log .result.ok{background:rgba(74,154,90,.13);color:#6cc26b}
+.log .result.wrong_code{background:rgba(192,57,43,.13);color:#d65a4d}
+.log .result.rate_limit{background:rgba(212,155,74,.13);color:#d49b4a}
+.log .method{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:100px;line-height:1;background:var(--accent-soft);color:var(--accent)}
+.log .ua{font-size:11px;color:var(--text-soft);word-break:break-all;line-height:1.5;font-family:inherit}
+@media(max-width:760px){
+  .log .row.signin{grid-template-columns:1fr;gap:4px;font-size:12.5px}
+}
+
 .filters{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 22px;padding:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px}
 .filters select,.filters input{
   background:var(--bg);border:1px solid var(--line);color:var(--text);
@@ -111,9 +134,16 @@ footer a{color:var(--gold);text-decoration:none}
   </nav>
 
   <header class="head">
-    <h1>変更履歴</h1>
-    <div class="sub">物件シークレットの編集・ローテーションを時系列で確認。最大 90 日保持。</div>
+    <h1>変更履歴 / サインイン</h1>
+    <div class="sub">物件シークレットの変更とログイン履歴を時系列で確認。最大 90 日保持。</div>
   </header>
+
+  <div class="tabs" role="tablist">
+    <button id="tab-secrets" class="on" type="button">🔑 シークレット変更</button>
+    <button id="tab-signin" type="button">🔐 サインイン</button>
+  </div>
+
+  <div id="panel-secrets" class="tab-panel on">
 
   <div class="stats" id="stats">
     <div class="stat"><div class="k">期間</div><div class="v" id="s-days">…</div><div class="delta">日</div></div>
@@ -155,6 +185,41 @@ footer a{color:var(--gold);text-decoration:none}
   </div>
 
   <div class="log" id="log"><div class="empty">読み込み中…</div></div>
+  </div><!-- panel-secrets -->
+
+  <div id="panel-signin" class="tab-panel">
+    <div class="filters">
+      <div class="field">
+        <label>email</label>
+        <input id="sEmail" type="email" placeholder="(全員)" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>結果</label>
+        <select id="sResult">
+          <option value="">すべて</option>
+          <option value="ok">ok</option>
+          <option value="wrong_code">wrong_code</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>期間 (時間)</label>
+        <input id="sHours" type="number" min="1" max="2160" value="168">
+      </div>
+      <div class="field" style="min-width:90px;max-width:130px;flex:0">
+        <label>件数</label>
+        <input id="sLimit" type="number" min="10" max="500" value="100">
+      </div>
+      <button class="btn" id="sReload">再読込</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="k">期間</div><div class="v" id="ss-days">…</div><div class="delta">日</div></div>
+      <div class="stat"><div class="k">サインイン</div><div class="v" id="ss-total">…</div><div class="delta">件</div></div>
+      <div class="stat"><div class="k">成功</div><div class="v" id="ss-ok">…</div></div>
+      <div class="stat"><div class="k">失敗</div><div class="v" id="ss-fail" style="color:#d65a4d">…</div></div>
+      <div class="stat"><div class="k">ユニーク IP</div><div class="v" id="ss-ip">…</div></div>
+    </div>
+    <div class="log" id="signinLog"><div class="empty">クリックで読み込み</div></div>
+  </div><!-- panel-signin -->
 
   <footer>
     監査ログは 90 日保持。Need help? <a href="mailto:info@solun.art">info@solun.art</a>
@@ -230,6 +295,64 @@ footer a{color:var(--gold);text-decoration:none}
   ['fSlug','fAction'].forEach(id => $(id).addEventListener('change', load));
   ['fHours','fLimit'].forEach(id => $(id).addEventListener('change', load));
   load();
+
+  // ── Sign-in tab ─────────────────────────────────────────────
+  let signinLoaded = false;
+  async function loadSignin(){
+    const params = new URLSearchParams();
+    if ($('sEmail').value)  params.set('email',  $('sEmail').value.trim().toLowerCase());
+    if ($('sResult').value) params.set('result', $('sResult').value);
+    params.set('since_hours', $('sHours').value || '168');
+    params.set('limit',       $('sLimit').value || '100');
+    $('signinLog').innerHTML = '<div class="empty">読み込み中…</div>';
+    try {
+      const r = await fetch('/api/soluna/admin/signin-log?' + params.toString(), { headers: authH() });
+      const j = await r.json();
+      if (!r.ok || j.ok === false) throw new Error(j.error || 'HTTP '+r.status);
+      renderSigninStats(j);
+      renderSigninLog(j.signins || []);
+      signinLoaded = true;
+    } catch(e){
+      $('signinLog').innerHTML = '<div class="empty">読み込み失敗: '+esc(e.message)+'</div>';
+    }
+  }
+
+  function renderSigninStats(j){
+    const rows = j.signins || [];
+    $('ss-days').textContent  = Math.round((j.filters.sinceHours || 168) / 24);
+    $('ss-total').textContent = rows.length;
+    $('ss-ok').textContent    = rows.filter(r=>r.result==='ok').length;
+    $('ss-fail').textContent  = rows.filter(r=>r.result!=='ok').length;
+    $('ss-ip').textContent    = new Set(rows.map(r=>r.ip).filter(Boolean)).size;
+  }
+
+  function renderSigninLog(rows){
+    if (!rows.length){ $('signinLog').innerHTML = '<div class="empty">該当するサインイン履歴はありません</div>'; return; }
+    const head = '<div class="row signin head"><div>日時 (UTC)</div><div>方法</div><div>結果</div><div>email</div><div>IP</div><div>UA</div></div>';
+    const body = rows.map(r => ''
+      + '<div class="row signin">'
+      +   '<div class="ts">'+esc(fmtTs(r.created_at))+'</div>'
+      +   '<div><span class="method">'+esc(r.method)+'</span></div>'
+      +   '<div><span class="result '+esc(r.result)+'">'+esc(r.result)+'</span></div>'
+      +   '<div class="by">'+esc(r.email || '—')+'</div>'
+      +   '<div class="by">'+esc(r.ip || '—')+'</div>'
+      +   '<div class="ua">'+esc((r.ua||'').slice(0,80))+'</div>'
+      + '</div>').join('');
+    $('signinLog').innerHTML = head + body;
+  }
+
+  $('sReload').addEventListener('click', loadSignin);
+  ['sEmail','sResult','sHours','sLimit'].forEach(id => $(id).addEventListener('change', loadSignin));
+
+  $('tab-secrets').addEventListener('click', () => {
+    $('tab-secrets').classList.add('on'); $('tab-signin').classList.remove('on');
+    $('panel-secrets').classList.add('on'); $('panel-signin').classList.remove('on');
+  });
+  $('tab-signin').addEventListener('click', () => {
+    $('tab-signin').classList.add('on'); $('tab-secrets').classList.remove('on');
+    $('panel-signin').classList.add('on'); $('panel-secrets').classList.remove('on');
+    if (!signinLoaded) loadSignin();
+  });
 })();
 </script>
 <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
