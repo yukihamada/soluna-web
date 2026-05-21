@@ -291,7 +291,7 @@ ul.clean li { padding: 0.5mm 0; }
     <li><span class="name">メンバー管理 — admin を増やす / LINE Login</span><span class="page">14</span></li>
     <li><span class="name">KAGI iOS app による物理ロック自動同期</span><span class="page">16</span></li>
     <li><span class="name">緊急時の対応フロー</span><span class="page">19</span></li>
-    <li><span class="name">監査ログ / トラブルシュート</span><span class="page">20</span></li>
+    <li><span class="name">監査ログ / トラブルシュート / ヘルスチェック</span><span class="page">20</span></li>
     <li><span class="name">よくある質問 (FAQ)</span><span class="page">22</span></li>
     <li><span class="name">付録: API リファレンス</span><span class="page">23</span></li>
   </ol>
@@ -793,7 +793,43 @@ soluna-web: lock_sync_status = 'ok'
 
 <!-- ═══════════════════════════════════ 08 AUDIT ═══════════════════════════════════ -->
 <section class="page-break">
-<h2>10. 監査ログ / トラブルシュート</h2>
+<h2>10. 監査ログ / トラブルシュート / ヘルスチェック</h2>
+
+<h3>変更履歴を画面で確認 — /admin/audit</h3>
+<p>SOLUNA admin で <code>/admin/audit</code> を開くと、全 4 物件のシークレット変更を時系列でブラウズできます。物件・action・期間・件数でフィルタ可能。</p>
+<table class="t">
+  <tr><th style="width:30mm">UI 項目</th><th>意味</th></tr>
+  <tr><td>📊 統計バー上部</td><td>期間内の rotate / edit 件数、直近の変更者</td></tr>
+  <tr><td>action chip</td><td><b>rotate</b> = 鍵ローテ、<b>edit</b> = フィールド編集、<b>manual_set</b> = API 直接更新</td></tr>
+  <tr><td>old → new</td><td>変更前後の値。null は ∅ で表示</td></tr>
+  <tr><td>by</td><td>変更者 email + 接続元 IP</td></tr>
+</table>
+<p>監査ログは <b>90 日保持</b>。それ以降は自動削除（6 時間ごとの cleanup）。</p>
+
+<h3>サーバの状態を一望 — /api/soluna/admin/health</h3>
+<p>運用ダッシュボードや Telegram bot から叩いて、サーバの健康状態を 1 リクエストで確認できます。</p>
+<pre class="code">curl https://solun.art/api/soluna/admin/health \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "X-Requested-With: XMLHttpRequest"</pre>
+<p>レスポンスに含まれる主要メトリクス:</p>
+<ul class="clean">
+  <li><b>audit_events_last_24h</b> — 過去 24 時間の変更件数</li>
+  <li><b>properties_pending_sync</b> — KAGI iOS が SwitchBot 書き込み待ちの物件数</li>
+  <li><b>properties_with_sync_error</b> — 失敗中の物件数</li>
+  <li><b>total_in_flight_guests</b> — 現在ご滞在中のゲスト総数（rotate 安全判定に使用）</li>
+  <li><b>pending_admin_invites</b> — 未受諾の admin 招待数</li>
+  <li><b>properties.*.kagi_device_registered</b> — 各物件で SwitchBot device id がセットされているか</li>
+</ul>
+
+<h3>毎朝の自動 smoke チェック</h3>
+<p>GitHub Actions が毎朝 <b>09:00 JST</b> に <code>scripts/smoke-public.sh</code> を本番に対して実行します。 32 項目（認証ゲート / CSRF 防御 / slug ホワイトリスト / カノニカル URL リダイレクト / セキュリティヘッダ / OTP 応答形式）の regression を 1 つでも検知すると、Telegram <code>@yukihamada_ai_bot</code> に <b>🔴 SOLUNA smoke-public FAILED</b> 通知が飛びます。</p>
+<p>ローカル手動実行:</p>
+<pre class="code">cd soluna-web
+./scripts/smoke-public.sh
+# 認証込み full E2E (Gmail 自動取得):
+GMAIL=yuki@hamada.tokyo ./scripts/smoke-secrets.sh</pre>
+
+<h3>よくあるトラブル</h3>
 
 <h3>誰がいつ何を変えたか</h3>
 <p>
@@ -880,10 +916,19 @@ X-Requested-With: XMLHttpRequest</pre>
 <h3>管理者 API（admin のみ）</h3>
 <table class="t">
   <tr><th style="width:14mm">Method</th><th style="width:64mm">Path</th><th>説明</th></tr>
-  <tr><td class="mono">GET</td><td class="mono">/api/soluna/admin/property-secrets/:slug</td><td>5 フィールド + audit 情報を返す</td></tr>
-  <tr><td class="mono">PUT</td><td class="mono">/api/soluna/admin/property-secrets/:slug</td><td>フィールド更新（X-Requested-With 必須）</td></tr>
+  <tr><td class="mono">GET</td><td class="mono">/api/soluna/admin/property-secrets/:slug</td><td>5 フィールド + audit 情報</td></tr>
+  <tr><td class="mono">PUT</td><td class="mono">/api/soluna/admin/property-secrets/:slug</td><td>フィールド更新（partial PUT、profile 完了必須、X-Requested-With 必須）</td></tr>
   <tr><td class="mono">POST</td><td class="mono">/api/soluna/admin/property-secrets/:slug/rotate-door</td><td>6 桁ローテート。在室ゲスト時は 412 → confirm:true 再送</td></tr>
-  <tr><td class="mono">GET</td><td class="mono">/api/soluna/admin/property-secrets/:slug/audit</td><td>監査ログ（最大 200 件）</td></tr>
+  <tr><td class="mono">GET</td><td class="mono">/api/soluna/admin/property-secrets/:slug/audit</td><td>物件単独の監査ログ（最大 200 件）</td></tr>
+  <tr><td class="mono">GET</td><td class="mono">/api/soluna/admin/audit?slug=&action=&since_hours=&limit=</td><td>全物件横断の監査ログ</td></tr>
+  <tr><td class="mono">GET</td><td class="mono">/api/soluna/admin/health</td><td>ヘルススナップショット（in-flight / pending sync / 監査件数等）</td></tr>
+  <tr><td class="mono">GET</td><td class="mono">/api/soluna/admin/team</td><td>admin/staff 一覧 + 未受諾招待</td></tr>
+  <tr><td class="mono">POST</td><td class="mono">/api/soluna/admin/team/invite</td><td>招待発行 + Resend メール送付</td></tr>
+  <tr><td class="mono">POST</td><td class="mono">/api/soluna/admin/team/invite/:token/revoke</td><td>未受諾招待の取消</td></tr>
+  <tr><td class="mono">POST</td><td class="mono">/api/soluna/admin/team/revoke</td><td>admin 権限の剥奪（owner は剥奪不可）</td></tr>
+  <tr><td class="mono">POST</td><td class="mono">/api/soluna/admin/team/grant-owner</td><td>owner 昇格（owner のみ操作可）</td></tr>
+  <tr><td class="mono">POST</td><td class="mono">/api/soluna/admin/test/booking</td><td>412 in-flight フロー検証用テスト booking 注入</td></tr>
+  <tr><td class="mono">DELETE</td><td class="mono">/api/soluna/admin/test/booking</td><td>自分が注入したテスト booking を全削除</td></tr>
 </table>
 
 <h3>オーナー / 予約者 API（coupon / purchase / booking 保有者）</h3>
