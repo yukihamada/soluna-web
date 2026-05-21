@@ -203,11 +203,13 @@ footer a{color:var(--gold);text-decoration:none}
       const profileChip = a.profile_completed_at
         ? ''
         : ' <span class="role staff" style="font-size:9.5px">profile 未完了</span>';
+      const lineConnected = a.line_user_id ? '<span title="LINE 連携済" style="color:#06c755;margin-right:4px">●LINE</span>' : '';
+      const emailDisplay = a.email && a.email.startsWith('line:') ? '<span style="color:#06c755">LINE のみ</span>' : esc(a.email);
       return ''
         + '<div class="row">'
         +   '<div class="who">'
         +     '<div class="nm">'+esc(name)+(isMe?'<span class="you">YOU</span>':'')+profileChip+'</div>'
-        +     '<div class="meta"><b>'+esc(a.email)+'</b>'
+        +     '<div class="meta">'+lineConnected+'<b>'+emailDisplay+'</b>'
         +       (a.phone ? ' · '+esc(a.phone_display || a.phone) : '')
         +       (a.line_display_name ? ' · LINE: '+esc(a.line_display_name) : '')
         +     '</div>'
