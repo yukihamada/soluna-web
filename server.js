@@ -11358,7 +11358,7 @@ app.get(["/profile","/profile/"], async (req, res) => {
     // not logged in — send to login gate that returns here
     return res.redirect(302, "/login?next=" + encodeURIComponent("/profile?next=" + encodeURIComponent(req.query.next || "/")));
   }
-  res.setHeader("Cache-Control", "private, no-store");
+  applySecureHtmlHeaders(res, { admin: true });
   res.sendFile(path.join(CABIN_DIR, "profile.html"));
 });
 
@@ -11524,7 +11524,7 @@ p{font-size:12.5px;color:#888;margin-bottom:14px}
     .replaceAll("{{ADMIN_FLAG}}", isAdmin ? "1" : "0")
     .replaceAll("{{ADMIN_EMAIL}}", isAdmin ? escHtml(member.email) : "");
 
-  res.setHeader("Cache-Control", "private, no-store");
+  applySecureHtmlHeaders(res, { admin: false });
   res.setHeader("Content-Type", "text/html; charset=UTF-8");
   res.send(html);
 }
@@ -11595,6 +11595,29 @@ async function loadPropertySecrets(slug) {
 // CLI clients can opt-in by sending the same header.
 function requireXHR(req) {
   return (req.headers["x-requested-with"] || "").toLowerCase() === "xmlhttprequest";
+}
+
+// Hardened headers for admin / manual / profile HTML routes. The CSP allows
+// inline <script>/<style> because those pages are inline-heavy by design;
+// frame-ancestors blocks clickjacking, X-Content-Type-Options blocks sniffing,
+// Referrer-Policy avoids leaking admin URLs cross-site.
+function applySecureHtmlHeaders(res, opts = {}) {
+  const isAdmin = !!opts.admin;
+  res.setHeader("Content-Security-Policy",
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' https://enabler-analytics.fly.dev; " +
+    "style-src 'self' 'unsafe-inline'; " +
+    "img-src 'self' data: https:; " +
+    "font-src 'self' data:; " +
+    "connect-src 'self' https://enabler-analytics.fly.dev; " +
+    "frame-ancestors 'none'; " +
+    "base-uri 'self'; " +
+    "form-action 'self'");
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("Referrer-Policy", isAdmin ? "no-referrer" : "strict-origin-when-cross-origin");
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(), interest-cohort=()");
+  if (isAdmin) res.setHeader("Cache-Control", "private, no-store");
 }
 
 // Returns the number of bookings actively in-progress for a property,
@@ -12139,7 +12162,7 @@ app.get(["/admin/audit","/admin/audit/"], async (req, res) => {
   if (!member) return res.redirect(302, "/login?next=" + encodeURIComponent("/admin/audit"));
   if (!profileComplete(member)) return res.redirect(302, "/profile?next=" + encodeURIComponent("/admin/audit"));
   if (!isPropertyAdmin(member)) return res.status(403).type("text/plain").send("admin only");
-  res.setHeader("Cache-Control", "private, no-store");
+  applySecureHtmlHeaders(res, { admin: true });
   res.sendFile(path.join(CABIN_DIR, "admin-audit.html"));
 });
 
@@ -12159,7 +12182,7 @@ app.get(["/admin/team","/admin/team/"], async (req, res) => {
   if (!member) return res.redirect(302, "/login?next=" + encodeURIComponent("/admin/team"));
   if (!profileComplete(member)) return res.redirect(302, "/profile?next=" + encodeURIComponent("/admin/team"));
   if (!isPropertyAdmin(member)) return res.status(403).type("text/plain").send("admin only");
-  res.setHeader("Cache-Control", "private, no-store");
+  applySecureHtmlHeaders(res, { admin: true });
   res.sendFile(path.join(CABIN_DIR, "admin-team.html"));
 });
 
