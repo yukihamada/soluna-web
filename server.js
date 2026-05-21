@@ -11388,7 +11388,7 @@ app.get(["/admin/secrets", "/admin/secrets/"], async (req, res) => {
 <style>body{background:#0a0908;color:#888;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center;padding:24px}p{font-size:.9rem;letter-spacing:.04em}</style></head>
 <body><p>このページは管理者専用です。<br><a href="/" style="color:#c8a455">ホームへ</a></p></body></html>`);
   }
-  res.setHeader("Cache-Control", "private, no-store");
+  applySecureHtmlHeaders(res, { admin: true });
   res.setHeader("Content-Type", "text/html; charset=UTF-8");
   res.sendFile(path.join(CABIN_DIR, "admin-secrets.html"));
 });
@@ -12416,9 +12416,11 @@ app.post("/api/soluna/admin/test/booking", express.json(), async (req, res) => {
   const ci = String(req.body?.check_in  || "");
   const co = String(req.body?.check_out || "");
   if (!dateRe.test(ci) || !dateRe.test(co)) return res.status(400).json({ error: "check_in / check_out must be YYYY-MM-DD" });
+  // coupon_id is NOT NULL — use 0 as sentinel for test bookings.
+  // nights computed from date range; default 1.
   await db.execute({
-    sql: `INSERT INTO soluna_bookings (member_id, property_slug, check_in, check_out, status, nights, guests)
-          VALUES (?, ?, ?, ?, 'test', 1, 1)`,
+    sql: `INSERT INTO soluna_bookings (coupon_id, member_id, property_slug, check_in, check_out, status, nights, guests)
+          VALUES (0, ?, ?, ?, ?, 'test', 1, 1)`,
     args: [member.member_id, slug, ci, co],
   });
   res.json({ ok: true, slug, check_in: ci, check_out: co, by: member.email });
