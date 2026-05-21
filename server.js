@@ -6836,6 +6836,17 @@ db.execute(`CREATE TABLE IF NOT EXISTS soluna_rate_limit (
   ts TEXT NOT NULL DEFAULT (datetime('now'))
 )`).catch(() => {});
 db.execute("CREATE INDEX IF NOT EXISTS idx_rate_limit_key_ts ON soluna_rate_limit(key, ts)").catch(() => {});
+db.execute(`CREATE TABLE IF NOT EXISTS soluna_signin_log (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  member_id INTEGER,
+  email TEXT,
+  method TEXT NOT NULL,      -- 'otp' | 'line' | 'invite_accept'
+  ip TEXT,
+  ua TEXT,
+  result TEXT NOT NULL,      -- 'ok' | 'wrong_code' | 'rate_limit' | 'unknown'
+  created_at TEXT DEFAULT (datetime('now'))
+)`).catch(() => {});
+db.execute("CREATE INDEX IF NOT EXISTS idx_signin_email_at ON soluna_signin_log(email, created_at DESC)").catch(() => {});
 // One-time cleanup: clear stuck 'pending' for properties with no lock_device_id
 // (these can never sync since no SwitchBot device is registered yet)
 db.execute("UPDATE soluna_property_secrets SET lock_sync_status=NULL, lock_attempted_at=NULL WHERE lock_sync_status='pending' AND (lock_device_id IS NULL OR lock_device_id='')").catch(() => {});
@@ -7523,12 +7534,20 @@ app.post("/api/soluna/otp", express.json(), async (req, res) => {
 app.post("/api/soluna/verify", express.json(), async (req, res) => {
   const email = (req.body.email || "").trim().toLowerCase();
   const code  = (req.body.code  || "").trim();
+  const ip = (req.headers["x-forwarded-for"] || req.socket?.remoteAddress || "").toString().split(",")[0].trim();
+  const ua = (req.headers["user-agent"] || "").toString().slice(0, 250);
   if (!email || !code) return res.status(400).json({ error: "missing fields" });
   const r = await db.execute({
     sql: `SELECT id FROM soluna_otps WHERE email=? AND code=? AND used=0 AND expires_at > datetime('now') ORDER BY id DESC LIMIT 1`,
     args: [email, code],
   });
-  if (!r.rows[0]) return res.status(401).json({ error: "コードが正しくないか期限切れです" });
+  if (!r.rows[0]) {
+    db.execute({
+      sql: `INSERT INTO soluna_signin_log (member_id,email,method,ip,ua,result) VALUES (NULL,?,'otp',?,?,'wrong_code')`,
+      args: [email, ip, ua],
+    }).catch(() => {});
+    return res.status(401).json({ error: "コードが正しくないか期限切れです" });
+  }
   await db.execute({ sql: "UPDATE soluna_otps SET used=1 WHERE id=?", args: [r.rows[0].id] });
   const member = await db.execute({ sql: "SELECT id,email,name,nah_access FROM soluna_members WHERE email=?", args: [email] });
   const mid = member.rows[0].id;
@@ -7543,6 +7562,10 @@ app.post("/api/soluna/verify", express.json(), async (req, res) => {
     path: "/",
     secure: process.env.NODE_ENV === "production",
   });
+  db.execute({
+    sql: `INSERT INTO soluna_signin_log (member_id,email,method,ip,ua,result) VALUES (?,?,'otp',?,?,'ok')`,
+    args: [mid, email, ip, ua],
+  }).catch(() => {});
   res.json({ token, email: member.rows[0].email, name: member.rows[0].name });
 });
 
@@ -12384,6 +12407,14 @@ app.get("/api/soluna/auth/line/callback", async (req, res) => {
     maxAge: 365 * 24 * 60 * 60 * 1000, path: "/",
     secure: process.env.NODE_ENV === "production",
   });
+  {
+    const ip = (req.headers["x-forwarded-for"] || req.socket?.remoteAddress || "").toString().split(",")[0].trim();
+    const ua = (req.headers["user-agent"] || "").toString().slice(0, 250);
+    db.execute({
+      sql: `INSERT INTO soluna_signin_log (member_id,email,method,ip,ua,result) VALUES (?,?,'line',?,?,'ok')`,
+      args: [memberId, email || `line:${lineUserId}@line.local`, ip, ua],
+    }).catch(() => {});
+  }
 
   // Bounce through /profile if name+phone aren't set
   const memRow = await db.execute({ sql: "SELECT name, phone, profile_completed_at FROM soluna_members WHERE id=?", args: [memberId] });
@@ -12505,6 +12536,29 @@ app.get("/api/soluna/admin/audit", async (req, res) => {
     args,
   });
   res.json({ ok: true, count: r.rows.length, filters: { slug, action, sinceHours, limit }, audit: r.rows });
+});
+
+// GET sign-in log (admin only)
+app.get("/api/soluna/admin/signin-log", async (req, res) => {
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+  const limit = Math.min(parseInt(req.query.limit || "100", 10) || 100, 500);
+  const email = req.query.email ? String(req.query.email).toLowerCase() : null;
+  const result = req.query.result ? String(req.query.result) : null;
+  const sinceHours = Math.max(1, Math.min(parseInt(req.query.since_hours || "168", 10) || 168, 90 * 24));
+  const where = ["created_at > datetime('now', ?)"];
+  const args = [`-${sinceHours} hours`];
+  if (email)  { where.push("email=?");  args.push(email); }
+  if (result) { where.push("result=?"); args.push(result); }
+  args.push(limit);
+  const r = await db.execute({
+    sql: `SELECT id, member_id, email, method, ip, ua, result, created_at
+          FROM soluna_signin_log WHERE ${where.join(" AND ")}
+          ORDER BY id DESC LIMIT ?`,
+    args,
+  });
+  res.json({ ok: true, count: r.rows.length, filters: { email, result, sinceHours, limit }, signins: r.rows });
 });
 
 // GET audit log (admin only)
@@ -13351,6 +13405,7 @@ initDb().then(() => {
     try {
       await db.execute("DELETE FROM soluna_secret_audit WHERE created_at < datetime('now','-90 days')");
       await db.execute("DELETE FROM soluna_lock_sync_log WHERE created_at < datetime('now','-90 days')");
+      await db.execute("DELETE FROM soluna_signin_log WHERE created_at < datetime('now','-90 days')");
       await db.execute("DELETE FROM soluna_rate_limit WHERE ts < datetime('now','-1 day')");
       await db.execute("DELETE FROM soluna_admin_invites WHERE expires_at < datetime('now','-30 days') AND accepted_at IS NULL");
       await db.execute("DELETE FROM soluna_login_state WHERE expires_at < datetime('now','-1 day')");
