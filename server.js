@@ -12036,15 +12036,43 @@ app.post("/api/soluna/admin/team/invite", express.json(), async (req, res) => {
   const inviteUrl = `${publicOrigin()}/admin/accept?token=${encodeURIComponent(token)}`;
   if (RESEND_API_KEY) {
     try {
-      const html = `<div style="font-family:system-ui;line-height:1.7;color:#222"><p>${escHtml(member.name || member.email)} さんから SOLUNA <b>${escHtml(role)}</b> として招待されました。</p><p style="margin:20px 0"><a href="${inviteUrl}" style="background:#c8a455;color:#0a0908;padding:12px 24px;border-radius:100px;text-decoration:none;font-weight:700">招待を受ける</a></p><p style="font-size:12px;color:#888">${inviteUrl}<br>有効期限: ${ADMIN_INVITE_TTL_HOURS} 時間</p></div>`;
+      const fromName = escHtml(member.name || member.email);
+      const roleJa = { admin:"管理者", founder:"創業メンバー", staff:"スタッフ", cleaner:"清掃担当", construction:"建設担当" }[role] || role;
+      const html = `<!DOCTYPE html><html lang="ja"><body style="margin:0;padding:0;background:#f5efe0;font-family:'Hiragino Sans','Yu Gothic','Helvetica Neue',sans-serif;color:#1a1916">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5efe0;padding:32px 16px"><tr><td align="center">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 24px rgba(40,30,10,.08)">
+    <tr><td style="background:linear-gradient(180deg,#1a1612 0%,#0a0908 100%);padding:30px 30px 24px;text-align:center">
+      <div style="font-size:11px;letter-spacing:.28em;color:#c8a455;font-weight:800">SOLUNA</div>
+      <div style="font-size:13px;color:#888;margin-top:4px;letter-spacing:.04em">物件運用チーム招待</div>
+    </td></tr>
+    <tr><td style="padding:30px 30px 14px">
+      <p style="font-size:17px;line-height:1.55;margin:0 0 18px;font-weight:600;color:#1a1916">${fromName} さんから、<br><span style="color:#c8a455">SOLUNA の ${escHtml(roleJa)} (${escHtml(role)})</span> として招待されました。</p>
+      <p style="font-size:14px;line-height:1.7;color:#555;margin:0 0 26px">SOLUNA は北海道・熱海の 4 物件をシェアして暮らす共同所有プラットフォームです。下のボタンから承諾すると、運用ダッシュボードにアクセスできます。</p>
+    </td></tr>
+    <tr><td align="center" style="padding:0 30px 30px">
+      <a href="${inviteUrl}" style="display:inline-block;background:#c8a455;color:#0a0908;padding:15px 36px;border-radius:100px;text-decoration:none;font-weight:800;letter-spacing:.06em;font-size:14px">招待を受ける</a>
+      <p style="font-size:11px;color:#aaa;margin:18px 0 0;word-break:break-all">${inviteUrl}</p>
+    </td></tr>
+    <tr><td style="background:#f5efe0;padding:18px 30px;border-top:1px solid #e8dfc8">
+      <p style="font-size:11.5px;color:#888;margin:0 0 6px"><b style="color:#666">有効期限</b> ${ADMIN_INVITE_TTL_HOURS} 時間 (リンクは 1 回のみ使用可能)</p>
+      <p style="font-size:11.5px;color:#888;margin:0"><b style="color:#666">承諾後</b> お名前と電話番号の登録 → ダッシュボードへ自動転送</p>
+    </td></tr>
+    <tr><td style="background:#1a1612;padding:18px 30px;text-align:center">
+      <p style="font-size:10.5px;color:#888;margin:0;letter-spacing:.04em;line-height:1.7">この招待に心当たりがない場合は無視してください。<br>SOLUNA Operations · <a href="mailto:info@solun.art" style="color:#c8a455;text-decoration:none">info@solun.art</a></p>
+    </td></tr>
+  </table>
+</td></tr></table>
+</body></html>`;
+      const text = `${member.name || member.email} さんから SOLUNA ${roleJa} として招待されました。\n\n承諾リンク (${ADMIN_INVITE_TTL_HOURS} 時間有効、1 回限り):\n${inviteUrl}\n\nこの招待に心当たりがない場合はこのメールを無視してください。\n— SOLUNA Operations / info@solun.art`;
       await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
         body: JSON.stringify({
           from: "SOLUNA <info@solun.art>",
+          reply_to: ["info@solun.art"],
           to: [email],
-          subject: `SOLUNA 管理者招待 by ${member.name || member.email}`,
-          html,
+          subject: `SOLUNA ${roleJa} 招待 by ${member.name || member.email}`,
+          html, text,
         }),
       });
     } catch (e) {
@@ -13276,6 +13304,30 @@ initDb().then(() => {
   }
   setTimeout(() => lockSyncWatchdog(), 30 * 1000);
   setInterval(() => lockSyncWatchdog(), 60 * 60 * 1000);
+
+  // ── KAGI-setup reminder (weekly): properties that have a door_code but
+  //    no lock_device_id will never auto-sync. Send one Telegram nudge
+  //    every 7 days so the operator remembers to finish the setup.
+  let _lastSetupReminderAt = 0;
+  async function kagiSetupReminder() {
+    try {
+      if (Date.now() - _lastSetupReminderAt < 6.5 * 24 * 60 * 60 * 1000) return;
+      const r = await db.execute({
+        sql: `SELECT slug FROM soluna_property_secrets
+              WHERE (lock_device_id IS NULL OR lock_device_id='')
+                AND door_code IS NOT NULL AND door_code != ''`,
+      });
+      if (r.rows.length === 0) return;
+      const missing = r.rows.map(row => `· ${MANUAL_PROPERTY_NAME[row.slug] || row.slug} (/${row.slug})`).join("\n");
+      const msg = `*SOLUNA KAGI setup reminder*\n\n下記の物件は SwitchBot device id 未登録のため、door_code を変えても物理ロックに反映されません:\n\n${missing}\n\nKAGI iOS app の各 Home 設定で device id を入力 → 「🔄 鍵を同期」を 1 回押せば紐付き完了です。`;
+      await sendTg(TG_CHAT, msg).catch(() => {});
+      _lastSetupReminderAt = Date.now();
+    } catch (e) {
+      console.warn("[kagi-setup-reminder]", e?.message || e);
+    }
+  }
+  setTimeout(() => kagiSetupReminder(), 5 * 60 * 1000);
+  setInterval(() => kagiSetupReminder(), 24 * 60 * 60 * 1000);
 
   // ── Audit / rate-limit cleanup (every 6h): drop rows older than the
   //    retention window so the tables don't grow without bound.
