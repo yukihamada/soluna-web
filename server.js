@@ -11205,6 +11205,8 @@ const GATED_PAGE_LABELS = {
   "nesting-manual":"NESTING ハウスマニュアル",
   "instant-manual":"インスタントハウス ハウスマニュアル",
   "admin-secrets":"物件シークレット管理（管理者用）",
+  "admin-team":"メンバー管理（管理者用）",
+  "admin-audit":"変更履歴（管理者用）",
 };
 
 function authGatePage(pageKey, returnPath) {
@@ -12121,6 +12123,26 @@ app.get(["/admin/accept","/admin/accept/"], async (req, res) => {
   res.redirect(302, "/admin/secrets");
 });
 
+// /admin/audit page — cross-property audit log viewer (admin-gated)
+app.get(["/admin/audit","/admin/audit/"], async (req, res) => {
+  const token = parseCookies(req).sln_tok || "";
+  let member = null;
+  if (token) {
+    const r = await db.execute({
+      sql: `SELECT s.member_id, m.email, m.name, m.phone, m.nah_access, m.member_type, m.profile_completed_at, m.is_owner
+            FROM soluna_sessions s JOIN soluna_members m ON m.id = s.member_id
+            WHERE s.token=? AND s.expires_at > datetime('now')`,
+      args: [token],
+    }).catch(() => null);
+    member = r && r.rows[0] ? r.rows[0] : null;
+  }
+  if (!member) return res.redirect(302, "/login?next=" + encodeURIComponent("/admin/audit"));
+  if (!profileComplete(member)) return res.redirect(302, "/profile?next=" + encodeURIComponent("/admin/audit"));
+  if (!isPropertyAdmin(member)) return res.status(403).type("text/plain").send("admin only");
+  res.setHeader("Cache-Control", "private, no-store");
+  res.sendFile(path.join(CABIN_DIR, "admin-audit.html"));
+});
+
 // /admin/team static page (serves cabin/admin-team.html, admin-gated)
 app.get(["/admin/team","/admin/team/"], async (req, res) => {
   const token = parseCookies(req).sln_tok || "";
@@ -12310,6 +12332,29 @@ app.get("/api/soluna/auth/line/callback", async (req, res) => {
 try { localStorage.setItem('sln_token', ${JSON.stringify(sessionToken)}); } catch(e){}
 location.replace(${JSON.stringify(finalNext)});
 </script></body></html>`);
+});
+
+// GET cross-property audit (admin only) — used by /admin/audit page
+app.get("/api/soluna/admin/audit", async (req, res) => {
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+  const limit = Math.min(parseInt(req.query.limit || "100", 10) || 100, 500);
+  const slug  = req.query.slug ? String(req.query.slug).replace(/[^a-z0-9_-]/gi, "") : null;
+  const action = req.query.action ? String(req.query.action).replace(/[^a-z_]/gi, "") : null;
+  const sinceHours = Math.max(1, Math.min(parseInt(req.query.since_hours || "168", 10) || 168, 90 * 24));
+  const where = ["created_at > datetime('now', ?)"];
+  const args = [`-${sinceHours} hours`];
+  if (slug)   { where.push("slug=?");   args.push(slug); }
+  if (action) { where.push("action=?"); args.push(action); }
+  args.push(limit);
+  const r = await db.execute({
+    sql: `SELECT id, slug, field, old_value, new_value, action, by_email, client_ip, created_at
+          FROM soluna_secret_audit WHERE ${where.join(" AND ")}
+          ORDER BY id DESC LIMIT ?`,
+    args,
+  });
+  res.json({ ok: true, count: r.rows.length, filters: { slug, action, sinceHours, limit }, audit: r.rows });
 });
 
 // GET audit log (admin only)
