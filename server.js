@@ -12334,6 +12334,87 @@ location.replace(${JSON.stringify(finalNext)});
 </script></body></html>`);
 });
 
+// GET admin health snapshot (admin only). Useful for ops + Telegram check.
+app.get("/api/soluna/admin/health", async (req, res) => {
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isPropertyAdmin(member)) return res.status(403).json({ error: "forbidden" });
+  try {
+    const [props, audit24h, pending, errored, inFlight, invites] = await Promise.all([
+      db.execute("SELECT slug, door_code, lock_device_id, lock_sync_status, lock_synced_at, lock_attempted_at FROM soluna_property_secrets"),
+      db.execute("SELECT COUNT(*) AS c FROM soluna_secret_audit WHERE created_at > datetime('now','-24 hours')"),
+      db.execute("SELECT slug, lock_attempted_at FROM soluna_property_secrets WHERE lock_sync_status='pending'"),
+      db.execute("SELECT slug, lock_sync_message FROM soluna_property_secrets WHERE lock_sync_status='error'"),
+      db.execute("SELECT property_slug, COUNT(*) AS c FROM soluna_bookings WHERE date('now') BETWEEN date(check_in) AND date(check_out) AND status NOT IN ('cancelled','failed') GROUP BY property_slug"),
+      db.execute("SELECT COUNT(*) AS c FROM soluna_admin_invites WHERE accepted_at IS NULL AND revoked_at IS NULL AND expires_at > datetime('now')"),
+    ]);
+    const propsBySlug = {};
+    for (const row of props.rows) {
+      propsBySlug[row.slug] = {
+        door_code_set: !!row.door_code,
+        kagi_device_registered: !!row.lock_device_id,
+        lock_sync_status: row.lock_sync_status || "(clean)",
+        lock_synced_at: row.lock_synced_at,
+        lock_attempted_at: row.lock_attempted_at,
+      };
+    }
+    const inFlightBySlug = Object.fromEntries(inFlight.rows.map(r => [r.property_slug, r.c]));
+    res.json({
+      ok: true,
+      now: new Date().toISOString(),
+      counts: {
+        audit_events_last_24h: audit24h.rows[0]?.c || 0,
+        properties_pending_sync: pending.rows.length,
+        properties_with_sync_error: errored.rows.length,
+        pending_admin_invites: invites.rows[0]?.c || 0,
+        total_in_flight_guests: Object.values(inFlightBySlug).reduce((a,b)=>a+b, 0),
+      },
+      properties: propsBySlug,
+      pending_sync: pending.rows.map(r => ({ slug: r.slug, attempted_at: r.lock_attempted_at })),
+      errored_sync: errored.rows.map(r => ({ slug: r.slug, message: r.lock_sync_message })),
+      in_flight_guests: inFlightBySlug,
+    });
+  } catch (e) {
+    res.status(500).json({ error: e?.message || String(e) });
+  }
+});
+
+// Test booking injection (admin only; for exercising the 412 in-flight flow).
+// Body: { slug, check_in: "YYYY-MM-DD", check_out: "YYYY-MM-DD" }
+app.post("/api/soluna/admin/test/booking", express.json(), async (req, res) => {
+  if (!sameOriginOk(req)) return res.status(403).json({ error: "bad origin" });
+  if (!requireXHR(req)) return res.status(403).json({ error: "missing X-Requested-With" });
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isOwner(member)) return res.status(403).json({ error: "owner only (test endpoint)" });
+  const slug = String(req.body?.slug || "").replace(/[^a-z0-9_-]/gi, "");
+  if (!MANUAL_SLUGS.has(slug)) return res.status(400).json({ error: "unknown slug" });
+  const dateRe = /^\d{4}-\d{2}-\d{2}$/;
+  const ci = String(req.body?.check_in  || "");
+  const co = String(req.body?.check_out || "");
+  if (!dateRe.test(ci) || !dateRe.test(co)) return res.status(400).json({ error: "check_in / check_out must be YYYY-MM-DD" });
+  await db.execute({
+    sql: `INSERT INTO soluna_bookings (member_id, property_slug, check_in, check_out, status, nights, guests)
+          VALUES (?, ?, ?, ?, 'test', 1, 1)`,
+    args: [member.member_id, slug, ci, co],
+  });
+  res.json({ ok: true, slug, check_in: ci, check_out: co, by: member.email });
+});
+
+// DELETE all test bookings owned by current admin
+app.delete("/api/soluna/admin/test/booking", async (req, res) => {
+  if (!sameOriginOk(req)) return res.status(403).json({ error: "bad origin" });
+  if (!requireXHR(req)) return res.status(403).json({ error: "missing X-Requested-With" });
+  const member = await solunaAuth(req);
+  if (!member) return res.status(401).json({ error: "unauthorized" });
+  if (!isOwner(member)) return res.status(403).json({ error: "owner only" });
+  const r = await db.execute({
+    sql: "DELETE FROM soluna_bookings WHERE member_id=? AND status='test'",
+    args: [member.member_id],
+  });
+  res.json({ ok: true, deleted: r.rowsAffected });
+});
+
 // GET cross-property audit (admin only) — used by /admin/audit page
 app.get("/api/soluna/admin/audit", async (req, res) => {
   const member = await solunaAuth(req);
