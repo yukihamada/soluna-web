@@ -11219,7 +11219,7 @@ function authGatePage(pageKey, returnPath) {
 body{background:#0a0908;color:#c8c0b0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
 .gate{max-width:420px;width:100%;background:#141210;border:1px solid #2a2520;border-radius:8px;padding:40px 36px}
 .gate-logo{font-size:11px;font-weight:800;letter-spacing:.25em;color:#c8a455;margin-bottom:32px}
-h2{font-size:20px;font-weight:900;margin-bottom:8px;color:#f0ece4}
+h2{font-size:20px;font-weight:900;margin-bottom:8px;color:#f0ece4;word-break:keep-all;overflow-wrap:anywhere;line-height:1.3}
 .sub{font-size:12px;color:#666;margin-bottom:28px;line-height:1.7}
 label{display:block;font-size:9px;letter-spacing:.15em;color:#555;margin-bottom:6px;text-transform:uppercase}
 input{width:100%;background:#0e0c0a;border:1px solid #2a2520;color:#c8c0b0;padding:14px;border-radius:6px;font-size:15px;outline:none;margin-bottom:14px;font-family:inherit;min-height:48px;-webkit-appearance:none}
